@@ -1525,8 +1525,7 @@ func adddot(n *Node) *Node {
 // with unique tasks and they return
 // the actual methods.
 type Symlink struct {
-	field     *types.Field
-	followptr bool
+	field *types.Field
 }
 
 var slist []Symlink
@@ -1544,7 +1543,7 @@ func expand0(t *types.Type, followptr bool) {
 				continue
 			}
 			f.Sym.SetUniq(true)
-			slist = append(slist, Symlink{field: f, followptr: followptr})
+			slist = append(slist, Symlink{field: f})
 		}
 
 		return
@@ -1557,7 +1556,7 @@ func expand0(t *types.Type, followptr bool) {
 				continue
 			}
 			f.Sym.SetUniq(true)
-			slist = append(slist, Symlink{field: f, followptr: followptr})
+			slist = append(slist, Symlink{field: f})
 		}
 	}
 }
@@ -1615,7 +1614,8 @@ func expandmeth(t *types.Type) {
 		sl.field.Sym.SetUniq(false)
 
 		var f *types.Field
-		if path, _ := dotpath(sl.field.Sym, t, &f, false); path == nil {
+		path, _ := dotpath(sl.field.Sym, t, &f, false)
+		if path == nil {
 			continue
 		}
 
@@ -1627,8 +1627,11 @@ func expandmeth(t *types.Type) {
 		// add it to the base type method list
 		f = f.Copy()
 		f.Embedded = 1 // needs a trampoline
-		if sl.followptr {
-			f.Embedded = 2
+		for _, d := range path {
+			if d.field.Type.IsPtr() {
+				f.Embedded = 2
+				break
+			}
 		}
 		ms = append(ms, f)
 	}
