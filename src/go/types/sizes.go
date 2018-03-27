@@ -168,6 +168,7 @@ var gcArchSizes = map[string]*StdSizes{
 	"ppc64":    {8, 8},
 	"ppc64le":  {8, 8},
 	"s390x":    {8, 8},
+	"wasm":     {8, 8},
 	// When adding more architectures here,
 	// update the doc string of SizesFor below.
 }
