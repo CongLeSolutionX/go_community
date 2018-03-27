@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d01a624_3198347e",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-27T18:52:36Z",
+      "side": 1,
+      "message": "s/subtypes/types/\n\nI don\u0027t think those embedded types are always proper subtypes.",
+      "range": {
+        "startLine": 1521,
+        "startChar": 3,
+        "endLine": 1521,
+        "endChar": 11
+      },
+      "revId": "b24955687726585ec9bf0c2d671c2d90265834fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8cdcf46_36aa19b8",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-27T18:52:36Z",
+      "side": 1,
+      "message": "We can probably remove this and/or document this better, eventually. Not for this CL, though.",
+      "revId": "b24955687726585ec9bf0c2d671c2d90265834fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
