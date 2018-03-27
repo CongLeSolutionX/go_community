@@ -57,6 +57,10 @@ func nilcheckelim(f *Func) {
 		changed = false
 		for _, b := range f.Blocks {
 			for _, v := range b.Values {
+				// offsets from non-nil pointers are also non-nil
+				if v.Op == OpOffPtr && nonNilValues[v.Args[0].ID] {
+					nonNilValues[v.ID] = true
+				}
 				// phis whose arguments are all non-nil
 				// are non-nil
 				if v.Op == OpPhi {

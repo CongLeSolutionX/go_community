@@ -268,3 +268,14 @@ func f9() []int {
 	y := x[:] // ERROR "removed nil check"
 	return y
 }
+
+func f10(s Struct) {
+	p := &s.Y
+	_ = *p  // ERROR "removed nil check"
+}
+
+var	gs = Struct{0, 0.0}
+func f11() {
+	p := &gs.Y
+	_ = *p  // ERROR "removed nil check"
+}

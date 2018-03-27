@@ -202,6 +202,100 @@ func TestNilcheckAddPtr(t *testing.T) {
 	}
 }
 
+// TestNilcheckAddrOffPtr verifies that nilchecks of OpAddr+OffPtr constructed
+// values are removed.
+func TestNilcheckAddrOffPtr(t *testing.T) {
+	c := testConfig(t)
+
+	ptrType := c.config.Types.BytePtr
+	fun := c.Fun("entry",
+		Bloc("entry",
+			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+			Valu("sp", OpSP, c.config.Types.Uintptr, 0, nil),
+			Valu("arg", OpArg, ptrType, 0, nil),
+			Valu("ptr1", OpAddr, ptrType, 0, nil, "sp"),
+			Valu("ptr2", OpOffPtr, ptrType, 8, nil, "ptr1"),
+			Valu("nilptr", OpConstNil, ptrType, 0, nil),
+			Valu("store", OpStore, types.TypeMem, 0, ptrType, "nilptr", "arg", "mem"),
+			Exit("store")))
+
+	CheckFunc(fun.f)
+	nilcheckelim(fun.f)
+	fuse(fun.f)
+	deadcode(fun.f)
+	CheckFunc(fun.f)
+
+	for _, b := range fun.f.Blocks {
+		for _, v := range b.Values {
+			if v.Op == OpNilCheck {
+				t.Errorf("nilcheck was not eliminated")
+			}
+		}
+	}
+}
+
+// TestIsNonNilcheckAddrOffPtr verifies that nilchecks of OpAddr+OffPtr constructed
+// values are removed.
+func TestIsNonNilcheckAddrOffPtr(t *testing.T) {
+	c := testConfig(t)
+
+	ptrType := c.config.Types.BytePtr
+	fun := c.Fun("entry",
+		Bloc("entry",
+			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
+			Valu("arg", OpArg, ptrType, 0, nil),
+			Valu("ptr1", OpAddr, ptrType, 0, nil, "sb"),
+			Valu("ptr2", OpOffPtr, ptrType, 8, nil, "ptr1"),
+			Valu("nilcheck", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr2"),
+			Valu("store", OpStore, types.TypeMem, 0, ptrType, "nilcheck", "arg", "mem"),
+			Exit("store")))
+
+	CheckFunc(fun.f)
+	nilcheckelim(fun.f)
+	deadcode(fun.f)
+	CheckFunc(fun.f)
+
+	for _, b := range fun.f.Blocks {
+		for _, v := range b.Values {
+			if v.Op == OpIsNonNil {
+				t.Errorf("nilcheck was not eliminated")
+			}
+		}
+	}
+}
+
+// TestNilcheckAddrPtrOffPtr verifies that nilchecks of OpAddPtr+OffPtr constructed
+// values are removed.
+func TestNilcheckAddrPtrOffPtr(t *testing.T) {
+	c := testConfig(t)
+	ptrType := c.config.Types.BytePtr
+	fun := c.Fun("entry",
+		Bloc("entry",
+			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+			Valu("sp", OpSP, c.config.Types.Uintptr, 0, nil),
+			Valu("arg", OpArg, ptrType, 0, nil),
+			Valu("off", OpConst64, c.config.Types.Int64, 20, nil),
+			Valu("ptr1", OpAddPtr, ptrType, 0, nil, "sp", "off"),
+			Valu("ptr2", OpOffPtr, ptrType, 8, nil, "ptr1"),
+			Valu("nilptr", OpConstNil, ptrType, 0, nil),
+			Valu("store", OpStore, types.TypeMem, 0, ptrType, "nilptr", "arg", "mem"),
+			Exit("store")))
+
+	CheckFunc(fun.f)
+	nilcheckelim(fun.f)
+	deadcode(fun.f)
+	CheckFunc(fun.f)
+
+	for _, b := range fun.f.Blocks {
+		for _, v := range b.Values {
+			if v.Op == OpIsNonNil {
+				t.Errorf("nilcheck was not eliminated")
+			}
+		}
+	}
+}
+
 // TestNilcheckPhi tests that nil checks of phis, for which all values are known to be
 // non-nil are removed.
 func TestNilcheckPhi(t *testing.T) {
