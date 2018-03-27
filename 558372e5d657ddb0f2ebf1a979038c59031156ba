@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ac99cd68_e7350957",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-27T17:57:01Z",
+      "side": 1,
+      "message": "I see the point in `*sync.Pool` here now. Let it be a pointer",
+      "parentUuid": "221b5157_a282a9d7",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cf7f037_c5803b8c",
         "filename": "src/regexp/regexp.go",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Could you clarify? (What are the cases in which a Copy would still be needed?)",
       "parentUuid": "7cf7f037_c5803b8c",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c40a6c2_4d47b5fe",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-27T17:57:01Z",
+      "side": 1,
+      "message": "The case is when a copy of regexp per dedicated worker thread (goroutine) is used for performance reasons. It is still faster than the sync.Pool version by a few percents.",
+      "parentUuid": "4c8d599c_757e30a7",
       "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -104,6 +140,24 @@
       "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed909a0b_33a9aaf8",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-27T17:57:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fce01079_aff11873",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
