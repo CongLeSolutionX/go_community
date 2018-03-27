@@ -74,6 +74,12 @@ func initssaconfig() {
 	gcWriteBarrier = sysfunc("gcWriteBarrier")
 	typedmemmove = sysfunc("typedmemmove")
 	typedmemclr = sysfunc("typedmemclr")
+	raceread = sysfunc("raceread")
+	racewrite = sysfunc("racewrite")
+	racereadrange = sysfunc("racereadrange")
+	racewriterange = sysfunc("racewriterange")
+	msanread = sysfunc("msanread")
+	msanwrite = sysfunc("msanwrite")
 	Udiv = sysfunc("udiv")
 
 	// GO386=387 runtime functions
@@ -548,21 +554,79 @@ func (s *state) newValueOrSfCall2(op ssa.Op, t *types.Type, arg0, arg1 *ssa.Valu
 	return s.newValue2(op, t, arg0, arg1)
 }
 
+func (s *state) instrument(t *types.Type, addr *ssa.Value, wr bool) {
+	if !s.curfn.Func.InstrumentBody() {
+		return
+	}
+
+	w := t.Size()
+	if w == 0 {
+		return // can't race on zero-sized things
+	}
+
+	// TODO(mdempsky): Add remaining optimizations from
+	// isartificial: blank, autotmps, statictmps (read-only).
+	// TODO(mdempsky): Recognize loads from closures and itabs.
+	if ssa.IsStackAddr(addr) {
+		return
+	}
+
+	var fn *obj.LSym
+	needWidth := false
+
+	if flag_msan {
+		fn = msanread
+		if wr {
+			fn = msanwrite
+		}
+		needWidth = true
+	} else if flag_race && t.NumComponents() > 1 {
+		// for composite objects we have to write every address
+		// because a write might happen to any subobject.
+		// composites with only one element don't have subobjects, though.
+		fn = racereadrange
+		if wr {
+			fn = racewriterange
+		}
+		needWidth = true
+	} else if flag_race {
+		// for non-composite objects we can write just the start
+		// address, as any write must write the first byte.
+		fn = raceread
+		if wr {
+			fn = racewrite
+		}
+	} else {
+		panic("unreachable")
+	}
+
+	args := []*ssa.Value{addr}
+	if needWidth {
+		args = append(args, s.constInt(types.Types[TUINTPTR], w))
+	}
+	s.rtcall(fn, true, nil, args...)
+}
+
 func (s *state) load(t *types.Type, src *ssa.Value) *ssa.Value {
+	s.instrument(t, src, false)
 	return s.newValue2(ssa.OpLoad, t, src, s.mem())
 }
 
 func (s *state) store(t *types.Type, dst, val *ssa.Value) {
+	s.instrument(t, dst, true)
 	s.vars[&memVar] = s.newValue3A(ssa.OpStore, types.TypeMem, t, dst, val, s.mem())
 }
 
 func (s *state) zero(t *types.Type, dst *ssa.Value) {
+	s.instrument(t, dst, true)
 	store := s.newValue2I(ssa.OpZero, types.TypeMem, t.Size(), dst, s.mem())
 	store.Aux = t
 	s.vars[&memVar] = store
 }
 
 func (s *state) move(t *types.Type, dst, src *ssa.Value) {
+	s.instrument(t, src, false)
+	s.instrument(t, dst, true)
 	store := s.newValue3I(ssa.OpMove, types.TypeMem, t.Size(), dst, src, s.mem())
 	store.Aux = t
 	s.vars[&memVar] = store
@@ -3376,6 +3440,14 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 	dowidth(fn.Type)
 	stksize := fn.Type.ArgWidth() // includes receiver
 
+	if closure != nil {
+		// TODO(mdempsky): This load should always be safe,
+		// but instrument can't tell that yet. To avoid any
+		// rtcalls clobbering the arguments below, just
+		// evaluate it earlier.
+		codeptr = s.load(types.Types[TUINTPTR], closure)
+	}
+
 	// Run all argument assignments. The arg slots have already
 	// been offset by the appropriate amount (+2*widthptr for go/defer,
 	// +widthptr for interface calls).
@@ -3412,7 +3484,6 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 	case k == callGo:
 		call = s.newValue1A(ssa.OpStaticCall, types.TypeMem, Newproc, s.mem())
 	case closure != nil:
-		codeptr = s.load(types.Types[TUINTPTR], closure)
 		call = s.newValue3(ssa.OpClosureCall, types.TypeMem, codeptr, closure, s.mem())
 	case codeptr != nil:
 		call = s.newValue2(ssa.OpInterCall, types.TypeMem, codeptr, s.mem())
@@ -3624,6 +3695,14 @@ func canSSAType(t *types.Type) bool {
 		}
 		return false
 	case TSTRUCT:
+		// When instrumenting, don't SSA structs with more
+		// than one field. Otherwise, an access like "x.f" may
+		// be compiled into a full load of x, which can
+		// introduce false dependencies on other "x.g" fields.
+		if instrumenting && t.NumFields() > 1 {
+			return false
+		}
+
 		if t.NumFields() > ssa.MaxStruct {
 			return false
 		}
