@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "74466ff5_d4b34883",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-27T17:59:56Z",
+      "side": 1,
+      "message": "I\u0027d add an explanatory comment here, since this contradicts typical embedding for sync.Pool inside structs",
+      "parentUuid": "ac99cd68_e7350957",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cf7f037_c5803b8c",
         "filename": "src/regexp/regexp.go",
         "patchSetId": 2
