@@ -229,6 +229,23 @@ Run <code>git --exec-path</code> to discover the right location then create a
 symbolic link or simply copy the executable from $GOPATH/bin to this directory.
 </p>
 
+<p>
+<b>Note to Git aficionados:</b>
+The <code>git-codereview</code> command is not required to
+upload and manage Gerrit code reviews.
+For those who prefer plain Git, the text below gives the Git equivalent of
+each git-codereview command.
+</p>
+
+<p>
+If you do use plain Git, note that you still need the commit hooks that the
+git-codereview command configures; those hooks add a Gerrit
+<code>Change-Id</code> line to the commit message and check that all Go source
+files have been formatted with gofmt.
+Even if you intend to use plain Git for
+daily work, install the hooks in a new Git checkout by running
+<code>git-codereview</code> <code>hooks</code>.
+</p>
 
 <h2 id="making_a_contribution">Before contributing code</h2>
 
@@ -419,19 +436,31 @@ $ git add [files...]
 </pre>
 
 <p>
-To commit changes, instead of <code>git commit</code>, use <code>git codereview change</code>.
+To commit changes:
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-codereview_install">git-codereview</a>:</p>
 <pre>
 $ git codereview change
 (open $EDITOR)
 </pre>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git commit
+(open $EDITOR)
+</pre>
+</div>
+</div>
 
 <p>
 You can edit the commit description in your favorite editor as usual.
-<code>git</code> <code>codereview</code> <code>change</code> will automatically
-add a <code>Change-Id</code>  line near the bottom. That line is used by
-Gerrit to match successive uploads of the same change. Do not edit or delete it.
+<code>git-codereview</code> hooks will automatically add a
+<code>Change-Id</code> line near the bottom. That line is used by Gerrit to
+match successive uploads of the same change. Do not edit or delete it.
 This is an example:
 </p>
 
@@ -446,9 +475,9 @@ Date:   Tue Feb 13 01:07:15 2018 +0100
 </pre>
 
 <p>
-<code>git</code> <code>codereview</code> <code>change</code> also checks that you've
-run <code>go</code> <code>fmt</code> over the source code, and that
-the commit message follows the <a href="#commit_messages">suggested format</a>.
+<code>git-codereview</code> hooks also check that you've run <code>go</code>
+<code>fmt</code> over the source code, and that the commit message follows the
+<a href="#commit_messages">suggested format</a>.
 </p>
 
 <p>
@@ -456,6 +485,21 @@ If you need to edit the files again, you can stage the new changes and
 re-run <code>git</code> <code>codereview</code> <code>change</code>: each subsequent
 run will amend the existing commit.
 </p>
+
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-codereview_install">git codereview</a>:</p>
+<pre>
+$ git codereview change
+</pre>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git commit --amend
+</pre>
+</div>
+</div>
 
 <p>
 Make sure that you always keep a single commit in each branch. If you add more
@@ -505,9 +549,20 @@ This is done via the <code>mail</code> sub-command which despite its name, doesn
 directly mail anything, it just sends the change to Gerrit:
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-codereview_install">git-codereview</a>:</p>
 <pre>
 $ git codereview mail
 </pre>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git push origin HEAD:refs/for/master
+</pre>
+</div>
+</div>
 
 <p>
 Gerrit assigns your change a number and URL, which <code>git</code> <code>codereview</code> <code>mail</code> will print, something like:
@@ -545,11 +600,23 @@ add them to the git staging area, and then amend the commit with
 <code>git</code> <code>codereview</code> <code>change</code>:
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-codereview_install">git-codereview</a>:</p>
 <pre>
 $ git codereview change     # amend current commit
 (open $EDITOR)
 $ git codereview mail       # send new changes to Gerrit
 </pre>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git commit --amend
+$ git push origin HEAD:refs/for/master
+</pre>
+</div>
+</div>
 
 <p>
 If you don't need to change the commit description, just save and exit from the editor.
@@ -838,9 +905,20 @@ $ git commit --amend --author="Author Name &lt;email@address.com&gt;"
 Finally try to resend with:
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-codereview_install">git-codereview</a>:</p>
 <pre>
 $ git codereview mail
 </pre>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git push origin HEAD:refs/for/master
+</pre>
+</div>
+</div>
 
 
 <h3 id="quicktest">Quickly testing your changes</h3>
@@ -958,9 +1036,20 @@ using the <code>-r</code> or <code>-cc</code> options.
 Both accept a comma-separated list of email addresses:
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-codereview_install">git-codereview</a>:</p>
 <pre>
 $ git codereview mail -r joe@golang.org -cc mabel@example.com,math-nuts@swtch.com
 </pre>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git push origin HEAD:refs/for/master%r=joe@golang.org,cc=mabel@example.com,cc=math-nuts@swtch.com
+</pre>
+</div>
+</div>
 
 
 
@@ -977,14 +1066,20 @@ While you were working, others might have submitted changes to the repository.
 To update your local branch, run
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-codereview_install">git-codereview</a>:</p>
 <pre>
 $ git sync
 </pre>
-
-<p>
-(In git terms, <code>git</code> <code>sync</code> runs
-<code>git</code> <code>pull</code> <code>-r</code>.)
-</p>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git pull -r
+</pre>
+</div>
+</div>
 
 
 
