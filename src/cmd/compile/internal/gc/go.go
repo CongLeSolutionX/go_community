@@ -303,4 +303,11 @@ var (
 	// GO386=387
 	ControlWord64trunc,
 	ControlWord32 *obj.LSym
+
+	// Wasm
+	WasmMove,
+	WasmZero,
+	WasmDiv,
+	WasmTrunc,
+	SigPanic *obj.LSym
 )
