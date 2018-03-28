@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"html/template/parse"
 	"reflect"
 	"strings"
 	"unicode/utf8"
@@ -25,7 +26,7 @@ import (
 // fail on any known useful programs. It is based on the draft
 // JavaScript 2.0 lexical grammar and requires one token of lookbehind:
 // http://www.mozilla.org/js/language/js20-2000-07/rationale/syntax.html
-func nextJSCtx(s []byte, preceding jsCtx) jsCtx {
+func nextJSCtx(s []byte, preceding parse.JSCtx) parse.JSCtx {
 	s = bytes.TrimRight(s, "\t\n\f\r \u2028\u2029")
 	if len(s) == 0 {
 		return preceding
@@ -44,31 +45,31 @@ func nextJSCtx(s []byte, preceding jsCtx) jsCtx {
 		if (n-start)&1 == 1 {
 			// Reached for trailing minus signs since "---" is the
 			// same as "-- -".
-			return jsCtxRegexp
+			return parse.JSCtxRegexp
 		}
-		return jsCtxDivOp
+		return parse.JSCtxDivOp
 	case '.':
 		// Handle "42."
 		if n != 1 && '0' <= s[n-2] && s[n-2] <= '9' {
-			return jsCtxDivOp
+			return parse.JSCtxDivOp
 		}
-		return jsCtxRegexp
+		return parse.JSCtxRegexp
 	// Suffixes for all punctuators from section 7.7 of the language spec
 	// that only end binary operators not handled above.
 	case ',', '<', '>', '=', '*', '%', '&', '|', '^', '?':
-		return jsCtxRegexp
+		return parse.JSCtxRegexp
 	// Suffixes for all punctuators from section 7.7 of the language spec
 	// that are prefix operators not handled above.
 	case '!', '~':
-		return jsCtxRegexp
+		return parse.JSCtxRegexp
 	// Matches all the punctuators from section 7.7 of the language spec
 	// that are open brackets not handled above.
 	case '(', '[':
-		return jsCtxRegexp
+		return parse.JSCtxRegexp
 	// Matches all the punctuators from section 7.7 of the language spec
 	// that precede expression starts.
 	case ':', ';', '{':
-		return jsCtxRegexp
+		return parse.JSCtxRegexp
 	// CAVEAT: the close punctuators ('}', ']', ')') precede div ops and
 	// are handled in the default except for '}' which can precede a
 	// division op as in
@@ -81,7 +82,7 @@ func nextJSCtx(s []byte, preceding jsCtx) jsCtx {
 	// but this is much less likely than
 	//     (a + b) / c
 	case '}':
-		return jsCtxRegexp
+		return parse.JSCtxRegexp
 	default:
 		// Look for an IdentifierName and see if it is a keyword that
 		// can precede a regular expression.
@@ -90,13 +91,13 @@ func nextJSCtx(s []byte, preceding jsCtx) jsCtx {
 			j--
 		}
 		if regexpPrecederKeywords[string(s[j:])] {
-			return jsCtxRegexp
+			return parse.JSCtxRegexp
 		}
 	}
 	// Otherwise is a punctuator not listed above, or
 	// a string which precedes a div op, or an identifier
 	// which precedes a div op.
-	return jsCtxDivOp
+	return parse.JSCtxDivOp
 }
 
 // regexpPrecederKeywords is a set of reserved JS keywords that can precede a
