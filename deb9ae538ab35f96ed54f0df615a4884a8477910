@@ -52,6 +52,24 @@
       "revId": "deb9ae538ab35f96ed54f0df615a4884a8477910",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "798fb06e_4e1559e0",
+        "filename": "src/go/types/sizes.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-03-28T21:22:45Z",
+      "side": 1,
+      "message": "That\u0027s my plan at least. Maybe someone else will contribute wasm32.\n\nIt is simpler because WebAssembly only has 32- and 64-bit integer variables, but no 8- or 16-bit ones. To keep it simple, I currently store integers of all sizes in 64-bit variables only and coerce where necessary. In the future we could evaluate if it makes sense to add 32-bit variables, too.",
+      "parentUuid": "3ddd82d0_207c4c94",
+      "revId": "deb9ae538ab35f96ed54f0df615a4884a8477910",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
