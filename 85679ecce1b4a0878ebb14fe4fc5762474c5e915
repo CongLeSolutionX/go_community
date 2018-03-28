@@ -16,6 +16,24 @@
       "revId": "85679ecce1b4a0878ebb14fe4fc5762474c5e915",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e35782b9_2eb3bcd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-03-28T13:46:38Z",
+      "side": 1,
+      "message": "What I mean is the \"host environment\" that loads and executes the WebAssembly bytecode. I have improved the commit message, is it better now?",
+      "parentUuid": "49589f10_a8959119",
+      "revId": "85679ecce1b4a0878ebb14fe4fc5762474c5e915",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
