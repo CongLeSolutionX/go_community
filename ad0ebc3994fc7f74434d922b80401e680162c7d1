@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f852a173_2db13bce",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-03-28T10:19:24Z",
+      "side": 1,
+      "message": "I\u0027m sorry to have jumped the gun on #24389. Gomobile version uses \"go install -x -n\", and will see the extra \"rm -r ...\" line. I\u0027m going to re-open #24389. Do you have another suggestion for gomobile version now that neither go install -x -n nor go list -f \u0027{{.Stale}}\u0027 works?\n\nThis complication also renders the need for this CL to go into 1.10.1 moot.",
+      "range": {
+        "startLine": 1141,
+        "startChar": 49,
+        "endLine": 1141,
+        "endChar": 59
+      },
+      "revId": "ad0ebc3994fc7f74434d922b80401e680162c7d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
