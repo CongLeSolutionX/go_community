@@ -5050,6 +5050,29 @@ func (s *SSAGenState) AddrScratch(a *obj.Addr) {
 }
 
 func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
+	s.PrepareCall(v)
+
+	p := s.Prog(obj.ACALL)
+	if sym, ok := v.Aux.(*obj.LSym); ok {
+		p.To.Type = obj.TYPE_MEM
+		p.To.Name = obj.NAME_EXTERN
+		p.To.Sym = sym
+	} else {
+		// TODO(mdempsky): Can these differences be eliminated?
+		switch thearch.LinkArch.Family {
+		case sys.AMD64, sys.I386, sys.PPC64, sys.S390X:
+			p.To.Type = obj.TYPE_REG
+		case sys.ARM, sys.ARM64, sys.MIPS, sys.MIPS64:
+			p.To.Type = obj.TYPE_MEM
+		default:
+			Fatalf("unknown indirect call family")
+		}
+		p.To.Reg = v.Args[0].Reg()
+	}
+	return p
+}
+
+func (s *SSAGenState) PrepareCall(v *ssa.Value) {
 	idx, ok := s.stackMapIndex[v]
 	if !ok {
 		Fatalf("missing stack map index for %v", v.LongString())
@@ -5070,33 +5093,17 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 		thearch.Ginsnop(s.pp)
 	}
 
-	p = s.Prog(obj.ACALL)
 	if sym, ok := v.Aux.(*obj.LSym); ok {
-		p.To.Type = obj.TYPE_MEM
-		p.To.Name = obj.NAME_EXTERN
-		p.To.Sym = sym
-
 		// Record call graph information for nowritebarrierrec
 		// analysis.
 		if nowritebarrierrecCheck != nil {
 			nowritebarrierrecCheck.recordCall(s.pp.curfn, sym, v.Pos)
 		}
-	} else {
-		// TODO(mdempsky): Can these differences be eliminated?
-		switch thearch.LinkArch.Family {
-		case sys.AMD64, sys.I386, sys.PPC64, sys.S390X:
-			p.To.Type = obj.TYPE_REG
-		case sys.ARM, sys.ARM64, sys.MIPS, sys.MIPS64:
-			p.To.Type = obj.TYPE_MEM
-		default:
-			Fatalf("unknown indirect call family")
-		}
-		p.To.Reg = v.Args[0].Reg()
 	}
+
 	if s.maxarg < v.AuxInt {
 		s.maxarg = v.AuxInt
 	}
-	return p
 }
 
 // fieldIdx finds the index of the field referred to by the ODOT node n.
