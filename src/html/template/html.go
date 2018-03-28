@@ -7,6 +7,7 @@ package template
 import (
 	"bytes"
 	"fmt"
+	"html/template/parse"
 	"strings"
 	"unicode/utf8"
 )
@@ -169,22 +170,22 @@ func htmlReplacer(s string, replacementTable []string, badRunes bool) string {
 // For example, `<b>&iexcl;Hi!</b> <script>...</script>` -> `&iexcl;Hi! `.
 func stripTags(html string) string {
 	var b bytes.Buffer
-	s, c, i, allText := []byte(html), context{}, 0, true
+	s, c, i, allText := []byte(html), parse.Context{}, 0, true
 	// Using the transition funcs helps us avoid mangling
 	// `<div title="1>2">` or `I <3 Ponies!`.
 	for i != len(s) {
-		if c.delim == delimNone {
-			st := c.state
+		if c.Delim == parse.DelimNone {
+			st := c.State
 			// Use RCDATA instead of parsing into JS or CSS styles.
-			if c.element != elementNone && !isInTag(st) {
-				st = stateRCDATA
+			if specialElements[c.Element.Name] && !parse.IsInTag(st) {
+				st = parse.StateRCDATA
 			}
 			d, nread := transitionFunc[st](c, s[i:])
 			i1 := i + nread
-			if c.state == stateText || c.state == stateRCDATA {
+			if c.State == parse.StateText || c.State == parse.StateRCDATA {
 				// Emit text up to the start of the tag or comment.
 				j := i1
-				if d.state != c.state {
+				if d.State != c.State {
 					for j1 := j - 1; j1 >= i; j1-- {
 						if s[j1] == '<' {
 							j = j1
@@ -199,19 +200,19 @@ func stripTags(html string) string {
 			c, i = d, i1
 			continue
 		}
-		i1 := i + bytes.IndexAny(s[i:], delimEnds[c.delim])
+		i1 := i + bytes.IndexAny(s[i:], delimEnds[c.Delim])
 		if i1 < i {
 			break
 		}
-		if c.delim != delimSpaceOrTagEnd {
+		if c.Delim != parse.DelimSpaceOrTagEnd {
 			// Consume any quote.
 			i1++
 		}
-		c, i = context{state: stateTag, element: c.element}, i1
+		c, i = parse.Context{State: parse.StateTag, Element: c.Element}, i1
 	}
 	if allText {
 		return html
-	} else if c.state == stateText || c.state == stateRCDATA {
+	} else if c.State == parse.StateText || c.State == parse.StateRCDATA {
 		b.Write(s[i:])
 	}
 	return b.String()

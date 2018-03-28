@@ -6,6 +6,7 @@ package template
 
 import (
 	"bytes"
+	"html/template/parse"
 	"math"
 	"strings"
 	"testing"
@@ -13,90 +14,90 @@ import (
 
 func TestNextJsCtx(t *testing.T) {
 	tests := []struct {
-		jsCtx jsCtx
+		jsCtx parse.JSCtx
 		s     string
 	}{
 		// Statement terminators precede regexps.
-		{jsCtxRegexp, ";"},
+		{parse.JSCtxRegexp, ";"},
 		// This is not airtight.
 		//     ({ valueOf: function () { return 1 } } / 2)
 		// is valid JavaScript but in practice, devs do not do this.
 		// A block followed by a statement starting with a RegExp is
 		// much more common:
 		//     while (x) {...} /foo/.test(x) || panic()
-		{jsCtxRegexp, "}"},
+		{parse.JSCtxRegexp, "}"},
 		// But member, call, grouping, and array expression terminators
 		// precede div ops.
-		{jsCtxDivOp, ")"},
-		{jsCtxDivOp, "]"},
+		{parse.JSCtxDivOp, ")"},
+		{parse.JSCtxDivOp, "]"},
 		// At the start of a primary expression, array, or expression
 		// statement, expect a regexp.
-		{jsCtxRegexp, "("},
-		{jsCtxRegexp, "["},
-		{jsCtxRegexp, "{"},
+		{parse.JSCtxRegexp, "("},
+		{parse.JSCtxRegexp, "["},
+		{parse.JSCtxRegexp, "{"},
 		// Assignment operators precede regexps as do all exclusively
 		// prefix and binary operators.
-		{jsCtxRegexp, "="},
-		{jsCtxRegexp, "+="},
-		{jsCtxRegexp, "*="},
-		{jsCtxRegexp, "*"},
-		{jsCtxRegexp, "!"},
+		{parse.JSCtxRegexp, "="},
+		{parse.JSCtxRegexp, "+="},
+		{parse.JSCtxRegexp, "*="},
+		{parse.JSCtxRegexp, "*"},
+		{parse.JSCtxRegexp, "!"},
 		// Whether the + or - is infix or prefix, it cannot precede a
 		// div op.
-		{jsCtxRegexp, "+"},
-		{jsCtxRegexp, "-"},
+		{parse.JSCtxRegexp, "+"},
+		{parse.JSCtxRegexp, "-"},
 		// An incr/decr op precedes a div operator.
 		// This is not airtight. In (g = ++/h/i) a regexp follows a
 		// pre-increment operator, but in practice devs do not try to
 		// increment or decrement regular expressions.
 		// (g++/h/i) where ++ is a postfix operator on g is much more
 		// common.
-		{jsCtxDivOp, "--"},
-		{jsCtxDivOp, "++"},
-		{jsCtxDivOp, "x--"},
+		{parse.JSCtxDivOp, "--"},
+		{parse.JSCtxDivOp, "++"},
+		{parse.JSCtxDivOp, "x--"},
 		// When we have many dashes or pluses, then they are grouped
 		// left to right.
-		{jsCtxRegexp, "x---"}, // A postfix -- then a -.
+		{parse.JSCtxRegexp, "x---"}, // A postfix -- then a -.
 		// return followed by a slash returns the regexp literal or the
 		// slash starts a regexp literal in an expression statement that
 		// is dead code.
-		{jsCtxRegexp, "return"},
-		{jsCtxRegexp, "return "},
-		{jsCtxRegexp, "return\t"},
-		{jsCtxRegexp, "return\n"},
-		{jsCtxRegexp, "return\u2028"},
+		{parse.JSCtxRegexp, "return"},
+		{parse.JSCtxRegexp, "return "},
+		{parse.JSCtxRegexp, "return\t"},
+		{parse.JSCtxRegexp, "return\n"},
+		{parse.JSCtxRegexp, "return\u2028"},
 		// Identifiers can be divided and cannot validly be preceded by
 		// a regular expressions. Semicolon insertion cannot happen
 		// between an identifier and a regular expression on a new line
 		// because the one token lookahead for semicolon insertion has
 		// to conclude that it could be a div binary op and treat it as
 		// such.
-		{jsCtxDivOp, "x"},
-		{jsCtxDivOp, "x "},
-		{jsCtxDivOp, "x\t"},
-		{jsCtxDivOp, "x\n"},
-		{jsCtxDivOp, "x\u2028"},
-		{jsCtxDivOp, "preturn"},
+		{parse.JSCtxDivOp, "x"},
+		{parse.JSCtxDivOp, "x "},
+		{parse.JSCtxDivOp, "x\t"},
+		{parse.JSCtxDivOp, "x\n"},
+		{parse.JSCtxDivOp, "x\u2028"},
+		{parse.JSCtxDivOp, "preturn"},
 		// Numbers precede div ops.
-		{jsCtxDivOp, "0"},
+		{parse.JSCtxDivOp, "0"},
 		// Dots that are part of a number are div preceders.
-		{jsCtxDivOp, "0."},
+		{parse.JSCtxDivOp, "0."},
 	}
 
 	for _, test := range tests {
-		if nextJSCtx([]byte(test.s), jsCtxRegexp) != test.jsCtx {
+		if nextJSCtx([]byte(test.s), parse.JSCtxRegexp) != test.jsCtx {
 			t.Errorf("want %s got %q", test.jsCtx, test.s)
 		}
-		if nextJSCtx([]byte(test.s), jsCtxDivOp) != test.jsCtx {
+		if nextJSCtx([]byte(test.s), parse.JSCtxDivOp) != test.jsCtx {
 			t.Errorf("want %s got %q", test.jsCtx, test.s)
 		}
 	}
 
-	if nextJSCtx([]byte("   "), jsCtxRegexp) != jsCtxRegexp {
+	if nextJSCtx([]byte("   "), parse.JSCtxRegexp) != parse.JSCtxRegexp {
 		t.Error("Blank tokens")
 	}
 
-	if nextJSCtx([]byte("   "), jsCtxDivOp) != jsCtxDivOp {
+	if nextJSCtx([]byte("   "), parse.JSCtxDivOp) != parse.JSCtxDivOp {
 		t.Error("Blank tokens")
 	}
 }
