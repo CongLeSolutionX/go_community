@@ -8,11 +8,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"html/template/parse"
 	"os"
 	"strings"
 	"testing"
 	"text/template"
-	"text/template/parse"
+	textparse "text/template/parse"
 )
 
 type badMarshaler struct{}
@@ -252,7 +253,7 @@ func TestEscape(t *testing.T) {
 		{
 			"jsReAmbigOk",
 			`<script>{{if true}}var x = 1{{end}}</script>`,
-			// The {if} ends in an ambiguous jsCtx but there is
+			// The {if} ends in an ambiguous JSCtx but there is
 			// no slash following so we shouldn't care.
 			`<script>var x = 1</script>`,
 		},
@@ -590,6 +591,11 @@ func TestEscape(t *testing.T) {
 			`<input checked name=n>`,
 		},
 		{
+			"conditional attr name with dangerous value",
+			`<img {{if .T}}href='{{else}}src='{{end}}{{"javascript:alert(%22pwned%22)"}}'>`,
+			`<img href='#ZgotmplZ'>`,
+		},
+		{
 			"conditional dynamic valueless attr name 1",
 			`<input{{if .T}} {{"checked"}}{{end}} name=n>`,
 			`<input checked name=n>`,
@@ -631,9 +637,14 @@ func TestEscape(t *testing.T) {
 			`<input checked ZgotmplZ="Whose value am I?">`,
 		},
 		{
-			"dynamic element name",
+			"dynamic element name 1",
 			`<h{{3}}><table><t{{"head"}}>...</h{{3}}>`,
 			`<h3><table><thead>...</h3>`,
+		},
+		{
+			"dynamic element name 2",
+			`{{if .T}}<link{{else}}<area{{end}} href="www.foo.com">`,
+			`<link href="www.foo.com">`,
 		},
 		{
 			"bad dynamic element name",
@@ -806,7 +817,7 @@ func TestEscapeSet(t *testing.T) {
 			`<button onclick="title='11 of \x3c100\x3e'; ...">11 of &lt;100&gt;</button>`,
 		},
 		// A non-recursive template that ends in a different context.
-		// helper starts in jsCtxRegexp and ends in jsCtxDivOp.
+		// helper starts in JSCtxRegexp and ends in JSCtxDivOp.
 		{
 			map[string]string{
 				"main":   `<script>var x={{template "helper"}}/{{"42"}};</script>`,
@@ -935,11 +946,11 @@ func TestErrors(t *testing.T) {
 		},
 		{
 			"<a b=1 c={{.H}}",
-			"z: ends in a non-text context: {stateAttr delimSpaceOrTagEnd",
+			"z: ends in a non-text context: {StateAttr DelimSpaceOrTagEnd",
 		},
 		{
 			"<script>foo();",
-			"z: ends in a non-text context: {stateJS",
+			"z: ends in a non-text context: {StateJS",
 		},
 		{
 			`<a href="{{if .F}}/foo?a={{else}}/bar/{{end}}{{.H}}">`,
@@ -976,7 +987,7 @@ func TestErrors(t *testing.T) {
 		},
 		{
 			`<div{{template "y"}}>` +
-				// Illegal starting in stateTag but not in stateText.
+				// Illegal starting in StateTag but not in StateText.
 				`{{define "y"}} foo<b{{end}}`,
 			`"<" in attribute name: " foo<b"`,
 		},
@@ -984,7 +995,7 @@ func TestErrors(t *testing.T) {
 			`<script>reverseList = [{{template "t"}}]</script>` +
 				// Missing " after recursive call.
 				`{{define "t"}}{{if .Tail}}{{template "t" .Tail}}{{end}}{{.Head}}",{{end}}`,
-			`: cannot compute output context for template t$htmltemplate_stateJS_elementScript`,
+			`: cannot compute output context for template t$htmltemplate_StateJS_ElementScript`,
 		},
 		{
 			`<input type=button value=onclick=>`,
@@ -1070,514 +1081,530 @@ func TestErrors(t *testing.T) {
 func TestEscapeText(t *testing.T) {
 	tests := []struct {
 		input  string
-		output context
+		output parse.Context
 	}{
 		{
 			``,
-			context{},
+			parse.Context{},
 		},
 		{
 			`Hello, World!`,
-			context{},
+			parse.Context{},
 		},
 		{
 			// An orphaned "<" is OK.
 			`I <3 Ponies!`,
-			context{},
+			parse.Context{},
 		},
 		{
 			`<a`,
-			context{state: stateTag},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "a"}},
 		},
 		{
 			`<a `,
-			context{state: stateTag},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "a"}},
 		},
 		{
 			`<a>`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText, Element: parse.Element{Name: "a"}},
 		},
 		{
 			`<a href`,
-			context{state: stateAttrName, attr: attrURL},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href"}},
 		},
 		{
 			`<a on`,
-			context{state: stateAttrName, attr: attrScript},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "on"}},
 		},
 		{
 			`<a href `,
-			context{state: stateAfterName, attr: attrURL},
+			parse.Context{State: parse.StateAfterName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href"}},
 		},
 		{
 			`<a style  =  `,
-			context{state: stateBeforeValue, attr: attrStyle},
+			parse.Context{State: parse.StateBeforeValue, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style"}},
 		},
 		{
 			`<a href=`,
-			context{state: stateBeforeValue, attr: attrURL},
+			parse.Context{State: parse.StateBeforeValue, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href"}},
 		},
 		{
 			`<a href=x`,
-			context{state: stateURL, delim: delimSpaceOrTagEnd, urlPart: urlPartPreQuery, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimSpaceOrTagEnd, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href", Value: `x`}},
 		},
 		{
 			`<a href=x `,
-			context{state: stateTag},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "a"}},
 		},
 		{
 			`<a href=>`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText, Element: parse.Element{Name: "a"}},
 		},
 		{
 			`<a href=x>`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText, Element: parse.Element{Name: "a"}},
 		},
 		{
 			`<a href ='`,
-			context{state: stateURL, delim: delimSingleQuote, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimSingleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href"}},
 		},
 		{
 			`<a href=''`,
-			context{state: stateTag},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "a"}},
 		},
 		{
 			`<a href= "`,
-			context{state: stateURL, delim: delimDoubleQuote, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href"}},
 		},
 		{
 			`<a href=""`,
-			context{state: stateTag},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "a"}},
 		},
 		{
 			`<a title="`,
-			context{state: stateAttr, delim: delimDoubleQuote},
+			parse.Context{State: parse.StateAttr, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "title"}},
 		},
 		{
 			`<a HREF='http:`,
-			context{state: stateURL, delim: delimSingleQuote, urlPart: urlPartPreQuery, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimSingleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href", Value: `http:`}},
 		},
 		{
 			`<a Href='/`,
-			context{state: stateURL, delim: delimSingleQuote, urlPart: urlPartPreQuery, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimSingleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href", Value: `/`}},
 		},
 		{
 			`<a href='"`,
-			context{state: stateURL, delim: delimSingleQuote, urlPart: urlPartPreQuery, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimSingleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href", Value: `"`}},
 		},
 		{
 			`<a href="'`,
-			context{state: stateURL, delim: delimDoubleQuote, urlPart: urlPartPreQuery, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href", Value: `'`}},
 		},
 		{
 			`<a href='&apos;`,
-			context{state: stateURL, delim: delimSingleQuote, urlPart: urlPartPreQuery, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimSingleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href", Value: `&apos;`}},
 		},
 		{
 			`<a href="&quot;`,
-			context{state: stateURL, delim: delimDoubleQuote, urlPart: urlPartPreQuery, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href", Value: `&quot;`}},
 		},
 		{
 			`<a href="&#34;`,
-			context{state: stateURL, delim: delimDoubleQuote, urlPart: urlPartPreQuery, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href", Value: `&#34;`}},
 		},
 		{
 			`<a href=&quot;`,
-			context{state: stateURL, delim: delimSpaceOrTagEnd, urlPart: urlPartPreQuery, attr: attrURL},
+			parse.Context{State: parse.StateURL, Delim: parse.DelimSpaceOrTagEnd, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "href", Value: `&quot;`}},
 		},
 		{
 			`<img alt="1">`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText},
 		},
 		{
 			`<img alt="1>"`,
-			context{state: stateTag},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "img"}},
 		},
 		{
 			`<img alt="1>">`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText},
 		},
 		{
 			`<input checked type="checkbox"`,
-			context{state: stateTag},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "input"}},
 		},
 		{
 			`<a onclick="`,
-			context{state: stateJS, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick"}},
 		},
 		{
 			`<a onclick="//foo`,
-			context{state: stateJSLineCmt, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSLineCmt, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `//foo`}},
 		},
 		{
 			"<a onclick='//\n",
-			context{state: stateJS, delim: delimSingleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimSingleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: "//\n"}},
 		},
 		{
 			"<a onclick='//\r\n",
-			context{state: stateJS, delim: delimSingleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimSingleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: "//\r\n"}},
 		},
 		{
 			"<a onclick='//\u2028",
-			context{state: stateJS, delim: delimSingleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimSingleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: "//\u2028"}},
 		},
 		{
 			`<a onclick="/*`,
-			context{state: stateJSBlockCmt, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSBlockCmt, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `/*`}},
 		},
 		{
 			`<a onclick="/*/`,
-			context{state: stateJSBlockCmt, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSBlockCmt, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `/*/`}},
 		},
 		{
 			`<a onclick="/**/`,
-			context{state: stateJS, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `/**/`}},
 		},
 		{
 			`<a onkeypress="&quot;`,
-			context{state: stateJSDqStr, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSDqStr, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onkeypress", Value: `&quot;`}},
 		},
 		{
 			`<a onclick='&quot;foo&quot;`,
-			context{state: stateJS, delim: delimSingleQuote, jsCtx: jsCtxDivOp, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimSingleQuote, JSCtx: parse.JSCtxDivOp, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `&quot;foo&quot;`}},
 		},
 		{
 			`<a onclick=&#39;foo&#39;`,
-			context{state: stateJS, delim: delimSpaceOrTagEnd, jsCtx: jsCtxDivOp, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimSpaceOrTagEnd, JSCtx: parse.JSCtxDivOp, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `&#39;foo&#39;`}},
 		},
 		{
 			`<a onclick=&#39;foo`,
-			context{state: stateJSSqStr, delim: delimSpaceOrTagEnd, attr: attrScript},
+			parse.Context{State: parse.StateJSSqStr, Delim: parse.DelimSpaceOrTagEnd, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `&#39;foo`}},
 		},
 		{
 			`<a onclick="&quot;foo'`,
-			context{state: stateJSDqStr, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSDqStr, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `&quot;foo'`}},
 		},
 		{
 			`<a onclick="'foo&quot;`,
-			context{state: stateJSSqStr, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSSqStr, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `'foo&quot;`}},
 		},
 		{
 			`<A ONCLICK="'`,
-			context{state: stateJSSqStr, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSSqStr, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `'`}},
 		},
 		{
 			`<a onclick="/`,
-			context{state: stateJSRegexp, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSRegexp, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `/`}},
 		},
 		{
 			`<a onclick="'foo'`,
-			context{state: stateJS, delim: delimDoubleQuote, jsCtx: jsCtxDivOp, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimDoubleQuote, JSCtx: parse.JSCtxDivOp, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `'foo'`}},
 		},
 		{
 			`<a onclick="'foo\'`,
-			context{state: stateJSSqStr, delim: delimDoubleQuote, attr: attrScript},
-		},
-		{
-			`<a onclick="'foo\'`,
-			context{state: stateJSSqStr, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSSqStr, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `'foo\'`}},
 		},
 		{
 			`<a onclick="/foo/`,
-			context{state: stateJS, delim: delimDoubleQuote, jsCtx: jsCtxDivOp, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimDoubleQuote, JSCtx: parse.JSCtxDivOp, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `/foo/`}},
 		},
 		{
 			`<script>/foo/ /=`,
-			context{state: stateJS, element: elementScript},
+			parse.Context{State: parse.StateJS, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<a onclick="1 /foo`,
-			context{state: stateJS, delim: delimDoubleQuote, jsCtx: jsCtxDivOp, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimDoubleQuote, JSCtx: parse.JSCtxDivOp, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `1 /foo`}},
 		},
 		{
 			`<a onclick="1 /*c*/ /foo`,
-			context{state: stateJS, delim: delimDoubleQuote, jsCtx: jsCtxDivOp, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimDoubleQuote, JSCtx: parse.JSCtxDivOp, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `1 /*c*/ /foo`}},
 		},
 		{
 			`<a onclick="/foo[/]`,
-			context{state: stateJSRegexp, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSRegexp, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `/foo[/]`}},
 		},
 		{
 			`<a onclick="/foo\/`,
-			context{state: stateJSRegexp, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJSRegexp, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `/foo\/`}},
 		},
 		{
 			`<a onclick="/foo/`,
-			context{state: stateJS, delim: delimDoubleQuote, jsCtx: jsCtxDivOp, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimDoubleQuote, JSCtx: parse.JSCtxDivOp, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "onclick", Value: `/foo/`}},
 		},
 		{
 			`<input checked style="`,
-			context{state: stateCSS, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSS, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "input"}, Attr: parse.Attr{Name: "style"}},
 		},
 		{
 			`<a style="//`,
-			context{state: stateCSSLineCmt, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSSLineCmt, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `//`}},
 		},
 		{
 			`<a style="//</script>`,
-			context{state: stateCSSLineCmt, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSSLineCmt, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `//</script>`}},
 		},
 		{
 			"<a style='//\n",
-			context{state: stateCSS, delim: delimSingleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSS, Delim: parse.DelimSingleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: "//\n"}},
 		},
 		{
 			"<a style='//\r",
-			context{state: stateCSS, delim: delimSingleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSS, Delim: parse.DelimSingleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: "//\r"}},
 		},
 		{
 			`<a style="/*`,
-			context{state: stateCSSBlockCmt, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSSBlockCmt, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `/*`}},
 		},
 		{
 			`<a style="/*/`,
-			context{state: stateCSSBlockCmt, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSSBlockCmt, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `/*/`}},
 		},
 		{
 			`<a style="/**/`,
-			context{state: stateCSS, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSS, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `/**/`}},
 		},
 		{
 			`<a style="background: '`,
-			context{state: stateCSSSqStr, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSSSqStr, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: '`}},
 		},
 		{
 			`<a style="background: &quot;`,
-			context{state: stateCSSDqStr, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSSDqStr, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: &quot;`}},
 		},
 		{
 			`<a style="background: '/foo?img=`,
-			context{state: stateCSSSqStr, delim: delimDoubleQuote, urlPart: urlPartQueryOrFrag, attr: attrStyle},
+			parse.Context{State: parse.StateCSSSqStr, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartQueryOrFrag, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: '/foo?img=`}},
 		},
 		{
 			`<a style="background: '/`,
-			context{state: stateCSSSqStr, delim: delimDoubleQuote, urlPart: urlPartPreQuery, attr: attrStyle},
+			parse.Context{State: parse.StateCSSSqStr, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: '/`}},
 		},
 		{
 			`<a style="background: url(&#x22;/`,
-			context{state: stateCSSDqURL, delim: delimDoubleQuote, urlPart: urlPartPreQuery, attr: attrStyle},
+			parse.Context{State: parse.StateCSSDqURL, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: url(&#x22;/`}},
 		},
 		{
 			`<a style="background: url('/`,
-			context{state: stateCSSSqURL, delim: delimDoubleQuote, urlPart: urlPartPreQuery, attr: attrStyle},
+			parse.Context{State: parse.StateCSSSqURL, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: url('/`}},
 		},
 		{
 			`<a style="background: url('/)`,
-			context{state: stateCSSSqURL, delim: delimDoubleQuote, urlPart: urlPartPreQuery, attr: attrStyle},
+			parse.Context{State: parse.StateCSSSqURL, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: url('/)`}},
 		},
 		{
 			`<a style="background: url('/ `,
-			context{state: stateCSSSqURL, delim: delimDoubleQuote, urlPart: urlPartPreQuery, attr: attrStyle},
+			parse.Context{State: parse.StateCSSSqURL, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: url('/ `}},
 		},
 		{
 			`<a style="background: url(/`,
-			context{state: stateCSSURL, delim: delimDoubleQuote, urlPart: urlPartPreQuery, attr: attrStyle},
+			parse.Context{State: parse.StateCSSURL, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartPreQuery, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: url(/`}},
 		},
 		{
 			`<a style="background: url( `,
-			context{state: stateCSSURL, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSSURL, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: url( `}},
 		},
 		{
 			`<a style="background: url( /image?name=`,
-			context{state: stateCSSURL, delim: delimDoubleQuote, urlPart: urlPartQueryOrFrag, attr: attrStyle},
+			parse.Context{State: parse.StateCSSURL, Delim: parse.DelimDoubleQuote, URLPart: parse.URLPartQueryOrFrag, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: url( /image?name=`}},
 		},
 		{
 			`<a style="background: url(x)`,
-			context{state: stateCSS, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSS, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: url(x)`}},
 		},
 		{
 			`<a style="background: url('x'`,
-			context{state: stateCSS, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSS, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: url('x'`}},
 		},
 		{
 			`<a style="background: url( x `,
-			context{state: stateCSS, delim: delimDoubleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSS, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "style", Value: `background: url( x `}},
 		},
 		{
 			`<!-- foo`,
-			context{state: stateHTMLCmt},
+			parse.Context{State: parse.StateHTMLCmt},
 		},
 		{
 			`<!-->`,
-			context{state: stateHTMLCmt},
+			parse.Context{State: parse.StateHTMLCmt},
 		},
 		{
 			`<!--->`,
-			context{state: stateHTMLCmt},
+			parse.Context{State: parse.StateHTMLCmt},
 		},
 		{
 			`<!-- foo -->`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText},
 		},
 		{
 			`<script`,
-			context{state: stateTag, element: elementScript},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<script `,
-			context{state: stateTag, element: elementScript},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<script src="foo.js" `,
-			context{state: stateTag, element: elementScript},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<script src='foo.js' `,
-			context{state: stateTag, element: elementScript},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<script type=text/javascript `,
-			context{state: stateTag, element: elementScript},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "script"}, ScriptType: "text/javascript"},
 		},
 		{
 			`<script>`,
-			context{state: stateJS, jsCtx: jsCtxRegexp, element: elementScript},
+			parse.Context{State: parse.StateJS, JSCtx: parse.JSCtxRegexp, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<script>foo`,
-			context{state: stateJS, jsCtx: jsCtxDivOp, element: elementScript},
+			parse.Context{State: parse.StateJS, JSCtx: parse.JSCtxDivOp, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<script>foo</script>`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText},
 		},
 		{
 			`<script>foo</script><!--`,
-			context{state: stateHTMLCmt},
+			parse.Context{State: parse.StateHTMLCmt},
 		},
 		{
 			`<script>document.write("<p>foo</p>");`,
-			context{state: stateJS, element: elementScript},
+			parse.Context{State: parse.StateJS, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<script>document.write("<p>foo<\/script>");`,
-			context{state: stateJS, element: elementScript},
+			parse.Context{State: parse.StateJS, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<script>document.write("<script>alert(1)</script>");`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText},
 		},
 		{
 			`<script type="text/template">`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText, Element: parse.Element{Name: "script"}, ScriptType: "text/template"},
 		},
 		// covering issue 19968
 		{
 			`<script type="TEXT/JAVASCRIPT">`,
-			context{state: stateJS, element: elementScript},
+			parse.Context{State: parse.StateJS, Element: parse.Element{Name: "script"}, ScriptType: "text/javascript"},
 		},
 		// covering issue 19965
 		{
 			`<script TYPE="text/template">`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText, Element: parse.Element{Name: "script"}, ScriptType: "text/template"},
 		},
 		{
 			`<script type="notjs">`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText, Element: parse.Element{Name: "script"}, ScriptType: "notjs"},
+		},
+		{
+			`<script type="notjs">foo`,
+			parse.Context{State: parse.StateText, Element: parse.Element{Name: "script"}, ScriptType: "notjs"},
+		},
+		{
+			`<script type="notjs">foo</script>`,
+			parse.Context{State: parse.StateText},
 		},
 		{
 			`<Script>`,
-			context{state: stateJS, element: elementScript},
+			parse.Context{State: parse.StateJS, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<SCRIPT>foo`,
-			context{state: stateJS, jsCtx: jsCtxDivOp, element: elementScript},
+			parse.Context{State: parse.StateJS, JSCtx: parse.JSCtxDivOp, Element: parse.Element{Name: "script"}},
 		},
 		{
 			`<textarea>value`,
-			context{state: stateRCDATA, element: elementTextarea},
+			parse.Context{State: parse.StateRCDATA, Element: parse.Element{Name: "textarea"}},
 		},
 		{
 			`<textarea>value</TEXTAREA>`,
-			context{state: stateText},
+			parse.Context{State: parse.StateText},
 		},
 		{
 			`<textarea name=html><b`,
-			context{state: stateRCDATA, element: elementTextarea},
+			parse.Context{State: parse.StateRCDATA, Element: parse.Element{Name: "textarea"}},
 		},
 		{
 			`<title>value`,
-			context{state: stateRCDATA, element: elementTitle},
+			parse.Context{State: parse.StateRCDATA, Element: parse.Element{Name: "title"}},
 		},
 		{
 			`<style>value`,
-			context{state: stateCSS, element: elementStyle},
+			parse.Context{State: parse.StateCSS, Element: parse.Element{Name: "style"}},
 		},
 		{
 			`<a xlink:href`,
-			context{state: stateAttrName, attr: attrURL},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "xlink:href"}},
 		},
 		{
 			`<a xmlns`,
-			context{state: stateAttrName, attr: attrURL},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "xmlns"}},
 		},
 		{
 			`<a xmlns:foo`,
-			context{state: stateAttrName, attr: attrURL},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "xmlns:foo"}},
 		},
 		{
 			`<a xmlnsxyz`,
-			context{state: stateAttrName},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "xmlnsxyz"}},
 		},
 		{
 			`<a data-url`,
-			context{state: stateAttrName, attr: attrURL},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "data-url"}},
 		},
 		{
 			`<a data-iconUri`,
-			context{state: stateAttrName, attr: attrURL},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "data-iconuri"}},
 		},
 		{
 			`<a data-urlItem`,
-			context{state: stateAttrName, attr: attrURL},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "data-urlitem"}},
 		},
 		{
 			`<a g:`,
-			context{state: stateAttrName},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "g:"}},
 		},
 		{
 			`<a g:url`,
-			context{state: stateAttrName, attr: attrURL},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "g:url"}},
 		},
 		{
 			`<a g:iconUri`,
-			context{state: stateAttrName, attr: attrURL},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "g:iconuri"}},
 		},
 		{
 			`<a g:urlItem`,
-			context{state: stateAttrName, attr: attrURL},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "g:urlitem"}},
 		},
 		{
 			`<a g:value`,
-			context{state: stateAttrName},
+			parse.Context{State: parse.StateAttrName, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "g:value"}},
 		},
 		{
 			`<a svg:style='`,
-			context{state: stateCSS, delim: delimSingleQuote, attr: attrStyle},
+			parse.Context{State: parse.StateCSS, Delim: parse.DelimSingleQuote, Element: parse.Element{Name: "a"}, Attr: parse.Attr{Name: "svg:style"}},
 		},
 		{
 			`<svg:font-face`,
-			context{state: stateTag},
+			parse.Context{State: parse.StateTag, Element: parse.Element{Name: "svg:font-face"}},
 		},
 		{
 			`<svg:a svg:onclick="`,
-			context{state: stateJS, delim: delimDoubleQuote, attr: attrScript},
+			parse.Context{State: parse.StateJS, Delim: parse.DelimDoubleQuote, Element: parse.Element{Name: "svg:a"}, Attr: parse.Attr{Name: "svg:onclick"}},
 		},
 		{
 			`<svg:a svg:onclick="x()">`,
-			context{},
+			parse.Context{Element: parse.Element{Name: "svg:a"}},
+		},
+		{
+			`<link rel="bookmark" href=`,
+			parse.Context{State: parse.StateBeforeValue, Element: parse.Element{Name: "link"}, Attr: parse.Attr{Name: "href"}, LinkRel: " bookmark "},
+		},
+		{
+			`<link rel="   AuThOr cite    LICENSE   " href=`,
+			parse.Context{State: parse.StateBeforeValue, Element: parse.Element{Name: "link"}, Attr: parse.Attr{Name: "href"}, LinkRel: " author cite license "},
+		},
+		{
+			`<link rel="bookmark" href="www.foo.com">`,
+			parse.Context{State: parse.StateText},
 		},
 	}
 
 	for _, test := range tests {
-		b, e := []byte(test.input), makeEscaper(nil)
-		c := e.escapeText(context{}, &parse.TextNode{NodeType: parse.NodeText, Text: b})
-		if !test.output.eq(c) {
-			t.Errorf("input %q: want context\n\t%v\ngot\n\t%v", test.input, test.output, c)
+		b, e := []byte(test.input), makeEscaper(&nameSpace{})
+		c := e.escapeText(parse.Context{}, &textparse.TextNode{NodeType: textparse.NodeText, Text: b})
+		if !test.output.Eq(c) {
+			t.Errorf("input %s: want context\n\t%+v\ngot\n\t%+v", test.input, test.output, c)
 			continue
 		}
 		if test.input != string(b) {
-			t.Errorf("input %q: text node was modified: want %q got %q", test.input, test.input, b)
+			t.Errorf("input %s: text node was modified: want %q got %q", test.input, test.input, b)
 			continue
 		}
 	}
@@ -1680,7 +1707,7 @@ func TestEnsurePipelineContains(t *testing.T) {
 	}
 	for i, test := range tests {
 		tmpl := template.Must(template.New("test").Parse(test.input))
-		action, ok := (tmpl.Tree.Root.Nodes[0].(*parse.ActionNode))
+		action, ok := (tmpl.Tree.Root.Nodes[0].(*textparse.ActionNode))
 		if !ok {
 			t.Errorf("First node is not an action: %s", test.input)
 			continue
@@ -1884,6 +1911,46 @@ func TestIdempotentExecute(t *testing.T) {
 	want = "<body>Hello, Ladies &amp; Gentlemen!</body>"
 	if got.String() != want {
 		t.Errorf("after executing template \"main\", got:\n\t%q\nwant:\n\t%q\n", got.String(), want)
+	}
+}
+
+func TestCSPCompatibilityError(t *testing.T) {
+	var b bytes.Buffer
+	for _, test := range [...]struct {
+		in, err string
+	}{
+		{`<a href="javascript:alert(1)">foo</a>`, `"javascript:" URI disallowed for CSP compatibility`},
+		{`<a href='javascript:alert(1)'>foo</a>`, `"javascript:" URI disallowed for CSP compatibility`},
+		{`<a href=javascript:alert(1)>foo</a>`, `"javascript:" URI disallowed for CSP compatibility`},
+		{`<a href=javascript:alert(1)>foo</a>`, `"javascript:" URI disallowed for CSP compatibility`},
+		{`<a href="javascript:alert({{ "10" }})">foo</a>`, `"javascript:" URI disallowed for CSP compatibility`},
+		{`<span onclick="handle();">foo</span>`, `inline event handler "onclick" is disallowed for CSP compatibility`},
+		{`<span onchange="handle();">foo</span>`, `inline event handler "onchange" is disallowed for CSP compatibility`},
+		{`<span onmouseover="handle();">foo</span>`, `inline event handler "onmouseover" is disallowed for CSP compatibility`},
+		{`<span onmouseout="handle();">foo</span>`, `inline event handler "onmouseout" is disallowed for CSP compatibility`},
+		{`<span onkeydown="handle();">foo</span>`, `inline event handler "onkeydown" is disallowed for CSP compatibility`},
+		{`<span onload="handle();">foo</span>`, `inline event handler "onload" is disallowed for CSP compatibility`},
+		{`<span title="foo" onclick="handle();" id="foo">foo</span>`, `inline event handler "onclick" is disallowed for CSP compatibility`},
+		{`<img src=foo.png Onerror="handle();">`, `inline event handler "onerror" is disallowed for CSP compatibility`},
+	} {
+		tmpl := Must(New("").CSPCompatible().Parse(test.in))
+		err := tmpl.Execute(&b, nil)
+		if err == nil {
+			t.Errorf("template %s : expected error", test.in)
+			continue
+		}
+		parseErr, ok := err.(*parse.Error)
+		if !ok {
+			t.Errorf("template %s : expected error of type parse.Error", test.in)
+			continue
+		}
+		if parseErr.ErrorCode != parse.ErrCSPCompatibility {
+			t.Errorf("template %s : parseErr.ErrorCode == %d, want %d (ErrCSPCompatibility)", test.in, parseErr.ErrorCode, parse.ErrCSPCompatibility)
+			continue
+		}
+		if !strings.Contains(err.Error(), test.err) {
+			t.Errorf("template %s : got error:\n\t%s\ndoes not contain:\n\t%s", test.in, err, test.err)
+		}
 	}
 }
 
