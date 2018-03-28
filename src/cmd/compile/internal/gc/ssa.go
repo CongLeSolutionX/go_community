@@ -85,6 +85,13 @@ func initssaconfig() {
 	// GO386=387 runtime functions
 	ControlWord64trunc = sysfunc("controlWord64trunc")
 	ControlWord32 = sysfunc("controlWord32")
+
+	// Wasm
+	WasmMove = sysfunc("wasmmove")
+	WasmZero = sysfunc("wasmzero")
+	WasmDiv = sysfunc("wasmdiv")
+	WasmTrunc = sysfunc("wasmtrunc")
+	SigPanic = sysfunc("sigpanic")
 }
 
 // buildssa builds an SSA function for fn.
@@ -1726,7 +1733,16 @@ func (s *state) expr(n *Node) *ssa.Value {
 		if ft.IsInteger() && tt.IsInteger() {
 			var op ssa.Op
 			if tt.Size() == ft.Size() {
-				op = ssa.OpCopy
+				if s.config.Ctxt().Arch.Arch == sys.ArchWasm {
+					// The assumption that signed and unsiged integers of the same size
+					// can simply be copied, does not hold for wasm. It stores all integers
+					// in 64-bit variables and changing the signedness of integers with a
+					// size smaller than 64 bits requires a conversion.
+					// TODO(neelance): handle in a generic way on this level
+					op = ssa.OpCvt
+				} else {
+					op = ssa.OpCopy
+				}
 			} else if tt.Size() < ft.Size() {
 				// truncation
 				switch 10*ft.Size() + tt.Size() {
@@ -2828,7 +2844,7 @@ func init() {
 	addF("runtime", "getcallerpc",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			return s.newValue0(ssa.OpGetCallerPC, s.f.Config.Types.Uintptr)
-		}, sys.AMD64, sys.I386)
+		}, sys.AMD64, sys.I386, sys.Wasm)
 
 	add("runtime", "getcallersp",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
@@ -5196,7 +5212,7 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 	} else {
 		// TODO(mdempsky): Can these differences be eliminated?
 		switch thearch.LinkArch.Family {
-		case sys.AMD64, sys.I386, sys.PPC64, sys.S390X:
+		case sys.AMD64, sys.I386, sys.PPC64, sys.S390X, sys.Wasm:
 			p.To.Type = obj.TYPE_REG
 		case sys.ARM, sys.ARM64, sys.MIPS, sys.MIPS64:
 			p.To.Type = obj.TYPE_MEM
