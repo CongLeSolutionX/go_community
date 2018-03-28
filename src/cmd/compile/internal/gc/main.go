@@ -319,8 +319,8 @@ func Main(archInit func(*Arch)) {
 	if nBackendWorkers > 1 && !concurrentBackendAllowed() {
 		log.Fatalf("cannot use concurrent backend compilation with provided flags; invoked as %v", os.Args)
 	}
-	if Ctxt.Flag_locationlists && len(Ctxt.Arch.DWARFRegisters) == 0 {
-		log.Fatalf("location lists requested but register mapping not available on %v", Ctxt.Arch.Name)
+	if len(Ctxt.Arch.DWARFRegisters) == 0 {
+		Ctxt.Flag_locationlists = false
 	}
 
 	// parse -d argument
