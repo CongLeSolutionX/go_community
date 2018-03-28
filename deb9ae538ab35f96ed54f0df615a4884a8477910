@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cbe6a1b_ad1242ae",
+        "filename": "src/go/types/sizes.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-03-28T15:52:37Z",
+      "side": 1,
+      "message": "Why are pointers 64-bit if we are limited to 4GB of memory?",
+      "revId": "deb9ae538ab35f96ed54f0df615a4884a8477910",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
