@@ -6,12 +6,13 @@ package template
 
 import (
 	"fmt"
+	"html/template/parse"
 	"io"
 	"io/ioutil"
 	"path/filepath"
 	"sync"
 	"text/template"
-	"text/template/parse"
+	textparse "text/template/parse"
 )
 
 // Template is a specialized Template from "text/template" that produces a safe
@@ -24,7 +25,7 @@ type Template struct {
 	// template's in sync.
 	text *template.Template
 	// The underlying template's parse tree, updated to be HTML-safe.
-	Tree       *parse.Tree
+	Tree       *textparse.Tree
 	*nameSpace // common to all associated templates
 }
 
@@ -36,7 +37,12 @@ type nameSpace struct {
 	mu      sync.Mutex
 	set     map[string]*Template
 	escaped bool
-	esc     escaper
+	// cspCompatible indicates whether inline event handlers and
+	// javascript: URIs are disallowed in templates in this namespace.
+	cspCompatible bool
+	esc           escaper
+	// escaperForContext is called to decide which escapers to insert into actions during escaping.
+	escaperForContext EscaperForContext
 }
 
 // Templates returns a slice of the templates associated with t, including t
@@ -212,7 +218,7 @@ func (t *Template) Parse(text string) (*Template, error) {
 // and associates it with t.
 //
 // It returns an error if t or any associated template has already been executed.
-func (t *Template) AddParseTree(name string, tree *parse.Tree) (*Template, error) {
+func (t *Template) AddParseTree(name string, tree *textparse.Tree) (*Template, error) {
 	if err := t.checkCanParse(); err != nil {
 		return nil, err
 	}
@@ -251,7 +257,10 @@ func (t *Template) Clone() (*Template, error) {
 	if err != nil {
 		return nil, err
 	}
-	ns := &nameSpace{set: make(map[string]*Template)}
+	ns := &nameSpace{
+		set:               make(map[string]*Template),
+		escaperForContext: t.nameSpace.escaperForContext,
+	}
 	ns.esc = makeEscaper(ns)
 	ret := &Template{
 		nil,
@@ -280,7 +289,10 @@ func (t *Template) Clone() (*Template, error) {
 
 // New allocates a new HTML template with the given name.
 func New(name string) *Template {
-	ns := &nameSpace{set: make(map[string]*Template)}
+	ns := &nameSpace{
+		set:               make(map[string]*Template),
+		escaperForContext: defaultEscaperForContext,
+	}
 	ns.esc = makeEscaper(ns)
 	tmpl := &Template{
 		nil,
@@ -342,6 +354,46 @@ type FuncMap map[string]interface{}
 // value is the template, so calls can be chained.
 func (t *Template) Funcs(funcMap FuncMap) *Template {
 	t.text.Funcs(template.FuncMap(funcMap))
+	return t
+}
+
+// EscaperForContext is a function that returns an ordered list of names of functions
+// that will be called to escape data values found in the given HTML context.
+//
+// For example, if Escaper(c) returns ["jsEscaper", "noSpaceEscaper"], all actions
+// {{ … }} found in context c will be rewritten as {{ … | jsEscaper | noSpaceEscaper }}
+// before being evaluated. If the action already contains a pipeline, the functions returned
+// by EscaperForContext will be inserted after the last command in the existing pipeline. This ensures
+// that the inserted escapers fully determine the evaluated output.
+type EscaperForContext func(c parse.Context) ([]string, error)
+
+// Escapers overrides the contextual autoescaping behavior for this template with
+// the given escaperForContext. It must be called before executing the template in
+// order for escaperForContext to take effect during template escaping.
+// It panics if escaperForContext is nil.
+// The return value is the template, so calls can be chained.
+func (t *Template) Escapers(escaperForContext EscaperForContext) *Template {
+	if escaperForContext == nil {
+		panic("html/template: cannot set nil EscaperForContext")
+	}
+	t.nameSpace.mu.Lock()
+	defer t.nameSpace.mu.Unlock()
+	t.nameSpace.escaperForContext = escaperForContext
+	return t
+}
+
+// CSPCompatible causes this template to check template text for
+// Content Security Policy (CSP) compatibility. The template will return errors
+// at execution time if inline event handler attribute names or javascript:
+// URIs are found in template text.
+//
+// For example, the following templates will cause errors:
+//     <span onclick="doThings();">A thing.</span> // inline event handler "onclick"
+//     <a href="javascript:linkClicked()">foo</a>  // javascript: URI present
+func (t *Template) CSPCompatible() *Template {
+	t.nameSpace.mu.Lock()
+	t.nameSpace.cspCompatible = true
+	t.nameSpace.mu.Unlock()
 	return t
 }
 
