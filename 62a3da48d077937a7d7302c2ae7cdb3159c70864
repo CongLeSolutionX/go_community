@@ -16,6 +16,29 @@
       "revId": "62a3da48d077937a7d7302c2ae7cdb3159c70864",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d7ba290_2840db33",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-28T17:17:45Z",
+      "side": 1,
+      "message": "This isn\u0027t right. We shouldn\u0027t be using the os.* functions... they look at the host\u0027s filesystem, but the archive/zip package lets you make any zip you want from any source, unrelated to what is on the host\u0027s disk.",
+      "range": {
+        "startLine": 256,
+        "startChar": 15,
+        "endLine": 256,
+        "endChar": 22
+      },
+      "revId": "62a3da48d077937a7d7302c2ae7cdb3159c70864",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
