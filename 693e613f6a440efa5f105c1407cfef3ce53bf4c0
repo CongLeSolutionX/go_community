@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ead9fb0b_4e51426d",
+        "filename": "src/net/http/pprof/pprof.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-03-28T18:43:50Z",
+      "side": 1,
+      "message": "This ResponseWriter.Header().Set races with the ResponseWriter.Write in the StartCPUProfile goroutine.",
+      "revId": "693e613f6a440efa5f105c1407cfef3ce53bf4c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf4930e1_5980a4da",
+        "filename": "src/net/http/pprof/pprof.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-03-28T18:43:50Z",
+      "side": 1,
+      "message": "Same here with the trace.Start goroutine.",
+      "revId": "693e613f6a440efa5f105c1407cfef3ce53bf4c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
