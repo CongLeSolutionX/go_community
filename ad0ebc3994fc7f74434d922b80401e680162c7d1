@@ -46,6 +46,30 @@
       "revId": "ad0ebc3994fc7f74434d922b80401e680162c7d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba55afbe_cd2adac8",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-03-28T13:58:26Z",
+      "side": 1,
+      "message": "The \"gomobile bind\" subcommand generates source code that in turn depend on support packages and files in golang.org/x/mobile/bind. The generated code and the golang.org/x/mobile packages must match, and so it is useful to detect whether the gomobile executable matches whatever is checked out in $GOPATH/src/golang.org/x/mobile.\n\nCurrently, only the \"gomobile version\" subcommand checks this but I would like to use the check every time \"gomobile bind\" is invoked.\n\nWithout \"go install -x -n\" or \"go list -f \u0027{{.Stale}}\u0027\" I\u0027m not sure how to proceed. I could detect the single \"rm -r ...\" line but that seems too unreliable. I could leave out the -n flag from the go install command but I don\u0027t think a rebuild of the running command (gomobile) will always work or be desired, in particular on Windows.",
+      "parentUuid": "c4b6c8ee_22779093",
+      "range": {
+        "startLine": 1141,
+        "startChar": 49,
+        "endLine": 1141,
+        "endChar": 59
+      },
+      "revId": "ad0ebc3994fc7f74434d922b80401e680162c7d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
