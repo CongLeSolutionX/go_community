@@ -34,6 +34,24 @@
       "revId": "deb9ae538ab35f96ed54f0df615a4884a8477910",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ddd82d0_207c4c94",
+        "filename": "src/go/types/sizes.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-03-28T21:07:54Z",
+      "side": 1,
+      "message": "Your link talks about separate wasm32 and wasm64 modes, so the plan is to only support wasm64 in the future? I\u0027m just surprised that having 64-bit pointers is simpler.",
+      "parentUuid": "deb83c9f_7f664095",
+      "revId": "deb9ae538ab35f96ed54f0df615a4884a8477910",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
