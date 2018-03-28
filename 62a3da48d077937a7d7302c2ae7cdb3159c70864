@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73b7ff8c_0cb1243b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-28T12:52:56Z",
+      "side": 1,
+      "message": "archive/zip: do not permit writing to a directory",
+      "revId": "62a3da48d077937a7d7302c2ae7cdb3159c70864",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
