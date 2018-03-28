@@ -22,6 +22,30 @@
       "revId": "ad0ebc3994fc7f74434d922b80401e680162c7d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4b6c8ee_22779093",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-28T12:44:14Z",
+      "side": 1,
+      "message": "I don\u0027t see a reasonable way to avoid printing this when using -n.  We would have to track whether the directory is created or not, and that seems like too much work for -n.\n\nI don\u0027t have any suggestions.  I\u0027m not quite sure why you need to check.",
+      "parentUuid": "f852a173_2db13bce",
+      "range": {
+        "startLine": 1141,
+        "startChar": 49,
+        "endLine": 1141,
+        "endChar": 59
+      },
+      "revId": "ad0ebc3994fc7f74434d922b80401e680162c7d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
