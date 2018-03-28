@@ -16,6 +16,24 @@
       "revId": "deb9ae538ab35f96ed54f0df615a4884a8477910",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deb83c9f_7f664095",
+        "filename": "src/go/types/sizes.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-03-28T19:36:55Z",
+      "side": 1,
+      "message": "My plan is to switch to 64-bit memory operations as soon as they are available, see https://github.com/WebAssembly/design/blob/master/FutureFeatures.md#linear-memory-bigger-than-4-gib. It also made the implementation simpler.",
+      "parentUuid": "7cbe6a1b_ad1242ae",
+      "revId": "deb9ae538ab35f96ed54f0df615a4884a8477910",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
