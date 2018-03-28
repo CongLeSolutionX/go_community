@@ -6,10 +6,11 @@ package template_test
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"os"
 	"strings"
+
+	"google3/third_party/golang/template/html/template/template"
 )
 
 func Example() {

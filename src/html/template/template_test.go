@@ -6,9 +6,10 @@ package template_test
 
 import (
 	"bytes"
-	. "html/template"
 	"strings"
 	"testing"
+
+	. "google3/third_party/golang/template/html/template/template"
 )
 
 func TestTemplateClone(t *testing.T) {

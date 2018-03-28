@@ -6,6 +6,7 @@ package template
 
 import (
 	"bytes"
+	"html/template/parse"
 	"strings"
 )
 
@@ -13,46 +14,46 @@ import (
 // A transition function takes a context and template text input, and returns
 // the updated context and the number of bytes consumed from the front of the
 // input.
-var transitionFunc = [...]func(context, []byte) (context, int){
-	stateText:        tText,
-	stateTag:         tTag,
-	stateAttrName:    tAttrName,
-	stateAfterName:   tAfterName,
-	stateBeforeValue: tBeforeValue,
-	stateHTMLCmt:     tHTMLCmt,
-	stateRCDATA:      tSpecialTagEnd,
-	stateAttr:        tAttr,
-	stateURL:         tURL,
-	stateSrcset:      tURL,
-	stateJS:          tJS,
-	stateJSDqStr:     tJSDelimited,
-	stateJSSqStr:     tJSDelimited,
-	stateJSRegexp:    tJSDelimited,
-	stateJSBlockCmt:  tBlockCmt,
-	stateJSLineCmt:   tLineCmt,
-	stateCSS:         tCSS,
-	stateCSSDqStr:    tCSSStr,
-	stateCSSSqStr:    tCSSStr,
-	stateCSSDqURL:    tCSSStr,
-	stateCSSSqURL:    tCSSStr,
-	stateCSSURL:      tCSSStr,
-	stateCSSBlockCmt: tBlockCmt,
-	stateCSSLineCmt:  tLineCmt,
-	stateError:       tError,
+var transitionFunc = [...]func(parse.Context, []byte) (parse.Context, int){
+	parse.StateText:        tText,
+	parse.StateTag:         tTag,
+	parse.StateAttrName:    tAttrName,
+	parse.StateAfterName:   tAfterName,
+	parse.StateBeforeValue: tBeforeValue,
+	parse.StateHTMLCmt:     tHTMLCmt,
+	parse.StateRCDATA:      tSpecialTagEnd,
+	parse.StateAttr:        tAttr,
+	parse.StateURL:         tURL,
+	parse.StateSrcset:      tURL,
+	parse.StateJS:          tJS,
+	parse.StateJSDqStr:     tJSDelimited,
+	parse.StateJSSqStr:     tJSDelimited,
+	parse.StateJSRegexp:    tJSDelimited,
+	parse.StateJSBlockCmt:  tBlockCmt,
+	parse.StateJSLineCmt:   tLineCmt,
+	parse.StateCSS:         tCSS,
+	parse.StateCSSDqStr:    tCSSStr,
+	parse.StateCSSSqStr:    tCSSStr,
+	parse.StateCSSDqURL:    tCSSStr,
+	parse.StateCSSSqURL:    tCSSStr,
+	parse.StateCSSURL:      tCSSStr,
+	parse.StateCSSBlockCmt: tBlockCmt,
+	parse.StateCSSLineCmt:  tLineCmt,
+	parse.StateError:       tError,
 }
 
 var commentStart = []byte("<!--")
 var commentEnd = []byte("-->")
 
 // tText is the context transition function for the text state.
-func tText(c context, s []byte) (context, int) {
+func tText(c parse.Context, s []byte) (parse.Context, int) {
 	k := 0
 	for {
 		i := k + bytes.IndexByte(s[k:], '<')
 		if i < k || i+1 == len(s) {
 			return c, len(s)
 		} else if i+4 <= len(s) && bytes.Equal(commentStart, s[i:i+4]) {
-			return context{state: stateHTMLCmt}, i + 4
+			return parse.Context{State: parse.StateHTMLCmt}, i + 4
 		}
 		i++
 		end := false
@@ -64,142 +65,174 @@ func tText(c context, s []byte) (context, int) {
 		}
 		j, e := eatTagName(s, i)
 		if j != i {
-			if end {
-				e = elementNone
-			}
 			// We've found an HTML tag.
-			return context{state: stateTag, element: e}, j
+			ret := parse.Context{State: parse.StateTag}
+			// Element name not needed if we are at the end of the element.
+			if !end {
+				ret.Element = e
+			}
+			return ret, j
 		}
 		k = j
 	}
 }
 
-var elementContentType = [...]state{
-	elementNone:     stateText,
-	elementScript:   stateJS,
-	elementStyle:    stateCSS,
-	elementTextarea: stateRCDATA,
-	elementTitle:    stateRCDATA,
+// specialElements contains the names of elements whose bodies are treated
+// differently by the parser and escaper from stateText.
+var specialElements = map[string]bool{
+	"script":   true,
+	"style":    true,
+	"textarea": true,
+	"title":    true,
+}
+
+// stateForElement maps element names to the appropriate state to handle the
+// element contents.
+var stateForElement = map[string]parse.State{
+	"script":   parse.StateJS,
+	"style":    parse.StateCSS,
+	"textarea": parse.StateRCDATA,
+	"title":    parse.StateRCDATA,
+}
+
+// voidElements contains the names of all void elements.
+// https://www.w3.org/TR/html5/syntax.html#void-elements
+var voidElements = map[string]bool{
+	"area":   true,
+	"base":   true,
+	"br":     true,
+	"col":    true,
+	"embed":  true,
+	"hr":     true,
+	"img":    true,
+	"input":  true,
+	"keygen": true,
+	"link":   true,
+	"meta":   true,
+	"param":  true,
+	"source": true,
+	"track":  true,
+	"wbr":    true,
 }
 
 // tTag is the context transition function for the tag state.
-func tTag(c context, s []byte) (context, int) {
+func tTag(c parse.Context, s []byte) (parse.Context, int) {
 	// Find the attribute name.
 	i := eatWhiteSpace(s, 0)
 	if i == len(s) {
 		return c, len(s)
 	}
 	if s[i] == '>' {
-		return context{
-			state:   elementContentType[c.element],
-			element: c.element,
-		}, i + 1
+		ret := parse.Context{
+			State:      stateForElement[c.Element.Name],
+			Element:    c.Element,
+			ScriptType: c.ScriptType,
+			LinkRel:    c.LinkRel,
+		}
+		if c.Element.Name != "" && voidElements[c.Element.Name] {
+			// Special case: end of start tag of a void element.
+			// Discard unnecessary state, since this element have no content.
+			ret.Element = parse.Element{}
+			ret.ScriptType = ""
+			ret.LinkRel = ""
+		}
+		if isNonJSScriptContent(c) {
+			// Special case: the body of this script element contains non-JS content.
+			ret.State = parse.StateText
+		}
+		return ret, i + 1
 	}
 	j, err := eatAttrName(s, i)
 	if err != nil {
-		return context{state: stateError, err: err}, len(s)
+		return parse.Context{State: parse.StateError, Err: err}, len(s)
 	}
-	state, attr := stateTag, attrNone
+	state := parse.StateTag
 	if i == j {
-		return context{
-			state: stateError,
-			err:   errorf(ErrBadHTML, nil, 0, "expected space, attr name, or end of tag, but got %q", s[i:]),
+		return parse.Context{
+			State: parse.StateError,
+			Err:   parse.Errorf(parse.ErrBadHTML, nil, 0, "expected space, attr name, or end of tag, but got %q", s[i:]),
 		}, len(s)
 	}
 
-	attrName := strings.ToLower(string(s[i:j]))
-	if c.element == elementScript && attrName == "type" {
-		attr = attrScriptType
-	} else {
-		switch attrType(attrName) {
-		case contentTypeURL:
-			attr = attrURL
-		case contentTypeCSS:
-			attr = attrStyle
-		case contentTypeJS:
-			attr = attrScript
-		case contentTypeSrcset:
-			attr = attrSrcset
-		}
-	}
-
 	if j == len(s) {
-		state = stateAttrName
+		state = parse.StateAttrName
 	} else {
-		state = stateAfterName
+		state = parse.StateAfterName
 	}
-	return context{state: state, element: c.element, attr: attr}, j
+	return parse.Context{
+		State:   state,
+		Element: c.Element,
+		Attr:    parse.Attr{Name: strings.ToLower(string(s[i:j]))},
+		LinkRel: c.LinkRel,
+	}, j
 }
 
-// tAttrName is the context transition function for stateAttrName.
-func tAttrName(c context, s []byte) (context, int) {
+// tAttrName is the context transition function for StateAttrName.
+func tAttrName(c parse.Context, s []byte) (parse.Context, int) {
 	i, err := eatAttrName(s, 0)
 	if err != nil {
-		return context{state: stateError, err: err}, len(s)
+		return parse.Context{State: parse.StateError, Err: err}, len(s)
 	} else if i != len(s) {
-		c.state = stateAfterName
+		c.State = parse.StateAfterName
 	}
 	return c, i
 }
 
-// tAfterName is the context transition function for stateAfterName.
-func tAfterName(c context, s []byte) (context, int) {
+// tAfterName is the context transition function for StateAfterName.
+func tAfterName(c parse.Context, s []byte) (parse.Context, int) {
 	// Look for the start of the value.
 	i := eatWhiteSpace(s, 0)
 	if i == len(s) {
 		return c, len(s)
 	} else if s[i] != '=' {
 		// Occurs due to tag ending '>', and valueless attribute.
-		c.state = stateTag
+		c.State = parse.StateTag
 		return c, i
 	}
-	c.state = stateBeforeValue
+	c.State = parse.StateBeforeValue
 	// Consume the "=".
 	return c, i + 1
 }
 
-var attrStartStates = [...]state{
-	attrNone:       stateAttr,
-	attrScript:     stateJS,
-	attrScriptType: stateAttr,
-	attrStyle:      stateCSS,
-	attrURL:        stateURL,
-	attrSrcset:     stateSrcset,
+func attrStartState(attr parse.Attr) parse.State {
+	switch attrType(attr.Name) {
+	case contentTypeURL:
+		return parse.StateURL
+	case contentTypeSrcset:
+		return parse.StateSrcset
+	case contentTypeCSS:
+		return parse.StateCSS
+	case contentTypeJS:
+		return parse.StateJS
+	default:
+		return parse.StateAttr
+	}
 }
 
-// tBeforeValue is the context transition function for stateBeforeValue.
-func tBeforeValue(c context, s []byte) (context, int) {
+// tBeforeValue is the context transition function for StateBeforeValue.
+func tBeforeValue(c parse.Context, s []byte) (parse.Context, int) {
 	i := eatWhiteSpace(s, 0)
 	if i == len(s) {
 		return c, len(s)
 	}
 	// Find the attribute delimiter.
-	delim := delimSpaceOrTagEnd
+	delim := parse.DelimSpaceOrTagEnd
 	switch s[i] {
 	case '\'':
-		delim, i = delimSingleQuote, i+1
+		delim, i = parse.DelimSingleQuote, i+1
 	case '"':
-		delim, i = delimDoubleQuote, i+1
+		delim, i = parse.DelimDoubleQuote, i+1
 	}
-	c.state, c.delim = attrStartStates[c.attr], delim
+	c.State, c.Delim = attrStartState(c.Attr), delim
 	return c, i
 }
 
-// tHTMLCmt is the context transition function for stateHTMLCmt.
-func tHTMLCmt(c context, s []byte) (context, int) {
+// tHTMLCmt is the context transition function for StateHTMLCmt.
+func tHTMLCmt(c parse.Context, s []byte) (parse.Context, int) {
 	if i := bytes.Index(s, commentEnd); i != -1 {
-		return context{}, i + 3
+		return parse.Context{}, i + 3
 	}
 	return c, len(s)
-}
-
-// specialTagEndMarkers maps element types to the character sequence that
-// case-insensitively signals the end of the special tag body.
-var specialTagEndMarkers = [...][]byte{
-	elementScript:   []byte("script"),
-	elementStyle:    []byte("style"),
-	elementTextarea: []byte("textarea"),
-	elementTitle:    []byte("title"),
 }
 
 var (
@@ -209,10 +242,10 @@ var (
 
 // tSpecialTagEnd is the context transition function for raw text and RCDATA
 // element states.
-func tSpecialTagEnd(c context, s []byte) (context, int) {
-	if c.element != elementNone {
-		if i := indexTagEnd(s, specialTagEndMarkers[c.element]); i != -1 {
-			return context{}, i
+func tSpecialTagEnd(c parse.Context, s []byte) (parse.Context, int) {
+	if specialElements[c.Element.Name] && !isNonJSScriptContent(c) {
+		if i := indexTagEnd(s, []byte(c.Element.Name)); i != -1 {
+			return parse.Context{}, i
 		}
 	}
 	return c, len(s)
@@ -244,50 +277,51 @@ func indexTagEnd(s []byte, tag []byte) int {
 }
 
 // tAttr is the context transition function for the attribute state.
-func tAttr(c context, s []byte) (context, int) {
+func tAttr(c parse.Context, s []byte) (parse.Context, int) {
 	return c, len(s)
 }
 
 // tURL is the context transition function for the URL state.
-func tURL(c context, s []byte) (context, int) {
-	if bytes.ContainsAny(s, "#?") {
-		c.urlPart = urlPartQueryOrFrag
-	} else if len(s) != eatWhiteSpace(s, 0) && c.urlPart == urlPartNone {
+func tURL(c parse.Context, s []byte) (parse.Context, int) {
+	// TODO(samueltan): replace this with bytes.ContainsAny once AppEngine supports go1.8.
+	if strings.ContainsAny(string(s), "#?") {
+		c.URLPart = parse.URLPartQueryOrFrag
+	} else if len(s) != eatWhiteSpace(s, 0) && c.URLPart == parse.URLPartNone {
 		// HTML5 uses "Valid URL potentially surrounded by spaces" for
 		// attrs: http://www.w3.org/TR/html5/index.html#attributes-1
-		c.urlPart = urlPartPreQuery
+		c.URLPart = parse.URLPartPreQuery
 	}
 	return c, len(s)
 }
 
 // tJS is the context transition function for the JS state.
-func tJS(c context, s []byte) (context, int) {
+func tJS(c parse.Context, s []byte) (parse.Context, int) {
 	i := bytes.IndexAny(s, `"'/`)
 	if i == -1 {
 		// Entire input is non string, comment, regexp tokens.
-		c.jsCtx = nextJSCtx(s, c.jsCtx)
+		c.JSCtx = nextJSCtx(s, c.JSCtx)
 		return c, len(s)
 	}
-	c.jsCtx = nextJSCtx(s[:i], c.jsCtx)
+	c.JSCtx = nextJSCtx(s[:i], c.JSCtx)
 	switch s[i] {
 	case '"':
-		c.state, c.jsCtx = stateJSDqStr, jsCtxRegexp
+		c.State, c.JSCtx = parse.StateJSDqStr, parse.JSCtxRegexp
 	case '\'':
-		c.state, c.jsCtx = stateJSSqStr, jsCtxRegexp
+		c.State, c.JSCtx = parse.StateJSSqStr, parse.JSCtxRegexp
 	case '/':
 		switch {
 		case i+1 < len(s) && s[i+1] == '/':
-			c.state, i = stateJSLineCmt, i+1
+			c.State, i = parse.StateJSLineCmt, i+1
 		case i+1 < len(s) && s[i+1] == '*':
-			c.state, i = stateJSBlockCmt, i+1
-		case c.jsCtx == jsCtxRegexp:
-			c.state = stateJSRegexp
-		case c.jsCtx == jsCtxDivOp:
-			c.jsCtx = jsCtxRegexp
+			c.State, i = parse.StateJSBlockCmt, i+1
+		case c.JSCtx == parse.JSCtxRegexp:
+			c.State = parse.StateJSRegexp
+		case c.JSCtx == parse.JSCtxDivOp:
+			c.JSCtx = parse.JSCtxRegexp
 		default:
-			return context{
-				state: stateError,
-				err:   errorf(ErrSlashAmbig, nil, 0, "'/' could start a division or regexp: %.32q", s[i:]),
+			return parse.Context{
+				State: parse.StateError,
+				Err:   parse.Errorf(parse.ErrSlashAmbig, nil, 0, "'/' could start a division or regexp: %.32q", s[i:]),
 			}, len(s)
 		}
 	default:
@@ -298,12 +332,12 @@ func tJS(c context, s []byte) (context, int) {
 
 // tJSDelimited is the context transition function for the JS string and regexp
 // states.
-func tJSDelimited(c context, s []byte) (context, int) {
+func tJSDelimited(c parse.Context, s []byte) (parse.Context, int) {
 	specials := `\"`
-	switch c.state {
-	case stateJSSqStr:
+	switch c.State {
+	case parse.StateJSSqStr:
 		specials = `\'`
-	case stateJSRegexp:
+	case parse.StateJSRegexp:
 		specials = `\/[]`
 	}
 
@@ -317,9 +351,9 @@ func tJSDelimited(c context, s []byte) (context, int) {
 		case '\\':
 			i++
 			if i == len(s) {
-				return context{
-					state: stateError,
-					err:   errorf(ErrPartialEscape, nil, 0, "unfinished escape sequence in JS string: %q", s),
+				return parse.Context{
+					State: parse.StateError,
+					Err:   parse.Errorf(parse.ErrPartialEscape, nil, 0, "unfinished escape sequence in JS string: %q", s),
 				}, len(s)
 			}
 		case '[':
@@ -329,7 +363,7 @@ func tJSDelimited(c context, s []byte) (context, int) {
 		default:
 			// end delimiter
 			if !inCharset {
-				c.state, c.jsCtx = stateJS, jsCtxDivOp
+				c.State, c.JSCtx = parse.StateJS, parse.JSCtxDivOp
 				return c, i + 1
 			}
 		}
@@ -339,9 +373,9 @@ func tJSDelimited(c context, s []byte) (context, int) {
 	if inCharset {
 		// This can be fixed by making context richer if interpolation
 		// into charsets is desired.
-		return context{
-			state: stateError,
-			err:   errorf(ErrPartialCharset, nil, 0, "unfinished JS regexp charset: %q", s),
+		return parse.Context{
+			State: parse.StateError,
+			Err:   parse.Errorf(parse.ErrPartialCharset, nil, 0, "unfinished JS regexp charset: %q", s),
 		}, len(s)
 	}
 
@@ -351,31 +385,31 @@ func tJSDelimited(c context, s []byte) (context, int) {
 var blockCommentEnd = []byte("*/")
 
 // tBlockCmt is the context transition function for /*comment*/ states.
-func tBlockCmt(c context, s []byte) (context, int) {
+func tBlockCmt(c parse.Context, s []byte) (parse.Context, int) {
 	i := bytes.Index(s, blockCommentEnd)
 	if i == -1 {
 		return c, len(s)
 	}
-	switch c.state {
-	case stateJSBlockCmt:
-		c.state = stateJS
-	case stateCSSBlockCmt:
-		c.state = stateCSS
+	switch c.State {
+	case parse.StateJSBlockCmt:
+		c.State = parse.StateJS
+	case parse.StateCSSBlockCmt:
+		c.State = parse.StateCSS
 	default:
-		panic(c.state.String())
+		panic(c.State.String())
 	}
 	return c, i + 2
 }
 
 // tLineCmt is the context transition function for //comment states.
-func tLineCmt(c context, s []byte) (context, int) {
+func tLineCmt(c parse.Context, s []byte) (parse.Context, int) {
 	var lineTerminators string
-	var endState state
-	switch c.state {
-	case stateJSLineCmt:
-		lineTerminators, endState = "\n\r\u2028\u2029", stateJS
-	case stateCSSLineCmt:
-		lineTerminators, endState = "\n\f\r", stateCSS
+	var endState parse.State
+	switch c.State {
+	case parse.StateJSLineCmt:
+		lineTerminators, endState = "\n\r\u2028\u2029", parse.StateJS
+	case parse.StateCSSLineCmt:
+		lineTerminators, endState = "\n\f\r", parse.StateCSS
 		// Line comments are not part of any published CSS standard but
 		// are supported by the 4 major browsers.
 		// This defines line comments as
@@ -384,14 +418,14 @@ func tLineCmt(c context, s []byte) (context, int) {
 		// newlines:
 		//     nl ::= #xA | #xD #xA | #xD | #xC
 	default:
-		panic(c.state.String())
+		panic(c.State.String())
 	}
 
 	i := bytes.IndexAny(s, lineTerminators)
 	if i == -1 {
 		return c, len(s)
 	}
-	c.state = endState
+	c.State = endState
 	// Per section 7.4 of EcmaScript 5 : http://es5.github.com/#x7.4
 	// "However, the LineTerminator at the end of the line is not
 	// considered to be part of the single-line comment; it is
@@ -401,7 +435,7 @@ func tLineCmt(c context, s []byte) (context, int) {
 }
 
 // tCSS is the context transition function for the CSS state.
-func tCSS(c context, s []byte) (context, int) {
+func tCSS(c parse.Context, s []byte) (parse.Context, int) {
 	// CSS quoted strings are almost never used except for:
 	// (1) URLs as in background: "/foo.png"
 	// (2) Multiword font-names as in font-family: "Times New Roman"
@@ -421,7 +455,7 @@ func tCSS(c context, s []byte) (context, int) {
 	// In (1), our conservative assumption is justified.
 	// In (2), valid font names do not contain ':', '?', or '#', so our
 	// conservative assumption is fine since we will never transition past
-	// urlPartPreQuery.
+	// URLPartPreQuery.
 	// In (3), our protocol heuristic should not be tripped, and there
 	// should not be non-space content after a '?' or '#', so as long as
 	// we only %-encode RFC 3986 reserved characters we are ok.
@@ -443,11 +477,11 @@ func tCSS(c context, s []byte) (context, int) {
 				j := len(s) - len(bytes.TrimLeft(s[i+1:], "\t\n\f\r "))
 				switch {
 				case j != len(s) && s[j] == '"':
-					c.state, j = stateCSSDqURL, j+1
+					c.State, j = parse.StateCSSDqURL, j+1
 				case j != len(s) && s[j] == '\'':
-					c.state, j = stateCSSSqURL, j+1
+					c.State, j = parse.StateCSSSqURL, j+1
 				default:
-					c.state = stateCSSURL
+					c.State = parse.StateCSSURL
 				}
 				return c, j
 			}
@@ -455,18 +489,18 @@ func tCSS(c context, s []byte) (context, int) {
 			if i+1 < len(s) {
 				switch s[i+1] {
 				case '/':
-					c.state = stateCSSLineCmt
+					c.State = parse.StateCSSLineCmt
 					return c, i + 2
 				case '*':
-					c.state = stateCSSBlockCmt
+					c.State = parse.StateCSSBlockCmt
 					return c, i + 2
 				}
 			}
 		case '"':
-			c.state = stateCSSDqStr
+			c.State = parse.StateCSSDqStr
 			return c, i + 1
 		case '\'':
-			c.state = stateCSSSqStr
+			c.State = parse.StateCSSSqStr
 			return c, i + 1
 		}
 		k = i + 1
@@ -474,19 +508,19 @@ func tCSS(c context, s []byte) (context, int) {
 }
 
 // tCSSStr is the context transition function for the CSS string and URL states.
-func tCSSStr(c context, s []byte) (context, int) {
+func tCSSStr(c parse.Context, s []byte) (parse.Context, int) {
 	var endAndEsc string
-	switch c.state {
-	case stateCSSDqStr, stateCSSDqURL:
+	switch c.State {
+	case parse.StateCSSDqStr, parse.StateCSSDqURL:
 		endAndEsc = `\"`
-	case stateCSSSqStr, stateCSSSqURL:
+	case parse.StateCSSSqStr, parse.StateCSSSqURL:
 		endAndEsc = `\'`
-	case stateCSSURL:
+	case parse.StateCSSURL:
 		// Unquoted URLs end with a newline or close parenthesis.
 		// The below includes the wc (whitespace character) and nl.
 		endAndEsc = "\\\t\n\f\r )"
 	default:
-		panic(c.state.String())
+		panic(c.State.String())
 	}
 
 	k := 0
@@ -499,13 +533,13 @@ func tCSSStr(c context, s []byte) (context, int) {
 		if s[i] == '\\' {
 			i++
 			if i == len(s) {
-				return context{
-					state: stateError,
-					err:   errorf(ErrPartialEscape, nil, 0, "unfinished escape sequence in CSS string: %q", s),
+				return parse.Context{
+					State: parse.StateError,
+					Err:   parse.Errorf(parse.ErrPartialEscape, nil, 0, "unfinished escape sequence in CSS string: %q", s),
 				}, len(s)
 			}
 		} else {
-			c.state = stateCSS
+			c.State = parse.StateCSS
 			return c, i + 1
 		}
 		c, _ = tURL(c, decodeCSS(s[:i+1]))
@@ -514,7 +548,7 @@ func tCSSStr(c context, s []byte) (context, int) {
 }
 
 // tError is the context transition function for the error state.
-func tError(c context, s []byte) (context, int) {
+func tError(c parse.Context, s []byte) (parse.Context, int) {
 	return c, len(s)
 }
 
@@ -522,7 +556,7 @@ func tError(c context, s []byte) (context, int) {
 // It returns an error if s[i:] does not look like it begins with an
 // attribute name, such as encountering a quote mark without a preceding
 // equals sign.
-func eatAttrName(s []byte, i int) (int, *Error) {
+func eatAttrName(s []byte, i int) (int, *parse.Error) {
 	for j := i; j < len(s); j++ {
 		switch s[j] {
 		case ' ', '\t', '\n', '\f', '\r', '=', '>':
@@ -531,19 +565,12 @@ func eatAttrName(s []byte, i int) (int, *Error) {
 			// These result in a parse warning in HTML5 and are
 			// indicative of serious problems if seen in an attr
 			// name in a template.
-			return -1, errorf(ErrBadHTML, nil, 0, "%q in attribute name: %.32q", s[j:j+1], s)
+			return -1, parse.Errorf(parse.ErrBadHTML, nil, 0, "%q in attribute name: %.32q", s[j:j+1], s)
 		default:
 			// No-op.
 		}
 	}
 	return len(s), nil
-}
-
-var elementNameMap = map[string]element{
-	"script":   elementScript,
-	"style":    elementStyle,
-	"textarea": elementTextarea,
-	"title":    elementTitle,
 }
 
 // asciiAlpha reports whether c is an ASCII letter.
@@ -556,10 +583,10 @@ func asciiAlphaNum(c byte) bool {
 	return asciiAlpha(c) || '0' <= c && c <= '9'
 }
 
-// eatTagName returns the largest j such that s[i:j] is a tag name and the tag type.
-func eatTagName(s []byte, i int) (int, element) {
+// eatTagName returns the largest j such that s[i:j] is a tag name and the tag name.
+func eatTagName(s []byte, i int) (int, parse.Element) {
 	if i == len(s) || !asciiAlpha(s[i]) {
-		return i, elementNone
+		return i, parse.Element{}
 	}
 	j := i + 1
 	for j < len(s) {
@@ -575,7 +602,7 @@ func eatTagName(s []byte, i int) (int, element) {
 		}
 		break
 	}
-	return j, elementNameMap[strings.ToLower(string(s[i:j]))]
+	return j, parse.Element{Name: strings.ToLower(string(s[i:j]))}
 }
 
 // eatWhiteSpace returns the largest j such that s[i:j] is white space.
@@ -589,4 +616,10 @@ func eatWhiteSpace(s []byte, i int) int {
 		}
 	}
 	return len(s)
+}
+
+// isNonJSScriptContent returns whether the parser is in a script element whose
+// contents are not considered Javascript.
+func isNonJSScriptContent(c parse.Context) bool {
+	return c.Element.Name == "script" && c.ScriptType != "" && !isJSType(c.ScriptType)
 }

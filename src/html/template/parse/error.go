@@ -1,8 +1,8 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2017 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package template
+package parse
 
 import (
 	"fmt"
@@ -211,6 +211,49 @@ const (
 	//   pipeline occurs in an unquoted attribute value context, "html" is
 	//   disallowed. Avoid using "html" and "urlquery" entirely in new templates.
 	ErrPredefinedEscaper
+
+	// ErrEscapeAction: "cannot escape action ..."
+	// Discussion:
+	//   Error returned while escaping an action using EscaperForContext.
+	//   Refer to error message for more details.
+	ErrEscapeAction
+
+	// ErrCSPCompatibility: `"javascript:" URI disallowed for CSP compatibility`,
+	//   "inline event handler ... is disallowed for CSP compatibility
+	// Examples:
+	//   <span onclick="doThings();">A thing.</span>
+	//   <a href="javascript:linkClicked()">foo</a>
+	// Discussion:
+	//   Inline event handlers (onclick="...", onerror="...") and
+	//   <a href="javascript:..."> links can be used to run scripts,
+	//   so an attacker who finds an XSS bug could inject such HTML
+	//   and execute malicious JavaScript. These patterns must be
+	//   refactored into safer alternatives for compatibility with
+	//   Content Security Policy (CSP).
+	//
+	//   For example, the following HTML that contains an inline event handler:
+	//     <script> function doThings() { ... } </script>
+	//     <span onclick="doThings();">A thing.</span>
+	//   can be refactored into:
+	//     <span id="things">A thing.</span>
+	//     <script nonce="${nonce}">
+	//     document.addEventListener('DOMContentLoaded', function () {
+	//       document.getElementById('things')
+	//               .addEventListener('click', function doThings() { ... });
+	//     });
+	//     </script>
+	//
+	//   Likewise, the following HTML containng a javascript: URI:
+	//     <a href="javascript:linkClicked()">foo</a>
+	//   can be refactored into:
+	//     <a id="foo">foo</a>
+	//     <script nonce="${nonce}">
+	//     document.addEventListener('DOMContentLoaded', function () {
+	//       document.getElementById('foo')
+	//               .addEventListener('click', linkClicked);
+	//     });
+	//     </script>
+	ErrCSPCompatibility
 )
 
 func (e *Error) Error() string {
@@ -226,8 +269,8 @@ func (e *Error) Error() string {
 	return "html/template: " + e.Description
 }
 
-// errorf creates an error given a format string f and args.
+// Errorf creates an error given a format string f and args.
 // The template Name still needs to be supplied.
-func errorf(k ErrorCode, node parse.Node, line int, f string, args ...interface{}) *Error {
+func Errorf(k ErrorCode, node parse.Node, line int, f string, args ...interface{}) *Error {
 	return &Error{k, node, "", line, fmt.Sprintf(f, args...)}
 }

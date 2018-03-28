@@ -8,15 +8,17 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"html/template/parse"
 	"io/ioutil"
+	"strconv"
 	"sync"
 	"testing"
-	"text/template/parse"
+	textparse "text/template/parse"
 )
 
 func TestAddParseTree(t *testing.T) {
 	root := Must(New("root").Parse(`{{define "a"}} {{.}} {{template "b"}} {{.}} "></a>{{end}}`))
-	tree, err := parse.Parse("t", `{{define "b"}}<a href="{{end}}`, "", "", nil, nil)
+	tree, err := textparse.Parse("t", `{{define "b"}}<a href="{{end}}`, "", "", nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -149,6 +151,43 @@ func TestTemplates(t *testing.T) {
 		if !found {
 			t.Error("could not find template", name)
 		}
+	}
+}
+
+func TestEscaperForContextCloned(t *testing.T) {
+	const input = "bar"
+	t0 := Must(New("").Parse("{{.}}"))
+
+	// Default escaping behavior.
+	t1 := Must(t0.Clone())
+	var b bytes.Buffer
+	t1.Execute(&b, input)
+	want := input
+	if got := b.String(); got != want {
+		t.Errorf("default escaperForContext got %q want %q", got, want)
+	}
+	b.Reset()
+
+	escaperForContext := func(c parse.Context) ([]string, error) {
+		return []string{"len"}, nil
+	}
+	want = strconv.Itoa(len(input))
+
+	// Custom escaping behavior takes effect.
+	t2 := Must(t0.Clone())
+	t2.Escapers(escaperForContext)
+	t2.Execute(&b, input)
+	if got := b.String(); got != want {
+		t.Errorf("custom escaperForContext got %q want %q", got, want)
+	}
+	b.Reset()
+
+	// Custom escaping behavior persists in a cloned template.
+	t0.Escapers(escaperForContext)
+	cloned := Must(t0.Clone())
+	cloned.Execute(&b, input)
+	if got := b.String(); got != want {
+		t.Errorf("cloned custom escaperForContext got %q want %q", got, want)
 	}
 }
 
