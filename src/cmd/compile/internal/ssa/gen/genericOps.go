@@ -381,6 +381,7 @@ var genericOps = []opData{
 	{name: "Cvt64Fto64", argLength: 1},
 	{name: "Cvt32Fto64F", argLength: 1},
 	{name: "Cvt64Fto32F", argLength: 1},
+	{name: "Cvt", argLength: 1}, // wasm only: conversion between integers of same size but different signedness
 
 	// Force rounding to precision of type.
 	{name: "Round32F", argLength: 1},
