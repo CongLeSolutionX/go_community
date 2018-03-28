@@ -11,6 +11,7 @@ import (
 	"hash"
 	"hash/crc32"
 	"io"
+	"os"
 	"unicode/utf8"
 )
 
@@ -252,6 +253,11 @@ func detectUTF8(s string) (valid, require bool) {
 // The file's contents must be written to the io.Writer before the next
 // call to Create, CreateHeader, or Close.
 func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
+	if fi, err := os.Stat(fh.Name); err == nil {
+		if fi.IsDir() {
+			return nil, errors.New("archive/zip: can't write data to directory")
+		}
+	}
 	if w.last != nil && !w.last.closed {
 		if err := w.last.close(); err != nil {
 			return nil, err
