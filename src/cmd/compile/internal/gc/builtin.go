@@ -140,6 +140,7 @@ var runtimeDecls = [...]struct {
 	{"uint32tofloat64", funcTag, 108},
 	{"complex128div", funcTag, 109},
 	{"racefuncenter", funcTag, 110},
+	{"racefuncenterfp", funcTag, 5},
 	{"racefuncexit", funcTag, 5},
 	{"raceread", funcTag, 110},
 	{"racewrite", funcTag, 110},

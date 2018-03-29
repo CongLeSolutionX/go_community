@@ -196,6 +196,10 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 		return true, objabi.GOARCH + " does not support internal cgo"
 	}
 
+	if *flagRace && ctxt.Arch.InFamily(sys.PPC64) {
+		return true, "race on ppc64le"
+	}
+
 	// Some build modes require work the internal linker cannot do (yet).
 	switch ctxt.BuildMode {
 	case BuildModeCArchive:
