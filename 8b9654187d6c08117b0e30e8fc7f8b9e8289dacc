@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a8333fc6_19aa365b",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-03-29T07:17:28Z",
+      "side": 1,
+      "message": "OK. This is a good idea. Thank you.",
+      "parentUuid": "532c3b59_e1d6dac3",
+      "range": {
+        "startLine": 461,
+        "startChar": 29,
+        "endLine": 461,
+        "endChar": 53
+      },
+      "revId": "8b9654187d6c08117b0e30e8fc7f8b9e8289dacc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e0e8bd1_b18396e0",
         "filename": "src/cmd/internal/obj/arm64/a.out.go",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "8c38d26a_76892a82",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-03-29T07:17:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e0e8bd1_b18396e0",
+      "revId": "8b9654187d6c08117b0e30e8fc7f8b9e8289dacc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fc7f0b9_c1691ad1",
         "filename": "src/cmd/internal/obj/arm64/a.out.go",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "8b9654187d6c08117b0e30e8fc7f8b9e8289dacc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbb7e4f7_d0f8e19d",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-03-29T07:17:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fc7f0b9_c1691ad1",
+      "revId": "8b9654187d6c08117b0e30e8fc7f8b9e8289dacc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "74cc4788_12d862e2",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-03-29T07:17:28Z",
+      "side": 1,
+      "message": "The code cmp(C_NPAUTO, b) can let C_LAUTO include NSAUTO_8 and NPAUTO.",
+      "parentUuid": "3519fefa_5b5cdb7e",
+      "range": {
+        "startLine": 1595,
+        "startChar": 7,
+        "endLine": 1595,
+        "endChar": 15
+      },
+      "revId": "8b9654187d6c08117b0e30e8fc7f8b9e8289dacc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e7d55cb8_24b434fe",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
@@ -93,6 +177,24 @@
       "writtenOn": "2018-03-27T19:29:51Z",
       "side": 1,
       "message": "Similar here.",
+      "revId": "8b9654187d6c08117b0e30e8fc7f8b9e8289dacc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72fc1052_03d1bc07",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1647,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-03-29T07:17:28Z",
+      "side": 1,
+      "message": "The same here. cmp(C_NPOREG, b).",
+      "parentUuid": "e7d55cb8_24b434fe",
       "revId": "8b9654187d6c08117b0e30e8fc7f8b9e8289dacc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
