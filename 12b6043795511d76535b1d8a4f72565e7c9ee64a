@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90616892_36666f4b",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-03-29T22:33:21Z",
+      "side": 1,
+      "message": "The line is too long but text doesn\u0027t need to mention the slice. Also it\u0027s not the first, it\u0027s the zeroth, which matters a lot if the slice is empty. Use this:\n\n%p\taddress of 0th element in base 16 notation, with leading 0x",
+      "revId": "12b6043795511d76535b1d8a4f72565e7c9ee64a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
