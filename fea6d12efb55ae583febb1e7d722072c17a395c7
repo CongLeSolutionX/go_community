@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a33edbc_5a3c66d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-29T16:31:21Z",
+      "side": 1,
+      "message": "CL 73212 and CL 76015 changed the go command to base rebuilding decisions on file contents rather than time, and removed \"runtime\" as a dependency of every package. This broke some tests.",
+      "revId": "fea6d12efb55ae583febb1e7d722072c17a395c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "314d644b_b21dc7da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-29T16:31:21Z",
+      "side": 1,
+      "message": "s/changed/changes/\n\nBut more importantly: why make this change?",
+      "revId": "fea6d12efb55ae583febb1e7d722072c17a395c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "457eca02_81a1c5a1",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-29T16:31:21Z",
+      "side": 1,
+      "message": "What if we change this to `go build time`?  Then we may not have to run `go install` at all here, we can stop checking testing.Short, and we can add tg.parallel().",
+      "revId": "fea6d12efb55ae583febb1e7d722072c17a395c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f280c47a_d13f061d",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-29T16:31:21Z",
+      "side": 1,
+      "message": "Is this `go install std` really necessary these days?  What happens if you simply omit it?",
+      "revId": "fea6d12efb55ae583febb1e7d722072c17a395c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
