@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96d4266a_09f8894f",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-29T20:53:50Z",
+      "side": 1,
+      "message": "s/Find/Collect/\n\nseems more accurate description of what is happening here",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 152,
+        "endChar": 8
+      },
+      "revId": "bfc324fdf816ac787e85f15026375b434c2f7b43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "923db46e_f743ced1",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-29T20:53:50Z",
+      "side": 1,
+      "message": "I think you can just use baseTypeName (defined in reader.go) here.\n\nbaseTypeName doesn\u0027t handle parenthesized receiver types, but I don\u0027t know that people actually do that. But it would be easy to just do that there, instead.",
+      "range": {
+        "startLine": 164,
+        "startChar": 5,
+        "endLine": 164,
+        "endChar": 6
+      },
+      "revId": "bfc324fdf816ac787e85f15026375b434c2f7b43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d494a33_692399e3",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-29T20:53:50Z",
+      "side": 1,
+      "message": "s/id/tname/\n\nas in type name",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 10
+      },
+      "revId": "bfc324fdf816ac787e85f15026375b434c2f7b43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "417d4698_715e9e41",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-29T20:53:50Z",
+      "side": 1,
+      "message": "s/id/name/\n\nthen we have topDecls[name.Obj] which matches the line 184 better",
+      "range": {
+        "startLine": 186,
+        "startChar": 12,
+        "endLine": 186,
+        "endChar": 14
+      },
+      "revId": "bfc324fdf816ac787e85f15026375b434c2f7b43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1484296_2a421ae5",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-29T20:53:50Z",
+      "side": 1,
+      "message": "The various if\u0027s here should probably be combined into a type switch. Also *ast.Ident is probably the most frequent; move into first position.\n\ntype x :\u003d n.(type) {\ncase *ast.Ident:\ncase *ast.SelectorExpr:\ncase *ast.KeyValueExpr:\n}\n\nFine to do in a separate cleanup CL.",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 13
+      },
+      "revId": "bfc324fdf816ac787e85f15026375b434c2f7b43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeba0423_e1822b5b",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-29T20:53:50Z",
+      "side": 1,
+      "message": "make depDecls a set (map[ast.Decl]bool) instead? then you don\u0027t need this loop\n\n(then later, iterate once over it so you get a slice, and then use the slice below since it can grow)",
+      "range": {
+        "startLine": 219,
+        "startChar": 23,
+        "endLine": 219,
+        "endChar": 31
+      },
+      "revId": "bfc324fdf816ac787e85f15026375b434c2f7b43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
