@@ -1302,6 +1302,7 @@ func (t *tester) raceDetectorSupported() bool {
 	case "linux", "darwin", "freebsd", "windows":
 		// The race detector doesn't work on Alpine Linux:
 		// golang.org/issue/14481
+
 		return t.cgoEnabled && goarch == "amd64" && gohostos == goos && !isAlpineLinux()
 	}
 	return false
