@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abbc0b9e_c9fb28d6",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5690
+      },
+      "writtenOn": "2018-03-29T23:19:21Z",
+      "side": 1,
+      "message": "While true and false is not specified as as 1 and 0 (respectively) in Go, given the widespread use of that definition in other languages, the range should be swapped, as follows.\n\n-[true, false].\n+[false, true].",
+      "revId": "33111673850fc61d700d57b597f31a2a59f9d48d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
