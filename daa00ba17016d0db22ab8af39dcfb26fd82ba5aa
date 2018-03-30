@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cb3fcb0_33aacb31",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-03-30T18:32:09Z",
+      "side": 1,
+      "message": "val uint16\n\nand uint32 and uint64 in the next two lines, respectively.",
+      "revId": "daa00ba17016d0db22ab8af39dcfb26fd82ba5aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e046855_a62050af",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-03-30T18:32:09Z",
+      "side": 1,
+      "message": "Once you have everything working with convT2E, you\u0027ll want to do these as well.",
+      "revId": "daa00ba17016d0db22ab8af39dcfb26fd82ba5aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c3f88ca_a13a8a2a",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-03-30T18:32:09Z",
+      "side": 1,
+      "message": "Standard comment form is:\n\n// intShaped reports whether t is an integer and not a byte.\n\nBut I don\u0027t think \"intShaped\" is the right name here. Also, this duplicates convFuncName considerably. I\u0027d suggest instead eliminating this function and just examining the result of convFuncName. So (far below) instead of \"if intShaped(...)\" do \"convfn :\u003d convFuncName(...); switch convfn { case \"convT2E16\", ...\": etc etc; default: previous code }\".",
+      "revId": "daa00ba17016d0db22ab8af39dcfb26fd82ba5aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5025df93_87201bab",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-03-30T18:32:09Z",
+      "side": 1,
+      "message": "I think (I hope) that if you get rid of the substAnyTypes calls, you won\u0027t need this function. And if you do need it, I think that there is already a function like it somewhere else in the compiler. You\u0027d want to use a new OCONVNOP node to do the conversion (if needed).",
+      "revId": "daa00ba17016d0db22ab8af39dcfb26fd82ba5aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acd1a6a3_63fa3913",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-03-30T18:32:09Z",
+      "side": 1,
+      "message": "The race detector and msan only care about memory reads and writes. Now that this function doesn\u0027t do reads, the memory read (if any) will occur in the calling function. So I believe that the raceenabled and msanenabled chunks of code can simply be deleted.",
+      "revId": "daa00ba17016d0db22ab8af39dcfb26fd82ba5aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
