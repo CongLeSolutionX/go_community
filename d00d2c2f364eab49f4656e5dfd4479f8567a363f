@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ff66d77_ccb90cac",
+        "filename": "src/internal/cpu/cpu_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-30T19:11:02Z",
+      "side": 1,
+      "message": "add a blank line before this line, like above (normal style)",
+      "revId": "d00d2c2f364eab49f4656e5dfd4479f8567a363f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
