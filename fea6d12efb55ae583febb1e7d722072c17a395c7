@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fde98989_f9d80eae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-03-30T06:02:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a33edbc_5a3c66d2",
+      "revId": "fea6d12efb55ae583febb1e7d722072c17a395c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "314d644b_b21dc7da",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "fea6d12efb55ae583febb1e7d722072c17a395c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b997d334_b859d78d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-03-30T06:02:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "314d644b_b21dc7da",
+      "revId": "fea6d12efb55ae583febb1e7d722072c17a395c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ea2cd95f_b02bb9eb",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-03-30T06:02:14Z",
+      "side": 1,
+      "message": "You are right! And we can remove run(\"install\", \"std\") too. Also I have added GOCACHE to check that it does not rebuild time after it was already built.",
+      "parentUuid": "457eca02_81a1c5a1",
+      "revId": "fea6d12efb55ae583febb1e7d722072c17a395c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f280c47a_d13f061d",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "fea6d12efb55ae583febb1e7d722072c17a395c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d128ddb9_40494ccd",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-03-30T06:02:14Z",
+      "side": 1,
+      "message": "Since we do not install anything, there is no need for that. YAY, this test can be included in regular builds.",
+      "parentUuid": "f280c47a_d13f061d",
+      "revId": "fea6d12efb55ae583febb1e7d722072c17a395c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
