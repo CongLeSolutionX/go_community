@@ -82,7 +82,10 @@ type Regexp struct {
 	// read-only after Compile
 	regexpRO
 
-	// cache of machines for running regexp
+	// cache of machines for running regexp. This is a shared pointer across
+	// all copies of the original Regexp object to decrease the overall
+	// memory footprint of the regexps (since there will be one machine
+	// cached per thread instead of one per thread per copy).
 	machines *sync.Pool
 }
 
@@ -187,10 +190,12 @@ func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
 			cond:        prog.StartCond(),
 			longest:     longest,
 		},
-		machines: &sync.Pool{
-			New: func() interface{} {
-				return progMachine(prog, onepass)
-			},
+	}
+	regexp.machines = &sync.Pool{
+		New: func() interface{} {
+			z := progMachine(prog, onepass)
+			z.re = regexp
+			return z
 		},
 	}
 	if regexp.onepass == notOnePass {
@@ -211,9 +216,7 @@ func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
 // It uses the re's machine cache if possible, to avoid
 // unnecessary allocation.
 func (re *Regexp) get() *machine {
-	z := re.machines.Get().(*machine)
-	z.re = re
-	return z
+	return re.machines.Get().(*machine)
 }
 
 // put returns a machine to the re's machine cache.
