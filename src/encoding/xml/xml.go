@@ -631,7 +631,7 @@ func (d *Decoder) rawToken() (Token, error) {
 				return nil, d.err
 			}
 			enc := procInst("encoding", content)
-			if enc != "" && enc != "utf-8" && enc != "UTF-8" && !strings.EqualFold(enc, "utf-8") {
+			if enc != "" && !strings.EqualFold(enc, "UTF-8") { // Covering all cases
 				if d.CharsetReader == nil {
 					d.err = fmt.Errorf("xml: encoding %q declared but Decoder.CharsetReader is nil", enc)
 					return nil, d.err
@@ -1147,6 +1147,7 @@ func isInCharacterRange(r rune) (inrange bool) {
 
 // Get name space name: name with a : stuck in the middle.
 // The part before the : is the name space identifier.
+// The part after is invalid if another : is included
 func (d *Decoder) nsname() (name Name, ok bool) {
 	s, ok := d.name()
 	if !ok {
@@ -1157,7 +1158,11 @@ func (d *Decoder) nsname() (name Name, ok bool) {
 		name.Local = s
 	} else {
 		name.Space = s[0:i]
-		name.Local = s[i+1:]
+		if strings.Contains(s[i+1:],":") {
+			return name, false
+		} else {
+			name.Local = s[i+1:]
+		}
 	}
 	return name, true
 }
@@ -1200,7 +1205,7 @@ func (d *Decoder) readName() (ok bool) {
 		}
 		if b < utf8.RuneSelf && !isNameByte(b) {
 			d.ungetc(b)
-			break
+			break // All invalid chars must be removed
 		}
 		d.buf.WriteByte(b)
 	}

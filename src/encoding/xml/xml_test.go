@@ -884,3 +884,36 @@ func TestTokenUnmarshaler(t *testing.T) {
 	d := NewTokenDecoder(tokReader{})
 	d.Decode(&Failure{})
 }
+
+func TestIssue20396(t *testing.T) {
+	testCases := []struct {
+		s  string
+		ok bool
+	}{  //Should not allow to change namespace of opening tag
+		{`<a:te:st xmlns:a="abcd"/>`, false},
+		{`<a:te=st xmlns:a="abcd"/>`, false},
+		{`<a:te&st xmlns:a="abcd"/>`, false},
+		{`<a:test xmlns:a="abcd"/>`, true},
+	}
+	for _, tc := range testCases {
+		d := NewDecoder(strings.NewReader(tc.s))
+		var err error
+		for {
+			_, err = d.Token()
+			if err != nil {
+				if err == io.EOF {//EOF indicates that process is complete
+					err = nil
+				}
+				break
+			}
+		}
+		if err != nil && tc.ok {
+			err = d.err
+			t.Errorf("%q: Multiple colons in tag : expected no error, got %s", tc.s, err)
+			continue
+		}
+		if err == nil && !tc.ok {
+			t.Errorf("%q: Multiple colons in tag : expected error, got nil", tc.s)
+		}
+	}
+}
