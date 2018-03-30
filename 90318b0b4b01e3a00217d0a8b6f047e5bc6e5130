@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ca4bf60_851d92b9",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-30T18:04:31Z",
+      "side": 1,
+      "message": "OpNilCheck is type Void.",
+      "range": {
+        "startLine": 218,
+        "startChar": 32,
+        "endLine": 218,
+        "endChar": 51
+      },
+      "revId": "90318b0b4b01e3a00217d0a8b6f047e5bc6e5130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6248bd4d_197ba8ea",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-30T18:04:31Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right. It should not store to nilcheck .",
+      "range": {
+        "startLine": 219,
+        "startChar": 54,
+        "endLine": 219,
+        "endChar": 62
+      },
+      "revId": "90318b0b4b01e3a00217d0a8b6f047e5bc6e5130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aba08b73_2bdfe8c1",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-30T18:04:31Z",
+      "side": 1,
+      "message": "Also not look right here. The first operand of OpStore should be a pointer.",
+      "revId": "90318b0b4b01e3a00217d0a8b6f047e5bc6e5130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d97b5dc_2c08cfd3",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-30T18:04:31Z",
+      "side": 1,
+      "message": "I guess these tests can be combined. It doesn\u0027t need to be three tests.",
+      "revId": "90318b0b4b01e3a00217d0a8b6f047e5bc6e5130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5098d913_1930e588",
+        "filename": "test/nilptr3.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-30T18:04:31Z",
+      "side": 1,
+      "message": "Use space here (run gofmt).",
+      "range": {
+        "startLine": 275,
+        "startChar": 3,
+        "endLine": 275,
+        "endChar": 4
+      },
+      "revId": "90318b0b4b01e3a00217d0a8b6f047e5bc6e5130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
