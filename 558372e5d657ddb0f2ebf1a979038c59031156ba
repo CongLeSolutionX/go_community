@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "e4439bfe_ab8e1682",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 26981
+      },
+      "writtenOn": "2018-03-30T19:38:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74466ff5_d4b34883",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cf7f037_c5803b8c",
         "filename": "src/regexp/regexp.go",
         "patchSetId": 2
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "The case is when a copy of regexp per dedicated worker thread (goroutine) is used for performance reasons. It is still faster than the sync.Pool version by a few percents.",
       "parentUuid": "4c8d599c_757e30a7",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ebba022_4ebe5355",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 26981
+      },
+      "writtenOn": "2018-03-30T19:38:46Z",
+      "side": 1,
+      "message": "Aliaksandr, is this comment still relevant? I think since we agreed to use a pointer, it\u0027s not, but I could be missing something.\n\nIf your statement on performance is based on my benchmark results, then please know that the difference is below noise threshold across runs, and I\u0027ve seen the Shared benchmark run faster than the Copy benchmark.",
+      "parentUuid": "8c40a6c2_4d47b5fe",
       "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -193,6 +229,24 @@
       "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a99d09cb_a0ef3ded",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 26981
+      },
+      "writtenOn": "2018-03-30T19:38:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "934f8730_a41c8263",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
