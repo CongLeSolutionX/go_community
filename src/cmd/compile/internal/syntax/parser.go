@@ -905,18 +905,28 @@ loop:
 
 			case _Lparen:
 				p.next()
-				if p.got(_Type) {
-					t := new(TypeSwitchGuard)
-					t.pos = pos
-					t.X = x
-					x = t
-				} else {
-					t := new(AssertExpr)
-					t.pos = pos
-					t.X = x
+
+				t := new(AssertExpr)
+				t.pos = pos
+				t.X = x
+				if !p.got(_Type) {
 					t.Type = p.expr()
-					x = t
 				}
+				x = t
+
+				// if p.got(_Type) {
+				// 	t := new(TypeSwitchGuard)
+				// 	t.pos = pos
+				// 	t.X = x
+				// 	x = t
+				// } else {
+				// 	t := new(AssertExpr)
+				// 	t.pos = pos
+				// 	t.X = x
+				// 	t.Type = p.expr()
+				// 	x = t
+				// }
+
 				p.want(_Rparen)
 
 			default:
@@ -1638,49 +1648,75 @@ func (p *parser) simpleStmt(lhs Expr, rangeOk bool) SimpleStmt {
 	// expr_list
 	pos := p.pos()
 	switch p.tok {
-	case _Assign:
+	case _Assign, _Define:
+		var op Operator
+		if p.tok == _Define {
+			op = Def
+		}
 		p.next()
 
 		if rangeOk && p.tok == _Range {
-			// expr_list '=' _Range expr
-			return p.newRangeClause(lhs, false)
+			// expr_list op= _Range expr
+			return p.newRangeClause(lhs, op == Def)
 		}
 
-		// expr_list '=' expr_list
-		return p.newAssignStmt(pos, 0, lhs, p.exprList())
+		// expr_list op= expr_list
+		// rhs := p.exprList()
 
-	case _Define:
-		p.next()
+		// if x, ok := rhs.(*AssertExpr); ok && x.Type == nil {
+		// 	// expr_list op= expr.(type)
+		// 	s := new(ExprStmt)
+		// 	s.pos = x.Pos()
+		// 	s.X = x
+		// 	return s
+		// }
 
-		if rangeOk && p.tok == _Range {
-			// expr_list ':=' range expr
-			return p.newRangeClause(lhs, true)
-		}
+		// expr_list op= expr_list
+		return p.newAssignStmt(pos, op, lhs, p.exprList())
 
-		// expr_list ':=' expr_list
-		rhs := p.exprList()
+	// case _Assign:
+	// 	p.next()
 
-		if x, ok := rhs.(*TypeSwitchGuard); ok {
-			switch lhs := lhs.(type) {
-			case *Name:
-				x.Lhs = lhs
-			case *ListExpr:
-				p.errorAt(lhs.Pos(), fmt.Sprintf("cannot assign 1 value to %d variables", len(lhs.ElemList)))
-				// make the best of what we have
-				if lhs, ok := lhs.ElemList[0].(*Name); ok {
-					x.Lhs = lhs
-				}
-			default:
-				p.errorAt(lhs.Pos(), fmt.Sprintf("invalid variable name %s in type switch", String(lhs)))
-			}
-			s := new(ExprStmt)
-			s.pos = x.Pos()
-			s.X = x
-			return s
-		}
+	// 	if rangeOk && p.tok == _Range {
+	// 		// expr_list '=' _Range expr
+	// 		return p.newRangeClause(lhs, false)
+	// 	}
 
-		as := p.newAssignStmt(pos, Def, lhs, rhs)
-		return as
+	// 	// expr_list '=' expr_list
+	// 	return p.newAssignStmt(pos, 0, lhs, p.exprList())
+
+	// case _Define:
+	// 	p.next()
+
+	// 	if rangeOk && p.tok == _Range {
+	// 		// expr_list ':=' range expr
+	// 		return p.newRangeClause(lhs, true)
+	// 	}
+
+	// 	// expr_list ':=' expr_list
+	// 	rhs := p.exprList()
+
+	// 	if x, ok := rhs.(*TypeSwitchGuard); ok {
+	// 		switch lhs := lhs.(type) {
+	// 		case *Name:
+	// 			x.Lhs = lhs
+	// 		case *ListExpr:
+	// 			p.errorAt(lhs.Pos(), fmt.Sprintf("cannot assign 1 value to %d variables", len(lhs.ElemList)))
+	// 			// make the best of what we have
+	// 			if lhs, ok := lhs.ElemList[0].(*Name); ok {
+	// 				x.Lhs = lhs
+	// 			}
+	// 		default:
+	// 			p.errorAt(lhs.Pos(), fmt.Sprintf("invalid variable name %s in type switch", String(lhs)))
+	// 		}
+	// 		s := new(ExprStmt)
+	// 		s.pos = x.Pos()
+	// 		s.X = x
+	// 		return s
+	// 	}
+
+	// 	as := p.newAssignStmt(pos, Def, lhs, rhs)
+	// 	return as
 
 	default:
 		p.syntaxError("expecting := or = or comma")
