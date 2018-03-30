@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aace3420_b9172f10",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-30T17:30:08Z",
+      "side": 1,
+      "message": "There have been too many instructions that have different input and output form. We should do something better...",
+      "range": {
+        "startLine": 543,
+        "startChar": 22,
+        "endLine": 543,
+        "endChar": 42
+      },
+      "revId": "5dd1aad1738557c970b795397e327d20bfc6c04c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eaab6de_b4a3a0f2",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-30T17:30:08Z",
+      "side": 1,
+      "message": "Why ZCON? This is weird. The operand is not constant. Maybe you want to add ZAUTO?",
+      "range": {
+        "startLine": 449,
+        "startChar": 9,
+        "endLine": 449,
+        "endChar": 15
+      },
+      "revId": "5dd1aad1738557c970b795397e327d20bfc6c04c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1d97ec9_410aa45c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 3169,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-30T17:30:08Z",
+      "side": 1,
+      "message": "Is this necessary? If the operand\u0027s type does not match, we shouldn\u0027t get here, right?",
+      "range": {
+        "startLine": 3167,
+        "startChar": 0,
+        "endLine": 3169,
+        "endChar": 3
+      },
+      "revId": "5dd1aad1738557c970b795397e327d20bfc6c04c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
