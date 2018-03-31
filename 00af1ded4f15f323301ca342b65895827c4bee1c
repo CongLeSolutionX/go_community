@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c2e6936_1146150b",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-03-31T20:17:26Z",
+      "side": 1,
+      "message": "No other README nor text file in the entire repo has copyright headers, and as far as I know we don\u0027t use them for docs. Please open a follow-up CL adding the header to this and other READMEs if they should indeed have them.",
+      "parentUuid": "3c610a2a_bd97b22e",
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6ba1df55_5dadda14",
         "filename": "src/cmd/compile/internal/ssa/README.md",
         "patchSetId": 2
@@ -65,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "f0038e90_fcdf87b1",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-03-31T20:17:26Z",
+      "side": 1,
+      "message": "In a follow-up CL I\u0027m going to try to expand on parts on the document. I\u0027ll try to reorganize the document too, while at it. Thanks for bringing this up.",
+      "parentUuid": "adadbb5c_2b7f3b65",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80e1605a_b009f2ca",
         "filename": "src/cmd/compile/internal/ssa/README.md",
         "patchSetId": 2
@@ -76,6 +118,30 @@
       "writtenOn": "2018-03-11T10:56:00Z",
       "side": 1,
       "message": "Now I know that in the SSA world blocks \"can have multiple forms\".. but\nI still don\u0027t know what a block is.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c85a8f64_64a92906",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-03-31T20:17:26Z",
+      "side": 1,
+      "message": "I\u0027m being vague in some areas simply because I\u0027m not 100% confident myself. For all I know, blocks are just lists of values, and you can jump in between blocks. I didn\u0027t want to go to deep in the first version of this document, to avoid having to ask for too much help in getting the wording and specifics right.",
+      "parentUuid": "80e1605a_b009f2ca",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -134,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "fcfc0b76_1234d907",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-03-31T20:17:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa0e3736_581532a5",
+      "range": {
+        "startLine": 30,
+        "startChar": 5,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "324963c9_02322a48",
         "filename": "src/cmd/compile/internal/ssa/README.md",
         "patchSetId": 2
@@ -154,6 +244,30 @@
       "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "337b2327_5f3351bd",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-03-31T20:17:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "324963c9_02322a48",
+      "range": {
+        "startLine": 46,
+        "startChar": 59,
+        "endLine": 46,
+        "endChar": 64
+      },
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
