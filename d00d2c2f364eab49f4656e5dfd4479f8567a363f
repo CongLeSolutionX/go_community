@@ -16,6 +16,24 @@
       "revId": "d00d2c2f364eab49f4656e5dfd4479f8567a363f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64c86787_3abc7887",
+        "filename": "src/internal/cpu/cpu_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2018-03-31T02:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ff66d77_ccb90cac",
+      "revId": "d00d2c2f364eab49f4656e5dfd4479f8567a363f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
