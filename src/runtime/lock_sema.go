@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build darwin nacl netbsd openbsd plan9 solaris windows
+// +build darwin js,wasm nacl netbsd openbsd plan9 solaris windows
 
 package runtime
 
@@ -276,6 +276,21 @@ func notetsleepg(n *note, ns int64) bool {
 	if gp == gp.m.g0 {
 		throw("notetsleepg on g0")
 	}
+
+	// no threads yet on wasm
+	if GOARCH == "wasm" {
+		deadline := nanotime() + ns
+		for {
+			if atomic.Loaduintptr(&n.key) == locked {
+				return true
+			}
+			Gosched()
+			if ns >= 0 && nanotime() >= deadline {
+				return false
+			}
+		}
+	}
+
 	semacreate(gp.m)
 	entersyscallblock()
 	ok := notetsleep_internal(n, ns, nil, 0)
