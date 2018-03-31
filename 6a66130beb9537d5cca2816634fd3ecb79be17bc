@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78c45351_02b12269",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-03-31T22:41:51Z",
+      "side": 1,
+      "message": "nit: I\u0027d call this \"copy\" for consistency with cmd/compile/internal/types\u0027s Type.copy and Field.Copy methods.",
+      "range": {
+        "startLine": 367,
+        "startChar": 15,
+        "endLine": 367,
+        "endChar": 18
+      },
+      "revId": "6a66130beb9537d5cca2816634fd3ecb79be17bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54b09af4_4d2fa528",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-03-31T22:41:51Z",
+      "side": 1,
+      "message": "I\u0027m a little skeptical these lines are necessary, but we can leave that for another CL. If so, add something like \"TODO(mdempsky): Investigate if/why this is necessary.\"",
+      "range": {
+        "startLine": 1704,
+        "startChar": 0,
+        "endLine": 1706,
+        "endChar": 3
+      },
+      "revId": "6a66130beb9537d5cca2816634fd3ecb79be17bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
