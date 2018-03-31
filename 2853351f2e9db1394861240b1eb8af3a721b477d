@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32277b3f_4d137a71",
+        "filename": "src/encoding/xml/xml.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2018-03-31T09:56:54Z",
+      "side": 1,
+      "message": "Could you omit this part of your changes? \n\nThis is a performance optimization which probably needs a comment instead of a change.",
+      "revId": "2853351f2e9db1394861240b1eb8af3a721b477d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
