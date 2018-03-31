@@ -15,6 +15,13 @@ import (
 // The number of logical CPUs on the local machine can be queried with NumCPU.
 // This call will go away when the scheduler improves.
 func GOMAXPROCS(n int) int {
+	if GOARCH == "wasm" {
+		// WebAssembly has no threads yet, so only one CPU is possible.
+		// Do we need to mention this in the documentation of GOMAXPROCS or
+		// is it better to not pollute the doc because wasm is experimental?
+		return 1
+	}
+
 	lock(&sched.lock)
 	ret := int(gomaxprocs)
 	unlock(&sched.lock)
