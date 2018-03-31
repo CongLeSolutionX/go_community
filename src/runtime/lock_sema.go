@@ -276,6 +276,7 @@ func notetsleepg(n *note, ns int64) bool {
 	if gp == gp.m.g0 {
 		throw("notetsleepg on g0")
 	}
+
 	semacreate(gp.m)
 	entersyscallblock()
 	ok := notetsleep_internal(n, ns, nil, 0)
