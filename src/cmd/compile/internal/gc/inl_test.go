@@ -61,6 +61,7 @@ func TestIntendedInlining(t *testing.T) {
 			"round",
 			"roundupsize",
 			"selectsize",
+			"stackmapdata",
 			"stringStructOf",
 			"subtract1",
 			"subtractb",
