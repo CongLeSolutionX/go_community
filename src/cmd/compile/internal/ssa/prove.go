@@ -692,7 +692,14 @@ func getBranch(sdom SparseTree, p *Block, b *Block) branch {
 // branching from Block b in direction br.
 func updateBranchRestrictions(ft *factsTable, b *Block, br branch) {
 	c := b.Control
-	updateRestrictions(b, ft, boolean, nil, c, lt|gt, br)
+	if br == unknown {
+		panic("unknown branch")
+	}
+	if br == positive {
+		updateRestrictions(b, ft, boolean, nil, c, lt|gt)
+	} else {
+		updateRestrictions(b, ft, boolean, nil, c, eq)
+	}
 	if tr, has := domainRelationTable[b.Control.Op]; has {
 		// When we branched from parent we learned a new set of
 		// restrictions. Update the factsTable accordingly.
@@ -700,22 +707,25 @@ func updateBranchRestrictions(ft *factsTable, b *Block, br branch) {
 		if d == signed && ft.isNonNegative(c.Args[0]) && ft.isNonNegative(c.Args[1]) {
 			d |= unsigned
 		}
-		updateRestrictions(b, ft, d, c.Args[0], c.Args[1], tr.r, br)
-	}
 
+		switch {
+		case br == negative:
+			updateRestrictions(b, ft, d, c.Args[0], c.Args[1], tr.r^(lt|gt|eq))
+		case br == positive:
+			updateRestrictions(b, ft, d, c.Args[0], c.Args[1], tr.r)
+		default:
+			panic("unreachable")
+		}
+	}
 }
 
 // updateRestrictions updates restrictions from the immediate
 // dominating block (p) using r. r is adjusted according to the branch taken.
-func updateRestrictions(parent *Block, ft *factsTable, t domain, v, w *Value, r relation, branch branch) {
-	if t == 0 || branch == unknown {
+func updateRestrictions(parent *Block, ft *factsTable, t domain, v, w *Value, r relation) {
+	if t == 0 {
 		// Trivial case: nothing to do, or branch unknown.
 		// Shoult not happen, but just in case.
 		return
-	}
-	if branch == negative {
-		// Negative branch taken, complement the relations.
-		r = (lt | eq | gt) ^ r
 	}
 	for i := domain(1); i <= t; i <<= 1 {
 		if t&i == 0 {
