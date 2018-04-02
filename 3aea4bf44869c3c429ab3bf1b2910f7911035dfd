@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd9cc189_ce3e23d2",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-02T21:32:56Z",
+      "side": 1,
+      "message": "Checkpointing can occur even if branch \u003d\u003d unknown,\notherwise this would be redundant with tryPushBranch and popBranch?\nI.e., checkpointing occurs at the join point of two interesting conditional branches,\neven though it is not itself a conditional branch?\n\nI\u0027m not sure if this is worth commenting, but I suspect it is, since\nI spent a few minutes staring at this even though this is something\nthat we worked out on a whiteboard a week or so ago.",
+      "range": {
+        "startLine": 647,
+        "startChar": 3,
+        "endLine": 647,
+        "endChar": 15
+      },
+      "revId": "3aea4bf44869c3c429ab3bf1b2910f7911035dfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1062da17_82c112d4",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-02T21:32:56Z",
+      "side": 1,
+      "message": "Second time this (now) appears in prove.go, do we maybe want \nfunc (r relation) complement() relation { return (lt | eq | gt) ^ r; }\nbecause otherwise it includes the comment (twice) \"Complement the relation\"\nso that the reader understands what\u0027s going on.",
+      "range": {
+        "startLine": 837,
+        "startChar": 4,
+        "endLine": 838,
+        "endChar": 26
+      },
+      "revId": "3aea4bf44869c3c429ab3bf1b2910f7911035dfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
