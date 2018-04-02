@@ -138,7 +138,9 @@ func ExampleAfter() {
 }
 
 func ExampleSleep() {
+	fmt.Println(time.Now())
 	time.Sleep(100 * time.Millisecond)
+	fmt.Println(time.Now())
 }
 
 func statusUpdate() string { return "" }
