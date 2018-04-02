@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd62b636_d1a0a934",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-02T20:43:54Z",
+      "side": 1,
+      "message": "This seems safe, but why isn\u0027t it more aggressive in setting the signed/unsigned limits, since v is a constant?\nOr are comparisons with large unsigned values (negative if cast to same-size signed) regarded as uninteresting?\n\nI.e., surely \"if v.AuxInt \u003e\u003d 0\" could be \"if v.AuxInt \u003e\u003d 0 || d \u003d\u003d unsigned\".",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 27
+      },
+      "revId": "a207a06f5c5083c837690b601d080407f542dfa7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
