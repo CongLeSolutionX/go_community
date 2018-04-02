@@ -2,13 +2,21 @@ package ssa
 
 import "fmt"
 
+type indVarFlags uint8
+
+const (
+	indVarMinExc indVarFlags = 1 << iota // minimum value is exclusive (default: inclusive)
+	indVarMaxInc                         // maximum value is inclusive (default: exclusive)
+)
+
 type indVar struct {
 	ind   *Value // induction variable
 	inc   *Value // increment, a constant
 	nxt   *Value // ind+inc variable
-	min   *Value // minimum value. inclusive,
-	max   *Value // maximum value. exclusive.
+	min   *Value // minimum value
+	max   *Value // maximum value
 	entry *Block // entry block in the loop.
+	flags indVarFlags
 	// Invariants: for all blocks dominated by entry:
 	//	min <= ind < max
 	//	min <= nxt <= max
@@ -43,20 +51,33 @@ nextb:
 			continue
 		}
 
+		var flags indVarFlags
 		var ind, max *Value // induction, and maximum
 		entry := -1         // which successor of b enters the loop
 
 		// Check thet the control if it either ind < max or max > ind.
 		// TODO: Handle Leq64, Geq64.
+		// TODO: Handle 32-bit comparisons.
 		switch b.Control.Op {
+		case OpLeq64:
+			flags |= indVarMaxInc
+			fallthrough
 		case OpLess64:
 			entry = 0
 			ind, max = b.Control.Args[0], b.Control.Args[1]
+		case OpGeq64:
+			flags |= indVarMaxInc
+			fallthrough
 		case OpGreater64:
 			entry = 0
 			ind, max = b.Control.Args[1], b.Control.Args[0]
 		default:
 			continue nextb
+		}
+
+		// See if the arguments are reversed (i < len() <=> len() > i)
+		if max.Op == OpPhi {
+			ind, max = max, ind
 		}
 
 		// Check that the induction variable is a phi that depends on itself.
@@ -86,8 +107,21 @@ nextb:
 
 		// Expect the increment to be a positive constant.
 		// TODO: handle negative increment.
-		if inc.Op != OpConst64 || inc.AuxInt <= 0 {
+		if inc.Op != OpConst64 {
 			continue
+		}
+
+		// If the increment is negative, swap min/max and their flags
+		if inc.AuxInt <= 0 {
+			min, max = max, min
+			oldf := flags
+			flags = 0
+			if oldf&indVarMaxInc == 0 {
+				flags |= indVarMinExc
+			}
+			if oldf&indVarMinExc == 0 {
+				flags |= indVarMaxInc
+			}
 		}
 
 		// Up to now we extracted the induction variable (ind),
@@ -127,7 +161,7 @@ nextb:
 
 		// We can only guarantee that the loops runs within limits of induction variable
 		// if the increment is 1 or when the limits are constants.
-		if inc.AuxInt != 1 {
+		if inc.AuxInt != 1 && inc.AuxInt != -1 {
 			ok := false
 			if min.Op == OpConst64 && max.Op == OpConst64 {
 				if max.AuxInt > min.AuxInt && max.AuxInt%inc.AuxInt == min.AuxInt%inc.AuxInt { // handle overflow
@@ -140,6 +174,14 @@ nextb:
 		}
 
 		if f.pass.debug >= 1 {
+			mb1, mb2 := "[", "["
+			if flags&indVarMinExc != 0 {
+				mb1 = "]"
+			}
+			if flags&indVarMaxInc != 0 {
+				mb2 = "]"
+			}
+
 			mlim1, mlim2 := fmt.Sprint(min.AuxInt), fmt.Sprint(max.AuxInt)
 			if !min.isGenericIntConst() {
 				if f.pass.debug >= 2 {
@@ -155,7 +197,7 @@ nextb:
 					mlim2 = "?"
 				}
 			}
-			b.Func.Warnl(b.Pos, "Induction variable: limits [%v,%v[, increment %d", mlim1, mlim2, inc.AuxInt)
+			b.Func.Warnl(b.Pos, "Induction variable: limits %v%v,%v%v, increment %d", mb1, mlim1, mlim2, mb2, inc.AuxInt)
 		}
 
 		iv = append(iv, indVar{
@@ -165,6 +207,7 @@ nextb:
 			min:   min,
 			max:   max,
 			entry: b.Succs[entry].b,
+			flags: flags,
 		})
 		b.Logf("found induction variable %v (inc = %v, min = %v, max = %v)\n", ind, inc, min, max)
 	}
