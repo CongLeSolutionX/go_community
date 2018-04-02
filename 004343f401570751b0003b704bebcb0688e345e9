@@ -16,6 +16,24 @@
       "revId": "004343f401570751b0003b704bebcb0688e345e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f35d9601_9ac5b737",
+        "filename": "src/internal/bytealg/indexbyte_wasm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-04-02T21:40:52Z",
+      "side": 1,
+      "message": "Right, it shouldn\u0027t. I implemented this when there was no bytealg package yet and missed this change when moving the code. Fixed. I also followed the other architectures by adding \u003c\u003e at the end of the function names. What does it do?",
+      "parentUuid": "e408ea19_75ec9fc5",
+      "revId": "004343f401570751b0003b704bebcb0688e345e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
