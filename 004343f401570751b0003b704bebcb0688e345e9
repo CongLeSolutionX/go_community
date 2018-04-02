@@ -34,6 +34,24 @@
       "revId": "004343f401570751b0003b704bebcb0688e345e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17509313_ade32414",
+        "filename": "src/internal/bytealg/indexbyte_wasm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-02T22:38:36Z",
+      "side": 1,
+      "message": "The \u003c\u003e thing is documented at https://golang.org/doc/asm#symbols",
+      "parentUuid": "f35d9601_9ac5b737",
+      "revId": "004343f401570751b0003b704bebcb0688e345e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
