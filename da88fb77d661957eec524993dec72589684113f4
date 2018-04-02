@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6a15ffdc_cc28dd93",
+        "filename": "src/strings/builder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-02T23:54:05Z",
+      "side": 1,
+      "message": "Done. testing.AllocsPerRun calls its provided func once as a \"warm-up\" (so the code gets executed n+1 times), and you can\u0027t use 0 (because it divides by that number), so I did 1 iteration and checked for the result being the string doubled. Oh well.",
+      "parentUuid": "9b766c9d_34981bcb",
+      "revId": "da88fb77d661957eec524993dec72589684113f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cbfaf436_12f8e981",
         "filename": "src/strings/builder_test.go",
         "patchSetId": 2
