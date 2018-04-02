@@ -87,11 +87,18 @@ func TestBuilderReset(t *testing.T) {
 func TestBuilderGrow(t *testing.T) {
 	for _, growLen := range []int{0, 100, 1000, 10000, 100000} {
 		var b Builder
-		b.Grow(growLen)
 		p := bytes.Repeat([]byte{'a'}, growLen)
-		allocs := numAllocs(func() { b.Write(p) })
-		if allocs > 0 {
-			t.Errorf("growLen=%d: allocation occurred during write", growLen)
+		allocs := testing.AllocsPerRun(100, func() {
+			b.Reset()
+			b.Grow(growLen) // should be only alloc, when growLen > 0
+			b.Write(p)
+		})
+		wantAllocs := 1
+		if growLen == 0 {
+			wantAllocs = 0
+		}
+		if g, w := int(allocs), wantAllocs; g != w {
+			t.Errorf("growLen=%d: got %d allocs during Write; want %v", growLen, g, w)
 		}
 		if b.String() != string(p) {
 			t.Errorf("growLen=%d: bad data written after Grow", growLen)
