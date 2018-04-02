@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2deff07_d3c4948d",
+        "filename": "src/strings/builder_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-02T23:15:59Z",
+      "side": 1,
+      "message": "Add a call to String() after Write?\n\nOtherwise, Reset could plausibly reuse the buffer from before. (The fact that Reset reallocates for a given length when String was not called is arguably an implementation detail.)",
+      "revId": "ea777271c8ad034c0acb23f99bdda4ffe239d7af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
