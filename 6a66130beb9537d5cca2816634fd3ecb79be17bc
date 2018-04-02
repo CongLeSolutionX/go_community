@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d9c4a9a2_d33bc92b",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-02T22:49:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78c45351_02b12269",
+      "range": {
+        "startLine": 367,
+        "startChar": 15,
+        "endLine": 367,
+        "endChar": 18
+      },
+      "revId": "6a66130beb9537d5cca2816634fd3ecb79be17bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54b09af4_4d2fa528",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-31T22:41:51Z",
       "side": 1,
       "message": "I\u0027m a little skeptical these lines are necessary, but we can leave that for another CL. If so, add something like \"TODO(mdempsky): Investigate if/why this is necessary.\"",
+      "range": {
+        "startLine": 1704,
+        "startChar": 0,
+        "endLine": 1706,
+        "endChar": 3
+      },
+      "revId": "6a66130beb9537d5cca2816634fd3ecb79be17bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e69d50b9_9c852d74",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-02T22:49:41Z",
+      "side": 1,
+      "message": "You got rid of saveorignode in another CL of yours - the one I reviewed - so this is already solved.",
+      "parentUuid": "54b09af4_4d2fa528",
       "range": {
         "startLine": 1704,
         "startChar": 0,
