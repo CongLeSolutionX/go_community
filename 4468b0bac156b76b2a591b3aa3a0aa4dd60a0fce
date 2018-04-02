@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb3ba150_dc8c40ef",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2993,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-02T23:43:23Z",
+      "side": 0,
+      "message": "you intentionally removing this line?",
+      "range": {
+        "startLine": 2993,
+        "startChar": 0,
+        "endLine": 2993,
+        "endChar": 79
+      },
+      "revId": "4468b0bac156b76b2a591b3aa3a0aa4dd60a0fce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
