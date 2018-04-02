@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1b9d2b0_20f5d515",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T15:54:05Z",
+      "side": 1,
+      "message": "NAUTO4K\nI think the U in UAUTO4K means unsigned. NU is weird.",
+      "range": {
+        "startLine": 429,
+        "startChar": 3,
+        "endLine": 429,
+        "endChar": 11
+      },
+      "revId": "69c039a0446f7aa0a22a45b0a01b7ea584515354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b7cd903_c975519f",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T15:54:05Z",
+      "side": 1,
+      "message": "NOREG4K",
+      "range": {
+        "startLine": 458,
+        "startChar": 1,
+        "endLine": 458,
+        "endChar": 10
+      },
+      "revId": "69c039a0446f7aa0a22a45b0a01b7ea584515354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "002a6a74_874335a4",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T15:54:05Z",
+      "side": 1,
+      "message": "This is the same as three lines above. I think you meant NUAUTO4K (will be NAUTO4K) here?",
+      "range": {
+        "startLine": 524,
+        "startChar": 9,
+        "endLine": 524,
+        "endChar": 18
+      },
+      "revId": "69c039a0446f7aa0a22a45b0a01b7ea584515354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "842c092f_683c0d42",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1659,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T15:54:05Z",
+      "side": 1,
+      "message": "NPAUTO also matches, right?",
+      "revId": "69c039a0446f7aa0a22a45b0a01b7ea584515354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4edf12bf_f0a490f1",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1704,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T15:54:05Z",
+      "side": 1,
+      "message": "This line is a bit tool long. Split to two lines.",
+      "revId": "69c039a0446f7aa0a22a45b0a01b7ea584515354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbeff826_1f1afbb4",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3571,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T15:54:05Z",
+      "side": 1,
+      "message": "This is \"$O\" (letter O for Offset, not zero).",
+      "range": {
+        "startLine": 3571,
+        "startChar": 28,
+        "endLine": 3571,
+        "endChar": 30
+      },
+      "revId": "69c039a0446f7aa0a22a45b0a01b7ea584515354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc1c89c5_13518b4d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3615,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T15:54:05Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 3615,
+        "startChar": 28,
+        "endLine": 3615,
+        "endChar": 30
+      },
+      "revId": "69c039a0446f7aa0a22a45b0a01b7ea584515354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
