@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dc78118_18e245e6",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T15:30:09Z",
+      "side": 1,
+      "message": "0(SP)",
+      "range": {
+        "startLine": 425,
+        "startChar": 17,
+        "endLine": 425,
+        "endChar": 21
+      },
+      "revId": "b170bf49e928355879897a9b94432181c9a2870f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a530274b_7a517aa5",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T15:30:09Z",
+      "side": 1,
+      "message": "I think oregclass now can be simplified -- the special case of l\u003d\u003d0 can be removed.",
+      "revId": "b170bf49e928355879897a9b94432181c9a2870f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd3cad20_ea5eebc2",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1637,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T15:30:09Z",
+      "side": 1,
+      "message": "Put ZAUTO at beginning. Also other lines.",
+      "range": {
+        "startLine": 1637,
+        "startChar": 29,
+        "endLine": 1637,
+        "endChar": 36
+      },
+      "revId": "b170bf49e928355879897a9b94432181c9a2870f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
