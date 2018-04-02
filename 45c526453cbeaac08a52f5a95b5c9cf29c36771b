@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35b0399c_1310c0b1",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T21:29:01Z",
+      "side": 1,
+      "message": "You can specify resultNotInArgs in gen/ARM64Ops.go, then the register allocator will not use r0 or r1 for result.",
+      "revId": "45c526453cbeaac08a52f5a95b5c9cf29c36771b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5b307b8_c5370e8b",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T21:29:01Z",
+      "side": 1,
+      "message": "Just write arm64.AUMULH here, without the variable. Also p1 below.",
+      "range": {
+        "startLine": 425,
+        "startChar": 14,
+        "endLine": 425,
+        "endChar": 16
+      },
+      "revId": "45c526453cbeaac08a52f5a95b5c9cf29c36771b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f7bcf97_51b78fce",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3216,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-02T21:29:01Z",
+      "side": 1,
+      "message": "Combine this with line 3206.",
+      "revId": "45c526453cbeaac08a52f5a95b5c9cf29c36771b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
