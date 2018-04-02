@@ -413,6 +413,34 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.Reg = v.Args[0].Reg()
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
+	case ssa.OpARM64LoweredMuluhilo:
+		hi := arm64.AUMULH
+		lo := arm64.AMUL
+		r0 := v.Args[0].Reg()
+		r1 := v.Args[1].Reg()
+		out := v.Reg0()
+		if out == r0 || out == r1 {
+			out = arm64.REGTMP
+		}
+		p := s.Prog(hi)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = r1
+		p.Reg = r0
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = out
+		p1 := s.Prog(lo)
+		p1.From.Type = obj.TYPE_REG
+		p1.From.Reg = r1
+		p1.Reg = r0
+		p1.To.Type = obj.TYPE_REG
+		p1.To.Reg = v.Reg1()
+		if out != v.Reg0() {
+			p2 := s.Prog(arm64.AMOVD)
+			p2.From.Type = obj.TYPE_REG
+			p2.From.Reg = arm64.REGTMP
+			p2.To.Type = obj.TYPE_REG
+			p2.To.Reg = v.Reg0()
+		}
 	case ssa.OpARM64LoweredAtomicExchange64,
 		ssa.OpARM64LoweredAtomicExchange32:
 		// LDAXR	(Rarg0), Rout

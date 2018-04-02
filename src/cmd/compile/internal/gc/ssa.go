@@ -3213,6 +3213,11 @@ func init() {
 			return s.newValue3(ssa.OpDiv128u, types.NewTuple(types.Types[TUINT64], types.Types[TUINT64]), args[0], args[1], args[2])
 		},
 		sys.ArchAMD64)
+	add("math/big", "mulWW",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue2(ssa.OpMul64uhilo, types.NewTuple(types.Types[TUINT64], types.Types[TUINT64]), args[0], args[1])
+		},
+		sys.ArchARM64)
 }
 
 // findIntrinsic returns a function which builds the SSA equivalent of the
