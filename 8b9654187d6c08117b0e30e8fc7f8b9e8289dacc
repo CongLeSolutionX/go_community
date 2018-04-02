@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "5d6976b7_6b458140",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-04-02T03:02:51Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "30439522_219c7177",
+      "range": {
+        "startLine": 1595,
+        "startChar": 7,
+        "endLine": 1595,
+        "endChar": 15
+      },
+      "revId": "8b9654187d6c08117b0e30e8fc7f8b9e8289dacc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7d55cb8_24b434fe",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
