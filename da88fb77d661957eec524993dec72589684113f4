@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b766c9d_34981bcb",
+        "filename": "src/strings/builder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-02T23:45:27Z",
+      "side": 1,
+      "message": "Worth doing this one too?",
+      "revId": "da88fb77d661957eec524993dec72589684113f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbfaf436_12f8e981",
+        "filename": "src/strings/builder_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-02T23:45:27Z",
+      "side": 1,
+      "message": "And deleting this?",
+      "revId": "da88fb77d661957eec524993dec72589684113f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
