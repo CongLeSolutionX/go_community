@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7eb75ae_9ba84e7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-03T15:56:53Z",
+      "side": 1,
+      "message": "No period",
+      "revId": "4b695080880eebe4f14fb12199af9f08cc3cf408",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f05fb1ad_a8faff28",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-03T15:56:53Z",
+      "side": 1,
+      "message": "Refactor into a switch and turn br \u003d\u003d unknown into the default case.",
+      "revId": "4b695080880eebe4f14fb12199af9f08cc3cf408",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d181ffc_a6d4872c",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-03T15:56:53Z",
+      "side": 1,
+      "message": "\"switch br\" and drop the default case (since you can panic on that above).",
+      "revId": "4b695080880eebe4f14fb12199af9f08cc3cf408",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705eed81_68d4734d",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-03T15:56:53Z",
+      "side": 1,
+      "message": "Drop",
+      "range": {
+        "startLine": 679,
+        "startChar": 33,
+        "endLine": 679,
+        "endChar": 77
+      },
+      "revId": "4b695080880eebe4f14fb12199af9f08cc3cf408",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
