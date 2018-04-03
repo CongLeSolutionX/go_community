@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5af4a3d5_5944848e",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2386,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-03T17:19:09Z",
+      "side": 1,
+      "message": "Well, the listener also needs to return *tls.Conn connections. You immediately reference a TLS config which may not be applicable for most users.\n\nMaybe:\n\n// HTTP/2 support is only enabled if the Listener returns *tls.Conn connections and\n// the \"h2\" protocol has be configured in the TLS Listener\u0027s Config.NextProtos.\n\n?",
+      "range": {
+        "startLine": 2384,
+        "startChar": 2,
+        "endLine": 2386,
+        "endChar": 71
+      },
+      "revId": "03239de485004a4abaa3bc68e20570e14a4e8a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5d1ea94_4c073307",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2388,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-03T17:19:09Z",
+      "side": 1,
+      "message": "this is fine.",
+      "range": {
+        "startLine": 2387,
+        "startChar": 2,
+        "endLine": 2388,
+        "endChar": 40
+      },
+      "revId": "03239de485004a4abaa3bc68e20570e14a4e8a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e46b983_8e422b3d",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2405,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-03T17:19:09Z",
+      "side": 1,
+      "message": "also good",
+      "range": {
+        "startLine": 2397,
+        "startChar": 2,
+        "endLine": 2405,
+        "endChar": 43
+      },
+      "revId": "03239de485004a4abaa3bc68e20570e14a4e8a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b1d3f00_b34aa71b",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2708,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-03T17:19:09Z",
+      "side": 1,
+      "message": "Also good.",
+      "range": {
+        "startLine": 2703,
+        "startChar": 65,
+        "endLine": 2708,
+        "endChar": 41
+      },
+      "revId": "03239de485004a4abaa3bc68e20570e14a4e8a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbdad5df_637f8528",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2754,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-03T17:19:09Z",
+      "side": 1,
+      "message": "same comment above about *tls.Conn",
+      "range": {
+        "startLine": 2752,
+        "startChar": 2,
+        "endLine": 2754,
+        "endChar": 71
+      },
+      "revId": "03239de485004a4abaa3bc68e20570e14a4e8a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

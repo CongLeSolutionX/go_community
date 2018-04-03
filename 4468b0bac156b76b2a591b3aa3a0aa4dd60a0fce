@@ -46,6 +46,29 @@
       "revId": "4468b0bac156b76b2a591b3aa3a0aa4dd60a0fce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3c09fa_27e9235c",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2809,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-03T17:19:09Z",
+      "side": 0,
+      "message": "why is this being deleted?",
+      "range": {
+        "startLine": 2804,
+        "startChar": 2,
+        "endLine": 2809,
+        "endChar": 2
+      },
+      "revId": "4468b0bac156b76b2a591b3aa3a0aa4dd60a0fce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
