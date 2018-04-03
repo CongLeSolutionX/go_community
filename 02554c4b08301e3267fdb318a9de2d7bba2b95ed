@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51d1e6ba_662898d2",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-03T02:36:27Z",
+      "side": 1,
+      "message": "Update this comment to say what\u0027s done here vs in SSA?",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5594616c_a4bb053b",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-03T02:36:27Z",
+      "side": 1,
+      "message": "Doc comment",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73ade6dd_4557fa81",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-03T02:36:27Z",
+      "side": 1,
+      "message": "\"Safe\" in what sense? Perhaps the name should be more specific.",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
