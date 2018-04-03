@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5432951_5f01c108",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-03T17:54:56Z",
+      "side": 1,
+      "message": "I investigated these regressions, the static code diff is below:\nOpcode static count diff summary:\n           -21  ldr x [x #]\n           -10  str x [x #]\n            -2  bl\n            -1  b\n             2  mul x x x\n             2  umulh x x x\n             3  mov x x\nThere was a net reduction of 27 instructions because of the function call overhead, but the same code changes to math/big.nat.divLarge which accounts to 1.7% of the benchmark profile results in 13% improvement in IntSqr/1 and 3% regressions in IntSqr/(20, 30, 50) leading me to believe that the benchmark might be noisy and sensitive to code layout.",
+      "parentUuid": "845e218d_1e469cbd",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 86
+      },
+      "revId": "e9b713b53f0c018cc8c6bcb2ef3d54392ae3ce05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f1c9435_0c189671",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d246aebc_7442fb0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-03T17:54:56Z",
+      "side": 1,
+      "message": "Similar to package math/big, the code changes did not apply to the hottest functions of this benchmark.",
+      "parentUuid": "5f1c9435_0c189671",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 94
+      },
+      "revId": "e9b713b53f0c018cc8c6bcb2ef3d54392ae3ce05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5c5a6a4_0e0bcbc7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2018-04-03T15:35:31Z",
       "side": 1,
       "message": "I don\u0027t think the sha1, sha256, sha512, and md5 packages use this function. Do they?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 0
+      },
+      "revId": "e9b713b53f0c018cc8c6bcb2ef3d54392ae3ce05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91e1ea7c_a4eed50e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-03T17:54:56Z",
+      "side": 1,
+      "message": "They were triggered in \u003cmath/big.nat.sqr\u003e:\nOpcode static count diff summary:\n            -5  ldr x [x #]\n            -5  str x [x #]\n            -1  bl\n             1  mul x x x\n             1  umulh x x \nwhich removed net 9 instructions due to function call overhead, but these code changes were not to any hot functions of this benchmark, so the results might be noise.",
+      "parentUuid": "c5c5a6a4_0e0bcbc7",
       "range": {
         "startLine": 40,
         "startChar": 0,
