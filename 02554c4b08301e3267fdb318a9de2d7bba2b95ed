@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "55a92ed8_fabe295c",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-04-03T13:24:14Z",
+      "side": 1,
+      "message": "This will probably be mildly interesting now. And fn.Nbody has not changed at all. But I don\u0027t have any suggestions, I guess we still want to keep this for consistency?",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeb3e454_876ff1bd",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3700,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-04-03T13:24:14Z",
+      "side": 1,
+      "message": "What are \"false dependencies\"? Dependencies between what and what? And why are they false?\nI am asking because TSAN did caught serious bugs in GCC and LLVM when they incorrectly widened memory accesses which lead to actual memory corruptions, but was caught by TSAN as it runs after the widening pass and was able to see these real wide accesses.",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5594616c_a4bb053b",
         "filename": "src/cmd/compile/internal/gc/syntax.go",
         "patchSetId": 5
