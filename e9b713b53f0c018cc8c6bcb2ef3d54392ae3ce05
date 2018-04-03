@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "845e218d_1e469cbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-04-03T06:12:00Z",
+      "side": 1,
+      "message": "Any idea about the regression?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 86
+      },
+      "revId": "e9b713b53f0c018cc8c6bcb2ef3d54392ae3ce05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f1c9435_0c189671",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-04-03T06:12:00Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 94
+      },
+      "revId": "e9b713b53f0c018cc8c6bcb2ef3d54392ae3ce05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaed4789_db0a8f43",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-04-03T06:12:00Z",
+      "side": 1,
+      "message": "add some comments such as: // arg0 * arg1, returns (hi, lo)",
+      "range": {
+        "startLine": 207,
+        "startChar": 2,
+        "endLine": 207,
+        "endChar": 76
+      },
+      "revId": "e9b713b53f0c018cc8c6bcb2ef3d54392ae3ce05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
