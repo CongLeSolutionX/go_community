@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14e80cf2_ebb2ae97",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-03T02:41:37Z",
+      "side": 1,
+      "message": "Maybe addBranchRestrictions to emphasize that it\u0027s cumulative?",
+      "range": {
+        "startLine": 691,
+        "startChar": 3,
+        "endLine": 691,
+        "endChar": 27
+      },
+      "revId": "e61653b11a6ac0b344f1f663007b5282ced9ba73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
