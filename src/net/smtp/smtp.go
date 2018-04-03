@@ -209,6 +209,7 @@ func (c *Client) Auth(a Auth) error {
 	resp64 := make([]byte, encoding.EncodedLen(len(resp)))
 	encoding.Encode(resp64, resp)
 	code, msg64, err := c.cmd(0, strings.TrimSpace(fmt.Sprintf("AUTH %s %s", mech, resp64)))
+	serverClosed := false // true if the SMTP server no longer wants to receive client data
 	for err == nil {
 		var msg []byte
 		switch code {
@@ -217,8 +218,16 @@ func (c *Client) Auth(a Auth) error {
 		case 235:
 			// the last message isn't base64 because it isn't a challenge
 			msg = []byte(msg64)
+		case 535:
+			// 535 refers to the rejection from auth server. Even though it also returns an error, it does not require a 501 command to continue.
+			err = &textproto.Error{Code: code, Msg: msg64}
+			serverClosed = true
 		default:
 			err = &textproto.Error{Code: code, Msg: msg64}
+		}
+		if serverClosed {
+			c.Quit()
+			break
 		}
 		if err == nil {
 			resp, err = a.Next(msg, code == 334)
