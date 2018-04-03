@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "c5c5a6a4_0e0bcbc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-03T15:35:31Z",
+      "side": 1,
+      "message": "I don\u0027t think the sha1, sha256, sha512, and md5 packages use this function. Do they?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 0
+      },
+      "revId": "e9b713b53f0c018cc8c6bcb2ef3d54392ae3ce05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eaed4789_db0a8f43",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 3
