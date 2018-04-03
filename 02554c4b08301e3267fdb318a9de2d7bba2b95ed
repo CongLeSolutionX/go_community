@@ -184,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "a3865276_c2332524",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3700,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-03T20:40:26Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m aware of that. This doesn\u0027t generate wider load in the actual codegen, so I was not thinking this as load widening.",
+      "parentUuid": "4ef1aedb_da0724a9",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c16c4cf8_de052ee2",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 5
