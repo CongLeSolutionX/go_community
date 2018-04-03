@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e5b3a92_eb797293",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-03T15:16:16Z",
+      "side": 1,
+      "message": "Maybe add a comment about the 64.",
+      "revId": "b2dd3eaf35e5ef381516ee87b7c6d9a29e9eea79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
