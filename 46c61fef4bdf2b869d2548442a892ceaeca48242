@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39b1b16b_0fa491a0",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-04-03T06:11:07Z",
+      "side": 1,
+      "message": "Maybe this README, or one at cmd/compile/internal/gc (if it will get one in future), can tell that \"gc\" is a compiler name? Perhaps it\u0027s only my problem with \"gc\" being a compiler name (always wandered why it\u0027s not goc, as famous letter proposed \"goc\" as a compiler tool name; I mean, we don\u0027t have problems with names like javac or rustc, they are natural).\n\nI also believe several sources treat \"gc\" as a C compiler era of Go, like new compiler don\u0027t have a name. That is very awkward, sometimes I find saying \"6g\" more convenient (if x86_64 context is OK).",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebcc4e44_8642cfd7",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-04-03T06:11:07Z",
+      "side": 1,
+      "message": "I think \"cmd/compile/internal/types\" should be mentioned in this README, too.\nAnd it\u0027s used by both frontend and backend.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 21
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73403fd7_c8aa2292",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-04-03T06:11:07Z",
+      "side": 1,
+      "message": "IRC, there was `opt.go` file that was removed from the frontend at some point.\nIf it\u0027s undesirable to add more optimizations to the frontend, we could mention that.\n\nPersonally, I think important historical changes are also worth being mentioned, but this may lead to hard to read \"mix of facts from different time\" file.",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90e22293_c2c27337",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-04-03T06:11:07Z",
+      "side": 1,
+      "message": "On amd64, memory operands are possible, so many load-store operations are combined. Those memory operations are usually suffixed with \"mem\" (ADDQmem, XORQmem, etc.).\n\nExample of machine-specific lowering:\nMost stores translated to one or more move instructions, or a duff copy.\nFor example, on amd64 8-byte store can be a MOVQ, 7-byte store requires a couple of MOVL.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "992aca13_d629329b",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-04-03T06:11:07Z",
+      "side": 1,
+      "message": "They have some optimizations that are very ISA-specific.\nI think if there are too generic optimizations at lowered rule level that are duplicated\non each machine-dependent level, they should be refactored to generic level.\n\nThere are some interesting cases, like multiplication optimizations.\nMost simple rewrites are done at generic level and multi-instructions rewrite\nare performed at lowered level. For example, it\u0027s possible to use LEA on x86 to do some multiplication.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 18
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
