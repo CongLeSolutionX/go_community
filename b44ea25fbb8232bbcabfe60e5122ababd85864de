@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "875f0bee_7d38f701",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-04-03T03:14:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc6d4178_1c4ab424",
+      "range": {
+        "startLine": 156,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 12
+      },
+      "revId": "b44ea25fbb8232bbcabfe60e5122ababd85864de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab67579_9e2ec643",
         "filename": "src/net/http/example_test.go",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "f15e9287_5e4d8bb4",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-04-03T03:14:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab67579_9e2ec643",
+      "revId": "b44ea25fbb8232bbcabfe60e5122ababd85864de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fad35ef0_eca9e6b2",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2018-04-02T23:43:23Z",
       "side": 1,
       "message": "But this code itself just calls Server.Server, so how are both statements true?",
+      "range": {
+        "startLine": 2385,
+        "startChar": 50,
+        "endLine": 2385,
+        "endChar": 62
+      },
+      "revId": "b44ea25fbb8232bbcabfe60e5122ababd85864de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dfa9a7e_34378b95",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2385,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-04-03T03:14:04Z",
+      "side": 1,
+      "message": "I was thinking that you get to set srv.TLSConfig that way, but I forgot that when that\u0027s nil HTTP/2 is enabled unconditionally.\n\nI tried expanding the docs in a few different ways, but eventually I could not justify why the user needs to care for the \"srv.TLSConfig is nil but h2 is missing from Config.NextProtos, so H/2 is enabled but useless\" case, so I drastically simplified both Serve and Server.Serve to what the user needs to know.",
+      "parentUuid": "fad35ef0_eca9e6b2",
       "range": {
         "startLine": 2385,
         "startChar": 50,
@@ -85,6 +151,30 @@
       "revId": "b44ea25fbb8232bbcabfe60e5122ababd85864de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31072a1c_90012590",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2944,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-04-03T03:14:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1409ae8c_2766b52f",
+      "range": {
+        "startLine": 2944,
+        "startChar": 3,
+        "endLine": 2944,
+        "endChar": 10
+      },
+      "revId": "b44ea25fbb8232bbcabfe60e5122ababd85864de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

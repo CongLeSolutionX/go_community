@@ -22,6 +22,30 @@
       "revId": "4468b0bac156b76b2a591b3aa3a0aa4dd60a0fce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f99b214_276568c3",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2993,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-04-03T03:14:04Z",
+      "side": 0,
+      "message": "Yep, I moved it to the example. It\u0027s more relevant there, to enable the hello world. These days self-signed certificates have much less reason to exist.",
+      "parentUuid": "bb3ba150_dc8c40ef",
+      "range": {
+        "startLine": 2993,
+        "startChar": 0,
+        "endLine": 2993,
+        "endChar": 79
+      },
+      "revId": "4468b0bac156b76b2a591b3aa3a0aa4dd60a0fce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
