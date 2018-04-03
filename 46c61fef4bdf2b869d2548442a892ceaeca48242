@@ -210,6 +210,30 @@
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69039a7f_c1bc72ba",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-04-03T10:46:06Z",
+      "side": 1,
+      "message": "The rules that are being applied during \"lower\" are both lowering and\noptimizations.\n\nSome files (or maybe all, but I know that amd64 does for sure) mention something like:\n TODO: separate required lowering and optimization rules?\n\n\u003e When exactly are the generic and machine-specific rewrite rules applied? I assume that the generic ones run in the \"opt\" SSA pass, and that the machine-specific ones run as part of \"lower\".\n\nYour assumption is correct.\nIt\u0027s just \"lower\" does both lowering and optimizations.",
+      "parentUuid": "7ebcc5ca_0a2c8191",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 18
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
