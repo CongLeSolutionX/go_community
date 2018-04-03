@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e582a1b_7ab4b42b",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-03T15:49:18Z",
+      "side": 1,
+      "message": "space after //. But I\u0027d just make this a same-line comment:\n\n   serverClosed :\u003d false // true if the SMTP server no longer wants to receive client data",
+      "range": {
+        "startLine": 212,
+        "startChar": 1,
+        "endLine": 212,
+        "endChar": 16
+      },
+      "revId": "b994b7320e2ab718f0e8b095148a03635b3d2cb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7797320_6393389c",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-03T15:49:18Z",
+      "side": 1,
+      "message": "server. Even though ...\n\n(replace comma with period, start new sentence and capitalize Even)",
+      "range": {
+        "startLine": 223,
+        "startChar": 49,
+        "endLine": 223,
+        "endChar": 56
+      },
+      "revId": "b994b7320e2ab718f0e8b095148a03635b3d2cb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fce8637_bedf05f5",
+        "filename": "src/net/smtp/smtp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-03T15:49:18Z",
+      "side": 1,
+      "message": "delete line. No need to explain what the code literally does.",
+      "revId": "b994b7320e2ab718f0e8b095148a03635b3d2cb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
