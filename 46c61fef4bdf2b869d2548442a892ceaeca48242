@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "396dc207_a21ad1b9",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-03T17:17:40Z",
+      "side": 1,
+      "message": "I\u0027d just say \"is\". \"may be\" suggests to me that we might split it like this in the future, but I think it\u0027s fair to say it\u0027s split this way already.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 6
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78688091_cc65bf23",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -135,6 +158,29 @@
     },
     {
       "key": {
+        "uuid": "d3792df2_ef775bef",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-03T17:17:40Z",
+      "side": 1,
+      "message": "nit: Generally anything that falls under the category of making sure code is Go spec compliant is \"type checking\", which includes both of these specific checks.\n\nThe \"declared and not used\" case is interesting though, because it\u0027s actually done during walk, which (as I argue below) is part of the backend. This is a historical detail though, and we\u0027re trying to move all type checking into the frontend.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 70
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d34fe091_d974488a",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -204,6 +250,58 @@
     },
     {
       "key": {
+        "uuid": "be6b45af_a5541d9e",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-03T17:17:40Z",
+      "side": 1,
+      "message": "Yeah, I\u0027d focus on historical facts that are still relevant today. I don\u0027t remember opt.go, for example, so I don\u0027t think it\u0027s worthwhile mentioning.",
+      "parentUuid": "eca30e61_f32fc03e",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "578afadd_b793d449",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-03T17:17:40Z",
+      "side": 1,
+      "message": "nit: I\u0027d probably put these warnings much higher up in the document. This is a really common source of confusion for new compiler devs, and it\u0027s not really front-end specific.\n\nI\u0027d probably also say \"mostly historical.\" There are technical advantages to having our own internal AST.",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b620e221_3a68ee6d",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-03T17:17:40Z",
+      "side": 1,
+      "message": "For what it\u0027s worth, I generally think of everything that happens within \"funccompile\" and \"dumpLinkerObj\" as the \"backend\".\n\nSo I\u0027d argue that the backend begins with order and walk, which desugar the high-level AST constructs into lower-level ones. But over time, we expect to move more and more of these transformations into buildssa.",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b5d875f0_3479b0a4",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -215,6 +313,29 @@
       "writtenOn": "2018-04-03T16:03:51Z",
       "side": 1,
       "message": "I usually use \"middle-end\" to refer to the order/walk/inl stuff. I\u0027d call this \"generic\" or \"architecture-independent\" optimization.",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad1716e_f0db4c5f",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-03T17:17:40Z",
+      "side": 1,
+      "message": "I\u0027m not sure I\u0027ve ever heard the SSA passes referred to as the \"middle-end\". If anything, I think of inlining and escape analysis as the middle-end.",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 28
+      },
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -333,6 +454,40 @@
         "endLine": 69,
         "endChar": 18
       },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eaf1d3d_28ac3b6a",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-03T17:17:40Z",
+      "side": 1,
+      "message": "It\u0027s worth mentioning that before code generation, we also perform stack frame layout (i.e., deciding which variables go where on the stack) and creating pointer liveness maps (i.e., computing which on-stack pointers are live at each GC safe point).\n\nPerhaps also mention that generating actual machine code is handled by cmd/internal/obj (formerly known as \"liblink\").\n\nMaybe mention that somewhere in here we also generate DWARF debugging information. (I forget where exactly; it\u0027s changed over time, and I\u0027ve not done a great job keeping up with its evolution.)",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb66ddc8_28828ec4",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-03T17:17:40Z",
+      "side": 1,
+      "message": "Compiler intrinsics are recognized during buildssa.",
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
