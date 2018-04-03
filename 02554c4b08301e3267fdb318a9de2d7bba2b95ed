@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "1c792ff9_49cdfd7f",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-03T15:09:52Z",
+      "side": 1,
+      "message": "This does not apply now.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 2
+      },
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aeb3e454_876ff1bd",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 5
@@ -47,6 +70,41 @@
       "writtenOn": "2018-04-03T13:24:14Z",
       "side": 1,
       "message": "What are \"false dependencies\"? Dependencies between what and what? And why are they false?\nI am asking because TSAN did caught serious bugs in GCC and LLVM when they incorrectly widened memory accesses which lead to actual memory corruptions, but was caught by TSAN as it runs after the widening pass and was able to see these real wide accesses.",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9920e3c5_15bede0c",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3700,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-03T15:09:52Z",
+      "side": 1,
+      "message": "I think this is from that a load of x.f is compiled to (w/o instrumentation)\n  v1 \u003d Load \u003cStructType\u003e x mem\n  v2 \u003d StructSelect \u003cFieldType\u003e [FieldIndex] v1\nwhich will later be rewritten to just Load a field.\nIf the load is instrumented, it will appear to be a load of the full struct.\n\nWould it make sense then to do it after expanding StructSelect etc.? I think the current approach is fine, doing it later could also be an option.\n\nWould this problem also apply to slice, string, and interface?",
+      "parentUuid": "aeb3e454_876ff1bd",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c16c4cf8_de052ee2",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3858,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-03T15:09:52Z",
+      "side": 1,
+      "message": "Should we honor skip here? I.e. only instrument stores to fields we actually store?",
       "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -81,6 +139,24 @@
       "writtenOn": "2018-04-03T02:36:27Z",
       "side": 1,
       "message": "\"Safe\" in what sense? Perhaps the name should be more specific.",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96c2b2db_5af61062",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-03T15:09:52Z",
+      "side": 1,
+      "message": "I agree with Austin -- \"Safe\" isn\u0027t very clear here.\n\nAlso it seems this function is here simply because it is adjacent to IsStackAddr, but this has nothing to do with write barrier, so maybe consider placing it somewhere else. gc/ssa.go could be an option, as the ssa package doesn\u0027t use it. But it operates on SSA values, and moving to gc package would rewrite all the OpXXX to ssa.OpXXX... I\u0027m not sure.",
+      "parentUuid": "73ade6dd_4557fa81",
       "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
