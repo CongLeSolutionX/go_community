@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0237699e_ddb2551f",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 26981
+      },
+      "writtenOn": "2018-04-03T14:08:25Z",
+      "side": 1,
+      "message": "Good point. Removed.",
+      "parentUuid": "debea9cb_87e6ab1f",
+      "revId": "4ec68247b35cbfc5581034a3ea62e5f08b5ca289",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c85b2afe_58b15da5",
         "filename": "src/regexp/regexp.go",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "4ec68247b35cbfc5581034a3ea62e5f08b5ca289",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54894cf8_9c586041",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 26981
+      },
+      "writtenOn": "2018-04-03T14:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c85b2afe_58b15da5",
+      "range": {
+        "startLine": 116,
+        "startChar": 16,
+        "endLine": 118,
+        "endChar": 24
+      },
+      "revId": "4ec68247b35cbfc5581034a3ea62e5f08b5ca289",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "bea712be_ab3f6e1f",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 26981
+      },
+      "writtenOn": "2018-04-03T14:08:25Z",
+      "side": 1,
+      "message": "This method now does blind Regexp copy, so I don\u0027t think this is relevant any longer. Please reopen if I\u0027m missing something.",
+      "parentUuid": "6ebba022_4ebe5355",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3848ef4c_2c9ebd38",
         "filename": "src/regexp/regexp.go",
         "patchSetId": 2
