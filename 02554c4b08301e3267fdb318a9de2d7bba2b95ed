@@ -112,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "78f40a1c_2bfc780f",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3700,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-04-03T18:13:50Z",
+      "side": 1,
+      "message": "\u003e I\u0027d be interested in details of the GCC/LLVM issues that TSAN found. It seems possible they\u0027re present in the Go compiler too.\n\nThis was back in 2012, what I can find now is only our internal bug 7051647.",
+      "parentUuid": "48d916a0_749be81b",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c16c4cf8_de052ee2",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 5
