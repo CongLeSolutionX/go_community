@@ -130,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "9751d749_4f238f54",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3700,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-03T20:07:36Z",
+      "side": 1,
+      "message": "Thanks. That bug looks to be due store-widening, which I don\u0027t think we do.\n\nI think we only do load-widening, which I\u0027d expect is always safe? I.e., spurious loads of memory are harmless?",
+      "parentUuid": "78f40a1c_2bfc780f",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c16c4cf8_de052ee2",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 5
