@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "0d91d04b_5994c9e8",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-03T16:03:51Z",
+      "side": 1,
+      "message": "This isn\u0027t quite true. Some important compiler-y packages live in cmd/internal, such as cmd/internal/src and cmd/internal/obj.",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41214473_daa8e97e",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-03T16:03:51Z",
+      "side": 1,
+      "message": "This is a bit simplistic. I\u0027d say it can currently be split into several parts:\n\n1. lexer and parser\n2. typechecking and front-end optimization, including escape analysis, inlining, lowering (e.g. of switch and range statements), and expression evaluation ordering\n3. SSA backend, including SSA analysis, generic optimizations, architecture-specific optimizations, and liveness analysis\n4. lower to machine code, emit object files, reflect data, export data\n\nCurrently, 1 happens in the new AST. It is translated into an old AST for step 2. That is translated into SSA form for step 3, which outputs obj.Progs. Step 4 works on those progs as well as lots of other artifacts from other steps.\n\nThe long term plan is to eliminate the old (middle-stage) AST. The work done with it will move into some combination of the new AST, the AST-to-SSA translation, and the SSA backend. This will take a long time.",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78688091_cc65bf23",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-03T16:03:51Z",
+      "side": 1,
+      "message": "This discussion of the middle-end should probably be eliminated in favor of more detail (above).",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39b1b16b_0fa491a0",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -84,6 +135,40 @@
     },
     {
       "key": {
+        "uuid": "d34fe091_d974488a",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-03T16:03:51Z",
+      "side": 1,
+      "message": "I\u0027d call this \"refined based on type information\" instead of \"clarified\".",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aa1e0d7_bc555a27",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-03T16:03:51Z",
+      "side": 1,
+      "message": "I\u0027d call this \"lowering\".",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73403fd7_c8aa2292",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -113,6 +198,23 @@
       "side": 1,
       "message": "\u003e If it\u0027s undesirable to add more optimizations to the frontend, we could mention that.\n\nI don\u0027t know the answer to that question - I\u0027m sure someone else in this thread knows.\n\nAs for historical facts, they\u0027re at the bottom of the frontend section. Is there anything you find missing (besides the gc/6g stuff mentioned above)?",
       "parentUuid": "73403fd7_c8aa2292",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5d875f0_3479b0a4",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-03T16:03:51Z",
+      "side": 1,
+      "message": "I usually use \"middle-end\" to refer to the order/walk/inl stuff. I\u0027d call this \"generic\" or \"architecture-independent\" optimization.",
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
