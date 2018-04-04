@@ -153,6 +153,13 @@ int FetchPEMRoots(CFDataRef *pemRoots, CFDataRef *untrustedPemRoots) {
 					// "this certificate must be verified to a known trusted certificate"; aka not a root.
 					continue;
 				}
+				if (CFArrayGetCount(trustSettings) == 0) {
+					// the default behavior for macOS is to recognize certificate entries that don't have
+					// trust settings, so if trustSettings are empty set trustRoot=1 to match this behavior.
+					// Set trustRoot rather than trustAsRoot so that root CA verification still occurs.
+					// See golang.org/issue/24652
+					trustRoot = 1;
+				}
 				for (m = 0; m < CFArrayGetCount(trustSettings); m++) {
 					CFNumberRef cfNum;
 					CFDictionaryRef tSetting = (CFDictionaryRef)CFArrayGetValueAtIndex(trustSettings, m);
