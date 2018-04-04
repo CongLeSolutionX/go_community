@@ -525,14 +525,14 @@ func (ctxt *Link) loadlib() {
 		// recording the value of GOARM.
 		if SysArch.Family == sys.ARM {
 			s := ctxt.Syms.Lookup("runtime.goarm", 0)
-			s.Type = SRODATA
+			s.Type = SDATA
 			s.Size = 0
 			Adduint8(ctxt, s, uint8(objabi.GOARM))
 		}
 
 		if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
 			s := ctxt.Syms.Lookup("runtime.framepointer_enabled", 0)
-			s.Type = SRODATA
+			s.Type = SDATA
 			s.Size = 0
 			Adduint8(ctxt, s, 1)
 		}
