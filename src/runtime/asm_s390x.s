@@ -142,6 +142,7 @@ nocgo:
 
 	// argc/argv are already prepared on stack
 	BL	runtime·args(SB)
+	BL	internal∕cpu·initFeatures(SB)
 	BL	runtime·osinit(SB)
 	BL	runtime·schedinit(SB)
 

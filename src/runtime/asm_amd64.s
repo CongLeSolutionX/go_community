@@ -248,6 +248,7 @@ ok:
 	MOVQ	24(SP), AX		// copy argv
 	MOVQ	AX, 8(SP)
 	CALL	runtime·args(SB)
+	CALL	internal∕cpu·initFeatures(SB)
 	CALL	runtime·osinit(SB)
 	CALL	runtime·schedinit(SB)
 

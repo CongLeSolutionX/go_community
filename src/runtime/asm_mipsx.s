@@ -58,6 +58,7 @@ nocgo:
 
 	// args are already prepared
 	JAL	runtime·args(SB)
+	JAL	internal∕cpu·initFeatures(SB)
 	JAL	runtime·osinit(SB)
 	JAL	runtime·schedinit(SB)
 

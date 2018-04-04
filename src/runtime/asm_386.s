@@ -293,6 +293,7 @@ ok:
 	MOVL	124(SP), AX
 	MOVL	AX, 4(SP)
 	CALL	runtime·args(SB)
+	CALL	internal∕cpu·initFeatures(SB)
 	CALL	runtime·osinit(SB)
 	CALL	runtime·schedinit(SB)
 

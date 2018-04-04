@@ -68,6 +68,7 @@ nocgo:
 
 	// args are already prepared
 	BL	runtime·args(SB)
+	BL	internal∕cpu·initFeatures(SB)
 	BL	runtime·osinit(SB)
 	BL	runtime·schedinit(SB)
 

@@ -66,6 +66,7 @@ nocgo:
 	MOVD	16(RSP), R0		// copy argv
 	MOVD	R0, 0(RSP)
 	BL	runtime·args(SB)
+	BL	internal∕cpu·initFeatures(SB)
 	BL	runtime·osinit(SB)
 	BL	runtime·schedinit(SB)
 
