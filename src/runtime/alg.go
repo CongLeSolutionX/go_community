@@ -5,6 +5,7 @@
 package runtime
 
 import (
+	"internal/cpu"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -278,13 +279,18 @@ var aeskeysched [hashRandomBytes]byte
 // used in hash{32,64}.go to seed the hash function
 var hashkey [4]uintptr
 
+//go:linkname cpuFeatures internal/cpu.initFeatures
+func cpuFeatures()
+
 func alginit() {
 	// Install aes hash algorithm if we have the instructions we need
+	cpuFeatures()
+
 	if (GOARCH == "386" || GOARCH == "amd64") &&
 		GOOS != "nacl" &&
-		support_aes && // AESENC
-		support_ssse3 && // PSHUFB
-		support_sse41 { // PINSR{D,Q}
+		cpu.X86.HasAES && // AESENC
+		cpu.X86.HasSSSE3 && // PSHUFB
+		cpu.X86.HasSSE41 { // PINSR{D,Q}
 		useAeshash = true
 		algarray[alg_MEM32].hash = aeshash32
 		algarray[alg_MEM64].hash = aeshash64
