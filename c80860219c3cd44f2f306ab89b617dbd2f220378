@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fb25c491_3a62fdb4",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-04T10:42:15Z",
+      "side": 1,
+      "message": "Reverted, thanks.",
+      "parentUuid": "689d20b9_3c193a10",
+      "range": {
+        "startLine": 515,
+        "startChar": 2,
+        "endLine": 519,
+        "endChar": 3
+      },
+      "revId": "c80860219c3cd44f2f306ab89b617dbd2f220378",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e20ae507_7baa2eee",
         "filename": "src/cmd/compile/internal/gc/order.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-03T15:57:19Z",
       "side": 1,
       "message": "I\u0027m not sure about the control flow/dependencies, but it looks as if this statement could be placed before this if statement.",
+      "range": {
+        "startLine": 767,
+        "startChar": 4,
+        "endLine": 767,
+        "endChar": 25
+      },
+      "revId": "c80860219c3cd44f2f306ab89b617dbd2f220378",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be2583e6_80ca8354",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-04T10:42:15Z",
+      "side": 1,
+      "message": "The order does matter - applying this change breaks \u0027toolstash -cmp\u0027. In other words, it generates different compiler output.\n\nI realise I\u0027m duplicating one statement, but it\u0027s a fairly simple one, and it means unindenting 80 lines.",
+      "parentUuid": "e20ae507_7baa2eee",
       "range": {
         "startLine": 767,
         "startChar": 4,
