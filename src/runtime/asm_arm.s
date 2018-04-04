@@ -155,6 +155,7 @@ TEXT runtime·rt0_go(SB),NOSPLIT|NOFRAME,$0
 	MOVW	R1, 8(R13)
 	BL	runtime·args(SB)
 	BL	runtime·checkgoarm(SB)
+	BL	internal∕cpu·initFeatures(SB)
 	BL	runtime·osinit(SB)
 	BL	runtime·schedinit(SB)
 

@@ -145,6 +145,7 @@ ok:
 	MOVL	24(SP), AX		// copy argv
 	MOVL	AX, 4(SP)
 	CALL	runtime·args(SB)
+	CALL	internal∕cpu·initFeatures(SB)
 	CALL	runtime·osinit(SB)
 	CALL	runtime·schedinit(SB)
 
