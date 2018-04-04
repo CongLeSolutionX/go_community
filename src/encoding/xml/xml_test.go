@@ -493,7 +493,8 @@ func TestIssue569(t *testing.T) {
 }
 
 func TestUnquotedAttrs(t *testing.T) {
-	data := "<tag attr=azAZ09:-_\t>"
+	attrValue := "azAZ09:-_\t"
+	data := "<tag attr="+attrValue+">"
 	d := NewDecoder(strings.NewReader(data))
 	d.Strict = false
 	token, err := d.Token()
@@ -504,8 +505,8 @@ func TestUnquotedAttrs(t *testing.T) {
 		t.Errorf("Unexpected tag name: %v", token.(StartElement).Name.Local)
 	}
 	attr := token.(StartElement).Attr[0]
-	if attr.Value != "azAZ09:-_" {
-		t.Errorf("Unexpected attribute value: %v", attr.Value)
+	if attr.Value != attrValue {
+		t.Errorf("Unexpected attribute value: got %s want %s", attr.Value,attrValue)
 	}
 	if attr.Name.Local != "attr" {
 		t.Errorf("Unexpected attribute name: %v", attr.Name.Local)
@@ -624,7 +625,7 @@ var characterTests = []struct {
 	{"<?xml version=\"1.0\"?>\x0b<doc/>", "illegal character code U+000B"},
 	{"\xef\xbf\xbe<doc/>", "illegal character code U+FFFE"},
 	{"<?xml version=\"1.0\"?><doc>\r\n<hiya/>\x07<toots/></doc>", "illegal character code U+0007"},
-	{"<?xml version=\"1.0\"?><doc \x12='value'>what's up</doc>", "expected attribute name in element"},
+	{"<?xml version=\"1.0\"?><doc \x12='value'>what's up</doc>", "expected = after attribute name"},
 	{"<doc>&abc\x01;</doc>", "invalid character entity &abc (no semicolon)"},
 	{"<doc>&\x01;</doc>", "invalid character entity & (no semicolon)"},
 	{"<doc>&\xef\xbf\xbe;</doc>", "invalid character entity &\uFFFE;"},
@@ -798,6 +799,54 @@ func TestIssue12417(t *testing.T) {
 	}
 }
 
+func TestIssue20614(t *testing.T) {
+	testCases := []struct {
+		s  string
+		ok bool
+	}{
+		{`<a p="v1           x
+
+			v1"/>`, true}, // single byte attribute name, end of line handling
+		{`<a p1="v1           x
+
+			v1" p2="v2           y
+
+			v2"/>`, true}, // multiple attributes
+		{`<a p1="v1   <![CDATA[b]]> v1"/>`, false}, // Invalid char <
+		{`<x:book xmlns:x="ab   
+                   +:++ cd">one</x:book>`, true},
+		/* This case is undetected
+        {`<x:book attr="ab
+                   +:;++ cd">one</x:book>`, false}, // Prefix x is not bound
+		*/
+		{`<x:book xmlns:x="ab   
+                   +:++ cd">one</y:book>`, false}, // Closing name space is faulty
+		{`<xbook attrib="  ;,n;n  
+				end"> one </xbook>`, true}, //
+	}
+	for _, tc := range testCases {
+		d := NewDecoder(strings.NewReader(tc.s))
+		//d.Strict = false
+		var err error
+		//var tok Token
+		for {
+			_, err = d.Token()
+			if err != nil {
+				if err == io.EOF {
+					err = nil
+				}
+				break
+			}
+		}
+		if err != nil && tc.ok {
+			t.Errorf("%q: Encoding charset: expected no error, got %s", tc.s, err)
+			continue
+		}
+		if err == nil && !tc.ok {
+			t.Errorf("%q: Encoding charset: expected error, got nil", tc.s)
+		}
+	}
+}
 func tokenMap(mapping func(t Token) Token) func(TokenReader) TokenReader {
 	return func(src TokenReader) TokenReader {
 		return mapper{
