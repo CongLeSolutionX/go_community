@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "227ca018_649ad674",
+        "filename": "test/locklinear.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-04T16:02:00Z",
+      "side": 1,
+      "message": "I\u0027d also check runtime.GOARCH \u003d\u003d \"arm\" \u0026\u0026 ...",
+      "revId": "e6e394cde4a147c124f1e9e2658e9c38d7a0d1d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
