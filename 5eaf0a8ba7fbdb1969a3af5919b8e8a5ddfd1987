@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "135830f3_e0267ce6",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 3799,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-04T20:39:43Z",
+      "side": 1,
+      "message": "Undo this line.",
+      "revId": "5eaf0a8ba7fbdb1969a3af5919b8e8a5ddfd1987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b4ebbd6_5085ab86",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 3812,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-04T20:39:43Z",
+      "side": 1,
+      "message": "Should we propagate isStmt here also?",
+      "revId": "5eaf0a8ba7fbdb1969a3af5919b8e8a5ddfd1987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
