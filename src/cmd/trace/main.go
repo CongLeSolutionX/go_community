@@ -83,7 +83,7 @@ func main() {
 		flag.Usage()
 	}
 
-	var pprofFunc func(io.Writer, string) error
+	var pprofFunc func(io.Writer, *http.Request) error
 	switch *pprofFlag {
 	case "net":
 		pprofFunc = pprofIO
@@ -95,7 +95,7 @@ func main() {
 		pprofFunc = pprofSched
 	}
 	if pprofFunc != nil {
-		if err := pprofFunc(os.Stdout, ""); err != nil {
+		if err := pprofFunc(os.Stdout, &http.Request{}); err != nil {
 			dief("failed to generate pprof: %v\n", err)
 		}
 		os.Exit(0)

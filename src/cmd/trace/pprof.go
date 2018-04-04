@@ -17,7 +17,9 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"sort"
 	"strconv"
+	"time"
 
 	"github.com/google/pprof/profile"
 )
@@ -39,6 +41,11 @@ func init() {
 	http.HandleFunc("/block", serveSVGProfile(pprofBlock))
 	http.HandleFunc("/syscall", serveSVGProfile(pprofSyscall))
 	http.HandleFunc("/sched", serveSVGProfile(pprofSched))
+
+	http.HandleFunc("/spanio", serveSVGProfile(pprofSpanIO))
+	http.HandleFunc("/spanblock", serveSVGProfile(pprofSpanBlock))
+	http.HandleFunc("/spansyscall", serveSVGProfile(pprofSpanSyscall))
+	http.HandleFunc("/spansched", serveSVGProfile(pprofSpanSched))
 }
 
 // Record represents one entry in pprof-like profiles.
@@ -48,10 +55,15 @@ type Record struct {
 	time int64
 }
 
+// interval represents a time interval in the trace.
+type interval struct {
+	begin, end int64 // nanoseconds.
+}
+
 // pprofMatchingGoroutines parses the goroutine type id string (i.e. pc)
-// and returns the ids of goroutines of the matching type.
+// and returns the ids of goroutines of the matching type and its interval.
 // If the id string is empty, returns nil without an error.
-func pprofMatchingGoroutines(id string, events []*trace.Event) (map[uint64]bool, error) {
+func pprofMatchingGoroutines(id string, events []*trace.Event) (map[uint64][]interval, error) {
 	if id == "" {
 		return nil, nil
 	}
@@ -60,15 +72,20 @@ func pprofMatchingGoroutines(id string, events []*trace.Event) (map[uint64]bool,
 		return nil, fmt.Errorf("invalid goroutine type: %v", id)
 	}
 	analyzeGoroutines(events)
-	var res map[uint64]bool
+	var res map[uint64][]interval
 	for _, g := range gs {
 		if g.PC != pc {
 			continue
 		}
 		if res == nil {
-			res = make(map[uint64]bool)
+			res = make(map[uint64][]interval)
 		}
-		res[g.ID] = true
+		begin := g.StartTime
+		end := g.EndTime
+		if g.EndTime == 0 {
+			end = lastTimestamp() // the trace doesn't include the goroutine end event. Use the trace end time.
+		}
+		res[g.ID] = []interval{{begin: begin, end: end}}
 	}
 	if len(res) == 0 && id != "" {
 		return nil, fmt.Errorf("failed to find matching goroutines for id: %s", id)
@@ -76,46 +93,117 @@ func pprofMatchingGoroutines(id string, events []*trace.Event) (map[uint64]bool,
 	return res, nil
 }
 
+// pprofMatchingSpans returns the time intervals of matching spans
+// grouped by the goroutine id. If the filter is nil, returns nil without an error.
+func pprofMatchingSpans(filter *spanFilter) (map[uint64][]interval, error) {
+	res, err := analyzeAnnotations()
+	if err != nil {
+		return nil, err
+	}
+	if filter == nil {
+		return nil, nil
+	}
+
+	gToIntervals := make(map[uint64][]interval)
+	for id, spans := range res.spans {
+		for _, s := range spans {
+			if filter.match(id, s) {
+				gToIntervals[s.G] = append(gToIntervals[s.G], interval{begin: s.firstTimestamp(), end: s.lastTimestamp()})
+			}
+		}
+	}
+
+	for g, intervals := range gToIntervals {
+		// in order to remove nested spans and
+		// consider only the outermost spans,
+		// fist, we sort based on the start time
+		// and then scan through.
+		sort.Slice(intervals, func(i, j int) bool {
+			x := intervals[i].begin
+			y := intervals[j].begin
+			if x == y {
+				return intervals[i].end < intervals[j].end
+			}
+			return x < y
+		})
+		var lastTimestamp int64
+		var n int
+		for _, i := range intervals {
+			if lastTimestamp <= i.begin {
+				intervals[n] = i
+				lastTimestamp = i.end
+				n++
+			}
+		}
+		gToIntervals[g] = intervals[:n]
+	}
+	return gToIntervals, nil
+}
+
 // pprofIO generates IO pprof-like profile (time spent in IO wait,
 // currently only network blocking event).
-func pprofIO(w io.Writer, id string) error {
+func pprofIO(w io.Writer, r *http.Request) error {
+	id := r.FormValue("id")
 	events, err := parseEvents()
 	if err != nil {
 		return err
 	}
-	goroutines, err := pprofMatchingGoroutines(id, events)
+	gToIntervals, err := pprofMatchingGoroutines(id, events)
 	if err != nil {
 		return err
 	}
+	return computePprofIO(w, gToIntervals, events)
+}
 
+func computePprofIO(w io.Writer, gToIntervals map[uint64][]interval, events []*trace.Event) error {
 	prof := make(map[uint64]Record)
 	for _, ev := range events {
 		if ev.Type != trace.EvGoBlockNet || ev.Link == nil || ev.StkID == 0 || len(ev.Stk) == 0 {
 			continue
 		}
-		if goroutines != nil && !goroutines[ev.G] {
-			continue
+		overlapping := pprofOverlappingDuration(gToIntervals, ev)
+		if overlapping > 0 {
+			rec := prof[ev.StkID]
+			rec.stk = ev.Stk
+			rec.n++
+			rec.time += overlapping.Nanoseconds()
+			prof[ev.StkID] = rec
 		}
-		rec := prof[ev.StkID]
-		rec.stk = ev.Stk
-		rec.n++
-		rec.time += ev.Link.Ts - ev.Ts
-		prof[ev.StkID] = rec
 	}
 	return buildProfile(prof).Write(w)
 }
 
+// pprofSpanIO is similar to pprofIO, but computes the results
+// based on the span filtering parameters.
+func pprofSpanIO(w io.Writer, r *http.Request) error {
+	filter, err := newSpanFilter(r)
+	if err != nil {
+		return err
+	}
+	gToIntervals, err := pprofMatchingSpans(filter)
+	if err != nil {
+		return err
+	}
+	events, _ := parseEvents()
+
+	return computePprofIO(w, gToIntervals, events)
+}
+
 // pprofBlock generates blocking pprof-like profile (time spent blocked on synchronization primitives).
-func pprofBlock(w io.Writer, id string) error {
+func pprofBlock(w io.Writer, r *http.Request) error {
+	id := r.FormValue("id")
 	events, err := parseEvents()
 	if err != nil {
 		return err
 	}
-	goroutines, err := pprofMatchingGoroutines(id, events)
+	gToIntervals, err := pprofMatchingGoroutines(id, events)
 	if err != nil {
 		return err
 	}
+	return computePprofBlock(w, gToIntervals, events)
+}
 
+func computePprofBlock(w io.Writer, gToIntervals map[uint64][]interval, events []*trace.Event) error {
 	prof := make(map[uint64]Record)
 	for _, ev := range events {
 		switch ev.Type {
@@ -130,84 +218,158 @@ func pprofBlock(w io.Writer, id string) error {
 		if ev.Link == nil || ev.StkID == 0 || len(ev.Stk) == 0 {
 			continue
 		}
-		if goroutines != nil && !goroutines[ev.G] {
-			continue
+		overlapping := pprofOverlappingDuration(gToIntervals, ev)
+		if overlapping > 0 {
+			rec := prof[ev.StkID]
+			rec.stk = ev.Stk
+			rec.n++
+			rec.time += overlapping.Nanoseconds()
+			prof[ev.StkID] = rec
 		}
-		rec := prof[ev.StkID]
-		rec.stk = ev.Stk
-		rec.n++
-		rec.time += ev.Link.Ts - ev.Ts
-		prof[ev.StkID] = rec
 	}
 	return buildProfile(prof).Write(w)
 }
 
+// pprofSpanBlock is similar to pprofBlock, but computes the results
+// based on the span filtering parameters.
+func pprofSpanBlock(w io.Writer, r *http.Request) error {
+	filter, err := newSpanFilter(r)
+	if err != nil {
+		return err
+	}
+	gToIntervals, err := pprofMatchingSpans(filter)
+	if err != nil {
+		return err
+	}
+	events, _ := parseEvents()
+	return computePprofBlock(w, gToIntervals, events)
+}
+
 // pprofSyscall generates syscall pprof-like profile (time spent blocked in syscalls).
-func pprofSyscall(w io.Writer, id string) error {
+func pprofSyscall(w io.Writer, r *http.Request) error {
+	id := r.FormValue("id")
 
 	events, err := parseEvents()
 	if err != nil {
 		return err
 	}
-	goroutines, err := pprofMatchingGoroutines(id, events)
+	gToIntervals, err := pprofMatchingGoroutines(id, events)
 	if err != nil {
 		return err
 	}
+	return computePprofSyscall(w, gToIntervals, events)
+}
 
+func computePprofSyscall(w io.Writer, gToIntervals map[uint64][]interval, events []*trace.Event) error {
 	prof := make(map[uint64]Record)
 	for _, ev := range events {
 		if ev.Type != trace.EvGoSysCall || ev.Link == nil || ev.StkID == 0 || len(ev.Stk) == 0 {
 			continue
 		}
-		if goroutines != nil && !goroutines[ev.G] {
-			continue
+		overlapping := pprofOverlappingDuration(gToIntervals, ev)
+		if overlapping > 0 {
+			rec := prof[ev.StkID]
+			rec.stk = ev.Stk
+			rec.n++
+			rec.time += overlapping.Nanoseconds()
+			prof[ev.StkID] = rec
 		}
-		rec := prof[ev.StkID]
-		rec.stk = ev.Stk
-		rec.n++
-		rec.time += ev.Link.Ts - ev.Ts
-		prof[ev.StkID] = rec
 	}
 	return buildProfile(prof).Write(w)
 }
 
+// pprofSpanSyscall is similar to pprofSyscall, but computes the results
+// based on the span filtering parameters.
+func pprofSpanSyscall(w io.Writer, r *http.Request) error {
+	filter, err := newSpanFilter(r)
+	if err != nil {
+		return err
+	}
+	gToIntervals, err := pprofMatchingSpans(filter)
+	if err != nil {
+		return err
+	}
+	events, _ := parseEvents()
+	return computePprofSyscall(w, gToIntervals, events)
+}
+
 // pprofSched generates scheduler latency pprof-like profile
 // (time between a goroutine become runnable and actually scheduled for execution).
-func pprofSched(w io.Writer, id string) error {
+func pprofSched(w io.Writer, r *http.Request) error {
+	id := r.FormValue("id")
 	events, err := parseEvents()
 	if err != nil {
 		return err
 	}
-	goroutines, err := pprofMatchingGoroutines(id, events)
+	gToIntervals, err := pprofMatchingGoroutines(id, events)
 	if err != nil {
 		return err
 	}
+	return computePprofSched(w, gToIntervals, events)
+}
 
+func computePprofSched(w io.Writer, gToIntervals map[uint64][]interval, events []*trace.Event) error {
 	prof := make(map[uint64]Record)
 	for _, ev := range events {
 		if (ev.Type != trace.EvGoUnblock && ev.Type != trace.EvGoCreate) ||
 			ev.Link == nil || ev.StkID == 0 || len(ev.Stk) == 0 {
 			continue
 		}
-		if goroutines != nil && !goroutines[ev.G] {
-			continue
+		overlapping := pprofOverlappingDuration(gToIntervals, ev)
+		if overlapping > 0 {
+			rec := prof[ev.StkID]
+			rec.stk = ev.Stk
+			rec.n++
+			rec.time += overlapping.Nanoseconds()
+			prof[ev.StkID] = rec
 		}
-		rec := prof[ev.StkID]
-		rec.stk = ev.Stk
-		rec.n++
-		rec.time += ev.Link.Ts - ev.Ts
-		prof[ev.StkID] = rec
 	}
 	return buildProfile(prof).Write(w)
 }
 
+// pprofSpanSched is similar to pprofSched, but computes the results
+// based on the span filtering parameters.
+func pprofSpanSched(w io.Writer, r *http.Request) error {
+	filter, err := newSpanFilter(r)
+	if err != nil {
+		return err
+	}
+	gToIntervals, err := pprofMatchingSpans(filter)
+	if err != nil {
+		return err
+	}
+	events, _ := parseEvents()
+	return computePprofSched(w, gToIntervals, events)
+}
+
+// pprofOverlappingDuration returns the overlapping duration between
+// the time intervals in gToIntervals and the specified event.
+// If gToIntervals is nil, this simply returns the event's duration.
+func pprofOverlappingDuration(gToIntervals map[uint64][]interval, ev *trace.Event) time.Duration {
+	if gToIntervals == nil { // No filtering.
+		return time.Duration(ev.Link.Ts-ev.Ts) * time.Nanosecond
+	}
+	intervals := gToIntervals[ev.G]
+	if len(intervals) == 0 {
+		return 0
+	}
+
+	var overlapping time.Duration
+	for _, i := range intervals {
+		if o := overlappingDuration(i.begin, i.end, ev.Ts, ev.Link.Ts); o > 0 {
+			overlapping += o
+		}
+	}
+	return overlapping
+}
+
 // serveSVGProfile serves pprof-like profile generated by prof as svg.
-func serveSVGProfile(prof func(w io.Writer, id string) error) http.HandlerFunc {
+func serveSVGProfile(prof func(w io.Writer, r *http.Request) error) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		if r.FormValue("raw") != "" {
 			w.Header().Set("Content-Type", "application/octet-stream")
-			if err := prof(w, r.FormValue("id")); err != nil {
+			if err := prof(w, r); err != nil {
 				w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 				w.Header().Set("X-Go-Pprof", "1")
 				http.Error(w, fmt.Sprintf("failed to get profile: %v", err), http.StatusInternalServerError)
@@ -226,7 +388,7 @@ func serveSVGProfile(prof func(w io.Writer, id string) error) http.HandlerFunc {
 			os.Remove(blockf.Name())
 		}()
 		blockb := bufio.NewWriter(blockf)
-		if err := prof(blockb, r.FormValue("id")); err != nil {
+		if err := prof(blockb, r); err != nil {
 			http.Error(w, fmt.Sprintf("failed to generate profile: %v", err), http.StatusInternalServerError)
 			return
 		}
