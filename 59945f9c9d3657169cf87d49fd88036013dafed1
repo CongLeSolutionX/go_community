@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8494d37_f1ef394e",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 19
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-04-05T16:00:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure what changed here, but it looks like an unnecessary formatting change",
+      "revId": "59945f9c9d3657169cf87d49fd88036013dafed1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
