@@ -1199,9 +1199,7 @@ func setconst(n *Node, v Val) {
 	// Ensure n.Orig still points to a semantically-equivalent
 	// expression after we rewrite n into a constant.
 	if n.Orig == n {
-		var ncopy Node
-		n.Orig = &ncopy
-		ncopy = *n
+		n.Orig = n.copy()
 	}
 
 	*n = Node{
