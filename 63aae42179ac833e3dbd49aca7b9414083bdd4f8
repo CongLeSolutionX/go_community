@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed319c16_d13a9898",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2018-04-05T14:19:13Z",
+      "side": 1,
+      "message": "You can probably delete this comment now. See other places with n :\u003d l.copy().",
+      "range": {
+        "startLine": 504,
+        "startChar": 2,
+        "endLine": 504,
+        "endChar": 53
+      },
+      "revId": "63aae42179ac833e3dbd49aca7b9414083bdd4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be851421_4c759f40",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2018-04-05T14:19:13Z",
+      "side": 1,
+      "message": "This is usually followed by the comment (at least in this file):\n // completely separate copy",
+      "range": {
+        "startLine": 521,
+        "startChar": 3,
+        "endLine": 521,
+        "endChar": 13
+      },
+      "revId": "63aae42179ac833e3dbd49aca7b9414083bdd4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
