@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "71b7da75_1f12485e",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2018-04-05T15:40:44Z",
+      "side": 1,
+      "message": "Did you just miss that?\nfor _, off :\u003d range pc.Funcdataoff {\n    w.writeInt(off)\n}",
+      "parentUuid": "18489c50_67b51025",
+      "range": {
+        "startLine": 367,
+        "startChar": 1,
+        "endLine": 369,
+        "endChar": 2
+      },
+      "revId": "76ea5b081fdecc542ad5e8c5832a90d79019d780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e38a347_47def4b4",
         "filename": "src/cmd/internal/obj/pass.go",
         "patchSetId": 1
