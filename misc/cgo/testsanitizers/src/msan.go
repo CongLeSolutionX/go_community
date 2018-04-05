@@ -28,7 +28,7 @@ func main() {
 	C.f((*C.int32_t)(unsafe.Pointer(&a[0])), C.int(len(a)))
 	for i, v := range a {
 		if i != int(v) {
-			fmt.Println("bad %d: %v\n", i, a)
+			fmt.Println("bad", i, a)
 			os.Exit(1)
 		}
 	}

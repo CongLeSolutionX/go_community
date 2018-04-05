@@ -92,7 +92,7 @@ var p *byte
 func f() (ret bool) {
 	defer func() {
 		if recover() == nil {
-			fmt.Errorf("ERROR: couldn't raise SIGSEGV in Go.")
+			fmt.Printf("ERROR: couldn't raise SIGSEGV in Go.")
 			C.exit(2)
 		}
 		ret = true
@@ -104,7 +104,7 @@ func f() (ret bool) {
 func main() {
 	// Test that the signal originating in Go is handled (and recovered) by Go.
 	if !f() {
-		fmt.Errorf("couldn't recover from SIGSEGV in Go.")
+		fmt.Printf("couldn't recover from SIGSEGV in Go.")
 		C.exit(2)
 	}
 

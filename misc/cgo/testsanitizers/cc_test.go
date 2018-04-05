@@ -386,7 +386,7 @@ func (c *config) checkRuntime() (skip bool, err error) {
 		return false, fmt.Errorf("%#q exited with %v\n%s", strings.Join(cmd.Args, " "), err, out)
 	}
 	if !bytes.Contains(out, []byte("#define CGO_TSAN")) {
-		return true, fmt.Errorf("%#q did not define CGO_TSAN")
+		return true, fmt.Errorf("%#q did not define CGO_TSAN", strings.Join(cmd.Args, " "))
 	}
 	return false, nil
 }

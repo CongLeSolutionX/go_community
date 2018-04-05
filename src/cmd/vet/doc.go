@@ -128,6 +128,14 @@ with these names, disregarding case:
 	Fatal Fatalf
 	Log Logf
 	Panic Panicf Panicln
+	Wrapf
+	Statusf
+	Warnf Warn
+	Infof Info
+	Debugf Debug
+	Failf Fail
+	Equalf
+	Containsf
 The -printfuncs flag can be used to redefine this list.
 If the function name ends with an 'f', the function is assumed to take
 a format descriptor string in the manner of fmt.Printf. If not, vet
