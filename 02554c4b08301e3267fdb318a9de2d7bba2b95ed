@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e769036_ae29018b",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-05T11:02:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51d1e6ba_662898d2",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55a92ed8_fabe295c",
         "filename": "src/cmd/compile/internal/gc/racewalk.go",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da77a250_16baba77",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-05T11:02:43Z",
+      "side": 1,
+      "message": "Removed. I think for debugging instrumentation we\u0027ll just need to look at GOSSAFUNC output now.",
+      "parentUuid": "55a92ed8_fabe295c",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f7efc72_caa07d19",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-05T11:02:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c792ff9_49cdfd7f",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 2
+      },
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -254,6 +314,24 @@
     },
     {
       "key": {
+        "uuid": "9b5ad338_0d16c224",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-05T11:02:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5594616c_a4bb053b",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73ade6dd_4557fa81",
         "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
         "patchSetId": 5
@@ -283,6 +361,24 @@
       "side": 1,
       "message": "I agree with Austin -- \"Safe\" isn\u0027t very clear here.\n\nAlso it seems this function is here simply because it is adjacent to IsStackAddr, but this has nothing to do with write barrier, so maybe consider placing it somewhere else. gc/ssa.go could be an option, as the ssa package doesn\u0027t use it. But it operates on SSA values, and moving to gc package would rewrite all the OpXXX to ssa.OpXXX... I\u0027m not sure.",
       "parentUuid": "73ade6dd_4557fa81",
+      "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32a8992a_c7e65335",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-05T11:02:43Z",
+      "side": 1,
+      "message": "\"Safe\" here means a few possibilities, which is why I\u0027m short on a better word at the moment. In particular, it\u0027s used for eliding both race and msan instrumentation. (So more descriptive names like \"IsRaceFreeAddr\" aren\u0027t appropriate either.)\n\nFor the race detector, the interesting properties are that: 1) that we know no one else is writing to the address, and 2) if we\u0027re writing, that no one else is reading from the address.\n\nCase 1 is basically read-only memory, and case 2 is basically stack memory. I also included read-only-once-initialized data in case 1 (i.e., itabs, strings, closures).\n\nFor the memory sanitizer, I\u0027m not so sure what memory is interesting. My impression is it\u0027s mostly for interoperating with msan-instrumented cgo code.",
+      "parentUuid": "96c2b2db_5af61062",
       "revId": "02554c4b08301e3267fdb318a9de2d7bba2b95ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
