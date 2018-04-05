@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f96f4475_6ae61f58",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-05T20:08:26Z",
+      "side": 1,
+      "message": "You\u0027re right, I read this too fast. PTAL",
+      "parentUuid": "94e4b22c_7ecbadd6",
+      "revId": "63aae42179ac833e3dbd49aca7b9414083bdd4f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed319c16_d13a9898",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 1
