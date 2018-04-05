@@ -46,6 +46,30 @@
       "revId": "6b83342bd88b4bdd402346a3e3bc819555ee4324",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fd19f9a_eb7e9002",
+        "filename": "src/cmd/internal/obj/textflag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-05T21:11:42Z",
+      "side": 1,
+      "message": "\u003e on disk or in files\n\ner, on disk or go across the network.\n\nBut yeah.",
+      "parentUuid": "afbbf2b1_04e49b5a",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 14
+      },
+      "revId": "6b83342bd88b4bdd402346a3e3bc819555ee4324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
