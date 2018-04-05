@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61ab96ef_a0c6406b",
+        "filename": "src/cmd/internal/obj/textflag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-05T21:03:34Z",
+      "side": 1,
+      "message": "Please revert this part.\n\niota should only be used for things that don\u0027t escape the memory of the running program.\n\nIf they\u0027re ever on disk or in files, then they should be explicit.",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 14
+      },
+      "revId": "6b83342bd88b4bdd402346a3e3bc819555ee4324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
