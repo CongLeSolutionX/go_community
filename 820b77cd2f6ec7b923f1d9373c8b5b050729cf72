@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56007c55_aeda48f5",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-05T20:11:46Z",
+      "side": 1,
+      "message": "if this took typed booleans instead of \"bool\", then callers transposing the arguments would be caught at compile time. (assuming you also gave the 4 consts the correct types)\n\nbut we didn\u0027t have that protection before, and this is internal, so it\u0027s fine.\n\nthis is now a readability improvement.",
+      "range": {
+        "startLine": 406,
+        "startChar": 39,
+        "endLine": 406,
+        "endChar": 52
+      },
+      "revId": "820b77cd2f6ec7b923f1d9373c8b5b050729cf72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
