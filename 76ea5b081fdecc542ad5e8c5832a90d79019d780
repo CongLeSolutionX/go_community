@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fc771589_956316ba",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-05T15:42:00Z",
+      "side": 1,
+      "message": "I thought about it, but this keeps consistency with the loop right before.\n\nI had made a change like this one in another CL, and someone pointed out the loss in consistency, so now I tend to be more conservative. So I think this is enough of an improvement :)",
+      "parentUuid": "18489c50_67b51025",
+      "range": {
+        "startLine": 367,
+        "startChar": 1,
+        "endLine": 369,
+        "endChar": 2
+      },
+      "revId": "76ea5b081fdecc542ad5e8c5832a90d79019d780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e38a347_47def4b4",
         "filename": "src/cmd/internal/obj/pass.go",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2018-04-05T13:45:18Z",
       "side": 1,
       "message": "q :\u003d sym.Func.Text\nfor q !\u003d nil {",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 145,
+        "endChar": 36
+      },
+      "revId": "76ea5b081fdecc542ad5e8c5832a90d79019d780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59407121_374935ce",
+        "filename": "src/cmd/internal/obj/pass.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-05T15:42:00Z",
+      "side": 1,
+      "message": "Good catch, done. Also removed the c variable while at it.",
+      "parentUuid": "6e38a347_47def4b4",
       "range": {
         "startLine": 144,
         "startChar": 2,
