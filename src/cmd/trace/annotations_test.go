@@ -286,11 +286,11 @@ func TestAnalyzeAnnotationGC(t *testing.T) {
 				buf := new(bytes.Buffer)
 				fmt.Fprintln(buf, "GC Events")
 				for _, ev := range res.gcEvents {
-					fmt.Fprintf(buf, " %s -> %s\n", ev, ev.Link)
+					fmt.Fprintf(buf, " %v -> %v\n", ev, ev.Link)
 				}
 				fmt.Fprintln(buf, "Events in Task")
 				for i, ev := range task.events {
-					fmt.Fprintf(buf, " %d: %s\n", i, ev)
+					fmt.Fprintf(buf, " %d: %v\n", i, ev)
 				}
 
 				t.Logf("\n%s", buf)
