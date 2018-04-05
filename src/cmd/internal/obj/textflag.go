@@ -12,39 +12,39 @@ const (
 	// Don't profile the marked routine.
 	//
 	// Deprecated: Not implemented, do not use.
-	NOPROF = 1
+	NOPROF = 1 << iota
 
 	// It is ok for the linker to get multiple of these symbols. It will
 	// pick one of the duplicates to use.
-	DUPOK = 2
+	DUPOK
 
 	// Don't insert stack check preamble.
-	NOSPLIT = 4
+	NOSPLIT
 
 	// Put this data in a read-only section.
-	RODATA = 8
+	RODATA
 
 	// This data contains no pointers.
-	NOPTR = 16
+	NOPTR
 
 	// This is a wrapper function and should not count as disabling 'recover'.
-	WRAPPER = 32
+	WRAPPER
 
 	// This function uses its incoming context register.
-	NEEDCTXT = 64
+	NEEDCTXT
 
 	// When passed to ggloblsym, causes Local to be set to true on the LSym it creates.
-	LOCAL = 128
+	LOCAL
 
 	// Allocate a word of thread local storage and store the offset from the
 	// thread local base to the thread local storage in this variable.
-	TLSBSS = 256
+	TLSBSS
 
 	// Do not insert instructions to allocate a stack frame for this function.
 	// Only valid on functions that declare a frame size of 0.
 	// TODO(mwhudson): only implemented for ppc64x at present.
-	NOFRAME = 512
+	NOFRAME
 
 	// Function can call reflect.Type.Method or reflect.Type.MethodByName.
-	REFLECTMETHOD = 1024
+	REFLECTMETHOD
 )
