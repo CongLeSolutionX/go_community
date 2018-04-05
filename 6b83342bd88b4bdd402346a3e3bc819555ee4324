@@ -22,6 +22,30 @@
       "revId": "6b83342bd88b4bdd402346a3e3bc819555ee4324",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afbbf2b1_04e49b5a",
+        "filename": "src/cmd/internal/obj/textflag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-05T21:08:59Z",
+      "side": 1,
+      "message": "Ah, that makes sense. I wondered why it hadn\u0027t been changed before.",
+      "parentUuid": "61ab96ef_a0c6406b",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 14
+      },
+      "revId": "6b83342bd88b4bdd402346a3e3bc819555ee4324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
