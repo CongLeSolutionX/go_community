@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13f95b0a_7000f1b7",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2258,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2018-04-06T21:42:58Z",
+      "side": 1,
+      "message": "I this more idiomatic than iota with +1?\n\n visiting markKind \u003d iota + 1\n visited",
+      "range": {
+        "startLine": 2256,
+        "startChar": 0,
+        "endLine": 2258,
+        "endChar": 8
+      },
+      "revId": "8fc4dc31701bc3617451c179a5995dc670072c5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
