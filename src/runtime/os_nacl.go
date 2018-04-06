@@ -289,6 +289,11 @@ type gsignalStack struct{}
 
 var writelock uint32 // test-and-set spin lock for write
 
+// stricttime stores a strictly-increasing timestamp of the last call to write.
+//
+// After each write, stricttime ≥ faketime.
+var stricttime int64
+
 /*
 An attempt at IRT. Doesn't work. See end of sys_nacl_amd64.s.
 
