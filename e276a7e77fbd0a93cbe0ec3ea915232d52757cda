@@ -22,6 +22,40 @@
       "revId": "e276a7e77fbd0a93cbe0ec3ea915232d52757cda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af54e631_585ba8c0",
+        "filename": "src/crypto/elliptic/p256_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-04-06T22:59:30Z",
+      "side": 1,
+      "message": "Document the n parameter.",
+      "revId": "e276a7e77fbd0a93cbe0ec3ea915232d52757cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b118d22a_5511529d",
+        "filename": "src/crypto/elliptic/p256_asm_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-04-06T22:59:30Z",
+      "side": 1,
+      "message": "Update or remove this comment.",
+      "revId": "e276a7e77fbd0a93cbe0ec3ea915232d52757cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
