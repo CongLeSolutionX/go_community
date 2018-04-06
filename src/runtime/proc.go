@@ -466,6 +466,9 @@ const (
 	_GoidCacheBatch = 16
 )
 
+//go:linkname cpuinit internal/cpu.initFeatures
+func cpuinit()
+
 // The bootstrap sequence is:
 //
 //	call osinit
@@ -481,14 +484,13 @@ func schedinit() {
 	if raceenabled {
 		_g_.racectx, raceprocctx0 = raceinit()
 	}
-
 	sched.maxmcount = 10000
-
 	tracebackinit()
 	moduledataverify()
 	stackinit()
 	mallocinit()
 	mcommoninit(_g_.m)
+	cpuinit()
 	alginit()       // maps must not be used before this call
 	modulesinit()   // provides activeModules
 	typelinksinit() // uses maps, activeModules
