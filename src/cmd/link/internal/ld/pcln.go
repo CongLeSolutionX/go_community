@@ -102,7 +102,7 @@ func addpctab(ctxt *Link, ftab *sym.Symbol, off int32, d *sym.Pcdata) int32 {
 	return int32(ftab.SetUint32(ctxt.Arch, int64(off), uint32(start)))
 }
 
-func ftabaddstring(ctxt *Link, ftab *sym.Symbol, s string) int32 {
+func ftabaddstring(ftab *sym.Symbol, s string) int32 {
 	n := int32(len(s)) + 1
 	start := int32(len(ftab.P))
 	ftab.Grow(int64(start) + int64(n) + 1)
@@ -122,11 +122,8 @@ func numberfile(ctxt *Link, file *sym.Symbol) {
 }
 
 func renumberfiles(ctxt *Link, files []*sym.Symbol, d *sym.Pcdata) {
-	var f *sym.Symbol
-
 	// Give files numbers.
-	for i := 0; i < len(files); i++ {
-		f = files[i]
+	for _, f := range files {
 		numberfile(ctxt, f)
 	}
 
@@ -238,7 +235,7 @@ func (ctxt *Link) pclntab() {
 	nameToOffset := func(name string) int32 {
 		nameoff, ok := funcnameoff[name]
 		if !ok {
-			nameoff = ftabaddstring(ctxt, ftab, name)
+			nameoff = ftabaddstring(ftab, name)
 			funcnameoff[name] = nameoff
 		}
 		return nameoff
@@ -399,7 +396,7 @@ func (ctxt *Link) pclntab() {
 		off = addpctab(ctxt, ftab, off, &pcln.Pcline)
 		off = int32(ftab.SetUint32(ctxt.Arch, int64(off), uint32(len(pcln.Pcdata))))
 		off = int32(ftab.SetUint32(ctxt.Arch, int64(off), uint32(len(pcln.Funcdata))))
-		for i := 0; i < len(pcln.Pcdata); i++ {
+		for i := range pcln.Pcdata {
 			off = addpctab(ctxt, ftab, off, &pcln.Pcdata[i])
 		}
 
@@ -409,7 +406,7 @@ func (ctxt *Link) pclntab() {
 			if off&int32(ctxt.Arch.PtrSize-1) != 0 {
 				off += 4
 			}
-			for i := 0; i < len(pcln.Funcdata); i++ {
+			for i := range pcln.Funcdata {
 				if pcln.Funcdata[i] == nil {
 					ftab.SetUint(ctxt.Arch, int64(off)+int64(ctxt.Arch.PtrSize)*int64(i), uint64(pcln.Funcdataoff[i]))
 				} else {
@@ -446,7 +443,7 @@ func (ctxt *Link) pclntab() {
 	ftab.SetUint32(ctxt.Arch, int64(start), uint32(len(ctxt.Filesyms)+1))
 	for i := len(ctxt.Filesyms) - 1; i >= 0; i-- {
 		s := ctxt.Filesyms[i]
-		ftab.SetUint32(ctxt.Arch, int64(start)+s.Value*4, uint32(ftabaddstring(ctxt, ftab, s.Name)))
+		ftab.SetUint32(ctxt.Arch, int64(start)+s.Value*4, uint32(ftabaddstring(ftab, s.Name)))
 	}
 
 	ftab.Size = int64(len(ftab.P))

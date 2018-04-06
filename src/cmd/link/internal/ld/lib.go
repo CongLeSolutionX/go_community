@@ -275,9 +275,9 @@ func loadinternal(ctxt *Link, name string) *sym.Library {
 		return nil
 	}
 
-	for i := 0; i < len(ctxt.Libdir); i++ {
+	for _, libdir := range ctxt.Libdir {
 		if ctxt.linkShared {
-			shlibname := filepath.Join(ctxt.Libdir[i], name+".shlibname")
+			shlibname := filepath.Join(libdir, name+".shlibname")
 			if ctxt.Debugvlog != 0 {
 				ctxt.Logf("searching for %s.a in %s\n", name, shlibname)
 			}
@@ -285,7 +285,7 @@ func loadinternal(ctxt *Link, name string) *sym.Library {
 				return addlibpath(ctxt, "internal", "internal", "", name, shlibname)
 			}
 		}
-		pname := filepath.Join(ctxt.Libdir[i], name+".a")
+		pname := filepath.Join(libdir, name+".a")
 		if ctxt.Debugvlog != 0 {
 			ctxt.Logf("searching for %s.a in %s\n", name, pname)
 		}
@@ -484,7 +484,7 @@ func (ctxt *Link) loadlib() {
 		x = sym.AttrCgoExportStatic
 	}
 	w := 0
-	for i := 0; i < len(dynexp); i++ {
+	for i := range dynexp {
 		if dynexp[i].Attr&x != 0 {
 			dynexp[w] = dynexp[i]
 			w++
@@ -580,7 +580,7 @@ func (ctxt *Link) loadlib() {
 	if ctxt.BuildMode == BuildModeShared || ctxt.BuildMode == BuildModePlugin || ctxt.CanUsePlugins() {
 		for _, lib := range ctxt.Library {
 			if lib.Shlib == "" {
-				genhash(ctxt, lib)
+				genhash(lib)
 			}
 		}
 	}
@@ -701,7 +701,7 @@ func nextar(bp *bio.Reader, off int64, a *ArHdr) int64 {
 	return arsize + SAR_HDR
 }
 
-func genhash(ctxt *Link, lib *sym.Library) {
+func genhash(lib *sym.Library) {
 	f, err := bio.Open(lib.File)
 	if err != nil {
 		Errorf(nil, "cannot open file %s for hash generation: %v", lib.File, err)
@@ -868,8 +868,8 @@ var internalpkg = []string{
 
 func ldhostobj(ld func(*Link, *bio.Reader, string, int64, string), headType objabi.HeadType, f *bio.Reader, pkg string, length int64, pn string, file string) *Hostobj {
 	isinternal := false
-	for i := 0; i < len(internalpkg); i++ {
-		if pkg == internalpkg[i] {
+	for _, intpkg := range internalpkg {
+		if pkg == intpkg {
 			isinternal = true
 			break
 		}
@@ -1424,7 +1424,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 				return
 			}
 			if rsrc != nil {
-				setpersrc(ctxt, rsrc)
+				setpersrc(rsrc)
 			}
 			ctxt.Textp = append(ctxt.Textp, textp...)
 		}
@@ -1518,7 +1518,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 	return nil
 }
 
-func readelfsymboldata(ctxt *Link, f *elf.File, sym *elf.Symbol) []byte {
+func readelfsymboldata(f *elf.File, sym *elf.Symbol) []byte {
 	data := make([]byte, sym.Size)
 	sect := f.Sections[sym.Section]
 	if sect.Type != elf.SHT_PROGBITS && sect.Type != elf.SHT_NOTE {
@@ -1676,7 +1676,7 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			// The decodetype_* functions in decodetype.go need access to
 			// the type data.
 			if strings.HasPrefix(lsym.Name, "type.") && !strings.HasPrefix(lsym.Name, "type..") {
-				lsym.P = readelfsymboldata(ctxt, f, &elfsym)
+				lsym.P = readelfsymboldata(f, &elfsym)
 				gcdataLocations[elfsym.Value+2*uint64(ctxt.Arch.PtrSize)+8+1*uint64(ctxt.Arch.PtrSize)] = lsym
 			}
 		}
@@ -1958,22 +1958,18 @@ func usage() {
 	Exit(2)
 }
 
-func doversion() {
-	Exitf("version %s", objabi.Version)
-}
-
 type SymbolType int8
 
 const (
 	// see also http://9p.io/magic/man2html/1/nm
 	TextSym      SymbolType = 'T'
-	DataSym                 = 'D'
-	BSSSym                  = 'B'
-	UndefinedSym            = 'U'
-	TLSSym                  = 't'
-	FrameSym                = 'm'
-	ParamSym                = 'p'
-	AutoSym                 = 'a'
+	DataSym      SymbolType = 'D'
+	BSSSym       SymbolType = 'B'
+	UndefinedSym SymbolType = 'U'
+	TLSSym       SymbolType = 't'
+	FrameSym     SymbolType = 'm'
+	ParamSym     SymbolType = 'p'
+	AutoSym      SymbolType = 'a'
 
 	// Deleted auto (not a real sym, just placeholder for type)
 	DeletedAutoSym = 'x'
@@ -2182,11 +2178,9 @@ func Entryvalue(ctxt *Link) int64 {
 	return s.Value
 }
 
-func undefsym(ctxt *Link, s *sym.Symbol) {
-	var r *sym.Reloc
-
-	for i := 0; i < len(s.R); i++ {
-		r = &s.R[i]
+func undefsym(s *sym.Symbol) {
+	for i := range s.R {
+		r := &s.R[i]
 		if r.Sym == nil { // happens for some external ARM relocs
 			continue
 		}
@@ -2203,10 +2197,10 @@ func undefsym(ctxt *Link, s *sym.Symbol) {
 
 func (ctxt *Link) undef() {
 	for _, s := range ctxt.Textp {
-		undefsym(ctxt, s)
+		undefsym(s)
 	}
 	for _, s := range datap {
-		undefsym(ctxt, s)
+		undefsym(s)
 	}
 	if nerrors > 0 {
 		errorexit()
@@ -2259,7 +2253,7 @@ func bgetc(r *bio.Reader) int {
 
 type markKind uint8 // for postorder traversal
 const (
-	unvisited markKind = iota
+	_ markKind = iota
 	visiting
 	visited
 )

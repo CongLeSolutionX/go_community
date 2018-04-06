@@ -509,7 +509,7 @@ func windynrelocsym(ctxt *Link, s *sym.Symbol) {
 	if s == rel {
 		return
 	}
-	for ri := 0; ri < len(s.R); ri++ {
+	for ri := range s.R {
 		r := &s.R[ri]
 		targ := r.Sym
 		if targ == nil {
@@ -555,7 +555,7 @@ func dynrelocsym(ctxt *Link, s *sym.Symbol) {
 		return
 	}
 
-	for ri := 0; ri < len(s.R); ri++ {
+	for ri := range s.R {
 		r := &s.R[ri]
 		if ctxt.BuildMode == BuildModePIE && ctxt.LinkMode == LinkInternal {
 			// It's expected that some relocations will be done
@@ -625,7 +625,6 @@ func CodeblkPad(ctxt *Link, addr int64, size int64, pad []byte) {
 	}
 
 	eaddr := addr + size
-	var q []byte
 	for _, s := range syms {
 		if !s.Attr.Reachable() {
 			continue
@@ -643,7 +642,7 @@ func CodeblkPad(ctxt *Link, addr int64, size int64, pad []byte) {
 		}
 
 		ctxt.Logf("%.6x\t%-20s\n", uint64(addr), s.Name)
-		q = s.P
+		q := s.P
 
 		for len(q) >= 16 {
 			ctxt.Logf("%.6x\t% x\n", uint64(addr), q[:16])
@@ -944,14 +943,14 @@ type GCProg struct {
 func (p *GCProg) Init(ctxt *Link, name string) {
 	p.ctxt = ctxt
 	p.sym = ctxt.Syms.Lookup(name, 0)
-	p.w.Init(p.writeByte(ctxt))
+	p.w.Init(p.writeByte())
 	if debugGCProg {
 		fmt.Fprintf(os.Stderr, "ld: start GCProg %s\n", name)
 		p.w.Debug(os.Stderr)
 	}
 }
 
-func (p *GCProg) writeByte(ctxt *Link) func(x byte) {
+func (p *GCProg) writeByte() func(x byte) {
 	return func(x byte) {
 		p.sym.AddUint8(x)
 	}
@@ -1029,7 +1028,7 @@ func (d bySizeAndName) Less(i, j int) bool {
 // (see issue #9862).
 const cutoff = 2e9 // 2 GB (or so; looks better in errors than 2^31)
 
-func checkdatsize(ctxt *Link, datsize int64, symn sym.SymKind) {
+func checkdatsize(datsize int64, symn sym.SymKind) {
 	if datsize > cutoff {
 		Errorf(nil, "too much data in section %v (over %v bytes)", symn, cutoff)
 	}
@@ -1191,7 +1190,7 @@ func (ctxt *Link) dodata() {
 			datsize += s.Size
 			sect.Length = uint64(datsize) - sect.Vaddr
 		}
-		checkdatsize(ctxt, datsize, symn)
+		checkdatsize(datsize, symn)
 	}
 
 	// .got (and .toc on ppc64)
@@ -1200,7 +1199,6 @@ func (ctxt *Link) dodata() {
 		sect.Align = dataMaxAlign[sym.SELFGOT]
 		datsize = Rnd(datsize, int64(sect.Align))
 		sect.Vaddr = uint64(datsize)
-		var toc *sym.Symbol
 		for _, s := range data[sym.SELFGOT] {
 			datsize = aligndatsize(datsize, s)
 			s.Sect = sect
@@ -1208,7 +1206,7 @@ func (ctxt *Link) dodata() {
 			s.Value = int64(uint64(datsize) - sect.Vaddr)
 
 			// Resolve .TOC. symbol for this object file (ppc64)
-			toc = ctxt.Syms.ROLookup(".TOC.", int(s.Version))
+			toc := ctxt.Syms.ROLookup(".TOC.", int(s.Version))
 			if toc != nil {
 				toc.Sect = sect
 				toc.Outer = s
@@ -1220,7 +1218,7 @@ func (ctxt *Link) dodata() {
 
 			datsize += s.Size
 		}
-		checkdatsize(ctxt, datsize, sym.SELFGOT)
+		checkdatsize(datsize, sym.SELFGOT)
 		sect.Length = uint64(datsize) - sect.Vaddr
 	}
 
@@ -1238,7 +1236,7 @@ func (ctxt *Link) dodata() {
 		s.Value = int64(uint64(datsize) - sect.Vaddr)
 		datsize += s.Size
 	}
-	checkdatsize(ctxt, datsize, sym.SNOPTRDATA)
+	checkdatsize(datsize, sym.SNOPTRDATA)
 	sect.Length = uint64(datsize) - sect.Vaddr
 
 	hasinitarr := ctxt.linkShared
@@ -1260,7 +1258,7 @@ func (ctxt *Link) dodata() {
 			datsize += s.Size
 		}
 		sect.Length = uint64(datsize) - sect.Vaddr
-		checkdatsize(ctxt, datsize, sym.SINITARR)
+		checkdatsize(datsize, sym.SINITARR)
 	}
 
 	/* data */
@@ -1280,7 +1278,7 @@ func (ctxt *Link) dodata() {
 		gc.AddSym(s)
 		datsize += s.Size
 	}
-	checkdatsize(ctxt, datsize, sym.SDATA)
+	checkdatsize(datsize, sym.SDATA)
 	sect.Length = uint64(datsize) - sect.Vaddr
 	gc.End(int64(sect.Length))
 
@@ -1300,7 +1298,7 @@ func (ctxt *Link) dodata() {
 		gc.AddSym(s)
 		datsize += s.Size
 	}
-	checkdatsize(ctxt, datsize, sym.SBSS)
+	checkdatsize(datsize, sym.SBSS)
 	sect.Length = uint64(datsize) - sect.Vaddr
 	gc.End(int64(sect.Length))
 
@@ -1320,7 +1318,7 @@ func (ctxt *Link) dodata() {
 
 	sect.Length = uint64(datsize) - sect.Vaddr
 	ctxt.Syms.Lookup("runtime.end", 0).Sect = sect
-	checkdatsize(ctxt, datsize, sym.SNOPTRBSS)
+	checkdatsize(datsize, sym.SNOPTRBSS)
 
 	if len(data[sym.STLSBSS]) > 0 {
 		var sect *sym.Section
@@ -1337,7 +1335,7 @@ func (ctxt *Link) dodata() {
 			s.Value = datsize
 			datsize += s.Size
 		}
-		checkdatsize(ctxt, datsize, sym.STLSBSS)
+		checkdatsize(datsize, sym.STLSBSS)
 
 		if sect != nil {
 			sect.Length = uint64(datsize)
@@ -1377,7 +1375,7 @@ func (ctxt *Link) dodata() {
 		s.Value = int64(uint64(datsize) - sect.Vaddr)
 		datsize += s.Size
 		sect.Length = uint64(datsize) - sect.Vaddr
-		checkdatsize(ctxt, datsize, sym.SELFRXSECT)
+		checkdatsize(datsize, sym.SELFRXSECT)
 	}
 
 	/* read-only data */
@@ -1405,7 +1403,7 @@ func (ctxt *Link) dodata() {
 			s.Value = int64(uint64(datsize) - sect.Vaddr)
 			datsize += s.Size
 		}
-		checkdatsize(ctxt, datsize, symn)
+		checkdatsize(datsize, symn)
 	}
 	sect.Length = uint64(datsize) - sect.Vaddr
 
@@ -1421,7 +1419,7 @@ func (ctxt *Link) dodata() {
 		datsize += s.Size
 		sect.Length = uint64(datsize) - sect.Vaddr
 	}
-	checkdatsize(ctxt, datsize, sym.SELFROSECT)
+	checkdatsize(datsize, sym.SELFROSECT)
 
 	for _, s := range data[sym.SMACHOPLT] {
 		sect = addsection(ctxt.Arch, segro, s.Name, 04)
@@ -1434,7 +1432,7 @@ func (ctxt *Link) dodata() {
 		datsize += s.Size
 		sect.Length = uint64(datsize) - sect.Vaddr
 	}
-	checkdatsize(ctxt, datsize, sym.SMACHOPLT)
+	checkdatsize(datsize, sym.SMACHOPLT)
 
 	// There is some data that are conceptually read-only but are written to by
 	// relocations. On GNU systems, we can arrange for the dynamic linker to
@@ -1490,7 +1488,7 @@ func (ctxt *Link) dodata() {
 				s.Value = int64(uint64(datsize) - sect.Vaddr)
 				datsize += s.Size
 			}
-			checkdatsize(ctxt, datsize, symn)
+			checkdatsize(datsize, symn)
 		}
 
 		sect.Length = uint64(datsize) - sect.Vaddr
@@ -1505,7 +1503,7 @@ func (ctxt *Link) dodata() {
 	typelink.Sect = sect
 	typelink.Type = sym.SRODATA
 	datsize += typelink.Size
-	checkdatsize(ctxt, datsize, sym.STYPELINK)
+	checkdatsize(datsize, sym.STYPELINK)
 	sect.Length = uint64(datsize) - sect.Vaddr
 
 	/* itablink */
@@ -1522,7 +1520,7 @@ func (ctxt *Link) dodata() {
 		s.Value = int64(uint64(datsize) - sect.Vaddr)
 		datsize += s.Size
 	}
-	checkdatsize(ctxt, datsize, sym.SITABLINK)
+	checkdatsize(datsize, sym.SITABLINK)
 	sect.Length = uint64(datsize) - sect.Vaddr
 
 	/* gosymtab */
@@ -1539,7 +1537,7 @@ func (ctxt *Link) dodata() {
 		s.Value = int64(uint64(datsize) - sect.Vaddr)
 		datsize += s.Size
 	}
-	checkdatsize(ctxt, datsize, sym.SSYMTAB)
+	checkdatsize(datsize, sym.SSYMTAB)
 	sect.Length = uint64(datsize) - sect.Vaddr
 
 	/* gopclntab */
@@ -1556,7 +1554,7 @@ func (ctxt *Link) dodata() {
 		s.Value = int64(uint64(datsize) - sect.Vaddr)
 		datsize += s.Size
 	}
-	checkdatsize(ctxt, datsize, sym.SRODATA)
+	checkdatsize(datsize, sym.SRODATA)
 	sect.Length = uint64(datsize) - sect.Vaddr
 
 	// 6g uses 4-byte relocation offsets, so the entire segment must fit in 32 bits.
@@ -1587,7 +1585,7 @@ func (ctxt *Link) dodata() {
 		datsize += s.Size
 		sect.Length = uint64(datsize) - sect.Vaddr
 	}
-	checkdatsize(ctxt, datsize, sym.SDWARFSECT)
+	checkdatsize(datsize, sym.SDWARFSECT)
 
 	for i < len(dwarfp) {
 		curType := dwarfp[i].Type
@@ -1618,7 +1616,7 @@ func (ctxt *Link) dodata() {
 			datsize += s.Size
 		}
 		sect.Length = uint64(datsize) - sect.Vaddr
-		checkdatsize(ctxt, datsize, curType)
+		checkdatsize(datsize, curType)
 	}
 
 	/* number the sections */
