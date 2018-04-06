@@ -89,6 +89,15 @@ playback:
 	CMPL BX, $0
 	JNE playback
 
+	// if (timestamp < stricttime) { timestamp = stricttime }
+	MOVQ runtime·stricttime(SB), CX
+	CMPQ AX, CX
+	CMOVQLT CX, AX
+	// Next stricttime = timestamp+1.
+	MOVQ AX, CX
+	INCQ CX
+	MOVQ CX, runtime·stricttime(SB)
+
 	// Playback header: 0 0 P B <8-byte time> <4-byte data length>
 	MOVL $(('B'<<24) | ('P'<<16)), 0(SP)
 	BSWAPQ AX
