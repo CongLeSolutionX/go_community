@@ -89,10 +89,21 @@ playback:
 	CMPL BX, $0
 	JNE playback
 
+	// Ensure that timestamps are strict.
+	// stricttime = (stricttime < faketime) ? faketime : (stricttime + 1)
+	MOVQ runtime·stricttime(SB), CX
+	CMPQ CX, AX
+	CMOVQLT AX, CX
+	JLT writeHeader
+	INCQ CX
+
+writeHeader:
+	MOVQ CX, runtime·stricttime(SB)
+
 	// Playback header: 0 0 P B <8-byte time> <4-byte data length>
 	MOVL $(('B'<<24) | ('P'<<16)), 0(SP)
-	BSWAPQ AX
-	MOVQ AX, 4(SP)
+	BSWAPQ CX
+	MOVQ CX, 4(SP)
 	MOVL n+8(FP), DX
 	BSWAPL DX
 	MOVL DX, 12(SP)
