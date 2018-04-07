@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e0c7adb1_dc131209",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-07T13:13:15Z",
+      "side": 1,
+      "message": "You might be right, so I did a bit of digging.\n\nThe work to massively get rid of globals happened in mid 2016, and these ctxt parameters have been added and removed since then. It doesn\u0027t seem like this refactoring effort has been ongoing in the past year, so I doubt I\u0027d be interrupting anything.\n\nAlso worth pointing out that none of these functions currently depend on any global variables, so it\u0027s more likely that the ctxt parameters stopped being necessary or weren\u0027t necessary to begin with.\n\nStill happy to rever this part if you\u0027d prefer, though.",
+      "parentUuid": "abf2aa7a_364147e7",
+      "revId": "8fc4dc31701bc3617451c179a5995dc670072c5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13f95b0a_7000f1b7",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
