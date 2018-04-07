@@ -360,46 +360,14 @@ func TestMatchGoImport(t *testing.T) {
 				{Prefix: "example.com/user/foo/bar", VCS: "git", RepoRoot: "https://example.com/repo/target"},
 			},
 			path: "example.com/user/foo/bar",
-			err:  errors.New("should not be allowed to create nested repo"),
-		},
-		{
-			imports: []metaImport{
-				{Prefix: "example.com/user/foo", VCS: "git", RepoRoot: "https://example.com/repo/target"},
-				{Prefix: "example.com/user/foo/bar", VCS: "git", RepoRoot: "https://example.com/repo/target"},
-			},
-			path: "example.com/user/foo/bar/baz",
-			err:  errors.New("should not be allowed to create nested repo"),
-		},
-		{
-			imports: []metaImport{
-				{Prefix: "example.com/user/foo", VCS: "git", RepoRoot: "https://example.com/repo/target"},
-				{Prefix: "example.com/user/foo/bar", VCS: "git", RepoRoot: "https://example.com/repo/target"},
-			},
-			path: "example.com/user/foo/bar/baz/qux",
-			err:  errors.New("should not be allowed to create nested repo"),
-		},
-		{
-			imports: []metaImport{
-				{Prefix: "example.com/user/foo", VCS: "git", RepoRoot: "https://example.com/repo/target"},
-				{Prefix: "example.com/user/foo/bar", VCS: "git", RepoRoot: "https://example.com/repo/target"},
-			},
-			path: "example.com/user/foo/bar/baz/",
-			err:  errors.New("should not be allowed to create nested repo"),
-		},
-		{
-			imports: []metaImport{
-				{Prefix: "example.com/user/foo", VCS: "git", RepoRoot: "https://example.com/repo/target"},
-				{Prefix: "example.com/user/foo/bar", VCS: "git", RepoRoot: "https://example.com/repo/target"},
-			},
-			path: "example.com",
-			err:  errors.New("pathologically short path"),
+			err:  errors.New("multiple meta tags match import path \"example.com/user/foo/bar\""),
 		},
 		{
 			imports: []metaImport{
 				{Prefix: "example.com/user/foo", VCS: "git", RepoRoot: "https://example.com/repo/target"},
 			},
 			path: "different.example.com/user/foo",
-			err:  errors.New("meta tags do not match import path"),
+			err:  errors.New("meta tag example.com/user/foo did not match import path different.example.com/user/foo"),
 		},
 	}
 
@@ -413,6 +381,10 @@ func TestMatchGoImport(t *testing.T) {
 		want := test.err
 		if (got == nil) != (want == nil) {
 			t.Errorf("unexpected error; got %v, want %v", got, want)
+		}
+
+		if got != nil && want != nil && got.Error() != want.Error() {
+			t.Errorf("incorrect error; got %q, want %q", got, want)
 		}
 	}
 }
