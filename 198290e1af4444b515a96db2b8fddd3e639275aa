@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3054b9e_68a16023",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-07T17:32:39Z",
+      "side": 1,
+      "message": "Write this as https://golang.org/issue/24751 or simply #24751.",
+      "revId": "198290e1af4444b515a96db2b8fddd3e639275aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
