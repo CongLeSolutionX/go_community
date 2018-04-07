@@ -16,6 +16,24 @@
       "revId": "d8b417e00b3f19f7fb47aaa64fe107ed59f6603f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e830624d_80fbd68e",
+        "filename": "src/cmd/go/internal/get/vcs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2018-04-07T18:07:17Z",
+      "side": 0,
+      "message": "Apologies, I fully intended to add a comment against these in the diff but forgot.\n\nAll of the tests that asserted against the error \"should not be allowed to create nested repo\" in fact resulted in the error \"multiple meta tags match...\". \n\nThis slipped through because the other change in this file:\n\nif got !\u003d nil \u0026\u0026 want !\u003d nil \u0026\u0026 got.Error() !\u003d want.Error() {\n\tt.Errorf(\"incorrect error; got %q, want %q\", got, want)\n}\n\nwas missing. \n\nSo as I understand it these tests are all redundant given the implementation and error that we are testing against (perhaps these cases are legacy from a previous implementation?) - one test suffices.",
+      "parentUuid": "fc6abcdc_2055f740",
+      "revId": "d8b417e00b3f19f7fb47aaa64fe107ed59f6603f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
