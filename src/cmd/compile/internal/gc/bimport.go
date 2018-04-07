@@ -319,7 +319,8 @@ func (p *importer) pkg() *types.Pkg {
 }
 
 func idealType(typ *types.Type) *types.Type {
-	if typ.IsUntyped() {
+	switch typ {
+	case types.Idealint, types.Idealrune, types.Idealfloat, types.Idealcomplex:
 		// canonicalize ideal types
 		typ = types.Types[TIDEAL]
 	}
@@ -795,7 +796,7 @@ func (p *importer) value(typ *types.Type) (x Val) {
 	case floatTag:
 		f := newMpflt()
 		p.float(f)
-		if typ == types.Idealint || typ.IsInteger() {
+		if typ == types.Idealint || typ.IsInteger() || typ.IsPtr() || typ.IsUnsafePtr() {
 			// uncommon case: large int encoded as float
 			u := new(Mpint)
 			u.SetFloat(f)
@@ -929,18 +930,7 @@ func (p *importer) node() *Node {
 		pos := p.pos()
 		typ := p.typ()
 		n := npos(pos, nodlit(p.value(typ)))
-		if !typ.IsUntyped() {
-			// Type-checking simplifies unsafe.Pointer(uintptr(c))
-			// to unsafe.Pointer(c) which then cannot type-checked
-			// again. Re-introduce explicit uintptr(c) conversion.
-			// (issue 16317).
-			if typ.IsUnsafePtr() {
-				n = nodl(pos, OCONV, n, nil)
-				n.Type = types.Types[TUINTPTR]
-			}
-			n = nodl(pos, OCONV, n, nil)
-			n.Type = typ
-		}
+		n.Type = idealType(typ)
 		return n
 
 	case ONAME:
