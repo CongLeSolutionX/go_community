@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bffdc61_e7ba8d40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-08T15:17:59Z",
+      "side": 1,
+      "message": "doc: add discord to the official help sources",
+      "revId": "c1649ceb1adcf0ee3511fa5e1f9424747afbe5e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac1e7996_182bf96f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-08T15:17:59Z",
+      "side": 1,
+      "message": "Please drop these first two paragraphs. The CL was created properly.",
+      "revId": "c1649ceb1adcf0ee3511fa5e1f9424747afbe5e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50a95154_7235604b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-08T15:17:59Z",
+      "side": 1,
+      "message": "Please wrap these around 70-80 columns, as is common for git commit messages.",
+      "revId": "c1649ceb1adcf0ee3511fa5e1f9424747afbe5e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
