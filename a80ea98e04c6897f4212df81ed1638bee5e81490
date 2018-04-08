@@ -22,6 +22,30 @@
       "revId": "a80ea98e04c6897f4212df81ed1638bee5e81490",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed2e05c7_5f1e454c",
+        "filename": "src/runtime/sys_nacl_amd64p32.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-08T13:03:15Z",
+      "side": 1,
+      "message": "Fixed on this side. (And got rid of that pesky conditional branch in the process!)",
+      "parentUuid": "03513d07_26546930",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 0
+      },
+      "revId": "a80ea98e04c6897f4212df81ed1638bee5e81490",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
