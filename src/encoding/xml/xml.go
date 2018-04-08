@@ -305,8 +305,16 @@ func (d *Decoder) Token() (Token, error) {
 		// to the other attribute names, so process
 		// the translations first.
 		for _, a := range t1.Attr {
-			if a.Name.Space == xmlnsPrefix {
-				v, ok := d.ns[a.Name.Local]
+			if a.Name.Space == xmlnsPrefix { // name space attribute {.Space}xmlns:{.Local}={.Value}
+				if a.Value == "" {
+					d.err = d.syntaxError("empty namespace without prefix")
+					return nil,d.err
+				}
+				if a.Name.Local == "" {
+					d.err = d.syntaxError("empty prefix")
+					return nil,d.err
+				}
+				v, ok := d.ns[a.Name.Local]	// Checking existence
 				d.pushNs(a.Name.Local, v, ok)
 				d.ns[a.Name.Local] = a.Value
 			}

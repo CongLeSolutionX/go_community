@@ -12,6 +12,7 @@ import (
 	"strings"
 	"testing"
 	"unicode/utf8"
+	"errors"
 )
 
 const testInput = `
@@ -742,6 +743,32 @@ func TestIssue5880(t *testing.T) {
 	}
 	if !utf8.Valid(data) {
 		t.Errorf("Marshal generated invalid UTF-8: %x", data)
+	}
+}
+
+func TestEmptyNSwoPrefix(t *testing.T) {
+
+	var attrError = UnmarshalError("XML syntax error on line 1: attribute name without = in element")
+
+	testCases := []struct {
+		s       string
+		wantErr error
+	}{ // Empty prefixed namespace is not allowed
+		{`<foo xmlns:bar="a"></foo>`, nil},
+		{`<foo xmlns:bar=""></foo>`, errors.New("XML syntax error on line 1: empty namespace without prefix")},
+		{`<foo xmlns:="a"></foo>`, errors.New("XML syntax error on line 1: empty prefix")},
+		{`<foo xmlns:""></foo>`, attrError},
+		{`<foo xmlns:"a"></foo>`, attrError},
+	}
+
+	var dest string // type does not matter as tested tags are empty
+	for _, tc := range testCases {
+		if got, want := Unmarshal([]byte(tc.s), &dest), tc.wantErr; got != want {
+			/* comparing error type does not work here for unknown reason */
+			if got != nil && got.Error() != want.Error() {
+				t.Fatalf("%s: got %q, want %q", tc.s, got, want)
+			}
+		}
 	}
 }
 
