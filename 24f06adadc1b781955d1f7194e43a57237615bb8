@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e8c13d7_28585ced",
+        "filename": "src/runtime/sys_nacl_amd64p32.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-04-08T07:23:42Z",
+      "side": 1,
+      "message": "Wow. You have really done what I had in my mind yesterday about how I can reverse the 1ns additions without losing accuracy of delays for the output. Trying this patch...",
+      "range": {
+        "startLine": 92,
+        "startChar": 1,
+        "endLine": 99,
+        "endChar": 32
+      },
+      "revId": "24f06adadc1b781955d1f7194e43a57237615bb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
