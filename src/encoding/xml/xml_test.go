@@ -745,6 +745,35 @@ func TestIssue5880(t *testing.T) {
 	}
 }
 
+func TestIssue8068(t *testing.T) {
+
+	testCases := []struct {
+		s  string
+		ok bool
+	}{	// Empty prefixed namespace is not allowed
+		{`<foo xmlns:bar="a"></foo>`, true},
+		{`<foo xmlns:bar=""></foo>`, false},
+		{`<foo xmlns:="a"></foo>`, false},
+		{`<foo xmlns:""></foo>`, false},
+		{`<foo xmlns:"a"></foo>`, false},
+	}
+
+	var dest string	// type does not matter as tested tags are empty
+	var err error
+	for _, tc := range testCases {
+		err = Unmarshal([]byte(tc.s), &dest)
+
+		if err != nil && tc.ok {
+			t.Errorf("%s: Empty prefixed namespace : expected no error, got %s", tc.s, err)
+			continue
+		}
+		if err == nil && !tc.ok {
+			t.Errorf("%s: Empty prefixed namespace : expected error, got nil", tc.s)
+		}
+	}
+
+}
+
 func TestIssue11405(t *testing.T) {
 	testCases := []string{
 		"<root>",
