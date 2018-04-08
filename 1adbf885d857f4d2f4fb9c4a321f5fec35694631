@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "65fb0a52_7ce0ee52",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-08T17:16:22Z",
+      "side": 1,
+      "message": "I would keep it for now. We didn\u0027t expect it was necessary before either, and it\u0027s already proven useful.",
+      "parentUuid": "e634b8fe_046f1bb1",
+      "revId": "1adbf885d857f4d2f4fb9c4a321f5fec35694631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8be8703_184a5739",
         "filename": "test/fixedbugs/issue24761.dir/b.go",
         "patchSetId": 1
