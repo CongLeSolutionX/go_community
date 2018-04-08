@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b841441_7748c231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-08T16:50:34Z",
+      "side": 1,
+      "message": "Could you explain here what\u0027s special about this code, to require a second iteration? One might otherwise think that this is a latent bug elsewhere, given that the vast majority of the code does not need multiple iterations.",
+      "revId": "1adbf885d857f4d2f4fb9c4a321f5fec35694631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e634b8fe_046f1bb1",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-08T16:50:34Z",
+      "side": 1,
+      "message": "Should we delete the \"N uncompiled functions\" panic now, or is it still useful as a safety check?",
+      "revId": "1adbf885d857f4d2f4fb9c4a321f5fec35694631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8be8703_184a5739",
+        "filename": "test/fixedbugs/issue24761.dir/b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-08T16:50:34Z",
+      "side": 1,
+      "message": "If you\u0027d like, you can further simplify the case slightly - remove all the pointers, and make M2 take no arguments, passing literals to variadic.",
+      "revId": "1adbf885d857f4d2f4fb9c4a321f5fec35694631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
