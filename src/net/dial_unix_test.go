@@ -8,6 +8,7 @@ package net
 
 import (
 	"context"
+	"net/internal/socktest"
 	"syscall"
 	"testing"
 	"time"
@@ -15,41 +16,21 @@ import (
 
 // Issue 16523
 func TestDialContextCancelRace(t *testing.T) {
-	oldConnectFunc := connectFunc
-	oldGetsockoptIntFunc := getsockoptIntFunc
 	oldTestHookCanceledDial := testHookCanceledDial
-	defer func() {
-		connectFunc = oldConnectFunc
-		getsockoptIntFunc = oldGetsockoptIntFunc
-		testHookCanceledDial = oldTestHookCanceledDial
-	}()
+	defer func() { testHookCanceledDial = oldTestHookCanceledDial }()
 
 	ln, err := newLocalListener("tcp")
 	if err != nil {
 		t.Fatal(err)
 	}
-	listenerDone := make(chan struct{})
-	go func() {
-		defer close(listenerDone)
-		c, err := ln.Accept()
-		if err == nil {
-			c.Close()
-		}
-	}()
-	defer func() { <-listenerDone }()
 	defer ln.Close()
 
 	sawCancel := make(chan bool, 1)
-	testHookCanceledDial = func() {
-		sawCancel <- true
-	}
-
+	testHookCanceledDial = func() { sawCancel <- true }
 	ctx, cancelCtx := context.WithCancel(context.Background())
-
-	connectFunc = func(fd int, addr syscall.Sockaddr) error {
-		err := oldConnectFunc(fd, addr)
-		t.Logf("connect(%d, addr) = %v", fd, err)
-		if err == nil {
+	afterConnect := func(st *socktest.State) error {
+		t.Log("connect", st)
+		if st.Err == nil {
 			// On some operating systems, localhost
 			// connects _sometimes_ succeed immediately.
 			// Prevent that, so we exercise the code path
@@ -59,14 +40,12 @@ func TestDialContextCancelRace(t *testing.T) {
 			// half the time previously.
 			return syscall.EINPROGRESS
 		}
-		return err
+		return nil
 	}
-
-	getsockoptIntFunc = func(fd, level, opt int) (val int, err error) {
-		val, err = oldGetsockoptIntFunc(fd, level, opt)
-		t.Logf("getsockoptIntFunc(%d, %d, %d) = (%v, %v)", fd, level, opt, val, err)
-		if level == syscall.SOL_SOCKET && opt == syscall.SO_ERROR && err == nil && val == 0 {
-			t.Logf("canceling context")
+	afterGetsockopt := func(st *socktest.State) error {
+		t.Log("getsockopt", st)
+		if st.SocketErr == syscall.Errno(0) {
+			t.Log("canceling context")
 
 			// Cancel the context at just the moment which
 			// caused the race in issue 16523.
@@ -77,16 +56,26 @@ func TestDialContextCancelRace(t *testing.T) {
 			// timeout before returning.
 			select {
 			case <-sawCancel:
-				t.Logf("saw cancel")
+				t.Log("saw cancel")
 			case <-time.After(5 * time.Second):
-				t.Errorf("didn't see cancel after 5 seconds")
+				t.Error("didn't see cancel after 5 seconds")
 			}
 		}
-		return
+		return nil
 	}
 
+	callpathSW.Register("TestDialContextCancelRace", func(s uintptr, cookie socktest.Cookie) {
+		callpathSW.AddFilter(s, socktest.FilterConnect, func(st *socktest.State) (socktest.AfterFilter, error) {
+			return afterConnect, nil
+		})
+		callpathSW.AddFilter(s, socktest.FilterGetsockoptInt, func(st *socktest.State) (socktest.AfterFilter, error) {
+			return afterGetsockopt, nil
+		})
+	})
+	defer callpathSW.Deregister("TestDialContextCancelRace")
+
 	var d Dialer
-	c, err := d.DialContext(ctx, "tcp", ln.Addr().String())
+	c, err := d.DialContext(ctx, ln.Addr().Network(), ln.Addr().String())
 	if err == nil {
 		c.Close()
 		t.Fatal("unexpected successful dial; want context canceled error")
