@@ -248,7 +248,7 @@ func autolabel(prefix string) *Node {
 }
 
 func restrictlookup(name string, pkg *types.Pkg) *types.Sym {
-	if !exportname(name) && pkg != localpkg {
+	if !types.IsExported(name) && pkg != localpkg {
 		yyerror("cannot refer to unexported name %s.%s", pkg.Name, name)
 	}
 	return pkg.Lookup(name)
@@ -262,7 +262,7 @@ func importdot(opkg *types.Pkg, pack *Node) {
 		if s.Def == nil {
 			continue
 		}
-		if !exportname(s.Name) || strings.ContainsRune(s.Name, 0xb7) { // 0xb7 = center dot
+		if !types.IsExported(s.Name) || strings.ContainsRune(s.Name, 0xb7) { // 0xb7 = center dot
 			continue
 		}
 		s1 := lookup(s.Name)
@@ -369,44 +369,12 @@ func (n *Node) copy() *Node {
 	return &n2
 }
 
-// methcmp sorts methods by name with exported methods first,
-// and then non-exported methods by their package path.
+// methcmp sorts methods by symbol.
 type methcmp []*types.Field
 
-func (x methcmp) Len() int      { return len(x) }
-func (x methcmp) Swap(i, j int) { x[i], x[j] = x[j], x[i] }
-func (x methcmp) Less(i, j int) bool {
-	a := x[i]
-	b := x[j]
-	if a.Sym == b.Sym {
-		return false
-	}
-
-	// Blank methods to the end.
-	if a.Sym == nil {
-		return false
-	}
-	if b.Sym == nil {
-		return true
-	}
-
-	// Exported methods to the front.
-	ea := exportname(a.Sym.Name)
-	eb := exportname(b.Sym.Name)
-	if ea != eb {
-		return ea
-	}
-
-	// Sort by name and then package.
-	if a.Sym.Name != b.Sym.Name {
-		return a.Sym.Name < b.Sym.Name
-	}
-	if !ea && a.Sym.Pkg.Path != b.Sym.Pkg.Path {
-		return a.Sym.Pkg.Path < b.Sym.Pkg.Path
-	}
-
-	return false
-}
+func (x methcmp) Len() int           { return len(x) }
+func (x methcmp) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
+func (x methcmp) Less(i, j int) bool { return x[i].Sym.Less(x[j].Sym) }
 
 func nodintconst(v int64) *Node {
 	u := new(Mpint)

@@ -42,27 +42,11 @@ var (
 )
 
 type Sig struct {
-	name  string
-	pkg   *types.Pkg
+	name  *types.Sym
 	isym  *types.Sym
 	tsym  *types.Sym
 	type_ *types.Type
 	mtype *types.Type
-}
-
-// siglt sorts method signatures by name with exported methods first,
-// and then non-exported methods by their package path.
-func siglt(a, b *Sig) bool {
-	if (a.pkg == nil) != (b.pkg == nil) {
-		return a.pkg == nil
-	}
-	if a.name != b.name {
-		return a.name < b.name
-	}
-	if a.pkg != nil && a.pkg != b.pkg {
-		return a.pkg.Path < b.pkg.Path
-	}
-	return false
 }
 
 // Builds a type representing a Bucket structure for
@@ -413,14 +397,7 @@ func methods(t *types.Type) []*Sig {
 		var sig Sig
 		ms = append(ms, &sig)
 
-		sig.name = method.Name
-		if !exportname(method.Name) {
-			if method.Pkg == nil {
-				Fatalf("methods: missing package")
-			}
-			sig.pkg = method.Pkg
-		}
-
+		sig.name = method
 		sig.isym = methodSym(it, method)
 		sig.tsym = methodSym(t, method)
 		sig.type_ = methodfunc(f.Type, t)
@@ -457,38 +434,29 @@ func imethods(t *types.Type) []*Sig {
 		if f.Type.Etype != TFUNC || f.Sym == nil {
 			continue
 		}
-		method := f.Sym
-		var sig = Sig{
-			name: method.Name,
-		}
-		if !exportname(method.Name) {
-			if method.Pkg == nil {
-				Fatalf("imethods: missing package")
-			}
-			sig.pkg = method.Pkg
+		if f.Sym.IsBlank() {
+			Fatalf("unexpected blank symbol in interface method set")
 		}
 
-		sig.mtype = f.Type
-		sig.type_ = methodfunc(f.Type, nil)
+		sig := Sig{
+			name:  f.Sym,
+			mtype: f.Type,
+			type_: methodfunc(f.Type, nil),
+		}
 
 		if n := len(methods); n > 0 {
 			last := methods[n-1]
-			if !(siglt(last, &sig)) {
+			if !last.name.Less(sig.name) {
 				Fatalf("sigcmp vs sortinter %s %s", last.name, sig.name)
 			}
 		}
 		methods = append(methods, &sig)
 
-		// Compiler can only refer to wrappers for non-blank methods.
-		if method.IsBlank() {
-			continue
-		}
-
 		// NOTE(rsc): Perhaps an oversight that
 		// IfaceType.Method is not in the reflect data.
 		// Generate the method body, so that compiled
 		// code can refer to it.
-		isym := methodSym(t, method)
+		isym := methodSym(t, f.Sym)
 		if !isym.Siggen() {
 			isym.SetSiggen(true)
 			genwrapper(t, f, isym)
@@ -564,10 +532,10 @@ func dgopkgpathOff(s *obj.LSym, ot int, pkg *types.Pkg) int {
 
 // dnameField dumps a reflect.name for a struct field.
 func dnameField(lsym *obj.LSym, ot int, spkg *types.Pkg, ft *types.Field) int {
-	if !exportname(ft.Sym.Name) && ft.Sym.Pkg != spkg {
+	if !types.IsExported(ft.Sym.Name) && ft.Sym.Pkg != spkg {
 		Fatalf("package mismatch for %v", ft.Sym)
 	}
-	nsym := dname(ft.Sym.Name, ft.Note, nil, exportname(ft.Sym.Name))
+	nsym := dname(ft.Sym.Name, ft.Note, nil, types.IsExported(ft.Sym.Name))
 	return dsymptr(lsym, ot, nsym, 0)
 }
 
@@ -675,7 +643,7 @@ func dextratype(lsym *obj.LSym, ot int, t *types.Type, dataAdd int) int {
 	if mcount != int(uint16(mcount)) {
 		Fatalf("too many methods on %v: %d", t, mcount)
 	}
-	xcount := sort.Search(mcount, func(i int) bool { return m[i].pkg != nil })
+	xcount := sort.Search(mcount, func(i int) bool { return !types.IsExported(m[i].name.Name) })
 	if dataAdd != int(uint32(dataAdd)) {
 		Fatalf("methods are too far away on %v: %d", t, dataAdd)
 	}
@@ -708,12 +676,12 @@ func typePkg(t *types.Type) *types.Pkg {
 func dextratypeData(lsym *obj.LSym, ot int, t *types.Type) int {
 	for _, a := range methods(t) {
 		// ../../../../runtime/type.go:/method
-		exported := exportname(a.name)
+		exported := types.IsExported(a.name.Name)
 		var pkg *types.Pkg
-		if !exported && a.pkg != typePkg(t) {
-			pkg = a.pkg
+		if !exported && a.name.Pkg != typePkg(t) {
+			pkg = a.name.Pkg
 		}
-		nsym := dname(a.name, "", pkg, exported)
+		nsym := dname(a.name.Name, "", pkg, exported)
 
 		ot = dsymptrOff(lsym, ot, nsym)
 		ot = dmethodptrOff(lsym, ot, dtypesym(a.mtype))
@@ -896,11 +864,11 @@ func dcommontype(lsym *obj.LSym, t *types.Type) int {
 		p = "*" + p
 		tflag |= tflagExtraStar
 		if t.Sym != nil {
-			exported = exportname(t.Sym.Name)
+			exported = types.IsExported(t.Sym.Name)
 		}
 	} else {
 		if t.Elem() != nil && t.Elem().Sym != nil {
-			exported = exportname(t.Elem().Sym.Name)
+			exported = types.IsExported(t.Elem().Sym.Name)
 		}
 	}
 
@@ -1267,12 +1235,12 @@ func dtypesym(t *types.Type) *obj.LSym {
 
 		for _, a := range m {
 			// ../../../../runtime/type.go:/imethod
-			exported := exportname(a.name)
+			exported := types.IsExported(a.name.Name)
 			var pkg *types.Pkg
-			if !exported && a.pkg != tpkg {
-				pkg = a.pkg
+			if !exported && a.name.Pkg != tpkg {
+				pkg = a.name.Pkg
 			}
-			nsym := dname(a.name, "", pkg, exported)
+			nsym := dname(a.name.Name, "", pkg, exported)
 
 			ot = dsymptrOff(lsym, ot, nsym)
 			ot = dsymptrOff(lsym, ot, dtypesym(a.type_))
@@ -1341,7 +1309,7 @@ func dtypesym(t *types.Type) *obj.LSym {
 		// information from the field descriptors.
 		var spkg *types.Pkg
 		for _, f := range fields {
-			if !exportname(f.Sym.Name) {
+			if !types.IsExported(f.Sym.Name) {
 				spkg = f.Sym.Pkg
 				break
 			}
@@ -1430,7 +1398,7 @@ func genfun(t, it *types.Type) []*obj.LSym {
 	// both sigs and methods are sorted by name,
 	// so we can find the intersect in a single pass
 	for _, m := range methods {
-		if m.name == sigs[0].name {
+		if m.name.Name == sigs[0].name.Name {
 			out = append(out, m.isym.Linksym())
 			sigs = sigs[1:]
 			if len(sigs) == 0 {

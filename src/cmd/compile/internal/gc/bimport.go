@@ -526,7 +526,7 @@ func (p *importer) typ() *types.Type {
 			sym := p.fieldSym()
 
 			// during import unexported method names should be in the type's package
-			if !exportname(sym.Name) && sym.Pkg != tsym.Pkg {
+			if !types.IsExported(sym.Name) && sym.Pkg != tsym.Pkg {
 				Fatalf("imported method name %+v in wrong package %s\n", sym, tsym.Pkg.Name)
 			}
 
@@ -723,7 +723,7 @@ func (p *importer) fieldName() (*types.Sym, bool) {
 		alias = true
 		fallthrough
 	default:
-		if !exportname(name) {
+		if !types.IsExported(name) {
 			pkg = p.pkg()
 		}
 	}
@@ -738,7 +738,7 @@ func (p *importer) methodName() *types.Sym {
 		return builtinpkg.Lookup(name)
 	}
 	pkg := localpkg
-	if !exportname(name) {
+	if !types.IsExported(name) {
 		pkg = p.pkg()
 	}
 	return pkg.Lookup(name)
@@ -1247,7 +1247,7 @@ func (p *importer) exprsOrNil() (a, b *Node) {
 func (p *importer) fieldSym() *types.Sym {
 	name := p.string()
 	pkg := localpkg
-	if !exportname(name) {
+	if !types.IsExported(name) {
 		pkg = p.pkg()
 	}
 	return pkg.Lookup(name)
