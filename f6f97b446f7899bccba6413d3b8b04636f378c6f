@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e9fcfff_ce460e53",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-04-09T19:56:21Z",
+      "side": 1,
+      "message": "Have a comment regarding IsPtr and IsUnsafePtr here. It does seem a bit unusual to have them under the floatTag.",
+      "range": {
+        "startLine": 799,
+        "startChar": 53,
+        "endLine": 799,
+        "endChar": 58
+      },
+      "revId": "f6f97b446f7899bccba6413d3b8b04636f378c6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
