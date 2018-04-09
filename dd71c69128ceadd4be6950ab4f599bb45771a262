@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d401395f_733d65f5",
+        "filename": "src/cmd/trace/trace_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5260
+      },
+      "writtenOn": "2018-04-09T17:48:54Z",
+      "side": 1,
+      "message": "I think this comment could be more helpful. something like\n\"skipping due to golang.org/issue/16755 (timestamps are unreliable)\"",
+      "range": {
+        "startLine": 78,
+        "startChar": 27,
+        "endLine": 78,
+        "endChar": 33
+      },
+      "revId": "dd71c69128ceadd4be6950ab4f599bb45771a262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
