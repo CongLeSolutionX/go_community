@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "30a7adb6_747dcfbf",
+        "filename": "src/internal/bytealg/equal_wasm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-04-09T23:15:10Z",
+      "side": 1,
+      "message": "Yeah, I had to jump through some hoops to make WebAssembly behave like a register machine. ;)\n\nSP is currently a global variable until threads are available. It gets initialized in _rt0_wasm_js, see https://go-review.googlesource.com/c/go/+/103877/7/src/runtime/rt0_js_wasm.s. I\u0027m not yet sure how to pick a good initial value, that\u0027s why it gets set to 10000 right now.\n\nCTX is also a global. Its initial value is zero by default.\n\nThe globals get declared here: https://go-review.googlesource.com/c/go/+/103795/7/src/cmd/link/internal/wasm/asm.go#253\n\nSome of this is mentioned in the design doc, but not in such detail.",
+      "parentUuid": "72ea7559_51539780",
+      "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d2de537f_c8dcc300",
         "filename": "src/internal/bytealg/equal_wasm.s",
         "patchSetId": 6
@@ -178,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "78362a8a_7bac7f0d",
+        "filename": "src/internal/bytealg/equal_wasm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-04-09T23:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f256f1f_750a7b67",
+      "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d054b199_b0f47f86",
         "filename": "src/internal/bytealg/indexbyte_wasm.s",
         "patchSetId": 6
@@ -210,6 +246,24 @@
       "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ebd4619_90838dec",
+        "filename": "src/internal/bytealg/indexbyte_wasm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-04-09T23:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a644a03b_dd9d7ad1",
+      "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
