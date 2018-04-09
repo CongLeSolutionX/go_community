@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "724a2609_d8c9bda1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-09T18:28:14Z",
+      "side": 1,
+      "message": "It doesn\u0027t matter but we usually write \"Updates\".\nAnd, in this case, why not \"Fixes\"?",
+      "revId": "24f06adadc1b781955d1f7194e43a57237615bb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef89a80e_ee65a869",
+        "filename": "src/runtime/os_nacl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-09T18:28:14Z",
+      "side": 1,
+      "message": "timestamp printed by the next call to write with fd \u003d\u003d 1 or fd \u003d\u003d 2 when using faketime.",
+      "revId": "24f06adadc1b781955d1f7194e43a57237615bb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e8c13d7_28585ced",
         "filename": "src/runtime/sys_nacl_amd64p32.s",
         "patchSetId": 4
