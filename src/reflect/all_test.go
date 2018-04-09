@@ -3073,6 +3073,17 @@ func TestBytes(t *testing.T) {
 	if &x[0] != &y[0] {
 		t.Errorf("ValueOf(%p).Bytes() = %p", &x[0], &y[0])
 	}
+
+	type MyByte byte
+	z := []MyByte{1, 2, 3}
+	var ex interface{}
+	func() {
+		defer func() { ex = recover() }()
+		ValueOf(z).Bytes()
+	}()
+	if ex == nil {
+		t.Errorf("expected ValueOf(%#v).Bytes() to panic", z)
+	}
 }
 
 func TestSetBytes(t *testing.T) {
@@ -3085,6 +3096,17 @@ func TestSetBytes(t *testing.T) {
 	}
 	if &x[0] != &y[0] {
 		t.Errorf("ValueOf(%p).Bytes() = %p", &x[0], &y[0])
+	}
+
+	type MyByte byte
+	z := []MyByte{1, 2, 3}
+	var ex interface{}
+	func() {
+		defer func() { ex = recover() }()
+		ValueOf(&z).Elem().SetBytes([]byte{1, 2, 3})
+	}()
+	if ex == nil {
+		t.Errorf("expected ValueOf(%#v).SetBytes() to panic", z)
 	}
 }
 

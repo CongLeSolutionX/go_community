@@ -258,7 +258,7 @@ func (v Value) Bool() bool {
 // It panics if v's underlying value is not a slice of bytes.
 func (v Value) Bytes() []byte {
 	v.mustBe(Slice)
-	if v.typ.Elem().Kind() != Uint8 {
+	if t := v.typ.Elem(); t.Kind() != Uint8 || t.PkgPath() != "" {
 		panic("reflect.Value.Bytes of non-byte slice")
 	}
 	// Slice is always bigger than a word; assume flagIndir.
@@ -269,8 +269,8 @@ func (v Value) Bytes() []byte {
 // It panics if v's underlying value is not a slice of runes (int32s).
 func (v Value) runes() []rune {
 	v.mustBe(Slice)
-	if v.typ.Elem().Kind() != Int32 {
-		panic("reflect.Value.Bytes of non-rune slice")
+	if t := v.typ.Elem(); t.Kind() != Int32 || t.PkgPath() != "" {
+		panic("reflect.Value.runes of non-rune slice")
 	}
 	// Slice is always bigger than a word; assume flagIndir.
 	return *(*[]rune)(v.ptr)
@@ -1391,7 +1391,7 @@ func (v Value) SetBool(x bool) {
 func (v Value) SetBytes(x []byte) {
 	v.mustBeAssignable()
 	v.mustBe(Slice)
-	if v.typ.Elem().Kind() != Uint8 {
+	if t := v.typ.Elem(); t.Kind() != Uint8 || t.PkgPath() != "" {
 		panic("reflect.Value.SetBytes of non-byte slice")
 	}
 	*(*[]byte)(v.ptr) = x
@@ -1402,7 +1402,7 @@ func (v Value) SetBytes(x []byte) {
 func (v Value) setRunes(x []rune) {
 	v.mustBeAssignable()
 	v.mustBe(Slice)
-	if v.typ.Elem().Kind() != Int32 {
+	if t := v.typ.Elem(); t.Kind() != Int32 || t.PkgPath() != "" {
 		panic("reflect.Value.setRunes of non-rune slice")
 	}
 	*(*[]rune)(v.ptr) = x
