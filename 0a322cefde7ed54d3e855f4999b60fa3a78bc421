@@ -22,6 +22,30 @@
       "revId": "0a322cefde7ed54d3e855f4999b60fa3a78bc421",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "926ba958_a4d6353e",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-09T09:40:10Z",
+      "side": 1,
+      "message": "It can be useful to be verbose if there are many such error checks, to keep consistency. For example:\n\nif err :\u003d foo(); err !\u003d nil {\n    return err\n}\nif err :\u003d bar(); err !\u003d nil {\n    return err\n}\nreturn nil\n\nThis is more verbose but also more consistent. And if you were to switch the foo and bar lines, it would be simple. If you had been less vebose, you\u0027d have to refactor the if/err code.\n\nI don\u0027t think this case is such a clear one (to be verbose), but I also don\u0027t think it\u0027s worth changing just to save three lines.",
+      "parentUuid": "cc12cfbb_559799af",
+      "range": {
+        "startLine": 902,
+        "startChar": 2,
+        "endLine": 906,
+        "endChar": 12
+      },
+      "revId": "0a322cefde7ed54d3e855f4999b60fa3a78bc421",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
