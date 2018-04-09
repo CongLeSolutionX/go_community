@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8154bcd9_66752839",
+        "filename": "src/internal/bytealg/compare_wasm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-04-09T21:52:50Z",
+      "side": 1,
+      "message": "WebAssembly has 32- and 64-bit integer ops, but no 8- or 16-bit ones. That\u0027s why I currently handle all integers as 64-bit variables, which is simpler than handling 8-, 16- and 32-bit in one way and 64-bit in another. Also 64-bit memory ops are a feature on WebAssembly\u0027s roadmap, so my plan is to use them as soon as they are available. But yes, currently there are 32 zero bits and I32WrapI64 ops.",
+      "parentUuid": "adcb7af7_10896465",
+      "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "962305e1_f7e1c261",
         "filename": "src/internal/bytealg/equal_wasm.s",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2018-04-09T19:58:00Z",
       "side": 1,
       "message": "How SP, FP, CTX, SB, etc work for webassembly is a bit of a mystery.  Is there a doc somewhere?",
+      "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfab0f8f_5e4ae770",
+        "filename": "src/internal/bytealg/equal_wasm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-04-09T21:52:50Z",
+      "side": 1,
+      "message": "There isn\u0027t much difference to how they work in other architectures. What exactly is unclear?",
+      "parentUuid": "962305e1_f7e1c261",
       "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "248019a5_29044d23",
+        "filename": "src/internal/bytealg/equal_wasm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-04-09T21:52:50Z",
+      "side": 1,
+      "message": "Yes, a loop needs a final \"Br\" to actually loop. Without it, it would just exit the \"Loop\" block. \"Br\" jumps to the beginning of the block if it is a \"Loop\", otherwise to the end. I agree that this is a bit strange, but that\u0027s the way it is. See https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-control",
+      "parentUuid": "d2de537f_c8dcc300",
+      "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "819a12f8_b6a87566",
         "filename": "src/internal/bytealg/equal_wasm.s",
         "patchSetId": 6
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "0157273c_9e784aca",
+        "filename": "src/internal/bytealg/equal_wasm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-04-09T21:52:50Z",
+      "side": 1,
+      "message": "No there isn\u0027t. This function isn\u0027t called with the Go calling convention, but as a pure WebAssembly function (it is called with \"Call\", not \"CALL\"). That\u0027s why it needs no \"RET\". The function just exits normally. I could put an explicit \"Return\" here if that makes it easier to read.",
+      "parentUuid": "819a12f8_b6a87566",
+      "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d054b199_b0f47f86",
         "filename": "src/internal/bytealg/indexbyte_wasm.s",
         "patchSetId": 6
@@ -81,6 +153,24 @@
       "writtenOn": "2018-04-09T19:58:00Z",
       "side": 1,
       "message": "Some of the other code did a I64Load followed by a Wrap 64-\u003e32 instruction.  We\u0027re doing a different scheme here (assuming little endian, is that defined for webassmbly?).\nCan we be consistent across the implementations in this package?",
+      "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a644a03b_dd9d7ad1",
+        "filename": "src/internal/bytealg/indexbyte_wasm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-04-09T21:52:50Z",
+      "side": 1,
+      "message": "You are right. I usually use I64Load+Wrap. Will change.",
+      "parentUuid": "d054b199_b0f47f86",
       "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
