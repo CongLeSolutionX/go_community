@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "72ea7559_51539780",
+        "filename": "src/internal/bytealg/equal_wasm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-09T22:18:28Z",
+      "side": 1,
+      "message": "How are they represented in webassembly?  Is SP a local variable?  A global?  How does it get initialized?  Is there some preamble that loads it from somewhere?  What about the others (FP and SB seem pretty clear.  But how does CTX get set up)?\n\nThese questions don\u0027t have much to do with this CL per se, I\u0027m just trying to understand how things work.",
+      "parentUuid": "cfab0f8f_5e4ae770",
+      "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d2de537f_c8dcc300",
         "filename": "src/internal/bytealg/equal_wasm.s",
         "patchSetId": 6
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "No there isn\u0027t. This function isn\u0027t called with the Go calling convention, but as a pure WebAssembly function (it is called with \"Call\", not \"CALL\"). That\u0027s why it needs no \"RET\". The function just exits normally. I could put an explicit \"Return\" here if that makes it easier to read.",
       "parentUuid": "819a12f8_b6a87566",
+      "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f256f1f_750a7b67",
+        "filename": "src/internal/bytealg/equal_wasm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-09T22:18:28Z",
+      "side": 1,
+      "message": "Yes, just something explicit (even if it is a comment) would be nice.",
+      "parentUuid": "0157273c_9e784aca",
       "revId": "cff2cb89175d15b954d9bdc124232742cca574e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
