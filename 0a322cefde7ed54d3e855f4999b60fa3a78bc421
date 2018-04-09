@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc12cfbb_559799af",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-04-09T08:19:29Z",
+      "side": 1,
+      "message": "Off-topic.\n\nI wonder why it\u0027s not \n return ut.UnmarshalText(s)\n\nYou probably may want to send another CL that fixes this one.\nIf there are objections against fixing this, it would be nice to know why.\n\nThough gosimple check for such kind of code patterns was removed few days ago...",
+      "range": {
+        "startLine": 902,
+        "startChar": 2,
+        "endLine": 906,
+        "endChar": 12
+      },
+      "revId": "0a322cefde7ed54d3e855f4999b60fa3a78bc421",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
