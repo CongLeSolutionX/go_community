@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6049b5d_6125b026",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-04-09T18:08:44Z",
+      "side": 1,
+      "message": "kinda pointless",
+      "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e0c161e_27b3a71c",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-04-09T18:08:44Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 119,
+        "startChar": 5,
+        "endLine": 119,
+        "endChar": 9
+      },
+      "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37203b57_66bd91ab",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-04-09T18:08:44Z",
+      "side": 1,
+      "message": "Why this approach instead of literally just looking at the outermost spans?",
+      "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5212ab50_957e2179",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-04-09T18:08:44Z",
+      "side": 1,
+      "message": "Lots of copy/paste across the pprof* functions. Take a function, or pull the logic up to the caller?",
+      "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
