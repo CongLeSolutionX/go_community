@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f47b00a2_55f0aab1",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-09T18:49:53Z",
+      "side": 0,
+      "message": "Unrelated whitespace changes.",
+      "revId": "eda22a06fb507d3ce6a2684bb5e6dbb3cbb57e15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
