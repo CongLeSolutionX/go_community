@@ -22,6 +22,30 @@
       "revId": "f6f97b446f7899bccba6413d3b8b04636f378c6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d239d6b8_19568bfd",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-09T23:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e9fcfff_ce460e53",
+      "range": {
+        "startLine": 799,
+        "startChar": 53,
+        "endLine": 799,
+        "endChar": 58
+      },
+      "revId": "f6f97b446f7899bccba6413d3b8b04636f378c6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
