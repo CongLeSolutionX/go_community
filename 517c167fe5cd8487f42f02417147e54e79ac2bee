@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "e36da64f_58ddc949",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-04-10T19:05:27Z",
+      "side": 1,
+      "message": "per discussion, nm.",
+      "parentUuid": "fb3122a4_dba9581b",
+      "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5212ab50_957e2179",
         "filename": "src/cmd/trace/pprof.go",
         "patchSetId": 1
@@ -151,6 +169,24 @@
       "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acac3570_323c291e",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-04-10T19:05:27Z",
+      "side": 1,
+      "message": "Much better.",
+      "parentUuid": "14e78ad5_a5fdb029",
+      "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
