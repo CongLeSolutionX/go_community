@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d1a2744_9ff4679c",
+        "filename": "misc/ios/detect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-04-10T16:26:12Z",
+      "side": 1,
+      "message": "Just a thought - I wonder if it\u0027s more readable to have this in a function (detectUDID) that calls getLines and processes results - i.e. removing all empty lines from the results - while keeping the getLines untouched. Just a thought.",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 2
+      },
+      "revId": "40e8aca829fd04971c37bbe4cba57cfb249df97d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
