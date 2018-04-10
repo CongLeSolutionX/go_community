@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "cffa3031_a7eaaeb9",
+        "filename": "misc/cgo/testshared/src/linkname/asm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6576
+      },
+      "writtenOn": "2018-04-10T17:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a5b5f5a_55d79962",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29df4581_139994ee",
         "filename": "misc/cgo/testshared/src/linkname/linkname.go",
         "patchSetId": 1
