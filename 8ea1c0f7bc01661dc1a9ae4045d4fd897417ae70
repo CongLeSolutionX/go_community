@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b914c6e_e41f1969",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-10T14:23:08Z",
+      "side": 1,
+      "message": "initFeature is not a very meaningful name; how about simply initialize?\n\nAnd this needs a comment.  Perhaps\n\n// initialize examines the processor and sets the relevant variables above.\n// This is called by the runtime package early in program initialization,\n// before normal init functions are run.",
+      "revId": "8ea1c0f7bc01661dc1a9ae4045d4fd897417ae70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8af5f2a_9127c4ea",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-10T14:23:08Z",
+      "side": 1,
+      "message": "Let\u0027s make this a line comment like the others.\n    internal_cpu_initFeature() // must run before alginit",
+      "revId": "8ea1c0f7bc01661dc1a9ae4045d4fd897417ae70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
