@@ -25,6 +25,69 @@
     },
     {
       "key": {
+        "uuid": "0224fb05_9326f972",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-10T21:50:16Z",
+      "side": 1,
+      "message": "MOVDaddr has an Aux argument, you\u0027re dropping that on the floor here.  You\u0027d need at least v.Aux \u003d\u003d nil as a condition. I suspect that condition subsumes the SP/SB condition.",
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4080ef2_67d82898",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-10T21:50:16Z",
+      "side": 1,
+      "message": "Why not just use [i0] on MOVHBRload directly?  Is it because it can\u0027t take a constant offset?\n\nIt can\u0027t be right that {s} gets applied as an Aux to both MOVHBRload and MOVDaddr.  That sounds like a recipe for double-offseting the effective address.",
+      "range": {
+        "startLine": 935,
+        "startChar": 47,
+        "endLine": 935,
+        "endChar": 82
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94ab018d_28cfa4d6",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-10T21:50:16Z",
+      "side": 1,
+      "message": "Can you make these rules a combo of two MOVHBRloads instead of one MOVHBRload and two MOVBZloads? I think it would make the rule explosion more manageable.\n\nThe AMD64.rules file does this, you just need in addition to\n(OR byte_load_shift byte_load_shift) -\u003e half_load_shift\n\n(OR byte_load_shift (OR byte_load_shift x)) -\u003e (OR half_load_shift x)\n\n(where some of the shifts might be 0)",
+      "range": {
+        "startLine": 985,
+        "startChar": 8,
+        "endLine": 987,
+        "endChar": 4
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "04624f1c_89a88d3a",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 11
@@ -41,6 +104,46 @@
         "startChar": 66,
         "endLine": 1227,
         "endChar": 67
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e2f9a9d_cb81c66f",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-10T21:50:16Z",
+      "side": 1,
+      "message": "These seem underspecified.  What is the effective address they load from?  Do they use the AuxInt or Aux fields?  What order are the arguments?\nReverse order of what?  The same instruction without the \"BR\"?\nIt\u0027s hard to verify the rewrite rules without understanding the opcodes.\n(Most of these criticisms also apply elsewhere in this file, e.g. MOVBZload above.)",
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2daa8b8f_088b3d7a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-10T21:50:16Z",
+      "side": 1,
+      "message": "/GP?",
+      "range": {
+        "startLine": 295,
+        "startChar": 218,
+        "endLine": 295,
+        "endChar": 223
       },
       "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
