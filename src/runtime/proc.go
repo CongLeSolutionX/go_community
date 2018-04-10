@@ -466,6 +466,9 @@ const (
 	_GoidCacheBatch = 16
 )
 
+//go:linkname internal_cpu_initFeature internal/cpu.initFeature
+func internal_cpu_initFeature()
+
 // The bootstrap sequence is:
 //
 //	call osinit
@@ -489,6 +492,9 @@ func schedinit() {
 	stackinit()
 	mallocinit()
 	mcommoninit(_g_.m)
+	// cpu feature must loaded before alginit calls
+	// to support aeshash
+	internal_cpu_initFeature()
 	alginit()       // maps must not be used before this call
 	modulesinit()   // provides activeModules
 	typelinksinit() // uses maps, activeModules

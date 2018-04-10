@@ -98,3 +98,8 @@ type s390x struct {
 	HasVX bool // vector facility. Note: the runtime sets this when it processes auxv records.
 	_     [CacheLineSize]byte
 }
+
+func initFeature() {
+	// load arch specific init call
+	doinit()
+}

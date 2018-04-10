@@ -56,7 +56,9 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg []byte, a
 	if p.Standard {
 		gcargs = append(gcargs, "-std")
 	}
-	compilingRuntime := p.Standard && (p.ImportPath == "runtime" || strings.HasPrefix(p.ImportPath, "runtime/internal"))
+	compilingRuntime := p.Standard && (p.ImportPath == "runtime" ||
+		strings.HasPrefix(p.ImportPath, "runtime/internal") ||
+		strings.HasPrefix(p.ImportPath, "internal/cpu"))
 	if compilingRuntime {
 		// runtime compiles with a special gc flag to emit
 		// additional reflect type data.
