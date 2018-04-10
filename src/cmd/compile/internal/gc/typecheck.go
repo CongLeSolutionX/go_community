@@ -2360,7 +2360,11 @@ func typecheckMethodExpr(n *Node) *Node {
 		if lookdot1(n, s, t, ms, 1) != nil {
 			yyerror("%v undefined (cannot refer to unexported method %v)", n, s)
 		} else {
-			yyerror("%v undefined (type %v has no method %v)", n, t, s)
+			if _, ambig := dotpath(s, t, nil, false); ambig {
+				yyerror("%v undefined (ambiguous selector)", n) // method or field
+			} else {
+				yyerror("%v undefined (type %v has no method %v)", n, t, s)
+			}
 		}
 		n.Type = nil
 		return n
