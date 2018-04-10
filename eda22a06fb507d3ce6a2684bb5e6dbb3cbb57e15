@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "eeef27e4_475edb12",
+        "filename": "src/runtime/os_linux_arm64.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-04-10T06:44:07Z",
+      "side": 0,
+      "message": "I think this change should also go into the second CL where you start to use cpu.ARM64.HasAES",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "eda22a06fb507d3ce6a2684bb5e6dbb3cbb57e15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f47b00a2_55f0aab1",
         "filename": "src/runtime/proc.go",
         "patchSetId": 7
