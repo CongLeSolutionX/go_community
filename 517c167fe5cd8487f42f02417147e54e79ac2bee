@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9eb4dd0d_b639ce79",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-04-10T18:47:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6049b5d_6125b026",
+      "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e0c161e_27b3a71c",
         "filename": "src/cmd/trace/pprof.go",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "b2efbccd_844ad2f5",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-04-10T18:47:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e0c161e_27b3a71c",
+      "range": {
+        "startLine": 119,
+        "startChar": 5,
+        "endLine": 119,
+        "endChar": 9
+      },
+      "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37203b57_66bd91ab",
         "filename": "src/cmd/trace/pprof.go",
         "patchSetId": 1
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "fb3122a4_dba9581b",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-04-10T18:47:38Z",
+      "side": 1,
+      "message": "This is how the outermost spans are selected.\nDo you have a simpler way in your mind?",
+      "parentUuid": "37203b57_66bd91ab",
+      "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5212ab50_957e2179",
         "filename": "src/cmd/trace/pprof.go",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2018-04-09T18:08:44Z",
       "side": 1,
       "message": "Lots of copy/paste across the pprof* functions. Take a function, or pull the logic up to the caller?",
+      "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14e78ad5_a5fdb029",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-04-10T18:47:38Z",
+      "side": 1,
+      "message": "PTAL",
+      "parentUuid": "5212ab50_957e2179",
       "revId": "517c167fe5cd8487f42f02417147e54e79ac2bee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
