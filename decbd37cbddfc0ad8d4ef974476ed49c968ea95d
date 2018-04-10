@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc251b2b_c5e6409f",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-04-10T14:17:52Z",
+      "side": 1,
+      "message": "I would get rid of this and insert ADDconst in the rules below instead if you can. I think MOVDaddr is rematerializable so using it for non-SB/SP values may cause bugs.",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 67
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04624f1c_89a88d3a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-04-10T14:17:52Z",
+      "side": 1,
+      "message": "trailing white space",
+      "range": {
+        "startLine": 1227,
+        "startChar": 66,
+        "endLine": 1227,
+        "endChar": 67
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d61a7af_ab912ba5",
+        "filename": "src/crypto/cipher/gcm.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-04-10T14:17:52Z",
+      "side": 1,
+      "message": "I\u0027d be inclined to replace these functions with binary.BigEndian.* calls. It should probably be in a separate CL too.",
+      "range": {
+        "startLine": 415,
+        "startChar": 5,
+        "endLine": 415,
+        "endChar": 14
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
