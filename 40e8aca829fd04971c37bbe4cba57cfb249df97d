@@ -22,6 +22,30 @@
       "revId": "40e8aca829fd04971c37bbe4cba57cfb249df97d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "511068e2_00d98ef9",
+        "filename": "misc/ios/detect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-04-10T16:36:22Z",
+      "side": 1,
+      "message": "I think the getLines change is generally useful. It only drops the last empty line that is an artifact of using bytes.Split; it won\u0027t omit empty lines in the middle of the output.",
+      "parentUuid": "6d1a2744_9ff4679c",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 2
+      },
+      "revId": "40e8aca829fd04971c37bbe4cba57cfb249df97d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
