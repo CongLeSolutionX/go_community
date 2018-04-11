@@ -37,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "1ba22f02_11e58c99",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-11T14:36:23Z",
+      "side": 1,
+      "message": "In some later cleanup we could use the second range argument here, rather than using dynexp[i] below.  I expect there are other similar cases.",
+      "revId": "8fc4dc31701bc3617451c179a5995dc670072c5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13f95b0a_7000f1b7",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1

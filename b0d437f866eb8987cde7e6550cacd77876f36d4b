@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a284619_93c05061",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-11T14:36:23Z",
+      "side": 0,
+      "message": "Let\u0027s keep this ctxt argument, in case we want to pass it to Errorf later.",
+      "revId": "b0d437f866eb8987cde7e6550cacd77876f36d4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c42c18_8be0251f",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-11T14:36:23Z",
+      "side": 0,
+      "message": "Let\u0027s keep the ctxt argument here, for Errorf.",
+      "revId": "b0d437f866eb8987cde7e6550cacd77876f36d4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c23f8309_ebcfcbe1",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-11T14:36:23Z",
+      "side": 0,
+      "message": "Let\u0027s keep the ctxt argument here.",
+      "revId": "b0d437f866eb8987cde7e6550cacd77876f36d4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deeb4d30_9910d5f1",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-11T14:36:23Z",
+      "side": 0,
+      "message": "Let\u0027s keep the ctxt argument here.",
+      "revId": "b0d437f866eb8987cde7e6550cacd77876f36d4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
