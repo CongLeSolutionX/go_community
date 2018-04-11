@@ -34,6 +34,24 @@
       "revId": "d8b417e00b3f19f7fb47aaa64fe107ed59f6603f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c9f7125_24c062c7",
+        "filename": "src/cmd/go/internal/get/vcs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-11T21:44:02Z",
+      "side": 0,
+      "message": "I think I would rather keep the tests and change the expected error.  They all were testing for an error that never existed, so let\u0027s fix them to test for the actual error that is returned.",
+      "parentUuid": "e830624d_80fbd68e",
+      "revId": "d8b417e00b3f19f7fb47aaa64fe107ed59f6603f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
