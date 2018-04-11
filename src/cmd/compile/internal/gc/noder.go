@@ -550,7 +550,9 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 	case nil, *syntax.BadExpr:
 		return nil
 	case *syntax.Name:
-		return p.mkname(expr)
+		// This code is duplicated for syntax.KeyValueExpr; keep both in sync.
+		// TODO(mdempsky): Set line number?
+		return mkname(p.name(expr), true)
 	case *syntax.BasicLit:
 		return p.setlineno(expr, nodlit(p.basicLit(expr)))
 
@@ -567,8 +569,19 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 		lineno = p.makeXPos(expr.Rbrace)
 		return n
 	case *syntax.KeyValueExpr:
+		// A KeyValueExpr may only appear as an element in a composite literal.
+		// If the key is a syntax.Name, we don't know yet what it refers to and
+		// thus we must not mark it as used (nor its package, in case of a dot-
+		// imported object).
+		var key *Node
+		if name, ok := expr.Key.(*syntax.Name); ok {
+			// TODO(mdempsky): Set line number?
+			key = mkname(p.name(name), false /* don't use the name's package */)
+		} else {
+			key = p.expr(expr.Key)
+		}
 		// use position of expr.Key rather than of expr (which has position of ':')
-		return p.nod(expr.Key, OKEY, p.expr(expr.Key), p.wrapname(expr.Value, p.expr(expr.Value)))
+		return p.nod(expr.Key, OKEY, key, p.wrapname(expr.Value, p.expr(expr.Value)))
 	case *syntax.FuncLit:
 		return p.funcLit(expr)
 	case *syntax.ParenExpr:
@@ -1324,11 +1337,6 @@ func (p *noder) name(name *syntax.Name) *types.Sym {
 	return lookup(name.Value)
 }
 
-func (p *noder) mkname(name *syntax.Name) *Node {
-	// TODO(mdempsky): Set line number?
-	return mkname(p.name(name))
-}
-
 func (p *noder) newname(name *syntax.Name) *Node {
 	// TODO(mdempsky): Set line number?
 	return newname(p.name(name))
@@ -1471,9 +1479,9 @@ func safeArg(name string) bool {
 	return '0' <= c && c <= '9' || 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z' || c == '.' || c == '_' || c == '/' || c >= utf8.RuneSelf
 }
 
-func mkname(sym *types.Sym) *Node {
+func mkname(sym *types.Sym, usePkg bool) *Node {
 	n := oldname(sym)
-	if n.Name != nil && n.Name.Pack != nil {
+	if usePkg && n.Name != nil && n.Name.Pack != nil {
 		n.Name.Pack.Name.SetUsed(true)
 	}
 	return n
