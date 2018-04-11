@@ -22,6 +22,30 @@
       "revId": "9fd794d3a2e2b02688fe3a42c4c2c6d19d8dd668",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d788839_71f38cd6",
+        "filename": "src/runtime/sys_nacl_amd64p32.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-11T18:09:23Z",
+      "side": 1,
+      "message": "Acknowledged.\n\nI considered adding some documentation, but the behavior is Go\u0027s usual zero-initialization. and there\u0027s enough other stuff going on here that I felt it would be a distraction.",
+      "parentUuid": "5208015a_294152de",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 0
+      },
+      "revId": "9fd794d3a2e2b02688fe3a42c4c2c6d19d8dd668",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
