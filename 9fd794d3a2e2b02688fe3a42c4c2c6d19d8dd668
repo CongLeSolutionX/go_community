@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5208015a_294152de",
+        "filename": "src/runtime/sys_nacl_amd64p32.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-04-11T08:11:57Z",
+      "side": 1,
+      "message": "I have stuttered a bit trying to understand when runtime·lastfaketimefd initialised. And I see that on the very first \"write\" call it will not jump to samefd. I see that comments says \"lastfaketimefd stores the fd to which lastfaketime was written.\". But actually it stores zero until any write happens. Not sure if this deserves any comment to be fixed thought. Feel free to ignore.",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 0
+      },
+      "revId": "9fd794d3a2e2b02688fe3a42c4c2c6d19d8dd668",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
