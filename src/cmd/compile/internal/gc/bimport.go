@@ -955,7 +955,7 @@ func (p *importer) node() *Node {
 		return n
 
 	case ONAME:
-		return npos(p.pos(), mkname(p.sym()))
+		return npos(p.pos(), mkname(p.sym(), true))
 
 	// case OPACK, ONONAME:
 	// 	unreachable - should have been resolved by typechecking
@@ -1224,7 +1224,7 @@ func (p *importer) node() *Node {
 }
 
 func builtinCall(op Op) *Node {
-	return nod(OCALL, mkname(builtinpkg.Lookup(goopnames[op])), nil)
+	return nod(OCALL, mkname(builtinpkg.Lookup(goopnames[op]), true), nil)
 }
 
 func (p *importer) exprsOrNil() (a, b *Node) {

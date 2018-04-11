@@ -3080,6 +3080,7 @@ func typecheckcomplit(n *Node) *Node {
 						if s1.Origpkg == s.Pkg {
 							s = s1
 						}
+						// TODO(gri) need to use s's package
 					}
 					l.Sym = s
 				}
