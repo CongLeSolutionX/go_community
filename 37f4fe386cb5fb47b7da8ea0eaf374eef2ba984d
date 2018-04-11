@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5db96afb_df2e0643",
+        "filename": "misc/cgo/testshared/src/exe4/exe4.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-11T00:08:55Z",
+      "side": 1,
+      "message": "Sorry about this, but s/2017/2018/ here and in any other new files.",
+      "revId": "37f4fe386cb5fb47b7da8ea0eaf374eef2ba984d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb9d5113_d3461e19",
+        "filename": "misc/cgo/testshared/src/exe4/exe4.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-11T00:08:55Z",
+      "side": 1,
+      "message": "Don\u0027t mix the standard library imports and other imports.  Write this as\n\nimport (\n    \"log\"\n\n    \"linkname\"\n)",
+      "revId": "37f4fe386cb5fb47b7da8ea0eaf374eef2ba984d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89aaa549_b1aacecc",
+        "filename": "misc/cgo/testshared/src/linkname/linkname.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-11T00:08:55Z",
+      "side": 1,
+      "message": "Move \"linknamed\" to a separate import group after a blank line.",
+      "revId": "37f4fe386cb5fb47b7da8ea0eaf374eef2ba984d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
