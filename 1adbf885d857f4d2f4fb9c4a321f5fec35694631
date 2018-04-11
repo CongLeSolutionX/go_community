@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d16ace0_58efcfd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-11T23:46:26Z",
+      "side": 1,
+      "message": "It\u0027s any generated code that ends up having any types in it that themselves generate code--in this particular case, the variadic call instantiation requires a [2]float64 type, which need eq and hash routines. (Well actually they don\u0027t, but we don\u0027t know that at the time.) I\u0027m not sure there\u0027s much value to cataloguing these things here, particularly since Michael T Jones also piped up right away with broken code, which suggests it isn\u0027t as uncommon as I thought.",
+      "parentUuid": "1b841441_7748c231",
+      "revId": "1adbf885d857f4d2f4fb9c4a321f5fec35694631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e634b8fe_046f1bb1",
         "filename": "src/cmd/compile/internal/gc/obj.go",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "17120b58_e70028b7",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-11T23:46:26Z",
+      "side": 1,
+      "message": "Yes, I\u0027d like to keep it.",
+      "parentUuid": "65fb0a52_7ce0ee52",
+      "revId": "1adbf885d857f4d2f4fb9c4a321f5fec35694631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8be8703_184a5739",
         "filename": "test/fixedbugs/issue24761.dir/b.go",
         "patchSetId": 1
@@ -68,6 +104,24 @@
       "revId": "1adbf885d857f4d2f4fb9c4a321f5fec35694631",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b761b6_4eb96c30",
+        "filename": "test/fixedbugs/issue24761.dir/b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-11T23:46:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a8be8703_184a5739",
+      "revId": "1adbf885d857f4d2f4fb9c4a321f5fec35694631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
