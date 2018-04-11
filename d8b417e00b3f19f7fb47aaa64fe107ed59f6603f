@@ -70,6 +70,24 @@
       "revId": "d8b417e00b3f19f7fb47aaa64fe107ed59f6603f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3702b426_122e57eb",
+        "filename": "src/cmd/go/internal/get/vcs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2018-04-11T23:02:53Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "ab430c2a_6d4d1bc5",
+      "revId": "d8b417e00b3f19f7fb47aaa64fe107ed59f6603f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
