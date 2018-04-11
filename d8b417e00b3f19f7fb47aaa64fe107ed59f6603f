@@ -52,6 +52,24 @@
       "revId": "d8b417e00b3f19f7fb47aaa64fe107ed59f6603f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab430c2a_6d4d1bc5",
+        "filename": "src/cmd/go/internal/get/vcs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2018-04-11T22:43:40Z",
+      "side": 0,
+      "message": "Ok can certainly do that. They will all assert against the \"multiple meta tags match...\" error; which introduces a fair amount of redundancy, but we can obviously deal with that later/in a separate CL.",
+      "parentUuid": "1c9f7125_24c062c7",
+      "revId": "d8b417e00b3f19f7fb47aaa64fe107ed59f6603f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
