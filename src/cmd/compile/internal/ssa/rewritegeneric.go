@@ -10316,6 +10316,92 @@ func rewriteValuegeneric_OpEqPtr_0(v *Value) bool {
 		v.AuxInt = b2i(a == b)
 		return true
 	}
+	// match: (EqPtr (OffPtr [o1] p1) p2)
+	// cond: isSamePtr(p1, p2)
+	// result: (ConstBool [b2i(o1 == 0)])
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpOffPtr {
+			break
+		}
+		o1 := v_0.AuxInt
+		p1 := v_0.Args[0]
+		p2 := v.Args[1]
+		if !(isSamePtr(p1, p2)) {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = b2i(o1 == 0)
+		return true
+	}
+	// match: (EqPtr p2 (OffPtr [o1] p1))
+	// cond: isSamePtr(p1, p2)
+	// result: (ConstBool [b2i(o1 == 0)])
+	for {
+		_ = v.Args[1]
+		p2 := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpOffPtr {
+			break
+		}
+		o1 := v_1.AuxInt
+		p1 := v_1.Args[0]
+		if !(isSamePtr(p1, p2)) {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = b2i(o1 == 0)
+		return true
+	}
+	// match: (EqPtr (OffPtr [o1] p1) (OffPtr [o2] p2))
+	// cond: isSamePtr(p1, p2)
+	// result: (ConstBool [b2i(o1 == o2)])
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpOffPtr {
+			break
+		}
+		o1 := v_0.AuxInt
+		p1 := v_0.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpOffPtr {
+			break
+		}
+		o2 := v_1.AuxInt
+		p2 := v_1.Args[0]
+		if !(isSamePtr(p1, p2)) {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = b2i(o1 == o2)
+		return true
+	}
+	// match: (EqPtr (OffPtr [o2] p2) (OffPtr [o1] p1))
+	// cond: isSamePtr(p1, p2)
+	// result: (ConstBool [b2i(o1 == o2)])
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpOffPtr {
+			break
+		}
+		o2 := v_0.AuxInt
+		p2 := v_0.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpOffPtr {
+			break
+		}
+		o1 := v_1.AuxInt
+		p1 := v_1.Args[0]
+		if !(isSamePtr(p1, p2)) {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = b2i(o1 == o2)
+		return true
+	}
 	return false
 }
 func rewriteValuegeneric_OpEqSlice_0(v *Value) bool {
@@ -18105,6 +18191,92 @@ func rewriteValuegeneric_OpNeqPtr_0(v *Value) bool {
 		}
 		v.reset(OpConstBool)
 		v.AuxInt = b2i(a != b)
+		return true
+	}
+	// match: (NeqPtr (OffPtr [o1] p1) p2)
+	// cond: isSamePtr(p1, p2)
+	// result: (ConstBool [b2i(o1 != 0)])
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpOffPtr {
+			break
+		}
+		o1 := v_0.AuxInt
+		p1 := v_0.Args[0]
+		p2 := v.Args[1]
+		if !(isSamePtr(p1, p2)) {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = b2i(o1 != 0)
+		return true
+	}
+	// match: (NeqPtr p2 (OffPtr [o1] p1))
+	// cond: isSamePtr(p1, p2)
+	// result: (ConstBool [b2i(o1 != 0)])
+	for {
+		_ = v.Args[1]
+		p2 := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpOffPtr {
+			break
+		}
+		o1 := v_1.AuxInt
+		p1 := v_1.Args[0]
+		if !(isSamePtr(p1, p2)) {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = b2i(o1 != 0)
+		return true
+	}
+	// match: (NeqPtr (OffPtr [o1] p1) (OffPtr [o2] p2))
+	// cond: isSamePtr(p1, p2)
+	// result: (ConstBool [b2i(o1 != o2)])
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpOffPtr {
+			break
+		}
+		o1 := v_0.AuxInt
+		p1 := v_0.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpOffPtr {
+			break
+		}
+		o2 := v_1.AuxInt
+		p2 := v_1.Args[0]
+		if !(isSamePtr(p1, p2)) {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = b2i(o1 != o2)
+		return true
+	}
+	// match: (NeqPtr (OffPtr [o2] p2) (OffPtr [o1] p1))
+	// cond: isSamePtr(p1, p2)
+	// result: (ConstBool [b2i(o1 != o2)])
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpOffPtr {
+			break
+		}
+		o2 := v_0.AuxInt
+		p2 := v_0.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpOffPtr {
+			break
+		}
+		o1 := v_1.AuxInt
+		p1 := v_1.Args[0]
+		if !(isSamePtr(p1, p2)) {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = b2i(o1 != o2)
 		return true
 	}
 	return false
