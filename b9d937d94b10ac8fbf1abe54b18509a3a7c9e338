@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a2f0e0d_19c5c78f",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-12T23:22:05Z",
+      "side": 1,
+      "message": "needs a little comment",
+      "revId": "b9d937d94b10ac8fbf1abe54b18509a3a7c9e338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0fb0a91_53187284",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-12T23:22:05Z",
+      "side": 1,
+      "message": "you don\u0027t need the whole server. Just another RoundTripper, right?",
+      "range": {
+        "startLine": 1167,
+        "startChar": 8,
+        "endLine": 1167,
+        "endChar": 24
+      },
+      "revId": "b9d937d94b10ac8fbf1abe54b18509a3a7c9e338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83961f7a_f7ea71d5",
         "filename": "src/net/http/client_test.go",
         "patchSetId": 7
@@ -13,6 +53,64 @@
       "writtenOn": "2017-12-08T10:33:47Z",
       "side": 1,
       "message": "I think I could improve this comment by changing it to something like\n\n    // disable cancelation via Request.Cancel\n\nLet me know your opinion.",
+      "revId": "b9d937d94b10ac8fbf1abe54b18509a3a7c9e338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4649da8a_0fe9ea52",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-12T23:22:05Z",
+      "side": 1,
+      "message": "Not exactly sure what you\u0027re trying to do here, so I can\u0027t advise.\n\nBut \"non-legacy\" means the current way, and Request.Cancel is not the current way.",
+      "parentUuid": "83961f7a_f7ea71d5",
+      "revId": "b9d937d94b10ac8fbf1abe54b18509a3a7c9e338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dbb7df0_4d50d4ce",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-12T23:22:05Z",
+      "side": 1,
+      "message": "A RoundTripper must be safe for concurrent use, so you can\u0027t modify it here.",
+      "revId": "b9d937d94b10ac8fbf1abe54b18509a3a7c9e338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec5b86ef_2311ef5a",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1211,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-12T23:22:05Z",
+      "side": 1,
+      "message": "this smells like it\u0027ll cause flaky tests. Will it? \n\nAlways assume the builder machines are super slow.",
+      "range": {
+        "startLine": 1211,
+        "startChar": 1,
+        "endLine": 1211,
+        "endChar": 31
+      },
       "revId": "b9d937d94b10ac8fbf1abe54b18509a3a7c9e338",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
