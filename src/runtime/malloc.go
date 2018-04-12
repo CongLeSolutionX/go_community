@@ -1136,7 +1136,7 @@ func persistentalloc(size, align uintptr, sysStat *uint64) unsafe.Pointer {
 }
 
 // Must run on system stack because stack growth can (re)invoke it.
-// See issue 9174.
+// See issue #9174.
 //go:systemstack
 func persistentalloc1(size, align uintptr, sysStat *uint64) *notInHeap {
 	const (
