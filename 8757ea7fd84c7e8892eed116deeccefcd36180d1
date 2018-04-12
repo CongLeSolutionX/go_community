@@ -69,6 +69,24 @@
       "revId": "8757ea7fd84c7e8892eed116deeccefcd36180d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff6e2df6_240e6658",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1248,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-12T19:42:35Z",
+      "side": 1,
+      "message": "I had in mind code like:\n\ncopy(x[a:], x)\n\nCurrently we check\n\nx.ptr + a \u003d\u003d x.ptr\n\nInstead we could check\n\na \u003d\u003d 0\n\nSo the result wouldn\u0027t be a const bool but instead a simpler calculation. Similarly so for copy(x[a:], x[b:]), where we could check a \u003d\u003d b instead of x.ptr + a \u003d\u003d x.ptr + b.\n\nDoes that make more sense?",
+      "parentUuid": "9a0e8427_d8f75c55",
+      "revId": "8757ea7fd84c7e8892eed116deeccefcd36180d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
