@@ -1241,11 +1241,15 @@
 	&& warnRule(fe.Debug_checknil() && v.Pos.Line() > 1, v, "removed nil check")
 	-> (Invalid)
 
-// Address comparison shows up in type assertions.
+// Constant address comparisons.
 (EqPtr x x) -> (ConstBool [1])
 (EqPtr (Addr {a} x) (Addr {b} x)) -> (ConstBool [b2i(a == b)])
+(EqPtr (OffPtr [o1] p1) p2) && isSamePtr(p1, p2) -> (ConstBool [b2i(o1 == 0)])
+(EqPtr (OffPtr [o1] p1) (OffPtr [o2] p2)) && isSamePtr(p1, p2) -> (ConstBool [b2i(o1 == o2)])
 (NeqPtr x x) -> (ConstBool [0])
 (NeqPtr (Addr {a} x) (Addr {b} x)) -> (ConstBool [b2i(a != b)])
+(NeqPtr (OffPtr [o1] p1) p2) && isSamePtr(p1, p2) -> (ConstBool [b2i(o1 != 0)])
+(NeqPtr (OffPtr [o1] p1) (OffPtr [o2] p2)) && isSamePtr(p1, p2) -> (ConstBool [b2i(o1 != o2)])
 
 // Inline small runtime.memmove calls with constant length.
 (StaticCall {sym} s1:(Store _ (Const64 [sz]) s2:(Store  _ src s3:(Store {t} _ dst mem))))
