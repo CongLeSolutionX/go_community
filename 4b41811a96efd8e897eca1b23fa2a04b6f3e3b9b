@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b530879_9681a748",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-12T12:25:53Z",
+      "side": 1,
+      "message": "If the new code kicks in only for block sizes \u003e\u003d 2000 why do you see 10% performance improvements for sorting 1000 elements? Same for Int1k and Int1k_Slice?",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e78c94e4_16a3b6d6",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-12T12:25:53Z",
+      "side": 1,
+      "message": "All these functions are used only during stable sorting which now lives in\nits own file sort-stable.go (which presumably should be renamed to e.g.\nstable.go) So move all these function into the new file too.",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31c558a9_2482a679",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-12T12:25:53Z",
+      "side": 1,
+      "message": "Returning a generator is cute but needs explanation.\nInstead of returning a generator: Why not precompute these\n31 or 63 values either in init or even fixed constants?",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5127b524_25f8b2ee",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-12T12:25:53Z",
+      "side": 1,
+      "message": "The whole body of this if is not covered by the tests.",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e75ae9d_fbbfdaad",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-12T12:25:53Z",
+      "side": 1,
+      "message": "These functions and their return values are very cryptic.\nMaybe adding some example or some simple ASCII art would help\nto clarify where these indices point to in data.",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2102e64f_71c4f9b5",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-12T12:25:53Z",
+      "side": 1,
+      "message": "Then why not change the function name?",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51d15731_c7671159",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-12T12:25:53Z",
+      "side": 1,
+      "message": "If this is Hwang-Lin merging than name it something like\nhwangAndLinMerge.",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f151439_8d1d8a6d",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-12T12:25:53Z",
+      "side": 1,
+      "message": "I do not like these variable names compTime for compile time\nfeels as if something is done here at compile time (like in\nC++ template meta programing) which it is not. So drop the\ncompTime everywhere.",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e5684b1_86efaaab",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-12T12:25:53Z",
+      "side": 1,
+      "message": "Is this a test for hl an hlBufBigSmall ? If yes: Why combined and why the name. If No: What are local stable merges?",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
