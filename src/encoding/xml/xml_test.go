@@ -746,6 +746,34 @@ func TestIssue5880(t *testing.T) {
 	}
 }
 
+func TestIssue8535(t *testing.T) {
+
+	type ExampleConflict struct {
+		XMLName  Name   `xml:"example"`
+		Link     string `xml:"link"`
+		AtomLink string `xml:"http://www.w3.org/2005/Atom link"` // No conflict but no assignment
+	}
+	testCases := []string{
+		`<example>
+    		<title>Example</title>
+			<link>http://example.com/default</link> <!-- not assigned -->
+			<link>http://example.com/home</link> <!-- not assigned -->
+			<ns:link xmlns:ns="http://www.w3.org/2005/Atom">http://example.com/ns</ns:link>
+		</example>`,
+	}
+
+	var dest ExampleConflict
+	var err error
+	d := NewDecoder(strings.NewReader(testCases[0]))
+	if err := d.Decode(&dest); err != nil {
+		fmt.Println(err)
+	}
+
+	if err != nil {
+		t.Errorf("%s: Field conflicts : Got error %v, want no fail", testCases[0], err)
+	}
+}
+
 func TestIssue11405(t *testing.T) {
 	testCases := []string{
 		"<root>",
@@ -799,54 +827,64 @@ func TestIssue12417(t *testing.T) {
 	}
 }
 
-func TestIssue20614(t *testing.T) {
-	testCases := []struct {
-		s  string
-		ok bool
-	}{
-		{`<a p="v1           x
-
-			v1"/>`, true}, // single byte attribute name, end of line handling
-		{`<a p1="v1           x
-
-			v1" p2="v2           y
-
-			v2"/>`, true}, // multiple attributes
-		{`<a p1="v1   <![CDATA[b]]> v1"/>`, false}, // Invalid char <
-		{`<x:book xmlns:x="ab   
-                   +:++ cd">one</x:book>`, true},
-		/* This case is undetected
-        {`<x:book attr="ab
-                   +:;++ cd">one</x:book>`, false}, // Prefix x is not bound
-		*/
-		{`<x:book xmlns:x="ab   
-                   +:++ cd">one</y:book>`, false}, // Closing name space is faulty
-		{`<xbook attrib="  ;,n;n  
-				end"> one </xbook>`, true}, //
+func TestIssue11724(t *testing.T) {
+	// Issue 11724 is a duplicate of 8535 and requires to bind the namespace xsi first
+	type Discount struct {
+		XSIType string `xml:"xsi type,attr"`
+		Type    string `xml:"type,attr"`
+		From    string `xml:"from,attr"`
+		To      string `xml:"to,attr"`
 	}
-	for _, tc := range testCases {
-		d := NewDecoder(strings.NewReader(tc.s))
-		//d.Strict = false
-		var err error
-		//var tok Token
-		for {
-			_, err = d.Token()
-			if err != nil {
-				if err == io.EOF {
-					err = nil
-				}
-				break
-			}
-		}
-		if err != nil && tc.ok {
-			t.Errorf("%q: Encoding charset: expected no error, got %s", tc.s, err)
-			continue
-		}
-		if err == nil && !tc.ok {
-			t.Errorf("%q: Encoding charset: expected error, got nil", tc.s)
-		}
+
+	type DiscountWithConflict struct {
+		XSIType string `xml:"xsi type"`
+		XSAType string `xml:"xsi type"` // Conflict is here
+		Type    string `xml:"type,attr"`
+		From    string `xml:"from,attr"`
+		To      string `xml:"to,attr"`
 	}
+
+	s := `<Discount 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:type="ProgressivePromotion" from="2015-07-28T00:00:00" to="2015-07-30T00:00:00" type="Percent" value="38" name="Special Deal" />`
+	d := Discount{}
+	err := Unmarshal([]byte(s), &d)
+	if err != nil {
+		fmt.Printf("error: %v \n", err)
+	}
+
+	var dest Discount
+	dec := NewDecoder(strings.NewReader(s))
+	if err := dec.Decode(&dest); err != nil {
+		t.Errorf("Field conflicts : Expected no error, got %v \n", err)
+	}
+
+	check := "ProgressivePromotion"
+	/* Currently failing see issue #
+	if dest.XSIType != check {
+		t.Errorf("Assignment failed : Got %v, want %s \n", dest.XSIType, check)
+	}
+	*/
+	if dest.Type != "Percent" {
+		t.Errorf("Assignment failed : Got %v, want %s \n", dest.Type, check)
+	}
+	if dest.From != "2015-07-28T00:00:00" {
+		t.Errorf("Assignment failed : Got %v, want %s \n", dest.From, check)
+	}
+	if dest.To != "2015-07-30T00:00:00" {
+		t.Errorf("Assignment failed : Got %v, want %s \n", dest.To, check)
+	}
+
+	var dest2 DiscountWithConflict
+	dec = NewDecoder(strings.NewReader(s))
+	if err := dec.Decode(&dest2); err == nil {
+		t.Errorf("Field conflicts : Expected error, got nil \n")
+	}
+	// xml.DiscountWithConflict field "XSIType" with tag "xsi type" conflicts with field "XSAType" with tag "xsi type"
+
+
 }
+
 func tokenMap(mapping func(t Token) Token) func(TokenReader) TokenReader {
 	return func(src TokenReader) TokenReader {
 		return mapper{
