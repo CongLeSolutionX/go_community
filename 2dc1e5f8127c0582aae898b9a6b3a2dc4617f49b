@@ -16,6 +16,24 @@
       "revId": "2dc1e5f8127c0582aae898b9a6b3a2dc4617f49b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cd18b1f_961d3d2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2018-04-12T10:10:51Z",
+      "side": 1,
+      "message": "Indeed I am, fixed.",
+      "parentUuid": "72447ba7_551985e4",
+      "revId": "2dc1e5f8127c0582aae898b9a6b3a2dc4617f49b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
