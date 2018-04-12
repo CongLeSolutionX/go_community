@@ -9,13 +9,16 @@ package codegen
 // These tests check that memmoves calls on small data are replaced
 // with MOVs
 
-func movesmall4() {
+func movesmall4(y [4]byte) (z [4]byte) {
 	x := [...]byte{1, 2, 3, 4}
 	// 386:-".*memmove"
 	// amd64:-".*memmove"
 	// arm:-".*memmove"
 	// arm64:-".*memmove"
 	copy(x[1:], x[:])
+	copy(y[:], x[:])
+	copy(z[:], x[:])
+	return
 }
 
 func movesmall7() {
