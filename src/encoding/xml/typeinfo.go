@@ -292,7 +292,8 @@ Loop:
 				conflicts = append(conflicts, i)
 			}
 		} else {
-			if newf.name == oldf.name {
+			if newf.name == oldf.name && newf.xmlns == oldf.xmlns {
+				// A conflict is only if the names are identical in the same namespace which might be ""
 				conflicts = append(conflicts, i)
 			}
 		}
@@ -314,7 +315,7 @@ Loop:
 	// Otherwise, if any of them is at the same depth level, it's an error.
 	for _, i := range conflicts {
 		oldf := &tinfo.fields[i]
-		if len(oldf.idx) == len(newf.idx) {
+		if len(oldf.idx) == len(newf.idx) { // Same depth
 			f1 := typ.FieldByIndex(oldf.idx)
 			f2 := typ.FieldByIndex(newf.idx)
 			return &TagPathError{typ, f1.Name, f1.Tag.Get("xml"), f2.Name, f2.Tag.Get("xml")}

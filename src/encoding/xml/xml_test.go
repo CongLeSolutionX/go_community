@@ -760,6 +760,29 @@ func TestIssue5880(t *testing.T) {
 	}
 }
 
+func TestIssue8535(t *testing.T) {
+
+	type ExampleConflict struct {
+		XMLName  Name   `xml:"example"`
+		Link     string `xml:"link"`
+		AtomLink string `xml:"http://www.w3.org/2005/Atom link"` // No conflict but no assignment
+	}
+	testCases := []string{
+		`<example>
+			<title>Example</title>
+			<link>http://example.com/default</link> <!-- not assigned -->
+			<link>http://example.com/home</link> <!-- not assigned -->
+			<ns:link xmlns:ns="http://www.w3.org/2005/Atom">http://example.com/ns</ns:link>
+		</example>`,
+	}
+
+	var dest ExampleConflict
+	d := NewDecoder(strings.NewReader(testCases[0]))
+	if err := d.Decode(&dest); err != nil {
+		t.Errorf("%s: Field conflicts : got error %v, want no fail", testCases[0], err)
+	}
+}
+
 func TestIssue11405(t *testing.T) {
 	testCases := []string{
 		"<root>",
@@ -813,6 +836,62 @@ func TestIssue12417(t *testing.T) {
 	}
 }
 
+func TestIssue11724(t *testing.T) {
+	// Issue 11724 is a duplicate of 8535 and requires to bind the namespace xsi first
+	type Discount struct {
+		XSIType string `xml:"xsi type,attr"`
+		Type    string `xml:"type,attr"`
+		From    string `xml:"from,attr"`
+		To      string `xml:"to,attr"`
+	}
+
+	type DiscountWithConflict struct {
+		XSIType string `xml:"xsi type"`
+		XSAType string `xml:"xsi type"` // Conflict is here
+		Type    string `xml:"type,attr"`
+		From    string `xml:"from,attr"`
+		To      string `xml:"to,attr"`
+	}
+
+	s := `<Discount
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:type="ProgressivePromotion" from="2015-07-28T00:00:00" to="2015-07-30T00:00:00" type="Percent" value="38" name="Special Deal" />`
+	d := Discount{}
+	err := Unmarshal([]byte(s), &d)
+	if err != nil {
+		fmt.Printf("error: %v \n", err)
+	}
+
+	var dest Discount
+	dec := NewDecoder(strings.NewReader(s))
+	if err := dec.Decode(&dest); err != nil {
+		t.Errorf("Field conflicts : Expected no error, got %v \n", err)
+	}
+
+	check := "ProgressivePromotion"
+	/* Currently failing see issue #
+	if dest.XSIType != check {
+		t.Errorf("Assignment failed : Got %v, want %s \n", dest.XSIType, check)
+	}
+	*/
+	if dest.Type != "Percent" {
+		t.Errorf("Assignment failed : Got %v, want %s \n", dest.Type, check)
+	}
+	if dest.From != "2015-07-28T00:00:00" {
+		t.Errorf("Assignment failed : Got %v, want %s \n", dest.From, check)
+	}
+	if dest.To != "2015-07-30T00:00:00" {
+		t.Errorf("Assignment failed : Got %v, want %s \n", dest.To, check)
+	}
+
+	var dest2 DiscountWithConflict
+	dec = NewDecoder(strings.NewReader(s))
+	if err := dec.Decode(&dest2); err == nil {
+		t.Errorf("Field conflicts : Expected error, got nil \n")
+	}
+	// xml.DiscountWithConflict field "XSIType" with tag "xsi type" conflicts with field "XSAType" with tag "xsi type"
+
+}
 func TestIssue20614(t *testing.T) {
 	testCases := []struct {
 		s  string
@@ -861,6 +940,7 @@ func TestIssue20614(t *testing.T) {
 		}
 	}
 }
+
 func tokenMap(mapping func(t Token) Token) func(TokenReader) TokenReader {
 	return func(src TokenReader) TokenReader {
 		return mapper{
