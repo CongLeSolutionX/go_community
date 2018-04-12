@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2c9d1e9_074c15f4",
+        "filename": "src/cmd/compile/internal/ssa/testdata/hist.gdb-opt.nexts",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-12T19:39:41Z",
+      "side": 0,
+      "message": "This is a regression, but it is very fiddly.\nThe cause appears to be an additional statement boundary, not a removed statement boundary.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 47
+      },
+      "revId": "dbf59dadfaa688bb0c9a5162ad1622fbf0411665",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
