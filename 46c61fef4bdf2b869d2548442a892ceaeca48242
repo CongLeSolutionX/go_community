@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d3feaa3_dae79fdc",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d91d04b_5994c9e8",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41214473_daa8e97e",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -59,6 +77,48 @@
     },
     {
       "key": {
+        "uuid": "380d43dc_201a8c5e",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done. I have changed 3 and 4 a bit, though. As far as I can tell, lots of optimizations happen after lowering, so I\u0027ve moved the arch-specific optimizations to 4. So 3 is now entirely generic (the first half of SSA).",
+      "parentUuid": "41214473_daa8e97e",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b024132_24b00585",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "396dc207_a21ad1b9",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 6
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78688091_cc65bf23",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -73,6 +133,24 @@
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f4df2ec_5b832279",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78688091_cc65bf23",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -108,6 +186,24 @@
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11b8de00_0c90b6c9",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Matthew mentioned not talking about historical info that is no longere relevant, so I believe that 6g and company fall under that category. I\u0027ve included a mention of what gc stands for.",
+      "parentUuid": "9915550f_fb6680c7",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -158,6 +254,30 @@
     },
     {
       "key": {
+        "uuid": "70da6cab_162d791e",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Decided not to add it for now, as I\u0027m still not sure how to include it. Specific suggestions welcome.",
+      "parentUuid": "b52417e6_b32240dc",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 21
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3792df2_ef775bef",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -181,6 +301,30 @@
     },
     {
       "key": {
+        "uuid": "c479d713_7550583d",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3792df2_ef775bef",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 70
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d34fe091_d974488a",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -198,6 +342,24 @@
     },
     {
       "key": {
+        "uuid": "959fcecb_9639ad85",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d34fe091_d974488a",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aa1e0d7_bc555a27",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -212,6 +374,24 @@
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d00b34c_04651f95",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Assuming you meant s/replaced by/lowered into/, done.",
+      "parentUuid": "5aa1e0d7_bc555a27",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -268,6 +448,24 @@
     },
     {
       "key": {
+        "uuid": "498f6ece_4f57faf5",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Nothing to do here, I seem to understand.",
+      "parentUuid": "be6b45af_a5541d9e",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "578afadd_b793d449",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -285,6 +483,24 @@
     },
     {
       "key": {
+        "uuid": "8b20a408_2db241b7",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "578afadd_b793d449",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b620e221_3a68ee6d",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -299,6 +515,24 @@
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "324d1508_a8d82c4f",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "I have replaced the two parts with four, as Josh suggested, removing all mentions of \"ends\". I have put a paragraph at the beginning explaining what front, middle, and back generally mean, though. Feel free to nitpick there :)",
+      "parentUuid": "b620e221_3a68ee6d",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -339,6 +573,48 @@
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d256b3fd_3b16ebb5",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "See my reply above regarding these \"end\" terminologies.",
+      "parentUuid": "8ad1716e_f0db4c5f",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 28
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bb3cb97_4bd3d49f",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "See my reply above regarding these \"end\" terminologies.",
+      "parentUuid": "b5d875f0_3479b0a4",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -386,6 +662,30 @@
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40cd96c6_d1ac93e1",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18ee95f2_0f08e93a",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -460,6 +760,30 @@
     },
     {
       "key": {
+        "uuid": "e05f113f_972040fe",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69039a7f_c1bc72ba",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 18
+      },
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1eaf1d3d_28ac3b6a",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -477,6 +801,24 @@
     },
     {
       "key": {
+        "uuid": "b3590abf_349ec415",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done, but please see my added TODO here at the end. I have no idea how most of this works.",
+      "parentUuid": "1eaf1d3d_28ac3b6a",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb66ddc8_28828ec4",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 1
@@ -491,6 +833,24 @@
       "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9072776_323aa634",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T19:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb66ddc8_28828ec4",
+      "revId": "46c61fef4bdf2b869d2548442a892ceaeca48242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
