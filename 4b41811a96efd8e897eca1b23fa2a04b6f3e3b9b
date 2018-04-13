@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fd75e42c_249c3d07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-04-13T01:46:37Z",
+      "side": 1,
+      "message": "The new *algorithm* starts being used with array size 2000, but the code in stable is a bit different, there is one pass over the data reversing sequences of elements in reverse order ( https://go-review.googlesource.com/c/go/+/101415/32/src/sort/sort.go#989 ) and the merge sort (not symMerge) logic was changed to use one less variable, I guess that would account for the performance improvements in the 1k tests.",
+      "parentUuid": "8b530879_9681a748",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e78c94e4_16a3b6d6",
         "filename": "src/sort/sort.go",
         "patchSetId": 31
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "6f6ffd05_8fab192b",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-04-13T01:46:37Z",
+      "side": 1,
+      "message": "The move to sort-stable.go was just because of deficiency of genzfunc.go, fixed in PS 32; so this is now irrelevant.",
+      "parentUuid": "e78c94e4_16a3b6d6",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31c558a9_2482a679",
         "filename": "src/sort/sort.go",
         "patchSetId": 31
@@ -47,6 +83,24 @@
       "writtenOn": "2018-04-12T12:25:53Z",
       "side": 1,
       "message": "Returning a generator is cute but needs explanation.\nInstead of returning a generator: Why not precompute these\n31 or 63 values either in init or even fixed constants?",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9b92f30_f5270bb3",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-04-13T01:46:37Z",
+      "side": 1,
+      "message": "This is presumably prettier/shorter/easier to review than a bunch of constants, and also made up of very cheap operations; and isqrt is only called once in merge sort level anyway, so I do not see the need for change.",
+      "parentUuid": "31c558a9_2482a679",
       "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -104,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "82780cdd_b252aab2",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-04-13T01:46:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2102e64f_71c4f9b5",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "51d15731_c7671159",
         "filename": "src/sort/sort.go",
         "patchSetId": 31
@@ -115,6 +187,24 @@
       "writtenOn": "2018-04-12T12:25:53Z",
       "side": 1,
       "message": "If this is Hwang-Lin merging than name it something like\nhwangAndLinMerge.",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74849c3b_409a1d0f",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-04-13T01:46:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "51d15731_c7671159",
       "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -138,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "8a9b494a_084ad6f6",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-04-13T01:46:37Z",
+      "side": 1,
+      "message": "The buffer\u0027s size is known at compile time. I do not want to just drop the name prefix, it would make the names too short and ambiguous for global identifiers; do you have a better prefix in mind?",
+      "parentUuid": "6f151439_8d1d8a6d",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e5684b1_86efaaab",
         "filename": "src/sort/sort_test.go",
         "patchSetId": 31
@@ -149,6 +257,24 @@
       "writtenOn": "2018-04-12T12:25:53Z",
       "side": 1,
       "message": "Is this a test for hl an hlBufBigSmall ? If yes: Why combined and why the name. If No: What are local stable merges?",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e8882e9_ced0374d",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-04-13T01:46:37Z",
+      "side": 1,
+      "message": "Yes, this tests hL and hLBufBigSmall, the local stable merge functions (local merge is a term from the Kim\u0026Kutzner paper). They are tested together because they do basically the same thing: stable merging.",
+      "parentUuid": "8e5684b1_86efaaab",
       "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
