@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46d79ee6_041faea7",
+        "filename": "src/cmd/vet/lostcancel.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-13T18:40:47Z",
+      "side": 1,
+      "message": "What about main funcs in non-main packages? Those don\u0027t make the process exit.",
+      "revId": "c61c451eccbf6ef053060b2e09448cecb8c0b9fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
