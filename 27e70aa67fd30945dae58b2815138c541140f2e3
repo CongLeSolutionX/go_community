@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8eb0827_bbc9e159",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-13T20:49:51Z",
+      "side": 1,
+      "message": "nit: I\u0027d say something like \"constructs\", \"builds\", \"assembles\", etc.",
+      "range": {
+        "startLine": 20,
+        "startChar": 33,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27104c58_59d91bb5",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-13T20:49:51Z",
+      "side": 1,
+      "message": "These lowerings are handled during walk, which happens after inlining and escape analysis. Only pointing this out because the next paragraph suggests these steps happen *before*.",
+      "range": {
+        "startLine": 44,
+        "startChar": 20,
+        "endLine": 46,
+        "endChar": 35
+      },
+      "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "541ae50e_a423f76e",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-13T20:49:51Z",
+      "side": 1,
+      "message": "nit: Remove this paragraph.\n\nThe explanation of liveness analysis at lines 98-100 is fine, and that\u0027s the chronologically right place to mention it anyway.",
+      "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a2fab42_81dafc18",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-13T20:49:51Z",
+      "side": 1,
+      "message": "nit: which assigns stack offsets to local variables",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 59
+      },
+      "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b02f2bc9_bf438193",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-13T20:49:51Z",
+      "side": 1,
+      "message": "I think this is fine.\n\nIf you want to mention more details, I\u0027d point out something like: At the end of SSA, Go functions have been transformed into a series of obj.Prog instructions. These are passed to the assembler (cmd/internal/obj), which turns them into machine code and writes out the final object file.",
+      "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
