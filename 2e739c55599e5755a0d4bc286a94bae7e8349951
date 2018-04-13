@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfa2c3ab_708a18c4",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-13T22:25:25Z",
+      "side": 1,
+      "message": "There is no FailFast.  I think you mean FailNow.  Omit the parentheses--we don\u0027t normally use them in Go comments.",
+      "revId": "2e739c55599e5755a0d4bc286a94bae7e8349951",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
