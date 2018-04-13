@@ -16,10 +16,25 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	// otherwise the tests are brittle, as they may give unexpected
-	// output or errors when a suffix match with GOPATH takes place
+	// Empty GOPATH; otherwise the tests are brittle, as they may give
+	// unexpected output or errors when a suffix match with GOPATH takes
+	// place.
 	buildCtx.GOPATH = ""
+
 	dirsInit()
+
+	// Manually add $GOROOT/src/cmd/doc/testdata to the tree of package
+	// directories. "testdata" dirs should always be skipped, but we need
+	// one here to contain the dummy package to run the tests against. The
+	// doc command does not accept absolute paths nor directories, so this
+	// is the least intrusive workaround.
+	wd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	testdataDir := filepath.Join(wd, "testdata")
+	go func() { dirs.scan <- testdataDir }()
+
 	os.Exit(m.Run())
 }
 
