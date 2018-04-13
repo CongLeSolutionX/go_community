@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f35a85c_91432a73",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2416,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-13T15:36:50Z",
+      "side": 1,
+      "message": "Probably panic, if the program should not get here, i.e. if this is an internal error instead of invalid user input.",
+      "revId": "cc9c4c6cc6e9c279e274cf191a9c5e4d12ec863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ab1fc45_6555a1e3",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2859,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-13T15:36:50Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to say \"left\". It is obvious from \u003c\u003c.",
+      "range": {
+        "startLine": 2859,
+        "startChar": 17,
+        "endLine": 2859,
+        "endChar": 21
+      },
+      "revId": "cc9c4c6cc6e9c279e274cf191a9c5e4d12ec863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7277c505_c11767da",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2861,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-13T15:36:50Z",
+      "side": 1,
+      "message": "\"offset\" isn\u0027t an accurate name, since it is not actually an offset. Maybe just move to line 2863, without the variable.",
+      "range": {
+        "startLine": 2861,
+        "startChar": 3,
+        "endLine": 2861,
+        "endChar": 9
+      },
+      "revId": "cc9c4c6cc6e9c279e274cf191a9c5e4d12ec863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2b5739a_93b3c1f4",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5985,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-13T15:36:50Z",
+      "side": 1,
+      "message": "Seems this function is not only for offset. Maybe\n// encRegShiftOrExt returns the encoding of shifted/extended register, Rx\u003c\u003cn, and Rx.UXTB\u003c\u003cn, etc.",
+      "range": {
+        "startLine": 5985,
+        "startChar": 65,
+        "endLine": 5985,
+        "endChar": 74
+      },
+      "revId": "cc9c4c6cc6e9c279e274cf191a9c5e4d12ec863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
