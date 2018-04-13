@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "660aa30d_158578b9",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-13T19:12:29Z",
+      "side": 1,
+      "message": "This comment needs to be less terse, plus there\u0027s a little room for confusion between d the variable for domain and d the shorthand for -delta when delta \u003c 0.\n\nE.g.\n\n// If we know that x+delta \u003e w but w is not constant, we can still derive:\n//   if delta \u003c 0 and x \u003e MinInt - delta, then x \u003e w (because x+delta cannot underflow)\n// This is useful for loops with bounds \"len(slice)-K (delta \u003d -K)\n\nI realize that you inherited some of these comments from before, but for a bit I thought I had caught a bug here because of confusion between d and delta and the sign of delta and the comment \"x-d\" (\"but wait, it\u0027s x+d, if d id delta!\")",
+      "range": {
+        "startLine": 400,
+        "startChar": 7,
+        "endLine": 400,
+        "endChar": 61
+      },
+      "revId": "0455190285b2354b485a6b658f1aaab008e3bf2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6844d74_16e736c6",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-13T19:12:29Z",
+      "side": 1,
+      "message": "d vs delta is slightly confusing, but here at least d\u003ddelta, not d\u003d-delta.",
+      "range": {
+        "startLine": 409,
+        "startChar": 46,
+        "endLine": 409,
+        "endChar": 49
+      },
+      "revId": "0455190285b2354b485a6b658f1aaab008e3bf2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d8a9807_bfdd6964",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-13T19:12:29Z",
+      "side": 1,
+      "message": "This seems like an opportunistic heuristic to find a zero in the first block before hitting any of the \"interesting\" operations that are likely to be optimized.  Is it worth mentioning that we\u0027re just trying to improve our luck here?\n\nAlso, what happens on a 32-bit architecture?  Are all the fact-table constants 64-bit?  Or is it a non-issue for non-negative?",
+      "range": {
+        "startLine": 674,
+        "startChar": 3,
+        "endLine": 676,
+        "endChar": 4
+      },
+      "revId": "0455190285b2354b485a6b658f1aaab008e3bf2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17d13572_3e486dba",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-13T19:12:29Z",
+      "side": 1,
+      "message": "Same issue as previous CL, interesting to see Values created to fill in bounds information, if Keith is okay with that one, then this one is also okay.",
+      "range": {
+        "startLine": 685,
+        "startChar": 12,
+        "endLine": 685,
+        "endChar": 25
+      },
+      "revId": "0455190285b2354b485a6b658f1aaab008e3bf2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
