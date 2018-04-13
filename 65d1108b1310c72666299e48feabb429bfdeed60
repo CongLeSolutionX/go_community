@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecd4cbfd_cf33ebdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-13T15:02:50Z",
+      "side": 1,
+      "message": "It seems like we should deprecate the old method in 1.11 and then pull out all of the old sfloat code in 1.12. If people do have assembly using FP instructions, is there a documented/official way to convert it? Or maybe it\u0027s not worth that much effort because it could only affect the intersection of GOARM\u003d5 and assembly floating point users, which could very well be empty or very nearly so.\n\nBrad, should we just put this deprecation warning in the release notes, or do you think we need to be more vocal about it?",
+      "revId": "65d1108b1310c72666299e48feabb429bfdeed60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34c247d2_6d8fa1a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-13T15:02:50Z",
+      "side": 1,
+      "message": "Nice",
+      "revId": "65d1108b1310c72666299e48feabb429bfdeed60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
