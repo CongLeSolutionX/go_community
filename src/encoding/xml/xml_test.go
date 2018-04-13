@@ -783,6 +783,123 @@ func TestIssue8535(t *testing.T) {
 	}
 }
 
+func TestIssue11431(t *testing.T) { //
+
+	type Test struct {
+		XMLName Name   `xml:"Test"`
+		Ns      string `xml:"xmlns,attr"`
+		Body    string
+	}
+
+	s := &Test{Ns: "http://example.com/ns", Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<Test xmlns="http://example.com/ns"><Body>hello world</Body></Test>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+func TestIssue11431NsWoAttr(t *testing.T) {
+
+	type Test struct {
+		Body string `xml:"http://example.com/ns body"`
+	}
+
+	s := &Test{Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<Test><body xmlns="http://example.com/ns">hello world</body></Test>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+func TestIssue11431XMLName(t *testing.T) { //
+
+	type Test struct {
+		XMLName Name `xml:"http://example.com/ns Test"`
+		Body    string
+	}
+
+	//s := &Test{XMLName: Name{"http://example.com/ns",""}, Body: "hello world"} is unusable as the "-" is missing
+	// as documentation states
+	s := &Test{Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<Test xmlns="http://example.com/ns"><Body>hello world</Body></Test>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+func TestIssue11431UsingAttr(t *testing.T) { //
+
+	type T struct {
+		Ns   string `xml:"xmlns,attr"`
+		Body string
+	}
+
+	//s := &Test{XMLName: Name{"http://example.com/ns",""}, Body: "hello world"} is unusable as the "-" is missing
+	// as documentation states
+	s := &T{Ns: "http://example.com/ns", Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<T xmlns="http://example.com/ns"><Body>hello world</Body></T>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+func TestIssue11496(t *testing.T) { // Issue answered
+
+	type Person struct {
+		XMLName Name   `xml:"ns1 person"`
+		Name    string `xml:"name"`
+		Phone   string `xml:"ns2 phone,omitempty"`
+	}
+
+	p := &Person{
+		Name:  "Oliver",
+		Phone: "110",
+	}
+
+	raw, err := MarshalIndent(p, "", "  ")
+	if err != nil {
+		fmt.Errorf("namespace assignment : marshal error returned is %s", err)
+	}
+
+	result := `<person xmlns="ns1">\n\t<name>Oliver</name>\n\t<phone xmlns="ns2">110</phone>\n</person>"`
+	if string(raw) != result {
+		fmt.Errorf("namespace assignment : got %s, want %s", string(raw), result)
+	}
+
+	// Output:
+	// <person xmlns="ns1">
+	//   <name>Oliver</name>
+	//   <phone xmlns="ns2">110</phone>
+	// </person>
+	//
+	// Want:
+	// <person xmlns="ns1" xmlns:ns2="n2">
+	//   <name>Oliver</name>
+	//   <ns2:phone>110</ns2:phone>
+	// </person>
+
+}
+
 func TestIssue11405(t *testing.T) {
 	testCases := []string{
 		"<root>",

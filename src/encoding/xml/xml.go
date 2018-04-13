@@ -305,12 +305,12 @@ func (d *Decoder) Token() (Token, error) {
 		// to the other attribute names, so process
 		// the translations first.
 		for _, a := range t1.Attr {
-			if a.Name.Space == xmlnsPrefix {
+			if a.Name.Space == xmlnsPrefix { // xmlns:".Local":".Value"
 				v, ok := d.ns[a.Name.Local]
 				d.pushNs(a.Name.Local, v, ok)
 				d.ns[a.Name.Local] = a.Value
 			}
-			if a.Name.Space == "" && a.Name.Local == xmlnsPrefix {
+			if a.Name.Space == "" && a.Name.Local == xmlnsPrefix { // xmlns=".Value"
 				// Default space for untagged names
 				v, ok := d.ns[""]
 				d.pushNs("", v, ok)
