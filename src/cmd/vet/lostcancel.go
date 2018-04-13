@@ -104,6 +104,11 @@ func checkLostCancel(f *File, node ast.Node) {
 	var sig *types.Signature
 	switch node := node.(type) {
 	case *ast.FuncDecl:
+		if node.Name.Name == "main" && node.Recv == nil {
+			// Returning from main terminates the process,
+			// so there's no need to cancel contexts.
+			return
+		}
 		obj := f.pkg.defs[node.Name]
 		if obj == nil {
 			return // type error (e.g. duplicate function declaration)

@@ -33,6 +33,12 @@ func _() {
 	ctx, _ = context.WithDeadline() // ERROR "the cancel function returned by context.WithDeadline should be called, not discarded, to avoid a context leak"
 }
 
+// Return from main is handled specially.
+// Since the program exits, there's no need to call cancel.
+func main() {
+	var ctx, cancel = context.WithCancel()
+}
+
 func _() {
 	ctx, cancel := context.WithCancel()
 	defer cancel() // ok
