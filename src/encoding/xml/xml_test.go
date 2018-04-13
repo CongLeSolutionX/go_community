@@ -12,6 +12,8 @@ import (
 	"strings"
 	"testing"
 	"unicode/utf8"
+	"encoding/xml"
+	"log"
 )
 
 const testInput = `
@@ -774,6 +776,122 @@ func TestIssue8535(t *testing.T) {
 	}
 }
 
+
+func TestIssue11431(t *testing.T) { //
+
+	type Test struct {
+		XMLName Name `xml:"Test"`
+		Ns   string `xml:"xmlns,attr"`
+		Body string
+	}
+
+	s := &Test{Ns: "http://example.com/ns", Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<Test xmlns="http://example.com/ns"><Body>hello world</Body></Test>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+func TestIssue11431NsWoAttr(t *testing.T) {
+
+	type Test struct {
+		Body string `xml:"http://example.com/ns body"`
+	}
+
+	s := &Test{Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<Test><body xmlns="http://example.com/ns">hello world</body></Test>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+func TestIssue11431XMLName(t *testing.T) { //
+
+	type Test struct {
+		XMLName Name `xml:"http://example.com/ns Test"`
+		Body    string
+	}
+
+	//s := &Test{XMLName: Name{"http://example.com/ns",""}, Body: "hello world"} is unusable as the "-" is missing
+	// as documentation states
+	s := &Test{Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<Test xmlns="http://example.com/ns"><Body>hello world</Body></Test>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+
+func TestIssue11431UsingAttr(t *testing.T) { //
+
+	type T struct {
+		Ns   string `xml:"xmlns,attr"`
+		Body    string
+	}
+
+	//s := &Test{XMLName: Name{"http://example.com/ns",""}, Body: "hello world"} is unusable as the "-" is missing
+	// as documentation states
+	s := &T{Ns: "http://example.com/ns", Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<T xmlns="http://example.com/ns"><Body>hello world</Body></T>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+func TestIssue11496(t *testing.T) { // Issue answered
+
+	type Person struct {
+		XMLName xml.Name `xml:"ns1 person"`
+		Name    string   `xml:"name"`
+		Phone   string   `xml:"ns2 phone,omitempty"`
+	}
+
+	p := &Person{
+		Name:  "Oliver",
+		Phone: "110",
+	}
+
+	raw, err := xml.MarshalIndent(p, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%s", string(raw))
+
+	// Output:
+	// <person xmlns="ns1">
+	//   <name>Oliver</name>
+	//   <phone xmlns="ns2">110</phone>
+	// </person>
+	//
+	// Want:
+	// <person xmlns="ns1" xmlns:ns2="n2">
+	//   <name>Oliver</name>
+	//   <ns2:phone>110</ns2:phone>
+	// </person>
+
+}
+
 func TestIssue11405(t *testing.T) {
 	testCases := []string{
 		"<root>",
@@ -825,64 +943,6 @@ func TestIssue12417(t *testing.T) {
 			t.Errorf("%q: Encoding charset: expected error, got nil", tc.s)
 		}
 	}
-}
-
-func TestIssue11724(t *testing.T) {
-	// Issue 11724 is a duplicate of 8535 and requires to bind the namespace xsi first
-	type Discount struct {
-		XSIType string `xml:"xsi type,attr"`
-		Type    string `xml:"type,attr"`
-		From    string `xml:"from,attr"`
-		To      string `xml:"to,attr"`
-	}
-
-	type DiscountWithConflict struct {
-		XSIType string `xml:"xsi type"`
-		XSAType string `xml:"xsi type"` // Conflict is here
-		Type    string `xml:"type,attr"`
-		From    string `xml:"from,attr"`
-		To      string `xml:"to,attr"`
-	}
-
-	s := `<Discount 
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:type="ProgressivePromotion" from="2015-07-28T00:00:00" to="2015-07-30T00:00:00" type="Percent" value="38" name="Special Deal" />`
-	d := Discount{}
-	err := Unmarshal([]byte(s), &d)
-	if err != nil {
-		fmt.Printf("error: %v \n", err)
-	}
-
-	var dest Discount
-	dec := NewDecoder(strings.NewReader(s))
-	if err := dec.Decode(&dest); err != nil {
-		t.Errorf("Field conflicts : Expected no error, got %v \n", err)
-	}
-
-	check := "ProgressivePromotion"
-	/* Currently failing see issue #
-	if dest.XSIType != check {
-		t.Errorf("Assignment failed : Got %v, want %s \n", dest.XSIType, check)
-	}
-	*/
-	if dest.Type != "Percent" {
-		t.Errorf("Assignment failed : Got %v, want %s \n", dest.Type, check)
-	}
-	if dest.From != "2015-07-28T00:00:00" {
-		t.Errorf("Assignment failed : Got %v, want %s \n", dest.From, check)
-	}
-	if dest.To != "2015-07-30T00:00:00" {
-		t.Errorf("Assignment failed : Got %v, want %s \n", dest.To, check)
-	}
-
-	var dest2 DiscountWithConflict
-	dec = NewDecoder(strings.NewReader(s))
-	if err := dec.Decode(&dest2); err == nil {
-		t.Errorf("Field conflicts : Expected error, got nil \n")
-	}
-	// xml.DiscountWithConflict field "XSIType" with tag "xsi type" conflicts with field "XSAType" with tag "xsi type"
-
-
 }
 
 func tokenMap(mapping func(t Token) Token) func(TokenReader) TokenReader {
