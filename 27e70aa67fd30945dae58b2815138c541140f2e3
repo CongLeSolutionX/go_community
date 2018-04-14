@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "12056776_5959a9ee",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-14T18:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8eb0827_bbc9e159",
+      "range": {
+        "startLine": 20,
+        "startChar": 33,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27104c58_59d91bb5",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "371d83e4_3c35a776",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-14T18:21:07Z",
+      "side": 1,
+      "message": "Done. Reworded this part a bit, so please have one final read in case anything is wrong.",
+      "parentUuid": "27104c58_59d91bb5",
+      "range": {
+        "startLine": 44,
+        "startChar": 20,
+        "endLine": 46,
+        "endChar": 35
+      },
+      "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "541ae50e_a423f76e",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 2
@@ -62,6 +110,24 @@
       "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f670c452_ac3029e2",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-14T18:21:07Z",
+      "side": 1,
+      "message": "You\u0027re right. Josh mentioned liveness analyssis in one of his comments, and I forgot that I was already adding it elsewhere.",
+      "parentUuid": "541ae50e_a423f76e",
+      "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "e3e236bf_4280e2e1",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-14T18:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a2fab42_81dafc18",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 59
+      },
+      "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b02f2bc9_bf438193",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 2
@@ -102,6 +192,24 @@
       "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27e3cf13_d504966c",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-14T18:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b02f2bc9_bf438193",
+      "revId": "27e70aa67fd30945dae58b2815138c541140f2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
