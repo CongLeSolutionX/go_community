@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "591f782b_5c2205d9",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-14T19:00:06Z",
+      "side": 1,
+      "message": "I’d use range loops instead of append as an example here; append is partly done during conversion to ssa. Something like “range loops are rewritten into for loops”.",
+      "revId": "de27e7c8a16485cc07a131589c37029ee7f9c96a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
