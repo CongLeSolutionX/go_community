@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "939b4b47_49c887bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-14T16:05:11Z",
+      "side": 1,
+      "message": "I\u0027d say either \"constants\u0027 names\", or \"constant names\".",
+      "revId": "1c217391d6aaad75125b6395418c07bad2e8cda4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7074ba0_5399ecdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-14T16:05:11Z",
+      "side": 1,
+      "message": ", and found ...",
+      "revId": "1c217391d6aaad75125b6395418c07bad2e8cda4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
