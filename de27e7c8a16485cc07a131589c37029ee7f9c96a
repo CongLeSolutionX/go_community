@@ -16,6 +16,24 @@
       "revId": "de27e7c8a16485cc07a131589c37029ee7f9c96a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1df80268_03111008",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-15T19:33:14Z",
+      "side": 1,
+      "message": "I expect over time that these lowerings will be moved into SSA construction (see also #17728). Append is already handled during SSA, we just moved race/msan instrumentation to SSA, and I think Austin had near-term plans to move range loops to SSA too.\n\nI might move this paragraph into the next section, and just generally mention that for historical reasons, much of the AST-\u003eSSA conversion is still handled by the \"order\" and \"walk\" AST passes that rewrite higher-level AST operations into simpler ones.",
+      "parentUuid": "591f782b_5c2205d9",
+      "revId": "de27e7c8a16485cc07a131589c37029ee7f9c96a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
