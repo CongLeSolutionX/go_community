@@ -7,7 +7,10 @@
 
 package main
 
-import "math"
+import (
+	"encoding/binary"
+	"math"
+)
 
 func f0(a []int) int {
 	a[0] = 1
@@ -573,6 +576,31 @@ func fence4(x, y int64) {
 			return
 		}
 	}
+}
+
+func decode1(data []byte) (x uint64) {
+	for len(data) >= 32 {
+		x += binary.BigEndian.Uint64(data) // ERROR "Proved IsInBounds$"
+		data = data[8:]                    // ERROR "Proved IsSliceInBounds$|Proved slicemask not needed$"
+		x += binary.BigEndian.Uint64(data) // ERROR "Proved IsInBounds$"
+		data = data[8:]                    // ERROR "Proved IsSliceInBounds$|Proved slicemask not needed$"
+		x += binary.BigEndian.Uint64(data) // ERROR "Proved IsInBounds$"
+		data = data[8:]                    // ERROR "Proved IsSliceInBounds$|Proved slicemask not needed$"
+		x += binary.BigEndian.Uint64(data) // ERROR "Proved IsInBounds$"
+		data = data[8:]                    // ERROR "Proved IsSliceInBounds$|Proved slicemask not needed$"
+	}
+	return x
+}
+
+func decode2(data []byte) (x uint64) {
+	for len(data) >= 32 {
+		x += binary.BigEndian.Uint64(data[:8])    // ERROR "Proved IsSliceInBounds$|Proved slicemask not needed$"
+		x += binary.BigEndian.Uint64(data[8:16])  // ERROR "Proved IsSliceInBounds$|Proved slicemask not needed$"
+		x += binary.BigEndian.Uint64(data[16:24]) // ERROR "Proved IsSliceInBounds$|Proved slicemask not needed$"
+		x += binary.BigEndian.Uint64(data[24:32]) // ERROR "Proved IsSliceInBounds$|Proved slicemask not needed$"
+		data = data[32:]                          // ERROR "Proved IsSliceInBounds$"
+	}
+	return x
 }
 
 //go:noinline
