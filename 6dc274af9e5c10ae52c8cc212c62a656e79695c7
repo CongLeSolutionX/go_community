@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "259198d6_75955092",
+        "filename": "test/codegen/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-15T17:41:28Z",
+      "side": 1,
+      "message": "I don\u0027t think you intended this final slash, since it doesn\u0027t appear in line 1320 of test/run.go where you give the same example.",
+      "range": {
+        "startLine": 110,
+        "startChar": 47,
+        "endLine": 110,
+        "endChar": 59
+      },
+      "revId": "6dc274af9e5c10ae52c8cc212c62a656e79695c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b1915e6_a112937e",
+        "filename": "test/run.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-15T17:41:28Z",
+      "side": 1,
+      "message": "value[0]",
+      "range": {
+        "startLine": 1295,
+        "startChar": 4,
+        "endLine": 1295,
+        "endChar": 12
+      },
+      "revId": "6dc274af9e5c10ae52c8cc212c62a656e79695c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
