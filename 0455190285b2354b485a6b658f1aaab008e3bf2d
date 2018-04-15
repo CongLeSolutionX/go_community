@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8fe993f3_ba22e88d",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-04-15T14:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "660aa30d_158578b9",
+      "range": {
+        "startLine": 400,
+        "startChar": 7,
+        "endLine": 400,
+        "endChar": 61
+      },
+      "revId": "0455190285b2354b485a6b658f1aaab008e3bf2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6844d74_16e736c6",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4b88832a_3bffea74",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-04-15T14:20:49Z",
+      "side": 1,
+      "message": "Changed here too (in the CL in which this comment was first introduced).",
+      "parentUuid": "e6844d74_16e736c6",
+      "range": {
+        "startLine": 409,
+        "startChar": 46,
+        "endLine": 409,
+        "endChar": 49
+      },
+      "revId": "0455190285b2354b485a6b658f1aaab008e3bf2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d8a9807_bfdd6964",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "0455190285b2354b485a6b658f1aaab008e3bf2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caf0ee9b_47f2727a",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-04-15T14:20:49Z",
+      "side": 1,
+      "message": "Added the comment.\n\nposet works on idealized numbers, so it doesn\u0027t really matter here: a zero is a zero. \n\nYour remark though allowed me to spot a potential bug in poset.SetEqual(), where I\u0027m comparing AuxInt of two constants without checking the size (because of the way AuxInt is used, it\u0027s not correct if they are unsigned numbers of different sizes). It\u0027s only potential because prove won\u0027t ever call SetEqual for Values of different size (because only non-typechecked code would trigger that codepath), but it\u0027s still worth fixing it. I did it in the CL where poset is introduced.",
+      "parentUuid": "8d8a9807_bfdd6964",
+      "range": {
+        "startLine": 674,
+        "startChar": 3,
+        "endLine": 676,
+        "endChar": 4
+      },
+      "revId": "0455190285b2354b485a6b658f1aaab008e3bf2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
