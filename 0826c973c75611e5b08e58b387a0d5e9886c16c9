@@ -45,6 +45,53 @@
       "revId": "0826c973c75611e5b08e58b387a0d5e9886c16c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f28dd1a_d8757bdc",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-16T21:55:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5855313e_011f04b7",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 38
+      },
+      "revId": "0826c973c75611e5b08e58b387a0d5e9886c16c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77f5c103_ac2bd0f8",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.diff",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-16T21:55:33Z",
+      "side": 1,
+      "message": "This is an accidental add and needs to come out. (done)",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 4
+      },
+      "revId": "0826c973c75611e5b08e58b387a0d5e9886c16c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
