@@ -5,6 +5,8 @@
 package user
 
 import (
+	"internal/testenv"
+	"os"
 	"runtime"
 	"testing"
 )
@@ -16,6 +18,9 @@ func checkUser(t *testing.T) {
 }
 
 func TestCurrent(t *testing.T) {
+	if testenv.Builder() != "" && os.Getenv("HOME") == "" {
+		os.Setenv("HOME", "/tmp")
+	}
 	u, err := Current()
 	if err != nil {
 		t.Fatalf("Current: %v (got %#v)", err, u)
