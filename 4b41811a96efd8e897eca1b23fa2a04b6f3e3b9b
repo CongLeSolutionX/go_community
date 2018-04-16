@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "203c3621_150974bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-04-16T19:03:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5bd2b973_433281a2",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e78c94e4_16a3b6d6",
         "filename": "src/sort/sort.go",
         "patchSetId": 31
@@ -140,6 +158,24 @@
       "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80292faf_e18f656b",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-04-16T19:03:30Z",
+      "side": 1,
+      "message": "I improved the documentation, is it OK now?",
+      "parentUuid": "f6183fa2_f9b486e3",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     },
     {
       "key": {
@@ -294,6 +330,24 @@
       "side": 1,
       "message": "No, this is not know \"at compile time\" this is a dead simple constant.\nIf this would depend on the machine size for an int one could possibly\nargue to name it \"compile time\" but this is not. It is a constant.\n\nOther constants used in other packages also do not have a \"comileTime\"\nprefix. Remove this prefix.\n\nIf the resulting name becomes too short: Rename.\nAnd I doubt that movementImitationBufferSize is ambiguous.",
       "parentUuid": "8a9b494a_084ad6f6",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f0e6594_7767b984",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-04-16T19:03:30Z",
+      "side": 1,
+      "message": "I renamed compTime to outOfInputData everywhere. Does that seem OK?",
+      "parentUuid": "afe2547e_05569ae0",
       "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
