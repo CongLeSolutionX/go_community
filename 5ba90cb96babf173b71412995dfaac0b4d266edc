@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ff64a4f_98deb7e7",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-16T19:54:51Z",
+      "side": 1,
+      "message": "Ptr -\u003e ptr.  Uintptr is a single word (in Go, at least).",
+      "range": {
+        "startLine": 489,
+        "startChar": 15,
+        "endLine": 489,
+        "endChar": 16
+      },
+      "revId": "5ba90cb96babf173b71412995dfaac0b4d266edc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4c12079_defff110",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-16T19:54:51Z",
+      "side": 1,
+      "message": "This is an odd function, where sometimes it takes the address of name and sometimes it doesn\u0027t. \nCan you put the OADDR node generation in the caller?  Then this would just do ptr-\u003eunsafe.Pointer-\u003euintptr.",
+      "revId": "5ba90cb96babf173b71412995dfaac0b4d266edc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d1e89cb_e03b3fba",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-16T19:54:51Z",
+      "side": 1,
+      "message": "s/RHS/LHS/",
+      "range": {
+        "startLine": 140,
+        "startChar": 7,
+        "endLine": 140,
+        "endChar": 10
+      },
+      "revId": "5ba90cb96babf173b71412995dfaac0b4d266edc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f22b11a_240aaaae",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-16T19:54:51Z",
+      "side": 1,
+      "message": "Add hasPtr \u003d false",
+      "revId": "5ba90cb96babf173b71412995dfaac0b4d266edc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
