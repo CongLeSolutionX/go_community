@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5bd2b973_433281a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-16T08:14:28Z",
+      "side": 1,
+      "message": "If this optimization yields 20% performance increase\nto the existing algorithm then it must not be part of\nthis CL:\n\nPlease separate it into its own, standalone CL and\nsubmit it individually. Don\u0027t forget to include the\nappropriate benchmarks.\n\nThen rebase this new algorithm onto the optimized\nSymMerge based stable sorting. Then you can find an\noptimum cut-over point from the optimized old to the\nnew algorithm.",
+      "parentUuid": "fd75e42c_249c3d07",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e78c94e4_16a3b6d6",
         "filename": "src/sort/sort.go",
         "patchSetId": 31
@@ -104,6 +122,24 @@
       "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6183fa2_f9b486e3",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-16T08:14:28Z",
+      "side": 1,
+      "message": "I do see need for change.\nIf you return an generator you _must_ document this.\nThe current documentation to func isqrt is\n    Integer parts of square roots of successive powers of 2, rounded.\nWhich is not appropriate for neither isqrt itself not for the function\nit returns. \n\nThe other alternative (the one I would prefer) is a \nbunch of constants and maybe a genisqrt.go file generating\nthem.\nNevertheless: The current state is not ok.",
+      "parentUuid": "c9b92f30_f5270bb3",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -240,6 +276,24 @@
       "side": 1,
       "message": "The buffer\u0027s size is known at compile time. I do not want to just drop the name prefix, it would make the names too short and ambiguous for global identifiers; do you have a better prefix in mind?",
       "parentUuid": "6f151439_8d1d8a6d",
+      "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afe2547e_05569ae0",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-16T08:14:28Z",
+      "side": 1,
+      "message": "No, this is not know \"at compile time\" this is a dead simple constant.\nIf this would depend on the machine size for an int one could possibly\nargue to name it \"compile time\" but this is not. It is a constant.\n\nOther constants used in other packages also do not have a \"comileTime\"\nprefix. Remove this prefix.\n\nIf the resulting name becomes too short: Rename.\nAnd I doubt that movementImitationBufferSize is ambiguous.",
+      "parentUuid": "8a9b494a_084ad6f6",
       "revId": "4b41811a96efd8e897eca1b23fa2a04b6f3e3b9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
