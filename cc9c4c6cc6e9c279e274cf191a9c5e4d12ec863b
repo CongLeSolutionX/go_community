@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b2c94498_0c338172",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2416,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-04-16T09:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f35a85c_91432a73",
+      "revId": "cc9c4c6cc6e9c279e274cf191a9c5e4d12ec863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ab1fc45_6555a1e3",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "cc9c4c6cc6e9c279e274cf191a9c5e4d12ec863b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0feb042c_06183fb6",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2859,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-04-16T09:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ab1fc45_6555a1e3",
+      "range": {
+        "startLine": 2859,
+        "startChar": 17,
+        "endLine": 2859,
+        "endChar": 21
+      },
+      "revId": "cc9c4c6cc6e9c279e274cf191a9c5e4d12ec863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "7a65d21b_4e4ce313",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2861,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-04-16T09:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7277c505_c11767da",
+      "range": {
+        "startLine": 2861,
+        "startChar": 3,
+        "endLine": 2861,
+        "endChar": 9
+      },
+      "revId": "cc9c4c6cc6e9c279e274cf191a9c5e4d12ec863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2b5739a_93b3c1f4",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
@@ -85,6 +151,30 @@
       "revId": "cc9c4c6cc6e9c279e274cf191a9c5e4d12ec863b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "337cf61c_9b5ba305",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5985,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-04-16T09:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2b5739a_93b3c1f4",
+      "range": {
+        "startLine": 5985,
+        "startChar": 65,
+        "endLine": 5985,
+        "endChar": 74
+      },
+      "revId": "cc9c4c6cc6e9c279e274cf191a9c5e4d12ec863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
