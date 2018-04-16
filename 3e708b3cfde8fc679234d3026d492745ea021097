@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "355c45ca_010abb6b",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-16T21:10:27Z",
+      "side": 1,
+      "message": "\"when it fails\"? \n\nLooking at:\n\n$ git grep \"is returned by\"\n\nIt seems that \"when\" is more common (21 to 7).",
+      "range": {
+        "startLine": 37,
+        "startChar": 33,
+        "endLine": 37,
+        "endChar": 45
+      },
+      "revId": "3e708b3cfde8fc679234d3026d492745ea021097",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a326050_20a41941",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-16T21:10:27Z",
+      "side": 1,
+      "message": "wrong doc style: https://github.com/golang/go/wiki/CodeReviewComments#comment-sentences\n\nStart with the field name as the subject.",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 42,
+        "endChar": 25
+      },
+      "revId": "3e708b3cfde8fc679234d3026d492745ea021097",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
