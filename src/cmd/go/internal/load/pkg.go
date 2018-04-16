@@ -1075,69 +1075,72 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		return
 	}
 
-	// Build list of imported packages and full dependency list.
-	imports := make([]*Package, 0, len(p.Imports))
-	for i, path := range importPaths {
-		if path == "C" {
-			continue
-		}
-		p1 := LoadImport(path, p.Dir, p, stk, p.Internal.Build.ImportPos[path], UseVendor)
-		if p.Standard && p.Error == nil && !p1.Standard && p1.Error == nil {
-			p.Error = &PackageError{
-				ImportStack: stk.Copy(),
-				Err:         fmt.Sprintf("non-standard import %q in standard package %q", path, p.ImportPath),
+	// .Root is necessary for properly handling imports
+	if p.Root != "" {
+		// Build list of imported packages and full dependency list.
+		imports := make([]*Package, 0, len(p.Imports))
+		for i, path := range importPaths {
+			if path == "C" {
+				continue
 			}
-			pos := p.Internal.Build.ImportPos[path]
-			if len(pos) > 0 {
-				p.Error.Pos = pos[0].String()
+			p1 := LoadImport(path, p.Dir, p, stk, p.Internal.Build.ImportPos[path], UseVendor)
+			if p.Standard && p.Error == nil && !p1.Standard && p1.Error == nil {
+				p.Error = &PackageError{
+					ImportStack: stk.Copy(),
+					Err:         fmt.Sprintf("non-standard import %q in standard package %q", path, p.ImportPath),
+				}
+				pos := p.Internal.Build.ImportPos[path]
+				if len(pos) > 0 {
+					p.Error.Pos = pos[0].String()
+				}
+			}
+
+			path = p1.ImportPath
+			importPaths[i] = path
+			if i < len(p.Imports) {
+				p.Imports[i] = path
+			}
+
+			imports = append(imports, p1)
+			if p1.Incomplete {
+				p.Incomplete = true
 			}
 		}
+		p.Internal.Imports = imports
 
-		path = p1.ImportPath
-		importPaths[i] = path
-		if i < len(p.Imports) {
-			p.Imports[i] = path
-		}
-
-		imports = append(imports, p1)
-		if p1.Incomplete {
-			p.Incomplete = true
-		}
-	}
-	p.Internal.Imports = imports
-
-	deps := make(map[string]*Package)
-	var q []*Package
-	q = append(q, imports...)
-	for i := 0; i < len(q); i++ {
-		p1 := q[i]
-		path := p1.ImportPath
-		// The same import path could produce an error or not,
-		// depending on what tries to import it.
-		// Prefer to record entries with errors, so we can report them.
-		p0 := deps[path]
-		if p0 == nil || p1.Error != nil && (p0.Error == nil || len(p0.Error.ImportStack) > len(p1.Error.ImportStack)) {
-			deps[path] = p1
-			for _, p2 := range p1.Internal.Imports {
-				if deps[p2.ImportPath] != p2 {
-					q = append(q, p2)
+		deps := make(map[string]*Package)
+		var q []*Package
+		q = append(q, imports...)
+		for i := 0; i < len(q); i++ {
+			p1 := q[i]
+			path := p1.ImportPath
+			// The same import path could produce an error or not,
+			// depending on what tries to import it.
+			// Prefer to record entries with errors, so we can report them.
+			p0 := deps[path]
+			if p0 == nil || p1.Error != nil && (p0.Error == nil || len(p0.Error.ImportStack) > len(p1.Error.ImportStack)) {
+				deps[path] = p1
+				for _, p2 := range p1.Internal.Imports {
+					if deps[p2.ImportPath] != p2 {
+						q = append(q, p2)
+					}
 				}
 			}
 		}
-	}
 
-	p.Deps = make([]string, 0, len(deps))
-	for dep := range deps {
-		p.Deps = append(p.Deps, dep)
-	}
-	sort.Strings(p.Deps)
-	for _, dep := range p.Deps {
-		p1 := deps[dep]
-		if p1 == nil {
-			panic("impossible: missing entry in package cache for " + dep + " imported by " + p.ImportPath)
+		p.Deps = make([]string, 0, len(deps))
+		for dep := range deps {
+			p.Deps = append(p.Deps, dep)
 		}
-		if p1.Error != nil {
-			p.DepsErrors = append(p.DepsErrors, p1.Error)
+		sort.Strings(p.Deps)
+		for _, dep := range p.Deps {
+			p1 := deps[dep]
+			if p1 == nil {
+				panic("impossible: missing entry in package cache for " + dep + " imported by " + p.ImportPath)
+			}
+			if p1.Error != nil {
+				p.DepsErrors = append(p.DepsErrors, p1.Error)
+			}
 		}
 	}
 
