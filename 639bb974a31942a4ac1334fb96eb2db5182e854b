@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc5085af_677874b4",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 6053,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-17T19:32:58Z",
+      "side": 1,
+      "message": "Nit: remove the leading whitespace on the empty line here and in the next tg.tempFile.",
+      "revId": "639bb974a31942a4ac1334fb96eb2db5182e854b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
