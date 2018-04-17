@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a09f52d6_4544421b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-17T15:08:59Z",
+      "side": 1,
+      "message": "This title is very similar to your previous CL. ARM64 is redundant. Maybe \"optimize constant pool for 32-bit constants\"?",
+      "revId": "61b414b9be88b2e5774165e2ff4c6d61a628a50f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10871ec5_896dc11e",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-17T15:08:59Z",
+      "side": 1,
+      "message": "Is there a way not to hard-code optab case numbers? Can we condition on p and aclass?",
+      "range": {
+        "startLine": 984,
+        "startChar": 11,
+        "endLine": 984,
+        "endChar": 31
+      },
+      "revId": "61b414b9be88b2e5774165e2ff4c6d61a628a50f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59584bd8_a547b7ef",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2726,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-17T15:08:59Z",
+      "side": 1,
+      "message": "Can this logic be done in omovlit instead? Then we don\u0027t need to repeat it for each case.",
+      "range": {
+        "startLine": 2720,
+        "startChar": 0,
+        "endLine": 2726,
+        "endChar": 3
+      },
+      "revId": "61b414b9be88b2e5774165e2ff4c6d61a628a50f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
