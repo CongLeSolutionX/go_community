@@ -9,6 +9,11 @@ import (
 	"syscall"
 )
 
+// BUG(tmm1): On Windows, the Write method of syscall.RawConn
+// only supports blocking writes within the user-provided callback.
+// If the callback tries to return false, the Write method will fail
+// with EWINDOWS.
+
 // BUG(mikio): On NaCl and Plan 9, the Control, Read and Write methods
 // of syscall.RawConn are not implemented.
 

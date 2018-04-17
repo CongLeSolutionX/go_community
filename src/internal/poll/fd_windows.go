@@ -950,6 +950,7 @@ func (fd *FD) RawWrite(f func(uintptr) bool) error {
 		if f(uintptr(fd.Sysfd)) {
 			return nil
 		}
+		return syscall.EWINDOWS
 	}
 }
 
