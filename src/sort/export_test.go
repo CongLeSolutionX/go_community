@@ -7,3 +7,7 @@ package sort
 func Heapsort(data Interface) {
 	heapSort(data, 0, data.Len())
 }
+
+func ReverseReversed(data Interface) {
+	reverseReversed(data, data.Len())
+}

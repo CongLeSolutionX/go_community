@@ -289,6 +289,45 @@ func BenchmarkStableInt64K(b *testing.B) {
 	}
 }
 
+// Makes an initialized intPairs from a []int.
+func intPairsFromInts(ints []int) intPairs {
+	retPairs := make(intPairs, len(ints))
+	for i := range ints {
+		retPairs[i].a = ints[i]
+		retPairs[i].b = i
+	}
+	return retPairs
+}
+
+func TestReverseReversed(t *testing.T) {
+	for _, pair := range [][2][]int{
+		{{1, 2, 3, 4}, {1, 2, 3, 4}},
+		{{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}},
+		{{3, 2, 1, 4, 5}, {1, 2, 3, 4, 5}},
+		{{3, 2, 1, 6, 5, 4}, {1, 2, 3, 4, 5, 6}},
+		{{6, 5, 4, 3, 2, 1}, {1, 2, 3, 4, 5, 6}},
+		{{6, 5, 4, 4, 2, 1}, {4, 5, 6, 1, 2, 4}},
+		{{3, 2, 3, 4}, {3, 2, 3, 4}}} {
+		if len(pair[0]) != len(pair[1]) {
+			panic("Test data is wrong.")
+		}
+		in := intPairsFromInts(pair[0])
+		ReverseReversed(in)
+		for i := range pair[1] {
+			if in[i].a != pair[1][i] {
+				t.Fail()
+				t.Logf("Reversal pass incorrect for input data %v\n", pair[0])
+				return
+			}
+		}
+		if !in.inOrder() {
+			t.Fail()
+			t.Logf("Reversal pass unstable for input data %v\n", pair[0])
+			return
+		}
+	}
+}
+
 const (
 	_Sawtooth = iota
 	_Rand
@@ -676,3 +715,111 @@ func BenchmarkSort1e4(b *testing.B)   { bench(b, 1e4, Sort, "Sort") }
 func BenchmarkStable1e4(b *testing.B) { bench(b, 1e4, Stable, "Stable") }
 func BenchmarkSort1e6(b *testing.B)   { bench(b, 1e6, Sort, "Sort") }
 func BenchmarkStable1e6(b *testing.B) { bench(b, 1e6, Stable, "Stable") }
+
+func benchBM(b *testing.B, size int, algo func(Interface), name string, m, dist, mode int) {
+	// Based on testBentleyMcIlroy.
+
+	b.StopTimer()
+	data0 := make([]int, size)
+	data := make(intPairs, size)
+	n := size
+
+	for i := 0; i < b.N; i++ {
+		j := 0
+		k := 1
+		for i := 0; i < n; i++ {
+			switch dist {
+			case _Sawtooth:
+				data0[i] = i % m
+			case _Rand:
+				data0[i] = rand.Intn(m)
+			case _Stagger:
+				data0[i] = (i*m + i) % n
+			case _Plateau:
+				data0[i] = min(i, m)
+			case _Shuffle:
+				if rand.Intn(m) != 0 {
+					j += 2
+					data0[i] = j
+				} else {
+					k += 2
+					data0[i] = k
+				}
+			default:
+				panic(dist)
+			}
+		}
+		switch mode {
+		case _Copy:
+			for i := 0; i < n; i++ {
+				data[i].a = data0[i]
+			}
+		case _Reverse:
+			for i := 0; i < n; i++ {
+				data[i].a = data0[n-i-1]
+			}
+		case _ReverseFirstHalf:
+			for i := 0; i < n/2; i++ {
+				data[i].a = data0[n/2-i-1]
+			}
+			for i := n / 2; i < n; i++ {
+				data[i].a = data0[i]
+			}
+		case _ReverseSecondHalf:
+			for i := 0; i < n/2; i++ {
+				data[i].a = data0[i]
+			}
+			for i := n / 2; i < n; i++ {
+				data[i].a = data0[n-(i-n/2)-1]
+			}
+		case _Sorted:
+			for i := 0; i < n; i++ {
+				data[i].a = data0[i]
+			}
+			algo(data)
+		case _Dither:
+			for i := 0; i < n; i++ {
+				data[i].a = data0[i] + i%5
+			}
+		default:
+			panic(mode)
+		}
+		data.initB()
+
+		b.StartTimer()
+		algo(data)
+		b.StopTimer()
+
+		if !IsSorted(data) {
+			b.Errorf("%s did not sort %d ints with %d %d %d", name, n, dist, m, mode)
+		}
+		if name == "Stable" && !data.inOrder() {
+			b.Errorf("%s unstable on %d ints with %d %d %d", name, n, dist, m, mode)
+		}
+	}
+}
+
+func BenchmarkBMSort1e4Sawtooth10Reverse(b *testing.B) {
+	benchBM(b, 1e4, Sort, "Sort", 1<<10, _Sawtooth, _Reverse)
+}
+func BenchmarkBMStable1e4Sawtooth10Reverse(b *testing.B) {
+	benchBM(b, 1e4, Stable, "Stable", 1<<10, _Sawtooth, _Reverse)
+}
+func BenchmarkBMSort1e4Sawtooth14Reverse(b *testing.B) {
+	benchBM(b, 1e4, Sort, "Sort", 1<<14, _Sawtooth, _Reverse)
+}
+func BenchmarkBMStable1e4Sawtooth14Reverse(b *testing.B) {
+	benchBM(b, 1e4, Stable, "Stable", 1<<14, _Sawtooth, _Reverse)
+}
+func BenchmarkBMSort1e6Sawtooth17Reverse(b *testing.B) {
+	benchBM(b, 1e6, Sort, "Sort", 1<<17, _Sawtooth, _Reverse)
+}
+func BenchmarkBMStable1e6Sawtooth17Reverse(b *testing.B) {
+	benchBM(b, 1e6, Stable, "Stable", 1<<17, _Sawtooth, _Reverse)
+}
+func BenchmarkBMSort1e6Sawtooth20Reverse(b *testing.B) {
+	benchBM(b, 1e6, Sort, "Sort", 1<<20, _Sawtooth, _Reverse)
+}
+func BenchmarkBMStable1e6Sawtooth20Reverse(b *testing.B) {
+	benchBM(b, 1e6, Stable, "Stable", 1<<20, _Sawtooth, _Reverse)
+}
