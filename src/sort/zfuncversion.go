@@ -159,8 +159,28 @@ func quickSort_func(data lessSwap, a, b, maxDepth int) {
 	}
 }
 
+// Auto-generated variant of sort.go:reverseReversed
+func reverseReversed_func(data lessSwap, n int) {
+	a := 0
+	for i := 0; i < n; i++ {
+		for ; i+1 < n && data.Less(i+1, i); i++ {
+		}
+		if a+1 < i {
+			for b := i; a < b; {
+				data.Swap(a, b)
+				a++
+				b--
+			}
+		}
+		a = i + 1
+	}
+}
+
 // Auto-generated variant of sort.go:stable
 func stable_func(data lessSwap, n int) {
+	if 5e5 < n {
+		reverseReversed_func(data, n)
+	}
 	blockSize := 20
 	a, b := 0, blockSize
 	for b <= n {

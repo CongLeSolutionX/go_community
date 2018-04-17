@@ -357,7 +357,33 @@ func Stable(data Interface) {
 	stable(data, data.Len())
 }
 
+// reverseReversed reverses ranges of more than two elements in reverse order in
+// data[0:n]. Takes O(n) time.
+func reverseReversed(data Interface, n int) {
+	a := 0
+	for i := 0; i < n; i++ {
+		// Find reversed ranges.
+		for ; i+1 < n && data.Less(i+1, i); i++ {
+		}
+
+		if a+1 < i {
+			for b := i; a < b; {
+				data.Swap(a, b)
+				a++
+				b--
+			}
+		}
+		a = i + 1
+	}
+}
+
 func stable(data Interface, n int) {
+	// An optimization. The selection statement condition makes sure this
+	// only runs if it costs little with respect to the rest of the sort.
+	if 5e5 < n {
+		reverseReversed(data, n)
+	}
+
 	blockSize := 20 // must be > 0
 	a, b := 0, blockSize
 	for b <= n {
