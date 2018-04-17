@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4edc190b_f78946fc",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-17T19:56:09Z",
+      "side": 1,
+      "message": "I don\u0027t like this name.\n\na) it\u0027s not actually wrapping anythign\nb) it\u0027s too generic sounding and people will add to it (breaking callers) or overuse it, not knowing what it does\nc) it makes the call sites not as readable anymore\n\nHow about\n\n    // noEOF returns err, unless err \u003d\u003d io.EOF, in which case it returns io.ErrUnexpectedEOF.\n    func noEOF(err error) error",
+      "revId": "5c5feb644cdb66f2139709f441a25f270ee0967c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
