@@ -971,16 +971,12 @@ func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr) {
 	t.As = AWORD
 	sz := 4
 
-	if p.As == AMOVD && a.Type == obj.TYPE_CONST {
-		// simplify MOVD to MOVW/MOVWU to reduce constant pool size
-		if lit == int64(int32(lit)) { // -0x80000000 ~ 0x7fffffff
-			p.As = AMOVW
-		} else if uint64(lit) == uint64(uint32(lit)) { // 0 ~ 0xffffffff
-			p.As = AMOVWU
-		} else { // 64-bit
+	if a.Type == obj.TYPE_CONST {
+		if lit != int64(int32(lit)) && uint64(lit) != uint64(uint32(lit)) {
+			// out of range -0x80000000 ~ 0x7fffffff, must store 64-bit
 			t.As = ADWORD
 			sz = 8
-		}
+		} // else store 32-bit
 	} else if p.As == AMOVD && a.Type != obj.TYPE_MEM || cls == C_ADDR || cls == C_VCON || lit != int64(int32(lit)) || uint64(lit) != uint64(uint32(lit)) {
 		// conservative: don't know if we want signed or unsigned extension.
 		// in case of ambiguity, store 64-bit
@@ -5944,7 +5940,12 @@ func (c *ctxt7) omovlit(as obj.As, p *obj.Prog, a *obj.Addr, dr int) uint32 {
 				w = 1 /* 64 bit */
 			} else if p.Pcond.To.Offset < 0 {
 				w = 2 /* sign extend */
+			} else if p.Pcond.To.Offset >= 0 {
+				w = 0 /* zero extend */
 			}
+
+		case AMOVBU, AMOVHU, AMOVWU:
+			w = 0 /* 32-bit, zero-extended to 64-bit */
 
 		case AMOVB, AMOVH, AMOVW:
 			w = 2 /* 32 bit, sign-extended to 64 */
