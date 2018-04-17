@@ -797,10 +797,10 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 		switch o.flag & (LFROM | LTO) {
 		case LFROM:
-			c.addpool(p, &p.From)
+			c.addpool(p, &p.From, o.type_)
 
 		case LTO:
-			c.addpool(p, &p.To)
+			c.addpool(p, &p.To, o.type_)
 			break
 		}
 
@@ -964,7 +964,7 @@ func (c *ctxt7) flushpool(p *obj.Prog, skip int) {
  *
  * TODO: hash
  */
-func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr) {
+func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr, ot int8) {
 	cls := c.aclass(a)
 	lit := c.instoffset
 	t := c.newprog()
@@ -978,6 +978,11 @@ func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr) {
 		} else if uint64(lit) == uint64(uint32(lit)) { // 0 ~ 0xffffffff
 			p.As = AMOVWU
 		} else { // 64-bit
+			t.As = ADWORD
+			sz = 8
+		}
+	} else if ot == 13 || ot == 28 {
+		if lit != int64(int32(lit)) && uint64(lit) != uint64(uint32(lit)) {
 			t.As = ADWORD
 			sz = 8
 		}
@@ -2712,7 +2717,13 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = c.omovlit(p.As, p, &p.From, int(p.To.Reg))
 
 	case 13: /* addop $vcon, [R], R (64 bit literal); cmp $lcon,R -> addop $lcon,R, ZR */
-		o1 = c.omovlit(AMOVD, p, &p.From, REGTMP)
+		if p.From.Offset == int64(int32(p.From.Offset)) { // 32-bit sign-extended to 64-bit
+			o1 = c.omovlit(AMOVW, p, &p.From, REGTMP)
+		} else if uint64(p.From.Offset) == uint64(uint32(p.From.Offset)) { // 32-bit zero-extended to 64-bit
+			o1 = c.omovlit(AMOVWU, p, &p.From, REGTMP)
+		} else { // 64-bit
+			o1 = c.omovlit(AMOVD, p, &p.From, REGTMP)
+		}
 
 		if !(o1 != 0) {
 			break
@@ -2978,7 +2989,13 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 |= (uint32(r&31) << 5) | uint32(rt&31)
 
 	case 28: /* logop $vcon, [R], R (64 bit literal) */
-		o1 = c.omovlit(AMOVD, p, &p.From, REGTMP)
+		if p.From.Offset == int64(int32(p.From.Offset)) { // 32-bit sign-extended to 64-bit
+			o1 = c.omovlit(AMOVW, p, &p.From, REGTMP)
+		} else if uint64(p.From.Offset) == uint64(uint32(p.From.Offset)) { // 32-bit zero-extended to 64-bit
+			o1 = c.omovlit(AMOVWU, p, &p.From, REGTMP)
+		} else { // 64-bit
+			o1 = c.omovlit(AMOVD, p, &p.From, REGTMP)
+		}
 
 		if !(o1 != 0) {
 			break
@@ -5930,6 +5947,10 @@ func (c *ctxt7) omovlit(as obj.As, p *obj.Prog, a *obj.Addr, dr int) uint32 {
 			} else if p.Pcond.To.Offset < 0 {
 				w = 2 /* sign extend */
 			}
+
+		case AMOVWU:
+			w = 0 /* 32-bit, zero-extended to 64-bit */
+			break
 
 		case AMOVB, AMOVH, AMOVW:
 			w = 2 /* 32 bit, sign-extended to 64 */
