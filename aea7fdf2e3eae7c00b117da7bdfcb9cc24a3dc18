@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ebda22d_27ebab98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-17T23:04:57Z",
+      "side": 1,
+      "message": "TODO: I need to elaborate on this commit message still.",
+      "revId": "aea7fdf2e3eae7c00b117da7bdfcb9cc24a3dc18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
