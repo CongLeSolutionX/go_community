@@ -915,12 +915,9 @@ func loadsys() {
 		typ := typs[d.typ]
 		switch d.tag {
 		case funcTag:
-			importsym(Runtimepkg, sym, ONAME)
-			n := newfuncname(sym)
-			n.Type = typ
-			declare(n, PFUNC)
+			importfunc(src.NoXPos, sym, typ, Runtimepkg)
 		case varTag:
-			importvar(lineno, Runtimepkg, sym, typ)
+			importvar(src.NoXPos, sym, typ, Runtimepkg)
 		default:
 			Fatalf("unhandled declaration tag %v", d.tag)
 		}
