@@ -16,6 +16,24 @@
       "revId": "804d03281c04096fca7f73dc33d1d62e09a86892",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25111880_c2ac752f",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1753,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-04-18T19:49:10Z",
+      "side": 1,
+      "message": "Ah, sorry about that. I should have been more clear.",
+      "parentUuid": "bbd40bf7_c93992e0",
+      "revId": "804d03281c04096fca7f73dc33d1d62e09a86892",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
