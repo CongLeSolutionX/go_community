@@ -197,6 +197,24 @@
     },
     {
       "key": {
+        "uuid": "6b7f441a_2400f8d0",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-18T21:53:20Z",
+      "side": 1,
+      "message": "When I look at the kernel sources, it seems to me that every pipe has a maximum number of buffers.  This can be controlled by fcntl(pfd, F_SETPIPE_SZ, val), as documented in `man 2 fcntl`.  When splicing, the kernel will only add that many buffers to the pipe.  If the socket holds more data than that, and SPLICE_F_NONBLOCK was passed, the splice call will return EAGAIN.  So as far as I can tell, splice can return EAGAIN either because the socket is empty, or because the pipe is full.  And this code doesn\u0027t handle the case in which the pipe is full.  I think that when you see EAGAIN, if you\u0027ve written data to the pipe, you need to call splicePump to move the data onward.  You can only safely wait for the socket if splice returns EAGAIN when there is no data in the pipe.",
+      "parentUuid": "b4889a1f_7510e9c4",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2c823b1_bd9f45f1",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 1
