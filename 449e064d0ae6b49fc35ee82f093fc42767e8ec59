@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07e9ff4d_c87cb841",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-18T19:24:54Z",
+      "side": 1,
+      "message": "Do they need to be separate files? The file names are pretty cryptic anyway...",
+      "range": {
+        "startLine": 404,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 31
+      },
+      "revId": "449e064d0ae6b49fc35ee82f093fc42767e8ec59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
