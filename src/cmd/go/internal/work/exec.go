@@ -1094,6 +1094,11 @@ func BuildInstallFunc(b *Builder, a *Action) (err error) {
 		// advertise it by touching the mtimes (usually the libraries are up
 		// to date).
 		if !a.buggyInstall {
+			if cfg.BuildV {
+				// Since we are pretending to build the target,
+				// report that we are doing something.
+				b.Print(a.Package.ImportPath + "\n")
+			}
 			now := time.Now()
 			os.Chtimes(a.Target, now, now)
 		}

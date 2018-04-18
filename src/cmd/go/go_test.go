@@ -6045,3 +6045,30 @@ func TestNoRelativeTmpdir(t *testing.T) {
 		tg.grepStderr("relative tmpdir", "wrong error")
 	}
 }
+
+// Issue 24214.
+func TestUnchangedDashV(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.parallel()
+
+	tg.tempFile("src/dashv/dashv.go", `package dashv`)
+	tg.tempFile("src/dashvcmd/main.go", `package main; func main() {}`)
+	tg.setenv("GOPATH", tg.path("."))
+	tg.setenv("GOCACHE", tg.path("cache"))
+
+	tg.run("build", "-v", "dashv")
+	tg.grepBoth("dashv", "-v did not show package name")
+
+	// No need to repeat cached build of package.
+	tg.run("build", "-v", "dashv")
+	tg.grepBothNot("dashv", "-v showed cached package name")
+
+	tg.run("build", "-v", "-o", tg.path("dashvcmd"), "dashvcmd")
+	tg.grepBoth("dashvcmd", "-v did not show executable name")
+
+	// Should repeat cached build of main package,
+	// since the binary is touched.
+	tg.run("build", "-v", "-o", tg.path("dashvcmd"), "dashvcmd")
+	tg.grepBoth("dashvcmd", "-v did not show cached executable name")
+}
