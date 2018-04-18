@@ -378,7 +378,7 @@ func reverseReversed(data Interface, n int) {
 func stable(data Interface, n int) {
 	reverseReversed(data, n) // optimization
 
-	blockSize := 20 // must be > 0
+	blockSize := 16 // must be > 0
 	a, b := 0, blockSize
 	for b <= n {
 		insertionSort(data, a, b)
