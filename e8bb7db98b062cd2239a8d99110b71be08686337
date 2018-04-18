@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b9d22c6e_6c74f254",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-04-18T15:50:29Z",
+      "side": 1,
+      "message": "apart from the conjunction of system calls, it\u0027s fine to add package-specific error type such as net.OpError for conveying a system call name and the error value.",
+      "parentUuid": "3604104e_59cd8173",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78eee920_4904248e",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 1
