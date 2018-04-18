@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "3604104e_59cd8173",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-18T15:04:06Z",
+      "side": 1,
+      "message": "I overlooked this detail. Now that I think of it, perhaps a better way would be to create the pipe in package net and pass it in to poll.Splice, instead of creating it here? This way, net.splice could return the right error straight away if creating the pipe fails, and poll.Splice could deal with splicing only.",
+      "parentUuid": "ce8218b3_0cd4e0d8",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78eee920_4904248e",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 1
