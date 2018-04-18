@@ -68,7 +68,7 @@ Here is the list of actions. "Arguments" and "pipelines" are evaluations of
 data, defined in detail in the corresponding sections that follow.
 
 */
-//	{{/* a comment */}}
+//	{{- /* a comment */ -}}
 //		A comment; discarded. May contain newlines.
 //		Comments do not nest and must start and end at the
 //		delimiters, as shown here.
