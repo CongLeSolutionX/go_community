@@ -16,6 +16,52 @@
       "revId": "b6bf9cd51d83f092dda6ed69622153e456175ab4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6675f9b_392680e5",
+        "filename": "src/net/rawconn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-04-18T09:14:22Z",
+      "side": 1,
+      "message": "it\u0027s better to say more directly, api user point of view, like \"doesn\u0027t implement deadline features.\"\n\nblocking or non-blocking doesn\u0027t matter here because runtime-integrated network poller uses async+blocking i/o on windows, unlike unix-varinants\u0027 sync+non-blocking i/o.",
+      "range": {
+        "startLine": 13,
+        "startChar": 17,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "b6bf9cd51d83f092dda6ed69622153e456175ab4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3a50714_ff4102b5",
+        "filename": "src/net/rawconn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-04-18T09:14:22Z",
+      "side": 1,
+      "message": "just \"return an error\". the net package cannot guarantee any sentinel values.",
+      "range": {
+        "startLine": 14,
+        "startChar": 64,
+        "endLine": 15,
+        "endChar": 17
+      },
+      "revId": "b6bf9cd51d83f092dda6ed69622153e456175ab4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
