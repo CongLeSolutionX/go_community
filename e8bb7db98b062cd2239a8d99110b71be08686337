@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffd77aca_53f1f37c",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-18T14:03:50Z",
+      "side": 1,
+      "message": "Let\u0027s not bother to define the flags we aren\u0027t going to use.  They aren\u0027t exported and aren\u0027t used, so the only possible result is that the documentation will go out of date over time.",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce8218b3_0cd4e0d8",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-18T14:03:50Z",
+      "side": 1,
+      "message": "I think this function needs to return both the error and a string for the system call that failed, as in `func accept` in this package.  Otherwise we may report an error returned by the pipe system call as an error from the splice system call.",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78eee920_4904248e",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-18T14:03:50Z",
+      "side": 1,
+      "message": "Normal pipes have a buffer size.  When using splice, is it possible for the pipe buffer to fill up such that the kernel returns EAGAIN?",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c823b1_bd9f45f1",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-18T14:03:50Z",
+      "side": 1,
+      "message": "Since you are checking `remain`, I think the invariant is more like \"there are least remain bytes in the pipe.\"",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2984d560_2cf694e6",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-18T14:03:50Z",
+      "side": 1,
+      "message": "Minor, but I\u0027m not sure which order is the natural one.  I think you can drop this whole clause.",
+      "range": {
+        "startLine": 148,
+        "startChar": 27,
+        "endLine": 148,
+        "endChar": 35
+      },
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df4d2c31_e65037e1",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-18T14:03:50Z",
+      "side": 1,
+      "message": "Add a comment here referring to kernel version numbers, like the one in os/pipe_linux.go.",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c73651ce_d912aa78",
+        "filename": "src/net/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-18T14:03:50Z",
+      "side": 1,
+      "message": "Perhaps poll.Splice should return some indication of whether it did the right thing, so that we don\u0027t have any confusion between an empty input and an unhandled input.",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
