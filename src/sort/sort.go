@@ -380,7 +380,7 @@ func stable(data Interface, n int) {
 	// reverse order.
 	reverseReversed(data, n)
 
-	blockSize := 20 // must be > 0
+	blockSize := 16 // must be > 0
 	a, b := 0, blockSize
 	for b <= n {
 		insertionSort(data, a, b)
