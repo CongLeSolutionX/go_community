@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "10b2cc8d_19e5fbdb",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-18T16:19:55Z",
+      "side": 1,
+      "message": "Note that we have os.NewSyscallError for a system call plus error, and the net package already uses that where appropriate.",
+      "parentUuid": "b4748a04_fc892fef",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78eee920_4904248e",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 1
