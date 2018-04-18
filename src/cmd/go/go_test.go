@@ -1899,6 +1899,16 @@ func TestGoListDeps(t *testing.T) {
 	tg.tempFile("src/p1/p2/p3/p4/p.go", "package p4\n")
 	tg.run("list", "-f", "{{.Deps}}", "p1")
 	tg.grepStdout("p1/p2/p3/p4", "Deps(p1) does not mention p4")
+
+	tg.run("list", "-deps", "p1")
+	tg.grepStdout("p1/p2/p3/p4", "-deps p1 does not mention p4")
+
+	// Check the list is in dependency order.
+	tg.run("list", "-deps", "math")
+	want := "internal/cpu\nunsafe\nmath\n"
+	if tg.stdout.String() != want {
+		t.Fatalf("list -deps math: wrong order\nhave %q\nwant %q", tg.stdout.String(), want)
+	}
 }
 
 // Issue 4096. Validate the output of unsuccessful go install foo/quxx.
