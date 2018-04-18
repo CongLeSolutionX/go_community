@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "188763e7_df12bb9a",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-18T19:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffd77aca_53f1f37c",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce8218b3_0cd4e0d8",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 1
@@ -126,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "11c8d08e_4d98a182",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-18T19:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56860902_a3aa769c",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78eee920_4904248e",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 1
@@ -137,6 +173,24 @@
       "writtenOn": "2018-04-18T14:03:50Z",
       "side": 1,
       "message": "Normal pipes have a buffer size.  When using splice, is it possible for the pipe buffer to fill up such that the kernel returns EAGAIN?",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4889a1f_7510e9c4",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-18T19:04:56Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s possible, due to the fact that the pipe is always empty when entering spliceDrain. If the socket is ready, I believe the kernel will move as much data as it can (or wants to) in the one call to splice, which will return a nil error. spliceDrain is not called again until the pipe is empty, so it should not observe EAGAIN on the pipe. Please correct me if I\u0027m wrong.",
+      "parentUuid": "78eee920_4904248e",
       "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -157,6 +211,24 @@
       "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be81d36f_313a4bdd",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-18T19:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2c823b1_bd9f45f1",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -183,6 +255,30 @@
     },
     {
       "key": {
+        "uuid": "5bfa9052_3fb20681",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-18T19:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2984d560_2cf694e6",
+      "range": {
+        "startLine": 148,
+        "startChar": 27,
+        "endLine": 148,
+        "endChar": 35
+      },
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4d2c31_e65037e1",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 1
@@ -200,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "b4f4496c_f371669b",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-18T19:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4d2c31_e65037e1",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73651ce_d912aa78",
         "filename": "src/net/splice_linux.go",
         "patchSetId": 1
@@ -214,6 +328,24 @@
       "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6baa9086_edb1b85d",
+        "filename": "src/net/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-18T19:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c73651ce_d912aa78",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
