@@ -181,7 +181,7 @@ func stable_func(data lessSwap, n int) {
 	if 5e5 < n {
 		reverseReversed_func(data, n)
 	}
-	blockSize := 20
+	blockSize := 16
 	a, b := 0, blockSize
 	for b <= n {
 		insertionSort_func(data, a, b)
