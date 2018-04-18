@@ -22,6 +22,30 @@
       "revId": "449e064d0ae6b49fc35ee82f093fc42767e8ec59",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30efe9cf_6bd58372",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-04-18T19:36:26Z",
+      "side": 1,
+      "message": "Names match AVX512 extension names. \nThis is the same convention that is used in GAS for asm test files.\nThis split is done to make individual files smaller.",
+      "parentUuid": "07e9ff4d_c87cb841",
+      "range": {
+        "startLine": 404,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 31
+      },
+      "revId": "449e064d0ae6b49fc35ee82f093fc42767e8ec59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
