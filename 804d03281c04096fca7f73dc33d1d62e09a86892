@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbd40bf7_c93992e0",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1753,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-18T18:17:00Z",
+      "side": 1,
+      "message": "I did not notice this code was being moved AND changed.\nI thought it was a strict move.\n\nFWIW, the code changes and justification here are wrong:\nthe split must start at pmain, because pmain can depend\non something (say, testing), which depends on p,\nand that\u0027s not a cycle, but testing must still be\nrecompiled.\n\nI will fix this as part of some other work I\u0027m doing\nin this code.\n\nIf anyone bisects strange compiler/linker/runtime errors\ndown to this CL, don\u0027t worry about it. A future CL will fix them.",
+      "revId": "804d03281c04096fca7f73dc33d1d62e09a86892",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
