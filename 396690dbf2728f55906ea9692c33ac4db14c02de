@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a7e654f_59d0cb30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-18T18:09:36Z",
+      "side": 1,
+      "message": "All of the Go docs, code, and git commit messages are in English.\n\nThis translates well in Google Translate, so feel free to use that.\n\nBut your commit has changed a lot between version 1 and version 3, so this commit message is no longer accurate it seems.",
+      "revId": "396690dbf2728f55906ea9692c33ac4db14c02de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "140e5719_7f3b02d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-18T18:09:36Z",
+      "side": 1,
+      "message": "delete this part.\n\nSee https://github.com/golang/go/wiki/CommitMessage",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "396690dbf2728f55906ea9692c33ac4db14c02de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "605d8161_30d50ce5",
+        "filename": "src/log/log.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-18T18:09:36Z",
+      "side": 1,
+      "message": "Now you\u0027re saying that the high bits of flags means to change the calldepth?\n\nWhy only for Println and not Print or Printf?\n\nAnd it\u0027s also not documented.",
+      "range": {
+        "startLine": 188,
+        "startChar": 56,
+        "endLine": 188,
+        "endChar": 68
+      },
+      "revId": "396690dbf2728f55906ea9692c33ac4db14c02de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
