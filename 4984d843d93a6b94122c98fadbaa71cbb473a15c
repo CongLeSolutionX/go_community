@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69d318db_00201b11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2018-04-18T06:57:34Z",
+      "side": 1,
+      "message": "s/archive/achieve/",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "4984d843d93a6b94122c98fadbaa71cbb473a15c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
