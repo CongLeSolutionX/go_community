@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a081df68_f75f0edd",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-18T14:04:16Z",
+      "side": 0,
+      "message": "Please keep this line and the next one.",
+      "revId": "f63250238be548b7c6c24ae840541102a5cfef99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
