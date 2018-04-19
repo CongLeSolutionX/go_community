@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdbe21b7_cd015504",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-19T14:42:06Z",
+      "side": 1,
+      "message": "0xffffffff ?",
+      "range": {
+        "startLine": 976,
+        "startChar": 33,
+        "endLine": 976,
+        "endChar": 43
+      },
+      "revId": "f4cadaac1359edcf7ab43604cc876a852767b45e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32a10922_6cf72fe8",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5929,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-19T14:42:06Z",
+      "side": 1,
+      "message": "Is there still a \"default\"? I.e. the switch below should have covered all the cases, right?",
+      "range": {
+        "startLine": 5929,
+        "startChar": 9,
+        "endLine": 5929,
+        "endChar": 40
+      },
+      "revId": "f4cadaac1359edcf7ab43604cc876a852767b45e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8c4174b_2c1bd294",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5945,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-19T14:42:06Z",
+      "side": 1,
+      "message": "Panic if none of the conditions is true.",
+      "revId": "f4cadaac1359edcf7ab43604cc876a852767b45e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d1554c0_a9d4869d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5953,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-19T14:42:06Z",
+      "side": 1,
+      "message": "Maybe add a default case that panics.",
+      "revId": "f4cadaac1359edcf7ab43604cc876a852767b45e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
