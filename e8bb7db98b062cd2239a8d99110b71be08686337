@@ -215,6 +215,24 @@
     },
     {
       "key": {
+        "uuid": "26a7f3a2_462e7351",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-19T09:56:06Z",
+      "side": 1,
+      "message": "Please bear with me. I don\u0027t understand why the code needs to worry about EAGAIN on the pipe. \n\nWhen entering spliceDrain, the pipe is completely empty. If spliceDrain sees anything but EAGAIN, it returns immediately. This includes the case where it is successful. In a single invocation of spliceDrain, exactly one successful splice from the socket to the pipe is attempted, and at most one successful such splice can occur. If spliceDrain has written anything to the pipe, it returns, and no other writes to the pipe are attempted until the pipe is empty again.\n\nGiven that the pipe is empty, even if there are more buffers in the socket than can fit in the pipe, I believe the kernel should move as much as it can to the pipe without returning EAGAIN, otherwise no progress can ever be made.\n\nAs far as I can tell, spliceDrain can never attempt to splice to the pipe if there is any data in it, because as soon as it writes to the pipe, it returns, leaving splicePump to move the data onward, as you suggested it should do.\n\nAs for safely waiting for the socket if splice returns EAGAIN, I believe the current code covers that as well, since the pipe is empty when entering spliceDrain, and spliceDrain only wants to do a single successful splice before transferring control to splicePump.",
+      "parentUuid": "6b7f441a_2400f8d0",
+      "revId": "e8bb7db98b062cd2239a8d99110b71be08686337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2c823b1_bd9f45f1",
         "filename": "src/internal/poll/splice_linux.go",
         "patchSetId": 1
