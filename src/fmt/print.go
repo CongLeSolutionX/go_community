@@ -212,6 +212,12 @@ func Errorf(format string, a ...interface{}) error {
 	return errors.New(Sprintf(format, a...))
 }
 
+// Error returns a new error with the error string
+// as a value that satisfies error.
+func Error(error string) error {
+	return errors.New(Sprint(error))
+}
+
 // These routines do not take a format string
 
 // Fprint formats using the default formats for its operands and writes to w.
