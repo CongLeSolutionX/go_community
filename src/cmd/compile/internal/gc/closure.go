@@ -433,59 +433,23 @@ func makepartialcall(fn *Node, t0 *types.Type, meth *types.Sym) *Node {
 	savecurfn := Curfn
 	Curfn = nil
 
-	xtype := nod(OTFUNC, nil, nil)
-	var l []*Node
-	var callargs []*Node
-	ddd := false
-	xfunc := nod(ODCLFUNC, nil, nil)
-	Curfn = xfunc
-	for i, t := range t0.Params().Fields().Slice() {
-		n := newname(lookupN("a", i))
-		n.SetClass(PPARAM)
-		xfunc.Func.Dcl = append(xfunc.Func.Dcl, n)
-		callargs = append(callargs, n)
-		fld := nod(ODCLFIELD, n, typenod(t.Type))
-		if t.Isddd() {
-			fld.SetIsddd(true)
-			ddd = true
-		}
+	tfn := nod(OTFUNC, nil, nil)
+	tfn.List.Set(structargs(t0.Params(), true))
+	tfn.Rlist.Set(structargs(t0.Results(), false))
 
-		l = append(l, fld)
-	}
-
-	xtype.List.Set(l)
-	l = nil
-	var retargs []*Node
-	for i, t := range t0.Results().Fields().Slice() {
-		n := newname(lookupN("r", i))
-		n.SetClass(PPARAMOUT)
-		xfunc.Func.Dcl = append(xfunc.Func.Dcl, n)
-		retargs = append(retargs, n)
-		l = append(l, nod(ODCLFIELD, n, typenod(t.Type)))
-	}
-
-	xtype.Rlist.Set(l)
-
-	xfunc.Func.SetDupok(true)
-	xfunc.Func.Nname = newfuncname(sym)
-	xfunc.Func.Nname.Sym.SetOnExportList(true) // disable export
-	xfunc.Func.Nname.Name.Param.Ntype = xtype
-	xfunc.Func.Nname.Name.Defn = xfunc
-	declare(xfunc.Func.Nname, PFUNC)
+	sym.SetOnExportList(true) // disable export
+	xfunc := dclfunc(sym, tfn)
+	xfunc.Func.SetNeedctxt(true)
 
 	// Declare and initialize variable holding receiver.
-
-	xfunc.Func.SetNeedctxt(true)
 
 	cv := nod(OCLOSUREVAR, nil, nil)
 	cv.Type = rcvrtype
 	cv.Xoffset = Rnd(int64(Widthptr), int64(cv.Type.Align))
 
 	ptr := newname(lookup("rcvr"))
-	ptr.SetClass(PAUTO)
+	declare(ptr, PAUTO)
 	ptr.Name.SetUsed(true)
-	ptr.Name.Curfn = xfunc
-	xfunc.Func.Dcl = append(xfunc.Func.Dcl, ptr)
 	var body []*Node
 	if rcvrtype.IsPtr() || rcvrtype.IsInterface() {
 		ptr.Type = rcvrtype
@@ -496,20 +460,17 @@ func makepartialcall(fn *Node, t0 *types.Type, meth *types.Sym) *Node {
 	}
 
 	call := nod(OCALL, nodSym(OXDOT, ptr, meth), nil)
-	call.List.Set(callargs)
-	call.SetIsddd(ddd)
-	if t0.NumResults() == 0 {
-		body = append(body, call)
-	} else {
-		n := nod(OAS2, nil, nil)
-		n.List.Set(retargs)
-		n.Rlist.Set1(call)
-		body = append(body, n)
-		n = nod(ORETURN, nil, nil)
-		body = append(body, n)
+	call.List.Set(paramNnames(tfn.Type))
+	call.SetIsddd(tfn.Type.IsVariadic())
+	if t0.NumResults() != 0 {
+		n := nod(ORETURN, nil, nil)
+		n.List.Set1(call)
+		call = n
 	}
+	body = append(body, call)
 
 	xfunc.Nbody.Set(body)
+	funcbody()
 
 	xfunc = typecheck(xfunc, Etop)
 	sym.Def = asTypesNode(xfunc)
