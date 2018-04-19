@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "997a0afa_2cc15af1",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-04-19T17:47:56Z",
+      "side": 1,
+      "message": "defer os.RemoveAll(tmpdir)",
+      "range": {
+        "startLine": 101,
+        "startChar": 5,
+        "endLine": 101,
+        "endChar": 0
+      },
+      "revId": "346c38a16158146daf34e07965794f34fa709c34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
