@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a02fe7bd_05df63fa",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-04-19T20:42:57Z",
+      "side": 1,
+      "message": "we do this now in a couple of places - maybe create a helper method DisableExport that simply does SetOnExportList(true) and then the code becomes self-explanatory and we don\u0027t need these comments ?",
+      "range": {
+        "startLine": 440,
+        "startChar": 5,
+        "endLine": 440,
+        "endChar": 20
+      },
+      "revId": "40b04d54de74865cb9ec6817ddb92a147606d6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
