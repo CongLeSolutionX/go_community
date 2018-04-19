@@ -22,6 +22,30 @@
       "revId": "40b04d54de74865cb9ec6817ddb92a147606d6c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f667a58_96e05784",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-19T21:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a02fe7bd_05df63fa",
+      "range": {
+        "startLine": 440,
+        "startChar": 5,
+        "endLine": 440,
+        "endChar": 20
+      },
+      "revId": "40b04d54de74865cb9ec6817ddb92a147606d6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
