@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72ac5b7c_4aa2d7a8",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-19T16:16:24Z",
+      "side": 1,
+      "message": "Extraneous blank line?\n\nSeems like this is the place to test for linux-ppc64le.",
+      "revId": "5a4fa8e6f1d9ba98a985902de70eb6e332473331",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
