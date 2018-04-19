@@ -1373,6 +1373,8 @@ func TestImportCycle(t *testing.T) {
 	if count > 1 {
 		t.Fatal("go build mentioned import cycle more than once")
 	}
+
+	tg.run("list", "-e", "selfimport")
 }
 
 // cmd/go: custom import path checking should not apply to Go packages without import comment.
