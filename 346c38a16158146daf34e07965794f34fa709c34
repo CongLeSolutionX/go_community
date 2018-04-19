@@ -22,6 +22,30 @@
       "revId": "346c38a16158146daf34e07965794f34fa709c34",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1fd594c_fd9607cd",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-04-19T19:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "997a0afa_2cc15af1",
+      "range": {
+        "startLine": 101,
+        "startChar": 5,
+        "endLine": 101,
+        "endChar": 0
+      },
+      "revId": "346c38a16158146daf34e07965794f34fa709c34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
