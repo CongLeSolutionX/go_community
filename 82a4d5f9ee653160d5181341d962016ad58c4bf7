@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9df019ba_dc696f8a",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-19T05:09:02Z",
+      "side": 1,
+      "message": "Can you add a check to make sure cas.Op \u003d\u003d OCASE here?\n\nI\u0027d hate for this code to get shuffled around and suddenly start failing because it\u0027s looking at OXCASEs instead. (Though the test case should prevent that.)",
+      "revId": "82a4d5f9ee653160d5181341d962016ad58c4bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
