@@ -212,26 +212,32 @@ var optab = []Optab{
 	{AAND, C_REG, C_REG, C_REG, 1, 4, 0, 0, 0},
 	{AAND, C_REG, C_NONE, C_REG, 1, 4, 0, 0, 0},
 	{AANDS, C_REG, C_REG, C_REG, 1, 4, 0, 0, 0},
+	{AANDS, C_REG, C_REG, C_NONE, 1, 4, 0, 0, 0},
 	{AANDS, C_REG, C_NONE, C_REG, 1, 4, 0, 0, 0},
 	{AAND, C_MBCON, C_REG, C_RSP, 53, 4, 0, 0, 0},
 	{AAND, C_MBCON, C_NONE, C_REG, 53, 4, 0, 0, 0},
 	{AANDS, C_MBCON, C_REG, C_REG, 53, 4, 0, 0, 0},
+	{AANDS, C_MBCON, C_REG, C_NONE, 53, 4, 0, 0, 0},
 	{AANDS, C_MBCON, C_NONE, C_REG, 53, 4, 0, 0, 0},
 	{AAND, C_BITCON, C_REG, C_RSP, 53, 4, 0, 0, 0},
 	{AAND, C_BITCON, C_NONE, C_REG, 53, 4, 0, 0, 0},
 	{AANDS, C_BITCON, C_REG, C_REG, 53, 4, 0, 0, 0},
+	{AANDS, C_BITCON, C_REG, C_NONE, 53, 4, 0, 0, 0},
 	{AANDS, C_BITCON, C_NONE, C_REG, 53, 4, 0, 0, 0},
 	{AAND, C_MOVCON, C_REG, C_RSP, 62, 8, 0, 0, 0},
 	{AAND, C_MOVCON, C_NONE, C_REG, 62, 8, 0, 0, 0},
 	{AANDS, C_MOVCON, C_REG, C_REG, 62, 8, 0, 0, 0},
+	{AANDS, C_MOVCON, C_REG, C_NONE, 62, 8, 0, 0, 0},
 	{AANDS, C_MOVCON, C_NONE, C_REG, 62, 8, 0, 0, 0},
 	{AAND, C_VCON, C_REG, C_RSP, 28, 8, 0, LFROM, 0},
 	{AAND, C_VCON, C_NONE, C_REG, 28, 8, 0, LFROM, 0},
 	{AANDS, C_VCON, C_REG, C_REG, 28, 8, 0, LFROM, 0},
+	{AANDS, C_VCON, C_REG, C_NONE, 28, 8, 0, LFROM, 0},
 	{AANDS, C_VCON, C_NONE, C_REG, 28, 8, 0, LFROM, 0},
 	{AAND, C_SHIFT, C_REG, C_REG, 3, 4, 0, 0, 0},
 	{AAND, C_SHIFT, C_NONE, C_REG, 3, 4, 0, 0, 0},
 	{AANDS, C_SHIFT, C_REG, C_REG, 3, 4, 0, 0, 0},
+	{AANDS, C_SHIFT, C_REG, C_NONE, 3, 4, 0, 0, 0},
 	{AANDS, C_SHIFT, C_NONE, C_REG, 3, 4, 0, 0, 0},
 	{AMOVD, C_RSP, C_NONE, C_RSP, 24, 4, 0, 0, 0},
 	{AMVN, C_REG, C_NONE, C_REG, 24, 4, 0, 0, 0},
@@ -4005,7 +4011,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			size = 1
 		}
 
-		o1 |= (Q&1) << 30 | (size&3) << 22 | uint32(rf&31) << 5 | uint32(rt&31)
+		o1 |= (Q&1)<<30 | (size&3)<<22 | uint32(rf&31)<<5 | uint32(rt&31)
 
 	case 84: /* vst1 [Vt1.<T>, Vt2.<T>, ...], (Rn) */
 		r := int(p.To.Reg)
