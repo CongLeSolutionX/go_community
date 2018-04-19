@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e4ecbd9e_bb865692",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-19T17:47:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01204895_95af1317",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45d88a2d_89c99108",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "88ec0754_fceddda0",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-19T17:47:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2003e62_d88b1fef",
+      "range": {
+        "startLine": 578,
+        "startChar": 0,
+        "endLine": 581,
+        "endChar": 101
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05293368_93a78fc1",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 3
@@ -91,6 +139,30 @@
       "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "426ad584_9a1d2b5f",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-19T17:47:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05293368_93a78fc1",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 112
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "5e5b5967_01eb2537",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-19T17:47:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c032007a_a597a911",
+      "range": {
+        "startLine": 249,
+        "startChar": 96,
+        "endLine": 249,
+        "endChar": 110
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69c83873_94be3be8",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 3
@@ -137,6 +233,30 @@
       "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37348be5_2ee1555b",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-19T17:47:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69c83873_94be3be8",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 112
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
