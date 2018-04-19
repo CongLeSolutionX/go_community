@@ -4005,7 +4005,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			size = 1
 		}
 
-		o1 |= (Q&1) << 30 | (size&3) << 22 | uint32(rf&31) << 5 | uint32(rt&31)
+		o1 |= (Q&1)<<30 | (size&3)<<22 | uint32(rf&31)<<5 | uint32(rt&31)
 
 	case 84: /* vst1 [Vt1.<T>, Vt2.<T>, ...], (Rn) */
 		r := int(p.To.Reg)

@@ -169,6 +169,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64SLL,
 		ssa.OpARM64SRL,
 		ssa.OpARM64SRA,
+		ssa.OpARM64TST,
 		ssa.OpARM64FADDS,
 		ssa.OpARM64FADDD,
 		ssa.OpARM64FSUBS,
@@ -187,7 +188,11 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Reg = r2
 		p.Reg = r1
 		p.To.Type = obj.TYPE_REG
-		p.To.Reg = r
+		if v.Op == ssa.OpARM64TST {
+			p.To.Reg = arm64.REGZERO
+		} else {
+			p.To.Reg = r
+		}
 	case ssa.OpARM64FMADDS,
 		ssa.OpARM64FMADDD,
 		ssa.OpARM64FNMADDS,
@@ -216,13 +221,19 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64SRLconst,
 		ssa.OpARM64SRAconst,
 		ssa.OpARM64RORconst,
-		ssa.OpARM64RORWconst:
+		ssa.OpARM64RORWconst,
+		ssa.OpARM64TSTconst,
+		ssa.OpARM64TSTWconst:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt
 		p.Reg = v.Args[0].Reg()
 		p.To.Type = obj.TYPE_REG
-		p.To.Reg = v.Reg()
+		if v.Op == ssa.OpARM64TSTconst || v.Op == ssa.OpARM64TSTWconst {
+			p.To.Reg = arm64.REGZERO
+		} else {
+			p.To.Reg = v.Reg()
+		}
 	case ssa.OpARM64EXTRconst,
 		ssa.OpARM64EXTRWconst:
 		p := s.Prog(v.Op.Asm())
