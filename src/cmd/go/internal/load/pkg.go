@@ -1077,11 +1077,18 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 
 	// Build list of imported packages and full dependency list.
 	imports := make([]*Package, 0, len(p.Imports))
+	var mode int
+	if p.Root == "" {
+		// may be in testdata
+		mode = 0
+	} else {
+		mode = UseVendor
+	}
 	for i, path := range importPaths {
 		if path == "C" {
 			continue
 		}
-		p1 := LoadImport(path, p.Dir, p, stk, p.Internal.Build.ImportPos[path], UseVendor)
+		p1 := LoadImport(path, p.Dir, p, stk, p.Internal.Build.ImportPos[path], mode)
 		if p.Standard && p.Error == nil && !p1.Standard && p1.Error == nil {
 			p.Error = &PackageError{
 				ImportStack: stk.Copy(),
