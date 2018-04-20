@@ -196,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "568bc18e_8ecb2bb6",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-20T20:53:21Z",
+      "side": 1,
+      "message": "Sorry I\u0027m confused here, I want to do TST with ANDS so my initial implementation was using the register mask gp2flags1 because the out register was ZR. Should I go back to using gp2flags1 register mask for TST?",
+      "parentUuid": "a27c7891_8d9a1203",
+      "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e67223e9_7028c27b",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 5
