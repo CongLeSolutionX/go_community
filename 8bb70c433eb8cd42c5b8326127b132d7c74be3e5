@@ -178,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "a27c7891_8d9a1203",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-20T19:54:42Z",
+      "side": 1,
+      "message": "No. The added one is not correct. If you want to do TST with ANDS, it should be ANDS R1, R2, ZR, where Prog.To is ZR instead of NONE. Or you can add support of TST instruction and use it.",
+      "parentUuid": "427e6dbc_048505bd",
+      "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e67223e9_7028c27b",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 5
@@ -207,6 +225,24 @@
       "side": 1,
       "message": "Sorry, did not intend to change this. It looks like TST instruction was already supported, but the tests in cmd/asm/internal/asm are commented out.",
       "parentUuid": "e67223e9_7028c27b",
+      "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f1a1355_ef654ea8",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1988,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-20T19:54:42Z",
+      "side": 1,
+      "message": "No. TST instruction seems not supported. You can add the support and enable the test.",
+      "parentUuid": "d4796d87_9d3bcc8c",
       "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
