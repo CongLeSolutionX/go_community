@@ -301,6 +301,9 @@ type Scanner interface {
 	//
 	// An error should be returned if the value cannot be stored
 	// without loss of information.
+	//
+	// When src is of type []byte it should be copied unless it is used before
+	// the next row is scanned.
 	Scan(src interface{}) error
 }
 
