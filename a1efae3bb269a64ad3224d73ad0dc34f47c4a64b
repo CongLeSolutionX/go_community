@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ce68a34_f0a12ba6",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-20T11:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eb12487_5e8ec67b",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 18
+      },
+      "revId": "a1efae3bb269a64ad3224d73ad0dc34f47c4a64b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18e0d2cb_4f37ccf8",
         "filename": "src/net/splice_test.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-19T21:59:45Z",
       "side": 1,
       "message": "do you want to invoke built-in firewall stuff of consumer oses even in short-mode test?",
+      "range": {
+        "startLine": 125,
+        "startChar": 56,
+        "endLine": 125,
+        "endChar": 60
+      },
+      "revId": "a1efae3bb269a64ad3224d73ad0dc34f47c4a64b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8edcf4f3_24e1b044",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-20T11:39:58Z",
+      "side": 1,
+      "message": "newLocalListener is used everywhere now. Does this fix this issue?",
+      "parentUuid": "18e0d2cb_4f37ccf8",
       "range": {
         "startLine": 125,
         "startChar": 56,
@@ -68,6 +116,30 @@
       "revId": "a1efae3bb269a64ad3224d73ad0dc34f47c4a64b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "796509c9_b80f32a8",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 27279
+      },
+      "writtenOn": "2018-04-20T11:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e1c993e_5d9b33b7",
+      "range": {
+        "startLine": 402,
+        "startChar": 12,
+        "endLine": 402,
+        "endChar": 29
+      },
+      "revId": "a1efae3bb269a64ad3224d73ad0dc34f47c4a64b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
