@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "98d9dbd3_5b36b67b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-20T19:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10e2a5a4_4a7b26c3",
+      "range": {
+        "startLine": 12,
+        "startChar": 51,
+        "endLine": 12,
+        "endChar": 53
+      },
+      "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bc145f2_d9354f04",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab828195_64b01a52",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-20T19:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bc145f2_d9354f04",
+      "range": {
+        "startLine": 563,
+        "startChar": 0,
+        "endLine": 565,
+        "endChar": 0
+      },
+      "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9d78e872_38b373a3",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-20T19:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "417e0e16_61743630",
+      "range": {
+        "startLine": 568,
+        "startChar": 0,
+        "endLine": 572,
+        "endChar": 0
+      },
+      "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7f98ea3_e20523f8",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 5
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "427e6dbc_048505bd",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-20T19:32:46Z",
+      "side": 1,
+      "message": "Is it ok to keep the old one as it is and add a new one to handle TST, like below?",
+      "parentUuid": "e7f98ea3_e20523f8",
+      "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e67223e9_7028c27b",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 5
@@ -99,6 +189,24 @@
       "writtenOn": "2018-04-19T23:27:21Z",
       "side": 1,
       "message": "Need test in cmd/asm/internal/asm for TST instruction.",
+      "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4796d87_9d3bcc8c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1988,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-20T19:32:46Z",
+      "side": 1,
+      "message": "Sorry, did not intend to change this. It looks like TST instruction was already supported, but the tests in cmd/asm/internal/asm are commented out.",
+      "parentUuid": "e67223e9_7028c27b",
       "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
