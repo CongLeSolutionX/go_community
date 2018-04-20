@@ -301,6 +301,10 @@ type Scanner interface {
 	//
 	// An error should be returned if the value cannot be stored
 	// without loss of information.
+	//
+	// Users must assume that the src value is owned by the database
+	// driver and in the case of []byte, must be copied unless
+	// it is used before the next row is scanned.
 	Scan(src interface{}) error
 }
 
