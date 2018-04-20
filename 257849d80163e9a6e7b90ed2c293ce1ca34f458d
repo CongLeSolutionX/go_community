@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae318754_51e0cd31",
+        "filename": "src/cmd/compile/internal/gc/export.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-04-20T20:42:35Z",
+      "side": 1,
+      "message": "move ipkg after pos and s and the prefix of all these functions is always the same for the first 3 params? \n\nfunc importsym(pos src.XPos, s *types.Sym, ipkg *types.Pkg, ...)",
+      "range": {
+        "startLine": 108,
+        "startChar": 50,
+        "endLine": 108,
+        "endChar": 54
+      },
+      "revId": "257849d80163e9a6e7b90ed2c293ce1ca34f458d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
