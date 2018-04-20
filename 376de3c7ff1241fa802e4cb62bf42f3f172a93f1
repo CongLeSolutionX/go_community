@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9f4eb01_be9946ac",
+        "filename": "src/cmd/internal/obj/x86/errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-04-20T19:58:11Z",
+      "side": 1,
+      "message": "If/when https://golang.org/cl/107055 is merged, this \"6\" can be replaced with \"argListMax\".",
+      "range": {
+        "startLine": 152,
+        "startChar": 30,
+        "endLine": 152,
+        "endChar": 31
+      },
+      "revId": "376de3c7ff1241fa802e4cb62bf42f3f172a93f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
