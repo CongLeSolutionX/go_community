@@ -343,6 +343,10 @@ var ErrNoRows = errors.New("sql: no rows in result set")
 // connection is returned to DB's idle connection pool. The pool size
 // can be controlled with SetMaxIdleConns.
 type DB struct {
+	// Atomic access only. At top of struct to prevent mis-alignment
+	// on 32-bit platforms. Of type time.Duration.
+	waitDuration int64 // Total time waited for new connections.
+
 	connector driver.Connector
 	// numClosed is an atomic counter which represents a total number of
 	// closed connections. Stmt.openStmt checks it before cleaning closed
@@ -359,15 +363,18 @@ type DB struct {
 	// maybeOpenNewConnections sends on the chan (one send per needed connection)
 	// It is closed during db.Close(). The close tells the connectionOpener
 	// goroutine to exit.
-	openerCh    chan struct{}
-	resetterCh  chan *driverConn
-	closed      bool
-	dep         map[finalCloser]depSet
-	lastPut     map[*driverConn]string // stacktrace of last conn's put; debug only
-	maxIdle     int                    // zero means defaultMaxIdleConns; negative means 0
-	maxOpen     int                    // <= 0 means unlimited
-	maxLifetime time.Duration          // maximum amount of time a connection may be reused
-	cleanerCh   chan struct{}
+	openerCh          chan struct{}
+	resetterCh        chan *driverConn
+	closed            bool
+	dep               map[finalCloser]depSet
+	lastPut           map[*driverConn]string // stacktrace of last conn's put; debug only
+	maxIdle           int                    // zero means defaultMaxIdleConns; negative means 0
+	maxOpen           int                    // <= 0 means unlimited
+	maxLifetime       time.Duration          // maximum amount of time a connection may be reused
+	cleanerCh         chan struct{}
+	waitCount         int64 // Total number of connections waited for.
+	maxIdleClosed     int64 // Total number of connections closed due to idle.
+	maxLifetimeClosed int64 // Total number of connections closed due to max free limit.
 
 	stop func() // stop cancels the connection opener and the session resetter.
 }
@@ -815,6 +822,7 @@ func (db *DB) SetMaxIdleConns(n int) {
 		closing = db.freeConn[maxIdle:]
 		db.freeConn = db.freeConn[:maxIdle]
 	}
+	db.maxIdleClosed += int64(len(closing))
 	db.mu.Unlock()
 	for _, c := range closing {
 		c.Close()
@@ -907,6 +915,7 @@ func (db *DB) connectionCleaner(d time.Duration) {
 				i--
 			}
 		}
+		db.maxLifetimeClosed += int64(len(closing))
 		db.mu.Unlock()
 
 		for _, c := range closing {
@@ -922,17 +931,39 @@ func (db *DB) connectionCleaner(d time.Duration) {
 
 // DBStats contains database statistics.
 type DBStats struct {
-	// OpenConnections is the number of open connections to the database.
-	OpenConnections int
+	Capacity int // The capacity of the connection pool.
+
+	// Pool Status
+	Available       int // The number of free connections within the pool.
+	OpenConnections int // The number of connections both in use and in the pool.
+	InUse           int // The number of connections currently in use.
+
+	// Counters
+	WaitCount         int64         // The total number of connections waited for.
+	WaitDuration      time.Duration // The total time blocked waiting for a new connection.
+	MaxIdleClosed     int64         // The total number of connections closed due to SetMaxIdleConns.
+	MaxLifetimeClosed int64         // The total number of connections closed due to SetConnMaxLifetime.
 }
 
 // Stats returns database statistics.
 func (db *DB) Stats() DBStats {
+	wait := atomic.LoadInt64(&db.waitDuration)
+
 	db.mu.Lock()
+	defer db.mu.Unlock()
+
 	stats := DBStats{
+		Capacity: db.maxOpen,
+
+		Available:       len(db.freeConn),
 		OpenConnections: db.numOpen,
+		InUse:           db.numOpen - len(db.freeConn),
+
+		WaitCount:         db.waitCount,
+		WaitDuration:      time.Duration(wait),
+		MaxIdleClosed:     db.maxIdleClosed,
+		MaxLifetimeClosed: db.maxLifetimeClosed,
 	}
-	db.mu.Unlock()
 	return stats
 }
 
@@ -1085,7 +1116,10 @@ func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn
 		req := make(chan connRequest, 1)
 		reqKey := db.nextRequestKeyLocked()
 		db.connRequests[reqKey] = req
+		db.waitCount++
 		db.mu.Unlock()
+
+		waitStart := time.Now()
 
 		// Timeout the connection request with the context.
 		select {
@@ -1095,6 +1129,9 @@ func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn
 			db.mu.Lock()
 			delete(db.connRequests, reqKey)
 			db.mu.Unlock()
+
+			atomic.AddInt64(&db.waitDuration, int64(time.Now().Sub(waitStart)))
+
 			select {
 			default:
 			case ret, ok := <-req:
@@ -1104,6 +1141,8 @@ func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn
 			}
 			return nil, ctx.Err()
 		case ret, ok := <-req:
+			atomic.AddInt64(&db.waitDuration, int64(time.Now().Sub(waitStart)))
+
 			if !ok {
 				return nil, errDBClosed
 			}
@@ -1278,6 +1317,7 @@ func (db *DB) putConnDBLocked(dc *driverConn, err error) bool {
 		return true
 	} else if err == nil && !db.closed && db.maxIdleConnsLocked() > len(db.freeConn) {
 		db.freeConn = append(db.freeConn, dc)
+		db.maxIdleClosed++
 		db.startCleanerLocked()
 		return true
 	}
