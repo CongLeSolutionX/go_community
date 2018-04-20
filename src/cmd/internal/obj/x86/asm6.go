@@ -169,6 +169,22 @@ const (
 	Ytls
 	Ytextsize
 	Yindir
+
+	// Y types below are used as annotated Yxxx oclass results.
+
+	yBadMemIndexPseudo
+	yBadRegModeNot64
+	yBadIndir
+	yBadGlobalName
+	yBadAutoParamName
+	yBadMemName
+	yBadMemIndexModeNot64
+	yBadGOTRef
+	yBadAddr
+	yBadConst
+	yBadArgType
+	yBadReg
+
 	Ymax
 )
 
@@ -2246,6 +2262,9 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 			p.Pc = int64(c)
 			ab.asmins(ctxt, s, p)
+			if ab.err != nil {
+				printAsmError(ctxt, &ab, p)
+			}
 			m := ab.Len()
 			if int(p.Isize) != m {
 				p.Isize = uint8(m)
@@ -2600,7 +2619,7 @@ func prefixof(ctxt *obj.Link, a *obj.Addr) int {
 	return 0
 }
 
-func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
+func oclass(ctxt *obj.Link, a *obj.Addr) int {
 	switch a.Type {
 	case obj.TYPE_NONE:
 		return Ynone
@@ -2612,24 +2631,23 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 		if a.Name != obj.NAME_NONE && a.Reg == REG_NONE && a.Index == REG_NONE && a.Scale == 0 {
 			return Yindir
 		}
-		return Yxxx
+		return yBadIndir
 
 	case obj.TYPE_MEM:
 		// Pseudo registers have negative index, but SP is
 		// not pseudo on x86, hence REG_SP check is not redundant.
 		if a.Index == REG_SP || a.Index < 0 {
-			// Can't use FP/SB/PC/SP as the index register.
-			return Yxxx
+			return yBadMemIndexPseudo
 		}
 		if a.Index >= REG_X0 && a.Index <= REG_X15 {
 			if ctxt.Arch.Family == sys.I386 && a.Index > REG_X7 {
-				return Yxxx
+				return yBadMemIndexModeNot64
 			}
 			return Yxvm
 		}
 		if a.Index >= REG_Y0 && a.Index <= REG_Y15 {
 			if ctxt.Arch.Family == sys.I386 && a.Index > REG_Y7 {
-				return Yxxx
+				return yBadMemIndexModeNot64
 			}
 			return Yyvm
 		}
@@ -2639,19 +2657,18 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 				// Global variables can't use index registers and their
 				// base register is %rip (%rip is encoded as REG_NONE).
 				if a.Reg != REG_NONE || a.Index != REG_NONE || a.Scale != 0 {
-					return Yxxx
+					return yBadGlobalName
 				}
 			case obj.NAME_AUTO, obj.NAME_PARAM:
 				// These names must have a base of SP.  The old compiler
 				// uses 0 for the base register. SSA uses REG_SP.
 				if a.Reg != REG_SP && a.Reg != 0 {
-					return Yxxx
+					return yBadAutoParamName
 				}
 			case obj.NAME_NONE:
 				// everything is ok
 			default:
-				// unknown name
-				return Yxxx
+				return yBadMemName
 			}
 		}
 		return Ym
@@ -2659,8 +2676,7 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 	case obj.TYPE_ADDR:
 		switch a.Name {
 		case obj.NAME_GOTREF:
-			ctxt.Diag("unexpected TYPE_ADDR with NAME_GOTREF")
-			return Yxxx
+			return yBadGOTRef
 
 		case obj.NAME_EXTERN,
 			obj.NAME_STATIC:
@@ -2682,13 +2698,13 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 		}
 
 		if a.Sym != nil || a.Name != obj.NAME_NONE {
-			ctxt.Diag("unexpected addr: %v", obj.Dconv(p, a))
+			return yBadAddr
 		}
 		fallthrough
 
 	case obj.TYPE_CONST:
 		if a.Sym != nil {
-			ctxt.Diag("TYPE_CONST with symbol: %v", obj.Dconv(p, a))
+			return yBadConst
 		}
 
 		v := a.Offset
@@ -2726,8 +2742,7 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 	}
 
 	if a.Type != obj.TYPE_REG {
-		ctxt.Diag("unexpected addr1: type=%d %v", a.Type, obj.Dconv(p, a))
-		return Yxxx
+		return yBadArgType
 	}
 
 	switch a.Reg {
@@ -2752,7 +2767,7 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 		REG_R14B,
 		REG_R15B:
 		if ctxt.Arch.Family == sys.I386 {
-			return Yxxx
+			return yBadRegModeNot64
 		}
 		fallthrough
 
@@ -2782,7 +2797,7 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 		REG_R14,
 		REG_R15:
 		if ctxt.Arch.Family == sys.I386 {
-			return Yxxx
+			return yBadRegModeNot64
 		}
 		fallthrough
 
@@ -2817,14 +2832,7 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 	case REG_X0:
 		return Yxr0
 
-	case REG_X0 + 1,
-		REG_X0 + 2,
-		REG_X0 + 3,
-		REG_X0 + 4,
-		REG_X0 + 5,
-		REG_X0 + 6,
-		REG_X0 + 7,
-		REG_X0 + 8,
+	case REG_X0 + 8,
 		REG_X0 + 9,
 		REG_X0 + 10,
 		REG_X0 + 11,
@@ -2832,7 +2840,32 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 		REG_X0 + 13,
 		REG_X0 + 14,
 		REG_X0 + 15:
+		if ctxt.Arch.Family == sys.I386 {
+			return yBadRegModeNot64
+		}
+		fallthrough
+
+	case REG_X0 + 1,
+		REG_X0 + 2,
+		REG_X0 + 3,
+		REG_X0 + 4,
+		REG_X0 + 5,
+		REG_X0 + 6,
+		REG_X0 + 7:
 		return Yxr
+
+	case REG_Y0 + 8,
+		REG_Y0 + 9,
+		REG_Y0 + 10,
+		REG_Y0 + 11,
+		REG_Y0 + 12,
+		REG_Y0 + 13,
+		REG_Y0 + 14,
+		REG_Y0 + 15:
+		if ctxt.Arch.Family == sys.I386 {
+			return yBadRegModeNot64
+		}
+		fallthrough
 
 	case REG_Y0 + 0,
 		REG_Y0 + 1,
@@ -2841,15 +2874,7 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 		REG_Y0 + 4,
 		REG_Y0 + 5,
 		REG_Y0 + 6,
-		REG_Y0 + 7,
-		REG_Y0 + 8,
-		REG_Y0 + 9,
-		REG_Y0 + 10,
-		REG_Y0 + 11,
-		REG_Y0 + 12,
-		REG_Y0 + 13,
-		REG_Y0 + 14,
-		REG_Y0 + 15:
+		REG_Y0 + 7:
 		return Yyr
 
 	case REG_CS:
@@ -2932,12 +2957,16 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 		return Ytr7
 	}
 
-	return Yxxx
+	return yBadReg
 }
 
 // AsmBuf is a simple buffer to assemble variable-length x86 instructions into
 // and hold assembly state.
 type AsmBuf struct {
+	// err holds single instruction assembly error.
+	// If multiple errors occur, only last remains.
+	err *asmError
+
 	buf     [100]byte
 	off     int
 	rexflag int
@@ -3042,7 +3071,10 @@ func (ab *AsmBuf) Len() int { return ab.off }
 func (ab *AsmBuf) Bytes() []byte { return ab.buf[:ab.off] }
 
 // Reset empties the buffer.
-func (ab *AsmBuf) Reset() { ab.off = 0 }
+func (ab *AsmBuf) Reset() {
+	ab.off = 0
+	ab.err = nil
+}
 
 // At returns the byte at offset i.
 func (ab *AsmBuf) At(i int) byte { return ab.buf[i] }
@@ -3054,7 +3086,9 @@ func (ab *AsmBuf) asmidx(ctxt *obj.Link, scale int, index int, base int) {
 	// X/Y index register is used in VSIB.
 	switch index {
 	default:
-		goto bad
+		ab.err = errMemIndex
+		ab.Put1(0)
+		return
 
 	case REG_NONE:
 		i = 4 << 3
@@ -3085,7 +3119,9 @@ func (ab *AsmBuf) asmidx(ctxt *obj.Link, scale int, index int, base int) {
 		REG_Y14,
 		REG_Y15:
 		if ctxt.Arch.Family == sys.I386 {
-			goto bad
+			ab.err = errMemIndexModeNot64
+			ab.Put1(0)
+			return
 		}
 		fallthrough
 
@@ -3117,7 +3153,9 @@ func (ab *AsmBuf) asmidx(ctxt *obj.Link, scale int, index int, base int) {
 
 	switch scale {
 	default:
-		goto bad
+		ab.err = errMemScale
+		ab.Put1(0)
+		return
 
 	case 1:
 		break
@@ -3135,7 +3173,9 @@ func (ab *AsmBuf) asmidx(ctxt *obj.Link, scale int, index int, base int) {
 bas:
 	switch base {
 	default:
-		goto bad
+		ab.err = errMemBase
+		ab.Put1(0)
+		return
 
 	case REG_NONE: // must be mod=00
 		i |= 5
@@ -3149,7 +3189,9 @@ bas:
 		REG_R14,
 		REG_R15:
 		if ctxt.Arch.Family == sys.I386 {
-			goto bad
+			ab.err = errMemBaseModeNot64
+			ab.Put1(0)
+			return
 		}
 		fallthrough
 
@@ -3165,11 +3207,6 @@ bas:
 	}
 
 	ab.Put1(byte(i))
-	return
-
-bad:
-	ctxt.Diag("asmidx: bad address %d/%d/%d", scale, index, base)
-	ab.Put1(0)
 }
 
 func (ab *AsmBuf) relput4(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj.Addr) {
@@ -3262,7 +3299,7 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 				int64(uint32(a.Offset)) == a.Offset &&
 				ab.rexflag&Rxw == 0)
 		if !overflowOK {
-			ctxt.Diag("offset too large in %s", p)
+			ab.err = errOffsetOverflow
 		}
 	}
 	v := int32(a.Offset)
@@ -3748,20 +3785,19 @@ func regIndex(r int16) int {
 	return lower3bits | high4bit
 }
 
-// avx2gatherValid returns true if p satisfies AVX2 gather constraints.
-// Reports errors via ctxt.
-func avx2gatherValid(ctxt *obj.Link, p *obj.Prog) bool {
+// avx2gatherValid checks that p satisfies AVX2 gather constraints.
+// Returns non-nil error to report issues.
+func avx2gatherValid(ctxt *obj.Link, p *obj.Prog) *asmError {
 	// If any pair of the index, mask, or destination registers
 	// are the same, illegal instruction trap (#UD) is triggered.
 	index := regIndex(p.GetFrom3().Index)
 	mask := regIndex(p.From.Reg)
 	dest := regIndex(p.To.Reg)
 	if dest == mask || dest == index || mask == index {
-		ctxt.Diag("mask, index, and destination registers should be distinct: %v", p)
-		return false
+		return errAVX2gather
 	}
 
-	return true
+	return nil
 }
 
 func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
@@ -3790,16 +3826,17 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 		AVPGATHERQD,
 		AVPGATHERDQ,
 		AVPGATHERQQ:
-		if !avx2gatherValid(ctxt, p) {
+		if err := avx2gatherValid(ctxt, p); err != nil {
+			ab.err = err
 			return
 		}
 	}
 
 	if p.Ft == 0 {
-		p.Ft = uint8(oclass(ctxt, p, &p.From))
+		p.Ft = uint8(oclass(ctxt, &p.From))
 	}
 	if p.Tt == 0 {
-		p.Tt = uint8(oclass(ctxt, p, &p.To))
+		p.Tt = uint8(oclass(ctxt, &p.To))
 	}
 
 	ft := int(p.Ft) * Ymax
@@ -3821,7 +3858,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 		args = append(args, ft)
 	}
 	for i := range p.RestArgs {
-		args = append(args, oclass(ctxt, p, &p.RestArgs[i])*Ymax)
+		args = append(args, oclass(ctxt, &p.RestArgs[i])*Ymax)
 	}
 	if tt != Ynone*Ymax {
 		args = append(args, tt)
@@ -3877,14 +3914,14 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 
 			case Pw: // 64-bit escape
 				if ctxt.Arch.Family != sys.AMD64 {
-					ctxt.Diag("asmins: illegal 64: %v", p)
+					ab.err = errModeNot64
 				}
 				ab.rexflag |= Pw
 
 			case Pw8: // 64-bit escape if z >= 8
 				if z >= 8 {
 					if ctxt.Arch.Family != sys.AMD64 {
-						ctxt.Diag("asmins: illegal 64: %v", p)
+						ab.err = errModeNot64
 					}
 					ab.rexflag |= Pw
 				}
@@ -3908,22 +3945,22 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 
 			case P32: // 32 bit but illegal if 64-bit mode
 				if ctxt.Arch.Family == sys.AMD64 {
-					ctxt.Diag("asmins: illegal in 64-bit mode: %v", p)
+					ab.err = errModeNot32
 				}
 
 			case Py: // 64-bit only, no prefix
 				if ctxt.Arch.Family != sys.AMD64 {
-					ctxt.Diag("asmins: illegal in %d-bit mode: %v", ctxt.Arch.RegSize*8, p)
+					ab.err = errModeNot64
 				}
 
 			case Py1: // 64-bit only if z < 1, no prefix
 				if z < 1 && ctxt.Arch.Family != sys.AMD64 {
-					ctxt.Diag("asmins: illegal in %d-bit mode: %v", ctxt.Arch.RegSize*8, p)
+					ab.err = errModeNot64
 				}
 
 			case Py3: // 64-bit only if z < 3, no prefix
 				if z < 3 && ctxt.Arch.Family != sys.AMD64 {
-					ctxt.Diag("asmins: illegal in %d-bit mode: %v", ctxt.Arch.RegSize*8, p)
+					ab.err = errModeNot64
 				}
 			}
 
@@ -4406,7 +4443,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 	}
 	f3t = Ynone * Ymax
 	if p.GetFrom3() != nil {
-		f3t = oclass(ctxt, p, p.GetFrom3()) * Ymax
+		f3t = oclass(ctxt, p.GetFrom3()) * Ymax
 	}
 	for mo := ymovtab; mo[0].as != 0; mo = mo[1:] {
 		var pp obj.Prog
@@ -4752,8 +4789,9 @@ bad:
 		}
 	}
 
-	ctxt.Diag("invalid instruction: %v", p)
-	//	ctxt.Diag("doasm: notfound ft=%d tt=%d %v %d %d", p.Ft, p.Tt, p, oclass(ctxt, p, &p.From), oclass(ctxt, p, &p.To))
+	if ab.err == nil {
+		ab.err = errIllegalArgs
+	}
 }
 
 // byteswapreg returns a byte-addressable register (AX, BX, CX, DX)
@@ -4985,7 +5023,7 @@ func (ab *AsmBuf) asmins(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 		// (and thus after any 66/67/f2/f3/26/2e/3e prefix bytes, but
 		// before the 0f opcode escape!), or it might be ignored.
 		// note that the handbook often misleadingly shows 66/f2/f3 in `opcode'.
-		if ctxt.Arch.Family != sys.AMD64 {
+		if ctxt.Arch.Family != sys.AMD64 && ab.err == nil {
 			ctxt.Diag("asmins: illegal in mode %d: %v (%d %d)", ctxt.Arch.RegSize*8, p, p.Ft, p.Tt)
 		}
 		n := ab.Len()
