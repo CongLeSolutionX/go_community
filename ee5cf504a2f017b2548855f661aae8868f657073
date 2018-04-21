@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b1427b_4e185af9",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-04-21T11:57:58Z",
+      "side": 1,
+      "message": "How about\n\n    sn :\u003d signum(sig)\n    return sn \u003e\u003d 0 \u0026\u0026 signalIgnored(sn)",
+      "revId": "ee5cf504a2f017b2548855f661aae8868f657073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
