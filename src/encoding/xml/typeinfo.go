@@ -65,7 +65,7 @@ func getTypeInfo(typ reflect.Type) (*typeInfo, error) {
 			}
 
 			// For embedded structs, embed its fields.
-			if f.Anonymous {
+			if f.Anonymous {// i.e. reflect package will panic to get a Value
 				t := f.Type
 				if t.Kind() == reflect.Ptr {
 					t = t.Elem()
@@ -75,13 +75,14 @@ func getTypeInfo(typ reflect.Type) (*typeInfo, error) {
 					if err != nil {
 						return nil, err
 					}
-					if tinfo.xmlname == nil {
+					if tinfo.xmlname == nil && inner.xmlname != nil && inner.xmlname.name != "" {
+						// to leave xmlname to nil and to avoid assigning unexported xmlname field
 						tinfo.xmlname = inner.xmlname
 					}
 					for _, finfo := range inner.fields {
 						finfo.idx = append([]int{i}, finfo.idx...)
 						if err := addFieldInfo(typ, tinfo, &finfo); err != nil {
-							return nil, err
+							return nil, err // Any detected conflict returns an error
 						}
 					}
 					continue
@@ -93,13 +94,10 @@ func getTypeInfo(typ reflect.Type) (*typeInfo, error) {
 				return nil, err
 			}
 
-			if f.Name == xmlName {
+			if f.Name == xmlName { // copying the field for "easier" access when .FieldByName() is appropriate
 				tinfo.xmlname = finfo
-				continue
-			}
-
-			// Add the field if it doesn't conflict with other fields.
-			if err := addFieldInfo(typ, tinfo, finfo); err != nil {
+			} else if err := addFieldInfo(typ, tinfo, finfo); err != nil {
+				// Add the field if it doesn't conflict with other fields.
 				return nil, err
 			}
 		}
@@ -187,6 +185,7 @@ func structFieldInfo(typ reflect.Type, f *reflect.StructField) (*fieldInfo, erro
 		// If the name part of the tag is completely empty, get
 		// default from XMLName of underlying struct if feasible,
 		// or field name otherwise.
+		// This is how an anonymous struct gets a value
 		if xmlname := lookupXMLName(f.Type); xmlname != nil {
 			finfo.xmlns, finfo.name = xmlname.xmlns, xmlname.name
 		} else {
@@ -240,7 +239,7 @@ func lookupXMLName(typ reflect.Type) (xmlname *fieldInfo) {
 		if f.Name != xmlName {
 			continue
 		}
-		finfo, err := structFieldInfo(typ, &f)
+		finfo, err := structFieldInfo(typ, &f) // Recursive call
 		if err == nil && finfo.name != "" {
 			return finfo
 		}
