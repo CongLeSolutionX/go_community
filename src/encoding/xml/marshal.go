@@ -472,10 +472,10 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 		start.Name = startTemplate.Name
 		start.Attr = append(start.Attr, startTemplate.Attr...)
 	} else if tinfo.xmlname != nil {
-		xmlname := tinfo.xmlname
-		if xmlname.name != "" {
-			start.Name.Space, start.Name.Local = xmlname.xmlns, xmlname.name
-		} else if v, ok := xmlname.value(val).Interface().(Name); ok && v.Local != "" {
+		if tinfo.xmlname.name != "" {
+			start.Name.Space, start.Name.Local = tinfo.xmlname.xmlns, tinfo.xmlname.name
+		} else if v, ok := tinfo.xmlname.value(val).Interface().(Name); ok && v.Local != "" {
+			// Causing panic if the field is not accessible by reflect package
 			start.Name = v
 		}
 	}

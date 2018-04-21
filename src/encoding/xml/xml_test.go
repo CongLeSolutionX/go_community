@@ -745,6 +745,130 @@ func TestIssue5880(t *testing.T) {
 	}
 }
 
+func TestIssue10538(t *testing.T) {
+	// There is no restriction of the placement of XMLName in embedded structs
+	// If the field is unexported, reflect package will panic in the documented cases
+	// Purpose of the test is to show that no panic occurs with multiple set ups of embedded structs using XMLName
+	type elementNoXMLName struct {
+		Children []interface{}
+	}
+
+	type element struct {
+		XMLName  Name
+		Children []interface{}
+	}
+
+	type Element struct {
+		XMLName  Name
+		Children []interface{}
+	}
+
+	type svgstrEmptyStruct struct {
+		elementNoXMLName //is not exported and empty
+		Height string `xml:"height,attr,omitempty"`
+		Width  string `xml:"width,attr,omitempty"`
+	}
+
+	type svgstr struct {
+		element // not exported and .Value panics
+		Height string `xml:"height,attr,omitempty"`
+		Width  string `xml:"width,attr,omitempty"`
+	}
+
+	type svgstrExp struct {
+		Element element // exported and .Value does not panic
+		Height string `xml:"height,attr,omitempty"`
+		Width  string `xml:"width,attr,omitempty"`
+	}
+
+	type svgstrExpType struct {
+		Element // exported and .Value does not panic
+		Height string `xml:"height,attr,omitempty"`
+		Width  string `xml:"width,attr,omitempty"`
+	}
+
+	type svgstr2 struct {
+		XMLName  Name
+		Children []interface{}
+		Height   string `xml:"height,attr,omitempty"`
+		Width    string `xml:"width,attr,omitempty"`
+	}
+
+	/* No embedded XMLName */
+	result := `<svgstrEmptyStruct height="200" width="400"></svgstrEmptyStruct>`
+	sE := svgstrEmptyStruct{
+		Width:  "400",
+		Height: "200",
+	}
+	a, err := Marshal(sE)
+	if err != nil {
+		t.Errorf("xmlname handling : marshaling failed with %s \n", err)
+	}
+	if string(a) != result {
+		t.Errorf("xmlname handling : got %s, want %s \n", string(a), result)
+	}
+	/* XMLName in a unexported field is not assigned */
+	result = `<svgstr height="200" width="400"></svgstr>`
+	s := svgstr{
+		element: element{XMLName: Name{Local: "svg", Space: "www.etc"},Children:nil},
+		Width:  "400",
+		Height: "200",
+	}
+
+	f, err := Marshal(s)
+	if err != nil {
+		t.Errorf("xmlname handling : marshaling failed with %s \n", err)
+	}
+	if string(f) != result {
+		t.Errorf("xmlname handling : got %s, want %s \n", string(f), result)
+	}
+	/* Embedding the XMLName gets it assigned to the inner struct */
+	result = `<svgstrExp height="200" width="400"><svg xmlns="www.etc"></svg></svgstrExp>`
+	sExp := svgstrExp{
+		Element: element{XMLName: Name{Local: "svg", Space: "www.etc"},Children:nil},
+		Width:  "400",
+		Height: "200",
+	}
+
+	b, err := Marshal(sExp)
+	if err != nil {
+		t.Errorf("xmlname handling : marshaling failed with %s \n", err)
+	}
+	if string(b) != result {
+		t.Errorf("xmlname handling : got %s, want %s \n", string(b), result)
+	}
+	/* XMLName is not assigned to outer tag but to inner tag. Not working due to other issues */
+	result = `<svgstrExpType height="200" width="400"><Children></Children></svgstrExpType>`
+	sExpType := svgstrExpType{
+		Element: Element{XMLName: Name{Local: "svg", Space: "www.etc"},Children:[]interface{}{""}},
+		Width:  "400",
+		Height: "200",
+	}
+
+	d, err := Marshal(sExpType)
+	if err != nil {
+		t.Errorf("xmlname handling : marshaling failed with %s \n", err)
+	}
+	if string(d) != result {
+		t.Errorf("xmlname handling : got %s, want %s \n", string(d), result)
+	}
+	/* No inner struct. XMLName is assigned as usual */
+	result = `<svg xmlns="www.etc" height="200" width="400"></svg>`
+	s2 := svgstr2{
+		XMLName: Name{Local: "svg", Space: "www.etc"},
+		Width:   "400",
+		Height:  "200",
+	}
+
+	c, err := Marshal(s2)
+	if err != nil {
+		t.Errorf("xmlname handling : marshaling failed with %s \n", err)
+	}
+	if string(c) != result {
+		t.Errorf("xmlname handling : got %s, want %s \n", string(c), result)
+	}
+}
+
 func TestIssue11405(t *testing.T) {
 	testCases := []string{
 		"<root>",

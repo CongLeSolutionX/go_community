@@ -1091,10 +1091,10 @@ var marshalTests = []struct {
 		Value: &AnyTest{Nested: "known",
 			AnyField: AnyHolder{
 				XML:     "<unknown/>",
-				XMLName: Name{Local: "AnyField"},
+				XMLName: Name{Local: "other"}, // Overriding the field name is the purpose of the test
 			},
 		},
-		ExpectXML: `<a><nested><value>known</value></nested><AnyField><unknown/></AnyField></a>`,
+		ExpectXML: `<a><nested><value>known</value></nested><other><unknown/></other></a>`,
 	},
 	{
 		ExpectXML: `<a><nested><value>b</value></nested></a>`,
