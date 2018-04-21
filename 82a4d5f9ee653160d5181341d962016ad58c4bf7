@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7aa6d592_86c9e25a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-21T00:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d94e7d76_d70f1eff",
+      "revId": "82a4d5f9ee653160d5181341d962016ad58c4bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df019ba_dc696f8a",
         "filename": "src/cmd/compile/internal/gc/swt.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "82a4d5f9ee653160d5181341d962016ad58c4bf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95506460_4ce21060",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-21T00:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df019ba_dc696f8a",
+      "revId": "82a4d5f9ee653160d5181341d962016ad58c4bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
