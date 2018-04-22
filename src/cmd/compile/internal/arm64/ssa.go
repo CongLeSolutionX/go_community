@@ -347,14 +347,27 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64MOVHUloadidx,
 		ssa.OpARM64MOVWloadidx,
 		ssa.OpARM64MOVWUloadidx,
-		ssa.OpARM64MOVDloadidx:
+		ssa.OpARM64MOVDloadidx,
+		ssa.OpARM64MOVHloadidx2,
+		ssa.OpARM64MOVHUloadidx2,
+		ssa.OpARM64MOVWloadidx4,
+		ssa.OpARM64MOVWUloadidx4,
+		ssa.OpARM64MOVDloadidx8:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_MEM
 		p.From.Name = obj.NAME_NONE
 		p.From.Reg = v.Args[0].Reg()
-		p.From.Index = v.Args[1].Reg()
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
+		if v.Op == ssa.OpARM64MOVDloadidx8 {
+			p.From.Index = arm64.REG_LSL | 3<<5 | v.Args[1].Reg()&31
+		} else if v.Op == ssa.OpARM64MOVWloadidx4 || v.Op == ssa.OpARM64MOVWUloadidx4 {
+			p.From.Index = arm64.REG_LSL | 2<<5 | v.Args[1].Reg()&31
+		} else if v.Op == ssa.OpARM64MOVHloadidx2 || v.Op == ssa.OpARM64MOVHUloadidx2 {
+			p.From.Index = arm64.REG_LSL | 1<<5 | v.Args[1].Reg()&31
+		} else { // not shifted
+			p.From.Index = v.Args[1].Reg()
+		}
 	case ssa.OpARM64LDAR,
 		ssa.OpARM64LDARW:
 		p := s.Prog(v.Op.Asm())
@@ -380,14 +393,25 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 	case ssa.OpARM64MOVBstoreidx,
 		ssa.OpARM64MOVHstoreidx,
 		ssa.OpARM64MOVWstoreidx,
-		ssa.OpARM64MOVDstoreidx:
+		ssa.OpARM64MOVDstoreidx,
+		ssa.OpARM64MOVHstoreidx2,
+		ssa.OpARM64MOVWstoreidx4,
+		ssa.OpARM64MOVDstoreidx8:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = v.Args[2].Reg()
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_NONE
 		p.To.Reg = v.Args[0].Reg()
-		p.To.Index = v.Args[1].Reg()
+		if v.Op == ssa.OpARM64MOVDstoreidx8 {
+			p.To.Index = arm64.REG_LSL | 3<<5 | v.Args[1].Reg()&31
+		} else if v.Op == ssa.OpARM64MOVWstoreidx4 {
+			p.To.Index = arm64.REG_LSL | 2<<5 | v.Args[1].Reg()&31
+		} else if v.Op == ssa.OpARM64MOVHstoreidx2 {
+			p.To.Index = arm64.REG_LSL | 1<<5 | v.Args[1].Reg()&31
+		} else { // not shifted
+			p.To.Index = v.Args[1].Reg()
+		}
 	case ssa.OpARM64STP:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REGREG
@@ -409,14 +433,25 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 	case ssa.OpARM64MOVBstorezeroidx,
 		ssa.OpARM64MOVHstorezeroidx,
 		ssa.OpARM64MOVWstorezeroidx,
-		ssa.OpARM64MOVDstorezeroidx:
+		ssa.OpARM64MOVDstorezeroidx,
+		ssa.OpARM64MOVHstorezeroidx2,
+		ssa.OpARM64MOVWstorezeroidx4,
+		ssa.OpARM64MOVDstorezeroidx8:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = arm64.REGZERO
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_NONE
 		p.To.Reg = v.Args[0].Reg()
-		p.To.Index = v.Args[1].Reg()
+		if v.Op == ssa.OpARM64MOVDstorezeroidx8 {
+			p.To.Index = arm64.REG_LSL | 3<<5 | v.Args[1].Reg()&31
+		} else if v.Op == ssa.OpARM64MOVWstorezeroidx4 {
+			p.To.Index = arm64.REG_LSL | 2<<5 | v.Args[1].Reg()&31
+		} else if v.Op == ssa.OpARM64MOVHstorezeroidx2 {
+			p.To.Index = arm64.REG_LSL | 1<<5 | v.Args[1].Reg()&31
+		} else { // not shifted
+			p.To.Index = v.Args[1].Reg()
+		}
 	case ssa.OpARM64MOVQstorezero:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REGREG
