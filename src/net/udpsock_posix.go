@@ -94,24 +94,24 @@ func (c *UDPConn) writeMsg(b, oob []byte, addr *UDPAddr) (n, oobn int, err error
 	return c.fd.writeMsg(b, oob, sa)
 }
 
-func dialUDP(ctx context.Context, net string, laddr, raddr *UDPAddr) (*UDPConn, error) {
-	fd, err := internetSocket(ctx, net, laddr, raddr, syscall.SOCK_DGRAM, 0, "dial")
+func (sd *sysDialer) dialUDP(ctx context.Context, laddr, raddr *UDPAddr) (*UDPConn, error) {
+	fd, err := internetSocket(ctx, sd.network, laddr, raddr, syscall.SOCK_DGRAM, 0, "dial", sd.Dialer.Control)
 	if err != nil {
 		return nil, err
 	}
 	return newUDPConn(fd), nil
 }
 
-func listenUDP(ctx context.Context, network string, laddr *UDPAddr) (*UDPConn, error) {
-	fd, err := internetSocket(ctx, network, laddr, nil, syscall.SOCK_DGRAM, 0, "listen")
+func (sa *sysAnnouncer) listenUDP(ctx context.Context, laddr *UDPAddr) (*UDPConn, error) {
+	fd, err := internetSocket(ctx, sa.network, laddr, nil, syscall.SOCK_DGRAM, 0, "listen", sa.Announcer.Control)
 	if err != nil {
 		return nil, err
 	}
 	return newUDPConn(fd), nil
 }
 
-func listenMulticastUDP(ctx context.Context, network string, ifi *Interface, gaddr *UDPAddr) (*UDPConn, error) {
-	fd, err := internetSocket(ctx, network, gaddr, nil, syscall.SOCK_DGRAM, 0, "listen")
+func (sa *sysAnnouncer) listenMulticastUDP(ctx context.Context, ifi *Interface, gaddr *UDPAddr) (*UDPConn, error) {
+	fd, err := internetSocket(ctx, sa.network, gaddr, nil, syscall.SOCK_DGRAM, 0, "listen", sa.Announcer.Control)
 	if err != nil {
 		return nil, err
 	}

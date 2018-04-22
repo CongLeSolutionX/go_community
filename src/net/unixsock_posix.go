@@ -13,9 +13,9 @@ import (
 	"syscall"
 )
 
-func unixSocket(ctx context.Context, net string, laddr, raddr sockaddr, mode string) (*netFD, error) {
+func unixSocket(ctx context.Context, network string, laddr, raddr sockaddr, mode string, ctrlFn func(string, string, syscall.RawConn) error) (*netFD, error) {
 	var sotype int
-	switch net {
+	switch network {
 	case "unix":
 		sotype = syscall.SOCK_STREAM
 	case "unixgram":
@@ -23,7 +23,7 @@ func unixSocket(ctx context.Context, net string, laddr, raddr sockaddr, mode str
 	case "unixpacket":
 		sotype = syscall.SOCK_SEQPACKET
 	default:
-		return nil, UnknownNetworkError(net)
+		return nil, UnknownNetworkError(network)
 	}
 
 	switch mode {
@@ -42,7 +42,7 @@ func unixSocket(ctx context.Context, net string, laddr, raddr sockaddr, mode str
 		return nil, errors.New("unknown mode: " + mode)
 	}
 
-	fd, err := socket(ctx, net, syscall.AF_UNIX, sotype, 0, false, laddr, raddr)
+	fd, err := socket(ctx, network, syscall.AF_UNIX, sotype, 0, false, laddr, raddr, ctrlFn)
 	if err != nil {
 		return nil, err
 	}
@@ -150,8 +150,8 @@ func (c *UnixConn) writeMsg(b, oob []byte, addr *UnixAddr) (n, oobn int, err err
 	return c.fd.writeMsg(b, oob, sa)
 }
 
-func dialUnix(ctx context.Context, net string, laddr, raddr *UnixAddr) (*UnixConn, error) {
-	fd, err := unixSocket(ctx, net, laddr, raddr, "dial")
+func (sd *sysDialer) dialUnix(ctx context.Context, laddr, raddr *UnixAddr) (*UnixConn, error) {
+	fd, err := unixSocket(ctx, sd.network, laddr, raddr, "dial", sd.Dialer.Control)
 	if err != nil {
 		return nil, err
 	}
@@ -206,16 +206,16 @@ func (l *UnixListener) SetUnlinkOnClose(unlink bool) {
 	l.unlink = unlink
 }
 
-func listenUnix(ctx context.Context, network string, laddr *UnixAddr) (*UnixListener, error) {
-	fd, err := unixSocket(ctx, network, laddr, nil, "listen")
+func (sa *sysAnnouncer) listenUnix(ctx context.Context, laddr *UnixAddr) (*UnixListener, error) {
+	fd, err := unixSocket(ctx, sa.network, laddr, nil, "listen", sa.Announcer.Control)
 	if err != nil {
 		return nil, err
 	}
 	return &UnixListener{fd: fd, path: fd.laddr.String(), unlink: true}, nil
 }
 
-func listenUnixgram(ctx context.Context, network string, laddr *UnixAddr) (*UnixConn, error) {
-	fd, err := unixSocket(ctx, network, laddr, nil, "listen")
+func (sa *sysAnnouncer) listenUnixgram(ctx context.Context, laddr *UnixAddr) (*UnixConn, error) {
+	fd, err := unixSocket(ctx, sa.network, laddr, nil, "listen", sa.Announcer.Control)
 	if err != nil {
 		return nil, err
 	}

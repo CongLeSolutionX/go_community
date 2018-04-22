@@ -51,15 +51,15 @@ func (c *TCPConn) readFrom(r io.Reader) (int64, error) {
 	return genericReadFrom(c, r)
 }
 
-func dialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
+func (sd *sysDialer) dialTCP(ctx context.Context, laddr, raddr *TCPAddr) (*TCPConn, error) {
 	if testHookDialTCP != nil {
-		return testHookDialTCP(ctx, net, laddr, raddr)
+		return testHookDialTCP(ctx, sd.network, laddr, raddr)
 	}
-	return doDialTCP(ctx, net, laddr, raddr)
+	return sd.doDialTCP(ctx, laddr, raddr)
 }
 
-func doDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
-	fd, err := internetSocket(ctx, net, laddr, raddr, syscall.SOCK_STREAM, 0, "dial")
+func (sd *sysDialer) doDialTCP(ctx context.Context, laddr, raddr *TCPAddr) (*TCPConn, error) {
+	fd, err := internetSocket(ctx, sd.network, laddr, raddr, syscall.SOCK_STREAM, 0, "dial", sd.Dialer.Control)
 
 	// TCP has a rarely used mechanism called a 'simultaneous connection' in
 	// which Dial("tcp", addr1, addr2) run on the machine at addr1 can
@@ -89,7 +89,7 @@ func doDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn
 		if err == nil {
 			fd.Close()
 		}
-		fd, err = internetSocket(ctx, net, laddr, raddr, syscall.SOCK_STREAM, 0, "dial")
+		fd, err = internetSocket(ctx, sd.network, laddr, raddr, syscall.SOCK_STREAM, 0, "dial", sd.Dialer.Control)
 	}
 
 	if err != nil {
@@ -152,8 +152,8 @@ func (ln *TCPListener) file() (*os.File, error) {
 	return f, nil
 }
 
-func listenTCP(ctx context.Context, network string, laddr *TCPAddr) (*TCPListener, error) {
-	fd, err := internetSocket(ctx, network, laddr, nil, syscall.SOCK_STREAM, 0, "listen")
+func (sa *sysAnnouncer) listenTCP(ctx context.Context, laddr *TCPAddr) (*TCPListener, error) {
+	fd, err := internetSocket(ctx, sa.network, laddr, nil, syscall.SOCK_STREAM, 0, "listen", sa.Announcer.Control)
 	if err != nil {
 		return nil, err
 	}
