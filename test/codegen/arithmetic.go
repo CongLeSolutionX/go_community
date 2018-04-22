@@ -14,10 +14,11 @@ package codegen
 //    Subtraction    //
 // ----------------- //
 
-func SubMem(arr []int) int {
+func SubMem(arr []int, idx int) int {
 	// 386:"SUBL\t4"
 	// amd64:"SUBQ\t8"
-	return arr[0] - arr[1]
+	// arm64:`MOVD\s\(R[0-9]+\)\(R[0-9]+<<3\)`
+	return arr[idx] - arr[1]
 }
 
 // -------------------- //
