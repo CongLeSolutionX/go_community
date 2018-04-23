@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63594683_42975f85",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 4708,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-04-23T19:27:21Z",
+      "side": 1,
+      "message": "Comment is stale, updated.",
+      "range": {
+        "startLine": 4703,
+        "startChar": 1,
+        "endLine": 4708,
+        "endChar": 63
+      },
+      "revId": "8544c2db81e20cbbcb454c0957bf9d77249dba7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
