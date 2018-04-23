@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff3b3823_9e1509e7",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-04-23T17:17:43Z",
+      "side": 1,
+      "message": "more explanations please - this doesn\u0027t tell why this is needed",
+      "range": {
+        "startLine": 1005,
+        "startChar": 36,
+        "endLine": 1005,
+        "endChar": 45
+      },
+      "revId": "8d6af991955fda796df77a1d2a227a6473efc741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca666433_6ff14f93",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-04-23T17:17:43Z",
+      "side": 1,
+      "message": "sigh...",
+      "range": {
+        "startLine": 412,
+        "startChar": 22,
+        "endLine": 412,
+        "endChar": 27
+      },
+      "revId": "8d6af991955fda796df77a1d2a227a6473efc741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5d08fa6_d4d0ec88",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1686,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-04-23T17:17:43Z",
+      "side": 1,
+      "message": "maybe the part after the comma is not needed anymore in this comment? (since that code is not in origSym)",
+      "range": {
+        "startLine": 1686,
+        "startChar": 38,
+        "endLine": 1686,
+        "endChar": 42
+      },
+      "revId": "8d6af991955fda796df77a1d2a227a6473efc741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
