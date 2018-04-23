@@ -214,6 +214,24 @@
     },
     {
       "key": {
+        "uuid": "31dc149f_013cc81b",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-23T16:20:35Z",
+      "side": 1,
+      "message": "There are two different things: the SSA ops, defined in cmd/compile/internal/ssa/gen, and the instructions (aka Progs), defined in this package.\n\nFor the SSA op TST, it takes two SSA Values, and produces a Flags Value, with no value in register (ZR is not an allocatable register), so the register mask should be gp2flags.\n\nFor the instruction ANDS, it can take two registers and produce a value in another register, like ANDS R1, R2, R3, where Prog.To is R3. It can also target ZR which discards the result, in which case Prog.To is ZR. Prog.To should never be NONE.\n\nWhen you translate one to the other (in cmd/compile/internal/arm64/ssa.go), you do whatever mapping you need to do. Like,\n\np.From.Type \u003d obj.TYPE_REG\np.From.Reg \u003d v.Args[0].Reg()\np.Reg \u003d v.Args[1].Reg()\np.To.Type \u003d obj.TYPE_REG\np.To.Reg \u003d arm64.REGZERO\n\nI think a better and clearer way to do it is to add support of TST instruction in this package, and map the TST SSA op to the TST instruction, instead of ANDS (although it works). The TST instruction should have Prog.To be NONE, as it cannot target a register.",
+      "parentUuid": "568bc18e_8ecb2bb6",
+      "revId": "8bb70c433eb8cd42c5b8326127b132d7c74be3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e67223e9_7028c27b",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 5
