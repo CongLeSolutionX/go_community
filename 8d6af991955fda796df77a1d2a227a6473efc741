@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ceac3347_d73f1789",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-23T17:54:38Z",
+      "side": 1,
+      "message": "Done.\n\nAlso uploaded https://go-review.googlesource.com/c/go/+/108875 to remove this TODO.",
+      "parentUuid": "ff3b3823_9e1509e7",
+      "range": {
+        "startLine": 1005,
+        "startChar": 36,
+        "endLine": 1005,
+        "endChar": 45
+      },
+      "revId": "8d6af991955fda796df77a1d2a227a6473efc741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca666433_6ff14f93",
         "filename": "src/cmd/compile/internal/gc/dcl.go",
         "patchSetId": 8
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0b565fe2_cea3d8ec",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-23T17:54:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ca666433_6ff14f93",
+      "range": {
+        "startLine": 412,
+        "startChar": 22,
+        "endLine": 412,
+        "endChar": 27
+      },
+      "revId": "8d6af991955fda796df77a1d2a227a6473efc741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5d08fa6_d4d0ec88",
         "filename": "src/cmd/compile/internal/gc/fmt.go",
         "patchSetId": 8
@@ -68,6 +116,30 @@
       "revId": "8d6af991955fda796df77a1d2a227a6473efc741",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43e21279_c6132660",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1686,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-23T17:54:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5d08fa6_d4d0ec88",
+      "range": {
+        "startLine": 1686,
+        "startChar": 38,
+        "endLine": 1686,
+        "endChar": 42
+      },
+      "revId": "8d6af991955fda796df77a1d2a227a6473efc741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
