@@ -15,6 +15,7 @@
 package elliptic
 
 import (
+	"internal/cpu"
 	"math/big"
 	"sync"
 )
@@ -33,6 +34,7 @@ var (
 	p256            p256Curve
 	p256Precomputed *[43][32 * 8]uint64
 	precomputeOnce  sync.Once
+	useAVX2         = cpu.X86.HasAVX2 && cpu.X86.HasBMI2 && cpu.X86.HasADX
 )
 
 func initP256() {
