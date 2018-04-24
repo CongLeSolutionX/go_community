@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27a26510_5e60e37c",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2018-04-24T13:38:00Z",
+      "side": 1,
+      "message": "Just wondering whether other consumers of the output from go list -test -json will equally be confused/have to do more work. \n\nIs there a perhaps a way we can augment this information into different fields? For example having a .TestDeps for the test deps and .TestImports for the imports, rather than having the [] suffix. .ForTest already tells us whether the package itself is the result of a test dependency. That would save other tools having to parse/deal with the [] suffix case.\n\n\ne.g. here is the snipped output from go list -test -json strings:\n\n...\n{\n        \"Dir\": \"/home/myitcv/gos/src/strings\",\n        \"ImportPath\": \"strings_test [strings.test]\",\n        \"Name\": \"strings_test\",\n...\n        \"Imports\": [\n...\n                \"io/ioutil [strings.test]\",\n...\n                \"testing [strings.test]\",\n...\n                \"strings [strings.test]\"\n        ],\n        \"Deps\": [\n...\n                \"flag [strings.test]\",\n...\n                \"io/ioutil [strings.test]\",\n...\n}\n{\n        \"Dir\": \"/home/myitcv/gos/src/strings\",\n        \"ImportPath\": \"strings.test\",\n        \"Name\": \"main\",\n        \"Root\": \"/home/myitcv/gos\",\n        \"Stale\": true,\n        \"StaleReason\": \"stale dependency: strings\",\n        \"GoFiles\": [\n                \"/home/myitcv/.cache/go-build/b6/b6556e715855971ff1bf0466e3c49f159daec1982187ffb50aae940555da3320-d\"\n        ],\n        \"Deps\": [\n ...\n               \"flag [strings.test]\",\n...\n                \"io/ioutil [strings.test]\",\n...\n}",
+      "revId": "eba9b1f68ea138122425a8fc1eb63d93adef7d52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
