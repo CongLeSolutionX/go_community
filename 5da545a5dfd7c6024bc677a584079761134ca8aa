@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ac90dd6_1de39c07",
+        "filename": "src/runtime/trace/annotation_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5260
+      },
+      "writtenOn": "2018-04-24T17:22:32Z",
+      "side": 1,
+      "message": "what is the story on this commented-out line? Obsolete? For later?",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 5
+      },
+      "revId": "5da545a5dfd7c6024bc677a584079761134ca8aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
