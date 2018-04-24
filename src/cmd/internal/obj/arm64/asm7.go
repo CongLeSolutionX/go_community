@@ -213,6 +213,7 @@ var optab = []Optab{
 	{AAND, C_REG, C_NONE, C_REG, 1, 4, 0, 0, 0},
 	{AANDS, C_REG, C_REG, C_REG, 1, 4, 0, 0, 0},
 	{AANDS, C_REG, C_NONE, C_REG, 1, 4, 0, 0, 0},
+	{ATST, C_REG, C_REG, C_NONE, 1, 4, 0, 0, 0},
 	{AAND, C_MBCON, C_REG, C_RSP, 53, 4, 0, 0, 0},
 	{AAND, C_MBCON, C_NONE, C_REG, 53, 4, 0, 0, 0},
 	{AANDS, C_MBCON, C_REG, C_REG, 53, 4, 0, 0, 0},
@@ -221,6 +222,7 @@ var optab = []Optab{
 	{AAND, C_BITCON, C_NONE, C_REG, 53, 4, 0, 0, 0},
 	{AANDS, C_BITCON, C_REG, C_REG, 53, 4, 0, 0, 0},
 	{AANDS, C_BITCON, C_NONE, C_REG, 53, 4, 0, 0, 0},
+	{ATST, C_BITCON, C_REG, C_NONE, 53, 4, 0, 0, 0},
 	{AAND, C_MOVCON, C_REG, C_RSP, 62, 8, 0, 0, 0},
 	{AAND, C_MOVCON, C_NONE, C_REG, 62, 8, 0, 0, 0},
 	{AANDS, C_MOVCON, C_REG, C_REG, 62, 8, 0, 0, 0},
@@ -233,6 +235,7 @@ var optab = []Optab{
 	{AAND, C_SHIFT, C_NONE, C_REG, 3, 4, 0, 0, 0},
 	{AANDS, C_SHIFT, C_REG, C_REG, 3, 4, 0, 0, 0},
 	{AANDS, C_SHIFT, C_NONE, C_REG, 3, 4, 0, 0, 0},
+	{ATST, C_SHIFT, C_REG, C_NONE, 3, 4, 0, 0, 0},
 	{AMOVD, C_RSP, C_NONE, C_RSP, 24, 4, 0, 0, 0},
 	{AMVN, C_REG, C_NONE, C_REG, 24, 4, 0, 0, 0},
 	{AMOVB, C_REG, C_NONE, C_REG, 45, 4, 0, 0, 0},
@@ -3378,9 +3381,12 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 		o1 |= uint32((p.From.Offset & 0x7F) << 5)
 
-	case 53: /* and/or/eor/bic/... $bitcon, Rn, Rd */
+	case 53: /* and/or/eor/bic/tst/... $bitcon, Rn, Rd */
 		a := p.As
 		rt := int(p.To.Reg)
+		if p.To.Type == obj.TYPE_NONE {
+			rt = REGZERO
+		}
 		r := int(p.Reg)
 		if r == 0 {
 			r = rt
@@ -3388,7 +3394,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		mode := 64
 		v := uint64(p.From.Offset)
 		switch p.As {
-		case AANDW, AORRW, AEORW, AANDSW:
+		case AANDW, AORRW, AEORW, AANDSW, ATSTW:
 			mode = 32
 		case ABIC, AORN, AEON, ABICS:
 			v = ^v
@@ -4001,7 +4007,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			size = 1
 		}
 
-		o1 |= (Q&1) << 30 | (size&3) << 22 | uint32(rf&31) << 5 | uint32(rt&31)
+		o1 |= (Q&1)<<30 | (size&3)<<22 | uint32(rf&31)<<5 | uint32(rt&31)
 
 	case 84: /* vst1 [Vt1.<T>, Vt2.<T>, ...], (Rn) */
 		r := int(p.To.Reg)
@@ -4587,10 +4593,10 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As) uint32 {
 	case AEORW:
 		return S32 | 2<<29 | 0xA<<24
 
-	case AANDS:
+	case AANDS, ATST:
 		return S64 | 3<<29 | 0xA<<24
 
-	case AANDSW:
+	case AANDSW, ATSTW:
 		return S32 | 3<<29 | 0xA<<24
 
 	case ABIC:
@@ -5165,10 +5171,10 @@ func (c *ctxt7) opirr(p *obj.Prog, a obj.As) uint32 {
 	case AEORW, AEONW:
 		return S32 | 2<<29 | 0x24<<23 | 0<<22
 
-	case AANDS, ABICS:
+	case AANDS, ABICS, ATST:
 		return S64 | 3<<29 | 0x24<<23
 
-	case AANDSW, ABICSW:
+	case AANDSW, ABICSW, ATSTW:
 		return S32 | 3<<29 | 0x24<<23 | 0<<22
 
 	case AASR:
