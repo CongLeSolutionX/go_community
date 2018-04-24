@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3313ecd3_86de945c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-24T07:15:09Z",
+      "side": 1,
+      "message": "Your benchmarking seems noisy. Get rid of that noise\nand you can run the Stable benchmarks only (all the\nSort benchmarks are pretty uninteresting for this CL).",
+      "revId": "25e88116e2ec22feb99b33720964ca293a3dce3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30318667_cc142896",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-24T07:15:09Z",
+      "side": 1,
+      "message": "As these Benchmarks are not part of the CL others cannot\nverify them. Please drop them from the commit message.",
+      "revId": "25e88116e2ec22feb99b33720964ca293a3dce3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ecfc660_515e3406",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-24T07:15:09Z",
+      "side": 1,
+      "message": "This is from a different CL which is not jet merged, or?\n\nI thought each CL should be created against master.",
+      "revId": "25e88116e2ec22feb99b33720964ca293a3dce3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09fe0839_57a42d4f",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-04-24T07:15:09Z",
+      "side": 1,
+      "message": "You should provide some arguments why 16 is the best value.\nIt is nice that 16 is better than 20 but why not 12 or 8?\n\n(initial blockSizes of 12 and 6 are even better according to\nsome more experiments I did.)",
+      "revId": "25e88116e2ec22feb99b33720964ca293a3dce3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
