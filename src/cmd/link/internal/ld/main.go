@@ -202,6 +202,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	ctxt.dostrdata()
 	deadcode(ctxt)
+	ctxt.typeSymbolMangling()
 	fieldtrack(ctxt)
 	ctxt.callgraph()
 
