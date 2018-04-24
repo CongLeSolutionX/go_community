@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b74f8740_d744cb96",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-24T17:34:28Z",
+      "side": 1,
+      "message": "kinda gross way to build a string, but okay here I guess.",
+      "range": {
+        "startLine": 169,
+        "startChar": 1,
+        "endLine": 178,
+        "endChar": 32
+      },
+      "revId": "0e5375dd0b035ccef839cb66d90ad37f893e00c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
