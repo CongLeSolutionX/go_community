@@ -108,8 +108,16 @@ func (syms *Symbols) Rename(old, new string, v int) {
 		syms.hash[v][new] = s
 	} else {
 		if s.Type == 0 {
+			dup.Attr |= s.Attr
+			if s.Attr.Reachable() {
+				dup.Reachparent = s.Reachparent
+			}
 			*s = *dup
 		} else if dup.Type == 0 {
+			s.Attr |= dup.Attr
+			if dup.Attr.Reachable() {
+				s.Reachparent = dup.Reachparent
+			}
 			*dup = *s
 			syms.hash[v][new] = s
 		}
