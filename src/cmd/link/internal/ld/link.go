@@ -81,6 +81,9 @@ type Link struct {
 	PackageShlib map[string]string
 
 	tramps []*sym.Symbol // trampolines
+
+	compUnits         []*compilationUnit // DWARF compilation units
+	compUnitByPackage map[*sym.Library]*compilationUnit
 }
 
 // The smallest possible offset from the hardware stack pointer to a local
