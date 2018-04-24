@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8286b1ad_8cabcf75",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-24T19:27:20Z",
+      "side": 1,
+      "message": "Use a switch statement.",
+      "revId": "aa407674d31c280d65014face69f9a22d4d8dfec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eeef697_ba3f098a",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-24T19:27:20Z",
+      "side": 1,
+      "message": "Maybe extract this to a helper function.",
+      "range": {
+        "startLine": 363,
+        "startChar": 18,
+        "endLine": 363,
+        "endChar": 59
+      },
+      "revId": "aa407674d31c280d65014face69f9a22d4d8dfec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81b8f378_710f1661",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-24T19:27:20Z",
+      "side": 1,
+      "message": "I don\u0027t think this test is the right place to test indexed load. Revert and just test the SUB instruction. Maybe in memcombine.go, or make a new file.",
+      "revId": "aa407674d31c280d65014face69f9a22d4d8dfec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
