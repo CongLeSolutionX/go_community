@@ -22,6 +22,30 @@
       "revId": "a207a06f5c5083c837690b601d080407f542dfa7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47634ded_7370503f",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-24T19:40:20Z",
+      "side": 1,
+      "message": "That specific change wouldn\u0027t work because we\u0027d get the sign-extended versions of smaller unsigned constants, rather than the zero-extended versions.\n\nI\u0027ve added the symmetric case for unsigned.",
+      "parentUuid": "dd62b636_d1a0a934",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 27
+      },
+      "revId": "a207a06f5c5083c837690b601d080407f542dfa7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
