@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ed751ac_3dab2b5d",
+        "filename": "src/cmd/compile/internal/ssa/branchelim.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-04-24T20:14:12Z",
+      "side": 1,
+      "message": "I would prefer if this were just counts, like \"phi\" and \"other\".  You can compute the cost later, like\ncost :\u003d phi * 1\nif phi \u003e 1 {\n  // your big comment\n  cost +\u003d other * 1\n}\nreturn cost \u003c maxcost\n\nThat way if we ever change the cost model, conditions like \"phicost \u003e 1\" don\u0027t have to be updated.",
+      "revId": "9110d3cf5e4c1f23ca7b7ae507837814e607ae6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
