@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4cfe8489_0e977dda",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-24T19:58:34Z",
+      "side": 1,
+      "message": "Yes. The rebased version is significantly simpler thanks to Giovanni\u0027s change.",
+      "parentUuid": "2e330363_58d33c7f",
+      "range": {
+        "startLine": 647,
+        "startChar": 3,
+        "endLine": 647,
+        "endChar": 15
+      },
+      "revId": "3aea4bf44869c3c429ab3bf1b2910f7911035dfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1062da17_82c112d4",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "3aea4bf44869c3c429ab3bf1b2910f7911035dfd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "073b3945_5b7fb767",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-24T19:58:34Z",
+      "side": 1,
+      "message": "The other one went away, so now this is the only \"Complement the relation\" :)",
+      "parentUuid": "1062da17_82c112d4",
+      "range": {
+        "startLine": 837,
+        "startChar": 4,
+        "endLine": 838,
+        "endChar": 26
+      },
+      "revId": "3aea4bf44869c3c429ab3bf1b2910f7911035dfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
