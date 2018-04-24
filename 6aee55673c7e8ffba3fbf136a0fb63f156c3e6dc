@@ -16,6 +16,24 @@
       "revId": "6aee55673c7e8ffba3fbf136a0fb63f156c3e6dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa26995_81f792f6",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-24T23:05:01Z",
+      "side": 1,
+      "message": "Changed to use \\s+\n\nThis method is typically never called, and is called at most once per execution, so keeping the MustCompile here.",
+      "parentUuid": "3aeff3dd_0e93140d",
+      "revId": "6aee55673c7e8ffba3fbf136a0fb63f156c3e6dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
