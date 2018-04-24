@@ -1589,7 +1589,7 @@ func (ctxt *Link) dodata() {
 		datap = append(datap, data[symn]...)
 	}
 
-	dwarfgeneratedebugsyms(ctxt)
+	dwarfGenerateDebugSyms(ctxt)
 
 	var i int
 	for ; i < len(dwarfp); i++ {
