@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb16db47_1bc83e82",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-24T19:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee806cbe_d725d25c",
+      "revId": "89b3a4a769db236bd192b54ddf00f08a3dfb19c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e21d6be_9fff3523",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 10
@@ -33,6 +51,24 @@
       "revId": "89b3a4a769db236bd192b54ddf00f08a3dfb19c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91cbe7db_fbd9d3ac",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-24T19:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e21d6be_9fff3523",
+      "revId": "89b3a4a769db236bd192b54ddf00f08a3dfb19c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
