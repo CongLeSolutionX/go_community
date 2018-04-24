@@ -16,6 +16,24 @@
       "revId": "9110d3cf5e4c1f23ca7b7ae507837814e607ae6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e2341c_909dcebc",
+        "filename": "src/cmd/compile/internal/ssa/branchelim.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-04-24T20:37:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ed751ac_3dab2b5d",
+      "revId": "9110d3cf5e4c1f23ca7b7ae507837814e607ae6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
