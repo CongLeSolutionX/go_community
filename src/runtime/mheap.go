@@ -923,14 +923,12 @@ func (h *mheap) grow(npage uintptr) bool {
 		return false
 	}
 
-	// Create a fake "in use" span and free it, so that the
-	// right coalescing happens.
+	// Create a fake span and free it, so that the right coalescing happens.
 	s := (*mspan)(h.spanalloc.alloc())
 	s.init(uintptr(v), size/pageSize)
-	h.setSpans(s.base(), s.npages, s)
-	atomic.Store(&s.sweepgen, h.sweepgen)
-	s.state = _MSpanInUse
-	h.pagesInUse += uint64(s.npages)
+	h.setSpan(s.base(), s)
+	h.setSpan(s.base()+s.npages*pageSize-1, s)
+	s.state = _MSpanManual
 	h.freeSpanLocked(s, false, true, 0)
 	return true
 }
