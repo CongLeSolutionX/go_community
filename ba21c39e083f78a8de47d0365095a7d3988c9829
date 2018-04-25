@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "080aa795_b8ce7280",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-25T02:55:57Z",
+      "side": 1,
+      "message": "Note that the actual output has more spaces; it\u0027s actually \" null  null \". But I didn\u0027t want to introduce spaces after a tab and before a newline in this plaintext commit message. It also doesn\u0027t seem terribly relevant to the issue at hand.",
+      "revId": "ba21c39e083f78a8de47d0365095a7d3988c9829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
