@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29a5772b_9891eb96",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T20:41:32Z",
+      "side": 1,
+      "message": "(https://golang.org/wiki/CodeReviewComments#handle-errors)\n\nA comment explaining why we want to ignore errors here would be helpful.\nIt may be clearer to return the error up one more level before dropping it or, ideally, logging a warning.\n\n(Failure to cache build outputs could indicate that GOCACHE points to a full or disconnected disk. If that\u0027s the case, we should probably mention it to the user so that their builds don\u0027t seem inexplicably slow.)",
+      "revId": "c801919d34030a0d855a1368609afc385b2cc48c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fb06856_8dedde34",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T20:41:32Z",
+      "side": 1,
+      "message": "I don\u0027t quite follow the need for a second map here. This seems equivalent to:\n\nif _, ok :\u003d vcfg.ImportMap[p1.ImportPath]; !ok {",
+      "range": {
+        "startLine": 775,
+        "startChar": 6,
+        "endLine": 775,
+        "endChar": 16
+      },
+      "revId": "c801919d34030a0d855a1368609afc385b2cc48c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
