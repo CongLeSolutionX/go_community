@@ -842,10 +842,11 @@ func isNonNegative(v *Value) bool {
 		return int32(v.AuxInt) >= 0
 
 	case OpStringLen, OpSliceLen, OpSliceCap,
-		OpZeroExt8to64, OpZeroExt16to64, OpZeroExt32to64:
+		OpZeroExt8to64, OpZeroExt16to64, OpZeroExt32to64,
+		OpRsh64Ux64:
 		return true
 
-	case OpRsh64x64:
+	case OpRsh64x64, OpLsh64x64:
 		return isNonNegative(v.Args[0])
 	}
 	return false
