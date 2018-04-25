@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4e1f758e_9d566355",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:20:46Z",
+      "side": 1,
+      "message": "It\u0027s a cache: writes are best effort and write errors ignored.\nThere\u0027s no need for a comment to that effect\nat every piece of code that writes to the cache\nand doesn\u0027t check the error. That\u0027s the common case.\nThe exception is code that _does_ check for an error.\ncacheObjdirFile only returns an error at all \nas an optimization, so that code calling it in\na loop can stop early.\n\nIf GOCACHE points to an inaccessible location,\nthen cache.Default\u0027s first call will in fact print\na warning to that effect.\n\nI\u0027m not too worried about disks filling up.\nIf your disk fills up, you\u0027re almost certainly\ngoing to notice without the go command telling you.",
+      "parentUuid": "29a5772b_9891eb96",
+      "revId": "c801919d34030a0d855a1368609afc385b2cc48c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fb06856_8dedde34",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2018-04-25T20:41:32Z",
       "side": 1,
       "message": "I don\u0027t quite follow the need for a second map here. This seems equivalent to:\n\nif _, ok :\u003d vcfg.ImportMap[p1.ImportPath]; !ok {",
+      "range": {
+        "startLine": 775,
+        "startChar": 6,
+        "endLine": 775,
+        "endChar": 16
+      },
+      "revId": "c801919d34030a0d855a1368609afc385b2cc48c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb08fd6d_6f6f28da",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:20:46Z",
+      "side": 1,
+      "message": "The keys of vcfg.ImportMap are import strings as they appear in source files.\nThe values of vcfg.ImportMap are fully-qualified import paths.\nFor example if vendoring is in use then import \"x/y\" might correspond to\na package p1 with p1.ImportPath \u003d\u003d \"foo/vendor/x/y\", in which case\nvcfg.ImportMap[\"x/y\"] \u003d\u003d \"foo/vendor/x/y\".\n\nThis code is iterating over the fully-qualified import paths of all\npackages known to be imported by p and making sure they are somehow\naccounted for in the vcfg.ImportMap. Those that were in the original\nsource code are already there. But others may appear only in generated\ncode (whether for cgo, coverage, or something else yet to come),\nand we need to add them as identity entries in the map.\n\nYou could argue that since we\u0027re putting identity entries into the map\nthen the key-value distinction is not strictly necessary and maybe\nit would all work out OK to check vcfg.ImportMap. Maybe that\u0027s true,\nalthough it\u0027s enough of a type mismatch (fully-qualified vs not)\nthat I\u0027m reluctant. I\u0027ll think about it.",
+      "parentUuid": "8fb06856_8dedde34",
       "range": {
         "startLine": 775,
         "startChar": 6,
