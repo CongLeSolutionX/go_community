@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eab379d8_c03e49f4",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1929,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T19:44:23Z",
+      "side": 1,
+      "message": "Please also add a test for `list -test` without `-deps`, and for `list -test` (with or without `-deps`) on a top-level `package main`.\n\n(The desired behavior in those case is not obvious to me, so it would be helpful to have tests as illustration.)",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19cd8254_f5f8d53b",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T19:44:23Z",
+      "side": 1,
+      "message": "This sentence is difficult for me to parse.\n(It takes my brain a while to figure out that “test” is an adjective here, and then I\u0027ve lost track of the verbs.)\n\nPerhaps, “The -test flag causes list to include in its output the test binaries, if any, for the named packages.”",
+      "range": {
+        "startLine": 145,
+        "startChar": 15,
+        "endLine": 146,
+        "endChar": 30
+      },
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71137f61_dc74ab3a",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T19:44:23Z",
+      "side": 1,
+      "message": "A comment here would be helpful: why does `list -test` require the cache while the other `list` modes do not?",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2036614b_4b551276",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T19:44:23Z",
+      "side": 1,
+      "message": "The documentation above says, “By default, the list command prints an error to standard error for each erroneous package and omits the packages from consideration during the usual printing.”\n\nHowever, if I understand base.Fatalf correctly, that is no longer the case here: instead of omitting the package from consideration, we are aborting the `list` command entirely.",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7f6b91d_681950a8",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T19:44:23Z",
+      "side": 1,
+      "message": "A comment would be helpful here: why do we need to add this prefix?",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85e3fd01_e653348f",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T19:44:23Z",
+      "side": 1,
+      "message": "This sheds some light on the need for the cache, but raises another question: what happens if the output file is not up-to-date in the cache?",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b7b7969_50ecea0d",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T19:44:23Z",
+      "side": 1,
+      "message": "Describe `pmain`; update from `forceTest` to `cover`.",
+      "range": {
+        "startLine": 41,
+        "startChar": 19,
+        "endLine": 44,
+        "endChar": 63
+      },
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e31cdb96_0c014d42",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T19:44:23Z",
+      "side": 1,
+      "message": "I think I\u0027m missing something here, but I\u0027m not sure what.\n\nDoes every main package implicitly define a corresponding test, or do we require the caller to verify that the package has test files as a prerequisite?",
+      "range": {
+        "startLine": 98,
+        "startChar": 27,
+        "endLine": 98,
+        "endChar": 46
+      },
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85b44379_f85f0f71",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T19:44:23Z",
+      "side": 1,
+      "message": "Hmm, I thought this function looked familiar.\n(https://go-review.googlesource.com/c/playground/+/98155/6/sandbox.go#96)\n\nIt deals entirely in terms of the ast package; perhaps we should move it there instead of here?",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 1
+      },
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca132fce_b274c958",
+        "filename": "src/cmd/go/internal/vet/vet.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T19:44:23Z",
+      "side": 1,
+      "message": "This looks like the beginnings of an Experience Report for Go 2. 🙂\n\nYou\u0027ve added an unrelated result parameter and changed an argument that this call site doesn\u0027t care about to a different argument that this call site doesn\u0027t care about. The fact that you have to update this call site at all seems unfortunate.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 0
+      },
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
