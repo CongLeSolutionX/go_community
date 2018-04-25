@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b7ae9882_57c38251",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-25T09:03:23Z",
+      "side": 1,
+      "message": "I don\u0027t think that makes things clearer - one could now understand that the single quotes are part of the output :)\n\nI think I\u0027ll leave it as it is. What matters is the change from \"\" to null.",
+      "parentUuid": "8a53a6bd_8187ebe4",
+      "revId": "ba21c39e083f78a8de47d0365095a7d3988c9829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d0cb586_8830382b",
         "filename": "src/html/template/js.go",
         "patchSetId": 1
@@ -51,6 +69,24 @@
       "revId": "ba21c39e083f78a8de47d0365095a7d3988c9829",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0f3ca57_09c7fe14",
+        "filename": "src/html/template/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-25T09:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0cb586_8830382b",
+      "revId": "ba21c39e083f78a8de47d0365095a7d3988c9829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
