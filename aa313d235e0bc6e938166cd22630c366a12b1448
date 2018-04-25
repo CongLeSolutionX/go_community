@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "a48cf594_f470d47d",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T21:27:23Z",
+      "side": 1,
+      "message": "I think I\u0027m still missing something. I understand that we do have a prefix on the payload, but given that the cache is content-addressed, what is the purpose of the prefix? (Do we really care whether a \"testmain\" payload collides with a non-\"testmain\" payload?)\n\nOr is the prefix just for manual debugging, so that you can root around through the cache\u0027s contents and figure out where it all came from?",
+      "parentUuid": "a17e77b2_e8cbc385",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85e3fd01_e653348f",
         "filename": "src/cmd/go/internal/list/list.go",
         "patchSetId": 4
@@ -315,6 +333,30 @@
       "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7ed7143_a4b63386",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-04-25T21:27:23Z",
+      "side": 1,
+      "message": "Got it. The two details I was missing were the assumption that the caller has already checked for test files, and the fact that the non-test build of `package main` is not importable.",
+      "parentUuid": "b7ad4543_41ff0a88",
+      "range": {
+        "startLine": 98,
+        "startChar": 27,
+        "endLine": 98,
+        "endChar": 46
+      },
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
