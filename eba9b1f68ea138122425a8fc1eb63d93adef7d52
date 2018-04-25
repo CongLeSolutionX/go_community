@@ -16,6 +16,24 @@
       "revId": "eba9b1f68ea138122425a8fc1eb63d93adef7d52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d76f5433_7d29501d",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:02:22Z",
+      "side": 1,
+      "message": "I think if you\u0027re using -test then it\u0027s OK that you have to understand what test-compiled package identifiers look like. And go list -json output has not used ImportPath to mean strictly \"what import path is used in source code\" since at least Go 1.5 with the introduction of vendoring.\n\nThe next step after these changes is to provide a package to take care of invoking the go command for you and just return a list of package structs. That representation can perhaps separate out \"ID\" from \"ImportPath\". This one need not.",
+      "parentUuid": "27a26510_5e60e37c",
+      "revId": "eba9b1f68ea138122425a8fc1eb63d93adef7d52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

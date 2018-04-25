@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ef39004a_7af033d4",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1929,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:02:22Z",
+      "side": 1,
+      "message": "Done. To hope to make things a bit clearer:\n\nIf you run go list -test with no -deps, then you should see the packages you asked for as well as their tests, if any. So if you run\n\n    go list -test sort\n\nyou should see two lines:\n\n    sort\n    sort.test\n\nIf sort had no tests, sort.test would not be listed.\n\nFor the purpose of go list -test, a main package is no different from a non-main package. If you do go list -test cmd/doc, you get \u0027cmd/doc\u0027 and \u0027cmd/doc.test\u0027, the latter corresponding to the test binary that you\u0027d get by running \u0027cd cmd/doc; go test -c\u0027.",
+      "parentUuid": "eab379d8_c03e49f4",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19cd8254_f5f8d53b",
         "filename": "src/cmd/go/internal/list/list.go",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "eeb8d609_26197b30",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:02:22Z",
+      "side": 1,
+      "message": "I tried again:\n\nThe -test flag causes list to report not only the named packages\nbut also their test binaries (for packages with tests), to convey to\nsource code analysis tools exactly how test binaries are constructed.",
+      "parentUuid": "19cd8254_f5f8d53b",
+      "range": {
+        "startLine": 145,
+        "startChar": 15,
+        "endLine": 146,
+        "endChar": 30
+      },
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71137f61_dc74ab3a",
         "filename": "src/cmd/go/internal/list/list.go",
         "patchSetId": 4
@@ -56,6 +98,24 @@
       "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5057a834_f6bb0e33",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:02:22Z",
+      "side": 1,
+      "message": "Indeed. It\u0027s added in a later CL, and I\u0027m not brave enough to try to bring that comment down to this one. The top of the current CL stack says:\n\n\tif cache.Default() \u003d\u003d nil {\n\t\t// These flags return file names pointing into the build cache,\n\t\t// so the build cache must exist.\n\t\tif *listCgo {\n\t\t\tbase.Fatalf(\"go list -cgo requires build cache\")\n\t\t}\n\t\tif *listExport {\n\t\t\tbase.Fatalf(\"go list -export requires build cache\")\n\t\t}\n\t\tif *listTest {\n\t\t\tbase.Fatalf(\"go list -test requires build cache\")\n\t\t}\n\t}",
+      "parentUuid": "71137f61_dc74ab3a",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "78286548_3d03acd9",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:02:22Z",
+      "side": 1,
+      "message": "Fixed, thanks. Nice catch.",
+      "parentUuid": "2036614b_4b551276",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7f6b91d_681950a8",
         "filename": "src/cmd/go/internal/list/list.go",
         "patchSetId": 4
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "a17e77b2_e8cbc385",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:02:22Z",
+      "side": 1,
+      "message": "The answer is not specific to this code. It\u0027s how the cache works in general. So I don\u0027t think putting a comment here makes sense. But I\u0027m happy to explain.\n\nIn general, you prepare a unique description of the computation you want to cache, and you write that description into a hash returned by cache.NewHash (the argument to cache.NewHash is only for debugging traces; it doesn\u0027t influence the hash computation). Many parts of the code build such hashes; each one starts by printing something that uniquely identifies its own computation. For example a typical first line might be \"compile\", \"link\", etc. This one is \"testmain\" because it\u0027s the testmain saver. This usage is a little odd because I\u0027m hashing the output I want to save directly, instead of the inputs that produced that output, but it\u0027s still OK. The important part is to avoid conflicts with other invocations (different saved testmains will result in different hashes) and other parts of the program (other hashes will start with different initial lines).",
+      "parentUuid": "a7f6b91d_681950a8",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85e3fd01_e653348f",
         "filename": "src/cmd/go/internal/list/list.go",
         "patchSetId": 4
@@ -107,6 +203,24 @@
       "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6557ab94_f32500f5",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:02:22Z",
+      "side": 1,
+      "message": "We just wrote it to the cache, so it must be up-to-date. \n\nMore generally the cache is content-addressed, so that the hashed text must capture all the relevant inputs that affect the output. You only reuse the output if you get a hit on that exact hash-of-inputs. So the outputs are always \"up-to-date\" or else not found at all.",
+      "parentUuid": "85e3fd01_e653348f",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "64474293_80de9d2f",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:02:22Z",
+      "side": 1,
+      "message": "Done.\n\n// TestPackagesFor returns three packages:\n//\t- ptest, the package p compiled with added \"package p\" test files.\n//\t- pxtest, the result of compiling any \"package p_test\" (external) test files.\n//\t- pmain, the package main corresponding to the test binary (running tests in ptest and pxtest).\n//\n// If the package has no \"package p_test\" test files, pxtest will be nil.\n// If the non-test compilation of package p can be reused\n// (for example, if there are no \"package p\" test files and\n// package p need not be instrumented for coverage or any other reason),\n// then the returned ptest \u003d\u003d p.\n//\n// The caller is expected to have checked that len(p.TestGoFiles)+len(p.XTestGoFiles) \u003e 0,\n// or else there\u0027s no point in any of this.",
+      "parentUuid": "5b7b7969_50ecea0d",
+      "range": {
+        "startLine": 41,
+        "startChar": 19,
+        "endLine": 44,
+        "endChar": 63
+      },
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e31cdb96_0c014d42",
         "filename": "src/cmd/go/internal/load/test.go",
         "patchSetId": 4
@@ -144,6 +282,30 @@
       "writtenOn": "2018-04-25T19:44:23Z",
       "side": 1,
       "message": "I think I\u0027m missing something here, but I\u0027m not sure what.\n\nDoes every main package implicitly define a corresponding test, or do we require the caller to verify that the package has test files as a prerequisite?",
+      "range": {
+        "startLine": 98,
+        "startChar": 27,
+        "endLine": 98,
+        "endChar": 46
+      },
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7ad4543_41ff0a88",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:02:22Z",
+      "side": 1,
+      "message": "The caller has checked that there are *_test.go files of some kind.\n(Added that fact to the doc comment.)\n\nThis condition is checking whether we must build a test-only copy\nof the package under test (package p) or else reuse the non-test\nbuild of p. We must rebuild package p if:\n\n1. len(p.TestGoFiles) \u003e 0, meaning there are \"package p\" *_test.go files\nthat need to be compiled into the package.\n\n2. p.Name \u003d\u003d \"main\", because the non-test build of p produces a\nnon-importable main package and binary, and we need an importable package.\n\n3. cover !\u003d nil \u0026\u0026 cover.Local, meaning we want to instrument package p\nto add record coverage information as it executes.",
+      "parentUuid": "e31cdb96_0c014d42",
       "range": {
         "startLine": 98,
         "startChar": 27,
@@ -176,6 +338,30 @@
       "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16972443_9eeac4d8",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-25T21:02:22Z",
+      "side": 1,
+      "message": "I\u0027d rather not. Whether something is a test function is a detail of cmd/go,\nnot a detail of go/ast.\n\nThe fact that the sandbox duplicates some parts of cmd/go is unfortunate,\nbut I strongly believe that we should not be attempting to expose Go-level\nAPIs into what cmd/go does. The right way to reuse cmd/go is to invoke it\nfrom the command line. (Really the playground should be doing that too,\nbut perhaps it is prohibited from doing so.)",
+      "parentUuid": "85b44379_f85f0f71",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 1
+      },
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
