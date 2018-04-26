@@ -451,13 +451,11 @@ func symMerge(data Interface, a, m, b int) {
 
 	mid := int(uint(a+b) >> 1)
 	n := mid + m
-	var start, r int
+	start := a
+	r := m
 	if m > mid {
 		start = n - b
 		r = mid
-	} else {
-		start = a
-		r = m
 	}
 	p := n - 1
 
