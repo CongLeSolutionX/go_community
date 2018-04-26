@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "e01da423_ad9e0f85",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-04-26T19:50:07Z",
+      "side": 1,
+      "message": "What I really want here is something to check if the auxOffset is 0. I don\u0027t know how to get that information.",
+      "parentUuid": "0224fb05_9326f972",
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3597ec9_fc97450c",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-04-26T19:50:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by inserting an ADDconst. If there is a non-zero offset with one of the MOVXBR instructions (since they are indexed instructions) then that offset will be added into the base, otherwise I don\u0027t want the add to be there at all.",
+      "parentUuid": "fc251b2b_c5e6409f",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 67
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4080ef2_67d82898",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 11
@@ -53,6 +95,30 @@
       "writtenOn": "2018-04-10T21:50:16Z",
       "side": 1,
       "message": "Why not just use [i0] on MOVHBRload directly?  Is it because it can\u0027t take a constant offset?\n\nIt can\u0027t be right that {s} gets applied as an Aux to both MOVHBRload and MOVDaddr.  That sounds like a recipe for double-offseting the effective address.",
+      "range": {
+        "startLine": 935,
+        "startChar": 47,
+        "endLine": 935,
+        "endChar": 82
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf863e4e_f93e7e3c",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-04-26T19:50:07Z",
+      "side": 1,
+      "message": "The BR loads and stores have indexed versions only and that means they don\u0027t have offsets fields in their instructions. :(\n\nI\u0027ll remove the extra {s}. I was thinking there was a case where it had to be there to be sure the matching worked right but that was just my misunderstanding.",
+      "parentUuid": "d4080ef2_67d82898",
       "range": {
         "startLine": 935,
         "startChar": 47,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "a57a7b69_60513592",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-04-26T19:50:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by this, can you point me to an example in the AMD64 rules?",
+      "parentUuid": "94ab018d_28cfa4d6",
+      "range": {
+        "startLine": 985,
+        "startChar": 8,
+        "endLine": 987,
+        "endChar": 4
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "04624f1c_89a88d3a",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 11
@@ -108,6 +198,30 @@
       "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "251b36f0_e474ddb5",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-04-26T19:50:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "04624f1c_89a88d3a",
+      "range": {
+        "startLine": 1227,
+        "startChar": 66,
+        "endLine": 1227,
+        "endChar": 67
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "b1542214_4461f1fc",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-04-26T19:50:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2daa8b8f_088b3d7a",
+      "range": {
+        "startLine": 295,
+        "startChar": 218,
+        "endLine": 295,
+        "endChar": 223
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d61a7af_ab912ba5",
         "filename": "src/crypto/cipher/gcm.go",
         "patchSetId": 11
@@ -162,6 +300,30 @@
       "writtenOn": "2018-04-10T14:17:52Z",
       "side": 1,
       "message": "I\u0027d be inclined to replace these functions with binary.BigEndian.* calls. It should probably be in a separate CL too.",
+      "range": {
+        "startLine": 415,
+        "startChar": 5,
+        "endLine": 415,
+        "endChar": 14
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85979100_40062e38",
+        "filename": "src/crypto/cipher/gcm.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-04-26T19:50:07Z",
+      "side": 1,
+      "message": "Yes, I thought of that too. I can do that in another change.",
+      "parentUuid": "1d61a7af_ab912ba5",
       "range": {
         "startLine": 415,
         "startChar": 5,
