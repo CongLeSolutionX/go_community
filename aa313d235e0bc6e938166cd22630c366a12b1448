@@ -207,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "62502cec_bfedf68b",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-04-26T01:29:16Z",
+      "side": 1,
+      "message": "The cache maps HASH(input description) -\u003e output bytes.\nIn this case the input description is \"testmain\\n\"+output bytes,\nbut that\u0027s not the usual case.\n\nTo be clear, most times when people say content-addressed\nthey mean that the lookup function is HASH(bytes) -\u003e same bytes.\nThat\u0027s not what this cache is. This is HASH(input desc) -\u003e output.\n\nIn this one specific instance the output bytes are going into the\ninput hash, because I\u0027m not actually trying to avoid work here,\njust to store some plain data into the cache so that cmd/go can\nprint its file name and know that even after exiting the file will\nstill be there. So this one specific instance is a bit more like\nthe usual content-addressed storage. But in general it\u0027s \n\"hash-of-computation-description-addressed\".\n\nThe usual common case is that you have an input description that\nsays something like \"compile\\nfile hello.go \u003chash of file\u003e\\n...\"\nand the cache maps HASH(that description) -\u003e the compiled .a file.\n\nThe first line of the description guarantees that all these hashes\noccupy different parts of the key space, so that if accidentally\ntwo descriptions of different operations might collide, the first\nline keeps them from using each other\u0027s outputs.\n\nIn this case, if hypothetically the output bytes I want to save\nhere happened to match the input description of a compile step,\nthen if I didn\u0027t start the hash with \"testmain\\n\", I\u0027d collide\nwith the same hash used by that compile step, with the result \nthat the unconditional store here would poison the cache entry\nused by the compile. The next time the same compile step ran,\nit would use my testmain.go bytes as if they were a compiled .a file.\n\nIs it likely that the generated testmain (valid Go source code)\njust happens to match exactly the input description used in some\nother place in cmd/go (almost never valid Go source code)?\nNo, absolutely not. But the initial prefix makes sure.\n\nI could have decided to carve out a subspace of the hash space for\npure content-addressed data and used a generic prefix like \"content\\n\"\ninstead of \"testmain\\n\", and then if something else in cmd/go also\nwanted to store output-hash-addressed outputs it could inhabit the same\nspace. But nothing does, and it seemed safer to keep on with the\noperation-specific hash descriptions instead of inventing a general one\nthat is actually used in only one place.",
+      "parentUuid": "a48cf594_f470d47d",
+      "revId": "aa313d235e0bc6e938166cd22630c366a12b1448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85e3fd01_e653348f",
         "filename": "src/cmd/go/internal/list/list.go",
         "patchSetId": 4
