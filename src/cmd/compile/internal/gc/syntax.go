@@ -589,6 +589,7 @@ const (
 	OADDR            // &Left
 	OANDAND          // Left && Right
 	OAPPEND          // append(List); after walk, Left may contain elem type descriptor
+	OEXTEND          // append(List[0], make(Type, List[1])...)
 	OARRAYBYTESTR    // Type(Left) (Type is string, Left is a []byte)
 	OARRAYBYTESTRTMP // Type(Left) (Type is string, Left is a []byte, ephemeral)
 	OARRAYRUNESTR    // Type(Left) (Type is string, Left is a []rune)
