@@ -319,6 +319,28 @@ func (o *Order) init(n *Node) {
 	n.Ninit.Set(nil)
 }
 
+func issliceextension(n *Node) bool {
+	if n.List.Len() != 2 {
+		return false
+	}
+
+	second := n.List.Second()
+	if second.Op != OMAKESLICE {
+		return false
+	}
+
+	if n.List.Second().Right != nil {
+		return false
+	}
+
+	makelen := second.Left
+	if !makelen.Type.IsKind(TIDEAL) && makelen.Type.Etype != TINT {
+		return false
+	}
+
+	return true
+}
+
 // Ismulticall reports whether the list l is f() for a multi-value function.
 // Such an f() could appear as the lone argument to a multi-arg function.
 func ismulticall(l Nodes) bool {
@@ -1104,7 +1126,14 @@ func (o *Order) expr(n, lhs *Node) *Node {
 		}
 
 	case OAPPEND:
-		o.callArgs(&n.List)
+		// Check for append(x, make([]T, y)...) .
+		if issliceextension(n) {
+			n.List.SetFirst(o.expr(n.List.First(), nil))
+			n.List.Second().Left = o.expr(n.List.Second().Left, nil)
+		} else {
+			o.callArgs(&n.List)
+		}
+
 		if lhs == nil || lhs.Op != ONAME && !samesafeexpr(lhs, n.List.First()) {
 			n = o.copyExpr(n, n.Type, false)
 		}
