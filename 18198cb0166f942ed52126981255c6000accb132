@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "02d68ed3_91ca3b79",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-04-26T17:59:34Z",
+      "side": 1,
+      "message": "s/AST/syntax tree/\n\nIf you consistently use syntax tree for the syntax\u0027s source representation and (Node) AST for the compiler\u0027s, confusion may be reduced.\n\nAlso, the syntax\u0027s package source representation, while a syntax tree, is not very abstract: It\u0027s a 1:1 (exact) representation of the source.",
+      "range": {
+        "startLine": 26,
+        "startChar": 48,
+        "endLine": 26,
+        "endChar": 51
+      },
+      "revId": "18198cb0166f942ed52126981255c6000accb132",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d31b0389_fb4d611b",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-04-26T17:59:34Z",
+      "side": 1,
+      "message": "s/old AST/create compiler AST/",
+      "range": {
+        "startLine": 39,
+        "startChar": 29,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "18198cb0166f942ed52126981255c6000accb132",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf9b4066_50c729f1",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 5
@@ -42,6 +88,52 @@
         "startChar": 27,
         "endLine": 41,
         "endChar": 30
+      },
+      "revId": "18198cb0166f942ed52126981255c6000accb132",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83505f69_f3befa59",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-04-26T17:59:34Z",
+      "side": 1,
+      "message": "s/AST to its own/syntax tree to the compiler\u0027s AST/",
+      "range": {
+        "startLine": 43,
+        "startChar": 48,
+        "endLine": 43,
+        "endChar": 62
+      },
+      "revId": "18198cb0166f942ed52126981255c6000accb132",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d34c31e_6824c010",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-04-26T17:59:34Z",
+      "side": 1,
+      "message": "s/resolution/inference/",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 10
       },
       "revId": "18198cb0166f942ed52126981255c6000accb132",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
