@@ -22,6 +22,30 @@
       "revId": "18198cb0166f942ed52126981255c6000accb132",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db34ff82_02056fae",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T12:48:39Z",
+      "side": 1,
+      "message": "\"old AST\" is in the line right above it, so I don\u0027t think it\u0027s necessary to be explicit here.",
+      "parentUuid": "bf9b4066_50c729f1",
+      "range": {
+        "startLine": 41,
+        "startChar": 27,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "18198cb0166f942ed52126981255c6000accb132",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
