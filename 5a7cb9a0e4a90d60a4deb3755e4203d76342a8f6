@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac8bbf76_f55d4cc2",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-26T14:38:20Z",
+      "side": 1,
+      "message": "Not needed. NAME_NONE is the default value.",
+      "range": {
+        "startLine": 98,
+        "startChar": 37,
+        "endLine": 98,
+        "endChar": 56
+      },
+      "revId": "5a7cb9a0e4a90d60a4deb3755e4203d76342a8f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85ecd5a5_923c29bc",
+        "filename": "test/codegen/memcombine.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-26T14:38:20Z",
+      "side": 1,
+      "message": "I think the old function name is better. It just zeros 2 bytes, and there isn\u0027t a uint16 appeared in the Go code.",
+      "revId": "5a7cb9a0e4a90d60a4deb3755e4203d76342a8f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
