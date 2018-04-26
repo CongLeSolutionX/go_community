@@ -80,7 +80,7 @@
 // the trace tool can identify the goroutines involved in a specific
 // cappuccino order.
 //
-//     ctx, taskEnd:= trace.NewContext(ctx, "makeCappuccino")
+//     ctx, task := trace.NewTask(ctx, "makeCappuccino")
 //     trace.Log(ctx, "orderID", orderID)
 //
 //     milk := make(chan bool)
@@ -95,7 +95,7 @@
 //        espresso<-true
 //     })()
 //     go func() {
-//        defer taskEnd()  // When assemble is done, the order is complete.
+//        defer task.End()  // When assemble is done, the order is complete.
 //        <-espresso
 //        <-milk
 //        trace.WithRegion(ctx, "mixMilkCoffee", mixMilkCoffee)
