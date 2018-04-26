@@ -72,6 +72,25 @@ func BenchmarkGrowSlice(b *testing.B) {
 	})
 }
 
+var SinkSlice []int
+var length int = 4
+
+func BenchmarkExtendSlice(b *testing.B) {
+	b.Run("grow", func(b *testing.B) {
+		s := make([]int, 0, length)
+		for i := 0; i < b.N; i++ {
+			s = append(s[:0:length], make([]int, 2*length)...)
+		}
+		SinkSlice = s
+	})
+	b.Run("nogrow", func(b *testing.B) {
+		s := make([]int, 0, length)
+		for i := 0; i < b.N; i++ {
+			s = append(s[:0:length], make([]int, length)...)
+		}
+		SinkSlice = s
+	})
+}
 func BenchmarkAppend(b *testing.B) {
 	b.StopTimer()
 	x := make([]int, 0, N)
