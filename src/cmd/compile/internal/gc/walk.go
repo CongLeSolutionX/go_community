@@ -729,7 +729,12 @@ opswitch:
 				yyerror("%v is go:notinheap; heap allocation disallowed", r.Type.Elem())
 			}
 			if r.Isddd() {
-				r = appendslice(r, init) // also works for append(slice, string).
+				if r.Right == nil {
+					r = appendslice(r, init) // also works for append(slice, string).
+				} else {
+					// append(List[0], make([]T, r.Right)...)
+					r = extendslice(r, init)
+				}
 			} else {
 				r = walkappend(r, init, n)
 			}
@@ -2922,6 +2927,18 @@ func addstr(n *Node, init *Nodes) *Node {
 	return r
 }
 
+func walkAppendArgs(n *Node, init *Nodes) {
+	walkexprlistsafe(n.List.Slice(), init)
+
+	// walkexprlistsafe will leave OINDEX (s[n]) alone if both s
+	// and n are name or literal, but those may index the slice we're
+	// modifying here. Fix explicitly.
+	ls := n.List.Slice()
+	for i1, n1 := range ls {
+		ls[i1] = cheapexpr(n1, init)
+	}
+}
+
 // expand append(l1, l2...) to
 //   init {
 //     s := l1
@@ -2937,15 +2954,7 @@ func addstr(n *Node, init *Nodes) *Node {
 //
 // l2 is allowed to be a string.
 func appendslice(n *Node, init *Nodes) *Node {
-	walkexprlistsafe(n.List.Slice(), init)
-
-	// walkexprlistsafe will leave OINDEX (s[n]) alone if both s
-	// and n are name or literal, but those may index the slice we're
-	// modifying here. Fix explicitly.
-	ls := n.List.Slice()
-	for i1, n1 := range ls {
-		ls[i1] = cheapexpr(n1, init)
-	}
+	walkAppendArgs(n, init)
 
 	l1 := n.List.First()
 	l2 := n.List.Second()
@@ -3031,6 +3040,143 @@ func appendslice(n *Node, init *Nodes) *Node {
 		nwid = nod(OMUL, nwid, nodintconst(s.Type.Elem().Width))
 		nt := mkcall1(fn, nil, &ln, nptr1, nptr2, nwid)
 		l = append(ln.Slice(), nt)
+	}
+
+	typecheckslice(l, Etop)
+	walkstmtlist(l)
+	init.Append(l...)
+	return s
+}
+
+// expand append(l1, make([]T, l2)...) to
+//   init {
+//     if l2 < 0 {
+//       _ = make([]T, l2) // will panic
+//     }
+//     s := l1
+//     n := len(s) + l2
+//     // Compare as uint so growslice can panic on overflow.
+//     if uint(n) > uint(cap(s)) {
+//       s = growslice(T, s, n)
+//     }
+//     s = s[:n]
+//     lptr := &l1[0]
+//     sptr := &s[0]
+//     if lptr == sptr || !hasPointers(T) {
+//       // growslice did not clear the whole underlying array
+//       hp := &s[len(l1)]
+//       hn := l2 * sizeof(T)
+//       memclr(hp, hn)
+//     }
+//   }
+//   s
+//
+// typecheck made sure l2 fits in an int.
+func extendslice(n *Node, init *Nodes) *Node {
+	walkAppendArgs(n, init)
+
+	l1 := n.List.First()
+	l2 := n.Right
+
+	var l []*Node
+
+	// if l2 < 0
+	nif0 := nod(OIF, nil, nil)
+	nif0.Left = nod(OLT, nod(OCONV, l2, nil), nod(OCONV, nodintconst(0), nil))
+	nif0.Left.Left.Type = types.Types[TINT]
+	nif0.Left.Right.Type = types.Types[TINT]
+
+	// _ = make([]T, l2)
+	nm := nod(OMAKE, nil, nil)
+	nm.List.Set2(typenod(l1.Type), l2)
+	nif0.Nbody.Set1(nod(OAS, temp(l1.Type), nm))
+	l = append(l, nif0)
+
+	// s := l1
+	s := temp(l1.Type)
+	l = append(l, nod(OAS, s, l1)) // s = l1
+
+	// n := len(s) + l2
+	nn := temp(types.Types[TINT])
+	l = append(l, nod(OAS, nn, nod(OADD, nod(OLEN, s, nil), l2)))
+
+	// if uint(n) > uint(cap(s))
+	nif := nod(OIF, nil, nil)
+	nif.Left = nod(OGT, nod(OCONV, nn, nil), nod(OCONV, nod(OCAP, s, nil), nil))
+	nif.Left.Left.Type = types.Types[TUINT]
+	nif.Left.Right.Type = types.Types[TUINT]
+
+	// instantiate growslice(Type*, []any, int) []any
+	fn := syslook("growslice")
+	fn = substArgTypes(fn, s.Type.Elem(), s.Type.Elem())
+
+	// s = growslice(T, s, n)
+	nif.Nbody.Set1(nod(OAS, s, mkcall1(fn, s.Type, &nif.Ninit, typename(s.Type.Elem()), s, nn)))
+	l = append(l, nif)
+
+	// s = s[:n]
+	nt := nod(OSLICE, s, nil)
+	nt.SetSliceBounds(nil, nn, nil)
+	l = append(l, nod(OAS, s, nt))
+
+	// lptr := &l1[0]
+	l1ptr := temp(types.Types[TUNSAFEPTR])
+	tmp := nod(OINDEX, l1, nodintconst(0))
+	tmp.SetBounded(true)
+	tmp = nod(OADDR, tmp, nil)
+	tmp = nod(OCONVNOP, tmp, nil)
+	tmp.Type = types.Types[TUNSAFEPTR]
+	l = append(l, nod(OAS, l1ptr, tmp))
+
+	// sptr := &s[0]
+	sptr := temp(types.Types[TUNSAFEPTR])
+	tmp = nod(OINDEX, s, nodintconst(0))
+	tmp.SetBounded(true)
+	tmp = nod(OADDR, tmp, nil)
+	tmp = nod(OCONVNOP, tmp, nil)
+	tmp.Type = types.Types[TUNSAFEPTR]
+	l = append(l, nod(OAS, sptr, tmp))
+
+	clr := make([]*Node, 0, 3)
+
+	// hp := &s[len(l1)]
+	hp := temp(types.Types[TUNSAFEPTR])
+
+	tmp = nod(OINDEX, s, nod(OLEN, l1, nil))
+	tmp.SetBounded(true)
+	tmp = nod(OADDR, tmp, nil)
+	tmp = nod(OCONVNOP, tmp, nil)
+	tmp.Type = types.Types[TUNSAFEPTR]
+	clr = append(clr, nod(OAS, hp, tmp))
+
+	// hn := l2 * sizeof(elem(s))
+	hn := temp(types.Types[TUINTPTR])
+
+	tmp = nod(OMUL, l2, nodintconst(s.Type.Elem().Width))
+	tmp = conv(tmp, types.Types[TUINTPTR])
+	clr = append(clr, nod(OAS, hn, tmp))
+
+	var clrfn *Node
+	hasPointers := types.Haspointers(s.Type.Elem())
+	if hasPointers {
+		// memclrHasPointers(hp, hn)
+		clrfn = mkcall("memclrHasPointers", nil, nil, hp, hn)
+	} else {
+		// memclrNoHeapPointers(hp, hn)
+		clrfn = mkcall("memclrNoHeapPointers", nil, nil, hp, hn)
+	}
+	clr = append(clr, clrfn)
+
+	if hasPointers {
+		// if l1ptr == sptr
+		nifclr := nod(OIF, nil, nil)
+		nifclr.Left = nod(OEQ, l1ptr, sptr)
+		nifclr.Left.Left.Type = types.Types[TUNSAFEPTR]
+		nifclr.Left.Right.Type = types.Types[TUNSAFEPTR]
+		nifclr.Nbody.Set(clr)
+		l = append(l, nifclr)
+	} else {
+		l = append(l, clr...)
 	}
 
 	typecheckslice(l, Etop)

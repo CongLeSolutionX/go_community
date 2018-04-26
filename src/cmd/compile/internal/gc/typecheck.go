@@ -1586,7 +1586,28 @@ func typecheck1(n *Node, top int) *Node {
 				break
 			}
 
-			args.SetSecond(assignconv(args.Second(), t.Orig, "append"))
+			second := assignconv(args.Second(), t.Orig, "append")
+			args.SetSecond(second)
+
+			// Check for append(x, make([]T, y)...) .
+			if second.Op != OMAKESLICE {
+				break
+			}
+
+			// Check that make does not have a cap argument.
+			if second.Right != nil {
+				break
+			}
+
+			// If y is a constant or is an int add a Right node to OAPPEND
+			// to signal a later optimization to avoid the additional
+			// allocation by make.
+			makelen := second.Left
+			if makelen.Type.IsKind(TIDEAL) || makelen.Type.Etype == TINT {
+				l := defaultlit(makelen, types.Types[TINT])
+				n.Right = typecheck(l, Erv)
+			}
+
 			break
 		}
 
