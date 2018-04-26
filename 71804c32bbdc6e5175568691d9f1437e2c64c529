@@ -22,6 +22,30 @@
       "revId": "71804c32bbdc6e5175568691d9f1437e2c64c529",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "801f2629_f7a641d1",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-26T04:50:38Z",
+      "side": 1,
+      "message": "Yikes! Thank you. Sigh.\n\nFixed up this CL, and now it\u0027s down to one new proof instead of six, but at least it looks plausible. :)\n\nI actually found a ton of extra cases in which isNonNegative gets called and in which I can return true instead of false, but which appear to almost no impact. (No extra proofs, shaves like 30 bytes of code off runtime and strconv object files.) Oh well.",
+      "parentUuid": "d8615bb5_ece58904",
+      "range": {
+        "startLine": 849,
+        "startChar": 18,
+        "endLine": 849,
+        "endChar": 28
+      },
+      "revId": "71804c32bbdc6e5175568691d9f1437e2c64c529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
