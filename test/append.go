@@ -13,13 +13,11 @@ import (
 	"reflect"
 )
 
-
 func verify(name string, result, expected interface{}) {
 	if !reflect.DeepEqual(result, expected) {
 		panic(name)
 	}
 }
-
 
 func main() {
 	for _, t := range tests {
@@ -29,7 +27,6 @@ func main() {
 	verifyInterface()
 	verifyType()
 }
-
 
 var tests = []struct {
 	name             string
@@ -48,7 +45,6 @@ var tests = []struct {
 
 	{"bool i", append([]bool{true, false, true}, []bool{true}...), []bool{true, false, true, true}},
 	{"bool j", append([]bool{true, false, true}, []bool{true, true, true}...), []bool{true, false, true, true, true, true}},
-
 
 	{"byte a", append([]byte{}), []byte{}},
 	{"byte b", append([]byte{}, 0), []byte{0}},
@@ -84,7 +80,6 @@ var tests = []struct {
 	{"int16 i", append([]int16{0, 1, 2}, []int16{3}...), []int16{0, 1, 2, 3}},
 	{"int16 j", append([]int16{0, 1, 2}, []int16{3, 4, 5}...), []int16{0, 1, 2, 3, 4, 5}},
 
-
 	{"uint32 a", append([]uint32{}), []uint32{}},
 	{"uint32 b", append([]uint32{}, 0), []uint32{0}},
 	{"uint32 c", append([]uint32{}, 0, 1, 2, 3), []uint32{0, 1, 2, 3}},
@@ -98,7 +93,6 @@ var tests = []struct {
 
 	{"uint32 i", append([]uint32{0, 1, 2}, []uint32{3}...), []uint32{0, 1, 2, 3}},
 	{"uint32 j", append([]uint32{0, 1, 2}, []uint32{3, 4, 5}...), []uint32{0, 1, 2, 3, 4, 5}},
-
 
 	{"float64 a", append([]float64{}), []float64{}},
 	{"float64 b", append([]float64{}, 0), []float64{0}},
@@ -114,7 +108,6 @@ var tests = []struct {
 	{"float64 i", append([]float64{0, 1, 2}, []float64{3}...), []float64{0, 1, 2, 3}},
 	{"float64 j", append([]float64{0, 1, 2}, []float64{3, 4, 5}...), []float64{0, 1, 2, 3, 4, 5}},
 
-
 	{"complex128 a", append([]complex128{}), []complex128{}},
 	{"complex128 b", append([]complex128{}, 0), []complex128{0}},
 	{"complex128 c", append([]complex128{}, 0, 1, 2, 3), []complex128{0, 1, 2, 3}},
@@ -129,7 +122,6 @@ var tests = []struct {
 	{"complex128 i", append([]complex128{0, 1, 2}, []complex128{3}...), []complex128{0, 1, 2, 3}},
 	{"complex128 j", append([]complex128{0, 1, 2}, []complex128{3, 4, 5}...), []complex128{0, 1, 2, 3, 4, 5}},
 
-
 	{"string a", append([]string{}), []string{}},
 	{"string b", append([]string{}, "0"), []string{"0"}},
 	{"string c", append([]string{}, "0", "1", "2", "3"), []string{"0", "1", "2", "3"}},
@@ -143,8 +135,13 @@ var tests = []struct {
 
 	{"string i", append([]string{"0", "1", "2"}, []string{"3"}...), []string{"0", "1", "2", "3"}},
 	{"string j", append([]string{"0", "1", "2"}, []string{"3", "4", "5"}...), []string{"0", "1", "2", "3", "4", "5"}},
-}
 
+	{"make a", append([]string{}, make([]string, 0)...), []string{}},
+	{"make b", append([]struct{}{}, make([]struct{}, 2)...), make([]struct{}, 2)},
+
+	{"make c", append([]int{0, 1}, make([]int, 0)...), []int{0, 1}},
+	{"make d", append([]int{0, 1}, make([]int, 2)...), []int{0, 1, 0, 0}},
+}
 
 func verifyStruct() {
 	type T struct {
@@ -184,7 +181,6 @@ func verifyStruct() {
 	verify("struct l", append(s), s)
 	verify("struct m", append(s, e...), r)
 }
-
 
 func verifyInterface() {
 	type T interface{}

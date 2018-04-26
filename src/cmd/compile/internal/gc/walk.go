@@ -722,6 +722,14 @@ opswitch:
 			n = walkexpr(n, init)
 			break opswitch
 
+		case OEXTEND:
+			r := n.Right
+			if r.Type.Elem().NotInHeap() {
+				yyerror("%v is go:notinheap; heap allocation disallowed", r.Type.Elem())
+			}
+			r = extendslice(r, init) // also works for append(slice, string).
+			n.Right = r
+
 		case OAPPEND:
 			// x = append(...)
 			r := n.Right
@@ -3032,6 +3040,115 @@ func appendslice(n *Node, init *Nodes) *Node {
 		nt := mkcall1(fn, nil, &ln, nptr1, nptr2, nwid)
 		l = append(ln.Slice(), nt)
 	}
+
+	typecheckslice(l, Etop)
+	walkstmtlist(l)
+	init.Append(l...)
+	return s
+}
+
+// expand append(l1, male([]T, l2)...) to
+//   init {
+//     if l2 < 0 {
+//       _ = make([]T, l2) // will panic
+//     }
+//     s := l1
+//     n := len(s) + l2
+//     // Compare as uint so growslice can panic on overflow.
+//     if uint(n) > uint(cap(s)) {
+//       s = growslice(T, s, n)
+//     }
+//     s = s[:n]
+//     hp = &s[len(l1)]
+//     hn = l2 * sizeof(T)
+//     memclr(hp, hn)
+//   }
+//   s
+//
+// l2 is allowed to be a string.
+// typecheck made sure l2 has the same width as an int.
+func extendslice(n *Node, init *Nodes) *Node {
+	_ = append([]int{}, make([]int, len(n.List.Slice()))...)
+	walkexprlistsafe(n.List.Slice(), init)
+
+	// walkexprlistsafe will leave OINDEX (s[n]) alone if both s
+	// and n are name or literal, but those may index the slice we're
+	// modifying here. Fix explicitly.
+	ls := n.List.Slice()
+	for i1, n1 := range ls {
+		ls[i1] = cheapexpr(n1, init)
+	}
+
+	l1 := n.List.First()
+	l2 := n.List.Second()
+
+	var l []*Node
+
+	// if l2 < 0
+	nif0 := nod(OIF, nil, nil)
+	nif0.Left = nod(OLT, nod(OCONV, l2, nil), nod(OCONV, nodintconst(0), nil))
+	nif0.Left.Left.Type = types.Types[TINT]
+	nif0.Left.Right.Type = types.Types[TINT]
+
+	// _ = make([]T, l2)
+	nm := nod(OMAKE, nil, nil)
+	nm.List.Set2(typenod(l1.Type), l2)
+	nif0.Nbody.Set1(nod(OAS, temp(l1.Type), nm))
+	l = append(l, nif0)
+
+	// s := l1
+	s := temp(l1.Type)
+	l = append(l, nod(OAS, s, l1)) // s = l1
+
+	// n := len(s) + l2
+	nn := temp(types.Types[TINT])
+	l = append(l, nod(OAS, nn, nod(OADD, nod(OLEN, s, nil), l2)))
+
+	// if uint(n) > uint(cap(s))
+	nif := nod(OIF, nil, nil)
+	nif.Left = nod(OGT, nod(OCONV, nn, nil), nod(OCONV, nod(OCAP, s, nil), nil))
+	nif.Left.Left.Type = types.Types[TUINT]
+	nif.Left.Right.Type = types.Types[TUINT]
+
+	// instantiate growslice(Type*, []any, int) []any
+	fn := syslook("growslice")
+	fn = substArgTypes(fn, s.Type.Elem(), s.Type.Elem())
+
+	// s = growslice(T, s, nn)
+	nif.Nbody.Set1(nod(OAS, s, mkcall1(fn, s.Type, &nif.Ninit, typename(s.Type.Elem()), s, nn)))
+	l = append(l, nif)
+
+	// s = s[:n]
+	nt := nod(OSLICE, s, nil)
+	nt.SetSliceBounds(nil, nn, nil)
+	l = append(l, nod(OAS, s, nt))
+
+	// hp := &s[len(l1)]
+	hp := temp(types.Types[TUNSAFEPTR])
+
+	tmp := nod(OINDEX, s, nod(OLEN, l1, nil))
+	tmp.SetBounded(true)
+	tmp = nod(OADDR, tmp, nil)
+	tmp = nod(OCONVNOP, tmp, nil)
+	tmp.Type = types.Types[TUNSAFEPTR]
+	l = append(l, nod(OAS, hp, tmp))
+
+	// hn := l2 * sizeof(elem(s))
+	hn := temp(types.Types[TUINTPTR])
+
+	tmp = nod(OMUL, l2, nodintconst(s.Type.Elem().Width))
+	tmp = conv(tmp, types.Types[TUINTPTR])
+	l = append(l, nod(OAS, hn, tmp))
+
+	var clrfn *Node
+	if types.Haspointers(s.Type.Elem()) {
+		// memclrHasPointers(hp, hn)
+		clrfn = mkcall("memclrHasPointers", nil, nil, hp, hn)
+	} else {
+		// memclrNoHeapPointers(hp, hn)
+		clrfn = mkcall("memclrNoHeapPointers", nil, nil, hp, hn)
+	}
+	l = append(l, clrfn)
 
 	typecheckslice(l, Etop)
 	walkstmtlist(l)

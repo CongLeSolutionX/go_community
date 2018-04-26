@@ -1583,10 +1583,27 @@ func typecheck1(n *Node, top int) *Node {
 
 			if t.Elem().IsKind(TUINT8) && args.Second().Type.IsString() {
 				args.SetSecond(defaultlit(args.Second(), types.Types[TSTRING]))
-				break
+			} else {
+				args.SetSecond(assignconv(args.Second(), t.Orig, "append"))
 			}
 
-			args.SetSecond(assignconv(args.Second(), t.Orig, "append"))
+			second := args.Second()
+			makelen := second.Left
+			makecap := second.Right
+			// check for append(x, make([]T, y)...)
+			if second.Op == OMAKESLICE && makecap == nil {
+				// If y is constant or its maximum fits in a uint
+				// use a special OEXTEND node that later is optimized
+				// to avoid the make call and clears the
+				// new elements  directly.
+				if makelen.Type.IsKind(TIDEAL) ||
+					maxintval[makelen.Type.Etype].Cmp(maxintval[TUINT]) <= 0 {
+					l := conv(makelen, types.Types[TINT])
+					args.SetSecond(typecheck(l, Erv))
+					n.Op = OEXTEND
+				}
+			}
+
 			break
 		}
 

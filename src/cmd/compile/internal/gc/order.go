@@ -1103,7 +1103,7 @@ func (o *Order) expr(n, lhs *Node) *Node {
 			n = o.copyExpr(n, n.Type, false)
 		}
 
-	case OAPPEND:
+	case OAPPEND, OEXTEND:
 		o.callArgs(&n.List)
 		if lhs == nil || lhs.Op != ONAME && !samesafeexpr(lhs, n.List.First()) {
 			n = o.copyExpr(n, n.Type, false)
