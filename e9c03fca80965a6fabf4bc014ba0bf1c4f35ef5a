@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbb6c184_a7f287d9",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-26T00:53:05Z",
+      "side": 1,
+      "message": "I meant, just to put this part (the .Index encoding) in a helper function. The \"ld\" and \"str\" args don\u0027t make the code more readable.",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 55
+      },
+      "revId": "e9c03fca80965a6fabf4bc014ba0bf1c4f35ef5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5adb421d_cba719f7",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 14
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-26T00:53:05Z",
+      "side": 1,
+      "message": "This looks weird (although correct). Does it ever happen?",
+      "revId": "e9c03fca80965a6fabf4bc014ba0bf1c4f35ef5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40f0b2f8_c0928fee",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 14
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-26T00:53:05Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "e9c03fca80965a6fabf4bc014ba0bf1c4f35ef5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "114f6991_fb896cd3",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 14
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-26T00:53:05Z",
+      "side": 1,
+      "message": "And here.",
+      "revId": "e9c03fca80965a6fabf4bc014ba0bf1c4f35ef5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa0e42ec_5a3a113b",
+        "filename": "test/codegen/memcombine.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-26T00:53:05Z",
+      "side": 1,
+      "message": "-`ORR` is enough. Also below.",
+      "range": {
+        "startLine": 114,
+        "startChar": 45,
+        "endLine": 114,
+        "endChar": 63
+      },
+      "revId": "e9c03fca80965a6fabf4bc014ba0bf1c4f35ef5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
