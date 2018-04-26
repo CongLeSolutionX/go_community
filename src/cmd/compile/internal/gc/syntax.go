@@ -581,14 +581,15 @@ const (
 	OLITERAL // literal
 
 	// expressions
-	OADD             // Left + Right
-	OSUB             // Left - Right
-	OOR              // Left | Right
-	OXOR             // Left ^ Right
-	OADDSTR          // +{List} (string addition, list elements are strings)
-	OADDR            // &Left
-	OANDAND          // Left && Right
-	OAPPEND          // append(List); after walk, Left may contain elem type descriptor
+	OADD    // Left + Right
+	OSUB    // Left - Right
+	OOR     // Left | Right
+	OXOR    // Left ^ Right
+	OADDSTR // +{List} (string addition, list elements are strings)
+	OADDR   // &Left
+	OANDAND // Left && Right
+	OAPPEND // append(List); after walk, Left may contain elem type descriptor
+	// for append(x, make([]T, len)...) where n.Right is set to len
 	OARRAYBYTESTR    // Type(Left) (Type is string, Left is a []byte)
 	OARRAYBYTESTRTMP // Type(Left) (Type is string, Left is a []byte, ephemeral)
 	OARRAYRUNESTR    // Type(Left) (Type is string, Left is a []rune)
