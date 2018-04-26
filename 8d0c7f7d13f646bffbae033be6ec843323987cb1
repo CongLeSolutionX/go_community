@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "82a02d9e_8b759bbc",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Title done.\n\nI didn\u0027t add a copyright to the doc because other README files had none. But I guess this is more of a guide/doc than a small README. Will add it too.",
+      "parentUuid": "a7a88823_8c12b68a",
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f85e9d4_e613ce7f",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 4
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "8dafc034_60f508a5",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f85e9d4_e613ce7f",
+      "range": {
+        "startLine": 2,
+        "startChar": 69,
+        "endLine": 2,
+        "endChar": 78
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26a19c71_e1f38fd9",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9de54bd_0d857d66",
+      "range": {
+        "startLine": 2,
+        "startChar": 23,
+        "endLine": 2,
+        "endChar": 36
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddb2a712_322f1d05",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 4
@@ -85,6 +151,30 @@
       "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f009c47d_065cc917",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddb2a712_322f1d05",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "8ea9a4a9_b583415d",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fb3eb84_f0fe7328",
+      "range": {
+        "startLine": 8,
+        "startChar": 44,
+        "endLine": 8,
+        "endChar": 48
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cedb416_c5af010c",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 4
@@ -131,6 +245,30 @@
       "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d82d9186_aac28f0b",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cedb416_c5af010c",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 11,
+        "endChar": 66
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "d1f0496b_d6109a5a",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Thanks, done. Your version doesn\u0027t include anything about syntax errors, but I presume that you\u0027re fine with leaving that implicit.",
+      "parentUuid": "c3e2855a_b7ea7e33",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 9
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be409e11_b263e5eb",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 4
@@ -177,6 +339,30 @@
       "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9583084f_b415d8e8",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be409e11_b263e5eb",
+      "range": {
+        "startLine": 34,
+        "startChar": 16,
+        "endLine": 34,
+        "endChar": 27
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "5ccc4e23_dd3362ce",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done - rewrote this paragraph a bit, accordingly.",
+      "parentUuid": "40f286e9_d5ceb74a",
+      "range": {
+        "startLine": 36,
+        "startChar": 30,
+        "endLine": 37,
+        "endChar": 22
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9511ef76_2d9da0e4",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 4
@@ -223,6 +433,30 @@
       "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1ac3112_9986a566",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done. I had put it here because it\u0027s this phase that introduces the \"gc\" name, but you do have a point.",
+      "parentUuid": "9511ef76_2d9da0e4",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 75
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "1a7c57c3_8b173cff",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done, thanks. I struggled a bit with this part :)",
+      "parentUuid": "741c12a5_d0721c88",
+      "range": {
+        "startLine": 55,
+        "startChar": 5,
+        "endLine": 55,
+        "endChar": 9
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a35131a0_f04f72ab",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 4
@@ -269,6 +527,30 @@
       "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a71ae9c_314a0230",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a35131a0_f04f72ab",
+      "range": {
+        "startLine": 78,
+        "startChar": 7,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -295,6 +577,30 @@
     },
     {
       "key": {
+        "uuid": "196c3115_ea12d7d7",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86683b7d_0f5d2fdc",
+      "range": {
+        "startLine": 83,
+        "startChar": 22,
+        "endLine": 83,
+        "endChar": 26
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4616637_4286b23a",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 4
@@ -315,6 +621,30 @@
       "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9301c3e1_7a9a2fb4",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "but this isn\u0027t a compiler phase, at least not one of the 4 we introduce here. This is one of the \"passes\" that SSA has. I\u0027ll change it to that for now.",
+      "parentUuid": "c4616637_4286b23a",
+      "range": {
+        "startLine": 87,
+        "startChar": 20,
+        "endLine": 87,
+        "endChar": 24
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -341,6 +671,30 @@
     },
     {
       "key": {
+        "uuid": "3a8b26f8_c3df4db2",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db021a2a_bd0e2893",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 16
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73970e2c_5533b3ef",
         "filename": "src/cmd/compile/README.md",
         "patchSetId": 4
@@ -361,6 +715,30 @@
       "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db3a847f_5a89d83b",
+        "filename": "src/cmd/compile/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-04-26T07:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73970e2c_5533b3ef",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 17
+      },
+      "revId": "8d0c7f7d13f646bffbae033be6ec843323987cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
