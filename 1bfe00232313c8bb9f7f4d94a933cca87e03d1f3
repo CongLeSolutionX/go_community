@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1ed804e_bec554fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-26T15:18:14Z",
+      "side": 1,
+      "message": "Can you also show the geomean (benchstat -geomean)?",
+      "revId": "1bfe00232313c8bb9f7f4d94a933cca87e03d1f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a1dba10_7d399ebc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-26T15:18:14Z",
+      "side": 1,
+      "message": "Apparently it doesn\u0027t help darwin/arm64. Remove this.",
+      "revId": "1bfe00232313c8bb9f7f4d94a933cca87e03d1f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
