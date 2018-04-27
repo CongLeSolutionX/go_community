@@ -266,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "b742df47_944e5512",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-04-27T18:41:23Z",
+      "side": 1,
+      "message": "Updates made, hopefully they are clearer.",
+      "parentUuid": "0e2f9a9d_cb81c66f",
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2daa8b8f_088b3d7a",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 11
