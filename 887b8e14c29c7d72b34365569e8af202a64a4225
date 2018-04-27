@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a65a01dc_01cb8996",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-27T04:43:23Z",
+      "side": 1,
+      "message": "I\u0027m a bit nervous about this, since so many places in the code touch append. E.g. should there be any changes to esc.go to treat OEXTEND like OAPPEND? How are we sure we\u0027ve found everything that matters?",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d26df914_5e663531",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-27T04:43:23Z",
+      "side": 1,
+      "message": "Invert condition, break, dedent below.",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91830242_6ed15217",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1599,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-27T04:43:23Z",
+      "side": 1,
+      "message": "I think the preferred way to check for const-ness is consttype. I think.\n\nCan you expand on why constants and \"fits in a uint\" are the relevant constraints? When do they fail? (Only 64 bit ints on 32 bit systems?)",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab2a7b2d_f4ee98a6",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3053,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-27T04:43:23Z",
+      "side": 1,
+      "message": "Why not just panic directly?",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c324df50_385f1959",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3059,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-27T04:43:23Z",
+      "side": 1,
+      "message": "There\u0027s special handling in the SSA converter to avoid unnecessary write barriers during append. Would they cover this lowering? Should they?",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b09f7d3_bfd9b033",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3064,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-27T04:43:23Z",
+      "side": 1,
+      "message": "I\u0027m not 100% sure, but I think we might only need this memclr right now if T is scalar or if the underlying array is the same. If T has pointers, any new underlying array would have to be zero-initialized.",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d226617a_15ca6cbb",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3071,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-27T04:43:23Z",
+      "side": 1,
+      "message": "Debugging code?",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae86d2b2_15687552",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3074,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-27T04:43:23Z",
+      "side": 1,
+      "message": "Any reasonable way to reduce this duplication with appendslice in this prologue?",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
