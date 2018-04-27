@@ -193,6 +193,9 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 	// https://golang.org/issue/14449
 	// https://golang.org/issue/21961
 	if iscgo && ctxt.Arch.InFamily(sys.ARM64, sys.MIPS64, sys.MIPS, sys.PPC64) {
+		if objabi.GOARCH == "ppc64" {
+			Exitf("cgo needs external linking which is not supported for linux/ppc64")
+		}
 		return true, objabi.GOARCH + " does not support internal cgo"
 	}
 
@@ -240,6 +243,9 @@ func determineLinkMode(ctxt *Link) {
 			}
 			ctxt.LinkMode = LinkInternal
 		case "1":
+			if objabi.GOARCH == "ppc64" {
+				Exitf("external linking requested via GO_EXTLINK_ENABLED but not supported for linux/ppc64")
+			}
 			ctxt.LinkMode = LinkExternal
 		default:
 			if needed, _ := mustLinkExternal(ctxt); needed {
@@ -255,6 +261,10 @@ func determineLinkMode(ctxt *Link) {
 	case LinkInternal:
 		if needed, reason := mustLinkExternal(ctxt); needed {
 			Exitf("internal linking requested but external linking required: %s", reason)
+		}
+	case LinkExternal:
+		if objabi.GOARCH == "ppc64" {
+			Exitf("external linking not supported for linux/ppc64")
 		}
 	}
 }
