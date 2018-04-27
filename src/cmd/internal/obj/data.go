@@ -46,11 +46,7 @@ func (s *LSym) Grow(lsiz int64) {
 	if len(s.P) >= siz {
 		return
 	}
-	// TODO(dfc) append cap-len at once, rather than
-	// one byte at a time.
-	for cap(s.P) < siz {
-		s.P = append(s.P[:cap(s.P)], 0)
-	}
+	s.P = append(s.P, make([]byte, siz-len(s.P)+1)...)
 	s.P = s.P[:siz]
 }
 

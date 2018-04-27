@@ -342,8 +342,8 @@ func (s *regAllocState) freeRegs(m regMask) {
 // setOrig records that c's original value is the same as
 // v's original value.
 func (s *regAllocState) setOrig(c *Value, v *Value) {
-	for int(c.ID) >= len(s.orig) {
-		s.orig = append(s.orig, nil)
+	if int(c.ID) >= len(s.orig) {
+		s.orig = append(s.orig, make([]*Value, int(c.ID)-len(s.orig)+1)...)
 	}
 	if s.orig[c.ID] != nil {
 		s.f.Fatalf("orig value set twice %s %s", c, v)
