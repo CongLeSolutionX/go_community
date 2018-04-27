@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "87efe934_be116ad9",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T07:30:50Z",
+      "side": 1,
+      "message": "keept OAPPEND and added a Right with the length of the make slice",
+      "parentUuid": "cc48e5bb_313ab7e1",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d26df914_5e663531",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 2
@@ -51,6 +69,24 @@
       "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3dbeccf_9842c7b1",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T07:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d26df914_5e663531",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +119,24 @@
       "side": 1,
       "message": "yes i dont want to do the dance of deciding at runtime if int64 fits into int32.\nThis condition is similar to what we use for makeslice. a uint is still ok since if it does not fit into the positive int range its negative and will fail the \u003c 0 check for ints at runtime.",
       "parentUuid": "91830242_6ed15217",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf0c3096_dec602c5",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1599,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T07:30:50Z",
+      "side": 1,
+      "message": "made it more restrictive by allowing only CTINT consts and int types",
+      "parentUuid": "894a7732_85524e3d",
       "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -176,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "da589d08_3363c4a9",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3064,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T07:30:50Z",
+      "side": 1,
+      "message": "Added if that only clears pointer containing slices if the pointer to backing array didnt change.",
+      "parentUuid": "aacf7b35_f347d2f5",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d226617a_15ca6cbb",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 2
@@ -211,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "3ce2d49f_8916aaec",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3071,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T07:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57b647b5_7cbac360",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae86d2b2_15687552",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 2
@@ -243,6 +333,24 @@
       "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9dfd36f_cf5ee2fe",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3074,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T07:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80b0f110_c4c89541",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
