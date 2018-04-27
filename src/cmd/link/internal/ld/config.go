@@ -240,6 +240,9 @@ func determineLinkMode(ctxt *Link) {
 			}
 			ctxt.LinkMode = LinkInternal
 		case "1":
+			if objabi.GOARCH == "ppc64" {
+				Exitf("external linking requested via GO_EXTLINK_ENABLED but not supported for linux/ppc64")
+			}
 			ctxt.LinkMode = LinkExternal
 		default:
 			if needed, _ := mustLinkExternal(ctxt); needed {
@@ -255,6 +258,10 @@ func determineLinkMode(ctxt *Link) {
 	case LinkInternal:
 		if needed, reason := mustLinkExternal(ctxt); needed {
 			Exitf("internal linking requested but external linking required: %s", reason)
+		}
+	case LinkExternal:
+		if objabi.GOARCH == "ppc64" {
+			Exitf("external linking not supported for linux/ppc64")
 		}
 	}
 }
