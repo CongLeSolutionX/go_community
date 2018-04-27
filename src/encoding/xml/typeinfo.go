@@ -65,7 +65,7 @@ func getTypeInfo(typ reflect.Type) (*typeInfo, error) {
 			}
 
 			// For embedded structs, embed its fields.
-			if f.Anonymous {
+			if f.Anonymous {// i.e. reflect package will panic to get a Value
 				t := f.Type
 				if t.Kind() == reflect.Ptr {
 					t = t.Elem()
@@ -75,13 +75,14 @@ func getTypeInfo(typ reflect.Type) (*typeInfo, error) {
 					if err != nil {
 						return nil, err
 					}
-					if tinfo.xmlname == nil {
+					if tinfo.xmlname == nil && inner.xmlname != nil && inner.xmlname.name != "" {
+						// to leave xmlname to nil and to avoid assigning unexported xmlname field
 						tinfo.xmlname = inner.xmlname
 					}
 					for _, finfo := range inner.fields {
 						finfo.idx = append([]int{i}, finfo.idx...)
 						if err := addFieldInfo(typ, tinfo, &finfo); err != nil {
-							return nil, err
+							return nil, err // Any detected conflict returns an error
 						}
 					}
 					continue
@@ -93,19 +94,16 @@ func getTypeInfo(typ reflect.Type) (*typeInfo, error) {
 				return nil, err
 			}
 
-			if f.Name == xmlName {
+			if f.Name == xmlName { // copying the field for "easier" access when .FieldByName() is appropriate
 				tinfo.xmlname = finfo
-				continue
-			}
-
-			// Add the field if it doesn't conflict with other fields.
-			if err := addFieldInfo(typ, tinfo, finfo); err != nil {
+			} else if err := addFieldInfo(typ, tinfo, finfo); err != nil {
+				// Add the field if it doesn't conflict with other fields.
 				return nil, err
 			}
 		}
 	}
 
-	ti, _ := tinfoMap.LoadOrStore(typ, tinfo)
+	ti, _ := tinfoMap.LoadOrStore(typ, tinfo) // Returned bool is always false
 	return ti.(*typeInfo), nil
 }
 
@@ -122,7 +120,7 @@ func structFieldInfo(typ reflect.Type, f *reflect.StructField) (*fieldInfo, erro
 	// Parse flags.
 	tokens := strings.Split(tag, ",")
 	if len(tokens) == 1 {
-		finfo.flags = fElement
+		finfo.flags = fElement // Nothing but the name of field
 	} else {
 		tag = tokens[0]
 		for _, flag := range tokens[1:] {
@@ -187,6 +185,7 @@ func structFieldInfo(typ reflect.Type, f *reflect.StructField) (*fieldInfo, erro
 		// If the name part of the tag is completely empty, get
 		// default from XMLName of underlying struct if feasible,
 		// or field name otherwise.
+		// This is how an anonymous struct gets a value
 		if xmlname := lookupXMLName(f.Type); xmlname != nil {
 			finfo.xmlns, finfo.name = xmlname.xmlns, xmlname.name
 		} else {
@@ -240,7 +239,7 @@ func lookupXMLName(typ reflect.Type) (xmlname *fieldInfo) {
 		if f.Name != xmlName {
 			continue
 		}
-		finfo, err := structFieldInfo(typ, &f)
+		finfo, err := structFieldInfo(typ, &f) // Recursive call
 		if err == nil && finfo.name != "" {
 			return finfo
 		}
@@ -292,7 +291,8 @@ Loop:
 				conflicts = append(conflicts, i)
 			}
 		} else {
-			if newf.name == oldf.name {
+			if newf.name == oldf.name && newf.xmlns == oldf.xmlns {
+				// A conflict is only if the names are identical in the same namespace which might be ""
 				conflicts = append(conflicts, i)
 			}
 		}
@@ -314,7 +314,7 @@ Loop:
 	// Otherwise, if any of them is at the same depth level, it's an error.
 	for _, i := range conflicts {
 		oldf := &tinfo.fields[i]
-		if len(oldf.idx) == len(newf.idx) {
+		if len(oldf.idx) == len(newf.idx) { // Same depth
 			f1 := typ.FieldByIndex(oldf.idx)
 			f2 := typ.FieldByIndex(newf.idx)
 			return &TagPathError{typ, f1.Name, f1.Tag.Get("xml"), f2.Name, f2.Tag.Get("xml")}
@@ -347,6 +347,8 @@ func (e *TagPathError) Error() string {
 // value returns v's field value corresponding to finfo.
 // It's equivalent to v.FieldByIndex(finfo.idx), but initializes
 // and dereferences pointers as necessary.
+// Parameter is using reflection package and panics on invalid case. As a consequence, you need to check if
+//  value is available before calling .value. Impossible to fix here except by getting rid of it.
 func (finfo *fieldInfo) value(v reflect.Value) reflect.Value {
 	for i, x := range finfo.idx {
 		if i > 0 {

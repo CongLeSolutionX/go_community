@@ -146,6 +146,7 @@ func NewEncoder(w io.Writer) *Encoder {
 func (enc *Encoder) Indent(prefix, indent string) {
 	enc.p.prefix = prefix
 	enc.p.indent = indent
+	enc.p.minimalIndent = prefix == "" && indent == "" //Empty values are still indented
 }
 
 // Encode writes the XML encoding of v to the stream.
@@ -298,17 +299,18 @@ func (enc *Encoder) Flush() error {
 
 type printer struct {
 	*bufio.Writer
-	encoder    *Encoder
-	seq        int
-	indent     string
-	prefix     string
-	depth      int
-	indentedIn bool
-	putNewline bool
-	attrNS     map[string]string // map prefix -> name space
-	attrPrefix map[string]string // map name space -> prefix
-	prefixes   []string
-	tags       []Name
+	encoder       *Encoder
+	seq           int
+	indent        string
+	prefix        string
+	depth         int
+	indentedIn    bool
+	putNewline    bool
+	minimalIndent bool              // new line even with empty prefix and indent
+	attrNS        map[string]string // map prefix -> name space
+	attrPrefix    map[string]string // map name space -> prefix
+	prefixes      []string
+	tags          []Name
 }
 
 // createAttrPrefix finds the name space prefix attribute to use for the given name space,
@@ -375,7 +377,7 @@ func (p *printer) deleteAttrPrefix(prefix string) {
 	delete(p.attrNS, prefix)
 }
 
-func (p *printer) markPrefix() {
+func (p *printer) markPrefix() { // This is why prefix are never showing
 	p.prefixes = append(p.prefixes, "")
 }
 
@@ -472,17 +474,22 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 		start.Name = startTemplate.Name
 		start.Attr = append(start.Attr, startTemplate.Attr...)
 	} else if tinfo.xmlname != nil {
-		xmlname := tinfo.xmlname
-		if xmlname.name != "" {
-			start.Name.Space, start.Name.Local = xmlname.xmlns, xmlname.name
-		} else if v, ok := xmlname.value(val).Interface().(Name); ok && v.Local != "" {
+		if tinfo.xmlname.name != "" {
+			start.Name.Space, start.Name.Local = tinfo.xmlname.xmlns, tinfo.xmlname.name
+			// .Space is equivalent to xmlns=".Space" so adding the attribute
+			if start.Name.Space != "" {
+				start.Attr = append(start.Attr, Attr{Name{"", xmlnsPrefix}, start.Name.Space})
+			}
+		} else if v, ok := tinfo.xmlname.value(val).Interface().(Name); ok && v.Local != "" {
 			start.Name = v
 		}
+	} else {
+		// No enforced namespace, i.e. the outer tag namespace remains valid
 	}
-	if start.Name.Local == "" && finfo != nil {
+	if start.Name.Local == "" && finfo != nil { // XMLName overrides tag name - anonymous struct
 		start.Name.Space, start.Name.Local = finfo.xmlns, finfo.name
 	}
-	if start.Name.Local == "" {
+	if start.Name.Local == "" { // No or empty XMLName and still no tag name
 		name := typ.Name()
 		if name == "" {
 			return &UnsupportedTypeError{typ}
@@ -512,6 +519,13 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 		}
 	}
 
+	/* If an xmlname was found, namespace must be overridden */
+	if tinfo.xmlname != nil && start.Name.Space == "" &&
+		len(p.tags) != 0 && p.tags[len(p.tags)-1].Space != "" {
+		//add attr xmlns="" to override the outer tag namespace
+		start.Attr = append(start.Attr, Attr{Name{"", xmlnsPrefix}, ""})
+	}
+	/* */
 	if err := p.writeStart(&start); err != nil {
 		return err
 	}
@@ -684,17 +698,35 @@ func (p *printer) writeStart(start *StartElement) error {
 		return fmt.Errorf("xml: start tag with no name")
 	}
 
+	// pushes the value of the namespace and not the eventual prefix
 	p.tags = append(p.tags, start.Name)
-	p.markPrefix()
+	p.markPrefix() // pushes an empty prefix
 
-	p.writeIndent(1)
+	p.writeIndent(1) // Handling relative depth of a tag
 	p.WriteByte('<')
-	p.WriteString(start.Name.Local)
-
-	if start.Name.Space != "" {
-		p.WriteString(` xmlns="`)
-		p.EscapeString(start.Name.Space)
-		p.WriteByte('"')
+	p.WriteString(start.Name.Local) // if prefix exists, it is not printed
+	/* The attribute was not added if no XMLName field existed. */
+	if start.Name.Space != "" { // tag starts with <.Space:.Local
+		// The tag prefix is not the default name space and it is a mistake to print it if not bound by an attribute.
+		// But this is used in some cases which are unrelated to XML standards. Invalid XML can then be produced.
+		dontPrintTagSpace := false
+		for _, attr := range start.Attr {
+			// Name.Space only contains a namespace xmlns=".Space" or a .Value xmlns:(unavailable)=.Space
+			// Attributes values which are namespaces are searched to avoid reprinting the domain
+			dontPrintTagSpace = (start.Name.Space == attr.Value && attr.Name.Space == xmlnsPrefix && attr.Name.Local != "") ||
+				(attr.Name.Space == "" && attr.Name.Local == xmlnsPrefix && attr.Value == start.Name.Space)
+			if dontPrintTagSpace {
+				if attr.Name.Space == xmlnsPrefix {
+					p.tags[len(p.tags)-1].Space = attr.Name.Local // Overriding with prefix
+				}
+				break
+			}
+		}
+		if !dontPrintTagSpace {
+			p.WriteString(` xmlns="`)
+			p.EscapeString(start.Name.Space)
+			p.WriteByte('"')
+		}
 	}
 
 	// Attributes
@@ -704,11 +736,15 @@ func (p *printer) writeStart(start *StartElement) error {
 			continue
 		}
 		p.WriteByte(' ')
-		if name.Space != "" {
-			p.WriteString(p.createAttrPrefix(name.Space))
+		if name.Space == xmlnsPrefix { // printing prefix name.Local xmlns:{.Local}={.Value}
+			p.WriteString(xmlnsPrefix)
+			p.WriteByte(':')
+		} else if name.Space != "" { // not a name space {.Space}:{.Local}={.Value}
+			p.WriteString(p.createAttrPrefix(name.Space)) // name.Space is not a prefix
 			p.WriteByte(':')
 		}
-		p.WriteString(name.Local)
+		// When space is empty, only writing .Local=.Value
+		p.WriteString(attr.Name.Local)
 		p.WriteString(`="`)
 		p.EscapeString(attr.Value)
 		p.WriteByte('"')
@@ -725,9 +761,9 @@ func (p *printer) writeEnd(name Name) error {
 		return fmt.Errorf("xml: end tag </%s> without start tag", name.Local)
 	}
 	if top := p.tags[len(p.tags)-1]; top != name {
-		if top.Local != name.Local {
+		if top.Local != name.Local { // Tag names do not match
 			return fmt.Errorf("xml: end tag </%s> does not match start tag <%s>", name.Local, top.Local)
-		}
+		} // Namespaces do not match
 		return fmt.Errorf("xml: end tag </%s> in namespace %s does not match start tag <%s> in namespace %s", name.Local, name.Space, top.Local, top.Space)
 	}
 	p.tags = p.tags[:len(p.tags)-1]
@@ -949,9 +985,6 @@ func (p *printer) cachedWriteError() error {
 }
 
 func (p *printer) writeIndent(depthDelta int) {
-	if len(p.prefix) == 0 && len(p.indent) == 0 {
-		return
-	}
 	if depthDelta < 0 {
 		p.depth--
 		if p.indentedIn {
@@ -960,7 +993,7 @@ func (p *printer) writeIndent(depthDelta int) {
 		}
 		p.indentedIn = false
 	}
-	if p.putNewline {
+	if p.putNewline && (len(p.indent) > 0 || len(p.prefix) > 0 || p.minimalIndent) {
 		p.WriteByte('\n')
 	} else {
 		p.putNewline = true

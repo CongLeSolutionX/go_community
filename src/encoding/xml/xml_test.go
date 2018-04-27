@@ -103,7 +103,7 @@ var cookedTokens = []Token{
 	CharData("\n  "),
 	EndElement{Name{"ns3", "name"}},
 	CharData("\n"),
-	EndElement{Name{"ns2", "body"}},
+	EndElement{Name{"", "body"}}, // ns2 is not the default namespace and token should be empty
 	Comment(" missing final newline "),
 }
 
@@ -493,7 +493,8 @@ func TestIssue569(t *testing.T) {
 }
 
 func TestUnquotedAttrs(t *testing.T) {
-	data := "<tag attr=azAZ09:-_\t>"
+	attrValue := "azAZ09:-_\t"
+	data := "<tag attr="+attrValue+">"
 	d := NewDecoder(strings.NewReader(data))
 	d.Strict = false
 	token, err := d.Token()
@@ -504,8 +505,8 @@ func TestUnquotedAttrs(t *testing.T) {
 		t.Errorf("Unexpected tag name: %v", token.(StartElement).Name.Local)
 	}
 	attr := token.(StartElement).Attr[0]
-	if attr.Value != "azAZ09:-_" {
-		t.Errorf("Unexpected attribute value: %v", attr.Value)
+	if attr.Value != attrValue {
+		t.Errorf("Unexpected attribute value: got %s want %s", attr.Value,attrValue)
 	}
 	if attr.Name.Local != "attr" {
 		t.Errorf("Unexpected attribute name: %v", attr.Name.Local)
@@ -624,7 +625,7 @@ var characterTests = []struct {
 	{"<?xml version=\"1.0\"?>\x0b<doc/>", "illegal character code U+000B"},
 	{"\xef\xbf\xbe<doc/>", "illegal character code U+FFFE"},
 	{"<?xml version=\"1.0\"?><doc>\r\n<hiya/>\x07<toots/></doc>", "illegal character code U+0007"},
-	{"<?xml version=\"1.0\"?><doc \x12='value'>what's up</doc>", "expected attribute name in element"},
+	{"<?xml version=\"1.0\"?><doc \x12='value'>what's up</doc>", "expected = after attribute name"},
 	{"<doc>&abc\x01;</doc>", "invalid character entity &abc (no semicolon)"},
 	{"<doc>&\x01;</doc>", "invalid character entity & (no semicolon)"},
 	{"<doc>&\xef\xbf\xbe;</doc>", "invalid character entity &\uFFFE;"},
@@ -745,6 +746,345 @@ func TestIssue5880(t *testing.T) {
 	}
 }
 
+func TestIssue8535(t *testing.T) {
+
+	type ExampleConflict struct {
+		XMLName  Name   `xml:"example"`
+		Link     string `xml:"link"`
+		AtomLink string `xml:"http://www.w3.org/2005/Atom link"` // No conflict but no assignment
+	}
+	testCases := []string{
+		`<example>
+    		<title>Example</title>
+			<link>http://example.com/default</link> <!-- not assigned -->
+			<link>http://example.com/home</link> <!-- not assigned -->
+			<ns:link xmlns:ns="http://www.w3.org/2005/Atom">http://example.com/ns</ns:link>
+		</example>`,
+	}
+
+	var dest ExampleConflict
+	d := NewDecoder(strings.NewReader(testCases[0]))
+	if err := d.Decode(&dest); err != nil {
+		t.Errorf("%s: Field conflicts : got error %v, want no fail", testCases[0], err)
+	}
+}
+
+
+func TestIssue11431(t *testing.T) { //
+
+	type Test struct {
+		XMLName Name `xml:"Test"`
+		Ns   string `xml:"xmlns,attr"`
+		Body string
+	}
+
+	s := &Test{Ns: "http://example.com/ns", Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<Test xmlns="http://example.com/ns"><Body>hello world</Body></Test>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+func TestIssue11431NsWoAttr(t *testing.T) {
+
+	type Test struct {
+		Body string `xml:"http://example.com/ns body"`
+	}
+
+	s := &Test{Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<Test><body xmlns="http://example.com/ns">hello world</body></Test>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+func TestIssue11431XMLName(t *testing.T) { //
+
+	type Test struct {
+		XMLName Name `xml:"http://example.com/ns Test"`
+		Body    string
+	}
+
+	//s := &Test{XMLName: Name{"http://example.com/ns",""}, Body: "hello world"} is unusable as the "-" is missing
+	// as documentation states
+	s := &Test{Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<Test xmlns="http://example.com/ns"><Body>hello world</Body></Test>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+
+func TestIssue11431UsingAttr(t *testing.T) { //
+
+	type T struct {
+		Ns   string `xml:"xmlns,attr"`
+		Body    string
+	}
+
+	//s := &Test{XMLName: Name{"http://example.com/ns",""}, Body: "hello world"} is unusable as the "-" is missing
+	// as documentation states
+	s := &T{Ns: "http://example.com/ns", Body: "hello world"}
+	b, err := Marshal(s)
+	if err != nil {
+		t.Errorf("namespace handling: expected no error, got %s", err)
+	}
+
+	want := `<T xmlns="http://example.com/ns"><Body>hello world</Body></T>`
+	if string(b) != want {
+		t.Errorf("namespace handling: got %s, want %s \n", string(b), want)
+	}
+}
+
+func TestIssue11496(t *testing.T) { // Issue answered
+
+	type Person struct {
+		XMLName Name `xml:"ns1 person"`
+		Name    string   `xml:"name"`
+		Phone   string   `xml:"ns2 phone,omitempty"`
+	}
+
+	p := &Person{
+		Name:  "Oliver",
+		Phone: "110",
+	}
+
+	raw, err := MarshalIndent(p, "", "  ")
+	if err != nil {
+		fmt.Errorf("namespace assignment : marshal error returned is %s",err)
+	}
+
+	result := `<person xmlns="ns1">\n\t<name>Oliver</name>\n\t<phone xmlns="ns2">110</phone>\n</person>"`
+	if string(raw) != result {
+		fmt.Errorf("namespace assignment : got %s, want %s",string(raw),result)
+	}
+
+	// Output:
+	// <person xmlns="ns1">
+	//   <name>Oliver</name>
+	//   <phone xmlns="ns2">110</phone>
+	// </person>
+	//
+	// Want:
+	// <person xmlns="ns1" xmlns:ns2="n2">
+	//   <name>Oliver</name>
+	//   <ns2:phone>110</ns2:phone>
+	// </person>
+
+}
+
+func TestIssue8068(t *testing.T) {
+
+	testCases := []struct {
+		s  string
+		ok bool
+	}{	// Empty prefixed namespace is not allowed
+		{`<foo xmlns:bar="a"></foo>`, true},
+		{`<foo xmlns:bar=""></foo>`, false},
+		{`<foo xmlns:="a"></foo>`, false},
+		{`<foo xmlns:""></foo>`, false},
+		{`<foo xmlns:"a"></foo>`, false},
+	}
+
+	var dest string	// type does not matter as tested tags are empty
+	var err error
+	for _, tc := range testCases {
+		err = Unmarshal([]byte(tc.s), &dest)
+
+		if err != nil && tc.ok {
+			t.Errorf("%s: Empty prefixed namespace : expected no error, got %s", tc.s, err)
+			continue
+		}
+		if err == nil && !tc.ok {
+			t.Errorf("%s: Empty prefixed namespace : expected error, got nil", tc.s)
+		}
+	}
+
+}
+
+func TestIssue10538(t *testing.T) {
+	// There is no restriction of the placement of XMLName in embedded structs
+	// If the field is unexported, reflect package will panic in the documented cases
+	// Purpose of the test is to show that no panic occurs with multiple set ups of embedded structs using XMLName
+	type elementNoXMLName struct {
+		Children []interface{}
+	}
+
+	type element struct {
+		XMLName  Name
+		Children []interface{}
+	}
+
+	type Element struct {
+		XMLName  Name
+		Children []interface{}
+	}
+
+	type svgstrEmptyStruct struct {
+		elementNoXMLName //is not exported and empty
+		Height string `xml:"height,attr,omitempty"`
+		Width  string `xml:"width,attr,omitempty"`
+	}
+
+	type svgstr struct {
+		element // not exported and .Value panics
+		Height string `xml:"height,attr,omitempty"`
+		Width  string `xml:"width,attr,omitempty"`
+	}
+
+	type svgstrExp struct {
+		Element element // exported and .Value does not panic
+		Height string `xml:"height,attr,omitempty"`
+		Width  string `xml:"width,attr,omitempty"`
+	}
+
+	type svgstrExpType struct {
+		Element // exported and .Value does not panic
+		Height string `xml:"height,attr,omitempty"`
+		Width  string `xml:"width,attr,omitempty"`
+	}
+
+	type svgstr2 struct {
+		XMLName  Name
+		Children []interface{}
+		Height   string `xml:"height,attr,omitempty"`
+		Width    string `xml:"width,attr,omitempty"`
+	}
+
+	/* No embedded XMLName */
+	result := `<svgstrEmptyStruct height="200" width="400"></svgstrEmptyStruct>`
+	sE := svgstrEmptyStruct{
+		Width:  "400",
+		Height: "200",
+	}
+	a, err := Marshal(sE)
+	if err != nil {
+		t.Errorf("xmlname handling : marshaling failed with %s \n", err)
+	}
+	if string(a) != result {
+		t.Errorf("xmlname handling : got %s, want %s \n", string(a), result)
+	}
+	/* XMLName in a unexported field is not assigned */
+	result = `<svgstr height="200" width="400"></svgstr>`
+	s := svgstr{
+		element: element{XMLName: Name{Local: "svg", Space: "www.etc"},Children:nil},
+		Width:  "400",
+		Height: "200",
+	}
+
+	f, err := Marshal(s)
+	if err != nil {
+		t.Errorf("xmlname handling : marshaling failed with %s \n", err)
+	}
+	if string(f) != result {
+		t.Errorf("xmlname handling : got %s, want %s \n", string(f), result)
+	}
+	/* Embedding the XMLName gets it assigned to the inner struct */
+	result = `<svgstrExp height="200" width="400"><svg xmlns="www.etc"></svg></svgstrExp>`
+	sExp := svgstrExp{
+		Element: element{XMLName: Name{Local: "svg", Space: "www.etc"},Children:nil},
+		Width:  "400",
+		Height: "200",
+	}
+
+	b, err := Marshal(sExp)
+	if err != nil {
+		t.Errorf("xmlname handling : marshaling failed with %s \n", err)
+	}
+	if string(b) != result {
+		t.Errorf("xmlname handling : got %s, want %s \n", string(b), result)
+	}
+	/* XMLName is not assigned to outer tag but to inner tag. Not working due to other issues */
+	result = `<svgstrExpType height="200" width="400"><Children></Children></svgstrExpType>`
+	sExpType := svgstrExpType{
+		Element: Element{XMLName: Name{Local: "svg", Space: "www.etc"},Children:[]interface{}{""}},
+		Width:  "400",
+		Height: "200",
+	}
+
+	d, err := Marshal(sExpType)
+	if err != nil {
+		t.Errorf("xmlname handling : marshaling failed with %s \n", err)
+	}
+	if string(d) != result {
+		t.Errorf("xmlname handling : got %s, want %s \n", string(d), result)
+	}
+	/* No inner struct. XMLName is assigned as usual */
+	result = `<svg xmlns="www.etc" height="200" width="400"></svg>`
+	s2 := svgstr2{
+		XMLName: Name{Local: "svg", Space: "www.etc"},
+		Width:   "400",
+		Height:  "200",
+	}
+
+	c, err := Marshal(s2)
+	if err != nil {
+		t.Errorf("xmlname handling : marshaling failed with %s \n", err)
+	}
+	if string(c) != result {
+		t.Errorf("xmlname handling : got %s, want %s \n", string(c), result)
+	}
+}
+
+func TestIssue7535(t *testing.T) {
+	source := `<ex:element xmlns:ex="http://example.com/schema"></ex:element>`
+	result := `<element xmlns:ex="http://example.com/schema"></element>`
+	// A prefix is the namespace known from the tag where it is declared and not the default namespace.
+	// But in a well-formed xml, it is useless as the prefix is bound and recorded as an attribute
+	in := strings.NewReader(source)
+	var errl, err error
+	var token Token
+
+	for i := 0; i < 4; i++ {
+		out := &bytes.Buffer{}
+		d := NewDecoder(in)
+		e := NewEncoder(out)
+		errl = nil
+		for errl == nil {
+			token, err = d.Token()
+			if err != nil {
+				if err == io.EOF {
+					errl = err
+				} else {
+					t.Errorf("read token failed:%s", err)
+					return
+				}
+			} else { // err is nil
+				err = e.EncodeToken(token)
+				if err != nil {
+					t.Errorf("encode token failed : %s", err)
+					return
+				}
+			}
+		}
+		e.Flush()
+		if out.String() != result {
+			t.Errorf("duplicating namespace : got %s, want %s \n", out.String(), result)
+			return
+		}
+		in.Reset(out.String())
+	}
+
+	if errl != nil && errl != io.EOF {
+		t.Errorf("%s \n: duplicating namespace : got error %v, want no fail \n", source, errl)
+	}
+}
+
 func TestIssue11405(t *testing.T) {
 	testCases := []string{
 		"<root>",
@@ -795,6 +1135,331 @@ func TestIssue12417(t *testing.T) {
 		if err == nil && !tc.ok {
 			t.Errorf("%q: Encoding charset: expected error, got nil", tc.s)
 		}
+	}
+}
+
+func TestIssue20396(t *testing.T) {
+	testCases := []struct {
+		s  string
+		ok bool
+	}{  //Should not allow to change namespace of opening tag
+		{`<a:te:st xmlns:a="abcd"/>`, false},
+		{`<a:te=st xmlns:a="abcd"/>`, false},
+		{`<a:te&st xmlns:a="abcd"/>`, false},
+		{`<a:test xmlns:a="abcd"/>`, true},
+	}
+	for _, tc := range testCases {
+		d := NewDecoder(strings.NewReader(tc.s))
+		var err error
+		for {
+			_, err = d.Token()
+			if err != nil {
+				if err == io.EOF {//EOF indicates that process is complete
+					err = nil
+				}
+				break
+			}
+		}
+		if err != nil && tc.ok {
+			err = d.err
+			t.Errorf("%q: Multiple colons in tag : expected no error, got %s", tc.s, err)
+			continue
+		}
+		if err == nil && !tc.ok {
+			t.Errorf("%q: Multiple colons in tag : expected error, got nil", tc.s)
+		}
+	}
+}
+
+func TestIssue20685(t *testing.T) {
+	testCases := []struct {
+		s  string
+		ok bool
+	}{
+		{`<x:book xmlns:x="abcd" xmlns:y="abcd"><unclosetag>one</x:book>`, false},
+		{`<x:book xmlns:x="abcd" xmlns:y="abcd">one</x:book>`, true},
+		{`<x:book xmlns:x="abcd" xmlns:y="abcd">one</y:book>`, false},
+		{`<x:book xmlns:y="abcd" xmlns:x="abcd">one</y:book>`, false},
+		{`<x:book xmlns:x="abcd">one</y:book>`, false},
+		{`<x:book>one</y:book>`, false},
+		{`<xbook>one</ybook>`, false},
+	}
+	for _, tc := range testCases {
+		d := NewDecoder(strings.NewReader(tc.s))
+		var err error
+		for {
+			_, err = d.Token()
+			if err != nil {
+				if err == io.EOF {
+					err = nil
+				}
+				break
+			}
+		}
+		if err != nil && tc.ok {
+			t.Errorf("%q: Closing tag with namespace : expected no error, got %s", tc.s, err)
+			continue
+		}
+		if err == nil && !tc.ok {
+			t.Errorf("%q: Closing tag with namespace : expected error, got nil", tc.s)
+		}
+	}
+}
+
+func TestIssue16497(t *testing.T) {
+
+	type IQ struct {
+		Type    string   `xml:"type,attr"`
+		XMLName Name `xml:"iq"`
+	}
+
+	type embedIQ struct {
+		IQ IQ
+	}
+
+	/* Anonymous struct */
+	resp := struct {
+		IQ
+	}{} /* */
+
+	var err error
+	err = Unmarshal([]byte(`<iq/>`), &resp)
+	if err != nil {
+		fmt.Errorf("unmarshal anonymous struct failed with %s", err)
+		return
+	}
+	// assigning values or not does not change anything
+	var respEmbed embedIQ
+	err = Unmarshal([]byte(`<iq/>`), &respEmbed)
+	if err != nil {
+		fmt.Errorf("unmarshal anonymous struct failed with %s", err)
+		return
+	}
+}
+
+func TestUnmarshalXMLName(t *testing.T) {
+
+	type InnerStruct struct {
+		XMLName Name `xml:"testns outer"`
+	}
+
+	type OuterStruct struct {
+		InnerStruct
+		IntAttr int `xml:"int,attr"`
+	}
+
+	type OuterNamedStruct struct {
+		InnerStruct
+		IntAttr int  `xml:"int,attr"`
+		XMLName Name `xml:"outerns test"`
+	}
+
+	type OuterNamedOrderedStruct struct {
+		XMLName Name `xml:"outerns test"`
+		InnerStruct
+		IntAttr int `xml:"int,attr"`
+	}
+
+	var unMarshalTestsXMLName = []struct {
+		Value          interface{}
+		ExpectXML      string
+		MarshalOnly    bool
+		MarshalError   string
+		UnmarshalOnly  bool
+		UnmarshalError string
+	}{
+		{
+			ExpectXML: `<outer xmlns="testns" int="10"></outer>`,
+			Value:     &OuterStruct{IntAttr: 10},
+		},
+		{
+			ExpectXML: `<outer xmlns="testns" int="10"></outer>`,
+			Value:     &OuterStruct{IntAttr: 10},
+		},
+		{
+			ExpectXML: `<test xmlns="outerns" int="10"></test>`,
+			Value:     &OuterNamedStruct{XMLName: Name{Space: "outerns", Local: "test"}, IntAttr: 10},
+		},
+		{
+			ExpectXML: `<test xmlns="outerns" int="10"></test>`,
+			Value:     &OuterNamedOrderedStruct{XMLName: Name{Space: "outerns", Local: "test"}, IntAttr: 10},
+		},
+	}
+	for i, test := range unMarshalTestsXMLName {
+		if test.MarshalOnly {
+			continue
+		}
+		if _, ok := test.Value.(*Plain); ok {
+			continue
+		}
+		if test.ExpectXML == `<top>`+
+			`<x><b xmlns="space">b</b>`+
+			`<b xmlns="space1">b1</b></x>`+
+			`</top>` {
+			// TODO(rogpeppe): re-enable this test in
+			// https://go-review.googlesource.com/#/c/5910/
+			continue
+		}
+
+		vt := reflect.TypeOf(test.Value)
+		dest := reflect.New(vt.Elem()).Interface()
+		err := Unmarshal([]byte(test.ExpectXML), dest)
+
+		t.Run(fmt.Sprintf("%d", i), func(t *testing.T) {
+			switch fix := dest.(type) {
+			case *Feed:
+				fix.Author.InnerXML = ""
+				for i := range fix.Entry {
+					fix.Entry[i].Author.InnerXML = ""
+				}
+			}
+
+			if err != nil {
+				if test.UnmarshalError == "" {
+					t.Errorf("unmarshal(%#v): %s", test.ExpectXML, err)
+					return
+				}
+				if !strings.Contains(err.Error(), test.UnmarshalError) {
+					t.Errorf("unmarshal(%#v): %s, want %q", test.ExpectXML, err, test.UnmarshalError)
+				}
+				return
+			}
+			if got, want := dest, test.Value; !reflect.DeepEqual(got, want) {
+				t.Errorf("unmarshal(%q):\nhave %#v\nwant %#v", test.ExpectXML, got, want)
+			}
+		})
+	}
+}
+
+func TestMarshalXMLName(t *testing.T) {
+
+	type InnerStruct struct {
+		XMLName Name `xml:"testns outer"`
+	}
+
+	type OuterStruct struct {
+		InnerStruct
+		IntAttr int `xml:"int,attr"`
+	}
+
+	type OuterNamedStruct struct {
+		InnerStruct
+		IntAttr int  `xml:"int,attr"`
+		XMLName Name `xml:"outerns test"`
+	}
+
+	type OuterNamedOrderedStruct struct {
+		XMLName Name `xml:"outerns test"`
+		InnerStruct
+		IntAttr int `xml:"int,attr"`
+	}
+
+	var marshalTestsXMLName = []struct {
+		Value          interface{}
+		ExpectXML      string
+		MarshalOnly    bool
+		MarshalError   string
+		UnmarshalOnly  bool
+		UnmarshalError string
+	}{
+		{
+			ExpectXML: `<outer xmlns="testns" int="10"></outer>`,
+			Value:     &OuterStruct{IntAttr: 10},
+		},
+		{
+			ExpectXML: `<outer xmlns="testns" int="10"></outer>`,
+			Value:     &OuterStruct{IntAttr: 10},
+		},
+		{
+			ExpectXML: `<test xmlns="outerns" int="10"></test>`,
+			Value:     &OuterNamedStruct{XMLName: Name{Space: "outerns", Local: "test"}, IntAttr: 10},
+		},
+		{
+			ExpectXML: `<test xmlns="outerns" int="10"></test>`,
+			Value:     &OuterNamedOrderedStruct{XMLName: Name{Space: "outerns", Local: "test"}, IntAttr: 10},
+		},
+	}
+
+	for idx, test := range marshalTestsXMLName {
+		if test.UnmarshalOnly {
+			continue
+		}
+
+		t.Run(fmt.Sprintf("%d", idx), func(t *testing.T) {
+			data, err := Marshal(test.Value)
+			if err != nil {
+				if test.MarshalError == "" {
+					t.Errorf("marshal(%#v): %s", test.Value, err)
+					return
+				}
+				if !strings.Contains(err.Error(), test.MarshalError) {
+					t.Errorf("marshal(%#v): %s, want %q", test.Value, err, test.MarshalError)
+				}
+				return
+			}
+			if test.MarshalError != "" {
+				t.Errorf("Marshal succeeded, want error %q", test.MarshalError)
+				return
+			}
+			if got, want := string(data), test.ExpectXML; got != want {
+				if strings.Contains(want, "\n") {
+					t.Errorf("marshal(%#v):\nHAVE:\n%s\nWANT:\n%s", test.Value, got, want)
+				} else {
+					t.Errorf("marshal(%#v):\nhave %#q\nwant %#q", test.Value, got, want)
+				}
+			}
+		})
+	}
+}
+
+func TestIssue7113(t *testing.T) {
+	type C struct {
+		XMLName Name `xml:""` // To reset namespace to ""
+	}
+
+	type A struct {
+		XMLName Name `xml:""`
+		C       C    `xml:""`
+	}
+
+	var a A
+	structSpace := "b"
+	fieldSpace := ""
+	xmlTest := `<A xmlns="` + structSpace + `"><C xmlns="` + fieldSpace + `"></C></A>`
+	err := Unmarshal([]byte(xmlTest), &a)
+	if err != nil {
+		t.Errorf("overidding with empty namespace: expected no error, got %s", err)
+	}
+	if a.XMLName.Space != structSpace {
+		t.Errorf("overidding with empty namespace: before marshaling, got %s != %s, want == \n", a.XMLName.Space, structSpace)
+	}
+	if a.C.XMLName.Space != fieldSpace {
+		t.Errorf("overidding with empty namespace: before marshaling, got %s != %s, want == \n", a.C.XMLName.Space, fieldSpace)
+	}
+
+	var b []byte
+	/* Because of unmarshaling, namespaces are already assigned */
+	b, err = Marshal(&a)
+	if string(b) != xmlTest {
+		t.Errorf("overidding with empty namespace: after marshaling, got %s != %s, want == \n", string(b), xmlTest)
+		return
+	}
+	// Unmarshaling has no interest if the previous test succeed as the structs are initially empty unless
+	if a.C.XMLName.Local != "C" {
+		t.Errorf("overidding with empty namespace: after marshaling, unmarshaling will fail, got %s as C tag space which should be tag name C \n", a.C.XMLName.Local)
+	}
+	if a.C.XMLName.Space != "" {
+		t.Errorf("overidding with empty namespace: after marshaling, unmarshaling will fail, got %s in C tag which should be empty \n", a.C.XMLName.Space)
+	}
+	err = Unmarshal(b, &a)
+	if err != nil {
+		t.Errorf("overidding with empty namespace: expected no error, got %s", err)
+	}
+	if a.XMLName.Space != "b" {
+		t.Errorf("overidding with empty namespace: after marshaling & unmarshaling, got %s in XMLName != %s, want == \n", a.XMLName.Space, "b")
+	}
+	if a.C.XMLName.Space != "" {
+		t.Errorf("overidding with empty namespace: after marshaling & unmarshaling, got %q in C tag != %q, want == \n", a.C.XMLName.Space, "")
 	}
 }
 
