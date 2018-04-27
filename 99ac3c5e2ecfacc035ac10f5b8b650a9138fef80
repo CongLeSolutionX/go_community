@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52f31f34_8a20226c",
+        "filename": "src/cmd/internal/obj/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-04-27T12:24:18Z",
+      "side": 1,
+      "message": "This is different behaviour to before.\nOld contents beyond len() reappeared as they were appended(),\nnow it\u0027s zero bytes;  I don\u0027t know if that matters.\nThe sum here is the same as the other regalloc.go diff:\n    n-len()+1\nbut there n was an index and here it\u0027s a new size, a len,\nso differs by 1 thus the same sum smells wrong.\nn\u003d5 len\u003d2 gives 4 which is correct for an index n as it\nadds indexes 2,3,4,5 allowing [n].\nBut when n is a desired len, as here, no +1 is required.\nIt\u0027s making the cap() step too high unnecessarily with the\nlast element unused.\nIf it was correct, would the next line be required?",
+      "revId": "99ac3c5e2ecfacc035ac10f5b8b650a9138fef80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
