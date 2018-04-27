@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cc48e5bb_313ab7e1",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T05:20:58Z",
+      "side": 1,
+      "message": "Fair point. We could also set the length as a field somewhere in OAPPEND which signals walk go this is an extend. Any suggestions?\n\nMeddling with the order pass is dangerous too, so after an initial try keeping the order pass not touching the idiom structure i moved the detection to the type checker.\n\nI have a look at esc.go.",
+      "parentUuid": "a65a01dc_01cb8996",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d26df914_5e663531",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "894a7732_85524e3d",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1599,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T05:20:58Z",
+      "side": 1,
+      "message": "yes i dont want to do the dance of deciding at runtime if int64 fits into int32.\nThis condition is similar to what we use for makeslice. a uint is still ok since if it does not fit into the positive int range its negative and will fail the \u003c 0 check for ints at runtime.",
+      "parentUuid": "91830242_6ed15217",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab2a7b2d_f4ee98a6",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2018-04-27T04:43:23Z",
       "side": 1,
       "message": "Why not just panic directly?",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10751fa1_0e748910",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3053,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T05:20:58Z",
+      "side": 1,
+      "message": "To keep the panic string in sync with makeslice. Alternatively we can add a new runtime panic call and use that in makeslice too.",
+      "parentUuid": "ab2a7b2d_f4ee98a6",
       "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -104,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "aacf7b35_f347d2f5",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3064,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T05:20:58Z",
+      "side": 1,
+      "message": "Yes i have thought about that too. However then growslice needs a new return value to signal that the return slice has been cleared. Currently pointer comparison of old array and return from growslice might be safe too, but i am not sure about moving gc.",
+      "parentUuid": "9b09f7d3_bfd9b033",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d226617a_15ca6cbb",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 2
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "57b647b5_7cbac360",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3071,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T05:20:58Z",
+      "side": 1,
+      "message": "sorry yes. Too trigger a test case early.",
+      "parentUuid": "d226617a_15ca6cbb",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ae86d2b2_15687552",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 2
@@ -132,6 +222,24 @@
       "writtenOn": "2018-04-27T04:43:23Z",
       "side": 1,
       "message": "Any reasonable way to reduce this duplication with appendslice in this prologue?",
+      "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80b0f110_c4c89541",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3074,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T05:20:58Z",
+      "side": 1,
+      "message": "I look into outsourcing it into a function.",
+      "parentUuid": "ae86d2b2_15687552",
       "revId": "887b8e14c29c7d72b34365569e8af202a64a4225",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

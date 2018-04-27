@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ddf303d1_51c2de10",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1586,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T05:20:58Z",
+      "side": 0,
+      "message": "right i confused this with make([]string,2) but there only elem type is string.",
+      "parentUuid": "e77d7240_be2890de",
+      "revId": "c6bbfbe708467a8d2f4f978a7ca2e417b21551c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d746818d_51e5d445",
         "filename": "test/append.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-04-27T04:43:23Z",
       "side": 0,
       "message": "Are these all gofmt changes? Wonder how that happened.",
+      "revId": "c6bbfbe708467a8d2f4f978a7ca2e417b21551c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b68d1c_0188e8ed",
+        "filename": "test/append.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-04-27T05:20:58Z",
+      "side": 0,
+      "message": "Could be we changed gofmt. I didnt do these intentionally.",
+      "parentUuid": "d746818d_51e5d445",
       "revId": "c6bbfbe708467a8d2f4f978a7ca2e417b21551c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
