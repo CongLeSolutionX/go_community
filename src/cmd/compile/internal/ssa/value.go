@@ -195,6 +195,7 @@ func (v *Value) auxString() string {
 	return ""
 }
 
+//go:noinline
 func (v *Value) AddArg(w *Value) {
 	if v.Args == nil {
 		v.resetArgs() // use argstorage

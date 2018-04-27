@@ -12,7 +12,7 @@
 // are not supported.
 //      0: disabled
 //      1: 80-nodes leaf functions, oneliners, lazy typechecking (default)
-//      2: (unassigned)
+//      2: (unassigned) // temporary, restore old rules, panic=runtime.throw=call, append=notcall
 //      3: (unassigned)
 //      4: allow non-leaf functions
 //
@@ -31,8 +31,29 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
+	"os"
+	"strconv"
 	"strings"
 )
+
+// Inlining budget parameters
+var inlineMaxBudget = getEnvInt("GO_INLMAXBUDGET", 80)
+var inlineExtraCallCost = getEnvInt("GO_INLCALLEXTRA", inlineMaxBudget+1) // default is not to do this.
+var inlineExtraAppendCost = getEnvInt("GO_INLAPPENDEXTRA", inlineExtraCallCost)
+var inlineExtraThrowCost = getEnvInt("GO_INLTHROWEXTRA", inlineExtraCallCost)
+var inlineExtraPanicCost = getEnvInt("GO_INLPANICEXTRA", inlineExtraCallCost)
+
+func getEnvInt(env string, def int32) int32 {
+	s := os.Getenv(env)
+	if s == "" {
+		return def
+	}
+	val, err := strconv.Atoi(s)
+	if err != nil {
+		panic("Non-numeric value " + s + " for environment variable " + env)
+	}
+	return int32(val)
+}
 
 // Get the function's package. For ordinary functions it's on the ->sym, but for imported methods
 // the ->sym can be re-used in the local package, so peel it off the receiver's type.
@@ -155,19 +176,18 @@ func caninl(fn *Node) {
 	}
 	defer n.Func.SetInlinabilityChecked(true)
 
-	const maxBudget = 80
-	visitor := hairyVisitor{budget: maxBudget}
+	visitor := hairyVisitor{budget: inlineMaxBudget}
 	if visitor.visitList(fn.Nbody) {
 		reason = visitor.reason
 		return
 	}
 	if visitor.budget < 0 {
-		reason = fmt.Sprintf("function too complex: cost %d exceeds budget %d", maxBudget-visitor.budget, maxBudget)
+		reason = fmt.Sprintf("function too complex: cost %d exceeds budget %d", inlineMaxBudget-visitor.budget, inlineMaxBudget)
 		return
 	}
 
 	n.Func.Inl = &Inline{
-		Cost: maxBudget - visitor.budget,
+		Cost: inlineMaxBudget - visitor.budget,
 		Dcl:  inlcopylist(n.Name.Defn.Func.Dcl),
 		Body: inlcopylist(fn.Nbody.Slice()),
 	}
@@ -257,11 +277,17 @@ func (v *hairyVisitor) visit(n *Node) bool {
 		}
 		// Functions that call runtime.getcaller{pc,sp} can not be inlined
 		// because getcaller{pc,sp} expect a pointer to the caller's first argument.
+		//
+		// runtime.throw is a "cheap call" like panic in normal code.
 		if n.Left.Op == ONAME && n.Left.Class() == PFUNC && isRuntimePkg(n.Left.Sym.Pkg) {
 			fn := n.Left.Sym.Name
 			if fn == "getcallerpc" || fn == "getcallersp" {
 				v.reason = "call to " + fn
 				return true
+			}
+			if fn == "throw" {
+				v.budget -= inlineExtraThrowCost
+				break
 			}
 		}
 
@@ -277,10 +303,9 @@ func (v *hairyVisitor) visit(n *Node) bool {
 		}
 		// TODO(mdempsky): Budget for OCLOSURE calls if we
 		// ever allow that. See #15561 and #23093.
-		if Debug['l'] < 4 {
-			v.reason = "non-leaf function"
-			return true
-		}
+
+		// Call cost for non-leaf inlining.
+		v.budget -= inlineExtraCallCost
 
 	// Call is okay if inlinable and we have the budget for the body.
 	case OCALLMETH:
@@ -310,17 +335,16 @@ func (v *hairyVisitor) visit(n *Node) bool {
 			v.budget -= inlfn.Inl.Cost
 			break
 		}
-		if Debug['l'] < 4 {
-			v.reason = "non-leaf method"
-			return true
-		}
+		// Call cost for non-leaf inlining.
+		v.budget -= inlineExtraCallCost
 
 	// Things that are too hairy, irrespective of the budget
-	case OCALL, OCALLINTER, OPANIC:
-		if Debug['l'] < 4 {
-			v.reason = "non-leaf op " + n.Op.String()
-			return true
-		}
+	case OCALL, OCALLINTER:
+		// Call cost for non-leaf inlining.
+		v.budget -= inlineExtraCallCost
+
+	case OPANIC:
+		v.budget -= inlineExtraPanicCost
 
 	case ORECOVER:
 		// recover matches the argument frame pointer to find
@@ -342,6 +366,9 @@ func (v *hairyVisitor) visit(n *Node) bool {
 		ORETJMP:
 		v.reason = "unhandled op " + n.Op.String()
 		return true
+
+	case OAPPEND:
+		v.budget -= inlineExtraAppendCost
 
 	case ODCLCONST, OEMPTY, OFALL, OLABEL:
 		// These nodes don't produce code; omit from inlining budget.
