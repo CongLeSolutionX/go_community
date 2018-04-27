@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "9ccc2641_45708924",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-04-27T08:06:09Z",
+      "side": 1,
+      "message": "I was thinking of using something like this in place of (MOVDaddr \u003ctyp.Uintptr\u003e [i0] {s} p):\n\n(ADDconst [i0] p)\n\nAnd then a rule to ditch the ADDconst if it is zero:\n\n(ADDconst [0] p) -\u003e p\n\nBut this doesn\u0027t work for SP/SB since we drop the symbol on the floor. It might be best to add a new Op in the new rules (instead of using MOVDaddr) and then convert it into either ADDconst or MOVDaddr as required:\n\n(NewOp {s} [o] ((SP|SB))) -\u003e (MOVDaddr {s} [o] ((SP|SB)))\n(NewOp [o] p) -\u003e (ADDconst [o] p)",
+      "parentUuid": "b3597ec9_fc97450c",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 67
+      },
+      "revId": "decbd37cbddfc0ad8d4ef974476ed49c968ea95d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4080ef2_67d82898",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 11
