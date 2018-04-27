@@ -898,6 +898,7 @@ const (
 	AVUSHR
 	AVSHL
 	AVSRI
+	AVTBL
 	ALAST
 	AB  = obj.AJMP
 	ABL = obj.ACALL
