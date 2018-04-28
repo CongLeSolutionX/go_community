@@ -22,6 +22,30 @@
       "revId": "ea440d0b6210e0eed5eeaed0a9f766a5a9a0cde3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52fc8643_5fdf6284",
+        "filename": "src/runtime/internal/sys/intrinsics.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-28T04:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6db3611_e7490060",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 53,
+        "endChar": 17
+      },
+      "revId": "ea440d0b6210e0eed5eeaed0a9f766a5a9a0cde3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
