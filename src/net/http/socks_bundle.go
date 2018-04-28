@@ -305,17 +305,9 @@ type socksDialer struct {
 // See func Dial of the net package of standard library for a
 // description of the network and address parameters.
 func (d *socksDialer) DialContext(ctx context.Context, network, address string) (net.Conn, error) {
-	switch network {
-	case "tcp", "tcp6", "tcp4":
-	default:
+	if err := d.validateTarget(network, address); err != nil {
 		proxy, dst, _ := d.pathAddrs(address)
-		return nil, &net.OpError{Op: d.cmd.String(), Net: network, Source: proxy, Addr: dst, Err: errors.New("network not implemented")}
-	}
-	switch d.cmd {
-	case socksCmdConnect, sockscmdBind:
-	default:
-		proxy, dst, _ := d.pathAddrs(address)
-		return nil, &net.OpError{Op: d.cmd.String(), Net: network, Source: proxy, Addr: dst, Err: errors.New("command not implemented")}
+		return nil, &net.OpError{Op: d.cmd.String(), Net: network, Source: proxy, Addr: dst, Err: err}
 	}
 	if ctx == nil {
 		ctx = context.Background()
@@ -341,11 +333,68 @@ func (d *socksDialer) DialContext(ctx context.Context, network, address string) 
 	return &socksConn{Conn: c, boundAddr: a}, nil
 }
 
+// Handshake runs the handshake protocol with the proxy server on the
+// transport connection c for connecting to the provided address on
+// the provided network.
+//
+// It returns the address assigned by the proxy server as a hint for
+// connecting to the provided address from the proxy server.
+func (d *socksDialer) Handshake(ctx context.Context, c net.Conn, network, address string) (net.Addr, error) {
+	if err := d.validateTarget(network, address); err != nil {
+		proxy, dst, _ := d.pathAddrs(address)
+		return nil, &net.OpError{Op: d.cmd.String(), Net: network, Source: proxy, Addr: dst, Err: err}
+	}
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	a, err := d.connect(ctx, c, address)
+	if err != nil {
+		proxy, dst, _ := d.pathAddrs(address)
+		return nil, &net.OpError{Op: d.cmd.String(), Net: network, Source: proxy, Addr: dst, Err: err}
+	}
+	return a, nil
+}
+
 // Dial connects to the provided address on the provided network.
 //
-// Deprecated: Use DialContext instead.
+// Unlike DialContext, it returns a raw transport connection instead
+// of a forward proxy connection.
+//
+// Deprecated: Use DialContext or Handshake instead.
 func (d *socksDialer) Dial(network, address string) (net.Conn, error) {
-	return d.DialContext(context.Background(), network, address)
+	if err := d.validateTarget(network, address); err != nil {
+		proxy, dst, _ := d.pathAddrs(address)
+		return nil, &net.OpError{Op: d.cmd.String(), Net: network, Source: proxy, Addr: dst, Err: err}
+	}
+	var err error
+	var c net.Conn
+	if d.ProxyDial != nil {
+		c, err = d.ProxyDial(context.Background(), d.proxyNetwork, d.proxyAddress)
+	} else {
+		c, err = net.Dial(d.proxyNetwork, d.proxyAddress)
+	}
+	if err != nil {
+		proxy, dst, _ := d.pathAddrs(address)
+		return nil, &net.OpError{Op: d.cmd.String(), Net: network, Source: proxy, Addr: dst, Err: err}
+	}
+	if _, err := d.Handshake(context.Background(), c, network, address); err != nil {
+		return nil, err
+	}
+	return c, nil
+}
+
+func (d *socksDialer) validateTarget(network, address string) error {
+	switch network {
+	case "tcp", "tcp6", "tcp4":
+	default:
+		return errors.New("network not implemented")
+	}
+	switch d.cmd {
+	case socksCmdConnect, sockscmdBind:
+	default:
+		return errors.New("command not implemented")
+	}
+	return nil
 }
 
 func (d *socksDialer) pathAddrs(address string) (proxy, dst net.Addr, err error) {
