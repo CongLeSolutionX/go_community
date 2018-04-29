@@ -1392,6 +1392,15 @@ func TestEqualFold(t *testing.T) {
 	}
 }
 
+func BenchmarkEqualFold(b *testing.B) {
+	if got := EqualFold("1", "2"); got {
+		b.Fatal("wrong result: expected not equal")
+	}
+	for i := 0; i < b.N; i++ {
+		EqualFold("1", "2")
+	}
+}
+
 var CountTests = []struct {
 	s, sep string
 	num    int
