@@ -92,7 +92,14 @@ func dse(f *Func) {
 			} else { // OpZero
 				sz = v.AuxInt
 			}
-			if shadowedSize := int64(shadowed.get(v.Args[0].ID)); shadowedSize != -1 && shadowedSize >= sz {
+			var off int32
+			a := v.Args[0]
+			for a.Op == OpOffPtr {
+				// TODO: check for overflow
+				off += int32(a.AuxInt)
+				a = a.Args[0]
+			}
+			if shadowedSize, fakepos := shadowed.get2(a.ID); shadowedSize != -1 && int64(shadowedSize) >= sz && fakepos.FakeXPosIndex() == off {
 				// Modify store into a copy
 				if v.Op == OpStore {
 					// store addr value mem
@@ -113,7 +120,7 @@ func dse(f *Func) {
 				if sz > 0x7fffffff { // work around sparseMap's int32 value type
 					sz = 0x7fffffff
 				}
-				shadowed.set(v.Args[0].ID, int32(sz), src.NoXPos)
+				shadowed.set(a.ID, int32(sz), src.FakeXPos(off))
 			}
 		}
 		// walk to previous store

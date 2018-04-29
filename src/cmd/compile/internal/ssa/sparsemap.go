@@ -49,6 +49,17 @@ func (s *sparseMap) get(k ID) int32 {
 	return -1
 }
 
+// get2 returns the value and pos for key k,
+// or -1, src.NoXPos if k does not appear in the map.
+func (s *sparseMap) get2(k ID) (int32, src.XPos) {
+	i := s.sparse[k]
+	if i < int32(len(s.dense)) && s.dense[i].key == k {
+		e := s.dense[i]
+		return e.val, e.aux
+	}
+	return -1, src.NoXPos
+}
+
 func (s *sparseMap) set(k ID, v int32, a src.XPos) {
 	i := s.sparse[k]
 	if i < int32(len(s.dense)) && s.dense[i].key == k {

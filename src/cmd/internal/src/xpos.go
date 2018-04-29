@@ -16,6 +16,14 @@ type XPos struct {
 // NoXPos is a valid unknown position.
 var NoXPos XPos
 
+func FakeXPos(n int32) XPos {
+	return XPos{index: n}
+}
+
+func (p XPos) FakeXPosIndex() int32 {
+	return p.index
+}
+
 // IsKnown reports whether the position p is known.
 // XPos.IsKnown() matches Pos.IsKnown() for corresponding
 // positions.
