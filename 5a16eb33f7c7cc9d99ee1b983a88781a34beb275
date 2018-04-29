@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66b5f90b_14fd35fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-29T03:47:22Z",
+      "side": 1,
+      "message": "I\u0027d mention here that it also slightly reduces binary size by shrinking call sites.",
+      "revId": "5a16eb33f7c7cc9d99ee1b983a88781a34beb275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3586db35_36c1df62",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-29T03:47:22Z",
+      "side": 1,
+      "message": "s/Builds/builds/",
+      "revId": "5a16eb33f7c7cc9d99ee1b983a88781a34beb275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "830ca784_812d9760",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-29T03:47:22Z",
+      "side": 1,
+      "message": "Repeating @mdempsky: false",
+      "revId": "5a16eb33f7c7cc9d99ee1b983a88781a34beb275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "360e3563_8f0e4d05",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-29T03:47:22Z",
+      "side": 1,
+      "message": "As mdempsky said earlier, if you change convI2I as above, this can go.",
+      "revId": "5a16eb33f7c7cc9d99ee1b983a88781a34beb275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9394ee2_a8fdbc47",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-04-29T03:47:22Z",
+      "side": 1,
+      "message": "This comment could use updating. I\u0027d consider moving it just under \"if needsaddr\" and updating the first sentence to something like:\n\n// Types of large or unknown size are passed by reference.",
+      "revId": "5a16eb33f7c7cc9d99ee1b983a88781a34beb275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
