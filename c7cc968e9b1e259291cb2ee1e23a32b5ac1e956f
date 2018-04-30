@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4566541c_d73c73f2",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1561,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-30T23:39:01Z",
+      "side": 1,
+      "message": "Shall we pass hostname to testWindowsHostname?",
+      "revId": "c7cc968e9b1e259291cb2ee1e23a32b5ac1e956f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
