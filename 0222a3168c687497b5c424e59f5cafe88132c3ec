@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "911a6d78_99cc09fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-30T23:44:52Z",
+      "side": 1,
+      "message": "s/$/on Darwin/",
+      "revId": "0222a3168c687497b5c424e59f5cafe88132c3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c3408ae_96343c4c",
+        "filename": "src/runtime/sys_darwin_386.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-30T23:44:52Z",
+      "side": 1,
+      "message": "Perhaps a comment on this function `// Not used on Darwin.`",
+      "revId": "0222a3168c687497b5c424e59f5cafe88132c3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79cbb246_cada41b5",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-04-30T23:44:52Z",
+      "side": 1,
+      "message": "// Not used on Darwin.",
+      "revId": "0222a3168c687497b5c424e59f5cafe88132c3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
