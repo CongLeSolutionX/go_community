@@ -61,6 +61,8 @@ func pthread_create_trampoline(t *pthread, attr *pthreadattr, start uintptr, arg
 //go:cgo_import_dynamic libc_pthread_attr_setdetachstate pthread_attr_setdetachstate "/usr/lib/libSystem.B.dylib"
 //go:cgo_import_dynamic libc_pthread_create pthread_create "/usr/lib/libSystem.B.dylib"
 
+//go:cgo_import_dynamic libc_exit exit "/usr/lib/libSystem.B.dylib"
+
 // Magic incantation to get libSystem actually dynamically linked.
 // TODO: Why does the code require this?  See cmd/compile/internal/ld/go.go:210
 //go:cgo_import_dynamic _ _ "/usr/lib/libSystem.B.dylib"

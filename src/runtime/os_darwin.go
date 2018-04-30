@@ -135,8 +135,9 @@ func newosproc(mp *m) {
 		exit(1)
 	}
 
-	// Set the stack we want to use.
-	if pthread_attr_setstack(&attr, unsafe.Pointer(mp.g0.stack.lo), mp.g0.stack.hi-mp.g0.stack.lo) != 0 {
+	// Set the stack size we want to use.  64KB for now.
+	// TODO: just use OS default size?
+	if pthread_attr_setstack(&attr, nil, 1<<16) != 0 {
 		write(2, unsafe.Pointer(&failthreadcreate[0]), int32(len(failthreadcreate)))
 		exit(1)
 	}
@@ -619,4 +620,10 @@ func sysargs(argc int32, argv **byte) {
 	if len(executablePath) > len(prefix) && executablePath[:len(prefix)] == prefix {
 		executablePath = executablePath[len(prefix):]
 	}
+}
+
+func exitThread(wait *uint32) {
+	// We should never reach exitThread on Darwin because we let
+	// libc clean up threads.
+	throw("exitThread")
 }
