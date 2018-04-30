@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31439763_9de1d572",
+        "filename": "src/cmd/compile/internal/gc/select.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-30T21:25:47Z",
+      "side": 1,
+      "message": "Lift this out into a temporary?",
+      "range": {
+        "startLine": 307,
+        "startChar": 28,
+        "endLine": 307,
+        "endChar": 68
+      },
+      "revId": "8f9a7501703be9be2ced6d72467c006406bb01dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70768a5a_feb292fa",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-30T21:25:47Z",
+      "side": 1,
+      "message": "Comment this.",
+      "revId": "8f9a7501703be9be2ced6d72467c006406bb01dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
