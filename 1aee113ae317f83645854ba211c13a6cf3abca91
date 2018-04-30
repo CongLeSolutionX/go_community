@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16df231b_a004a151",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-04-30T17:44:04Z",
+      "side": 1,
+      "message": "The standard library consistently spells this with one \u0027l\u0027: \"marshaled\".",
+      "range": {
+        "startLine": 347,
+        "startChar": 47,
+        "endLine": 347,
+        "endChar": 57
+      },
+      "revId": "1aee113ae317f83645854ba211c13a6cf3abca91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a8ecef2_89f3786b",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-04-30T17:44:04Z",
+      "side": 1,
+      "message": "I can see the benefit of better errors for debugging purposes, but this approach introduces a performance hit on the common case where no error occurs. How does this affect performance?",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 1
+      },
+      "revId": "1aee113ae317f83645854ba211c13a6cf3abca91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76753363_4c597192",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-04-30T17:44:04Z",
+      "side": 1,
+      "message": "With the strings.Join above, this looks strange right? path.to.[3].foo",
+      "range": {
+        "startLine": 786,
+        "startChar": 28,
+        "endLine": 786,
+        "endChar": 62
+      },
+      "revId": "1aee113ae317f83645854ba211c13a6cf3abca91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
