@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "6fbdcf40_dffdf551",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-30T14:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be47e77f_8e9608a1",
+      "range": {
+        "startLine": 110,
+        "startChar": 42,
+        "endLine": 110,
+        "endChar": 48
+      },
+      "revId": "ec22c394ff1bb5c026aae1e89bcfde6b1a1aefee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71692b25_4839b85b",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-30T14:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a687c0d0_630769ad",
+      "range": {
+        "startLine": 110,
+        "startChar": 5,
+        "endLine": 110,
+        "endChar": 6
+      },
+      "revId": "ec22c394ff1bb5c026aae1e89bcfde6b1a1aefee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cb11821_8c547e09",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 3
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "87fccfdc_a4436d9f",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3359,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-30T14:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cb11821_8c547e09",
+      "revId": "ec22c394ff1bb5c026aae1e89bcfde6b1a1aefee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8348e7f3_d051db00",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 3
@@ -76,6 +142,30 @@
       "writtenOn": "2018-04-30T14:06:32Z",
       "side": 1,
       "message": "This is yet another encoding scheme, and reverse engineering ARM64RegisterListOffset in cmd/asm/internal/arch/arm64.go. Oh well...",
+      "range": {
+        "startLine": 3378,
+        "startChar": 0,
+        "endLine": 3389,
+        "endChar": 3
+      },
+      "revId": "ec22c394ff1bb5c026aae1e89bcfde6b1a1aefee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fda9be52_f1bb9c89",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3389,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-30T14:52:22Z",
+      "side": 1,
+      "message": "This is also used in checkoffset, any suggestion to improve this situation?",
+      "parentUuid": "8348e7f3_d051db00",
       "range": {
         "startLine": 3378,
         "startChar": 0,
@@ -108,6 +198,30 @@
       "revId": "ec22c394ff1bb5c026aae1e89bcfde6b1a1aefee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df3e67ff_1fef0e4a",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5117,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-04-30T14:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0df1fbd_2d62ecf6",
+      "range": {
+        "startLine": 5117,
+        "startChar": 8,
+        "endLine": 5117,
+        "endChar": 23
+      },
+      "revId": "ec22c394ff1bb5c026aae1e89bcfde6b1a1aefee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
