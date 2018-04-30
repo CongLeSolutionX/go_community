@@ -16,25 +16,9 @@
 #include "textflag.h"
 
 // Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$0
+TEXT runtime·exit(SB),NOSPLIT,$0-4
 	MOVL	code+0(FP), DI		// arg 1 exit status
-	MOVL	$(0x2000000+1), AX	// syscall entry
-	SYSCALL
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
-// Exit this OS thread (like pthread_exit, which eventually
-// calls __bsdthread_terminate).
-TEXT exit1<>(SB),NOSPLIT,$0
-	// Because of exitThread below, this must not use the stack.
-	// __bsdthread_terminate takes 4 word-size arguments.
-	// Set them all to 0. (None are an exit status.)
-	MOVL	$0, DI
-	MOVL	$0, SI
-	MOVL	$0, DX
-	MOVL	$0, R10
-	MOVL	$(0x2000000+361), AX	// syscall entry
-	SYSCALL
+	CALL	libc_exit(SB)
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
@@ -43,7 +27,10 @@ TEXT runtime·exitThread(SB),NOSPLIT,$0-8
 	MOVQ	wait+0(FP), AX
 	// We're done using the stack.
 	MOVL	$0, (AX)
-	JMP	exit1<>(SB)
+	XORL	DI, DI
+	CALL	libc_pthread_exit(SB)
+	MOVL	$0xf1, 0xf1  // crash
+	RET
 
 TEXT runtime·open(SB),NOSPLIT,$0
 	MOVQ	name+0(FP), DI		// arg 1 pathname
@@ -490,16 +477,8 @@ TEXT runtime·mach_semaphore_signal_all(SB),NOSPLIT,$0
 	MOVL	AX, ret+8(FP)
 	RET
 
-// set tls base to DI
 TEXT runtime·settls(SB),NOSPLIT,$32
-	/*
-	 * Same as in sys_darwin_386.s, but a different constant.
-	 * Constant must match the one in cmd/link/internal/ld/sym.go.
-	 */
-	SUBQ $0x30, DI
-
-	MOVL	$(0x3000000+3), AX	// thread_fast_set_cthread_self - machdep call #3
-	SYSCALL
+	// Nothing to do on Darwin, pthread already set thread-local storage up.
 	RET
 
 TEXT runtime·sysctl(SB),NOSPLIT,$0
