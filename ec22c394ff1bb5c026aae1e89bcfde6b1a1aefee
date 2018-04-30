@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "149ea394_d002d92a",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3389,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-04-30T19:51:24Z",
+      "side": 1,
+      "message": "This is fine for now. We can think about it later. Are there any other different encoding schemes for register lists?",
+      "parentUuid": "fda9be52_f1bb9c89",
+      "range": {
+        "startLine": 3378,
+        "startChar": 0,
+        "endLine": 3389,
+        "endChar": 3
+      },
+      "revId": "ec22c394ff1bb5c026aae1e89bcfde6b1a1aefee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b0df1fbd_2d62ecf6",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 3
