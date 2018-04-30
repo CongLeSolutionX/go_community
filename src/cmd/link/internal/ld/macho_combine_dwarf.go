@@ -321,7 +321,7 @@ func machoUpdateDwarfHeader(r *loadCmdReader, buildmode BuildMode) error {
 	// We don't need the DWARF information actually available in memory.
 	// But if we do this for buildmode=c-shared then the user-space
 	// dynamic loader complains about memsz < filesz. Sigh.
-	if buildmode != BuildModeCShared {
+	if buildmode != BuildModeCShared && false {
 		segv.FieldByName("Addr").SetUint(0)
 		segv.FieldByName("Memsz").SetUint(0)
 		deltaAddr = 0
