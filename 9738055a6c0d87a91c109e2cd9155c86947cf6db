@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ca431dc_61b768ae",
+        "filename": "src/strings/strings_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1400,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-04-30T04:16:54Z",
+      "side": 1,
+      "message": "this isn\u0027t a particularly interesting benchmark.\n\nTypically for something named \"BenchmarkFoo\", it mirrors the loop of tests in \"TestFoo\". If you only care about this one case, it would be named \"BenchmarkEqualFold_SingleDigit\" or something.\n\nI\u0027d just do:\n\n  if out :\u003d EqualFold(tt.s, tt.t); out !\u003d tt.out {\n    for _, tt :\u003d range EqualFoldTests {\n        if out :\u003d EqualFold(tt.s, tt.t); out !\u003d tt.out {\n             b.Fatal(\"wrong result\")\n        }\n    }\n  }",
+      "range": {
+        "startLine": 1399,
+        "startChar": 27,
+        "endLine": 1400,
+        "endChar": 21
+      },
+      "revId": "9738055a6c0d87a91c109e2cd9155c86947cf6db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
