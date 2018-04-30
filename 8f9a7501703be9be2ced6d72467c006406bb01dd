@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edd71803_15a3160b",
+        "filename": "src/cmd/compile/internal/gc/select.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-30T22:13:47Z",
+      "side": 1,
+      "message": "Added a helper function instead.\n\nI think it would be safe to reuse the sub-AST here, but I\u0027m trying to get us away from that, because it sometimes has weird consequences for in-place rewrites.",
+      "parentUuid": "31439763_9de1d572",
+      "range": {
+        "startLine": 307,
+        "startChar": 28,
+        "endLine": 307,
+        "endChar": 68
+      },
+      "revId": "8f9a7501703be9be2ced6d72467c006406bb01dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70768a5a_feb292fa",
         "filename": "src/runtime/select.go",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "8f9a7501703be9be2ced6d72467c006406bb01dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad9c7513_110e9306",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-04-30T22:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70768a5a_feb292fa",
+      "revId": "8f9a7501703be9be2ced6d72467c006406bb01dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
