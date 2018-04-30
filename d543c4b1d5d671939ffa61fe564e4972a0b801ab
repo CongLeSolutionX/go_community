@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3b36662_1ad92d22",
+        "filename": "src/cmd/compile/internal/gc/select.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-30T21:32:07Z",
+      "side": 1,
+      "message": "Update comment",
+      "revId": "d543c4b1d5d671939ffa61fe564e4972a0b801ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "749faec3_85acee9f",
+        "filename": "src/cmd/compile/internal/gc/select.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-04-30T21:32:07Z",
+      "side": 1,
+      "message": "I supposed we should clean this received pointer up, too. (There\u0027s already a TODO to do so in selectnbrecv2)",
+      "revId": "d543c4b1d5d671939ffa61fe564e4972a0b801ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
