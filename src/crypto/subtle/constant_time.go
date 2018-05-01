@@ -9,15 +9,27 @@ package subtle
 // ConstantTimeCompare returns 1 if and only if the two slices, x
 // and y, have equal contents. The time taken is a function of the length of
 // the slices and is independent of the contents.
-func ConstantTimeCompare(x, y []byte) int {
-	if len(x) != len(y) {
-		return 0
+func ConstantTimeCompare(external, secret []byte) int {
+	l := len(external) ^ len(secret)
+	v := byte(0)
+	for i := uint(0); i < 4; i++ {
+		v |= byte(l >> (i << 3))
 	}
 
-	var v byte
+	i := 0
+	j := 0
+	k := 0
+	if len(secret) != 0 {
+		for ; i != len(external); i++ {
+			v |= external[i] ^ secret[j]
 
-	for i := 0; i < len(x); i++ {
-		v |= x[i] ^ y[i]
+			if j != len(secret)-1 {
+				j++
+			}
+			if j == len(secret)-1 {
+				k++
+			}
+		}
 	}
 
 	return ConstantTimeByteEq(v, 0)
