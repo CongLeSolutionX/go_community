@@ -5,6 +5,7 @@
 package obj
 
 import (
+	"cmd/internal/dwarf"
 	"cmd/internal/src"
 	"log"
 )
@@ -241,15 +242,21 @@ func pctostmt(ctxt *Link, sym *LSym, oldval int32, p *Prog, phase int32, arg int
 	if phase == 1 {
 		return 0 // Ignored; also different from initial value of -1, if that ever matters.
 	}
-	s := p.Pos.IsStmt()
-	if s == src.PosIsStmt {
-		return 1
+	s := p.Pos.IsAsmStmt()
+	var is_stmt int32
+
+	// PrologueEnd, at least, is passed to the next instruction
+	switch s &^ src.PosAsmStmtMask {
+	case src.PosAsmPrologueEnd:
+		is_stmt = dwarf.PrologueEnd
+	case src.PosAsmEpilogueBegin:
+		is_stmt = dwarf.EpilogueBegin
 	}
-	if s == src.PosNotStmt { // includes NoSrcPos case
-		return 0
+
+	if s&src.PosAsmStmtMask != src.PosNotStmt {
+		is_stmt |= 1 // either PosDefaultStmt from asm, or PosIsStmt from go
 	}
-	// Line numbers in .s files will have no special setting, therefore default to is_stmt=1.
-	return 1
+	return is_stmt
 }
 
 // pctopcdata computes the pcdata value in effect at p.

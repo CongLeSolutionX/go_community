@@ -59,6 +59,12 @@ func (p XPos) WithIsStmt() XPos {
 	return p
 }
 
+// WithAsm returns the same location to be marked with DWARF prologue/epilogue mark
+func (p XPos) WithAsm(x uint) XPos {
+	p.lico = p.lico.withAsm(x)
+	return p
+}
+
 func (p XPos) LineNumber() string {
 	if !p.IsKnown() {
 		return "?"
