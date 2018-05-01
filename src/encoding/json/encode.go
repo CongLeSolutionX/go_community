@@ -260,12 +260,18 @@ func (e *InvalidUTF8Error) Error() string {
 }
 
 type MarshalerError struct {
-	Type reflect.Type
-	Err  error
+	Type  reflect.Type
+	Value reflect.Value
+	Path  []string
+	Err   error
 }
 
 func (e *MarshalerError) Error() string {
-	return "json: error calling MarshalJSON for type " + e.Type.String() + ": " + e.Err.Error()
+	if len(e.Path) > 0 {
+		return "json: error calling MarshalJSON for " + strings.Join(e.Path, ".") + " (type " + e.Type.String() + "): " + e.Err.Error()
+	} else {
+		return "json: error calling MarshalJSON for type " + e.Type.String() + ": " + e.Err.Error()
+	}
 }
 
 var hex = "0123456789abcdef"
@@ -338,6 +344,16 @@ type encOpts struct {
 	quoted bool
 	// escapeHTML causes '<', '>', and '&' to be escaped in JSON strings.
 	escapeHTML bool
+	// path keeps breadcrumbs of properties being marshaled for complex types.
+	path []string
+}
+
+// nest returns a copy of the original encOpts with an addition member added to
+// the path list, to indicate the hierarchy of the encoding process. (this is
+// copied to prevent clobbering path among siblings)
+func (opts encOpts) nest(path string) encOpts {
+	opts.path = append(opts.path, path)
+	return opts
 }
 
 type encoderFunc func(e *encodeState, v reflect.Value, opts encOpts)
@@ -456,11 +472,11 @@ func marshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 		err = compact(&e.Buffer, b, opts.escapeHTML)
 	}
 	if err != nil {
-		e.error(&MarshalerError{v.Type(), err})
+		e.error(&MarshalerError{v.Type(), v, opts.path, err})
 	}
 }
 
-func addrMarshalerEncoder(e *encodeState, v reflect.Value, _ encOpts) {
+func addrMarshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 	va := v.Addr()
 	if va.IsNil() {
 		e.WriteString("null")
@@ -473,7 +489,7 @@ func addrMarshalerEncoder(e *encodeState, v reflect.Value, _ encOpts) {
 		err = compact(&e.Buffer, b, true)
 	}
 	if err != nil {
-		e.error(&MarshalerError{v.Type(), err})
+		e.error(&MarshalerError{v.Type(), v, opts.path, err})
 	}
 }
 
@@ -485,7 +501,7 @@ func textMarshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 	m := v.Interface().(encoding.TextMarshaler)
 	b, err := m.MarshalText()
 	if err != nil {
-		e.error(&MarshalerError{v.Type(), err})
+		e.error(&MarshalerError{v.Type(), v, opts.path, err})
 	}
 	e.stringBytes(b, opts.escapeHTML)
 }
@@ -499,7 +515,7 @@ func addrTextMarshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 	m := va.Interface().(encoding.TextMarshaler)
 	b, err := m.MarshalText()
 	if err != nil {
-		e.error(&MarshalerError{v.Type(), err})
+		e.error(&MarshalerError{v.Type(), v, opts.path, err})
 	}
 	e.stringBytes(b, opts.escapeHTML)
 }
@@ -643,8 +659,9 @@ func (se *structEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 		}
 		e.string(f.name, opts.escapeHTML)
 		e.WriteByte(':')
-		opts.quoted = f.quoted
-		se.fieldEncs[i](e, fv, opts)
+		o := opts.nest(f.name)
+		o.quoted = f.quoted
+		se.fieldEncs[i](e, fv, o)
 	}
 	e.WriteByte('}')
 }
@@ -678,7 +695,7 @@ func (me *mapEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 	for i, v := range keys {
 		sv[i].v = v
 		if err := sv[i].resolve(); err != nil {
-			e.error(&MarshalerError{v.Type(), err})
+			e.error(&MarshalerError{v.Type(), v, append(opts.path, v.String()), err})
 		}
 	}
 	sort.Slice(sv, func(i, j int) bool { return sv[i].s < sv[j].s })
@@ -689,7 +706,7 @@ func (me *mapEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 		}
 		e.string(kv.s, opts.escapeHTML)
 		e.WriteByte(':')
-		me.elemEnc(e, v.MapIndex(kv.v), opts)
+		me.elemEnc(e, v.MapIndex(kv.v), opts.nest(kv.s))
 	}
 	e.WriteByte('}')
 }
@@ -766,7 +783,7 @@ func (ae *arrayEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 		if i > 0 {
 			e.WriteByte(',')
 		}
-		ae.elemEnc(e, v.Index(i), opts)
+		ae.elemEnc(e, v.Index(i), opts.nest(strconv.Itoa(i)))
 	}
 	e.WriteByte(']')
 }
