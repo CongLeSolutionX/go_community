@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffcddf42_ad058b80",
+        "filename": "src/runtime/gc_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-01T01:35:15Z",
+      "side": 1,
+      "message": "Maybe BenhcmarkScanStackNoLocals?",
+      "revId": "019ad41f691833a98e59b7e9446f7c447567c44a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
