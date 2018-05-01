@@ -39,6 +39,30 @@
       "revId": "c27cdd437b6b489dfd16d8982d50489e2ad3aa9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99396cd6_d4020cd5",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-01T19:53:53Z",
+      "side": 1,
+      "message": "FWIW, I have no idea how to read that condition. :)",
+      "parentUuid": "7dd795f2_0250818e",
+      "range": {
+        "startLine": 1121,
+        "startChar": 7,
+        "endLine": 1121,
+        "endChar": 18
+      },
+      "revId": "c27cdd437b6b489dfd16d8982d50489e2ad3aa9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
