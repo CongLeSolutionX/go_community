@@ -491,6 +491,12 @@ type temporary interface {
 
 func (e *OpError) Temporary() bool {
 	if ne, ok := e.Err.(*os.SyscallError); ok {
+		if se, ok := ne.Err.(syscall.Errno); ok {
+			if se == syscall.ECONNRESET && e.Op != "accept" {
+				return false
+			}
+		}
+
 		t, ok := ne.Err.(temporary)
 		return ok && t.Temporary()
 	}

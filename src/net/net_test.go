@@ -11,6 +11,7 @@ import (
 	"net/internal/socktest"
 	"os"
 	"runtime"
+	"syscall"
 	"testing"
 	"time"
 )
@@ -513,6 +514,30 @@ func TestCloseUnblocksRead(t *testing.T) {
 			return fmt.Errorf("Read = %v, %v; want 0, EOF", n, err)
 		}
 		return nil
+	}
+	withTCPConnPair(t, client, server)
+}
+
+// Issue 24808: verify that an ECONNRESET is not temporary for read/write
+func TestNotTemporaryRead(t *testing.T) {
+	t.Parallel()
+	server := func(cs *TCPConn) error {
+		cs.SetLinger(0)
+		// Give the client time to get stuck in a Read:
+		time.Sleep(20 * time.Millisecond)
+		cs.Close()
+		return nil
+	}
+	client := func(ss *TCPConn) error {
+		n, err := ss.Read([]byte{0})
+		if ne, ok := err.(*OpError); ok {
+			if oe, ok := ne.Err.(*os.SyscallError); ok {
+				if se, ok := oe.Err.(syscall.Errno); ok && se == syscall.ECONNRESET {
+					return nil
+				}
+			}
+		}
+		return fmt.Errorf("Read = %v, %v; want 0, nested ECONNRESET", n, err)
 	}
 	withTCPConnPair(t, client, server)
 }
