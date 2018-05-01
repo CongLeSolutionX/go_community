@@ -105,6 +105,30 @@
       "revId": "c27cdd437b6b489dfd16d8982d50489e2ad3aa9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "854e4acd_3a5e098d",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-01T20:10:39Z",
+      "side": 1,
+      "message": "f.l.t.r. :-)",
+      "parentUuid": "99396cd6_d4020cd5",
+      "range": {
+        "startLine": 1121,
+        "startChar": 7,
+        "endLine": 1121,
+        "endChar": 18
+      },
+      "revId": "c27cdd437b6b489dfd16d8982d50489e2ad3aa9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
