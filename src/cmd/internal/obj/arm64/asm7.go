@@ -1995,6 +1995,22 @@ func buildop(ctxt *obj.Link) {
 			oprangeset(ASWPB, t)
 			oprangeset(ASWPH, t)
 			oprangeset(ASWPW, t)
+			oprangeset(ALDADDB, t)
+			oprangeset(ALDADDH, t)
+			oprangeset(ALDADDW, t)
+			oprangeset(ALDADDD, t)
+			oprangeset(ALDANDB, t)
+			oprangeset(ALDANDH, t)
+			oprangeset(ALDANDW, t)
+			oprangeset(ALDANDD, t)
+			oprangeset(ALDEORB, t)
+			oprangeset(ALDEORH, t)
+			oprangeset(ALDEORW, t)
+			oprangeset(ALDEORD, t)
+			oprangeset(ALDORB, t)
+			oprangeset(ALDORH, t)
+			oprangeset(ALDORW, t)
+			oprangeset(ALDORD, t)
 
 		case ABEQ:
 			oprangeset(ABNE, t)
@@ -3333,6 +3349,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 |= uint32(p.To.Reg & 31)
 
 	case 47: /* SWPx Rs, (Rb), Rt: Rs -> (Rb) -> Rt */
+	/* LD<op> Rs, (Rb), Rt: (Rb) -> Rt, Rs<op>(Rb) ->Rb */
 		v := int32(c.regoff(&p.From))
 		rb := int(p.From.Reg)
 		if v != 0 {
@@ -3341,18 +3358,31 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		rs := p.Reg
 		rt := p.To.Reg
 		switch p.As {
-		case ASWPD:
+		case ASWPD, ALDADDD, ALDANDD, ALDEORD, ALDORD: // 64-bit
 			o1 = 3 << 30
-		case ASWPW:
+		case ASWPW, ALDADDW, ALDANDW, ALDEORW, ALDORW: // 32-bit
 			o1 = 2 << 30
-		case ASWPH:
+		case ASWPH, ALDADDH, ALDANDH, ALDEORH, ALDORH: // 16-bit
 			o1 = 1 << 30
-		case ASWPB:
+		case ASWPB, ALDADDB, ALDANDB, ALDEORB, ALDORB: // 8-bit
 			o1 = 0 << 30
 		default:
 			c.ctxt.Diag("illegal instruction: %v\n", p)
 		}
-		o1 |= 0x1c1<<21 | 0x20<<10 | uint32(rs&31)<<16 | uint32(rb&31)<<5 | uint32(rt&31)
+		op := uint32(0)
+		switch p.As {
+		case ASWPD, ASWPW, ASWPH, ASWPB:
+			op = 0x20
+		case ALDADDD, ALDADDW, ALDADDH, ALDADDB:
+			op = 0x00
+		case ALDANDD, ALDANDW, ALDANDH, ALDANDB:
+			op = 0x04
+		case ALDEORD, ALDEORW, ALDEORH, ALDEORB:
+			op = 0x08
+		case ALDORD, ALDORW, ALDORH, ALDORB:
+			op = 0x0c
+		}
+		o1 |= 0x1c1<<21 | op<<10 | uint32(rs&31)<<16 | uint32(rb&31)<<5 | uint32(rt&31)
 
 	case 50: /* sys/sysl */
 		o1 = c.opirr(p, p.As)
