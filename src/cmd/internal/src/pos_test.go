@@ -184,3 +184,43 @@ func TestIsStmt(t *testing.T) {
 		}
 	}
 }
+
+func TestLogue(t *testing.T) {
+	defp := fmt.Sprintf(":%d", PosDefaultLogue)
+	pro := fmt.Sprintf(":%d", PosPrologueEnd)
+	epi := fmt.Sprintf(":%d", PosEpilogueBegin)
+
+	defs := fmt.Sprintf(":%d", PosDefaultStmt)
+	not := fmt.Sprintf(":%d", PosNotStmt)
+
+	for i, test := range []struct {
+		x         lico
+		string    string
+		line, col uint
+	}{
+		{makeLico(0, 0).withLogue(PosDefaultLogue), ":0" + not + defp, 0, 0},
+		{makeLico(0, 0).withLogue(PosPrologueEnd), ":0" + not + pro, 0, 0},
+		{makeLico(0, 0).withLogue(PosEpilogueBegin), ":0" + not + epi, 0, 0},
+
+		{makeLico(0, 1).withLogue(PosDefaultLogue), ":0:1" + defs + defp, 0, 1},
+		{makeLico(0, 1).withLogue(PosPrologueEnd), ":0:1" + defs + pro, 0, 1},
+		{makeLico(0, 1).withLogue(PosEpilogueBegin), ":0:1" + defs + epi, 0, 1},
+
+		{makeLico(1, 0).withLogue(PosDefaultLogue), ":1" + defs + defp, 1, 0},
+		{makeLico(1, 0).withLogue(PosPrologueEnd), ":1" + defs + pro, 1, 0},
+		{makeLico(1, 0).withLogue(PosEpilogueBegin), ":1" + defs + epi, 1, 0},
+
+		{makeLico(1, 1).withLogue(PosDefaultLogue), ":1:1" + defs + defp, 1, 1},
+		{makeLico(1, 1).withLogue(PosPrologueEnd), ":1:1" + defs + pro, 1, 1},
+		{makeLico(1, 1).withLogue(PosEpilogueBegin), ":1:1" + defs + epi, 1, 1},
+
+		{makeLico(lineMax, 1).withLogue(PosDefaultLogue), fmt.Sprintf(":%d:1", lineMax) + defs + defp, lineMax, 1},
+		{makeLico(lineMax, 1).withLogue(PosPrologueEnd), fmt.Sprintf(":%d:1", lineMax) + defs + pro, lineMax, 1},
+		{makeLico(lineMax, 1).withLogue(PosEpilogueBegin), fmt.Sprintf(":%d:1", lineMax) + defs + epi, lineMax, 1},
+	} {
+		x := test.x
+		if got := format("", x.Line(), x.Col(), true) + fmt.Sprintf(":%d:%d", x.IsStmt(), x.Logue()); got != test.string {
+			t.Errorf("%d: %s: got %q", i, test.string, got)
+		}
+	}
+}

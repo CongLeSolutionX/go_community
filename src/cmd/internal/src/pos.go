@@ -293,7 +293,7 @@ func (b *PosBase) InliningIndex() int {
 // A lico is a compact encoding of a LIne and COlumn number.
 type lico uint32
 
-// Layout constants: 22 bits for line, 8 bits for column, 2 for isStmt
+// Layout constants: 20 bits for line, 8 bits for column, 4 for isStmt
 // (If this is too tight, we can either make lico 64b wide,
 // or we can introduce a tiered encoding where we remove column
 // information as line numbers grow bigger; similar to what gcc
@@ -302,12 +302,15 @@ type lico uint32
 // part of a position; its use is to communicate statement edges through
 // instruction scrambling in code generation, not to impose an order.
 const (
-	lineBits, lineMax     = 22, 1<<lineBits - 1
+	lineBits, lineMax     = 20, 1<<lineBits - 1
 	isStmtBits, isStmtMax = 2, 1<<isStmtBits - 1
-	colBits, colMax       = 32 - lineBits - isStmtBits, 1<<colBits - 1
-	isStmtShift           = 0
-	colShift              = isStmtBits + isStmtShift
-	lineShift             = colBits + colShift
+	logueBits, logueMax   = 2, 1<<logueBits - 1
+	colBits, colMax       = 32 - lineBits - logueBits - isStmtBits, 1<<colBits - 1
+
+	isStmtShift = 0
+	logueShift  = isStmtBits + isStmtShift
+	colShift    = logueBits + logueShift
+	lineShift   = colBits + colShift
 )
 const (
 	// It is expected that the front end or a phase in SSA will usually generate positions tagged with
@@ -342,6 +345,14 @@ const (
 	PosNotStmt                 // Position should not be a statement boundary, but line should be preserved for profiling and low-level debugging purposes.
 )
 
+type PosLogue uint
+
+const (
+	PosDefaultLogue PosLogue = iota
+	PosPrologueEnd
+	PosEpilogueBegin
+)
+
 func makeLico(line, col uint) lico {
 	if line > lineMax {
 		// cannot represent line, use max. line so we have some information
@@ -363,6 +374,9 @@ func (x lico) IsStmt() uint {
 	}
 	return uint(x) >> isStmtShift & isStmtMax
 }
+func (x lico) Logue() PosLogue {
+	return PosLogue(uint(x) >> logueShift & logueMax)
+}
 
 // withNotStmt returns a lico for the same location, but not a statement
 func (x lico) withNotStmt() lico {
@@ -377,6 +391,18 @@ func (x lico) withDefaultStmt() lico {
 // withIsStmt returns a lico for the same location, tagged as definitely a statement
 func (x lico) withIsStmt() lico {
 	return x.withStmt(PosIsStmt)
+}
+
+// withLogue attaches a prologue/epilogue attribute to a lico
+func (x lico) withLogue(logue PosLogue) lico {
+	if x == 0 {
+		if logue == 0 {
+			return x
+		}
+		// Normalize 0 to "not a statement"
+		x = lico(PosNotStmt << isStmtShift)
+	}
+	return lico(uint(x) & ^uint(logueMax<<logueShift) | (uint(logue) << logueShift))
 }
 
 // withStmt returns a lico for the same location with specified is_stmt attribute
