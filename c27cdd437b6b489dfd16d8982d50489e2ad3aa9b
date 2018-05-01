@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7dd795f2_0250818e",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-01T19:52:40Z",
+      "side": 1,
+      "message": "you could factor both of these out into something like\n\nif c \u003d\u003d \u0027i\u0027 \u003d\u003d !flagiexport {\n   yyerror(\"import %s: cannot import package compiled with -iexport\u003d%v\", file, !flagiexport)\n}\n\nleaving up to you",
+      "range": {
+        "startLine": 1121,
+        "startChar": 7,
+        "endLine": 1121,
+        "endChar": 18
+      },
+      "revId": "c27cdd437b6b489dfd16d8982d50489e2ad3aa9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
