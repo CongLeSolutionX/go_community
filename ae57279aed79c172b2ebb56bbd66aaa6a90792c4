@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72f15465_0c7c1888",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-01T19:17:34Z",
+      "side": 1,
+      "message": "Use s.f.Config.arch for consistency.\n\nAdd comment that we don\u0027t try to copy because copy isn\u0027t cheaper on wasm.",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9818835_edabbe37",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-01T19:17:34Z",
+      "side": 1,
+      "message": "This makes a map in each iteration. Move this out of the loop and maybe use a sparseSet (cmd/compile/internal/ssa/sparseset.go).",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "310be2c3_d9726524",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-01T19:17:34Z",
+      "side": 1,
+      "message": "It seems this means whether the next value is memory (since we loop backward)? Maybe name it nextIsMem?",
+      "range": {
+        "startLine": 694,
+        "startChar": 7,
+        "endLine": 694,
+        "endChar": 14
+      },
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "158ac9de_d733c63a",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-01T19:17:34Z",
+      "side": 1,
+      "message": "Op constants are generated and I don\u0027t think there is any defined order. What is it trying to test here?",
+      "range": {
+        "startLine": 697,
+        "startChar": 0,
+        "endLine": 699,
+        "endChar": 5
+      },
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1899c52_9a2793d3",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-01T19:17:34Z",
+      "side": 1,
+      "message": "Sorry I\u0027m not sure I understand this. Seems it is testing whether there are two consecutive stores? Why that matters? What does it mean for a store to be on stack? Seems I don\u0027t understand this algorithm entirely... A high level overview would be helpful.",
+      "range": {
+        "startLine": 700,
+        "startChar": 41,
+        "endLine": 700,
+        "endChar": 73
+      },
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc004730_d7914418",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-01T19:17:34Z",
+      "side": 1,
+      "message": "This makes the Value struct bigger. Values are used a lot in the compiler, so this will increase the compiler\u0027s memory usage, and perhaps affect compiler speed. Could you measure the compiler speed before and after this CL, for both wasm and non-wasm? (https://godoc.org/golang.org/x/tools/cmd/compilebench)\n\nWasmOnStack is probably a better name? Or OnWasmStack.",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
