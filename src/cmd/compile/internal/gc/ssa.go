@@ -4838,7 +4838,8 @@ func genssa(f *ssa.Func, pp *Progs) {
 				// let the backend handle it
 				// Special case for first line in function; move it to the start.
 				if firstPos != src.NoXPos {
-					s.SetPos(firstPos)
+					pos := firstPos.WithAsm(src.PosAsmPrologueEnd) // and it is the end of the epilogue
+					s.SetPos(pos)
 					firstPos = src.NoXPos
 				}
 				thearch.SSAGenValue(&s, v)

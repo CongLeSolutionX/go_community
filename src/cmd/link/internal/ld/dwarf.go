@@ -1265,8 +1265,18 @@ func writelines(ctxt *Link, lib *sym.Library, textp []*sym.Symbol, ls *sym.Symbo
 
 			// Only changed if it advanced
 			if is_stmt != uint8(pcstmt.value) {
-				is_stmt = uint8(pcstmt.value)
-				ls.AddUint8(uint8(dwarf.DW_LNS_negate_stmt))
+				new_stmt := uint8(pcstmt.value)
+				if new_stmt&^1 == dwarf.PrologueEnd {
+					new_stmt = new_stmt ^ dwarf.PrologueEnd
+					if false {
+						fmt.Printf("PrologueEnd for %s at 0x%x\n", s.Name, pc)
+					}
+					ls.AddUint8(uint8(dwarf.DW_LNS_set_prologue_end))
+				}
+				if is_stmt != new_stmt {
+					is_stmt = new_stmt
+					ls.AddUint8(uint8(dwarf.DW_LNS_negate_stmt))
+				}
 			}
 
 			// putpcldelta makes a row in the DWARF matrix, always, even if line is unchanged.

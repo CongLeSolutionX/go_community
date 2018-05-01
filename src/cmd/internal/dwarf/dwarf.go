@@ -25,6 +25,10 @@ const RangePrefix = "go.range."
 
 // IsStmtPrefix is the prefix for all the symbols containing DWARF is_stmt info for the line number table.
 const IsStmtPrefix = "go.isstmt."
+const (
+	PrologueEnd   = 2 + iota // overload "is_stmt" to include prologue_end
+	EpilogueBegin            // overload is_stmt" to include epilogue_end
+)
 
 // ConstInfoPrefix is the prefix for all symbols containing DWARF info
 // entries that contain constants.
