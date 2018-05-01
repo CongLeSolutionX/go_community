@@ -12,6 +12,7 @@ import "unsafe"
 func sysAlloc(n uintptr, sysStat *uint64) unsafe.Pointer {
 	v, err := mmap(nil, n, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_PRIVATE, -1, 0)
 	if err != 0 {
+		println(err)
 		return nil
 	}
 	mSysStatInc(sysStat, n)
