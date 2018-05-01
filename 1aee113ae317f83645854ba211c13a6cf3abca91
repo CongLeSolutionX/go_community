@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7a3a9bad_2277b23d",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 27523
+      },
+      "writtenOn": "2018-05-01T05:24:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16df231b_a004a151",
+      "range": {
+        "startLine": 347,
+        "startChar": 47,
+        "endLine": 347,
+        "endChar": 57
+      },
+      "revId": "1aee113ae317f83645854ba211c13a6cf3abca91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a8ecef2_89f3786b",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "15b7e044_8fcc79f4",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 27523
+      },
+      "writtenOn": "2018-05-01T05:24:35Z",
+      "side": 1,
+      "message": "If there isn\u0027t already any benchmarking for encoding/json, should that be added as part of this change?",
+      "parentUuid": "0a8ecef2_89f3786b",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 1
+      },
+      "revId": "1aee113ae317f83645854ba211c13a6cf3abca91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76753363_4c597192",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2018-04-30T17:44:04Z",
       "side": 1,
       "message": "With the strings.Join above, this looks strange right? path.to.[3].foo",
+      "range": {
+        "startLine": 786,
+        "startChar": 28,
+        "endLine": 786,
+        "endChar": 62
+      },
+      "revId": "1aee113ae317f83645854ba211c13a6cf3abca91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd4b26d8_e626bb6b",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 27523
+      },
+      "writtenOn": "2018-05-01T05:24:35Z",
+      "side": 1,
+      "message": "I\u0027m open to changing this. I was mainly thinking this would be useful to clearly indicate slice indexes, as opposed to struct/map properties. Maybe this is overkill, and just keeping a bare number \"path.to.3.foo\" would be obvious enough to anyone debugging an error.",
+      "parentUuid": "76753363_4c597192",
       "range": {
         "startLine": 786,
         "startChar": 28,
