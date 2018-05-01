@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "935daf54_403c5749",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-01T14:50:42Z",
+      "side": 1,
+      "message": "these would need docs now. It was pretty obvious before, but less obvious now (especially Path)",
+      "range": {
+        "startLine": 262,
+        "startChar": 28,
+        "endLine": 266,
+        "endChar": 12
+      },
+      "revId": "18fde20b2b5534269b218feefd691cb8b7779ff4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3825d269_d24ac394",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-01T14:50:42Z",
+      "side": 1,
+      "message": "this isn\u0027t really safe. We don\u0027t copy things by value if they have reference types inside them that are mutated.\n\nYou\u0027re making a \"copy\" of encOpts, but it\u0027s sharing the path slice\u0027s backing array usually.",
+      "range": {
+        "startLine": 353,
+        "startChar": 52,
+        "endLine": 356,
+        "endChar": 12
+      },
+      "revId": "18fde20b2b5534269b218feefd691cb8b7779ff4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cc9cf0b_efb833cf",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-01T14:50:42Z",
+      "side": 1,
+      "message": "Sorry, but all this extra allocation (the Itoa + append) in the common error-free path negates the benefit of nice error messages.\n\nYou\u0027d need to do this without performance cost. People complain about the speed of this package as it is.",
+      "range": {
+        "startLine": 785,
+        "startChar": 3,
+        "endLine": 786,
+        "endChar": 55
+      },
+      "revId": "18fde20b2b5534269b218feefd691cb8b7779ff4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
