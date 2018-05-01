@@ -293,7 +293,7 @@ func (b *PosBase) InliningIndex() int {
 // A lico is a compact encoding of a LIne and COlumn number.
 type lico uint32
 
-// Layout constants: 22 bits for line, 8 bits for column, 2 for isStmt
+// Layout constants: 20 bits for line, 8 bits for column, 4 for isStmt
 // (If this is too tight, we can either make lico 64b wide,
 // or we can introduce a tiered encoding where we remove column
 // information as line numbers grow bigger; similar to what gcc
@@ -302,8 +302,8 @@ type lico uint32
 // part of a position; its use is to communicate statement edges through
 // instruction scrambling in code generation, not to impose an order.
 const (
-	lineBits, lineMax     = 22, 1<<lineBits - 1
-	isStmtBits, isStmtMax = 2, 1<<isStmtBits - 1
+	lineBits, lineMax     = 20, 1<<lineBits - 1
+	isStmtBits, isStmtMax = 4, 1<<isStmtBits - 1
 	colBits, colMax       = 32 - lineBits - isStmtBits, 1<<colBits - 1
 	isStmtShift           = 0
 	colShift              = isStmtBits + isStmtShift
@@ -342,6 +342,14 @@ const (
 	PosNotStmt                 // Position should not be a statement boundary, but line should be preserved for profiling and low-level debugging purposes.
 )
 
+const (
+	// At Asm creation, certain Pos's are also attributed with prologue and epilogue begin/end.
+	posAsmShift            = 2
+	PosAsmStmtMask         = 1<<posAsmShift - 1
+	PosAsmPrologueEnd uint = (1 + iota) << posAsmShift
+	PosAsmEpilogueBegin
+)
+
 func makeLico(line, col uint) lico {
 	if line > lineMax {
 		// cannot represent line, use max. line so we have some information
@@ -361,6 +369,12 @@ func (x lico) IsStmt() uint {
 	if x == 0 {
 		return PosNotStmt
 	}
+	return uint(x) >> isStmtShift & PosAsmStmtMask
+}
+func (x lico) IsAsmStmt() uint {
+	if x == 0 {
+		return PosNotStmt
+	}
 	return uint(x) >> isStmtShift & isStmtMax
 }
 
@@ -377,6 +391,17 @@ func (x lico) withDefaultStmt() lico {
 // withIsStmt returns a lico for the same location, tagged as definitely a statement
 func (x lico) withIsStmt() lico {
 	return x.withStmt(PosIsStmt)
+}
+
+// withAsm attaches a special attribute to a lico
+// This even works for an empty lico
+func (x lico) withAsm(asmAttribute uint) lico {
+	if x == 0 && asmAttribute != 0 {
+		// To set a prologue/epilogue attribute for a line that is zero, explicitly mark it as not-a-statement.
+		x = lico(PosNotStmt << isStmtShift)
+	}
+	stmt := asmAttribute | x.IsStmt()&(1<<posAsmShift-1)
+	return lico(uint(x) & ^uint(isStmtMax<<isStmtShift) | (stmt << isStmtShift))
 }
 
 // withStmt returns a lico for the same location with specified is_stmt attribute
