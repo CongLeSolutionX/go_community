@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f9e8261_2b4a6547",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-05-02T03:18:21Z",
+      "side": 1,
+      "message": "int32 is all that is necessary and would be better for 32 bit platforms.\n\n(same applies to parallelized)",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c6ea20f_aef5b7db",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-05-02T03:18:21Z",
+      "side": 1,
+      "message": "Is there a reason to use a sync.Once here as opposed to an atomic store?",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06f6556c_a01e55b9",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-05-02T03:18:21Z",
+      "side": 1,
+      "message": "Source\u0027s here do not need to be locked.",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57355ef5_971a9d8f",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-05-02T03:18:21Z",
+      "side": 1,
+      "message": "This is missing the getGlobalRand + defer replaceRand combo.",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f393bdc_f08a80ca",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-05-02T03:18:21Z",
+      "side": 1,
+      "message": "(also missing the combo)",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
