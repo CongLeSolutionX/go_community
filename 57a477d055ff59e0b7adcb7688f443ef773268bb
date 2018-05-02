@@ -84,6 +84,23 @@
       "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98752c7a_e0ca0fad",
+        "filename": "src/math/rand/rand_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-05-02T04:59:34Z",
+      "side": 1,
+      "message": "This shows quite the hit on BenchmarkInt63Threadsafe for only a bit of gain in the parallel mode.\n\nname                       old time/op  new time/op   delta\nInt63Threadsafe-4          28.2ns ± 0%  126.6ns ± 0%  +348.78%  (p\u003d0.000 n\u003d10+9)\nInt63ThreadsafeParallel-4  60.5ns ± 1%   36.5ns ± 1%   -39.72%  (p\u003d0.000 n\u003d9+8)",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
