@@ -1,0 +1,475 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ae9ae92_d633ca3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Is this still true? Why would this make it worse if Delve is just ignoring is_stmt?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20752dec_70605df2",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "// Clear IsStmt for later Progs at this pos.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aff27cc_c61c5fc5",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 4726,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Does marking these as non-statements obviate the need to not modify their position at all (like the code used to do)?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6290634_5d317d1b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 4895,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Maybe \"relax DefaultStmt into NotStmt\", since you\u0027re not undoing ones that are marked as IsStmt.",
+      "range": {
+        "startLine": 4895,
+        "startChar": 22,
+        "endLine": 4895,
+        "endChar": 47
+      },
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "885629ef_658fabe4",
+        "filename": "src/cmd/compile/internal/ssa/biasedsparsemap.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "if s.s \u003d\u003d nil { return 0 }?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23ffabda_27313b84",
+        "filename": "src/cmd/compile/internal/ssa/biasedsparsemap.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Bounds checks like add and set?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aefa4da3_b5858f11",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem right. We\u0027re replacing w with x, but this condition is about w and v. Maybe it\u0027s right and just needs a little more explanation.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e03f255a_bcf26016",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Reversed relative to what? I can\u0027t actually tell what order liveOrderStmts is in from the implementation.",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 13
+      },
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3ca9368_498a52e2",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Perhaps\n\nfor i :\u003d len(order) - 1; i \u003e\u003d 0; i-- { ... }\n\nand drop the i-- in the body?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a56a46f_d36702e7",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Similar to Value.reset, this makes me wonder if we want to de-Stmt these operations at Prog lowering rather than trying to keep them always NotStmt.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7b8ecbc_43f08eaf",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Not OpArg?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e1a89df_4afe42a2",
+        "filename": "src/cmd/compile/internal/ssa/fuse.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Is this also where the output of the compiler was affected by the allocation size classes? If so, perhaps worth mentioning that that needs to be avoided.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd893ccf_d3119a36",
+        "filename": "src/cmd/compile/internal/ssa/fuse.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "copy(c.Values[bl:], c.Values)",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48f8ca12_d048934f",
+        "filename": "src/cmd/compile/internal/ssa/fuse.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "copy(c.Values, b.Values)",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9915db7b_8344efc0",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "There are some really long comment lines in this file. Consider wrapping them. Also, several of them are sentences, but don\u0027t start with a capital.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb0b0b9f_e4fee89d",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Put the return true under this case and the return false outside the switch (no default case). That avoids separating the return true from the condition that leads to it.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2a9e1f2_4dab4f04",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Given that the value eliminating phases push statement-ness forward, why is it necessary to have heuristics about which operations are likely to disappear?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "151e7275_a2ff988f",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "There are also heuristics in Func.newValue and Func.newValueNoBlock, so those are spread around.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91df464c_2547eb7f",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "OpFwdRef, OpArg to match the heuristics in newValue?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38ed4b22_ec8f6b61",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Does this actually get cast to an int? Seems odd for it to be a uint here if so. (If that\u0027s not what you meant, then I\u0027d say \"first :\u003d ^uint(0)\", but that\u0027s not safe to cast to an int.)",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41ddc306_730695f6",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Lift this to the top of the function so you don\u0027t have to do it again in the second loop over f.Blocks below?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da41ad12_d5e3ca35",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "// We\u0027re about to eliminate OpCopys, so push their\n// IsStmt positions to the next eligible Value on the\n// same line.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18a235aa_c46a8837",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "I don\u0027t really follow this. It smells like you\u0027re doing roughly the same thing as the above code does for eliminating v, but here\u0027s it\u0027s if copySource reached through more intermediate OpCopys, but I\u0027m not really sure.\n\nAlgorithmically, does it make the most sense to be fixing these positions up as you go, or would it simplify things to collect up all of the eliminated statements and then have a second pass to put them back down on the remaining values?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35e24559_9b7d0801",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "If rv introduces new values, it looks like they\u0027ll copy the statement-ness of v (unless they\u0027re a handful of specific ops). What if one of those introduced values is an isPoorStatementStart?",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f54f3f5e_91bfd0af",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "What if b.Values[j+1] is on a different line from v? Above you\u0027re careful to only move statement-ness down to Values on the same line.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbb480ed_eaa2a1fd",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Do we ever reset to a notStmtBoundary op and then reset to a non-notStmtBoundary? Specifically, I\u0027m wondering if we want to be more lazy about un-stmt-ing Values; for example, by retaining v.Pos here and ignoring the Stmt flag for notStmtBoundary ops when lowering to Progs.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daaedd57_e0a80a26",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-02T02:49:30Z",
+      "side": 1,
+      "message": "Doc comment",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
