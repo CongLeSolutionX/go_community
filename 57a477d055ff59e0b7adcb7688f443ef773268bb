@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fe449f0f_1b17e8b5",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 22735
+      },
+      "writtenOn": "2018-05-02T20:47:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f9e8261_2b4a6547",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c6ea20f_aef5b7db",
         "filename": "src/math/rand/rand.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-02T03:18:21Z",
       "side": 1,
       "message": "Is there a reason to use a sync.Once here as opposed to an atomic store?",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb11d805_c6093ce2",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 22735
+      },
+      "writtenOn": "2018-05-02T20:47:11Z",
+      "side": 1,
+      "message": "Not in particular - I opted for the simplest implementation as a first pass, but we could probably get a better-performing instance with an atomic store.",
+      "parentUuid": "2c6ea20f_aef5b7db",
       "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "26531d6f_427565d0",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 22735
+      },
+      "writtenOn": "2018-05-02T20:47:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06f6556c_a01e55b9",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57355ef5_971a9d8f",
         "filename": "src/math/rand/rand.go",
         "patchSetId": 5
@@ -67,6 +121,24 @@
       "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79943c51_dc6e46a8",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 22735
+      },
+      "writtenOn": "2018-05-02T20:47:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57355ef5_971a9d8f",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "4acc4ab6_9bf15d05",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 22735
+      },
+      "writtenOn": "2018-05-02T20:47:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f393bdc_f08a80ca",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98752c7a_e0ca0fad",
         "filename": "src/math/rand/rand_test.go",
         "patchSetId": 5
@@ -101,6 +191,24 @@
       "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e148d4b_896f030c",
+        "filename": "src/math/rand/rand_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 22735
+      },
+      "writtenOn": "2018-05-02T20:47:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "98752c7a_e0ca0fad",
+      "revId": "57a477d055ff59e0b7adcb7688f443ef773268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
