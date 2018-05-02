@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02b4f8ff_cff8bcb1",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-02T14:33:36Z",
+      "side": 1,
+      "message": "I\u0027d add a comment mentioning that assembly language lacks a pcstmt section.\nGetting this loop cleaned up and adding pcstmt walking was a relatively fiddly task;\nlots of fenceposts.",
+      "range": {
+        "startLine": 1252,
+        "startChar": 2,
+        "endLine": 1252,
+        "endChar": 23
+      },
+      "revId": "ebdfd66cb9f831bd7fa37e92009aaf17255f1b40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
