@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "307b2e67_c59a9fd6",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-05-03T12:20:14Z",
+      "side": 0,
+      "message": "This code, AFAICT, never actually ran because the symtab step marks all type symbols as NotInSymbolTable.",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
