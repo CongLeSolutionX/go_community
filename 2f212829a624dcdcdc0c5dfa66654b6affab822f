@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d7484cd_5f282966",
+        "filename": "src/runtime/internal/atomic/asm_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-03T20:35:58Z",
+      "side": 1,
+      "message": "Took me a little puzzling. Perhaps \"// AND.S above left 0 in R2\"",
+      "revId": "2f212829a624dcdcdc0c5dfa66654b6affab822f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c19d5fd0_573aff58",
+        "filename": "src/runtime/internal/atomic/sys_nonlinux_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-03T20:35:58Z",
+      "side": 1,
+      "message": "Add a comment explaining why it\u0027s okay on all of the non-Linux OSes to do this without any barriers for goarm \u003c 7.",
+      "revId": "2f212829a624dcdcdc0c5dfa66654b6affab822f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
