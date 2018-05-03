@@ -91,6 +91,8 @@ var (
 	FlagDataAddr    = flag.Int64("D", -1, "set data segment `address`")
 	flagEntrySymbol = flag.String("E", "", "set `entry` symbol name")
 
+	flagRlocbss = flag.Bool("rlocbss", false, "relocate .bss to .data")
+
 	cpuprofile     = flag.String("cpuprofile", "", "write cpu profile to `file`")
 	memprofile     = flag.String("memprofile", "", "write memory profile to `file`")
 	memprofilerate = flag.Int64("memprofilerate", 0, "set runtime.MemProfileRate to `rate`")
