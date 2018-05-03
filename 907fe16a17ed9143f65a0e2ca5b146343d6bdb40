@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7280f5ce_ea9afc1f",
+        "filename": "src/cmd/link/internal/sym/symbols.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-03T19:51:38Z",
+      "side": 1,
+      "message": "Would it make sense to copy all the attributes? Being picky seems like setting us up for trouble later. Here and below.",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
