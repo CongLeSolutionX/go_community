@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bae3f3e4_075e27d0",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-03T20:46:12Z",
+      "side": 1,
+      "message": "Maybe rename it to mangleTypeSym or something. Now this function does the real thing, so use a verb for the name.",
+      "range": {
+        "startLine": 616,
+        "startChar": 3,
+        "endLine": 616,
+        "endChar": 21
+      },
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7280f5ce_ea9afc1f",
         "filename": "src/cmd/link/internal/sym/symbols.go",
         "patchSetId": 1
@@ -13,6 +36,41 @@
       "writtenOn": "2018-05-03T19:51:38Z",
       "side": 1,
       "message": "Would it make sense to copy all the attributes? Being picky seems like setting us up for trouble later. Here and below.",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9fa380c_b1f1acb3",
+        "filename": "src/cmd/link/internal/sym/symbols.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-03T20:46:12Z",
+      "side": 1,
+      "message": "I guess these are the only attributes touched by deadcode, so we need them?",
+      "parentUuid": "7280f5ce_ea9afc1f",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0e9821f_00bd885a",
+        "filename": "src/cmd/link/internal/sym/symbols.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-03T20:46:12Z",
+      "side": 1,
+      "message": "This might have bad interaction with field tracking (do we ever do name mangling and field tracking at same time anyway? Does field tracking care type symbols?). Maybe move name mangling further down after fieldtrack in main.go, so we will not need this.",
       "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
