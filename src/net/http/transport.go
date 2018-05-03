@@ -92,7 +92,7 @@ type Transport struct {
 	reqCanceler map[*Request]func(error)
 
 	altMu    sync.Mutex   // guards changing altProto only
-	altProto atomic.Value // of nil or map[string]RoundTripper, key is URI scheme
+	AltProto atomic.Value // of nil or map[string]RoundTripper, key is URI scheme
 
 	// Proxy specifies a function to return a proxy for a given
 	// Request. If the function returns a non-nil error, the
@@ -374,7 +374,7 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 		}
 	}
 
-	altProto, _ := t.altProto.Load().(map[string]RoundTripper)
+	altProto, _ := t.AltProto.Load().(map[string]RoundTripper)
 	if altRT := altProto[scheme]; altRT != nil {
 		if resp, err := altRT.RoundTrip(req); err != ErrSkipAltProtocol {
 			return resp, err
@@ -513,7 +513,7 @@ var ErrSkipAltProtocol = errors.New("net/http: skip alternate protocol")
 func (t *Transport) RegisterProtocol(scheme string, rt RoundTripper) {
 	t.altMu.Lock()
 	defer t.altMu.Unlock()
-	oldMap, _ := t.altProto.Load().(map[string]RoundTripper)
+	oldMap, _ := t.AltProto.Load().(map[string]RoundTripper)
 	if _, exists := oldMap[scheme]; exists {
 		panic("protocol " + scheme + " already registered")
 	}
@@ -522,7 +522,7 @@ func (t *Transport) RegisterProtocol(scheme string, rt RoundTripper) {
 		newMap[k] = v
 	}
 	newMap[scheme] = rt
-	t.altProto.Store(newMap)
+	t.AltProto.Store(newMap)
 }
 
 // CloseIdleConnections closes any connections which were previously
@@ -1166,37 +1166,13 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 		}
 	case cm.targetScheme == "https":
 		conn := pconn.conn
-		hdr := t.ProxyConnectHeader
-		if hdr == nil {
-			hdr = make(Header)
+		d := httpConnectNewDialer("tcp", cm.proxyURL, t)
+		d.ProxyDial = func(_ context.Context, _, _ string) (net.Conn, error) {
+			return conn, nil
 		}
-		connectReq := &Request{
-			Method: "CONNECT",
-			URL:    &url.URL{Opaque: cm.targetAddr},
-			Host:   cm.targetAddr,
-			Header: hdr,
-		}
-		if pa := cm.proxyAuth(); pa != "" {
-			connectReq.Header.Set("Proxy-Authorization", pa)
-		}
-		connectReq.Write(conn)
-
-		// Read response.
-		// Okay to use and discard buffered reader here, because
-		// TLS server will not speak until spoken to.
-		br := bufio.NewReader(conn)
-		resp, err := ReadResponse(br, connectReq)
-		if err != nil {
+		if _, err := d.DialContext(ctx, "tcp", cm.targetAddr); err != nil {
 			conn.Close()
 			return nil, err
-		}
-		if resp.StatusCode != 200 {
-			f := strings.SplitN(resp.Status, " ", 2)
-			conn.Close()
-			if len(f) < 2 {
-				return nil, errors.New("unknown status code")
-			}
-			return nil, errors.New(f[1])
 		}
 	}
 
