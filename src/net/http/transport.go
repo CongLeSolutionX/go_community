@@ -15,6 +15,7 @@ import (
 	"container/list"
 	"context"
 	"crypto/tls"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"io"
@@ -1166,37 +1167,22 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 		}
 	case cm.targetScheme == "https":
 		conn := pconn.conn
-		hdr := t.ProxyConnectHeader
-		if hdr == nil {
-			hdr = make(Header)
+		useTls := cm.proxyURL.Scheme == "https"
+		if cm.proxyURL.User != nil {
+			if t.ProxyConnectHeader == nil {
+				t.ProxyConnectHeader = make(Header)
+			}
+			password, _ := cm.proxyURL.User.Password()
+			encodedAuth := base64.StdEncoding.EncodeToString([]byte(cm.proxyURL.User.Username() + ":" + password))
+			t.ProxyConnectHeader.Set("Proxy-Authorization", "Basic "+encodedAuth)
 		}
-		connectReq := &Request{
-			Method: "CONNECT",
-			URL:    &url.URL{Opaque: cm.targetAddr},
-			Host:   cm.targetAddr,
-			Header: hdr,
+		d := httpConnectNewDialer("tcp", conn.RemoteAddr().String(), useTls, t)
+		d.ProxyDial = func(_ context.Context, _, _ string) (net.Conn, error) {
+			return conn, nil
 		}
-		if pa := cm.proxyAuth(); pa != "" {
-			connectReq.Header.Set("Proxy-Authorization", pa)
-		}
-		connectReq.Write(conn)
-
-		// Read response.
-		// Okay to use and discard buffered reader here, because
-		// TLS server will not speak until spoken to.
-		br := bufio.NewReader(conn)
-		resp, err := ReadResponse(br, connectReq)
-		if err != nil {
+		if _, err := d.DialContext(ctx, "tcp", cm.targetAddr); err != nil {
 			conn.Close()
 			return nil, err
-		}
-		if resp.StatusCode != 200 {
-			f := strings.SplitN(resp.Status, " ", 2)
-			conn.Close()
-			if len(f) < 2 {
-				return nil, errors.New("unknown status code")
-			}
-			return nil, errors.New(f[1])
 		}
 	}
 
