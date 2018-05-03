@@ -1127,6 +1127,13 @@ func (ctxt *Link) dodata() {
 		if s.Type <= sym.STEXT || s.Type >= sym.SXREF {
 			continue
 		}
+		if *flagRlocbss {
+			if s.Type == sym.SNOPTRBSS {
+				s.Type = sym.SNOPTRDATA
+			} else if s.Type == sym.SBSS {
+				s.Type = sym.SDATA
+			}
+		}
 		data[s.Type] = append(data[s.Type], s)
 	}
 

@@ -79,6 +79,9 @@ Flags:
 		This sets the linking mode as described in cmd/cgo/doc.go.
 	-linkshared
 		Link against installed Go shared libraries (experimental).
+  -rlocbss
+    Relocate data that would be output to .bss to .data.
+    This is only used for linking with msvc type tool chains.
 	-memprofile file
 		Write memory profile to file.
 	-memprofilerate rate
