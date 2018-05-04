@@ -1,0 +1,480 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16c6cdd5_7a86ebd7",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3038,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "This name is accurate, but I have a hard time parsing it in other contexts. I wonder whether either of these would be clearer: isAppendMake, isAppendExtend. I do think the word \"append\" should be in there somewhere; then you don\u0027t need slice, either.\n\ns/checks that/reports whether/\n\nNit: Can we make this a Node method?",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfbc28c7_287243ae",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3039,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Make this part of the first line, and omit the colon. Then the next line can just read \"isWhateverWhatever assumes n has already been typechecked\".",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd67a0c5_0a7b8730",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3041,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Check that n has been typechecked and call Fatalf if not?",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db21d7fa_7ee952f6",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3046,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Broken record Josh: Can we make this\n\nif n.Op !\u003d OAPPEND || !n.Isddd() || n.List.Len() !\u003d 2 {\n  return false\n}",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "932aeeab_66e275d4",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3067,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Consider calling this \"y\" instead.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43fd599a_41ebee10",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3068,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "This could use a comment. (Explain int sizes etc.)",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9330743_a925930f",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3075,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "// extendslice rewrites append(l1, make([]T, l2)...) to",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98a0c13f_ccd1ec2d",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3082,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "I don\u0027t follow. Expand this comment a bit?",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae6bc6ea_322a21d6",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3090,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "(or did not get called)",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "402e1dec_692e6b68",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3093,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Possible future work (maybe file an issue?): When l2 is constant and small and T is scalar, do this zeroing inline instead of with a call to memclr. (Or maybe we should do that with SSA rules? Or an SSA rtcall pass, as contemplated in issue 24926?)",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce117287_f609f491",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3096,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "I assume you\u0027ve stared that the code that this ultimately generates and that it looks good.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "411753b0_f22c31e1",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3100,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "l2 :\u003d conv(...\n\ninstead of length :\u003d conv(...\n\nAnd add a comment that walkAppendArgs expects l2 in n.List.Second().\n\nThen at line 3107 do\n\nl2 \u003d n.List.Second() // re-read l2, as it may have been updated by walkAppendArgs",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "259ff68d_ad39466a",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3109,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Neither Brad nor I is keen on lower case l as a variable name. list? x? impl? extend? nodes? r? all? Just about anything else is fine with me. :)",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6a731d3_6d51c485",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3112,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Nit: consider nifneg or ifneg or neg instead of nif0. More descriptive.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79fe8259_38b68490",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3113,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Nit: I was thrown for a minute by the inline OCONV. Maybe construct the nodes above? l2int and zero, or some such?\n\nAlso, I\u0027m not sure you need to OCONV nodintconst(0) to TINT; I think it begins life that way. Or at least can simply have its type assigned directly. (Double-check, though.)",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdefca55_884be149",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3118,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Instead of reconstructing a make([]T, l2) Node, can we just use the original Node of that structure that was passed in?",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88f37457_66cefa18",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3120,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Mark nif0 as unlikely, for better code layout. (Here or above somewhere.)",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "446ee8a8_255d0d16",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3133,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Same--please construct separately instead of inline OCONV. And again, does OCAP need an OCONV, or just a type assigned? And I think nn should already have the correct type.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d00c9e9_41fbab8c",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3137,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "*Type :)\n\nAnd while you\u0027re here, for reader convenience, add names:\n\n// instantiate growslice(typ *type, old []any, newcap int) []any",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22777f0d_817526e3",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3147,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "I don\u0027t remember...can/should we mark nt as Bounded?\n\nThat we do this slice unconditionally makes me wonder whether the time has come to reconsider this TODO from the growslice docs, for Go 1.12:\n\n// The new slice\u0027s length is set to the old slice\u0027s length,\n// NOT to the new requested capacity.\n// This is for codegen convenience. The old slice\u0027s length is used immediately\n// to calculate where to write new values during an append.\n// TODO: When the old backend is gone, reconsider this decision.\n// The SSA backend might prefer the new length or to return only ptr/cap and save stack space.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a09adaf1_a81fce35",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3150,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Use OSPTR instead?",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bb0db2f_2697ebb7",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3159,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7a9e78c_05297193",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3168,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Is it worth the optimization here vs just \u0027var clr *Node\u0027? If so, let\u0027s do it above for l as well, but I suspect it isn\u0027t.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4f7d5da_9072de67",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3191,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Nit. Do:\n\nclrname :\u003d \"memclrNoHeapPointers\"\nif hasPointers {\n  clrnme \u003d \"memclrHasPointers\"\n}\nclrfn :\u003d mkcall(clrname, nil, nil, hp, hn)",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89b1ecc4_d0bd2db0",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3202,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "I think this line and the next are unnecessary; temp should already assign the correct type.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f99157c6_923c28fd",
+        "filename": "src/runtime/slice_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Move length inside the benchmark, and make const.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bb84e41_2e6a7671",
+        "filename": "src/runtime/slice_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "Not a big deal, but it would be nice to also benchmark a type with pointers, e.g. strings.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03b95e22_09df9eb8",
+        "filename": "test/codegen/slices.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-04T17:16:39Z",
+      "side": 1,
+      "message": "This test seems a bit fragile. It\u0027d be nicer to test that there\u0027s no call to makeslice or makeslice64, which provides additional motivation to add a panicmakeslice call for use instead of make-with-negative-arg. But it is also ok as is.",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
