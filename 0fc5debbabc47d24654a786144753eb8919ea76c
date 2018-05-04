@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e3d7acaf_b3eea053",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "AFAIK this is still true.  The reason is that Delve isn\u0027t using is_stmt yet, and for purposes of most-accurate profiling several places where NoXPos was used to clean up \"bad\" statement numbering have been changed to instead use PosNotStmt.",
+      "parentUuid": "4ae9ae92_d633ca3a",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20752dec_70605df2",
         "filename": "src/cmd/compile/internal/gc/gsubr.go",
         "patchSetId": 23
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "79dea3cc_ec404f00",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20752dec_70605df2",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aff27cc_c61c5fc5",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 23
@@ -50,6 +86,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61122bab_9fd8efd3",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 4726,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Correct.  The idea is that in the cases where code is generated (LoadReg, StoreReg, Copy) for profiling purposes it would be nice to assign costs accurately, but these are usually (but not always) terrible places for a debugger to stop because they may be well-separated from their statement.",
+      "parentUuid": "4aff27cc_c61c5fc5",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "8d5c4fde_96f04cb5",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 4895,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6290634_5d317d1b",
+      "range": {
+        "startLine": 4895,
+        "startChar": 22,
+        "endLine": 4895,
+        "endChar": 47
+      },
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "885629ef_658fabe4",
         "filename": "src/cmd/compile/internal/ssa/biasedsparsemap.go",
         "patchSetId": 23
@@ -90,6 +168,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8db15b0c_69fda286",
+        "filename": "src/cmd/compile/internal/ssa/biasedsparsemap.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "That would be prudent. (done)",
+      "parentUuid": "885629ef_658fabe4",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "a061aa21_04f6663c",
+        "filename": "src/cmd/compile/internal/ssa/biasedsparsemap.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Didn\u0027t need them here because the only things removed (so far) have been items actually observed to exist in the map.\nBut it would be safer... (done)",
+      "parentUuid": "23ffabda_27313b84",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aefa4da3_b5858f11",
         "filename": "src/cmd/compile/internal/ssa/cse.go",
         "patchSetId": 23
@@ -121,6 +235,24 @@
       "writtenOn": "2018-05-02T02:49:30Z",
       "side": 1,
       "message": "This doesn\u0027t seem right. We\u0027re replacing w with x, but this condition is about w and v. Maybe it\u0027s right and just needs a little more explanation.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21f99039_5c35fce6",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "w is an input to (arg of) v; it is plausible that they are on the same line.\nIt may not be the earliest value for that line.\n\nI\u0027ll add a comment that says this.",
+      "parentUuid": "aefa4da3_b5858f11",
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -150,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "00567bc9_21a4bfdc",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "It\u0027s \"a\" reversed data flow order, where the sinks (reversed, sources) are the block control values, calls, stores, basically anything with a side effect.  Any input w to a value v in the order follows v in the order, except for those flowing on back edges to phi functions.\n\nI\u0027m starting to think it would be better to be less worried about the order, and instead add a fixup in the scheduler, where the exact \"first instruction\" for each statement is properly noted.",
+      "parentUuid": "e03f255a_bcf26016",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 13
+      },
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3ca9368_498a52e2",
         "filename": "src/cmd/compile/internal/ssa/deadcode.go",
         "patchSetId": 23
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "56a61bfe_f5f876ea",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Sure. done",
+      "parentUuid": "b3ca9368_498a52e2",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a56a46f_d36702e7",
         "filename": "src/cmd/compile/internal/ssa/func.go",
         "patchSetId": 23
@@ -178,6 +352,24 @@
       "writtenOn": "2018-05-02T02:49:30Z",
       "side": 1,
       "message": "Similar to Value.reset, this makes me wonder if we want to de-Stmt these operations at Prog lowering rather than trying to keep them always NotStmt.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c67bd98b_72c6dbf2",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Having them be NotStmt early (in theory) makes them not be candidates for IsStmt when finding new homes during optimization, which I think is a good thing.",
+      "parentUuid": "0a56a46f_d36702e7",
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -201,6 +393,24 @@
     },
     {
       "key": {
+        "uuid": "d1c76f11_adf02802",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "I think OpArg never comes through this path, but it\u0027s a good idea to add it to avoid setting a trap for the future.  Done.",
+      "parentUuid": "f7b8ecbc_43f08eaf",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e1a89df_4afe42a2",
         "filename": "src/cmd/compile/internal/ssa/fuse.go",
         "patchSetId": 23
@@ -215,6 +425,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "896d95f9_5d306c42",
+        "filename": "src/cmd/compile/internal/ssa/fuse.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Yes.  Will do.",
+      "parentUuid": "5e1a89df_4afe42a2",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -235,6 +463,24 @@
     },
     {
       "key": {
+        "uuid": "9ea30005_98cb367e",
+        "filename": "src/cmd/compile/internal/ssa/fuse.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd893ccf_d3119a36",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48f8ca12_d048934f",
         "filename": "src/cmd/compile/internal/ssa/fuse.go",
         "patchSetId": 23
@@ -249,6 +495,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aefae3d5_9ca3d17f",
+        "filename": "src/cmd/compile/internal/ssa/fuse.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48f8ca12_d048934f",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -303,6 +567,24 @@
     },
     {
       "key": {
+        "uuid": "e92a3642_edeb19fa",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Two reasons (which I should fix in the comment).  1, sometimes \"disappear\" is instead \"move\" which isn\u0027t dealt with well yet.  The poor starts are very likely to move.  2, I have nowhere near 100% confidence in this working all the time, especially across the whole family of optimization rewrites, so this is a matter of trying to reduce the number of times that a statement boundary might be lost.",
+      "parentUuid": "e2a9e1f2_4dab4f04",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "151e7275_a2ff988f",
         "filename": "src/cmd/compile/internal/ssa/numberlines.go",
         "patchSetId": 23
@@ -317,6 +599,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a875a860_218fb055",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Fixed.  Value.reset modified to call out the copy exception for rewrites.",
+      "parentUuid": "151e7275_a2ff988f",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -337,6 +637,24 @@
     },
     {
       "key": {
+        "uuid": "638519e6_1d151daa",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91df464c_2547eb7f",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38ed4b22_ec8f6b61",
         "filename": "src/cmd/compile/internal/ssa/numberlines.go",
         "patchSetId": 23
@@ -351,6 +669,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf09253c_ec9b63cb",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "It is eventually cast to an int, though it is mostly used as a uint (the type of a line number).",
+      "parentUuid": "38ed4b22_ec8f6b61",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -371,6 +707,24 @@
     },
     {
       "key": {
+        "uuid": "11f838a8_1cb9f43f",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41ddc306_730695f6",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da41ad12_d5e3ca35",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 23
@@ -385,6 +739,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91aa26ba_f74a2ea9",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "This got rewritten rather much.  It turns out that this early pass is no help, so I removed it.\nThe lower pass below use data-flow driven rules for finding possible new homes, and that is better than merely \"nearby\".",
+      "parentUuid": "da41ad12_d5e3ca35",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -405,6 +777,24 @@
     },
     {
       "key": {
+        "uuid": "f0ac3764_c9ae76e2",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "I tried to improve the comments.  The intermediate copies might be good to treat more carefully via copySource, so that they could be exposed to these data-flow oriented rules, but otherwise they are converted to OpInvalid and handled below.\n\nI rewrote this to do the suggested accumulation, which required recording the block ID, but it helps.",
+      "parentUuid": "18a235aa_c46a8837",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35e24559_9b7d0801",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 23
@@ -419,6 +809,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2e5cf3d_d0937912",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "It turns out that none of them are (for the current definition of Poor Statement Start) except for OpCopy, which is treated specially.  Because the changes are usually made in place with Value.reset(op), if it were a PSS, the statement marker would be lost.",
+      "parentUuid": "35e24559_9b7d0801",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -439,6 +847,24 @@
     },
     {
       "key": {
+        "uuid": "9573be24_c2c54428",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "That\u0027s a bug. I fixed isPoorStatementStart (which needs a new name now) to return a better-if-needed index for v (v \u003d\u003d b.Values[i]), and thus returning i means \"can\u0027t do better\" and returning not-i means \"can do better, and here\".",
+      "parentUuid": "f54f3f5e_91bfd0af",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbb480ed_eaa2a1fd",
         "filename": "src/cmd/compile/internal/ssa/value.go",
         "patchSetId": 23
@@ -450,6 +876,24 @@
       "writtenOn": "2018-05-02T02:49:30Z",
       "side": 1,
       "message": "Do we ever reset to a notStmtBoundary op and then reset to a non-notStmtBoundary? Specifically, I\u0027m wondering if we want to be more lazy about un-stmt-ing Values; for example, by retaining v.Pos here and ignoring the Stmt flag for notStmtBoundary ops when lowering to Progs.",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0abd950_5b84fae6",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "I don\u0027t know for sure, but I mostly doubt it.\nMy current feeling on being more clever is to consider moving to the per-block line list plus fixup in scheduler.\n\nI got curious and did a quick histogram on reset opcodes in rewritegeneric.go.  One thing that jumps out is that I should consider adding ConstBool to the not-a-statement list, and see if that changes things for better or for worse.\n\n   1 OpEqB\n   1 OpGeq16\n   1 OpGeq16U\n   1 OpGeq32\n   1 OpGeq32U\n   1 OpGeq64\n   1 OpGeq64U\n   1 OpGeq8\n   1 OpGeq8U\n   1 OpGreater16\n   1 OpGreater16U\n   1 OpGreater32\n   1 OpGreater32U\n   1 OpGreater64\n   1 OpGreater64U\n   1 OpGreater8\n   1 OpGreater8U\n   1 OpLeq16\n   1 OpLeq16U\n   1 OpLeq32\n   1 OpLeq32U\n   1 OpLeq64\n   1 OpLeq64U\n   1 OpLeq8\n   1 OpLeq8U\n   1 OpLess16\n   1 OpLess16U\n   1 OpLess32\n   1 OpLess32U\n   1 OpLess64\n   1 OpLess64U\n   1 OpLess8\n   1 OpLess8U\n   1 OpMod16\n   1 OpMod32\n   1 OpMod64\n   1 OpMod8\n   1 OpMul32F\n   1 OpMul64F\n   1 OpSignExt16to64\n   1 OpSignExt32to64\n   1 OpSignExt8to64\n   1 OpSliceCap\n   1 OpSlicePtr\n   1 OpStaticCall\n   1 OpZeroExt16to64\n   1 OpZeroExt32to64\n   1 OpZeroExt8to64\n   2 OpAdd32F\n   2 OpAdd64F\n   2 OpAddPtr\n   2 OpArrayMake0\n   2 OpArrayMake1\n   2 OpComplexMake\n   2 OpEqPtr\n   2 OpInvalid\n   2 OpNeg32F\n   2 OpNeg64F\n   2 OpNeqPtr\n   2 OpSignExt16to32\n   2 OpSignExt8to32\n   2 OpSliceLen\n   2 OpStructMake0\n   2 OpStructMake1\n   2 OpStructMake2\n   2 OpStructMake3\n   2 OpStructMake4\n   2 OpTrunc16to8\n   2 OpTrunc64to8\n   2 OpZeroExt16to32\n   2 OpZeroExt8to32\n   3 OpNeqB\n   3 OpOffPtr\n   3 OpSignExt8to16\n   3 OpSliceMake\n   3 OpTrunc32to8\n   3 OpTrunc64to16\n   3 OpZeroExt8to16\n   4 OpIMake\n   4 OpMove\n   5 OpEq16\n   5 OpEq32\n   5 OpEq64\n   5 OpEq8\n   5 OpNeq16\n   5 OpNeq32\n   5 OpNeq64\n   5 OpNeq8\n   5 OpRsh16x64\n   5 OpRsh32x64\n   5 OpRsh64x64\n   5 OpRsh8x64\n   5 OpStore\n   5 OpStringMake\n   5 OpTrunc32to16\n   5 OpTrunc64to32\n   7 OpLsh16x64\n   7 OpLsh32x64\n   7 OpLsh8x64\n   7 OpNeg16\n   7 OpNeg32\n   7 OpNeg64\n   7 OpNeg8\n   8 OpIsNonNil\n   8 OpRsh16Ux64\n   8 OpRsh8Ux64\n   8 OpXor16\n   8 OpXor32\n   8 OpXor64\n   8 OpXor8\n   9 OpLsh64x64\n  11 OpConst32F\n  11 OpRsh32Ux64\n  12 OpConst64F\n  12 OpNot\n  12 OpSub16\n  12 OpSub8\n  13 OpSub64\n  14 OpAnd16\n  14 OpAnd32\n  14 OpAnd8\n  14 OpRsh64Ux64\n  14 OpSub32\n  15 OpAnd64\n  16 OpMul16\n  16 OpMul32\n  16 OpMul64\n  16 OpMul8\n  16 OpOr16\n  16 OpOr32\n  16 OpOr64\n  16 OpOr8\n  17 OpAdd16\n  17 OpAdd8\n  21 OpAdd32\n  23 OpAdd64\n  50 OpConst8\n  51 OpConst16\n  59 OpConst32\n  63 OpConst64\n 152 OpConstBool\n 164 OpCopy",
+      "parentUuid": "bbb480ed_eaa2a1fd",
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -470,6 +914,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24e16796_0f31768d",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-04T21:40:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daaedd57_e0a80a26",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
