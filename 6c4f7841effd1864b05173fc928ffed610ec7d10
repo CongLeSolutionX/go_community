@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58991e0b_6a70724d",
+        "filename": "src/cmd/vet/buildtag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-04T18:13:13Z",
+      "side": 1,
+      "message": "Personally I think it\u0027s clearer to write\n    msg :\u003d fmt.Sprintf(format, args)\n    fmt.Fprintf(os.Stderr, \"%s:%d: %s\\n\", f.name, line, msg)",
+      "revId": "6c4f7841effd1864b05173fc928ffed610ec7d10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bde2c714_b7750368",
+        "filename": "src/cmd/vet/buildtag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-04T18:13:13Z",
+      "side": 1,
+      "message": "This is pretty minor, but there are a lot more line comments than there are lines that look like build tags.  I think it would make more sense to look for build tags first, and, if we find one, look through the comments to verify that it\u0027s a real comment.",
+      "revId": "6c4f7841effd1864b05173fc928ffed610ec7d10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
