@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b758bf7_2e095280",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-05-04T18:30:54Z",
+      "side": 1,
+      "message": "This is very helpful, thanks.",
+      "revId": "75eb754c7447866d24005614439075bb9e40f0f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13431d9c_236e86d8",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-05-04T18:30:54Z",
+      "side": 1,
+      "message": "As an observation, this includes the space character in the equality, which isn\u0027t strictly required.\n\nBut I don\u0027t think it\u0027s worth the extra code trying to avoid, so this is okay.",
+      "range": {
+        "startLine": 862,
+        "startChar": 40,
+        "endLine": 862,
+        "endChar": 77
+      },
+      "revId": "75eb754c7447866d24005614439075bb9e40f0f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
