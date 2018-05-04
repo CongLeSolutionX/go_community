@@ -16,6 +16,47 @@
       "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62a9aceb_d075f669",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-04T21:29:16Z",
+      "side": 0,
+      "message": "This might be relevant to DWARF for -buildmode\u003dshared outputs. If you\u0027re right that type symbols are never in the symbol table, I wonder how clients of shared libraries find the types to pass them to newobject...",
+      "parentUuid": "307b2e67_c59a9fd6",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31e10449_3fbb7499",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-04T21:29:16Z",
+      "side": 0,
+      "message": "Just to confirm: this CL fixes the need for this?",
+      "range": {
+        "startLine": 1068,
+        "startChar": 41,
+        "endLine": 1068,
+        "endChar": 0
+      },
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

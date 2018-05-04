@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "864276f1_e169282a",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-04T21:29:16Z",
+      "side": 1,
+      "message": "This is depending on some pretty specific implementation details. Is gotype non-nil for these and the itabs?",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcfe2eb3_5adaef09",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1677,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-04T21:29:16Z",
+      "side": 1,
+      "message": "Not too happy with modifying FuncInfo here. Would it be so bad to initialize it in objfile.ReadSym?",
+      "range": {
+        "startLine": 1677,
+        "startChar": 52,
+        "endLine": 1677,
+        "endChar": 0
+      },
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb2d037_4d5985a1",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1731,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-04T21:29:16Z",
+      "side": 1,
+      "message": "Maybe it\u0027s time to come up with better names for the significant functions in here. At least use camel case?",
+      "range": {
+        "startLine": 1731,
+        "startChar": 5,
+        "endLine": 1731,
+        "endChar": 27
+      },
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "750d0e8e_63b212dd",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-04T21:29:16Z",
+      "side": 1,
+      "message": "It\u0027s not obvious at all to me what this list is. Runtime globals relevant to debuggers? Why do they need special treatment, though? Shouldn\u0027t they be picked up in defdwsymb?",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f59653a_96f40ff8",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1775,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-04T21:29:16Z",
+      "side": 1,
+      "message": "What does this turn into in the DWARF? It can\u0027t be a slice/array, since it\u0027s concatenation of a bunch of stuff of unknown size. void*?",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0edf0d5_1925d67d",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1788,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-04T21:29:16Z",
+      "side": 1,
+      "message": "What\u0027s this accomplishing?",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
