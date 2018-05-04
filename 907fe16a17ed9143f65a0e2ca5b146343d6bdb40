@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "c88067f6_8907d5f5",
+        "filename": "src/cmd/link/internal/sym/symbols.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-04T18:53:53Z",
+      "side": 1,
+      "message": "Sure, I just don\u0027t see a reason to be selective. That way if we move more phases around we won\u0027t get tripped up by losing information here. But I have little context.",
+      "parentUuid": "e9fa380c_b1f1acb3",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0e9821f_00bd885a",
         "filename": "src/cmd/link/internal/sym/symbols.go",
         "patchSetId": 1
@@ -71,6 +89,24 @@
       "writtenOn": "2018-05-03T20:46:12Z",
       "side": 1,
       "message": "This might have bad interaction with field tracking (do we ever do name mangling and field tracking at same time anyway? Does field tracking care type symbols?). Maybe move name mangling further down after fieldtrack in main.go, so we will not need this.",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f3f4896_f982896c",
+        "filename": "src/cmd/link/internal/sym/symbols.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-04T18:53:53Z",
+      "side": 1,
+      "message": "AFAIK only Google uses field tracking, and we don\u0027t support plugins in our build system. So it\u0027s probably moot, but doesn\u0027t hurt to fix.\n\nIf I understand correctly, the concern is that fieldtrack writes the names of the symbols to the fieldtrack linker symbol, and we want those to be the unmangled names.",
+      "parentUuid": "e0e9821f_00bd885a",
       "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
