@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "75766667_41c0f849",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-04T18:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f194edc_555c4fb5",
+      "revId": "03bf6bb23438a3aeab9b2f3b78ae3f080e8727e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47953573_da7689eb",
         "filename": "src/net/http/request.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-04T18:11:36Z",
       "side": 1,
       "message": "Why did you decide against reusing prefix for the second parameter?",
+      "revId": "03bf6bb23438a3aeab9b2f3b78ae3f080e8727e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5c64859_bcf4d5ff",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-04T18:19:19Z",
+      "side": 1,
+      "message": "Done. And folded with check above. And added issue reference.",
+      "parentUuid": "47953573_da7689eb",
       "revId": "03bf6bb23438a3aeab9b2f3b78ae3f080e8727e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
