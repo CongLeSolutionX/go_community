@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f194edc_555c4fb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-05-04T18:11:36Z",
+      "side": 1,
+      "message": "I think it\u0027d be nice to also mention the relevant section in the RFC on which the decision to ignore case is based (it\u0027s less clear in the issue because the issue was about deciding how to interpret the RFC).",
+      "revId": "03bf6bb23438a3aeab9b2f3b78ae3f080e8727e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47953573_da7689eb",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-05-04T18:11:36Z",
+      "side": 1,
+      "message": "Why did you decide against reusing prefix for the second parameter?",
+      "revId": "03bf6bb23438a3aeab9b2f3b78ae3f080e8727e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
