@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e351c37d_b27aba48",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-05T19:45:52Z",
+      "side": 1,
+      "message": "\u003e Use s.f.Config.arch for consistency.\n\nDo we really want to replace a pointer comparison with a string comparison?\n\n\u003e Add comment that we don\u0027t try to copy because copy isn\u0027t cheaper on wasm.\n\nI\u0027m not sure about the comment. The theory here is that copying a register should never happen, because all registers are equal. So if there is still a free register, the allocation should have picked that one in the first place instead of trying to kick some other value out. In practice, this case does happen and it breaks the stack optimization. I\u0027m not sure why it breaks it, but adding this condition here \"solves\" it. Maybe add a TODO?",
+      "parentUuid": "72f15465_0c7c1888",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9818835_edabbe37",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 23
@@ -33,6 +51,24 @@
       "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65c3bf59_4af9aeac",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-05T19:45:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9818835_edabbe37",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "457bc107_376a2372",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-05T19:45:52Z",
+      "side": 1,
+      "message": "Removed isMemOp.",
+      "parentUuid": "310be2c3_d9726524",
+      "range": {
+        "startLine": 694,
+        "startChar": 7,
+        "endLine": 694,
+        "endChar": 14
+      },
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "158ac9de_d733c63a",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 23
@@ -79,6 +139,30 @@
       "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60efa237_a274a91b",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-05T19:45:52Z",
+      "side": 1,
+      "message": "I was able to remove this \"if\" block and I replaced the condition below with \"!opcodeTable[arg.Op].generic\".",
+      "parentUuid": "158ac9de_d733c63a",
+      "range": {
+        "startLine": 697,
+        "startChar": 0,
+        "endLine": 699,
+        "endChar": 5
+      },
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "1f5a8226_3f52ea14",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-05T19:45:52Z",
+      "side": 1,
+      "message": "I\u0027ve done a few iterations on this code and simplified the conditions. I also added comments. I hope this is easier to understand now.",
+      "parentUuid": "d1899c52_9a2793d3",
+      "range": {
+        "startLine": 700,
+        "startChar": 41,
+        "endLine": 700,
+        "endChar": 73
+      },
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc004730_d7914418",
         "filename": "src/cmd/compile/internal/ssa/value.go",
         "patchSetId": 23
@@ -116,6 +224,24 @@
       "writtenOn": "2018-05-01T19:17:34Z",
       "side": 1,
       "message": "This makes the Value struct bigger. Values are used a lot in the compiler, so this will increase the compiler\u0027s memory usage, and perhaps affect compiler speed. Could you measure the compiler speed before and after this CL, for both wasm and non-wasm? (https://godoc.org/golang.org/x/tools/cmd/compilebench)\n\nWasmOnStack is probably a better name? Or OnWasmStack.",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd4a90fc_09cf0c81",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-05T19:45:52Z",
+      "side": 1,
+      "message": "No, I did not measure it. Any suggestion how I could avoid the increase? Also, it only increases the size on 32-bit architectures, but not on 64-bit ones due to a previous gap because of aligning. So maybe the impact isn\u0027t so bad because most systems are 64-bit nowadays?",
+      "parentUuid": "dc004730_d7914418",
       "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
