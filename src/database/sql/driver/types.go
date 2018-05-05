@@ -5,6 +5,7 @@
 package driver
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 	"strconv"
@@ -66,13 +67,13 @@ func (boolType) ConvertValue(src interface{}) (Value, error) {
 	case string:
 		b, err := strconv.ParseBool(s)
 		if err != nil {
-			return nil, fmt.Errorf("sql/driver: couldn't convert %q into type bool", s)
+			return nil, fmt.Errorf("couldn't convert %q into type bool", s)
 		}
 		return b, nil
 	case []byte:
 		b, err := strconv.ParseBool(string(s))
 		if err != nil {
-			return nil, fmt.Errorf("sql/driver: couldn't convert %q into type bool", s)
+			return nil, fmt.Errorf("couldn't convert %q into type bool", s)
 		}
 		return b, nil
 	}
@@ -84,16 +85,16 @@ func (boolType) ConvertValue(src interface{}) (Value, error) {
 		if iv == 1 || iv == 0 {
 			return iv == 1, nil
 		}
-		return nil, fmt.Errorf("sql/driver: couldn't convert %d into type bool", iv)
+		return nil, fmt.Errorf("couldn't convert %d into type bool", iv)
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		uv := sv.Uint()
 		if uv == 1 || uv == 0 {
 			return uv == 1, nil
 		}
-		return nil, fmt.Errorf("sql/driver: couldn't convert %d into type bool", uv)
+		return nil, fmt.Errorf("couldn't convert %d into type bool", uv)
 	}
 
-	return nil, fmt.Errorf("sql/driver: couldn't convert %v (%T) into type bool", src, src)
+	return nil, fmt.Errorf("couldn't convert %v (%T) into type bool", src, src)
 }
 
 // Int32 is a ValueConverter that converts input values to int64,
@@ -110,23 +111,23 @@ func (int32Type) ConvertValue(v interface{}) (Value, error) {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		i64 := rv.Int()
 		if i64 > (1<<31)-1 || i64 < -(1<<31) {
-			return nil, fmt.Errorf("sql/driver: value %d overflows int32", v)
+			return nil, fmt.Errorf("value %d overflows int32", v)
 		}
 		return i64, nil
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		u64 := rv.Uint()
 		if u64 > (1<<31)-1 {
-			return nil, fmt.Errorf("sql/driver: value %d overflows int32", v)
+			return nil, fmt.Errorf("value %d overflows int32", v)
 		}
 		return int64(u64), nil
 	case reflect.String:
 		i, err := strconv.Atoi(rv.String())
 		if err != nil {
-			return nil, fmt.Errorf("sql/driver: value %q can't be converted to int32", v)
+			return nil, fmt.Errorf("value %q can't be converted to int32", v)
 		}
 		return int64(i), nil
 	}
-	return nil, fmt.Errorf("sql/driver: unsupported value %v (type %T) converting to int32", v, v)
+	return nil, fmt.Errorf("unsupported value %v (type %T) converting to int32", v, v)
 }
 
 // String is a ValueConverter that converts its input to a string.
@@ -166,7 +167,7 @@ type NotNull struct {
 
 func (n NotNull) ConvertValue(v interface{}) (Value, error) {
 	if v == nil {
-		return nil, fmt.Errorf("nil value not allowed")
+		return nil, errors.New("nil value not allowed")
 	}
 	return n.Converter.ConvertValue(v)
 }
@@ -262,7 +263,7 @@ func (defaultConverter) ConvertValue(v interface{}) (Value, error) {
 	case reflect.Uint64:
 		u64 := rv.Uint()
 		if u64 >= 1<<63 {
-			return nil, fmt.Errorf("uint64 values with high bit set are not supported")
+			return nil, errors.New("uint64 values with high bit set are not supported")
 		}
 		return int64(u64), nil
 	case reflect.Float32, reflect.Float64:
