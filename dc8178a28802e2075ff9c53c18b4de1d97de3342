@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e0e7e16_3a878166",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1882,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2018-05-05T14:25:07Z",
+      "side": 1,
+      "message": "Transaction -\u003e transaction ?",
+      "revId": "dc8178a28802e2075ff9c53c18b4de1d97de3342",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
