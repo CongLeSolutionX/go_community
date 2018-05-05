@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "21dca227_686f6c01",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3038,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-05T17:19:05Z",
+      "side": 1,
+      "message": "Sounds much better, thanks. Definitely can leave it here.",
+      "parentUuid": "e49ef43e_dc681fe5",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfbc28c7_287243ae",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 8
@@ -352,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "af54442d_c8b266fa",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3093,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-05T17:19:05Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "de2f4d3f_ac69ade7",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce117287_f609f491",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 8
@@ -451,6 +487,24 @@
       "side": 1,
       "message": "Wow. Hold off the big argument chains. I trust your opinion as is. No need to summon Brad in here :)",
       "parentUuid": "259ff68d_ad39466a",
+      "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca0a0af4_bbe12470",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3109,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-05T17:19:05Z",
+      "side": 1,
+      "message": "Haha. That was meant as attribution (I learned that preference from Brad), not a summoning. :P",
+      "parentUuid": "91ff422c_a77686bd",
       "revId": "2f5855ef9e1653f6a536d66abad9db26496964b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

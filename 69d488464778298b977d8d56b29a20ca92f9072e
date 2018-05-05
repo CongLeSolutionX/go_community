@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63747afe_d79eb8cb",
+        "filename": "test/append.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-05T17:19:05Z",
+      "side": 1,
+      "message": "Please also add\n\nappend([]string(nil), make([]string, 0)...)",
+      "revId": "69d488464778298b977d8d56b29a20ca92f9072e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
