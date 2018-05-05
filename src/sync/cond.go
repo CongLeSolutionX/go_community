@@ -79,9 +79,15 @@ func (c *Cond) Broadcast() {
 type copyChecker uintptr
 
 func (c *copyChecker) check() {
-	if uintptr(*c) != uintptr(unsafe.Pointer(c)) &&
-		!atomic.CompareAndSwapUintptr((*uintptr)(c), 0, uintptr(unsafe.Pointer(c))) &&
-		uintptr(*c) != uintptr(unsafe.Pointer(c)) {
+	switch {
+	case uintptr(*c) == uintptr(unsafe.Pointer(c)):
+		return
+	case atomic.CompareAndSwapUintptr((*uintptr)(c), 0, uintptr(unsafe.Pointer(c))):
+		return
+	// Check again in case other goroutines CAS succeed
+	case uintptr(*c) == uintptr(unsafe.Pointer(c)):
+		return
+	default:
 		panic("sync.Cond is copied")
 	}
 }
