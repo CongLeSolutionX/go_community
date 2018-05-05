@@ -911,3 +911,41 @@ func TestNilResolverLookup(t *testing.T) {
 	r.LookupSRV(ctx, "service", "proto", "name")
 	r.LookupTXT(ctx, "gmail.com")
 }
+
+func TestLookupHostCancel(t *testing.T) {
+	if testenv.Builder() == "" {
+		testenv.MustHaveExternalNetwork(t)
+	}
+	if runtime.GOOS == "nacl" {
+		t.Skip("skip on nacl")
+	}
+
+	const (
+		google        = "www.google.com"
+		invalidDomain = "ty.laiwu.gov.cn"
+		n             = 600 // this needs to be larger than threadLimit size
+	)
+
+	_, err := LookupHost(google)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	for i := 0; i < 500; i++ {
+		addr, err := DefaultResolver.LookupHost(ctx, invalidDomain)
+		if err == nil {
+			t.Fatalf("LookupHost(%q): returns %v, but should fail", invalidDomain, addr)
+		}
+		if !strings.Contains(err.Error(), "canceled") {
+			t.Fatalf("LookupHost(%q): failed with unexpected error: %v", invalidDomain, err)
+		}
+		time.Sleep(time.Millisecond * 1)
+	}
+
+	_, err = LookupHost(google)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
