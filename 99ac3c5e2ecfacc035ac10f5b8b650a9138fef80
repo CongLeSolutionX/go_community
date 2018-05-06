@@ -16,6 +16,24 @@
       "revId": "99ac3c5e2ecfacc035ac10f5b8b650a9138fef80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b040a137_e3dd0c29",
+        "filename": "src/cmd/internal/obj/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-06T13:55:10Z",
+      "side": 1,
+      "message": "Fixed, thanks. (Although ironically adding one gives slightly better performance.)",
+      "parentUuid": "52f31f34_8a20226c",
+      "revId": "99ac3c5e2ecfacc035ac10f5b8b650a9138fef80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
