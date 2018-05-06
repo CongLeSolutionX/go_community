@@ -152,12 +152,20 @@ func formatBits(dst []byte, u uint64, base int, neg, append_ bool) (d []byte, s 
 		}
 
 	} else if isPowerOfTwo(base) {
-		// It is known that base is a power of two and
-		// 2 <= base <= len(digits).
 		// Use shifts and masks instead of / and %.
+
+		// It is known that base is a power of two and 2 <= base <= len(digits) where
+		// len(digits) is 36. The largest power of two below 36 is 32 which needs a
+		// shift value of 5. It is therefore safe to explicitly bound shift value to
+		// be less than 32. With this bound the compiler is able to deduce that the shift
+		// amount is always smaller than a 64bit and 32bit register width and does
+		// not need to generate fix up code for shifts larger than register width
+		// on some platforms (e.g. amd64 and 386).
 		shift := uint(bits.TrailingZeros(uint(base))) & 31
+
 		b := uint64(base)
 		m := uint(base) - 1 // == 1<<shift - 1
+
 		for u >= b {
 			i--
 			a[i] = digits[uint(u)&m]
