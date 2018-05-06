@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfb0357d_92ce2190",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-06T04:12:26Z",
+      "side": 1,
+      "message": "Why is this invalid? Looks fine. Can you use golang.org instead so we\u0027re not doing DNS lookups at third parties?",
+      "revId": "0819f46455c1a813fb5a02146123c16e17799030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
