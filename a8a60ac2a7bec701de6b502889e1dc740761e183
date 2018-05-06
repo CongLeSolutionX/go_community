@@ -16,6 +16,24 @@
       "revId": "a8a60ac2a7bec701de6b502889e1dc740761e183",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4941d5fa_d654c538",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3058,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-05-06T20:03:45Z",
+      "side": 1,
+      "message": "Thanks. Created https://go-review.googlesource.com/c/go/+/111737 as a followup for some simplifications.",
+      "parentUuid": "5e82d2b2_90207f31",
+      "revId": "a8a60ac2a7bec701de6b502889e1dc740761e183",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
