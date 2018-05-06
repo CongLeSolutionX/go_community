@@ -16,6 +16,24 @@
       "revId": "0819f46455c1a813fb5a02146123c16e17799030",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e22392_948703c7",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-05-06T09:14:24Z",
+      "side": 1,
+      "message": "\u003e Why is this invalid?\n\nI do not know, if it is invalid or not. I copied the code from the issue.\n\n\u003e Looks fine. Can you use golang.org instead so we\u0027re not doing DNS lookups at third parties?\n\nDone.",
+      "parentUuid": "cfb0357d_92ce2190",
+      "revId": "0819f46455c1a813fb5a02146123c16e17799030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
