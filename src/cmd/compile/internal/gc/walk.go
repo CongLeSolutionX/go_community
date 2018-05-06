@@ -3057,11 +3057,7 @@ func isAppendOfMake(n *Node) bool {
 	}
 
 	second := n.List.Second()
-	if second.Op != OMAKESLICE {
-		return false
-	}
-
-	if n.List.Second().Right != nil {
+	if second.Op != OMAKESLICE && second.Right != nil {
 		return false
 	}
 
@@ -3138,10 +3134,8 @@ func extendslice(n *Node, init *Nodes) *Node {
 	nodes = append(nodes, nod(OAS, nn, nod(OADD, nod(OLEN, s, nil), l2)))
 
 	// if uint(n) > uint(cap(s))
-	nuint := nod(OCONV, nn, nil)
-	nuint.Type = types.Types[TUINT]
-	capuint := nod(OCONV, nod(OCAP, s, nil), nil)
-	capuint.Type = types.Types[TUINT]
+	nuint := conv(nn, types.Types[TUINT])
+	capuint := conv(nod(OCAP, s, nil), types.Types[TUINT])
 	nif := nod(OIF, nod(OGT, nuint, capuint), nil)
 
 	// instantiate growslice(typ *type, old []any, newcap int) []any
