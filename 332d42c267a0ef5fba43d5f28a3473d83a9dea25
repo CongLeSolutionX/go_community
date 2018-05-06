@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7edc409_288403cd",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-06T15:31:20Z",
+      "side": 1,
+      "message": "add a little comment above this briefly describing the old bug that this is catching and include a bug number.",
+      "revId": "332d42c267a0ef5fba43d5f28a3473d83a9dea25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bb741f3_055d37a1",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-06T15:31:20Z",
+      "side": 1,
+      "message": "was this 500 supposed to be the \"n\" constant above that\u0027s unused?",
+      "range": {
+        "startLine": 936,
+        "startChar": 17,
+        "endLine": 936,
+        "endChar": 20
+      },
+      "revId": "332d42c267a0ef5fba43d5f28a3473d83a9dea25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
