@@ -100,6 +100,13 @@ func BenchmarkExtendSlice(b *testing.B) {
 		}
 		SinkIntSlice = s
 	})
+	b.Run("Nil", func(b *testing.B) {
+		s := make([]int, 0, length)
+		for i := 0; i < b.N; i++ {
+			s = append([]int(nil), make([]int, length)...)
+		}
+		SinkIntSlice = s
+	})
 }
 
 func BenchmarkAppend(b *testing.B) {

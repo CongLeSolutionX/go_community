@@ -36,10 +36,15 @@ func main() {
 	}
 
 	// Test make in append panics since the gc compiler optimizes makes in appends.
-	shouldPanic("len out of range", func() { _ = append(T{}, make(T, n)...) })
-	shouldPanic("cap out of range", func() { _ = append(T{}, make(T, 0, n)...) })
-	shouldPanic("len out of range", func() { _ = append(T{}, make(T, int64(n))...) })
-	shouldPanic("cap out of range", func() { _ = append(T{}, make(T, 0, int64(n))...) })
+	shouldPanic("len out of range", func() { _ = append(T{0, 0}, make(T, n)...) })
+	shouldPanic("cap out of range", func() { _ = append(T{0, 0}, make(T, 0, n)...) })
+	shouldPanic("len out of range", func() { _ = append(T{0, 0}, make(T, int64(n))...) })
+	shouldPanic("cap out of range", func() { _ = append(T{0, 0}, make(T, 0, int64(n))...) })
+
+	shouldPanic("len out of range", func() { _ = append(T(nil), make(T, n)...) })
+	shouldPanic("cap out of range", func() { _ = append(T(nil), make(T, 0, n)...) })
+	shouldPanic("len out of range", func() { _ = append(T(nil), make(T, int64(n))...) })
+	shouldPanic("cap out of range", func() { _ = append(T(nil), make(T, 0, int64(n))...) })
 }
 
 func shouldPanic(str string, f func()) {

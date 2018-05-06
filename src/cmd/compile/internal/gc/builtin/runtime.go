@@ -153,7 +153,9 @@ func selectgo(cas0 *byte, order0 *byte, ncases int) (int, bool)
 func block()
 
 func makeslice(typ *byte, len int, cap int) (ary []any)
+func makesliceMinCap(typ *byte, minCap int) (ary []any)
 func makeslice64(typ *byte, len int64, cap int64) (ary []any)
+
 func growslice(typ *byte, old []any, cap int) (ary []any)
 func memmove(to *any, frm *any, length uintptr)
 func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)

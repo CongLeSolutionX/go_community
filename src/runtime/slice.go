@@ -71,6 +71,43 @@ func makeslice(et *_type, len, cap int) slice {
 	return slice{p, len, cap}
 }
 
+func makesliceMinCap(et *_type, minCap int) slice {
+	if minCap == 0 {
+		return slice{unsafe.Pointer(nil), 0, 0}
+	}
+
+	maxElements := maxSliceCap(et.size)
+	if minCap < 0 || uintptr(minCap) > maxElements {
+		// Since the cap in make([]T, len) is only being supplied implicitly, saying len is clearer.
+		// See issue 4085.
+		panic(errorString("makeslice: len out of range"))
+	}
+
+	capmem := roundupsize(uintptr(minCap) * et.size)
+	// Specialize for common values of et.size.
+	// For 1 we don't need any division/multiplication.
+	// For powers of 2, use a variable shift.
+	var newcap int
+	switch {
+	case et.size == 1:
+		newcap = int(capmem)
+	case isPowerOfTwo(et.size):
+		var shift uintptr
+		if sys.PtrSize == 8 {
+			// Mask shift for better code generation.
+			shift = uintptr(sys.Ctz64(uint64(et.size))) & 63
+		} else {
+			shift = uintptr(sys.Ctz32(uint32(et.size))) & 31
+		}
+		newcap = int(capmem >> shift)
+	default:
+		newcap = int(capmem / et.size)
+	}
+
+	p := mallocgc(capmem, et, true)
+	return slice{p, newcap, newcap}
+}
+
 func makeslice64(et *_type, len64, cap64 int64) slice {
 	len := int(len64)
 	if int64(len) != len64 {

@@ -3117,6 +3117,19 @@ func extendslice(n *Node, init *Nodes) *Node {
 	l1 := n.List.First()
 	l2 = n.List.Second() // re-read l2, as it may have been updated by walkAppendArgs
 
+	elemtype := l1.Type.Elem()
+
+	// Special case for l1 == []T(nil).
+	// Replace append([]T(nil), make([]T, l2)...) with makesliceMinCap(T, l2).
+	if Isconst(l1, CTNIL) {
+		// instantiate makesliceMinCap(typ *type, minCap int) []any
+		fn := syslook("makesliceMinCap")
+		fn = substArgTypes(fn, elemtype)
+		nmake := mkcall1(fn, l1.Type, init, typename(elemtype), l2)
+
+		return walkexpr(typecheck(nmake, Erv), init)
+	}
+
 	var nodes []*Node
 
 	// if l2 < 0
@@ -3130,8 +3143,6 @@ func extendslice(n *Node, init *Nodes) *Node {
 	// s := l1
 	s := temp(l1.Type)
 	nodes = append(nodes, nod(OAS, s, l1))
-
-	elemtype := s.Type.Elem()
 
 	// n := len(s) + l2
 	nn := temp(types.Types[TINT])

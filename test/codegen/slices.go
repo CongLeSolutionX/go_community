@@ -61,3 +61,10 @@ func SliceExtensionInt64(s []int, l64 int64) []int {
 	// 386:-`.*runtime\.memclr`
 	return append(s, make([]int, l64)...)
 }
+
+func SliceExtensionNil(l int) []int {
+	// amd64:`.*runtime\.makesliceMinCap`
+	// amd64:-`.*runtime\.panicmakeslicelen`
+	// amd64:-`.*runtime\.growslice`
+	return append([]int(nil), make([]int, l)...)
+}

@@ -143,15 +143,16 @@ var tests = []struct {
 
 	{"make a", append([]string{}, make([]string, 0)...), []string{}},
 	{"make b", append([]string(nil), make([]string, 0)...), []string(nil)},
+	{"make c", append([]string(nil), make([]string, 2)...), make([]string, 2)},
 
-	{"make c", append([]struct{}{}, make([]struct{}, 0)...), []struct{}{}},
-	{"make d", append([]struct{}{}, make([]struct{}, 2)...), make([]struct{}, 2)},
+	{"make d", append([]struct{}{}, make([]struct{}, 0)...), []struct{}{}},
+	{"make e", append([]struct{}{}, make([]struct{}, 2)...), make([]struct{}, 2)},
 
-	{"make e", append([]int{0, 1}, make([]int, 0)...), []int{0, 1}},
-	{"make f", append([]int{0, 1}, make([]int, 2)...), []int{0, 1, 0, 0}},
+	{"make f", append([]int{0, 1}, make([]int, 0)...), []int{0, 1}},
+	{"make g", append([]int{0, 1}, make([]int, 2)...), []int{0, 1, 0, 0}},
 
-	{"make g", append([]*int{&zero, &one}, make([]*int, 0)...), []*int{&zero, &one}},
-	{"make h", append([]*int{&zero, &one}, make([]*int, 2)...), []*int{&zero, &one, nil, nil}},
+	{"make h", append([]*int{&zero, &one}, make([]*int, 0)...), []*int{&zero, &one}},
+	{"make i", append([]*int{&zero, &one}, make([]*int, 2)...), []*int{&zero, &one, nil, nil}},
 }
 
 func verifyStruct() {
