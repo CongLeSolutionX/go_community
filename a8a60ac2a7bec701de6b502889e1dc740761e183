@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e82d2b2_90207f31",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3058,
+      "author": {
+        "id": 12859
+      },
+      "writtenOn": "2018-05-06T18:03:31Z",
+      "side": 1,
+      "message": "That could be\n\n  if second.Right !\u003d nil {\n\nto reuse the \"second\" variable introduced at line 3053.",
+      "revId": "a8a60ac2a7bec701de6b502889e1dc740761e183",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
