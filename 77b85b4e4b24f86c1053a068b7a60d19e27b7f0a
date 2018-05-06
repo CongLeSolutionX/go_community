@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4cb7a88_0956e4fb",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-06T15:45:59Z",
+      "side": 1,
+      "message": "import ( ... )",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 20
+      },
+      "revId": "77b85b4e4b24f86c1053a068b7a60d19e27b7f0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35c59edc_81e4e1f6",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-06T15:45:59Z",
+      "side": 1,
+      "message": "comment on this. and mention that it must be accessed atomically.",
+      "revId": "77b85b4e4b24f86c1053a068b7a60d19e27b7f0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0df58807_540aa5f2",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-06T15:45:59Z",
+      "side": 1,
+      "message": "likewise.\n\nbut I\u0027d name this \"randCallsActive\"",
+      "revId": "77b85b4e4b24f86c1053a068b7a60d19e27b7f0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab435b76_a72d8f8a",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-06T15:45:59Z",
+      "side": 1,
+      "message": "you say threadsafe here twice, but the lockedSource is gone, no?",
+      "range": {
+        "startLine": 291,
+        "startChar": 27,
+        "endLine": 293,
+        "endChar": 61
+      },
+      "revId": "77b85b4e4b24f86c1053a068b7a60d19e27b7f0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83abd063_887dbdd0",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-06T15:45:59Z",
+      "side": 1,
+      "message": "this seems wrong. you could have two calls go into here currently and both load parallelized \u003d\u003d 0, but then one gets locked \u003d\u003d 1 and the other gets locked \u003d\u003d 2.\n\nThen both end up returning globalRand to the caller, causing a race because globalRand is no longer using a locked source.",
+      "range": {
+        "startLine": 303,
+        "startChar": 1,
+        "endLine": 307,
+        "endChar": 18
+      },
+      "revId": "77b85b4e4b24f86c1053a068b7a60d19e27b7f0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
