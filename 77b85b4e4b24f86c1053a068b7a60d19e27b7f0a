@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "e720bb52_aff5d047",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-05-07T03:56:52Z",
+      "side": 1,
+      "message": "Sorry, when I said that the pool values do not need a locked source, this still does -- it can still be used concurrently for creating values in the pool.",
+      "revId": "77b85b4e4b24f86c1053a068b7a60d19e27b7f0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35c59edc_81e4e1f6",
         "filename": "src/math/rand/rand.go",
         "patchSetId": 6
