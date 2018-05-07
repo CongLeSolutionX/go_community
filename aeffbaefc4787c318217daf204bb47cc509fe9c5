@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33192ffb_aa10602f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-07T19:58:46Z",
+      "side": 1,
+      "message": "end and body are backwards here and line 46.",
+      "range": {
+        "startLine": 40,
+        "startChar": 12,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "aeffbaefc4787c318217daf204bb47cc509fe9c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a826d82e_2f7ca081",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-07T19:58:46Z",
+      "side": 1,
+      "message": "This is impossible to read.  Can we punt to a multiline comment and some English?",
+      "revId": "aeffbaefc4787c318217daf204bb47cc509fe9c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efef818f_0638aaea",
+        "filename": "test/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-07T19:58:46Z",
+      "side": 1,
+      "message": "Maybe also have this outside the `if`?\nWe want to make sure the bounds check gets i\u003clen(b) from the loop, not from the `if`.",
+      "revId": "aeffbaefc4787c318217daf204bb47cc509fe9c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
