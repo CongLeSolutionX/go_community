@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6220fb04_91ab3634",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-07T17:25:59Z",
+      "side": 1,
+      "message": "I understand what you\u0027re trying to say, but this sentence doesn\u0027t make sense after the previous one, in my mind:\n\nThe previous sentence just stated that the (largest) shift value is 5. Now you say that the shift value must be less than 32. That is confusing. Also, since the shift count is at most 5 (which is \u003c 8), why not \u0026 with 7?\n\nFurthermore, the comment doesn\u0027t explicitly talk about the \u0026 operation. For somebody trying to understand this code, referring to the \u0026 is crucial.\n\nHow about:\n\n(first sentences is ok, but I would use \u00272\u0027 instead of \u0027two\u0027 - these sentences are all about numbers)\nThe largest power of 2 below or equal to 36 is 32, which is 1 \u003c\u003c 5; i.e., the largest possible shift count is 5. By \u0026-ind that value with the constant 7 we tell the compiler that the shift count is always less than 8 which is smaller than any register width. This allows the compiler to generate better code for the shift operation.",
+      "range": {
+        "startLine": 159,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 21
+      },
+      "revId": "cb507f153635fe68e2bc61cef701843f669e81fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
