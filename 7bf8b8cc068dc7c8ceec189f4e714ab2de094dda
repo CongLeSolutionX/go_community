@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4479f6b5_4c548afe",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-07T22:10:17Z",
+      "side": 1,
+      "message": "I don\u0027t know what \"indexed\" means here.  It looks like there\u0027s no index of any sort (constant or register).",
+      "range": {
+        "startLine": 278,
+        "startChar": 15,
+        "endLine": 278,
+        "endChar": 22
+      },
+      "revId": "7bf8b8cc068dc7c8ceec189f4e714ab2de094dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
