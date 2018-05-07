@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "aa0cabae_04941a75",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-07T19:06:36Z",
+      "side": 1,
+      "message": "To be explicit: why the special cases then?",
+      "parentUuid": "82631f0e_2746161e",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcfe2eb3_5adaef09",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 1
@@ -118,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "a3984443_4206784e",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-07T19:06:36Z",
+      "side": 1,
+      "message": "I see. Definitely needs a comment, especially if it stays here.\n\nCould the symbols be created before this function runs, then filled in in symtab?",
+      "parentUuid": "47c3af55_8f1c0cd3",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1f59653a_96f40ff8",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 1
@@ -153,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "60274313_60d1e7fc",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1775,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-07T19:06:36Z",
+      "side": 1,
+      "message": "Wacky. I would be tempted to get rid of it.",
+      "parentUuid": "44ea750c_c78e7372",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0edf0d5_1925d67d",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 1
@@ -185,6 +239,24 @@
       "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb5d8353_03a3bdd3",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1788,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-07T19:06:36Z",
+      "side": 1,
+      "message": "I guess there\u0027s no harm, but I would be very surprised if it\u0027s not.",
+      "parentUuid": "97a19581_4c4b52f9",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

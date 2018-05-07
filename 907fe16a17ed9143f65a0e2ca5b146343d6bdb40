@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "8bfe96d9_ad7ecb20",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-07T19:06:36Z",
+      "side": 0,
+      "message": "If we want DWARF to work in -buildmode\u003dshared, then we need to get DWARF for types in the shared  libraries somehow. That could be by regenerating it in the client binary, but it could also be by referring to it with a DW_FORM_ref_addr to a DIE that\u0027s registered in the symbol table. I imagine that this was done with an eye towards the latter.\n\nI guess it\u0027s fine to just lose this for now and worry about shared libs later.",
+      "parentUuid": "1f8e2147_9d9cbd43",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31e10449_3fbb7499",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 1
