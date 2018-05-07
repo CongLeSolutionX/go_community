@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e994a086_28ad8482",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-07T15:52:47Z",
+      "side": 1,
+      "message": "Ok, I see what you mean. Not sure why this happens.",
+      "parentUuid": "e351c37d_b27aba48",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9818835_edabbe37",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 23
@@ -213,6 +231,47 @@
     },
     {
       "key": {
+        "uuid": "2c0b11c0_6aea74bd",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-07T15:52:47Z",
+      "side": 1,
+      "message": "Thanks, I think I roughly understand it now.",
+      "parentUuid": "1f5a8226_3f52ea14",
+      "range": {
+        "startLine": 700,
+        "startChar": 41,
+        "endLine": 700,
+        "endChar": 73
+      },
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f4a5c57_3dba8258",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-07T15:52:47Z",
+      "side": 1,
+      "message": "I think it would be good to expand this comment with the consequence of this field being set (no matter which form we actually use to store it, a field, or a per-Func map, or something). Like, this value will not get a \"register\" nor a slot on Go stack, and the generation of this value is delayed to its use time.",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc004730_d7914418",
         "filename": "src/cmd/compile/internal/ssa/value.go",
         "patchSetId": 23
@@ -242,6 +301,64 @@
       "side": 1,
       "message": "No, I did not measure it. Any suggestion how I could avoid the increase? Also, it only increases the size on 32-bit architectures, but not on 64-bit ones due to a previous gap because of aligning. So maybe the impact isn\u0027t so bad because most systems are 64-bit nowadays?",
       "parentUuid": "dc004730_d7914418",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f62b4439_dd1ae6ff",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-07T15:52:47Z",
+      "side": 1,
+      "message": "Ok, maybe this isn\u0027t too bad. But a measurement is still helpful to make sure. A possibility is to add a map (or sparse set) field to type Func, which contains all the (ID of) on-wasm-stack Values. There are much fewer Funcs than Values, and it doesn\u0027t allocate anything on non-wasm architectures (besides the extra field in Func).",
+      "parentUuid": "cd4a90fc_09cf0c81",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1f0f7da_d852278e",
+        "filename": "src/cmd/compile/internal/wasm/ssa.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-07T15:52:47Z",
+      "side": 1,
+      "message": "I think a comment is helpful. Like,\nIf a Value is marked on stack, we don\u0027t generate the value to a register now. Instead, we delay the generation to when the value is used, and directly generate it on the wasm stack.",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15afbc8c_ffe1102c",
+        "filename": "src/cmd/compile/internal/wasm/ssa.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-07T15:52:47Z",
+      "side": 1,
+      "message": "This is no longer get-register. Maybe rename it to GetValue32 or so.",
+      "range": {
+        "startLine": 348,
+        "startChar": 5,
+        "endLine": 348,
+        "endChar": 13
+      },
       "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

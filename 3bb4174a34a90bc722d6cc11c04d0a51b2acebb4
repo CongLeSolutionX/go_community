@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f43e5b0a_9d2d41a3",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-07T15:52:47Z",
+      "side": 1,
+      "message": "Should we look at block\u0027s control value (b.Control) as well? It doesn\u0027t define a new Value, but it is in fact a use.",
+      "revId": "3bb4174a34a90bc722d6cc11c04d0a51b2acebb4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
