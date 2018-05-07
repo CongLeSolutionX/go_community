@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1f8e2147_9d9cbd43",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-05-07T12:20:51Z",
+      "side": 0,
+      "message": "No, buildmode\u003dshared will put types in the symbol table and therefore also into debug_info (of course debug_info is not generated at all in 1.10). But I don\u0027t think it makes sense that debug_info contains a different set of types depending on buildmode.\nAlso the code seems broken. It\u0027s supposed to always reference struct types through a typedef entry, never directly. But if it sees all the symbols sometimes it does, which breaks x/debug/dwarf (and delve).",
+      "parentUuid": "62a9aceb_d075f669",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31e10449_3fbb7499",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 1
@@ -57,6 +75,30 @@
       "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94e227de_3c804017",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-05-07T12:20:51Z",
+      "side": 0,
+      "message": "As far as I can tell, yes. If I\u0027m not mistaken when ctxt.BuildMode \u003d\u003d BuildModeShared, DWARF generation was disabled by mangling, so it wouldn\u0027t get here anyway.",
+      "parentUuid": "31e10449_3fbb7499",
+      "range": {
+        "startLine": 1068,
+        "startChar": 41,
+        "endLine": 1068,
+        "endChar": 0
+      },
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
