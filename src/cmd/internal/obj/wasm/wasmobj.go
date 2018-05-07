@@ -870,12 +870,22 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			if p.From.Type != obj.TYPE_CONST {
 				panic("bad type for *Load")
 			}
+			if p.From.Offset > math.MaxUint32 { // bad offset, illegal to encode (happens with test/index0.go)
+				writeUleb128(w, 0)
+				w.WriteByte(0x00) // unreachable
+				break
+			}
 			writeUleb128(w, align(p.As))
 			writeUleb128(w, uint64(p.From.Offset))
 
 		case AI32Store, AI64Store, AF32Store, AF64Store, AI32Store8, AI32Store16, AI64Store8, AI64Store16, AI64Store32:
 			if p.To.Offset < 0 {
 				panic("negative offset")
+			}
+			if p.From.Offset > math.MaxUint32 { // bad offset, illegal to encode (happens with test/index0.go)
+				writeUleb128(w, 0)
+				w.WriteByte(0x00) // unreachable
+				break
 			}
 			writeUleb128(w, align(p.As))
 			writeUleb128(w, uint64(p.To.Offset))
