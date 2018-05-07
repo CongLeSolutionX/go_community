@@ -45,6 +45,69 @@
       "revId": "8d717633a32acd98480a83263e07ce48a4367d2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4f8e74a_aedd4368",
+        "filename": "src/strconv/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-07T15:04:59Z",
+      "side": 1,
+      "message": "what does this mean? double-quoted, single-quoted? either, both? A string can\u0027t be single-quoted.",
+      "range": {
+        "startLine": 286,
+        "startChar": 48,
+        "endLine": 286,
+        "endChar": 76
+      },
+      "revId": "8d717633a32acd98480a83263e07ce48a4367d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a586b5f_298f6fb4",
+        "filename": "src/strconv/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-07T15:04:59Z",
+      "side": 1,
+      "message": "Or a raw string literal with back quotes?",
+      "range": {
+        "startLine": 288,
+        "startChar": 31,
+        "endLine": 288,
+        "endChar": 41
+      },
+      "revId": "8d717633a32acd98480a83263e07ce48a4367d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8f202f2_5be75843",
+        "filename": "src/strconv/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-07T15:04:59Z",
+      "side": 1,
+      "message": "strconv.Unquote(\"\u0027☺\u0027\") // single character only allowed in single quotes\n\nThen show a failure with single quotes and two smileys?",
+      "revId": "8d717633a32acd98480a83263e07ce48a4367d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
