@@ -1,0 +1,653 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39aa53c3_40bf4de0",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Remove completely.\n\nReplace by appropriate int(math.Floor(math.Sqrt(float64(n))))\nor whatever it computes to make the code understandable.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98dac679_2a40a1f1",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Change to\nfunc countDistinctElements(data Interface, a, b, max int) (count int, last int)\nas this matches the documentation which mentions max and not sought\nand is clearer.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82a41021_959eea87",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "s/dECnt/count/",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cd4c9aa_ae699963",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "s/lastDiEl/last/",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3b7e2db_acfb39b3",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Replace these bit shifts like \n\n    soughtSize\u003c\u003c1\n\nthroughout the whole code with soemthing readable like\n\n    2*soughtSize\n\nUse bitshifts _only_ if this is a bit shiift operation and\n_never_ try to optimize a *2 into a bit shift.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45afb790_bd548bbd",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Unclear. Be more precise.",
+      "range": {
+        "startLine": 414,
+        "startChar": 52,
+        "endLine": 414,
+        "endChar": 78
+      },
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb62692e_9f6a4353",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Why \"Near\"? Why \"CountDistinctElements\"? The function tries to\nfind a block-distribution-storage and a buffer for H\u0026L.\n\nWhat about the movement imitation buffer?",
+      "range": {
+        "startLine": 420,
+        "startChar": 36,
+        "endLine": 420,
+        "endChar": 40
+      },
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1ae1efe_0a24dbef",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "What is the difference to findBDSAndCountDistinctElementsNear?\nWhy are there two functions which extract a BDS and only this\none here mentions a MIB?\n\nReword it an make it clear what is going on.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57127dee_eb14b409",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "The whole concept of a \"backup BDS\" is unclear. You either have\nto explain it in a general comment or get rid of it or hide the\ndistinction of bds / backupBDS / undersized-BDS / whatever it is\nin a data structure.",
+      "range": {
+        "startLine": 488,
+        "startChar": 11,
+        "endLine": 488,
+        "endChar": 20
+      },
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04a14d16_3bbdae02",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "The names of the named return values are too cryptic.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "304e99d0_5c1a851f",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "No, it does not. Simply because there is no j here.\nThe arguments are i and e and the comment refers to i and j.",
+      "range": {
+        "startLine": 561,
+        "startChar": 29,
+        "endLine": 561,
+        "endChar": 51
+      },
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1db6e62a_6d551ee3",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Such comments are very helpful! Add more of these.\n\nAlso: Encode these into Tests.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4339a5a9_d9ee8518",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "I think this code did not change.\n\nYou _must_ make sure that your patch does not move around\nunchanged code: This is not new code, there is no need to review\nit but in the patch it appears to be new. Clean this up.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54c85fe0_6a777a06",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Comment unclear. What are blocks? What is bS?",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe7a8131_3d9e9edb",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Try to use consistent structure for function signature.\nMost existing functions which work on a range data[start,end]\nuse name(data Interface, start, end int, more here).\nHere start is 0, or? For consistency you could even add\na start and set start\u003d0 during invocation?",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a5826fd_cbef0b83",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Such names are confusing: Why simple? Why Buf? Why big?\nWhy Small? Isn\u0027t BigSmall a contradiction?\nPlease come up with clear names.",
+      "range": {
+        "startLine": 625,
+        "startChar": 5,
+        "endLine": 625,
+        "endChar": 27
+      },
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca1ce20d_36bb3167",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Try to be much clearer here. E.g.\n\nThe aux Interface contains the\nmovement imitation buffer in aux[bufEnd-bS,bufEnd+1] and the\nblock distribution storage in aux[bds0-bs,bds1+1].\n\nDo not use aux[bufEnd-bS:bufEnd] as it is unclear what the colon \":\"\nmeans. Use aux[a,b] to mean aux[a], aux[a+1], aux[a+2], ... aux[b-1].\n\nWhile the definition of bds0 and bds as high-index-edges of the\ntwo halfes of the BDS is _very_ confusing.\nSometimes blocks and buffers are determined by (start,end), sometimes\nby (end,len), sometimes by end only with an implicit length, etc.\nThis makes reading the code basically impossible.\n\nPlease consider introducing a new\n\n    // block represents data[a,b]\n    type block struct {\n        data Interface\n        a, b int\n    }\n    func (b block) size() int { return b.b -b.a; }\n    func (b block) last() int { if(b\u003c\u003da){panic()}; return b-1; }\n    // whatever is convenient.\n\nand changing the function signatures to something like\n\n   // merge the two adjoint blocks left and right using the\n   // block distribution storage in s1 and s2 (as in the paper)\n   // with buf the buffer for Hwang\u0026Ling. ...\n   merge(left, right block, s1, s2 block, buf block, delta int)",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50e701fc_e563b33f",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "The paper calls this delta which might be a better\nname as blockSize is the size of the block in the main\nsorting loop and bS is an ugly name.",
+      "range": {
+        "startLine": 666,
+        "startChar": 56,
+        "endLine": 666,
+        "endChar": 58
+      },
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95809239_2a558bb6",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Sometimes buf is the buffer used for merging with Hwang\u0026Lin,\nhere it is the movement imitation buffer. You must come up\nwith a consistent naming as such a mixture is not okay.",
+      "range": {
+        "startLine": 686,
+        "startChar": 1,
+        "endLine": 686,
+        "endChar": 4
+      },
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ed7943c_51c3cdde",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Separate block rearangement into its own function.\n\nPerformance is _not_ an argument to justify complex code.\n\nAdd test for block rearangement. Even if sorting might fail\nif this function would be buggy. Several test cases covering\nall the corner cases are absolutely necessary.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d8ece9d_772ce292",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Separate local merges into its own function.\n\nAdd tests for local merging.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61e3ec7d_7111765f",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Rename all outofInputDataMIBuf with something understandable\nand shorter like staticMIB.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "203bb02a_816ca3d0",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Simplyfy. Remove that type and use uint8.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff7cb163_e1b62534",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Reorganise the patch and do not delete, change or move other parts of the code.\n\nThis CL should add lot\u0027s of lines, and change a few (max 10).",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38cefaa0_b3e61800",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Draw some ASCII art to explain how the different buffers are laid out.\nThe paper is accessible because of diagrams like Fig 1 and 2. Your\ncode should recreate this here, especially if you make changes.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d3129d9_fe97a996",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "If this better or more correct: Describe why. If this is simpler: Explain why it doesn\u0027t change the correctness of the argumentation in the paper.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6332e54f_574484a8",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Do _not_ change unrelated parts of the code.\nSee above for an explanation why.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b441bab_2e319e6d",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Move this guard into the for conditon:\n    for; blockSize\u003cn \u0026\u0026 blockSize \u003c newMergeAlgorithmThreshold; blocksize *\u003d2",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "995c1a99_b5729bbe",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Do not change this code!",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae543c3d_5e939541",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Never do bitshift to \"speed up\" multiplications.",
+      "range": {
+        "startLine": 973,
+        "startChar": 33,
+        "endLine": 973,
+        "endChar": 36
+      },
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882feeae_bca84405",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Put this into it\u0027s own function.\nYou may keep code here if it is as straightforward as the old\ni.e. two nested for loops and one if to handle undersized blocks.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4412ef7b_0342030d",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "This is not \"compile time\". Do not use this term, not even\nin comments.",
+      "range": {
+        "startLine": 985,
+        "startChar": 4,
+        "endLine": 985,
+        "endChar": 20
+      },
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d8dd681_467dbb2a",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Compute it like\n\n    sqrtBS :\u003d int(math.Floor(math.Sqrt(float64(blockSize)))\n\nor whatever rounding is appropriate.\nFocus is on clear and understandable code, not performance.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f396e0d1_9092accc",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "The whole content of this for loop is completely unreviewable.\n\nI assume it handles several cases like\n - \"Our staticMIB is big enough, no need to extract a mib\"\n - \"The staticMIB is too small, need to extract a mib.\"\n - We do not have enough distinct elements, must resort to SymMerge\n - Corner cases like blocks of size \u003c blocksize\n - Cleanup/Sweepup code of the paper\n\nClean it up, make it understandable. Maybe even a switch\non the current state branching into 6 different functions.\n\nPut all effort and focus on understandable code.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6abcfb6_cc4667dd",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-08T10:09:59Z",
+      "side": 1,
+      "message": "Same here. Make sure unmodified code is recognized as\nsuch by git.",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
