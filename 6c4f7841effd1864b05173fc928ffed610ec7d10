@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "12238ac0_db2d0150",
+        "filename": "src/cmd/vet/buildtag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-05-08T10:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58991e0b_6a70724d",
+      "revId": "6c4f7841effd1864b05173fc928ffed610ec7d10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bde2c714_b7750368",
         "filename": "src/cmd/vet/buildtag.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "6c4f7841effd1864b05173fc928ffed610ec7d10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97d13cf3_341b1ec9",
+        "filename": "src/cmd/vet/buildtag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-05-08T10:37:21Z",
+      "side": 1,
+      "message": "You mean do a linear search for every line that looks like a build tag? I assume you are suggesting this because in most cases, it would reduce work by not having to build the map at all.\n\nWill do.",
+      "parentUuid": "bde2c714_b7750368",
+      "revId": "6c4f7841effd1864b05173fc928ffed610ec7d10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
