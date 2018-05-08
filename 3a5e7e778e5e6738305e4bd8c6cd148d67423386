@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b28c9f0_7176d1fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-05-08T07:13:49Z",
+      "side": 1,
+      "message": "s/gdn/gdb/\n\nIf you are curious, gdb only uses the prologue_end marker for executables produced by clang:\n\nhttps://github.com/bminor/binutils-gdb/blob/55089490f79ce1ddb9610fd6abeeaf896825fb71/gdb/amd64-tdep.c#L2481\n\nthe solution clearly is to change the producer string to say \"clang mozilla gecko go\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "3a5e7e778e5e6738305e4bd8c6cd148d67423386",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a022efc9_488b311b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 4850,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-05-08T07:13:49Z",
+      "side": 1,
+      "message": "end of the prologue",
+      "revId": "3a5e7e778e5e6738305e4bd8c6cd148d67423386",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
