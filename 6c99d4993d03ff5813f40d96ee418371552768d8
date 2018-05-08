@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb6bc67d_b5c91cc4",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-05-08T21:51:36Z",
+      "side": 1,
+      "message": "If you think isqrter is about performance, it is not. As the second paragraph of its comment says, isqrter is about getting correct results for all possible input values. math.Sqrt uses IEEE 754 64-bit floating point which exactly represents integers only up to 53 bits, that is what this is about.\n\nAlso, importing math seems like something we are not supposed to do in sort, see the isNaN function.",
+      "parentUuid": "39aa53c3_40bf4de0",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98dac679_2a40a1f1",
         "filename": "src/sort/sort.go",
         "patchSetId": 41
