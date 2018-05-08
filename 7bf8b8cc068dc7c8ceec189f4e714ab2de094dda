@@ -22,6 +22,30 @@
       "revId": "7bf8b8cc068dc7c8ceec189f4e714ab2de094dda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7de9ab2d_f9f31f4b",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2018-05-08T02:48:35Z",
+      "side": 1,
+      "message": "MOV*BR convert into l*brx in ppc64 assembly. These are categorized as X-form indexed loads in the ISA because the effective address for the load is (RA|0)+RB.",
+      "parentUuid": "4479f6b5_4c548afe",
+      "range": {
+        "startLine": 278,
+        "startChar": 15,
+        "endLine": 278,
+        "endChar": 22
+      },
+      "revId": "7bf8b8cc068dc7c8ceec189f4e714ab2de094dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
