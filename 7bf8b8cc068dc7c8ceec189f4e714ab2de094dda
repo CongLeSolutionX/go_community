@@ -46,6 +46,30 @@
       "revId": "7bf8b8cc068dc7c8ceec189f4e714ab2de094dda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f9780ed_b5544825",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-05-08T13:05:10Z",
+      "side": 1,
+      "message": "There is an index register field in the Power instructions that are generated for the \"byte reversed\" instructions, but you are correct, for the MOV*BRload and MOV*BRstore instructions it is not being used. Instead the full address is put into the base register and the index register is 0. In some cases using an index register was not the most efficient. In the future if we can efficiently use the index register I plan to add MOV*BRloadidx and MOV*BRstoreidx.\n\nI will clarify the comment.",
+      "parentUuid": "7de9ab2d_f9f31f4b",
+      "range": {
+        "startLine": 278,
+        "startChar": 15,
+        "endLine": 278,
+        "endChar": 22
+      },
+      "revId": "7bf8b8cc068dc7c8ceec189f4e714ab2de094dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
