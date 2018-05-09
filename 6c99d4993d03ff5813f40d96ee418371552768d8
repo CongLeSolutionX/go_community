@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a6de01f1_47fc0b9c",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-05-09T05:12:22Z",
+      "side": 1,
+      "message": "I appreciate your dedication to correctness but I insist on\nremoving this code.\n\n53 bits is quite a lot: Its enough that 32bit systems work\ncorrectly for any input and it allows 64bit systems to sort\ndata in the larger petabyte range without any (algorithmic)\nproblems.\n\nImporting math might or might not be a problem here.\nFor evaluating and reviewing the algorithm this is of no\nconcern. This code will not be merged anyway.\nAt least importing math is a honest solution as it clearly\nshows that the new algorithm needs a square root function.\n\nThe code to remove has severe drawbacks:\n1. It uses a generator to produce the next square root which\nmakes it impossible to extract the merging into a standalone\nfunction and write tests for it.\n2. It works only for square roots of powers of two which\nmakes it impossible to test merging blocks which are not\npowers of two large.\n\nIsolating and testing the merge function with choosable input\nis necessary for evaluating the correctness of such a complex\nand uncommon algorithm. You argued elsewhere that the\noverall correctness is proved by testing that Stable works\nbut this argument is flawed. There are two things: A) The final\nStable should sort its input stable and B) the algorithm must\nbe understandable and the correctness must be reviewable to\nhumans. Your argument that merge must work correctly because\notherwise Sort wouldn\u0027t work correctly neglects B which\nis as important as A. I hope we agree on this and do not need\nto discuss this again.\n\nSo please:\nRemove this code and replace square root calculation by\na direct, reviewable square root like I proposed.\nIf you run into problems importing math: Add a standalone\nfunction which computes integer square roots for any integer\n(not just powers of two) and use that function (not a generator).\n\nTo make the code formally correct if using math.Sqrt:\n- Add a note to the documentation of Stable that it works\nonly for inputs of less then 9 quadrillion elements.\n- Check for n \u003e 9 quadrillion before jumping into the new\ncode, panicing if n is too large and add a TODO to replace\nthe square root with something correct for this case.\n\nWe are in the process of boiling down the new algorithm\nto its bare form to evaluate the necessary inherent\ncomplexity of it. I think such discussions are distracting\nand would appreciate if we could spare them.",
+      "parentUuid": "eb6bc67d_b5c91cc4",
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98dac679_2a40a1f1",
         "filename": "src/sort/sort.go",
         "patchSetId": 41
