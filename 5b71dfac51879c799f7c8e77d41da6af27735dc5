@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fb4c546_6ae55360",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-05-09T22:41:36Z",
+      "side": 1,
+      "message": "This error message doesn\u0027t match the condition: it relies on the non-local information there are no other supported GOOS values for GOARCH\u003dppc64le.\n\nIf that ever changes, either we shouldn\u0027t need to update this check, or some test should fail to prompt us to update it. (I don\u0027t see such a test at the moment.)",
+      "range": {
+        "startLine": 47,
+        "startChar": 25,
+        "endLine": 47,
+        "endChar": 136
+      },
+      "revId": "5b71dfac51879c799f7c8e77d41da6af27735dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27b64194_90f3aa5c",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-05-09T22:41:36Z",
+      "side": 1,
+      "message": "(typo) diretly",
+      "range": {
+        "startLine": 507,
+        "startChar": 13,
+        "endLine": 507,
+        "endChar": 20
+      },
+      "revId": "5b71dfac51879c799f7c8e77d41da6af27735dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b8c534e_38aa5bfc",
+        "filename": "src/cmd/link/internal/ld/config.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-05-09T22:41:36Z",
+      "side": 1,
+      "message": "A comment here would be helpful. Why is external linking required?",
+      "revId": "5b71dfac51879c799f7c8e77d41da6af27735dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
