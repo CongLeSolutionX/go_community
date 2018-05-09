@@ -13,6 +13,7 @@ import (
 	"crypto/tls"
 	"debug/dwarf"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -27,12 +28,14 @@ import (
 
 	"github.com/google/pprof/driver"
 	"github.com/google/pprof/profile"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 func main() {
 	options := &driver.Options{
 		Fetch: new(fetcher),
 		Obj:   new(objTool),
+		UI:    newUI(),
 	}
 	if err := driver.PProf(options); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
@@ -368,4 +371,100 @@ func (f *file) Symbols(r *regexp.Regexp, addr uint64) ([]*driver.Sym, error) {
 func (f *file) Close() error {
 	f.file.Close()
 	return nil
+}
+
+// readlineUI implements driver.UI interface using the
+// golang.org/x/crypto/ssh/terminal package.
+// The upstream pprof command implements the same functionality
+// using the github.com/chzyer/readline package.
+type readlineUI struct {
+	term *terminal.Terminal
+}
+
+func newUI() driver.UI {
+	// test if we can use terminal.ReadLine
+	// that assumes operation in the raw mode.
+	oldState, err := terminal.MakeRaw(0)
+	if err != nil {
+		return nil
+	}
+	terminal.Restore(0, oldState)
+
+	rw := struct {
+		io.Reader
+		io.Writer
+	}{os.Stdin, os.Stderr}
+	return &readlineUI{term: terminal.NewTerminal(rw, "")}
+}
+
+// Read returns a line of text (a command) read from the user.
+// prompt is printed before reading the command.
+func (r *readlineUI) ReadLine(prompt string) (string, error) {
+	r.term.SetPrompt(prompt)
+
+	// skip error checking because we tested it
+	// when creating this readlineUI initially.
+	oldState, _ := terminal.MakeRaw(0)
+	defer terminal.Restore(0, oldState)
+
+	s, err := r.term.ReadLine()
+	return s, err
+}
+
+// Print shows a message to the user.
+// It formats the text as fmt.Print would and adds a final \n if not already present.
+// For line-based UI, Print writes to standard error.
+// (Standard output is reserved for report data.)
+func (r *readlineUI) Print(args ...interface{}) {
+	r.print(false, args...)
+}
+
+// PrintErr shows an error message to the user.
+// It formats the text as fmt.Print would and adds a final \n if not already present.
+// For line-based UI, PrintErr writes to standard error.
+func (r *readlineUI) PrintErr(args ...interface{}) {
+	r.print(true, args...)
+}
+
+func (r *readlineUI) print(withColor bool, args ...interface{}) {
+	text := fmt.Sprint(args...)
+	if !strings.HasSuffix(text, "\n") {
+		text += "\n"
+	}
+	if withColor {
+		text = colorize(text)
+	}
+	fmt.Fprintf(r.term, text)
+}
+
+// colorize prints the msg in red using ANSI color escapes.
+func colorize(msg string) string {
+	const red = 31
+	var colorEscape = fmt.Sprintf("\033[0;%dm", red)
+	var colorResetEscape = "\033[0m"
+	return colorEscape + msg + colorResetEscape
+}
+
+// IsTerminal returns whether the UI is known to be tied to an
+// interactive terminal (as opposed to being redirected to a file).
+func (r *readlineUI) IsTerminal() bool {
+	const stdout = 1
+	return terminal.IsTerminal(stdout)
+}
+
+// WantBrowser indicates whether browser should be opened with the -http option.
+func (r *readlineUI) WantBrowser() bool {
+	return r.IsTerminal()
+}
+
+// SetAutoComplete instructs the UI to call complete(cmd) to obtain
+// the auto-completion of cmd, if the UI supports auto-completion at all.
+func (r *readlineUI) SetAutoComplete(complete func(string) string) {
+	r.term.AutoCompleteCallback = func(line string, pos int, key rune) (newLine string, newPos int, ok bool) {
+		if key != '\t' {
+			return
+		}
+		completed := complete(line)
+		return completed, len(completed), true
+	}
 }
