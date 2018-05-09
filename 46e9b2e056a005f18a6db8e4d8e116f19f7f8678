@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93753e04_af66c64e",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-05-09T12:27:41Z",
+      "side": 1,
+      "message": "Why not directly use the DW_AT_lo_user and DW_AT_hi_user constants here?\n\n  func isVendorAttibute(attr uint16) bool {\n      return attr \u003e\u003d DW_AT_lo_user \u0026\u0026 attr \u003c\u003d DW_AT_hi_user\n  }",
+      "range": {
+        "startLine": 787,
+        "startChar": 0,
+        "endLine": 788,
+        "endChar": 40
+      },
+      "revId": "46e9b2e056a005f18a6db8e4d8e116f19f7f8678",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
