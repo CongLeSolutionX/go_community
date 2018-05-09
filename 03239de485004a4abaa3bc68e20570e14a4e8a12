@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "42e6f150_22c74ab9",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2386,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-05-09T13:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5af4a3d5_5944848e",
+      "range": {
+        "startLine": 2384,
+        "startChar": 2,
+        "endLine": 2386,
+        "endChar": 71
+      },
+      "revId": "03239de485004a4abaa3bc68e20570e14a4e8a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5d1ea94_4c073307",
         "filename": "src/net/http/server.go",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-03T17:19:09Z",
       "side": 1,
       "message": "this is fine.",
+      "range": {
+        "startLine": 2387,
+        "startChar": 2,
+        "endLine": 2388,
+        "endChar": 40
+      },
+      "revId": "03239de485004a4abaa3bc68e20570e14a4e8a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e76855bc_5aa110db",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2388,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-05-09T13:11:00Z",
+      "side": 1,
+      "message": "Does that (and the \"also good\" below) mean \"it was fine without this\"?",
+      "parentUuid": "b5d1ea94_4c073307",
       "range": {
         "startLine": 2387,
         "startChar": 2,
@@ -114,6 +162,30 @@
       "revId": "03239de485004a4abaa3bc68e20570e14a4e8a12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "033112c1_9204d358",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2754,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-05-09T13:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbdad5df_637f8528",
+      "range": {
+        "startLine": 2752,
+        "startChar": 2,
+        "endLine": 2754,
+        "endChar": 71
+      },
+      "revId": "03239de485004a4abaa3bc68e20570e14a4e8a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

@@ -69,6 +69,30 @@
       "revId": "4468b0bac156b76b2a591b3aa3a0aa4dd60a0fce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0c0cc67_a644f369",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2809,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-05-09T13:11:00Z",
+      "side": 0,
+      "message": "It\u0027s only true about Serve. ServeTLS doesn\u0027t take a tls.Listener, it creates one, and so doesn\u0027t have the weird Serve logic. I think this was a copy paste error.",
+      "parentUuid": "cf3c09fa_27e9235c",
+      "range": {
+        "startLine": 2804,
+        "startChar": 2,
+        "endLine": 2809,
+        "endChar": 2
+      },
+      "revId": "4468b0bac156b76b2a591b3aa3a0aa4dd60a0fce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
