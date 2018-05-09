@@ -35,6 +35,18 @@
 			"local": "golang.org/x/arch/arm64/arm64asm",
 			"revision": "9111c30535f37e70dcaf5956d34b03233f90f3b6",
 			"revisionTime": "2018-03-13T04:07:09Z"
+		},
+		{
+			"canonical": "golang.org/x/crypto/ssh/terminal",
+			"local": "golang.org/x/crypto/ssh/terminal",
+			"revision": "21052ae46654ecf18dfdba0f7c12701a1e2b3164",
+			"revisionTime": "2018-05-09T08:42:30Z"
+		},
+		{
+			"canonical": "golang.org/x/sys",
+			"local": "golang.org/x/sys",
+			"revision": "7db1c3b1a98089d0071c84f646ff5c96aad43682",
+			"revisionTime": "2018-05-07T18:00:10Z"
 		}
 	]
 }
