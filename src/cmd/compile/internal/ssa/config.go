@@ -96,6 +96,7 @@ func (t *Types) SetTypPtrs() {
 	t.Float32 = types.Types[types.TFLOAT32]
 	t.Float64 = types.Types[types.TFLOAT64]
 	t.Int = types.Types[types.TINT]
+	t.UInt = types.Types[types.TUINT]
 	t.Uintptr = types.Types[types.TUINTPTR]
 	t.String = types.Types[types.TSTRING]
 	t.BytePtr = types.NewPtr(types.Types[types.TUINT8])
