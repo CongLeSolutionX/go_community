@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "987ac6b4_f1c18b13",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-05-10T13:05:48Z",
+      "side": 1,
+      "message": "I fixed the condition.",
+      "parentUuid": "9fb4c546_6ae55360",
+      "range": {
+        "startLine": 47,
+        "startChar": 25,
+        "endLine": 47,
+        "endChar": 136
+      },
+      "revId": "5b71dfac51879c799f7c8e77d41da6af27735dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "27b64194_90f3aa5c",
         "filename": "src/cmd/internal/obj/ppc64/obj9.go",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "fc9edcc2_2169d429",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-05-10T13:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27b64194_90f3aa5c",
+      "range": {
+        "startLine": 507,
+        "startChar": 13,
+        "endLine": 507,
+        "endChar": 20
+      },
+      "revId": "5b71dfac51879c799f7c8e77d41da6af27735dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b8c534e_38aa5bfc",
         "filename": "src/cmd/link/internal/ld/config.go",
         "patchSetId": 6
@@ -62,6 +110,24 @@
       "revId": "5b71dfac51879c799f7c8e77d41da6af27735dc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff6fd344_926fb0e7",
+        "filename": "src/cmd/link/internal/ld/config.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-05-10T13:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b8c534e_38aa5bfc",
+      "revId": "5b71dfac51879c799f7c8e77d41da6af27735dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
