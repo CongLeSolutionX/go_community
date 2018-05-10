@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "890bb593_eb27b471",
+        "filename": "src/cmd/compile/internal/ssa/config.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-10T03:28:37Z",
+      "side": 1,
+      "message": "reorder these to match the type declaration order on lines 62-66?",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 40
+      },
+      "revId": "2c8fe4b1aad88491f9b72c1f1e012d38ca735588",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
