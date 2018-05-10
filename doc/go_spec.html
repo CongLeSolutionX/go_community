@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of May 9, 2018",
+	"Subtitle": "Version of May 10, 2018",
 	"Path": "/ref/spec"
 }-->
 
@@ -985,6 +985,34 @@ a type name <code>T</code> or as a pointer to a non-interface type name <code>*T
 and <code>T</code> itself may not be
 a pointer type. The unqualified type name acts as the field name.
 </p>
+
+<p>
+A field declared with a type but no explicit field name is called an <i>embedded field</i>.
+An embedded field must be of the form <code>T</code> or <code>*T</code> where <code>T</code>
+is a type name. The unqualified type name acts as the field name.
+</p>
+
+<p>
+The following rules apply to the type <code>E</code> of an embeddef field:
+</p>
+<ul>
+	<li>
+</ul>
+
+-------
+	if t.Sym == nil && t.IsPtr() {
+		t = t.Elem()
+		if t.IsInterface() {
+			yyerror("embedded type cannot be a pointer to interface")
+		}
+	}
+
+	if t.IsPtr() || t.IsUnsafePtr() {
+		yyerror("embedded type cannot be a pointer")
+	} else if t.Etype == TFORW && !t.ForwardType().Embedlineno.IsKnown() {
+		t.ForwardType().Embedlineno = lineno
+	}
+-------
 
 <pre>
 // A struct with four embedded fields of types T1, *T2, P.T3 and *P.T4

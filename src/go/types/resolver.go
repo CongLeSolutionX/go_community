@@ -538,6 +538,13 @@ func (check *Checker) packageObjects() {
 	// pre-allocate space for type declaration paths so that the underlying array is reused
 	typePath := make([]*TypeName, 0, 8)
 
+	// ignore alias type declarations in first pass to avoid artificial cycles (see issue #18640)
+	for _, obj := range objList {
+		if tname, _ := obj.(*TypeName); tname == nil || !check.objMap[tname].alias {
+			check.objDecl(obj, nil, typePath)
+		}
+	}
+
 	for _, obj := range objList {
 		check.objDecl(obj, nil, typePath)
 	}

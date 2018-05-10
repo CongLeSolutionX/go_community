@@ -37,6 +37,9 @@ type Object interface {
 	// setOrder sets the order number of the object. It must be > 0.
 	setOrder(uint32)
 
+	state() objState
+	setState(objState)
+
 	// setParent sets the parent scope of the object.
 	setParent(*Scope)
 
@@ -78,8 +81,17 @@ type object struct {
 	name      string
 	typ       Type
 	order_    uint32
+	state_    objState
 	scopePos_ token.Pos
 }
+
+type objState uint32
+
+const (
+	white objState = iota
+	black
+	grey
+)
 
 // Parent returns the scope in which the object is declared.
 // The result is nil for methods and struct fields.
@@ -108,10 +120,12 @@ func (obj *object) Id() string { return Id(obj.pkg, obj.name) }
 
 func (obj *object) String() string      { panic("abstract") }
 func (obj *object) order() uint32       { return obj.order_ }
+func (obj *object) state() objState     { return obj.state_ }
 func (obj *object) scopePos() token.Pos { return obj.scopePos_ }
 
 func (obj *object) setParent(parent *Scope)   { obj.parent = parent }
 func (obj *object) setOrder(order uint32)     { assert(order > 0); obj.order_ = order }
+func (obj *object) setState(state objState)   { assert(state > white); obj.state_ = state }
 func (obj *object) setScopePos(pos token.Pos) { obj.scopePos_ = pos }
 
 func (obj *object) sameId(pkg *Package, name string) bool {
@@ -147,7 +161,7 @@ type PkgName struct {
 // NewPkgName returns a new PkgName object representing an imported package.
 // The remaining arguments set the attributes found with all Objects.
 func NewPkgName(pos token.Pos, pkg *Package, name string, imported *Package) *PkgName {
-	return &PkgName{object{nil, pos, pkg, name, Typ[Invalid], 0, token.NoPos}, imported, false}
+	return &PkgName{object{nil, pos, pkg, name, Typ[Invalid], 0, white, token.NoPos}, imported, false}
 }
 
 // Imported returns the package that was imported.
@@ -164,7 +178,7 @@ type Const struct {
 // NewConst returns a new constant with value val.
 // The remaining arguments set the attributes found with all Objects.
 func NewConst(pos token.Pos, pkg *Package, name string, typ Type, val constant.Value) *Const {
-	return &Const{object{nil, pos, pkg, name, typ, 0, token.NoPos}, val, false}
+	return &Const{object{nil, pos, pkg, name, typ, 0, white, token.NoPos}, val, false}
 }
 
 // Val returns the constant's value.
@@ -185,7 +199,7 @@ type TypeName struct {
 // argument for NewNamed, which will set the TypeName's type as a side-
 // effect.
 func NewTypeName(pos token.Pos, pkg *Package, name string, typ Type) *TypeName {
-	return &TypeName{object{nil, pos, pkg, name, typ, 0, token.NoPos}}
+	return &TypeName{object{nil, pos, pkg, name, typ, 0, white, token.NoPos}}
 }
 
 // IsAlias reports whether obj is an alias name for a type.
@@ -224,19 +238,19 @@ type Var struct {
 // NewVar returns a new variable.
 // The arguments set the attributes found with all Objects.
 func NewVar(pos token.Pos, pkg *Package, name string, typ Type) *Var {
-	return &Var{object: object{nil, pos, pkg, name, typ, 0, token.NoPos}}
+	return &Var{object: object{nil, pos, pkg, name, typ, 0, white, token.NoPos}}
 }
 
 // NewParam returns a new variable representing a function parameter.
 func NewParam(pos token.Pos, pkg *Package, name string, typ Type) *Var {
-	return &Var{object: object{nil, pos, pkg, name, typ, 0, token.NoPos}, used: true} // parameters are always 'used'
+	return &Var{object: object{nil, pos, pkg, name, typ, 0, white, token.NoPos}, used: true} // parameters are always 'used'
 }
 
 // NewField returns a new variable representing a struct field.
 // For anonymous (embedded) fields, the name is the unqualified
 // type name under which the field is accessible.
 func NewField(pos token.Pos, pkg *Package, name string, typ Type, anonymous bool) *Var {
-	return &Var{object: object{nil, pos, pkg, name, typ, 0, token.NoPos}, anonymous: anonymous, isField: true}
+	return &Var{object: object{nil, pos, pkg, name, typ, 0, white, token.NoPos}, anonymous: anonymous, isField: true}
 }
 
 // Anonymous reports whether the variable is an anonymous field.
@@ -262,7 +276,7 @@ func NewFunc(pos token.Pos, pkg *Package, name string, sig *Signature) *Func {
 	if sig != nil {
 		typ = sig
 	}
-	return &Func{object{nil, pos, pkg, name, typ, 0, token.NoPos}}
+	return &Func{object{nil, pos, pkg, name, typ, 0, white, token.NoPos}}
 }
 
 // FullName returns the package- or receiver-type-qualified name of

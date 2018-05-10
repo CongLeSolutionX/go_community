@@ -52,17 +52,37 @@ func pathString(path []*TypeName) string {
 // objDecl type-checks the declaration of obj in its respective (file) context.
 // See check.typ for the details on def and path.
 func (check *Checker) objDecl(obj Object, def *Named, path []*TypeName) {
-	if obj.Type() != nil {
-		return // already checked - nothing to do
-	}
-
 	if trace {
-		check.trace(obj.Pos(), "-- checking %s (path = %s)", obj, pathString(path))
+		check.trace(obj.Pos(), "-- checking %s (state = %v, path = %s)", obj, obj.state(), pathString(path))
 		check.indent++
 		defer func() {
 			check.indent--
 			check.trace(obj.Pos(), "=> %s", obj)
 		}()
+	}
+
+	switch obj.state() {
+	case black:
+		assert(obj.Type() != nil)
+		return
+
+	case grey:
+		if tname, _ := obj.(*TypeName); tname != nil {
+			if d := check.objMap[tname]; d != nil && d.alias {
+				check.errorf(tname.Pos(), "invalid recursive type alias %s", tname.name)
+				return
+			}
+		}
+
+	case white:
+		obj.setState(grey)
+
+	default:
+		unreachable()
+	}
+
+	if obj.Type() != nil {
+		return // already checked - nothing to do
 	}
 
 	d := check.objMap[obj]
@@ -100,6 +120,8 @@ func (check *Checker) objDecl(obj Object, def *Named, path []*TypeName) {
 	default:
 		unreachable()
 	}
+
+	obj.setState(black)
 }
 
 func (check *Checker) constDecl(obj *Const, typ, init ast.Expr) {
