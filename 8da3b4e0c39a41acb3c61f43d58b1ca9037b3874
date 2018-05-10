@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "026c24bd_8915edc1",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 13090
+      },
+      "writtenOn": "2018-05-10T13:02:45Z",
+      "side": 1,
+      "message": "I don\u0027t think we used word \"capacity\" anywhere in database/sql docs yet, it may be not clear what is it. How about\nMaxOpenConnections int // Maximum number of open connections to the database.\nThis uses the same words as SetMaxOpenConns documentation.",
+      "revId": "8da3b4e0c39a41acb3c61f43d58b1ca9037b3874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31e2a36c_bf34928a",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 13090
+      },
+      "writtenOn": "2018-05-10T13:02:45Z",
+      "side": 1,
+      "message": "IIUC, OpenConnections \u003d Available + InUse. Then it makes sense to make OpenConnections the first field in that group.\nI would also rename Available to Idle for consistency.\nSo I propose to do this:\n\n// Pool status\nOpenConnections int // The number of established connections both in use and idle.\nInUse           int // The number of connections currently in use.\nIdle            int // The number of idle connections.",
+      "revId": "8da3b4e0c39a41acb3c61f43d58b1ca9037b3874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1642e1d2_eccef82b",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 13090
+      },
+      "writtenOn": "2018-05-10T13:02:45Z",
+      "side": 1,
+      "message": "time.Since(waitStart)",
+      "revId": "8da3b4e0c39a41acb3c61f43d58b1ca9037b3874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f9af0be_cfbfc9a2",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 13090
+      },
+      "writtenOn": "2018-05-10T13:02:45Z",
+      "side": 1,
+      "message": "time.Since(waitStart)",
+      "revId": "8da3b4e0c39a41acb3c61f43d58b1ca9037b3874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
