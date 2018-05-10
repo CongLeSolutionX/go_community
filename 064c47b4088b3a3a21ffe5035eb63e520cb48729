@@ -46,6 +46,30 @@
       "revId": "064c47b4088b3a3a21ffe5035eb63e520cb48729",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3876fbc_74833bb9",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-10T15:21:44Z",
+      "side": 1,
+      "message": "But you can\u0027t mutate it. It\u0027s semantically a value type, by design.",
+      "parentUuid": "a480cfc2_8b962dbb",
+      "range": {
+        "startLine": 306,
+        "startChar": 11,
+        "endLine": 306,
+        "endChar": 36
+      },
+      "revId": "064c47b4088b3a3a21ffe5035eb63e520cb48729",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
