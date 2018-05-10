@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e4f1f084_291eea89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Ack. Is the Delve team working on is_stmt support?",
+      "parentUuid": "e3d7acaf_b3eea053",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20752dec_70605df2",
         "filename": "src/cmd/compile/internal/gc/gsubr.go",
         "patchSetId": 23
@@ -224,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "baadeefc_07ca36ff",
+        "filename": "src/cmd/compile/internal/ssa/biasedsparsemap.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a061aa21_04f6663c",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aefa4da3_b5858f11",
         "filename": "src/cmd/compile/internal/ssa/cse.go",
         "patchSetId": 23
@@ -256,6 +292,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59bad728_2486f84c",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "21f99039_5c35fce6",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -294,6 +348,30 @@
       "side": 1,
       "message": "It\u0027s \"a\" reversed data flow order, where the sinks (reversed, sources) are the block control values, calls, stores, basically anything with a side effect.  Any input w to a value v in the order follows v in the order, except for those flowing on back edges to phi functions.\n\nI\u0027m starting to think it would be better to be less worried about the order, and instead add a fixup in the scheduler, where the exact \"first instruction\" for each statement is properly noted.",
       "parentUuid": "e03f255a_bcf26016",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 13
+      },
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dbf9372_59196bd9",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Okay. Perhaps \"liveValues returns the live values in f and a list of values that are eligible to be statements in reversed data flow order.\"",
+      "parentUuid": "00567bc9_21a4bfdc",
       "range": {
         "startLine": 48,
         "startChar": 5,
@@ -373,6 +451,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ab7880f_9ff768c7",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c67bd98b_72c6dbf2",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -550,6 +646,24 @@
     },
     {
       "key": {
+        "uuid": "987f9e7f_ca9ad2ae",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb0b0b9f_e4fee89d",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2a9e1f2_4dab4f04",
         "filename": "src/cmd/compile/internal/ssa/numberlines.go",
         "patchSetId": 23
@@ -582,6 +696,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7065200_259902d7",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e92a3642_edeb19fa",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -897,6 +1029,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa41f1ce_24ea2040",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f0abd950_5b84fae6",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {

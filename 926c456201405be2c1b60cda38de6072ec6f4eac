@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f803e19f_9f3fe059",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "I don\u0027t understand why PCDATA needs to be excluded here. It gets assigned the same PC as the CALL instruction, so it seems like it would be fine to attach the statement-ness just to PCDATA.",
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c13facc0_c6fd8a11",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 4700,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "\"Within\" (really, this should be of the form \"lineRunStart \u003cwhat lineRunStart stores\u003e...\" but the compiler is pretty bad at following this convention).",
+      "range": {
+        "startLine": 4700,
+        "startChar": 4,
+        "endLine": 4700,
+        "endChar": 10
+      },
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af9017d1_22e5decd",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 4701,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "\"of\"",
+      "range": {
+        "startLine": 4701,
+        "startChar": 50,
+        "endLine": 4701,
+        "endChar": 53
+      },
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeda2aa1_5a6af254",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 4708,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Again, I\u0027m not clear why this exclusion matters. Also, there are other ops that don\u0027t generate executable code like FUNCDATA, NOP, and I think a few others.",
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f2a5d13_314547f6",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 4920,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "\"Relax\". Also, this does more than the statement stuff. It also resolves branches, which seems perhaps more important.",
+      "range": {
+        "startLine": 4920,
+        "startChar": 4,
+        "endLine": 4920,
+        "endChar": 9
+      },
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28ab185e_fe367ae8",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "What\u0027s \"build\"?",
+      "range": {
+        "startLine": 30,
+        "startChar": 67,
+        "endLine": 30,
+        "endChar": 74
+      },
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1978e625_d43def2c",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "OpCopy is now in the list, so this comment is out of date.",
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52ddee99_dd1f671c",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Is this potentially O(n^2)? It seems odd to only use the result for comparison with i.",
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "780bb41f_ee3485d3",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e83658e2_8bb4a589",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "Maybe add a comment here saying briefly what we\u0027re doing in the fallback case if neither aa or v were good candidates.\n\nWhat happens if the same line appears in another block? This will clobber the value in pendingLines, but I\u0027m not sure what effect that has later.",
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24a8cec9_7843b86a",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T16:31:37Z",
+      "side": 1,
+      "message": "It would be worth explaining this a bit more. How is OpCopy used in rewrite that makes it worth a special case here?",
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
