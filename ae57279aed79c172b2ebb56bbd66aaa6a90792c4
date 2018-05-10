@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5ee0ec7a_cd3dc79f",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-10T20:40:41Z",
+      "side": 1,
+      "message": "Added a TODO.",
+      "parentUuid": "e994a086_28ad8482",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9818835_edabbe37",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 23
@@ -255,6 +273,30 @@
     },
     {
       "key": {
+        "uuid": "d64410bd_d541dc1b",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-10T20:40:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2c0b11c0_6aea74bd",
+      "range": {
+        "startLine": 700,
+        "startChar": 41,
+        "endLine": 700,
+        "endChar": 73
+      },
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f4a5c57_3dba8258",
         "filename": "src/cmd/compile/internal/ssa/value.go",
         "patchSetId": 23
@@ -269,6 +311,24 @@
       "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c260025_6ae19a53",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-10T20:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f4a5c57_3dba8258",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -325,6 +385,24 @@
     },
     {
       "key": {
+        "uuid": "1f5362d7_17ea8d04",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-10T20:40:41Z",
+      "side": 1,
+      "message": "I tried to turn this into a sparse set, but it wasn\u0027t easy. The regalloc phase creates new values, so the the maximum ID increases and becomes larger than the sparse set. Also, the Func is currently not a field of SSAGenState. Do you think we should still work around those issues?\n\nI looked into compilerbench and did a benchmark, which showed that there is no difference on my 64-bit machine. But I\u0027m not 100% sure that I used compilerbench correctly, so maybe you want to double check?\n\nFor now, I renamed \"WasmStack\" to \"OnWasmStack\". Let\u0027s discuss how we want to proceed.",
+      "parentUuid": "f62b4439_dd1ae6ff",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c1f0f7da_d852278e",
         "filename": "src/cmd/compile/internal/wasm/ssa.go",
         "patchSetId": 23
@@ -339,6 +417,24 @@
       "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea63aa88_dd73c479",
+        "filename": "src/cmd/compile/internal/wasm/ssa.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-10T20:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1f0f7da_d852278e",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -362,6 +458,30 @@
       "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ac23d0e_052568fa",
+        "filename": "src/cmd/compile/internal/wasm/ssa.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-10T20:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15afbc8c_ffe1102c",
+      "range": {
+        "startLine": 348,
+        "startChar": 5,
+        "endLine": 348,
+        "endChar": 13
+      },
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
