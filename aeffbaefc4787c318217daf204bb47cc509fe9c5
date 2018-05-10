@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d5a82331_10a7c95d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T20:22:46Z",
+      "side": 1,
+      "message": "If taken literally, this produces an index out of bounds panic. :) But what it actually translates to is just the base pointer of the slice. That pointer already exists and must not be past-the-end, so _p is not past-the-end (slicing operations are actually compiled such that if you create a zero-length slice, we\u0027re careful that the slice base pointer isn\u0027t a past-the-end pointer).",
+      "parentUuid": "d8db30d2_9eebe402",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 29
+      },
+      "revId": "aeffbaefc4787c318217daf204bb47cc509fe9c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "33192ffb_aa10602f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
