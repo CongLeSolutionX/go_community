@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7487c3ba_1969cb86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T20:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33192ffb_aa10602f",
+      "range": {
+        "startLine": 40,
+        "startChar": 12,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "aeffbaefc4787c318217daf204bb47cc509fe9c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a826d82e_2f7ca081",
         "filename": "src/cmd/compile/internal/gc/syntax.go",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "4460612a_fc57b466",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T20:12:06Z",
+      "side": 1,
+      "message": "But if it\u0027s not impossible to read, how will people know that it\u0027s hard? :)",
+      "parentUuid": "a826d82e_2f7ca081",
+      "revId": "aeffbaefc4787c318217daf204bb47cc509fe9c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efef818f_0638aaea",
         "filename": "test/prove.go",
         "patchSetId": 4
@@ -56,6 +98,24 @@
       "revId": "aeffbaefc4787c318217daf204bb47cc509fe9c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a0262b8_c6b9dfb9",
+        "filename": "test/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T20:12:06Z",
+      "side": 1,
+      "message": "Done. Also in range2.",
+      "parentUuid": "efef818f_0638aaea",
+      "revId": "aeffbaefc4787c318217daf204bb47cc509fe9c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
