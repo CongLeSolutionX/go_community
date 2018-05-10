@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "236edf82_b0e46234",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-10T19:40:28Z",
+      "side": 1,
+      "message": "Oh. I see. I think they should go. We shouldn\u0027t have random non-variables pretending to be globals in our DWARF just for historical reasons. As long as this change goes in early for 1.12, people will have a chance to complain if they\u0027re useful somehow that I can\u0027t think of.",
+      "parentUuid": "10e60bb0_48a58094",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcfe2eb3_5adaef09",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 1
@@ -232,6 +250,24 @@
       "side": 1,
       "message": "They could but they would need to be listed explicitly in defdwsym since almost all of them are in STEXT and SRODATA which now defdwsymb excludes by default.",
       "parentUuid": "a3984443_4206784e",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c91de5aa_67065a96",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-05-10T19:40:28Z",
+      "side": 1,
+      "message": "See other comment. I feel the same way about these. They aren\u0027t user variables, and if some debugger really needs them, they\u0027re still in the symbol table.",
+      "parentUuid": "9a587006_bd539075",
       "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
