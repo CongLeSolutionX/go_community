@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7121b54_2eed97dc",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-10T15:00:32Z",
+      "side": 1,
+      "message": "actually this only applies for []byte? The rest are value types without any pointers. They\u0027re copied completely on Scan.\n\nCan you reword to make that more explicit? If you want to mention other non-default types drivers may support, that\u0027s fine too. (I think they can support their own types?)",
+      "range": {
+        "startLine": 306,
+        "startChar": 11,
+        "endLine": 306,
+        "endChar": 36
+      },
+      "revId": "064c47b4088b3a3a21ffe5035eb63e520cb48729",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
