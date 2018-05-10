@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "10e60bb0_48a58094",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-05-10T07:37:58Z",
+      "side": 1,
+      "message": "This doesn\u0027t just define types, it defines global variables too. They were exported before, perhaps accidentally, but someone might be using them.",
+      "parentUuid": "aa0cabae_04941a75",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcfe2eb3_5adaef09",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 1
@@ -78,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "4fcfbbf9_ad65da38",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1677,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-05-10T07:37:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcfe2eb3_5adaef09",
+      "range": {
+        "startLine": 1677,
+        "startChar": 52,
+        "endLine": 1677,
+        "endChar": 0
+      },
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbb2d037_4d5985a1",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 1
@@ -98,6 +140,30 @@
       "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "182a4ea1_e06116c3",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1731,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-05-10T07:37:58Z",
+      "side": 1,
+      "message": "Done, I\u0027m accepting suggestions for a new name.",
+      "parentUuid": "dbb2d037_4d5985a1",
+      "range": {
+        "startLine": 1731,
+        "startChar": 5,
+        "endLine": 1731,
+        "endChar": 27
+      },
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -148,6 +214,24 @@
       "side": 1,
       "message": "I see. Definitely needs a comment, especially if it stays here.\n\nCould the symbols be created before this function runs, then filled in in symtab?",
       "parentUuid": "47c3af55_8f1c0cd3",
+      "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a587006_bd539075",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-05-10T07:37:58Z",
+      "side": 1,
+      "message": "They could but they would need to be listed explicitly in defdwsym since almost all of them are in STEXT and SRODATA which now defdwsymb excludes by default.",
+      "parentUuid": "a3984443_4206784e",
       "revId": "c5f997d48b04ffb9f2284e60d37a0d3dddbb4833",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
