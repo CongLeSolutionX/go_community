@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fff4c08_9cb0f75e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T17:39:37Z",
+      "side": 1,
+      "message": "Drop \"be\"?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 2
+      },
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ec1be6b_71a709e2",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T17:39:37Z",
+      "side": 1,
+      "message": "Add a comment saying where these constants are used. Also, I\u0027m not sure these belong here. Should they be next to pctostmt?",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c356c9e_05878261",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T17:39:37Z",
+      "side": 1,
+      "message": "Update this comment",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "078c208d_f3e13557",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T17:39:37Z",
+      "side": 1,
+      "message": "Isn\u0027t this too early to emit the prologue end if bpsize \u003e 0? And won\u0027t be fail to emit prologue end if autoffset \u003d\u003d 0 and bpsize \u003d\u003d 0?\n\nWhat about instead keeping track of the *Prog that should be marked, do you can keep bumping it down, and then updating that Prog\u0027s Pos toward the end of preprocess?",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb111182_1f80f570",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T17:39:37Z",
+      "side": 1,
+      "message": "Folding this together with isStmt seems really confusing. These seem like orthogonal concepts, so why isn\u0027t this just another field of Pos? \"20 bits for line, 8 bits for column, 2 for prologue/epilogue, 2 for isStmt\"?",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1b451a3_65bd5ce9",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T17:39:37Z",
+      "side": 1,
+      "message": "What\u0027s an \"Asm\"?",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c9a605c_80f8043b",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T17:39:37Z",
+      "side": 1,
+      "message": "iota here is already 2, so PosAsmPrologueEnd will be 0b1100 and PosAsmEpilogueBegin will be 0b10000, which spills out of the assigned mask.",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9c91290_c544d59a",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T17:39:37Z",
+      "side": 1,
+      "message": "This package has opinions about what this field of the Pos means. Why is this method avoiding the meaning of asmAttribute?",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87db271d_397bfa31",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T17:39:37Z",
+      "side": 1,
+      "message": "Why this is future tense? Isn\u0027t this method marking it with a prologue/epilogue mark?",
+      "range": {
+        "startLine": 63,
+        "startChar": 37,
+        "endLine": 63,
+        "endChar": 49
+      },
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "071ab3dc_2129bbb8",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-10T17:39:37Z",
+      "side": 1,
+      "message": "Can this be a more specific type?",
+      "range": {
+        "startLine": 64,
+        "startChar": 24,
+        "endLine": 64,
+        "endChar": 28
+      },
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
