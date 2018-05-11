@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73defa04_0a24aa92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-05-11T14:00:05Z",
+      "side": 1,
+      "message": "I think this is the wrong issue number. Issue #25354 was opened just a few minutes ago and seems unrelated to this CL.",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 14
+      },
+      "revId": "354e1fc6edfc574ced778e7e60bdcca3773fac7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
