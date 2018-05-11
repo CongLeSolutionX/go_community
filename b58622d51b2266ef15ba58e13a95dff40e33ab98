@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62af2f15_c397b8a2",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-11T14:49:01Z",
+      "side": 1,
+      "message": "Sorry, this still isn\u0027t quite right.\n\nThis can almost imply that you can retain it as long as you \"used\" it before the next Scan.\n\nHow about something along the lines of:\n\n// Reference types such as []byte are only valid until the next call to Scan\n// and should not be retained. Their underlying memory is owned by the driver. If retention is necessary, copy their values before the next call to Scan.",
+      "range": {
+        "startLine": 305,
+        "startChar": 4,
+        "endLine": 306,
+        "endChar": 28
+      },
+      "revId": "b58622d51b2266ef15ba58e13a95dff40e33ab98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
