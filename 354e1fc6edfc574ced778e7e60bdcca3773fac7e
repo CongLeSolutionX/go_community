@@ -22,6 +22,30 @@
       "revId": "354e1fc6edfc574ced778e7e60bdcca3773fac7e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3689c0d_133a110a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-05-11T14:40:05Z",
+      "side": 1,
+      "message": "Should have been 24354, I have now corrected it.",
+      "parentUuid": "73defa04_0a24aa92",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 14
+      },
+      "revId": "354e1fc6edfc574ced778e7e60bdcca3773fac7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
