@@ -2044,17 +2044,7 @@ func (c *ctxt5) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		rt := int(p.To.Reg)
 		r := int(p.Reg)
 		if r == 0 {
-			r = rt
-		}
-		if rt == r {
-			r = rf
-			rf = rt
-		}
-
-		if false {
-			if rt == r || rf == REGPC&15 || r == REGPC&15 || rt == REGPC&15 {
-				c.ctxt.Diag("%v: bad registers in MUL", p)
-			}
+			r, rf = rf, rt
 		}
 
 		o1 |= (uint32(rf)&15)<<8 | (uint32(r)&15)<<0 | (uint32(rt)&15)<<16
