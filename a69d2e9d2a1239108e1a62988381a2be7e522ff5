@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3273b076_68f5c450",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-13T21:06:03Z",
+      "side": 1,
+      "message": "I figured out why this matters. stmtData calls funcpctab with pctostmt to generate the PCDATA table of statement information the linker consumes, but funcpctab specifically takes the last value returned by pctostmt when Progs overlap at the same PC. I don\u0027t have an explanation for why ANOP matters; I suspect something else is going on there.\n\nAs a more general solution to this, we should consider making pctostmt keep track of what it\u0027s seen for the current PC and if it sees multiple Progs at the same PC, it should return the logically combined result for other things its seen at that PC and the new Prog. Then we don\u0027t have to hack it in here. This sounds hairy, but I think it\u0027s actually quite simple since pctostmt is always called in increasing PC order.",
+      "revId": "a69d2e9d2a1239108e1a62988381a2be7e522ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42909d1f_5c693d4d",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 4709,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-13T21:06:03Z",
+      "side": 1,
+      "message": "I suspect this special case would also go away if you tweaked pctostmt.",
+      "revId": "a69d2e9d2a1239108e1a62988381a2be7e522ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4cd6b88_d06a668f",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-13T21:06:03Z",
+      "side": 1,
+      "message": "Should this just be i \u003d nextGoodStaatmentIndex(v, i, b); v \u003d b.Values[i]?",
+      "revId": "a69d2e9d2a1239108e1a62988381a2be7e522ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a4b1c43_65bb1cd8",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-13T21:06:03Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "a69d2e9d2a1239108e1a62988381a2be7e522ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f569485_18b41442",
+        "filename": "src/cmd/compile/internal/ssa/stmtlines_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-13T21:06:03Z",
+      "side": 1,
+      "message": "t.Logf",
+      "revId": "a69d2e9d2a1239108e1a62988381a2be7e522ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

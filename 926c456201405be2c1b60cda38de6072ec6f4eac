@@ -189,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "1954f5ed_2fba8337",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 4920,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-13T21:06:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4f2a5d13_314547f6",
+      "range": {
+        "startLine": 4920,
+        "startChar": 4,
+        "endLine": 4920,
+        "endChar": 9
+      },
+      "revId": "926c456201405be2c1b60cda38de6072ec6f4eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28ab185e_fe367ae8",
         "filename": "src/cmd/compile/internal/ssa/numberlines.go",
         "patchSetId": 27
