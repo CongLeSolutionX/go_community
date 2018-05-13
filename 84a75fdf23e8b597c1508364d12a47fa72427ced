@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "275179ed_d6c70a59",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-13T21:08:23Z",
+      "side": 1,
+      "message": "Lost from an older PS: Perhaps \"liveValues returns the live values in f and a list of values that are eligible to be statements in reversed data flow order.\"",
+      "revId": "84a75fdf23e8b597c1508364d12a47fa72427ced",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

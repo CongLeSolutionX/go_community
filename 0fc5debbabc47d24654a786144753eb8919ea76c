@@ -420,6 +420,30 @@
     },
     {
       "key": {
+        "uuid": "87ba662a_fe5c896d",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-13T21:08:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1dbf9372_59196bd9",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 13
+      },
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3ca9368_498a52e2",
         "filename": "src/cmd/compile/internal/ssa/deadcode.go",
         "patchSetId": 23
@@ -662,6 +686,24 @@
       "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "333ddbb6_0c90843f",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-13T21:08:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9915db7b_8344efc0",
+      "revId": "0fc5debbabc47d24654a786144753eb8919ea76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
