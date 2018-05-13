@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ef69585e_f723291f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-13T22:36:24Z",
+      "side": 1,
+      "message": "dropped",
+      "parentUuid": "0fff4c08_9cb0f75e",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 2
+      },
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ec1be6b_71a709e2",
         "filename": "src/cmd/internal/dwarf/dwarf.go",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c3a7e1b_072fc298",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-13T22:36:24Z",
+      "side": 1,
+      "message": "Moved to where they are used.",
+      "parentUuid": "6ec1be6b_71a709e2",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "ac7d2750_69c4f4a6",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-13T22:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c356c9e_05878261",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "078c208d_f3e13557",
         "filename": "src/cmd/internal/obj/x86/obj6.go",
         "patchSetId": 6
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "8a2d0395_55302165",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-13T22:36:24Z",
+      "side": 1,
+      "message": "This is the place where the Delve people would like it to be.",
+      "parentUuid": "078c208d_f3e13557",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb111182_1f80f570",
         "filename": "src/cmd/internal/src/pos.go",
         "patchSetId": 6
@@ -90,6 +168,24 @@
       "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45d6de4a_db07f574",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-13T22:36:24Z",
+      "side": 1,
+      "message": "Agreed, all done.  I think a better solution (too late for 1.11) might be to introduce a psuedo and inject it into the stream, since there is very little overlap with other uses of Pos.",
+      "parentUuid": "cb111182_1f80f570",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +223,24 @@
     },
     {
       "key": {
+        "uuid": "7f513283_e5128e05",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-13T22:36:24Z",
+      "side": 1,
+      "message": "All gone and simplified.",
+      "parentUuid": "5c9a605c_80f8043b",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9c91290_c544d59a",
         "filename": "src/cmd/internal/src/pos.go",
         "patchSetId": 6
@@ -141,6 +255,24 @@
       "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6d93dd6_2a750e5e",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-13T22:36:24Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "c9c91290_c544d59a",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -167,6 +299,30 @@
     },
     {
       "key": {
+        "uuid": "4abac102_e664a9cb",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-13T22:36:24Z",
+      "side": 1,
+      "message": "The intent was \"to be marked later in the linker sausage factory\", but never mind, it\u0027s fixed.",
+      "parentUuid": "87db271d_397bfa31",
+      "range": {
+        "startLine": 63,
+        "startChar": 37,
+        "endLine": 63,
+        "endChar": 49
+      },
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "071ab3dc_2129bbb8",
         "filename": "src/cmd/internal/src/xpos.go",
         "patchSetId": 6
@@ -187,6 +343,30 @@
       "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebc75269_1a33d7a6",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-13T22:36:24Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "071ab3dc_2129bbb8",
+      "range": {
+        "startLine": 64,
+        "startChar": 24,
+        "endLine": 64,
+        "endChar": 28
+      },
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
