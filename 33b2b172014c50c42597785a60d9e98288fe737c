@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46a63f21_377e0cd0",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2018-05-13T18:49:57Z",
+      "side": 1,
+      "message": "There seems to be a CNAME record for this domain (or any *.golang.org name) with golang.org as the canonical name. The Plan 9 resolver recurses and delivers an IP address instead of treating the domain as invalid, so this test is failing on the Plan 9 builders.",
+      "revId": "33b2b172014c50c42597785a60d9e98288fe737c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
