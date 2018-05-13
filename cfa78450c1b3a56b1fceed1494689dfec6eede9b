@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "ed817e88_58fa69ee",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-13T22:42:27Z",
+      "side": 1,
+      "message": "Yeah, that may be a good idea. Add a TODO?",
+      "parentUuid": "45d6de4a_db07f574",
+      "revId": "cfa78450c1b3a56b1fceed1494689dfec6eede9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1b451a3_65bd5ce9",
         "filename": "src/cmd/internal/src/pos.go",
         "patchSetId": 6
