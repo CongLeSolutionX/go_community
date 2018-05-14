@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61c3dcc6_14d6b6c1",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-14T04:00:19Z",
+      "side": 1,
+      "message": "We use an underscore syntax for examples, but not for tests.  This should be something like TestAbsEmptyString.",
+      "revId": "08e1c8369cb195ed78f586cb8859c75e1e182caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
