@@ -34,6 +34,24 @@
       "revId": "33b2b172014c50c42597785a60d9e98288fe737c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "213a92fc_6774dada",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2018-05-14T12:00:36Z",
+      "side": 1,
+      "message": "Yes, @0intro spotted this too. His commit 66a67ee fixes the symptom on Plan 9 machines by implementing the lookup cancellation.",
+      "parentUuid": "50ed9e2d_ccf24e92",
+      "revId": "33b2b172014c50c42597785a60d9e98288fe737c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
