@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8b57765a_47c47a8a",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-05-14T04:20:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "894f007e_4c8da855",
+      "revId": "4409a7186a94eec49c3d646daafbe01ba71676c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9121f87_811216b2",
         "filename": "doc/contribute.html",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "ba4d073c_76a92cf7",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-05-14T04:20:44Z",
+      "side": 1,
+      "message": "Tidy complained so I checked, and it seems to be correct to do this, but I am open to complaints. I\u0027ll check it in for now, taking tidy as the authority.",
+      "parentUuid": "f9121f87_811216b2",
+      "range": {
+        "startLine": 151,
+        "startChar": 57,
+        "endLine": 151,
+        "endChar": 62
+      },
+      "revId": "4409a7186a94eec49c3d646daafbe01ba71676c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06eadd65_03fa205e",
         "filename": "doc/contribute.html",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "4409a7186a94eec49c3d646daafbe01ba71676c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13823a57_2fe1a55e",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-05-14T04:20:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06eadd65_03fa205e",
+      "revId": "4409a7186a94eec49c3d646daafbe01ba71676c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
