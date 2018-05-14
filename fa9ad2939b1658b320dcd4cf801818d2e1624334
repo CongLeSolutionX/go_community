@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "451688b3_64b3ed4c",
+        "filename": "src/cmd/compile/internal/ssa/stmtlines_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-14T02:24:09Z",
+      "side": 1,
+      "message": "Perhaps \"len(nonStmtLines)*100 \u003e len(lines)*2\" to make the 2% more obvious?",
+      "revId": "fa9ad2939b1658b320dcd4cf801818d2e1624334",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

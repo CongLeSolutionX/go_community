@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "53f34371_d3686ee1",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-14T02:24:09Z",
+      "side": 1,
+      "message": "This can be another CL. Maybe update the comment here and add a TODO",
+      "parentUuid": "37be4253_43739f9e",
+      "revId": "a69d2e9d2a1239108e1a62988381a2be7e522ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42909d1f_5c693d4d",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 30
