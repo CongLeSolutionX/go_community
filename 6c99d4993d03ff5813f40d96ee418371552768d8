@@ -445,6 +445,30 @@
     },
     {
       "key": {
+        "uuid": "c333f20b_e088bc93",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-05-15T18:14:38Z",
+      "side": 1,
+      "message": "I could replace \"buf\" with, eg., \"bufMI\". But they use \"buf\" in the paper.",
+      "parentUuid": "95809239_2a558bb6",
+      "range": {
+        "startLine": 686,
+        "startChar": 1,
+        "endLine": 686,
+        "endChar": 4
+      },
+      "revId": "6c99d4993d03ff5813f40d96ee418371552768d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ed7943c_51c3cdde",
         "filename": "src/sort/sort.go",
         "patchSetId": 41
