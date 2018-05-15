@@ -72,11 +72,18 @@ const (
 	C_SCOND_XOR = 14
 )
 
-// CConv formats ARM condition codes.
+// CConv formats opcode suffix bits (Prog.Scond).
+// ARM - condition codes.
+// AMD64/I386 - opcode modifiers (e.g. AVX512 zeroing suffix).
 func CConv(s uint8) string {
 	if s == 0 {
 		return ""
 	}
+
+	if objabi.GOARCH == "amd64" || objabi.GOARCH == "386" {
+		return "." + X86suffix(s).String()
+	}
+
 	sc := armCondCode[(s&C_SCOND)^C_SCOND_XOR]
 	if s&C_SBIT != 0 {
 		sc += ".S"
@@ -279,7 +286,12 @@ func Dconv(p *Prog, a *Addr) string {
 		str = fmt.Sprintf("%v, %v", Rconv(int(a.Offset)), Rconv(int(a.Reg)))
 
 	case TYPE_REGLIST:
-		str = RLconv(a.Offset)
+		switch objabi.GOARCH {
+		case "amd64", "386":
+			str = fmt.Sprintf("[%s-%s]", Rconv(int(a.Reg)), Rconv(int(a.Offset)))
+		default:
+			str = RLconv(a.Offset)
+		}
 	}
 
 	return str
