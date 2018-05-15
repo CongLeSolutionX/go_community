@@ -72,11 +72,18 @@ const (
 	C_SCOND_XOR = 14
 )
 
-// CConv formats ARM condition codes.
+// CConv formats opcode suffix bits (Prog.Scond).
+// ARM - condition codes.
+// 386/AMD64 - opcode modifiers (e.g. AVX512 zeroing suffix).
 func CConv(s uint8) string {
 	if s == 0 {
 		return ""
 	}
+
+	if objabi.GOARCH == "amd64" || objabi.GOARCH == "386" {
+		return "." + X86suffix(s).String()
+	}
+
 	sc := armCondCode[(s&C_SCOND)^C_SCOND_XOR]
 	if s&C_SBIT != 0 {
 		sc += ".S"
@@ -434,6 +441,22 @@ const (
 	// arm64 uses the 60th bit to differentiate from other archs
 	RegListARM64Lo = 1 << 60
 	RegListARM64Hi = 1<<61 - 1
+
+	// On x86 ranges can only include vector registers of the same kind.
+	// Highest EVEX register index that can be encoded is 32 (5 bits).
+	// We need 5+5 bits to encode register list plus few bits for kind tag.
+	//	k=0 unrecognized (k is never 0 to differentiate from other archs)
+	//	k=2 invalid (unsupported combination)
+	//	k=3 [Xa-Xb]
+	//	k=4 [Ya-Yb]
+	//	k=5 [Za-Zb]
+	//	k=[5, 16] reserved for future use
+	//	Offset = <other bits> kkkkbbbbbaaaaa <lower 16 bits>.
+	//
+	// It's up to asm backend to map this into multisource (+3 or whatever).
+
+	RegListX86Lo = 1 << 16
+	RegListX86Hi = 1 << (16 + 14) // 16 for ARM, 14 for x86
 )
 
 // RegisterRegisterList binds a pretty-printer (RLconv) for register list
