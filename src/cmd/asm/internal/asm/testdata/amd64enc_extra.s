@@ -294,7 +294,7 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	SHA256MSG2 X2, X11       // 440f38cdda
 	SHA256MSG2 X11, X11      // 450f38cddb
 	// Test VPERMQ with both uint8 and int8 immediate args
-	VPERMQ $-40, Y8, Y8 // c4407800c0d8
+	VPERMQ $-40, Y8, Y8 // c443fd00c0d8
 	VPERMQ $216, Y8, Y8 // c443fd00c0d8
 	// Check that LEAL is permitted to use overflowing offset.
 	LEAL 2400959708(BP)(R10*1), BP // 428dac15dcbc1b8f
