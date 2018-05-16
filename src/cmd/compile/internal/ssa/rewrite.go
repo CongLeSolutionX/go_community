@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"math/bits"
 	"os"
 	"path/filepath"
 )
@@ -322,17 +323,16 @@ func isSameSym(sym interface{}, name string) bool {
 
 // nlz returns the number of leading zeros.
 func nlz(x int64) int64 {
-	// log2(0) == 1, so nlz(0) == 64
-	return 63 - log2(x)
+	return int64(bits.LeadingZeros64(uint64(x)))
 }
 
 // ntz returns the number of trailing zeros.
 func ntz(x int64) int64 {
-	return 64 - nlz(^x&(x-1))
+	return int64(bits.TrailingZeros64(uint64(x)))
 }
 
 func oneBit(x int64) bool {
-	return nlz(x)+ntz(x) == 63
+	return bits.OnesCount64(uint64(x)) == 1
 }
 
 // nlo returns the number of leading ones.
