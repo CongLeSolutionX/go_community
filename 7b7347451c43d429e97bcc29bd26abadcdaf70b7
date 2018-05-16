@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f52d2af_a68b5659",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-16T19:40:28Z",
+      "side": 1,
+      "message": "Cut “by default”.\n\nSay something about it being a flag to ‘go test’? On my phone, but maybe something like:\n\n// short returns a -short flag to pass to ‘go test’.\n// It returns “-short”, unless ...",
+      "revId": "7b7347451c43d429e97bcc29bd26abadcdaf70b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
