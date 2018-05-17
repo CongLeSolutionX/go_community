@@ -403,6 +403,24 @@
     },
     {
       "key": {
+        "uuid": "dede86aa_8eb37d9f",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-17T14:03:54Z",
+      "side": 1,
+      "message": "Func can be accessed from Value.Block.Func. Using a map is another idea, if the maximum ID is a problem.\n\nThanks for running the benchmarks. Ok, I\u0027ll double check. Maybe it is not a problem to just use a field.",
+      "parentUuid": "1f5362d7_17ea8d04",
+      "revId": "ae57279aed79c172b2ebb56bbd66aaa6a90792c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c1f0f7da_d852278e",
         "filename": "src/cmd/compile/internal/wasm/ssa.go",
         "patchSetId": 23
