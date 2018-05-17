@@ -503,7 +503,8 @@ func (ctxt *Link) loadlib() {
 		// objects, try to read them from the libgcc file.
 		any := false
 		for _, s := range ctxt.Syms.Allsym {
-			for _, r := range s.R {
+			for i := range s.R {
+				r := &s.R[i]
 				if r.Sym != nil && r.Sym.Type == sym.SXREF && r.Sym.Name != ".got" {
 					any = true
 					break
