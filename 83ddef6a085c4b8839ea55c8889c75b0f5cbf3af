@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0406c928_1c0fccbf",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-05-17T17:10:11Z",
+      "side": 1,
+      "message": "\u003e The explicit \"compile\" is not necessary, \"instantiate\" also accepts the buffer directly.\n\nAh very nice.",
+      "parentUuid": "639c564f_e8c00d3a",
+      "revId": "83ddef6a085c4b8839ea55c8889c75b0f5cbf3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d11a320_19137061",
         "filename": "misc/wasm/wasm_exec.js",
         "patchSetId": 1
