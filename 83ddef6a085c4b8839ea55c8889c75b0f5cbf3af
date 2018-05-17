@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "639c564f_e8c00d3a",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-17T15:18:34Z",
+      "side": 1,
+      "message": "The explicit \"compile\" is not necessary, \"instantiate\" also accepts the buffer directly.\n\nI think it is highly unlikely that some environment would have compileStreaming, but not instantiateStreaming. In fact, the compatibility tables on the MDN pages for those two functions are completely equal. Thus I\u0027d like to keep this simple.",
+      "parentUuid": "39b6eb03_9331e30b",
+      "revId": "83ddef6a085c4b8839ea55c8889c75b0f5cbf3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d11a320_19137061",
         "filename": "misc/wasm/wasm_exec.js",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "81d1a70c_805a7b83",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-17T15:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d11a320_19137061",
+      "range": {
+        "startLine": 308,
+        "startChar": 48,
+        "endLine": 308,
+        "endChar": 61
+      },
+      "revId": "83ddef6a085c4b8839ea55c8889c75b0f5cbf3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f3fd7f_f1e25d7d",
         "filename": "misc/wasm/wasm_exec.js",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "83ddef6a085c4b8839ea55c8889c75b0f5cbf3af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c7bffaf_286372bc",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-17T15:18:34Z",
+      "side": 1,
+      "message": "argv[0] is the name of the binary and ignored for most purposes (e.g. it is not considered as a command line argument). \"js\" was just a placeholder, but we can just as well use the name of the wasm file. Changed.",
+      "parentUuid": "19f3fd7f_f1e25d7d",
+      "revId": "83ddef6a085c4b8839ea55c8889c75b0f5cbf3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
