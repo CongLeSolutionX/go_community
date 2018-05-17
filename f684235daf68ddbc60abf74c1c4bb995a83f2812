@@ -620,6 +620,24 @@
       "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6721ff5_0a24221d",
+        "filename": "src/cmd/internal/obj/x86suffix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T13:42:27Z",
+      "side": 1,
+      "message": "I\u0027ve submitted my vision of that.\nPlease take a look.",
+      "parentUuid": "8b0ace2d_153956eb",
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
