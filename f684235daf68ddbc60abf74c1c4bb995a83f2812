@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "785e2b26_1daf0d62",
+        "filename": "src/cmd/asm/internal/arch/x86.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "Placed this file contents into evex.go.",
+      "parentUuid": "db18299a_af28ea5c",
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e082a35c_e59d4ce6",
         "filename": "src/cmd/asm/internal/asm/line_test.go",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "a4c598d3_94c24f80",
+        "filename": "src/cmd/asm/internal/asm/line_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "Also changed `duplicate \"A\"` to `duplicate suffix \"A\"`.\nRemoved \"parse suffix\" error prefix as it looks like stutter now when every\nerror part mentions suffixes.",
+      "parentUuid": "e082a35c_e59d4ce6",
+      "range": {
+        "startLine": 21,
+        "startChar": 27,
+        "endLine": 21,
+        "endChar": 52
+      },
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87d04d29_9f3432c1",
         "filename": "src/cmd/asm/internal/asm/line_test.go",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2018-05-17T03:46:35Z",
       "side": 1,
       "message": "I\u0027m thinking if we should permit duplicated suffix.",
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "993d7a40_6d32d9d3",
+        "filename": "src/cmd/asm/internal/asm/line_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "I wonder why?\nSeems like you have some particular goal/use case in mind. \nCould, elaborate on this?\n\nIt doesn\u0027t look like something a programmer may want to write (or, more importantly, read in\nother persons asm).\n\nThe question is, if VADDPD.A.A.A.A... doesn\u0027t make sense, why permit such\nnotation in a first place?",
+      "parentUuid": "87d04d29_9f3432c1",
       "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "7c3ab2be_990e799c",
+        "filename": "src/cmd/asm/internal/asm/line_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b1a952c_43662c06",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 14
+      },
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3bedc21_d656d3c8",
         "filename": "src/cmd/asm/internal/asm/operand_test.go",
         "patchSetId": 3
@@ -102,6 +186,30 @@
       "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b659556_5ad6c663",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3bedc21_d656d3c8",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 13
+      },
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "5d1e4273_1884f620",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a2d543_bd9ee97a",
+      "range": {
+        "startLine": 258,
+        "startChar": 23,
+        "endLine": 258,
+        "endChar": 49
+      },
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87094ed4_d978e9af",
         "filename": "src/cmd/asm/internal/asm/parse.go",
         "patchSetId": 3
@@ -148,6 +280,30 @@
       "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c01e3e97_d52d1e46",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "Fixed, thanks.\nI\u0027m lacking other asm backends knowledge, so your comments are very enlightening.",
+      "parentUuid": "87094ed4_d978e9af",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 7
+      },
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "d0310a91_6284d8eb",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "I\u0027ve tried to expand that by concrete example. \nLet me know it that\u0027s still not good enough.",
+      "parentUuid": "8784de55_a1f2ff26",
+      "range": {
+        "startLine": 836,
+        "startChar": 42,
+        "endLine": 838,
+        "endChar": 39
+      },
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08c6222f_c37d01a8",
         "filename": "src/cmd/internal/obj/util.go",
         "patchSetId": 3
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "488a8dfa_83bf807d",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "Fixed there and in all other places.",
+      "parentUuid": "08c6222f_c37d01a8",
+      "range": {
+        "startLine": 77,
+        "startChar": 3,
+        "endLine": 77,
+        "endChar": 13
+      },
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a06f8641_09bfed56",
         "filename": "src/cmd/internal/obj/util.go",
         "patchSetId": 3
@@ -211,6 +415,24 @@
       "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bab4c242_cc2e064c",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "Changed reglist encoding for x86 to make RLconv implementation possible.\n(I\u0027ve added tests for it in x86/asm_test.go.)",
+      "parentUuid": "a06f8641_09bfed56",
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -231,6 +453,24 @@
     },
     {
       "key": {
+        "uuid": "fa81d4a1_d0e62b2f",
+        "filename": "src/cmd/internal/obj/x86/a.out.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "No other reason than different encoding schemes.\nI\u0027ll remove empty lines.",
+      "parentUuid": "436a5f3c_12287946",
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbe175c3_d1088b9f",
         "filename": "src/cmd/internal/obj/x86/a.out.go",
         "patchSetId": 3
@@ -248,6 +488,24 @@
     },
     {
       "key": {
+        "uuid": "2f7ddc9c_184d75a1",
+        "filename": "src/cmd/internal/obj/x86/a.out.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbe175c3_d1088b9f",
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bfb6ab6_37c0c603",
         "filename": "src/cmd/internal/obj/x86/anames.go",
         "patchSetId": 3
@@ -259,6 +517,24 @@
       "writtenOn": "2018-05-17T03:46:35Z",
       "side": 1,
       "message": "This code is generated. Did you change the code generator to add the comment?",
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3da072c7_3e82e34d",
+        "filename": "src/cmd/internal/obj/x86/anames.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "I\u0027ve actually removed anames/aenum generation from x86avxgen since it\u0027s mostly optab/ytab generation program and it\u0027s output not used that frequently to make it worthwhile to maintain things that can be done in 1 minute manually.\n\nWhat I did is merged older enum with new enum (with duplicates removal) and sorted them.\nThis is like 1-line bash command..\n\nIs that OK?",
+      "parentUuid": "5bfb6ab6_37c0c603",
       "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -288,6 +564,30 @@
     },
     {
       "key": {
+        "uuid": "82b757fa_1e15dce3",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "Done for all 3 multi4 declarations.",
+      "parentUuid": "a5d15e23_eb519e2e",
+      "range": {
+        "startLine": 170,
+        "startChar": 18,
+        "endLine": 170,
+        "endChar": 41
+      },
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c1c419b_02241eed",
         "filename": "src/cmd/internal/obj/x86suffix.go",
         "patchSetId": 3
@@ -299,6 +599,24 @@
       "writtenOn": "2018-05-17T03:46:35Z",
       "side": 1,
       "message": "Can we have this logic in obj/x86 package? I see it is used CCconv. But can this be done with each architecture register a function, like Rconv and RLconv?",
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b0ace2d_153956eb",
+        "filename": "src/cmd/internal/obj/x86suffix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-17T12:08:47Z",
+      "side": 1,
+      "message": "OK, I\u0027ll try to do that.\nWill send it in a separate patch set if you don\u0027t mind.",
+      "parentUuid": "4c1c419b_02241eed",
       "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
