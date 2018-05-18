@@ -36,6 +36,70 @@
     },
     {
       "key": {
+        "uuid": "84ab56ed_4b0919ab",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-18T14:58:22Z",
+      "side": 1,
+      "message": "I think we probably can return v anyway, no matter of whether it is in the same block. On-stack value is lazily generated, and it will be generated in different block if it is needed there. Is it right?\n\nIf this is true, and we mark rematerializeable value on-stack in the init function, then the next if block at line 480 will take care of it, and we don\u0027t need this if block.",
+      "parentUuid": "38ebfe6f_b2b573ec",
+      "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65bdf177_c1422b0d",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-18T14:58:22Z",
+      "side": 1,
+      "message": "It seems that nospill is used here as \"the value will be used (almost) immediately, so put it on stack\". This needs a comment. Or use a separate parameter.",
+      "range": {
+        "startLine": 499,
+        "startChar": 59,
+        "endLine": 499,
+        "endChar": 66
+      },
+      "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7fb2dbf_a04b8304",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-18T14:58:22Z",
+      "side": 1,
+      "message": "Name it onWasmStack.",
+      "range": {
+        "startLine": 499,
+        "startChar": 1,
+        "endLine": 499,
+        "endChar": 10
+      },
+      "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "29707653_adee54c9",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 32
