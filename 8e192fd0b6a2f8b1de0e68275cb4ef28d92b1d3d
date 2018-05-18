@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e99e817_d25d6f15",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-18T20:10:53Z",
+      "side": 1,
+      "message": "What\u0027s your opinion of \"LosesStmtMark\"?",
+      "parentUuid": "61b123e7_47530c08",
+      "revId": "8e192fd0b6a2f8b1de0e68275cb4ef28d92b1d3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9701c4f9_f9f82de8",
         "filename": "src/cmd/compile/internal/ssa/numberlines.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "8e192fd0b6a2f8b1de0e68275cb4ef28d92b1d3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "311eb256_842063ee",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-05-18T20:10:53Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9701c4f9_f9f82de8",
+      "revId": "8e192fd0b6a2f8b1de0e68275cb4ef28d92b1d3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
