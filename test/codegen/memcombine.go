@@ -131,6 +131,21 @@ func load_byte8_uint64_idx(s []byte, idx int) uint64 {
 	return uint64(s[idx<<3]) | uint64(s[(idx<<3)+1])<<8 | uint64(s[(idx<<3)+2])<<16 | uint64(s[(idx<<3)+3])<<24 | uint64(s[(idx<<3)+4])<<32 | uint64(s[(idx<<3)+5])<<40 | uint64(s[(idx<<3)+6])<<48 | uint64(s[(idx<<3)+7])<<56
 }
 
+func load_byte2_uint16_idx_be(s []byte, idx int) uint16 {
+	// arm64:`MOVHU\s\(R[0-9]+\)\(R[0-9]+<<1\)`,`REV16W`,-`ORR`,-`MOVB`
+	return uint16(s[idx<<1])<<8 | uint16(s[(idx<<1)+1])
+}
+
+func load_byte4_uint32_idx_be(s []byte, idx int) uint32 {
+	// arm64:`MOVWU\s\(R[0-9]+\)\(R[0-9]+<<2\)`,`REVW`,-`ORR`,-`MOV[BH]`,-`REV16W`
+	return uint32(s[idx<<2])<<24 | uint32(s[(idx<<2)+1])<<16 | uint32(s[(idx<<2)+2])<<8 | uint32(s[(idx<<2)+3])
+}
+
+func load_byte8_uint64_idx_be(s []byte, idx int) uint64 {
+	// arm64:`MOVD\s\(R[0-9]+\)\(R[0-9]+<<3\)`,`REV`,-`ORR`,-`MOV[BHW]`,-`REVW`,-`REV16W`
+	return uint64(s[idx<<3])<<56 | uint64(s[(idx<<3)+1])<<48 | uint64(s[(idx<<3)+2])<<40 | uint64(s[(idx<<3)+3])<<32 | uint64(s[(idx<<3)+4])<<24 | uint64(s[(idx<<3)+5])<<16 | uint64(s[(idx<<3)+6])<<8 | uint64(s[(idx<<3)+7])
+}
+
 // Check load combining across function calls.
 
 func fcall_byte(a, b byte) (byte, byte) {
@@ -293,32 +308,6 @@ func zero_byte_16(b []byte) {
 	b[4], b[5], b[6], b[7] = 0, 0, 0, 0
 	b[8], b[9], b[10], b[11] = 0, 0, 0, 0
 	b[12], b[13], b[14], b[15] = 0, 0, 0, 0 // arm64:"STP",-"MOVB",-"MOVH",-"MOVW"
-}
-
-func zero_byte_2_idx(b []byte, idx int) {
-	// arm64: `MOVH\sZR,\s\(R[0-9]+\)\(R[0-9]+<<1\)`,-`MOVB`
-	b[(idx<<1)+0] = 0
-	b[(idx<<1)+1] = 0
-}
-
-func zero_byte_4_idx(b []byte, idx int) {
-	// arm64: `MOVW\sZR,\s\(R[0-9]+\)\(R[0-9]+<<2\)`,-`MOV[BH]`
-	b[(idx<<2)+0] = 0
-	b[(idx<<2)+1] = 0
-	b[(idx<<2)+2] = 0
-	b[(idx<<2)+3] = 0
-}
-
-func zero_byte_8_idx(b []byte, idx int) {
-	// arm64: `MOVD\sZR,\s\(R[0-9]+\)\(R[0-9]+<<3\)`,-`MOV[BHW]`
-	b[(idx<<3)+0] = 0
-	b[(idx<<3)+1] = 0
-	b[(idx<<3)+2] = 0
-	b[(idx<<3)+3] = 0
-	b[(idx<<3)+4] = 0
-	b[(idx<<3)+5] = 0
-	b[(idx<<3)+6] = 0
-	b[(idx<<3)+7] = 0
 }
 
 func zero_byte_30(a *[30]byte) {
