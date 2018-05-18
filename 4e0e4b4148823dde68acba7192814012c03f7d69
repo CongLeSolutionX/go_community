@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bccce412_26d90277",
+        "filename": "test/codegen/memcombine.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-05-18T10:38:11Z",
+      "side": 1,
+      "message": "The description is vague to me.\nCould you please express it with commented test case? So that you can un-comment it once your optimisation is done.",
+      "range": {
+        "startLine": 122,
+        "startChar": 10,
+        "endLine": 122,
+        "endChar": 36
+      },
+      "revId": "4e0e4b4148823dde68acba7192814012c03f7d69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d2f419f_21a8e18c",
+        "filename": "test/codegen/memcombine.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-05-18T10:38:11Z",
+      "side": 1,
+      "message": "it seems useless.",
+      "range": {
+        "startLine": 341,
+        "startChar": 37,
+        "endLine": 341,
+        "endChar": 41
+      },
+      "revId": "4e0e4b4148823dde68acba7192814012c03f7d69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
