@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f35fc544_df4cae21",
+        "filename": "test/codegen/memcombine.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-18T12:43:31Z",
+      "side": 1,
+      "message": "TODO.\n\nWhat optimization is to do here? The test is passing, right? That means it generates optimized code now.",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 122,
+        "endChar": 8
+      },
+      "revId": "4ff1df87530d87d7b1e169510a47fae12582d073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

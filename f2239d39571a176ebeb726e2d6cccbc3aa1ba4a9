@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4241722d_c8cdbdf4",
+        "filename": "test/codegen/memcombine.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-18T12:43:31Z",
+      "side": 0,
+      "message": "Could you explain why these tests are not correct? They are passing, right? If it is not correct, where does the MOVH (MOVW, MOVD for below) come from?",
+      "revId": "f2239d39571a176ebeb726e2d6cccbc3aa1ba4a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
