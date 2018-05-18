@@ -119,16 +119,37 @@ func load_byte2_uint16(s []byte) uint16 {
 func load_byte2_uint16_idx(s []byte, idx int) uint16 {
 	// arm64:`MOVHU\s\(R[0-9]+\)\(R[0-9]+<<1\)`,-`ORR`,-`MOVB`
 	return uint16(s[idx<<1]) | uint16(s[(idx<<1)+1])<<8
+	// todo: optimize loading MSB first
 }
 
 func load_byte4_uint32_idx(s []byte, idx int) uint32 {
 	// arm64:`MOVWU\s\(R[0-9]+\)\(R[0-9]+<<2\)`,-`ORR`,-`MOV[BH]`
 	return uint32(s[idx<<2]) | uint32(s[(idx<<2)+1])<<8 | uint32(s[(idx<<2)+2])<<16 | uint32(s[(idx<<2)+3])<<24
+	// todo: optimize loading MSB first
 }
 
 func load_byte8_uint64_idx(s []byte, idx int) uint64 {
 	// arm64:`MOVD\s\(R[0-9]+\)\(R[0-9]+<<3\)`,-`ORR`,-`MOV[BHW]`
 	return uint64(s[idx<<3]) | uint64(s[(idx<<3)+1])<<8 | uint64(s[(idx<<3)+2])<<16 | uint64(s[(idx<<3)+3])<<24 | uint64(s[(idx<<3)+4])<<32 | uint64(s[(idx<<3)+5])<<40 | uint64(s[(idx<<3)+6])<<48 | uint64(s[(idx<<3)+7])<<56
+	// todo: optimize loading MSB first
+}
+
+func load_byte2_uint16_idx_be(s []byte, idx int) uint16 {
+	// arm64:`MOVHU\s\(R[0-9]+\)\(R[0-9]+<<1\)`,`REV16W`,-`ORR`,-`MOVB`
+	return uint16(s[idx<<1])<<8 | uint16(s[(idx<<1)+1])
+	// todo: optimize loading MSB first
+}
+
+func load_byte4_uint32_idx_be(s []byte, idx int) uint32 {
+	// arm64:`MOVWU\s\(R[0-9]+\)\(R[0-9]+<<2\)`,`REVW`,-`ORR`,-`MOV[BH]`,-`REV16W`
+	return uint32(s[idx<<2])<<24 | uint32(s[(idx<<2)+1])<<16 | uint32(s[(idx<<2)+2])<<8 | uint32(s[(idx<<2)+3])
+	// todo: optimize loading MSB first
+}
+
+func load_byte8_uint64_idx_be(s []byte, idx int) uint64 {
+	// arm64:`MOVD\s\(R[0-9]+\)\(R[0-9]+<<3\)`,`REV`,-`ORR`,-`MOV[BHW]`,-`REVW`,-`REV16W`
+	return uint64(s[idx<<3])<<56 | uint64(s[(idx<<3)+1])<<48 | uint64(s[(idx<<3)+2])<<40 | uint64(s[(idx<<3)+3])<<32 | uint64(s[(idx<<3)+4])<<24 | uint64(s[(idx<<3)+5])<<16 | uint64(s[(idx<<3)+6])<<8 | uint64(s[(idx<<3)+7])
+	// todo: optimize loading MSB first
 }
 
 // Check load combining across function calls.
@@ -295,30 +316,47 @@ func zero_byte_16(b []byte) {
 	b[12], b[13], b[14], b[15] = 0, 0, 0, 0 // arm64:"STP",-"MOVB",-"MOVH",-"MOVW"
 }
 
-func zero_byte_2_idx(b []byte, idx int) {
+func zero_byte_2_idx(b []byte, idx0, idx1 int) {
 	// arm64: `MOVH\sZR,\s\(R[0-9]+\)\(R[0-9]+<<1\)`,-`MOVB`
-	b[(idx<<1)+0] = 0
-	b[(idx<<1)+1] = 0
+	b[(idx0<<1)+0] = 0
+	b[(idx0<<1)+1] = 0
+	// arm64: `MOVH\sZR,\s\(R[0-9]+\)\(R[0-9]+<<1\)`,-`MOVB`
+	b[(idx1<<1)+1] = 0
+	b[(idx1<<1)+0] = 0
 }
 
-func zero_byte_4_idx(b []byte, idx int) {
+func zero_byte_4_idx(b []byte, idx0, idx1 int) {
 	// arm64: `MOVW\sZR,\s\(R[0-9]+\)\(R[0-9]+<<2\)`,-`MOV[BH]`
-	b[(idx<<2)+0] = 0
-	b[(idx<<2)+1] = 0
-	b[(idx<<2)+2] = 0
-	b[(idx<<2)+3] = 0
+	b[(idx0<<2)+0] = 0
+	b[(idx0<<2)+1] = 0
+	b[(idx0<<2)+2] = 0
+	b[(idx0<<2)+3] = 0
+	// arm64: `MOVW\sZR,\s\(R[0-9]+\)\(R[0-9]+<<2\)`,-`MOV[BH]`
+	b[(idx1<<2)+3] = 0
+	b[(idx1<<2)+2] = 0
+	b[(idx1<<2)+1] = 0
+	b[(idx1<<2)+0] = 0
 }
 
-func zero_byte_8_idx(b []byte, idx int) {
+func zero_byte_8_idx(b []byte, idx0, idx1 int) {
 	// arm64: `MOVD\sZR,\s\(R[0-9]+\)\(R[0-9]+<<3\)`,-`MOV[BHW]`
-	b[(idx<<3)+0] = 0
-	b[(idx<<3)+1] = 0
-	b[(idx<<3)+2] = 0
-	b[(idx<<3)+3] = 0
-	b[(idx<<3)+4] = 0
-	b[(idx<<3)+5] = 0
-	b[(idx<<3)+6] = 0
-	b[(idx<<3)+7] = 0
+	b[(idx0<<3)+0] = 0
+	b[(idx0<<3)+1] = 0
+	b[(idx0<<3)+2] = 0
+	b[(idx0<<3)+3] = 0
+	b[(idx0<<3)+4] = 0
+	b[(idx0<<3)+5] = 0
+	b[(idx0<<3)+6] = 0
+	b[(idx0<<3)+7] = 0
+	// arm64: `MOVD\sZR,\s\(R[0-9]+\)\(R[0-9]+<<3\)`,-`MOV[BHW]`
+	b[(idx0<<3)+7] = 0
+	b[(idx0<<3)+6] = 0
+	b[(idx0<<3)+5] = 0
+	b[(idx0<<3)+4] = 0
+	b[(idx0<<3)+3] = 0
+	b[(idx0<<3)+2] = 0
+	b[(idx0<<3)+1] = 0
+	b[(idx0<<3)+0] = 0
 }
 
 func zero_byte_30(a *[30]byte) {
