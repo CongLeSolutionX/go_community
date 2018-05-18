@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "af5def57_9c657fa9",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-18T22:13:47Z",
+      "side": 1,
+      "message": "See answer below.",
+      "parentUuid": "08df39f7_8ba86409",
+      "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "38ebfe6f_b2b573ec",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 32
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "I think we probably can return v anyway, no matter of whether it is in the same block. On-stack value is lazily generated, and it will be generated in different block if it is needed there. Is it right?\n\nIf this is true, and we mark rematerializeable value on-stack in the init function, then the next if block at line 480 will take care of it, and we don\u0027t need this if block.",
       "parentUuid": "38ebfe6f_b2b573ec",
+      "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccd539b2_6871acff",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-18T22:13:47Z",
+      "side": 1,
+      "message": "I see what you\u0027re getting at, but this doesn\u0027t really seem clean to me. At minimum it would mess up the WasmStackSize safeguard.",
+      "parentUuid": "84ab56ed_4b0919ab",
       "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -100,6 +136,54 @@
     },
     {
       "key": {
+        "uuid": "6ddf52b7_f557442f",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-18T22:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb2dbf_a04b8304",
+      "range": {
+        "startLine": 499,
+        "startChar": 1,
+        "endLine": 499,
+        "endChar": 10
+      },
+      "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71f5c1f0_4062dea6",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-18T22:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65bdf177_c1422b0d",
+      "range": {
+        "startLine": 499,
+        "startChar": 59,
+        "endLine": 499,
+        "endChar": 66
+      },
+      "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29707653_adee54c9",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 32
@@ -120,6 +204,30 @@
       "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6398b0d0_0d43d2db",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-18T22:13:47Z",
+      "side": 1,
+      "message": "I tried this earlier and it didn\u0027t work, but now it does. Seems like something got untangled. Changed.",
+      "parentUuid": "29707653_adee54c9",
+      "range": {
+        "startLine": 498,
+        "startChar": 1,
+        "endLine": 503,
+        "endChar": 2
+      },
+      "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
