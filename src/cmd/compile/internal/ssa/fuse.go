@@ -159,17 +159,17 @@ func fuseBlockPlain(b *Block) bool {
 	if cap(c.Values) >= cap(b.Values) || len(b.Values) <= len(b.valstorage) {
 		bl := len(b.Values)
 		cl := len(c.Values)
+		var t []*Value
 		if cap(c.Values) < bl+cl {
 			// reallocate
-			t := make([]*Value, 0, bl+cl)
-			t = append(t, b.Values...)
-			c.Values = append(t, c.Values...)
+			t = make([]*Value, bl+cl)
 		} else {
 			// in place.
-			c.Values = c.Values[0 : bl+cl]
-			copy(c.Values[bl:], c.Values)
-			copy(c.Values, b.Values)
+			t = c.Values[0 : bl+cl]
 		}
+		copy(t[bl:], c.Values) // possibly in-place
+		c.Values = t
+		copy(c.Values, b.Values)
 	} else {
 		c.Values = append(b.Values, c.Values...)
 	}
