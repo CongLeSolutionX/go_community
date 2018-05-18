@@ -5,6 +5,7 @@
 package ssa
 
 import (
+	"cmd/internal/obj"
 	"cmd/internal/src"
 	"math"
 )
@@ -14,6 +15,19 @@ func isPoorStatementOp(op Op) bool {
 	// Note that Nilcheck often vanishes, but when it doesn't, you'd love to start the statement there
 	// so that a debugger-user sees the stop before the panic, and can examine the value.
 	case OpAddr, OpOffPtr, OpStructSelect, OpConstBool, OpConst8, OpConst16, OpConst32, OpConst64, OpConst32F, OpConst64F:
+		return true
+	}
+	return false
+}
+
+// NeverStmtAs returns whether parameter as can carry a statement mark all the way through to DWARF.
+// The attributes from some opcodes are lost in translation.
+// TODO: this is an artifact of how funcpctab combines information for instructions at a single PC.
+// Should try to fix it there.
+func NeverStmtAs(as obj.As) bool {
+	switch as {
+	case obj.APCDATA, obj.AFUNCDATA:
+		// is_stmt does not work for these; it DOES for ANOP
 		return true
 	}
 	return false
