@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d88ffb29_7635930a",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-20T22:49:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this switch is for.  We\u0027ll error out below in any case.",
+      "revId": "59b8cbfeca4fa6a17a5e868616cb998b97926dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d424657e_74d58ef5",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-20T22:49:18Z",
+      "side": 1,
+      "message": "Is there any alignment constraint on the stack pointer for arm?",
+      "revId": "59b8cbfeca4fa6a17a5e868616cb998b97926dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edcea289_ef3aca4a",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-20T22:49:18Z",
+      "side": 1,
+      "message": "This /16*16 may not be necessary for arm if there aren\u0027t alignment constraints.",
+      "revId": "59b8cbfeca4fa6a17a5e868616cb998b97926dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87f63fc3_d9400e57",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-20T22:49:18Z",
+      "side": 1,
+      "message": "Same question here on libc stack alignment constraints.  I\u0027m guessing there isn\u0027t any.",
+      "revId": "59b8cbfeca4fa6a17a5e868616cb998b97926dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
