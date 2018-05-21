@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f34f8a_57cdd95a",
+        "filename": "src/cmd/compile/internal/ssa/fuse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-21T16:54:39Z",
+      "side": 1,
+      "message": "A line comment here would help, maybe something like:\n\n// construct t \u003d b.Values ⁀ c.Values",
+      "revId": "85ba08d4235aeb7a1974b7b90102af7a110e709b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
