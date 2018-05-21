@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0b1231f0_591ff2d8",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-05-21T14:02:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d88ffb29_7635930a",
+      "revId": "59b8cbfeca4fa6a17a5e868616cb998b97926dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d424657e_74d58ef5",
         "filename": "src/runtime/sys_darwin_arm.s",
         "patchSetId": 11
@@ -33,6 +51,24 @@
       "revId": "59b8cbfeca4fa6a17a5e868616cb998b97926dd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b8e544a_a596eb78",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-05-21T14:02:43Z",
+      "side": 1,
+      "message": "Done. According to http://infocenter.arm.com/help/topic/com.arm.doc.ihi0042f/IHI0042F_aapcs.pdf the stack must be double-word aligned at a public interface. asmcgocall in asm_arm.s aligns the stack to 8 bytes. I assume that\u0027s enough here; if not, please correct me.",
+      "parentUuid": "d424657e_74d58ef5",
+      "revId": "59b8cbfeca4fa6a17a5e868616cb998b97926dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bbc1522e_605eae56",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-05-21T14:02:43Z",
+      "side": 1,
+      "message": "Done. I re-aligned to 8 bytes, which is the arm requirement. The arm64 requirement is 16 byte alignment, so I left that as is.",
+      "parentUuid": "edcea289_ef3aca4a",
+      "revId": "59b8cbfeca4fa6a17a5e868616cb998b97926dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f63fc3_d9400e57",
         "filename": "src/runtime/sys_darwin_arm64.s",
         "patchSetId": 11
@@ -64,6 +118,24 @@
       "writtenOn": "2018-05-20T22:49:18Z",
       "side": 1,
       "message": "Same question here on libc stack alignment constraints.  I\u0027m guessing there isn\u0027t any.",
+      "revId": "59b8cbfeca4fa6a17a5e868616cb998b97926dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02deee28_7e7e8acd",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-05-21T14:02:43Z",
+      "side": 1,
+      "message": "Done. According to http://infocenter.arm.com/help/topic/com.arm.doc.ihi0055b/IHI0055B_aapcs64.pdf the alignment should be 16 at public interfaces. I added stack alignment to the arm64 asmcgocall. Please correct me if that\u0027s not sufficient.",
+      "parentUuid": "87f63fc3_d9400e57",
       "revId": "59b8cbfeca4fa6a17a5e868616cb998b97926dd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
