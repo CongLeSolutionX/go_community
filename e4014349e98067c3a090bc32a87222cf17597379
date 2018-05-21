@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4760a9eb_12dd28b7",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-05-21T19:54:40Z",
+      "side": 1,
+      "message": "Add a comment explaining why this is noinline",
+      "revId": "e4014349e98067c3a090bc32a87222cf17597379",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
