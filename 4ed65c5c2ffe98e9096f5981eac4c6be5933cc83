@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f308a375_48245f6e",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-21T19:37:27Z",
+      "side": 1,
+      "message": "s/write/read/",
+      "revId": "4ed65c5c2ffe98e9096f5981eac4c6be5933cc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
