@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d8582c8_3b2f3edb",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-05-21T19:52:06Z",
+      "side": 1,
+      "message": "A bit more documentation would be helpful here: what is the relationship between the keys of Standard and ImportMap?\n\nThe block at 822–829 (`if vcfg.ImportMap[\"fmt\"] \u003d\u003d \"\"`) suggests that the keys of Standard are a subset of the keys of ImportMap, but the loop at 779–798 only adds the ImportMap entry if the package was built. Is that difference intentional?",
+      "revId": "9690372029b63f5af219b2b9a8d910b48bbd7d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12003989_8144b47f",
+        "filename": "src/cmd/vet/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-05-21T19:52:06Z",
+      "side": 1,
+      "message": "https://tip.golang.org/pkg/go/importer/#Lookup says:\n“A Lookup function returns a reader to access package data for a given import path, or an error if no matching package is found.”\nThat does not seem to allow a return of `nil, nil`.\n\nDoes this change need a corresponding documentation update in `go/importer`, or is this exclusively an internal hook that we do not intend for outside users to replicate?\n\n----\n\nMore generally, this seems to point to a layering issue in the `go/importer` API: the actual constraints on the passed-in `Lookup` function increasingly depend on the value passed for the `compiler` argument. When compiler \u003d\u003d \"gccgo\", the constraints are both more permissive and more stringent: the function is allowed to return `nil, nil`, but required to return an `io.ReadSeeker` (not just an `io.ReadCloser`).\n\nThat suggests that `importer.For` is not a particularly useful abstraction, since callers increasingly cannot use the same function across compilers. Should we consider deprecating `importer.For` and splitting it up into separate, more targeted functions?",
+      "revId": "9690372029b63f5af219b2b9a8d910b48bbd7d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
