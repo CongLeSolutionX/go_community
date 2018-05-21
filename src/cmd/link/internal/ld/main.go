@@ -97,7 +97,7 @@ var (
 
 // Main is the main entry point for the linker code.
 func Main(arch *sys.Arch, theArch Arch) {
-	Thearch = theArch
+	thearch = theArch
 	ctxt := linknew(arch)
 	ctxt.Bso = bufio.NewWriter(os.Stdout)
 
@@ -168,7 +168,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	}
 
 	ctxt.computeTLSOffset()
-	Thearch.Archinit(ctxt)
+	thearch.Archinit(ctxt)
 
 	if ctxt.linkShared && !ctxt.IsELF {
 		Exitf("-linkshared can only be used on elf systems")
@@ -202,7 +202,9 @@ func Main(arch *sys.Arch, theArch Arch) {
 
 	ctxt.dostrdata()
 	deadcode(ctxt)
-	fieldtrack(ctxt)
+	if objabi.Fieldtrack_enabled != 0 {
+		fieldtrack(ctxt)
+	}
 	ctxt.callgraph()
 
 	ctxt.doelf()
@@ -214,7 +216,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 		ctxt.dope()
 	}
 	ctxt.addexport()
-	Thearch.Gentext(ctxt) // trampolines, call stubs, etc.
+	thearch.Gentext(ctxt) // trampolines, call stubs, etc.
 	ctxt.textbuildid()
 	ctxt.textaddress()
 	ctxt.pclntab()
@@ -224,7 +226,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	ctxt.dodata()
 	ctxt.address()
 	ctxt.reloc()
-	Thearch.Asmb(ctxt)
+	thearch.Asmb(ctxt)
 	ctxt.undef()
 	ctxt.hostlink()
 	ctxt.archive()

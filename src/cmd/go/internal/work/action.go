@@ -223,6 +223,10 @@ func (b *Builder) Init() {
 		if err != nil {
 			base.Fatalf("%s", err)
 		}
+		if !filepath.IsAbs(b.WorkDir) {
+			os.RemoveAll(b.WorkDir)
+			base.Fatalf("cmd/go: relative tmpdir not supported")
+		}
 		if cfg.BuildX || cfg.BuildWork {
 			fmt.Fprintf(os.Stderr, "WORK=%s\n", b.WorkDir)
 		}
@@ -335,8 +339,10 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 			Objdir:  b.NewObjdir(),
 		}
 
-		for _, p1 := range p.Internal.Imports {
-			a.Deps = append(a.Deps, b.CompileAction(depMode, depMode, p1))
+		if p.Error == nil || !p.Error.IsImportCycle {
+			for _, p1 := range p.Internal.Imports {
+				a.Deps = append(a.Deps, b.CompileAction(depMode, depMode, p1))
+			}
 		}
 
 		if p.Standard {
@@ -582,7 +588,7 @@ func (b *Builder) addInstallHeaderAction(a *Action) {
 	p := a.Package
 	if p.UsesCgo() && (cfg.BuildBuildmode == "c-archive" || cfg.BuildBuildmode == "c-shared") {
 		hdrTarget := a.Target[:len(a.Target)-len(filepath.Ext(a.Target))] + ".h"
-		if cfg.BuildContext.Compiler == "gccgo" {
+		if cfg.BuildContext.Compiler == "gccgo" && cfg.BuildO == "" {
 			// For the header file, remove the "lib"
 			// added by go/build, so we generate pkg.h
 			// rather than libpkg.h.

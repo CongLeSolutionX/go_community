@@ -84,7 +84,7 @@ func issue10979() {
 		nosuchtype /* ERROR undeclared name: nosuchtype */
 	}
 	type _ interface {
-		fmt /* ERROR Nosuchtype not declared by package fmt */ .Nosuchtype
+		fmt.Nosuchtype /* ERROR Nosuchtype not declared by package fmt */
 	}
 	type _ interface {
 		nosuchpkg /* ERROR undeclared name: nosuchpkg */ .Nosuchtype
@@ -239,4 +239,12 @@ func issue24140(x interface{}) int {
         default:
                 panic(0)
         }
+}
+
+// Test that we don't crash when the 'if' condition is missing.
+func issue25438() {
+	if { /* ERROR missing condition */ }
+	if x := 0; /* ERROR missing condition */ { _ = x }
+	if
+	{ /* ERROR missing condition */ }
 }

@@ -31,6 +31,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
@@ -113,6 +114,13 @@ func (pp *Progs) Prog(as obj.As) *obj.Prog {
 
 	p.As = as
 	p.Pos = pp.pos
+	if pp.pos.IsStmt() == src.PosIsStmt {
+		// Clear IsStmt for later Progs at this pos provided that as can be marked as a stmt
+		if ssa.LosesStmtMark(as) {
+			return p
+		}
+		pp.pos = pp.pos.WithNotStmt()
+	}
 	return p
 }
 
@@ -174,7 +182,7 @@ func (f *Func) initLSym() {
 		Fatalf("Func.initLSym called twice")
 	}
 
-	if nam := f.Nname; !isblank(nam) {
+	if nam := f.Nname; !nam.isBlank() {
 		f.lsym = nam.Sym.Linksym()
 		if f.Pragma&Systemstack != 0 {
 			f.lsym.Set(obj.AttrCFunc, true)

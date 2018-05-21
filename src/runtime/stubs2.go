@@ -6,6 +6,9 @@
 // +build !solaris
 // +build !windows
 // +build !nacl
+// +build !js
+// +build !darwin !amd64
+// +build !darwin !386
 
 package runtime
 
@@ -15,7 +18,6 @@ func read(fd int32, p unsafe.Pointer, n int32) int32
 func closefd(fd int32) int32
 
 func exit(code int32)
-func nanotime() int64
 func usleep(usec uint32)
 
 //go:noescape

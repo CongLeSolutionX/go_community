@@ -257,7 +257,7 @@ func (s *mspan) objIndex(p uintptr) uintptr {
 		return 0
 	}
 	if s.baseMask != 0 {
-		// s.baseMask is 0, elemsize is a power of two, so shift by s.divShift
+		// s.baseMask is non-0, elemsize is a power of two, so shift by s.divShift
 		return byteOffset >> s.divShift
 	}
 	return uintptr(((uint64(byteOffset) >> s.divShift) * uint64(s.divMul)) >> s.divShift2)
@@ -1999,30 +1999,16 @@ func getgcmask(ep interface{}) (mask []byte) {
 		_g_ := getg()
 		gentraceback(_g_.m.curg.sched.pc, _g_.m.curg.sched.sp, 0, _g_.m.curg, 0, nil, 1000, getgcmaskcb, noescape(unsafe.Pointer(&frame)), 0)
 		if frame.fn.valid() {
-			f := frame.fn
-			targetpc := frame.continpc
-			if targetpc == 0 {
+			locals, _ := getStackMap(&frame, nil, false)
+			if locals.n == 0 {
 				return
 			}
-			if targetpc != f.entry {
-				targetpc--
-			}
-			pcdata := pcdatavalue(f, _PCDATA_StackMapIndex, targetpc, nil)
-			if pcdata == -1 {
-				return
-			}
-			stkmap := (*stackmap)(funcdata(f, _FUNCDATA_LocalsPointerMaps))
-			if stkmap == nil || stkmap.n <= 0 {
-				return
-			}
-			bv := stackmapdata(stkmap, pcdata)
-			size := uintptr(bv.n) * sys.PtrSize
+			size := uintptr(locals.n) * sys.PtrSize
 			n := (*ptrtype)(unsafe.Pointer(t)).elem.size
 			mask = make([]byte, n/sys.PtrSize)
 			for i := uintptr(0); i < n; i += sys.PtrSize {
-				bitmap := bv.bytedata
 				off := (uintptr(p) + i - frame.varp + size) / sys.PtrSize
-				mask[i/sys.PtrSize] = (*addb(bitmap, off/8) >> (off % 8)) & 1
+				mask[i/sys.PtrSize] = locals.ptrbit(off)
 			}
 		}
 		return
