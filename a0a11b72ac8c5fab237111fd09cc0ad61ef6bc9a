@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "c26a80e8_4bdda3b5",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-21T18:28:26Z",
+      "side": 1,
+      "message": "\u003e At minimum it would mess up the WasmStackSize safeguard.\n\nIf I understand correctly I think the generated code is unchanged either way, so WasmStackSize is still valid.\n\nIt is fine to leave it as yours.",
+      "parentUuid": "ccd539b2_6871acff",
+      "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65bdf177_c1422b0d",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 32

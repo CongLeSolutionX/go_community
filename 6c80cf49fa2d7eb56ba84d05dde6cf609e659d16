@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06dc0ece_d69d10d3",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-21T18:28:26Z",
+      "side": 1,
+      "message": "I experimented a bit to understand why this happens. One place I found is that this function may be called with a mask with \"desired-to-avoid registers\" (desired to save for other values) excluded, but the code below just picking a free register without checking this desired-to-avoid thing (it probably should). Understanding this makes me happier in that the code doesn\u0027t do things we don\u0027t understand.\n\nFor Wasm, I can see that copy isn\u0027t cheaper so we don\u0027t do it. But why it breaks the stack optimization?",
+      "revId": "6c80cf49fa2d7eb56ba84d05dde6cf609e659d16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a4eaf03_a1b9a07a",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-21T18:28:26Z",
+      "side": 1,
+      "message": "This line should run even it is on stack, right?",
+      "revId": "6c80cf49fa2d7eb56ba84d05dde6cf609e659d16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
