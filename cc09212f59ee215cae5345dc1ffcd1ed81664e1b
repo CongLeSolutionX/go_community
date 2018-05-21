@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "844ec59c_60d998ca",
+        "filename": "test/codegen/memcombine.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-21T17:35:46Z",
+      "side": 0,
+      "message": "Instead of remove them, you probably want to comment out the tests and add a TODO.",
+      "revId": "cc09212f59ee215cae5345dc1ffcd1ed81664e1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
