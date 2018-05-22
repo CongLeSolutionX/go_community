@@ -3,6 +3,24 @@
 	"ignore": "",
 	"package": [
 		{
+			"checksumSHA1": "pccX+tLMoPXwqW6wFXOHQxq23eU=",
+			"path": "github.com/chzyer/logex",
+			"revision": "445be9e134b204a8c920a30fedad02b2f2ab1efd",
+			"revisionTime": "2017-03-29T06:48:20Z"
+		},
+		{
+			"checksumSHA1": "CCJxfG2F/OqUU7zUQHvN1OpQ8sE=",
+			"path": "github.com/chzyer/readline",
+			"revision": "f6d7a1f6fbf35bbf9beb80dc63c56a29dcfb759f",
+			"revisionTime": "2017-12-08T01:17:16Z"
+		},
+		{
+			"checksumSHA1": "dFr+xfpmqeLbtAbZUGxIpPuo7Kc=",
+			"path": "github.com/chzyer/test",
+			"revision": "a1ea475d72b168a29f44221e0ad031a842642302",
+			"revisionTime": "2018-02-12T23:58:34Z"
+		},
+		{
 			"checksumSHA1": "G9UsR+iruMWxwUefhy+ID+VIFNs=",
 			"path": "github.com/google/pprof/driver",
 			"revision": "4d67f66d7c9469639518a80f378434bb7e9156b7",
@@ -117,6 +135,12 @@
 			"path": "golang.org/x/arch/x86/x86asm",
 			"revision": "5099b4b992f2813e39cfe2623c6f638718bd0fc6",
 			"revisionTime": "2018-04-06T10:28:20Z"
+		},
+		{
+			"checksumSHA1": "GXdwUtRvkdtY83wNyB52qOd2O48=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "7f59abf37be6a6007f075af1bc7f16f137bc176b",
+			"revisionTime": "2018-05-22T03:16:44Z"
 		}
 	],
 	"rootPath": "/cmd"
