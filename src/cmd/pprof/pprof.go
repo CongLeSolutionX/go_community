@@ -33,12 +33,17 @@ func main() {
 	options := &driver.Options{
 		Fetch: new(fetcher),
 		Obj:   new(objTool),
+		UI:    newUI(),
 	}
 	if err := driver.PProf(options); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(2)
 	}
 }
+
+// newUI will be replaced in some platforms where
+// readline is supported.
+var newUI = func() driver.UI { return nil }
 
 type fetcher struct {
 }
