@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7b1cb09a_21e92aa6",
+        "filename": "src/cmd/asm/internal/asm/line_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-22T10:01:07Z",
+      "side": 1,
+      "message": "Mostly because it calls parser.line method (and, therefore, tests it).\nBut \"inst\" is more clear I guess.",
+      "parentUuid": "ff21e1a0_440ac880",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "377c2d04880c227f9315e47b81da45536e465c6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfeb2b91_a58f2798",
         "filename": "src/cmd/asm/internal/asm/operand_test.go",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b6d1466c_b9c34407",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-22T10:01:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfeb2b91_a58f2798",
+      "range": {
+        "startLine": 66,
+        "startChar": 12,
+        "endLine": 66,
+        "endChar": 47
+      },
+      "revId": "377c2d04880c227f9315e47b81da45536e465c6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "101cb68e_ae0d0cfc",
         "filename": "src/cmd/internal/obj/util.go",
         "patchSetId": 7
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "f8898fb8_97c33a61",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-22T10:01:07Z",
+      "side": 1,
+      "message": "Resolved while applying suggestion below.",
+      "parentUuid": "101cb68e_ae0d0cfc",
+      "revId": "377c2d04880c227f9315e47b81da45536e465c6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d149471b_d19ef1bf",
         "filename": "src/cmd/internal/obj/util.go",
         "patchSetId": 7
@@ -79,6 +145,24 @@
       "revId": "377c2d04880c227f9315e47b81da45536e465c6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "735a0179_88909b98",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-22T10:01:07Z",
+      "side": 1,
+      "message": "Good idea, thank you.\n\nSince more bits are available now, I\u0027ve packed 16-bit register IDs as is, without kind tag.\nMakes it possible to print invalid register lists properly (without [R???-R???]).",
+      "parentUuid": "d149471b_d19ef1bf",
+      "revId": "377c2d04880c227f9315e47b81da45536e465c6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

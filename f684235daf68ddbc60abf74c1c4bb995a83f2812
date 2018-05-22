@@ -577,6 +577,24 @@
     },
     {
       "key": {
+        "uuid": "260c9ede_0970ce7d",
+        "filename": "src/cmd/internal/obj/x86/anames.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-22T10:01:07Z",
+      "side": 1,
+      "message": "Ah, I see.\nYou\u0027re right, this is my mistake, I\u0027ve created this list using editor capabilities, not \"go generate\". Next patch set will include go-generated file (no comments there).",
+      "parentUuid": "4a32cf94_93cd7f6e",
+      "revId": "f684235daf68ddbc60abf74c1c4bb995a83f2812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5d15e23_eb519e2e",
         "filename": "src/cmd/internal/obj/x86/asm6.go",
         "patchSetId": 3
