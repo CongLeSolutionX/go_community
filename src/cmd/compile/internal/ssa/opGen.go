@@ -1076,6 +1076,7 @@ const (
 	OpARM64LoweredMuluhilo
 	OpARM64MVN
 	OpARM64NEG
+	OpARM64FABSD
 	OpARM64FNEGS
 	OpARM64FNEGD
 	OpARM64FSQRTD
@@ -1236,6 +1237,7 @@ const (
 	OpARM64FCVTDS
 	OpARM64FRINTAD
 	OpARM64FRINTMD
+	OpARM64FRINTND
 	OpARM64FRINTPD
 	OpARM64FRINTZD
 	OpARM64CSEL
@@ -14132,6 +14134,19 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:   "FABSD",
+		argLen: 1,
+		asm:    arm64.AFABSD,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 9223372034707292160}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
+			},
+			outputs: []outputInfo{
+				{0, 9223372034707292160}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
+			},
+		},
+	},
+	{
 		name:   "FNEGS",
 		argLen: 1,
 		asm:    arm64.AFNEGS,
@@ -16285,6 +16300,19 @@ var opcodeTable = [...]opInfo{
 		name:   "FRINTMD",
 		argLen: 1,
 		asm:    arm64.AFRINTMD,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 9223372034707292160}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
+			},
+			outputs: []outputInfo{
+				{0, 9223372034707292160}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
+			},
+		},
+	},
+	{
+		name:   "FRINTND",
+		argLen: 1,
+		asm:    arm64.AFRINTND,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 9223372034707292160}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
