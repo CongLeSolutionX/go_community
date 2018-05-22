@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdc4f50e_c4548fa5",
+        "filename": "src/encoding/asn1/asn1_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-22T19:10:20Z",
+      "side": 1,
+      "message": "underlying type (https://golang.org/ref/spec#Types)",
+      "range": {
+        "startLine": 230,
+        "startChar": 29,
+        "endLine": 230,
+        "endChar": 33
+      },
+      "revId": "a2edebee3bdf5b0fa1c7f900b22c4c056e0a9b3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
