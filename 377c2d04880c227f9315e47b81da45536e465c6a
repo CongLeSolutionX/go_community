@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff21e1a0_440ac880",
+        "filename": "src/cmd/asm/internal/asm/line_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-22T03:10:09Z",
+      "side": 1,
+      "message": "Why \"Line\"? Should it be \"Instruction\" (or \"Inst\")?",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "377c2d04880c227f9315e47b81da45536e465c6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfeb2b91_a58f2798",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-22T03:10:09Z",
+      "side": 1,
+      "message": "Change the error format to be consistent with testOperandParser below.",
+      "range": {
+        "startLine": 66,
+        "startChar": 12,
+        "endLine": 66,
+        "endChar": 47
+      },
+      "revId": "377c2d04880c227f9315e47b81da45536e465c6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "101cb68e_ae0d0cfc",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-22T03:10:09Z",
+      "side": 1,
+      "message": "Where is k\u003d1?",
+      "revId": "377c2d04880c227f9315e47b81da45536e465c6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d149471b_d19ef1bf",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-05-22T03:10:09Z",
+      "side": 1,
+      "message": "Can we set a high bit, like 1\u003c\u003c61 bit, to distinguish from other architectures? Then you also don\u0027t need to worry about the low 16 bits.",
+      "revId": "377c2d04880c227f9315e47b81da45536e465c6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
