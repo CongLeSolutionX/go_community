@@ -72,7 +72,8 @@ var _ykshiftlb = []ytab{
 }
 
 var _yrorxl = []ytab{
-	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yu8, Yml, Yrl}},
+	{zcase: Zvex_i_rm_r, zoffset: 0, args: argList{Yu8, Yml, Yrl}},
+	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yi8, Yml, Yrl}},
 }
 
 var _yv4fmaddps = []ytab{
@@ -121,6 +122,7 @@ var _yvaesimc = []ytab{
 
 var _yvaeskeygenassist = []ytab{
 	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yu8, Yxm, Yxr}},
+	{zcase: Zvex_i_rm_r, zoffset: 0, args: argList{Yi8, Yxm, Yxr}},
 }
 
 var _yvalignd = []ytab{
@@ -315,7 +317,9 @@ var _yvcvtph2ps = []ytab{
 
 var _yvcvtps2ph = []ytab{
 	{zcase: Zvex_i_r_rm, zoffset: 2, args: argList{Yu8, Yxr, Yxm}},
+	{zcase: Zvex_i_r_rm, zoffset: 0, args: argList{Yi8, Yxr, Yxm}},
 	{zcase: Zvex_i_r_rm, zoffset: 2, args: argList{Yu8, Yyr, Yxm}},
+	{zcase: Zvex_i_r_rm, zoffset: 0, args: argList{Yi8, Yyr, Yxm}},
 	{zcase: Zevex_i_r_rm, zoffset: 0, args: argList{Yu8, Yzr, YymEvex}},
 	{zcase: Zevex_i_r_k_rm, zoffset: 3, args: argList{Yu8, Yzr, Yknot0, YymEvex}},
 	{zcase: Zevex_i_r_rm, zoffset: 0, args: argList{Yu8, YxrEvex, YxmEvex}},
@@ -380,6 +384,7 @@ var _yvexpandpd = []ytab{
 
 var _yvextractf128 = []ytab{
 	{zcase: Zvex_i_r_rm, zoffset: 2, args: argList{Yu8, Yyr, Yxm}},
+	{zcase: Zvex_i_r_rm, zoffset: 0, args: argList{Yi8, Yyr, Yxm}},
 }
 
 var _yvextractf32x4 = []ytab{
@@ -396,6 +401,7 @@ var _yvextractf32x8 = []ytab{
 
 var _yvextractps = []ytab{
 	{zcase: Zvex_i_r_rm, zoffset: 2, args: argList{Yu8, Yxr, Yml}},
+	{zcase: Zvex_i_r_rm, zoffset: 0, args: argList{Yi8, Yxr, Yml}},
 	{zcase: Zevex_i_r_rm, zoffset: 3, args: argList{Yu8, YxrEvex, Yml}},
 }
 
@@ -709,7 +715,9 @@ var _yvpermd = []ytab{
 
 var _yvpermilpd = []ytab{
 	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yu8, Yxm, Yxr}},
+	{zcase: Zvex_i_rm_r, zoffset: 0, args: argList{Yi8, Yxm, Yxr}},
 	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yu8, Yym, Yyr}},
+	{zcase: Zvex_i_rm_r, zoffset: 0, args: argList{Yi8, Yym, Yyr}},
 	{zcase: Zvex_rm_v_r, zoffset: 2, args: argList{Yxm, Yxr, Yxr}},
 	{zcase: Zvex_rm_v_r, zoffset: 2, args: argList{Yym, Yyr, Yyr}},
 	{zcase: Zevex_i_rm_r, zoffset: 0, args: argList{Yu8, YxmEvex, YxrEvex}},
@@ -753,7 +761,9 @@ var _yvpermq = []ytab{
 
 var _yvpextrw = []ytab{
 	{zcase: Zvex_i_r_rm, zoffset: 2, args: argList{Yu8, Yxr, Yml}},
+	{zcase: Zvex_i_r_rm, zoffset: 0, args: argList{Yi8, Yxr, Yml}},
 	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yu8, Yxr, Yrl}},
+	{zcase: Zvex_i_rm_r, zoffset: 0, args: argList{Yi8, Yxr, Yrl}},
 	{zcase: Zevex_i_r_rm, zoffset: 3, args: argList{Yu8, YxrEvex, Yml}},
 	{zcase: Zevex_i_rm_r, zoffset: 3, args: argList{Yu8, YxrEvex, Yrl}},
 }
@@ -824,8 +834,10 @@ var _yvpshufbitqmb = []ytab{
 }
 
 var _yvpshufd = []ytab{
-	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yu8, Yxm, Yxr}},
-	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yu8, Yym, Yyr}},
+	{zcase: Zvex_i_rm_r, zoffset: 0, args: argList{Yu8, Yxm, Yxr}},
+	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yi8, Yxm, Yxr}},
+	{zcase: Zvex_i_rm_r, zoffset: 0, args: argList{Yu8, Yym, Yyr}},
+	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yi8, Yym, Yyr}},
 	{zcase: Zevex_i_rm_r, zoffset: 0, args: argList{Yu8, YxmEvex, YxrEvex}},
 	{zcase: Zevex_i_rm_k_r, zoffset: 3, args: argList{Yu8, YxmEvex, Yknot0, YxrEvex}},
 	{zcase: Zevex_i_rm_r, zoffset: 0, args: argList{Yu8, YymEvex, YyrEvex}},
@@ -836,7 +848,9 @@ var _yvpshufd = []ytab{
 
 var _yvpslld = []ytab{
 	{zcase: Zvex_i_rm_vo, zoffset: 3, args: argList{Yu8, Yxr, Yxr}},
+	{zcase: Zvex_i_rm_vo, zoffset: 0, args: argList{Yi8, Yxr, Yxr}},
 	{zcase: Zvex_i_rm_vo, zoffset: 3, args: argList{Yu8, Yyr, Yyr}},
+	{zcase: Zvex_i_rm_vo, zoffset: 0, args: argList{Yi8, Yyr, Yyr}},
 	{zcase: Zvex_rm_v_r, zoffset: 2, args: argList{Yxm, Yxr, Yxr}},
 	{zcase: Zvex_rm_v_r, zoffset: 2, args: argList{Yxm, Yyr, Yyr}},
 	{zcase: Zevex_i_rm_vo, zoffset: 0, args: argList{Yu8, YxmEvex, YxrEvex}},
@@ -855,7 +869,9 @@ var _yvpslld = []ytab{
 
 var _yvpslldq = []ytab{
 	{zcase: Zvex_i_rm_vo, zoffset: 3, args: argList{Yu8, Yxr, Yxr}},
+	{zcase: Zvex_i_rm_vo, zoffset: 0, args: argList{Yi8, Yxr, Yxr}},
 	{zcase: Zvex_i_rm_vo, zoffset: 3, args: argList{Yu8, Yyr, Yyr}},
+	{zcase: Zvex_i_rm_vo, zoffset: 0, args: argList{Yi8, Yyr, Yyr}},
 	{zcase: Zevex_i_rm_vo, zoffset: 4, args: argList{Yu8, YxmEvex, YxrEvex}},
 	{zcase: Zevex_i_rm_vo, zoffset: 4, args: argList{Yu8, YymEvex, YyrEvex}},
 	{zcase: Zevex_i_rm_vo, zoffset: 4, args: argList{Yu8, Yzm, Yzr}},
@@ -887,7 +903,9 @@ var _yvrcpss = []ytab{
 
 var _yvroundpd = []ytab{
 	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yu8, Yxm, Yxr}},
+	{zcase: Zvex_i_rm_r, zoffset: 0, args: argList{Yi8, Yxm, Yxr}},
 	{zcase: Zvex_i_rm_r, zoffset: 2, args: argList{Yu8, Yym, Yyr}},
+	{zcase: Zvex_i_rm_r, zoffset: 0, args: argList{Yi8, Yym, Yyr}},
 }
 
 var _yvscalefpd = []ytab{
