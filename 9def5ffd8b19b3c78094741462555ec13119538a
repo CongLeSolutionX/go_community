@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6468185c_a62abbba",
+        "filename": "src/cmd/internal/obj/x86/avx_optabs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-22T16:26:40Z",
+      "side": 1,
+      "message": "This is not right. Will fix now.",
+      "revId": "9def5ffd8b19b3c78094741462555ec13119538a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
