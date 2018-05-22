@@ -33,6 +33,24 @@
       "revId": "9def5ffd8b19b3c78094741462555ec13119538a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d0b7742_dde7ff72",
+        "filename": "src/cmd/internal/obj/x86/avx_optabs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-05-22T16:38:49Z",
+      "side": 1,
+      "message": "Yeah, I\u0027ve mixed some entries there. Already sent a patch set that fixes that.\n\nIf first form (Yu8) fails, we advance Z counter by 0 as Yi8 have exactly the\nsame opbytes (they are shared).\nIt\u0027s not that important whether Yi8 or Yu8 comes first.",
+      "parentUuid": "649889aa_da7fd9cb",
+      "revId": "9def5ffd8b19b3c78094741462555ec13119538a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
