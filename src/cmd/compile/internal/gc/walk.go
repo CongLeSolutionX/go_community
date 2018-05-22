@@ -10,6 +10,7 @@ import (
 	"cmd/internal/sys"
 	"encoding/binary"
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -528,6 +529,20 @@ opswitch:
 
 	case ODOTPTR:
 		usefield(n)
+		if isMagicType(n.Left.Type) && !inMagicFunc() {
+			// convert x->f to x->get_f()
+			fn := nod(ODOTMETH, nil, nil)
+
+			fn.Sym = methodSym(n.Left.Type, &types.Sym{Name: "get_" + n.Sym.Name, Pkg: n.Sym.Pkg})
+			fn.Pos = n.Pos // not the real location of the get_ method. Look that up?
+			fn.Type = types.NewFunc(n.Left.Type, nil, []*types.Type{n.Type})
+			fn.Left = n.Left
+			fn.SetTypecheck(1) // TODO: cheating!?
+			n.Op = OCALLMETH
+			n.Left = fn
+			// n.List is the args of the method call, which we leave empty.
+			return walkexpr(n, init)
+		}
 		if n.Op == ODOTPTR && n.Left.Type.Elem().Width == 0 {
 			// No actual copy will be generated, so emit an explicit nil check.
 			n.Left = cheapexpr(n.Left, init)
@@ -682,6 +697,20 @@ opswitch:
 		mapAppend := n.Left.Op == OINDEXMAP && n.Right.Op == OAPPEND
 		if mapAppend && !samesafeexpr(n.Left, n.Right.List.First()) {
 			Fatalf("not same expressions: %v != %v", n.Left, n.Right.List.First())
+		}
+		if n.Left.Op == ODOTPTR && isMagicType(n.Left.Left.Type) && !inMagicFunc() {
+			fn := nod(ODOTMETH, nil, nil)
+
+			fn.Sym = methodSym(n.Left.Left.Type, &types.Sym{Name: "set_" + n.Left.Sym.Name, Pkg: n.Left.Sym.Pkg})
+			fn.Pos = n.Left.Pos // not the real location of the set_ method. Look that up?
+			fn.Type = types.NewFunc(n.Left.Left.Type, []*types.Type{n.Left.Type}, nil)
+			fn.Left = n.Left.Left
+			fn.SetTypecheck(1) // TODO: cheating!?
+
+			n.Op = OCALLMETH
+			n.Left = fn
+			n.List.Set([]*Node{n.Right})
+			return walkstmt(n)
 		}
 
 		n.Left = walkexpr(n.Left, init)
@@ -1765,6 +1794,26 @@ opswitch:
 
 	lineno = lno
 	return n
+}
+
+// Reports whether the type is a magic type, i.e. one for which
+// we convert field accesses to method calls.
+func isMagicType(t *types.Type) bool {
+	s := t.LongString()
+	if len(s) == 0 || s[0] != '*' {
+		return false
+	}
+	return s[1:] == os.Getenv("GOMAGICTYPE")
+}
+
+// Reports whether the containing function is a get_* or set_* on a magic type.
+func inMagicFunc() bool {
+	f := Curfn.Type.FuncType()
+	if f.Receiver == nil || f.Receiver.NumFields() != 1 || !isMagicType(f.Receiver.Field(0).Type) {
+		return false
+	}
+	method := Curfn.Func.Shortname.Name
+	return strings.HasPrefix(method, "get_") || strings.HasPrefix(method, "set_")
 }
 
 // TODO(josharian): combine this with its caller and simplify

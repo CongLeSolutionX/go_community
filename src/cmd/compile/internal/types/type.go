@@ -595,6 +595,37 @@ func NewFuncArgs(f *Type) *Type {
 	return t
 }
 
+// NewStruct returns a new struct type with unnamed fields
+// of the listed types.
+func NewStruct(fs []*Type) *Type {
+	t := New(TSTRUCT)
+	g := make([]*Field, len(fs))
+	for i, f := range fs {
+		// Fields are anonymous (have no name)
+		g[i] = &Field{Type: f}
+		// TODO: need to set Name, Offset, flags, Embedded, Pos, Note?
+	}
+	t.SetFields(g)
+	return t
+}
+
+// NewFunc returns a new TFUNC with the given receiver, args, and results types.
+func NewFunc(rcvr *Type, in, out []*Type) *Type {
+	t := New(TFUNC)
+	ft := t.FuncType()
+	if rcvr != nil {
+		ft.Receiver = NewStruct([]*Type{rcvr})
+		ft.Receiver.StructType().Funarg = FunargRcvr
+	}
+	ft.Params = NewStruct(in)
+	ft.Params.StructType().Funarg = FunargParams
+	ft.Results = NewStruct(out)
+	ft.Results.StructType().Funarg = FunargResults
+	// TODO: Nname, pkg, Argwid?
+	ft.Outnamed = false
+	return t
+}
+
 func NewField() *Field {
 	return &Field{
 		Offset: BADWIDTH,
@@ -817,7 +848,7 @@ func (t *Type) ChanArgs() *Type {
 	return t.Extra.(ChanArgs).T
 }
 
-// FuncArgs returns the channel type for TFUNCARGS type t.
+// FuncArgs returns the args type for TFUNCARGS type t.
 func (t *Type) FuncArgs() *Type {
 	t.wantEtype(TFUNCARGS)
 	return t.Extra.(FuncArgs).T

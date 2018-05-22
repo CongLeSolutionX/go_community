@@ -633,7 +633,7 @@ const (
 	ODELETE    // delete(Left, Right)
 	ODOT       // Left.Sym (Left is of struct type)
 	ODOTPTR    // Left.Sym (Left is of pointer to struct type)
-	ODOTMETH   // Left.Sym (Left is non-interface, Right is method name)
+	ODOTMETH   // Left.Sym (Left is non-interface, n.Sym is method name)
 	ODOTINTER  // Left.Sym (Left is interface, Right is method name)
 	OXDOT      // Left.Sym (before rewrite to one of the preceding)
 	ODOTTYPE   // Left.Right or Left.Type (.Right during parsing, .Type once resolved); after walk, .Right contains address of interface type descriptor and .Right.Right contains address of concrete type descriptor
