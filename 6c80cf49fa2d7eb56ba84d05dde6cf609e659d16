@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9e36c7e7_7d95b6eb",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-23T01:10:16Z",
+      "side": 1,
+      "message": "I think this is because it injects additional instructions between some OnWasmStack value and its use. This breaks the WasmStackSize check. The WasmStackSize check was often helpful while working on the compiler, so I\u0027d like to keep it.",
+      "parentUuid": "06dc0ece_d69d10d3",
+      "revId": "6c80cf49fa2d7eb56ba84d05dde6cf609e659d16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a4eaf03_a1b9a07a",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 35
@@ -33,6 +51,24 @@
       "revId": "6c80cf49fa2d7eb56ba84d05dde6cf609e659d16",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e813f56_6d9c1260",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-23T01:10:16Z",
+      "side": 1,
+      "message": "I agree. Changed.",
+      "parentUuid": "5a4eaf03_a1b9a07a",
+      "revId": "6c80cf49fa2d7eb56ba84d05dde6cf609e659d16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

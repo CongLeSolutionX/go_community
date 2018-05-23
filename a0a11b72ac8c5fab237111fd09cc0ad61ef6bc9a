@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "9beef2c7_8ef86e05",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-05-23T01:10:16Z",
+      "side": 1,
+      "message": "WasmStackSize counts up at each Go assembly instruction that gets skipped because it is OnWasmStack. If we don\u0027t generate an additional instruction here, then we wouldn\u0027t count up.",
+      "parentUuid": "c26a80e8_4bdda3b5",
+      "revId": "a0a11b72ac8c5fab237111fd09cc0ad61ef6bc9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65bdf177_c1422b0d",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 32
