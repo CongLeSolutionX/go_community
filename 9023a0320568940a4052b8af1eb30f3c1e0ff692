@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "688d4e69_f16cc912",
+        "filename": "src/cmd/pprof/readlineui.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-23T17:27:59Z",
+      "side": 1,
+      "message": "\"unix\" isn\u0027t a pre-defined build tag. Nothing would set this.\n\nDid you test this on Linux?",
+      "range": {
+        "startLine": 8,
+        "startChar": 10,
+        "endLine": 8,
+        "endChar": 14
+      },
+      "revId": "9023a0320568940a4052b8af1eb30f3c1e0ff692",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
