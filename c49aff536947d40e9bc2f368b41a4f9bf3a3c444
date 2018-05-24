@@ -45,6 +45,30 @@
       "revId": "c49aff536947d40e9bc2f368b41a4f9bf3a3c444",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "011a6a79_6f32beef",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3309,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-05-24T19:11:52Z",
+      "side": 1,
+      "message": "Whee typos.\n\ncst :\u003d newClientServerTest(t, h1Mode, HandlerFunc(func(w ResponseWriter, r *Request) {\n\tpw.Close()\n}))\n\nwith a ‘w’.",
+      "parentUuid": "2af0a8c2_fa6a1429",
+      "range": {
+        "startLine": 3306,
+        "startChar": 0,
+        "endLine": 3309,
+        "endChar": 9
+      },
+      "revId": "c49aff536947d40e9bc2f368b41a4f9bf3a3c444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
