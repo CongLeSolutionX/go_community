@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3f3bfa4c_49b37bb1",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-05-24T18:40:01Z",
+      "side": 1,
+      "message": "The thing I\u0027m confused about in this change is the postcondition on ImportMap after buildVetConfig.\n\nIf I\u0027m following correctly, in the baseline revision the postcondition of buildVetConfig is, more or less, “ImportMap contains entries for all dependencies that are built”.\n\nThe equivalent postcondition after this change would be, “ImportMap contains entries for all dependencies that can be imported”. However, that postcondition does *not* hold. Instead we have something more like, “the union of the keys of Standard and ImportMap contains all dependencies that can be imported”.\n\nThat\u0027s a fairly subtle invariant, and made more subtle by the fact that it crosses process boundaries. (In writing this comment, I only now understood why the special-case in cmd/vet/main.go needed to be so complex.)\n\n\nIf we instead preserve the invariant that everything to be imported is in ImportMap, then the conditions for the special case in `vet` become simpler.\n\nIn the current snapshot you have:\n\n\tp :\u003d v.ImportMap[path]\n\t// gccgo doesn\u0027t have sources for standard library packages,\n\t// but the importer will do the right thing.\n\tif v.Compiler \u003d\u003d \"gccgo\" \u0026\u0026 v.Standard[path] \u0026\u0026 (p \u003d\u003d \"\" || v.PackageFile[p] \u003d\u003d \"\") {\n\t\treturn v.imp.Import(path)\n\t}\n\tif p \u003d\u003d \"\" {\n\t\treturn nil, fmt.Errorf(\"unknown import path %q\", path)\n\t}\n\tif v.PackageFile[p] \u003d\u003d \"\" {\n\t\treturn nil, fmt.Errorf(\"unknown package file for import %q\", path)\n\t}\n\treturn v.imp.Import(p)\n\nbut with the stronger invariant that could be written:\n\n\tp :\u003d v.ImportMap[path]\n\tif p \u003d\u003d \"\" {\n\t\treturn nil, fmt.Errorf(\"unknown import path %q\", path)\n\t}\n\tif v.PackageFile[p] \u003d\u003d \"\" {\n\t\tif v.Compiler \u003d\u003d \"gccgo\" \u0026\u0026 v.Standard[path] {\n\t\t\t// gccgo doesn\u0027t have sources for standard library packages,\n\t\t\t// but its importer knows how to handle them.\n\t\t\treturn v.imp.Import(path)\n\t\t}\n\t\treturn nil, fmt.Errorf(\"unknown package file for import %q\", path)\n\t}\n\treturn v.imp.Import(p)\n\n\nI think the code change here to accomplish that is fairly straightfoward too:\n\n\t\tif p1 \u003d\u003d nil || p1.ImportPath \u003d\u003d \"\" {\n\t\t\tcontinue\n\t\t}\n\t\t// Add import mapping if needed\n\t\t// (for imports like \"runtime/cgo\" that appear only in generated code).\n\t\tif !vcfgMapped[p1.ImportPath] {\n\t\t\tvcfg.ImportMap[p1.ImportPath] \u003d p1.ImportPath\n\t\t}\n\t\tif a1.built {\n\t\t\tvcfg.PackageFile[p1.ImportPath] \u003d a1.built\n\t\t}\n\t\tif p1.Standard {\n\t\t\tvcfg.Standard[p1.ImportPath] \u003d true\n\t\t}\n\nThat makes the loop body exactly parallel to the `fmt` special-case: first update ImportMap, then PackageFile, then Standard.",
+      "parentUuid": "b01c6992_7393d3ba",
+      "revId": "9690372029b63f5af219b2b9a8d910b48bbd7d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12003989_8144b47f",
         "filename": "src/cmd/vet/main.go",
         "patchSetId": 2
@@ -69,6 +87,24 @@
       "revId": "9690372029b63f5af219b2b9a8d910b48bbd7d99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5279255_0f807b76",
+        "filename": "src/cmd/vet/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-05-24T18:40:01Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll follow up separately.",
+      "parentUuid": "ae833cc9_ea9b7ab4",
+      "revId": "9690372029b63f5af219b2b9a8d910b48bbd7d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
