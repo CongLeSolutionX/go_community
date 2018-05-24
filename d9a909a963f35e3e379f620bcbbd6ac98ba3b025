@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "934d6929_a439c22f",
+        "filename": "src/go/types/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-24T13:54:47Z",
+      "side": 1,
+      "message": "No need for this check: make and range are essentially free when operating on zero elements.",
+      "revId": "d9a909a963f35e3e379f620bcbbd6ac98ba3b025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14981cfd_0ea2333f",
+        "filename": "src/go/types/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-24T13:54:47Z",
+      "side": 1,
+      "message": "This will cause some existing programs to crash in extreme cases.  But hopefully such inputs are rare and the bugs are easily fixed when identified.",
+      "revId": "d9a909a963f35e3e379f620bcbbd6ac98ba3b025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64fe550e_b7958760",
+        "filename": "src/go/types/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-24T13:54:47Z",
+      "side": 1,
+      "message": "typo: defined",
+      "range": {
+        "startLine": 327,
+        "startChar": 59,
+        "endLine": 327,
+        "endChar": 66
+      },
+      "revId": "d9a909a963f35e3e379f620bcbbd6ac98ba3b025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e61396f_1b327605",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-24T13:54:47Z",
+      "side": 1,
+      "message": "This should probably be a stable sort since pairs of non-defined (literal interface) types will compare equal.",
+      "revId": "d9a909a963f35e3e379f620bcbbd6ac98ba3b025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
