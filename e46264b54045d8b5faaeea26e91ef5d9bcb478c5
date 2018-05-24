@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2732c54_4ac8ebdf",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "This isn\u0027t consistent with the build tag in the other file, which says \"js,wasm\".\n\nThis line would break GopherJS compiling net/http.\n\nMaybe you just want to GopherJS to use the other file? Or later we can, once there\u0027s a unified JS syscall interface or plan? For now let\u0027s keep GopherJS using this file, so make this:\n\n  // +build !js,wasm",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fdf2552_10394318",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "make these both buffered of size 1, so sends don\u0027t block in orphaned goroutines.",
+      "range": {
+        "startLine": 34,
+        "startChar": 7,
+        "endLine": 36,
+        "endChar": 27
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47918586_b697a297",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "is this guaranteed to have at least 1 arg?",
+      "range": {
+        "startLine": 49,
+        "startChar": 33,
+        "endLine": 49,
+        "endChar": 48
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5390efe3_24904e56",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "end in period.",
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d895fa3_80f8b25e",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "can you also note it on r.err, adding a field to streamReader:\n\n    err error // sticky read error",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3aa30d8_4ab6beec",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "same comments as above",
+      "range": {
+        "startLine": 88,
+        "startChar": 7,
+        "endLine": 113,
+        "endChar": 25
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce956a6e_66ba5d79",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "this minimal definition will break any code that sets those fields explicitly:\n\nhttps://golang.org/pkg/net/http/#Transport\n\nI think we should re-use the declaration of the Transport type and only explicitly define the RoundTrip method in +build tag protected files.\n\nIn the future the wasm code could respect those knobs, or return with an error early if any options are unsupported.\n\nThat work?\n\nAdditionally, you may want to compile-in the old RoundTrip implementation into ws,asm always, so the fake network for localhost still works.\n\nThis change would preclude running a fake in-memory HTTP server on localhost and connecting to it from Go, which all the net/http tests depend on in neelance\u0027s latest CLs.\n\nYou could make rename the other RoundTrip to roundTrip and only +build protect the top-level RoundTrip methods.\n\nThen in this one, if the request.URL is 127.0.0.1 or whatever, you can just:\n\n   return t.roundTrip(req) // use fake in-memory network for tests",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 23
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c94f1910_3e4f8139",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "you can drop the \"t \".",
+      "range": {
+        "startLine": 132,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 9
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7dae756_ccfcced2",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "reference the upstream web/DOM/JS specs about this.\n\n(this has been my pet peeve for years, not having such support in browsers)",
+      "range": {
+        "startLine": 149,
+        "startChar": 28,
+        "endLine": 149,
+        "endChar": 62
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abb4781d_beecea75",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "drop the \"_ \u003d\"",
+      "range": {
+        "startLine": 152,
+        "startChar": 3,
+        "endLine": 152,
+        "endChar": 7
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c1ecb63_3ace6bcd",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 155,
+        "startChar": 2,
+        "endLine": 155,
+        "endChar": 6
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db9d94cc_20788317",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T22:14:53Z",
+      "side": 1,
+      "message": "buffered",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 27
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
