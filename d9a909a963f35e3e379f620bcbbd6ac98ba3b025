@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "13e8a464_5e5908dc",
+        "filename": "src/go/types/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-24T16:46:58Z",
+      "side": 1,
+      "message": "I know but I prefer to be explicit here. Also, this guarantees tnames to be nil (rather than just empty; though it shouldn\u0027t matter), thus ensuring the same behavior as before.",
+      "parentUuid": "934d6929_a439c22f",
+      "revId": "d9a909a963f35e3e379f620bcbbd6ac98ba3b025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "14981cfd_0ea2333f",
         "filename": "src/go/types/type.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "d9a909a963f35e3e379f620bcbbd6ac98ba3b025",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbce2311_0f493f7c",
+        "filename": "src/go/types/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-24T16:46:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "14981cfd_0ea2333f",
+      "revId": "d9a909a963f35e3e379f620bcbbd6ac98ba3b025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "6fbd56cd_99d194a0",
+        "filename": "src/go/types/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-24T16:46:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64fe550e_b7958760",
+      "range": {
+        "startLine": 327,
+        "startChar": 59,
+        "endLine": 327,
+        "endChar": 66
+      },
+      "revId": "d9a909a963f35e3e379f620bcbbd6ac98ba3b025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e61396f_1b327605",
         "filename": "src/go/types/typexpr.go",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2018-05-24T13:54:47Z",
       "side": 1,
       "message": "This should probably be a stable sort since pairs of non-defined (literal interface) types will compare equal.",
+      "revId": "d9a909a963f35e3e379f620bcbbd6ac98ba3b025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e46601a5_21104bfd",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-24T16:46:58Z",
+      "side": 1,
+      "message": "good catch; except it applies to the line 532 where we sort the type names (not the method names). fixed for that line.",
+      "parentUuid": "8e61396f_1b327605",
       "revId": "d9a909a963f35e3e379f620bcbbd6ac98ba3b025",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
