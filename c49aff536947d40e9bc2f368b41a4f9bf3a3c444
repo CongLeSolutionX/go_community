@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f9214d8a_a17340d2",
+        "filename": "src/net/http/transfer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T19:16:52Z",
+      "side": 1,
+      "message": "I only use integers when the table is small and the cases are countable easily (like one per line).\n\nOtherwise I use named cases or something like you suggest.",
+      "parentUuid": "f8e4bcdf_bf8632b2",
+      "range": {
+        "startLine": 89,
+        "startChar": 35,
+        "endLine": 89,
+        "endChar": 36
+      },
+      "revId": "c49aff536947d40e9bc2f368b41a4f9bf3a3c444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2af0a8c2_fa6a1429",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Whee typos.\n\ncst :\u003d newClientServerTest(t, h1Mode, HandlerFunc(func(w ResponseWriter, r *Request) {\n\tpw.Close()\n}))\n\nwith a ‘w’.",
       "parentUuid": "2af0a8c2_fa6a1429",
+      "range": {
+        "startLine": 3306,
+        "startChar": 0,
+        "endLine": 3309,
+        "endChar": 9
+      },
+      "revId": "c49aff536947d40e9bc2f368b41a4f9bf3a3c444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9fdf829_0dd04140",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3309,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-24T19:16:52Z",
+      "side": 1,
+      "message": "I generally don\u0027t care about resources leaks in failing tests.\n\nFor tests that might hang, I\u0027m mostly concerned with catching that they hang (in 5 seconds here) and saying so, rather than letting \"go test\" catch it after 3 or 10 minutes with an often-useless stack traces.\n\nYour way without the goroutine also makes the assumption that the RoundTrip code all respects the context properly. I\u0027m flattered you trust it that much, but I\u0027m still scarred by memories of making it all work, so I\u0027d rather not have tests indirectly testing that bit. I\u0027d rather focus on the part of the test I do care about, even if your way is a bit easier to read with less stuff going on.",
+      "parentUuid": "011a6a79_6f32beef",
       "range": {
         "startLine": 3306,
         "startChar": 0,
