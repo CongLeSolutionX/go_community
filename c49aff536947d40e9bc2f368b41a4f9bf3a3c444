@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8e4bcdf_bf8632b2",
+        "filename": "src/net/http/transfer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-05-24T19:11:06Z",
+      "side": 1,
+      "message": "If this test fails, the index won\u0027t tell you much without digging into the test source.\n\n\"%#v\" with tt.r might be more helpful: https://play.golang.org/p/KRelFWjj5xz",
+      "range": {
+        "startLine": 89,
+        "startChar": 35,
+        "endLine": 89,
+        "endChar": 36
+      },
+      "revId": "c49aff536947d40e9bc2f368b41a4f9bf3a3c444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2af0a8c2_fa6a1429",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3309,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-05-24T19:11:06Z",
+      "side": 1,
+      "message": "This potentially leaks the RoundTrip goroutine if it fails.\n\nSeems simpler to use Context instead of an explicit goroutine:\n\ndefer afterTest(t)\n\npr, pw :\u003d io.Pipe()\ndefer pr.Close()\n\ncst :\u003d newClientServerTest(t, h1Mode, HandlerFunc(func(w ResponseWriter, r *Request) {\n\tpr.Close()\n}))\ndefer cst.close()\n\nctx, cancel :\u003d context.WithTimeout(5 * time.Second)\ndefer cancel()\nreq \u003d req.WithContext(ctx)\n\nres, err :\u003d cst.tr.RoundTrip(req)\nif err !\u003d nil {\n\tt.Fatal(err)\n}\nres.Body.Close()",
+      "range": {
+        "startLine": 3306,
+        "startChar": 0,
+        "endLine": 3309,
+        "endChar": 9
+      },
+      "revId": "c49aff536947d40e9bc2f368b41a4f9bf3a3c444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
