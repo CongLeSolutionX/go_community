@@ -33,10 +33,6 @@ type contextKey struct {
 
 func (k *contextKey) String() string { return "net/http context value " + k.name }
 
-// Given a string of the form "host", "host:port", or "[ipv6::address]:port",
-// return true if the string includes a port.
-func hasPort(s string) bool { return strings.LastIndex(s, ":") > strings.LastIndex(s, "]") }
-
 // removeEmptyPort strips the empty port in ":port" to ""
 // as mandated by RFC 3986 Section 6.2.3.
 func removeEmptyPort(host string) string {
@@ -48,15 +44,6 @@ func removeEmptyPort(host string) string {
 
 func isNotToken(r rune) bool {
 	return !httpguts.IsTokenRune(r)
-}
-
-func isASCII(s string) bool {
-	for i := 0; i < len(s); i++ {
-		if s[i] >= utf8.RuneSelf {
-			return false
-		}
-	}
-	return true
 }
 
 func hexEscapeNonASCII(s string) string {
