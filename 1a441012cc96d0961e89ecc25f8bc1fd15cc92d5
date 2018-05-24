@@ -22,6 +22,30 @@
       "revId": "1a441012cc96d0961e89ecc25f8bc1fd15cc92d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26cb59c8_2ee3947f",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 9595
+      },
+      "writtenOn": "2018-05-24T21:58:31Z",
+      "side": 1,
+      "message": "Thanks for the review.\n\nI probably tried to be consistent with bufio.defaultBufSize, but being consistent with public API is better and WriteBufferSize is nicer.\n\nI don\u0027t think this should change the kernel buffer size. This option is for the buffer around the connection. I did not test the effect of kernel buffer size, since this change was enough to get good performance. \n\nI\u0027ll send the next version with the suggested changes.",
+      "parentUuid": "b4ab954d_16e0e546",
+      "range": {
+        "startLine": 200,
+        "startChar": 9,
+        "endLine": 200,
+        "endChar": 12
+      },
+      "revId": "1a441012cc96d0961e89ecc25f8bc1fd15cc92d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
