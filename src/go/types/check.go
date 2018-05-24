@@ -90,6 +90,7 @@ type Checker struct {
 	interfaces map[*TypeName]*ifaceInfo // maps interface type names to corresponding interface infos
 	untyped    map[ast.Expr]exprInfo    // map of expressions without final type
 	delayed    []func()                 // stack of delayed actions
+	objpath    []Object                 // path of object dependencies during type inference (for cycle reporting)
 
 	// context within which the current object is type-checked
 	// (valid only for the duration of type-checking a specific object)
@@ -142,6 +143,21 @@ func (check *Checker) rememberUntyped(e ast.Expr, lhs bool, mode operandMode, ty
 // (so that f still sees the scope before any new declarations).
 func (check *Checker) later(f func()) {
 	check.delayed = append(check.delayed, f)
+}
+
+// push pushes obj onto the object path and returns its index in the path.
+func (check *Checker) push(obj Object) int {
+	check.objpath = append(check.objpath, obj)
+	return len(check.objpath) - 1
+}
+
+// pop pops and returns the topmost object from the object path.
+func (check *Checker) pop() Object {
+	i := len(check.objpath) - 1
+	obj := check.objpath[i]
+	check.objpath[i] = nil
+	check.objpath = check.objpath[:i]
+	return obj
 }
 
 // NewChecker returns a new Checker instance for a given package.
