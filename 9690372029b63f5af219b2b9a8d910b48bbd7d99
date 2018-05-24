@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b01c6992_7393d3ba",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-24T17:24:38Z",
+      "side": 1,
+      "message": "Well, none of this stuff is documented.\n\nAs I understand it (I didn\u0027t write any of this code), ImportMap maps from package paths that appear in the program to package paths as seen by the compiler and vet.  Normally ImportMap[x] \u003d\u003d x, but this is not true for vendored packages and is not necessarily true for local imports.  This is basically capturing the way that LoadImport (in cmd/go/internal/load/pkg.go) changes its path argument to the ImportPath field of the package that it returns.  LoadImport\u0027s path argument is the key of ImportMap.  The returned ImportPath field is the value of ImportMap.\n\nIn general this import mapping only matters for package files that actually exist, which is why the loop at 779-798 skips packages for which a1.built \u003d\u003d \"\".  I don\u0027t actually know all the cases when that will be true.  But I do know one of those cases: when using gccgo/GoLLVM, it will be true for all packages in the standard library.  That is because standard library packages are not built as separate package files, but are simply compiled into libgo.  So that is why we need to set Standard even when a1.built \u003d\u003d \"\".\n\nThe block at 822 to 829 is assuming that \"fmt\" always exists.  It is ensuring that we always pass \"fmt\" to cmd/vet, for vet\u0027s printf checks.  If ImportMap[\"fmt\"] \u003d\u003d \"\", that means that the package does not import \"fmt\".  So we are forcing it into the configuration.\n\nSo in general the keys of Standard are exactly the keys of ImportMap.  This is different when using gccgo/GoLLVM, for which Standard will include packages in the standard library that will not appear in ImportMap.  For the gc toolchain, it will only be different if there are standard library packages for which a1.built \u003d\u003d \"\", which I assume is the empty set.\n\nAny suggestions for where and whether I should add any of this in comments?",
+      "parentUuid": "4d8582c8_3b2f3edb",
+      "revId": "9690372029b63f5af219b2b9a8d910b48bbd7d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12003989_8144b47f",
         "filename": "src/cmd/vet/main.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-21T19:52:06Z",
       "side": 1,
       "message": "https://tip.golang.org/pkg/go/importer/#Lookup says:\n“A Lookup function returns a reader to access package data for a given import path, or an error if no matching package is found.”\nThat does not seem to allow a return of `nil, nil`.\n\nDoes this change need a corresponding documentation update in `go/importer`, or is this exclusively an internal hook that we do not intend for outside users to replicate?\n\n----\n\nMore generally, this seems to point to a layering issue in the `go/importer` API: the actual constraints on the passed-in `Lookup` function increasingly depend on the value passed for the `compiler` argument. When compiler \u003d\u003d \"gccgo\", the constraints are both more permissive and more stringent: the function is allowed to return `nil, nil`, but required to return an `io.ReadSeeker` (not just an `io.ReadCloser`).\n\nThat suggests that `importer.For` is not a particularly useful abstraction, since callers increasingly cannot use the same function across compilers. Should we consider deprecating `importer.For` and splitting it up into separate, more targeted functions?",
+      "revId": "9690372029b63f5af219b2b9a8d910b48bbd7d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae833cc9_ea9b7ab4",
+        "filename": "src/cmd/vet/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-24T17:24:38Z",
+      "side": 1,
+      "message": "I don\u0027t really have any opinion, except that I don\u0027t think this CL, which fixes a current bug, should be gated on that design discussion.  There are only two importers, and there are no current prospects of ever adding another importer, so I don\u0027t think it\u0027s a particularly important issue.  It\u0027s something to raise with gri.",
+      "parentUuid": "12003989_8144b47f",
       "revId": "9690372029b63f5af219b2b9a8d910b48bbd7d99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
