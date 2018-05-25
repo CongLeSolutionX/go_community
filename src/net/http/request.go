@@ -441,9 +441,9 @@ func (r *Request) multipartReader(allowMixed bool) (*multipart.Reader, error) {
 	return multipart.NewReader(r.Body, boundary), nil
 }
 
-// isH2Upgrade reports whether r represents the http2 "client preface"
-// magic string.
-func (r *Request) isH2Upgrade() bool {
+// IsH2ClientPreface reports whether r represents the http2 "client preface"
+// magic string (RFC 7540 Section 3.5).
+func (r *Request) IsH2ClientPreface() bool {
 	return r.Method == "PRI" && len(r.Header) == 0 && r.URL.Path == "*" && r.Proto == "HTTP/2.0"
 }
 
