@@ -266,7 +266,7 @@ var markComplete = make([]*Func, 0)
 func NewInterface(methods []*Func, embeddeds []*Named) *Interface {
 	var tnames []Type
 	if len(embeddeds) > 0 {
-		tnames := make([]Type, len(embeddeds))
+		tnames = make([]Type, len(embeddeds))
 		for i, t := range embeddeds {
 			tnames[i] = t
 		}
@@ -356,9 +356,9 @@ func (t *Interface) Complete() *Interface {
 	}
 
 	var allMethods []*Func
-	if t.embeddeds == nil {
-		if t.methods == nil {
-			allMethods = make([]*Func, 0, 1)
+	if len(t.embeddeds) == 0 {
+		if len(t.methods) == 0 {
+			allMethods = markComplete
 		} else {
 			allMethods = t.methods
 		}
@@ -377,6 +377,12 @@ func (t *Interface) Complete() *Interface {
 			}
 		}
 		sort.Sort(byUniqueMethodName(allMethods))
+	}
+
+	// t.methods and/or all of the embedded interfaces may be nil:
+	// make sure that we have a non-nil allMethods in those cases
+	if allMethods == nil {
+		allMethods = markComplete
 	}
 	t.allMethods = allMethods
 
