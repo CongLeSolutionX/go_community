@@ -17,6 +17,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"golang_org/x/net/http/httpguts"
 	"io"
 	"log"
 	"net"
@@ -27,8 +28,6 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
-
-	"golang_org/x/net/http/httpguts"
 )
 
 // DefaultTransport is the default implementation of Transport and is
@@ -213,48 +212,6 @@ type Transport struct {
 	// TODO: tunable on max per-host TCP dials in flight (Issue 13957)
 }
 
-// onceSetNextProtoDefaults initializes TLSNextProto.
-// It must be called via t.nextProtoOnce.Do.
-func (t *Transport) onceSetNextProtoDefaults() {
-	if strings.Contains(os.Getenv("GODEBUG"), "http2client=0") {
-		return
-	}
-	if t.TLSNextProto != nil {
-		// This is the documented way to disable http2 on a
-		// Transport.
-		return
-	}
-	if t.TLSClientConfig != nil || t.Dial != nil || t.DialTLS != nil {
-		// Be conservative and don't automatically enable
-		// http2 if they've specified a custom TLS config or
-		// custom dialers. Let them opt-in themselves via
-		// http2.ConfigureTransport so we don't surprise them
-		// by modifying their tls.Config. Issue 14275.
-		return
-	}
-	t2, err := http2configureTransport(t)
-	if err != nil {
-		log.Printf("Error enabling Transport HTTP/2 support: %v", err)
-		return
-	}
-	t.h2transport = t2
-
-	// Auto-configure the http2.Transport's MaxHeaderListSize from
-	// the http.Transport's MaxResponseHeaderBytes. They don't
-	// exactly mean the same thing, but they're close.
-	//
-	// TODO: also add this to x/net/http2.Configure Transport, behind
-	// a +build go1.7 build tag:
-	if limit1 := t.MaxResponseHeaderBytes; limit1 != 0 && t2.MaxHeaderListSize == 0 {
-		const h2max = 1<<32 - 1
-		if limit1 >= h2max {
-			t2.MaxHeaderListSize = h2max
-		} else {
-			t2.MaxHeaderListSize = uint32(limit1)
-		}
-	}
-}
-
 // ProxyFromEnvironment returns the URL of the proxy to use for a
 // given request, as indicated by the environment variables
 // HTTP_PROXY, HTTPS_PROXY and NO_PROXY (or the lowercase versions
@@ -315,6 +272,48 @@ func ProxyURL(fixedURL *url.URL) func(*Request) (*url.URL, error) {
 	}
 }
 
+// onceSetNextProtoDefaults initializes TLSNextProto.
+// It must be called via t.nextProtoOnce.Do.
+func (t *Transport) onceSetNextProtoDefaults() {
+	if strings.Contains(os.Getenv("GODEBUG"), "http2client=0") {
+		return
+	}
+	if t.TLSNextProto != nil {
+		// This is the documented way to disable http2 on a
+		// Transport.
+		return
+	}
+	if t.TLSClientConfig != nil || t.Dial != nil || t.DialTLS != nil {
+		// Be conservative and don't automatically enable
+		// http2 if they've specified a custom TLS config or
+		// custom dialers. Let them opt-in themselves via
+		// http2.ConfigureTransport so we don't surprise them
+		// by modifying their tls.Config. Issue 14275.
+		return
+	}
+	t2, err := http2configureTransport(t)
+	if err != nil {
+		log.Printf("Error enabling Transport HTTP/2 support: %v", err)
+		return
+	}
+	t.h2transport = t2
+
+	// Auto-configure the http2.Transport's MaxHeaderListSize from
+	// the http.Transport's MaxResponseHeaderBytes. They don't
+	// exactly mean the same thing, but they're close.
+	//
+	// TODO: also add this to x/net/http2.Configure Transport, behind
+	// a +build go1.7 build tag:
+	if limit1 := t.MaxResponseHeaderBytes; limit1 != 0 && t2.MaxHeaderListSize == 0 {
+		const h2max = 1<<32 - 1
+		if limit1 >= h2max {
+			t2.MaxHeaderListSize = h2max
+		} else {
+			t2.MaxHeaderListSize = uint32(limit1)
+		}
+	}
+}
+
 // transportRequest is a wrapper around a *Request that adds
 // optional extra headers to write and stores any error to return
 // from roundTrip.
@@ -342,11 +341,8 @@ func (tr *transportRequest) setError(err error) {
 	tr.mu.Unlock()
 }
 
-// RoundTrip implements the RoundTripper interface.
-//
-// For higher-level HTTP client support (such as handling of cookies
-// and redirects), see Get, Post, and the Client type.
-func (t *Transport) RoundTrip(req *Request) (*Response, error) {
+// roundTrip implements a RoundTripper over HTTP
+func (t *Transport) roundTrip(req *Request) (*Response, error) {
 	t.nextProtoOnce.Do(t.onceSetNextProtoDefaults)
 	ctx := req.Context()
 	trace := httptrace.ContextClientTrace(ctx)
@@ -573,17 +569,18 @@ func (t *Transport) cancelRequest(req *Request, err error) {
 // Private implementation past this point.
 //
 
-var (
-	httpProxyEnv = &envOnce{
-		names: []string{"HTTP_PROXY", "http_proxy"},
+// canonicalAddr returns url.Host but always with a ":port" suffix
+func canonicalAddr(url *url.URL) string {
+	addr := url.Hostname()
+	if v, err := idnaASCII(addr); err == nil {
+		addr = v
 	}
-	httpsProxyEnv = &envOnce{
-		names: []string{"HTTPS_PROXY", "https_proxy"},
+	port := url.Port()
+	if port == "" {
+		port = portMap[url.Scheme]
 	}
-	noProxyEnv = &envOnce{
-		names: []string{"NO_PROXY", "no_proxy"},
-	}
-)
+	return net.JoinHostPort(addr, port)
+}
 
 // envOnce looks up an environment variable (optionally by multiple
 // names) once. It mitigates expensive lookups on some platforms
@@ -612,6 +609,75 @@ func (e *envOnce) init() {
 func (e *envOnce) reset() {
 	e.once = sync.Once{}
 	e.val = ""
+}
+
+var (
+	httpProxyEnv = &envOnce{
+		names: []string{"HTTP_PROXY", "http_proxy"},
+	}
+	httpsProxyEnv = &envOnce{
+		names: []string{"HTTPS_PROXY", "https_proxy"},
+	}
+	noProxyEnv = &envOnce{
+		names: []string{"NO_PROXY", "no_proxy"},
+	}
+)
+
+// useProxy reports whether requests to addr should use a proxy,
+// according to the NO_PROXY or no_proxy environment variable.
+// addr is always a canonicalAddr with a host and port.
+func useProxy(addr string) bool {
+	if len(addr) == 0 {
+		return true
+	}
+	host, _, err := net.SplitHostPort(addr)
+	if err != nil {
+		return false
+	}
+	if host == "localhost" {
+		return false
+	}
+	if ip := net.ParseIP(host); ip != nil {
+		if ip.IsLoopback() {
+			return false
+		}
+	}
+
+	noProxy := noProxyEnv.Get()
+	if noProxy == "*" {
+		return false
+	}
+
+	addr = strings.ToLower(strings.TrimSpace(addr))
+	if hasPort(addr) {
+		addr = addr[:strings.LastIndex(addr, ":")]
+	}
+
+	for _, p := range strings.Split(noProxy, ",") {
+		p = strings.ToLower(strings.TrimSpace(p))
+		if len(p) == 0 {
+			continue
+		}
+		if hasPort(p) {
+			p = p[:strings.LastIndex(p, ":")]
+		}
+		if addr == p {
+			return false
+		}
+		if len(p) == 0 {
+			// There is no host part, likely the entry is malformed; ignore.
+			continue
+		}
+		if p[0] == '.' && (strings.HasSuffix(addr, p) || addr == p[1:]) {
+			// no_proxy ".foo.com" matches "bar.foo.com" or "foo.com"
+			return false
+		}
+		if p[0] != '.' && strings.HasSuffix(addr, p) && addr[len(addr)-len(p)-1] == '.' {
+			// no_proxy "foo.com" matches "bar.foo.com"
+			return false
+		}
+	}
+	return true
 }
 
 func (t *Transport) connectMethodForRequest(treq *transportRequest) (cm connectMethod, err error) {
@@ -1233,63 +1299,6 @@ func (w persistConnWriter) Write(p []byte) (n int, err error) {
 	n, err = w.pc.conn.Write(p)
 	w.pc.nwrite += int64(n)
 	return
-}
-
-// useProxy reports whether requests to addr should use a proxy,
-// according to the NO_PROXY or no_proxy environment variable.
-// addr is always a canonicalAddr with a host and port.
-func useProxy(addr string) bool {
-	if len(addr) == 0 {
-		return true
-	}
-	host, _, err := net.SplitHostPort(addr)
-	if err != nil {
-		return false
-	}
-	if host == "localhost" {
-		return false
-	}
-	if ip := net.ParseIP(host); ip != nil {
-		if ip.IsLoopback() {
-			return false
-		}
-	}
-
-	noProxy := noProxyEnv.Get()
-	if noProxy == "*" {
-		return false
-	}
-
-	addr = strings.ToLower(strings.TrimSpace(addr))
-	if hasPort(addr) {
-		addr = addr[:strings.LastIndex(addr, ":")]
-	}
-
-	for _, p := range strings.Split(noProxy, ",") {
-		p = strings.ToLower(strings.TrimSpace(p))
-		if len(p) == 0 {
-			continue
-		}
-		if hasPort(p) {
-			p = p[:strings.LastIndex(p, ":")]
-		}
-		if addr == p {
-			return false
-		}
-		if len(p) == 0 {
-			// There is no host part, likely the entry is malformed; ignore.
-			continue
-		}
-		if p[0] == '.' && (strings.HasSuffix(addr, p) || addr == p[1:]) {
-			// no_proxy ".foo.com" matches "bar.foo.com" or "foo.com"
-			return false
-		}
-		if p[0] != '.' && strings.HasSuffix(addr, p) && addr[len(addr)-len(p)-1] == '.' {
-			// no_proxy "foo.com" matches "bar.foo.com"
-			return false
-		}
-	}
-	return true
 }
 
 // connectMethod is the map key (in its String form) for keeping persistent
@@ -2116,19 +2125,6 @@ var portMap = map[string]string{
 	"http":   "80",
 	"https":  "443",
 	"socks5": "1080",
-}
-
-// canonicalAddr returns url.Host but always with a ":port" suffix
-func canonicalAddr(url *url.URL) string {
-	addr := url.Hostname()
-	if v, err := idnaASCII(addr); err == nil {
-		addr = v
-	}
-	port := url.Port()
-	if port == "" {
-		port = portMap[url.Scheme]
-	}
-	return net.JoinHostPort(addr, port)
 }
 
 // bodyEOFSignal is used by the HTTP/1 transport when reading response
