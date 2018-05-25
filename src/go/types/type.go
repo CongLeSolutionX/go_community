@@ -266,7 +266,7 @@ var markComplete = make([]*Func, 0)
 func NewInterface(methods []*Func, embeddeds []*Named) *Interface {
 	var tnames []Type
 	if len(embeddeds) > 0 {
-		tnames := make([]Type, len(embeddeds))
+		tnames = make([]Type, len(embeddeds))
 		for i, t := range embeddeds {
 			tnames[i] = t
 		}
