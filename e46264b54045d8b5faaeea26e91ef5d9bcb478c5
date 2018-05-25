@@ -107,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "57af19b7_7c26e2da",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T21:27:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fdf2552_10394318",
+      "range": {
+        "startLine": 34,
+        "startChar": 7,
+        "endLine": 36,
+        "endChar": 27
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47918586_b697a297",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
@@ -283,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "3720fb94_f71cd993",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T21:27:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ed027e0_d3058d2d",
+      "range": {
+        "startLine": 88,
+        "startChar": 7,
+        "endLine": 113,
+        "endChar": 25
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce956a6e_66ba5d79",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
@@ -306,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "a1cd58c5_b8a4d5be",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T21:27:52Z",
+      "side": 1,
+      "message": "Having thought about this a little more, it\u0027s not entirely unreasonable for a user to want to make a request to the local loopback, right? Do we have some way to definitely tell the request is a test request rather than a user hosting their own WASM code?",
+      "parentUuid": "ce956a6e_66ba5d79",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 23
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c94f1910_3e4f8139",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
@@ -326,6 +398,30 @@
       "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "707f494d_8841ad92",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T21:27:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c94f1910_3e4f8139",
+      "range": {
+        "startLine": 132,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 9
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -399,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "d9fb4fb5_2ea1e0f8",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T21:27:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abb4781d_beecea75",
+      "range": {
+        "startLine": 152,
+        "startChar": 3,
+        "endLine": 152,
+        "endChar": 7
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c1ecb63_3ace6bcd",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
@@ -419,6 +539,30 @@
       "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f456789_adfd333d",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T21:27:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c1ecb63_3ace6bcd",
+      "range": {
+        "startLine": 155,
+        "startChar": 2,
+        "endLine": 155,
+        "endChar": 6
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
