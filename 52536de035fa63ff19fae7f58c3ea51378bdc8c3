@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2304c0b7_7ff633c7",
+        "filename": "src/net/http/roundtrip.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-05-25T19:55:10Z",
+      "side": 1,
+      "message": "\u003e Now I think I have correctly defined Transport both in the case of js,wasm and !js,wasm. Am I missing anything obvious?\n\nThe inverse of +build js,wasm build constraint is +build !js !wasm.\n\nThe current constraint means \"not js AND wasm\", which isn\u0027t satisfied by any GOOS/GOARCH pair. Hence the error:\n\n    *Transport ... (missing RoundTrip method)",
+      "revId": "52536de035fa63ff19fae7f58c3ea51378bdc8c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
