@@ -16,6 +16,24 @@
       "revId": "52536de035fa63ff19fae7f58c3ea51378bdc8c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "330baa99_0ea9976f",
+        "filename": "src/net/http/roundtrip.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T21:25:33Z",
+      "side": 1,
+      "message": "This is painfully obvious when you state it like that.. thank you for correcting me!",
+      "parentUuid": "2304c0b7_7ff633c7",
+      "revId": "52536de035fa63ff19fae7f58c3ea51378bdc8c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
