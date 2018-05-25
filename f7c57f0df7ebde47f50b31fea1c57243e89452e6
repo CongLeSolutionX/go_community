@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42513cb3_d0fc1144",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-05-25T08:11:47Z",
+      "side": 1,
+      "message": "Sorry, one more nit: the \"root\" prefix might be a bit confusing and the file name is wrong (log.txt instead of logs.txt). How about making the subject something like:\n\n  logs.txt: remove accidentally added file",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "f7c57f0df7ebde47f50b31fea1c57243e89452e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
