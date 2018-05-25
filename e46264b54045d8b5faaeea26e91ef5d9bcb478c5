@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d73dcf9d_485b6bae",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T09:36:55Z",
+      "side": 1,
+      "message": "Ah, of course. I was using this less restrictive tag because it seemed to be the one used elsewhere to exclude the JS target. Good point!",
+      "parentUuid": "d2732c54_4ac8ebdf",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4e8f76e9_111b0734",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
@@ -88,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "172d6c87_a4de8589",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T09:36:55Z",
+      "side": 1,
+      "message": "This appears to return a \"TypeError\" exception at closer inspection: https://streams.spec.whatwg.org/#byob-reader-read. I will adjust this accordingly.\n\nAs for the number of arguments, the best I can find is https://www.w3.org/2001/tag/doc/promises-guide/#shorthand-reacting, which I think implies that the exception used to reject the promise will be the only parameter to the onRejected callback.",
+      "parentUuid": "47918586_b697a297",
+      "range": {
+        "startLine": 49,
+        "startChar": 33,
+        "endLine": 49,
+        "endChar": 48
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5390efe3_24904e56",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
@@ -102,6 +150,24 @@
       "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1226cf87_85823cfb",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T09:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5390efe3_24904e56",
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +194,30 @@
     },
     {
       "key": {
+        "uuid": "898345b5_c07d9b64",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T09:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d895fa3_80f8b25e",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3aa30d8_4ab6beec",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
@@ -148,6 +238,30 @@
       "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed027e0_d3058d2d",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T09:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3aa30d8_4ab6beec",
+      "range": {
+        "startLine": 88,
+        "startChar": 7,
+        "endLine": 113,
+        "endChar": 25
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -220,6 +334,30 @@
     },
     {
       "key": {
+        "uuid": "242cf855_36e41080",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T09:36:55Z",
+      "side": 1,
+      "message": "I\u0027m actually not sure what to reference here... googling around a bit I\u0027ve found a StackOverflow post from late 2016 attempting to use a ReadableStream in the _request_ body, and comments saying this may be supported in browsers soon. I might attempt to implement a ReadableStream struct for browsers that support it as a follow up to this, to see whether it is indeed possible or not.\n\nOtherwise I guess we have to reference https://fetch.spec.whatwg.org/#concept-body?\n\nYour thoughts?",
+      "parentUuid": "b7dae756_ccfcced2",
+      "range": {
+        "startLine": 149,
+        "startChar": 28,
+        "endLine": 149,
+        "endChar": 62
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abb4781d_beecea75",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
@@ -286,6 +424,30 @@
       "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "392a72d9_56001567",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-25T09:36:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db9d94cc_20788317",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 27
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
