@@ -125,9 +125,12 @@ var pkgDeps = map[string][]string{
 		"L2",
 		"crypto",
 		"crypto/cipher",
+<<<<<<< HEAD   (019a99 [dev.boringcrypto] crypto/rsa: fix boringFakeRandomBlind to )
 		"crypto/internal/boring",
 		"crypto/internal/boring/fipstls",
 		"crypto/internal/cipherhw",
+=======
+>>>>>>> BRANCH (1ba26a cmd/compile: fix DWARF inline debug issue with dead local va)
 		"crypto/subtle",
 		"encoding/base32",
 		"encoding/base64",

@@ -6,11 +6,16 @@ package aes
 
 import (
 	"crypto/cipher"
+<<<<<<< HEAD   (019a99 [dev.boringcrypto] crypto/rsa: fix boringFakeRandomBlind to )
 	"crypto/internal/boring"
 	"crypto/internal/cipherhw"
+=======
+	"internal/cpu"
+>>>>>>> BRANCH (1ba26a cmd/compile: fix DWARF inline debug issue with dead local va)
 )
 
 // defined in asm_amd64.s
+
 func encryptBlockAsm(nr int, xk *uint32, dst, src *byte)
 func decryptBlockAsm(nr int, xk *uint32, dst, src *byte)
 func expandKeyAsm(nr int, key *byte, enc *uint32, dec *uint32)
@@ -19,10 +24,8 @@ type aesCipherAsm struct {
 	aesCipher
 }
 
-var useAsm = cipherhw.AESGCMSupport()
-
 func newCipher(key []byte) (cipher.Block, error) {
-	if !useAsm {
+	if !cpu.X86.HasAES {
 		return newCipherGeneric(key)
 	}
 	n := len(key) + 28
@@ -36,8 +39,9 @@ func newCipher(key []byte) (cipher.Block, error) {
 	case 256 / 8:
 		rounds = 14
 	}
+
 	expandKeyAsm(rounds, &key[0], &c.enc[0], &c.dec[0])
-	if hasGCMAsm() {
+	if cpu.X86.HasAES && cpu.X86.HasPCLMULQDQ {
 		return &aesCipherGCM{c}, nil
 	}
 
@@ -71,7 +75,7 @@ func (c *aesCipherAsm) Decrypt(dst, src []byte) {
 // expandKey is used by BenchmarkExpand to ensure that the asm implementation
 // of key expansion is used for the benchmark when it is available.
 func expandKey(key []byte, enc, dec []uint32) {
-	if useAsm {
+	if cpu.X86.HasAES {
 		rounds := 10 // rounds needed for AES128
 		switch len(key) {
 		case 192 / 8:
