@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94bb6fd6_941c5fe3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-05-25T07:08:10Z",
+      "side": 1,
+      "message": "We usually refer to other changes by CL number, not by git id. So this should rather be CL 103535.",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "66432e84310a0793ee84fa08ea64113234539df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc2c939c_b40006a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-05-25T07:08:10Z",
+      "side": 1,
+      "message": "Please remove this part of the commit message.",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 63
+      },
+      "revId": "66432e84310a0793ee84fa08ea64113234539df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
