@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea709e08_920abe9b",
+        "filename": "src/runtime/os_freebsd.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-05-27T08:15:45Z",
+      "side": 1,
+      "message": "this duplicates in part the logic in checkgoarm(), I think it\u0027s enough to just set \n\n cpu_hwcap\u003d^uint(0)",
+      "range": {
+        "startLine": 395,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 3
+      },
+      "revId": "2add985fd762c6ae5977125d8e421a6068bae8c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "264b7b53_1e933e0c",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-05-27T08:15:45Z",
+      "side": 1,
+      "message": "I thought the convention for C constants/defines was to keep them capitalized as the originals with an added underscore to prevent them being exported.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "2add985fd762c6ae5977125d8e421a6068bae8c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
