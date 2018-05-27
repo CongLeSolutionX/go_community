@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21150f61_cf847005",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-27T07:03:00Z",
+      "side": 1,
+      "message": "I think this needs a comment explaining the GOOS test.  A brief reference to the issue is probably sufficient.",
+      "revId": "33e52a95f261bcd37e1ee20857957680b218adb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9654ec3a_ef327204",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1621,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-27T07:03:00Z",
+      "side": 1,
+      "message": "Needs a comment here too.",
+      "revId": "33e52a95f261bcd37e1ee20857957680b218adb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b04449ad_35c32829",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4220,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-27T07:03:00Z",
+      "side": 1,
+      "message": "It\u0027s not obvious to me that this is always correct.  This test means that an extra M was created.  At the time that we are executing this code, though, that M may be in use, and we may not have created another extra M yet (see the comment for the `needm` function in runtime/proc.go).  In that case I think we might incorrectly report a deadlock.  I\u0027m not sure, though.",
+      "revId": "33e52a95f261bcd37e1ee20857957680b218adb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
