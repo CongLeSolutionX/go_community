@@ -4,22 +4,30 @@
 
 package runtime
 
+// For go:linkname
+import _ "unsafe"
+
 const (
-	_HWCAP_VFP   = 1 << 6
-	_HWCAP_VFPv3 = 1 << 13
-	_HWCAP_IDIVA = 1 << 17
+	_HWCAP_VFP   = (1 << 6)
+	_HWCAP_VFPv3 = (1 << 13)
 )
 
-var hwcap = ^uint32(0) // set by archauxv
-var hardDiv bool       // set if a hardware divider is available
+// AT_HWCAP is not available on FreeBSD-11.1-RELEASE or earlier.
+// Default to mandatory VFP hardware support being available.
+// If AT_HWCAP is available cpu_hwcap will be updated in archauxv.
+//go:linkname cpu_hwcap internal/cpu.hwcap
+var cpu_hwcap uint = (_HWCAP_VFP | _HWCAP_VFPv3)
+
+//go:linkname cpu_hwcap2 internal/cpu.hwcap2
+var cpu_hwcap2 uint
 
 func checkgoarm() {
-	if goarm > 5 && hwcap&_HWCAP_VFP == 0 {
+	if goarm > 5 && cpu_hwcap&_HWCAP_VFP == 0 {
 		print("runtime: this CPU has no floating point hardware, so it cannot run\n")
 		print("this GOARM=", goarm, " binary. Recompile using GOARM=5.\n")
 		exit(1)
 	}
-	if goarm > 6 && hwcap&_HWCAP_VFPv3 == 0 {
+	if goarm > 6 && cpu_hwcap&_HWCAP_VFPv3 == 0 {
 		print("runtime: this CPU has no VFPv3 floating point hardware, so it cannot run\n")
 		print("this GOARM=", goarm, " binary. Recompile using GOARM=5 or GOARM=6.\n")
 		exit(1)
@@ -35,9 +43,10 @@ func checkgoarm() {
 
 func archauxv(tag, val uintptr) {
 	switch tag {
-	case _AT_HWCAP: // CPU capability bit flags
-		hwcap = uint32(val)
-		hardDiv = (hwcap & _HWCAP_IDIVA) != 0
+	case _AT_HWCAP:
+		cpu_hwcap = uint(val)
+	case _AT_HWCAP2:
+		cpu_hwcap2 = uint(val)
 	}
 }
 
