@@ -383,9 +383,18 @@ const (
 	_AT_PAGESZ   = 6  // Page size in bytes
 	_AT_TIMEKEEP = 22 // Pointer to timehands.
 	_AT_HWCAP    = 25 // CPU feature flags
+	_AT_HWCAP2   = 26 // CPU feature flags 2
 )
 
 func sysauxv(auxv []uintptr) {
+	if GOARCH == "arm" {
+		// AT_HWCAP is not available on FreeBSD-11.1-RELEASE or earlier.
+		// Default to VFP hardware support being available.
+		// If AT_HWCAP is available these feature flags will be updated
+		// to the real values later.
+		archauxv(_AT_HWCAP, hwcap_VFP|hwcap_VFPv3)
+	}
+
 	for i := 0; auxv[i] != _AT_NULL; i += 2 {
 		tag, val := auxv[i], auxv[i+1]
 		switch tag {
