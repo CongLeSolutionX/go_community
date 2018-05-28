@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2ca4a5e1_41d0e553",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-28T08:18:49Z",
+      "side": 1,
+      "message": "This is a great point, I\u0027ve made a workaround for when AbortController is not available.",
+      "parentUuid": "1f3904a0_c8c9e382",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "be7bbf417dbb2b04f18061d8556eb7546111236c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba3801fc_c28bd520",
         "filename": "src/net/http/roundtrip_js.go",
         "patchSetId": 8
@@ -36,6 +60,24 @@
       "writtenOn": "2018-05-28T05:50:42Z",
       "side": 1,
       "message": "What about the \"mode\" option ? Should we allow the user to specify cors/same-origin ?",
+      "revId": "be7bbf417dbb2b04f18061d8556eb7546111236c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e182fe0f_2c837ba4",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-28T08:18:49Z",
+      "side": 1,
+      "message": "I\u0027m not sure there\u0027s any way to map these settings from existing http.Transport fields? Do you have any ideas?",
+      "parentUuid": "ba3801fc_c28bd520",
       "revId": "be7bbf417dbb2b04f18061d8556eb7546111236c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -56,6 +98,24 @@
       "revId": "be7bbf417dbb2b04f18061d8556eb7546111236c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b701225a_81697a7a",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-28T08:18:49Z",
+      "side": 1,
+      "message": "Great point, I\u0027ve changed it to 0.",
+      "parentUuid": "fd154d96_9d5fc09d",
+      "revId": "be7bbf417dbb2b04f18061d8556eb7546111236c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
