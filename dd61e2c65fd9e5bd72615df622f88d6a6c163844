@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b1caf9bb_32b4000f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-28T21:36:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d8d43e4_64af2cf7",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "dd61e2c65fd9e5bd72615df622f88d6a6c163844",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95780f81_e7e02cc9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "dd61e2c65fd9e5bd72615df622f88d6a6c163844",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff204a2b_fb167f2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-28T21:36:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95780f81_e7e02cc9",
+      "revId": "dd61e2c65fd9e5bd72615df622f88d6a6c163844",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "b8c439f3_d350a641",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-28T21:36:12Z",
+      "side": 1,
+      "message": "Yes, c.R/W would not be valid at that point.\n\nControl returning an error would result in the socket being closed, and the original Dialer.Dial call returning the same error.",
+      "parentUuid": "ed1f4d6c_b2179dae",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 48
+      },
+      "revId": "dd61e2c65fd9e5bd72615df622f88d6a6c163844",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "590def1c_f4d43759",
         "filename": "src/net/dial.go",
         "patchSetId": 6
@@ -76,6 +142,30 @@
       "writtenOn": "2018-05-28T20:06:12Z",
       "side": 1,
       "message": "is this a term of art? why not, say, OptionListener? or ControlListener?",
+      "range": {
+        "startLine": 578,
+        "startChar": 0,
+        "endLine": 579,
+        "endChar": 14
+      },
+      "revId": "dd61e2c65fd9e5bd72615df622f88d6a6c163844",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7aebfd6_27a6d8d5",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-28T21:36:12Z",
+      "side": 1,
+      "message": "I envision this potentially growing in the future in the things is provides, so ControlListener does not suit that. The ideal term would be Listener, but obviously that is not available.\n\nI don\u0027t mind Announcer versus OptionListener to be honest.",
+      "parentUuid": "590def1c_f4d43759",
       "range": {
         "startLine": 578,
         "startChar": 0,
