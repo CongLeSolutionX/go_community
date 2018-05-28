@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "8af83c87_a3730603",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-28T15:03:31Z",
+      "side": 1,
+      "message": "I agree, and maybe we should expose these settings somehow. I don\u0027t know what the best way is to allow per-platform behavior like this, but maybe this comes back to Dmitri\u0027s point about the transport being the wrong abstraction.",
+      "parentUuid": "4439e809_b067a515",
+      "revId": "be7bbf417dbb2b04f18061d8556eb7546111236c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fd154d96_9d5fc09d",
         "filename": "src/net/http/roundtrip_js.go",
         "patchSetId": 8
