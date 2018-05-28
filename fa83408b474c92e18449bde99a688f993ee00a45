@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b65d18db_58529ce3",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3615,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-05-28T14:58:30Z",
+      "side": 1,
+      "message": "Do we want to have n.Pos instead of lineno? I have tried setting it to n.Pos, all tests were ok and toolstash-check as well. But I am not sure why we we want to check n.Pos.isKnown() here at all.",
+      "revId": "fa83408b474c92e18449bde99a688f993ee00a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
