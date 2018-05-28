@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4f564855_be4294a6",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-28T08:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d73dcf9d_485b6bae",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8f76e9_111b0734",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
