@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f3904a0_c8c9e382",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-05-28T05:50:42Z",
+      "side": 1,
+      "message": "A check with MDN compatibility table shows that this is experimental technology and WebAssembly is available in earlier versions than this.\n\nhttps://developer.mozilla.org/en-US/docs/Web/API/AbortController#Browser_compatibility\nhttps://developer.mozilla.org/en-US/docs/WebAssembly#Browser_compatibility\n\nAre we OK with not considering the case when a user browser does not have AbortController ?",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "be7bbf417dbb2b04f18061d8556eb7546111236c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba3801fc_c28bd520",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-05-28T05:50:42Z",
+      "side": 1,
+      "message": "What about the \"mode\" option ? Should we allow the user to specify cors/same-origin ?",
+      "revId": "be7bbf417dbb2b04f18061d8556eb7546111236c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd154d96_9d5fc09d",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-05-28T05:50:42Z",
+      "side": 1,
+      "message": "According to RFC, a Content-Length value of -1 is invalid.\n\n\u003e Any Content-Length greater than or equal to zero is a valid value. Section 4.4 describes how to determine the length of a message-body if a Content-Length is not given.\n\nhttps://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13.\n\nWe should probably let it be 0.",
+      "revId": "be7bbf417dbb2b04f18061d8556eb7546111236c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
