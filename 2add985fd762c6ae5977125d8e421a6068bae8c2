@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "21d5f59a_4797829b",
+        "filename": "src/runtime/os_freebsd.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-05-28T19:42:02Z",
+      "side": 1,
+      "message": "ohh I missed the change in hardDiv behavior where it wasn\u0027t being assigned at all if AT_HWCAP was not present and now `ARM.HasIDIVA \u003d isSet(hwcap, hwcap_IDIVA)` is performed regardless.\n\nHow about doing just\n\n  cpu_hwcap\u003dhwcap_VFP|hwcap_VFPv3 / archauxv(_AT_HWCAP, hwcap_VFP|hwcap_VFPv3)\n\nwithout the goarm checks?",
+      "parentUuid": "141e2fad_9608ebb1",
+      "range": {
+        "startLine": 395,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 3
+      },
+      "revId": "2add985fd762c6ae5977125d8e421a6068bae8c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "264b7b53_1e933e0c",
         "filename": "src/runtime/os_freebsd_arm.go",
         "patchSetId": 6
