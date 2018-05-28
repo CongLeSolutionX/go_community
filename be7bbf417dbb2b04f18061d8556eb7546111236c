@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "4439e809_b067a515",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-05-28T13:03:10Z",
+      "side": 1,
+      "message": "That\u0027s true. I don\u0027t see a way to do this without adding a new field. \n\nPerhaps we can have a \"js,wasm\" specific Request struct with an additional initMap object which can contain the init fields for fetch. Then the code can look for specific keys and set the attributes properly while making the fetch request.\n\nAs an user making a fetch request, I would like to be able to set the options. The cors/same-origin options are especially essential while making requests to external API servers.",
+      "parentUuid": "e182fe0f_2c837ba4",
+      "revId": "be7bbf417dbb2b04f18061d8556eb7546111236c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fd154d96_9d5fc09d",
         "filename": "src/net/http/roundtrip_js.go",
         "patchSetId": 8
