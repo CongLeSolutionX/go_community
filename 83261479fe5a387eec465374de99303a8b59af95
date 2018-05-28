@@ -16,6 +16,24 @@
       "revId": "83261479fe5a387eec465374de99303a8b59af95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13a9b052_20348362",
+        "filename": "test/retjmp.dir/a.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-05-28T06:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b3d1b1d_ba1ce86a",
+      "revId": "83261479fe5a387eec465374de99303a8b59af95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
