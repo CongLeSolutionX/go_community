@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "141e2fad_9608ebb1",
+        "filename": "src/runtime/os_freebsd.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-05-28T10:14:06Z",
+      "side": 1,
+      "message": "cpu_hwcap\u003d^uint(0)\n\nAs far as i understand this would make internal/cpu (which looks at cpu_hwcap) assume there is support for DIV instructions (and other features in the future when added) if AT_HWCAP is not present which can make the program fail due to illegal instructions in some code path that are guarded by checking internal/cpu feature variables that are based on the state of cpu_hwcap. E.g. a arm cpu that supports VFP but not DIV or VFPv3 (not sure if that exists) will likely fail at runtime after the goarmcheck if we just assume div instructions are supported instead of taking the code paths that are not using hardware div support and thereby working fine.\nTherefore I think it is more practical to assume the minimal needed cpu feature set than the maximum if we cant detect the real state otherwise. This also aligns with the old detection code that set hardDiv only if AT_HWCAP was present.",
+      "parentUuid": "ea709e08_920abe9b",
+      "range": {
+        "startLine": 395,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 3
+      },
+      "revId": "2add985fd762c6ae5977125d8e421a6068bae8c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "264b7b53_1e933e0c",
         "filename": "src/runtime/os_freebsd_arm.go",
         "patchSetId": 6
