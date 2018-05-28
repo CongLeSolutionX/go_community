@@ -729,3 +729,56 @@ func TestClosingListener(t *testing.T) {
 	}
 	ln2.Close()
 }
+
+func TestAnnouncerControl(t *testing.T) {
+	switch runtime.GOOS {
+	case "nacl", "plan9":
+		t.Skipf("not supported on %s", runtime.GOOS)
+	}
+
+	t.Run("Listen", func(t *testing.T) {
+		for _, network := range []string{"tcp", "tcp4", "tcp6", "unix", "unixpacket"} {
+			if !testableNetwork(network) {
+				continue
+			}
+			ln, err := newLocalListener(network)
+			if err != nil {
+				t.Log(err)
+				continue
+			}
+			address := ln.Addr().String()
+			ln.Close()
+			an := Announcer{Control: controlOnConnSetup}
+			ln, err = an.Listen(network, address)
+			if err != nil {
+				t.Error(err)
+				continue
+			}
+			ln.Close()
+		}
+	})
+	t.Run("ListenPacket", func(t *testing.T) {
+		for _, network := range []string{"udp", "udp4", "udp6", "unixgram"} {
+			if !testableNetwork(network) {
+				continue
+			}
+			c, err := newLocalPacketListener(network)
+			if err != nil {
+				t.Log(err)
+				continue
+			}
+			address := c.LocalAddr().String()
+			c.Close()
+			if network == "unixgram" {
+				os.Remove(address)
+			}
+			an := Announcer{Control: controlOnConnSetup}
+			c, err = an.ListenPacket(network, address)
+			if err != nil {
+				t.Error(err)
+				continue
+			}
+			c.Close()
+		}
+	})
+}
