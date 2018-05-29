@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "f4ba5423_7e05c82f",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T19:52:32Z",
+      "side": 1,
+      "message": "Thanks.  In that case I think the comment needs to clarify that the network and address passed to Control method are not necessarily the ones passed to Dial.",
+      "parentUuid": "492a8a60_eb65840c",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56be0a1b_3e741203",
         "filename": "src/net/dial.go",
         "patchSetId": 7
@@ -148,6 +166,24 @@
       "side": 1,
       "message": "It\u0027s not just a name change, this also puts all the dialing functions under one roof, and reduces the amount of \"visual\" arguments we have to pass around (even if it\u0027s just sd.dialSerial(ctx, primaries) vs dialSerial(ctx, dp, primaries)).\n\nThis also complements the new sysAnnouncer which does the same thing for listening functions.\n\nIf I were to revert the name, do you want me to make the dialing functions not part of the struct? Or can they be part of the struct just with a different name?\n\nAlso, should I remove sysAnnouncer too and just leave loose listening functions?",
       "parentUuid": "56be0a1b_3e741203",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7c12e2a_2ce8e952",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T19:52:32Z",
+      "side": 1,
+      "message": "I guess I\u0027m OK with the name change and with using methods, but I would like to see that in a separate CL that makes no functional changes.  This CL could then be based on that one.",
+      "parentUuid": "44d66278_ab5d4802",
       "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -405,6 +441,24 @@
       "side": 1,
       "message": "In the existing code, errMissingAddress error returned from dialIP is wrapped on line 214 of the same function.\nThis change just maintains that wrapping, in order to pass the tests.",
       "parentUuid": "d04c88d7_728e1781",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5bdf312_f27eebeb",
+        "filename": "src/net/iprawsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T19:52:32Z",
+      "side": 1,
+      "message": "Ah, right.  Thanks.",
+      "parentUuid": "3c2cc3ef_bab9494f",
       "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
