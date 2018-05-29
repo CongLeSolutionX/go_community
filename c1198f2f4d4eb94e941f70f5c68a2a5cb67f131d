@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93980b8e_9430eb8c",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T14:36:39Z",
+      "side": 1,
+      "message": "If Control is not nil, it is called after creating the network connection but before actually dialing.",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "940ae8b6_a359321a",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T14:36:39Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem like we should pass network and address here.",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56be0a1b_3e741203",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T14:36:39Z",
+      "side": 1,
+      "message": "Why change the name of this type?\n\nEven if there is a reason to change the name, it seems unrelated to the point of the change, and it\u0027s not clear why it should be done at the same time.  Better to separate name changes from functional changes.",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb07f74d_ec8cc61f",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T14:36:39Z",
+      "side": 1,
+      "message": "Same comments as above.",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d42b26b3_bc0a1564",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T14:36:39Z",
+      "side": 1,
+      "message": "As long as we are introducing a new method anyhow, we should consider giving it a Context argument.",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8d5db91_be8d3671",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T14:36:39Z",
+      "side": 1,
+      "message": "Move naming changes like this to a separate CL.",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf31a697_5be9b8e2",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T14:36:39Z",
+      "side": 1,
+      "message": "I don\u0027t see other uses of \"stateful\" and \"stateless\" in the package.  The distinction between these tests seems to be streaming vs. packet.  The test name should use those terms.",
+      "range": {
+        "startLine": 921,
+        "startChar": 8,
+        "endLine": 921,
+        "endChar": 20
+      },
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd1dee02_46440eec",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T14:36:39Z",
+      "side": 1,
+      "message": "Seems like this should be t.Error.",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03bb236b_38a9dd99",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T14:36:39Z",
+      "side": 1,
+      "message": "t.Error.",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d04c88d7_728e1781",
+        "filename": "src/net/iprawsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T14:36:39Z",
+      "side": 1,
+      "message": "As far as I can see the current code will simply return errMissingAddress in this case, not an OpError.  We shouldn\u0027t change that.",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
