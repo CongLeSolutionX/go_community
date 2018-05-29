@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "77c9c968_feb69d77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3081fe9c_7566e88f",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93980b8e_9430eb8c",
         "filename": "src/net/dial.go",
         "patchSetId": 7
@@ -39,6 +63,24 @@
       "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7a7d0e8_16f72473",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93980b8e_9430eb8c",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "492a8a60_eb65840c",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "This relates back to the original discussion in:\nhttps://groups.google.com/d/msg/golang-dev/HAEaU5TakTU/hSqO-WJ8AAAJ",
+      "parentUuid": "940ae8b6_a359321a",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56be0a1b_3e741203",
         "filename": "src/net/dial.go",
         "patchSetId": 7
@@ -73,6 +133,24 @@
       "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44d66278_ab5d4802",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "It\u0027s not just a name change, this also puts all the dialing functions under one roof, and reduces the amount of \"visual\" arguments we have to pass around (even if it\u0027s just sd.dialSerial(ctx, primaries) vs dialSerial(ctx, dp, primaries)).\n\nThis also complements the new sysAnnouncer which does the same thing for listening functions.\n\nIf I were to revert the name, do you want me to make the dialing functions not part of the struct? Or can they be part of the struct just with a different name?\n\nAlso, should I remove sysAnnouncer too and just leave loose listening functions?",
+      "parentUuid": "56be0a1b_3e741203",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "cdcc9aba_78130221",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb07f74d_ec8cc61f",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d42b26b3_bc0a1564",
         "filename": "src/net/dial.go",
         "patchSetId": 7
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "4a39d12b_dec5c445",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "Should I name this ListenContext to match DialContext, or keep it as Listen?\nIf it\u0027s former, should I add a context\u0027less version too?",
+      "parentUuid": "d42b26b3_bc0a1564",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d5db91_be8d3671",
         "filename": "src/net/dial_test.go",
         "patchSetId": 7
@@ -124,6 +238,24 @@
       "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b696e6f1_379a35bd",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d5db91_be8d3671",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -150,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "f7e40f2b_a0baeac7",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf31a697_5be9b8e2",
+      "range": {
+        "startLine": 921,
+        "startChar": 8,
+        "endLine": 921,
+        "endChar": 20
+      },
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd1dee02_46440eec",
         "filename": "src/net/dial_test.go",
         "patchSetId": 7
@@ -164,6 +320,24 @@
       "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "617eb595_77139bd1",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd1dee02_46440eec",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -184,6 +358,24 @@
     },
     {
       "key": {
+        "uuid": "c61320e4_1a17254b",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03bb236b_38a9dd99",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04c88d7_728e1781",
         "filename": "src/net/iprawsock.go",
         "patchSetId": 7
@@ -198,6 +390,24 @@
       "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c2cc3ef_bab9494f",
+        "filename": "src/net/iprawsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T19:07:36Z",
+      "side": 1,
+      "message": "In the existing code, errMissingAddress error returned from dialIP is wrapped on line 214 of the same function.\nThis change just maintains that wrapping, in order to pass the tests.",
+      "parentUuid": "d04c88d7_728e1781",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
