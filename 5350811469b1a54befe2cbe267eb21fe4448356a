@@ -16,6 +16,24 @@
       "revId": "5350811469b1a54befe2cbe267eb21fe4448356a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37770191_430f4f91",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-29T21:41:22Z",
+      "side": 1,
+      "message": "I think it should be ok. Note that this only happens when we have errors in the first place, and in this case there\u0027s no name to use in the first place.",
+      "parentUuid": "05581af5_2a39ee2f",
+      "revId": "5350811469b1a54befe2cbe267eb21fe4448356a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
