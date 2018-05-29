@@ -2347,6 +2347,8 @@ func isValidFieldName(fieldName string) bool {
 //
 // StructOf currently does not generate wrapper methods for embedded fields.
 // This limitation may be lifted in a future version.
+//
+// StructOf will panic if passed unexported StructFields.
 func StructOf(fields []StructField) Type {
 	var (
 		hash       = fnv1(0, []byte("struct {")...)
