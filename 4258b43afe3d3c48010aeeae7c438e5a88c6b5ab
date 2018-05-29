@@ -22,6 +22,30 @@
       "revId": "4258b43afe3d3c48010aeeae7c438e5a88c6b5ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a05c262_f8cd7912",
+        "filename": "src/runtime/os_darwin_arm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-05-29T19:50:43Z",
+      "side": 0,
+      "message": "Cant be sure (but i did not find anything in crypto or code search referencing this either). If this will otherwise be considered for go1.11 i can leave the hardDiv name and add a TODO to change it to arm_support_idiva for go1.12.",
+      "parentUuid": "2a6f0c7e_b159ade3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "4258b43afe3d3c48010aeeae7c438e5a88c6b5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
