@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4422df07_b1ac00e8",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2351,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-29T13:47:49Z",
+      "side": 1,
+      "message": "Let\u0027s move this up into the previous paragraph, and change \"this limitation\" to \"these limitations\".  Thanks.",
+      "revId": "30bdad2392a11cc44f8e8ad08bf4a437b1b6f82f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
