@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54d99188_d68774a5",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T15:26:13Z",
+      "side": 1,
+      "message": "This punctation seems wrong. I liked what I suggested before.\n\n// StructOf currently does not generate wrapper methods for embedded\n// fields and panics if passed unexported StructFields.\n// These limitations may be lifted in a future version.",
+      "range": {
+        "startLine": 2349,
+        "startChar": 9,
+        "endLine": 2349,
+        "endChar": 29
+      },
+      "revId": "2e222d820d9deb5ed6b8816a902e290e1ea9cb95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
