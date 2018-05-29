@@ -16,6 +16,24 @@
       "revId": "ac655571eca9b3d0f87b6c5e5763d85bef5d9a91",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be818ba2_9cfc03e2",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-29T16:47:41Z",
+      "side": 1,
+      "message": "Sure, but with 1GB each, we stay under 2GB total.\nAdding them together is kind of double-counting, as you\u0027d count the argument size against both the parent and the child.  This CL is just handling the odd case where there\u0027s no call to the function (there is no parent).",
+      "parentUuid": "b3759455_f3ecabdf",
+      "revId": "ac655571eca9b3d0f87b6c5e5763d85bef5d9a91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
