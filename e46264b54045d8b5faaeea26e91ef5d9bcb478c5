@@ -426,6 +426,30 @@
     },
     {
       "key": {
+        "uuid": "40bbd2fb_5416e134",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T21:04:41Z",
+      "side": 1,
+      "message": "Maybe the \"isLocalReq\" should be called \"useFakeNetwork\" instead and then we can additionally make it return false in non-test binaries or something.",
+      "parentUuid": "a7db8106_38c57a87",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 23
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c94f1910_3e4f8139",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
@@ -532,6 +556,30 @@
       "side": 1,
       "message": "I had a quick go at implementing this locally and it just doesn\u0027t seem to be working even where the ReadableStream is supported (Chromium 66.0.3359.181). I think for Blink the relevant issue is https://bugs.chromium.org/p/chromium/issues/detail?id\u003d688906, but do we just want to reference the Spec (see previous comment)?",
       "parentUuid": "242cf855_36e41080",
+      "range": {
+        "startLine": 149,
+        "startChar": 28,
+        "endLine": 149,
+        "endChar": 62
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5b1660d_d7d577f1",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T21:04:41Z",
+      "side": 1,
+      "message": "Referencing that bug and \"ReadableStream\" or anything searchable is fine, thanks.",
+      "parentUuid": "0121944c_18af1339",
       "range": {
         "startLine": 149,
         "startChar": 28,
