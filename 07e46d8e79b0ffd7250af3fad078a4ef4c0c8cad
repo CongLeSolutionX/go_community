@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1f6f53e_7dd8d197",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2018-05-29T20:40:52Z",
+      "side": 1,
+      "message": "\u003e The included ServeMux supports patterns registered to particular host names.\n\nIn which case, the previous sentence does not apply? That might be confusing, as Handlers are still registered with ServeMux.",
+      "range": {
+        "startLine": 219,
+        "startChar": 36,
+        "endLine": 220,
+        "endChar": 49
+      },
+      "revId": "07e46d8e79b0ffd7250af3fad078a4ef4c0c8cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
