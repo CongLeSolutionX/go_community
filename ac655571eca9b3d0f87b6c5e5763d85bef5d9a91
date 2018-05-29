@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3759455_f3ecabdf",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-29T16:40:40Z",
+      "side": 1,
+      "message": "Naive question: Why not stksize+ArgWidth \u003e\u003d maxStackSize? They both contribute to SP offsets, correct?",
+      "revId": "ac655571eca9b3d0f87b6c5e5763d85bef5d9a91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
