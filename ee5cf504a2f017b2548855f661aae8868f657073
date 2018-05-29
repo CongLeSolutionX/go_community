@@ -16,6 +16,24 @@
       "revId": "ee5cf504a2f017b2548855f661aae8868f657073",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e004b3c2_9a7f5d10",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T20:38:33Z",
+      "side": 1,
+      "message": "Ralph\u0027s suggestion LGTM.",
+      "parentUuid": "47b1427b_4e185af9",
+      "revId": "ee5cf504a2f017b2548855f661aae8868f657073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
