@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fc51ba1_5bc240a8",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T14:42:30Z",
+      "side": 1,
+      "message": "s/. StructOf/and/ ?",
+      "range": {
+        "startLine": 2348,
+        "startChar": 75,
+        "endLine": 2349,
+        "endChar": 11
+      },
+      "revId": "76a493fcf6d74f87a394ba48223a0fafd7707704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
