@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a6f0c7e_b159ade3",
+        "filename": "src/runtime/os_darwin_arm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T18:37:39Z",
+      "side": 0,
+      "message": "we sure no external (e.g. on github) assembly is depending on this symbol name?\n\nit might be less risky to not rename this now.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "4258b43afe3d3c48010aeeae7c438e5a88c6b5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
