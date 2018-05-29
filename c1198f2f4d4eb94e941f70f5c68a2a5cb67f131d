@@ -190,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "0c861a0d_de311a42",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T22:55:09Z",
+      "side": 1,
+      "message": "I\u0027ve created this: https://go-review.googlesource.com/#/c/go/+/115175",
+      "parentUuid": "f7c12e2a_2ce8e952",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb07f74d_ec8cc61f",
         "filename": "src/net/dial.go",
         "patchSetId": 7
