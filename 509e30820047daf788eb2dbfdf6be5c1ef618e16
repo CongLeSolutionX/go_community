@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ddf0890_92536612",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T21:02:45Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem worth mentioning. Seems like an implementation detail. We don\u0027t say that for the other implementation, so why this one?\n\nOnly document things that might be unexpected.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "509e30820047daf788eb2dbfdf6be5c1ef618e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c6072fc_1f7ddb8a",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T21:02:45Z",
+      "side": 1,
+      "message": "Is that necessary for using this?",
+      "revId": "509e30820047daf788eb2dbfdf6be5c1ef618e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "046ccaec_2a1f6192",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T21:02:45Z",
+      "side": 1,
+      "message": "document this a bit to say what its purpose is.",
+      "revId": "509e30820047daf788eb2dbfdf6be5c1ef618e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1433764f_332e0185",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T21:02:45Z",
+      "side": 1,
+      "message": "\"localhost\" too.\n\nAnd then don\u0027t match 127.0.0.1 because 127.1.2.3 is also a valid loopback address.\n\nUse https://golang.org/pkg/net/#IP.IsLoopback\n\nYou\u0027ll need to attempt to parse the hostname as an IP first and only if it parses as an IP, then call IsLoopback.",
+      "revId": "509e30820047daf788eb2dbfdf6be5c1ef618e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4baa8207_de91ab56",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T21:02:45Z",
+      "side": 1,
+      "message": "can omit this \"r \"",
+      "range": {
+        "startLine": 252,
+        "startChar": 6,
+        "endLine": 252,
+        "endChar": 8
+      },
+      "revId": "509e30820047daf788eb2dbfdf6be5c1ef618e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e5fe1d5_868f062f",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T21:02:45Z",
+      "side": 1,
+      "message": "can delete. pretty obvious.\n\nOr you can do:\n\n   if r.err \u003d\u003d nil {\n       r.err \u003d errClosed\n   }\n\nSo future Reads will fail with an error that it\u0027s closed.",
+      "range": {
+        "startLine": 253,
+        "startChar": 1,
+        "endLine": 253,
+        "endChar": 18
+      },
+      "revId": "509e30820047daf788eb2dbfdf6be5c1ef618e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
