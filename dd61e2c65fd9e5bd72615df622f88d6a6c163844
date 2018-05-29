@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "bb3c28ea_e9166bd5",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T07:21:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8c439f3_d350a641",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 48
+      },
+      "revId": "dd61e2c65fd9e5bd72615df622f88d6a6c163844",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "590def1c_f4d43759",
         "filename": "src/net/dial.go",
         "patchSetId": 6
@@ -175,6 +199,30 @@
       "revId": "dd61e2c65fd9e5bd72615df622f88d6a6c163844",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7d00a23_2dd4e885",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-29T07:21:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7aebfd6_27a6d8d5",
+      "range": {
+        "startLine": 578,
+        "startChar": 0,
+        "endLine": 579,
+        "endChar": 14
+      },
+      "revId": "dd61e2c65fd9e5bd72615df622f88d6a6c163844",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
