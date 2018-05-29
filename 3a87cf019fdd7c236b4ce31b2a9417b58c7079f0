@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5614244e_b8f907ab",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1439,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T19:19:48Z",
+      "side": 1,
+      "message": "but briefly describe the issue too, in addition to the bug link.\n\nAnd make it a proper link: https://golang.org/issue/22883 or just say \"Issue 22883\".",
+      "range": {
+        "startLine": 1439,
+        "startChar": 3,
+        "endLine": 1439,
+        "endChar": 45
+      },
+      "revId": "3a87cf019fdd7c236b4ce31b2a9417b58c7079f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde76a52_ae853af7",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1445,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T19:19:48Z",
+      "side": 1,
+      "message": "this is ioutil.Discard",
+      "range": {
+        "startLine": 1438,
+        "startChar": 0,
+        "endLine": 1445,
+        "endChar": 0
+      },
+      "revId": "3a87cf019fdd7c236b4ce31b2a9417b58c7079f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1bcb266_7f7bd787",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1450,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T19:19:48Z",
+      "side": 1,
+      "message": "space between \"//\" and \"two\".\n\nAnd \"two-byte\"",
+      "range": {
+        "startLine": 1450,
+        "startChar": 20,
+        "endLine": 1450,
+        "endChar": 23
+      },
+      "revId": "3a87cf019fdd7c236b4ce31b2a9417b58c7079f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0040c9d2_162e82b3",
+        "filename": "src/bufio/bufio_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1452,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-29T19:19:48Z",
+      "side": 1,
+      "message": "Available \u003d %d; want %d",
+      "range": {
+        "startLine": 1452,
+        "startChar": 12,
+        "endLine": 1452,
+        "endChar": 44
+      },
+      "revId": "3a87cf019fdd7c236b4ce31b2a9417b58c7079f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
