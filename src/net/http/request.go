@@ -214,6 +214,10 @@ type Request struct {
 	// names, Host may be in Punycode or Unicode form. Use
 	// golang.org/x/net/idna to convert it to either format if
 	// needed.
+	// To prevent DNS rebinding attacks, Handlers should validate
+	// that the Host header has a value for which the Handler
+	// considers itself authoritative. The included ServeMux supports
+	// patterns registered to particular host names.
 	//
 	// For client requests Host optionally overrides the Host
 	// header to send. If empty, the Request.Write method uses
