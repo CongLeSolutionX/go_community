@@ -178,7 +178,18 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	// important is "Connection" because we want a persistent
 	// connection, regardless of what the client sent to us.
 	for _, h := range hopHeaders {
-		if outreq.Header.Get(h) != "" {
+		hv := outreq.Header.Get(h)
+		if hv != "" {
+			if h == "Te" && hv == "trailers" {
+				// Issue 21096: tell backend
+				// applications that care about
+				// trailer support that we support
+				// trailers. (We do, but we don't go
+				// out of our way to advertise that
+				// unless the incoming client request
+				// thought it was worth mentioning)
+				continue
+			}
 			outreq.Header.Del(h)
 		}
 	}
@@ -203,6 +214,7 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	removeConnectionHeaders(res.Header)
 
 	for _, h := range hopHeaders {
+
 		res.Header.Del(h)
 	}
 
