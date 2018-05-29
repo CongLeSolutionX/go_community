@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d31ddea6_aa83bc58",
+        "filename": "src/runtime/os_freebsd.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-05-29T04:54:28Z",
+      "side": 1,
+      "message": "Thanks, that is a good idea that makes the change simpler and local to os_freebsd_arm.go. Applied.",
+      "parentUuid": "21d5f59a_4797829b",
+      "range": {
+        "startLine": 395,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 3
+      },
+      "revId": "2add985fd762c6ae5977125d8e421a6068bae8c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "264b7b53_1e933e0c",
         "filename": "src/runtime/os_freebsd_arm.go",
         "patchSetId": 6
@@ -84,6 +108,30 @@
       "writtenOn": "2018-05-27T08:15:45Z",
       "side": 1,
       "message": "I thought the convention for C constants/defines was to keep them capitalized as the originals with an added underscore to prevent them being exported.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "2add985fd762c6ae5977125d8e421a6068bae8c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fb4bdb5_75110ff8",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-05-29T04:54:28Z",
+      "side": 1,
+      "message": "Reverted to the convention used in the runtime instead of the way internal/cpu generally names these constants.",
+      "parentUuid": "264b7b53_1e933e0c",
       "range": {
         "startLine": 11,
         "startChar": 0,
