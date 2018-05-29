@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05581af5_2a39ee2f",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-29T20:37:38Z",
+      "side": 1,
+      "message": "Is it bad that Info.Defs will contain an ast.Node that isn\u0027t part of the tree? Probably harmless since the map is usually used for lookup, not key enumeration.",
+      "revId": "5350811469b1a54befe2cbe267eb21fe4448356a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
