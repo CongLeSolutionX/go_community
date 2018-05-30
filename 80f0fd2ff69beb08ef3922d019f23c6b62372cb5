@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e916a56_f7d723e6",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-30T17:06:44Z",
+      "side": 1,
+      "message": "req.Host might also be of the form:\n\n   127.0.0.1:13245\n\nEspecially for tests it\u0027ll be like that.\n\nI think you need to first attempt a net.SplitHostPort, and if that succeeds, then use its host for net.ParseIP. If it fails, then assume req.Host is just a host.",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 44
+      },
+      "revId": "80f0fd2ff69beb08ef3922d019f23c6b62372cb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b43f259_34f3c6fa",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-05-30T17:06:44Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "80f0fd2ff69beb08ef3922d019f23c6b62372cb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
