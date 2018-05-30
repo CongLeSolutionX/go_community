@@ -1245,15 +1245,6 @@ func (ctxt *Link) hostlink() {
 		}
 		for _, shlib := range ctxt.Shlibs {
 			addshlib(shlib.Path)
-			for _, dep := range shlib.Deps {
-				if dep == "" {
-					continue
-				}
-				libpath := findshlib(ctxt, dep)
-				if libpath != "" {
-					addshlib(libpath)
-				}
-			}
 		}
 	}
 
@@ -1632,7 +1623,6 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 		Errorf(nil, "cannot read dep list from shared library %s: %v", libpath, err)
 		return
 	}
-	var deps []string
 	for _, dep := range strings.Split(string(depsbytes), "\n") {
 		if dep == "" {
 			continue
@@ -1641,13 +1631,13 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			// If the dep can be interpreted as a path relative to the shlib
 			// in which it was found, do that. Otherwise, we will leave it
 			// to be resolved by libdir lookup.
+			// XXX what is this on about??
 			abs := filepath.Join(filepath.Dir(libpath), dep)
 			if _, err := os.Stat(abs); err == nil {
 				dep = abs
 			}
 		}
 		ldshlibsyms(ctxt, dep)
-		deps = append(deps, dep)
 	}
 
 	syms, err := f.DynamicSymbols()
@@ -1708,7 +1698,7 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 		}
 	}
 
-	ctxt.Shlibs = append(ctxt.Shlibs, Shlib{Path: libpath, Hash: hash, Deps: deps, File: f, gcdataAddresses: gcdataAddresses})
+	ctxt.Shlibs = append(ctxt.Shlibs, Shlib{Path: libpath, Hash: hash, File: f, gcdataAddresses: gcdataAddresses})
 }
 
 func addsection(arch *sys.Arch, seg *sym.Segment, name string, rwx int) *sym.Section {
