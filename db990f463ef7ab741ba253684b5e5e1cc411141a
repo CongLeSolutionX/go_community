@@ -34,6 +34,24 @@
       "revId": "db990f463ef7ab741ba253684b5e5e1cc411141a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d20fe38_b0537181",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2018-05-30T16:21:41Z",
+      "side": 1,
+      "message": "Yes, since we know that p \u003d\u003d 5 mod 8 then p \u003d e*8 + 5 so that e is the quotient with the known remainder of 5 on division by 8.  I have added a comment to clarify.",
+      "parentUuid": "0073116f_ab22447e",
+      "revId": "db990f463ef7ab741ba253684b5e5e1cc411141a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
