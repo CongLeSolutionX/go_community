@@ -1646,6 +1646,7 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 				dep = abs
 			}
 		}
+		ldshlibsyms(ctxt, dep)
 		deps = append(deps, dep)
 	}
 
