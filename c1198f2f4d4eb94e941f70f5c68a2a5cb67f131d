@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "564b5fa1_841d53de",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 25277
+      },
+      "writtenOn": "2018-05-30T19:06:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4ba5423_7e05c82f",
+      "revId": "c1198f2f4d4eb94e941f70f5c68a2a5cb67f131d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56be0a1b_3e741203",
         "filename": "src/net/dial.go",
         "patchSetId": 7
