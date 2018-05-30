@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ff9b0d7_bf09d2b0",
+        "filename": "src/net/dial.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-30T21:09:16Z",
+      "side": 1,
+      "message": "s/necesserily/necessarily/\n\nI think we should add something like `For example, passing \"tcp\" to Dial will cause the Control function to be called with \"tcp4\" or \"tcp6\".`",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 15
+      },
+      "revId": "ee981f3c4ceba8419bd5d21a794d2659618b1109",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eea95210_6b9e1fdd",
+        "filename": "src/net/dial.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-30T21:09:16Z",
+      "side": 1,
+      "message": "Same changes as above.",
+      "revId": "ee981f3c4ceba8419bd5d21a794d2659618b1109",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde8bd0d_d1f9da1c",
+        "filename": "src/net/dial.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-30T21:09:16Z",
+      "side": 1,
+      "message": "Write this as\n    switch la :\u003d la.(type) {\nand then you don\u0027t need the explicit type assertions in the TCPAddr and UnixAddr cases.",
+      "revId": "ee981f3c4ceba8419bd5d21a794d2659618b1109",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37b633a7_71c20f04",
+        "filename": "src/net/dial.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-05-30T21:09:16Z",
+      "side": 1,
+      "message": "la :\u003d la.(type) and omit type assertions.",
+      "revId": "ee981f3c4ceba8419bd5d21a794d2659618b1109",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
