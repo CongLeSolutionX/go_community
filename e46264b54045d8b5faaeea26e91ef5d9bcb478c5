@@ -450,6 +450,30 @@
     },
     {
       "key": {
+        "uuid": "acd6dbb8_b118afab",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-30T08:03:26Z",
+      "side": 1,
+      "message": "Yeah, that sounds better. How do I check whether a test-binary is in use?",
+      "parentUuid": "40bbd2fb_5416e134",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 23
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c94f1910_3e4f8139",
         "filename": "src/net/http/transport_js.go",
         "patchSetId": 2
@@ -589,6 +613,30 @@
       "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecea243c_853c580a",
+        "filename": "src/net/http/transport_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-05-30T08:03:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5b1660d_d7d577f1",
+      "range": {
+        "startLine": 149,
+        "startChar": 28,
+        "endLine": 149,
+        "endChar": 62
+      },
+      "revId": "e46264b54045d8b5faaeea26e91ef5d9bcb478c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
