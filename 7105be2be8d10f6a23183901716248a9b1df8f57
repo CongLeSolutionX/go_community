@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b31ad89f_59b0703a",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T16:57:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00e8f6c6_23322814",
+      "range": {
+        "startLine": 60,
+        "startChar": 38,
+        "endLine": 60,
+        "endChar": 43
+      },
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecaeb1bf_c1e31c1b",
         "filename": "src/go/types/decl.go",
         "patchSetId": 4
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "3ceb0d5d_7f2d7c5b",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T16:57:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "499368e6_39d3737e",
+      "range": {
+        "startLine": 66,
+        "startChar": 45,
+        "endLine": 66,
+        "endChar": 51
+      },
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b6976ae_9573b3e1",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T16:57:04Z",
+      "side": 1,
+      "message": "The coloring indicates the status of the type of the object, see line 57.",
+      "parentUuid": "ecaeb1bf_c1e31c1b",
+      "range": {
+        "startLine": 66,
+        "startChar": 20,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4421de2_57934f3c",
         "filename": "src/go/types/decl.go",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "ae08b155_5ce36592",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T16:57:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4421de2_57934f3c",
+      "range": {
+        "startLine": 67,
+        "startChar": 20,
+        "endLine": 67,
+        "endChar": 24
+      },
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bda3184_97e87a8e",
         "filename": "src/go/types/decl.go",
         "patchSetId": 4
@@ -105,6 +201,24 @@
       "writtenOn": "2018-05-31T15:05:03Z",
       "side": 1,
       "message": "I don\u0027t understand this line. If push returns non-zero, the color value does not correspond to a named constant. Are all colors \u003e\u003d2 considered grey?  If so, I would not define grey\u003d2 as it is misleading and error-prone.",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f77e1f95_ff66c328",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T16:57:04Z",
+      "side": 1,
+      "message": "The place where color is defined explains this in detail. I played with various ideas for encoding here but I\u0027d like to stick with what I have for a couple of reasons:\n\n1) The 3-color coloring scheme is easy to understand (and for that matter, a well-known mechanism to detect cycles), and it makes it easy to think through its invariants and think about correctness.\n\n2) I\u0027d like to keep using 0 for white because I want the zero value for color to be white.\n\nI\u0027m going to add another comment here.",
+      "parentUuid": "0bda3184_97e87a8e",
       "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "da3aec86_e134cebd",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T16:57:04Z",
+      "side": 1,
+      "message": "see my comment above",
+      "parentUuid": "61842ae9_dae1ce47",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "772d1a54_a919fd98",
         "filename": "src/go/types/object.go",
         "patchSetId": 4
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "87de23fd_46453753",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T16:57:04Z",
+      "side": 1,
+      "message": "That\u0027s always been the case. There\u0027s no restriction on any of the arguments. I don\u0027t want to have to say that for each of the constructors.\n\nUsually we say what kinds of restrictions we have, we don\u0027t mention the absence of restrictions.",
+      "parentUuid": "772d1a54_a919fd98",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82ddad27_6e5a95e2",
         "filename": "src/go/types/object.go",
         "patchSetId": 4
@@ -156,6 +306,24 @@
       "writtenOn": "2018-05-31T15:05:03Z",
       "side": 1,
       "message": "ditto x 3: clarify that type\u003d\u003dnil is permitted.\n\nIf it is permitted only for calls made within the typechecker itself, but not by clients of the API, then a comment within the function body would be appropriate.  Or even public wrapper functions that assert typ!\u003dnil then call the internal ones.",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82c5bdb5_069dac94",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T16:57:04Z",
+      "side": 1,
+      "message": "It\u0027s permitted by anybody. It depends on what you plan to do with it.\n\nHappy to discuss and perhaps address in another CL. But this CL doesn\u0027t change the behavior of these functions.",
+      "parentUuid": "82ddad27_6e5a95e2",
       "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
