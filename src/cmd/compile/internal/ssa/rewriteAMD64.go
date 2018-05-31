@@ -10220,6 +10220,26 @@ func rewriteValueAMD64_OpAMD64MOVBQZX_0(v *Value) bool {
 		v0.AddArg(mem)
 		return true
 	}
+	// match: (MOVBQZX x:(Arg <u> [off] {sym}))
+	// cond: x.Type.Width == 1 && x.Uses == 1
+	// result: (Arg <u> [off] {sym})
+	for {
+		x := v.Args[0]
+		if x.Op != OpArg {
+			break
+		}
+		u := x.Type
+		off := x.AuxInt
+		sym := x.Aux
+		if !(x.Type.Width == 1 && x.Uses == 1) {
+			break
+		}
+		v.reset(OpArg)
+		v.Type = u
+		v.AuxInt = off
+		v.Aux = sym
+		return true
+	}
 	// match: (MOVBQZX x:(MOVBloadidx1 [off] {sym} ptr idx mem))
 	// cond: x.Uses == 1 && clobber(x)
 	// result: @x.Block (MOVBloadidx1 <v.Type> [off] {sym} ptr idx mem)
@@ -12961,6 +12981,26 @@ func rewriteValueAMD64_OpAMD64MOVLQZX_0(v *Value) bool {
 		v0.Aux = sym
 		v0.AddArg(ptr)
 		v0.AddArg(mem)
+		return true
+	}
+	// match: (MOVLQZX x:(Arg <u> [off] {sym}))
+	// cond: x.Type.Width == 4 && x.Uses == 1
+	// result: (Arg <u> [off] {sym})
+	for {
+		x := v.Args[0]
+		if x.Op != OpArg {
+			break
+		}
+		u := x.Type
+		off := x.AuxInt
+		sym := x.Aux
+		if !(x.Type.Width == 4 && x.Uses == 1) {
+			break
+		}
+		v.reset(OpArg)
+		v.Type = u
+		v.AuxInt = off
+		v.Aux = sym
 		return true
 	}
 	// match: (MOVLQZX x)
@@ -18604,6 +18644,26 @@ func rewriteValueAMD64_OpAMD64MOVWQZX_0(v *Value) bool {
 		v0.Aux = sym
 		v0.AddArg(ptr)
 		v0.AddArg(mem)
+		return true
+	}
+	// match: (MOVWQZX x:(Arg <u> [off] {sym}))
+	// cond: x.Type.Width == 2 && x.Uses == 1
+	// result: (Arg <u> [off] {sym})
+	for {
+		x := v.Args[0]
+		if x.Op != OpArg {
+			break
+		}
+		u := x.Type
+		off := x.AuxInt
+		sym := x.Aux
+		if !(x.Type.Width == 2 && x.Uses == 1) {
+			break
+		}
+		v.reset(OpArg)
+		v.Type = u
+		v.AuxInt = off
+		v.Aux = sym
 		return true
 	}
 	// match: (MOVWQZX x:(MOVWloadidx1 [off] {sym} ptr idx mem))
