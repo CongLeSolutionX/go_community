@@ -225,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "a0143d92_88fc28a7",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T18:17:17Z",
+      "side": 1,
+      "message": "If you want to change this in a separate CL, that\u0027s fine, but I think it\u0027s confusing that grey logically identifies a set of values (or an interval), but the named constant chooses only one of these values arbitrarily.",
+      "parentUuid": "f77e1f95_ff66c328",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61842ae9_dae1ce47",
         "filename": "src/go/types/decl.go",
         "patchSetId": 4
@@ -289,6 +307,24 @@
       "side": 1,
       "message": "That\u0027s always been the case. There\u0027s no restriction on any of the arguments. I don\u0027t want to have to say that for each of the constructors.\n\nUsually we say what kinds of restrictions we have, we don\u0027t mention the absence of restrictions.",
       "parentUuid": "772d1a54_a919fd98",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffd53bf2_b31827a2",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T18:17:17Z",
+      "side": 1,
+      "message": "Generally when a function accepts nil, and nil is not a valid member of the parameter type, it should document that.  Agreed this is a preexisting condition.",
+      "parentUuid": "87de23fd_46453753",
       "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
