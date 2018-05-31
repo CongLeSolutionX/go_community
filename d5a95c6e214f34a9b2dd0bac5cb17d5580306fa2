@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09fbcdcf_4e1f086f",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-31T21:48:04Z",
+      "side": 1,
+      "message": "MOVLQZX as well?\n\nLooks like we currently handle the MOVLQZX case with:\n(MOVLQZX x) \u0026\u0026 zeroUpper32Bits(x,3) -\u003e x\nWhere zeroUpper32Bits has a special case for OpArg.\n\nWe should probably do all these cases the same way, for consistency\u0027s sake.",
+      "revId": "d5a95c6e214f34a9b2dd0bac5cb17d5580306fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
