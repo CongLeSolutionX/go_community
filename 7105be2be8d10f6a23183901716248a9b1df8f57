@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00e8f6c6_23322814",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T15:05:03Z",
+      "side": 1,
+      "message": "\"known\"",
+      "range": {
+        "startLine": 60,
+        "startChar": 38,
+        "endLine": 60,
+        "endChar": 43
+      },
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecaeb1bf_c1e31c1b",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T15:05:03Z",
+      "side": 1,
+      "message": "\"(i.e., its type)\": what does this parenthesis mean?",
+      "range": {
+        "startLine": 66,
+        "startChar": 20,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "499368e6_39d3737e",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T15:05:03Z",
+      "side": 1,
+      "message": "\"depend on\"",
+      "range": {
+        "startLine": 66,
+        "startChar": 45,
+        "endLine": 66,
+        "endChar": 51
+      },
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4421de2_57934f3c",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T15:05:03Z",
+      "side": 1,
+      "message": "\"grey\"",
+      "range": {
+        "startLine": 67,
+        "startChar": 20,
+        "endLine": 67,
+        "endChar": 24
+      },
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bda3184_97e87a8e",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T15:05:03Z",
+      "side": 1,
+      "message": "I don\u0027t understand this line. If push returns non-zero, the color value does not correspond to a named constant. Are all colors \u003e\u003d2 considered grey?  If so, I would not define grey\u003d2 as it is misleading and error-prone.",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61842ae9_dae1ce47",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T15:05:03Z",
+      "side": 1,
+      "message": "Ah, so all values \u003e2 are grey also. This is confusing; color seems like an enumeration but is in fact a more subtle encoding of color+index into an integer. Consider a different encoding such as -2\u003dblack, -1\u003dwhite, \u003e\u003d0 grey and dispense with the named color constants, at least for grey.",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "772d1a54_a919fd98",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T15:05:03Z",
+      "side": 1,
+      "message": "Clarify that typ\u003d\u003dnil is permitted.",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82ddad27_6e5a95e2",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T15:05:03Z",
+      "side": 1,
+      "message": "ditto x 3: clarify that type\u003d\u003dnil is permitted.\n\nIf it is permitted only for calls made within the typechecker itself, but not by clients of the API, then a comment within the function body would be appropriate.  Or even public wrapper functions that assert typ!\u003dnil then call the internal ones.",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
