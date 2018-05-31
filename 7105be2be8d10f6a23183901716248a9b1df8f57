@@ -243,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "4b39a24f_cf948935",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T18:20:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a0143d92_88fc28a7",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61842ae9_dae1ce47",
         "filename": "src/go/types/decl.go",
         "patchSetId": 4
@@ -275,6 +293,24 @@
       "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6828f484_7d126304",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T18:20:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "da3aec86_e134cebd",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -325,6 +361,24 @@
       "side": 1,
       "message": "Generally when a function accepts nil, and nil is not a valid member of the parameter type, it should document that.  Agreed this is a preexisting condition.",
       "parentUuid": "87de23fd_46453753",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fe961e7_7aaa7e13",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-05-31T18:20:33Z",
+      "side": 1,
+      "message": "But nil is a valid member of the parameter type.",
+      "parentUuid": "ffd53bf2_b31827a2",
       "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
