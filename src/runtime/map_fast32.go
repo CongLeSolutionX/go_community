@@ -5,6 +5,7 @@
 package runtime
 
 import (
+	"internal/bytealg"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -114,28 +115,40 @@ again:
 	if h.growing() {
 		growWork_fast32(t, h, bucket)
 	}
-	b := (*bmap)(unsafe.Pointer(uintptr(h.buckets) + bucket*uintptr(t.bucketsize)))
+
+	top := tophash(hash)
+	for b := (*bmap)(unsafe.Pointer(uintptr(h.buckets) + bucket*uintptr(t.bucketsize))); b != nil; b = b.overflow(t) {
+		for i := bytealg.IndexByte(b.tophash[:], top); i != -1; {
+			k := *((*uint32)(add(unsafe.Pointer(b), dataOffset+uintptr(i)*4)))
+			if k == key {
+				val := add(unsafe.Pointer(b), dataOffset+bucketCnt*4+uintptr(i)*uintptr(t.valuesize))
+				if h.flags&hashWriting == 0 {
+					throw("concurrent map writes")
+				}
+				h.flags &^= hashWriting
+				return val
+			}
+			if i == bucketCnt-1 {
+				break
+			}
+			e := bytealg.IndexByte(b.tophash[i+1:], top)
+			if e == -1 {
+				break
+			}
+			i += e + 1
+		}
+	}
 
 	var insertb *bmap
 	var inserti uintptr
 	var insertk unsafe.Pointer
 
+	b := (*bmap)(unsafe.Pointer(uintptr(h.buckets) + bucket*uintptr(t.bucketsize)))
 	for {
-		for i := uintptr(0); i < bucketCnt; i++ {
-			if b.tophash[i] == empty {
-				if insertb == nil {
-					inserti = i
-					insertb = b
-				}
-				continue
-			}
-			k := *((*uint32)(add(unsafe.Pointer(b), dataOffset+i*4)))
-			if k != key {
-				continue
-			}
-			inserti = i
+		if i := bytealg.IndexByte(b.tophash[:], empty); i != -1 {
+			inserti = uintptr(i)
 			insertb = b
-			goto done
+			break
 		}
 		ovf := b.overflow(t)
 		if ovf == nil {
@@ -166,7 +179,6 @@ again:
 
 	h.count++
 
-done:
 	val := add(unsafe.Pointer(insertb), dataOffset+bucketCnt*4+inserti*uintptr(t.valuesize))
 	if h.flags&hashWriting == 0 {
 		throw("concurrent map writes")
