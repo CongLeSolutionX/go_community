@@ -237,6 +237,10 @@ func (h *hmap) incrnoverflow() {
 	}
 }
 
+func (h *hmap) getbucket(t *maptype, bucket uintptr) *bmap {
+	return (*bmap)(unsafe.Pointer(uintptr(h.buckets) + bucket*uintptr(t.bucketsize)))
+}
+
 func (h *hmap) newoverflow(t *maptype, b *bmap) *bmap {
 	var ovf *bmap
 	if h.extra != nil && h.extra.nextOverflow != nil {
