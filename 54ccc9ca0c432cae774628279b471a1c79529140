@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "240d0c84_4798af0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-05-31T13:39:41Z",
+      "side": 1,
+      "message": "Please change this to a golang.org/cl/NNNN link.",
+      "revId": "54ccc9ca0c432cae774628279b471a1c79529140",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
