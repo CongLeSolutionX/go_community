@@ -34,6 +34,24 @@
       "revId": "d5a95c6e214f34a9b2dd0bac5cb17d5580306fa2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4806068_ee911c81",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-05-31T22:08:50Z",
+      "side": 1,
+      "message": "If the zeroUpper32Bits method is stronger, then we should use that instead of the rules currently in this CL.\nDefine zeroUpper48Bits and zeroUpper56Bits, and use them to get rid of MOVWQZX and MOVBQZX, respectively.",
+      "parentUuid": "5d36b726_178d1471",
+      "revId": "d5a95c6e214f34a9b2dd0bac5cb17d5580306fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
