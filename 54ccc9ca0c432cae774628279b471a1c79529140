@@ -16,6 +16,24 @@
       "revId": "54ccc9ca0c432cae774628279b471a1c79529140",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54652f98_7893c41f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-05-31T13:42:48Z",
+      "side": 1,
+      "message": "Are you sure? I didn\u0027t write that line, it was auto-generated\nby gerrit when I clicked the revert button on the other CL.\nI always see it (as it is now) in revert changes.",
+      "parentUuid": "240d0c84_4798af0d",
+      "revId": "54ccc9ca0c432cae774628279b471a1c79529140",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
