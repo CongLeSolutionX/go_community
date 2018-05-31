@@ -385,6 +385,24 @@
     },
     {
       "key": {
+        "uuid": "2b28ec43_673b71d2",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-05-31T18:29:30Z",
+      "side": 1,
+      "message": "What I mean is: the parameter typ has type \"Type\", which is an interface, and calling any method on Type(nil) will panic.  Therefore the default assumption of the reader should be that nil is not a legal argument value for typ in a call to NewConst.  Because it is in fact allowed here, the doc comment should state that.\n\nConversely, a parameter of type slice or map needs no such comment because nil is a valid member of those types; similarly, nil may be considered a valid member of a pointer-to-struct type *T iff the methods of *T are nil-safe.",
+      "parentUuid": "4fe961e7_7aaa7e13",
+      "revId": "7105be2be8d10f6a23183901716248a9b1df8f57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82ddad27_6e5a95e2",
         "filename": "src/go/types/object.go",
         "patchSetId": 4
