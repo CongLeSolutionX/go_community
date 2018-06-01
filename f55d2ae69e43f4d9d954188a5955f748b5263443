@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0bdc178_f187a74d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-06-01T12:38:39Z",
+      "side": 1,
+      "message": "As per https://golang.org/wiki/CommitMessage the prefix should be the package name, i.e. \"os\" in this case. Also, the part after the colon should use the verb tense + phrase that completes the blank in, \"This change modifies Go to ___________\"\n\nMay I suggest something like:\n\n  os: check error from setStickyBit in Mkdir",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "f55d2ae69e43f4d9d954188a5955f748b5263443",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
