@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a27c0d5_f2c8ab22",
+        "filename": "src/syscall/zerrors_linux_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-06-01T12:22:57Z",
+      "side": 0,
+      "message": "I think we want to keep these build tags in order to be able to bootstrap with a Go version which does not recognize GOARCH\u003darm64 yet.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "fffb3a5c20b31a8d6916697ebac19ac9e8d3f6e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

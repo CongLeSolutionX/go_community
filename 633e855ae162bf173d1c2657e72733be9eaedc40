@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b62f164_6923c850",
+        "filename": "src/syscall/syscall_linux_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-06-01T12:22:57Z",
+      "side": 1,
+      "message": "This change seems unrelated to EpollWait. Is there a problem with SyncFileRange as well? If yes, I think this should probably be a separate CL.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1f08f8f_35833114",
+        "filename": "src/syscall/types_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-06-01T12:22:57Z",
+      "side": 1,
+      "message": "Is this change needed for EpollWait?",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 43
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6340a27_c489932e",
+        "filename": "src/syscall/zerrors_linux_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-06-01T12:22:57Z",
+      "side": 1,
+      "message": "This change (and the others further below in the same) seem unrelated to EpollWait. Are they really needed?\n\nThe syscall package is frozen and no new public API should be added if not strictly necessary.",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 23,
+        "endChar": 40
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94d2027d_9fcaf199",
+        "filename": "src/syscall/zsysnum_linux_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-06-01T12:22:57Z",
+      "side": 1,
+      "message": "The changes in this file looks unrelated to the EpolWait change. Are they really needed?\n\nThe syscall package is frozen and no new public API should be added if not strictly necessary.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 33
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16b1949c_03634611",
+        "filename": "src/syscall/ztypes_linux_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-06-01T12:22:57Z",
+      "side": 1,
+      "message": "Same here, I don\u0027t think these changes are needed for EpolWait to work.\n\nThe syscall package is frozen and no new public API should be added if not strictly necessary.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 539,
+        "endChar": 17
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
