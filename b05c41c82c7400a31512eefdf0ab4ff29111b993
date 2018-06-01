@@ -22,6 +22,30 @@
       "revId": "b05c41c82c7400a31512eefdf0ab4ff29111b993",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dd8da62_dcbc36b8",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-01T18:05:46Z",
+      "side": 1,
+      "message": "That\u0027s true, I guess I can remove this one.",
+      "parentUuid": "1204da72_cd75d1cf",
+      "range": {
+        "startLine": 369,
+        "startChar": 0,
+        "endLine": 372,
+        "endChar": 0
+      },
+      "revId": "b05c41c82c7400a31512eefdf0ab4ff29111b993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
