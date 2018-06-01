@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63afef6b_6d5d38ad",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-06-01T17:29:46Z",
+      "side": 1,
+      "message": "\"...whose type may be non-nil (known), or nil if it depends on the not-yet known initialization value.\"",
+      "range": {
+        "startLine": 117,
+        "startChar": 5,
+        "endLine": 119,
+        "endChar": 25
+      },
+      "revId": "317035cef387d7da276ffbf315016cb2f01c0bb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
