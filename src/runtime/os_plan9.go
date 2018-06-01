@@ -112,14 +112,14 @@ func sigpanic() {
 }
 
 func atolwhex(p string) int64 {
-	for hasprefix(p, " ") || hasprefix(p, "\t") {
+	for hasPrefix(p, " ") || hasPrefix(p, "\t") {
 		p = p[1:]
 	}
 	neg := false
-	if hasprefix(p, "-") || hasprefix(p, "+") {
+	if hasPrefix(p, "-") || hasPrefix(p, "+") {
 		neg = p[0] == '-'
 		p = p[1:]
-		for hasprefix(p, " ") || hasprefix(p, "\t") {
+		for hasPrefix(p, " ") || hasPrefix(p, "\t") {
 			p = p[1:]
 		}
 	}
