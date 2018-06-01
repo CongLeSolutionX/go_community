@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7038171c_de2fdee7",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-01T15:52:07Z",
+      "side": 1,
+      "message": "GOARCH \u003d\u003d \"arm64\"",
+      "range": {
+        "startLine": 271,
+        "startChar": 5,
+        "endLine": 271,
+        "endChar": 25
+      },
+      "revId": "279305538c6d46d25074dffb176cdbc7f62cfcb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a50324d4_610b67ae",
+        "filename": "test/nosplit.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-01T15:52:07Z",
+      "side": 1,
+      "message": "I don\u0027t understand this change. How is this different from line 121? Also, this line is intended to test frame size of 120. If this should now be rejected on ARM64 (due to frame pointer), add arm64 to the REJECT list, instead of change the the frame size.\n\nAlso below.",
+      "revId": "279305538c6d46d25074dffb176cdbc7f62cfcb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
