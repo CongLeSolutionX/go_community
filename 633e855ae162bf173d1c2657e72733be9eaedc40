@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "66656271_be8d2909",
+        "filename": "src/syscall/syscall_linux_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-06-01T12:28:40Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t read the commit message properly. It mentions SyncFileRange. I think it should be a separate CL though (or at least mentioned in the subject of the commit message as well).",
+      "parentUuid": "6b62f164_6923c850",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1f08f8f_35833114",
         "filename": "src/syscall/types_linux.go",
         "patchSetId": 1
