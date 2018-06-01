@@ -98,7 +98,10 @@ func timeSleep(ns int64) {
 	t.arg = gp
 	tb := t.assignBucket()
 	lock(&tb.lock)
-	tb.addtimerLocked(t)
+	if !tb.addtimerLocked(t) {
+		unlock(&tb.lock)
+		badTimer()
+	}
 	goparkunlock(&tb.lock, waitReasonSleep, traceEvGoSleep, 2)
 }
 
@@ -128,14 +131,17 @@ func goroutineReady(arg interface{}, seq uintptr) {
 func addtimer(t *timer) {
 	tb := t.assignBucket()
 	lock(&tb.lock)
-	tb.addtimerLocked(t)
+	ok := tb.addtimerLocked(t)
 	unlock(&tb.lock)
+	if !ok {
+		badTimer()
+	}
 }
 
 // Add a timer to the heap and start or kick timerproc if the new timer is
 // earlier than any of the others.
 // Timers are locked.
-func (tb *timersBucket) addtimerLocked(t *timer) {
+func (tb *timersBucket) addtimerLocked(t *timer) bool {
 	// when must never be negative; otherwise timerproc will overflow
 	// during its delta calculation and never expire other runtime timers.
 	if t.when < 0 {
@@ -143,7 +149,9 @@ func (tb *timersBucket) addtimerLocked(t *timer) {
 	}
 	t.i = len(tb.t)
 	tb.t = append(tb.t, t)
-	siftupTimer(tb.t, t.i)
+	if !siftupTimer(tb.t, t.i) {
+		return false
+	}
 	if t.i == 0 {
 		// siftup moved to top: new earliest deadline.
 		if tb.sleeping {
@@ -159,6 +167,7 @@ func (tb *timersBucket) addtimerLocked(t *timer) {
 		tb.created = true
 		go timerproc(tb)
 	}
+	return true
 }
 
 // Delete timer t from the heap.
@@ -191,11 +200,19 @@ func deltimer(t *timer) bool {
 	}
 	tb.t[last] = nil
 	tb.t = tb.t[:last]
+	ok := true
 	if i != last {
-		siftupTimer(tb.t, i)
-		siftdownTimer(tb.t, i)
+		if !siftupTimer(tb.t, i) {
+			ok = false
+		}
+		if !siftdownTimer(tb.t, i) {
+			ok = false
+		}
 	}
 	unlock(&tb.lock)
+	if !ok {
+		badTimer()
+	}
 	return true
 }
 
@@ -219,10 +236,13 @@ func timerproc(tb *timersBucket) {
 			if delta > 0 {
 				break
 			}
+			ok := true
 			if t.period > 0 {
 				// leave in heap but adjust next time to fire
 				t.when += t.period * (1 + -delta/t.period)
-				siftdownTimer(tb.t, 0)
+				if !siftdownTimer(tb.t, 0) {
+					ok = false
+				}
 			} else {
 				// remove from heap
 				last := len(tb.t) - 1
@@ -233,7 +253,9 @@ func timerproc(tb *timersBucket) {
 				tb.t[last] = nil
 				tb.t = tb.t[:last]
 				if last > 0 {
-					siftdownTimer(tb.t, 0)
+					if !siftdownTimer(tb.t, 0) {
+						ok = false
+					}
 				}
 				t.i = -1 // mark as removed
 			}
@@ -241,6 +263,9 @@ func timerproc(tb *timersBucket) {
 			arg := t.arg
 			seq := t.seq
 			unlock(&tb.lock)
+			if !ok {
+				badTimer()
+			}
 			if raceenabled {
 				raceacquire(unsafe.Pointer(t))
 			}
@@ -326,12 +351,24 @@ func timeSleepUntil() int64 {
 }
 
 // Heap maintenance algorithms.
+// These algorithms check for slice index errors manually.
+// Slice index error can happen if the program is using racy
+// access to timers. We don't want to panic here, because
+// it will cause the program to crash with a mysterious
+// "panic holding locks" message. Instead, we panic while not
+// holding a lock.
 
-func siftupTimer(t []*timer, i int) {
+func siftupTimer(t []*timer, i int) bool {
+	if i >= len(t) {
+		return false
+	}
 	when := t[i].when
 	tmp := t[i]
 	for i > 0 {
 		p := (i - 1) / 4 // parent
+		if p >= len(t) {
+			return false
+		}
 		if when >= t[p].when {
 			break
 		}
@@ -343,10 +380,14 @@ func siftupTimer(t []*timer, i int) {
 		t[i] = tmp
 		t[i].i = i
 	}
+	return true
 }
 
-func siftdownTimer(t []*timer, i int) {
+func siftdownTimer(t []*timer, i int) bool {
 	n := len(t)
+	if i >= n {
+		return false
+	}
 	when := t[i].when
 	tmp := t[i]
 	for {
@@ -382,6 +423,15 @@ func siftdownTimer(t []*timer, i int) {
 		t[i] = tmp
 		t[i].i = i
 	}
+	return true
+}
+
+// badTimer is called if the timer data structures have been corrupted,
+// presumably due to racy use by the program. We panic here rather than
+// panicing due to invalid slice access while holding locks.
+// See issue #25686.
+func badTimer() {
+	panic(errorString("racy use of timers caused data corruption"))
 }
 
 // Entry points for net, time to call nanotime.
