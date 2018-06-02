@@ -1,8 +1,14 @@
-// $G $D/pkg.go && pack grc pkg.a pkg.$A 2> /dev/null && rm pkg.$A && errchk $G -I . -u $D/main.go
-// rm -f pkg.a
+// errorcheckdir  -u
 
 // Copyright 2012 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ignored
+package main
+
+// can't use local path with -u, use -I. instead
+import "pkg"  // ERROR "import unsafe package"
+
+func main() {
+	print(pkg.Float32bits(1.0))
+}
