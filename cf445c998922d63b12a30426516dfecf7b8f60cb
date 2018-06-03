@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff9b7c6c_8ad3b36b",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-03T08:33:03Z",
+      "side": 1,
+      "message": "Maybe add\n\nSee issue #6751 for details.\n\nat the end of your comment (as requested by Ian). Then code reader can go and find all gruesome details, if they want to.",
+      "revId": "cf445c998922d63b12a30426516dfecf7b8f60cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "672d70f6_49d9f502",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-03T08:33:03Z",
+      "side": 1,
+      "message": "Same as above.",
+      "revId": "cf445c998922d63b12a30426516dfecf7b8f60cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
