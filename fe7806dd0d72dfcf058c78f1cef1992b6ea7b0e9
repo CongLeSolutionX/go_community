@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8557dcf0_79b00bd2",
+        "filename": "src/os/file.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-06-04T16:37:34Z",
+      "side": 1,
+      "message": "I would simplify it like this:\n\n  if e :\u003d setStickyBit(name); e !\u003d nil {\n    Remove(name)\n    return e\n  }\n\nAs the errors from setStickyBit are the ones causing Mkdir to fail (and they are already PathErrors), there\u0027s nothing to do with the Remove error.",
+      "range": {
+        "startLine": 224,
+        "startChar": 2,
+        "endLine": 232,
+        "endChar": 3
+      },
+      "revId": "fe7806dd0d72dfcf058c78f1cef1992b6ea7b0e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
