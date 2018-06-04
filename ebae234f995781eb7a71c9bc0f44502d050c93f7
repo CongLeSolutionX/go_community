@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c0b353a_05fcece1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-06-04T11:59:58Z",
+      "side": 1,
+      "message": "runtime: fix typo in the templateThread godoc\n\nAlso, drop all the template lines below.",
+      "revId": "ebae234f995781eb7a71c9bc0f44502d050c93f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
