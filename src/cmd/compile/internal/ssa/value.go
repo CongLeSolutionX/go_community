@@ -254,6 +254,8 @@ func (v *Value) resetArgs() {
 	v.Args = v.argstorage[:0]
 }
 
+// Suppress inlining here to make mid-stack inlining of the compiler itself generate a smaller binary.
+//go:noinline
 func (v *Value) reset(op Op) {
 	v.Op = op
 	if op != OpCopy && notStmtBoundary(op) {

@@ -419,7 +419,15 @@ func Main(archInit func(*Arch)) {
 	//	default: inlining on.  (debug['l'] == 1)
 	//	-l: inlining off  (debug['l'] == 0)
 	//	-l=2, -l=3: inlining on again, with extra debugging (debug['l'] > 1)
-	if Debug['l'] <= 1 {
+	// GOEXPERIMENT=moreinline changes default to -l=4, command line -l=1 still disables.
+	if objabi.Moreinline_enabled != 0 {
+		switch Debug['l'] {
+		case 0:
+			Debug['l'] = 4
+		case 1:
+			Debug['l'] = 0
+		}
+	} else if Debug['l'] <= 1 {
 		Debug['l'] = 1 - Debug['l']
 	}
 

@@ -8,13 +8,15 @@
 // expand calls to inlinable functions.
 //
 // The debug['l'] flag controls the aggressiveness. Note that main() swaps level 0 and 1,
-// making 1 the default and -l disable. Additional levels (beyond -l) may be buggy and
+// making 1 the default and -l disable. Additional levels (beyond -l) are less tested and
 // are not supported.
 //      0: disabled
 //      1: 80-nodes leaf functions, oneliners, panic, lazy typechecking (default)
 //      2: (unassigned)
 //      3: (unassigned)
 //      4: allow non-leaf functions
+//
+// GOEXPERIMENT=moreinline causes main() to change the default value to 4, not zero.
 //
 // At some point this may get another default and become switch-offable with -N.
 //

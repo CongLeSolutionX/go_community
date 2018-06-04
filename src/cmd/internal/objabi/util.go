@@ -106,6 +106,7 @@ var (
 	Preemptibleloops_enabled int
 	Clobberdead_enabled      int
 	DebugCPU_enabled         int
+	Moreinline_enabled       int
 )
 
 // Toolchain experiments.
@@ -121,6 +122,7 @@ var exper = []struct {
 	{"preemptibleloops", &Preemptibleloops_enabled},
 	{"clobberdead", &Clobberdead_enabled},
 	{"debugcpu", &DebugCPU_enabled},
+	{"moreinline", &Moreinline_enabled},
 }
 
 var defaultExpstring = Expstring()
