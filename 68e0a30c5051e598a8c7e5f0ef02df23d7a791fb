@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "944b293a_c5e36bb5",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-04T19:25:58Z",
+      "side": 1,
+      "message": "everything else uses the t.timeout() method",
+      "range": {
+        "startLine": 337,
+        "startChar": 4,
+        "endLine": 337,
+        "endChar": 62
+      },
+      "revId": "68e0a30c5051e598a8c7e5f0ef02df23d7a791fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32b9db58_c817eb89",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-04T19:25:58Z",
+      "side": 1,
+      "message": "it might be time to pull this out into a func:\n\n  func supportsRace(cfg) bool {\n      ...\n  }",
+      "range": {
+        "startLine": 46,
+        "startChar": 21,
+        "endLine": 46,
+        "endChar": 193
+      },
+      "revId": "68e0a30c5051e598a8c7e5f0ef02df23d7a791fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
