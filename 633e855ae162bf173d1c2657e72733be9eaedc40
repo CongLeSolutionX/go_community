@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cc203e47_0990a13f",
+        "filename": "src/syscall/syscall_linux_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-06-04T09:58:58Z",
+      "side": 1,
+      "message": "Ok, I will fix SyncFileRange in a separate CL.",
+      "parentUuid": "66656271_be8d2909",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1f08f8f_35833114",
         "filename": "src/syscall/types_linux.go",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc31be1b_ec119b99",
+        "filename": "src/syscall/types_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-06-04T09:58:58Z",
+      "side": 1,
+      "message": "I have dropped the change.",
+      "parentUuid": "a1f08f8f_35833114",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 43
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "b28d2285_fbdebda6",
+        "filename": "src/syscall/zerrors_linux_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-06-04T09:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6340a27_c489932e",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 23,
+        "endChar": 40
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94d2027d_9fcaf199",
         "filename": "src/syscall/zsysnum_linux_arm64.go",
         "patchSetId": 1
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "86c2a265_fa41b55d",
+        "filename": "src/syscall/zsysnum_linux_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-06-04T09:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94d2027d_9fcaf199",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 33
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16b1949c_03634611",
         "filename": "src/syscall/ztypes_linux_arm64.go",
         "patchSetId": 1
@@ -138,6 +234,30 @@
       "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c68ad29_64486010",
+        "filename": "src/syscall/ztypes_linux_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-06-04T09:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16b1949c_03634611",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 539,
+        "endChar": 17
+      },
+      "revId": "633e855ae162bf173d1c2657e72733be9eaedc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
