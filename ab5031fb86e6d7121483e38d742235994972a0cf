@@ -16,6 +16,24 @@
       "revId": "ab5031fb86e6d7121483e38d742235994972a0cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3978a2e_ba3b98a9",
+        "filename": "src/syscall/syscall_linux_arm64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-04T21:27:20Z",
+      "side": 1,
+      "message": "I was concerned about this too but I checked the generated code and manpage.\n\nThe generated code passes 0 for that argument, and the manpage says:\n\nThe sigmask argument may be specified as NULL, in which case epoll_pwait() is equivalent to epoll_wait().",
+      "parentUuid": "3d6e1380_05d740d0",
+      "revId": "ab5031fb86e6d7121483e38d742235994972a0cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
