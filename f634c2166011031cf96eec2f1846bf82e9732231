@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6df8c34e_14e7a216",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-04T18:11:22Z",
+      "side": 1,
+      "message": "Consider adding some of Elias\u0027 explanation about the race on assigning the timer bucket. Otherwise I suspect someone will come back to this code in the future and wonder what race we\u0027re protecting against, just like I did.",
+      "revId": "f634c2166011031cf96eec2f1846bf82e9732231",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c50027d_57e87e64",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-04T18:11:22Z",
+      "side": 1,
+      "message": "Is this part necessary or helpful?",
+      "range": {
+        "startLine": 433,
+        "startChar": 38,
+        "endLine": 433,
+        "endChar": 61
+      },
+      "revId": "f634c2166011031cf96eec2f1846bf82e9732231",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
