@@ -377,8 +377,8 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 	case *Func:
 		buf.WriteString("func ")
 		writeFuncName(buf, obj, qf)
-		if typ != nil {
-			WriteSignature(buf, typ.(*Signature), qf)
+		if sig, _ := typ.(*Signature); sig != nil {
+			WriteSignature(buf, sig, qf)
 		}
 		return
 
@@ -463,8 +463,8 @@ func (obj *Builtin) String() string  { return ObjectString(obj, nil) }
 func (obj *Nil) String() string      { return ObjectString(obj, nil) }
 
 func writeFuncName(buf *bytes.Buffer, f *Func, qf Qualifier) {
-	if f.typ != nil {
-		sig := f.typ.(*Signature)
+	if sig, _ := f.typ.(*Signature); sig != nil {
+		//sig := f.typ.(*Signature)
 		if recv := sig.Recv(); recv != nil {
 			buf.WriteByte('(')
 			if _, ok := recv.Type().(*Interface); ok {
