@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d6e1380_05d740d0",
+        "filename": "src/syscall/syscall_linux_arm64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2018-06-04T21:26:09Z",
+      "side": 1,
+      "message": "I am not sure why you believe this works without adapting the function signature.\nI believe you somehow swallowed the sigmask which is described in the correct signature here https://linux.die.net/man/2/epoll_pwait",
+      "revId": "ab5031fb86e6d7121483e38d742235994972a0cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
