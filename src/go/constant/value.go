@@ -402,7 +402,7 @@ func MakeFromLiteral(lit string, tok token.Token, zero uint) Value {
 		}
 
 	case token.CHAR:
-		if n := len(lit); n >= 2 {
+		if n := len(lit); n > 2 {
 			if code, _, _, err := strconv.UnquoteChar(lit[1:n-1], '\''); err == nil {
 				return MakeInt64(int64(code))
 			}
