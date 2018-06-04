@@ -16,6 +16,24 @@
       "revId": "1d620a1467df8a1cc1120c0bf708f6668edbacdf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6fd18a5_6dde340f",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-06-04T21:28:43Z",
+      "side": 1,
+      "message": "No more inversion, handled directly in main() with 0 -\u003e 4 and 1 -\u003e 0.",
+      "parentUuid": "c6ea2fd4_aba29dad",
+      "revId": "1d620a1467df8a1cc1120c0bf708f6668edbacdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
