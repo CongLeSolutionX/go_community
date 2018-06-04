@@ -297,6 +297,8 @@ func (f *Func) freeBlock(b *Block) {
 }
 
 // NewValue0 returns a new value in the block with no arguments and zero aux values.
+// Suppress inlining here to make mid-stack inlining of the compiler itself generate a smaller binary.
+//go:noinline
 func (b *Block) NewValue0(pos src.XPos, op Op, t *types.Type) *Value {
 	v := b.Func.newValue(op, t, b, pos)
 	v.AuxInt = 0

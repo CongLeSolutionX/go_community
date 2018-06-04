@@ -8,13 +8,15 @@
 // expand calls to inlinable functions.
 //
 // The debug['l'] flag controls the aggressiveness. Note that main() swaps level 0 and 1,
-// making 1 the default and -l disable. Additional levels (beyond -l) may be buggy and
+// making 1 the default and -l disable. Additional levels (beyond -l) are less tested and
 // are not supported.
 //      0: disabled
 //      1: 80-nodes leaf functions, oneliners, panic, lazy typechecking (default)
 //      2: (unassigned)
 //      3: (unassigned)
 //      4: allow non-leaf functions
+//
+// GOEXPERIMENT=moreinline inverts the sense of 1 and 4; the default is non-leaf inlining, -l=4 disables non-leaf inlining
 //
 // At some point this may get another default and become switch-offable with -N.
 //
@@ -29,6 +31,7 @@ package gc
 import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
+	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"fmt"
 	"strings"
@@ -165,7 +168,7 @@ func caninl(fn *Node) {
 	defer n.Func.SetInlinabilityChecked(true)
 
 	cc := int32(inlineExtraCallCost)
-	if Debug['l'] == 4 {
+	if (Debug['l'] == 4) == (objabi.Moreinline_enabled == 0) {
 		cc = 1 // this appears to yield better performance than 0.
 	}
 
