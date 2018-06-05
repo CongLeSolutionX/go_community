@@ -16,6 +16,24 @@
       "revId": "2ba171bffb9431661c5eee1656924eaa08774800",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf748863_5654fb0d",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-06-05T18:42:40Z",
+      "side": 1,
+      "message": "Good point. But if anything, the test should be where I just added it, not here (if capturevars cannot produce errors). Will check.",
+      "parentUuid": "25884209_0d3908e0",
+      "revId": "2ba171bffb9431661c5eee1656924eaa08774800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
