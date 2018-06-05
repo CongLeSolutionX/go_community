@@ -34,6 +34,24 @@
       "revId": "2ba171bffb9431661c5eee1656924eaa08774800",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4990087d_3289107c",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-06-05T20:10:40Z",
+      "side": 1,
+      "message": "capturevars calls dowith and typecheck which both can produce errors; though it\u0027s not obviously clear that it\u0027s possible for them to produce additional errors.\n\nThat said, the extra check on lines 535ff. is strictly better as there\u0027s no need to run this next phase (capturevars) if we had type checking errors. Finally, there\u0027s no easy way to tell if we can safely remove this test here.",
+      "parentUuid": "bf748863_5654fb0d",
+      "revId": "2ba171bffb9431661c5eee1656924eaa08774800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
