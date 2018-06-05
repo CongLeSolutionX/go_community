@@ -14,6 +14,9 @@ var DebugOptions bool
 // CacheLinePad is used to pad structs to avoid false sharing.
 type CacheLinePad struct{ _ [CacheLineSize]byte }
 
+// CacheLinePad is used to pad structs to avoid false sharing.
+type CacheLinePad struct{ _ [CacheLineSize]byte }
+
 var X86 x86
 
 // The booleans in x86 contain the correspondingly named cpuid feature bit.
