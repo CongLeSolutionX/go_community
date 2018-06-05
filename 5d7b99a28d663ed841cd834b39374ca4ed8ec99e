@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4af40828_6f840722",
+        "filename": "test/safe/nousesafe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-05T05:04:16Z",
+      "side": 1,
+      "message": "If you use compiledir then I thought that this file was not built.",
+      "revId": "5d7b99a28d663ed841cd834b39374ca4ed8ec99e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
