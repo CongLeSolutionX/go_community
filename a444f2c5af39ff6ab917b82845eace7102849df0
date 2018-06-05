@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a84d534b_9c7451e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-05T14:01:23Z",
+      "side": 1,
+      "message": "os: check setStickyBit error in mkdir\n\nIf an error occurs, delete the newly created directory.",
+      "revId": "a444f2c5af39ff6ab917b82845eace7102849df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
