@@ -80,7 +80,7 @@ type gcm struct {
 // An exception is when the underlying Block was created by aes.NewCipher
 // on systems with hardware support for AES. See the crypto/aes package documentation for details.
 func NewGCM(cipher Block) (AEAD, error) {
-	return NewGCMWithNonceAndTagSize(cipher, gcmStandardNonceSize, gcmTagSize)
+	return NewGCMWithTagSize(cipher, gcmStandardNonceSize, gcmTagSize)
 }
 
 // NewGCMWithNonceSize returns the given 128-bit, block cipher wrapped in Galois
@@ -90,10 +90,10 @@ func NewGCM(cipher Block) (AEAD, error) {
 // cryptosystem that uses non-standard nonce lengths. All other users should use
 // NewGCM, which is faster and more resistant to misuse.
 func NewGCMWithNonceSize(cipher Block, size int) (AEAD, error) {
-	return NewGCMWithNonceAndTagSize(cipher, size, gcmTagSize)
+	return NewGCMWithTagSize(cipher, size, gcmTagSize)
 }
 
-// NewGCMWithNonceAndTagSize returns the given 128-bit, block cipher wrapped in Galois
+// NewGCMWithTagSize returns the given 128-bit, block cipher wrapped in Galois
 // Counter Mode, which accepts nonces of the given length and generates tags with the given length.
 //
 // Tag sizes between 12 and 16 bytes are allowed.
@@ -101,7 +101,7 @@ func NewGCMWithNonceSize(cipher Block, size int) (AEAD, error) {
 // Only use this function if you require compatibility with an existing
 // cryptosystem that uses non-standard tag lengths. All other users should use
 // NewGCM, which is more resistant to misuse.
-func NewGCMWithNonceAndTagSize(cipher Block, nonceSize, tagSize int) (AEAD, error) {
+func NewGCMWithTagSize(cipher Block, nonceSize, tagSize int) (AEAD, error) {
 	if tagSize < gcmMinimumTagSize || tagSize > gcmBlockSize {
 		return nil, errors.New("cipher: incorrect tag size given to GCM")
 	}

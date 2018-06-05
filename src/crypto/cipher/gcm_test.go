@@ -231,7 +231,7 @@ func TestAESGCM(t *testing.T) {
 		plaintext, _ := hex.DecodeString(test.plaintext)
 		ad, _ := hex.DecodeString(test.ad)
 		tagSize := (len(test.result) - len(test.plaintext)) / 2
-		aesgcm, err := cipher.NewGCMWithNonceAndTagSize(aes, len(nonce), tagSize)
+		aesgcm, err := cipher.NewGCMWithTagSize(aes, len(nonce), tagSize)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -282,7 +282,7 @@ func TestGCMInvalidTagSize(t *testing.T) {
 	aes, _ := aes.NewCipher(key)
 
 	for _, tagSize := range []int{0, 1, aes.BlockSize() + 1} {
-		aesgcm, err := cipher.NewGCMWithNonceAndTagSize(aes, len(nonce), tagSize)
+		aesgcm, err := cipher.NewGCMWithTagSize(aes, len(nonce), tagSize)
 		if aesgcm != nil || err == nil {
 			t.Fatalf("NewGCMWithNonceAndTagSize was successful with an invalid %d-byte tag size", tagSize)
 		}
