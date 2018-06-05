@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62685ad0_4f90646d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-05T23:31:51Z",
+      "side": 1,
+      "message": "lowercase verb after colon",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "a635b366a78926c0516db5da580d3ad51edaaa95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82f2ca7e_248a460c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-05T23:31:51Z",
+      "side": 1,
+      "message": "I\u0027d just put all that in the subject and drop this line.\n\nIf anything, change this line to explain why this is okay: that this was added during the Go 1.11 dev cycle and isn\u0027t frozen as part of the API compatibility promise yet.",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "a635b366a78926c0516db5da580d3ad51edaaa95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f81fbed_117cbf2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-05T23:31:51Z",
+      "side": 1,
+      "message": "drop period",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "a635b366a78926c0516db5da580d3ad51edaaa95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
