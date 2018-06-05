@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d367c56_894208f8",
+        "filename": "src/net/textproto/header.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-05T22:46:37Z",
+      "side": 1,
+      "message": "no need for the \"exists\" variable. the zero value on a map miss is a nil []string and cap of a nil slice is zero.\n\nActually, this whole Set method could be two lines like Add above:\n\nWhere Add above is:\n\n\tkey \u003d CanonicalMIMEHeaderKey(key)\n\th[key] \u003d append(h[key], value)\n\nThis could be:\n\n\tkey \u003d CanonicalMIMEHeaderKey(key)\n\th[key] \u003d append(h[key][:0], value)\n\nBecause it\u0027s also valid to slice a nil slice to [:0]",
+      "range": {
+        "startLine": 23,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 11
+      },
+      "revId": "1e89a671f889877c6c78514d69bfd4df7b033d45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
