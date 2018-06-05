@@ -10,6 +10,9 @@ package cpu
 // and GOOS is Linux or Darwin. This variable is linknamed in runtime/proc.go.
 var debugOptions bool
 
+// CacheLinePad is used to pad structs to avoid false sharing.
+type CacheLinePad struct{ _ [CacheLineSize]byte }
+
 var X86 x86
 
 // The booleans in x86 contain the correspondingly named cpuid feature bit.

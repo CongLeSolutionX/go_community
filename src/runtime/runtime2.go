@@ -5,6 +5,7 @@
 package runtime
 
 import (
+	"internal/cpu"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -546,7 +547,7 @@ type p struct {
 
 	runSafePointFn uint32 // if 1, run sched.safePointFn at next safe point
 
-	pad [sys.CacheLineSize]byte
+	pad cpu.CacheLinePad
 }
 
 type schedt struct {
@@ -842,11 +843,11 @@ var (
 	lfenceBeforeRdtsc    bool
 
 	// Set in runtime.cpuinit.
-	support_erms         bool
-	support_popcnt       bool
-	support_sse2         bool
-	support_sse41        bool
-	arm64_support_atomics      bool
+	support_erms          bool
+	support_popcnt        bool
+	support_sse2          bool
+	support_sse41         bool
+	arm64_support_atomics bool
 
 	goarm                uint8 // set by cmd/link on arm systems
 	framepointer_enabled bool  // set by cmd/link
