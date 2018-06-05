@@ -11,6 +11,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"io"
 	"reflect"
 	"testing"
@@ -231,11 +232,31 @@ func TestAESGCM(t *testing.T) {
 		plaintext, _ := hex.DecodeString(test.plaintext)
 		ad, _ := hex.DecodeString(test.ad)
 		tagSize := (len(test.result) - len(test.plaintext)) / 2
-		aesgcm, err := cipher.NewGCMWithNonceAndTagSize(aes, len(nonce), tagSize)
-		if err != nil {
-			t.Fatal(err)
+
+		var aesgcm cipher.AEAD
+		switch {
+		// Handle non-standard nonce sizes
+		case tagSize != 16:
+			aesgcm, err = cipher.NewGCMWithTagSize(aes, tagSize)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+		// Handle non-standard tag sizes
+		case len(nonce) != 12:
+			aesgcm, err = cipher.NewGCMWithNonceSize(aes, len(nonce))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+		default:
+			aesgcm, err = cipher.NewGCM(aes)
+			if err != nil {
+				t.Fatal(err)
+			}
 		}
 
+		fmt.Println(i, test)
 		ct := aesgcm.Seal(nil, nonce, plaintext, ad)
 		if ctHex := hex.EncodeToString(ct); ctHex != test.result {
 			t.Errorf("#%d: got %s, want %s", i, ctHex, test.result)
@@ -277,12 +298,11 @@ func TestAESGCM(t *testing.T) {
 
 func TestGCMInvalidTagSize(t *testing.T) {
 	key, _ := hex.DecodeString("ab72c77b97cb5fe9a382d9fe81ffdbed")
-	nonce, _ := hex.DecodeString("54cc7dc2c37ec006bcc6d1db")
 
 	aes, _ := aes.NewCipher(key)
 
 	for _, tagSize := range []int{0, 1, aes.BlockSize() + 1} {
-		aesgcm, err := cipher.NewGCMWithNonceAndTagSize(aes, len(nonce), tagSize)
+		aesgcm, err := cipher.NewGCMWithTagSize(aes, tagSize)
 		if aesgcm != nil || err == nil {
 			t.Fatalf("NewGCMWithNonceAndTagSize was successful with an invalid %d-byte tag size", tagSize)
 		}
