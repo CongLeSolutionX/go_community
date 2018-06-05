@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "301e3cd2_cc6a073f",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-05T19:38:08Z",
+      "side": 1,
+      "message": "You might want to mention that it might just have been written to a buffer and might not actually be flushed to the network when this is called.",
+      "range": {
+        "startLine": 138,
+        "startChar": 1,
+        "endLine": 139,
+        "endChar": 24
+      },
+      "revId": "de8d5dcc0861e861c8375f67b945e20faf0542dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
