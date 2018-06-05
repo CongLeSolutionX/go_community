@@ -19,7 +19,15 @@ func (h MIMEHeader) Add(key, value string) {
 // the single element value. It replaces any existing
 // values associated with key.
 func (h MIMEHeader) Set(key, value string) {
-	h[CanonicalMIMEHeaderKey(key)] = []string{value}
+	key = CanonicalMIMEHeaderKey(key)
+	vals, exists := h[key]
+	if exists && cap(vals) > 0 {
+		vals = vals[:1]
+		vals[0] = value
+	} else {
+		vals = []string{value}
+	}
+	h[key] = vals
 }
 
 // Get gets the first value associated with the given key.
