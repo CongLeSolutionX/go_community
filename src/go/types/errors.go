@@ -67,10 +67,25 @@ func (check *Checker) dump(format string, args ...interface{}) {
 }
 
 func (check *Checker) err(pos token.Pos, msg string, soft bool) {
+	// Cheap trick: Don't report errors with messages containing
+	// "invalid operand" or "invalid type" as those tend to be
+	// follow-on errors which don't add useful information. Only
+	// exclude them if these strings are not at the beginning,
+	// and only of we have at least one error already reported.
+	if check.firstErr != nil {
+		if i := strings.Index(msg, "invalid operand"); i > 0 {
+			return
+		}
+		if i := strings.Index(msg, "invalid type"); i > 0 {
+			return
+		}
+	}
+
 	err := Error{check.fset, pos, msg, soft}
 	if check.firstErr == nil {
 		check.firstErr = err
 	}
+
 	f := check.conf.Error
 	if f == nil {
 		panic(bailout{}) // report only first error
