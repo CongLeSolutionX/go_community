@@ -653,6 +653,7 @@ func init() {
 		"Cache-Control",
 		"Cc",
 		"Connection",
+		"Content-Encoding",
 		"Content-Id",
 		"Content-Language",
 		"Content-Length",
