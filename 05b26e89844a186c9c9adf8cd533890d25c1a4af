@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d2acf8e_a5910ee6",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-06-07T19:35:24Z",
+      "side": 1,
+      "message": "I wonder how much client code also assumes that Info.Defs[FuncDecl.Params[i]] \u003d\u003d Signature.Params[i], or at least that Signature.Params[i] exista, and may be broken by making the function signature empty.",
+      "revId": "05b26e89844a186c9c9adf8cd533890d25c1a4af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
