@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6d87c7_a73db60d",
+        "filename": "src/crypto/cipher/gcm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-06-07T00:40:47Z",
+      "side": 1,
+      "message": "No need to repeat the doc for the unexported function.",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 45
+      },
+      "revId": "c29685e743d7bfaaf64b0f8cba23dfd12d36ba71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
