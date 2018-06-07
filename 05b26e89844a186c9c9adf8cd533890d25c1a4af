@@ -16,6 +16,24 @@
       "revId": "05b26e89844a186c9c9adf8cd533890d25c1a4af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44ddd5a0_fcf0ca07",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-06-07T22:04:11Z",
+      "side": 1,
+      "message": "This only happens if there\u0027s a bug in the code to be type checked. Also, this is not new behavior, it\u0027s been like this pretty much from day one. The comments serves mostly as explanation as to why we don\u0027t need to make this type invalid here.\n\nI believe I understand better now how we can avoid this, but I don\u0027t think it\u0027s wise to make these changes for 1.11 as they may be pretty pervasive overall.",
+      "parentUuid": "2d2acf8e_a5910ee6",
+      "revId": "05b26e89844a186c9c9adf8cd533890d25c1a4af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
