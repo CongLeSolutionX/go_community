@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d78eb949_017b2863",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-07T15:27:55Z",
+      "side": 1,
+      "message": "not a fan of all these err :\u003d func() error { ... }() calls in this CL.",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 22
+      },
+      "revId": "d701854d42859663364310e12021b72719e15cc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
