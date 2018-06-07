@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "bda05ef1_4a9d71d2",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-06-07T10:19:09Z",
+      "side": 1,
+      "message": "Yes, You and Cherry are right and I confused runtime.GOARCH with objabi.GOARCH.\nI have changed it to GOARCH for consistency with others (although my method has the same effect)",
+      "parentUuid": "71bb3799_676e486a",
+      "range": {
+        "startLine": 271,
+        "startChar": 5,
+        "endLine": 271,
+        "endChar": 25
+      },
+      "revId": "279305538c6d46d25074dffb176cdbc7f62cfcb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a50324d4_610b67ae",
         "filename": "test/nosplit.go",
         "patchSetId": 11
