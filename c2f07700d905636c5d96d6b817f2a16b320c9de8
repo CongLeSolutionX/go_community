@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49199714_17e0958d",
+        "filename": "misc/cgo/testplugin/src/issue25756/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-08T21:18:13Z",
+      "side": 1,
+      "message": "Does this mean anything in this directory?",
+      "revId": "c2f07700d905636c5d96d6b817f2a16b320c9de8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e263d37_93fd212e",
+        "filename": "misc/cgo/testplugin/src/issue25756/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-08T21:18:13Z",
+      "side": 1,
+      "message": "s/2010/2018/\n\n2018 is the year of the Gopher.",
+      "revId": "c2f07700d905636c5d96d6b817f2a16b320c9de8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47b21034_78265a07",
+        "filename": "misc/cgo/testplugin/src/issue25756/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-08T21:18:13Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this build tag.",
+      "revId": "c2f07700d905636c5d96d6b817f2a16b320c9de8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c40cbebd_1e4c1bab",
+        "filename": "misc/cgo/testplugin/src/issue25756/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-08T21:18:13Z",
+      "side": 1,
+      "message": "Delete this comment.",
+      "revId": "c2f07700d905636c5d96d6b817f2a16b320c9de8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ef211c3_648e38ff",
+        "filename": "misc/cgo/testplugin/src/issue25756/plugin/life.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-08T21:18:13Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this line.",
+      "revId": "c2f07700d905636c5d96d6b817f2a16b320c9de8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
