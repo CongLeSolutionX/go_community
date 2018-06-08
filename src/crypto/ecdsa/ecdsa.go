@@ -27,7 +27,12 @@ import (
 	"errors"
 	"io"
 	"math/big"
+<<<<<<< HEAD   (18db93 [dev.boringcrypto] crypto/tls: restore AES-GCM priority when)
 	"unsafe"
+=======
+
+	"crypto/internal/randutil"
+>>>>>>> BRANCH (289ab3 cmd/link: fix duplicated "unresolved inter-package jump" err)
 )
 
 // A invertible implements fast inverse mod Curve.Params().N
@@ -176,6 +181,7 @@ var errZeroParam = errors.New("zero parameter")
 // returns the signature as a pair of integers. The security of the private key
 // depends on the entropy of rand.
 func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err error) {
+<<<<<<< HEAD   (18db93 [dev.boringcrypto] crypto/tls: restore AES-GCM priority when)
 	if boring.Enabled && rand == boring.RandReader {
 		b, err := boringPrivateKey(priv)
 		if err != nil {
@@ -184,6 +190,9 @@ func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err err
 		return boring.SignECDSA(b, hash)
 	}
 	boring.UnreachableExceptTests()
+=======
+	randutil.MaybeReadByte(rand)
+>>>>>>> BRANCH (289ab3 cmd/link: fix duplicated "unresolved inter-package jump" err)
 
 	// Get min(log2(q) / 2, 256) bits of entropy from rand.
 	entropylen := (priv.Curve.Params().BitSize + 7) / 16
