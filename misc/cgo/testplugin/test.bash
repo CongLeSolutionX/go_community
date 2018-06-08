@@ -15,7 +15,7 @@ goos=$(go env GOOS)
 goarch=$(go env GOARCH)
 
 function cleanup() {
-	rm -f plugin*.so unnamed*.so iface*.so issue*
+	rm -f plugin*.so unnamed*.so iface*.so life.so issue*
 	rm -rf host pkg sub iface
 }
 trap cleanup EXIT
