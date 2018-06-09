@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03ad7a3a_17e0c0a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-09T23:02:28Z",
+      "side": 1,
+      "message": "When someone is reading your change, they will want to know why current TOKEN_ALL_ACCESS value is wrong. TOKEN_ALL_ACCESS was changed at some stage by Microsoft. You should explain that here.",
+      "revId": "0e4e43311dc3a9036677968bc7120e1254f699ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fefe8a7b_844dbd1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-09T23:02:28Z",
+      "side": 1,
+      "message": "This is not English. And you don\u0027t need to explain your change in details here. Just remove mention of TOKEN_ADJUST_SESSIONID.",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "0e4e43311dc3a9036677968bc7120e1254f699ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11fa05c6_75fc535e",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-09T23:02:28Z",
+      "side": 1,
+      "message": "Please copy your test (the syscall package part of it) from the issue into here. Just to satisfy everyone that TOKEN_ALL_ACCESS is correct now.",
+      "revId": "0e4e43311dc3a9036677968bc7120e1254f699ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
