@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "063662fb_5fcbff06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-10T12:04:52Z",
+      "side": 1,
+      "message": "I do not understand that sentence. Just remove the sentence. What remains explains your change well enough.",
+      "range": {
+        "startLine": 9,
+        "startChar": 56,
+        "endLine": 10,
+        "endChar": 80
+      },
+      "revId": "76af75cdf8c477d94ed031bb3bf2b1dfcac419d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a03f7dd3_0554bff4",
+        "filename": "src/syscall/security_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-10T12:04:52Z",
+      "side": 1,
+      "message": "Do not create new source file just for one test. Add your test to syscall_windows_test.go.",
+      "revId": "76af75cdf8c477d94ed031bb3bf2b1dfcac419d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b4be6c2_c080559e",
+        "filename": "src/syscall/security_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-10T12:04:52Z",
+      "side": 1,
+      "message": "s/TOKEN_ALLACCESS/TOKEN_ALL_ACCESS/\n\nYou obviously did not run the test before sending the CL.",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "76af75cdf8c477d94ed031bb3bf2b1dfcac419d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
