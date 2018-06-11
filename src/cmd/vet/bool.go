@@ -9,7 +9,6 @@ package main
 import (
 	"go/ast"
 	"go/token"
-	"go/types"
 )
 
 func init() {
@@ -146,24 +145,21 @@ func hasSideEffects(f *File, e ast.Expr) bool {
 			// lets us see the NamedFuncType(x) type
 			// conversion as a *types.Named.
 			typVal := f.pkg.types[n.Fun]
-			_, isSig := typVal.Type.(*types.Signature)
 			switch {
-			case typVal.IsValue() && isSig:
-				// If we have a value of unnamed signature type,
-				// this CallExpr is a non-builtin func call and
-				// not a type conversion. Conservatively assume
-				// that all function and method calls have side
-				// effects for now.
+			case typVal.IsType():
+				// Type conversion, which is safe.
+			case typVal.IsBuiltin():
+				// Builtin func, conservatively assumed to not
+				// be safe for now.
 				safe = false
 				return false
-			case typVal.IsBuiltin():
-				// For now, conservatively assume that all
-				// built-in functions have side effects.
+			default:
+				// A non-builtin func or method call.
+				// Conservatively assume that all of them have
+				// side effects for now.
 				safe = false
 				return false
 			}
-			// It's a type conversion, which cannot
-			// have side effects.
 		case *ast.UnaryExpr:
 			if n.Op == token.ARROW {
 				safe = false
