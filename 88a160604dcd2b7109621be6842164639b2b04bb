@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26f779e2_f2a327cd",
+        "filename": "src/cmd/vet/bool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-06-11T16:56:39Z",
+      "side": 1,
+      "message": "Is this still important? Whether Underlying is called or not shouldn\u0027t change the IsType() property. I think this can just be left away; there\u0027s simply no need to check for calling Underlying.",
+      "range": {
+        "startLine": 145,
+        "startChar": 22,
+        "endLine": 145,
+        "endChar": 35
+      },
+      "revId": "88a160604dcd2b7109621be6842164639b2b04bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1fb58c4_1b397ec4",
+        "filename": "src/cmd/vet/bool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-06-11T16:56:39Z",
+      "side": 1,
+      "message": "Unless you\u0027re planning to make this more fine-grained, you just have 2 cases: IsType() and others. Could use an if.",
+      "range": {
+        "startLine": 154,
+        "startChar": 9,
+        "endLine": 154,
+        "endChar": 10
+      },
+      "revId": "88a160604dcd2b7109621be6842164639b2b04bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
