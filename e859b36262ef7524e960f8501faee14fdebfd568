@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a07cbced_8c9d5549",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-11T14:48:36Z",
+      "side": 1,
+      "message": "I would love more details here if possible about which Windows this affects.",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "e859b36262ef7524e960f8501faee14fdebfd568",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "798f7f06_d52ab970",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-11T14:48:36Z",
+      "side": 1,
+      "message": "We generally avoid Markdown in commit messages.",
+      "revId": "e859b36262ef7524e960f8501faee14fdebfd568",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
