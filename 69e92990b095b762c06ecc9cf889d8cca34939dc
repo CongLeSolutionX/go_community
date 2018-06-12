@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "bf44b3dd_8904fcd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2018-06-12T14:38:46Z",
+      "side": 1,
+      "message": "Use a single space instead of a tab please, and remove \"to golang\".",
+      "revId": "69e92990b095b762c06ecc9cf889d8cca34939dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3fec3a25_81d7ee38",
         "filename": "src/go/build/syslist.go",
         "patchSetId": 1
