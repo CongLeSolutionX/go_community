@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c258062_01064e20",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2018-06-12T07:31:23Z",
+      "side": 1,
+      "message": "I am not sure this is better. Perhaps, if we would make this change it might be better to rephrase as:\n“[...] whether *the* textual regular expression pattern\n// matches *the* string s.”",
+      "revId": "a04d7bf2093895676c2b420222a6d76305d0d699",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
