@@ -6,6 +6,7 @@
 // indirectly, in terms of walltime and nanotime assembly.
 
 // +build !windows
+// +build !aix
 
 package runtime
 
