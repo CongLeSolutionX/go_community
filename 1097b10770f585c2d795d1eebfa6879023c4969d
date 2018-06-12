@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0de94219_a40359b6",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-12T20:18:40Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "1097b10770f585c2d795d1eebfa6879023c4969d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
