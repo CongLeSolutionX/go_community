@@ -22,6 +22,52 @@
       "revId": "76534bcde680ffb45ca7ff11165f9602ca672585",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dbfe5a7_e17424c0",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-12T16:25:33Z",
+      "side": 1,
+      "message": "\"textual regular expression pattern\" is kinda a mouthful.\n\nNot sure what \"textual\" was supposed to mean originally.\n\nI\u0027d emphasize that this compiles pattern too, which is expensive, and that\u0027s what the error is about.\n\nThen we can use the regular \"reports whether\" wording we use for funcs returning bools.\n\n    // MatchString compiles the provided regular expression pattern and reports\n    // whether it matches the string s. MatchString only returns an error if the\n    // pattern fails to compile.\n    //\n    // ....\n\nAnd something about how it\u0027s faster to compile only once and use the regexp repeatedly.",
+      "range": {
+        "startLine": 447,
+        "startChar": 34,
+        "endLine": 447,
+        "endChar": 68
+      },
+      "revId": "76534bcde680ffb45ca7ff11165f9602ca672585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7315045_ce5a3222",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-12T16:25:33Z",
+      "side": 1,
+      "message": "it\u0027s not an interface, though. Slightly weird.",
+      "range": {
+        "startLine": 449,
+        "startChar": 38,
+        "endLine": 449,
+        "endChar": 47
+      },
+      "revId": "76534bcde680ffb45ca7ff11165f9602ca672585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
