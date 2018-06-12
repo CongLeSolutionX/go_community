@@ -444,8 +444,8 @@ func MatchReader(pattern string, r io.RuneReader) (matched bool, err error) {
 	return re.MatchReader(r), nil
 }
 
-// MatchString checks whether a textual regular expression
-// matches a string. More complicated queries need
+// MatchString checks whether the textual regular expression pattern
+// matches the string s. More complicated queries need
 // to use Compile and the full Regexp interface.
 func MatchString(pattern string, s string) (matched bool, err error) {
 	re, err := Compile(pattern)
