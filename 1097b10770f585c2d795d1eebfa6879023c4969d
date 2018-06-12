@@ -16,6 +16,24 @@
       "revId": "1097b10770f585c2d795d1eebfa6879023c4969d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0b720cf_7a0ee3ed",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-06-12T20:30:34Z",
+      "side": 1,
+      "message": "Sorry about that. I had to turn off goimports earlier today because it got crazy slow on my system for some reason. The git commit hook has been helping me stay honest about gofmt - not sure why it missed this one. Fixed.",
+      "parentUuid": "0de94219_a40359b6",
+      "revId": "1097b10770f585c2d795d1eebfa6879023c4969d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
