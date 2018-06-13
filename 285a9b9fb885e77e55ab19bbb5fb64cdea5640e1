@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bc6dbce_64bf2866",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-06-13T23:40:24Z",
+      "side": 1,
+      "message": "I think the comments here must be sorted in source order (comment position) since they are added above in multiple places, and there\u0027s no guarantee that they are added in source order. (This assumes sorting doesn\u0027t happen elsewhere).\n\nIf they are not in source order, printing will be confused.\n\nOne can probably create a test case when comments on dependent declarations that occur early are added later. Would be good to have such a test case and verify this.",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 20
+      },
+      "revId": "285a9b9fb885e77e55ab19bbb5fb64cdea5640e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
