@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "026aa142_2e49d97a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-06-13T16:29:54Z",
+      "side": 1,
+      "message": "It might be worth also adding an \"am I being walked twice\" check to swt.go, and Fatalf if so.",
+      "revId": "bf9f55f7e2005a1e7d9d39bb074751f25713106c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18b8a74e_d98466f0",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
@@ -25,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "5f6e34aa_e9561368",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-06-13T16:29:54Z",
+      "side": 1,
+      "message": "This is definitely a NOP. I think we should delete it.",
+      "parentUuid": "18b8a74e_d98466f0",
+      "range": {
+        "startLine": 291,
+        "startChar": 3,
+        "endLine": 291,
+        "endChar": 41
+      },
+      "revId": "bf9f55f7e2005a1e7d9d39bb074751f25713106c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a307c5d8_43363c28",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
@@ -36,6 +77,30 @@
       "writtenOn": "2018-06-12T22:02:49Z",
       "side": 1,
       "message": "Possible change in trees generated, seems like it would not usually matter, certainly not with ssa backend.",
+      "range": {
+        "startLine": 320,
+        "startChar": 4,
+        "endLine": 320,
+        "endChar": 42
+      },
+      "revId": "bf9f55f7e2005a1e7d9d39bb074751f25713106c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99e537d4_f8cd466d",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-06-13T16:29:54Z",
+      "side": 1,
+      "message": "Do you know what a \"special return\" is? If it is the \"block copy\" optimization mentioned at the beginning of ascompatte, then I believe this unreachable, because the block copy optimization no longer takes place, due to changes (I\u0027m not sure when) in order.go.\n\nSo if my speculation about \"special returns\" is correct, perhaps add a TODO here to check whether we can delete this whole block, and the samelist function as well.",
+      "parentUuid": "a307c5d8_43363c28",
       "range": {
         "startLine": 320,
         "startChar": 4,
