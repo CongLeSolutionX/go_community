@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4488508_ab05a147",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-13T15:51:27Z",
+      "side": 1,
+      "message": "add a TODO to avoid this extra system call on versions of Windows where it\u0027s not required?\n\nIt\u0027s fine to keep it in for Go 1.11, though. It\u0027s just a bit of a sad performance cost in something that\u0027s supposed to be a fast path (sendfile).",
+      "revId": "cb9092c40bc6157ffbe35df75bf1479bbd30eb96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c00485fd_94469162",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-13T15:51:27Z",
+      "side": 1,
+      "message": "drop the \"\u0026 0xffffffff\" here and the next line?",
+      "range": {
+        "startLine": 34,
+        "startChar": 32,
+        "endLine": 34,
+        "endChar": 44
+      },
+      "revId": "cb9092c40bc6157ffbe35df75bf1479bbd30eb96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
