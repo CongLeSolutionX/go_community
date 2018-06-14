@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "43bcb980_172bd6e8",
+        "filename": "test/fixedbugs/issue25776.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-06-14T20:03:03Z",
+      "side": 1,
+      "message": "The call in main doesn\u0027t trigger the bug. I\u0027d have to reinvestigate the whole thing all over again to figure out exactly why, but I looked and the code entering the back end is not broken in the same way (literally \"broken\" -- the buggy switch has a spurious break at the beginning).\n\nThe broken switch starts just like this:\n.   .   .   .   .   SWITCH l(53) tc(1) int\n.   .   .   .   .   SWITCH-body\n.   .   .   .   .   .   BREAK l(53)\n.   .   .   .   .   .   AS l(53) tc(1)\n.   .   .   .   .   .   .   NAME-main..autotmp_10 a(true) l(53) x(0) class(PAUTO) esc(N) tc(1) assigned used int\n.   .   .   .   .   .   .   NAME-main.u a(true) l(52) x(0) class(PAUTO) tc(1) assigned used int\n\nThe not-broken switch in main begins like this:\n.   .   .   .   .   SWITCH l(53) tc(1) int\n.   .   .   .   .   SWITCH-body\n.   .   .   .   .   .   AS l(53) tc(1)\n.   .   .   .   .   .   .   NAME-main..autotmp_19 a(true) l(53) x(0) class(PAUTO) esc(N) tc(1) assigned used int\n.   .   .   .   .   .   .   NAME-main.u a(true) l(52) x(0) class(PAUTO) tc(1) assigned used int\n\nIt\u0027s a fragile, annoying bug.",
+      "parentUuid": "0b077f5b_3e4c3f20",
+      "revId": "06ce04481088d4cbbfd8dcf20a197eb706ceb84e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eaf147be_ebd2328d",
         "filename": "test/fixedbugs/issue25776.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "06ce04481088d4cbbfd8dcf20a197eb706ceb84e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "282a0795_89a1454f",
+        "filename": "test/fixedbugs/issue25776.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-06-14T20:03:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaf147be_ebd2328d",
+      "revId": "06ce04481088d4cbbfd8dcf20a197eb706ceb84e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
