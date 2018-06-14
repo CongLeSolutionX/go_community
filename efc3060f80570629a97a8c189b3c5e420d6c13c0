@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f71735cc_0f94cf48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-14T18:48:43Z",
+      "side": 1,
+      "message": "typo: deferred\n\nBut this change isn\u0027t strictly necessary: files are closed when processes exit anyway.\n\nBut it\u0027s also an acceptable change for style reasons, but for Go 1.12. We\u0027re in a freeze right now (https://github.com/golang/go/wiki/Go-Release-Cycle) so we can look at this more in August.",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "efc3060f80570629a97a8c189b3c5e420d6c13c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
