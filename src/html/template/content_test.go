@@ -443,17 +443,13 @@ func TestStringer(t *testing.T) {
 func TestEscapingNilNonemptyInterfaces(t *testing.T) {
 	tmpl := Must(New("x").Parse("{{.E}}"))
 
-	got := new(bytes.Buffer)
+	buf := new(bytes.Buffer)
 	testData := struct{ E error }{} // any non-empty interface here will do; error is just ready at hand
-	tmpl.Execute(got, testData)
+	tmpl.Execute(buf, testData)
+	got := buf.String()
+	want := ""
 
-	// Use this data instead of just hard-coding "&lt;nil&gt;" to avoid
-	// dependencies on the html escaper and the behavior of fmt w.r.t. nil.
-	want := new(bytes.Buffer)
-	data := struct{ E string }{E: fmt.Sprint(nil)}
-	tmpl.Execute(want, data)
-
-	if !bytes.Equal(want.Bytes(), got.Bytes()) {
-		t.Errorf("expected %q got %q", string(want.Bytes()), string(got.Bytes()))
+	if want != got {
+		t.Errorf("expected %q got %q", want, got)
 	}
 }

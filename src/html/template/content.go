@@ -147,10 +147,14 @@ func indirectToStringerOrError(a interface{}) interface{} {
 }
 
 // stringify converts its arguments to a string and the type of the content.
-// All pointers are dereferenced, as in the text/template package.
+// All pointers are dereferenced, as in the text/template package. Just like in
+// the text/template package, a single untyped nil is ignored to keep backwards
+// compatibility.
 func stringify(args ...interface{}) (string, contentType) {
 	if len(args) == 1 {
 		switch s := indirect(args[0]).(type) {
+		case nil:
+			return "", contentTypePlain
 		case string:
 			return s, contentTypePlain
 		case CSS:

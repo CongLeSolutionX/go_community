@@ -646,12 +646,20 @@ func URLQueryEscaper(args ...interface{}) string {
 //	fmt.Sprint(args...)
 // except that each argument is indirected (if a pointer), as required,
 // using the same rules as the default string evaluation during template
-// execution.
+// execution. A single untyped nil argument is also ignored, to keep backwards
+// compatibility with previous Go1 versions.
 func evalArgs(args []interface{}) string {
 	ok := false
 	var s string
 	// Fast path for simple common case.
 	if len(args) == 1 {
+		// Special case for backwards compatibility in Go1. In previous
+		// versions of Go, a single untyped nil argument was ignored by
+		// text/template. This meant that HTML escaping a single untyped
+		// nil value resulted in no output, for example.
+		if args[0] == nil {
+			return ""
+		}
 		s, ok = args[0].(string)
 	}
 	if !ok {
