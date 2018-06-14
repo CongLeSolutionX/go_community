@@ -135,3 +135,71 @@ func ExampleRoundToEven() {
 	// 12.0
 	// 12.0
 }
+
+func ExampleAbs() {
+	fmt.Printf("%.1f", math.Abs(-2))
+	// Output: 2.0
+}
+
+func ExampleCbrt() {
+	fmt.Printf("%.1f", math.Cbrt(8))
+	// Output: 2.0
+}
+
+func ExampleCopysign() {
+	a, b := 2.0, -1.0
+	fmt.Printf("%.1f", math.Copysign(a, b))
+	// Output: -2.0
+}
+
+func ExampleDim() {
+	a, b := 3.0, 2.0
+	// Similar to math.Max(a-b, 0)
+	fmt.Printf("%.1f", math.Dim(a, b))
+	// Output: 1.0
+}
+
+func ExampleErf() {
+	fmt.Printf("%.4f", math.Erf(0.75))
+	// Output: 0.7112
+}
+
+func ExampleExp() {
+	fmt.Printf("%.4f", math.Exp(1))
+	// Output: 2.7183
+}
+
+func ExampleExp2() {
+	fmt.Printf("%.1f", math.Exp2(1))
+	// Output: 2.0
+}
+
+func ExampleLog() {
+	fmt.Printf("%.1f", math.Log(math.E))
+	// Output: 1.0
+}
+
+func ExampleLog10() {
+	fmt.Printf("%.1f", math.Log10(10.0))
+	// Output: 1.0
+}
+
+func ExampleLog1p() {
+	fmt.Printf("%.1f", math.Log1p(math.E-1))
+	// Output: 1.0
+}
+
+func ExampleLog2() {
+	fmt.Printf("%.1f", math.Log2(2))
+	// Output: 1.0
+}
+
+func ExampleMin() {
+	fmt.Printf("%.1f", math.Min(-2.0, 2.0))
+	// Output: -2.0
+}
+
+func ExampleMax() {
+	fmt.Printf("%.1f", math.Max(-2.0, 2.0))
+	// Output: 2.0
+}
