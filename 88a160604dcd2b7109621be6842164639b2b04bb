@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fb3368b7_10f5e470",
+        "filename": "src/cmd/vet/bool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-06-14T10:26:30Z",
+      "side": 1,
+      "message": "True; we don\u0027t even deal with types any more, just TypeAndValue.",
+      "parentUuid": "26f779e2_f2a327cd",
+      "range": {
+        "startLine": 145,
+        "startChar": 22,
+        "endLine": 145,
+        "endChar": 35
+      },
+      "revId": "88a160604dcd2b7109621be6842164639b2b04bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1fb58c4_1b397ec4",
         "filename": "src/cmd/vet/bool.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "88a160604dcd2b7109621be6842164639b2b04bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9deae4ef_95fd2c2b",
+        "filename": "src/cmd/vet/bool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-06-14T10:26:30Z",
+      "side": 1,
+      "message": "I do plan to make it more fine-grained for builtins - see https://github.com/golang/go/issues/22851.",
+      "parentUuid": "b1fb58c4_1b397ec4",
+      "range": {
+        "startLine": 154,
+        "startChar": 9,
+        "endLine": 154,
+        "endChar": 10
+      },
+      "revId": "88a160604dcd2b7109621be6842164639b2b04bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
