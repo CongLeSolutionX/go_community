@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adde8a7_98ffa375",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-06-14T08:45:49Z",
+      "side": 1,
+      "message": "2",
+      "range": {
+        "startLine": 444,
+        "startChar": 23,
+        "endLine": 444,
+        "endChar": 24
+      },
+      "revId": "39b80bd53c556f8ebf3df4a835e23167b68cfda1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
