@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a584a1ec_a0277b56",
+        "filename": "src/mime/multipart/multipart.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-14T15:46:28Z",
+      "side": 1,
+      "message": "Nowadays I\u0027d write:\n\n   if string(r.dashBoundary) \u003d\u003d \"--\" {\n\n... the compiler optimizes that to do the most efficient thing and avoids the allocation \u0026[]byte-\u003estring copy.",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 316,
+        "endChar": 44
+      },
+      "revId": "428ba4cb81ea8403ba064d5ece8eaaab28b81931",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dff16c3_853e62cf",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-14T15:46:28Z",
+      "side": 1,
+      "message": "blank line before this line",
+      "revId": "428ba4cb81ea8403ba064d5ece8eaaab28b81931",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0542441d_73a2de62",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-14T15:46:28Z",
+      "side": 1,
+      "message": "did you even test this? this isn\u0027t the error message you used.\n\nAlso, err.Error() panics if err is nil.\n\nYou want something like:\n\n   if got, want :\u003d fmt.Sprint(err), \"multipart: ....\"; got !\u003d want {\n      ...\n\nI\u0027ll upload a new version.",
+      "range": {
+        "startLine": 886,
+        "startChar": 0,
+        "endLine": 886,
+        "endChar": 49
+      },
+      "revId": "428ba4cb81ea8403ba064d5ece8eaaab28b81931",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
