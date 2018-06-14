@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f7af7571_4151cab0",
+        "filename": "test/fixedbugs/issue25776.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-14T20:07:20Z",
+      "side": 1,
+      "message": "Ok. Thanks.\n\n\u003e literally \"broken\"\n\nHaha :)",
+      "parentUuid": "43bcb980_172bd6e8",
+      "revId": "06ce04481088d4cbbfd8dcf20a197eb706ceb84e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eaf147be_ebd2328d",
         "filename": "test/fixedbugs/issue25776.go",
         "patchSetId": 2
