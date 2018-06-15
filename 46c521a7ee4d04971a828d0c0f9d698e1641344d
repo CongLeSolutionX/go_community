@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c3e517d_4b62819a",
+        "filename": "src/html/template/content.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-15T18:15:59Z",
+      "side": 1,
+      "message": "Is this really a correct description of text/template?  It doesn\u0027t print \"\u003cno value\u003e\"?  Is there a test in text/template for the current behavior?",
+      "revId": "46c521a7ee4d04971a828d0c0f9d698e1641344d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
