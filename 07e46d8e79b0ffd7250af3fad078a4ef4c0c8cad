@@ -22,6 +22,30 @@
       "revId": "07e46d8e79b0ffd7250af3fad078a4ef4c0c8cad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "934f5c33_62897d02",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-15T20:04:16Z",
+      "side": 1,
+      "message": "Depends how you read it. I think anybody who realizes that Handlers are composable realizes that protection from the outermost one protects the inner ones.\n\nBut updated. PTAL.",
+      "parentUuid": "d1f6f53e_7dd8d197",
+      "range": {
+        "startLine": 219,
+        "startChar": 36,
+        "endLine": 220,
+        "endChar": 49
+      },
+      "revId": "07e46d8e79b0ffd7250af3fad078a4ef4c0c8cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
