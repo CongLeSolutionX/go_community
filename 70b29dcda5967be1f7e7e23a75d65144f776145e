@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "41607f3e_0dd795b6",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-06-15T13:47:41Z",
+      "side": 1,
+      "message": "Currently, R2 is the same for all my Golang Code. I only change it when a syscall occurs, within asmcgocall. Moreover, this TOC seems to never be saved at 24(R3) by the called functions. \nTherefore, every restorations was breaking the TOC so I removed them. \n\nOn Linux, are you using different TOC for different part of the same executable ? \nI\u0027m not sure if it\u0027ll be possible on AIX, as every datas must be accessed with a TOC related address. And I setup these offsets within the linker. I might be possible but difficult to have several TOCs.",
+      "parentUuid": "dfff837e_cd442176",
+      "revId": "70b29dcda5967be1f7e7e23a75d65144f776145e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6684fb22_db8ae617",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2018-06-14T13:49:23Z",
       "side": 1,
       "message": "Why is this 48(R1)?",
+      "revId": "70b29dcda5967be1f7e7e23a75d65144f776145e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6914400_f18bf84d",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-06-15T13:47:41Z",
+      "side": 1,
+      "message": "I saved g in 48(R1) because Aix C functions save the TOC in 40(R1). So, I was losing g. But as this function is for the moment only used for system calls which I call with asmsyscall6 ( a function in the src/runtime/sys_aix_ppc64.s in this CL: https://go-review.googlesource.com/c/go/+/118216 ), I might be able to put the TOC in 24(R1) and keep g in 40(R1)",
+      "parentUuid": "6684fb22_db8ae617",
       "revId": "70b29dcda5967be1f7e7e23a75d65144f776145e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
