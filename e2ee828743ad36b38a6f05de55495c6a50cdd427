@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e3c41a6_2561efba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-06-15T01:36:33Z",
+      "side": 1,
+      "message": "Minor nit: instead of\n    \"don\u0027t call Listener.Close multiple times in Server.Serve\"\nperhaps\n    \"ensure that Listener.Close is only called once in Server.Serve\"\nbecause that happened accidentally, and the fix is a first come first closed\ninstead of the seemingly intentional tone in the current message",
+      "revId": "e2ee828743ad36b38a6f05de55495c6a50cdd427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
