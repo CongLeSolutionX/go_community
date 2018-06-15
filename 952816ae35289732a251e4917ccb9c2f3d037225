@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8315c35_22c143e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-15T17:57:50Z",
+      "side": 1,
+      "message": "Now that you\u0027ve opened an issue, please add\n\nFixes #25908",
+      "revId": "952816ae35289732a251e4917ccb9c2f3d037225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
