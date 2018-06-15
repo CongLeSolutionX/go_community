@@ -2979,6 +2979,7 @@ func appendslice(n *Node, init *Nodes) *Node {
 	// s = s[:n]
 	nt := nod(OSLICE, s, nil)
 	nt.SetSliceBounds(nil, nn, nil)
+	nt.SetBounded(true)
 	l = append(l, nod(OAS, s, nt))
 
 	if l1.Type.Elem().HasHeapPointer() {
