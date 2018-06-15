@@ -62,6 +62,30 @@
       "revId": "69e92990b095b762c06ecc9cf889d8cca34939dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ecb4d1_41fe6ea1",
+        "filename": "src/go/build/syslist.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16326
+      },
+      "writtenOn": "2018-06-15T08:06:26Z",
+      "side": 1,
+      "message": "We have produced these files and we have added them to https://go-review.googlesource.com/c/go/+/118216 .\nIs that OK for you if we let them in 118216 or do you want us to move them from 118216 to this one ?\nsrc/runtime/internal/sys/zgoos_aix.go\nsrc/runtime/internal/sys/zgoos_android.go\nsrc/runtime/internal/sys/zgoos_darwin.go\nsrc/runtime/internal/sys/zgoos_dragonfly.go\nsrc/runtime/internal/sys/zgoos_freebsd.go\nsrc/runtime/internal/sys/zgoos_linux.go\nsrc/runtime/internal/sys/zgoos_nacl.go\nsrc/runtime/internal/sys/zgoos_netbsd.go\nsrc/runtime/internal/sys/zgoos_openbsd.go\nsrc/runtime/internal/sys/zgoos_plan9.go\nsrc/runtime/internal/sys/zgoos_solaris.go\nsrc/runtime/internal/sys/zgoos_windows.go\nsrc/runtime/internal/sys/zgoos_zos.go\nsrc/runtime/internal/sys/zversion.go",
+      "parentUuid": "3fec3a25_81d7ee38",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 111
+      },
+      "revId": "69e92990b095b762c06ecc9cf889d8cca34939dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
