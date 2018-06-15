@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cc8a0ef_db379cc1",
+        "filename": "src/mime/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 17951
+      },
+      "writtenOn": "2018-06-15T17:50:35Z",
+      "side": 1,
+      "message": "note - this list is no longer in alphabetical order",
+      "revId": "534ddf741f6a5fc38fb0bb3e3547d3231c51a7be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
