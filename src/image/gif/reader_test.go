@@ -219,7 +219,7 @@ func TestBounds(t *testing.T) {
 	copy(gif, testGIF)
 	// Make the bounds too big, just by one.
 	gif[32] = 2
-	want := "gif: frame bounds larger than image bounds"
+	want := "gif: not enough image data"
 	try(t, gif, want)
 
 	// Make the bounds too small; does not trigger bounds

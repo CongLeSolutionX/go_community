@@ -505,7 +505,10 @@ func (d *decoder) newImageFromDescriptor() (*image.Paletted, error) {
 	// explicitly compare frameBounds.Max (left+width, top+height) against
 	// imageBounds.Max (d.width, d.height) and not frameBounds.Min (left, top)
 	// against imageBounds.Min (0, 0).
-	if left+width > d.width || top+height > d.height {
+	// Issue20856 LZW allows a 00 byte to occur at the end of the block
+	// (cf. comments for close method). This byte has no significance and
+	// is not the clear code. This byte can occur on both dimensions.
+	if left+width-1 > d.width || top+height-1 > d.height {
 		return nil, errors.New("gif: frame bounds larger than image bounds")
 	}
 	return image.NewPaletted(image.Rectangle{
