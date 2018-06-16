@@ -21,6 +21,7 @@ var (
 	errNotEnough = errors.New("gif: not enough image data")
 	errTooMuch   = errors.New("gif: too much image data")
 	errBadPixel  = errors.New("gif: invalid pixel value")
+	errFrameTooLarge = errors.New("gif: frame bounds larger than image bounds")
 )
 
 // If the io.Reader does not also have ReadByte, then decode will introduce its own buffering.
@@ -107,6 +108,7 @@ type decoder struct {
 	disposal []byte
 	image    []*image.Paletted
 	tmp      [1024]byte // must be at least 768 so we can read color table
+	extraByte bool // keeps track if an extra byte in data is legit
 }
 
 // blockReader parses the block structure of GIF image data, which comprises
@@ -194,9 +196,7 @@ func (b *blockReader) close() error {
 		// We reached the end of a sub block reading LZW data. We'll allow at
 		// most one more sub block of data with a length of 1 byte.
 		b.fill()
-		if b.err == io.EOF {
-			return nil
-		} else if b.err != nil {
+		if b.err != nil {
 			return b.err
 		} else if b.j > 1 {
 			return errTooMuch
@@ -206,9 +206,8 @@ func (b *blockReader) close() error {
 	// Part of a sub-block remains buffered. We expect that the next attempt to
 	// buffer a sub-block will reach the block terminator.
 	b.fill()
-	if b.err == io.EOF {
-		return nil
-	} else if b.err != nil {
+	// the error is returned to detect how the block was closed. EOF is normal.
+	if b.err != nil {
 		return b.err
 	}
 
@@ -446,9 +445,13 @@ func (d *decoder) readImageDescriptor(keepAllFrames bool) error {
 
 	// In practice, some GIFs have an extra byte in the data sub-block
 	// stream, which we ignore. See https://golang.org/issue/16146.
-	if err := br.close(); err == errTooMuch {
+	if err = br.close(); err == errTooMuch {
 		return errTooMuch
-	} else if err != nil {
+	} else if err == io.EOF && d.extraByte {
+		// an extra byte should have been found
+		return errFrameTooLarge
+	} else if err != nil && err != io.EOF {
+		// br.close must finish on EOF
 		return fmt.Errorf("gif: reading image data: %v", err)
 	}
 
@@ -505,9 +508,16 @@ func (d *decoder) newImageFromDescriptor() (*image.Paletted, error) {
 	// explicitly compare frameBounds.Max (left+width, top+height) against
 	// imageBounds.Max (d.width, d.height) and not frameBounds.Min (left, top)
 	// against imageBounds.Min (0, 0).
-	if left+width > d.width || top+height > d.height {
-		return nil, errors.New("gif: frame bounds larger than image bounds")
+	// Issue20856 LZW allows a 00 byte to occur at the end of the block
+	// (cf. comments for close method). This byte has no significance and
+	// is not the clear code. This byte can occur only on one dimension.
+	// One byte tolerance is acceptable when reading image data.
+	d.extraByte = !(left+width-d.width == 1 && top+height-d.height == 1)
+	if (left+width-1 > d.width || top+height-1 > d.height) && d.extraByte {
+		return nil, errFrameTooLarge
 	}
+	// The possible extra byte must be found when true
+	d.extraByte = left+width-d.width == 1 || top+height-d.height == 1 && d.extraByte
 	return image.NewPaletted(image.Rectangle{
 		Min: image.Point{left, top},
 		Max: image.Point{left + width, top + height},

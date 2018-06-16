@@ -17,6 +17,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"testing"
+	"fmt"
 )
 
 // header, palette and trailer are parts of a valid 2x1 GIF image.
@@ -78,7 +79,7 @@ func TestDecode(t *testing.T) {
 		// a bogus sub-block following.
 		{2, 1, 1, errTooMuch},
 	}
-	for _, tc := range testCases {
+	for i, tc := range testCases {
 		b := &bytes.Buffer{}
 		b.WriteString(headerStr)
 		b.WriteString(paletteStr)
@@ -90,8 +91,8 @@ func TestDecode(t *testing.T) {
 		if tc.nPix > 0 {
 			enc := lzwEncode(make([]byte, tc.nPix))
 			if len(enc)+tc.extraExisting > 0xff {
-				t.Errorf("nPix=%d, extraExisting=%d, extraSeparate=%d: compressed length %d is too large",
-					tc.nPix, tc.extraExisting, tc.extraSeparate, len(enc))
+				t.Errorf("%d: nPix=%d, extraExisting=%d, extraSeparate=%d: compressed length %d is too large",
+					i, tc.nPix, tc.extraExisting, tc.extraSeparate, len(enc))
 				continue
 			}
 
@@ -116,8 +117,8 @@ func TestDecode(t *testing.T) {
 
 		got, err := Decode(b)
 		if err != tc.wantErr {
-			t.Errorf("nPix=%d, extraExisting=%d, extraSeparate=%d\ngot  %v\nwant %v",
-				tc.nPix, tc.extraExisting, tc.extraSeparate, err, tc.wantErr)
+			t.Errorf("%d: nPix=%d, extraExisting=%d, extraSeparate=%d\ngot  %v\nwant %v",
+				i, tc.nPix, tc.extraExisting, tc.extraSeparate, err, tc.wantErr)
 		}
 
 		if tc.wantErr != nil {
@@ -133,8 +134,8 @@ func TestDecode(t *testing.T) {
 			},
 		}
 		if !reflect.DeepEqual(got, want) {
-			t.Errorf("nPix=%d, extraExisting=%d, extraSeparate=%d\ngot  %v\nwant %v",
-				tc.nPix, tc.extraExisting, tc.extraSeparate, got, want)
+			t.Errorf("%d: nPix=%d, extraExisting=%d, extraSeparate=%d\ngot  %v\nwant %v",
+				i, tc.nPix, tc.extraExisting, tc.extraSeparate, got, want)
 		}
 	}
 }
@@ -219,7 +220,7 @@ func TestBounds(t *testing.T) {
 	copy(gif, testGIF)
 	// Make the bounds too big, just by one.
 	gif[32] = 2
-	want := "gif: frame bounds larger than image bounds"
+	want := "gif: not enough image data"
 	try(t, gif, want)
 
 	// Make the bounds too small; does not trigger bounds
@@ -437,5 +438,41 @@ func BenchmarkDecode(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		Decode(bytes.NewReader(data))
+	}
+}
+
+func TestExtraByte(t *testing.T) {
+	m := image.NewPaletted(image.Rect(0, 0, 4, 3), color.Palette{
+		color.Black,
+		color.White,
+	})
+	buf := bytes.NewBuffer(nil)
+	err := Encode(buf, m, &Options{
+		NumColors: 2,
+	})
+	if err != nil {
+		t.Fatalf("%v",err)
+	}
+
+	enc := buf.Bytes()
+
+	// Change the first frame's left offset from 0 to 1. Note that we don't
+	// change the LZW data at all, let alone add "a meaningless 00 byte to
+	// occur at the end of the block". Still, according to the GIF spec
+	// (https://www.w3.org/Graphics/GIF/spec-gif89a.txt), this is an invalid
+	// gif, as the spec (section 20, Image Descriptor) says "Each image must
+	// fit within the boundaries of the Logical Screen, as defined in the
+	// Logical Screen Descriptor". The spec uses "image" and "screen" for what
+	// Go calls "frame" and "image".
+	_, err = DecodeAll(bytes.NewReader(enc))
+	if err != nil {
+		t.Fatalf("%v",err)
+	}
+	enc[20]++
+
+	// Decoding *should* produce "gif: frame bounds larger than image bounds".
+	_, err = DecodeAll(bytes.NewReader(enc))
+	if got, want := fmt.Sprint(err), "gif: frame bounds larger than image bounds"; got != want {
+		t.Fatalf("want %s, got %s",want,got)
 	}
 }
