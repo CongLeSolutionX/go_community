@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "997df71e_cf03a63b",
+        "filename": "src/crypto/rand/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-17T21:40:04Z",
+      "side": 1,
+      "message": "pseudorandom?",
+      "revId": "6100c2da05c921e868483613663f73c9d38628c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
