@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "801a905f_45285cb9",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-17T21:38:05Z",
+      "side": 1,
+      "message": "instead of adding quotes manually, use %q which formats it as a Go string literal.",
+      "range": {
+        "startLine": 114,
+        "startChar": 60,
+        "endLine": 114,
+        "endChar": 64
+      },
+      "revId": "ad203ca09afe5f1f1068c54d9609df159e4ff773",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
