@@ -16,6 +16,24 @@
       "revId": "6100c2da05c921e868483613663f73c9d38628c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cfe8b04_0d43b287",
+        "filename": "src/crypto/rand/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2018-06-17T23:05:06Z",
+      "side": 1,
+      "message": "Yes, at least I believe the /dev/random family of devices are pseudo-random number generators, by using random bits to create a larger number of pseudo-random bits.",
+      "parentUuid": "997df71e_cf03a63b",
+      "revId": "6100c2da05c921e868483613663f73c9d38628c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
