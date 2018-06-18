@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dea8d2e9_86ea029a",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-06-18T18:22:31Z",
+      "side": 1,
+      "message": "I\u0027ve observed a TestmainGo\u003d\u003dnil panic here. Will report an issue when I can reproduce it.",
+      "revId": "296e676575af1967e681b85a5f14b56ddd4a6e29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93997e37_fb7fb4ee",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-06-18T18:22:31Z",
+      "side": 1,
+      "message": "GoFiles will be empty if control reaches here via L238.",
+      "revId": "296e676575af1967e681b85a5f14b56ddd4a6e29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
