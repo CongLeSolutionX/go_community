@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80ae34f0_d4279cd4",
+        "filename": "src/runtime/runtime-lldb_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-18T21:48:38Z",
+      "side": 1,
+      "message": "Add a comment explaining why this can happen.",
+      "revId": "00e7c4e50ed3ff3f1af32eba44e3b07b533cbcf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
