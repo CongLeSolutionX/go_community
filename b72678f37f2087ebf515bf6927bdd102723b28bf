@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ce345c1_3a465e4a",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-06-19T22:16:04Z",
+      "side": 0,
+      "message": "Equivalent to c.vers \u003e\u003d VersionTLS12, so the correct logic in pickSignatureAlgorithm is used.",
+      "range": {
+        "startLine": 524,
+        "startChar": 5,
+        "endLine": 524,
+        "endChar": 35
+      },
+      "revId": "b72678f37f2087ebf515bf6927bdd102723b28bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

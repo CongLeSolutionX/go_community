@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac55e742_5919567c",
+        "filename": "src/crypto/tls/auth.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-06-19T22:16:04Z",
+      "side": 1,
+      "message": "Document that peerSigAlgs is ignored for tlsVersion \u003c VersionTLS12.",
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e968e025_0e9e402d",
+        "filename": "src/crypto/tls/auth.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-06-19T22:16:04Z",
+      "side": 1,
+      "message": "This needs a name.",
+      "range": {
+        "startLine": 21,
+        "startChar": 133,
+        "endLine": 21,
+        "endChar": 138
+      },
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de5f4e8c_c245d049",
+        "filename": "src/crypto/tls/auth.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-06-19T22:16:04Z",
+      "side": 1,
+      "message": "A default with \"unsupported public key\" would make a better error message.",
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8550fcc_dd1ae8d8",
+        "filename": "src/crypto/tls/key_agreement.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-06-19T22:16:04Z",
+      "side": 1,
+      "message": "\"or a default based on the sigType for TLS versions before 1.2\"",
+      "range": {
+        "startLine": 111,
+        "startChar": 3,
+        "endLine": 111,
+        "endChar": 32
+      },
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5d09749_6b9e0cd4",
+        "filename": "src/crypto/tls/key_agreement.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-06-19T22:16:04Z",
+      "side": 1,
+      "message": "sig, err :\u003d priv.Sign(...",
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
