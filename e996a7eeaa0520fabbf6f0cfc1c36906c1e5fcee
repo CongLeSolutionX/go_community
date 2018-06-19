@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c3d1629_566e700a",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-06-19T22:33:37Z",
+      "side": 1,
+      "message": "Remove this reference as they don\u0027t match the enum anymore.",
+      "range": {
+        "startLine": 130,
+        "startChar": 36,
+        "endLine": 130,
+        "endChar": 65
+      },
+      "revId": "e996a7eeaa0520fabbf6f0cfc1c36906c1e5fcee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
