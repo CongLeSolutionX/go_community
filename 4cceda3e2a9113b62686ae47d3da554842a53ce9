@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0b83f75_f4a240fb",
+        "filename": "src/debug/macho/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-19T21:43:57Z",
+      "side": 1,
+      "message": "I wonder if it\u0027s worth abstracting this out into a debug/internal package...\n\nYou might be able to pull almost all of File.DWARF into a shared function.",
+      "revId": "4cceda3e2a9113b62686ae47d3da554842a53ce9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
