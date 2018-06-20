@@ -18,5 +18,13 @@ var (
 	) ([]IPAddr, error) {
 		return fn(ctx, host)
 	}
+	testHookLookupIPExt = func(
+		ctx context.Context,
+		fn func(context.Context, string, string) ([]IPAddr, error),
+		network string,
+		host string,
+	) ([]IPAddr, error) {
+		return fn(ctx, network, host)
+	}
 	testHookSetKeepAlive = func() {}
 )
