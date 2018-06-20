@@ -1008,3 +1008,29 @@ func TestConcurrentPreferGoResolversDial(t *testing.T) {
 		}
 	}
 }
+
+var networkTypeTests = []struct {
+	network string
+	ntype   byte
+}{
+	{"tcp", 0},
+	{"tcp4", '4'},
+	{"tcp6", '6'},
+	{"udp", 0},
+	{"udp4", '4'},
+	{"udp6", '6'},
+	{"ip", 0},
+	{"ip4", '4'},
+	{"ip6", '6'},
+	{"ip7", 0},
+	{"", 0},
+}
+
+func TestNetworkType(t *testing.T) {
+	for _, tt := range networkTypeTests {
+		if ntype := networkType(tt.network); ntype != tt.ntype {
+			t.Errorf("Family for: %s. Expected: %s, Got: %s", tt.network,
+				string(tt.ntype), string(ntype))
+		}
+	}
+}

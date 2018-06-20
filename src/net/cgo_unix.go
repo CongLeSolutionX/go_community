@@ -49,7 +49,7 @@ type reverseLookupResult struct {
 }
 
 func cgoLookupHost(ctx context.Context, name string) (hosts []string, err error, completed bool) {
-	addrs, err, completed := cgoLookupIP(ctx, name)
+	addrs, err, completed := cgoLookupIP(ctx, "", name)
 	for _, addr := range addrs {
 		hosts = append(hosts, addr.String())
 	}
@@ -135,13 +135,20 @@ func cgoPortLookup(result chan<- portLookupResult, hints *C.struct_addrinfo, net
 	result <- portLookupResult{port, err}
 }
 
-func cgoLookupIPCNAME(name string) (addrs []IPAddr, cname string, err error) {
+func cgoLookupIPCNAME(network, name string) (addrs []IPAddr, cname string, err error) {
 	acquireThread()
 	defer releaseThread()
 
 	var hints C.struct_addrinfo
 	hints.ai_flags = cgoAddrInfoFlags
 	hints.ai_socktype = C.SOCK_STREAM
+	hints.ai_family = C.AF_UNSPEC
+	switch networkType(network) {
+	case '4':
+		hints.ai_family = C.AF_INET
+	case '6':
+		hints.ai_family = C.AF_INET6
+	}
 
 	h := make([]byte, len(name)+1)
 	copy(h, name)
@@ -197,18 +204,18 @@ func cgoLookupIPCNAME(name string) (addrs []IPAddr, cname string, err error) {
 	return addrs, cname, nil
 }
 
-func cgoIPLookup(result chan<- ipLookupResult, name string) {
-	addrs, cname, err := cgoLookupIPCNAME(name)
+func cgoIPLookup(result chan<- ipLookupResult, network, name string) {
+	addrs, cname, err := cgoLookupIPCNAME(network, name)
 	result <- ipLookupResult{addrs, cname, err}
 }
 
-func cgoLookupIP(ctx context.Context, name string) (addrs []IPAddr, err error, completed bool) {
+func cgoLookupIP(ctx context.Context, network, name string) (addrs []IPAddr, err error, completed bool) {
 	if ctx.Done() == nil {
-		addrs, _, err = cgoLookupIPCNAME(name)
+		addrs, _, err = cgoLookupIPCNAME(network, name)
 		return addrs, err, true
 	}
 	result := make(chan ipLookupResult, 1)
-	go cgoIPLookup(result, name)
+	go cgoIPLookup(result, network, name)
 	select {
 	case r := <-result:
 		return r.addrs, r.err, true
@@ -219,11 +226,11 @@ func cgoLookupIP(ctx context.Context, name string) (addrs []IPAddr, err error, c
 
 func cgoLookupCNAME(ctx context.Context, name string) (cname string, err error, completed bool) {
 	if ctx.Done() == nil {
-		_, cname, err = cgoLookupIPCNAME(name)
+		_, cname, err = cgoLookupIPCNAME("", name)
 		return cname, err, true
 	}
 	result := make(chan ipLookupResult, 1)
-	go cgoIPLookup(result, name)
+	go cgoIPLookup(result, "", name)
 	select {
 	case r := <-result:
 		return r.cname, r.err, true
