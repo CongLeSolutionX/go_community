@@ -1008,3 +1008,29 @@ func TestConcurrentPreferGoResolversDial(t *testing.T) {
 		}
 	}
 }
+
+var parseFamilyTests = []struct {
+	network string
+	family  byte
+}{
+	{"tcp", 'u'},
+	{"tcp4", '4'},
+	{"tcp6", '6'},
+	{"udp", 'u'},
+	{"udp4", '4'},
+	{"udp6", '6'},
+	{"ip", 'u'},
+	{"ip4", '4'},
+	{"ip6", '6'},
+	{"ip7", 'u'},
+	{"", 'u'},
+}
+
+func TestParseFamily(t *testing.T) {
+	for _, tt := range parseFamilyTests {
+		if family := parseNetworkFamily(tt.network); family != tt.family {
+			t.Errorf("Family for: %s. Expected: %s, Got: %s", tt.network,
+				string(tt.family), string(family))
+		}
+	}
+}
