@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f717487_2e8ceae2",
+        "filename": "src/image/gif/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2018-06-20T07:27:20Z",
+      "side": 1,
+      "message": "I don\u0027t think that this is the right fix.\n\nFor example, https://play.golang.org/p/P1BILoJg5cY generates an invalid GIF image that this patch will now accept (but shouldn\u0027t), and that play snippet has nothing to do with LZW.",
+      "revId": "f752580f8c1014e363c428af2405dc58e12b9555",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
