@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "ac961c40_965e3c58",
+        "filename": "src/crypto/tls/auth.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 24681
+      },
+      "writtenOn": "2018-06-20T15:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7db70f52_90353da0",
+      "range": {
+        "startLine": 21,
+        "startChar": 133,
+        "endLine": 21,
+        "endChar": 138
+      },
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de5f4e8c_c245d049",
         "filename": "src/crypto/tls/auth.go",
         "patchSetId": 1
