@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "7db70f52_90353da0",
+        "filename": "src/crypto/tls/auth.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-06-20T15:24:01Z",
+      "side": 1,
+      "message": "Just meant a named return value\n\n    (sigAlg SignatureScheme, sigType uint8, hashFunc crypto.Hash, err error)\n\nit stutters, but better than a naked uint8.",
+      "parentUuid": "5108b563_60d390cc",
+      "range": {
+        "startLine": 21,
+        "startChar": 133,
+        "endLine": 21,
+        "endChar": 138
+      },
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de5f4e8c_c245d049",
         "filename": "src/crypto/tls/auth.go",
         "patchSetId": 1
@@ -180,6 +204,24 @@
       "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "056d504a_bf917ee6",
+        "filename": "src/crypto/tls/key_agreement.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-06-20T15:24:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5d09749_6b9e0cd4",
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
