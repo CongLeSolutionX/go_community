@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "49b4e581_f2fb1894",
+        "filename": "src/crypto/tls/auth.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 24681
+      },
+      "writtenOn": "2018-06-20T12:38:34Z",
+      "side": 1,
+      "message": "I think this was already addressed in PS3, but will make it more explicit.",
+      "parentUuid": "ac55e742_5919567c",
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e968e025_0e9e402d",
         "filename": "src/crypto/tls/auth.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-06-19T22:16:04Z",
       "side": 1,
       "message": "This needs a name.",
+      "range": {
+        "startLine": 21,
+        "startChar": 133,
+        "endLine": 21,
+        "endChar": 138
+      },
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5108b563_60d390cc",
+        "filename": "src/crypto/tls/auth.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 24681
+      },
+      "writtenOn": "2018-06-20T12:38:34Z",
+      "side": 1,
+      "message": "I think that a new type name is better left for another patch (perhaps the follow-up patch since that recognizes that the enum values no longer need to match the RFC values).",
+      "parentUuid": "e968e025_0e9e402d",
       "range": {
         "startLine": 21,
         "startChar": 133,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "5a7417b7_5aa0cce3",
+        "filename": "src/crypto/tls/auth.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 24681
+      },
+      "writtenOn": "2018-06-20T12:38:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de5f4e8c_c245d049",
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8550fcc_dd1ae8d8",
         "filename": "src/crypto/tls/key_agreement.go",
         "patchSetId": 1
@@ -79,6 +139,30 @@
       "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e24b54d_7d2c0094",
+        "filename": "src/crypto/tls/key_agreement.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 24681
+      },
+      "writtenOn": "2018-06-20T12:38:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8550fcc_dd1ae8d8",
+      "range": {
+        "startLine": 111,
+        "startChar": 3,
+        "endLine": 111,
+        "endChar": 32
+      },
+      "revId": "7a48b4820e8a8bb9bc859c4c5baa78f052ecbcb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {

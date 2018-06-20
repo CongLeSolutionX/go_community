@@ -22,6 +22,30 @@
       "revId": "b72678f37f2087ebf515bf6927bdd102723b28bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13681450_4d020918",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 24681
+      },
+      "writtenOn": "2018-06-20T12:38:34Z",
+      "side": 0,
+      "message": "Ack. There is nnothing to do here, or would you like an additional reminding comment here that notes that \"certVerify.signatureAlgorithm\" is only used for c.vers \u003e\u003d VersionTLS12?",
+      "parentUuid": "8ce345c1_3a465e4a",
+      "range": {
+        "startLine": 524,
+        "startChar": 5,
+        "endLine": 524,
+        "endChar": 35
+      },
+      "revId": "b72678f37f2087ebf515bf6927bdd102723b28bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
