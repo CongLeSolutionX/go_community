@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86cb9eb3_276e1b16",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-06-20T18:21:01Z",
+      "side": 1,
+      "message": "I reworded this because it may mislead a new contributor\ninto thinking that people work on go.googlesource.com \n(they don\u0027t, literally everything happens on github and\ngerrit).",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 36
+      },
+      "revId": "5c48c1e4c8ba938e4b9ba70c02ea1a642dbb8a40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1428010_6f63139b",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-06-20T18:21:01Z",
+      "side": 1,
+      "message": "\"command line terminal\" seemed redundant.",
+      "range": {
+        "startLine": 193,
+        "startChar": 41,
+        "endLine": 193,
+        "endChar": 49
+      },
+      "revId": "5c48c1e4c8ba938e4b9ba70c02ea1a642dbb8a40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eb75f3f_51754b11",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-06-20T18:21:01Z",
+      "side": 1,
+      "message": "This new wording closely mirrors the wording on the\ndocument describing the proposal process.",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 321,
+        "endChar": 31
+      },
+      "revId": "5c48c1e4c8ba938e4b9ba70c02ea1a642dbb8a40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
