@@ -12,7 +12,9 @@
 
 package net
 
-import _ "unsafe" // for go:linkname
+import (
+	_ "unsafe"
+) // for go:linkname
 
 // IP address lengths (bytes).
 const (
@@ -728,4 +730,17 @@ func ParseCIDR(s string) (IP, *IPNet, error) {
 	}
 	m := CIDRMask(n, 8*iplen)
 	return ip, &IPNet{IP: ip.Mask(m), Mask: m}, nil
+}
+
+// parseFamily returns network family: '4', '6' or 'u'
+func parseFamily(network string) byte {
+	var n byte
+	if network != "" {
+		n = network[len(network)-1]
+	}
+	if n != '4' && n != '6' {
+		n = 'u'
+	}
+
+	return n
 }

@@ -65,7 +65,7 @@ func lookupProtocol(ctx context.Context, name string) (int, error) {
 }
 
 func (r *Resolver) lookupHost(ctx context.Context, name string) ([]string, error) {
-	ips, err := r.lookupIP(ctx, name)
+	ips, err := r.lookupIP(ctx, "", name)
 	if err != nil {
 		return nil, err
 	}
@@ -76,14 +76,20 @@ func (r *Resolver) lookupHost(ctx context.Context, name string) ([]string, error
 	return addrs, nil
 }
 
-func (r *Resolver) lookupIP(ctx context.Context, name string) ([]IPAddr, error) {
+func (r *Resolver) lookupIP(ctx context.Context, network, name string) ([]IPAddr, error) {
 	// TODO(bradfitz,brainman): use ctx more. See TODO below.
+
+	net2family := map[byte]int{
+		'u': syscall.AF_UNSPEC,
+		'4': syscall.AF_INET,
+		'6': syscall.AF_INET6,
+	}
 
 	getaddr := func() ([]IPAddr, error) {
 		acquireThread()
 		defer releaseThread()
 		hints := syscall.AddrinfoW{
-			Family:   syscall.AF_UNSPEC,
+			Family:   net2family[parseFamily(network)],
 			Socktype: syscall.SOCK_STREAM,
 			Protocol: syscall.IPPROTO_IP,
 		}
