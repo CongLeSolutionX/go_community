@@ -189,6 +189,12 @@ func LookupIP(host string) ([]IP, error) {
 // LookupIPAddr looks up host using the local resolver.
 // It returns a slice of that host's IPv4 and IPv6 addresses.
 func (r *Resolver) LookupIPAddr(ctx context.Context, host string) ([]IPAddr, error) {
+	return r.lookupIPAddr(ctx, "", host)
+}
+
+// lookupIPAddr looks up host using the local resolver and particular network.
+// It returns a slice of that host's IPv4 and IPv6 addresses.
+func (r *Resolver) lookupIPAddr(ctx context.Context, network, host string) ([]IPAddr, error) {
 	// Make sure that no matter what we do later, host=="" is rejected.
 	// parseIP, for example, does accept empty strings.
 	if host == "" {
@@ -205,7 +211,7 @@ func (r *Resolver) LookupIPAddr(ctx context.Context, host string) ([]IPAddr, err
 	// can be overridden by tests. This is needed by net/http, so it
 	// uses a context key instead of unexported variables.
 	resolverFunc := r.lookupIP
-	if alt, _ := ctx.Value(nettrace.LookupIPAltResolverKey{}).(func(context.Context, string) ([]IPAddr, error)); alt != nil {
+	if alt, _ := ctx.Value(nettrace.LookupIPAltResolverKey{}).(func(context.Context, string, string) ([]IPAddr, error)); alt != nil {
 		resolverFunc = alt
 	}
 
@@ -218,7 +224,7 @@ func (r *Resolver) LookupIPAddr(ctx context.Context, host string) ([]IPAddr, err
 	dnsWaitGroup.Add(1)
 	ch, called := r.getLookupGroup().DoChan(host, func() (interface{}, error) {
 		defer dnsWaitGroup.Done()
-		return testHookLookupIP(lookupGroupCtx, resolverFunc, host)
+		return testHookLookupIPExt(lookupGroupCtx, resolverFunc, network, host)
 	})
 	if !called {
 		dnsWaitGroup.Done()
