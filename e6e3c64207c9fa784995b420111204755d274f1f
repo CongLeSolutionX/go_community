@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44607411_1d642800",
+        "filename": "doc/contribute.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-20T20:55:12Z",
+      "side": 1,
+      "message": "You\u0027re switching to passive voice in this paragraph.  This does not seem like an improvement.",
+      "revId": "e6e3c64207c9fa784995b420111204755d274f1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
