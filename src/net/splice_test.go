@@ -10,6 +10,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"testing"
 )
 
@@ -19,6 +20,7 @@ func TestSplice(t *testing.T) {
 	t.Run("big", testSpliceBig)
 	t.Run("honorsLimitedReader", testSpliceHonorsLimitedReader)
 	t.Run("readerAtEOF", testSpliceReaderAtEOF)
+	t.Run("issue25985", testSpliceIssue25985)
 }
 
 func testSpliceSimple(t *testing.T) {
@@ -232,6 +234,66 @@ func testSpliceReaderAtEOF(t *testing.T) {
 	if !handled {
 		t.Errorf("exhausted LimitedReader: got err = %v, handled = %t, want handled = true", err, handled)
 	}
+}
+
+func testSpliceIssue25985(t *testing.T) {
+	front, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer front.Close()
+	back, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer back.Close()
+
+	proxy := func() error {
+		src, err := front.Accept()
+		if err != nil {
+			return err
+		}
+		dst, err := Dial("tcp", back.Addr().String())
+		if err != nil {
+			return err
+		}
+		defer dst.Close()
+		defer src.Close()
+		errc := make(chan error, 1)
+		go func() {
+			_, err := io.Copy(src, dst)
+			errc <- err
+		}()
+		go func() {
+			_, err := io.Copy(dst, src)
+			errc <- err
+		}()
+		return <-errc
+	}
+
+	proxyErrc := make(chan error, 1)
+	go func() { proxyErrc <- proxy() }()
+
+	toFront, err := Dial("tcp", front.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	io.WriteString(toFront, "foo")
+	toFront.Close()
+
+	fromProxy, err := back.Accept()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer fromProxy.Close()
+
+	_, err = ioutil.ReadAll(fromProxy)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	<-proxyErrc
 }
 
 func BenchmarkTCPReadFrom(b *testing.B) {
