@@ -16,6 +16,92 @@
       "revId": "5cf271ae0e3b3fffba0ebef06eed52c141d73632",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9010d3e7_ecb39884",
+        "filename": "doc/contribute.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2018-06-21T20:48:29Z",
+      "side": 1,
+      "message": "accepted seems more correct here - people are free to implement whatever they want.",
+      "revId": "5cf271ae0e3b3fffba0ebef06eed52c141d73632",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3e0d896_fe716fea",
+        "filename": "doc/contribute.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2018-06-21T20:48:29Z",
+      "side": 1,
+      "message": "gerrit -\u003e Gerrit",
+      "range": {
+        "startLine": 340,
+        "startChar": 38,
+        "endLine": 340,
+        "endChar": 44
+      },
+      "revId": "5cf271ae0e3b3fffba0ebef06eed52c141d73632",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bda2b08b_b73f50c2",
+        "filename": "doc/contribute.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2018-06-21T20:48:29Z",
+      "side": 1,
+      "message": "a bit of lost information here - the word \"sync\" is meaningful. You could add another sentence to say that updates to the pull request will get reflected in the Gerrit change (but maybe gopherbot says that on the PR?)",
+      "range": {
+        "startLine": 340,
+        "startChar": 15,
+        "endLine": 340,
+        "endChar": 21
+      },
+      "revId": "5cf271ae0e3b3fffba0ebef06eed52c141d73632",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2faa2ee8_74eab54b",
+        "filename": "doc/contribute.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2018-06-21T20:48:29Z",
+      "side": 1,
+      "message": "GitHub",
+      "range": {
+        "startLine": 341,
+        "startChar": 11,
+        "endLine": 341,
+        "endChar": 17
+      },
+      "revId": "5cf271ae0e3b3fffba0ebef06eed52c141d73632",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
