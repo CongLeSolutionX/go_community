@@ -137,7 +137,7 @@ func checkFunc(f *Func) {
 				canHaveAuxInt = true
 			case auxInt32:
 				if v.AuxInt != int64(int32(v.AuxInt)) {
-					f.Fatalf("bad int32 AuxInt value for %v", v)
+					f.Fatalf("bad int32 AuxInt value %v for %v", v.AuxInt, v)
 				}
 				canHaveAuxInt = true
 			case auxInt64, auxFloat64:
