@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dd2609d8_91472e37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-06-21T07:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0250665_8cdf9ba5",
+      "revId": "388e001cc80d69a9e5c83280d6b95bc759e23cb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42866391_9374d73f",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "388e001cc80d69a9e5c83280d6b95bc759e23cb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2b3db95_c6be8bb3",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-06-21T07:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42866391_9374d73f",
+      "range": {
+        "startLine": 138,
+        "startChar": 5,
+        "endLine": 138,
+        "endChar": 17
+      },
+      "revId": "388e001cc80d69a9e5c83280d6b95bc759e23cb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
