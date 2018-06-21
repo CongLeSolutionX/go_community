@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "236aa697_34c651cc",
+        "filename": "doc/contribute.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-21T19:34:08Z",
+      "side": 1,
+      "message": "In this file new sentences always start on a new line.",
+      "revId": "5cf271ae0e3b3fffba0ebef06eed52c141d73632",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
