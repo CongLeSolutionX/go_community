@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "306e44d1_6c6a280f",
+        "filename": "src/runtime/defs_windows_386.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-21T17:43:32Z",
+      "side": 1,
+      "message": "Even though it\u0027s not used, it\u0027s useful documentation to add a line for this struct to defs_windows.go.",
+      "revId": "7c65561527cc8ff67851e35f6c4bde9b0e5b2bca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
