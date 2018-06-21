@@ -16,6 +16,24 @@
       "revId": "e6e3c64207c9fa784995b420111204755d274f1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3aa57a6f_8ae6b2ea",
+        "filename": "doc/contribute.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-06-21T18:22:33Z",
+      "side": 1,
+      "message": "Switched back to active.",
+      "parentUuid": "44607411_1d642800",
+      "revId": "e6e3c64207c9fa784995b420111204755d274f1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
