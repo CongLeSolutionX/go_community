@@ -17,6 +17,7 @@ import (
 	"os"
 	"sort"
 	"strconv"
+	"unicode"
 
 	"cmd/internal/edit"
 	"cmd/internal/objabi"
@@ -115,6 +116,10 @@ func parseFlags() error {
 	// Must either display a profile or rewrite Go source.
 	if (profile == "") == (*mode == "") {
 		return fmt.Errorf("too many options")
+	}
+
+	if *varVar != "" && !isValidIdentifier(*varVar) {
+		return fmt.Errorf("argument of -var is not a valid identifier: %v", *varVar)
 	}
 
 	if *mode != "" {
@@ -687,4 +692,15 @@ func (f *File) addVariables(w io.Writer) {
 	if *mode == "atomic" {
 		fmt.Fprintf(w, "var _ = %s.LoadUint32\n", atomicPackageName)
 	}
+}
+
+func isValidIdentifier(ident string) bool {
+	first := true
+	for _, c := range ident {
+		if !unicode.IsLetter(c) && c != '_' && (first || !unicode.IsDigit(c)) {
+			return false // invalid identifier
+		}
+		first = false
+	}
+	return true
 }

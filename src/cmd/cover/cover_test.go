@@ -97,6 +97,12 @@ func TestCover(t *testing.T) {
 	cmd = exec.Command(testcover, "-mode=count", "-var=thisNameMustBeVeryLongToCauseOverflowOfCounterIncrementStatementOntoNextLineForTest", "-o", coverOutput, coverInput)
 	run(cmd, t)
 
+	cmd = exec.Command(testcover, "-mode=set", "-var=Not_an-identifier", "-o", coverOutput, coverInput)
+	err = cmd.Run()
+	if err == nil {
+		t.Error("Expected cover to fail with an error")
+	}
+
 	// defer removal of ./testdata/test_cover.go
 	if !*debug {
 		defer os.Remove(coverOutput)
