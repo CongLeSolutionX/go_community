@@ -489,3 +489,17 @@ func TestCgoTracebackSigpanic(t *testing.T) {
 		t.Fatalf("failure incorrectly contains %q. output:\n%s\n", nowant, got)
 	}
 }
+
+func TestCgoBigStack(t *testing.T) {
+	// Test that C code can use the large Windows stack without
+	// crashing Go.
+	if runtime.GOOS != "windows" {
+		t.Skip("skipping windows specific test")
+	}
+	t.Parallel()
+	got := runTestProg(t, "testprogcgo", "BigStack")
+	want := "OK\n"
+	if got != want {
+		t.Errorf("expected %q got %v", want, got)
+	}
+}
