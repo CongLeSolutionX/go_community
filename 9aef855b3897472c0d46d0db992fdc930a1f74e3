@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b971271_73bdf031",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-22T22:45:03Z",
+      "side": 1,
+      "message": "Introducing stackSizeFromPEHeader const just confuses me. I would just use 0 instead. People will lookup CreateThread documentation to see how it works.",
+      "range": {
+        "startLine": 625,
+        "startChar": 7,
+        "endLine": 625,
+        "endChar": 28
+      },
+      "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a578d996_a59f8d8d",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-22T22:45:03Z",
+      "side": 1,
+      "message": "Why is that OK to replace _STACK_SIZE_PARAM_IS_A_RESERVATION with 0?",
+      "range": {
+        "startLine": 628,
+        "startChar": 3,
+        "endLine": 628,
+        "endChar": 4
+      },
+      "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8692dc75_8b59ae28",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-22T22:45:03Z",
+      "side": 1,
+      "message": "You can call GetLastError to get details about why VirtualQuery failed, if you want. And print it as part of throw message.",
+      "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0039fdf_374761b8",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-22T22:45:03Z",
+      "side": 1,
+      "message": "Why adding 1024. You need some comment to explain.",
+      "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
