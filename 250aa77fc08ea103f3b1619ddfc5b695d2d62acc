@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbc885ac_d93b256a",
+        "filename": "src/cmd/compile/internal/arm64/ggen.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-22T15:00:20Z",
+      "side": 1,
+      "message": "0 is also 16 bytes aligned. No need the special case now.",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5965d45a_fb1362fe",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-22T15:00:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand this part. If FP is enabled and GOARCH is ARM64, it seems the result is the same before and after. Do you mean to subtract Widthptr regardless of whether FP is enabled on ARM64? Why?",
+      "range": {
+        "startLine": 430,
+        "startChar": 0,
+        "endLine": 435,
+        "endChar": 35
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6856d08a_adcee95d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-22T15:00:20Z",
+      "side": 1,
+      "message": "8 or16 now",
+      "range": {
+        "startLine": 1448,
+        "startChar": 20,
+        "endLine": 1448,
+        "endChar": 22
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d92a060c_c9f90935",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1549,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-22T15:00:20Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 1549,
+        "startChar": 20,
+        "endLine": 1549,
+        "endChar": 22
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fd86ec7_58baa889",
+        "filename": "src/cmd/internal/objabi/util.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-22T15:00:20Z",
+      "side": 1,
+      "message": "Do we want to enable frame pointer on darwin? Per previous discussion, it doesn\u0027t seem to help. I\u0027m not sure whether it causes problem. Elias?",
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d0c7006_4550da62",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-22T15:00:20Z",
+      "side": 1,
+      "message": "Do we need to increase the frame size here? It doesn\u0027t seem to store anything there. Also, it\u0027s hard to understand what these numbers are for.",
+      "range": {
+        "startLine": 1022,
+        "startChar": 16,
+        "endLine": 1022,
+        "endChar": 19
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d37f23a_b8f4be0b",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-22T15:00:20Z",
+      "side": 1,
+      "message": "Update the comment. (or not, if we decided not to do the change in asm_arm64.s)",
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72a665c9_d958b731",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-22T15:00:20Z",
+      "side": 1,
+      "message": "This can be just combined with the AMD64 case below.",
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f502f1a0_c9f1311f",
+        "filename": "test/nosplit.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-22T15:00:20Z",
+      "side": 1,
+      "message": "I assume this also applies to ARM64 now?\n\nWe probably could check both frame pointer on and off, with something like changing goarch from amd64 to amd64nofp if frame pointer is off, then we can code both cases into the tests. Not necessarily in this CL.",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 2
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
