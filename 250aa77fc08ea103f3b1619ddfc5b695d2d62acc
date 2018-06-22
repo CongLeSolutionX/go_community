@@ -111,6 +111,24 @@
     },
     {
       "key": {
+        "uuid": "b6e9060c_cbba3178",
+        "filename": "src/cmd/internal/objabi/util.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-06-22T22:23:54Z",
+      "side": 1,
+      "message": "Cherry-picking this CL on top of tip (CL 120495) GOARCH\u003darm64 iostest.bash runs until the testcarchive test, which hangs. I\u0027ve confirmed the testcarchive test works on darwin/arm with this CL as well as on darwin/arm64 if I don\u0027t apply this CL.",
+      "parentUuid": "3fd86ec7_58baa889",
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d0c7006_4550da62",
         "filename": "src/runtime/asm_arm64.s",
         "patchSetId": 13
