@@ -16,6 +16,24 @@
       "revId": "7c65561527cc8ff67851e35f6c4bde9b0e5b2bca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bd12004_2a990075",
+        "filename": "src/runtime/defs_windows_386.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-22T19:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "306e44d1_6c6a280f",
+      "revId": "7c65561527cc8ff67851e35f6c4bde9b0e5b2bca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
