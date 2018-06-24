@@ -16,6 +16,24 @@
       "revId": "46c521a7ee4d04971a828d0c0f9d698e1641344d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a408a9d_668ab08c",
+        "filename": "src/html/template/content.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-06-24T12:54:31Z",
+      "side": 1,
+      "message": "This wording is indeed confusing. What I meant is that this mirrors the change in text/template.evalArgs, which is also changed to stringify a single untyped nil as empty string.\n\nBoth are used only when escaping values, such as when doing HTML escaping. So a text/template that simply prints an untyped nil will still print \"\u003cno value\u003e\", as there\u0027s no escaping involved. And yes, there are tests in text/template for that behavior.",
+      "parentUuid": "7c3e517d_4b62819a",
+      "revId": "46c521a7ee4d04971a828d0c0f9d698e1641344d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
