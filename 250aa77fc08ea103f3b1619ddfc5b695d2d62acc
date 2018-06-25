@@ -243,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "b1b95f25_cddd5946",
+        "filename": "src/cmd/internal/objabi/util.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-06-25T11:06:05Z",
+      "side": 1,
+      "message": "With PS 14, the std tests crash with errors that look like memory corruption. I\u0027ve pasted a few such traces here: https://pastebin.com/2gm8wCMA.\n\nCommenting line 1049 and 1050 in asm_arm64.s doesn\u0027t seem to make a difference (the tests still crash).",
+      "parentUuid": "1d930031_04258a7e",
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d0c7006_4550da62",
         "filename": "src/runtime/asm_arm64.s",
         "patchSetId": 13
