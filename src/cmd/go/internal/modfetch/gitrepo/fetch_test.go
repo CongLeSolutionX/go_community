@@ -52,6 +52,11 @@ func testMain(m *testing.M) int {
 		// which will let us test remote git archive invocations.
 		localGitRepo = filepath.Join(dir, "gitrepo2")
 		if _, err := codehost.Run("", "git", "clone", "--mirror", gitrepo1, localGitRepo); err != nil {
+			if strings.Contains(err.Error(), "Could not resolve host") {
+				fmt.Fprintln(os.Stderr, "skipping because repository hostname resolution failed")
+				fmt.Println("PASS")
+				return 0
+			}
 			log.Fatal(err)
 		}
 		if _, err := codehost.Run(localGitRepo, "git", "config", "daemon.uploadarch", "true"); err != nil {
