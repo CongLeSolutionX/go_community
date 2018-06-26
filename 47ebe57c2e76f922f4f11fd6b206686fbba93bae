@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ee9d463_24ae4df2",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-26T18:52:19Z",
+      "side": 1,
+      "message": "If I understand correctly, the example works with any struct type T that has a *T field. It is not necessarily gc.Node. This is one of the confusion. People may think about gc.Node. Maybe rename the type.",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 27
+      },
+      "revId": "47ebe57c2e76f922f4f11fd6b206686fbba93bae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
