@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39a43055_70bdcbb3",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-26T13:21:07Z",
+      "side": 1,
+      "message": "Thanks, but comments here won\u0027t make it into https://golang.org/cmd/link, so few users will ever see it.  This is too much documentation for an internal function.  Just the first sentence here would be enough for an internal comment.",
+      "revId": "cb08552b677bf0805a0f6c6de8ae44c2ad7b9b96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
