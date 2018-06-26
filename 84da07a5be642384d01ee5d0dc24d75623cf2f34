@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "553030f4_f0a60f12",
+        "filename": "src/net/rpc/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-06-26T21:28:10Z",
+      "side": 1,
+      "message": "I find this wording a little confusing. This is documenting a property it doesn\u0027t need, very strange.\n\nAnd maybe unnecessary.\nWe never say that something is not thread-safe, we only say when it is. What about just dropping this?",
+      "revId": "84da07a5be642384d01ee5d0dc24d75623cf2f34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0527e8d3_886074f0",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-06-26T21:28:10Z",
+      "side": 1,
+      "message": "Good.",
+      "revId": "84da07a5be642384d01ee5d0dc24d75623cf2f34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
