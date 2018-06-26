@@ -41,6 +41,10 @@ Flags:
 		Set the value of the string variable in importpath named name to value.
 		Note that before Go 1.5 this option took two separate arguments.
 		Now it takes one argument split on the first = sign.
+		For a variable initialized with a function call, the variable's value
+		is set by an initialization function. The -X option simply changes the initial value
+		stored in the data section, but does not affect the initialization function.
+		So using -X with variable initialized by function takes no effect.
 	-buildmode mode
 		Set build mode (default exe).
 	-cpuprofile file
