@@ -444,6 +444,7 @@ func (c *gobServerCodec) Close() error {
 // The caller typically invokes ServeConn in a go statement.
 // ServeConn uses the gob wire format (see package gob) on the
 // connection. To use an alternate codec, use ServeCodec.
+// conn does not need to be safe for concurrent use by multiple goroutines.
 func (server *Server) ServeConn(conn io.ReadWriteCloser) {
 	buf := bufio.NewWriter(conn)
 	srv := &gobServerCodec{
@@ -656,9 +657,9 @@ func RegisterName(name string, rcvr interface{}) error {
 type ServerCodec interface {
 	ReadRequestHeader(*Request) error
 	ReadRequestBody(interface{}) error
-	// WriteResponse must be safe for concurrent use by multiple goroutines.
 	WriteResponse(*Response, interface{}) error
 
+	// Close can be called multiple times and must be idempotent.
 	Close() error
 }
 
@@ -667,6 +668,7 @@ type ServerCodec interface {
 // The caller typically invokes ServeConn in a go statement.
 // ServeConn uses the gob wire format (see package gob) on the
 // connection. To use an alternate codec, use ServeCodec.
+// conn does not need to be safe for concurrent use by multiple goroutines.
 func ServeConn(conn io.ReadWriteCloser) {
 	DefaultServer.ServeConn(conn)
 }
