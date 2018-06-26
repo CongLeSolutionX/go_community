@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbab15de_86cd00b7",
+        "filename": "src/cmd/link/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-26T17:19:32Z",
+      "side": 1,
+      "message": "How about something like\n\nSet the value of the string variable in importpath named name to value.\nThis is only effective if the variable is declared in the source code either uninitialized\nor initialized to a constant string expression. -X will not work if the initializer makes\na function call or refers to other variables.\nNote that before ....",
+      "revId": "f48c9a8bf76f2eaa2b62eb9d5cb4e3eec410cfd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eb2c527_01f851a5",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-26T17:19:32Z",
+      "side": 1,
+      "message": "addstrdata sets the initial value of the string variable name to value.",
+      "revId": "f48c9a8bf76f2eaa2b62eb9d5cb4e3eec410cfd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
