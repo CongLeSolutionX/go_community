@@ -828,6 +828,15 @@ func addstrdata1(ctxt *Link, arg string) {
 	strdata[name] = value
 }
 
+// addstrdata changes global variable initial value stored in data section.
+// For a variable initialized with a function call, the variable's value
+// is set by an initialization function.
+//
+// The -X option simply changes the initial value stored in the data section,
+// but does not affect the initialization function. So using -X with variable
+// initialized by function take no effect.
+//
+// See: https://github.com/golang/go/issues/26042
 func addstrdata(ctxt *Link, name, value string) {
 	s := ctxt.Syms.ROLookup(name, 0)
 	if s == nil || s.Gotype == nil {
