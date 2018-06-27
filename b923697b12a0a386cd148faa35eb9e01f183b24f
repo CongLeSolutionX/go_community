@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "83e601d0_3cda0a87",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-06-27T16:12:49Z",
+      "side": 1,
+      "message": "Yes. Is there some standard way on how to format tables in godoc?",
+      "parentUuid": "6726c326_18c6fee9",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 2
+      },
+      "revId": "b923697b12a0a386cd148faa35eb9e01f183b24f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4316e2d_b3b2a263",
         "filename": "src/syscall/js/js.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-06-27T15:51:58Z",
       "side": 1,
       "message": "this seems like a dangerous tool to give users who don\u0027t know how Go\u0027s GC works.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 0
+      },
+      "revId": "b923697b12a0a386cd148faa35eb9e01f183b24f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9073923_37edc19c",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-06-27T16:12:49Z",
+      "side": 1,
+      "message": "JavaScript has no finalizers. I can\u0027t think of much to improve this. Here are two thoughts:\n\n1. Have an explicit function to close/dispose such a value, similar to js.Callback.Close. This would be cumbersome and you could still mess up Go\u0027s memory if you use the typed array after closing it on Go\u0027s side. No way to prevent that.\n\n2. Copy the data to memory managed by JS. This would affect performance and we would also need to provide some function to copy from JS to Go, since you couldn\u0027t write into Go\u0027s memory any more with ValueOf. This might even make use cases infeasible where repeated copying is too slow. Of course one could still manually share memory without using the ValueOf helper.\n\nAny opinion or other ideas?",
+      "parentUuid": "c4316e2d_b3b2a263",
       "range": {
         "startLine": 113,
         "startChar": 0,
