@@ -141,6 +141,30 @@
       "revId": "b923697b12a0a386cd148faa35eb9e01f183b24f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "004d7a9f_e890657c",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-06-27T17:30:57Z",
+      "side": 1,
+      "message": "I\u0027ve changed this CL to instead add a new function js.TypedArrayOf which implements (1).",
+      "parentUuid": "7a215d96_c2d151dc",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 0
+      },
+      "revId": "b923697b12a0a386cd148faa35eb9e01f183b24f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
