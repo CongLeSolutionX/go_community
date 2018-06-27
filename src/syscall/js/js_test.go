@@ -109,6 +109,26 @@ func TestObject(t *testing.T) {
 	}
 }
 
+func TestSlice(t *testing.T) {
+	testSlice(t, "[]int8", []int8{0, -42, 0}, -42)
+	testSlice(t, "[]int16", []int16{0, -42, 0}, -42)
+	testSlice(t, "[]int32", []int32{0, -42, 0}, -42)
+	testSlice(t, "[]uint8", []uint8{0, 42, 0}, 42)
+	testSlice(t, "[]uint16", []uint16{0, 42, 0}, 42)
+	testSlice(t, "[]uint32", []uint32{0, 42, 0}, 42)
+	testSlice(t, "[]float32", []float32{0, -42.5, 0}, -42.5)
+	testSlice(t, "[]float64", []float64{0, -42.5, 0}, -42.5)
+}
+
+func testSlice(t *testing.T, name string, slice interface{}, want float64) {
+	t.Run(name, func(t *testing.T) {
+		got := js.ValueOf(slice).Index(1).Float()
+		if got != want {
+			t.Errorf("got %#v, want %#v", got, want)
+		}
+	})
+}
+
 func TestNaN(t *testing.T) {
 	want := js.ValueOf(math.NaN())
 	got := dummys.Get("NaN")

@@ -81,9 +81,36 @@ func Global() Value {
 	return valueGlobal
 }
 
+var int8Array = valueGlobal.Get("Int8Array")
+var int16Array = valueGlobal.Get("Int16Array")
+var int32Array = valueGlobal.Get("Int32Array")
 var uint8Array = valueGlobal.Get("Uint8Array")
+var uint16Array = valueGlobal.Get("Uint16Array")
+var uint32Array = valueGlobal.Get("Uint32Array")
+var float32Array = valueGlobal.Get("Float32Array")
+var float64Array = valueGlobal.Get("Float64Array")
 
-// ValueOf returns x as a JavaScript value.
+// ValueOf returns x as a JavaScript value:
+//
+//  | Go                    | JavaScript            |
+//  | --------------------- | --------------------- |
+//  | js.Value              | [its value]           |
+//  | js.Callback           | function              |
+//  | nil                   | null                  |
+//  | bool                  | boolean               |
+//  | integers and floats   | number                |
+//  | string                | string                |
+//  | []int8                | Int8Array             |
+//  | []int16               | Int16Array            |
+//  | []int32               | Int32Array            |
+//  | []uint8               | Uint8Array            |
+//  | []uint16              | Uint16Array           |
+//  | []uint32              | Uint32Array           |
+//  | []float32             | Float32Array          |
+//  | []float64             | Float64Array          |
+//
+// Typed arrays are backed by the slice's underlying array.
+// The typed array must not be accessed after the underlying array has been garbage collected by Go's GC.
 func ValueOf(x interface{}) Value {
 	switch x := x.(type) {
 	case Value:
@@ -128,11 +155,46 @@ func ValueOf(x interface{}) Value {
 		return floatValue(x)
 	case string:
 		return makeValue(stringVal(x))
-	case []byte:
+	case []int8:
+		if len(x) == 0 {
+			return int8Array.New(memory.Get("buffer"), 0, 0)
+		}
+		return int8Array.New(memory.Get("buffer"), unsafe.Pointer(&x[0]), len(x))
+	case []int16:
+		if len(x) == 0 {
+			return int16Array.New(memory.Get("buffer"), 0, 0)
+		}
+		return int16Array.New(memory.Get("buffer"), unsafe.Pointer(&x[0]), len(x))
+	case []int32:
+		if len(x) == 0 {
+			return int32Array.New(memory.Get("buffer"), 0, 0)
+		}
+		return int32Array.New(memory.Get("buffer"), unsafe.Pointer(&x[0]), len(x))
+	case []uint8:
 		if len(x) == 0 {
 			return uint8Array.New(memory.Get("buffer"), 0, 0)
 		}
 		return uint8Array.New(memory.Get("buffer"), unsafe.Pointer(&x[0]), len(x))
+	case []uint16:
+		if len(x) == 0 {
+			return uint16Array.New(memory.Get("buffer"), 0, 0)
+		}
+		return uint16Array.New(memory.Get("buffer"), unsafe.Pointer(&x[0]), len(x))
+	case []uint32:
+		if len(x) == 0 {
+			return uint32Array.New(memory.Get("buffer"), 0, 0)
+		}
+		return uint32Array.New(memory.Get("buffer"), unsafe.Pointer(&x[0]), len(x))
+	case []float32:
+		if len(x) == 0 {
+			return float32Array.New(memory.Get("buffer"), 0, 0)
+		}
+		return float32Array.New(memory.Get("buffer"), unsafe.Pointer(&x[0]), len(x))
+	case []float64:
+		if len(x) == 0 {
+			return float64Array.New(memory.Get("buffer"), 0, 0)
+		}
+		return float64Array.New(memory.Get("buffer"), unsafe.Pointer(&x[0]), len(x))
 	default:
 		panic("invalid value")
 	}
