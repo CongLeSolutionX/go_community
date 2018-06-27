@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b6cf94cb_5a7428a9",
+        "filename": "src/net/ip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 5889
+      },
+      "writtenOn": "2018-06-27T20:11:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "50ab499f_a85a2112",
+      "revId": "2ab625ddf046819ab98a42b2ee59c5a3206f9e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "680a529a_6aceec50",
         "filename": "src/net/lookup_test.go",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2018-06-27T17:47:15Z",
       "side": 1,
       "message": "verify the result matches too? Or at least verify the result doesn\u0027t contain \"%\" ?",
+      "range": {
+        "startLine": 254,
+        "startChar": 1,
+        "endLine": 261,
+        "endChar": 2
+      },
+      "revId": "2ab625ddf046819ab98a42b2ee59c5a3206f9e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb62de50_a380fdf0",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5889
+      },
+      "writtenOn": "2018-06-27T20:11:51Z",
+      "side": 1,
+      "message": "I check for lo0 in the first case because that is what comes back in the zone.\nThe second test would fail before since it couldn\u0027t parse the host.\nI am doing this a bit blind since I don\u0027t have ipv6 configured but the test will run.",
+      "parentUuid": "680a529a_6aceec50",
       "range": {
         "startLine": 254,
         "startChar": 1,
