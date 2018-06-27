@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "baa9202e_ab50bfb1",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-27T16:43:24Z",
+      "side": 1,
+      "message": "There is no way to format tables in godoc, except ASCII art like this, but this might be the first time I\u0027ve seen it.\n\nI thought you needed more leading spaces to get into fixed-width formatting mode, but apparently this works.",
+      "parentUuid": "83e601d0_3cda0a87",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 2
+      },
+      "revId": "b923697b12a0a386cd148faa35eb9e01f183b24f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4316e2d_b3b2a263",
         "filename": "src/syscall/js/js.go",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "JavaScript has no finalizers. I can\u0027t think of much to improve this. Here are two thoughts:\n\n1. Have an explicit function to close/dispose such a value, similar to js.Callback.Close. This would be cumbersome and you could still mess up Go\u0027s memory if you use the typed array after closing it on Go\u0027s side. No way to prevent that.\n\n2. Copy the data to memory managed by JS. This would affect performance and we would also need to provide some function to copy from JS to Go, since you couldn\u0027t write into Go\u0027s memory any more with ValueOf. This might even make use cases infeasible where repeated copying is too slow. Of course one could still manually share memory without using the ValueOf helper.\n\nAny opinion or other ideas?",
       "parentUuid": "c4316e2d_b3b2a263",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 0
+      },
+      "revId": "b923697b12a0a386cd148faa35eb9e01f183b24f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a215d96_c2d151dc",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-27T16:43:24Z",
+      "side": 1,
+      "message": "(1) would be a safer situation by default. If they didn\u0027t read the docs enough, worst case they\u0027d leak memory.\n\nAnd if they did read the docs about how to drop Go\u0027s reference to the Value, then it\u0027s their fault if they used the TypedArray after freeing it.",
+      "parentUuid": "a9073923_37edc19c",
       "range": {
         "startLine": 113,
         "startChar": 0,
