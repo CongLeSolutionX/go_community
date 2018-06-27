@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd492927_515be6a3",
+        "filename": "src/syscall/js/typedarray.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-27T17:59:23Z",
+      "side": 1,
+      "message": "missing copyright header",
+      "revId": "704166094e9d5b7697fa08f24ecca091e1f1c17d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb807a8e_88af9fa1",
+        "filename": "src/syscall/js/typedarray.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-27T17:59:23Z",
+      "side": 1,
+      "message": "var ( .... )",
+      "range": {
+        "startLine": 5,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "704166094e9d5b7697fa08f24ecca091e1f1c17d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "962bf77f_b42056a8",
+        "filename": "src/syscall/js/typedarray.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-27T17:59:23Z",
+      "side": 1,
+      "message": "needs comment",
+      "revId": "704166094e9d5b7697fa08f24ecca091e1f1c17d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4374807a_6695d078",
+        "filename": "src/syscall/js/typedarray.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-27T17:59:23Z",
+      "side": 1,
+      "message": "we try to avoid using the name \"Close\" when it\u0027s not an io.Closer or doesn\u0027t return an error.\n\nMaybe \"Release\"?",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "704166094e9d5b7697fa08f24ecca091e1f1c17d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fc6db2d_edd40527",
+        "filename": "src/syscall/js/typedarray.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-27T17:59:23Z",
+      "side": 1,
+      "message": "I think you need a mutex guarding this.\n\nreflect.ValueOf etc are safe for use by concurrent goroutines, so this should be too.",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 37,
+        "endChar": 32
+      },
+      "revId": "704166094e9d5b7697fa08f24ecca091e1f1c17d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
