@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6726c326_18c6fee9",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-27T15:51:58Z",
+      "side": 1,
+      "message": "does this format as expected when looking at godoc\u0027s HTML output?",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 2
+      },
+      "revId": "b923697b12a0a386cd148faa35eb9e01f183b24f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4316e2d_b3b2a263",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-27T15:51:58Z",
+      "side": 1,
+      "message": "this seems like a dangerous tool to give users who don\u0027t know how Go\u0027s GC works.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 0
+      },
+      "revId": "b923697b12a0a386cd148faa35eb9e01f183b24f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
