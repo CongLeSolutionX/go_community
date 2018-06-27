@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d36c04a4_ebb6b1b8",
+        "filename": "src/syscall/js/typedarray.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-06-27T19:19:19Z",
+      "side": 1,
+      "message": "I\u0027ve added it now for consistency with the other files, even though you can\u0027t really import the package on non-js/wasm.",
+      "parentUuid": "39283cbf_213eb7d3",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 0
+      },
+      "revId": "b44219422dcc7388476495bd864160c91d6c8b7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df167589_196f3d3d",
         "filename": "src/syscall/js/typedarray.go",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "b44219422dcc7388476495bd864160c91d6c8b7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e33cd13_91cb5e53",
+        "filename": "src/syscall/js/typedarray.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-06-27T19:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df167589_196f3d3d",
+      "range": {
+        "startLine": 44,
+        "startChar": 3,
+        "endLine": 44,
+        "endChar": 16
+      },
+      "revId": "b44219422dcc7388476495bd864160c91d6c8b7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
