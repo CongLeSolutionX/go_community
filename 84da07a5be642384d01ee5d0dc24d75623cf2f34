@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "77264759_2cd91776",
+        "filename": "src/net/rpc/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-06-27T09:16:05Z",
+      "side": 1,
+      "message": "Well, actually, thinking of this more: there is an additional requirement and my original comment is wrong.\nNewClient serializes access to Read and Write _separately_, so it\u0027s OK to wrap conn with flate.Reader and flate.Writer and that\u0027s what I meant. But calls to Read are concurrent with calls to Write, so in general case conn can\u0027t completely ignore concurrency.\nI don\u0027t feel that I can come up with proper and clean statement about this. Rob, can you suggest a wording? Or I can just drop this part of the change.",
+      "parentUuid": "d7b08bd3_67717663",
+      "revId": "84da07a5be642384d01ee5d0dc24d75623cf2f34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0527e8d3_886074f0",
         "filename": "src/net/rpc/server.go",
         "patchSetId": 2
@@ -69,6 +87,24 @@
       "revId": "84da07a5be642384d01ee5d0dc24d75623cf2f34",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c458161_d1a5b724",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-06-27T09:16:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0527e8d3_886074f0",
+      "revId": "84da07a5be642384d01ee5d0dc24d75623cf2f34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
