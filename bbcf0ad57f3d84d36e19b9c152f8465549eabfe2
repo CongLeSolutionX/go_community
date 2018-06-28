@@ -22,6 +22,30 @@
       "revId": "bbcf0ad57f3d84d36e19b9c152f8465549eabfe2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e15f75cd_3a46a670",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-06-28T16:23:24Z",
+      "side": 1,
+      "message": "It queues the callback when called. No past tense.",
+      "parentUuid": "90c7f50a_5adb2f51",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 45
+      },
+      "revId": "bbcf0ad57f3d84d36e19b9c152f8465549eabfe2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
