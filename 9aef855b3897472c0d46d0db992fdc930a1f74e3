@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "348a7d19_ea7dda11",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-28T21:38:40Z",
+      "side": 1,
+      "message": "Okay.",
+      "parentUuid": "5b971271_73bdf031",
+      "range": {
+        "startLine": 625,
+        "startChar": 7,
+        "endLine": 625,
+        "endChar": 28
+      },
+      "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a578d996_a59f8d8d",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d8f47e35_47369cb2",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-28T21:38:40Z",
+      "side": 1,
+      "message": "We\u0027re not passing a stack size, so this flag would be a no-op.",
+      "parentUuid": "a578d996_a59f8d8d",
+      "range": {
+        "startLine": 628,
+        "startChar": 3,
+        "endLine": 628,
+        "endChar": 4
+      },
+      "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8692dc75_8b59ae28",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 3
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "370b5abd_8438454e",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-28T21:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8692dc75_8b59ae28",
+      "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0039fdf_374761b8",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 3
@@ -79,6 +145,24 @@
       "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fa5cd67_94ee9fd8",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-28T21:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0039fdf_374761b8",
+      "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
