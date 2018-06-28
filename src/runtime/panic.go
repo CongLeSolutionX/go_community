@@ -24,6 +24,9 @@ func panicCheckMalloc(err error) {
 var indexError = error(errorString("index out of range"))
 
 func panicindex() {
+	if hasprefix(funcname(findfunc(getcallerpc())), "runtime.") {
+		throw(string(indexError.(errorString)))
+	}
 	panicCheckMalloc(indexError)
 	panic(indexError)
 }
@@ -31,6 +34,9 @@ func panicindex() {
 var sliceError = error(errorString("slice bounds out of range"))
 
 func panicslice() {
+	if hasprefix(funcname(findfunc(getcallerpc())), "runtime.") {
+		throw(string(sliceError.(errorString)))
+	}
 	panicCheckMalloc(sliceError)
 	panic(sliceError)
 }
@@ -38,6 +44,9 @@ func panicslice() {
 var divideError = error(errorString("integer divide by zero"))
 
 func panicdivide() {
+	if hasprefix(funcname(findfunc(getcallerpc())), "runtime.") {
+		throw(string(divideError.(errorString)))
+	}
 	panicCheckMalloc(divideError)
 	panic(divideError)
 }
@@ -45,6 +54,9 @@ func panicdivide() {
 var overflowError = error(errorString("integer overflow"))
 
 func panicoverflow() {
+	if hasprefix(funcname(findfunc(getcallerpc())), "runtime.") {
+		throw(string(overflowError.(errorString)))
+	}
 	panicCheckMalloc(overflowError)
 	panic(overflowError)
 }
@@ -52,6 +64,9 @@ func panicoverflow() {
 var floatError = error(errorString("floating point error"))
 
 func panicfloat() {
+	if hasprefix(funcname(findfunc(getcallerpc())), "runtime.") {
+		throw(string(floatError.(errorString)))
+	}
 	panicCheckMalloc(floatError)
 	panic(floatError)
 }
