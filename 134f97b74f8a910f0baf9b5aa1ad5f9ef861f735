@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06e46f41_76a7c33a",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-28T23:46:21Z",
+      "side": 1,
+      "message": "Not all variables have VarDef, for example, globals and args. For them, this is also nil.",
+      "range": {
+        "startLine": 400,
+        "startChar": 40,
+        "endLine": 400,
+        "endChar": 77
+      },
+      "revId": "134f97b74f8a910f0baf9b5aa1ad5f9ef861f735",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
