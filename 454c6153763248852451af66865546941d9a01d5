@@ -16,6 +16,24 @@
       "revId": "454c6153763248852451af66865546941d9a01d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4de0047f_d56064e5",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-06-28T21:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3fe79a2_9b24f864",
+      "revId": "454c6153763248852451af66865546941d9a01d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
