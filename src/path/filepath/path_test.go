@@ -767,6 +767,8 @@ var EvalSymlinksTestDirs = []EvalSymlinksTest{
 	{"test/link1", "../test"},
 	{"test/link2", "dir"},
 	{"test/linkabs", "/"},
+	{"test/link4", "../test2"},
+	{"test2", "test/dir"},
 }
 
 var EvalSymlinksTests = []EvalSymlinksTest{
@@ -780,6 +782,7 @@ var EvalSymlinksTests = []EvalSymlinksTest{
 	{"test/dir/link3", "."},
 	{"test/link2/link3/test", "test"},
 	{"test/linkabs", "/"},
+	{"test/link4/..", "test"},
 }
 
 // simpleJoin builds a file name from the directory and path.

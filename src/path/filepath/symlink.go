@@ -33,29 +33,35 @@ func isDriveLetter(path string) bool {
 	return len(path) == 2 && path[1] == ':'
 }
 
-func walkLink(path string, linksWalked *int) (newpath string, islink bool, err error) {
-	if *linksWalked > 255 {
-		return "", false, errors.New("EvalSymlinks: too many links")
+func walkLink(path string, linksWalked *int) (newpath string, err error) {
+	for {
+		if *linksWalked > 255 {
+			return "", errors.New("EvalSymlinks: too many links")
+		}
+		fi, err := os.Lstat(path)
+		if err != nil {
+			return "", err
+		}
+		if fi.Mode()&os.ModeSymlink == 0 {
+			return path, nil
+		}
+		newpath, err = os.Readlink(path)
+		if err != nil {
+			return "", err
+		}
+		*linksWalked++
+		if IsAbs(newpath) || os.IsPathSeparator(newpath[0]) {
+			path = newpath
+		} else {
+			path = Join(path, "..", newpath)
+		}
 	}
-	fi, err := os.Lstat(path)
-	if err != nil {
-		return "", false, err
-	}
-	if fi.Mode()&os.ModeSymlink == 0 {
-		return path, false, nil
-	}
-	newpath, err = os.Readlink(path)
-	if err != nil {
-		return "", false, err
-	}
-	*linksWalked++
-	return newpath, true, nil
 }
 
 func walkLinks(path string, linksWalked *int) (string, error) {
 	switch dir, file := Split(path); {
 	case dir == "":
-		newpath, _, err := walkLink(file, linksWalked)
+		newpath, err := walkLink(file, linksWalked)
 		return newpath, err
 	case file == "":
 		if isDriveLetter(dir) {
@@ -67,24 +73,18 @@ func walkLinks(path string, linksWalked *int) (string, error) {
 			}
 			return walkLinks(dir[:len(dir)-1], linksWalked)
 		}
-		newpath, _, err := walkLink(dir, linksWalked)
+		newpath, err := walkLink(dir, linksWalked)
 		return newpath, err
 	default:
 		newdir, err := walkLinks(dir, linksWalked)
 		if err != nil {
 			return "", err
 		}
-		newpath, islink, err := walkLink(Join(newdir, file), linksWalked)
+		newpath, err := walkLink(Join(newdir, file), linksWalked)
 		if err != nil {
 			return "", err
 		}
-		if !islink {
-			return newpath, nil
-		}
-		if IsAbs(newpath) || os.IsPathSeparator(newpath[0]) {
-			return newpath, nil
-		}
-		return Join(newdir, newpath), nil
+		return newpath, nil
 	}
 }
 
