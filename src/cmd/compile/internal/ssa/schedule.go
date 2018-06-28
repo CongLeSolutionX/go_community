@@ -310,6 +310,7 @@ func storeOrder(values []*Value, sset *sparseSet, storeNumber []int32) []*Value 
 	// A constant bound allows this to be stack-allocated. 64 is
 	// enough to cover almost every storeOrder call.
 	stores := make([]*Value, 0, 64)
+	vardefs := make(map[interface{}]*Value) // OpAddr must depend on Vardef for Node
 	hasNilCheck := false
 	sset.clear() // sset is the set of stores that are used in other values
 	for _, v := range values {
@@ -322,6 +323,9 @@ func storeOrder(values []*Value, sset *sparseSet, storeNumber []int32) []*Value 
 		}
 		if v.Op == OpNilCheck {
 			hasNilCheck = true
+		}
+		if v.Op == OpVarDef {
+			vardefs[v.Aux] = v
 		}
 	}
 	if len(stores) == 0 || !hasNilCheck && f.pass.name == "nilcheckelim" {
@@ -386,7 +390,19 @@ func storeOrder(values []*Value, sset *sparseSet, storeNumber []int32) []*Value 
 				stack = stack[:len(stack)-1]
 				continue
 			}
-
+			if w.Op == OpAddr {
+				// OpAddr depends only on relevant VarDef
+				a := vardefs[w.Aux]
+				vn := int32(0)
+				if a != nil { // if nil, it is in some other block.
+					vn = storeNumber[a.ID]
+				}
+				vn += 2
+				storeNumber[w.ID] = vn
+				count[vn]++
+				stack = stack[:len(stack)-1]
+				continue
+			}
 			max := int32(0) // latest store dependency
 			argsdone := true
 			for _, a := range w.Args {
