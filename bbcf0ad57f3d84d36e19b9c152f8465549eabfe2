@@ -46,6 +46,30 @@
       "revId": "bbcf0ad57f3d84d36e19b9c152f8465549eabfe2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "444bbf40_ca31a16a",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-06-28T16:39:26Z",
+      "side": 1,
+      "message": "Okay, LGTM.\n\nWe might do another pass over all these docs later to be more approachable by somebody who didn\u0027t implement it all. :)",
+      "parentUuid": "e15f75cd_3a46a670",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 45
+      },
+      "revId": "bbcf0ad57f3d84d36e19b9c152f8465549eabfe2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
