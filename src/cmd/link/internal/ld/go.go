@@ -285,6 +285,13 @@ func Adddynsym(ctxt *Link, s *sym.Symbol) {
 	}
 }
 
+func reachParent(ctxt *Link, sym *sym.Symbol) *sym.Symbol {
+	if val, ok := ctxt.Reachparent[sym]; ok {
+		return val
+	}
+	return nil
+}
+
 func fieldtrack(ctxt *Link) {
 	// record field tracking references
 	var buf bytes.Buffer
@@ -294,7 +301,7 @@ func fieldtrack(ctxt *Link) {
 			s.Attr |= sym.AttrNotInSymbolTable
 			if s.Attr.Reachable() {
 				buf.WriteString(s.Name[9:])
-				for p := s.Reachparent; p != nil; p = p.Reachparent {
+				for p := reachParent(ctxt, s); p != nil; p = reachParent(ctxt, p) {
 					buf.WriteString("\t")
 					buf.WriteString(p.Name)
 				}
