@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3fe79a2_9b24f864",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-28T20:49:45Z",
+      "side": 1,
+      "message": "This creates a map in every block. Maybe we only create the map when we see the first VarDef?",
+      "revId": "454c6153763248852451af66865546941d9a01d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
