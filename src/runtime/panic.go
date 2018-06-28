@@ -24,6 +24,9 @@ func panicCheckMalloc(err error) {
 var indexError = error(errorString("index out of range"))
 
 func panicindex() {
+	if hasprefix(funcname(findfunc(getcallerpc())), "runtime.") {
+		throw(string(indexError.(errorString)))
+	}
 	panicCheckMalloc(indexError)
 	panic(indexError)
 }
@@ -31,6 +34,9 @@ func panicindex() {
 var sliceError = error(errorString("slice bounds out of range"))
 
 func panicslice() {
+	if hasprefix(funcname(findfunc(getcallerpc())), "runtime.") {
+		throw(string(sliceError.(errorString)))
+	}
 	panicCheckMalloc(sliceError)
 	panic(sliceError)
 }
