@@ -99,22 +99,23 @@ var pkgDeps = map[string][]string{
 	// L3 adds reflection and some basic utility packages
 	// and interface definitions, but nothing that makes
 	// system calls.
-	"crypto":              {"L2", "hash"}, // interfaces
-	"crypto/cipher":       {"L2", "crypto/subtle"},
-	"crypto/subtle":       {},
-	"encoding/base32":     {"L2"},
-	"encoding/base64":     {"L2", "encoding/binary"},
-	"encoding/binary":     {"L2", "reflect"},
-	"hash":                {"L2"}, // interfaces
-	"hash/adler32":        {"L2", "hash"},
-	"hash/crc32":          {"L2", "hash"},
-	"hash/crc64":          {"L2", "hash"},
-	"hash/fnv":            {"L2", "hash"},
-	"image":               {"L2", "image/color"}, // interfaces
-	"image/color":         {"L2"},                // interfaces
-	"image/color/palette": {"L2", "image/color"},
-	"reflect":             {"L2"},
-	"sort":                {"reflect"},
+	"crypto":                 {"L2", "hash"}, // interfaces
+	"crypto/cipher":          {"L2", "crypto/subtle", "crypto/internal/subtle"},
+	"crypto/internal/subtle": {"unsafe", "reflect"}, // reflect behind a appengine tag
+	"crypto/subtle":          {},
+	"encoding/base32":        {"L2"},
+	"encoding/base64":        {"L2", "encoding/binary"},
+	"encoding/binary":        {"L2", "reflect"},
+	"hash":                   {"L2"}, // interfaces
+	"hash/adler32":           {"L2", "hash"},
+	"hash/crc32":             {"L2", "hash"},
+	"hash/crc64":             {"L2", "hash"},
+	"hash/fnv":               {"L2", "hash"},
+	"image":                  {"L2", "image/color"}, // interfaces
+	"image/color":            {"L2"},                // interfaces
+	"image/color/palette":    {"L2", "image/color"},
+	"reflect":                {"L2"},
+	"sort":                   {"reflect"},
 
 	"crypto/internal/boring":         {"L2", "C", "crypto", "crypto/cipher", "crypto/internal/boring/sig", "crypto/subtle", "encoding/asn1", "hash", "math/big"},
 	"crypto/internal/boring/fipstls": {"sync/atomic"},
@@ -125,8 +126,12 @@ var pkgDeps = map[string][]string{
 		"L2",
 		"crypto",
 		"crypto/cipher",
+<<<<<<< HEAD   (b77f5e [dev.boringcrypto] crypto/rsa: drop random source reading em)
 		"crypto/internal/boring",
 		"crypto/internal/boring/fipstls",
+=======
+		"crypto/internal/subtle",
+>>>>>>> BRANCH (1a27f0 cmd/compile: make OpAddr depend on VarDef in storeOrder)
 		"crypto/subtle",
 		"encoding/base32",
 		"encoding/base64",
@@ -146,7 +151,7 @@ var pkgDeps = map[string][]string{
 
 	// Operating system access.
 	"syscall":                           {"L0", "internal/race", "internal/syscall/windows/sysdll", "syscall/js", "unicode/utf16"},
-	"syscall/js":                        {"unsafe"},
+	"syscall/js":                        {"L0"},
 	"internal/syscall/unix":             {"L0", "syscall"},
 	"internal/syscall/windows":          {"L0", "syscall", "internal/syscall/windows/sysdll"},
 	"internal/syscall/windows/registry": {"L0", "syscall", "internal/syscall/windows/sysdll", "unicode/utf16"},
@@ -250,8 +255,13 @@ var pkgDeps = map[string][]string{
 	"debug/dwarf":              {"L4"},
 	"debug/elf":                {"L4", "OS", "debug/dwarf", "compress/zlib"},
 	"debug/gosym":              {"L4"},
+<<<<<<< HEAD   (b77f5e [dev.boringcrypto] crypto/rsa: drop random source reading em)
 	"debug/macho":              {"L4", "OS", "debug/dwarf"},
 	"debug/pe":                 {"L4", "OS", "debug/dwarf"},
+=======
+	"debug/macho":              {"L4", "OS", "debug/dwarf", "compress/zlib"},
+	"debug/pe":                 {"L4", "OS", "debug/dwarf", "compress/zlib"},
+>>>>>>> BRANCH (1a27f0 cmd/compile: make OpAddr depend on VarDef in storeOrder)
 	"debug/plan9obj":           {"L4", "OS"},
 	"encoding":                 {"L4"},
 	"encoding/ascii85":         {"L4"},
@@ -423,7 +433,7 @@ var pkgDeps = map[string][]string{
 		"syscall/js",
 	},
 	"net/http/internal":  {"L4"},
-	"net/http/httptrace": {"context", "crypto/tls", "internal/nettrace", "net", "reflect", "time"},
+	"net/http/httptrace": {"context", "crypto/tls", "internal/nettrace", "net", "net/textproto", "reflect", "time"},
 
 	// HTTP-using packages.
 	"expvar":             {"L4", "OS", "encoding/json", "net/http"},
