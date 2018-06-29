@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d639eefa_811f5816",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-29T19:50:22Z",
+      "side": 1,
+      "message": "Reference #25201",
+      "revId": "ee4214f46eacbec5608c850da130926ad5fe01d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67b9c7ef_4abdc138",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-29T19:50:22Z",
+      "side": 1,
+      "message": "Consider documenting here why we check for runtime in some of these and not in others.",
+      "revId": "ee4214f46eacbec5608c850da130926ad5fe01d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
