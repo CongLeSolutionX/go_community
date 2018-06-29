@@ -2542,9 +2542,7 @@ func TestCoverageErrorLine(t *testing.T) {
 	// because of the //line directive (see golang.org/issue/22662).
 	stderr = strings.Replace(stderr, "p.go:4:2:", "p.go:4:", -1)
 	if stderr != stderr2 {
-		t.Logf("test -cover changed error messages:\nbefore:\n%s\n\nafter:\n%s", stderr, stderr2)
-		t.Skip("golang.org/issue/22660")
-		t.FailNow()
+		t.Fatalf("test -cover changed error messages:\nbefore:\n%s\n\nafter:\n%s", stderr, stderr2)
 	}
 }
 
@@ -4008,8 +4006,6 @@ func TestCgoConsistentResults(t *testing.T) {
 		t.Skip("skipping because cgo not enabled")
 	}
 	switch runtime.GOOS {
-	case "freebsd":
-		testenv.SkipFlaky(t, 15405)
 	case "solaris":
 		testenv.SkipFlaky(t, 13247)
 	}
