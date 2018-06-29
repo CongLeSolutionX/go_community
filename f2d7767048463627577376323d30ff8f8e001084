@@ -22,6 +22,30 @@
       "revId": "f2d7767048463627577376323d30ff8f8e001084",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8341723c_1e6b2201",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-06-29T14:48:28Z",
+      "side": 1,
+      "message": "This CL affects both cgo and non-cgo code since minit runs in both cases. That was intentional, since users may editbin even a non-cgo binary to set a larger stack size if they\u0027re calling out to C code using syscall.",
+      "parentUuid": "88228272_9bf8f04c",
+      "range": {
+        "startLine": 31,
+        "startChar": 9,
+        "endLine": 31,
+        "endChar": 14
+      },
+      "revId": "f2d7767048463627577376323d30ff8f8e001084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
