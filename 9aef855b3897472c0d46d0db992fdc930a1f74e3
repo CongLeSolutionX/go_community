@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "4c9f8673_a694eaaf",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-29T10:26:37Z",
+      "side": 1,
+      "message": "I don\u0027t think you are correct.\n\nFrom https://docs.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-createthread\n```\nSTACK_SIZE_PARAM_IS_A_RESERVATION\n\nThe dwStackSize parameter specifies the initial reserve size of the stack. If this flag is not specified, dwStackSize specifies the commit size.\n```\nSo the fact that STACK_SIZE_PARAM_IS_A_RESERVATION is here, means we are not specifying \"stack size\" here, but \"initial reserve size of the stack\".\n\nI don\u0027t believe we have test for this, so we should be careful changing this flag. This flag controls how much real memory allocated at the start of a thread, and this will affect every Go program memory usage.",
+      "parentUuid": "d8f47e35_47369cb2",
+      "range": {
+        "startLine": 628,
+        "startChar": 3,
+        "endLine": 628,
+        "endChar": 4
+      },
+      "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8692dc75_8b59ae28",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 3
