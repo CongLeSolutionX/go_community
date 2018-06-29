@@ -16,6 +16,24 @@
       "revId": "d2ebbf7be545f61ac019e5ddeffb9c3af5ff6f84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e344482_42a06036",
+        "filename": "src/os/env_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-06-29T18:05:57Z",
+      "side": 1,
+      "message": "Yes, please.\n\nAlso, in Go 1.10, \"$}\" expands to \"}\".  Since we\u0027re doing this for compatibility we may as well be compatible.",
+      "parentUuid": "6ddf2dd9_cf74c115",
+      "revId": "d2ebbf7be545f61ac019e5ddeffb9c3af5ff6f84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
