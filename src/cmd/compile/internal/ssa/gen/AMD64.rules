@@ -1039,6 +1039,10 @@
 	((ADD|SUB|MUL)SDload [off1+off2] {sym} val base mem)
 (ADD(L|Q)constmodify [valoff1] {sym} (ADDQconst [off2] base) mem) && ValAndOff(valoff1).canAdd(off2) ->
 	(ADD(L|Q)constmodify [ValAndOff(valoff1).add(off2)] {sym} base mem)
+((ADD|SUB|AND|OR|XOR)Qmodify [off1] {sym} (ADDQconst [off2] base) val mem) && is32Bit(off1+off2) ->
+	((ADD|SUB|AND|OR|XOR)Qmodify [off1+off2] {sym} base val mem)
+((ADD|SUB|AND|OR|XOR)Lmodify [off1] {sym} (ADDQconst [off2] base) val mem) && is32Bit(off1+off2) ->
+	((ADD|SUB|AND|OR|XOR)Lmodify [off1+off2] {sym} base val mem)
 
 // Fold constants into stores.
 (MOVQstore [off] {sym} ptr (MOVQconst [c]) mem) && validValAndOff(c,off) ->
@@ -1082,6 +1086,12 @@
 (ADD(L|Q)constmodify [valoff1] {sym1} (LEAQ [off2] {sym2} base) mem)
 	&& ValAndOff(valoff1).canAdd(off2) && canMergeSym(sym1, sym2) ->
 	(ADD(L|Q)constmodify [ValAndOff(valoff1).add(off2)] {mergeSym(sym1,sym2)} base mem)
+((ADD|SUB|AND|OR|XOR)Qmodify [off1] {sym1} (LEAQ [off2] {sym2} base) val mem)
+	&& is32Bit(off1+off2) && canMergeSym(sym1, sym2) ->
+	((ADD|SUB|AND|OR|XOR)Qmodify [off1+off2] {mergeSym(sym1,sym2)} base val mem)
+((ADD|SUB|AND|OR|XOR)Lmodify [off1] {sym1} (LEAQ [off2] {sym2} base) val mem)
+	&& is32Bit(off1+off2) && canMergeSym(sym1, sym2) ->
+	((ADD|SUB|AND|OR|XOR)Lmodify [off1+off2] {mergeSym(sym1,sym2)} base val mem)
 
 // generating indexed loads and stores
 (MOV(B|W|L|Q|SS|SD)load [off1] {sym1} (LEAQ1 [off2] {sym2} ptr idx) mem) && is32Bit(off1+off2) && canMergeSym(sym1, sym2) ->
@@ -2267,6 +2277,12 @@
 ((ADD|SUB|AND|OR|XOR)L x l:(MOVLload [off] {sym} ptr mem)) && canMergeLoad(v, l, x) && clobber(l) -> ((ADD|SUB|AND|OR|XOR)Lload x [off] {sym} ptr mem)
 ((ADD|SUB|MUL)SD x l:(MOVSDload [off] {sym} ptr mem)) && canMergeLoad(v, l, x) && clobber(l) -> ((ADD|SUB|MUL)SDload x [off] {sym} ptr mem)
 ((ADD|SUB|MUL)SS x l:(MOVSSload [off] {sym} ptr mem)) && canMergeLoad(v, l, x) && clobber(l) -> ((ADD|SUB|MUL)SSload x [off] {sym} ptr mem)
+(MOVLstore {sym} [off] ptr y:((ADD|AND|OR|XOR)Lload x [off] {sym} ptr mem) mem) && y.Uses==1 && clobber(y) -> ((ADD|AND|OR|XOR)Lmodify [off] {sym} ptr x mem)
+(MOVLstore {sym} [off] ptr y:((ADD|SUB|AND|OR|XOR)L l:(MOVLload [off] {sym} ptr mem) x) mem) && y.Uses==1 && l.Uses==1 && clobber(y) && clobber(l) ->
+	((ADD|SUB|AND|OR|XOR)Lmodify [off] {sym} ptr x mem)
+(MOVQstore {sym} [off] ptr y:((ADD|AND|OR|XOR)Qload x [off] {sym} ptr mem) mem) && y.Uses==1 && clobber(y) -> ((ADD|AND|OR|XOR)Qmodify [off] {sym} ptr x mem)
+(MOVQstore {sym} [off] ptr y:((ADD|SUB|AND|OR|XOR)Q l:(MOVQload [off] {sym} ptr mem) x) mem) && y.Uses==1 && l.Uses==1 && clobber(y) && clobber(l) ->
+	((ADD|SUB|AND|OR|XOR)Qmodify [off] {sym} ptr x mem)
 
 // Merge ADDQconst and LEAQ into atomic loads.
 (MOVQatomicload [off1] {sym} (ADDQconst [off2] ptr) mem) && is32Bit(off1+off2) ->
@@ -2375,6 +2391,17 @@
 ( ORLload x [off] {sym} ptr (MOVSSstore [off] {sym} ptr y _)) -> ( ORL x (MOVLf2i y))
 (XORQload x [off] {sym} ptr (MOVSDstore [off] {sym} ptr y _)) -> (XORQ x (MOVQf2i y))
 (XORLload x [off] {sym} ptr (MOVSSstore [off] {sym} ptr y _)) -> (XORL x (MOVLf2i y))
+
+(ADDQmodify [off] {sym} ptr x (MOVSDstore [off] {sym} ptr y _)) -> (ADDQ x (MOVQf2i y))
+(ADDLmodify [off] {sym} ptr x (MOVSSstore [off] {sym} ptr y _)) -> (ADDL x (MOVLf2i y))
+(SUBQmodify [off] {sym} ptr x (MOVSDstore [off] {sym} ptr y _)) -> (SUBQ x (MOVQf2i y))
+(SUBLmodify [off] {sym} ptr x (MOVSSstore [off] {sym} ptr y _)) -> (SUBL x (MOVLf2i y))
+(ANDQmodify [off] {sym} ptr x (MOVSDstore [off] {sym} ptr y _)) -> (ANDQ x (MOVQf2i y))
+(ANDLmodify [off] {sym} ptr x (MOVSSstore [off] {sym} ptr y _)) -> (ANDL x (MOVLf2i y))
+( ORQmodify [off] {sym} ptr x (MOVSDstore [off] {sym} ptr y _)) -> ( ORQ x (MOVQf2i y))
+( ORLmodify [off] {sym} ptr x (MOVSSstore [off] {sym} ptr y _)) -> ( ORL x (MOVLf2i y))
+(XORQmodify [off] {sym} ptr x (MOVSDstore [off] {sym} ptr y _)) -> (XORQ x (MOVQf2i y))
+(XORLmodify [off] {sym} ptr x (MOVSSstore [off] {sym} ptr y _)) -> (XORL x (MOVLf2i y))
 
 (ADDQconstmodify [valOff] {sym} ptr (MOVSDstore [ValAndOff(valOff).Off()] {sym} ptr x _)) ->
   (ADDQconst [ValAndOff(valOff).Val()] (MOVQf2i x))
