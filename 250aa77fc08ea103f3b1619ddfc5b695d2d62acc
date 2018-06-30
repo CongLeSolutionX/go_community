@@ -96,6 +96,47 @@
     },
     {
       "key": {
+        "uuid": "5d2ca224_5926b900",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "Ok. Probably rearrange it as\n\n\tif Ctxt.FixedFrameSize() \u003d\u003d 0 {\n\t\toffs -\u003d int64(Widthptr)\n\t}\n\tif objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) || objabi.GOARCH \u003d\u003d \"arm64\" {\n\t\toffs -\u003d int64(Widthptr)\n\t}\n\nAlso comment that we leave the space for FP on ARM64, even if the frame pointer is disabled.",
+      "parentUuid": "0827d6b1_1903846c",
+      "range": {
+        "startLine": 430,
+        "startChar": 0,
+        "endLine": 435,
+        "endChar": 35
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5984cfd_f0eb19d6",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6856d08a_adcee95d",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 13
@@ -344,6 +385,30 @@
     },
     {
       "key": {
+        "uuid": "248eb077_8425849d",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "If we change the declared frame size from 24 to 16, the assembler will make the actual frame size 32, and it should just work without adding 16 here?",
+      "parentUuid": "a42ae566_4044b7eb",
+      "range": {
+        "startLine": 1022,
+        "startChar": 16,
+        "endLine": 1022,
+        "endChar": 19
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d37f23a_b8f4be0b",
         "filename": "src/runtime/cgocall.go",
         "patchSetId": 13
@@ -449,6 +514,30 @@
       "side": 1,
       "message": "Yes, it\u0027s better to do it in another CL.",
       "parentUuid": "f502f1a0_c9f1311f",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 2
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf6b0098_6d3df2d6",
+        "filename": "test/nosplit.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "Does the test pass if the frame pointer is disabled on ARM64? If not, we would need to disable the test when frame pointer is off, in this CL.",
+      "parentUuid": "d64f3fa2_2b3672cd",
       "range": {
         "startLine": 208,
         "startChar": 0,

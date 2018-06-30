@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa9fbc9_53ab620e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "I don\u0027t see any code doing this now. Did I miss anything? Is it still necessary with FP at -8(SP)?",
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f2bcf74_307c0966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "on Linux",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 36
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76854b79_b056ef10",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "Now this line runs only when c.autosize \u003d\u003d 0? I don\u0027t understand how this would work...\n\nAlso, the adjustment of c.cursym.Func.Locals is gone. Is it on purpose?",
+      "range": {
+        "startLine": 555,
+        "startChar": 5,
+        "endLine": 558,
+        "endChar": 4
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e232d1d7_f31ab0d2",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "Conversion is not needed, also below.",
+      "range": {
+        "startLine": 638,
+        "startChar": 19,
+        "endLine": 638,
+        "endChar": 28
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ba24d3_22d31e8f",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "break is not needed. Go doesn\u0027t do implicit fall through. Also below.",
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35ab2e05_a3067afe",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "-24(SP) ?",
+      "range": {
+        "startLine": 873,
+        "startChar": 23,
+        "endLine": 873,
+        "endChar": 30
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d17de89f_e2d446f8",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-06-30T23:15:23Z",
+      "side": 1,
+      "message": "Probably *q4 \u003d *p, also below.",
+      "range": {
+        "startLine": 882,
+        "startChar": 4,
+        "endLine": 884,
+        "endChar": 16
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
