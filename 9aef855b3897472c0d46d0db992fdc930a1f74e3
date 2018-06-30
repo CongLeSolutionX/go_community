@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "40774133_5bb9951c",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-06-30T07:20:58Z",
+      "side": 1,
+      "message": "\u003e Interesting. But the documentation on dwStackSize says \"If this parameter is zero, the new thread uses the default size for the executable\" which is what I want. If I pass both 0 and STACK_SIZE_PARAM_IS_A_RESERVATION it seems like it would either 1) ignore the flag because it\u0027s using the defaults from the executable anyway (presumably for both the reserve and commit sizes), or 2) reserve 0 bytes for the stack, which would definitely be bad :)\n\nSorry I confused you. Your code does look right.\n\nOld code reserved 0x200000 bytes for amd64 by explicitly providing 0x200000 with STACK_SIZE_PARAM_IS_A_RESERVATION, and committed 0x1000 bytes (by virtue of using what SizeOfStackCommit says in PE file header).\n\nAnd your new code just asks for values as per what is in PE file header: reserved \u003d 0x200000 and committed 0x1000.\n\nFrom https://docs.microsoft.com/en-us/windows/desktop/ProcThread/thread-stack-size\n\nThe default size for the reserved and initially committed stack memory is specified in the executable file header. \n...\nTo change the initially committed stack space, use the dwStackSize parameter of the CreateThread\n...\nTo change the reserved stack size, set the dwCreationFlags parameter of CreateThread or CreateRemoteThread to STACK_SIZE_PARAM_IS_A_RESERVATION and use the dwStackSize parameter.\n\n\u003e Forgot to add: if I understand what you\u0027re saying, we do have tests for it: TestWindowsStackMemory and TestWindowsStackMemoryCgo. Each forces Go to create 100 threads and checks that the committed memory is small. Though TestWindowsStackMemoryCgo is marked as flaky (issue #22575, filed by you, actually :)\n\nYes, I was remembering we, probably, had a test like that. I worry too much (and it was Friday evening when I reviewed your code last).",
+      "parentUuid": "049a35cd_57e05c99",
+      "range": {
+        "startLine": 628,
+        "startChar": 3,
+        "endLine": 628,
+        "endChar": 4
+      },
+      "revId": "9aef855b3897472c0d46d0db992fdc930a1f74e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8692dc75_8b59ae28",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 3
