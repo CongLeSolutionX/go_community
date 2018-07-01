@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d438926f_de44c35a",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2018-07-01T13:04:01Z",
+      "side": 1,
+      "message": "Not related to this CL, but do we actually want to be using Object.defineProperty here instead? That way we can make it read-only and non-configurable:\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty",
+      "revId": "57af28b1b5949445022008fef1bad6daae18b750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
