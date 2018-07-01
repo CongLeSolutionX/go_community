@@ -66,6 +66,7 @@ func TestCompareStrings(t *testing.T) {
 	n := lengths[len(lengths)-1]
 	a := make([]byte, n+1)
 	b := make([]byte, n+1)
+	lastLen := 0
 	for _, len := range lengths {
 		// randomish but deterministic data. No 0 or 255.
 		for i := 0; i < len; i++ {
@@ -92,7 +93,7 @@ func TestCompareStrings(t *testing.T) {
 				t.Errorf(`CompareBshorter(%d) = %d`, len, cmp)
 			}
 		}
-		for k := 0; k < len; k++ {
+		for k := lastLen + 1; k < len; k++ {
 			b[k] = a[k] - 1
 			cmp = Compare(string(a[:len]), string(b[:len]))
 			if cmp != 1 {
@@ -105,5 +106,6 @@ func TestCompareStrings(t *testing.T) {
 			}
 			b[k] = a[k]
 		}
+		lastLen = len
 	}
 }
