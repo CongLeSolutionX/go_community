@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d48ec50a_907fb75a",
+        "filename": "src/cmd/link/internal/sym/symbol.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-02T17:32:26Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why this is Dyniinfo instead of Dyninfo.\n\nMore significantly, since you expect the relevant fields to always use the accessor methods, this field doesn\u0027t need to exported.  I think it should just be dyniinfo (or dyninfo).",
+      "revId": "1e1bd239c57d28b22c44ce505be58d4909177935",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9e99da4_37b02ea2",
+        "filename": "src/cmd/link/internal/sym/symbol.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-02T17:32:26Z",
+      "side": 1,
+      "message": "Similarly these fields don\u0027t need to be exported.  In fact, this type doesn\u0027t need to be exported either.  I think.",
+      "revId": "1e1bd239c57d28b22c44ce505be58d4909177935",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
