@@ -46,9 +46,10 @@ import (
 )
 
 var (
-	unexported bool // -u flag
-	matchCase  bool // -c flag
-	showCmd    bool // -cmd flag
+	unexported bool   // -u flag
+	matchCase  bool   // -c flag
+	showCmd    bool   // -cmd flag
+	tags       string // -tags flag
 )
 
 // usage is a replacement usage function for the flags package.
@@ -84,7 +85,12 @@ func do(writer io.Writer, flagSet *flag.FlagSet, args []string) (err error) {
 	flagSet.BoolVar(&unexported, "u", false, "show unexported symbols as well as exported")
 	flagSet.BoolVar(&matchCase, "c", false, "symbol matching honors case (paths not affected)")
 	flagSet.BoolVar(&showCmd, "cmd", false, "show symbols with package docs even if package is a command")
+	flagSet.StringVar(&tags, "tags", "", "a space-separated list of build tags to consider satisfied during the build.")
 	flagSet.Parse(args)
+
+	if tags != "" {
+		buildCtx.BuildTags = strings.Split(tags, " ")
+	}
 	var paths []string
 	var symbol, method string
 	// Loop until something is printed.
@@ -194,7 +200,7 @@ func parseArgs(args []string) (pkg *build.Package, path, symbol string, more boo
 			if !ok {
 				break
 			}
-			if pkg, err := build.ImportDir(packagePath, build.ImportComment); err == nil {
+			if pkg, err := buildCtx.ImportDir(packagePath, build.ImportComment); err == nil {
 				return pkg, arg, args[1], true
 			}
 		}
@@ -205,7 +211,7 @@ func parseArgs(args []string) (pkg *build.Package, path, symbol string, more boo
 	// First, is it a complete package path as it is? If so, we are done.
 	// This avoids confusion over package paths that have other
 	// package paths as their prefix.
-	pkg, err := build.Import(arg, "", build.ImportComment)
+	pkg, err := buildCtx.Import(arg, "", build.ImportComment)
 	if err == nil {
 		return pkg, arg, "", false
 	}
@@ -214,7 +220,7 @@ func parseArgs(args []string) (pkg *build.Package, path, symbol string, more boo
 	// Kills the problem caused by case-insensitive file systems
 	// matching an upper case name as a package name.
 	if isUpper(arg) {
-		pkg, err := build.ImportDir(".", build.ImportComment)
+		pkg, err := buildCtx.ImportDir(".", build.ImportComment)
 		if err == nil {
 			return pkg, "", arg, false
 		}
@@ -240,7 +246,7 @@ func parseArgs(args []string) (pkg *build.Package, path, symbol string, more boo
 			symbol = arg[period+1:]
 		}
 		// Have we identified a package already?
-		pkg, err := build.Import(arg[0:period], "", build.ImportComment)
+		pkg, err := buildCtx.Import(arg[0:period], "", build.ImportComment)
 		if err == nil {
 			return pkg, arg[0:period], symbol, false
 		}
@@ -252,7 +258,7 @@ func parseArgs(args []string) (pkg *build.Package, path, symbol string, more boo
 			if !ok {
 				break
 			}
-			if pkg, err = build.ImportDir(path, build.ImportComment); err == nil {
+			if pkg, err = buildCtx.ImportDir(path, build.ImportComment); err == nil {
 				return pkg, arg[0:period], symbol, true
 			}
 		}
@@ -293,7 +299,7 @@ func isDotSlash(arg string) bool {
 
 // importDir is just an error-catching wrapper for build.ImportDir.
 func importDir(dir string) *build.Package {
-	pkg, err := build.ImportDir(dir, build.ImportComment)
+	pkg, err := buildCtx.ImportDir(dir, build.ImportComment)
 	if err != nil {
 		log.Fatal(err)
 	}
