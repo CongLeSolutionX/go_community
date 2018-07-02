@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be202f6d_c268e9ee",
+        "filename": "src/cmd/link/internal/sym/symbol.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2018-07-02T19:09:33Z",
+      "side": 1,
+      "message": "That seems reasonable. I\u0027ll rename and make private.",
+      "parentUuid": "d48ec50a_907fb75a",
+      "revId": "1e1bd239c57d28b22c44ce505be58d4909177935",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9e99da4_37b02ea2",
         "filename": "src/cmd/link/internal/sym/symbol.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "1e1bd239c57d28b22c44ce505be58d4909177935",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc98563c_22387856",
+        "filename": "src/cmd/link/internal/sym/symbol.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2018-07-02T19:09:33Z",
+      "side": 1,
+      "message": "OK, also changed here -- no longer exported type or fields.",
+      "parentUuid": "a9e99da4_37b02ea2",
+      "revId": "1e1bd239c57d28b22c44ce505be58d4909177935",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
