@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfbe4f6a_5a067005",
+        "filename": "src/strings/compare_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-02T03:13:38Z",
+      "side": 1,
+      "message": "how about adding:\n\n   sa, sb :\u003d string(s), string(b)\n\nAnd then avoiding the string(a) and string(b) cases in loops below?",
+      "revId": "5a7934ad492bf840c3e19436b491d03a46d379ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
