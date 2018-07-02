@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f8c6887_b1722eb8",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-02T16:57:22Z",
+      "side": 1,
+      "message": "This paragraph is only about the traceback function, and as such I think it should go below in the description of the traceback function.  I think I would put it at the end of that section, just before the paragraph that starts \"The symbolizer function will be called with a single argument.\"",
+      "revId": "f1f0221b3aabd0123624a11f72d991653c827b85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
