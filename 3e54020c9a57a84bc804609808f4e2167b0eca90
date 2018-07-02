@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6a8a2ce_e61aba88",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-02T04:16:44Z",
+      "side": 1,
+      "message": "this field doesn\u0027t exist. there is hmap.extra.oldoverflow.",
+      "range": {
+        "startLine": 129,
+        "startChar": 74,
+        "endLine": 129,
+        "endChar": 90
+      },
+      "revId": "3e54020c9a57a84bc804609808f4e2167b0eca90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
