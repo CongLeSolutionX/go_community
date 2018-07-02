@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "2cd90c38_a334fb17",
+        "filename": "src/strings/compare_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-07-02T09:04:32Z",
+      "side": 1,
+      "message": "This could use the lastLen approach too.\nAnd possibly just set a[] in the loop and then copy the updated slice to b[]?\n(Or a temporary rnd:\u003dbyte(...) to save me comparing them if two assignments remain.)",
+      "revId": "5a7934ad492bf840c3e19436b491d03a46d379ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dfa5c76_997899cb",
+        "filename": "src/strings/compare_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-07-02T09:04:32Z",
+      "side": 1,
+      "message": "Couldn\u0027t this be done once for the whole of a[] and b[] before the loop?\nThen the 8 and 9 would be gradually overwritten by the \u0027randomish\u0027 as it\ncreeps forward from lastLen each time.",
+      "revId": "5a7934ad492bf840c3e19436b491d03a46d379ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bfbe4f6a_5a067005",
         "filename": "src/strings/compare_test.go",
         "patchSetId": 1
@@ -13,6 +47,23 @@
       "writtenOn": "2018-07-02T03:13:38Z",
       "side": 1,
       "message": "how about adding:\n\n   sa, sb :\u003d string(s), string(b)\n\nAnd then avoiding the string(a) and string(b) cases in loops below?",
+      "revId": "5a7934ad492bf840c3e19436b491d03a46d379ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18089780_1ce21777",
+        "filename": "src/strings/compare_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-07-02T09:04:32Z",
+      "side": 1,
+      "message": "len\u003d\u003d1 \u0026\u0026 k\u003d\u003d0 is no longer tested.  Nor any of the ones where lengths has a consecutive sequence.\nlen\u003d256 \u0026\u0026 k\u003d\u003d129 is the first, I expect.\n\nCouldn\u0027t this test be moved after the loop into its own one that just runs once for \u0027n\u0027,\nthe longest length, rather than doing the same work piecemeal with lastLen?",
       "revId": "5a7934ad492bf840c3e19436b491d03a46d379ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
