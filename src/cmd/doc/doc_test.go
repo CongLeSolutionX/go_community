@@ -7,6 +7,7 @@ package main
 import (
 	"bytes"
 	"flag"
+	"go/build"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -124,6 +125,54 @@ var tests = []test{
 			`func MultiLineFunc\(x interface{ ... }\) \(r struct{ ... }\)`, // Multi line function.
 			`var LongLine = newLongLine\(("someArgument[1-4]", ){4}...\)`,  // Long list of arguments.
 			`type T1 = T2`,                                                 // Type alias
+		},
+		[]string{
+			`const internalConstant = 2`,        // No internal constants.
+			`var internalVariable = 2`,          // No internal variables.
+			`func internalFunc(a int) bool`,     // No internal functions.
+			`Comment about exported constant`,   // No comment for single constant.
+			`Comment about exported variable`,   // No comment for single variable.
+			`Comment about block of constants.`, // No comment for constant block.
+			`Comment about block of variables.`, // No comment for variable block.
+			`Comment before ConstOne`,           // No comment for first entry in constant block.
+			`Comment before VarOne`,             // No comment for first entry in variable block.
+			`ConstTwo = 2`,                      // No second entry in constant block.
+			`VarTwo = 2`,                        // No second entry in variable block.
+			`VarFive = 5`,                       // From block starting with unexported variable.
+			`type unexportedType`,               // No unexported type.
+			`unexportedTypedConstant`,           // No unexported typed constant.
+			`\bField`,                           // No fields.
+			`Method`,                            // No methods.
+			`someArgument[5-8]`,                 // No truncated arguments.
+			`type T1 T2`,                        // Type alias does not display as type declaration.
+			`const Tag1Only = true`,             // Build-tag controlled exported name.
+		},
+	},
+	// Package dump -tags=`tag1`
+	{
+		"full package -tags=tag1",
+		[]string{`-tags=tag1 tag2`, p},
+		[]string{
+			`Package comment`,
+			`const ExportedConstant = 1`,                                   // Simple constant.
+			`const ConstOne = 1`,                                           // First entry in constant block.
+			`const ConstFive ...`,                                          // From block starting with unexported constant.
+			`var ExportedVariable = 1`,                                     // Simple variable.
+			`var VarOne = 1`,                                               // First entry in variable block.
+			`func ExportedFunc\(a int\) bool`,                              // Function.
+			`func ReturnUnexported\(\) unexportedType`,                     // Function with unexported return type.
+			`type ExportedType struct{ ... }`,                              // Exported type.
+			`const ExportedTypedConstant ExportedType = iota`,              // Typed constant.
+			`const ExportedTypedConstant_unexported unexportedType`,        // Typed constant, exported for unexported type.
+			`const ConstLeft2 uint64 ...`,                                  // Typed constant using unexported iota.
+			`const ConstGroup1 unexportedType = iota ...`,                  // Typed constant using unexported type.
+			`const ConstGroup4 ExportedType = ExportedType{}`,              // Typed constant using exported type.
+			`const MultiLineConst = ...`,                                   // Multi line constant.
+			`var MultiLineVar = map\[struct{ ... }\]struct{ ... }{ ... }`,  // Multi line variable.
+			`func MultiLineFunc\(x interface{ ... }\) \(r struct{ ... }\)`, // Multi line function.
+			`var LongLine = newLongLine\(("someArgument[1-4]", ){4}...\)`,  // Long list of arguments.
+			`type T1 = T2`,                                                 // Type alias
+			`const Tag1Only = true`,                                        // Build-tag controlled exported name
 		},
 		[]string{
 			`const internalConstant = 2`,        // No internal constants.
@@ -533,6 +582,7 @@ var tests = []test{
 func TestDoc(t *testing.T) {
 	maybeSkip(t)
 	for _, test := range tests {
+		buildCtx = build.Default // reset
 		var b bytes.Buffer
 		var flagSet flag.FlagSet
 		err := do(&b, &flagSet, test.args)
