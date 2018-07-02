@@ -16,6 +16,24 @@
       "revId": "99346366f29cfdd89d91032c3d4a8f939b5578dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c746713_523b2bc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-02T17:44:18Z",
+      "side": 1,
+      "message": "I couldn\u0027t think of any really reasonable way.  As far as I can tell it would require adding a new kind of function to text/template that was only used for html/template escaper functions.\n\nAnd, yes, I do mean any interface type, since when a non-empty interface type is passed to an empty interface type the fact that it was once a non-empty interface is lost.  All you have left is the dynamic type, not the non-empty interface type that it passed through.",
+      "parentUuid": "b0960013_386ba3f3",
+      "revId": "99346366f29cfdd89d91032c3d4a8f939b5578dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
