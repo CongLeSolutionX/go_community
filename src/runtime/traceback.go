@@ -1023,6 +1023,13 @@ func isSystemGoroutine(gp *g) bool {
 // information into symbolic information. These are used when printing
 // stack traces for a program that uses cgo.
 //
+// On all platforms, the traceback function is invoked when a call from
+// Go to C to Go requests a stack trace. On linux/amd64, linux/ppc64le,
+// and freebsd/amd64, the traceback function is also invoked when a
+// signal is received by a thread that is executing a cgo call. The
+// traceback function should not make assumptions about when it is
+// called, as future versions of Go may make additional calls.
+//
 // The traceback and context functions may be called from a signal
 // handler, and must therefore use only async-signal safe functions.
 // The symbolizer function may be called while the program is
