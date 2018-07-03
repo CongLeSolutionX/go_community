@@ -16,6 +16,24 @@
       "revId": "f1f0221b3aabd0123624a11f72d991653c827b85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a54e69d_04c0c4a4",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-07-03T03:33:42Z",
+      "side": 1,
+      "message": "You bet. Done.",
+      "parentUuid": "5f8c6887_b1722eb8",
+      "revId": "f1f0221b3aabd0123624a11f72d991653c827b85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
