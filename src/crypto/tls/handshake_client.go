@@ -85,7 +85,10 @@ NextCipherSuite:
 	}
 
 	if hello.vers >= VersionTLS12 {
-		hello.supportedSignatureAlgorithms = supportedSignatureAlgorithms
+		hello.supportedSignatureAlgorithms = supportedSignatureAlgorithms()
+	}
+	if testingOnlyForceClientHelloSignatureAlgorithms != nil {
+		hello.supportedSignatureAlgorithms = testingOnlyForceClientHelloSignatureAlgorithms
 	}
 
 	return hello, nil
@@ -324,6 +327,8 @@ func (hs *clientHandshakeState) doFullHandshake() error {
 
 		if !c.config.InsecureSkipVerify {
 			opts := x509.VerifyOptions{
+				IsBoring: isBoringCertificate,
+
 				Roots:         c.config.RootCAs,
 				CurrentTime:   c.config.time(),
 				DNSName:       c.config.ServerName,

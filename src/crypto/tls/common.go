@@ -7,6 +7,7 @@ package tls
 import (
 	"container/list"
 	"crypto"
+	"crypto/internal/boring"
 	"crypto/rand"
 	"crypto/sha512"
 	"crypto/x509"
@@ -135,11 +136,11 @@ const (
 	signatureRSAPSS
 )
 
-// supportedSignatureAlgorithms contains the signature and hash algorithms that
+// defaultSupportedSignatureAlgorithms contains the signature and hash algorithms that
 // the code advertises as supported in a TLS 1.2 ClientHello and in a TLS 1.2
 // CertificateRequest. The two fields are merged to match with TLS 1.3.
 // Note that in TLS 1.2, the ECDSA algorithms are not constrained to P-256, etc.
-var supportedSignatureAlgorithms = []SignatureScheme{
+var defaultSupportedSignatureAlgorithms = []SignatureScheme{
 	PKCS1WithSHA256,
 	ECDSAWithP256AndSHA256,
 	PKCS1WithSHA384,
@@ -668,6 +669,9 @@ func (c *Config) time() time.Time {
 }
 
 func (c *Config) cipherSuites() []uint16 {
+	if needFIPS() {
+		return fipsCipherSuites(c)
+	}
 	s := c.CipherSuites
 	if s == nil {
 		s = defaultCipherSuites()
@@ -676,6 +680,9 @@ func (c *Config) cipherSuites() []uint16 {
 }
 
 func (c *Config) minVersion() uint16 {
+	if needFIPS() {
+		return fipsMinVersion(c)
+	}
 	if c == nil || c.MinVersion == 0 {
 		return minVersion
 	}
@@ -683,6 +690,9 @@ func (c *Config) minVersion() uint16 {
 }
 
 func (c *Config) maxVersion() uint16 {
+	if needFIPS() {
+		return fipsMaxVersion(c)
+	}
 	if c == nil || c.MaxVersion == 0 {
 		return maxVersion
 	}
@@ -692,6 +702,9 @@ func (c *Config) maxVersion() uint16 {
 var defaultCurvePreferences = []CurveID{X25519, CurveP256, CurveP384, CurveP521}
 
 func (c *Config) curvePreferences() []CurveID {
+	if needFIPS() {
+		return fipsCurvePreferences(c)
+	}
 	if c == nil || len(c.CurvePreferences) == 0 {
 		return defaultCurvePreferences
 	}
@@ -937,7 +950,8 @@ func initDefaultCipherSuites() {
 
 	hasGCMAsm := hasGCMAsmAMD64 || hasGCMAsmARM64 || hasGCMAsmS390X
 
-	if hasGCMAsm {
+	if hasGCMAsm || boring.Enabled {
+		// If BoringCrypto is enabled, always prioritize AES-GCM.
 		// If AES-GCM hardware is provided then prioritise AES-GCM
 		// cipher suites.
 		topCipherSuites = []uint16{
