@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f4699860_9877d9ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-07-03T10:07:30Z",
+      "side": 1,
+      "message": "You\u0027re right, we don\u0027t need adjustment in link for DWARF anymore.",
+      "parentUuid": "3fa9fbc9_53ab620e",
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f2bcf74_307c0966",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -39,6 +57,30 @@
       "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9bb3fd0_f488af51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-07-03T10:07:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f2bcf74_307c0966",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 36
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a8ffde85_6cfa84c9",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-07-03T10:07:30Z",
+      "side": 1,
+      "message": "1. The value of \"p.To.Offset\" is used to restore \"c.autosize\" in function: span7. Since we need to consider more cases (i.e \"8 mod 16\" and \"16 bytes aligned\") than before, we add restoring logical in span7 now. We don\u0027t need to prepare \"exact\" value of \"p.To.Offset\" here and only run the line for NOFRAME which we do no special handling in span7. \n\n2. I elided the adjustment of c.cursym.Func.Locals on purpose because I thought \"Locals\" are just for debugging and printing purpose. But it\u0027s better to update its value as old implementation has done and I have added the adjustment back.",
+      "parentUuid": "76854b79_b056ef10",
+      "range": {
+        "startLine": 555,
+        "startChar": 5,
+        "endLine": 558,
+        "endChar": 4
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e232d1d7_f31ab0d2",
         "filename": "src/cmd/internal/obj/arm64/obj7.go",
         "patchSetId": 15
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "9e0538fa_2eebccb5",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-07-03T10:07:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e232d1d7_f31ab0d2",
+      "range": {
+        "startLine": 638,
+        "startChar": 19,
+        "endLine": 638,
+        "endChar": 28
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4ba24d3_22d31e8f",
         "filename": "src/cmd/internal/obj/arm64/obj7.go",
         "patchSetId": 15
@@ -102,6 +192,24 @@
       "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b320cf40_7ec99ddd",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-07-03T10:07:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4ba24d3_22d31e8f",
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "000986f8_6c739fe0",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-07-03T10:07:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35ab2e05_a3067afe",
+      "range": {
+        "startLine": 873,
+        "startChar": 23,
+        "endLine": 873,
+        "endChar": 30
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d17de89f_e2d446f8",
         "filename": "src/cmd/internal/obj/arm64/obj7.go",
         "patchSetId": 15
@@ -148,6 +280,30 @@
       "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "343c8315_31a4cd8e",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-07-03T10:07:30Z",
+      "side": 1,
+      "message": "\"*q4 \u003d *p\" will overwrite q4.Link and result in dead loop",
+      "parentUuid": "d17de89f_e2d446f8",
+      "range": {
+        "startLine": 882,
+        "startChar": 4,
+        "endLine": 884,
+        "endChar": 16
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
