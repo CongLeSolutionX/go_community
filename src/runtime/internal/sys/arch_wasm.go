@@ -5,7 +5,7 @@
 package sys
 
 const (
-	ArchFamily          = WASM
+	ArchFamily          = Wasm
 	BigEndian           = false
 	CacheLineSize       = 64
 	DefaultPhysPageSize = 65536

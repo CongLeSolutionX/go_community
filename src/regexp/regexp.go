@@ -616,9 +616,9 @@ func init() {
 	}
 }
 
-// QuoteMeta returns a string that escapes all regular expression metacharacters
+// QuoteMeta returns a string that quotes all regular expression metacharacters
 // inside the argument text; the returned string is a regular expression matching
-// the literal text.
+// the literal text. For example, QuoteMeta(`[foo]`) returns `\[foo\]`.
 func QuoteMeta(s string) string {
 	// A byte loop is correct because all metacharacters are ASCII.
 	var i int

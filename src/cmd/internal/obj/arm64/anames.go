@@ -96,8 +96,6 @@ var Anames = []string{
 	"HVC",
 	"IC",
 	"ISB",
-	"LDADDALD",
-	"LDADDALW",
 	"LDADDB",
 	"LDADDH",
 	"LDADDW",

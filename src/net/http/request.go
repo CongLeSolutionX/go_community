@@ -214,11 +214,6 @@ type Request struct {
 	// names, Host may be in Punycode or Unicode form. Use
 	// golang.org/x/net/idna to convert it to either format if
 	// needed.
-	// To prevent DNS rebinding attacks, server Handlers should
-	// validate that the Host header has a value for which the
-	// Handler considers itself authoritative. The included
-	// ServeMux supports patterns registered to particular host
-	// names and thus protects its registered Handlers.
 	//
 	// For client requests Host optionally overrides the Host
 	// header to send. If empty, the Request.Write method uses
@@ -321,7 +316,8 @@ type Request struct {
 //
 // For incoming server requests, the context is canceled when the
 // client's connection closes, the request is canceled (with HTTP/2),
-// or when the ServeHTTP method returns.
+// the ServeHTTP method returns, or if the Hijack method is
+// called on the ResponseWriter.
 func (r *Request) Context() context.Context {
 	if r.ctx != nil {
 		return r.ctx
@@ -555,9 +551,6 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 	if err != nil {
 		return err
 	}
-	if trace != nil && trace.WroteHeaderField != nil {
-		trace.WroteHeaderField("Host", []string{host})
-	}
 
 	// Use the defaultUserAgent unless the Header contains one, which
 	// may be blank to not send the header.
@@ -570,9 +563,6 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 		if err != nil {
 			return err
 		}
-		if trace != nil && trace.WroteHeaderField != nil {
-			trace.WroteHeaderField("User-Agent", []string{userAgent})
-		}
 	}
 
 	// Process Body,ContentLength,Close,Trailer
@@ -580,18 +570,18 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 	if err != nil {
 		return err
 	}
-	err = tw.writeHeader(w, trace)
+	err = tw.WriteHeader(w)
 	if err != nil {
 		return err
 	}
 
-	err = r.Header.writeSubset(w, reqWriteExcludeHeader, trace)
+	err = r.Header.WriteSubset(w, reqWriteExcludeHeader)
 	if err != nil {
 		return err
 	}
 
 	if extraHeaders != nil {
-		err = extraHeaders.write(w, trace)
+		err = extraHeaders.Write(w)
 		if err != nil {
 			return err
 		}
@@ -630,7 +620,7 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 	}
 
 	// Write body and trailer
-	err = tw.writeBody(w)
+	err = tw.WriteBody(w)
 	if err != nil {
 		if tw.bodyReadError == err {
 			err = requestBodyReadError{err}

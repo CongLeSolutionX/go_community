@@ -293,7 +293,7 @@ func (r *Response) Write(w io.Writer) error {
 	if err != nil {
 		return err
 	}
-	err = tw.writeHeader(w, nil)
+	err = tw.WriteHeader(w)
 	if err != nil {
 		return err
 	}
@@ -319,7 +319,7 @@ func (r *Response) Write(w io.Writer) error {
 	}
 
 	// Write body and trailer
-	err = tw.writeBody(w)
+	err = tw.WriteBody(w)
 	if err != nil {
 		return err
 	}

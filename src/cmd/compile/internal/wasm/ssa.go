@@ -232,13 +232,19 @@ func ssaGenValueOnStack(s *gc.SSAGenState, v *ssa.Value) {
 
 	case ssa.OpWasmLoweredAddr:
 		p := s.Prog(wasm.AGet)
-		p.From.Type = obj.TYPE_ADDR
-		switch v.Aux.(type) {
+		switch n := v.Aux.(type) {
 		case *obj.LSym:
-			gc.AddAux(&p.From, v)
+			p.From = obj.Addr{Type: obj.TYPE_ADDR, Name: obj.NAME_EXTERN, Sym: n}
 		case *gc.Node:
-			p.From.Reg = v.Args[0].Reg()
-			gc.AddAux(&p.From, v)
+			p.From = obj.Addr{
+				Type:   obj.TYPE_ADDR,
+				Name:   obj.NAME_AUTO,
+				Reg:    v.Args[0].Reg(),
+				Offset: n.Xoffset,
+			}
+			if n.Class() == gc.PPARAM || n.Class() == gc.PPARAMOUT {
+				p.From.Name = obj.NAME_PARAM
+			}
 		default:
 			panic("wasm: bad LoweredAddr")
 		}

@@ -290,7 +290,9 @@ const (
 )
 
 // rtype is the common implementation of most values.
-// It is embedded in other struct types.
+// It is embedded in other, public struct types, but always
+// with a unique tag like `reflect:"array"` or `reflect:"ptr"`
+// so that code cannot convert from, say, *arrayType to *ptrType.
 //
 // rtype must be kept in sync with ../runtime/type.go:/^type._type.
 type rtype struct {
@@ -348,7 +350,7 @@ const (
 
 // arrayType represents a fixed array type.
 type arrayType struct {
-	rtype
+	rtype `reflect:"array"`
 	elem  *rtype // array element type
 	slice *rtype // slice type
 	len   uintptr
@@ -356,9 +358,9 @@ type arrayType struct {
 
 // chanType represents a channel type.
 type chanType struct {
-	rtype
-	elem *rtype  // channel element type
-	dir  uintptr // channel direction (ChanDir)
+	rtype `reflect:"chan"`
+	elem  *rtype  // channel element type
+	dir   uintptr // channel direction (ChanDir)
 }
 
 // funcType represents a function type.
@@ -373,7 +375,7 @@ type chanType struct {
 //		[2]*rtype    // [0] is in, [1] is out
 //	}
 type funcType struct {
-	rtype
+	rtype    `reflect:"func"`
 	inCount  uint16
 	outCount uint16 // top bit is set if last input parameter is ...
 }
@@ -386,14 +388,14 @@ type imethod struct {
 
 // interfaceType represents an interface type.
 type interfaceType struct {
-	rtype
+	rtype   `reflect:"interface"`
 	pkgPath name      // import path
 	methods []imethod // sorted by hash
 }
 
 // mapType represents a map type.
 type mapType struct {
-	rtype
+	rtype         `reflect:"map"`
 	key           *rtype // map key type
 	elem          *rtype // map element (value) type
 	bucket        *rtype // internal bucket structure
@@ -408,14 +410,14 @@ type mapType struct {
 
 // ptrType represents a pointer type.
 type ptrType struct {
-	rtype
-	elem *rtype // pointer element (pointed at) type
+	rtype `reflect:"ptr"`
+	elem  *rtype // pointer element (pointed at) type
 }
 
 // sliceType represents a slice type.
 type sliceType struct {
-	rtype
-	elem *rtype // slice element type
+	rtype `reflect:"slice"`
+	elem  *rtype // slice element type
 }
 
 // Struct field
@@ -435,7 +437,7 @@ func (f *structField) embedded() bool {
 
 // structType represents a struct type.
 type structType struct {
-	rtype
+	rtype   `reflect:"struct"`
 	pkgPath name
 	fields  []structField // sorted by offset
 }
@@ -2465,9 +2467,6 @@ func StructOf(fields []StructField) Type {
 						// Issue 15924.
 						panic("reflect: embedded type with methods not implemented if type is not first field")
 					}
-					if len(fields) > 1 {
-						panic("reflect: embedded type with methods not implemented if there is more than one field")
-					}
 					for _, m := range unt.methods() {
 						mname := ptr.nameOff(m.name)
 						if mname.pkgPath() != "" {
@@ -2504,9 +2503,6 @@ func StructOf(fields []StructField) Type {
 					if i > 0 && unt.mcount > 0 {
 						// Issue 15924.
 						panic("reflect: embedded type with methods not implemented if type is not first field")
-					}
-					if len(fields) > 1 && ft.kind&kindDirectIface != 0 {
-						panic("reflect: embedded type with methods not implemented for non-pointer type")
 					}
 					for _, m := range unt.methods() {
 						mname := ft.nameOff(m.name)

@@ -384,7 +384,7 @@ func (t *Tree) action() (n Node) {
 //	declarations? command ('|' command)*
 func (t *Tree) pipeline(context string) (pipe *PipeNode) {
 	decl := false
-	var vars []*VariableNode
+	var vars []*AssignNode
 	token := t.peekNonSpace()
 	pos := token.pos
 	// Are there declarations or assignments?
@@ -422,7 +422,7 @@ func (t *Tree) pipeline(context string) (pipe *PipeNode) {
 		break
 	}
 	pipe = t.newPipeline(pos, token.line, vars)
-	pipe.IsAssign = !decl
+	pipe.Decl = decl
 	for {
 		switch token := t.nextNonSpace(); token.typ {
 		case itemRightDelim, itemRightParen:

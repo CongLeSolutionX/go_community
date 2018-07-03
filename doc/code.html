@@ -111,10 +111,6 @@ and dependencies in a single workspace.
 </p>
 
 <p>
-Note that symbolic links should <b>not</b> be used to link files or directories into your workspace.
-</p>
-
-<p>
 Commands and libraries are built from different kinds of source packages.
 We will discuss the distinction <a href="#PackageNames">later</a>.
 </p>
@@ -240,7 +236,7 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("Hello, world.")
+	fmt.Printf("Hello, world.\n")
 }
 </pre>
 
@@ -395,7 +391,7 @@ import (
 )
 
 func main() {
-	fmt.Println(stringutil.Reverse("!oG ,olleH"))
+	fmt.Printf(stringutil.Reverse("!oG ,olleH"))
 }
 </pre>
 
@@ -673,7 +669,7 @@ articles about the Go language and its libraries and tools.
 
 <p>
 For real-time help, ask the helpful gophers in <code>#go-nuts</code> on the
-<a href="https://freenode.net/">Freenode</a> IRC server.
+<a href="http://freenode.net/">Freenode</a> IRC server.
 </p>
 
 <p>

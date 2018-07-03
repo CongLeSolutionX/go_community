@@ -342,28 +342,25 @@ func TempDir() string {
 // On Plan 9, it returns $home/lib/cache.
 //
 // If the location cannot be determined (for example, $HOME is not defined),
-// then it will return an error.
-func UserCacheDir() (string, error) {
+// then it will return an empty string.
+func UserCacheDir() string {
 	var dir string
 
 	switch runtime.GOOS {
 	case "windows":
 		dir = Getenv("LocalAppData")
-		if dir == "" {
-			return "", errors.New("%LocalAppData% is not defined")
-		}
 
 	case "darwin":
 		dir = Getenv("HOME")
 		if dir == "" {
-			return "", errors.New("$HOME is not defined")
+			return ""
 		}
 		dir += "/Library/Caches"
 
 	case "plan9":
 		dir = Getenv("home")
 		if dir == "" {
-			return "", errors.New("$home is not defined")
+			return ""
 		}
 		dir += "/lib/cache"
 
@@ -372,13 +369,13 @@ func UserCacheDir() (string, error) {
 		if dir == "" {
 			dir = Getenv("HOME")
 			if dir == "" {
-				return "", errors.New("neither $XDG_CACHE_HOME nor $HOME are defined")
+				return ""
 			}
 			dir += "/.cache"
 		}
 	}
 
-	return dir, nil
+	return dir
 }
 
 // Chmod changes the mode of the named file to mode.

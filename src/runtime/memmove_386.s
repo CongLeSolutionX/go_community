@@ -39,7 +39,6 @@ TEXT runtime·memmove(SB), NOSPLIT, $0-12
 	// 128 because that is the maximum SSE register load (loading all data
 	// into registers lets us ignore copy direction).
 tail:
-	// BSR+branch table make almost all memmove/memclr benchmarks worse. Not worth doing.
 	TESTL	BX, BX
 	JEQ	move_0
 	CMPL	BX, $2
@@ -59,6 +58,7 @@ tail:
 	JBE	move_33through64
 	CMPL	BX, $128
 	JBE	move_65through128
+	// TODO: use branch table and BSR to make this just a single dispatch
 
 nosse2:
 /*

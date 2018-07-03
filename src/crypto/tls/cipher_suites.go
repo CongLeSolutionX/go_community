@@ -353,14 +353,14 @@ func rsaKA(version uint16) keyAgreement {
 
 func ecdheECDSAKA(version uint16) keyAgreement {
 	return &ecdheKeyAgreement{
-		isRSA:   false,
+		sigType: signatureECDSA,
 		version: version,
 	}
 }
 
 func ecdheRSAKA(version uint16) keyAgreement {
 	return &ecdheKeyAgreement{
-		isRSA:   true,
+		sigType: signatureRSA,
 		version: version,
 	}
 }

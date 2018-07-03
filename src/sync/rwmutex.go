@@ -114,6 +114,7 @@ func (rw *RWMutex) Unlock() {
 	if race.Enabled {
 		_ = rw.w.state
 		race.Release(unsafe.Pointer(&rw.readerSem))
+		race.Release(unsafe.Pointer(&rw.writerSem))
 		race.Disable()
 	}
 

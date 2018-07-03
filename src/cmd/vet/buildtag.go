@@ -18,16 +18,17 @@ var (
 	plusBuild  = []byte("+build")
 )
 
-func badfLine(f *File, line int, format string, args ...interface{}) {
-	msg := fmt.Sprintf(format, args...)
-	fmt.Fprintf(os.Stderr, "%s:%d: %s\n", f.name, line, msg)
-	setExit(1)
-}
-
 // checkBuildTag checks that build tags are in the correct location and well-formed.
 func checkBuildTag(f *File) {
 	if !vet("buildtags") {
 		return
+	}
+	// badf is like File.Badf, but it uses a line number instead of
+	// token.Pos.
+	badf := func(line int, format string, args ...interface{}) {
+		msg := fmt.Sprintf(format, args)
+		fmt.Fprintf(os.Stderr, "%s:%d: %s\n", f.name, line, msg)
+		setExit(1)
 	}
 
 	// we must look at the raw lines, as build tags may appear in non-Go
@@ -91,11 +92,11 @@ func checkBuildTag(f *File) {
 			fields := bytes.Fields(text)
 			if !bytes.Equal(fields[0], plusBuild) {
 				// Comment is something like +buildasdf not +build.
-				badfLine(f, i+1, "possible malformed +build comment")
+				badf(i+1, "possible malformed +build comment")
 				continue
 			}
 			if i >= cutoff {
-				badfLine(f, i+1, "+build comment must appear before package clause and be followed by a blank line")
+				badf(i+1, "+build comment must appear before package clause and be followed by a blank line")
 				continue
 			}
 			// Check arguments.
@@ -103,13 +104,13 @@ func checkBuildTag(f *File) {
 			for _, arg := range fields[1:] {
 				for _, elem := range strings.Split(string(arg), ",") {
 					if strings.HasPrefix(elem, "!!") {
-						badfLine(f, i+1, "invalid double negative in build constraint: %s", arg)
+						badf(i+1, "invalid double negative in build constraint: %s", arg)
 						break Args
 					}
 					elem = strings.TrimPrefix(elem, "!")
 					for _, c := range elem {
 						if !unicode.IsLetter(c) && !unicode.IsDigit(c) && c != '_' && c != '.' {
-							badfLine(f, i+1, "invalid non-alphanumeric build constraint: %s", arg)
+							badf(i+1, "invalid non-alphanumeric build constraint: %s", arg)
 							break Args
 						}
 					}
@@ -119,7 +120,7 @@ func checkBuildTag(f *File) {
 		}
 		// Comment with +build but not at beginning.
 		if i < cutoff {
-			badfLine(f, i+1, "possible malformed +build comment")
+			badf(i+1, "possible malformed +build comment")
 			continue
 		}
 	}

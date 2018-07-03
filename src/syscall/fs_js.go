@@ -15,8 +15,8 @@ import (
 // Provided by package runtime.
 func now() (sec int64, nsec int32)
 
-var jsProcess = js.Global().Get("process")
-var jsFS = js.Global().Get("fs")
+var jsProcess = js.Global.Get("process")
+var jsFS = js.Global.Get("fs")
 var constants = jsFS.Get("constants")
 
 var (
@@ -374,9 +374,7 @@ func Read(fd int, b []byte) (int, error) {
 		return n, err
 	}
 
-	a := js.TypedArrayOf(b)
-	n, err := fsCall("readSync", fd, a, 0, len(b))
-	a.Release()
+	n, err := fsCall("readSync", fd, b, 0, len(b))
 	if err != nil {
 		return 0, err
 	}
@@ -397,9 +395,7 @@ func Write(fd int, b []byte) (int, error) {
 		return n, err
 	}
 
-	a := js.TypedArrayOf(b)
-	n, err := fsCall("writeSync", fd, a, 0, len(b))
-	a.Release()
+	n, err := fsCall("writeSync", fd, b, 0, len(b))
 	if err != nil {
 		return 0, err
 	}
@@ -409,9 +405,7 @@ func Write(fd int, b []byte) (int, error) {
 }
 
 func Pread(fd int, b []byte, offset int64) (int, error) {
-	a := js.TypedArrayOf(b)
-	n, err := fsCall("readSync", fd, a, 0, len(b), offset)
-	a.Release()
+	n, err := fsCall("readSync", fd, b, 0, len(b), offset)
 	if err != nil {
 		return 0, err
 	}
@@ -419,9 +413,7 @@ func Pread(fd int, b []byte, offset int64) (int, error) {
 }
 
 func Pwrite(fd int, b []byte, offset int64) (int, error) {
-	a := js.TypedArrayOf(b)
-	n, err := fsCall("writeSync", fd, a, 0, len(b), offset)
-	a.Release()
+	n, err := fsCall("writeSync", fd, b, 0, len(b), offset)
 	if err != nil {
 		return 0, err
 	}

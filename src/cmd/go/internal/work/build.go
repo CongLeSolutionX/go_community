@@ -18,7 +18,6 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/load"
-	"cmd/go/internal/search"
 )
 
 var CmdBuild = &base.Command{
@@ -377,7 +376,7 @@ func libname(args []string, pkgs []*load.Package) (string, error) {
 	}
 	var haveNonMeta bool
 	for _, arg := range args {
-		if search.IsMetaPackage(arg) {
+		if load.IsMetaPackage(arg) {
 			appendName(arg)
 		} else {
 			haveNonMeta = true

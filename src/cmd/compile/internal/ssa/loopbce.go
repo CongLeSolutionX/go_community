@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 package ssa
 
 import "fmt"
@@ -158,7 +154,7 @@ nextb:
 		// if the increment is ±1 or when the limits are constants.
 		if inc.AuxInt != 1 && inc.AuxInt != -1 {
 			ok := false
-			if min.Op == OpConst64 && max.Op == OpConst64 && inc.AuxInt != 0 {
+			if min.Op == OpConst64 && max.Op == OpConst64 {
 				if max.AuxInt > min.AuxInt && max.AuxInt%inc.AuxInt == min.AuxInt%inc.AuxInt { // handle overflow
 					ok = true
 				}

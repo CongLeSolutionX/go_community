@@ -282,9 +282,3 @@ func notetsleepg(n *note, ns int64) bool {
 	exitsyscall()
 	return ok
 }
-
-func pauseSchedulerUntilCallback() bool {
-	return false
-}
-
-func checkTimeouts() {}

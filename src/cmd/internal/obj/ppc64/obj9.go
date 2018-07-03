@@ -502,10 +502,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q = c.stacksplit(q, autosize) // emit split check
 			}
 
-			// Special handling of the racecall thunk. Assume that its asm code will
-			// save the link register and update the stack, since that code is
-			// called directly from C/C++ and can't clobber REGTMP (R31).
-			if autosize != 0 && c.cursym.Name != "runtime.racecallbackthunk" {
+			if autosize != 0 {
 				// Save the link register and update the SP.  MOVDU is used unless
 				// the frame size is too large.  The link register must be saved
 				// even for non-empty leaf functions so that traceback works.
@@ -681,7 +678,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			retTarget := p.To.Sym
 
 			if c.cursym.Func.Text.Mark&LEAF != 0 {
-				if autosize == 0 || c.cursym.Name == "runtime.racecallbackthunk" {
+				if autosize == 0 {
 					p.As = ABR
 					p.From = obj.Addr{}
 					if retTarget == nil {
@@ -750,8 +747,8 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				p.Link = q
 				p = q
 			}
-			prev := p
-			if autosize != 0 && c.cursym.Name != "runtime.racecallbackthunk" {
+
+			if autosize != 0 {
 				q = c.newprog()
 				q.As = AADD
 				q.Pos = p.Pos
@@ -762,8 +759,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q.Spadj = -autosize
 
 				q.Link = p.Link
-				prev.Link = q
-				prev = q
+				p.Link = q
 			}
 
 			q1 = c.newprog()
@@ -780,7 +776,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q1.Spadj = +autosize
 
 			q1.Link = q.Link
-			prev.Link = q1
+			q.Link = q1
 		case AADD:
 			if p.To.Type == obj.TYPE_REG && p.To.Reg == REGSP && p.From.Type == obj.TYPE_CONST {
 				p.Spadj = int32(-p.From.Offset)

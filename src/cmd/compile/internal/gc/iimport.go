@@ -46,7 +46,9 @@ func expandDecl(n *Node) {
 		return
 	}
 
+	inimport = true
 	r.doDecl(n)
+	inimport = false
 }
 
 func expandInline(fn *Node) {
@@ -1058,7 +1060,7 @@ func (r *importReader) exprsOrNil() (a, b *Node) {
 		a = r.expr()
 	}
 	if ab&2 != 0 {
-		b = r.node()
+		b = r.expr()
 	}
 	return
 }

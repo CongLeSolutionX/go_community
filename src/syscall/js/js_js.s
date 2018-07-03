@@ -4,50 +4,70 @@
 
 #include "textflag.h"
 
+TEXT ·boolVal(SB), NOSPLIT, $0
+  CallImport
+  RET
+
+TEXT ·intVal(SB), NOSPLIT, $0
+  CallImport
+  RET
+
+TEXT ·floatVal(SB), NOSPLIT, $0
+  CallImport
+  RET
+
 TEXT ·stringVal(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valueGet(SB), NOSPLIT, $0
+TEXT ·Value·Get(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valueSet(SB), NOSPLIT, $0
+TEXT ·Value·set(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valueIndex(SB), NOSPLIT, $0
+TEXT ·Value·Index(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valueSetIndex(SB), NOSPLIT, $0
+TEXT ·Value·setIndex(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valueCall(SB), NOSPLIT, $0
+TEXT ·Value·call(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valueInvoke(SB), NOSPLIT, $0
+TEXT ·Value·invoke(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valueNew(SB), NOSPLIT, $0
+TEXT ·Value·new(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valueLength(SB), NOSPLIT, $0
+TEXT ·Value·Float(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valuePrepareString(SB), NOSPLIT, $0
+TEXT ·Value·Int(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valueLoadString(SB), NOSPLIT, $0
+TEXT ·Value·Bool(SB), NOSPLIT, $0
   CallImport
   RET
 
-TEXT ·valueInstanceOf(SB), NOSPLIT, $0
+TEXT ·Value·Length(SB), NOSPLIT, $0
+  CallImport
+  RET
+
+TEXT ·Value·prepareString(SB), NOSPLIT, $0
+  CallImport
+  RET
+
+TEXT ·Value·loadString(SB), NOSPLIT, $0
   CallImport
   RET

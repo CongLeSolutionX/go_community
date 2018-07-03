@@ -1429,6 +1429,8 @@ func (x *Float) ucmp(y *Float) int {
 // z's accuracy reports the result error relative to the exact (not rounded)
 // result. Add panics with ErrNaN if x and y are infinities with opposite
 // signs. The value of z is undefined in that case.
+//
+// BUG(gri) When rounding ToNegativeInf, the sign of Float values rounded to 0 is incorrect.
 func (z *Float) Add(x, y *Float) *Float {
 	if debugFloat {
 		x.validate()
@@ -1463,9 +1465,6 @@ func (z *Float) Add(x, y *Float) *Float {
 				z.neg = !z.neg
 				z.usub(y, x)
 			}
-		}
-		if z.form == zero && z.mode == ToNegativeInf && z.acc == Exact {
-			z.neg = true
 		}
 		return z
 	}
@@ -1530,9 +1529,6 @@ func (z *Float) Sub(x, y *Float) *Float {
 				z.neg = !z.neg
 				z.usub(y, x)
 			}
-		}
-		if z.form == zero && z.mode == ToNegativeInf && z.acc == Exact {
-			z.neg = true
 		}
 		return z
 	}

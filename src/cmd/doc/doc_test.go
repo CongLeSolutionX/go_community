@@ -26,7 +26,7 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(err)
 	}
-	dirsInit(testdataDir, filepath.Join(testdataDir, "nested"), filepath.Join(testdataDir, "nested", "nested"))
+	dirsInit(testdataDir)
 
 	os.Exit(m.Run())
 }
@@ -509,24 +509,6 @@ var tests = []test{
 		[]string{
 			"\\)\n+const", // This will appear if the const decl appears twice.
 		},
-	},
-	{
-		"non-imported: pkg.sym",
-		[]string{"nested.Foo"},
-		[]string{"Foo struct"},
-		nil,
-	},
-	{
-		"non-imported: pkg only",
-		[]string{"nested"},
-		[]string{"Foo struct"},
-		nil,
-	},
-	{
-		"non-imported: pkg sym",
-		[]string{"nested", "Foo"},
-		[]string{"Foo struct"},
-		nil,
 	},
 }
 

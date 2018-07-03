@@ -707,13 +707,14 @@ search:
 			} else if t.key.kind&kindNoPointers == 0 {
 				memclrHasPointers(k, t.key.size)
 			}
-			v := add(unsafe.Pointer(b), dataOffset+bucketCnt*uintptr(t.keysize)+i*uintptr(t.valuesize))
-			if t.indirectvalue {
-				*(*unsafe.Pointer)(v) = nil
-			} else if t.elem.kind&kindNoPointers == 0 {
-				memclrHasPointers(v, t.elem.size)
-			} else {
-				memclrNoHeapPointers(v, t.elem.size)
+			// Only clear value if there are pointers in it.
+			if t.indirectvalue || t.elem.kind&kindNoPointers == 0 {
+				v := add(unsafe.Pointer(b), dataOffset+bucketCnt*uintptr(t.keysize)+i*uintptr(t.valuesize))
+				if t.indirectvalue {
+					*(*unsafe.Pointer)(v) = nil
+				} else {
+					memclrHasPointers(v, t.elem.size)
+				}
 			}
 			b.tophash[i] = empty
 			h.count--

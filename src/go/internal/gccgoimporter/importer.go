@@ -6,11 +6,13 @@
 package gccgoimporter // import "go/internal/gccgoimporter"
 
 import (
+	"bytes"
 	"debug/elf"
 	"fmt"
 	"go/types"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 )
@@ -96,8 +98,18 @@ func openExportFile(fpath string) (reader io.ReadSeeker, closer io.Closer, err e
 		return
 
 	case archiveMagic:
-		reader, err = arExportData(f)
-		return
+		// TODO(pcc): Read the archive directly instead of using "ar".
+		f.Close()
+		closer = nil
+
+		cmd := exec.Command("ar", "p", fpath)
+		var out []byte
+		out, err = cmd.Output()
+		if err != nil {
+			return
+		}
+
+		elfreader = bytes.NewReader(out)
 
 	default:
 		elfreader = f
@@ -177,24 +189,17 @@ func GetImporter(searchpaths []string, initmap map[*types.Package]InitData) Impo
 			reader = r
 		}
 
-		var magics string
-		magics, err = readMagic(reader)
+		var magic [4]byte
+		_, err = reader.Read(magic[:])
+		if err != nil {
+			return
+		}
+		_, err = reader.Seek(0, io.SeekStart)
 		if err != nil {
 			return
 		}
 
-		if magics == archiveMagic {
-			reader, err = arExportData(reader)
-			if err != nil {
-				return
-			}
-			magics, err = readMagic(reader)
-			if err != nil {
-				return
-			}
-		}
-
-		switch magics {
+		switch string(magic[:]) {
 		case gccgov1Magic, gccgov2Magic:
 			var p parser
 			p.init(fpath, reader, imports)
@@ -225,22 +230,9 @@ func GetImporter(searchpaths []string, initmap map[*types.Package]InitData) Impo
 		// 	}
 
 		default:
-			err = fmt.Errorf("unrecognized magic string: %q", magics)
+			err = fmt.Errorf("unrecognized magic string: %q", string(magic[:]))
 		}
 
 		return
 	}
-}
-
-// readMagic reads the four bytes at the start of a ReadSeeker and
-// returns them as a string.
-func readMagic(reader io.ReadSeeker) (string, error) {
-	var magic [4]byte
-	if _, err := reader.Read(magic[:]); err != nil {
-		return "", err
-	}
-	if _, err := reader.Seek(0, io.SeekStart); err != nil {
-		return "", err
-	}
-	return string(magic[:]), nil
 }

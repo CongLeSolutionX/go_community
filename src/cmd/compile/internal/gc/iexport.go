@@ -970,17 +970,13 @@ func (w *exportWriter) linkname(s *types.Sym) {
 
 func (w *exportWriter) stmtList(list Nodes) {
 	for _, n := range list.Slice() {
-		w.node(n)
+		if opprec[n.Op] < 0 {
+			w.stmt(n)
+		} else {
+			w.expr(n)
+		}
 	}
 	w.op(OEND)
-}
-
-func (w *exportWriter) node(n *Node) {
-	if opprec[n.Op] < 0 {
-		w.stmt(n)
-	} else {
-		w.expr(n)
-	}
 }
 
 // Caution: stmt will emit more than one node for statement nodes n that have a non-empty
@@ -1342,7 +1338,7 @@ func (w *exportWriter) exprsOrNil(a, b *Node) {
 		w.expr(a)
 	}
 	if ab&2 != 0 {
-		w.node(b)
+		w.expr(b)
 	}
 }
 

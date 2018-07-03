@@ -180,7 +180,6 @@ var Anames = []string{
 	"F64ReinterpretI64",
 	"RESUMEPOINT",
 	"CALLNORESUME",
-	"RETUNWIND",
 	"MOVB",
 	"MOVH",
 	"MOVW",

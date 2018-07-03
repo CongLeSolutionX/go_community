@@ -292,7 +292,6 @@ var racearenastart uintptr
 var racearenaend uintptr
 
 func racefuncenter(uintptr)
-func racefuncenterfp()
 func racefuncexit()
 func racereadrangepc1(uintptr, uintptr, uintptr)
 func racewriterangepc1(uintptr, uintptr, uintptr)

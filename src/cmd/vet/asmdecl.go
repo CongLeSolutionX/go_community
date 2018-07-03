@@ -77,7 +77,6 @@ var (
 	asmArchPpc64    = asmArch{name: "ppc64", bigEndian: true, stack: "R1", lr: true}
 	asmArchPpc64LE  = asmArch{name: "ppc64le", bigEndian: false, stack: "R1", lr: true}
 	asmArchS390X    = asmArch{name: "s390x", bigEndian: true, stack: "R15", lr: true}
-	asmArchWasm     = asmArch{name: "wasm", bigEndian: false, stack: "SP", lr: false}
 
 	arches = []*asmArch{
 		&asmArch386,
@@ -92,7 +91,6 @@ var (
 		&asmArchPpc64,
 		&asmArchPpc64LE,
 		&asmArchS390X,
-		&asmArchWasm,
 	}
 )
 
@@ -106,8 +104,6 @@ func init() {
 		arch.ptrSize = int(arch.sizes.Sizeof(types.Typ[types.UnsafePointer]))
 		arch.maxAlign = int(arch.sizes.Alignof(types.Typ[types.Int64]))
 	}
-
-	registerPkgCheck("asmdecl", asmCheck)
 }
 
 var (
@@ -123,7 +119,7 @@ var (
 )
 
 func asmCheck(pkg *Package) {
-	if vcfg.VetxOnly {
+	if !vet("asmdecl") {
 		return
 	}
 

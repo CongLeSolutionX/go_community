@@ -314,11 +314,10 @@ search:
 			}
 			// Clear key's pointer.
 			k.str = nil
-			v := add(unsafe.Pointer(b), dataOffset+bucketCnt*2*sys.PtrSize+i*uintptr(t.valuesize))
+			// Only clear value if there are pointers in it.
 			if t.elem.kind&kindNoPointers == 0 {
+				v := add(unsafe.Pointer(b), dataOffset+bucketCnt*2*sys.PtrSize+i*uintptr(t.valuesize))
 				memclrHasPointers(v, t.elem.size)
-			} else {
-				memclrNoHeapPointers(v, t.elem.size)
 			}
 			b.tophash[i] = empty
 			h.count--

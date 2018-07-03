@@ -122,7 +122,6 @@ func asmb(ctxt *ld.Link) {
 	}
 
 	// collect functions with WebAssembly body
-	var buildid []byte
 	fns := make([]*wasmFunc, len(ctxt.Textp))
 	for i, fn := range ctxt.Textp {
 		wfn := new(bytes.Buffer)
@@ -130,7 +129,7 @@ func asmb(ctxt *ld.Link) {
 			writeUleb128(wfn, 0) // number of sets of locals
 			writeI32Const(wfn, 0)
 			wfn.WriteByte(0x0b) // end
-			buildid = fn.P
+
 		} else {
 			// Relocations have variable length, handle them here.
 			off := int32(0)
@@ -167,11 +166,6 @@ func asmb(ctxt *ld.Link) {
 	ctxt.Out.Write([]byte{0x00, 0x61, 0x73, 0x6d}) // magic
 	ctxt.Out.Write([]byte{0x01, 0x00, 0x00, 0x00}) // version
 
-	// Add any buildid early in the binary:
-	if len(buildid) != 0 {
-		writeBuildID(ctxt, buildid)
-	}
-
 	writeTypeSec(ctxt, types)
 	writeImportSec(ctxt, hostImports)
 	writeFunctionSec(ctxt, fns)
@@ -183,7 +177,7 @@ func asmb(ctxt *ld.Link) {
 	writeCodeSec(ctxt, fns)
 	writeDataSec(ctxt)
 	if !*ld.FlagS {
-		writeNameSec(ctxt, len(hostImports), fns)
+		writeNameSec(ctxt, append(hostImports, fns...))
 	}
 
 	ctxt.Out.Flush()
@@ -211,13 +205,6 @@ func writeSecSize(ctxt *ld.Link, sizeOffset int64) {
 	ctxt.Out.SeekSet(sizeOffset)
 	writeUleb128FixedLength(ctxt.Out, uint64(endOffset-sizeOffset-5), 5)
 	ctxt.Out.SeekSet(endOffset)
-}
-
-func writeBuildID(ctxt *ld.Link, buildid []byte) {
-	sizeOffset := writeSecHeader(ctxt, sectionCustom)
-	writeName(ctxt.Out, "go.buildid")
-	ctxt.Out.Write(buildid)
-	writeSecSize(ctxt, sizeOffset)
 }
 
 // writeTypeSec writes the section that declares all function types
@@ -317,7 +304,6 @@ func writeGlobalSec(ctxt *ld.Link) {
 		I64, // 6: RET1
 		I64, // 7: RET2
 		I64, // 8: RET3
-		I32, // 9: RUN
 	}
 
 	writeUleb128(ctxt.Out, uint64(len(globalRegs))) // number of globals
@@ -422,14 +408,14 @@ var nameRegexp = regexp.MustCompile(`[^\w\.]`)
 // writeNameSec writes an optional section that assigns names to the functions declared by the "func" section.
 // The names are only used by WebAssembly stack traces, debuggers and decompilers.
 // TODO(neelance): add symbol table of DATA symbols
-func writeNameSec(ctxt *ld.Link, firstFnIndex int, fns []*wasmFunc) {
+func writeNameSec(ctxt *ld.Link, fns []*wasmFunc) {
 	sizeOffset := writeSecHeader(ctxt, sectionCustom)
 	writeName(ctxt.Out, "name")
 
 	sizeOffset2 := writeSecHeader(ctxt, 0x01) // function names
 	writeUleb128(ctxt.Out, uint64(len(fns)))
 	for i, fn := range fns {
-		writeUleb128(ctxt.Out, uint64(firstFnIndex+i))
+		writeUleb128(ctxt.Out, uint64(i))
 		writeName(ctxt.Out, fn.Name)
 	}
 	writeSecSize(ctxt, sizeOffset2)

@@ -10,7 +10,6 @@ package gcimporter
 import (
 	"bytes"
 	"encoding/binary"
-	"fmt"
 	"go/constant"
 	"go/token"
 	"go/types"
@@ -61,25 +60,13 @@ const (
 // If the export data version is not recognized or the format is otherwise
 // compromised, an error is returned.
 func iImportData(fset *token.FileSet, imports map[string]*types.Package, data []byte, path string) (_ int, pkg *types.Package, err error) {
-	const currentVersion = 0
-	version := -1
-	defer func() {
-		if e := recover(); e != nil {
-			if version > currentVersion {
-				err = fmt.Errorf("cannot import %q (%v), export data is newer version - update tool", path, e)
-			} else {
-				err = fmt.Errorf("cannot import %q (%v), possibly version skew - reinstall package", path, e)
-			}
-		}
-	}()
-
 	r := &intReader{bytes.NewReader(data), path}
 
-	version = int(r.uint64())
+	version := r.uint64()
 	switch version {
-	case currentVersion:
+	case 0:
 	default:
-		errorf("unknown iexport format version %d", version)
+		errorf("cannot import %q: unknown iexport format version %d", path, version)
 	}
 
 	sLen := int64(r.uint64())
@@ -535,7 +522,7 @@ func (r *importReader) doType(base *types.Named) types.Type {
 			methods[i] = types.NewFunc(mpos, r.currPkg, mname, msig)
 		}
 
-		typ := types.NewInterfaceType(methods, embeddeds)
+		typ := types.NewInterface2(methods, embeddeds)
 		r.p.interfaceList = append(r.p.interfaceList, typ)
 		return typ
 	}
