@@ -6,7 +6,6 @@ package aes
 
 import (
 	"crypto/cipher"
-	"crypto/internal/boring"
 	"crypto/internal/subtle"
 	"internal/cpu"
 )
@@ -48,7 +47,6 @@ func newCipher(key []byte) (cipher.Block, error) {
 func (c *aesCipherAsm) BlockSize() int { return BlockSize }
 
 func (c *aesCipherAsm) Encrypt(dst, src []byte) {
-	boring.Unreachable()
 	if len(src) < BlockSize {
 		panic("crypto/aes: input not full block")
 	}
@@ -62,7 +60,6 @@ func (c *aesCipherAsm) Encrypt(dst, src []byte) {
 }
 
 func (c *aesCipherAsm) Decrypt(dst, src []byte) {
-	boring.Unreachable()
 	if len(src) < BlockSize {
 		panic("crypto/aes: input not full block")
 	}
