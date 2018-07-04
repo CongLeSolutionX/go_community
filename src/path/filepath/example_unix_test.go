@@ -8,7 +8,9 @@ package filepath_test
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 )
 
@@ -82,10 +84,32 @@ func ExampleJoin() {
 }
 
 func ExampleWalk() {
-	dir := "dir/to/walk"
-	subDirToSkip := "skip" // dir/to/walk/skip
+	prepareTestDirTree := func(tree string) (string, error) {
+		tmpDir, err := ioutil.TempDir("", "")
+		if err != nil {
+			return "", fmt.Errorf("error creating temp directory: %v\n", err)
+		}
 
-	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		err = os.MkdirAll(path.Join(tmpDir, tree), 0755)
+		if err != nil {
+			os.RemoveAll(tmpDir)
+			return "", err
+		}
+
+		return tmpDir, nil
+	}
+
+	tmpDir, err := prepareTestDirTree("dir/to/walk/skip")
+	if err != nil {
+		fmt.Printf("unable to create test dir tree: %v\n", err)
+		return
+	}
+	defer os.RemoveAll(tmpDir)
+
+	subDirToSkip := "skip"
+
+	fmt.Println("On Unix:")
+	err = filepath.Walk(tmpDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			fmt.Printf("prevent panic by handling failure accessing a path %q: %v\n", path, err)
 			return err
@@ -94,11 +118,18 @@ func ExampleWalk() {
 			fmt.Printf("skipping a dir without errors: %+v \n", info.Name())
 			return filepath.SkipDir
 		}
-		fmt.Printf("visited file: %q\n", path)
+		fmt.Printf("visited file or dir: %q\n", path)
 		return nil
 	})
-
 	if err != nil {
-		fmt.Printf("error walking the path %q: %v\n", dir, err)
+		fmt.Printf("error walking the path %q: %v\n", tmpDir, err)
+		return
 	}
+	// Output:
+	// On Unix:
+	// visited file or dir: "<tmpDir>"
+	// visited file or dir: "<tmpDir>/dir"
+	// visited file or dir: "<tmpDir>/dir/to"
+	// visited file or dir: "<tmpDir>/dir/to/walk"
+	// skipping a dir without errors: skip
 }
