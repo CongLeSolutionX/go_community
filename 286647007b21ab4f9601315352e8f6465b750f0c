@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "2917be0e_85603975",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-05T12:48:59Z",
+      "side": 1,
+      "message": "Is there a reason for this to be done in two places? Isn\u0027t it that c.autosize gets added twice? Could we do it just here? Here we also handle two alignment cases. And we can set c.extrasize here if necessary.",
+      "parentUuid": "a8ffde85_6cfa84c9",
+      "range": {
+        "startLine": 555,
+        "startChar": 5,
+        "endLine": 558,
+        "endChar": 4
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e232d1d7_f31ab0d2",
         "filename": "src/cmd/internal/obj/arm64/obj7.go",
         "patchSetId": 15
@@ -295,6 +319,30 @@
       "side": 1,
       "message": "\"*q4 \u003d *p\" will overwrite q4.Link and result in dead loop",
       "parentUuid": "d17de89f_e2d446f8",
+      "range": {
+        "startLine": 882,
+        "startChar": 4,
+        "endLine": 884,
+        "endChar": 16
+      },
+      "revId": "286647007b21ab4f9601315352e8f6465b750f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6eddd16d_2e6c79b4",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-05T12:48:59Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "343c8315_31a4cd8e",
       "range": {
         "startLine": 882,
         "startChar": 4,
