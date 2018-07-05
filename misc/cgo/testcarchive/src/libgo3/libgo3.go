@@ -35,7 +35,7 @@ func SawSIGIO() C.int {
 	select {
 	case <-sigioChan:
 		return 1
-	case <-time.After(100 * time.Millisecond):
+	case <-time.After(5 * time.Second):
 		return 0
 	}
 }
