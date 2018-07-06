@@ -957,6 +957,9 @@ func tracksym(t *types.Type, f *types.Field) *types.Sym {
 func typesymprefix(prefix string, t *types.Type) *types.Sym {
 	p := prefix + "." + t.ShortString()
 	s := typeLookup(p)
+	signatsetmu.Lock()
+	addsignat(t)
+	signatsetmu.Unlock()
 
 	//print("algsym: %s -> %+S\n", p, s);
 
