@@ -46,6 +46,30 @@
       "revId": "990b288760887b25b5ddcc628e027f6e700cdbe5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "944a4031_a71fbfc5",
+        "filename": "misc/cgo/testcarchive/src/libgo3/libgo3.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-07-06T06:59:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a59f18ae_b7f16502",
+      "range": {
+        "startLine": 32,
+        "startChar": 43,
+        "endLine": 32,
+        "endChar": 63
+      },
+      "revId": "990b288760887b25b5ddcc628e027f6e700cdbe5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
