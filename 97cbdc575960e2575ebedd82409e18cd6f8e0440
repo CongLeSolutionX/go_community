@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c694c8a_2b4e6bd4",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 2281,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-07-06T17:00:02Z",
+      "side": 1,
+      "message": "Do we need this? Shouldn\u0027t (ADDL (MOVLload)) always be converted into ADDLload, which is handled above?",
+      "revId": "97cbdc575960e2575ebedd82409e18cd6f8e0440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
