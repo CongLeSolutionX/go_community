@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ce39b3a6_44e6a906",
+        "filename": "src/cmd/compile/internal/ssa/gen/386Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-07-06T23:53:09Z",
+      "side": 1,
+      "message": "I have created another CL https://go-review.googlesource.com/c/go/+/122556",
+      "parentUuid": "0391d93a_22ea9e6d",
+      "revId": "64a7d08f14717cea57e0ecd1245a46094e974779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2acd6a5f_c6fbb2a7",
         "filename": "src/cmd/compile/internal/ssa/gen/386Ops.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-07-06T16:46:25Z",
       "side": 1,
       "message": "What about SUB?",
+      "revId": "64a7d08f14717cea57e0ecd1245a46094e974779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40f16755_a38cd6c1",
+        "filename": "src/cmd/compile/internal/ssa/gen/386Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-07-06T23:53:09Z",
+      "side": 1,
+      "message": "SUBLconst was optimized by a previous rule.\n386.rules:(SUBLconst [c] x) -\u003e (ADDLconst [int64(int32(-c))] x)\n\nSo SUBLconstmodify is unnecessary.",
+      "parentUuid": "2acd6a5f_c6fbb2a7",
       "revId": "64a7d08f14717cea57e0ecd1245a46094e974779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
