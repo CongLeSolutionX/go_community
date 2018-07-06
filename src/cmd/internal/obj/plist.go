@@ -8,6 +8,8 @@ import (
 	"cmd/internal/objabi"
 	"fmt"
 	"strings"
+	"unicode"
+	"unicode/utf8"
 )
 
 type Plist struct {
@@ -77,7 +79,17 @@ func Flushplist(ctxt *Link, plist *Plist, newprog ProgAlloc, myimportpath string
 
 	// Add reference to Go arguments for C or assembly functions without them.
 	for _, s := range text {
-		if !strings.HasPrefix(s.Name, "\"\".") {
+		i := strings.IndexByte(s.Name, '.')
+		if i < 0 {
+			// Not a package-qualified function, so it can't be called from Go.
+			continue
+		}
+		// We should require Go declarations for all the rest. As a practical
+		// matter we haven't always required this, so we have to be careful
+		// not to break legacy assembly code (see issue 24419).
+		// Require Go declarations only for assembly functions declared with
+		// the local package placeholder ("") or which are exported.
+		if s.Name[:i] != "\"\"" && !isExported(s.Name[i+1:]) {
 			continue
 		}
 		found := false
@@ -216,4 +228,14 @@ func (ctxt *Link) EmitEntryLiveness(s *LSym, p *Prog, newprog ProgAlloc) *Prog {
 	pcdata.To.Offset = -1
 
 	return pcdata
+}
+
+// isExported reports whether name is an exported Go symbol (that is,
+// whether it begins with an upper-case letter).
+func isExported(name string) bool {
+	if r := name[0]; r < utf8.RuneSelf {
+		return 'A' <= r && r <= 'Z'
+	}
+	r, _ := utf8.DecodeRuneInString(name)
+	return unicode.IsUpper(r)
 }
