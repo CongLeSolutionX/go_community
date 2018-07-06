@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a90f8893_d98b1ff6",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-06T20:25:33Z",
+      "side": 1,
+      "message": "At this point you probably can set p.To.Offset back, removing the high 32 bits. Then maybe you don\u0027t need to change util.go?",
+      "revId": "7fb3b2f14d4121e3fc6f8e1ecebb729f718c2a0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f728e72a_918be8cf",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 17
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-06T20:25:33Z",
+      "side": 1,
+      "message": "Remove the parentheses. Also below.",
+      "range": {
+        "startLine": 1048,
+        "startChar": 10,
+        "endLine": 1048,
+        "endChar": 15
+      },
+      "revId": "7fb3b2f14d4121e3fc6f8e1ecebb729f718c2a0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
