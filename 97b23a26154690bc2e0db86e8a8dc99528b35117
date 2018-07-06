@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "286aaf4d_0bf2cdfc",
+        "filename": "src/path/filepath/example_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-06T20:26:29Z",
+      "side": 1,
+      "message": "I suggest moving the code that sets up the temporary directory into a helper function, so that the example is focused on the use of filepath.Walk.",
+      "revId": "97b23a26154690bc2e0db86e8a8dc99528b35117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5978711_f6e19342",
+        "filename": "src/path/filepath/example_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-06T20:26:29Z",
+      "side": 1,
+      "message": "Should we have an Output comment?",
+      "revId": "97b23a26154690bc2e0db86e8a8dc99528b35117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
