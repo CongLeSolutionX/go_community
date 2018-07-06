@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04a6aa17_b61dc05c",
+        "filename": "misc/cgo/testcarchive/src/libgo3/libgo3.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-06T02:18:24Z",
+      "side": 1,
+      "message": "is this comment still accurate, then?\n\nWas \"brief pause\" a requirement of this test? I don\u0027t know.",
+      "range": {
+        "startLine": 32,
+        "startChar": 43,
+        "endLine": 32,
+        "endChar": 63
+      },
+      "revId": "990b288760887b25b5ddcc628e027f6e700cdbe5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
