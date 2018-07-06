@@ -403,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "8a29706c_65c6bbf5",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-07-06T06:44:30Z",
+      "side": 1,
+      "message": "It\u0027s still right.\nThe advantage of current solution is its good compatibility.",
+      "parentUuid": "fd2351ed_960a683b",
+      "range": {
+        "startLine": 994,
+        "startChar": 57,
+        "endLine": 994,
+        "endChar": 83
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d0c7006_4550da62",
         "filename": "src/runtime/asm_arm64.s",
         "patchSetId": 13
@@ -510,6 +534,30 @@
       "side": 1,
       "message": "Ok, thanks. I don\u0027t think expressions like 24+8+8+16 is much more readable. Maybe just write a single number, like -56(R4).",
       "parentUuid": "9cf220af_e58de9ea",
+      "range": {
+        "startLine": 1022,
+        "startChar": 16,
+        "endLine": 1022,
+        "endChar": 19
+      },
+      "revId": "250aa77fc08ea103f3b1619ddfc5b695d2d62acc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a14840f_b8dd8da0",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-07-06T06:44:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aaab307_d476cb1b",
       "range": {
         "startLine": 1022,
         "startChar": 16,
