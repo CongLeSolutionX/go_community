@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5bced6a0_61ee212e",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-07-07T11:43:13Z",
+      "side": 1,
+      "message": "I know there are 2 camps, but I was never a fan of blindly marking all accesses to a variable as atomic just because some of the accesses to the variable are.\n\nThe reasons why I prefer to not mark accesses as atomic unnecessarily:\n\n1. It gives better code self-documentation.\nIf I see an atomic access, then I assume there are concurrent access to this variable at this point in time. I can go looking for them, just to spend time and stay with an uncomfortable feeling that I don\u0027t fully understand the code. While non-atomic access says \"yes, there are atomic operations on this variable at other times, but right now we have exclusive access\".\n\n2. It allows automatic race detection.\nA race detector (if we have it for runtime) can prove or disprove non-atomic accesses. So if we leave it as non-atomic, a race detector can say \"no, your assumptions are wrong\", or \"yes, there are no concurrent accesses, your assumptions are correct\". If we mark it as atomic, race detector will simply back off.\n\n3. It may lead to better performance in some cases.\n\nSo while we are here, what would be positive to do is to figure out what accesses need to be atomic and what don\u0027t and add comments to non-atomic cases (e.g. \"we hold mutex foo, so no concurrent mutations\").",
+      "revId": "fc6e39d382cf8b74dd8eebf966d987f079dcf2b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6d0597c_16722a22",
         "filename": "src/runtime/mgcsweep.go",
         "patchSetId": 7
