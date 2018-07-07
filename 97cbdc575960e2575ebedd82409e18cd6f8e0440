@@ -16,6 +16,24 @@
       "revId": "97cbdc575960e2575ebedd82409e18cd6f8e0440",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faefd45c_bd8c27d4",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 2281,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-07-07T00:23:43Z",
+      "side": 1,
+      "message": "((ADD|SUB|AND|OR|XOR)Q x l:(MOVQload [off] {sym} ptr mem)) \u0026\u0026 canMergeLoad(v, l, x) \u0026\u0026 clobber(l) -\u003e ((ADD|SUB|AND|OR|XOR)Qload x [off] {sym} ptr mem)\n\nThe above rule has an extra condition canMergeLoad(v, l, x).\n\nBut my new rule need not that one.\n\n(MOVQstore {sym} [off] ptr y:((ADD|SUB|AND|OR|XOR)Q l:(MOVQload [off] {sym} ptr mem) x) mem) \u0026\u0026 y.Uses\u003d\u003d1 \u0026\u0026 l.Uses\u003d\u003d1 \u0026\u0026 clobber(y) \u0026\u0026 clobber(l) -\u003e ((ADD|SUB|AND|OR|XOR)Qmodify [off] {sym} ptr x mem)",
+      "parentUuid": "4c694c8a_2b4e6bd4",
+      "revId": "97cbdc575960e2575ebedd82409e18cd6f8e0440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
