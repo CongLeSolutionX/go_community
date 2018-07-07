@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6d0597c_16722a22",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-07-07T11:31:27Z",
+      "side": 1,
+      "message": "This looks like a typo.",
+      "revId": "fc6e39d382cf8b74dd8eebf966d987f079dcf2b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f138da1_32427cf9",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-07-07T11:31:27Z",
+      "side": 1,
+      "message": "There really can be concurrent mutations of the thread handle here?",
+      "revId": "fc6e39d382cf8b74dd8eebf966d987f079dcf2b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
