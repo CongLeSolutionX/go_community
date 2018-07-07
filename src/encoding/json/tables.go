@@ -4,15 +4,16 @@
 
 package json
 
-import "unicode/utf8"
-
 // safeSet holds the value true if the ASCII character with the given array
 // position can be represented inside a JSON string without any further
 // escaping.
 //
 // All values are true except for the ASCII control characters (0-31), the
 // double quote ("), and the backslash character ("\").
-var safeSet = [utf8.RuneSelf]bool{
+//
+// The size of the array is 256 instead of 128, to help the compiler remove
+// bounds checks when using bytes as indices.
+var safeSet = [256]bool{
 	' ':      true,
 	'!':      true,
 	'"':      false,
@@ -118,7 +119,10 @@ var safeSet = [utf8.RuneSelf]bool{
 // All values are true except for the ASCII control characters (0-31), the
 // double quote ("), the backslash character ("\"), HTML opening and closing
 // tags ("<" and ">"), and the ampersand ("&").
-var htmlSafeSet = [utf8.RuneSelf]bool{
+//
+// The size of the array is 256 instead of 128, to help the compiler remove
+// bounds checks when using bytes as indices.
+var htmlSafeSet = [256]bool{
 	' ':      true,
 	'!':      true,
 	'"':      false,
