@@ -16,6 +16,24 @@
       "revId": "67493955ceb6ce58c26e3ad939e98b4986bed2e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30a809b8_a7fcecb1",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-07-07T00:04:50Z",
+      "side": 1,
+      "message": "There are previous rules\n(SUBLconst [c] x) -\u003e (ADDLconst [int64(int32(-c))] x)\n(SUBQconst [c] x) \u0026\u0026 c !\u003d -(1\u003c\u003c31) -\u003e (ADDQconst [-c] x)\n\nSo SUB(Q|L)const will be elminated, so SUB(Q|L)constmodify are unnecessary.",
+      "parentUuid": "e90cfca1_d36fdecb",
+      "revId": "67493955ceb6ce58c26e3ad939e98b4986bed2e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
