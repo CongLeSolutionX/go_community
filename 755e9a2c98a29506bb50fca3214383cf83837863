@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16b19db4_aa686594",
+        "filename": "src/path/filepath/example_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-09T23:39:33Z",
+      "side": 1,
+      "message": "You can just write this as a separate unexported function.  I think it will still be displayed in a readable manner by godoc.",
+      "revId": "755e9a2c98a29506bb50fca3214383cf83837863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
