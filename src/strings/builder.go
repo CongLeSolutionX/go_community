@@ -50,6 +50,10 @@ func (b *Builder) String() string {
 // Len returns the number of accumulated bytes; b.Len() == len(b.String()).
 func (b *Builder) Len() int { return len(b.buf) }
 
+// Cap returns the capacity of the builder's underlying byte slice, that is, the
+// total space allocated for the string being built.
+func (b *Builder) Cap() int { return cap(b.buf) }
+
 // Reset resets the Builder to be empty.
 func (b *Builder) Reset() {
 	b.addr = nil
