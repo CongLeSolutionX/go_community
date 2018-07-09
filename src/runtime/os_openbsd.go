@@ -185,7 +185,7 @@ func newosproc(mp *m) {
 	param := tforkt{
 		tf_tcb:   unsafe.Pointer(&mp.tls[0]),
 		tf_tid:   (*int32)(unsafe.Pointer(&mp.procid)),
-		tf_stack: uintptr(stk),
+		tf_stack: uintptr(stk) - 8,
 	}
 
 	var oset sigset
