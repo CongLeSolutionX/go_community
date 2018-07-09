@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e44a58b_e637e438",
+        "filename": "src/time/tick.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-09T22:14:35Z",
+      "side": 1,
+      "message": "Actually, how about s/this is in order to prevent/this prevents/.  And in fact the \"side effects\" doesn\u0027t seem strictly necessary.  Maybe\n\nStop does not close the channel, to prevent a goroutine concurrently reading from the channel seeing a read succeed incorrectly.",
+      "revId": "30ca772a7bfddffd59447184472138be48d83e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
