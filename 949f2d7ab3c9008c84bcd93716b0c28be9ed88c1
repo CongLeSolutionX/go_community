@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb06e5e4_59509be5",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-09T22:33:39Z",
+      "side": 1,
+      "message": "Delete this line.",
+      "revId": "949f2d7ab3c9008c84bcd93716b0c28be9ed88c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
