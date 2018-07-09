@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d49eca7_f0768d77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-09T19:33:11Z",
+      "side": 1,
+      "message": "drop the \"/tick\" part. That\u0027s not part of the package name. And we don\u0027t usually write the parens.\n\nso:\n\n   time: add clarification to Timer.Stop documentation",
+      "revId": "9540994c45701b4df60113b61552d7e68354507e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
