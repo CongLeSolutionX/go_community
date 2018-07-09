@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f76d50c8_519ddb89",
+        "filename": "src/runtime/os_openbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-09T19:54:33Z",
+      "side": 1,
+      "message": "Add a comment explain the \"- 8\"\n\nShould this be \"- sys.PtrSize\"?",
+      "revId": "c7a78a0bc083f1edfe18e9d658ad8be4a8203088",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
