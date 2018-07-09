@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24c5daae_54fce7aa",
+        "filename": "misc/cgo/test/issue26213/test26213c/test26213c.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-09T17:33:09Z",
+      "side": 1,
+      "message": "s/2017/2018/\n\n2018 is the Year of the Gopher.",
+      "revId": "e18265b7f7f4deb1cfa9a7b3b37019fd561500ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a07b5175_b18f80a6",
+        "filename": "misc/cgo/test/issue26213/test26213cpp/test26213cpp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-09T17:33:09Z",
+      "side": 1,
+      "message": "Unfortunately we can not assume that there is a C++ compiler available.  I think we\u0027ll have to omit this part of the test.  If it\u0027s important, then we need to modify cmd/dist/test.go to check whether C++ is available (which it already does for the swig_callback test), and, if so, pass an appropriate build tag.  This test will then have to only be built and run when that build tag is used.",
+      "revId": "e18265b7f7f4deb1cfa9a7b3b37019fd561500ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5f6889e_21e0dd4f",
+        "filename": "misc/cgo/test/test26213a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-09T17:33:09Z",
+      "side": 1,
+      "message": "s/2017/2018/",
+      "revId": "e18265b7f7f4deb1cfa9a7b3b37019fd561500ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79e06775_45d33efc",
+        "filename": "misc/cgo/test/test26213a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-09T17:33:09Z",
+      "side": 1,
+      "message": "The other files in misc/cgo/test mostly do not use \"+build cgo\".  Why use it in these files?",
+      "revId": "e18265b7f7f4deb1cfa9a7b3b37019fd561500ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
