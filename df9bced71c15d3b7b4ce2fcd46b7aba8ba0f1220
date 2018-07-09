@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5bf39d0_0148b086",
+        "filename": "src/os/file_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 26211
+      },
+      "writtenOn": "2018-07-09T18:19:57Z",
+      "side": 1,
+      "message": "How does the pprof package work: if there\u0027s a reference with the `Add` call to f.file, will a finalizer for `f.file` ever get called?",
+      "revId": "df9bced71c15d3b7b4ce2fcd46b7aba8ba0f1220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e20505f0_8f0b6249",
+        "filename": "src/os/types.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 26211
+      },
+      "writtenOn": "2018-07-09T18:19:57Z",
+      "side": 1,
+      "message": "Something like this could be inside /internal so you don\u0027t have to expose it.",
+      "revId": "df9bced71c15d3b7b4ce2fcd46b7aba8ba0f1220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
