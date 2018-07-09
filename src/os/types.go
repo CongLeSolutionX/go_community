@@ -17,6 +17,12 @@ type File struct {
 	*file // os specific
 }
 
+// FileProfile is a pprof.Profile for open files. TODO
+var FileProfile interface {
+	Add(value interface{}, skip int)
+	Remove(value interface{})
+}
+
 // A FileInfo describes a file and is returned by Stat and Lstat.
 type FileInfo interface {
 	Name() string       // base name of the file

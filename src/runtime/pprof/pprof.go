@@ -76,6 +76,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"os"
 	"runtime"
 	"sort"
 	"strings"
@@ -177,6 +178,10 @@ var mutexProfile = &Profile{
 	name:  "mutex",
 	count: countMutex,
 	write: writeMutex,
+}
+
+func init() {
+	os.FileProfile = NewProfile("os.File") // TODO: will cause existing users of this profile name to panic
 }
 
 func lockProfiles() {
