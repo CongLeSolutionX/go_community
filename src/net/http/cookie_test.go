@@ -241,6 +241,49 @@ var readSetCookiesTests = []struct {
 			Raw:      "ASP.NET_SessionId=foo; path=/; HttpOnly",
 		}},
 	},
+	{
+		Header{"Set-Cookie": {"ASP.NET_SessionId=foo; path=/; HttpOnly; SameSite"}},
+		[]*Cookie{{
+			Name:     "ASP.NET_SessionId",
+			Value:    "foo",
+			Path:     "/",
+			HttpOnly: true,
+			SameSite: "strict",
+			Raw:      "ASP.NET_SessionId=foo; path=/; HttpOnly; SameSite",
+		}},
+	},
+	{
+		Header{"Set-Cookie": {"ASP.NET_SessionId=foo; path=/; HttpOnly; SameSite=StRict"}},
+		[]*Cookie{{
+			Name:     "ASP.NET_SessionId",
+			Value:    "foo",
+			Path:     "/",
+			HttpOnly: true,
+			SameSite: "strict",
+			Raw:      "ASP.NET_SessionId=foo; path=/; HttpOnly; SameSite=StRict",
+		}},
+	},
+	{
+		Header{"Set-Cookie": {"ASP.NET_SessionId=foo; path=/; HttpOnly; SameSite=Lax"}},
+		[]*Cookie{{
+			Name:     "ASP.NET_SessionId",
+			Value:    "foo",
+			Path:     "/",
+			HttpOnly: true,
+			SameSite: "lax",
+			Raw:      "ASP.NET_SessionId=foo; path=/; HttpOnly; SameSite=Lax",
+		}},
+	},
+	{
+		Header{"Set-Cookie": {"ASP.NET_SessionId=foo; path=/; HttpOnly; SameSite=nope"}},
+		[]*Cookie{{
+			Name:     "ASP.NET_SessionId",
+			Value:    "foo",
+			Path:     "/",
+			HttpOnly: true,
+			Raw:      "ASP.NET_SessionId=foo; path=/; HttpOnly; SameSite=nope",
+		}},
+	},
 	// Make sure we can properly read back the Set-Cookie headers we create
 	// for values containing spaces or commas:
 	{

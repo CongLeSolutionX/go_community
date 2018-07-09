@@ -31,6 +31,12 @@ type Cookie struct {
 	MaxAge   int
 	Secure   bool
 	HttpOnly bool
+
+	// Must be one of empty string, "lax", or "strict".
+	//
+	// See https://tools.ietf.org/html/draft-west-first-party-cookies-07 for
+	// details.
+	SameSite string
 	Raw      string
 	Unparsed []string // Raw text of unparsed attribute-value pairs
 }
@@ -88,6 +94,17 @@ func readSetCookies(h Header) []*Cookie {
 				continue
 			case "httponly":
 				c.HttpOnly = true
+				continue
+			case "samesite":
+				v := strings.ToLower(val)
+				switch v {
+				case "":
+					v = "strict"
+				case "lax", "strict":
+				default:
+					v = ""
+				}
+				c.SameSite = v
 				continue
 			case "domain":
 				c.Domain = val
@@ -180,6 +197,10 @@ func (c *Cookie) String() string {
 	}
 	if c.HttpOnly {
 		b.WriteString("; HttpOnly")
+	}
+	sameSite := strings.ToLower(c.SameSite)
+	if sameSite == "strict" || sameSite == "lax" {
+		b.WriteString("; SameSite=" + sameSite)
 	}
 	if c.Secure {
 		b.WriteString("; Secure")
