@@ -51,6 +51,9 @@ func newFile(h syscall.Handle, name string, kind string) *File {
 		},
 		name: name,
 	}}
+	if FileProfile != nil {
+		FileProfile.Add(f.file, 0)
+	}
 	runtime.SetFinalizer(f.file, (*file).close)
 
 	// Ignore initialization errors.
@@ -197,6 +200,9 @@ func (file *file) close() error {
 
 	// no need for a finalizer anymore
 	runtime.SetFinalizer(file, nil)
+	if FileProfile != nil {
+		FileProfile.Remove(file)
+	}
 	return err
 }
 

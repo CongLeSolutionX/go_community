@@ -151,6 +151,9 @@ func newFile(fd uintptr, name string, kind newFileKind) *File {
 		}
 	}
 
+	if FileProfile != nil {
+		FileProfile.Add(f.file, 0)
+	}
 	runtime.SetFinalizer(f.file, (*file).close)
 	return f
 }
@@ -239,6 +242,9 @@ func (file *file) close() error {
 
 	// no need for a finalizer anymore
 	runtime.SetFinalizer(file, nil)
+	if FileProfile != nil {
+		FileProfile.Remove(file)
+	}
 	return err
 }
 
