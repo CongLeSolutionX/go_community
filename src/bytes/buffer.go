@@ -30,20 +30,19 @@ type Buffer struct {
 // converted to int they correspond to the rune size that was read.
 type readOp int8
 
-// Don't use iota for these, as the values need to correspond with the
-// names and comments, which is easier to see when being explicit.
 const (
-	opRead      readOp = -1 // Any other read operation.
-	opInvalid   readOp = 0  // Non-read operation.
-	opReadRune1 readOp = 1  // Read rune of size 1.
-	opReadRune2 readOp = 2  // Read rune of size 2.
-	opReadRune3 readOp = 3  // Read rune of size 3.
-	opReadRune4 readOp = 4  // Read rune of size 4.
+	opRead     readOp = iota - 1 // Any other read operation.
+	opInvalid                    // Non-read operation.
+	opReadRune                   // Read rune of size 1.
 )
 
-// ErrTooLarge is passed to panic if memory cannot be allocated to store data in a buffer.
-var ErrTooLarge = errors.New("bytes.Buffer: too large")
-var errNegativeRead = errors.New("bytes.Buffer: reader returned negative count from Read")
+var (
+	// ErrTooLarge is passed to panic if memory cannot be allocated to store data in a buffer.
+	ErrTooLarge             = errors.New("bytes.Buffer: too large")
+	errNegativeRead         = errors.New("bytes.Buffer: reader returned negative count from Read")
+	errUnsuccessfulReadRune = errors.New("bytes.Buffer: UnreadRune: previous operation was not a successful ReadRune")
+	errUnsuccessfulRead     = errors.New("bytes.Buffer: UnreadByte: previous operation was not a successful read")
+)
 
 const maxInt = int(^uint(0) >> 1)
 
@@ -63,7 +62,7 @@ func (b *Buffer) String() string {
 		// Special case, useful in debugging.
 		return "<nil>"
 	}
-	return string(b.buf[b.off:])
+	return string(b.Bytes())
 }
 
 // empty returns whether the unread portion of the buffer is empty.
@@ -136,13 +135,13 @@ func (b *Buffer) grow(n int) int {
 		// slice. We only need m+n <= c to slide, but
 		// we instead let capacity get twice as large so we
 		// don't spend all our time copying.
-		copy(b.buf, b.buf[b.off:])
+		copy(b.buf, b.Bytes())
 	} else if c > maxInt-c-n {
 		panic(ErrTooLarge)
 	} else {
 		// Not enough space anywhere, we need to allocate.
 		buf := makeSlice(2*c + n)
-		copy(buf, b.buf[b.off:])
+		copy(buf, b.Bytes())
 		b.buf = buf
 	}
 	// Restore b.off and len(b.buf).
@@ -238,7 +237,7 @@ func makeSlice(n int) []byte {
 func (b *Buffer) WriteTo(w io.Writer) (n int64, err error) {
 	b.lastRead = opInvalid
 	if nBytes := b.Len(); nBytes > 0 {
-		m, e := w.Write(b.buf[b.off:])
+		m, e := w.Write(b.Bytes())
 		if m > nBytes {
 			panic("bytes.Buffer.WriteTo: invalid Write count")
 		}
@@ -305,7 +304,7 @@ func (b *Buffer) Read(p []byte) (n int, err error) {
 		}
 		return 0, io.EOF
 	}
-	n = copy(p, b.buf[b.off:])
+	n = copy(p, b.Bytes())
 	b.off += n
 	if n > 0 {
 		b.lastRead = opRead
@@ -359,10 +358,10 @@ func (b *Buffer) ReadRune() (r rune, size int, err error) {
 	c := b.buf[b.off]
 	if c < utf8.RuneSelf {
 		b.off++
-		b.lastRead = opReadRune1
+		b.lastRead = opReadRune
 		return rune(c), 1, nil
 	}
-	r, n := utf8.DecodeRune(b.buf[b.off:])
+	r, n := utf8.DecodeRune(b.Bytes())
 	b.off += n
 	b.lastRead = readOp(n)
 	return r, n, nil
@@ -375,7 +374,7 @@ func (b *Buffer) ReadRune() (r rune, size int, err error) {
 // from any read operation.)
 func (b *Buffer) UnreadRune() error {
 	if b.lastRead <= opInvalid {
-		return errors.New("bytes.Buffer: UnreadRune: previous operation was not a successful ReadRune")
+		return errUnsuccessfulReadRune
 	}
 	if b.off >= int(b.lastRead) {
 		b.off -= int(b.lastRead)
@@ -390,7 +389,7 @@ func (b *Buffer) UnreadRune() error {
 // bytes, UnreadByte returns an error.
 func (b *Buffer) UnreadByte() error {
 	if b.lastRead == opInvalid {
-		return errors.New("bytes.Buffer: UnreadByte: previous operation was not a successful read")
+		return errUnsuccessfulRead
 	}
 	b.lastRead = opInvalid
 	if b.off > 0 {
@@ -409,13 +408,12 @@ func (b *Buffer) ReadBytes(delim byte) (line []byte, err error) {
 	slice, err := b.readSlice(delim)
 	// return a copy of slice. The buffer's backing array may
 	// be overwritten by later calls.
-	line = append(line, slice...)
-	return line, err
+	return append(line, slice...), err
 }
 
 // readSlice is like ReadBytes but returns a reference to internal buffer data.
 func (b *Buffer) readSlice(delim byte) (line []byte, err error) {
-	i := IndexByte(b.buf[b.off:], delim)
+	i := IndexByte(b.Bytes(), delim)
 	end := b.off + i + 1
 	if i < 0 {
 		end = len(b.buf)
