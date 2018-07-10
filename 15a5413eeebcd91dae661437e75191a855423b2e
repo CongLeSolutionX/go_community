@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96727d50_e0dffb0c",
+        "filename": "src/time/tick.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-10T04:26:05Z",
+      "side": 1,
+      "message": "I would say that it\u0027s the read that succeeds incorrectly, not the goroutine.",
+      "revId": "15a5413eeebcd91dae661437e75191a855423b2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
