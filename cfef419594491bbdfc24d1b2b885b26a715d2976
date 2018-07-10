@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70f85b25_c366637a",
+        "filename": "test/codegen/memcombine.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-10T14:15:56Z",
+      "side": 1,
+      "message": "This is for eliminating bound checks? _ \u003d b[3] should be enough, right? Also below.",
+      "revId": "cfef419594491bbdfc24d1b2b885b26a715d2976",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83955644_7873f107",
+        "filename": "test/codegen/memcombine.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-10T14:15:56Z",
+      "side": 1,
+      "message": "Is the 2 (4, 8 below) special here? Does it work if it is b[1], b[2], or b[5], b[6]? The 2, 4, 8 happen to match the data size, which makes mean wonder.",
+      "range": {
+        "startLine": 338,
+        "startChar": 3,
+        "endLine": 338,
+        "endChar": 4
+      },
+      "revId": "cfef419594491bbdfc24d1b2b885b26a715d2976",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
