@@ -22,6 +22,30 @@
       "revId": "33d8e4f4e776290d949d3646e8a14e7318c71ebe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3406349b_3abfec4b",
+        "filename": "test/fixedbugs/issue23188.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-10T21:28:52Z",
+      "side": 1,
+      "message": "I guess I rely on git-codereview too much....  Done.",
+      "parentUuid": "862c56b6_8a7b5cbb",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "33d8e4f4e776290d949d3646e8a14e7318c71ebe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
