@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8712c152_454ded32",
+        "filename": "src/path/filepath/example_unix_walk_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2018-07-10T22:17:04Z",
+      "side": 1,
+      "message": "This appears in the playground box, unsure why.",
+      "range": {
+        "startLine": 5,
+        "startChar": 19,
+        "endLine": 5,
+        "endChar": 20
+      },
+      "revId": "e3d5918e83e785751a33f7c6a560c4512850f667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

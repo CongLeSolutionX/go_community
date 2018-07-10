@@ -52,6 +52,24 @@
       "revId": "755e9a2c98a29506bb50fca3214383cf83837863",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ec94700_48d7aaa0",
+        "filename": "src/path/filepath/example_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2018-07-10T22:17:04Z",
+      "side": 1,
+      "message": "Done in patchset 3, with just one caveat: the // +build switch is visible in the playground box.",
+      "parentUuid": "3cf09edb_bf91e1da",
+      "revId": "755e9a2c98a29506bb50fca3214383cf83837863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
