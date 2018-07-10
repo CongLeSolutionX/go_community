@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04492677_e8448e30",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-10T15:58:24Z",
+      "side": 1,
+      "message": "... or InitMem",
+      "range": {
+        "startLine": 334,
+        "startChar": 115,
+        "endLine": 334,
+        "endChar": 132
+      },
+      "revId": "f5d0c564f09e3e7d56e0df6f6830568b4fcaf351",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5db92ad6_6bda2a3d",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-10T15:58:24Z",
+      "side": 1,
+      "message": "This can be StartMem. The type symbol is global.",
+      "range": {
+        "startLine": 320,
+        "startChar": 75,
+        "endLine": 320,
+        "endChar": 78
+      },
+      "revId": "f5d0c564f09e3e7d56e0df6f6830568b4fcaf351",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7beda332_aa456005",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-10T15:58:24Z",
+      "side": 1,
+      "message": "start?",
+      "range": {
+        "startLine": 49,
+        "startChar": 48,
+        "endLine": 49,
+        "endChar": 51
+      },
+      "revId": "f5d0c564f09e3e7d56e0df6f6830568b4fcaf351",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
