@@ -16,6 +16,24 @@
       "revId": "755e9a2c98a29506bb50fca3214383cf83837863",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50d9f384_fd575f4b",
+        "filename": "src/path/filepath/example_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2018-07-10T20:54:40Z",
+      "side": 1,
+      "message": "That doesn\u0027t seem to work- `godoc -http\u003d:6060 -play\u003dtrue` displays the ExampleWalk function body, but without \u0027func ExampleWalk() {\u0027 or the closing brace, the prepareTestDirTree function or the run/format/share buttons.\n\nie this does not seem to work: https://go-review.googlesource.com/c/go/+/123135\n\nBut if I take the version here, view it in the playground and modify it to extract prepareTestDirTree, it runs as expected.  So it seems that godoc either doesn\u0027t support this, or needs some extra setup.",
+      "parentUuid": "16b19db4_aa686594",
+      "revId": "755e9a2c98a29506bb50fca3214383cf83837863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
