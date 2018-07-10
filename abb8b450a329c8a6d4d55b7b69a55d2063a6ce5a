@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c3985af_8013bb42",
+        "filename": "src/time/tick.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-07-10T22:26:22Z",
+      "side": 1,
+      "message": "I thought the original was fine, the cited issue notwithstanding.\nThe rewrite is convoluted and hard to follow, and the \"said\" is a construction used only in legal documents. Also the \"This\" at the start of a sentence is poor, as it\u0027s unclear what it\u0027s referring to.\n\nHow about\n\nStop does not close the channel, to prevent a concurrent goroutine reading from the channel from seeing an erroneous \"tick\".",
+      "revId": "abb8b450a329c8a6d4d55b7b69a55d2063a6ce5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
