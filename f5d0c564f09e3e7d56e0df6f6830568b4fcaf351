@@ -168,6 +168,30 @@
       "revId": "f5d0c564f09e3e7d56e0df6f6830568b4fcaf351",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45d74730_27a72048",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-10T18:46:49Z",
+      "side": 1,
+      "message": "Ok. Yeah, you\u0027re right. We can only use start mem in the entry block.",
+      "parentUuid": "f0bbce6d_dc83423d",
+      "range": {
+        "startLine": 49,
+        "startChar": 48,
+        "endLine": 49,
+        "endChar": 51
+      },
+      "revId": "f5d0c564f09e3e7d56e0df6f6830568b4fcaf351",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
