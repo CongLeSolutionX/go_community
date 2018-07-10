@@ -16,6 +16,24 @@
       "revId": "15a5413eeebcd91dae661437e75191a855423b2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f83c70d2_2b239976",
+        "filename": "src/time/tick.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 28291
+      },
+      "writtenOn": "2018-07-10T13:44:34Z",
+      "side": 1,
+      "message": "Thanks for the feedback, I adjusted the wording a bit to reflect this.",
+      "parentUuid": "96727d50_e0dffb0c",
+      "revId": "15a5413eeebcd91dae661437e75191a855423b2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

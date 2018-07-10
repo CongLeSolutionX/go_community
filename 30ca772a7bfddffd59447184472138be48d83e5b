@@ -16,6 +16,24 @@
       "revId": "30ca772a7bfddffd59447184472138be48d83e5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6717429_45c4b348",
+        "filename": "src/time/tick.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 28291
+      },
+      "writtenOn": "2018-07-10T13:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e44a58b_e637e438",
+      "revId": "30ca772a7bfddffd59447184472138be48d83e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
