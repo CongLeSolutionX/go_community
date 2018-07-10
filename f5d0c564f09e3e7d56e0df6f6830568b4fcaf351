@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "25025d3b_bf097c22",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-07-10T18:41:47Z",
+      "side": 1,
+      "message": "In rare cases the memory can go dead; it\u0027s squirrelly test code usually, but I remember seeing it when I was playing with preemption and loop unrolling.",
+      "parentUuid": "0a3090a4_89463b7f",
+      "revId": "f5d0c564f09e3e7d56e0df6f6830568b4fcaf351",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6528f6fa_9bc10bcb",
         "filename": "src/cmd/compile/internal/ssa/func_test.go",
         "patchSetId": 1
@@ -47,6 +65,30 @@
       "writtenOn": "2018-07-10T15:58:24Z",
       "side": 1,
       "message": "... or InitMem",
+      "range": {
+        "startLine": 334,
+        "startChar": 115,
+        "endLine": 334,
+        "endChar": 132
+      },
+      "revId": "f5d0c564f09e3e7d56e0df6f6830568b4fcaf351",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64e25be4_43dff987",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-07-10T18:41:47Z",
+      "side": 1,
+      "message": "Turns out the comment is mostly wrong-ish; there\u0027s no need for it to be a VarDef or anything else, just whatever happened to precede.",
+      "parentUuid": "04492677_e8448e30",
       "range": {
         "startLine": 334,
         "startChar": 115,
@@ -93,6 +135,30 @@
       "writtenOn": "2018-07-10T15:58:24Z",
       "side": 1,
       "message": "start?",
+      "range": {
+        "startLine": 49,
+        "startChar": 48,
+        "endLine": 49,
+        "endChar": 51
+      },
+      "revId": "f5d0c564f09e3e7d56e0df6f6830568b4fcaf351",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0bbce6d_dc83423d",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-07-10T18:41:47Z",
+      "side": 1,
+      "message": "No, the preceding mem is \"phi\".  There can\u0027t be two mems live at once.",
+      "parentUuid": "7beda332_aa456005",
       "range": {
         "startLine": 49,
         "startChar": 48,
