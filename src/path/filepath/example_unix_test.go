@@ -83,22 +83,22 @@ func ExampleJoin() {
 	// a/b/c
 }
 
-func ExampleWalk() {
-	prepareTestDirTree := func(tree string) (string, error) {
-		tmpDir, err := ioutil.TempDir("", "")
-		if err != nil {
-			return "", fmt.Errorf("error creating temp directory: %v\n", err)
-		}
-
-		err = os.MkdirAll(path.Join(tmpDir, tree), 0755)
-		if err != nil {
-			os.RemoveAll(tmpDir)
-			return "", err
-		}
-
-		return tmpDir, nil
+func prepareTestDirTree(tree string) (string, error) {
+	tmpDir, err := ioutil.TempDir("", "")
+	if err != nil {
+		return "", fmt.Errorf("error creating temp directory: %v\n", err)
 	}
 
+	err = os.MkdirAll(path.Join(tmpDir, tree), 0755)
+	if err != nil {
+		os.RemoveAll(tmpDir)
+		return "", err
+	}
+
+	return tmpDir, nil
+}
+
+func ExampleWalk() {
 	tmpDir, err := prepareTestDirTree("dir/to/walk/skip")
 	if err != nil {
 		fmt.Printf("unable to create test dir tree: %v\n", err)
