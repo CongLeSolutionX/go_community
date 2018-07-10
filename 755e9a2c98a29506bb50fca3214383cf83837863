@@ -34,6 +34,24 @@
       "revId": "755e9a2c98a29506bb50fca3214383cf83837863",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cf09edb_bf91e1da",
+        "filename": "src/path/filepath/example_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-10T21:12:58Z",
+      "side": 1,
+      "message": "Looking at go/doc/example.go, it seems that the way to do it is to make a new file and have this be the only example in that file.",
+      "parentUuid": "50d9f384_fd575f4b",
+      "revId": "755e9a2c98a29506bb50fca3214383cf83837863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
