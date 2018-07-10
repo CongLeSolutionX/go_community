@@ -16,6 +16,24 @@
       "revId": "fa6570ee6a8495e398bbacfeb5b70f6e26b2d138",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40bf1088_22714b04",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2018-07-10T18:37:31Z",
+      "side": 1,
+      "message": "I\u0027ll take it out and see what happens...",
+      "parentUuid": "fb79c4a4_7be7cf19",
+      "revId": "fa6570ee6a8495e398bbacfeb5b70f6e26b2d138",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
