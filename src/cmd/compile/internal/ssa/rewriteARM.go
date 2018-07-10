@@ -17635,11 +17635,12 @@ func rewriteValueARM_OpAddPtr_0(v *Value) bool {
 	}
 }
 func rewriteValueARM_OpAddr_0(v *Value) bool {
-	// match: (Addr {sym} base)
+	// match: (Addr {sym} base _)
 	// cond:
 	// result: (MOVWaddr {sym} base)
 	for {
 		sym := v.Aux
+		_ = v.Args[1]
 		base := v.Args[0]
 		v.reset(OpARMMOVWaddr)
 		v.Aux = sym

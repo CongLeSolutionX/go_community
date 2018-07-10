@@ -52813,11 +52813,12 @@ func rewriteValueAMD64_OpAddr_0(v *Value) bool {
 	_ = b
 	config := b.Func.Config
 	_ = config
-	// match: (Addr {sym} base)
+	// match: (Addr {sym} base _)
 	// cond: config.PtrSize == 8
 	// result: (LEAQ {sym} base)
 	for {
 		sym := v.Aux
+		_ = v.Args[1]
 		base := v.Args[0]
 		if !(config.PtrSize == 8) {
 			break
@@ -52827,11 +52828,12 @@ func rewriteValueAMD64_OpAddr_0(v *Value) bool {
 		v.AddArg(base)
 		return true
 	}
-	// match: (Addr {sym} base)
+	// match: (Addr {sym} base _)
 	// cond: config.PtrSize == 4
 	// result: (LEAL {sym} base)
 	for {
 		sym := v.Aux
+		_ = v.Args[1]
 		base := v.Args[0]
 		if !(config.PtrSize == 4) {
 			break

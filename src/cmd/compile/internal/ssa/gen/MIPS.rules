@@ -218,7 +218,7 @@
 (OffPtr [off] ptr:(SP)) -> (MOVWaddr [off] ptr)
 (OffPtr [off] ptr) -> (ADDconst [off] ptr)
 
-(Addr {sym} base) -> (MOVWaddr {sym} base)
+(Addr {sym} base _) -> (MOVWaddr {sym} base)
 
 // loads
 (Load <t> ptr mem) && t.IsBoolean() -> (MOVBUload ptr mem)

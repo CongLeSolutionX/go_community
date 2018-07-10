@@ -631,11 +631,12 @@ func rewriteValueWasm_OpAddPtr_0(v *Value) bool {
 	}
 }
 func rewriteValueWasm_OpAddr_0(v *Value) bool {
-	// match: (Addr {sym} base)
+	// match: (Addr {sym} base _)
 	// cond:
 	// result: (LoweredAddr {sym} base)
 	for {
 		sym := v.Aux
+		_ = v.Args[1]
 		base := v.Args[0]
 		v.reset(OpWasmLoweredAddr)
 		v.Aux = sym

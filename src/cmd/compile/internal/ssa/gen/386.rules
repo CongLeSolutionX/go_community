@@ -355,7 +355,7 @@
 (GetClosurePtr) -> (LoweredGetClosurePtr)
 (GetCallerPC) -> (LoweredGetCallerPC)
 (GetCallerSP) -> (LoweredGetCallerSP)
-(Addr {sym} base) -> (LEAL {sym} base)
+(Addr {sym} base _) -> (LEAL {sym} base)
 
 // block rewrites
 (If (SETL  cmp) yes no) -> (LT  cmp yes no)

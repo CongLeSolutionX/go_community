@@ -96,7 +96,7 @@ func writebarrier(f *Func) {
 				sp = f.Entry.NewValue0(initpos, OpSP, f.Config.Types.Uintptr)
 			}
 			wbsym := f.fe.Syslook("writeBarrier")
-			wbaddr = f.Entry.NewValue1A(initpos, OpAddr, f.Config.Types.UInt32Ptr, wbsym, sb)
+			wbaddr = f.Entry.NewValue2A(initpos, OpAddr, f.Config.Types.UInt32Ptr, wbsym, sb, f.StartMem)
 			gcWriteBarrier = f.fe.Syslook("gcWriteBarrier")
 			typedmemmove = f.fe.Syslook("typedmemmove")
 			typedmemclr = f.fe.Syslook("typedmemclr")
@@ -306,7 +306,7 @@ func wbcall(pos src.XPos, b *Block, fn, typ *obj.LSym, ptr, val, mem, sp, sb *Va
 		t := val.Type.Elem()
 		tmp = b.Func.fe.Auto(val.Pos, t)
 		mem = b.NewValue1A(pos, OpVarDef, types.TypeMem, tmp, mem)
-		tmpaddr := b.NewValue1A(pos, OpAddr, t.PtrTo(), tmp, sp)
+		tmpaddr := b.NewValue2A(pos, OpAddr, t.PtrTo(), tmp, sp, mem)
 		siz := t.Size()
 		mem = b.NewValue3I(pos, OpMove, types.TypeMem, siz, tmpaddr, val, mem)
 		mem.Aux = t
@@ -317,7 +317,7 @@ func wbcall(pos src.XPos, b *Block, fn, typ *obj.LSym, ptr, val, mem, sp, sb *Va
 	off := config.ctxt.FixedFrameSize()
 
 	if typ != nil { // for typedmemmove
-		taddr := b.NewValue1A(pos, OpAddr, b.Func.Config.Types.Uintptr, typ, sb)
+		taddr := b.NewValue2A(pos, OpAddr, b.Func.Config.Types.Uintptr, typ, sb, mem)
 		off = round(off, taddr.Type.Alignment())
 		arg := b.NewValue1I(pos, OpOffPtr, taddr.Type.PtrTo(), off, sp)
 		mem = b.NewValue3A(pos, OpStore, types.TypeMem, ptr.Type, arg, taddr, mem)

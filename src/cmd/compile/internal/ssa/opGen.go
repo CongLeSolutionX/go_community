@@ -27232,7 +27232,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:      "Addr",
 		auxType:   auxSym,
-		argLen:    1,
+		argLen:    2,
 		symEffect: SymAddr,
 		generic:   true,
 	},

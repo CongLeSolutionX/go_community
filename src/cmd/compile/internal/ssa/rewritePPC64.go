@@ -770,11 +770,12 @@ func rewriteValuePPC64_OpAddPtr_0(v *Value) bool {
 	}
 }
 func rewriteValuePPC64_OpAddr_0(v *Value) bool {
-	// match: (Addr {sym} base)
+	// match: (Addr {sym} base _)
 	// cond:
 	// result: (MOVDaddr {sym} base)
 	for {
 		sym := v.Aux
+		_ = v.Args[1]
 		base := v.Args[0]
 		v.reset(OpPPC64MOVDaddr)
 		v.Aux = sym

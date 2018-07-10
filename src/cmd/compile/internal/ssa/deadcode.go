@@ -60,6 +60,8 @@ func liveValues(f *Func, reachable []bool) (live []bool, liveOrderStmts []*Value
 		return
 	}
 
+	live[f.StartMem.ID] = true // Keep this alive in case it is needed.
+
 	// Find all live values
 	q := make([]*Value, 0, 64) // stack-like worklist of unscanned values
 

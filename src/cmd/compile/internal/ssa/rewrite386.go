@@ -16545,11 +16545,12 @@ func rewriteValue386_OpAddPtr_0(v *Value) bool {
 	}
 }
 func rewriteValue386_OpAddr_0(v *Value) bool {
-	// match: (Addr {sym} base)
+	// match: (Addr {sym} base _)
 	// cond:
 	// result: (LEAL {sym} base)
 	for {
 		sym := v.Aux
+		_ = v.Args[1]
 		base := v.Args[0]
 		v.reset(Op386LEAL)
 		v.Aux = sym

@@ -163,6 +163,9 @@ func (c *Conf) Fun(entry string, blocs ...bloc) fun {
 		for _, valu := range bloc.valus {
 			// args are filled in the second pass.
 			values[valu.name] = b.NewValue0IA(src.NoXPos, valu.op, valu.t, valu.auxint, valu.aux)
+			if valu.op == OpInitMem {
+				f.StartMem = values[valu.name]
+			}
 		}
 	}
 	// Connect the blocks together and specify control values.

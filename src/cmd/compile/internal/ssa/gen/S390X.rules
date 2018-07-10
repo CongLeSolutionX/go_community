@@ -366,7 +366,7 @@
 (GetClosurePtr) -> (LoweredGetClosurePtr)
 (GetCallerSP) -> (LoweredGetCallerSP)
 (GetCallerPC) -> (LoweredGetCallerPC)
-(Addr {sym} base) -> (MOVDaddr {sym} base)
+(Addr {sym} base _) -> (MOVDaddr {sym} base)
 (ITab (Load ptr mem)) -> (MOVDload ptr mem)
 
 // block rewrites

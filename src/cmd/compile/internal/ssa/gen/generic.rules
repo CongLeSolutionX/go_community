@@ -816,12 +816,12 @@
 (ConstString {s}) && config.PtrSize == 4 && s.(string) != "" ->
   (StringMake
     (Addr <typ.BytePtr> {fe.StringData(s.(string))}
-      (SB))
+      (SB) b.Func.StartMem)
     (Const32 <typ.Int> [int64(len(s.(string)))]))
 (ConstString {s}) && config.PtrSize == 8 && s.(string) != "" ->
   (StringMake
     (Addr <typ.BytePtr> {fe.StringData(s.(string))}
-      (SB))
+      (SB) b.Func.StartMem)
     (Const64 <typ.Int> [int64(len(s.(string)))]))
 
 // slice ops
@@ -1368,8 +1368,8 @@
 // Evaluate constant address comparisons.
 (EqPtr  x x) -> (ConstBool [1])
 (NeqPtr x x) -> (ConstBool [0])
-(EqPtr  (Addr {a} _) (Addr {b} _)) -> (ConstBool [b2i(a == b)])
-(NeqPtr (Addr {a} _) (Addr {b} _)) -> (ConstBool [b2i(a != b)])
+(EqPtr  (Addr {a} _ _) (Addr {b} _ _)) -> (ConstBool [b2i(a == b)])
+(NeqPtr (Addr {a} _ _) (Addr {b} _ _)) -> (ConstBool [b2i(a != b)])
 (EqPtr  (OffPtr [o1] p1) p2) && isSamePtr(p1, p2) -> (ConstBool [b2i(o1 == 0)])
 (NeqPtr (OffPtr [o1] p1) p2) && isSamePtr(p1, p2) -> (ConstBool [b2i(o1 != 0)])
 (EqPtr  (OffPtr [o1] p1) (OffPtr [o2] p2)) && isSamePtr(p1, p2) -> (ConstBool [b2i(o1 == o2)])
@@ -1388,7 +1388,7 @@
 // Evaluate constant user nil checks.
 (IsNonNil (ConstNil)) -> (ConstBool [0])
 (IsNonNil (Const(32|64) [c])) -> (ConstBool [b2i(c != 0)])
-(IsNonNil (Addr _)) -> (ConstBool [1])
+(IsNonNil (Addr _ _)) -> (ConstBool [1])
 
 // Inline small or disjoint runtime.memmove calls with constant length.
 (StaticCall {sym} s1:(Store _ (Const(64|32) [sz]) s2:(Store  _ src s3:(Store {t} _ dst mem))))
@@ -1402,7 +1402,7 @@
 // Note that (ITab (IMake)) doesn't get
 // rewritten until after the first opt pass,
 // so this rule should trigger reliably.
-(InterCall [argsize] (Load (OffPtr [off] (ITab (IMake (Addr {itab} (SB)) _))) _) mem) && devirt(v, itab, off) != nil ->
+(InterCall [argsize] (Load (OffPtr [off] (ITab (IMake (Addr {itab} (SB) _) _))) _) mem) && devirt(v, itab, off) != nil ->
 	(StaticCall [argsize] {devirt(v, itab, off)} mem)
 
 // Move and Zero optimizations.
