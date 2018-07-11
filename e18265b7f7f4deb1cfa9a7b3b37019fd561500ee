@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "541dd934_d78ff944",
+        "filename": "misc/cgo/test/issue26213/test26213c/test26213c.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9540
+      },
+      "writtenOn": "2018-07-11T14:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24c5daae_54fce7aa",
+      "revId": "e18265b7f7f4deb1cfa9a7b3b37019fd561500ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a07b5175_b18f80a6",
         "filename": "misc/cgo/test/issue26213/test26213cpp/test26213cpp.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "e18265b7f7f4deb1cfa9a7b3b37019fd561500ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1817773_5bfc7656",
+        "filename": "misc/cgo/test/issue26213/test26213cpp/test26213cpp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 9540
+      },
+      "writtenOn": "2018-07-11T14:47:59Z",
+      "side": 1,
+      "message": "Ack, I\u0027ll do it in the same way as the swig test then",
+      "parentUuid": "a07b5175_b18f80a6",
+      "revId": "e18265b7f7f4deb1cfa9a7b3b37019fd561500ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7048efa5_2591663f",
+        "filename": "misc/cgo/test/test26213a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9540
+      },
+      "writtenOn": "2018-07-11T14:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5f6889e_21e0dd4f",
+      "revId": "e18265b7f7f4deb1cfa9a7b3b37019fd561500ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79e06775_45d33efc",
         "filename": "misc/cgo/test/test26213a.go",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "e18265b7f7f4deb1cfa9a7b3b37019fd561500ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eed5d948_5aed8f05",
+        "filename": "misc/cgo/test/test26213a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 9540
+      },
+      "writtenOn": "2018-07-11T14:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79e06775_45d33efc",
+      "revId": "e18265b7f7f4deb1cfa9a7b3b37019fd561500ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

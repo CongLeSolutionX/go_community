@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "482ad465_fb7e41b1",
+        "filename": "misc/cgo/test/issue26213/jni.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 9540
+      },
+      "writtenOn": "2018-07-11T14:47:59Z",
+      "side": 1,
+      "message": "The reason is that I don\u0027t want the -x c++ to be propagated to the other file (with C), as it seems it is when they are in the same package.",
+      "parentUuid": "c0cd2d23_0d874b71",
+      "revId": "bbcff02d9991322ace3ca0a9f306232a9156c898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8014c41_b2d0401b",
         "filename": "misc/cgo/test/issue26213/test26213.go",
         "patchSetId": 3
