@@ -22,6 +22,30 @@
       "revId": "440bcdc34dbeabe2cd9e2e2e0f1e5e0d87b8ee6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81fec2d2_c7018246",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-07-11T10:06:18Z",
+      "side": 1,
+      "message": "I agree :) will change it.\n\nI only took the idea from bytes.Buffer.Cap though, so perhaps we should change that too.",
+      "parentUuid": "5b440a8f_f0ddf9dc",
+      "range": {
+        "startLine": 53,
+        "startChar": 55,
+        "endLine": 53,
+        "endChar": 80
+      },
+      "revId": "440bcdc34dbeabe2cd9e2e2e0f1e5e0d87b8ee6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
