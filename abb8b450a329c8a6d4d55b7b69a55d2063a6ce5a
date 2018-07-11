@@ -16,6 +16,24 @@
       "revId": "abb8b450a329c8a6d4d55b7b69a55d2063a6ce5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60121aac_1f1056ae",
+        "filename": "src/time/tick.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 28291
+      },
+      "writtenOn": "2018-07-11T13:41:06Z",
+      "side": 1,
+      "message": "Sorry, I was looking through \u0027help wanted\u0027 issues and this seemed pretty straightforward. I\u0027ll make the changes without trying to add anything else this time. If there\u0027s a consensus that the original was fine, I can close the PR.\n\nThanks everyone for bearing with me haha",
+      "parentUuid": "7c3985af_8013bb42",
+      "revId": "abb8b450a329c8a6d4d55b7b69a55d2063a6ce5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
