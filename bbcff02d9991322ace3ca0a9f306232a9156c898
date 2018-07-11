@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ade370e1_e8d321d0",
+        "filename": "misc/cgo/test/issue26213/cxx/test26213cxx.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 9540
+      },
+      "writtenOn": "2018-07-11T15:00:03Z",
+      "side": 1,
+      "message": "You\u0027re right, it wasn\u0027t!",
+      "parentUuid": "9aab1616_e9c3ad46",
+      "revId": "bbcff02d9991322ace3ca0a9f306232a9156c898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34b6519b_f16a4989",
         "filename": "misc/cgo/test/issue26213/jni.h",
         "patchSetId": 3
