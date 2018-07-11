@@ -16,6 +16,24 @@
       "revId": "c7a78a0bc083f1edfe18e9d658ad8be4a8203088",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2e09db8_6de3bec5",
+        "filename": "src/runtime/os_openbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2018-07-11T17:42:34Z",
+      "side": 1,
+      "message": "It can be, although I\u0027m not sure it gains us much - done and done.",
+      "parentUuid": "f76d50c8_519ddb89",
+      "revId": "c7a78a0bc083f1edfe18e9d658ad8be4a8203088",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
