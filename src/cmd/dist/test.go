@@ -645,7 +645,7 @@ func (t *tester) registerTests() {
 					return nil
 				},
 			})
-			if cxx, _ := exec.LookPath(compilerEnvLookup(defaultcxx, goos, goarch)); cxx != "" {
+			if t.hasCxx() {
 				t.tests = append(t.tests, distTest{
 					name:    "swig_callback",
 					heading: "../misc/swig/callback",
@@ -1019,6 +1019,9 @@ func (t *tester) cgoTest(dt *distTest) error {
 
 	if t.internalLink() {
 		t.addCmd(dt, "misc/cgo/test", t.goTest(), "-tags=internal", "-ldflags", "-linkmode=internal")
+		if t.hasCxx() {
+			t.addCmd(dt, "misc/cgo/test/issue26213/cxx", t.goTest(), "-tags=internal", "-ldflags", "-linkmode=internal")
+		}
 	}
 
 	pair := gohostos + "-" + goarch
@@ -1032,6 +1035,10 @@ func (t *tester) cgoTest(dt *distTest) error {
 		}
 		t.addCmd(dt, "misc/cgo/test", t.goTest(), "-ldflags", "-linkmode=external")
 		t.addCmd(dt, "misc/cgo/test", t.goTest(), "-ldflags", "-linkmode=external -s")
+		if t.hasCxx() {
+			t.addCmd(dt, "misc/cgo/test/issue26213/cxx", t.goTest(), "-ldflags", "-linkmode=external")
+			t.addCmd(dt, "misc/cgo/test/issue26213/cxx", t.goTest(), "-ldflags", "-linkmode=external -s")
+		}
 	case "android-arm",
 		"dragonfly-amd64",
 		"freebsd-386", "freebsd-amd64", "freebsd-arm",
@@ -1039,6 +1046,9 @@ func (t *tester) cgoTest(dt *distTest) error {
 		"netbsd-386", "netbsd-amd64":
 
 		t.addCmd(dt, "misc/cgo/test", t.goTest(), "-ldflags", "-linkmode=external")
+		if t.hasCxx() {
+			t.addCmd(dt, "misc/cgo/test/issue26213/cxx", t.goTest(), "-ldflags", "-linkmode=external")
+		}
 		t.addCmd(dt, "misc/cgo/testtls", t.goTest(), "-ldflags", "-linkmode=auto")
 		t.addCmd(dt, "misc/cgo/testtls", t.goTest(), "-ldflags", "-linkmode=external")
 
@@ -1070,12 +1080,18 @@ func (t *tester) cgoTest(dt *distTest) error {
 					// than -static in -extldflags, so test both.
 					// See issue #16651.
 					cmd := t.addCmd(dt, "misc/cgo/test", t.goTest(), "-tags=static")
+					if t.hasCxx() {
+						t.addCmd(dt, "misc/cgo/test/issue26213/cxx", t.goTest(), "-tags=static")
+					}
 					cmd.Env = append(os.Environ(), "CGO_LDFLAGS=-static -pthread")
 				}
 			}
 
 			if t.supportedBuildmode("pie") {
 				t.addCmd(dt, "misc/cgo/test", t.goTest(), "-buildmode=pie")
+				if t.hasCxx() {
+					t.addCmd(dt, "misc/cgo/test/issue26213/cxx", t.goTest(), "-buildmode=pie")
+				}
 				t.addCmd(dt, "misc/cgo/testtls", t.goTest(), "-buildmode=pie")
 				t.addCmd(dt, "misc/cgo/nocgo", t.goTest(), "-buildmode=pie")
 			}
@@ -1247,6 +1263,11 @@ func (t *tester) hasBash() bool {
 		return false
 	}
 	return true
+}
+
+func (t *tester) hasCxx() bool {
+	cxx, _ := exec.LookPath(compilerEnvLookup(defaultcxx, goos, goarch))
+	return cxx != ""
 }
 
 func (t *tester) hasSwig() bool {
