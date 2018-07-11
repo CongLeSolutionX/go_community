@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dd7b96fb_1626fcb5",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a3f2c4c5_cd347bec",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49421eae_0091c3e8",
         "filename": "src/runtime/chan.go",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50f26371_4c889e4b",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "49421eae_0091c3e8",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "94694dff_1c4ef2e4",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "15854691_11168b8d",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7c7d60b_3ae3d40c",
         "filename": "src/runtime/mcentral.go",
         "patchSetId": 8
@@ -67,6 +121,24 @@
       "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e12e1d73_35dd7792",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f7c7d60b_3ae3d40c",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "557ef499_28cf74a8",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d743487d_e75de4a0",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95a85225_9b7eb93a",
         "filename": "src/runtime/mgcmark.go",
         "patchSetId": 8
@@ -101,6 +191,24 @@
       "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eddb72b_46b3b44b",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "95a85225_9b7eb93a",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "ef4c4b8e_bb34dbea",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ffbcfe20_7c0f39f6",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7452d88f_7524ef6b",
         "filename": "src/runtime/mgcsweep.go",
         "patchSetId": 8
@@ -135,6 +261,24 @@
       "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40f1775e_3927efeb",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7452d88f_7524ef6b",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "efa547cf_42e99837",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c9aff395_3b1b9fba",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74ee158b_6ed90b31",
         "filename": "src/runtime/mgcsweepbuf.go",
         "patchSetId": 8
@@ -169,6 +331,24 @@
       "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20f85cc8_8d362506",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "74ee158b_6ed90b31",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "631cf41e_b61f8279",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ec34211d_222cab6b",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a1c10d4_d64b708e",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 8
@@ -203,6 +401,24 @@
       "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bdcf9c2_0aced9fd",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4a1c10d4_d64b708e",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "18862a4f_b49f1f10",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "699ad28c_8eaa4687",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5303c39f_789cd4d6",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 8
@@ -237,6 +471,24 @@
       "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c7cd8af_7c0ea5a2",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5303c39f_789cd4d6",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -263,6 +515,30 @@
     },
     {
       "key": {
+        "uuid": "83e4a331_e9d2e394",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "How could mp.thread transition from non-0 to 0 while the thread is suspending? unminit cannot happen during suspending.",
+      "parentUuid": "6f4b3c7c_d49805fb",
+      "range": {
+        "startLine": 866,
+        "startChar": 29,
+        "endLine": 866,
+        "endChar": 38
+      },
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4420dcd6_e2743eb4",
         "filename": "src/runtime/sigqueue.go",
         "patchSetId": 8
@@ -277,6 +553,24 @@
       "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17b9756b_eef582b5",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-11T14:11:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4420dcd6_e2743eb4",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
