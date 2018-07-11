@@ -1,0 +1,282 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3f2c4c5_cd347bec",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "// TODO: Relaxed load?",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49421eae_0091c3e8",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "// TODO: Relaxed load?",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15854691_11168b8d",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "Hmm. This is very subtle. Why does this load need to be atomic but the load of s.sweepgen above doesn\u0027t need to be?\n\nI can see the argument being something like: the first load is ultimately synchronized by the Cas, and if we were to observe an out-of-order read or tearing of sweepgen, it would mean there had to be another write to it, and hence it can\u0027t possibly equal sg-2. However, if we get past that first condition, then we may be racing with another sweep of this span, at which point we need to synchronize the load to make sure we didn\u0027t reorder the read of sweepgen before the concurrent sweep happened.\n\nGiven that we\u0027re either going to do the Cas or the atomic Load, I can\u0027t imagine this subtlety actually having any useful effect on performance. Perhaps this should just be\n\nssweepgen :\u003d atomic.Load(\u0026s.sweepgen)\nif ssweepgen \u003d\u003d sg-2 \u0026\u0026 atomic.Cas(\u0026s.sweepgen, sg-2, sg-1) { ... }\nif ssweepgen \u003d\u003d sg-1 { ... }",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7c7d60b_3ae3d40c",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "Same comment.",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d743487d_e75de4a0",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "Document that iterate_finq requires \"The world must be stopped.\" and drop this atomic.Load. (There\u0027s no way this could be safe otherwise, since you could read fb.cnt, then something else decrements fb.cnt, then this uses a now-bad index into fb.fin.)",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95a85225_9b7eb93a",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary because there was a global synchronization between when the last sweep happened and here, but, OTOH, this is supposed to detect if that has failed. Perhaps\n\n// sweepgen should not be changing at this point, but it could be if something went wrong. Hence, we defensively do an atomic load.",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffbcfe20_7c0f39f6",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "Use \"if sweepgen :\u003d atomic.Load(\u0026s.sweepgen); ...\" to avoid over-scoping sweepgen.",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7452d88f_7524ef6b",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "if sweepgen :\u003d atomic.Load(\u0026s.sweepgen); ...",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9aff395_3b1b9fba",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "This access is protected by b.spineLock.",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74ee158b_6ed90b31",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec34211d_222cab6b",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "See the comment on line 128.",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a1c10d4_d64b708e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "See my comments in mcentral.go.",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "699ad28c_8eaa4687",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "Something\u0027s not right here. The type of tp changed from *uintptr to uintptr. But also this can\u0027t possibly race with minit (the only store to m.thread), so the atomic isn\u0027t necessary.",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5303c39f_789cd4d6",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "This should probably be an atomic store (to synchronize with profileloop).",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f4b3c7c_d49805fb",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "This may actually be unsafe. I think profileloop1 needs to re-check mp.thread !\u003d 0 after the SuspendThread. That doesn\u0027t need to be atomic since the thread is suspended, but it could have transitioned from non-0 to 0 while suspending the thread.",
+      "range": {
+        "startLine": 866,
+        "startChar": 29,
+        "endLine": 866,
+        "endChar": 38
+      },
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4420dcd6_e2743eb4",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "Why does sig.wanted need this but sig.ignored doesn\u0027t?",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

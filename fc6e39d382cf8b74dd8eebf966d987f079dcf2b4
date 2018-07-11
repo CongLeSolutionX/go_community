@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97d59fbf_859903dc",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-11T02:31:05Z",
+      "side": 1,
+      "message": "I agree with this in general. I think a lot of the atomics added by this CL actually are currently unsynchronized (no happens-before relation), but not quite all of them. I\u0027ve tried to reason all of them out and point out where I think the documentation should be improved instead (such as on this line :)",
+      "parentUuid": "5bced6a0_61ee212e",
+      "revId": "fc6e39d382cf8b74dd8eebf966d987f079dcf2b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6d0597c_16722a22",
         "filename": "src/runtime/mgcsweep.go",
         "patchSetId": 7
