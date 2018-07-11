@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9640490f_1b42509b",
+        "filename": "misc/cgo/test/issue26213/cxx/test26213cxx.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-11T13:31:35Z",
+      "side": 1,
+      "message": "You don\u0027t need this +build line.",
+      "revId": "bbcff02d9991322ace3ca0a9f306232a9156c898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aab1616_e9c3ad46",
+        "filename": "misc/cgo/test/issue26213/cxx/test26213cxx.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-11T13:31:35Z",
+      "side": 1,
+      "message": "I think this file needs to be named test26213cxx_test.go.  Are you sure the test is running on your system?",
+      "revId": "bbcff02d9991322ace3ca0a9f306232a9156c898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34b6519b_f16a4989",
+        "filename": "misc/cgo/test/issue26213/jni.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-11T13:31:35Z",
+      "side": 1,
+      "message": "New file needs a copyright header.",
+      "revId": "bbcff02d9991322ace3ca0a9f306232a9156c898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0cd2d23_0d874b71",
+        "filename": "misc/cgo/test/issue26213/jni.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-11T13:31:35Z",
+      "side": 1,
+      "message": "I\u0027m not sure why you are putting these files in a subdirectory.  Any reason not to just put these files in the misc/cgo/test directory?",
+      "revId": "bbcff02d9991322ace3ca0a9f306232a9156c898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8014c41_b2d0401b",
+        "filename": "misc/cgo/test/issue26213/test26213.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-11T13:31:35Z",
+      "side": 1,
+      "message": "You don\u0027t need this +build line.  The other files in misc/cgo/test don\u0027t have it.",
+      "revId": "bbcff02d9991322ace3ca0a9f306232a9156c898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
