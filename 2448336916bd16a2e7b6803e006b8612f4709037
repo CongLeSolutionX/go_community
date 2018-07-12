@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d8249ca7_17a74f70",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-07-12T14:30:59Z",
+      "side": 1,
+      "message": "Right, this is not a critical error, so I will drop a message and ssa.html won\u0027t have a sources column.",
+      "parentUuid": "1ebb8a9a_c3d6360c",
+      "revId": "2448336916bd16a2e7b6803e006b8612f4709037",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42a1231a_c545763d",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "2448336916bd16a2e7b6803e006b8612f4709037",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f856de85_078ea212",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-07-12T14:30:59Z",
+      "side": 1,
+      "message": "I guess you mean this directive: //line path/to/file:linenumber. In that case yes, there going to be some junk. I hope that is not a show stopper. I fail to think of a good example which I can test with.\n\nFixed for the lastLn \u003c firstLn case.",
+      "parentUuid": "42a1231a_c545763d",
+      "revId": "2448336916bd16a2e7b6803e006b8612f4709037",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "2448336916bd16a2e7b6803e006b8612f4709037",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c61cbc_3a7443e0",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5005,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-07-12T14:30:59Z",
+      "side": 1,
+      "message": "This is done to enable the highlighting of lines. It the same approach as for the ssa-value highlighting. Each line has a line class and a lNNN class where NNN is a line number. I plan to extend it even further to display sources of all inlined functions. I am going to prefix those line number classes with filename (hashcode) to allow highlighting specific line code in specific file only. But this is later. I wanted to give you a context.",
+      "parentUuid": "553f5afe_f759a1b6",
+      "range": {
+        "startLine": 5005,
+        "startChar": 52,
+        "endLine": 5005,
+        "endChar": 68
+      },
+      "revId": "2448336916bd16a2e7b6803e006b8612f4709037",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
