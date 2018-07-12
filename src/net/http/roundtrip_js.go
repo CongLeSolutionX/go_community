@@ -60,7 +60,9 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 			return nil, err
 		}
 		req.Body.Close()
-		opt.Set("body", body)
+		a := js.TypedArrayOf(body)
+		opt.Set("body", a)
+		a.Release()
 	}
 	respPromise := js.Global().Call("fetch", req.URL.String(), opt)
 	var (
