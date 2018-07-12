@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0eb2f58_5598cb9c",
+        "filename": "src/image/gif/reader_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-12T15:08:55Z",
+      "side": 1,
+      "message": "got first, then want, and use %q\n\n\"got %q; want %q\", got, want\n\nand use gofmt",
+      "range": {
+        "startLine": 476,
+        "startChar": 12,
+        "endLine": 476,
+        "endChar": 38
+      },
+      "revId": "fb236225d420637005fcac3f376c520ee944fb5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
