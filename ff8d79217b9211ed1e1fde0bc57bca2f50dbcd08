@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8440e8f_f2883bd6",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-07-12T12:36:15Z",
+      "side": 1,
+      "message": "I think this release is too early. The typed array is consumed by the call to \"fetch\", so it needs to be valid until the call is done.",
+      "revId": "ff8d79217b9211ed1e1fde0bc57bca2f50dbcd08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
