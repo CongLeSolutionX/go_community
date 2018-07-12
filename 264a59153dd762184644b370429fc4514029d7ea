@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e09d8048_98c78d6e",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4724,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-12T00:09:06Z",
+      "side": 1,
+      "message": "This is the part that verifies the connection is dead.",
+      "range": {
+        "startLine": 4723,
+        "startChar": 2,
+        "endLine": 4724,
+        "endChar": 30
+      },
+      "revId": "264a59153dd762184644b370429fc4514029d7ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d7a7fe11_ce18747d",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
@@ -18,6 +41,29 @@
         "startChar": 14,
         "endLine": 4753,
         "endChar": 18
+      },
+      "revId": "264a59153dd762184644b370429fc4514029d7ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46f75e7e_a0925e6d",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4779,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-12T00:09:06Z",
+      "side": 1,
+      "message": "And equivalent part here.",
+      "range": {
+        "startLine": 4778,
+        "startChar": 0,
+        "endLine": 4779,
+        "endChar": 30
       },
       "revId": "264a59153dd762184644b370429fc4514029d7ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
