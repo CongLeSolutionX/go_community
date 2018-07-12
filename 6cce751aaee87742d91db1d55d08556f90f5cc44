@@ -34,6 +34,24 @@
       "revId": "6cce751aaee87742d91db1d55d08556f90f5cc44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffdb4c3c_849e12a6",
+        "filename": "misc/cgo/test/issue26213/cxx/test26213cxx.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-12T01:10:54Z",
+      "side": 1,
+      "message": "Good question. -lsupc++ should suffice for g++ but I don\u0027t know about clang.\n\nAnother approach might be to create a .cc file in this directory.  I think that should cause the go tool to link with g++/clang++.\n\nOr, really, it\u0027s fine with me if we just skip the C++ tests.",
+      "parentUuid": "146e1a52_3c96be70",
+      "revId": "6cce751aaee87742d91db1d55d08556f90f5cc44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
