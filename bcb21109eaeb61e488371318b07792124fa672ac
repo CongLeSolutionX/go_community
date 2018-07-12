@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "9b4532ea_63c0f0ac",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-07-12T08:19:17Z",
+      "side": 1,
+      "message": "Can\u0027t be\n\nssweepgen :\u003d atomic.Load(\u0026s.sweepgen)\nif ssweepgen \u003d\u003d sg-2 \u0026\u0026 atomic.Cas(\u0026s.sweepgen, sg-2, sg-1) { ... }\nif ssweepgen \u003d\u003d sg-1 { ... }\n\ns.sweepgen can be modified from sg-2 to sg-1 by another goroutine between line 1 and line 2. If so, this mspan will be swept twice incorrectly and throw a \"fatal error: freeSpan given cached span\".",
+      "parentUuid": "94694dff_1c4ef2e4",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7c7d60b_3ae3d40c",
         "filename": "src/runtime/mcentral.go",
         "patchSetId": 8
