@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "003ca234_1f6b91d2",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-13T14:46:01Z",
+      "side": 1,
+      "message": "Doesn\u0027t this mean that when RoundTrip returns, the Transport won\u0027t have access to keep uploading the body if the server has returned headers first?\n\nThat\u0027s not well supported in HTTP/1 and Go already, so perhaps that\u0027s okay. But eventually we\u0027ll want to change this to doing the Release only when the Body reaches EOF or is Closed.",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 19
+      },
+      "revId": "9342bb38d02893fbe0f3ea79358555dd61f0fc0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
