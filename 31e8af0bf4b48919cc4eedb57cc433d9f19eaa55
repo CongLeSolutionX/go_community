@@ -46,6 +46,30 @@
       "revId": "31e8af0bf4b48919cc4eedb57cc433d9f19eaa55",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf25d16b_741a61b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-13T22:10:39Z",
+      "side": 1,
+      "message": "I don\u0027t see addNL or addVar in the diff. What am I missing?",
+      "parentUuid": "04d80174_2f828f67",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "31e8af0bf4b48919cc4eedb57cc433d9f19eaa55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
