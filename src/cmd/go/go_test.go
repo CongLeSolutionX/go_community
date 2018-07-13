@@ -902,6 +902,7 @@ func TestNewReleaseRebuildsStalePackagesInGOPATH(t *testing.T) {
 	// Every main package depends on the "runtime".
 	tg.tempFile("d1/src/p1/p1.go", `package main; func main(){}`)
 	tg.setenv("GOPATH", tg.path("d1"))
+	tg.setenv("GOCACHE", tg.tempdir)
 	// Pass -i flag to rebuild everything outdated.
 	tg.run("install", "-i", "p1")
 	tg.wantNotStale("p1", "", "./testgo list claims p1 is stale, incorrectly, before any changes")
