@@ -22,6 +22,30 @@
       "revId": "9342bb38d02893fbe0f3ea79358555dd61f0fc0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c500c0d4_1fd0b2de",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-07-13T14:51:14Z",
+      "side": 1,
+      "message": "This is assuming that the body is sent all in one blob before the response has been received. When we introduce streaming this will have to change. ioutil.ReadAll only returns after the Body has returned EOF.",
+      "parentUuid": "003ca234_1f6b91d2",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 19
+      },
+      "revId": "9342bb38d02893fbe0f3ea79358555dd61f0fc0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
