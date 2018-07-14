@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0080009_78ec2152",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-14T23:40:52Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem like you need this comma.",
+      "range": {
+        "startLine": 1478,
+        "startChar": 51,
+        "endLine": 1478,
+        "endChar": 52
+      },
+      "revId": "41a7c95830d6a716832a18dbf48dc14686d60a0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
