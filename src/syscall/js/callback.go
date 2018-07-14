@@ -71,7 +71,7 @@ func NewCallback(fn func(args []Value)) Callback {
 	callbacks[id] = fn
 	callbacksMu.Unlock()
 	return Callback{
-		Value: makeCallbackHelper.Invoke(id, pendingCallbacks, resolveCallbackPromise),
+		Value: makeCallbackHelper.Invoke(id, pendingCallbacks, jsGo.Get("_resolveCallbackPromise")),
 		id:    id,
 	}
 }
@@ -116,7 +116,7 @@ func (c Callback) Release() {
 var callbackLoopOnce sync.Once
 
 func callbackLoop() {
-	for {
+	for !jsGo.Get("_callbackShutdown").Bool() {
 		sleepUntilCallback()
 		for {
 			cb := pendingCallbacks.Call("shift")
