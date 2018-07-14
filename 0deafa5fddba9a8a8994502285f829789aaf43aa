@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "954431c3_f6a3917a",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-14T04:56:02Z",
+      "side": 1,
+      "message": "Link to https://golang.org/wiki/CodeReviewComments somewhere?",
+      "range": {
+        "startLine": 1093,
+        "startChar": 3,
+        "endLine": 1096,
+        "endChar": 4
+      },
+      "revId": "0deafa5fddba9a8a8994502285f829789aaf43aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
