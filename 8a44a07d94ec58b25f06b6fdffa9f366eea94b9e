@@ -22,6 +22,30 @@
       "revId": "8a44a07d94ec58b25f06b6fdffa9f366eea94b9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7818fc0e_556d8f9a",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-07-14T04:57:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "082703a2_aa502478",
+      "range": {
+        "startLine": 1479,
+        "startChar": 9,
+        "endLine": 1479,
+        "endChar": 26
+      },
+      "revId": "8a44a07d94ec58b25f06b6fdffa9f366eea94b9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
