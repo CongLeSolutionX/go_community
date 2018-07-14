@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1176ba6_c126e52b",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1931,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-14T23:44:12Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "ba37e130d7bad99d6e106c025605c86993186381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "751fadf3_9c3cc483",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2243,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-14T23:44:12Z",
+      "side": 1,
+      "message": "Perhaps a comma after \"program\"?",
+      "range": {
+        "startLine": 2243,
+        "startChar": 33,
+        "endLine": 2243,
+        "endChar": 34
+      },
+      "revId": "ba37e130d7bad99d6e106c025605c86993186381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
