@@ -789,6 +789,10 @@ func tRunner(t *T, fn func(t *T)) {
 		if err != nil {
 			t.Fail()
 			t.report()
+			if t.parent != nil {
+				t.flushToParent("    panic: %s\n", err)
+				fmt.Fprintf(os.Stdout, "%s", string(t.parent.output))
+			}
 			panic(err)
 		}
 
