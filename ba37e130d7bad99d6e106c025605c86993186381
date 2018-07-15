@@ -39,6 +39,30 @@
       "revId": "ba37e130d7bad99d6e106c025605c86993186381",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5adda65c_1bb8e24c",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2243,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-07-15T09:16:40Z",
+      "side": 1,
+      "message": "I don\u0027t think it needs it.\n\nI\u0027ll submit and you can push back if you can explain your thinking.",
+      "parentUuid": "751fadf3_9c3cc483",
+      "range": {
+        "startLine": 2243,
+        "startChar": 33,
+        "endLine": 2243,
+        "endChar": 34
+      },
+      "revId": "ba37e130d7bad99d6e106c025605c86993186381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
