@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "1177d27e_ff9009fc",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-16T22:14:56Z",
+      "side": 1,
+      "message": "I\u0027d drop the \"crypto/\" prefix to these. We do that in emails sometime, but I don\u0027t think we\u0027ve ever used that style in the official docs or release notes.",
+      "range": {
+        "startLine": 192,
+        "startChar": 46,
+        "endLine": 192,
+        "endChar": 53
+      },
+      "revId": "c80897b691a5f5541e8491b29a42877aed33140c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8642fe5_3f8ffc1f",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-16T22:14:56Z",
+      "side": 1,
+      "message": "The new function New... (to avoid the new New stutter, and to add the word \"function\")",
+      "range": {
+        "startLine": 204,
+        "startChar": 6,
+        "endLine": 204,
+        "endChar": 16
+      },
+      "revId": "c80897b691a5f5541e8491b29a42877aed33140c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e9b7916_1f6d7fd3",
         "filename": "doc/go1.11.html",
         "patchSetId": 2
