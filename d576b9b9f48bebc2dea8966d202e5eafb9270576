@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eba4b2d0_cfc3c0ff",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-07-16T10:56:48Z",
+      "side": 1,
+      "message": "The changes to ids recently mean existing URLs fail to scroll\nto the appropriate answer despite roughly the same topic still\nbeing present a lot of the time.  I prefer the new ids, but could\nthe old ones also be preserved, perhaps using an empty \u003cspan\u003e\nwith an id.",
+      "revId": "d576b9b9f48bebc2dea8966d202e5eafb9270576",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
