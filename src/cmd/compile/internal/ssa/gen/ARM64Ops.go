@@ -390,6 +390,8 @@ func init() {
 
 		{name: "FMOVDgpfp", argLength: 1, reg: gpfp, asm: "FMOVD"}, // move int64 to float64 (no conversion)
 		{name: "FMOVDfpgp", argLength: 1, reg: fpgp, asm: "FMOVD"}, // move float64 to int64 (no conversion)
+		{name: "FMOVSgpfp", argLength: 1, reg: gpfp, asm: "FMOVS"}, // move int32 to float32 (no conversion)
+		{name: "FMOVSfpgp", argLength: 1, reg: fpgp, asm: "FMOVS"}, // move float32 to int32 (no conversion)
 
 		// conversions
 		{name: "MOVBreg", argLength: 1, reg: gp11, asm: "MOVB"},   // move from arg0, sign-extended from byte
