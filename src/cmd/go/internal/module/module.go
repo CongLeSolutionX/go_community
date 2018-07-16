@@ -53,31 +53,14 @@ func Check(path, version string) error {
 	if !semver.IsValid(version) {
 		return fmt.Errorf("malformed semantic version %v", version)
 	}
-	vm := semver.Major(version)
-	_, pathVersion, _ := SplitPathVersion(path)
-
-	if strings.HasPrefix(pathVersion, ".") {
-		// Special-case gopkg.in path requirements.
-		pathVersion = pathVersion[1:] // cut .
-		if vm == pathVersion {
-			return nil
+	_, pathMajor, _ := SplitPathVersion(path)
+	if !MatchPathMajor(version, pathMajor) {
+		if pathMajor == "" {
+			pathMajor = "v0 or v1"
 		}
-	} else {
-		// Standard path requirements.
-		if pathVersion != "" {
-			pathVersion = pathVersion[1:] // cut /
-		}
-		if vm == "v0" || vm == "v1" {
-			vm = ""
-		}
-		if vm == pathVersion {
-			return nil
-		}
-		if pathVersion == "" {
-			pathVersion = "v0 or v1"
-		}
+		return fmt.Errorf("mismatched module path %v and version %v (want %v)", path, version, pathMajor)
 	}
-	return fmt.Errorf("mismatched module path %v and version %v (want %v)", path, version, pathVersion)
+	return nil
 }
 
 // firstPathOK reports whether r can appear in the first element of a module path.
@@ -333,9 +316,19 @@ func MatchPathMajor(v, pathMajor string) bool {
 	}
 	m := semver.Major(v)
 	if pathMajor == "" {
-		return m == "v0" || m == "v1"
+		return m == "v0" || m == "v1" || semver.Build(v) == "+incompatible"
 	}
 	return (pathMajor[0] == '/' || pathMajor[0] == '.') && m == pathMajor[1:]
+}
+
+// CanonicalVersion returns the canonical form of the version string v.
+// It is the same as semver.Canonical(v) except that it preserves the special build suffix "+incompatible".
+func CanonicalVersion(v string) string {
+	cv := semver.Canonical(v)
+	if semver.Build(v) == "+incompatible" {
+		cv += "+incompatible"
+	}
+	return cv
 }
 
 // Sort sorts the list by Path, breaking ties by comparing Versions.

@@ -807,6 +807,19 @@ func TestModGetUpgrade(t *testing.T) {
 	tg.grepStderr(`go get: disabled by -getmode=vendor`, "expected disabled")
 }
 
+func TestModGetImport(t *testing.T) {
+	testenv.MustHaveExternalNetwork(t)
+
+	tg := testGoModules(t)
+	defer tg.cleanup()
+
+	tg.tempFile("work/x.go", `package x; import _ "github.com/rsc/legacytest/m"`)
+	tg.setenv("GOPROXY", "") // testing +incompatible generation in git -> module converter
+	tg.run("build")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v2\.0\.0\+incompatible`, "expected v2+incompatible")
+}
+
 func TestModPathCase(t *testing.T) {
 	tg := testGoModules(t)
 	defer tg.cleanup()
@@ -822,6 +835,36 @@ func TestModPathCase(t *testing.T) {
 	tg.run("list", "-f=DEPS {{.Deps}}\nDIR {{.Dir}}", "rsc.io/QUOTE/QUOTE")
 	tg.grepStdout(`DEPS.*rsc.io/quote`, "want quote as dep")
 	tg.grepStdout(`DIR.*!q!u!o!t!e`, "want !q!u!o!t!e in directory name")
+}
+
+func TestModGetIncompatible(t *testing.T) {
+	tg := testGoModules(t)
+	defer tg.cleanup()
+
+	tg.setenv(homeEnvName(), tg.path("home"))
+	tg.must(os.MkdirAll(tg.path("x"), 0777))
+	tg.cd(tg.path("x"))
+	tg.must(ioutil.WriteFile(tg.path("x/x.go"), []byte(`package x; import "rsc.io/breaker"; var _ = breaker.XX`), 0666))
+
+	tg.must(ioutil.WriteFile(tg.path("x/go.mod"), []byte(`
+		module x
+	`), 0666))
+	tg.run("list", "-json", "x")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`breaker v2.0.0\+incompatible`, "did not choose v2.0.0+incompatible")
+
+	tg.must(ioutil.WriteFile(tg.path("x/go.mod"), []byte(`
+		module x
+		require rsc.io/breaker v1.0.0
+	`), 0666))
+
+	tg.run("get", "rsc.io/breaker@7307b30")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`breaker v2.0.0\+incompatible`, "did not choose v2.0.0+incompatible")
+	tg.run("build", "x")
+
+	tg.runFail("get", "rsc.io/breaker@v2.0.0")
+
 }
 
 func TestModFileNames(t *testing.T) {
