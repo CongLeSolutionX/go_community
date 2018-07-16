@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e9b7916_1f6d7fd3",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-07-16T22:02:17Z",
+      "side": 1,
+      "message": "maybe \u003ccode\u003eCommonName\u003c/code\u003e to follow the convention of the RFC? Or else just Common Name (without the \u003ccode\u003e blocks).",
+      "range": {
+        "startLine": 232,
+        "startChar": 54,
+        "endLine": 232,
+        "endChar": 91
+      },
+      "revId": "c80897b691a5f5541e8491b29a42877aed33140c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "785fc591_3ea290e6",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-07-16T22:02:17Z",
+      "side": 1,
+      "message": "Mention that this matches the behaviour in 1.9? (If it was 1.9.)",
+      "range": {
+        "startLine": 242,
+        "startChar": 42,
+        "endLine": 242,
+        "endChar": 47
+      },
+      "revId": "c80897b691a5f5541e8491b29a42877aed33140c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eebcfd7_752c1f5a",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-07-16T22:02:17Z",
+      "side": 1,
+      "message": "s/all at once/always being checked/?",
+      "range": {
+        "startLine": 243,
+        "startChar": 100,
+        "endLine": 243,
+        "endChar": 111
+      },
+      "revId": "c80897b691a5f5541e8491b29a42877aed33140c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
