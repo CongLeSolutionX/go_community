@@ -57,6 +57,8 @@ TEXT	msancall<>(SB), NOSPLIT, $0-0
 	MOVD	R4, RSP
 
 g0stack:
+	SUB	$16, RSP		// reserve 16 bytes for sp-8 where fp may be saved.
 	BL	(FARG)
+	ADD	$16, RSP
 	MOVD	R19, RSP
 	RET
