@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f684179d_d19042df",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-07-16T21:25:39Z",
+      "side": 1,
+      "message": "Very few of these ids are persistent, and I have only changed some that seemed needlessly long but are also likely unused.\n\nIf you want to fix them consistently, I\u0027m happy to accept a CL that does as you suggest, preferably across the entire FAQ.",
+      "parentUuid": "eba4b2d0_cfc3c0ff",
+      "revId": "d576b9b9f48bebc2dea8966d202e5eafb9270576",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87920383_2f0c5ef8",
         "filename": "doc/go_faq.html",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "d576b9b9f48bebc2dea8966d202e5eafb9270576",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dce4171_050bf801",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-07-16T21:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87920383_2f0c5ef8",
+      "range": {
+        "startLine": 232,
+        "startChar": 36,
+        "endLine": 232,
+        "endChar": 38
+      },
+      "revId": "d576b9b9f48bebc2dea8966d202e5eafb9270576",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
