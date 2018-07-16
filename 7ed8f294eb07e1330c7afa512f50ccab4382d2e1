@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d8b4850_6220e989",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-16T23:35:40Z",
+      "side": 1,
+      "message": "I would add something like\n\nYou can also use cgo and SWIG with gccgo and gollvm.\n\nIn fact, maybe you should start with that, since it\u0027s safer.",
+      "revId": "7ed8f294eb07e1330c7afa512f50ccab4382d2e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
