@@ -18,12 +18,27 @@ func libcCall(fn, arg unsafe.Pointer) int32 {
 	if gp != nil {
 		mp = gp.m
 	}
-	if mp != nil {
+	if mp != nil && gp != mp.gsignal {
 		mp.libcallg.set(gp)
 		mp.libcallpc = getcallerpc()
 		// sp must be the last, because once async cpu profiler finds
 		// all three values to be non-zero, it will use them
 		mp.libcallsp = getcallersp()
+	} else {
+		// Make sure we don't overwrite libcall info. This makes
+		// libcCall signal safe; We remember the g/pc/sp for the
+		// first call on an M, but not on any calls made by the
+		// signal handler during a libc call. We don't need to worry
+		// about a libc call triggering another libc call, as
+		// libc never calls back into Go.  The tricky case is
+		// where we call libcX from an M and record g/pc/sp.
+		// Before that call returns, a signal arrives on the
+		// same M and the signal handling code calls another
+		// libc function.  We don't want that second libcCall
+		// from within the handler to be recorded, and we
+		// don't want that call's completion to zero
+		// libcallsp.
+		mp = nil
 	}
 	res := asmcgocall(fn, arg)
 	if mp != nil {
