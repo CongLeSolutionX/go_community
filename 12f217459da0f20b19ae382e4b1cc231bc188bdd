@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55678abb_bcb62e4e",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 2215,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-16T21:09:51Z",
+      "side": 1,
+      "message": "I think this paragraph needs a bit more work to adequately address the modern landscape of programming languages — Rust in particular.\n\nThis entry in the FAQ is presumably targeted to people who are skeptical toward garbage collection. As one of these people, the term “manual” comes across to me as a strawman argument, not a constructive answer to the question. Neither Rust nor “modern” C++ (post-C++11) is particularly “manual”. Folks who are writing in those languages are not writing explicit `free` calls most of the time: instead, they\u0027re using block-scoped “smart pointers” and/or passing references to block-scoped (stack-allocated) variables.\n\nMoreover, the “pernicious bugs” in question are not the sort of bugs one tends to encounter in Rust, and have gotten a lot easier to diagnose (with AddressSanitizer and MemorySanitizer) since Go\u0027s release.\n\nA more charitable description might be “languages which track memory lifetimes explicitly”, but then the thing that the programmer spends time managing is “lifetimes”, not “memory“ per se, and the “pernicious bugs” may instead be “frustrating compile-time errors” depending on the language.",
+      "revId": "12f217459da0f20b19ae382e4b1cc231bc188bdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
