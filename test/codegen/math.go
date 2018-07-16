@@ -89,6 +89,7 @@ func copysign(a, b, c float64) {
 
 func fromFloat64(f64 float64) uint64 {
 	// amd64:"MOVQ\tX.*, [^X].*"
+	// arm64: FMOVD
 	return math.Float64bits(f64+1) + 1
 }
 
@@ -99,6 +100,7 @@ func fromFloat32(f32 float32) uint32 {
 
 func toFloat64(u64 uint64) float64 {
 	// amd64:"MOVQ\t[^X].*, X.*"
+	// arm64: FMOVD
 	return math.Float64frombits(u64+1) + 1
 }
 
