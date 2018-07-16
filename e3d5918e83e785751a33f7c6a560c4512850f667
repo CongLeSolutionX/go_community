@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "203172a5_0e09039a",
+        "filename": "src/path/filepath/example_unix_walk_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2018-07-16T21:44:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8712f98e_5f95ae9d",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "e3d5918e83e785751a33f7c6a560c4512850f667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8712c152_454ded32",
         "filename": "src/path/filepath/example_unix_walk_test.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-07-10T22:17:04Z",
       "side": 1,
       "message": "This appears in the playground box, unsure why.",
+      "range": {
+        "startLine": 5,
+        "startChar": 19,
+        "endLine": 5,
+        "endChar": 20
+      },
+      "revId": "e3d5918e83e785751a33f7c6a560c4512850f667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f700efd_62e01157",
+        "filename": "src/path/filepath/example_unix_walk_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2018-07-16T21:44:57Z",
+      "side": 1,
+      "message": "Still debugging this, I suspect that it\u0027s a godoc bug (it only appears if the prepareTestDirTree function is top-level, even with a fairly minimised testcase).  I will dig deeper before filing a godoc bug- not sure if this is worth putting on hold for now?",
+      "parentUuid": "8712c152_454ded32",
       "range": {
         "startLine": 5,
         "startChar": 19,
@@ -68,6 +116,30 @@
       "revId": "e3d5918e83e785751a33f7c6a560c4512850f667",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "200bb3e8_3e386c20",
+        "filename": "src/path/filepath/example_unix_walk_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2018-07-16T21:44:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f023c7a_9d6506dc",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "e3d5918e83e785751a33f7c6a560c4512850f667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
