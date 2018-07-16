@@ -63,6 +63,30 @@
       "revId": "ba37e130d7bad99d6e106c025605c86993186381",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b31d4195_0503eae6",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2243,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-16T18:43:38Z",
+      "side": 1,
+      "message": "It\u0027s very minor, but to me the sentence seems like a bit of a run-on sentence now. A is a B that C on D if E.  I might write \"the main program, using a separate CPU....\"  But it\u0027s minor and it\u0027s up to you.",
+      "parentUuid": "5adda65c_1bb8e24c",
+      "range": {
+        "startLine": 2243,
+        "startChar": 33,
+        "endLine": 2243,
+        "endChar": 34
+      },
+      "revId": "ba37e130d7bad99d6e106c025605c86993186381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
