@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76920710_f85f89b5",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-17T22:21:36Z",
+      "side": 1,
+      "message": "I was imagining a different command: env instead of envpath.  But probably we can get away with this.  But it should be documented in cmd/go/testdata/script/README.",
+      "revId": "462f8eaf1983dc7ed15903820eb66ed3783dafbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
