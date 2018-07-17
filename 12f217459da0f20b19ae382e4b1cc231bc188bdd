@@ -16,6 +16,24 @@
       "revId": "12f217459da0f20b19ae382e4b1cc231bc188bdd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "312f193e_a8acdbe3",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 2215,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-07-17T10:01:40Z",
+      "side": 1,
+      "message": "Fair point. I\u0027ll send out an updated paragraph soon.",
+      "parentUuid": "55678abb_bcb62e4e",
+      "revId": "12f217459da0f20b19ae382e4b1cc231bc188bdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
