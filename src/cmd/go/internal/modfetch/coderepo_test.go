@@ -611,6 +611,9 @@ func (ch *fixedTagsRepo) ReadFileRevs([]string, string, int64) ([]*codehost.File
 func (ch *fixedTagsRepo) ReadZip(string, string, int64) (io.ReadCloser, string, error) {
 	panic("not impl")
 }
+func (ch *fixedTagsRepo) RecentTag(string, string) (string, error) {
+	panic("not impl")
+}
 func (ch *fixedTagsRepo) Stat(string) (*codehost.RevInfo, error) { panic("not impl") }
 
 func TestNonCanonicalSemver(t *testing.T) {
