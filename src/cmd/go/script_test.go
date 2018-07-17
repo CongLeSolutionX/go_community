@@ -372,6 +372,10 @@ func (ts *testScript) cmdEnv(neg bool, args []string) {
 			fmt.Fprintf(&ts.log, "%s=%s\n", env, ts.envMap[env])
 			continue
 		}
+		if runtime.GOOS == "plan9" {
+			// Plan 9 uses '\000' as an environment variable separator.
+			env = strings.Replace(env, ":", "\000", -1)
+		}
 		ts.env = append(ts.env, env)
 		ts.envMap[env[:i]] = env[i+1:]
 	}
