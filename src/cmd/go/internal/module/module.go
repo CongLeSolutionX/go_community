@@ -12,6 +12,9 @@ package module
 // There are many subtle considerations, including Unicode ambiguity,
 // security, network, and file system representations.
 //
+// This file also defines the set of valid module path and version combinations,
+// another topic with many subtle considerations.
+//
 // Changes to the semantics in this file require approval from rsc.
 
 import (
@@ -323,6 +326,11 @@ func splitGopkgIn(path string) (prefix, pathMajor string, ok bool) {
 // MatchPathMajor reports whether the semantic version v
 // matches the path major version pathMajor.
 func MatchPathMajor(v, pathMajor string) bool {
+	if strings.HasPrefix(v, "v0.0.0-") && pathMajor == ".v1" {
+		// Allow old bug in pseudo-versions that generated v0.0.0- pseudoversion for gopkg .v1.
+		// For example, gopkg.in/yaml.v2@v2.2.1's go.mod requires gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405.
+		return true
+	}
 	m := semver.Major(v)
 	if pathMajor == "" {
 		return m == "v0" || m == "v1"
