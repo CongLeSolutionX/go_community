@@ -813,11 +813,53 @@ func TestModGetImport(t *testing.T) {
 	tg := testGoModules(t)
 	defer tg.cleanup()
 
-	tg.tempFile("work/x.go", `package x; import _ "github.com/rsc/legacytest/m"`)
+	tg.tempFile("work/x.go", `package x; import "github.com/rsc/legacytest"; const _ = legacytest.XX`)
 	tg.setenv("GOPROXY", "") // testing +incompatible generation in git -> module converter
 	tg.run("build")
 	tg.run("list", "-m", "all")
-	tg.grepStdout(`^github.com/rsc/legacytest v2\.0\.0\+incompatible`, "expected v2+incompatible")
+	tg.grepStdout(`^github.com/rsc/legacytest v2\.0\.0\+incompatible$`, "expected v2+incompatible")
+
+	// Test translation of specific commits.
+	tg.run("get", "github.com/rsc/legacytest@52853eb")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v0\.0\.0-\d{14}-52853eb7b552$`, "expected v0.0.0 pseudo-version")
+
+	tg.run("get", "github.com/rsc/legacytest@7fff7f3")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v1\.0\.0$`, "expected v1.0.0")
+
+	tg.run("get", "github.com/rsc/legacytest@fa4f5d6")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v1\.0\.1-0\.\d{14}-fa4f5d6a71c6$`, "expected v1.0.1-0.pseudo")
+
+	tg.run("get", "github.com/rsc/legacytest@731e3b12a0272dcafb560b8")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v1\.1\.0-pre$`, "expected v1.1.0-pre")
+
+	tg.run("get", "github.com/rsc/legacytest@fb3c628")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v1\.1\.0-pre\.0\.\d{14}-fb3c628075e3$`, "expected v1.1.0-pre.0.pseudo")
+
+	tg.run("get", "github.com/rsc/legacytest@9f6f860")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v1\.2\.0$`, "expected v1.2.0")
+
+	tg.run("get", "github.com/rsc/legacytest@d2d4c3e")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v1\.2\.1-0\.\d{14}-d2d4c3ea6623$`, "expected v1.2.1-0.pseudo")
+
+	tg.run("get", "github.com/rsc/legacytest@d7ae1e4")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v2\.0\.0\+incompatible$`, "expected v2.0.0+incompatible")
+
+	tg.run("get", "github.com/rsc/legacytest@v2.0.0")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v2\.0\.0\+incompatible$`, "expected v2.0.0+incompatible")
+
+	tg.run("get", "github.com/rsc/legacytest@7303f77")
+	tg.run("list", "-m", "all")
+	tg.grepStdout(`^github.com/rsc/legacytest v2\.0\.1-0\.\d{14}-7303f7796364\+incompatible$`, "expected v2.0.1-0.pseudo+incompatible")
+
 }
 
 func TestModPathCase(t *testing.T) {
