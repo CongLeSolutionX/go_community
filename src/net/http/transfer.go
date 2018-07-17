@@ -81,6 +81,7 @@ type transferWriter struct {
 	Trailer          Header
 	IsResponse       bool
 	bodyReadError    error // any non-EOF error from reading Body
+	postCloseError   error // any error from BodyCloser or after BodyCloser is called
 
 	FlushHeaders bool            // flush headers to network before body
 	ByteReadCh   chan readResult // non-nil if probeRequestBody called
@@ -373,25 +374,29 @@ func (t *transferWriter) writeBody(w io.Writer) error {
 	}
 	if t.BodyCloser != nil {
 		if err := t.BodyCloser.Close(); err != nil {
+			t.postCloseError = err
 			return err
 		}
 	}
 
 	if !t.ResponseToHEAD && t.ContentLength != -1 && t.ContentLength != ncopy {
-		return fmt.Errorf("http: ContentLength=%d with Body length %d",
+		err = fmt.Errorf("http: ContentLength=%d with Body length %d",
 			t.ContentLength, ncopy)
+		t.postCloseError = err
+		return err
 	}
 
 	if chunked(t.TransferEncoding) {
 		// Write Trailer header
 		if t.Trailer != nil {
-			if err := t.Trailer.Write(w); err != nil {
-				return err
-			}
+			err = t.Trailer.Write(w)
 		}
-		// Last chunk, empty trailer
-		_, err = io.WriteString(w, "\r\n")
+		if err == nil {
+			// Last chunk, empty trailer
+			_, err = io.WriteString(w, "\r\n")
+		}
 	}
+	t.postCloseError = err
 	return err
 }
 

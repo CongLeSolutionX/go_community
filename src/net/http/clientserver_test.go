@@ -1379,7 +1379,7 @@ func TestBadResponseAfterReadingBody(t *testing.T) {
 	}))
 	defer cst.close()
 
-	closes := 0
+	closes := int64(0)
 	res, err := cst.c.Post(cst.ts.URL, "text/plain", countCloseReader{&closes, strings.NewReader("hello")})
 	if err == nil {
 		res.Body.Close()
@@ -1387,6 +1387,47 @@ func TestBadResponseAfterReadingBody(t *testing.T) {
 	}
 	if closes != 1 {
 		t.Errorf("closes = %d; want 1", closes)
+	}
+}
+
+func TestOneCloseOnPartialReqBodyRead(t *testing.T) {
+	defer afterTest(t)
+	for _, doUseH2 := range []bool{false, true} {
+		for _, chunked := range []bool{false, true} {
+			cst := newClientServerTest(t, doUseH2, HandlerFunc(func(w ResponseWriter, r *Request) {
+				r.Body.Read(make([]byte, 1))
+				panic(ErrAbortHandler)
+			}))
+			defer cst.close()
+
+			for i := 0; i < 100; i++ {
+				req, err := NewRequest("POST", cst.ts.URL, nil)
+				if err != nil {
+					t.Fatalf("unable to make request: %v", err)
+				}
+				closes := int64(0)
+				req.Body = countCloseReader{
+					&closes,
+					bytes.NewReader(bytes.Repeat([]byte("a"), 12586)),
+				}
+				req.ContentLength = 12586
+				if chunked {
+					req.ContentLength = -1
+				}
+				res, err := cst.c.Do(req)
+				if err == nil {
+					res.Body.Close()
+					t.Fatalf("expected an error to be returned from Post")
+				}
+				for atomic.LoadInt64(&closes) == 0 {
+					time.Sleep(time.Millisecond)
+				}
+				if atomic.LoadInt64(&closes) != 1 {
+					t.Errorf("closes = %d; want 1 (h2? %v, chunked? %v)", closes, doUseH2, chunked)
+					break
+				}
+			}
+		}
 	}
 }
 

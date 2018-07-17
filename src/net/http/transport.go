@@ -1933,6 +1933,7 @@ func (pc *persistConn) writeLoop() {
 		case wr := <-pc.writech:
 			startBytesWritten := pc.nwrite
 			err := wr.req.Request.write(pc.bw, pc.isProxy, wr.req.extra, pc.waitForContinue(wr.continueCh))
+			bodyClosedInWrite := err == nil
 			if bre, ok := err.(requestBodyReadError); ok {
 				err = bre.error
 				// Errors reading from the user's
@@ -1943,12 +1944,15 @@ func (pc *persistConn) writeLoop() {
 				// connections and causes other
 				// errors.
 				wr.req.setError(err)
-			}
-			if err == nil {
+			} else if _, ok := err.(requestPostBodyClosedError); ok {
+				bodyClosedInWrite = true
+			} else if err == nil {
 				err = pc.bw.Flush()
 			}
 			if err != nil {
-				wr.req.Request.closeBody()
+				if !bodyClosedInWrite {
+					wr.req.Request.closeBody()
+				}
 				if pc.nwrite == startBytesWritten {
 					err = nothingWrittenError{err}
 				}

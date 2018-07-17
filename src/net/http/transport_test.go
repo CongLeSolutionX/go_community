@@ -2651,7 +2651,7 @@ func TestTransportClosesRequestBody(t *testing.T) {
 
 	c := ts.Client()
 
-	closes := 0
+	closes := int64(0)
 
 	res, err := c.Post(ts.URL, "text/plain", countCloseReader{&closes, strings.NewReader("hello")})
 	if err != nil {
@@ -4537,12 +4537,12 @@ func newLocalListener(t *testing.T) net.Listener {
 }
 
 type countCloseReader struct {
-	n *int
+	n *int64
 	io.Reader
 }
 
 func (cr countCloseReader) Close() error {
-	(*cr.n)++
+	atomic.AddInt64(cr.n, 1)
 	return nil
 }
 

@@ -647,12 +647,16 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 	if err != nil {
 		if tw.bodyReadError == err {
 			err = requestBodyReadError{err}
+		} else if tw.postCloseError == err {
+			err = requestPostBodyClosedError{err}
 		}
 		return err
 	}
 
 	if bw != nil {
-		return bw.Flush()
+		if err := bw.Flush(); err != nil {
+			return requestPostBodyClosedError{err}
+		}
 	}
 	return nil
 }
@@ -661,6 +665,11 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 // that the error came from a Read call on the Request.Body.
 // This error type should not escape the net/http package to users.
 type requestBodyReadError struct{ error }
+
+// requestPostBodyClosedError wraps an error from (*Request).write to indicate
+// that the error came from or after a Close call on the Request.Body.
+// This error type should not escape the net/http package to users.
+type requestPostBodyClosedError struct{ error }
 
 func idnaASCII(v string) (string, error) {
 	// TODO: Consider removing this check after verifying performance is okay.
