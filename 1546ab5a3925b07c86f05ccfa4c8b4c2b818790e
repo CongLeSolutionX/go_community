@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b136c58e_3d5a641d",
+        "filename": "test/fixedbugs/issue26407.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-07-17T17:34:05Z",
+      "side": 1,
+      "message": "This is sensitive to the initial stack size, etc, but I don\u0027t have any better ideas.",
+      "range": {
+        "startLine": 53,
+        "startChar": 27,
+        "endLine": 53,
+        "endChar": 0
+      },
+      "revId": "1546ab5a3925b07c86f05ccfa4c8b4c2b818790e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
