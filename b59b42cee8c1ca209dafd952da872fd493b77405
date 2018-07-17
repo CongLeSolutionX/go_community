@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e9d31cc_0937012d",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-17T16:43:15Z",
+      "side": 1,
+      "message": "Perhaps s/guarantees/properties/ ?\n\nThe Go memory model does not guarantee memory safety in the presence of races. One can use the race detector to mitigate that, but one can also run C code under various sanitizers to check for memory errors and undefined behavior: the frequency of such errors changes, but the fundamental guarantees mostly do not.\n\nAs I see it, one of the major drawbacks of mixed-language programs is that language-specific sanitizers do not detect errors that span the language boundary. I will be a bit disappointed if that situation does not improve as gollvm matures.",
+      "range": {
+        "startLine": 269,
+        "startChar": 42,
+        "endLine": 270,
+        "endChar": 38
+      },
+      "revId": "b59b42cee8c1ca209dafd952da872fd493b77405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
