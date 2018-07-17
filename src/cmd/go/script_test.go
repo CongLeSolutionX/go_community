@@ -372,6 +372,8 @@ func (ts *testScript) cmdEnv(neg bool, args []string) {
 			fmt.Fprintf(&ts.log, "%s=%s\n", env, ts.envMap[env])
 			continue
 		}
+		// Replace ':' with OS-specific path list separator.
+		env = strings.Replace(env, ":", string(os.PathListSeparator), -1)
 		ts.env = append(ts.env, env)
 		ts.envMap[env[:i]] = env[i+1:]
 	}
