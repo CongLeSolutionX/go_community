@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2166ee8e_74d946dc",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-18T15:50:30Z",
+      "side": 1,
+      "message": "I think this part on open source would be pretty contentious. I don\u0027t think it adds enough for how much it might put people off for the remaining text.\n\nOr if this is about GitHub\u0027s popularity then vs now, reword?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "65a48955094e5bc3bcf8565744b12a67c1e2a35f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
