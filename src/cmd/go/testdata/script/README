@@ -90,6 +90,9 @@ The commands are:
   With no arguments, print the environment (useful for debugging).
   Otherwise add the listed key=value pairs to the environment.
 
+- envpath [key=value...]
+  Like env, but replaces the separator according to the operating system if needed.
+
 - [!] exec program [args...]
   Run the given executable program with the arguments.
   It must (or must not) succeed.
@@ -132,7 +135,7 @@ and only shows the # comments for earlier phases. For example, here is a
 multi-phase script with a bug in it:
 
 	# GOPATH with p1 in d2, p2 in d2
-	env GOPATH=$WORK/d1:$WORK/d2
+	envpath GOPATH=$WORK/d1:$WORK/d2
 
 	# build & install p1
 	env

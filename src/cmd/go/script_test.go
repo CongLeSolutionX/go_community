@@ -280,19 +280,20 @@ Script:
 // NOTE: If you make changes here, update testdata/script/README too!
 //
 var scriptCmds = map[string]func(*testScript, bool, []string){
-	"cd":     (*testScript).cmdCd,
-	"cp":     (*testScript).cmdCp,
-	"env":    (*testScript).cmdEnv,
-	"exec":   (*testScript).cmdExec,
-	"exists": (*testScript).cmdExists,
-	"go":     (*testScript).cmdGo,
-	"mkdir":  (*testScript).cmdMkdir,
-	"rm":     (*testScript).cmdRm,
-	"skip":   (*testScript).cmdSkip,
-	"stale":  (*testScript).cmdStale,
-	"stderr": (*testScript).cmdStderr,
-	"stdout": (*testScript).cmdStdout,
-	"stop":   (*testScript).cmdStop,
+	"cd":      (*testScript).cmdCd,
+	"cp":      (*testScript).cmdCp,
+	"env":     (*testScript).cmdEnv,
+	"envpath": (*testScript).cmdEnvPath,
+	"exec":    (*testScript).cmdExec,
+	"exists":  (*testScript).cmdExists,
+	"go":      (*testScript).cmdGo,
+	"mkdir":   (*testScript).cmdMkdir,
+	"rm":      (*testScript).cmdRm,
+	"skip":    (*testScript).cmdSkip,
+	"stale":   (*testScript).cmdStale,
+	"stderr":  (*testScript).cmdStderr,
+	"stdout":  (*testScript).cmdStdout,
+	"stop":    (*testScript).cmdStop,
 }
 
 // cd changes to a different directory.
@@ -375,6 +376,19 @@ func (ts *testScript) cmdEnv(neg bool, args []string) {
 		ts.env = append(ts.env, env)
 		ts.envMap[env[:i]] = env[i+1:]
 	}
+}
+
+// envpath is like env, but replaces the separator according to the operating system if needed.
+func (ts *testScript) cmdEnvPath(neg bool, args []string) {
+	if neg {
+		ts.fatalf("unsupported: ! envpath")
+	}
+	if os.PathListSeparator != ':' {
+		for i, _ := range args {
+			args[i] = strings.Replace(args[i], ":", string(os.PathListSeparator), -1)
+		}
+	}
+	ts.cmdEnv(neg, args)
 }
 
 // exec runs the given command.
