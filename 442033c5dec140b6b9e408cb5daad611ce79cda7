@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905aafd9_31509f84",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-18T23:04:28Z",
+      "side": 1,
+      "message": "From the comment I thought this was the cost in characters to transform the text at lines1[:i] to the text at lines2[:j], but in reading the code it seems that it\u0027s actually a cost in lines.",
+      "range": {
+        "startLine": 385,
+        "startChar": 17,
+        "endLine": 385,
+        "endChar": 39
+      },
+      "revId": "442033c5dec140b6b9e408cb5daad611ce79cda7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d9d3253_fba60ae4",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-18T23:04:28Z",
+      "side": 1,
+      "message": "This implementation is very sophisticated. I\u0027d be a lot more comfortable if it had its own test, but since it only executes in case of test failure I won\u0027t gate approval on that.",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 428,
+        "endChar": 2
+      },
+      "revId": "442033c5dec140b6b9e408cb5daad611ce79cda7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "617de20a_ee31c9e8",
+        "filename": "src/cmd/go/testdata/script/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-18T23:04:28Z",
+      "side": 1,
+      "message": "In which direction?\n\n(stdout as file1 suggests that I should generally use the order `cmp got want`, but the doc could be a bit more explicit about that.)",
+      "range": {
+        "startLine": 91,
+        "startChar": 40,
+        "endLine": 91,
+        "endChar": 65
+      },
+      "revId": "442033c5dec140b6b9e408cb5daad611ce79cda7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a589150c_febcf209",
+        "filename": "src/cmd/go/testdata/script/mod_convert_git.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-18T23:04:28Z",
+      "side": 1,
+      "message": "I can\u0027t figure out why this test needs a .git/config. (A test comment would be helpful.)",
+      "revId": "442033c5dec140b6b9e408cb5daad611ce79cda7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f73010c2_6a20ae28",
+        "filename": "src/cmd/go/testdata/script/mod_find.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-18T23:04:28Z",
+      "side": 1,
+      "message": "Is this todo for this CL?\n\n(Which env var should we not need? GO111MODULE?)",
+      "revId": "442033c5dec140b6b9e408cb5daad611ce79cda7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55778847_8be5fd88",
+        "filename": "src/cmd/go/testdata/script/mod_find_legacy.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-18T23:04:28Z",
+      "side": 1,
+      "message": "A comment for this file would be helpful. I\u0027m having trouble figuring out what the relevant difference is between this and mod_convert_godeps.txt.",
+      "revId": "442033c5dec140b6b9e408cb5daad611ce79cda7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
