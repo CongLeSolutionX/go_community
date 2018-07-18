@@ -92,6 +92,31 @@
       "revId": "65a48955094e5bc3bcf8565744b12a67c1e2a35f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e8e0869_50c46424",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 8606
+      },
+      "writtenOn": "2018-07-18T17:23:40Z",
+      "side": 1,
+      "message": "Michael T. Jones",
+      "parentUuid": "f2e1f115_e5539bbf",
+      "range": {
+        "startLine": 129,
+        "startChar": 28,
+        "endLine": 129,
+        "endChar": 33
+      },
+      "tag": "mailMessageId\u003d\u003cCALoEmQzUwJepu5h-UeJP76JEZx34PXKVFruEMgQPotaDCE_cCg@mail.gmail.com\u003e",
+      "revId": "65a48955094e5bc3bcf8565744b12a67c1e2a35f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
