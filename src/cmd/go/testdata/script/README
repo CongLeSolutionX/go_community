@@ -30,6 +30,7 @@ Scripts also have access to these other environment variables:
 	GOCACHE=<actual GOCACHE being used outside the test>
 	GOOS=<target GOOS>
 	GOPATH=$WORK/gopath
+	GOPROXY=<local module proxy serving from cmd/go/testdata/mod>
 	GOROOT=<actual GOROOT>
 	HOME=/no-home
 	PATH=<actual PATH>
