@@ -14,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"cmd/go/internal/base"
 	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/module"
 	"cmd/go/internal/semver"
@@ -21,7 +22,7 @@ import (
 
 var HelpGoproxy = &base.Command{
 	UsageLine: "goproxy",
-	Short: "module proxy protocol",
+	Short:     "module proxy protocol",
 	Long: `
 The go command defaults to downloading modules from version control systems
 directly, just as 'go get' always has. If the GOPROXY environment variable
@@ -79,7 +80,8 @@ The cache layout is the same as the proxy URL space, so
 serving $GOPATH/src/mod/cache/download at (or copying it to)
 https://example.com/proxy would let other users access those
 cached module versions with GOPROXY=https://example.com/proxy.
-`
+`,
+}
 
 var proxyURL = os.Getenv("GOPROXY")
 
