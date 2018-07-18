@@ -73,6 +73,7 @@ type testScript struct {
 
 // setup sets up the test execution temporary directory and environment.
 func (ts *testScript) setup() {
+	StartProxy()
 	ts.workdir = filepath.Join(testTmpDir, "script-"+ts.name)
 	ts.check(os.MkdirAll(filepath.Join(ts.workdir, "tmp"), 0777))
 	ts.check(os.MkdirAll(filepath.Join(ts.workdir, "gopath/src"), 0777))
@@ -85,6 +86,7 @@ func (ts *testScript) setup() {
 		"GOCACHE=" + testGOCACHE,
 		"GOOS=" + runtime.GOOS,
 		"GOPATH=" + filepath.Join(ts.workdir, "gopath"),
+		"GOPROXY=" + proxyURL,
 		"GOROOT=" + testGOROOT,
 		tempEnvName() + "=" + filepath.Join(ts.workdir, "tmp"),
 		"devnull=" + os.DevNull,
