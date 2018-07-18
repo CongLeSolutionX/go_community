@@ -22,6 +22,76 @@
       "revId": "65a48955094e5bc3bcf8565744b12a67c1e2a35f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a7c1791_1a74eb40",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-18T16:58:43Z",
+      "side": 1,
+      "message": "I agree; I would say that open source has been mainstream since the corporate world adopted Linux, which was years before 2007.  Also this doesn\u0027t have much to do with the rest of the text.",
+      "parentUuid": "2166ee8e_74d946dc",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "65a48955094e5bc3bcf8565744b12a67c1e2a35f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90e4eb3d_d6b96274",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-18T16:58:43Z",
+      "side": 1,
+      "message": "s/act programming/act of programming/",
+      "range": {
+        "startLine": 23,
+        "startChar": 45,
+        "endLine": 23,
+        "endChar": 60
+      },
+      "revId": "65a48955094e5bc3bcf8565744b12a67c1e2a35f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2e1f115_e5539bbf",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-18T16:58:43Z",
+      "side": 1,
+      "message": "Technically, this use of \"brace\" means exactly \"two.\"  So maybe \"the first of several.\"",
+      "range": {
+        "startLine": 129,
+        "startChar": 28,
+        "endLine": 129,
+        "endChar": 33
+      },
+      "revId": "65a48955094e5bc3bcf8565744b12a67c1e2a35f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
