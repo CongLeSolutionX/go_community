@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd6a75b4_7e4094ad",
+        "filename": "src/cmd/go/testdata/script/README",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-18T23:42:19Z",
+      "side": 1,
+      "message": "Join all the values into a single string, separating them with the OS-specific path list separator, and add key\u003djoined-values to the environment.",
+      "revId": "523a5780feceac906a160bb1470bdfc589f605a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8723d5ad_f56a78bd",
+        "filename": "src/cmd/go/testdata/script/README",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-18T23:42:19Z",
+      "side": 1,
+      "message": "Remove the \u0027\u003d\u0027 and the \u0027:\u0027.",
+      "revId": "523a5780feceac906a160bb1470bdfc589f605a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
