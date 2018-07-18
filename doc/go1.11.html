@@ -638,7 +638,9 @@ func f(v interface{}) {
 <dl id="runtime"><dt><a href="/pkg/runtime/">runtime</a></dt>
   <dd>
     <p><!-- CL 106156 -->
-      TODO: <a href="https://golang.org/cl/106156">https://golang.org/cl/106156</a>: use fixed TLS offsets on darwin/amd64 and darwin/386
+      On <code>darwin/amd64</code> and <code>darwin/386</code>,
+      the runtime now hard-codes <code>%gs:0x30</code> and <code>gs:0x18</code> respectively
+      as the <code>G</code> register for Thread Local Storage.
     </p>
 
     <p><!-- CL 70993 -->
