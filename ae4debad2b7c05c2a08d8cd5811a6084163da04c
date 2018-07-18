@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b492cbd5_ab2192b1",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-07-18T20:22:27Z",
+      "side": 1,
+      "message": "You\u0027d need this on Windows too. Any reason not to just pass it unconditionally? We\u0027re concerned with the content of the debug info, not it\u0027s form.",
+      "range": {
+        "startLine": 147,
+        "startChar": 44,
+        "endLine": 148,
+        "endChar": 0
+      },
+      "revId": "ae4debad2b7c05c2a08d8cd5811a6084163da04c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
