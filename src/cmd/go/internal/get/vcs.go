@@ -948,7 +948,10 @@ func matchGoImport(imports []metaImport, importPath string) (metaImport, error) 
 			continue
 		}
 
-		if match != -1 {
+		if match >= 0 {
+			if imports[match].VCS == "mod" && im.VCS != "mod" {
+				break
+			}
 			return metaImport{}, fmt.Errorf("multiple meta tags match import path %q", importPath)
 		}
 		match = i
