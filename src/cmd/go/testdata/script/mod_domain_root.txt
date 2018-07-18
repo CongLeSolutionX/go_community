@@ -1,0 +1,11 @@
+# Test module path consisting of only domain root.
+
+env GO111MODULE=on
+go build
+
+-- go.mod --
+module x
+
+-- x.go --
+package x
+import _ "example.com"
