@@ -283,20 +283,37 @@ Script:
 // NOTE: If you make changes here, update testdata/script/README too!
 //
 var scriptCmds = map[string]func(*testScript, bool, []string){
-	"cd":     (*testScript).cmdCd,
-	"cp":     (*testScript).cmdCp,
-	"env":    (*testScript).cmdEnv,
-	"exec":   (*testScript).cmdExec,
-	"exists": (*testScript).cmdExists,
-	"go":     (*testScript).cmdGo,
-	"grep":   (*testScript).cmdGrep,
-	"mkdir":  (*testScript).cmdMkdir,
-	"rm":     (*testScript).cmdRm,
-	"skip":   (*testScript).cmdSkip,
-	"stale":  (*testScript).cmdStale,
-	"stderr": (*testScript).cmdStderr,
-	"stdout": (*testScript).cmdStdout,
-	"stop":   (*testScript).cmdStop,
+	"addcrlf": (*testScript).cmdAddcrlf,
+	"cd":      (*testScript).cmdCd,
+	"cmp":     (*testScript).cmdCmp,
+	"cp":      (*testScript).cmdCp,
+	"env":     (*testScript).cmdEnv,
+	"exec":    (*testScript).cmdExec,
+	"exists":  (*testScript).cmdExists,
+	"go":      (*testScript).cmdGo,
+	"grep":    (*testScript).cmdGrep,
+	"mkdir":   (*testScript).cmdMkdir,
+	"rm":      (*testScript).cmdRm,
+	"skip":    (*testScript).cmdSkip,
+	"stale":   (*testScript).cmdStale,
+	"stderr":  (*testScript).cmdStderr,
+	"stdout":  (*testScript).cmdStdout,
+	"stop":    (*testScript).cmdStop,
+	"symlink": (*testScript).cmdSymlink,
+}
+
+// addcrlf adds CRLF line endings to the named files.
+func (ts *testScript) cmdAddcrlf(neg bool, args []string) {
+	if len(args) == 0 {
+		ts.fatalf("usage: addcrlf file...")
+	}
+
+	for _, file := range args {
+		file = ts.mkabs(file)
+		data, err := ioutil.ReadFile(file)
+		ts.check(err)
+		ts.check(ioutil.WriteFile(file, bytes.Replace(data, []byte("\n"), []byte("\r\n"), -1), 0666))
+	}
 }
 
 // cd changes to a different directory.
@@ -322,6 +339,95 @@ func (ts *testScript) cmdCd(neg bool, args []string) {
 	}
 	ts.cd = dir
 	fmt.Fprintf(&ts.log, "%s\n", ts.cd)
+}
+
+// cmp compares two files.
+func (ts *testScript) cmdCmp(neg bool, args []string) {
+	if neg {
+		// It would be strange to say "this file can have any content except this precise byte sequence".
+		ts.fatalf("unsupported: ! cmp")
+	}
+	if len(args) != 2 {
+		ts.fatalf("usage: cmp file1 file2")
+	}
+
+	name1, name2 := args[0], args[1]
+	var text1, text2 string
+	if name1 == "stdout" {
+		text1 = ts.stdout
+	} else if name1 == "stderr" {
+		text1 = ts.stderr
+	} else {
+		data, err := ioutil.ReadFile(ts.mkabs(name1))
+		ts.check(err)
+		text1 = string(data)
+	}
+
+	data, err := ioutil.ReadFile(ts.mkabs(name2))
+	ts.check(err)
+	text2 = string(data)
+
+	if text1 == text2 {
+		return
+	}
+
+	if text1 != "" && !strings.HasSuffix(text1, "\n") {
+		text1 += "(missing final newline)"
+	}
+	lines1 := strings.Split(text1, "\n")
+	lines1 = lines1[:len(lines1)-1] // remove empty string after final line
+	if text2 != "" && !strings.HasSuffix(text2, "\n") {
+		text2 += "(missing final newline)"
+	}
+	lines2 := strings.Split(text2, "\n")
+	lines2 = lines2[:len(lines2)-1] // remove empty string after final line
+
+	// dist[i][j] = edit distance between lines1[:i] and lines2[:j]
+	dist := make([][]int, len(lines1)+1)
+	for i := range dist {
+		dist[i] = make([]int, len(lines2)+1)
+		if i == 0 {
+			for j := range dist[0] {
+				dist[0][j] = j
+			}
+			continue
+		}
+		for j := range dist[i] {
+			if j == 0 {
+				dist[i][0] = i
+				continue
+			}
+			cost := dist[i][j-1] + 1
+			if cost > dist[i-1][j]+1 {
+				cost = dist[i-1][j] + 1
+			}
+			if lines1[len(lines1)-i] == lines2[len(lines2)-j] {
+				if cost > dist[i-1][j-1] {
+					cost = dist[i-1][j-1]
+				}
+			}
+			dist[i][j] = cost
+		}
+	}
+
+	fmt.Fprintf(&ts.log, "[diff -%s +%s]\n", name1, name2)
+	i, j := len(lines1), len(lines2)
+	for i > 0 || j > 0 {
+		cost := dist[i][j]
+		if i > 0 && j > 0 && cost == dist[i-1][j-1] && lines1[len(lines1)-i] == lines2[len(lines2)-j] {
+			fmt.Fprintf(&ts.log, " %s\n", lines1[len(lines1)-i])
+			i--
+			j--
+		} else if i > 0 && cost == dist[i-1][j]+1 {
+			fmt.Fprintf(&ts.log, "-%s\n", lines1[len(lines1)-i])
+			i--
+		} else {
+			fmt.Fprintf(&ts.log, "+%s\n", lines2[len(lines2)-j])
+			j--
+		}
+	}
+	fmt.Fprintf(&ts.log, "\n")
+	ts.fatalf("%s and %s differ", name1, name2)
 }
 
 // cp copies files, maybe eventually directories.
@@ -505,22 +611,6 @@ func (ts *testScript) cmdStale(neg bool, args []string) {
 	}
 }
 
-// stop stops execution of the test (marking it passed).
-func (ts *testScript) cmdStop(neg bool, args []string) {
-	if neg {
-		ts.fatalf("unsupported: ! stop")
-	}
-	if len(args) > 1 {
-		ts.fatalf("usage: stop [msg]")
-	}
-	if len(args) == 1 {
-		fmt.Fprintf(&ts.log, "stop: %s\n", args[0])
-	} else {
-		fmt.Fprintf(&ts.log, "stop\n")
-	}
-	ts.stopped = true
-}
-
 // stdout checks that the last go command standard output matches a regexp.
 func (ts *testScript) cmdStdout(neg bool, args []string) {
 	scriptMatch(ts, neg, args, ts.stdout, "stdout")
@@ -601,6 +691,35 @@ func scriptMatch(ts *testScript, neg bool, args []string, text, name string) {
 			}
 		}
 	}
+}
+
+// stop stops execution of the test (marking it passed).
+func (ts *testScript) cmdStop(neg bool, args []string) {
+	if neg {
+		ts.fatalf("unsupported: ! stop")
+	}
+	if len(args) > 1 {
+		ts.fatalf("usage: stop [msg]")
+	}
+	if len(args) == 1 {
+		fmt.Fprintf(&ts.log, "stop: %s\n", args[0])
+	} else {
+		fmt.Fprintf(&ts.log, "stop\n")
+	}
+	ts.stopped = true
+}
+
+// symlink creates a symbolic link.
+func (ts *testScript) cmdSymlink(neg bool, args []string) {
+	if neg {
+		ts.fatalf("unsupported: ! symlink")
+	}
+	if len(args) != 3 || args[1] != "->" {
+		ts.fatalf("usage: symlink file -> target")
+	}
+	// Note that the link target args[2] is not interpreted with mkabs:
+	// it will be interpreted relative to the directory file is in.
+	ts.check(os.Symlink(args[2], ts.mkabs(args[0])))
 }
 
 // Helpers for command implementations.
