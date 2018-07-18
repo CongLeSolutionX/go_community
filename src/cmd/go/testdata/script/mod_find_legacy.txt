@@ -1,0 +1,10 @@
+env GO111MODULE=on
+
+cd $WORK/testgodeps
+go list -m all
+stdout '^x$'
+
+-- $WORK/testgodeps/Godeps/Godeps.json --
+{}
+-- $WORK/testgodeps/x.go --
+package x // import "x"
