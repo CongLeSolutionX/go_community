@@ -314,3 +314,23 @@ func WriteGoSum() {
 		os.Remove(goSum.modverify)
 	}
 }
+
+// TrimGoSum trims go.sum to contain only the given entries.
+func TrimGoSum(list []module.Version) {
+	goSum.mu.Lock()
+	defer goSum.mu.Unlock()
+	if !initGoSum() {
+		return
+	}
+
+	keep := make(map[module.Version]bool)
+	for _, m := range list {
+		keep[m] = true
+		keep[module.Version{Path: m.Path, Version: m.Version + "/go.mod"}] = true
+	}
+	for m := range goSum.m {
+		if !keep[m] {
+			delete(goSum.m, m)
+		}
+	}
+}
