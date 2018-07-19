@@ -305,3 +305,18 @@ func op_orn(x, y uint32) uint32 {
 	// arm64:`ORN\t`,-`ORR`
 	return x | ^y
 }
+
+// check generation of arm64 TST/TSTW
+func op_tst(x, y int64) int64 {
+	// arm64:`TST`,-`AND`
+	b0 := x&y > 0
+	// arm64:`TSTW`,-`AND`
+	b1 := int32(x)&int32(y) <= 0
+	if b0 {
+		return 1
+	} else if b1 {
+		return 2
+	} else {
+		return 3
+	}
+}
