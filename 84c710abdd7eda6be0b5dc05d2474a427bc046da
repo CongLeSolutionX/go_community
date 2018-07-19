@@ -344,6 +344,24 @@
     },
     {
       "key": {
+        "uuid": "74574f71_a517784f",
+        "filename": "src/cmd/go/internal/modfetch/pseudo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-07-19T16:11:46Z",
+      "side": 1,
+      "message": "I disagree: people should not do this at all. We don\u0027t need to go out of our way to adjust to misbehavior (cf symlinks).",
+      "parentUuid": "eae7aafe_81c25780",
+      "revId": "84c710abdd7eda6be0b5dc05d2474a427bc046da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1fdca9f_c6956468",
         "filename": "src/cmd/go/testdata/script/mod_get_pseudo.txt",
         "patchSetId": 3
