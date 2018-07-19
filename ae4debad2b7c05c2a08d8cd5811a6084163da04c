@@ -22,6 +22,30 @@
       "revId": "ae4debad2b7c05c2a08d8cd5811a6084163da04c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce923f33_066cc13f",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-07-19T13:57:49Z",
+      "side": 1,
+      "message": "I can do that, which I guess means I need to spin up some Windows testing of this (since this is not run as part of normal tests).\n\nOn content vs form, I am a bit concerned about this being pretty close to an end-to-end test. I don\u0027t want to verify that debugging works in theory, I want to verify that debugging works.",
+      "parentUuid": "b492cbd5_ab2192b1",
+      "range": {
+        "startLine": 147,
+        "startChar": 44,
+        "endLine": 148,
+        "endChar": 0
+      },
+      "revId": "ae4debad2b7c05c2a08d8cd5811a6084163da04c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
