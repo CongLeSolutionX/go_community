@@ -159,13 +159,29 @@ func CmpZero4(a int64, ptr *int) {
 }
 
 func CmpToZero(a, b int32) int32 {
-	if a&b < 0 { // arm:`TST`,-`AND`
+	// arm:`TST`,-`AND`
+	// arm64:`TSTW`,-`AND`
+	c0 := a&b < 0
+	// arm:`CMN`,-`ADD`
+	// arm64:`CMNW`,-`ADD`
+	c1 := a+b < 0
+	// arm:`TEQ`,-`XOR`
+	c2 := a^b < 0
+	// arm64:`TST`,-`AND`
+	c3 := int64(a)&int64(b) < 0
+	// arm64:`CMN`,-`ADD`
+	c4 := int64(a)+int64(b) < 0
+	if c0 {
 		return 1
-	} else if a+b < 0 { // arm:`CMN`,-`ADD`
+	} else if c1 {
 		return 2
-	} else if a^b < 0 { // arm:`TEQ`,-`XOR`
+	} else if c2 {
 		return 3
-	} else {
+	} else if c3 {
+		return 4
+	} else if c4 {
+		return 5
+	} else
 		return 0
 	}
 }
