@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e13ebb7_7e395200",
+        "filename": "src/image/gif/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2018-07-19T07:14:41Z",
+      "side": 1,
+      "message": "I\u0027m still unconvinced that this comment is correct. I\u0027m also not convinced that further tweaking of this proposed code change will end anywhere satisfactory.\n\nhttps://github.com/golang/go/issues/20856#issuecomment-397820687 mentions 20 test cases. The first one (https://www.arvos.org/content/images/2017/01/gcode_square.gif) is rejected by Go\u0027s `image/gif` library, but not for anything to do with LZW - there is exactly the right amount of LZW data for the frame dimensions. It\u0027s rejected because some frame\u0027s heights (288 pixels) exceed the image\u0027s height (287 pixels).\n\nI find this comment misleading. It talks about LZW, when LZW isn\u0027t always the problem.\n\nRemember that the GIF specification (https://www.w3.org/Graphics/GIF/spec-gif89a.txt) explicitly says that \"Each image must fit within the boundaries of the Logical Screen, as defined in the Logical Screen Descriptor\". Why allow a 1 pixel excess but not allow 2 or 20? Why allow an excess in one dimension but not both? If we\u0027re bending the spec, where do we re-draw the line? What are we still willing to reject?\n\nWhy do we now accept gcode_square.gif (which has perfectly sized LZW data), but reject the TestExtraByte case (which also has perfectly sized LZW data)?",
+      "revId": "89652110d1d0e5a67e4e8f255fb72b216bdfc4a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8827f9ae_95d67eed",
+        "filename": "src/image/gif/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2018-07-19T07:14:41Z",
+      "side": 1,
+      "message": "Let \"eb\", \"x\" and \"y\" stand for \"d.extraByte\", \"left+width-d.width \u003d\u003d 1\" and \"top+height-d.height \u003d\u003d 1\". Your new code says:\n\neb \u003d !(x \u0026\u0026 y)\nif etc {\n  return etc\n}\neb \u003d x || y \u0026\u0026 eb\n\nFor one thing, on that final line, operator precedence (https://golang.org/ref/spec#Operators) has \u0026\u0026 higher than ||, so that final line is actually\n\neb \u003d x || (y \u0026\u0026 eb)\n\nwhich looks asymmetric and therefore wrong. At the least, it looks untested, whether manually or otherwise, which obviously doesn\u0027t build confidence that this change is correct.",
+      "revId": "89652110d1d0e5a67e4e8f255fb72b216bdfc4a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
