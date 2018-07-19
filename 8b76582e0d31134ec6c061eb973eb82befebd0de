@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48efc56d_b0e2d842",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-19T16:37:00Z",
+      "side": 1,
+      "message": "(not sure)\n“by default downloads” would shift the emphasis from “defaults” to “downloads”.",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 38
+      },
+      "revId": "8b76582e0d31134ec6c061eb973eb82befebd0de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0cb84da_cad9cef7",
+        "filename": "src/cmd/go/internal/modload/help.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-19T16:37:00Z",
+      "side": 1,
+      "message": "s/as the mechanism for resolving/to resolve/",
+      "range": {
+        "startLine": 52,
+        "startChar": 47,
+        "endLine": 53,
+        "endChar": 13
+      },
+      "revId": "8b76582e0d31134ec6c061eb973eb82befebd0de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7b44e5a_6128a695",
+        "filename": "src/cmd/go/internal/modload/help.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-19T16:37:00Z",
+      "side": 1,
+      "message": "s/it is still used for holding (.*) and storing (.*)/it still holds \\1 and stores \\2/",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 11
+      },
+      "revId": "8b76582e0d31134ec6c061eb973eb82befebd0de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

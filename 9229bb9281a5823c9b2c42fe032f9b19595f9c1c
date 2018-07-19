@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e42c5614_4eadd75a",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-19T16:37:00Z",
+      "side": 1,
+      "message": ").",
+      "revId": "9229bb9281a5823c9b2c42fe032f9b19595f9c1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94293ee9_cf79ea76",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-19T16:37:00Z",
+      "side": 1,
+      "message": "s/They are/It is/ or s/They/Import path comments/",
+      "revId": "9229bb9281a5823c9b2c42fe032f9b19595f9c1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5bdcd5a_4577eb14",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-19T16:37:00Z",
+      "side": 1,
+      "message": "s/when/for/ (since the sentence starts with “when”)",
+      "range": {
+        "startLine": 379,
+        "startChar": 45,
+        "endLine": 379,
+        "endChar": 49
+      },
+      "revId": "9229bb9281a5823c9b2c42fe032f9b19595f9c1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17038aaa_e3150c20",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-19T16:37:00Z",
+      "side": 1,
+      "message": "parentheses would be easier for me to parse than commas here.",
+      "revId": "9229bb9281a5823c9b2c42fe032f9b19595f9c1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
