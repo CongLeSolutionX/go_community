@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c68751a_cb620384",
+        "filename": "src/cmd/go/internal/get/vcs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-19T18:41:17Z",
+      "side": 1,
+      "message": "Should we continue here instead of breaking?\n\n(What happens if there are multiple \"mod\" entries in the list? If that\u0027s impossible or the mod/non-mod transition in the slice has a semantic effect, a comment would be helpful.)",
+      "revId": "895ab230fdfa70929fce214852f085def97e5737",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
