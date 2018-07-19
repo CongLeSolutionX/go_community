@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e39fc6bb_96672f73",
+        "filename": "src/cmd/go/internal/par/work_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-19T19:36:49Z",
+      "side": 1,
+      "message": "I came back to this change when rebasing my concurrency-refactoring branch.\n\nIf we get past tries\u003d\u003d0, this test will fail: Work instances are not reusable, and it wouldn\u0027t be testing anything meaningful anyway (i \u003d 0 to N are all dups).",
+      "revId": "dada467fc688ef5970bf4af30c2644c0d2ccdb54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
