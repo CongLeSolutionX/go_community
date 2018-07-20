@@ -7,6 +7,8 @@ package cipher
 import (
 	"bytes"
 	"testing"
+
+	"internal/cpu"
 )
 
 func TestXOR(t *testing.T) {
@@ -24,5 +26,31 @@ func TestXOR(t *testing.T) {
 				}
 			}
 		}
+	}
+}
+
+func TestXORSSE2(t *testing.T) {
+	if cpu.X86.HasSSE2 {
+		act := make([]byte, 128+64+32+16+8+7)
+		exp := make([]byte, 128+64+32+16+8+7)
+		for i := 1; i < len(act); i++ {
+			a := make([]byte, i)
+			b := make([]byte, i+1)
+			xorSSE2(act, a, b, i)
+			safeXORBytes(exp, a, b)
+			if !bytes.Equal(exp, act) {
+				t.Error("not equal")
+			}
+		}
+	}
+}
+
+func BenchmarkTestXORBytes1K(b *testing.B) {
+	dst := make([]byte, 1024)
+	s0 := make([]byte, 1024)
+	s1 := make([]byte, 1024)
+	b.SetBytes(1024)
+	for i := 0; i < b.N; i++ {
+		xorBytes(dst, s0, s1)
 	}
 }
