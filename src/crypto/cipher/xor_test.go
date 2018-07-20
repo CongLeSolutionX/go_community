@@ -26,3 +26,13 @@ func TestXOR(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkTestXORBytes1K(b *testing.B) {
+	dst := make([]byte, 1024)
+	s0 := make([]byte, 1024)
+	s1 := make([]byte, 1024)
+	b.SetBytes(1024)
+	for i := 0; i < b.N; i++ {
+		xorBytes(dst, s0, s1)
+	}
+}
