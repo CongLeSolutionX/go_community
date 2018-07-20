@@ -7,6 +7,8 @@ package cipher
 import (
 	"bytes"
 	"testing"
+
+	"internal/cpu"
 )
 
 func TestXOR(t *testing.T) {
@@ -24,5 +26,49 @@ func TestXOR(t *testing.T) {
 				}
 			}
 		}
+	}
+}
+
+func TestXORAsm(t *testing.T) {
+	if cpu.X86.HasAVX512 {
+		testXORASM("avx512", t)
+		testXORASM("avx2", t)
+		testXORASM("sse2", t)
+	} else if cpu.X86.HasAVX2 {
+		testXORASM("avx2", t)
+		testXORASM("sse2", t)
+	} else if cpu.X86.HasSSE2 {
+		testXORASM("sse2", t)
+	}
+}
+
+func testXORASM(cpuFeature string, t *testing.T) {
+	act := make([]byte, 128+64+32+16+8+7)
+	exp := make([]byte, 128+64+32+16+8+7)
+	for i := 1; i < len(act); i++ {
+		a := make([]byte, i)
+		b := make([]byte, i+1)
+		switch cpuFeature {
+		case "avx512":
+			xorAVX512(act, a, b, i)
+		case "avx2":
+			xorAVX2(act, a, b, i)
+		case "sse2":
+			xorSSE2(act, a, b, i)
+		}
+		safeXORBytes(exp, a, b)
+		if !bytes.Equal(exp, act) {
+			t.Error("not equal", cpuFeature)
+		}
+	}
+}
+
+func BenchmarkTestXORBytes1K(b *testing.B) {
+	dst := make([]byte, 1024)
+	s0 := make([]byte, 1024)
+	s1 := make([]byte, 1024)
+	b.SetBytes(1024)
+	for i := 0; i < b.N; i++ {
+		xorBytes(dst, s0, s1)
 	}
 }
