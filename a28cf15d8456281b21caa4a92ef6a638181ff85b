@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b4a1295_cce38713",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-20T21:41:10Z",
+      "side": 1,
+      "message": "crypto/cipher: make xor use SIMD when available\n\nAnd then include benchstat numbers: https://godoc.org/golang.org/x/perf/cmd/benchstat",
+      "revId": "a28cf15d8456281b21caa4a92ef6a638181ff85b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
