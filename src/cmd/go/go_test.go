@@ -6245,3 +6245,13 @@ func TestCoverpkgTestOnly(t *testing.T) {
 	tg.grepStderrNot("no packages being tested depend on matches", "bad match message")
 	tg.grepStdout("coverage: 100", "no coverage")
 }
+
+// Issue 26451.
+func TestGoTestCompilingVetCheck(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.parallel()
+	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
+	tg.runFail("test", "-c", "testcompilevetcheck")
+	tg.grepStderr(`main_test.go:1: \+build comment must appear before package clause and be followed by a blank line`, "vet must be run when go test compile binary")
+}
