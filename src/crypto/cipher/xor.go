@@ -5,6 +5,7 @@
 package cipher
 
 import (
+	"internal/cpu"
 	"runtime"
 	"unsafe"
 )
@@ -56,9 +57,20 @@ func safeXORBytes(dst, a, b []byte) int {
 // xorBytes xors the bytes in a and b. The destination should have enough
 // space, otherwise xorBytes will panic. Returns the number of bytes xor'd.
 func xorBytes(dst, a, b []byte) int {
-	if supportsUnaligned {
+	switch {
+	case runtime.GOARCH == "amd64" && cpu.X86.HasSSE2:
+		n := len(a)
+		if len(b) < n {
+			n = len(b)
+		}
+		if n == 0 {
+			return 0
+		}
+		xorBytesSSE2(dst, a, b, n)
+		return n
+	case supportsUnaligned:
 		return fastXORBytes(dst, a, b)
-	} else {
+	default:
 		// TODO(hanwen): if (dst, a, b) have common alignment
 		// we could still try fastXORBytes. It is not clear
 		// how often this happens, and it's only worth it if

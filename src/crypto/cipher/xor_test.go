@@ -26,3 +26,28 @@ func TestXOR(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkXORBytes(b *testing.B) {
+	benchmarks := []struct {
+		name string
+		n    int
+	}{
+		{"8B", 8},
+		{"16B", 16},
+		{"64B", 64},
+		{"256B", 256},
+		{"1K", 1024},
+		{"4K", 4096},
+	}
+	dst := make([]byte, 4096)
+	for _, bm := range benchmarks {
+		b.Run(bm.name, func(b *testing.B) {
+			s0 := make([]byte, bm.n)
+			s1 := make([]byte, bm.n)
+			b.SetBytes(int64(bm.n))
+			for i := 0; i < b.N; i++ {
+				xorBytes(dst, s0, s1)
+			}
+		})
+	}
+}
