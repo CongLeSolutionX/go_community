@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3598434_d94bc5b0",
+        "filename": "misc/cgo/test/issue24161_darwin_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-20T21:39:36Z",
+      "side": 1,
+      "message": "reference #26513 ?",
+      "range": {
+        "startLine": 8,
+        "startChar": 17,
+        "endLine": 8,
+        "endChar": 56
+      },
+      "revId": "93b6eb798c820bd85a56fae46aab964e994cc2cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
