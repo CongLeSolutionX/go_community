@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f34053d3_99c4cba9",
+        "filename": "src/cmd/go/testdata/script/test_compile_binary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-20T17:10:07Z",
+      "side": 1,
+      "message": "This is too specific--this is a change detector for the error message, and there\u0027s no need for that here.  Sufficient to write\n\nstderr \u0027build comment\u0027",
+      "revId": "27a7a0241ec2d7cd91ceb50b5f94d70c4fc4636d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
