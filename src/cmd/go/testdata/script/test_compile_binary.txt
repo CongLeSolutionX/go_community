@@ -1,0 +1,6 @@
+! go test -c compile_binary/...
+stderr '\+build comment must appear before package clause and be followed by a blank line'
+
+-- compile_binary/foo_test.go --
+//+build foo
+package foo
