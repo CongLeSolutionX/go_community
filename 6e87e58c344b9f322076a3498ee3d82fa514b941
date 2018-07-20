@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "033ea7eb_daeb17ce",
+        "filename": "misc/cgo/test/issue21897.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-20T20:04:01Z",
+      "side": 1,
+      "message": "Don\u0027t you mean !race?",
+      "range": {
+        "startLine": 13,
+        "startChar": 31,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "6e87e58c344b9f322076a3498ee3d82fa514b941",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1f70ebd_bf91d652",
+        "filename": "misc/cgo/test/issue24161_darwin_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-20T20:04:01Z",
+      "side": 1,
+      "message": "!race",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "6e87e58c344b9f322076a3498ee3d82fa514b941",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
