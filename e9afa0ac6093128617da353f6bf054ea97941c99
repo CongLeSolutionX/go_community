@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5c5e12b_8db0a26f",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2018-07-21T15:06:40Z",
+      "side": 1,
+      "message": "Is this indentation level mismatch intended?\nhttps://github.com/klauspost/asmfmt might help you to avoid these, if they are unintended.",
+      "revId": "e9afa0ac6093128617da353f6bf054ea97941c99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e678666_8e1ebacd",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2018-07-21T15:06:40Z",
+      "side": 1,
+      "message": "What happens, if len \u003c 7 ? Did you mean JBE here instead?",
+      "revId": "e9afa0ac6093128617da353f6bf054ea97941c99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a4ab812_5930f6b3",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2018-07-21T15:06:40Z",
+      "side": 1,
+      "message": "Indentation?",
+      "revId": "e9afa0ac6093128617da353f6bf054ea97941c99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
