@@ -624,14 +624,13 @@ func unsupportedTypeEncoder(e *encodeState, v reflect.Value, _ encOpts) {
 }
 
 type structEncoder struct {
-	fields    []field
-	fieldEncs []encoderFunc
+	fields []field
 }
 
-func (se *structEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
+func (se structEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 	e.WriteByte('{')
 	first := true
-	for i, f := range se.fields {
+	for _, f := range se.fields {
 		fv := fieldByIndex(v, f.index)
 		if !fv.IsValid() || f.omitEmpty && isEmptyValue(fv) {
 			continue
@@ -647,20 +646,13 @@ func (se *structEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 			e.WriteString(f.nameNonEsc)
 		}
 		opts.quoted = f.quoted
-		se.fieldEncs[i](e, fv, opts)
+		f.encoder(e, fv, opts)
 	}
 	e.WriteByte('}')
 }
 
 func newStructEncoder(t reflect.Type) encoderFunc {
-	fields := cachedTypeFields(t)
-	se := &structEncoder{
-		fields:    fields,
-		fieldEncs: make([]encoderFunc, len(fields)),
-	}
-	for i, f := range fields {
-		se.fieldEncs[i] = typeEncoder(typeByIndex(t, f.index))
-	}
+	se := structEncoder{fields: cachedTypeFields(t)}
 	return se.encode
 }
 
@@ -1055,6 +1047,8 @@ type field struct {
 	typ       reflect.Type
 	omitEmpty bool
 	quoted    bool
+
+	encoder encoderFunc
 }
 
 func fillField(f field) field {
@@ -1254,6 +1248,10 @@ func typeFields(t reflect.Type) []field {
 	fields = out
 	sort.Sort(byIndex(fields))
 
+	for i := range fields {
+		f := &fields[i]
+		f.encoder = typeEncoder(typeByIndex(t, f.index))
+	}
 	return fields
 }
 
