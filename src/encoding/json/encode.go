@@ -600,14 +600,15 @@ func stringEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 		e.WriteString(numStr)
 		return
 	}
+	s := v.String()
 	if opts.quoted {
-		sb, err := Marshal(v.String())
+		sb, err := Marshal(s)
 		if err != nil {
 			e.error(err)
 		}
 		e.string(string(sb), opts.escapeHTML)
 	} else {
-		e.string(v.String(), opts.escapeHTML)
+		e.string(s, opts.escapeHTML)
 	}
 }
 
@@ -652,9 +653,9 @@ FieldLoop:
 			e.WriteByte(',')
 		}
 		if opts.escapeHTML {
-			e.WriteString(f.nameEscHTML)
+			e.Write(f.nameEscHTML)
 		} else {
-			e.WriteString(f.nameNonEsc)
+			e.Write(f.nameNonEsc)
 		}
 		opts.quoted = f.quoted
 		f.encoder(e, fv, opts)
@@ -1029,8 +1030,8 @@ type field struct {
 	nameBytes []byte                 // []byte(name)
 	equalFold func(s, t []byte) bool // bytes.EqualFold or equivalent
 
-	nameNonEsc  string // `"` + name + `":`
-	nameEscHTML string // `"` + HTMLEscape(name) + `":`
+	nameNonEsc  []byte // `"` + name + `":`
+	nameEscHTML []byte // `"` + HTMLEscape(name) + `":`
 
 	tag       bool
 	index     []int
@@ -1077,9 +1078,6 @@ func typeFields(t reflect.Type) []field {
 
 	// Fields found.
 	var fields []field
-
-	// Buffer to run HTMLEscape on field names.
-	var nameEscBuf bytes.Buffer
 
 	for len(next) > 0 {
 		current, next = next, current[:0]
@@ -1159,12 +1157,13 @@ func typeFields(t reflect.Type) []field {
 					field.equalFold = foldFunc(field.nameBytes)
 
 					// Build nameEscHTML and nameNonEsc ahead of time.
-					nameEscBuf.Reset()
-					nameEscBuf.WriteString(`"`)
-					HTMLEscape(&nameEscBuf, field.nameBytes)
-					nameEscBuf.WriteString(`":`)
-					field.nameEscHTML = nameEscBuf.String()
-					field.nameNonEsc = `"` + field.name + `":`
+					var buf bytes.Buffer
+					buf.Reset()
+					buf.WriteString(`"`)
+					HTMLEscape(&buf, field.nameBytes)
+					buf.WriteString(`":`)
+					field.nameEscHTML = buf.Bytes()
+					field.nameNonEsc = []byte(`"` + field.name + `":`)
 
 					fields = append(fields, field)
 					if count[f.typ] > 1 {
