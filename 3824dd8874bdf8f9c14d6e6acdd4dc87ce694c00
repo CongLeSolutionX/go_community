@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dc75422_34eaed3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-22T13:01:35Z",
+      "side": 1,
+      "message": "Pleas add which cpu this was benchmarked on.\nDoes this show AVX2 vs AVX512 performance? If not could we add that comparison please.\n\nSince the use of AVX512 can lower the clock speed of the CPU also for other code\ni think we have to be careful when evaluating the performance wins of AVX512.\nIIRC glibc reverted the avx512 memcpy use because other code wasnt using AVX512 enough\nto make a performance net win. I would like to be careful not bringing down general\ngolang performance since one code path in go uses AVX512.\n\nOne solution could be by making AVX512 default to off in internal/cpu unless explicitly\nrequested to be on by environment options. We could discuss this generally on github how\nto handle AVX512 in go gc.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "3824dd8874bdf8f9c14d6e6acdd4dc87ce694c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9951f39b_5b64bd44",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-22T13:01:35Z",
+      "side": 1,
+      "message": "please use one variable per cpuid feature bit. e.g. HasAVX512F, HasAVX512VL ...\nThen uses of internal/cpu can use a their own package internal variable to specify\ne.g. var useAVX512 \u003d cpu.HasAVX512F \u0026 HasAVX512VL  .... depending on the features used.",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 25,
+        "endChar": 10
+      },
+      "revId": "3824dd8874bdf8f9c14d6e6acdd4dc87ce694c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4348ce2f_72b7f024",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-22T13:01:35Z",
+      "side": 1,
+      "message": "please also add options for each new feature set here.",
+      "range": {
+        "startLine": 42,
+        "startChar": 1,
+        "endLine": 42,
+        "endChar": 20
+      },
+      "revId": "3824dd8874bdf8f9c14d6e6acdd4dc87ce694c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c45dd8e2_61ac48ff",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-22T13:01:35Z",
+      "side": 1,
+      "message": "osSupportsAVX512",
+      "range": {
+        "startLine": 87,
+        "startChar": 1,
+        "endLine": 87,
+        "endChar": 10
+      },
+      "revId": "3824dd8874bdf8f9c14d6e6acdd4dc87ce694c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ce2697e_5d78af12",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-22T13:01:35Z",
+      "side": 1,
+      "message": "please use isSet if need be for multiple bits or define a helper function that tests that a range of bits is set.",
+      "range": {
+        "startLine": 94,
+        "startChar": 20,
+        "endLine": 94,
+        "endChar": 30
+      },
+      "revId": "3824dd8874bdf8f9c14d6e6acdd4dc87ce694c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26229410_5690a040",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-22T13:01:35Z",
+      "side": 1,
+      "message": "as noted earlier please make one variable for each feature set needed e.g. HasAVX512F, AVX512DQ, ... .",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 33
+      },
+      "revId": "3824dd8874bdf8f9c14d6e6acdd4dc87ce694c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
