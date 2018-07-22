@@ -630,9 +630,20 @@ type structEncoder struct {
 func (se structEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 	e.WriteByte('{')
 	first := true
+FieldLoop:
 	for _, f := range se.fields {
-		fv := fieldByIndex(v, f.index)
-		if !fv.IsValid() || f.omitEmpty && isEmptyValue(fv) {
+		fv := v
+		for _, i := range f.index {
+			if fv.Kind() == reflect.Ptr {
+				if fv.IsNil() {
+					continue FieldLoop
+				}
+				fv = fv.Elem()
+			}
+			fv = fv.Field(i)
+		}
+
+		if f.omitEmpty && isEmptyValue(fv) {
 			continue
 		}
 		if first {
@@ -830,19 +841,6 @@ func isValidTag(s string) bool {
 		}
 	}
 	return true
-}
-
-func fieldByIndex(v reflect.Value, index []int) reflect.Value {
-	for _, i := range index {
-		if v.Kind() == reflect.Ptr {
-			if v.IsNil() {
-				return reflect.Value{}
-			}
-			v = v.Elem()
-		}
-		v = v.Field(i)
-	}
-	return v
 }
 
 func typeByIndex(t reflect.Type, index []int) reflect.Type {
