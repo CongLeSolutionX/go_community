@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1c5c441_63af5107",
+        "filename": "src/crypto/cipher/xor.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T05:49:34Z",
+      "side": 1,
+      "message": "This can be:\n\nn :\u003d len(a)\nif len(b) \u003c n {\n   n \u003d len(b)\n}\nif n \u003d\u003d 0 {\n   return 0\n}\nswitch {\ncase runtime.GOOS\u003d\u003d\"amd64\" \u0026 n \u003e\u003d 16 \u0026 cpu.X86.HasSSE2:\n  return xorBytesSSE2(dst, a, b, n)  \ncase supportsUnaligned:\n  return fastXORBytes(dst, a, b, n)\ndefault:\n  // comment ...\n  return safeXORBytes(dst, a, b, n)\n}\n\nThat way we dont need an extra function call indirection and xorBytesNoSIMD.\n\nIf you apply this change and xorBytesSSE2 is then a direct assembly implementation for all cases please rebenchmark n \u003c 16 case. SSE2 might be fast enough for n \u003c 16 too.\nIs there a benchmark that captures the n \u003c 16 case? If not might be good to add one or for whichever n becomes the cut off if any.",
+      "range": {
+        "startLine": 59,
+        "startChar": 1,
+        "endLine": 59,
+        "endChar": 22
+      },
+      "revId": "d076f110e533651fbdd0f63fa065105b4817d8c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cdfef22_0d055c79",
+        "filename": "src/crypto/cipher/xor_amd64.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T05:49:34Z",
+      "side": 1,
+      "message": "i think xorBytesSSE2 would be a better name.",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 12
+      },
+      "revId": "d076f110e533651fbdd0f63fa065105b4817d8c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6ba6ef4_a81b3068",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T05:49:34Z",
+      "side": 1,
+      "message": "I do not think this is needed as it just duplicates the test on amd64. TestXOR will test SSE2 if it is available (which it always is on amd64).",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 1
+      },
+      "revId": "d076f110e533651fbdd0f63fa065105b4817d8c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58be6fd2_6be7fd89",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T05:49:34Z",
+      "side": 1,
+      "message": "please remove the test naming as it is a benchmark.\nYou can use sub benchmarks to benchmark different blog sizes. e.g. 32, 128, 1024, 4096.\nhttps://blog.golang.org/subtests",
+      "range": {
+        "startLine": 48,
+        "startChar": 14,
+        "endLine": 48,
+        "endChar": 18
+      },
+      "revId": "d076f110e533651fbdd0f63fa065105b4817d8c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
