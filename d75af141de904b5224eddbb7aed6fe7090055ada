@@ -210,6 +210,24 @@
       "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58cd1087_833bdfeb",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-07-23T21:51:53Z",
+      "side": 1,
+      "message": "The new wrinkle here is that before a function was inlineable everywhere or nowhere. Now a function can be inlined at some callsites and not others.\n\nThe report from caninl states whether a function can be inlined (as a callee), or if not, why not. This CL does not change this at all.  But that report is callsite-agnostic.\n\nThis CL introduces callsite-dependent inlining.  For instance, cmd/internal/obj/x86.AsmBuf.Put3 is inlineable generally, but it won\u0027t be inlined into cmd/internal/obj/x86.doasm because doasm is too big.\n\nI think once we really get into callsite-dependent inlining decisions, we\u0027ll need to redo inline decision reporting.  But for this CL it seems like overkill; this is just a stopgap for an unusual corner case.\n\nWe do report every actual inlining with -m\u003d2.  That\u0027s enough to test this CL by looking for the absence of those reports.",
+      "parentUuid": "fffda06c_928f7ba9",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
