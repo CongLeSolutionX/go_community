@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "91226642_b19f4975",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-07-23T21:37:09Z",
+      "side": 1,
+      "message": "Sure, lots of them.\n\ncmd/internal/obj/x86/asm6.go:4159:12: didn\u0027t inline (*AsmBuf).Put3\ncmd/internal/obj/x86/asm6.go:4163:12: didn\u0027t inline (*AsmBuf).Put2\ncmd/internal/obj/x86/asm6.go:4186:51: didn\u0027t inline isbadbyte\ncmd/internal/obj/x86/asm6.go:4186:73: didn\u0027t inline isbadbyte\ncmd/internal/obj/x86/asm6.go:4198:13: didn\u0027t inline bytereg\ncmd/internal/obj/x86/asm6.go:4199:13: didn\u0027t inline bytereg\ncmd/internal/obj/x86/asm6.go:4257:12: didn\u0027t inline bytereg\ncmd/internal/obj/x86/asm6.go:4269:12: didn\u0027t inline (*AsmBuf).Put2\ncmd/internal/obj/x86/asm6.go:4297:17: didn\u0027t inline (*AsmBuf).PutInt16\ncmd/internal/obj/x86/asm6.go:4299:17: didn\u0027t inline (*AsmBuf).PutInt32\ncmd/internal/obj/x86/asm6.go:4378:26: didn\u0027t inline regIndex\ncmd/internal/obj/x86/asm6.go:4381:26: didn\u0027t inline newEVEXBits\n... and so on...",
+      "parentUuid": "da65a9da_c8697ed2",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e018310_27a1d607",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-07-23T21:25:12Z",
       "side": 1,
       "message": "Can we create a test from 26546?",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca0b2dae_52efe961",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-07-23T21:37:09Z",
+      "side": 1,
+      "message": "I\u0027m working on this.",
+      "parentUuid": "0e018310_27a1d607",
       "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6349b49c_6d8d8555",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-07-23T21:37:09Z",
+      "side": 1,
+      "message": "I don\u0027t think it is a big deal.  Iterating once over the nodes of the function isn\u0027t a big cost.\nI\u0027m going for simple and obviously correct.",
+      "parentUuid": "3a861c55_8808976d",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02d500c6_7593f274",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "2c1c2591_b0a348d4",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-07-23T21:37:09Z",
+      "side": 1,
+      "message": "No, I just over-added.  Will remove.",
+      "parentUuid": "02d500c6_7593f274",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3afbb7be_4df1ea51",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2018-07-23T21:25:12Z",
       "side": 1,
       "message": "With -m this should probably report that function wasn\u0027t inlined.",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5a11b0b_7a77ad7d",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-07-23T21:37:09Z",
+      "side": 1,
+      "message": "We don\u0027t currently report non-inlinings.",
+      "parentUuid": "3afbb7be_4df1ea51",
       "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
