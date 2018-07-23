@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02d500c6_7593f274",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-07-23T21:16:08Z",
+      "side": 1,
+      "message": "maxCost is not used in this function, inlconv2expr, and inlconv2list. Do we need to add it? Just for consistency?",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
