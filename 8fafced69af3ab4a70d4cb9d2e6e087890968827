@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da449168_c9cf5b8a",
+        "filename": "src/crypto/cipher/xor.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T12:24:57Z",
+      "side": 1,
+      "message": "we could move this length a and b checking to the beginning of the function and remove this from fastXORByte and safeXORBytes by adding a new parameter n.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "8fafced69af3ab4a70d4cb9d2e6e087890968827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e1391fb_35146a7a",
+        "filename": "src/crypto/cipher/xor.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T12:24:57Z",
+      "side": 1,
+      "message": "We could remove the return n from safeXORBytes and fastXORBytes and just put a \"return n\" for all cases at the end of xorBytes and remove the returns before fastXORBytes and safeXORBytes.",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 10
+      },
+      "revId": "8fafced69af3ab4a70d4cb9d2e6e087890968827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "517fa689_8207e6e3",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T12:24:57Z",
+      "side": 1,
+      "message": "We can use something like this (not tested) to not need to hardcode the sizes.\ndata0 :\u003d make([]byte, 1\u003c\u003c16)\ndata1 :\u003d make([]byte, 1\u003c\u003c16)\nfor j :\u003d 1 \u003c\u003c 4; j \u003c\u003d 1\u003c\u003c16; j \u003c\u003c\u003d 4 {\n    b.Run(fmt.Sprintf(\"%d\", j), func(b *testing.B) {\n        s0 \u003d data0[:j]\n        s1 \u003d data1[:j]\n        b.SetBytes(int64(j))\n\tfor i :\u003d 0; i \u003c b.N; i++ {\n\t    xorBytes(dst, s0, s1)\n\t}",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 37
+      },
+      "revId": "8fafced69af3ab4a70d4cb9d2e6e087890968827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
