@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "da65a9da_c8697ed2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-07-23T21:25:12Z",
+      "side": 1,
+      "message": "Are there any functions/callsites that are no longer inlined?",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e018310_27a1d607",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-07-23T21:25:12Z",
+      "side": 1,
+      "message": "Can we create a test from 26546?",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a861c55_8808976d",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-07-23T21:25:12Z",
+      "side": 1,
+      "message": "Does it make sense to change this into e. g. isBigFunction and stop recursion early if we already have inlineBigFunctionNodes nodes?",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02d500c6_7593f274",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 1
@@ -13,6 +64,23 @@
       "writtenOn": "2018-07-23T21:16:08Z",
       "side": 1,
       "message": "maxCost is not used in this function, inlconv2expr, and inlconv2list. Do we need to add it? Just for consistency?",
+      "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3afbb7be_4df1ea51",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-07-23T21:25:12Z",
+      "side": 1,
+      "message": "With -m this should probably report that function wasn\u0027t inlined.",
       "revId": "d75af141de904b5224eddbb7aed6fe7090055ada",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
