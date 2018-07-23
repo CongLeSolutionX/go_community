@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87330347_58e0852b",
+        "filename": "src/crypto/cipher/xor.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T14:08:57Z",
+      "side": 1,
+      "message": "We should add a comment that n needs to be smaller or equal than the length of a and b.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 43
+      },
+      "revId": "2eb8fd14e26eeeaa95e041a96fb36bbd75c974a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56b56712_e382640d",
+        "filename": "src/crypto/cipher/xor.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T14:08:57Z",
+      "side": 1,
+      "message": "We should add a comment that n needs to be smaller or equal than the length of a and b as well as a comment what safeXORBytes does.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 44
+      },
+      "revId": "2eb8fd14e26eeeaa95e041a96fb36bbd75c974a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe55353d_37af4d5f",
+        "filename": "src/crypto/cipher/xor.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T14:08:57Z",
+      "side": 1,
+      "message": "Please add a comment above this function like:\n\n// XORWords XORs multiples of 4 or 8 bytes depending on architecture.\n// The slice arguments a and b are assumed to be of equal length.",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 33
+      },
+      "revId": "2eb8fd14e26eeeaa95e041a96fb36bbd75c974a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42cbb74d_dc6571e8",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T14:08:57Z",
+      "side": 1,
+      "message": "why not move this at the top of loop_1b and remove the -1 in e.g. -1(src0)(len*1)?",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 14
+      },
+      "revId": "2eb8fd14e26eeeaa95e041a96fb36bbd75c974a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89a1ea8f_cb47b690",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 17
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T14:08:57Z",
+      "side": 1,
+      "message": "I dont see this used and i dont think its needed.",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 25
+      },
+      "revId": "2eb8fd14e26eeeaa95e041a96fb36bbd75c974a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2acceb8e_db24c6ff",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 17
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T14:08:57Z",
+      "side": 1,
+      "message": "could just fall through to the next ret?",
+      "range": {
+        "startLine": 65,
+        "startChar": 1,
+        "endLine": 65,
+        "endChar": 4
+      },
+      "revId": "2eb8fd14e26eeeaa95e041a96fb36bbd75c974a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8e6db7f_8ee0679a",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T14:08:57Z",
+      "side": 1,
+      "message": "We could replace this by n :\u003d min(len(p), len(q)) where min is a helper function defined in this file.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 5
+      },
+      "revId": "2eb8fd14e26eeeaa95e041a96fb36bbd75c974a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a9e81ae_7e2bdc95",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-23T14:08:57Z",
+      "side": 1,
+      "message": "i would remove this. safeXORBytes should also works with 0 and this case doesnt seem to happen here.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 5
+      },
+      "revId": "2eb8fd14e26eeeaa95e041a96fb36bbd75c974a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
