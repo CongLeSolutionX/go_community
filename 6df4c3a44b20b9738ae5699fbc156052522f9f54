@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c956196_7430daa3",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2873,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-24T17:31:32Z",
+      "side": 0,
+      "message": "Oh, right, I had missed that setupHTTP2_ServeTLS does this.",
+      "range": {
+        "startLine": 2869,
+        "startChar": 2,
+        "endLine": 2873,
+        "endChar": 2
+      },
+      "revId": "6df4c3a44b20b9738ae5699fbc156052522f9f54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
