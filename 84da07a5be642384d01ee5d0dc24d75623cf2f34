@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "f9b022b7_cac42116",
+        "filename": "src/net/rpc/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-07-24T06:05:58Z",
+      "side": 1,
+      "message": "How about this?\n\nThe read and write halves of the connection are serialized independently, so no interlocking is required. However each half may be accessed concurrently so the implementation of conn should protect against concurrent reads or concurrent writes.\n\nIt\u0027s longer. You could make it a separate paragraph here, and then elsewhere just say,\n\nSee NewClient\u0027s comment for information about concurrent access.",
+      "parentUuid": "77264759_2cd91776",
+      "revId": "84da07a5be642384d01ee5d0dc24d75623cf2f34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0527e8d3_886074f0",
         "filename": "src/net/rpc/server.go",
         "patchSetId": 2
