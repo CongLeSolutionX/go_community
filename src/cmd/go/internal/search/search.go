@@ -85,6 +85,10 @@ func MatchPackages(pattern string) []string {
 				// If the name is cmd, it's the root of the command tree.
 				want = false
 			}
+			if pattern == "all" && strings.HasPrefix(name, "mod/") {
+				// Import paths beginning with "mod/" are reserved for downloaded module source.
+				want = false
+			}
 			if !treeCanMatch(name) {
 				want = false
 			}
@@ -286,6 +290,12 @@ func MatchPattern(pattern string) func(name string) bool {
 	reg := regexp.MustCompile(`^` + re + `$`)
 
 	return func(name string) bool {
+		if strings.HasPrefix(name, "mod/") && !strings.HasPrefix(pattern, "mod/") {
+			// Import paths beginning with "mod/" are reserved for downloaded module
+			// source (https://golang.org/issue/26401), so exclude them from patterns
+			// unless requested explicitly.
+			return false
+		}
 		if strings.Contains(name, vendorChar) {
 			return false
 		}

@@ -1,0 +1,35 @@
+cd golang.org/x/funky/mod
+
+# Check that 'mod' is allowed as a non-top-level path component in GOPATH mode.
+env GO111MODULE=off
+go list ...mod/...
+stdout 'x/funky/mod'
+! stdout '^mod'
+
+[!short] go build all
+[!short] go build ...
+
+
+# 'go get' a package in module mode to pre-populate $GOPATH/src/mod.
+env GO111MODULE=on
+go get golang.org/x/text
+
+
+# The modules cached in $GOPATH/src/mod shouldn't match arbitrary patterns...
+env GO111MODULE=off
+go list ...mod/...
+stdout 'x/funky/mod'
+! stdout '^mod'
+
+[!short] go build all
+[!short] go build ...
+
+# ...but asking for mod/ explicitly should try anyway.
+! go build mod/...
+stderr 'mod/golang.org/x/text'
+
+-- golang.org/x/funky/mod/go.mod --
+module golang.org/x/funky/mod
+
+-- golang.org/x/funky/mod/mod.go --
+package mod

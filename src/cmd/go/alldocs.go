@@ -2293,7 +2293,8 @@
 // internal libraries.
 //
 // Import paths beginning with "cmd/" only match source code in
-// the Go repository.
+// the Go repository. Import paths beginning with "mod/" are reserved
+// for downloaded module source (see 'go help modules').
 //
 // An import path is a pattern if it includes one or more "..." wildcards,
 // each of which can match any string, including the empty string and
