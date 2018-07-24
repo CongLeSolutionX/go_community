@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdfdd62f_cfbe885a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2429,
+      "author": {
+        "id": 7380
+      },
+      "writtenOn": "2018-07-24T02:08:12Z",
+      "side": 1,
+      "message": "error ?",
+      "range": {
+        "startLine": 2429,
+        "startChar": 34,
+        "endLine": 2429,
+        "endChar": 39
+      },
+      "revId": "214f7ec554888042a7a54fdca9cba19aee8ebaf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
