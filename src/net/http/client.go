@@ -656,8 +656,6 @@ func (c *Client) do(req *Request) (retres *Response, reterr error) {
 		if !shouldRedirect {
 			return resp, nil
 		}
-
-		req.closeBody()
 	}
 }
 

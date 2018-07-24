@@ -1390,6 +1390,48 @@ func TestBadResponseAfterReadingBody(t *testing.T) {
 	}
 }
 
+func TestOneCloseWithRedirect(t *testing.T) {
+	defer afterTest(t)
+	cst := newClientServerTest(t, false, HandlerFunc(func(w ResponseWriter, r *Request) {
+		if r.URL.Path == "/" {
+			Redirect(w, r, "/foo", StatusTemporaryRedirect)
+			return
+		}
+		w.Write([]byte("ok"))
+	}))
+	defer cst.close()
+
+	req, err := NewRequest("GET", cst.ts.URL, nil)
+	if err != nil {
+		t.Fatalf("unable to create request: %v", err)
+	}
+
+	closesPtr := new(int64)
+	*closesPtr = 0
+	closesPtrs := []*int64{closesPtr}
+
+	body := "body"
+	req.ContentLength = int64(len(body))
+	req.Body = countCloseReader{closesPtr, strings.NewReader(body)}
+	req.GetBody = func() (io.ReadCloser, error) {
+		newClosesPtr := new(int64)
+		*newClosesPtr = 0
+		closesPtrs = append(closesPtrs, newClosesPtr)
+		return countCloseReader{newClosesPtr, strings.NewReader(body)}, nil
+	}
+
+	res, err := cst.c.Do(req)
+	if err != nil {
+		t.Fatalf("unexpected request err: %v", err)
+	}
+	res.Body.Close()
+	for i, closesPtr := range closesPtrs {
+		if closes := atomic.LoadInt64(closesPtr); closes != 1 {
+			t.Errorf("req body %d got closes = %d; want 1", i, closes)
+		}
+	}
+}
+
 func TestOneCloseOnPartialReqBodyRead(t *testing.T) {
 	defer afterTest(t)
 	for _, doUseH2 := range []bool{false, true} {
