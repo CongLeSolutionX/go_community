@@ -25,9 +25,6 @@ import (
 func Compile(f *Func) {
 	// TODO: debugging - set flags to control verbosity of compiler,
 	// which phases to dump IR before/after, etc.
-	if f.Log() {
-		f.Logf("compiling %s\n", f.Name)
-	}
 
 	// hook to print function & phase if panic happens
 	phaseName := "init"
@@ -42,7 +39,6 @@ func Compile(f *Func) {
 	}()
 
 	// Run all the passes
-	printFunc(f)
 	f.HTMLWriter.WriteFunc("start", "start", f)
 	if BuildDump != "" && BuildDump == f.Name {
 		f.dumpFile("build")
@@ -57,9 +53,6 @@ func Compile(f *Func) {
 		}
 		f.pass = &p
 		phaseName = p.name
-		if f.Log() {
-			f.Logf("  pass %s begin\n", p.name)
-		}
 		// TODO: capture logging during this pass, add it to the HTML
 		var mStart runtime.MemStats
 		if logMemStats || p.mem {
@@ -84,8 +77,6 @@ func Compile(f *Func) {
 				stats = fmt.Sprintf("[%d ns]", time)
 			}
 
-			f.Logf("  pass %s end %s\n", p.name, stats)
-			printFunc(f)
 			f.HTMLWriter.WriteFunc(phaseName, fmt.Sprintf("%s <span class=\"stats\">%s</span>", phaseName, stats), f)
 		}
 		if p.time || p.mem {

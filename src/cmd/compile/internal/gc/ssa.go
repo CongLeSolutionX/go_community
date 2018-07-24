@@ -5035,11 +5035,6 @@ func genssa(f *ssa.Func, pp *Progs) {
 			f.Logf(" %-6s\t%.5d (%s)\t%s\n", s, p.Pc, p.InnermostLineNumber(), p.InstructionString())
 		}
 		if f.HTMLWriter != nil {
-			// LineHist is defunct now - this code won't do
-			// anything.
-			// TODO: fix this (ideally without a global variable)
-			// saved := pp.Text.Ctxt.LineHist.PrintFilenameOnly
-			// pp.Text.Ctxt.LineHist.PrintFilenameOnly = true
 			var buf bytes.Buffer
 			buf.WriteString("<code>")
 			buf.WriteString("<dl class=\"ssa-gen\">")
@@ -5068,7 +5063,6 @@ func genssa(f *ssa.Func, pp *Progs) {
 			buf.WriteString("</dl>")
 			buf.WriteString("</code>")
 			f.HTMLWriter.WriteColumn("genssa", "genssa", "ssa-prog", buf.String())
-			// pp.Text.Ctxt.LineHist.PrintFilenameOnly = saved
 		}
 	}
 
