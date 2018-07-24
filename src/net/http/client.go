@@ -507,11 +507,12 @@ func (c *Client) Do(req *Request) (*Response, error) {
 		redirectMethod string
 		includeBody    bool
 	)
-	uerr := func(err error) error {
-		// the body may have been closed already by c.send()
+	defer func() {
 		if !reqBodyClosed {
 			req.closeBody()
 		}
+	}()
+	uerr := func(err error) error {
 		method := valueOrDefault(reqs[0].Method, "GET")
 		var urlStr string
 		if resp != nil && resp.Request != nil {
@@ -565,6 +566,7 @@ func (c *Client) Do(req *Request) (*Response, error) {
 					return nil, uerr(err)
 				}
 				req.ContentLength = ireq.ContentLength
+				reqBodyClosed = false
 			}
 
 			// Copy original headers before setting the Referer,
@@ -612,9 +614,9 @@ func (c *Client) Do(req *Request) (*Response, error) {
 		reqs = append(reqs, req)
 		var err error
 		var didTimeout func() bool
+		// c.send() always closes req.Body, so we track the body close before send
+		reqBodyClosed = true
 		if resp, didTimeout, err = c.send(req, deadline); err != nil {
-			// c.send() always closes req.Body
-			reqBodyClosed = true
 			if !deadline.IsZero() && didTimeout() {
 				err = &httpError{
 					err:     err.Error() + " (Client.Timeout exceeded while awaiting headers)",
