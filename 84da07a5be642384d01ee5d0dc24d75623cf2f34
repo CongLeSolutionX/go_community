@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "46bbf374_3b29eda9",
+        "filename": "src/net/rpc/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-07-24T07:41:55Z",
+      "side": 1,
+      "message": "Thanks. Done. PTAL",
+      "parentUuid": "f9b022b7_cac42116",
+      "revId": "84da07a5be642384d01ee5d0dc24d75623cf2f34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0527e8d3_886074f0",
         "filename": "src/net/rpc/server.go",
         "patchSetId": 2
