@@ -46,6 +46,23 @@
       "revId": "214f7ec554888042a7a54fdca9cba19aee8ebaf1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d41be356_49c197c4",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2872,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-07-24T03:39:33Z",
+      "side": 1,
+      "message": "I don\u0027t think this is true. That restriction is shouldConfigureHTTP2ForServe, which is not on the setupHTTP2_ServeTLS codepath. And it makes sense, because ServeTLS owns the tls.Listener so why wouldn\u0027t we fix it for the user.",
+      "revId": "214f7ec554888042a7a54fdca9cba19aee8ebaf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
