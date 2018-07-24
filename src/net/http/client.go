@@ -629,8 +629,6 @@ func (c *Client) Do(req *Request) (*Response, error) {
 		if !shouldRedirect {
 			return resp, nil
 		}
-
-		req.closeBody()
 	}
 }
 
