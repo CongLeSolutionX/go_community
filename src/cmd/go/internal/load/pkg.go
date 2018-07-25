@@ -961,6 +961,7 @@ func disallowInternal(srcDir string, p *Package, stk *ImportStack) *Package {
 	if i > 0 {
 		i-- // rewind over slash in ".../internal"
 	}
+	var importer string
 	if p.Module == nil {
 		parent := p.Dir[:i+len(p.Dir)-len(p.ImportPath)]
 
@@ -974,14 +975,17 @@ func disallowInternal(srcDir string, p *Package, stk *ImportStack) *Package {
 		if str.HasFilePathPrefix(filepath.Clean(srcDir), filepath.Clean(parent)) {
 			return p
 		}
+
+		importer = srcDir
 	} else {
 		// p is in a module, so make it available based on the import path instead
 		// of the file path (https://golang.org/issue/23970).
 		parent := p.ImportPath[:i]
-		// TODO(bcmills): In case of replacements, use the module path declared by
-		// the replacement module, not the path seen by the user.
-		importerPath := (*stk)[len(*stk)-2]
-		if strings.HasPrefix(importerPath, parent) {
+		importer = (*stk)[len(*stk)-2]
+		if info := ModPackageModuleInfo(importer); info != nil && strings.HasPrefix(importer, info.Path) && info.Replace != nil {
+			importer = pathpkg.Join(info.Replace.Path, importer[:len(info.Path)])
+		}
+		if strings.HasPrefix(importer, parent) {
 			return p
 		}
 	}
@@ -990,7 +994,7 @@ func disallowInternal(srcDir string, p *Package, stk *ImportStack) *Package {
 	perr := *p
 	perr.Error = &PackageError{
 		ImportStack: stk.Copy(),
-		Err:         "use of internal package " + p.ImportPath + " not allowed",
+		Err:         "use of internal package " + p.ImportPath + " not allowed from " + importer,
 	}
 	perr.Incomplete = true
 	return &perr
