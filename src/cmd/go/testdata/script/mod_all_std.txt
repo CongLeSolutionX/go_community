@@ -1,0 +1,54 @@
+cd fmat
+
+# In GOPATH mode, 'go list' must include the standard library.
+
+env GO111MODULE=off
+
+go list all
+stdout fmat
+stdout fmt
+
+go list ...
+stdout fmat
+stdout fmt
+
+go list fm...
+stdout fmat
+stdout fmt
+
+# In module mode, 'go list' must not include the standard library.
+# (See https://golang.org/issue/26317.)
+
+env GO111MODULE=on
+
+go list all
+stdout fmat.golang.org
+! stdout fmt
+
+go test all
+stdout fmat.golang.org
+! stdout fmt
+
+# TODO(bcmills): should these match the standard "fmt" package?
+
+go list ...
+stdout fmat.golang.org
+! stdout fmt
+
+go list fm...
+stdout fmat.golang.org
+! stdout fmt
+
+
+-- fmat/go.mod --
+module fmat.golang.org
+-- fmat/fmat.go --
+package fmat
+
+import (
+	"fmt"
+)
+
+func Sprint(args ...interface{}) string {
+	return fmt.Sprint(args...)
+}
