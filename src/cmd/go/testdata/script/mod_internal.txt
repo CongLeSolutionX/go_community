@@ -6,11 +6,15 @@ go build .
 
 # ...but that should not leak into other modules.
 ! go build ./baddep
-stderr 'use of internal package'
+stderr 'use of internal package golang.org/x/.* not allowed from golang.org/notx/useinternal$'
 
 # Internal packages in the standard library should not leak into modules.
 ! go build ./fromstd
-stderr 'use of internal package'
+stderr 'use of internal package internal/testenv not allowed from .*[/\\]src[/\\]fromstd$'
+
+# However, modules used as replacements should still be able to access their own data.
+go mod -replace golang.org/notx/useinternal=golang.org/x/useinternal@v0.1.0
+go build ./baddep
 
 
 # Dependencies should be able to use their own internal modules...
@@ -20,11 +24,11 @@ go build ./throughdep
 
 # ... but other modules should not, even if they have transitive dependencies.
 ! go build .
-stderr 'use of internal package'
+stderr 'use of internal package golang.org/x/.* not allowed from golang.org/notx$'
 
 # And transitive dependencies still should not leak.
 ! go build ./baddep
-stderr 'use of internal package'
+stderr 'use of internal package golang.org/x/.* not allowed from golang.org/notx/useinternal$'
 
 
 -- useinternal.go --
