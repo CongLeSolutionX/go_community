@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d04e7c9_d21d03de",
+        "filename": "src/crypto/cipher/xor.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-07-25T22:28:13Z",
+      "side": 1,
+      "message": "Should I remove \u0026\u0026 cpu.X86.HasSSE2? Because amd64 must has it",
+      "revId": "1cd254aa76885261db0f947b1eb6db14b960a44b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
