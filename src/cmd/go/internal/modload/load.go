@@ -339,7 +339,8 @@ type loader struct {
 	pkgCache *par.Cache // map from string to *loadPkg
 
 	// computed at end of iterations
-	direct map[string]bool // imported directly by main module
+	direct    map[string]bool   // imported directly by main module
+	goVersion map[string]string // go version recorded in each module
 }
 
 func newLoader() *loader {
@@ -380,7 +381,8 @@ var errMissing = errors.New("cannot find package")
 // which must call add(path) with the import path of each root package.
 func (ld *loader) load(roots func() []string) {
 	var err error
-	buildList, err = mvs.BuildList(Target, Reqs())
+	reqs := Reqs()
+	buildList, err = mvs.BuildList(Target, reqs)
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
@@ -426,7 +428,8 @@ func (ld *loader) load(roots func() []string) {
 		}
 
 		// Recompute buildList with all our additions.
-		buildList, err = mvs.BuildList(Target, Reqs())
+		reqs = Reqs()
+		buildList, err = mvs.BuildList(Target, reqs)
 		if err != nil {
 			base.Fatalf("go: %v", err)
 		}
@@ -443,6 +446,13 @@ func (ld *loader) load(roots func() []string) {
 				}
 			}
 		}
+	}
+
+	// Add Go versions, computed during walk.
+	ld.goVersion = make(map[string]string)
+	for _, m := range buildList {
+		v, _ := reqs.(*mvsReqs).versions.Load(m)
+		ld.goVersion[m.Path], _ = v.(string)
 	}
 
 	// Mix in direct markings (really, lack of indirect markings)
@@ -661,6 +671,7 @@ func Replacement(mod module.Version) module.Version {
 type mvsReqs struct {
 	buildList []module.Version
 	cache     par.Cache
+	versions  sync.Map
 }
 
 // Reqs returns the current module requirement graph.
@@ -736,11 +747,21 @@ func readVendorList() {
 	})
 }
 
+func (r *mvsReqs) modFileToList(f *modfile.File) []module.Version {
+	var list []module.Version
+	for _, r := range f.Require {
+		list = append(list, r.Mod)
+	}
+	return list
+}
+
 func (r *mvsReqs) required(mod module.Version) ([]module.Version, error) {
 	if mod == Target {
+		if modFile.Go != nil {
+			r.versions.LoadOrStore(mod, modFile.Go.Version)
+		}
 		var list []module.Version
-		list = append(list, r.buildList[1:]...)
-		return list, nil
+		return append(list, r.buildList[1:]...), nil
 	}
 
 	if cfg.BuildGetmode == "vendor" {
@@ -769,11 +790,10 @@ func (r *mvsReqs) required(mod module.Version) ([]module.Version, error) {
 				base.Errorf("go: parsing %s: %v", base.ShortPath(gomod), err)
 				return nil, ErrRequire
 			}
-			var list []module.Version
-			for _, r := range f.Require {
-				list = append(list, r.Mod)
+			if f.Go != nil {
+				r.versions.LoadOrStore(mod, f.Go.Version)
 			}
-			return list, nil
+			return r.modFileToList(f), nil
 		}
 		mod = repl
 	}
@@ -806,12 +826,11 @@ func (r *mvsReqs) required(mod module.Version) ([]module.Version, error) {
 		base.Errorf("go: %s@%s: parsing go.mod: unexpected module path %q", mod.Path, mod.Version, mpath)
 		return nil, ErrRequire
 	}
-
-	var list []module.Version
-	for _, req := range f.Require {
-		list = append(list, req.Mod)
+	if f.Go != nil {
+		r.versions.LoadOrStore(mod, f.Go.Version)
 	}
-	return list, nil
+
+	return r.modFileToList(f), nil
 }
 
 // ErrRequire is the sentinel error returned when Require encounters problems.
