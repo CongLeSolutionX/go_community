@@ -12,6 +12,10 @@ stderr 'use of internal package'
 ! go build ./fromstd
 stderr 'use of internal package'
 
+# However, modules used as replacements should still be able to access their own data.
+go mod -replace golang.org/notx/useinternal=golang.org/x/useinternal@v0.1.0
+go build ./baddep
+
 
 # Dependencies should be able to use their own internal modules...
 rm go.mod
