@@ -128,7 +128,10 @@ func ImportPaths(args []string) []string {
 		have[path] = true
 		if path == "all" {
 			for _, pkg := range loaded.pkgs {
-				if !have[pkg.path] {
+				// The "all" pattern must not include the standard library.
+				// See https://golang.org/issue/26317.
+				isStd := pkg.mod.Path == ""
+				if !isStd && !have[pkg.path] {
 					have[pkg.path] = true
 					final = append(final, pkg.path)
 				}
