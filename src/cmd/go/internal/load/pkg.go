@@ -961,6 +961,8 @@ func disallowInternal(srcDir string, p *Package, stk *ImportStack) *Package {
 	if i > 0 {
 		i-- // rewind over slash in ".../internal"
 	}
+
+	var where string
 	if p.Module == nil {
 		parent := p.Dir[:i+len(p.Dir)-len(p.ImportPath)]
 
@@ -978,19 +980,18 @@ func disallowInternal(srcDir string, p *Package, stk *ImportStack) *Package {
 		// p is in a module, so make it available based on the import path instead
 		// of the file path (https://golang.org/issue/23970).
 		parent := p.ImportPath[:i]
-		// TODO(bcmills): In case of replacements, use the module path declared by
-		// the replacement module, not the path seen by the user.
-		importerPath := (*stk)[len(*stk)-2]
-		if strings.HasPrefix(importerPath, parent) {
+		importer := (*stk)[len(*stk)-2]
+		if str.HasPathPrefix(importer, parent) {
 			return p
 		}
+		where = " in " + importer
 	}
 
 	// Internal is present, and srcDir is outside parent's tree. Not allowed.
 	perr := *p
 	perr.Error = &PackageError{
 		ImportStack: stk.Copy(),
-		Err:         "use of internal package " + p.ImportPath + " not allowed",
+		Err:         "use of internal package " + p.ImportPath + " not allowed" + where,
 	}
 	perr.Incomplete = true
 	return &perr
@@ -1025,6 +1026,22 @@ func disallowVendor(srcDir, path string, p *Package, stk *ImportStack) *Package 
 	// import. Anything listed on the command line is fine.
 	if len(*stk) == 1 {
 		return p
+	}
+
+	if ModPackageModuleInfo != nil && p.Module == nil {
+		// Modules cannot import packages vendored by the standard library.
+		importer := (*stk)[len(*stk)-2]
+		if mod := ModPackageModuleInfo(importer); mod != nil {
+			if _, ok := FindVendor(p.Dir); ok {
+				perr := *p
+				perr.Error = &PackageError{
+					ImportStack: stk.Copy(),
+					Err:         "use of vendored package " + path + " not allowed",
+				}
+				perr.Incomplete = true
+				return &perr
+			}
+		}
 	}
 
 	if perr := disallowVendorVisibility(srcDir, p, stk); perr != p {
