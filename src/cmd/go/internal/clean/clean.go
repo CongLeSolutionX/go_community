@@ -17,7 +17,6 @@ import (
 	"cmd/go/internal/cache"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/load"
-	"cmd/go/internal/modfetch"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/work"
 )
@@ -153,10 +152,12 @@ func runClean(cmd *base.Command, args []string) {
 	}
 
 	if cleanModcache {
-		if modfetch.PkgMod == "" {
-			base.Fatalf("go clean -modcache: no module cache")
+		list := filepath.SplitList(cfg.BuildContext.GOPATH)
+		if len(list) == 0 || list[0] == "" {
+			base.Fatalf("missing $GOPATH")
 		}
-		if err := removeAll(modfetch.PkgMod); err != nil {
+		pkgMod := filepath.Join(list[0], "pkg/mod")
+		if err := removeAll(pkgMod); err != nil {
 			base.Errorf("go clean -modcache: %v", err)
 		}
 	}
