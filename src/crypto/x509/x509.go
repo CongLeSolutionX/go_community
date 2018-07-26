@@ -7,6 +7,8 @@
 // On UNIX systems the environment variables SSL_CERT_FILE and SSL_CERT_DIR
 // can be used to override the system default locations for the SSL certificate
 // file and SSL certificate files directory, respectively.
+//
+// This package only attempts to implement support for the Web PKI.
 package x509
 
 import (
@@ -2587,7 +2589,7 @@ func ParseCertificateRequest(asn1Data []byte) (*CertificateRequest, error) {
 
 func parseCertificateRequest(in *certificateRequest) (*CertificateRequest, error) {
 	out := &CertificateRequest{
-		Raw:                      in.Raw,
+		Raw: in.Raw,
 		RawTBSCertificateRequest: in.TBSCSR.Raw,
 		RawSubjectPublicKeyInfo:  in.TBSCSR.PublicKey.Raw,
 		RawSubject:               in.TBSCSR.Subject.FullBytes,
