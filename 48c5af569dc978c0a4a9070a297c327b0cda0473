@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f091f988_e7991b5e",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-07-26T09:34:26Z",
+      "side": 1,
+      "message": "Maybe\n\ns/output parameter/result/\n\nbecause Go functions do not have output parameters - they have results.",
+      "range": {
+        "startLine": 49,
+        "startChar": 49,
+        "endLine": 49,
+        "endChar": 65
+      },
+      "revId": "48c5af569dc978c0a4a9070a297c327b0cda0473",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47884fcb_2aacd19e",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-07-26T09:34:26Z",
+      "side": 1,
+      "message": "Same\n\ns/output parameter/result/",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 42
+      },
+      "revId": "48c5af569dc978c0a4a9070a297c327b0cda0473",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b182c6d_d8e5e4c5",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-07-26T09:34:26Z",
+      "side": 1,
+      "message": "Similarly\n\ns/input //",
+      "range": {
+        "startLine": 58,
+        "startChar": 27,
+        "endLine": 58,
+        "endChar": 33
+      },
+      "revId": "48c5af569dc978c0a4a9070a297c327b0cda0473",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9991598d_005d64cf",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-07-26T09:34:26Z",
+      "side": 1,
+      "message": "Maybe\n\ns/more/larger/\n\nto correct English.",
+      "range": {
+        "startLine": 58,
+        "startChar": 51,
+        "endLine": 58,
+        "endChar": 56
+      },
+      "revId": "48c5af569dc978c0a4a9070a297c327b0cda0473",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f619de0a_3d758d6f",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-07-26T09:34:26Z",
+      "side": 1,
+      "message": "s/any arg/arguments/\n\nOtherwise it is not English.",
+      "range": {
+        "startLine": 125,
+        "startChar": 102,
+        "endLine": 125,
+        "endChar": 109
+      },
+      "revId": "48c5af569dc978c0a4a9070a297c327b0cda0473",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cba8e58_e7d84f3b",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-07-26T09:34:26Z",
+      "side": 1,
+      "message": "Same\n\ns/any arg/arguments/",
+      "range": {
+        "startLine": 132,
+        "startChar": 102,
+        "endLine": 132,
+        "endChar": 109
+      },
+      "revId": "48c5af569dc978c0a4a9070a297c327b0cda0473",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
