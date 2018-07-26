@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe336e29_4fccd74d",
+        "filename": "src/cmd/go/internal/clean/clean.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-26T19:57:37Z",
+      "side": 1,
+      "message": "(nit) s/SrcMod/srcMod/g",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 149,
+        "endChar": 8
+      },
+      "revId": "90fccdf8716e1c270118dba2d5a07d098698c3a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e0527a5_66a19914",
+        "filename": "src/cmd/go/internal/clean/clean.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-26T19:57:37Z",
+      "side": 1,
+      "message": "(nit)\nThis function seems a little clearer inlined into the call site:\n\nif cleanModcache {\n\tlist :\u003d filepath.SplitList(cfg.BuildContext.GOPATH)\n\tif len(list) \u003d\u003d 0 || list[0] \u003d\u003d \"\" {\n\t\tbase.Fatalf([…])\n\t}\n\tsrcMod :\u003d filepath.Join(list[0], \"src/mod\")\n\t[…]\n}\n\n\nThat way, the conditions that lead to the base.Fatalf are more locally obvious.",
+      "revId": "90fccdf8716e1c270118dba2d5a07d098698c3a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
