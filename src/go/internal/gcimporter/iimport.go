@@ -61,7 +61,7 @@ const (
 // If the export data version is not recognized or the format is otherwise
 // compromised, an error is returned.
 func iImportData(fset *token.FileSet, imports map[string]*types.Package, data []byte, path string) (_ int, pkg *types.Package, err error) {
-	const currentVersion = 0
+	const currentVersion = 1
 	version := -1
 	defer func() {
 		if e := recover(); e != nil {
