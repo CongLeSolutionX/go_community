@@ -214,7 +214,8 @@ import (
 
 // Current indexed export format version. Increase with each format change.
 // 0: Go1.11 encoding
-const iexportVersion = 0
+// 1: Go1.12 save Func.Endlineno, see #25904
+const iexportVersion = 1
 
 // predeclReserved is the number of type offsets reserved for types
 // implicitly declared in the universe block.
@@ -955,6 +956,15 @@ func (w *exportWriter) funcExt(n *Node) {
 	} else {
 		w.uint64(0)
 	}
+
+	// End lineno.
+	var l src.XPos
+	if n.Name.Defn != nil {
+		l = n.Name.Defn.Func.Endlineno
+	} else {
+		l = n.Func.Endlineno
+	}
+	w.pos(l)
 }
 
 func (w *exportWriter) methExt(m *types.Field) {

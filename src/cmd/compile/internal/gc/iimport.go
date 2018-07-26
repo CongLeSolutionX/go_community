@@ -680,6 +680,8 @@ func (r *importReader) funcExt(n *Node) {
 			Cost: int32(u - 1),
 		}
 	}
+
+	n.Func.Endlineno = r.pos()
 }
 
 func (r *importReader) methExt(m *types.Field) {
