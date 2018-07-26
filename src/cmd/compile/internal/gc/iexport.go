@@ -955,6 +955,15 @@ func (w *exportWriter) funcExt(n *Node) {
 	} else {
 		w.uint64(0)
 	}
+
+	// End lineno.
+	var l src.XPos
+	if n.Name.Defn != nil {
+		l = n.Name.Defn.Func.Endlineno
+	} else {
+		l = n.Func.Endlineno
+	}
+	w.pos(l)
 }
 
 func (w *exportWriter) methExt(m *types.Field) {
