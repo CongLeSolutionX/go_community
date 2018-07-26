@@ -484,6 +484,10 @@ type Func struct {
 
 	Inl *Inline
 
+	// DebugInlined contains all inlined functions into this function.
+	// Used only for the function specified by the -ssadump option.
+	DebugInlined []*Node
+
 	Label int32 // largest auto-generated label in this function
 
 	Endlineno src.XPos
