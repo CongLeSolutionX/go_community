@@ -26,3 +26,7 @@ package test
 type BlankField struct {
 	_ int
 }
+
+// Format 1i exported the Func.Endlineno field.
+func ExportEndlineno() {
+}
