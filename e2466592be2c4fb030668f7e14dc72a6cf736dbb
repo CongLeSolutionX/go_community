@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb3ac2df_a7825844",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-26T18:02:34Z",
+      "side": 1,
+      "message": "This could be more succinct. E.g., \"compileCallback: callback must have type func(...) uintptr\"\n\nI worry that saying \"args\" for the arguments makes it look like it has to be a single argument. \"...\" could be confused for a variadic function, but I think is clearer on balance.",
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6763953f_6c8ec3ec",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-26T18:02:34Z",
+      "side": 1,
+      "message": "I like that your first message mentions a specific form of type for the function. That says what the problem is specifically and succinctly and guides the developer toward a solution. The fact that there are three cases here seems like just an implementation artifact. I suggest just using the same message for all three cases.",
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "567be403_b7e18bc0",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-26T18:02:34Z",
+      "side": 1,
+      "message": "Remove the hyphen.",
+      "range": {
+        "startLine": 125,
+        "startChar": 60,
+        "endLine": 125,
+        "endChar": 61
+      },
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ff91477_e14aa8d9",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-26T18:02:34Z",
+      "side": 1,
+      "message": "The body isn\u0027t part of a function\u0027s signature, so I would just remove the \"{ ... }\".",
+      "range": {
+        "startLine": 125,
+        "startChar": 80,
+        "endLine": 125,
+        "endChar": 88
+      },
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "517675f3_7ca93e6e",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-26T18:02:34Z",
+      "side": 1,
+      "message": "Same thought about using \"args\" vs something like \"...\"",
+      "range": {
+        "startLine": 125,
+        "startChar": 67,
+        "endLine": 125,
+        "endChar": 71
+      },
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64cfb107_12424827",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-07-26T18:02:34Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
