@@ -952,6 +952,13 @@ func (w *exportWriter) funcExt(n *Node) {
 		if n.Func.ExportInline() {
 			w.p.doInline(n)
 		}
+
+		// Endlineno for inlined function.
+		if n.Name.Defn != nil {
+			w.pos(n.Name.Defn.Func.Endlineno)
+		} else {
+			w.pos(n.Func.Endlineno)
+		}
 	} else {
 		w.uint64(0)
 	}
