@@ -131,6 +131,9 @@ func main() {
 	case "mod":
 		// Skip modload.Init (which may insist on go.mod existing)
 		// so that go mod -init has a chance to write the file.
+	case "clean":
+		// Skip modload.Init so that go clean -modcache can operate
+		// outside a module.
 	case "version":
 		// Skip modload.Init so that users can report bugs against
 		// go mod -init.

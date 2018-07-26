@@ -17,6 +17,14 @@ exists -readonly $GOPATH/src/mod/rsc.io/quote@v1.5.2/buggy
 go clean -modcache
 ! exists $GOPATH/src/mod/rsc.io/quote@v1.5.2
 
+# go clean -modcache outside a module
+go list -f {{.Dir}} rsc.io/quote
+mkdir $WORK/outside
+cd $WORK/outside
+go clean -modcache
+! exists $GOPATH/src/mod/rsc.io/quote@v1.5.2
+cd $WORK/gopath/src
+
 # list {{.Dir}} shows replaced directories
 cp go.mod2 go.mod
 go list -f {{.Dir}} rsc.io/quote
