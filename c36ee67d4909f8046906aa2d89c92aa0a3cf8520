@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e567dad_9e4f071d",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-26T22:34:36Z",
+      "side": 1,
+      "message": "merge these lines",
+      "range": {
+        "startLine": 529,
+        "startChar": 0,
+        "endLine": 531,
+        "endChar": 0
+      },
+      "revId": "c36ee67d4909f8046906aa2d89c92aa0a3cf8520",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
