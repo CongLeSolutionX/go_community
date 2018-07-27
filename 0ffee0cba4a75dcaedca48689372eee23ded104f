@@ -123,6 +123,24 @@
       "revId": "0ffee0cba4a75dcaedca48689372eee23ded104f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c075a1c_22c0abf1",
+        "filename": "src/runtime/vlop_arm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-27T08:19:45Z",
+      "side": 1,
+      "message": "Or this might be due to arm not supporting and addressing mode with MOVBU that would be able to get the value (or it has not been implemented). Using e.g. internal/cpu·ARM+arm_HasIDIVA(SB) in internal/cpu in amd64 assembly compiles for me.",
+      "parentUuid": "ffd2f310_1bf35aa1",
+      "revId": "0ffee0cba4a75dcaedca48689372eee23ded104f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
