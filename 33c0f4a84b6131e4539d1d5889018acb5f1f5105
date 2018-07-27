@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11aa989b_315913a4",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-27T04:28:24Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right.  Brad?",
+      "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2e9f773_7b5d0e8f",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-27T04:28:24Z",
+      "side": 1,
+      "message": "Carl is a Googler.  Googlers probably shouldn\u0027t show up separately in AUTHORS.",
+      "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1506710a_b9ab3c1d",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-27T04:28:24Z",
+      "side": 1,
+      "message": "This does not look like a useful e-mail address; do we have anything better?",
+      "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fa640a5_c7a0c2e0",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-27T04:28:24Z",
+      "side": 1,
+      "message": "Another Googler.  I\u0027m sure there are others that I don\u0027t recognize.",
+      "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
