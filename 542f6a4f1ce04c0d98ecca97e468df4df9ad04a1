@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be2ef61_62b20217",
+        "filename": "src/crypto/cipher/xor.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-07-27T16:21:25Z",
+      "side": 1,
+      "message": "I\u0027m not sure about keeping 3 xor files, maybe it is better to have just xor_amd64 and xor_generic?",
+      "revId": "542f6a4f1ce04c0d98ecca97e468df4df9ad04a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4133fb40_5237f777",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 27
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-07-27T16:21:25Z",
+      "side": 1,
+      "message": "You need to use same names as in function prototype, so a+8...",
+      "revId": "542f6a4f1ce04c0d98ecca97e468df4df9ad04a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ddb5b83_780f1e60",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 27
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-07-27T16:21:25Z",
+      "side": 1,
+      "message": "If you use AX/DI, instead of R8+ you can save a few bytes of codesize :)",
+      "revId": "542f6a4f1ce04c0d98ecca97e468df4df9ad04a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "340f63eb_b5f890a2",
+        "filename": "src/crypto/cipher/xor_other.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-07-27T16:21:25Z",
+      "side": 1,
+      "message": "Convention is to call files like this *_generic.go",
+      "revId": "542f6a4f1ce04c0d98ecca97e468df4df9ad04a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
