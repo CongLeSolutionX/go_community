@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "75727895_50c8c51d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-07-27T08:55:27Z",
+      "side": 1,
+      "message": "Still not lowercase; see https://golang.org/doc/contribute.html#commit_messages",
+      "parentUuid": "d1fcbf9b_08932848",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "a9831b7169c205e7fda260888dd6b894480313ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b9ba5c2_5508eb6e",
         "filename": "src/internal/cpu/cpu_arm.go",
         "patchSetId": 1
