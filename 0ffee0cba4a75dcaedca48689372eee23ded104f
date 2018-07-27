@@ -105,6 +105,24 @@
       "revId": "0ffee0cba4a75dcaedca48689372eee23ded104f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fede0091_a4864c37",
+        "filename": "src/runtime/vlop_arm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2018-07-27T08:15:33Z",
+      "side": 1,
+      "message": "I only based it off of the comment listed here https://github.com/golang/go/blob/6b89194c28e6c4a26b8d917a8c3e158a7eb0c169/src/cmd/dist/build.go#L803. But for a runtime function, if this doesn\u0027t work, it might be a bug in the ARM assembler.",
+      "parentUuid": "ffd2f310_1bf35aa1",
+      "revId": "0ffee0cba4a75dcaedca48689372eee23ded104f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
