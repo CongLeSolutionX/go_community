@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "cf6baf63_42970180",
+        "filename": "src/internal/cpu/cpu_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2018-07-27T17:35:44Z",
+      "side": 1,
+      "message": "Currently, I\u0027m focused on implementing FMA, so the following will do:\n\n     hwcap_NEON     \u003d (1 \u003c\u003c 12)\n     hwcap_VFPv4    \u003d (1 \u003c\u003c 16)\n     hwcap_VFPD32   \u003d (1 \u003c\u003c 19)\n\nI see your point that we can add the others as implementations demand them.",
+      "parentUuid": "c5f07f11_923cee34",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "1b877f8ad5acd967ad81595b55029212eb8b539c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "15dfb2f5_089bdff9",
         "filename": "src/runtime/os_freebsd_arm.go",
         "patchSetId": 2
