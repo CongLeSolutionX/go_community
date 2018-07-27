@@ -95,6 +95,16 @@ type arm64 struct {
 	_           [CacheLineSize]byte
 }
 
+var ARM arm
+
+type arm struct {
+	_         [CacheLineSize]byte
+	HasNEON   bool
+	HasVFPv4  bool
+	HasVFPD32 bool
+	_         [CacheLineSize]byte
+}
+
 var S390X s390x
 
 type s390x struct {

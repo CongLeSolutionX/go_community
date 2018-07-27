@@ -5,3 +5,32 @@
 package cpu
 
 const CacheLineSize = 32
+
+// arm doesn't have a 'cpuid' equivalent, so we rely on HWCAP.
+// This are linknamed in both runtime/os_linux_arm.go and
+// runtime/os_freebsd.go, and is initialized by archauxv().
+var hwcap uint
+
+// HWCAP bits. These are exposed by the kernel.
+const (
+	hwcap_NEON   = (1 << 12)
+	hwcap_VFPv4  = (1 << 16)
+	hwcap_VFPD32 = (1 << 19)
+)
+
+func doinit() {
+	options = []option{
+		{"neon", &ARM.HasNEON},
+		{"vfpv4", &ARM.HasVFPv4},
+		{"vfpd32", &ARM.HasVFPD32},
+	}
+
+	// HWCAP feature bits
+	ARM.HasNEON = isSet(hwcap, hwcap_NEON)
+	ARM.HasVFPv4 = isSet(hwcap, hwcap_VFPv4)
+	ARM.HasVFPD32 = isSet(hwcap, hwcap_VFPD32)
+}
+
+func isSet(hwc uint, value uint) bool {
+	return hwc&value != 0
+}
