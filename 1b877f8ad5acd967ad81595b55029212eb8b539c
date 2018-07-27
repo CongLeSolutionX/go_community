@@ -70,6 +70,29 @@
       "revId": "1b877f8ad5acd967ad81595b55029212eb8b539c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15dfb2f5_089bdff9",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-27T10:29:16Z",
+      "side": 1,
+      "message": "I dont think this will work as checkgoarm will run before cpuinit.\n\nCan we remove the harddiv change parts from this CL and instead submit the version from https://go-review.googlesource.com/c/go/+/114826 that has been tested beforehand instead?\n\nYou can add a\nDO NOT SUBMIT\n- waiting on https://go-review.googlesource.com/c/go/+/114826 to be submitted first\n\nin the commit message than we can later add the new tests from this cl on top of cl/114826 after the runtime support has been added.",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 32
+      },
+      "revId": "1b877f8ad5acd967ad81595b55029212eb8b539c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
