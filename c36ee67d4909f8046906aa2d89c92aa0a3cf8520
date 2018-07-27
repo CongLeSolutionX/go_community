@@ -22,6 +22,30 @@
       "revId": "c36ee67d4909f8046906aa2d89c92aa0a3cf8520",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f4d9314_ac3c6972",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-07-27T02:14:40Z",
+      "side": 1,
+      "message": "Done. While doing it, I caught a bug where we were skipping entries based on the name being in CONTRIBUTORS, even if they were now under a different CLA, for which the AUTHORS line is missing.\n\nSo there are now a few new AUTHORS lines.",
+      "parentUuid": "6e567dad_9e4f071d",
+      "range": {
+        "startLine": 529,
+        "startChar": 0,
+        "endLine": 531,
+        "endChar": 0
+      },
+      "revId": "c36ee67d4909f8046906aa2d89c92aa0a3cf8520",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
