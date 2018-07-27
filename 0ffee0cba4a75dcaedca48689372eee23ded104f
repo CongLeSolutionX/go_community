@@ -69,6 +69,24 @@
       "revId": "0ffee0cba4a75dcaedca48689372eee23ded104f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e814a6b_f29c2fb5",
+        "filename": "src/runtime/vlop_arm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2018-07-27T07:49:39Z",
+      "side": 1,
+      "message": "I was hoping to find out if there was such a mechanism during review :) When trying to test, I got\n\n    ../src/runtime/vlop_arm.s:47: expected \u0027(\u0027, found /\n    asm: assembly of ../src/runtime/vlop_arm.s failed\n\nsrc/internal/bytealg manages to do it, but I think this is with the help of the compiler. https://github.com/golang/go/blob/bd98a81dc27a740f4c4192cc8799884da62c4bad/src/internal/bytealg/count_amd64.s#L9",
+      "parentUuid": "71dff7a2_de7196fd",
+      "revId": "0ffee0cba4a75dcaedca48689372eee23ded104f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
