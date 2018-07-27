@@ -87,6 +87,24 @@
       "revId": "0ffee0cba4a75dcaedca48689372eee23ded104f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffd2f310_1bf35aa1",
+        "filename": "src/runtime/vlop_arm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-27T08:04:02Z",
+      "side": 1,
+      "message": "I dont think there is any special support for bytealg. (I havent checked)\nSo it should work. Maybe this is a bug in the arm assembler? I would expect this to work elsewhere if it does in bytealg for x86.",
+      "parentUuid": "7e814a6b_f29c2fb5",
+      "revId": "0ffee0cba4a75dcaedca48689372eee23ded104f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
