@@ -22,6 +22,30 @@
       "revId": "1b877f8ad5acd967ad81595b55029212eb8b539c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d417094b_accbd2fd",
+        "filename": "src/internal/cpu/cpu_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2018-07-27T09:56:17Z",
+      "side": 1,
+      "message": "A good set would be\n\n     hwcap_VFP      \u003d (1 \u003c\u003c 6)\n     hwcap_NEON     \u003d (1 \u003c\u003c 12)\n     hwcap_VFPv3    \u003d (1 \u003c\u003c 13)\n     hwcap_VFPv3D16 \u003d (1 \u003c\u003c 14)\n     hwcap_TLS      \u003d (1 \u003c\u003c 15)\n     hwcap_VFPv4    \u003d (1 \u003c\u003c 16)\n     hwcap_VFPD32   \u003d (1 \u003c\u003c 19)\n     hwcap2_AES     \u003d (1 \u003c\u003c 0)\n     hwcap2_PMULL   \u003d (1 \u003c\u003c 1)\n     hwcap2_SHA1    \u003d (1 \u003c\u003c 2)\n     hwcap2_SHA2    \u003d (1 \u003c\u003c 3)\n     hwcap2_CRC32   \u003d (1 \u003c\u003c 4)\n\n- Most of these are for detecting VFP variants. These are needed by runtime.checkgoarm as well as the FMA intrinsic.\n- #7300 will include NEON instructions in the assembler. #9005 confirms that detecting support for it will make crypto optimizations possible.\n- #24793 wants to use a register for TLS.\n- The last four are in case ARMv8 crypto extensions are enabled. The HWCAP bits are for ARM, but it\u0027s unclear if it\u0027s possible for an ARMv7 cpu and an ARMv8 crypto core to simultaneously exist.",
+      "parentUuid": "2edcd6b0_75536f99",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "1b877f8ad5acd967ad81595b55029212eb8b539c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
