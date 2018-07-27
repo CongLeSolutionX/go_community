@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8538ef11_eb0e5c21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-07-27T07:48:32Z",
+      "side": 1,
+      "message": "Should start with lowercase verb.\nAlso, could it be more explicit?  `...: expose ARM feature flags",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "a9831b7169c205e7fda260888dd6b894480313ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b9ba5c2_5508eb6e",
         "filename": "src/internal/cpu/cpu_arm.go",
         "patchSetId": 1
@@ -42,6 +65,29 @@
         "startChar": 1,
         "endLine": 17,
         "endChar": 26
+      },
+      "revId": "a9831b7169c205e7fda260888dd6b894480313ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66a39cc0_9430b9cc",
+        "filename": "src/internal/cpu/cpu_arm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-07-27T07:48:32Z",
+      "side": 1,
+      "message": "Is it normal for CPU flags to deviate from Go\u0027s normal lowerUpper naming style?\nI agree it\u0027s FPA as that\u0027s an acronym, but JAVA isn\u0027t so Java.  Likewise Thumb, etc.",
+      "range": {
+        "startLine": 24,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 6
       },
       "revId": "a9831b7169c205e7fda260888dd6b894480313ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
@@ -113,6 +159,52 @@
         "startChar": 1,
         "endLine": 36,
         "endChar": 45
+      },
+      "revId": "a9831b7169c205e7fda260888dd6b894480313ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6415b819_1d6020f9",
+        "filename": "src/internal/cpu/cpu_arm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-07-27T07:48:32Z",
+      "side": 1,
+      "message": "Put this in between 2 and 4 above.\nThat\u0027s where I was reading when the question occurred to me.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 26
+      },
+      "revId": "a9831b7169c205e7fda260888dd6b894480313ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e74bb822_1737085f",
+        "filename": "src/internal/cpu/cpu_arm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-07-27T07:48:32Z",
+      "side": 1,
+      "message": "Again, move these up to their in-order place.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 28
       },
       "revId": "a9831b7169c205e7fda260888dd6b894480313ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
