@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e7fa783c_57d1e97a",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-07-27T12:02:36Z",
+      "side": 1,
+      "message": "I\u0027ll remove this line.",
+      "parentUuid": "0008728b_9fd283ab",
+      "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2e9f773_7b5d0e8f",
         "filename": "AUTHORS",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2018-07-27T04:28:24Z",
       "side": 1,
       "message": "Carl is a Googler.  Googlers probably shouldn\u0027t show up separately in AUTHORS.",
+      "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7892763_3c888586",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-07-27T12:02:36Z",
+      "side": 1,
+      "message": "He filed an individual CLA and contributed with the account bound to it. It\u0027s not impossible he contributed at a time or in a way such that he owns the copyright. Should I try to reach out to all Googlers?",
+      "parentUuid": "d2e9f773_7b5d0e8f",
       "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -68,6 +104,24 @@
       "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04a67b33_58fb3687",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-07-27T12:02:36Z",
+      "side": 1,
+      "message": "In many instances, when the user contributes via PR, we don\u0027t. We could check if they gave us an email address when signing the CLA, but I don\u0027t think everyone would expect that email to become public. This at least is a nice, official way of encoding a GitHub username as an email address.",
+      "parentUuid": "1506710a_b9ab3c1d",
+      "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
