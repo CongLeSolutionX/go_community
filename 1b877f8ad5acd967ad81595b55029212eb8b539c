@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2edcd6b0_75536f99",
+        "filename": "src/internal/cpu/cpu_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-27T09:22:19Z",
+      "side": 1,
+      "message": "please reduce this to the set of features that are planned to be used in go1.12 apart from IDIVA which will already be covered in https://go-review.googlesource.com/c/go/+/114826.",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "1b877f8ad5acd967ad81595b55029212eb8b539c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
