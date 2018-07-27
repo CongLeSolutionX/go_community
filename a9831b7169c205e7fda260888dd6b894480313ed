@@ -45,6 +45,29 @@
       "revId": "a9831b7169c205e7fda260888dd6b894480313ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "982c3576_befed641",
+        "filename": "src/runtime/cpuflags_arm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-27T04:17:28Z",
+      "side": 1,
+      "message": "FYI: I think this needs to be done in runtime/proc.go cpu init to be set properly early from internal/cpu. see https://go-review.googlesource.com/c/go/+/114826",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 30
+      },
+      "revId": "a9831b7169c205e7fda260888dd6b894480313ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
