@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "39665692_7a3fffcd",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 24716
+      },
+      "writtenOn": "2018-07-27T02:47:59Z",
+      "side": 1,
+      "message": "I tried to make it clear that the argument passed must be a function of type func(args) uintptr.\n\nIMO, \"compileCallback: callback must have type func(...) uintptr\" would make someone think \"this might be an internal error\". I agree with you about \"...\" being confused for a variadic function.\n\nHow about something like \"compileCallback: expected function of type func(argument(s)) uintptr\"?",
+      "parentUuid": "fb3ac2df_a7825844",
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6763953f_6c8ec3ec",
         "filename": "src/runtime/syscall_windows.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-07-26T18:02:34Z",
       "side": 1,
       "message": "I like that your first message mentions a specific form of type for the function. That says what the problem is specifically and succinctly and guides the developer toward a solution. The fact that there are three cases here seems like just an implementation artifact. I suggest just using the same message for all three cases.",
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a6749ff_39445100",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 24716
+      },
+      "writtenOn": "2018-07-27T02:47:59Z",
+      "side": 1,
+      "message": "The third panic message would have to be different. The first two cases checks the expected function type.\n\nBut the third message informs about the input argument size being more than the size of uintptr. I don\u0027t think we can mention that in the message of the first two cases.",
+      "parentUuid": "6763953f_6c8ec3ec",
       "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -105,6 +141,78 @@
     },
     {
       "key": {
+        "uuid": "7988f3bb_8f1f5a93",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 24716
+      },
+      "writtenOn": "2018-07-27T02:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4ff91477_e14aa8d9",
+      "range": {
+        "startLine": 125,
+        "startChar": 80,
+        "endLine": 125,
+        "endChar": 88
+      },
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d113c3_76a6f50c",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 24716
+      },
+      "writtenOn": "2018-07-27T02:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "517675f3_7ca93e6e",
+      "range": {
+        "startLine": 125,
+        "startChar": 67,
+        "endLine": 125,
+        "endChar": 71
+      },
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74992a79_1c736463",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 24716
+      },
+      "writtenOn": "2018-07-27T02:47:59Z",
+      "side": 1,
+      "message": "Will change to \"The argument is expected to be of type func(argument(s)) uintptr\". Or something similar. We need to decide that.",
+      "parentUuid": "567be403_b7e18bc0",
+      "range": {
+        "startLine": 125,
+        "startChar": 60,
+        "endLine": 125,
+        "endChar": 61
+      },
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64cfb107_12424827",
         "filename": "src/syscall/syscall_windows.go",
         "patchSetId": 3
@@ -119,6 +227,24 @@
       "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c1b7641_2de0cb37",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 24716
+      },
+      "writtenOn": "2018-07-27T02:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "64cfb107_12424827",
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
