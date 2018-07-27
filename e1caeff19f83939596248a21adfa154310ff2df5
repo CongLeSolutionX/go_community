@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c6e8d7f_1002332a",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-27T14:09:36Z",
+      "side": 1,
+      "message": "Sorry about this, but the test message should really say something like \"not applicable for gccgo\".",
+      "revId": "e1caeff19f83939596248a21adfa154310ff2df5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
