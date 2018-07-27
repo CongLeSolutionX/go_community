@@ -4,22 +4,23 @@
 
 package runtime
 
-const (
-	_HWCAP_VFP   = 1 << 6
-	_HWCAP_VFPv3 = 1 << 13
-	_HWCAP_IDIVA = 1 << 17
+import "internal/cpu"
+
+var (
+	//go:linkname cpu_hwcap internal/cpu.hwcap
+	cpu_hwcap = ^uint32(0)
+
+	//go:linkname cpu_hwcap2 internal/cpu.hwcap2
+	cpu_hwcap2 = ^uint32(0)
 )
 
-var hwcap = ^uint32(0) // set by archauxv
-var hardDiv bool       // set if a hardware divider is available
-
 func checkgoarm() {
-	if goarm > 5 && hwcap&_HWCAP_VFP == 0 {
+	if goarm > 5 && !cpu.ARM.HasVFP {
 		print("runtime: this CPU has no floating point hardware, so it cannot run\n")
 		print("this GOARM=", goarm, " binary. Recompile using GOARM=5.\n")
 		exit(1)
 	}
-	if goarm > 6 && hwcap&_HWCAP_VFPv3 == 0 {
+	if goarm > 6 && !cpu.ARM.HasVFPv3 {
 		print("runtime: this CPU has no VFPv3 floating point hardware, so it cannot run\n")
 		print("this GOARM=", goarm, " binary. Recompile using GOARM=5 or GOARM=6.\n")
 		exit(1)
@@ -36,8 +37,9 @@ func checkgoarm() {
 func archauxv(tag, val uintptr) {
 	switch tag {
 	case _AT_HWCAP: // CPU capability bit flags
-		hwcap = uint32(val)
-		hardDiv = (hwcap & _HWCAP_IDIVA) != 0
+		cpu_hwcap = uint32(val)
+	case _AT_HWCAP2:
+		cpu_hwcap2 = uint32(val)
 	}
 }
 

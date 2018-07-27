@@ -95,6 +95,40 @@ type arm64 struct {
 	_           [CacheLineSize]byte
 }
 
+var ARM arm
+
+type arm struct {
+	_           [CacheLineSize]byte
+	HasSWP      bool
+	HasHALF     bool
+	HasTHUMB    bool
+	HasFASTMULT bool
+	HasFPA      bool
+	HasVFP      bool
+	HasEDSP     bool
+	HasJAVA     bool
+	HasIWMMXT   bool
+	HasCRUNCH   bool
+	HasTHUMBEE  bool
+	HasNEON     bool
+	HasVFPv3    bool
+	HasVFPv3D16 bool
+	HasTLS      bool
+	HasVFPv4    bool
+	HasIDIVA    bool
+	HasIDIVT    bool
+	HasVFPD32   bool
+	HasIDIV     bool
+	HasLPAE     bool
+	HasEVTSTRM  bool
+	HasAES      bool
+	HasPMULL    bool
+	HasSHA1     bool
+	HasSHA2     bool
+	HasCRC32    bool
+	_           [CacheLineSize]byte
+}
+
 var S390X s390x
 
 type s390x struct {

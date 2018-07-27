@@ -513,12 +513,17 @@ func cpuinit() {
 
 	internal_cpu_initialize(env)
 
-	support_erms = cpu.X86.HasERMS
-	support_popcnt = cpu.X86.HasPOPCNT
-	support_sse2 = cpu.X86.HasSSE2
-	support_sse41 = cpu.X86.HasSSE41
-
-	arm64_support_atomics = cpu.ARM64.HasATOMICS
+	switch GOARCH {
+	case "amd64", "amd64p32", "386":
+		support_erms = cpu.X86.HasERMS
+		support_popcnt = cpu.X86.HasPOPCNT
+		support_sse2 = cpu.X86.HasSSE2
+		support_sse41 = cpu.X86.HasSSE41
+	case "arm":
+		arm_support_idiva = cpu.ARM.HasIDIVA
+	case "arm64":
+		arm64_support_atomics = cpu.ARM64.HasATOMICS
+	}
 }
 
 // The bootstrap sequence is:
