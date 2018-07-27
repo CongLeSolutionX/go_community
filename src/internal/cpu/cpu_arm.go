@@ -15,16 +15,25 @@ var HWCap2 uint
 
 // HWCAP/HWCAP2 bits. These are exposed by Linux and FreeBSD.
 const (
-	hwcap_IDIVA = 1 << 17
+	hwcap_NEON   = 1 << 12
+	hwcap_VFPv4  = 1 << 16
+	hwcap_IDIVA  = 1 << 17
+	hwcap_VFPD32 = 1 << 19
 )
 
 func doinit() {
 	options = []option{
+		{"neon", &ARM.HasNEON},
+		{"vfpv4", &ARM.HasVFPv4},
 		{"idiva", &ARM.HasIDIVA},
+		{"vfpd32", &ARM.HasVFPD32},
 	}
 
 	// HWCAP feature bits
+	ARM.HasNEON = isSet(HWcap, hwcap_NEON)
+	ARM.HasVFPv4 = isSet(HWcap, hwcap_VFPv4)
 	ARM.HasIDIVA = isSet(HWCap, hwcap_IDIVA)
+	ARM.HasVFPD32 = isSet(HWcap, hwcap_VFPD32)
 }
 
 func isSet(hwc uint, value uint) bool {
