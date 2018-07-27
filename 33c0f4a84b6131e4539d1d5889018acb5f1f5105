@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "f0ea8271_5cb2ef87",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-27T14:31:38Z",
+      "side": 1,
+      "message": "It\u0027s approximately impossible for a Googler to contribute to Go in such a way that they own the copyright.  It probably doesn\u0027t matter much in practice, but it does seem a little odd.  Perhaps we should ask on the internal list what the right action to take in such a case is.",
+      "parentUuid": "f7892763_3c888586",
+      "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1506710a_b9ab3c1d",
         "filename": "AUTHORS",
         "patchSetId": 2
