@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1317bc56_415781ca",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 24716
+      },
+      "writtenOn": "2018-07-27T02:56:56Z",
+      "side": 1,
+      "message": "Also, I just remembered that some callback functions return an int. So we definitely can\u0027t say \"expected func(argument(s)) uintptr\".\n\nWe could mention the requirements clearly in the doc. We could also create a proper panic message for the second and third case. But we need to think of something for the first case.",
+      "parentUuid": "39665692_7a3fffcd",
+      "revId": "e2466592be2c4fb030668f7e14dc72a6cf736dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6763953f_6c8ec3ec",
         "filename": "src/runtime/syscall_windows.go",
         "patchSetId": 3
