@@ -46,6 +46,30 @@
       "revId": "1b877f8ad5acd967ad81595b55029212eb8b539c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5f07f11_923cee34",
+        "filename": "src/internal/cpu/cpu_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-07-27T10:10:23Z",
+      "side": 1,
+      "message": "thanks. New flags have only been added when they would be used in the go std lib soon and in some cases for tests or when ported over from the old feature detection code.\n\nAre you planning to implement any code (e.g. by solving the cited issues) that directly uses the flags for go1.12? Otherwise we should add them one by one when they are needed but we could add your tests for minimal features at any rate.",
+      "parentUuid": "d417094b_accbd2fd",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "1b877f8ad5acd967ad81595b55029212eb8b539c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
