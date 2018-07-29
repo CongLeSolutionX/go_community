@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4209277_82ca4ced",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2018-07-29T19:56:19Z",
+      "side": 1,
+      "message": "s/gofmt/godoc",
+      "range": {
+        "startLine": 313,
+        "startChar": 8,
+        "endLine": 313,
+        "endChar": 13
+      },
+      "revId": "df3f2641d6473b8ad74924704b36355c23af907d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
