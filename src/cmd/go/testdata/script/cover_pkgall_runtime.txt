@@ -1,0 +1,17 @@
+# Issue 23882
+
+[!short] go test -coverpkg=all x
+[!short] stdout ok[\s\S]+?coverage
+
+[!short] [race] go test -coverpkg=all -race x
+[!short] stdout ok[\s\S]+?coverage
+
+-- x/x.go --
+package x
+import _ "runtime"
+func F() {}
+
+-- x/x_test.go --
+package x
+import "testing"
+func TestF(t *testing.T) { F() }
