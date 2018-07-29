@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec5b7bfa_03c618c7",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-07-29T06:38:14Z",
+      "side": 1,
+      "message": "NewReader returns a new Reader reading from r of the given size, which cannot be negative.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 67
+      },
+      "revId": "d48249ed5dc1edbff93ae9298a261b4a7c982b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f5625ee_60a47b5a",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-07-29T06:38:14Z",
+      "side": 1,
+      "message": "The other errors in this package only have a \"zip: \" prefix:\n\n zip: size cannot be negative",
+      "range": {
+        "startLine": 73,
+        "startChar": 26,
+        "endLine": 73,
+        "endChar": 78
+      },
+      "revId": "d48249ed5dc1edbff93ae9298a261b4a7c982b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
