@@ -1,0 +1,19 @@
+# GOFLAGS sets flags for commands
+
+env GOFLAGS='-e -f={{.Dir}} -test.benchtime=1s -count=10'
+go list asdfasdfasdf  # succeeds because of -e
+go list runtime 
+stdout '[\\/]runtime$'
+
+# go env succeeds even though -f={{.Dir}} is inappropriate
+go env
+
+# bad flags are diagnosed
+env GOFLAGS=-typoflag
+! go list runtime
+stderr 'unknown flag -typoflag'
+
+# except in go bug (untested) and go env
+go env
+stdout GOFLAGS
+
