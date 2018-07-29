@@ -1,0 +1,22 @@
+env GO111MODULE=on
+
+# build fails with bad exclude, replace
+go mod edit -fmt
+cp go.mod go.mod.orig
+! go build
+stderr 'finding rsc.io/quote v1.5.3-pre1'
+stderr 'rsc.io/sampler@v1.999.999'
+cmp go.mod go.mod.orig
+
+# build ignores those with -mod=release
+go build -mod=release
+
+-- go.mod --
+module m
+require rsc.io/quote v1.5.2
+exclude rsc.io/quote v1.5.2
+replace rsc.io/sampler v1.3.0 => rsc.io/sampler v1.999.999
+
+-- x.go --
+package x
+import _ "rsc.io/quote"
