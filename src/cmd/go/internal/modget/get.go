@@ -205,8 +205,8 @@ func runGet(cmd *base.Command, args []string) {
 		fmt.Fprintf(os.Stderr, "go get: -t flag is a no-op when using modules\n")
 	}
 
-	if cfg.BuildGetmode == "vendor" {
-		base.Fatalf("go get: disabled by -getmode=vendor")
+	if cfg.BuildMod == "vendor" {
+		base.Fatalf("go get: disabled by -mod=%s", cfg.BuildMod)
 	}
 
 	modload.LoadBuildList()

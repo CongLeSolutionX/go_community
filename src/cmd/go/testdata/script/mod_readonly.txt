@@ -1,0 +1,34 @@
+env GO111MODULE=on
+
+# -mod=readonly must not resolve missing modules nor update go.mod
+go mod edit -fmt
+cp go.mod go.mod.empty
+! go list -mod=readonly
+stderr 'import lookup disabled by -mod=readonly'
+cmp go.mod go.mod.empty
+
+# update go.mod
+go list
+grep rsc.io/quote go.mod
+
+# -mod=readonly must succeed once go.mod is up-to-date...
+go list -mod=readonly
+
+# ... even if it needs downloads
+go clean -modcache
+go list -mod=readonly
+
+# -mod=readonly should reject inconsistent go.mod files
+# (ones that would be rewritten).
+go mod edit -require rsc.io/sampler@v1.2.0
+cp go.mod go.mod.inconsistent
+! go list -mod=readonly
+stderr 'go: updates to go.mod needed, disabled by -mod=readonly'
+cmp go.mod go.mod.inconsistent
+
+-- go.mod --
+module m
+
+-- x.go --
+package x
+import _ "rsc.io/quote"
