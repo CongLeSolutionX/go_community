@@ -50,9 +50,6 @@ var loaded *loader
 // ImportPaths returns the set of packages matching the args (patterns),
 // adding modules to the build list as needed to satisfy new imports.
 func ImportPaths(args []string) []string {
-	if Init(); !Enabled() {
-		return search.ImportPaths(args)
-	}
 	InitMod()
 
 	cleaned := search.CleanImportPaths(args)
@@ -153,9 +150,6 @@ func warnPattern(pattern string, list []string) []string {
 // ImportFromFiles adds modules to the build list as needed
 // to satisfy the imports in the named Go source files.
 func ImportFromFiles(gofiles []string) {
-	if Init(); !Enabled() {
-		return
-	}
 	InitMod()
 
 	imports, testImports, err := imports.ScanFiles(gofiles, imports.Tags())
@@ -179,9 +173,6 @@ func ImportFromFiles(gofiles []string) {
 // (typically in commands that care about the module but
 // no particular package).
 func LoadBuildList() []module.Version {
-	if Init(); !Enabled() {
-		base.Fatalf("go: LoadBuildList called but modules not enabled")
-	}
 	InitMod()
 	ReloadBuildList()
 	WriteGoMod()
@@ -213,9 +204,6 @@ func LoadVendor() []string {
 }
 
 func loadAll(testAll bool) []string {
-	if Init(); !Enabled() {
-		panic("go: misuse of LoadALL/LoadVendor")
-	}
 	InitMod()
 
 	loaded = newLoader()
