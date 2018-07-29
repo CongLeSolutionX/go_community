@@ -121,3 +121,23 @@ func Parse(cmd string, defns []*Defn, args []string, i int) (f *Defn, value stri
 	f = nil
 	return
 }
+
+func FindGOFLAGS(defns []*Defn) []string {
+	var flags []string
+	for _, flag := range base.GOFLAGS() {
+		if strings.HasPrefix(flag, "--") {
+			flag = flag[1:]
+		}
+		name := flag[1:]
+		if i := strings.Index(name, "="); i >= 0 {
+			name = name[:i]
+		}
+		for _, f := range defns {
+			if name == f.Name {
+				flags = append(flags, flag)
+				break
+			}
+		}
+	}
+	return flags
+}
