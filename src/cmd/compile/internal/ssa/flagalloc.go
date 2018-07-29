@@ -116,61 +116,94 @@ func flagalloc(f *Func) {
 				f.Fatalf("phi of flags not supported: %s", v.LongString())
 			}
 
+			opMap0 := map[Op]Op{
+				OpAMD64CMPQload:      OpAMD64MOVQload,
+				OpAMD64CMPLload:      OpAMD64MOVLload,
+				OpAMD64CMPWload:      OpAMD64MOVWload,
+				OpAMD64CMPBload:      OpAMD64MOVBload,
+				Op386CMPLload:        Op386MOVLload,
+				Op386CMPWload:        Op386MOVWload,
+				Op386CMPBload:        Op386MOVBload,
+				OpAMD64CMPQconstload: OpAMD64MOVQload,
+				OpAMD64CMPLconstload: OpAMD64MOVLload,
+				OpAMD64CMPWconstload: OpAMD64MOVWload,
+				OpAMD64CMPBconstload: OpAMD64MOVBload,
+				Op386CMPLconstload:   Op386MOVLload,
+				Op386CMPWconstload:   Op386MOVWload,
+				Op386CMPBconstload:   Op386MOVBload,
+			}
+			opMap1 := map[Op]Op{
+				OpAMD64CMPQload:      OpAMD64CMPQ,
+				OpAMD64CMPLload:      OpAMD64CMPL,
+				OpAMD64CMPWload:      OpAMD64CMPW,
+				OpAMD64CMPBload:      OpAMD64CMPB,
+				Op386CMPLload:        Op386CMPL,
+				Op386CMPWload:        Op386CMPW,
+				Op386CMPBload:        Op386CMPB,
+				OpAMD64CMPQconstload: OpAMD64CMPQconst,
+				OpAMD64CMPLconstload: OpAMD64CMPLconst,
+				OpAMD64CMPWconstload: OpAMD64CMPWconst,
+				OpAMD64CMPBconstload: OpAMD64CMPBconst,
+				Op386CMPLconstload:   Op386CMPLconst,
+				Op386CMPWconstload:   Op386CMPWconst,
+				Op386CMPBconstload:   Op386CMPBconst,
+			}
+
 			// If v will be spilled, and v uses memory, then we must split it
 			// into a load + a flag generator.
 			// TODO: figure out how to do this without arch-dependent code.
 			if spill[v.ID] && v.MemoryArg() != nil {
 				switch v.Op {
 				case OpAMD64CMPQload:
-					load := b.NewValue2IA(v.Pos, OpAMD64MOVQload, f.Config.Types.UInt64, v.AuxInt, v.Aux, v.Args[0], v.Args[2])
-					v.Op = OpAMD64CMPQ
+					load := b.NewValue2IA(v.Pos, opMap0[v.Op], f.Config.Types.UInt64, v.AuxInt, v.Aux, v.Args[0], v.Args[2])
+					v.Op = opMap1[v.Op]
 					v.AuxInt = 0
 					v.Aux = nil
 					v.SetArgs2(load, v.Args[1])
-				case OpAMD64CMPLload:
-					load := b.NewValue2IA(v.Pos, OpAMD64MOVLload, f.Config.Types.UInt32, v.AuxInt, v.Aux, v.Args[0], v.Args[2])
-					v.Op = OpAMD64CMPL
+				case OpAMD64CMPLload, Op386CMPLload:
+					load := b.NewValue2IA(v.Pos, opMap0[v.Op], f.Config.Types.UInt32, v.AuxInt, v.Aux, v.Args[0], v.Args[2])
+					v.Op = opMap1[v.Op]
 					v.AuxInt = 0
 					v.Aux = nil
 					v.SetArgs2(load, v.Args[1])
-				case OpAMD64CMPWload:
-					load := b.NewValue2IA(v.Pos, OpAMD64MOVWload, f.Config.Types.UInt16, v.AuxInt, v.Aux, v.Args[0], v.Args[2])
-					v.Op = OpAMD64CMPW
+				case OpAMD64CMPWload, Op386CMPWload:
+					load := b.NewValue2IA(v.Pos, opMap0[v.Op], f.Config.Types.UInt16, v.AuxInt, v.Aux, v.Args[0], v.Args[2])
+					v.Op = opMap1[v.Op]
 					v.AuxInt = 0
 					v.Aux = nil
 					v.SetArgs2(load, v.Args[1])
-				case OpAMD64CMPBload:
-					load := b.NewValue2IA(v.Pos, OpAMD64MOVBload, f.Config.Types.UInt8, v.AuxInt, v.Aux, v.Args[0], v.Args[2])
-					v.Op = OpAMD64CMPB
+				case OpAMD64CMPBload, Op386CMPBload:
+					load := b.NewValue2IA(v.Pos, opMap0[v.Op], f.Config.Types.UInt8, v.AuxInt, v.Aux, v.Args[0], v.Args[2])
+					v.Op = opMap1[v.Op]
 					v.AuxInt = 0
 					v.Aux = nil
 					v.SetArgs2(load, v.Args[1])
 
 				case OpAMD64CMPQconstload:
 					vo := v.AuxValAndOff()
-					load := b.NewValue2IA(v.Pos, OpAMD64MOVQload, f.Config.Types.UInt64, vo.Off(), v.Aux, v.Args[0], v.Args[1])
-					v.Op = OpAMD64CMPQconst
+					load := b.NewValue2IA(v.Pos, opMap0[v.Op], f.Config.Types.UInt64, vo.Off(), v.Aux, v.Args[0], v.Args[1])
+					v.Op = opMap1[v.Op]
 					v.AuxInt = vo.Val()
 					v.Aux = nil
 					v.SetArgs1(load)
-				case OpAMD64CMPLconstload:
+				case OpAMD64CMPLconstload, Op386CMPLconstload:
 					vo := v.AuxValAndOff()
-					load := b.NewValue2IA(v.Pos, OpAMD64MOVLload, f.Config.Types.UInt32, vo.Off(), v.Aux, v.Args[0], v.Args[1])
-					v.Op = OpAMD64CMPLconst
+					load := b.NewValue2IA(v.Pos, opMap0[v.Op], f.Config.Types.UInt32, vo.Off(), v.Aux, v.Args[0], v.Args[1])
+					v.Op = opMap1[v.Op]
 					v.AuxInt = vo.Val()
 					v.Aux = nil
 					v.SetArgs1(load)
-				case OpAMD64CMPWconstload:
+				case OpAMD64CMPWconstload, Op386CMPWconstload:
 					vo := v.AuxValAndOff()
-					load := b.NewValue2IA(v.Pos, OpAMD64MOVWload, f.Config.Types.UInt16, vo.Off(), v.Aux, v.Args[0], v.Args[1])
-					v.Op = OpAMD64CMPWconst
+					load := b.NewValue2IA(v.Pos, opMap0[v.Op], f.Config.Types.UInt16, vo.Off(), v.Aux, v.Args[0], v.Args[1])
+					v.Op = opMap1[v.Op]
 					v.AuxInt = vo.Val()
 					v.Aux = nil
 					v.SetArgs1(load)
-				case OpAMD64CMPBconstload:
+				case OpAMD64CMPBconstload, Op386CMPBconstload:
 					vo := v.AuxValAndOff()
-					load := b.NewValue2IA(v.Pos, OpAMD64MOVBload, f.Config.Types.UInt8, vo.Off(), v.Aux, v.Args[0], v.Args[1])
-					v.Op = OpAMD64CMPBconst
+					load := b.NewValue2IA(v.Pos, opMap0[v.Op], f.Config.Types.UInt8, vo.Off(), v.Aux, v.Args[0], v.Args[1])
+					v.Op = opMap1[v.Op]
 					v.AuxInt = vo.Val()
 					v.Aux = nil
 					v.SetArgs1(load)
