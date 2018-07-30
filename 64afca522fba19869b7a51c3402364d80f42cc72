@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc4d843d_5888a023",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-07-30T13:18:45Z",
+      "side": 1,
+      "message": "Isn\u0027t the key aim to move the comma out of the HTML anchor as it looks daft if left within?\nBy saying quotation it stirs up feeling about punctuation styles that don\u0027t properly nest.  ;-)",
+      "revId": "64afca522fba19869b7a51c3402364d80f42cc72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
