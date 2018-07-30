@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "125f9c8e_ef1e6b5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-30T21:09:40Z",
+      "side": 1,
+      "message": "Does this also fix #14177?",
+      "revId": "849d580a323d16bebcdf8fc2369822bd9950e0ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf8bba11_8dc5b3dd",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-30T21:09:40Z",
+      "side": 1,
+      "message": "A comment here would be helpful: how would we end up with something here with an \"@\" in it?\n\n(Or perhaps add a few more negative examples to the test illustrating what this does?)",
+      "range": {
+        "startLine": 77,
+        "startChar": 74,
+        "endLine": 77,
+        "endChar": 119
+      },
+      "revId": "849d580a323d16bebcdf8fc2369822bd9950e0ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac215b32_d0fb733e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-30T21:09:40Z",
+      "side": 1,
+      "message": "This exclusion seems strange: are there any \"@\" directories in GOROOT?",
+      "range": {
+        "startLine": 85,
+        "startChar": 66,
+        "endLine": 85,
+        "endChar": 96
+      },
+      "revId": "849d580a323d16bebcdf8fc2369822bd9950e0ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
