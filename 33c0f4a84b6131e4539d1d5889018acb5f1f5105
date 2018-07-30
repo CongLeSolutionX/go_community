@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "e76a9922_afd5d437",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-07-30T22:37:12Z",
+      "side": 1,
+      "message": "There\u0027s life before and after Google! ;) They might have contributed while not being employed. Anyway, emailing everyone with a @google.com address getting added to AUTHORS.",
+      "parentUuid": "f0ea8271_5cb2ef87",
+      "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1506710a_b9ab3c1d",
         "filename": "AUTHORS",
         "patchSetId": 2
@@ -157,6 +175,24 @@
       "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f20d9f7_b1627da7",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-07-30T22:37:12Z",
+      "side": 1,
+      "message": "Checked, and this line is correct.",
+      "parentUuid": "0fa640a5_c7a0c2e0",
+      "revId": "33c0f4a84b6131e4539d1d5889018acb5f1f5105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
