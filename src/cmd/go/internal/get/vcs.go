@@ -428,12 +428,16 @@ func (v *vcsCmd) run1(dir string, cmdline string, keyval []string, verbose bool)
 		fmt.Printf("cd %s\n", dir)
 		fmt.Printf("%s %s\n", v.cmd, strings.Join(args, " "))
 	}
-	var buf bytes.Buffer
-	cmd.Stdout = &buf
-	cmd.Stderr = &buf
+	var (
+		outBuf bytes.Buffer
+		errBuf bytes.Buffer
+	)
+	cmd.Stdout = &outBuf
+	cmd.Stderr = &errBuf
 	err = cmd.Run()
-	out := buf.Bytes()
+	out := outBuf.Bytes()
 	if err != nil {
+		out = errBuf.Bytes()
 		if verbose || cfg.BuildV {
 			fmt.Fprintf(os.Stderr, "# cd %s; %s %s\n", dir, v.cmd, strings.Join(args, " "))
 			os.Stderr.Write(out)
