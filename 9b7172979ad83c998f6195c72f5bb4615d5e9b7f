@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb9d201f_7a6e7771",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-07-31T02:04:49Z",
+      "side": 1,
+      "message": "This should not be necessary. The ImportStack should show the importer already, no?\n\nI\u0027ll leave it for now, to get the vendor fix in, but maybe we should roll this annotation back.",
+      "revId": "9b7172979ad83c998f6195c72f5bb4615d5e9b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
