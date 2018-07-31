@@ -16,6 +16,24 @@
       "revId": "50cae2a0cf48c305c1977d3aaf992f748faceeea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "235e752f_05d445c7",
+        "filename": "src/syscall/fs_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-07-31T15:59:00Z",
+      "side": 1,
+      "message": "Good point. Should I use errors.New or simply return EINVAL?",
+      "parentUuid": "c627a49e_5c4af087",
+      "revId": "50cae2a0cf48c305c1977d3aaf992f748faceeea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
