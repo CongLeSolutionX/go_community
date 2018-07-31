@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "886e01f0_347796ef",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-31T15:00:05Z",
+      "side": 1,
+      "message": "It\u0027s not \"Future releases\" who will need to use go doc, but users.\n\nMaybe:\n\nGo 1.11 will be the last release to support godoc\u0027s command-line interface with textual output. In future releases, godoc will only be a web server. Users should use \u003ccode\u003ego\u003c/code\u003e \u003ccode\u003edoc\u003c/code\u003e for command-line help output instead.",
+      "range": {
+        "startLine": 316,
+        "startChar": 75,
+        "endLine": 316,
+        "endChar": 107
+      },
+      "revId": "46a4f9aad122aac59ca590ac258f4d886f31a75c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
