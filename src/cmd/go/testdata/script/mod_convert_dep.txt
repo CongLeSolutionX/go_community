@@ -4,6 +4,20 @@ cd $WORK/test/x
 go list -m all
 stdout '^m$'
 
+# test dep replacement
+cd $WORK/y
+go list -m all
+grep 'replace z v1.0.0 => rsc.io/quote v1.0.0' go.mod
+
 -- $WORK/test/Gopkg.lock --
 -- $WORK/test/x/x.go --
 package x // import "m/x"
+
+-- $WORK/y/Gopkg.lock --
+[[projects]]
+  name = "z"
+  revision = "v1.0.0"
+  source = "rsc.io/quote"
+-- $WORK/y/y.go --
+package y // import "y"
+import _ "z"
