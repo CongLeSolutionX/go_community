@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "cb4a7ee9_421468ca",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 24716
+      },
+      "writtenOn": "2018-07-31T17:46:47Z",
+      "side": 1,
+      "message": "Done. Reverted to original doc.",
+      "parentUuid": "7d090042_93afdbf7",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 67
+      },
+      "revId": "d48249ed5dc1edbff93ae9298a261b4a7c982b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f5625ee_60a47b5a",
         "filename": "src/archive/zip/reader.go",
         "patchSetId": 1
