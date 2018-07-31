@@ -52,6 +52,24 @@
       "revId": "50cae2a0cf48c305c1977d3aaf992f748faceeea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae56f97b_465ccb14",
+        "filename": "src/syscall/fs_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-07-31T16:13:07Z",
+      "side": 1,
+      "message": "The errors package is in L0, so a dependency from the syscall package is not a problem. Changed it now.",
+      "parentUuid": "0addd756_c0f6ff7a",
+      "revId": "50cae2a0cf48c305c1977d3aaf992f748faceeea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
