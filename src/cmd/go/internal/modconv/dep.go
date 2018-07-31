@@ -15,9 +15,14 @@ import (
 )
 
 func ParseGopkgLock(file string, data []byte) (*modfile.File, error) {
+	type pkg struct {
+		Path    string
+		Version string
+		Source  string
+	}
 	mf := new(modfile.File)
-	var list []module.Version
-	var r *module.Version
+	var list []pkg
+	var r *pkg
 	for lineno, line := range strings.Split(string(data), "\n") {
 		lineno++
 		if i := strings.Index(line, "#"); i >= 0 {
@@ -25,7 +30,7 @@ func ParseGopkgLock(file string, data []byte) (*modfile.File, error) {
 		}
 		line = strings.TrimSpace(line)
 		if line == "[[projects]]" {
-			list = append(list, module.Version{})
+			list = append(list, pkg{})
 			r = &list[len(list)-1]
 			continue
 		}
@@ -52,6 +57,8 @@ func ParseGopkgLock(file string, data []byte) (*modfile.File, error) {
 		switch key {
 		case "name":
 			r.Path = val
+		case "source":
+			r.Source = val
 		case "revision", "version":
 			// Note: key "version" should take priority over "revision",
 			// and it does, because dep writes toml keys in alphabetical order,
@@ -68,7 +75,18 @@ func ParseGopkgLock(file string, data []byte) (*modfile.File, error) {
 		if r.Path == "" || r.Version == "" {
 			return nil, fmt.Errorf("%s: empty [[projects]] stanza (%s)", file, r.Path)
 		}
-		mf.Require = append(mf.Require, &modfile.Require{Mod: r})
+		mf.Require = append(mf.Require, &modfile.Require{Mod: module.Version{Path: r.Path, Version: r.Version}})
+
+		if r.Source != "" {
+			r.Source = strings.TrimPrefix(r.Source, "git@")
+			r.Source = strings.TrimPrefix(r.Source, "http://")
+			r.Source = strings.TrimPrefix(r.Source, "https://")
+			r.Source = strings.TrimSuffix(r.Source, ".git")
+			r.Source = strings.Replace(r.Source, ":", "/", 1)
+			old := module.Version{Path: r.Path, Version: r.Version}
+			new := module.Version{Path: r.Source, Version: r.Version}
+			mf.Replace = append(mf.Replace, &modfile.Replace{Old: old, New: new})
+		}
 	}
 	return mf, nil
 }

@@ -41,19 +41,28 @@ func ConvertLegacyConfig(f *modfile.File, file string, data []byte) error {
 
 	// Convert requirements block, which may use raw SHA1 hashes as versions,
 	// to valid semver requirement list, respecting major versions.
-	var work par.Work
+	var (
+		work    par.Work
+		mu      sync.Mutex
+		need    = make(map[string]string)
+		replace = make(map[string]bool)
+	)
+
+	for _, r := range mf.Replace {
+		replace[r.Old.Path+r.Old.Version] = true
+	}
 	for _, r := range mf.Require {
 		m := r.Mod
 		if m.Path == "" {
 			continue
 		}
+		if replace[m.Path+m.Version] {
+			need[m.Path] = m.Version
+			continue
+		}
 		work.Add(r.Mod)
 	}
 
-	var (
-		mu   sync.Mutex
-		need = make(map[string]string)
-	)
 	work.Do(10, func(item interface{}) {
 		r := item.(module.Version)
 		repo, info, err := modfetch.ImportRepoRev(r.Path, r.Version)
