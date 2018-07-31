@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa7961de_b1a22c68",
+        "filename": "doc/contribute.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-07-31T20:38:03Z",
+      "side": 1,
+      "message": "Pretty minor, but the section below is \"Before contributing code\", with lowercase \u0027c\u0027 characters.  May as well be consistent.",
+      "revId": "84599269db47a5e83c213f31ba13270651695171",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
