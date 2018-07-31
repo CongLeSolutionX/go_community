@@ -33,7 +33,7 @@ type Context struct {
 	GOOS        string // target operating system
 	GOROOT      string // Go root
 	GOPATH      string // Go path
-	CgoEnabled  bool   // whether cgo can be used
+	CgoEnabled  bool   // when true, .go source files that import "C" are included in the build context
 	UseAllFiles bool   // use files regardless of +build lines, file names
 	Compiler    string // compiler to assume when computing target paths
 
