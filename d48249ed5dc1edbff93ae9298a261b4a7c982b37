@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7d090042_93afdbf7",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-31T15:33:17Z",
+      "side": 1,
+      "message": "Actually I don\u0027t think we need to (or should) modify the docs here at all.\n\nA size can\u0027t logically be negative, so it\u0027s not worth saying.\n\nLet\u0027s keep this CL only about not panicking.",
+      "parentUuid": "8bd33516_9b37aa97",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 67
+      },
+      "revId": "d48249ed5dc1edbff93ae9298a261b4a7c982b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f5625ee_60a47b5a",
         "filename": "src/archive/zip/reader.go",
         "patchSetId": 1
