@@ -22,6 +22,30 @@
       "revId": "ac1b30dcb126c82ad0b4dacd06ba3d83db6cf10a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22907c5f_c79b7e8d",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 28550
+      },
+      "writtenOn": "2018-07-31T19:40:24Z",
+      "side": 1,
+      "message": "Didn\u0027t realize that was available.  Converted.",
+      "parentUuid": "c23f5c1c_dd140967",
+      "range": {
+        "startLine": 570,
+        "startChar": 9,
+        "endLine": 570,
+        "endChar": 21
+      },
+      "revId": "ac1b30dcb126c82ad0b4dacd06ba3d83db6cf10a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
