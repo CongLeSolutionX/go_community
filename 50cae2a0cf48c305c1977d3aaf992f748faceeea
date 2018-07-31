@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c627a49e_5c4af087",
+        "filename": "src/syscall/fs_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-31T15:35:13Z",
+      "side": 1,
+      "message": "why panic when you can return an error?",
+      "revId": "50cae2a0cf48c305c1977d3aaf992f748faceeea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
