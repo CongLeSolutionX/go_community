@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66a845c3_1e7caaf1",
+        "filename": "src/cmd/go/testdata/script/get_with_git_trace.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-07-31T14:34:43Z",
+      "side": 1,
+      "message": "[!net] skip\n[!exec:git] skip\n\n(See https://github.com/golang/go/blob/b294fe9b0a9a0b9032cb2ecf9924e4c90f8de0ac/src/cmd/go/testdata/script/mod_init_dep.txt#L4-L5.)",
+      "revId": "37261e63c17438e5d951463dc74de4caca0f712f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
