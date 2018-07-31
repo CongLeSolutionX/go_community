@@ -572,6 +572,9 @@ func visit(path string, f os.FileInfo, err error) error {
 	if !f.IsDir() {
 		return nil
 	}
+	if f.Name() == "testdata" { // Ignore testdata directories.
+		return nil
+	}
 	doPackageDir(path)
 	return nil
 }
