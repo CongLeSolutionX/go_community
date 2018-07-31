@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10e0a21f_355484b2",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-31T16:35:58Z",
+      "side": 1,
+      "message": "this is redundant. You say CLI twice in different ways.\n\nSee the text I proposed earlier.",
+      "range": {
+        "startLine": 316,
+        "startChar": 67,
+        "endLine": 316,
+        "endChar": 101
+      },
+      "revId": "68aa834d73bfa7ae9b098398e427fa2163cfd912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1eb7c27_b3f0b3ab",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-31T16:35:58Z",
+      "side": 1,
+      "message": "Extra period here.",
+      "range": {
+        "startLine": 318,
+        "startChar": 71,
+        "endLine": 318,
+        "endChar": 73
+      },
+      "revId": "68aa834d73bfa7ae9b098398e427fa2163cfd912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
