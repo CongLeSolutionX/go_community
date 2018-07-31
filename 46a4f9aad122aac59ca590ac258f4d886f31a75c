@@ -22,6 +22,30 @@
       "revId": "46a4f9aad122aac59ca590ac258f4d886f31a75c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "961a72aa_6c92b6be",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-07-31T16:10:17Z",
+      "side": 1,
+      "message": "Whoops, that\u0027s right :)\n\nI think \"with textual output\" is a bit redundant. Updated the rest.",
+      "parentUuid": "886e01f0_347796ef",
+      "range": {
+        "startLine": 316,
+        "startChar": 75,
+        "endLine": 316,
+        "endChar": 107
+      },
+      "revId": "46a4f9aad122aac59ca590ac258f4d886f31a75c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
