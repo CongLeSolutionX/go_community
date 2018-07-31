@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c23f5c1c_dd140967",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-31T19:08:46Z",
+      "side": 1,
+      "message": "why not use the ^\u003d operator, like the old code was using |\u003d ?",
+      "range": {
+        "startLine": 570,
+        "startChar": 9,
+        "endLine": 570,
+        "endChar": 21
+      },
+      "revId": "ac1b30dcb126c82ad0b4dacd06ba3d83db6cf10a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
