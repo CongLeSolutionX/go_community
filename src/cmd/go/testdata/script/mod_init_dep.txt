@@ -21,6 +21,11 @@ go list
 go list -m all
 stdout 'rsc.io/sampler v1.0.0'
 
+# test dep replacement
+cd $WORK/y
+go list -m all
+grep 'replace z v1.0.0 => rsc.io/quote v1.0.0' go.mod
+
 -- go.mod1 --
 module x
 
@@ -31,4 +36,14 @@ package x
 [[projects]]
   name = "rsc.io/sampler"
   version = "v1.0.0"
+
+-- $WORK/y/Gopkg.lock --
+[[projects]]
+  name = "z"
+  revision = "v1.0.0"
+  source = "rsc.io/quote"
+
+-- $WORK/y/y.go --
+package y // import "y"
+import _ "z"
 
