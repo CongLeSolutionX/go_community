@@ -34,6 +34,24 @@
       "revId": "50cae2a0cf48c305c1977d3aaf992f748faceeea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0addd756_c0f6ff7a",
+        "filename": "src/syscall/fs_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-31T16:06:08Z",
+      "side": 1,
+      "message": "You can\u0027t use the errors package from the syscall package due to go/build/deps_test.go constraints, IIRC.\n\nI\u0027d just make your own error:\n\n\ntype strErr string\n\nfunc (e strErr) Error() string { return string(e) }\n\nAnd then:\n\n  return strErr(\"syscall.Open: ...\")",
+      "parentUuid": "235e752f_05d445c7",
+      "revId": "50cae2a0cf48c305c1977d3aaf992f748faceeea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
