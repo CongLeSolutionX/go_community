@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1bc3dd7_c6f9d2ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-31T15:39:10Z",
+      "side": 1,
+      "message": "the [release-branch] part is in the wrong place. We put it at the beginning of the line, not the end.",
+      "revId": "578081ff6ec3344e1d8f0f7558385a2c99b37382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
