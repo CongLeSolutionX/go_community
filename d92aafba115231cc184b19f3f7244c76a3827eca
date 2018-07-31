@@ -22,6 +22,30 @@
       "revId": "d92aafba115231cc184b19f3f7244c76a3827eca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d96616c_97773d6f",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-07-31T18:11:26Z",
+      "side": 1,
+      "message": "I\u0027d prefer to do as you said, but see line 10 of this file. Kinda weird, but we do it.",
+      "parentUuid": "a60b84cf_4bedc081",
+      "range": {
+        "startLine": 698,
+        "startChar": 7,
+        "endLine": 698,
+        "endChar": 50
+      },
+      "revId": "d92aafba115231cc184b19f3f7244c76a3827eca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
