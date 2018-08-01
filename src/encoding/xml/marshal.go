@@ -133,6 +133,13 @@ type Encoder struct {
 	p printer
 }
 
+// NewTokenEncoder returns a new encoder that encodes a token stream to w.
+func NewTokenEncoder(w TokenWriter) *Encoder {
+	e := &Encoder{printer{TokenWriter: w}}
+	e.p.encoder = e
+	return e
+}
+
 // NewEncoder returns a new encoder that writes to w.
 func NewEncoder(w io.Writer) *Encoder {
 	e := &Encoder{printer{Writer: bufio.NewWriter(w)}}
@@ -196,58 +203,7 @@ var (
 // EncodeToken allows writing a ProcInst with Target set to "xml" only as the first token
 // in the stream.
 func (enc *Encoder) EncodeToken(t Token) error {
-
-	p := &enc.p
-	switch t := t.(type) {
-	case StartElement:
-		if err := p.writeStart(&t); err != nil {
-			return err
-		}
-	case EndElement:
-		if err := p.writeEnd(t.Name); err != nil {
-			return err
-		}
-	case CharData:
-		escapeText(p, t, false)
-	case Comment:
-		if bytes.Contains(t, endComment) {
-			return fmt.Errorf("xml: EncodeToken of Comment containing --> marker")
-		}
-		p.WriteString("<!--")
-		p.Write(t)
-		p.WriteString("-->")
-		return p.cachedWriteError()
-	case ProcInst:
-		// First token to be encoded which is also a ProcInst with target of xml
-		// is the xml declaration. The only ProcInst where target of xml is allowed.
-		if t.Target == "xml" && p.Buffered() != 0 {
-			return fmt.Errorf("xml: EncodeToken of ProcInst xml target only valid for xml declaration, first token encoded")
-		}
-		if !isNameString(t.Target) {
-			return fmt.Errorf("xml: EncodeToken of ProcInst with invalid Target")
-		}
-		if bytes.Contains(t.Inst, endProcInst) {
-			return fmt.Errorf("xml: EncodeToken of ProcInst containing ?> marker")
-		}
-		p.WriteString("<?")
-		p.WriteString(t.Target)
-		if len(t.Inst) > 0 {
-			p.WriteByte(' ')
-			p.Write(t.Inst)
-		}
-		p.WriteString("?>")
-	case Directive:
-		if !isValidDirective(t) {
-			return fmt.Errorf("xml: EncodeToken of Directive containing wrong < or > markers")
-		}
-		p.WriteString("<!")
-		p.Write(t)
-		p.WriteString(">")
-	default:
-		return fmt.Errorf("xml: EncodeToken of invalid token type")
-
-	}
-	return p.cachedWriteError()
+	return enc.p.EncodeToken(t)
 }
 
 // isValidDirective reports whether dir is a valid directive text,
@@ -298,6 +254,7 @@ func (enc *Encoder) Flush() error {
 
 type printer struct {
 	*bufio.Writer
+	TokenWriter
 	encoder    *Encoder
 	seq        int
 	indent     string
@@ -309,6 +266,13 @@ type printer struct {
 	attrPrefix map[string]string // map name space -> prefix
 	prefixes   []string
 	tags       []Name
+}
+
+func (p *printer) Flush() error {
+	if p.TokenWriter != nil {
+		return p.TokenWriter.Flush()
+	}
+	return p.Writer.Flush()
 }
 
 // createAttrPrefix finds the name space prefix attribute to use for the given name space,
@@ -395,6 +359,80 @@ var (
 	marshalerAttrType = reflect.TypeOf((*MarshalerAttr)(nil)).Elem()
 	textMarshalerType = reflect.TypeOf((*encoding.TextMarshaler)(nil)).Elem()
 )
+
+func (p *printer) EncodeToken(t Token) error {
+	switch t := t.(type) {
+	case StartElement:
+		if err := p.writeStart(&t); err != nil {
+			return err
+		}
+	case EndElement:
+		if err := p.writeEnd(t.Name); err != nil {
+			return err
+		}
+	case rawToken:
+		if p.TokenWriter != nil {
+			p.TokenWriter.EncodeToken(CharData(t))
+		}
+		p.Write(t)
+		return p.cachedWriteError()
+	case CharData:
+		if p.TokenWriter != nil {
+			// TODO: can we come up with a more efficient way to do this? buffer pool?
+			buf := &bytes.Buffer{}
+			escapeText(buf, t, false)
+			return p.TokenWriter.EncodeToken(CharData(buf.Bytes()))
+		}
+		escapeText(p, t, false)
+	case Comment:
+		if bytes.Contains(t, endComment) {
+			return fmt.Errorf("xml: EncodeToken of Comment containing --> marker")
+		}
+		if p.TokenWriter != nil {
+			return p.TokenWriter.EncodeToken(t)
+		}
+		p.WriteString("<!--")
+		p.Write(t)
+		p.WriteString("-->")
+		return p.cachedWriteError()
+	case ProcInst:
+		// First token to be encoded which is also a ProcInst with target of xml
+		// is the xml declaration. The only ProcInst where target of xml is allowed.
+		if t.Target == "xml" && p.Buffered() != 0 {
+			return fmt.Errorf("xml: EncodeToken of ProcInst xml target only valid for xml declaration, first token encoded")
+		}
+		if !isNameString(t.Target) {
+			return fmt.Errorf("xml: EncodeToken of ProcInst with invalid Target")
+		}
+		if bytes.Contains(t.Inst, endProcInst) {
+			return fmt.Errorf("xml: EncodeToken of ProcInst containing ?> marker")
+		}
+		if p.TokenWriter != nil {
+			return p.TokenWriter.EncodeToken(t)
+		}
+		p.WriteString("<?")
+		p.WriteString(t.Target)
+		if len(t.Inst) > 0 {
+			p.WriteByte(' ')
+			p.Write(t.Inst)
+		}
+		p.WriteString("?>")
+	case Directive:
+		if !isValidDirective(t) {
+			return fmt.Errorf("xml: EncodeToken of Directive containing wrong < or > markers")
+		}
+		if p.TokenWriter != nil {
+			return p.TokenWriter.EncodeToken(t)
+		}
+		p.WriteString("<!")
+		p.Write(t)
+		p.WriteString(">")
+	default:
+		return fmt.Errorf("xml: EncodeToken of invalid token type")
+
+	}
+	return p.cachedWriteError()
+}
 
 // marshalValue writes one or more XML elements representing val.
 // If val was obtained from a struct field, finfo must have its details.
@@ -523,9 +561,21 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 		if err1 != nil {
 			err = err1
 		} else if b != nil {
-			EscapeText(p, b)
+			if p.TokenWriter == nil {
+				EscapeText(p, b)
+			} else {
+				buf := &bytes.Buffer{}
+				EscapeText(buf, b)
+				p.TokenWriter.EncodeToken(rawToken(buf.Bytes()))
+			}
 		} else {
-			p.EscapeString(s)
+			if p.TokenWriter == nil {
+				p.EscapeString(s)
+			} else {
+				buf := &bytes.Buffer{}
+				EscapeText(buf, []byte(s))
+				p.TokenWriter.EncodeToken(rawToken(buf.Bytes()))
+			}
 		}
 	}
 	if err != nil {
@@ -534,6 +584,10 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 
 	if err := p.writeEnd(start.Name); err != nil {
 		return err
+	}
+
+	if p.TokenWriter != nil {
+		return nil
 	}
 
 	return p.cachedWriteError()
@@ -674,7 +728,13 @@ func (p *printer) marshalTextInterface(val encoding.TextMarshaler, start StartEl
 	if err != nil {
 		return err
 	}
-	EscapeText(p, text)
+	if p.TokenWriter != nil {
+		buf := &bytes.Buffer{}
+		EscapeText(buf, text)
+		p.TokenWriter.EncodeToken(rawToken(text))
+	} else {
+		EscapeText(p, text)
+	}
 	return p.writeEnd(start.Name)
 }
 
@@ -688,6 +748,9 @@ func (p *printer) writeStart(start *StartElement) error {
 	p.markPrefix()
 
 	p.writeIndent(1)
+	if p.TokenWriter != nil {
+		return p.TokenWriter.EncodeToken(start.Copy())
+	}
 	p.WriteByte('<')
 	p.WriteString(start.Name.Local)
 
@@ -732,6 +795,9 @@ func (p *printer) writeEnd(name Name) error {
 	}
 	p.tags = p.tags[:len(p.tags)-1]
 
+	if p.TokenWriter != nil {
+		return p.TokenWriter.EncodeToken(EndElement{Name: name})
+	}
 	p.writeIndent(-1)
 	p.WriteByte('<')
 	p.WriteByte('/')
@@ -803,6 +869,13 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 
 		switch finfo.flags & fMode {
 		case fCDATA, fCharData:
+			buf := &bytes.Buffer{}
+			var w io.Writer
+			if p.TokenWriter == nil {
+				w = p
+			} else {
+				w = buf
+			}
 			emit := EscapeText
 			if finfo.flags&fMode == fCDATA {
 				emit = emitCDATA
@@ -815,8 +888,14 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 				if err != nil {
 					return err
 				}
-				if err := emit(p, data); err != nil {
+				if err := emit(w, data); err != nil {
 					return err
+				}
+				if p.TokenWriter != nil {
+					err = p.TokenWriter.EncodeToken(CharData(buf.Bytes()))
+					if err != nil {
+						return err
+					}
 				}
 				continue
 			}
@@ -827,8 +906,14 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 					if err != nil {
 						return err
 					}
-					if err := emit(p, data); err != nil {
+					if err := emit(w, data); err != nil {
 						return err
+					}
+					if p.TokenWriter != nil {
+						err = p.TokenWriter.EncodeToken(CharData(buf.Bytes()))
+						if err != nil {
+							return err
+						}
 					}
 					continue
 				}
@@ -838,30 +923,36 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 			vf = indirect(vf)
 			switch vf.Kind() {
 			case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-				if err := emit(p, strconv.AppendInt(scratch[:0], vf.Int(), 10)); err != nil {
+				if err := emit(w, strconv.AppendInt(scratch[:0], vf.Int(), 10)); err != nil {
 					return err
 				}
 			case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-				if err := emit(p, strconv.AppendUint(scratch[:0], vf.Uint(), 10)); err != nil {
+				if err := emit(w, strconv.AppendUint(scratch[:0], vf.Uint(), 10)); err != nil {
 					return err
 				}
 			case reflect.Float32, reflect.Float64:
-				if err := emit(p, strconv.AppendFloat(scratch[:0], vf.Float(), 'g', -1, vf.Type().Bits())); err != nil {
+				if err := emit(w, strconv.AppendFloat(scratch[:0], vf.Float(), 'g', -1, vf.Type().Bits())); err != nil {
 					return err
 				}
 			case reflect.Bool:
-				if err := emit(p, strconv.AppendBool(scratch[:0], vf.Bool())); err != nil {
+				if err := emit(w, strconv.AppendBool(scratch[:0], vf.Bool())); err != nil {
 					return err
 				}
 			case reflect.String:
-				if err := emit(p, []byte(vf.String())); err != nil {
+				if err := emit(w, []byte(vf.String())); err != nil {
 					return err
 				}
 			case reflect.Slice:
 				if elem, ok := vf.Interface().([]byte); ok {
-					if err := emit(p, elem); err != nil {
+					if err := emit(w, elem); err != nil {
 						return err
 					}
+				}
+			}
+			if p.TokenWriter != nil {
+				err := p.TokenWriter.EncodeToken(rawToken(buf.Bytes()))
+				if err != nil {
+					return err
 				}
 			}
 			continue
@@ -879,7 +970,17 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 				continue
 			}
 			p.writeIndent(0)
-			p.WriteString("<!--")
+			buf := &bytes.Buffer{}
+			var w interface {
+				io.Writer
+				io.ByteWriter
+			}
+			if p.TokenWriter == nil {
+				p.WriteString("<!--")
+				w = p
+			} else {
+				w = buf
+			}
 			dashDash := false
 			dashLast := false
 			switch k {
@@ -888,14 +989,14 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 				dashDash = strings.Contains(s, "--")
 				dashLast = s[len(s)-1] == '-'
 				if !dashDash {
-					p.WriteString(s)
+					io.WriteString(w, s)
 				}
 			case reflect.Slice:
 				b := vf.Bytes()
 				dashDash = bytes.Contains(b, ddBytes)
 				dashLast = b[len(b)-1] == '-'
 				if !dashDash {
-					p.Write(b)
+					w.Write(b)
 				}
 			default:
 				panic("can't happen")
@@ -905,9 +1006,13 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 			}
 			if dashLast {
 				// "--->" is invalid grammar. Make it "- -->"
-				p.WriteByte(' ')
+				w.WriteByte(' ')
 			}
-			p.WriteString("-->")
+			if p.TokenWriter == nil {
+				p.WriteString("-->")
+			} else {
+				p.TokenWriter.EncodeToken(Comment(buf.Bytes()))
+			}
 			continue
 
 		case fInnerXml:
@@ -915,10 +1020,18 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 			iface := vf.Interface()
 			switch raw := iface.(type) {
 			case []byte:
-				p.Write(raw)
+				if p.TokenWriter == nil {
+					p.Write(raw)
+				} else {
+					p.TokenWriter.EncodeToken(rawToken(raw))
+				}
 				continue
 			case string:
-				p.WriteString(raw)
+				if p.TokenWriter == nil {
+					p.WriteString(raw)
+				} else {
+					p.TokenWriter.EncodeToken(rawToken(raw))
+				}
 				continue
 			}
 
@@ -944,6 +1057,10 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 
 // return the bufio Writer's cached write error
 func (p *printer) cachedWriteError() error {
+	if p.TokenWriter != nil {
+		return nil
+	}
+
 	_, err := p.Write(nil)
 	return err
 }
@@ -960,22 +1077,38 @@ func (p *printer) writeIndent(depthDelta int) {
 		}
 		p.indentedIn = false
 	}
+
+	var w interface {
+		io.ByteWriter
+		io.Writer
+	}
+	buf := &bytes.Buffer{}
+	if p.TokenWriter == nil {
+		w = p
+	} else {
+		w = buf
+	}
+
 	if p.putNewline {
-		p.WriteByte('\n')
+		w.WriteByte('\n')
 	} else {
 		p.putNewline = true
 	}
 	if len(p.prefix) > 0 {
-		p.WriteString(p.prefix)
+		io.WriteString(w, p.prefix)
 	}
 	if len(p.indent) > 0 {
 		for i := 0; i < p.depth; i++ {
-			p.WriteString(p.indent)
+			io.WriteString(w, p.indent)
 		}
 	}
 	if depthDelta > 0 {
 		p.depth++
 		p.indentedIn = true
+	}
+
+	if p.TokenWriter != nil {
+		p.TokenWriter.EncodeToken(CharData(buf.Bytes()))
 	}
 }
 

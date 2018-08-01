@@ -78,6 +78,10 @@ type EndElement struct {
 	Name Name
 }
 
+// rawToken represents some data that should be passed through without escaping.
+// It is used internally to encode "inner XML" in token streams.
+type rawToken []byte
+
 // A CharData represents XML character data (raw text),
 // in which XML escape sequences have been replaced by
 // the characters they represent.
@@ -150,6 +154,13 @@ func CopyToken(t Token) Token {
 // nothing happened; in particular it does not indicate EOF.
 type TokenReader interface {
 	Token() (Token, error)
+}
+
+// TokenWriter is anything that can encode tokens to an XML stream, including an
+// xml.Encoder.
+type TokenWriter interface {
+	EncodeToken(t Token) error
+	Flush() error
 }
 
 // A Decoder represents an XML parser reading a particular input stream.

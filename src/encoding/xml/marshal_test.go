@@ -1637,14 +1637,47 @@ var marshalTests = []struct {
 	},
 }
 
+type tokenBuffer []Token
+
+func (b *tokenBuffer) EncodeToken(t Token) error {
+	*b = append(*b, t)
+	return nil
+}
+
+func (b *tokenBuffer) Token() (Token, error) {
+	toks := *b
+	if len(toks) == 0 {
+		return nil, io.EOF
+	}
+
+	var t Token
+	t, *b = toks[0], toks[1:]
+	return t, nil
+}
+
 func TestMarshal(t *testing.T) {
+	t.Run("Writer", func(t *testing.T) {
+		doMarshalTests(t, func(val interface{}) ([]byte, error) {
+			return Marshal(val)
+		})
+	})
+	t.Run("TokenWriter", func(t *testing.T) {
+		doMarshalTests(t, func(val interface{}) ([]byte, error) {
+			buf := &bytes.Buffer{}
+			te := NewTokenEncoder(NewEncoder(buf))
+			err := te.Encode(val)
+			return buf.Bytes(), err
+		})
+	})
+}
+
+func doMarshalTests(t *testing.T, f func(val interface{}) (data []byte, err error)) {
 	for idx, test := range marshalTests {
 		if test.UnmarshalOnly {
 			continue
 		}
-
 		t.Run(fmt.Sprintf("%d", idx), func(t *testing.T) {
-			data, err := Marshal(test.Value)
+			data, err := f(test.Value)
 			if err != nil {
 				if test.MarshalError == "" {
 					t.Errorf("marshal(%#v): %s", test.Value, err)
