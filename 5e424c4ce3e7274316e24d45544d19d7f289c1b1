@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "134f65ff_b5f145c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-01T02:12:25Z",
+      "side": 1,
+      "message": "See https://github.com/golang/go/wiki/CommitMessage for the format we use for commit messages.\n\n\u003e the part after the colon uses the verb tense + phrase that completes the blank in, \"This change modifies Go to ___________\"\n\nSuch as:\n\n    testing: make the -v flag stream logs\n\nOr:\n\n    testing: stream log output in verbose mode",
+      "revId": "5e424c4ce3e7274316e24d45544d19d7f289c1b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
