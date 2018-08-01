@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc5aac3e_d03385e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-01T16:23:37Z",
+      "side": 1,
+      "message": "This commit message presupposes the reader is familiar with your previous uncommited patch series \u0026 line of thinking.\n\nThis part seems like a tangent. You start of saying that you \"cache the value of the environment variable GOSSAFUNC\", but then never say anything about performance (I assume it was a performance problem that led you to cache things?) and instead talk about why your old plan was a bad idea.\n\nMaybe all this part belongs on the story in https://github.com/golang/go/issues/25942 instead, and this commit message can just be about the actual change and the performance impact.\n\nIs this because environment variables are slow on Windows?",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "ce11bd2377a9dd3f64b266ff9e3bb091d6883883",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
