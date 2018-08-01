@@ -616,6 +616,11 @@ func (c *common) logDepth(s string, depth int) {
 			panic("Log in goroutine after " + c.name + " has completed")
 		}
 	} else {
+		if c.chatty {
+			fmt.Printf("%s: %s", c.name, c.decorate(s))
+			return
+		}
+
 		c.output = append(c.output, c.decorate(s, depth+1)...)
 	}
 }
