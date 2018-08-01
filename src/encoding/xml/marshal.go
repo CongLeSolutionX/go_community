@@ -211,6 +211,9 @@ func (enc *Encoder) EncodeToken(t Token) error {
 		if err := p.writeEnd(t.Name); err != nil {
 			return err
 		}
+	case RawXML:
+		p.Write(t)
+		return p.cachedWriteError()
 	case CharData:
 		escapeText(p, t, false)
 	case Comment:
