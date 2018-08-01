@@ -51,7 +51,7 @@ type Attr struct {
 }
 
 // A Token is an interface holding one of the token types:
-// StartElement, EndElement, CharData, Comment, ProcInst, or Directive.
+// StartElement, EndElement, CharData, Comment, ProcInst, Directive, or RawXML.
 type Token interface{}
 
 // A StartElement represents an XML start element.
@@ -77,6 +77,14 @@ func (e StartElement) End() EndElement {
 type EndElement struct {
 	Name Name
 }
+
+// RawXML represents some data that should be passed through without escaping.
+// Like a struct field with the ",innerxml" tag, RawXML is written to the
+// stream verbatim and is not subject to the usual escaping rules.
+type RawXML []byte
+
+// Copy creates a new copy of RawXML.
+func (r RawXML) Copy() RawXML { return RawXML(makeCopy(r)) }
 
 // A CharData represents XML character data (raw text),
 // in which XML escape sequences have been replaced by
