@@ -540,7 +540,11 @@ func (ctx *benchContext) processBench(b *B) {
 		for j := uint(0); j < *count; j++ {
 			runtime.GOMAXPROCS(procs)
 			benchName := benchmarkName(b.name, procs)
-			fmt.Fprintf(b.w, "%-*s\t", ctx.maxLen, benchName)
+			if b.chatty {
+				fmt.Fprintf(b.w, "%-*s\n", ctx.maxLen, benchName)
+			} else {
+				fmt.Fprintf(b.w, "%-*s\t", ctx.maxLen, benchName)
+			}
 			// Recompute the running time for all but the first iteration.
 			if i > 0 || j > 0 {
 				b = &B{
@@ -564,6 +568,9 @@ func (ctx *benchContext) processBench(b *B) {
 				continue
 			}
 			results := r.String()
+			if b.chatty {
+				fmt.Fprintf(b.w, "%-*s\t", ctx.maxLen, benchName)
+			}
 			if *benchmarkMemory || b.showAllocResult {
 				results += "\t" + r.MemString()
 			}

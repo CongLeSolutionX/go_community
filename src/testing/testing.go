@@ -618,9 +618,7 @@ func (c *common) log(s string) {
 func (c *common) logDepth(s string, depth int) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	if !c.done {
-		c.output = append(c.output, c.decorate(s, depth+1)...)
-	} else {
+	if c.done {
 		// This test has already finished. Try and log this message
 		// with our parent. If we don't have a parent, panic.
 		for parent := c.parent; parent != nil; parent = parent.parent {
@@ -632,6 +630,12 @@ func (c *common) logDepth(s string, depth int) {
 			}
 		}
 		panic("Log in goroutine after " + c.name + " has completed")
+	} else {
+		if c.chatty {
+			fmt.Print(c.decorate(fmt.Sprintf("%s: %s", c.name, s), depth+1))
+			return
+		}
+		c.output = append(c.output, c.decorate(s, depth+1)...)
 	}
 }
 

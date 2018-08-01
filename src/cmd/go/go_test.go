@@ -4914,35 +4914,31 @@ func TestTestRegexps(t *testing.T) {
 	//	BenchmarkXX is run but only with N=1, once
 	//	BenchmarkX/Y is run in full, twice
 	want := `=== RUN   TestX
+    x_test.go:6: TestX: LOG: X running
 === RUN   TestX/Y
-    x_test.go:6: LOG: X running
-        x_test.go:8: LOG: Y running
+    x_test.go:8: TestX/Y: LOG: Y running
 === RUN   TestXX
-    z_test.go:10: LOG: XX running
+    z_test.go:10: TestXX: LOG: XX running
 === RUN   TestX
+    x_test.go:6: TestX: LOG: X running
 === RUN   TestX/Y
-    x_test.go:6: LOG: X running
-        x_test.go:8: LOG: Y running
+    x_test.go:8: TestX/Y: LOG: Y running
 === RUN   TestXX
-    z_test.go:10: LOG: XX running
---- BENCH: BenchmarkX/Y
-    x_test.go:15: LOG: Y running N=1
-    x_test.go:15: LOG: Y running N=100
-    x_test.go:15: LOG: Y running N=10000
-    x_test.go:15: LOG: Y running N=1000000
-    x_test.go:15: LOG: Y running N=100000000
-    x_test.go:15: LOG: Y running N=1000000000
---- BENCH: BenchmarkX/Y
-    x_test.go:15: LOG: Y running N=1
-    x_test.go:15: LOG: Y running N=100
-    x_test.go:15: LOG: Y running N=10000
-    x_test.go:15: LOG: Y running N=1000000
-    x_test.go:15: LOG: Y running N=100000000
-    x_test.go:15: LOG: Y running N=1000000000
---- BENCH: BenchmarkX
-    x_test.go:13: LOG: X running N=1
---- BENCH: BenchmarkXX
-    z_test.go:18: LOG: XX running N=1
+    z_test.go:10: TestXX: LOG: XX running
+    x_test.go:13: BenchmarkX: LOG: X running N=1
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=1
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=100
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=10000
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=1000000
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=100000000
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=1000000000
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=1
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=100
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=10000
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=1000000
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=100000000
+    x_test.go:15: BenchmarkX/Y: LOG: Y running N=1000000000
+    z_test.go:18: BenchmarkXX: LOG: XX running N=1
 `
 
 	have := strings.Join(lines, "")
