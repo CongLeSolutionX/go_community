@@ -22,6 +22,30 @@
       "revId": "ce11bd2377a9dd3f64b266ff9e3bb091d6883883",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62f541d2_7f194d0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-08-01T19:09:38Z",
+      "side": 1,
+      "message": "Thanks for going deep into this. You are right. I will fix that.\n\nThe main reason was to cache the value because that\u0027s going to be read from gc parts trying to inline other functions, those might be called many times. And here I guessed that it\u0027s better to compare with cached global var rather than to extract value via os.Getenv() on every iteration within inlining functionality. Do you think benchmarking that is a must?",
+      "parentUuid": "dc5aac3e_d03385e5",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "ce11bd2377a9dd3f64b266ff9e3bb091d6883883",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
