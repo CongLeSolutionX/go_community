@@ -78,6 +78,10 @@ type EndElement struct {
 	Name Name
 }
 
+// rawToken represents some data that should be passed through without escaping.
+// It is used internally to encode "inner XML" in token streams.
+type rawToken []byte
+
 // A CharData represents XML character data (raw text),
 // in which XML escape sequences have been replaced by
 // the characters they represent.
