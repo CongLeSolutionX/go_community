@@ -78,9 +78,13 @@ type EndElement struct {
 	Name Name
 }
 
-// rawToken represents some data that should be passed through without escaping.
-// It is used internally to encode "inner XML" in token streams.
-type rawToken []byte
+// RawXML represents some data that should be passed through without escaping.
+// Like a struct field with the ",innerxml" tag, RawXML is written to the
+// stream verbatim and is not subject to the usual escaping rules.
+type RawXML []byte
+
+// Copy creates a new copy of RawXML.
+func (r RawXML) Copy() RawXML { return RawXML(makeCopy(r)) }
 
 // A CharData represents XML character data (raw text),
 // in which XML escape sequences have been replaced by

@@ -620,6 +620,13 @@ var marshalTests = []struct {
 		ExpectXML:     `<agent handle="007"><Identity>James Bond</Identity><redacted/></agent>`,
 		UnmarshalOnly: true,
 	},
+	{
+		Value: &AnyHolder{
+			XMLName: Name{Local: "inner"},
+			XML:     "\nnoescape\r",
+		},
+		ExpectXML: "<inner>\nnoescape\r</inner>",
+	},
 
 	// Test structs
 	{Value: &Port{Type: "ssl", Number: "443"}, ExpectXML: `<port type="ssl">443</port>`},
@@ -2267,6 +2274,15 @@ var encodeTokenTests = []struct {
 		}},
 	},
 	want: `<foo xmlns="space"><bar xmlns="space" xmlns:space="space" space:attr="value">`,
+}, {
+	desc: "raw inner XML",
+	toks: []Token{
+		StartElement{Name{"", "foo"}, []Attr{
+			{Name{"", "xmlns"}, "space"},
+		}},
+		RawXML("<inner a=\n/>noescape\r"),
+	},
+	want: `<foo xmlns="space"><inner a=` + "\n" + `/>noescape` + "\r",
 }}
 
 func TestEncodeToken(t *testing.T) {
