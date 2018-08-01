@@ -16,6 +16,24 @@
       "revId": "c7679fc379dacc362d8b40bfc724f154ea09ad98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24eff0ee_5a02ce77",
+        "filename": "src/cmd/go/internal/modconv/testdata/traefik.dep",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2018-08-01T14:36:14Z",
+      "side": 1,
+      "message": "This is a real example, and this file just for test module convert, no network access. I can improve if needed.",
+      "parentUuid": "1611b9e1_0ab89953",
+      "revId": "c7679fc379dacc362d8b40bfc724f154ea09ad98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
