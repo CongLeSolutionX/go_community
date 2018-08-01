@@ -160,6 +160,13 @@ type TokenReader interface {
 	Token() (Token, error)
 }
 
+// TokenWriter is anything that can encode tokens to an XML stream, including an
+// xml.Encoder.
+type TokenWriter interface {
+	EncodeToken(t Token) error
+	Flush() error
+}
+
 // A Decoder represents an XML parser reading a particular input stream.
 // The parser assumes that its input is encoded in UTF-8.
 type Decoder struct {
