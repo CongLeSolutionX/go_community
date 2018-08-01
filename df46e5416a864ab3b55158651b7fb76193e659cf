@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "04cc36b6_9485cbc5",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2018-08-01T18:15:58Z",
+      "side": 1,
+      "message": "Ahh correct -- I didn\u0027t handle NaN with sign bit set. I fixed it, now it works. However note I return the Go canononical NaN anyway in this case,as otherwises tests for NaN in the calling program would probably fail.",
+      "parentUuid": "b9a8f98f_0fb5eb33",
+      "revId": "df46e5416a864ab3b55158651b7fb76193e659cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "679178ba_e9313c88",
         "filename": "src/math/erfc_s390x.s",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "df46e5416a864ab3b55158651b7fb76193e659cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70b7e7da_e79802df",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2018-08-01T18:15:58Z",
+      "side": 1,
+      "message": "Yes, I agree.",
+      "parentUuid": "679178ba_e9313c88",
+      "range": {
+        "startLine": 157,
+        "startChar": 1,
+        "endLine": 157,
+        "endChar": 21
+      },
+      "revId": "df46e5416a864ab3b55158651b7fb76193e659cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
