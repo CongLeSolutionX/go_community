@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b9a8f98f_0fb5eb33",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-01T10:42:45Z",
+      "side": 1,
+      "message": "Is this right when x is NaN with the sign bit set? I think this function might return 2 with that input.",
+      "revId": "df46e5416a864ab3b55158651b7fb76193e659cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "679178ba_e9313c88",
         "filename": "src/math/erfc_s390x.s",
         "patchSetId": 2
@@ -36,6 +53,30 @@
       "writtenOn": "2018-08-01T08:28:36Z",
       "side": 1,
       "message": "I don\u0027t understand this. Comparisons with NaN are always false and no values are greater than +Inf so I don\u0027t think this branch will ever be taken.",
+      "range": {
+        "startLine": 539,
+        "startChar": 1,
+        "endLine": 539,
+        "endChar": 20
+      },
+      "revId": "df46e5416a864ab3b55158651b7fb76193e659cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b89ba2f_1e5cdbe2",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-01T10:42:45Z",
+      "side": 1,
+      "message": "Sorry, misread this, thought it was a floating point comparison.\n\nIs this just a NaN check? Might be better to unconditionally load x into F0 and use FCMP F0, F0 or TCDB $0xf, F0.",
+      "parentUuid": "efa03b05_7ee91324",
       "range": {
         "startLine": 539,
         "startChar": 1,
