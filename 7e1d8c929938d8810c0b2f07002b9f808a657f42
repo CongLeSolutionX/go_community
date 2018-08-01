@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d8ca01a_ec5dc07d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-08-01T19:44:55Z",
+      "side": 1,
+      "message": "Typo?\n\nI think this paragraph could make the purpose of this CL clearer too. For example, why is Func.Endlineno necessary for this?",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "7e1d8c929938d8810c0b2f07002b9f808a657f42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f011ae4d_82649267",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-08-01T19:44:55Z",
+      "side": 1,
+      "message": "nit: The variable name is Endlineno, but it\u0027s a position.",
+      "range": {
+        "startLine": 959,
+        "startChar": 8,
+        "endLine": 959,
+        "endChar": 14
+      },
+      "revId": "7e1d8c929938d8810c0b2f07002b9f808a657f42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1c9bae3_6eb10120",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-08-01T19:44:55Z",
+      "side": 1,
+      "message": "It seems like this information is only necessary for inlineable functions? If so, you can save some space by pushing this within the \"if n.Func.Inl !\u003d nil\" block above. (With a similar change to iimport.go.)",
+      "revId": "7e1d8c929938d8810c0b2f07002b9f808a657f42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
