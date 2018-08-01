@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "679178ba_e9313c88",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-01T08:28:36Z",
+      "side": 1,
+      "message": "I think this needs to be a 32-bit comparison, probably CMPW followed by a BGT, since the ANDW won\u0027t zero the high bits of R1. Alternatively a MOVW{,Z} after the ANDW would also work.\n\nIn general I wonder if this code should be using zero extension moves (MOVWZ and MOVHZ) rather than sign extension moves, but not important to fix.",
+      "range": {
+        "startLine": 157,
+        "startChar": 1,
+        "endLine": 157,
+        "endChar": 21
+      },
+      "revId": "df46e5416a864ab3b55158651b7fb76193e659cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa03b05_7ee91324",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-01T08:28:36Z",
+      "side": 1,
+      "message": "I don\u0027t understand this. Comparisons with NaN are always false and no values are greater than +Inf so I don\u0027t think this branch will ever be taken.",
+      "range": {
+        "startLine": 539,
+        "startChar": 1,
+        "endLine": 539,
+        "endChar": 20
+      },
+      "revId": "df46e5416a864ab3b55158651b7fb76193e659cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28f7e878_76ef1c59",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-01T08:28:36Z",
+      "side": 1,
+      "message": "Might be better to leave as-is but you could write the return value in one instruction, since float64(0) is all zeros:\n\nMOVD $0, ret+8(FP)",
+      "revId": "df46e5416a864ab3b55158651b7fb76193e659cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
