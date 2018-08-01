@@ -594,6 +594,10 @@ func (c *common) FailNow() {
 func (c *common) log(s string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
+	if c.chatty {
+		fmt.Printf("%s: %s", c.name, c.decorate(s))
+		return
+	}
 	c.output = append(c.output, c.decorate(s)...)
 }
 

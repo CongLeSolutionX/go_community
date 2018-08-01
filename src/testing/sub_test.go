@@ -499,13 +499,6 @@ func TestBRun(t *T) {
 		output: "--- SKIP: root",
 		f:      func(b *B) { b.SkipNow() },
 	}, {
-		desc:   "skipping with message, chatty",
-		chatty: true,
-		output: `
---- SKIP: root
-    sub_test.go:NNN: skipping`,
-		f: func(b *B) { b.Skip("skipping") },
-	}, {
 		desc:   "chatty with recursion",
 		chatty: true,
 		f: func(b *B) {
