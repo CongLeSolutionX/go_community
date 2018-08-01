@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fd82c72_68a46855",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 26615
+      },
+      "writtenOn": "2018-08-01T01:18:51Z",
+      "side": 0,
+      "message": "This is now \"streamed\" (printed) instead of returned as output, so I removed this test. Let me know if that does not seem kosher.",
+      "range": {
+        "startLine": 506,
+        "startChar": 4,
+        "endLine": 506,
+        "endChar": 31
+      },
+      "revId": "f3582de3a0d4d9fb14763494cc4def548042274f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
