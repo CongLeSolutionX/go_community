@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "783ae15c_c1f86690",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 28030
+      },
+      "writtenOn": "2018-08-02T15:15:01Z",
+      "side": 1,
+      "message": "@latest is only called when there are no tags in @v/list, so it specifically looks for the latest commit. Should I say that it looks for the latest pseudo-version instead? Thanks :)",
+      "parentUuid": "64e1b6b8_e488c5ea",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 45
+      },
+      "revId": "68ff106662e22ad16179bff2d2dc5f9f3e4dca9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ce7dc2d_e1983c17",
         "filename": "src/cmd/go/internal/modfetch/proxy.go",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "06f76e13_d619fdad",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 28030
+      },
+      "writtenOn": "2018-08-02T15:15:01Z",
+      "side": 1,
+      "message": "fixed, all spaces. Let me know if the intention was all tabs instead :)",
+      "parentUuid": "1ce7dc2d_e1983c17",
+      "revId": "68ff106662e22ad16179bff2d2dc5f9f3e4dca9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51d4d8c8_c019a1cd",
         "filename": "src/cmd/go/internal/modfetch/proxy.go",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2018-08-02T14:56:34Z",
       "side": 1,
       "message": "This property is important, and I don\u0027t see code in the go command to write `@latest` files yet: it seems premature to add them to the documentation.\n\nFor reference, the code to populate `list` files is here:\nhttps://github.com/golang/go/blob/b3b2f5d9cad01a23622287028fe8c57d59559169/src/cmd/go/internal/modfetch/cache.go#L451-L463",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 62
+      },
+      "revId": "68ff106662e22ad16179bff2d2dc5f9f3e4dca9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2621f93_3bdd5572",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 28030
+      },
+      "writtenOn": "2018-08-02T15:15:01Z",
+      "side": 1,
+      "message": "by \"them\", you mean this paragraph or the @latest doc that I added above? \nIf this paragraph, I can potentially remove it and have is a commented out TODO in this file. Thanks",
+      "parentUuid": "51d4d8c8_c019a1cd",
       "range": {
         "startLine": 84,
         "startChar": 0,
