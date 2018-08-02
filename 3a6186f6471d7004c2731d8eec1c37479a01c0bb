@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5912729c_30d0c83d",
+        "filename": "src/cmd/go/testdata/script/cover_atomic_pkgall.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 28432
+      },
+      "writtenOn": "2018-08-02T23:43:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "adc098c2_136e9ab8",
+      "revId": "3a6186f6471d7004c2731d8eec1c37479a01c0bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7092bbd2_565a55be",
         "filename": "src/cmd/go/testdata/script/cover_atomic_pkgall.txt",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2018-08-02T14:43:35Z",
       "side": 1,
       "message": "[!race] stop\n\n(we only need to check stdout again if we executed the go command again.)",
+      "range": {
+        "startLine": 4,
+        "startChar": 9,
+        "endLine": 4,
+        "endChar": 15
+      },
+      "revId": "3a6186f6471d7004c2731d8eec1c37479a01c0bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49cb23d0_a12b64f3",
+        "filename": "src/cmd/go/testdata/script/cover_atomic_pkgall.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 28432
+      },
+      "writtenOn": "2018-08-02T23:43:55Z",
+      "side": 1,
+      "message": "I tried the below:\n---\n[!race] stop\n\ngo test -coverpkg\u003dall -race x\nstdout ok[\\s\\S]+?coverage\n---\n\nIs the usage right? The -race does not seem to affect test execution.\n\u003e go test cmd/go -v -run\u003dScript/cover_atomic\n\u003e go test -race cmd/go -v -run\u003dScript/cover_atomic\n\nThe lines beyond \"[!race] stop\" are executed in both cases.\nThe testScript.cmdStop() does not get invoked in either case.",
+      "parentUuid": "7092bbd2_565a55be",
       "range": {
         "startLine": 4,
         "startChar": 9,
