@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc0dd6c1_4838127a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-02T16:08:38Z",
+      "side": 1,
+      "message": "“Updates #26536.”\n\n(That way our bots will be able to find it and associate it to the issue.)",
+      "revId": "7707ece08fc9ec9d6cb6d9ecfe3ba7f77eec8715",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a982dad_b08ec6c4",
+        "filename": "src/cmd/go/internal/modfetch/proxy_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-02T16:08:38Z",
+      "side": 1,
+      "message": "There is already a fairly robust module proxy in src/cmd/go/proxy_test.go, serving contents from src/cmd/go/testdata/mod.\n\nIs it possible to express the cases you want to test here as script tests in src/cmd/go/testdata/script?\n(If not, perhaps you could change the server in src/cmd/go/proxy_test.go to look for a .zip file in the archive before constructing its own?)\nThat seems like it would not only cut down on redundant infrastructure, but also emphasize the user-visible effects of the bug.",
+      "revId": "7707ece08fc9ec9d6cb6d9ecfe3ba7f77eec8715",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

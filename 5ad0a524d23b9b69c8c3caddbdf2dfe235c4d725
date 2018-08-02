@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bb78547_e6047f62",
+        "filename": "src/cmd/go/internal/modload/query_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-02T16:08:38Z",
+      "side": 0,
+      "message": "It appears that the refactoring in this package is independent of the changes mentioned in the change description. If so, please send it as a separate change.",
+      "revId": "5ad0a524d23b9b69c8c3caddbdf2dfe235c4d725",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
