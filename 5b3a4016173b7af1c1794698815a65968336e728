@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ff526e6_b9d7e4af",
+        "filename": "src/go/format/benchmark_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-02T15:42:18Z",
+      "side": 1,
+      "message": "Can this be something like:\n\nbuf.WriteString(`[]byte(\"`)\nbuf.Write(bytes.Repeat([]byte(`\\x00`, 1000))\nbuf.WriteString(`\")`)\n\nand then delete the giant _testdataBenchnrgbaGradientPng below?\n\nYou could also generate _bindata quite easily. I\u0027d rather not have giant text blobs in the tree unless we actually need them.",
+      "revId": "5b3a4016173b7af1c1794698815a65968336e728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
