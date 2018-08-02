@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a87f116a_fa30dca8",
+        "filename": "src/cmd/go/internal/get/vcs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-02T15:54:38Z",
+      "side": 1,
+      "message": "This looks off: run1 returns out as the output of the program, but we probably don\u0027t want to return the contents of stderr on failure.\n\nInstead, how about skipping the bytes.Buffers entirely and calling cmd.Output instead of cmd.Run?\nThen we can use a type-assertion to check whether the result was a *exec.ExitError, and if so extract its Stderr field for the fmt.Fprintf call.",
+      "revId": "423641d7ad6642baf2751bf493635af455fe1f43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
