@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb8d2221_9e784823",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-08-02T07:25:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d8ca01a_ec5dc07d",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "7e1d8c929938d8810c0b2f07002b9f808a657f42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f011ae4d_82649267",
         "filename": "src/cmd/compile/internal/gc/iexport.go",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "edd78d55_e2d3f9d5",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-08-02T07:25:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f011ae4d_82649267",
+      "range": {
+        "startLine": 959,
+        "startChar": 8,
+        "endLine": 959,
+        "endChar": 14
+      },
+      "revId": "7e1d8c929938d8810c0b2f07002b9f808a657f42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1c9bae3_6eb10120",
         "filename": "src/cmd/compile/internal/gc/iexport.go",
         "patchSetId": 5
@@ -62,6 +110,24 @@
       "revId": "7e1d8c929938d8810c0b2f07002b9f808a657f42",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "710e7b96_bbc81532",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-08-02T07:25:14Z",
+      "side": 1,
+      "message": "Yes, that is correct. Fixed that.",
+      "parentUuid": "a1c9bae3_6eb10120",
+      "revId": "7e1d8c929938d8810c0b2f07002b9f808a657f42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
