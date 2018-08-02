@@ -5,15 +5,16 @@
 package math
 
 const (
-	uvnan    = 0x7FF8000000000001
-	uvinf    = 0x7FF0000000000000
-	uvneginf = 0xFFF0000000000000
-	uvone    = 0x3FF0000000000000
-	mask     = 0x7FF
-	shift    = 64 - 11 - 1
-	bias     = 1023
-	signMask = 1 << 63
-	fracMask = 1<<shift - 1
+	uvnan          = 0x7FF8000000000001
+	uvinf          = 0x7FF0000000000000
+	uvneginf       = 0xFFF0000000000000
+	uvone          = 0x3FF0000000000000
+	mask           = 0x7FF
+	shift          = 64 - 11 - 1
+	bias           = 1023
+	signMask       = 1 << 63
+	fracMask       = 1<<shift - 1
+	smallestNormal = 2.2250738585072014e-308 // 2**-1022
 )
 
 // Inf returns positive infinity if sign >= 0, negative infinity if sign < 0.
@@ -54,8 +55,7 @@ func IsInf(f float64, sign int) bool {
 // normalize returns a normal number y and exponent exp
 // satisfying x == y × 2**exp. It assumes x is finite and non-zero.
 func normalize(x float64) (y float64, exp int) {
-	const SmallestNormal = 2.2250738585072014e-308 // 2**-1022
-	if Abs(x) < SmallestNormal {
+	if Abs(x) < smallestNormal {
 		return x * (1 << 52), -52
 	}
 	return x, 0
