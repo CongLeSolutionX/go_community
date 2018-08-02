@@ -110,4 +110,3 @@ TEXT ·Cbrt(SB),NOSPLIT,$0
 
 TEXT ·Pow(SB),NOSPLIT,$0
         JMP ·pow(SB)
-
