@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fd69ca83_03f50952",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-02T15:44:56Z",
+      "side": 1,
+      "message": "That\u0027s part of why I\u0027d prefer to wait until it is actually implemented in the go command: @latest should probably have a well-defined meaning regardless of /list, but it\u0027s not obvious to me what that should be.\n\nYou mention that it is only called when @v/list is empty, but in that case why not put the known pseudo-versions directly in @v/list?\n\nI think this change is probably broad enough to merit a discussion on the issue tracker, not just in a code review.",
+      "parentUuid": "783ae15c_c1f86690",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 45
+      },
+      "revId": "68ff106662e22ad16179bff2d2dc5f9f3e4dca9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ce7dc2d_e1983c17",
         "filename": "src/cmd/go/internal/modfetch/proxy.go",
         "patchSetId": 1
