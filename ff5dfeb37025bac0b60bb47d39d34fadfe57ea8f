@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70ed1cf0_2f03ec7f",
+        "filename": "src/cmd/go/internal/get/vcs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-02T21:51:20Z",
+      "side": 1,
+      "message": "Probably `ok \u0026\u0026 len(ee.Stderr) \u003e 0`?\n\n(If Stderr is empty or we failed to capture it for some reason — for example, because the process was killed by a signal before it wrote anything — we probably want to describe the signal rather than the output.)",
+      "range": {
+        "startLine": 434,
+        "startChar": 39,
+        "endLine": 434,
+        "endChar": 41
+      },
+      "revId": "ff5dfeb37025bac0b60bb47d39d34fadfe57ea8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
