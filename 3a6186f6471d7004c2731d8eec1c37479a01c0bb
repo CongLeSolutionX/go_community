@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adc098c2_136e9ab8",
+        "filename": "src/cmd/go/testdata/script/cover_atomic_pkgall.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-02T14:43:35Z",
+      "side": 1,
+      "message": "`[short] skip` at the start of the test and leave off the [!short] prefix on the rest of the lines, throughout this change",
+      "revId": "3a6186f6471d7004c2731d8eec1c37479a01c0bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7092bbd2_565a55be",
+        "filename": "src/cmd/go/testdata/script/cover_atomic_pkgall.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-02T14:43:35Z",
+      "side": 1,
+      "message": "[!race] stop\n\n(we only need to check stdout again if we executed the go command again.)",
+      "range": {
+        "startLine": 4,
+        "startChar": 9,
+        "endLine": 4,
+        "endChar": 15
+      },
+      "revId": "3a6186f6471d7004c2731d8eec1c37479a01c0bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
