@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5bb647d_65b492a0",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-02T22:01:53Z",
+      "side": 1,
+      "message": "Incomplete sentence. Missing \"For all \" at the start?",
+      "revId": "affbbe644363481a7b5fcac205a2dcda4c0f58e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73ca9f7c_1f46fc04",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-02T22:01:53Z",
+      "side": 1,
+      "message": "Thinking about it this lgdr instruction is unnecessary since R1 already contains x.",
+      "revId": "affbbe644363481a7b5fcac205a2dcda4c0f58e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c6bcb7a_430dabbe",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-02T22:01:53Z",
+      "side": 1,
+      "message": "Personally I\u0027d move this logic to the top of the function so that all the Go checks are in the same place. It\u0027s correct as-is though. Something like this:\n\n#define Pos15 0x402E000000000000\n\nMOVD    x+0(FP), R1\nMOVD    $Neg2p11, R2\nMOVD    $Pos15, R3\nCMPUBGT R1, R2, usego // less than -2.11 or NaN with sign bit set\nCMPBGT  R1, R3, usego // more than 15.0 or NaN with sign bit unset",
+      "range": {
+        "startLine": 154,
+        "startChar": 17,
+        "endLine": 157,
+        "endChar": 10
+      },
+      "revId": "affbbe644363481a7b5fcac205a2dcda4c0f58e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
