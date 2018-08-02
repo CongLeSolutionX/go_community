@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "572260b3_af7c2af1",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-02T10:23:00Z",
+      "side": 1,
+      "message": "Let\u0027s add NOFRAME to this to make it explicit that this function can\u0027t use any stack (because of the tail call).",
+      "range": {
+        "startLine": 141,
+        "startChar": 19,
+        "endLine": 141,
+        "endChar": 26
+      },
+      "revId": "2111460847fa293170ec522f0cb0de7289a307e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64faede5_75023373",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-02T10:23:00Z",
+      "side": 1,
+      "message": "We should change this comment to explain the range we handle in asm. For example:\n\n// This assembly implementation handles inputs in the range [-2, +2]. For all other\n// inputs we call the generic Go implementation.",
+      "range": {
+        "startLine": 142,
+        "startChar": 16,
+        "endLine": 142,
+        "endChar": 20
+      },
+      "revId": "2111460847fa293170ec522f0cb0de7289a307e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edf578c2_a8f9c3ee",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-08-02T10:23:00Z",
+      "side": 1,
+      "message": "I think this would be easier to comprehend using floating point code. If we made the range symmetric we could do something like this (and drop the Pos15 check below). I\u0027ve used an arbitrary range for this:\n\n...\nFMOVD x+0(FP), F0\nFMOVD $(2.0), F1\nFABS  F0, F2\nFCMP  F1, F2\nBLTU  usego // call Go if x is outside the range (-2, 2) or NaN\n...",
+      "range": {
+        "startLine": 144,
+        "startChar": 3,
+        "endLine": 145,
+        "endChar": 6
+      },
+      "revId": "2111460847fa293170ec522f0cb0de7289a307e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
