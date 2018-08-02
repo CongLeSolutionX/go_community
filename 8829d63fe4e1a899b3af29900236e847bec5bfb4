@@ -69,6 +69,30 @@
       "revId": "8829d63fe4e1a899b3af29900236e847bec5bfb4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "263ed188_17851850",
+        "filename": "src/math/erfc_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2018-08-02T02:36:26Z",
+      "side": 1,
+      "message": "Ok. All NaN and out of range cases handled by branching to go.",
+      "parentUuid": "1e5a9e36_5c39c63a",
+      "range": {
+        "startLine": 536,
+        "startChar": 1,
+        "endLine": 536,
+        "endChar": 20
+      },
+      "revId": "8829d63fe4e1a899b3af29900236e847bec5bfb4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
