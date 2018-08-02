@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5968aa2d_c280b399",
+        "filename": "src/cmd/go/internal/get/vcs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-02T16:46:58Z",
+      "side": 1,
+      "message": "Absent a compelling reason to change, it\u0027s probably best to keep this return-value as `out` instead of `nil`: a command that fails may still produce some useful output beforehand.",
+      "range": {
+        "startLine": 441,
+        "startChar": 9,
+        "endLine": 441,
+        "endChar": 11
+      },
+      "revId": "26a8c217bc03b0c6f55421b42123d5fef4860e75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
