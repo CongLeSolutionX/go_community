@@ -16,6 +16,24 @@
       "revId": "9b7172979ad83c998f6195c72f5bb4615d5e9b7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daa0e45b_1debd8d9",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-03T19:32:29Z",
+      "side": 1,
+      "message": "I\u0027ve removed it as part of https://golang.org/cl/127796.\n\nThe error message printed to stderr does not always show the importer: it uses the file path instead, which (in the case of modules) may or may not contain the package or module path, particularly if the module is the main module or a local replacement.",
+      "parentUuid": "cb9d201f_7a6e7771",
+      "revId": "9b7172979ad83c998f6195c72f5bb4615d5e9b7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
