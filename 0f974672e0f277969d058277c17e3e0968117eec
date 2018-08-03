@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c347a0c_d718d39a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-03T04:08:17Z",
+      "side": 1,
+      "message": "revise (per https://github.com/golang/go/wiki/CommitMessage)\n\nalso, mention \"doc\" or \"docs\" in here.",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "0f974672e0f277969d058277c17e3e0968117eec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08c53a8e_152c4f11",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-03T04:08:17Z",
+      "side": 1,
+      "message": "I\u0027d drop \"language specific\".\n\nI also think you need a hyphen in there, but the bigger issue is I don\u0027t think unicode.SpecialCase necessarily has anything to do with language, or I don\u0027t want to confuse this with the actual language-specific stuff in x/text/*.",
+      "range": {
+        "startLine": 619,
+        "startChar": 25,
+        "endLine": 619,
+        "endChar": 42
+      },
+      "revId": "0f974672e0f277969d058277c17e3e0968117eec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "995acd8b_5d7cb270",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-03T04:08:17Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 625,
+        "startChar": 25,
+        "endLine": 625,
+        "endChar": 43
+      },
+      "revId": "0f974672e0f277969d058277c17e3e0968117eec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
