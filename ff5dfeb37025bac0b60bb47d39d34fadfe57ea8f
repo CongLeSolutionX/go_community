@@ -22,6 +22,30 @@
       "revId": "ff5dfeb37025bac0b60bb47d39d34fadfe57ea8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86f79083_b049f84f",
+        "filename": "src/cmd/go/internal/get/vcs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2018-08-03T01:35:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "70ed1cf0_2f03ec7f",
+      "range": {
+        "startLine": 434,
+        "startChar": 39,
+        "endLine": 434,
+        "endChar": 41
+      },
+      "revId": "ff5dfeb37025bac0b60bb47d39d34fadfe57ea8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
