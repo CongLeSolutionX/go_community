@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7825a5a_f509097c",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-08-03T14:32:20Z",
+      "side": 1,
+      "message": "It is not really a prefix, right?",
+      "revId": "643bc4b55f5c258f3c8c8eb5b1eec6104f9b2de3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93bfdf5b_db2e2922",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-08-03T14:32:20Z",
+      "side": 1,
+      "message": "If this is not a prefix, then it shouldn\u0027t end with a colon. We should also avoid conflicts with normal headers, so maybe this could be \"Fetch:Mode\".",
+      "revId": "643bc4b55f5c258f3c8c8eb5b1eec6104f9b2de3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b513f9f_3f43e3a8",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-08-03T14:32:20Z",
+      "side": 1,
+      "message": "Can this be\nif h :\u003d req.Header.Get(CredentialsHeader); h !\u003d \"\" { ...\n?",
+      "revId": "643bc4b55f5c258f3c8c8eb5b1eec6104f9b2de3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
