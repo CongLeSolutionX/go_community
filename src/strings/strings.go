@@ -616,13 +616,21 @@ func ToLower(s string) string {
 func ToTitle(s string) string { return Map(unicode.ToTitle, s) }
 
 // ToUpperSpecial returns a copy of the string s with all Unicode letters mapped to their
-// upper case, giving priority to the special casing rules.
+<<<<<<< HEAD
+// upper case, using the case mapping specified by c.
+=======
+// upper case, using the language specific case mapping specified by c.
+>>>>>>> ed43d73b49e165fd7fb154176dec92e9e0d9b1f0
 func ToUpperSpecial(c unicode.SpecialCase, s string) string {
 	return Map(func(r rune) rune { return c.ToUpper(r) }, s)
 }
 
 // ToLowerSpecial returns a copy of the string s with all Unicode letters mapped to their
-// lower case, giving priority to the special casing rules.
+<<<<<<< HEAD
+// lower case, using the case mapping specified by c.
+=======
+// lower case, using the language specified case mapping specified by c.
+>>>>>>> ed43d73b49e165fd7fb154176dec92e9e0d9b1f0
 func ToLowerSpecial(c unicode.SpecialCase, s string) string {
 	return Map(func(r rune) rune { return c.ToLower(r) }, s)
 }
