@@ -17,16 +17,28 @@ import (
 	"syscall/js"
 )
 
+// ModeHeader is a magic prefix for Request.Header map keys
+// that, if present, signals that the map entry is actually an option
+// to the Fetch API mode setting.
+// Valid values are: "cors", "no-cors", "same-origin", "navigate"
+// The default is "same-origin".
+//
+// Reference: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch#Parameters
+const ModeHeader = "Mode:"
+
+// CredentialsHeader is a magic prefix for Request.Header map keys
+// that, if present, signals that the map entry is actually an option
+// to the Fetch API credentials setting.
+// Valid values are: "omit", "same-origin", "include"
+// The default is "same-origin".
+//
+// Reference: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch#Parameters
+const CredentialsHeader = "Credentials:"
+
 // RoundTrip implements the RoundTripper interface using the WHATWG Fetch API.
 func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 	if useFakeNetwork() {
 		return t.roundTrip(req)
-	}
-	headers := js.Global().Get("Headers").New()
-	for key, values := range req.Header {
-		for _, value := range values {
-			headers.Call("append", key, value)
-		}
 	}
 
 	ac := js.Global().Get("AbortController")
@@ -40,12 +52,30 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 	opt := js.Global().Get("Object").New()
 	// See https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
 	// for options available.
-	opt.Set("headers", headers)
 	opt.Set("method", req.Method)
 	opt.Set("credentials", "same-origin")
+	if h, ok := req.Header[CredentialsHeader]; ok {
+		if len(h) > 0 {
+			opt.Set("credentials", h[0])
+		}
+		req.Header.Del(CredentialsHeader)
+	}
+	if h, ok := req.Header[ModeHeader]; ok {
+		if len(h) > 0 {
+			opt.Set("mode", h[0])
+		}
+		req.Header.Del(ModeHeader)
+	}
 	if ac != js.Undefined() {
 		opt.Set("signal", ac.Get("signal"))
 	}
+	headers := js.Global().Get("Headers").New()
+	for key, values := range req.Header {
+		for _, value := range values {
+			headers.Call("append", key, value)
+		}
+	}
+	opt.Set("headers", headers)
 
 	if req.Body != nil {
 		// TODO(johanbrandhorst): Stream request body when possible.
