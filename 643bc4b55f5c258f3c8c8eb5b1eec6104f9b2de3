@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "678e1bd2_b46f98fc",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 28638
+      },
+      "writtenOn": "2018-08-03T19:04:02Z",
+      "side": 1,
+      "message": "@johanbrandhorst thanks for the quick turnaround on this issue. One quick comment I have on your PR. As a stop gap and until we can rehaul parts of the client, I see no problems with this approach. On the other hand I am really not inclined with the solution as presented if it this is going to be the long term answer. The idea that @bradfitz had about using context seems less magical to me. Thoughts?",
+      "parentUuid": "48d68695_a361e11e",
+      "revId": "643bc4b55f5c258f3c8c8eb5b1eec6104f9b2de3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93bfdf5b_db2e2922",
         "filename": "src/net/http/roundtrip_js.go",
         "patchSetId": 1
