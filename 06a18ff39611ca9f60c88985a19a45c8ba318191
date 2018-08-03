@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0008530e_e0f01893",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-03T14:53:47Z",
+      "side": 1,
+      "message": "I\u0027d put this one line up, before the thing it guards.",
+      "revId": "06a18ff39611ca9f60c88985a19a45c8ba318191",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
