@@ -1451,12 +1451,29 @@ func inDir(path, dir string) bool {
 	if str.HasFilePathPrefix(path, dir) {
 		return true
 	}
-	xpath, err1 := filepath.EvalSymlinks(path)
-	xdir, err2 := filepath.EvalSymlinks(dir)
+	xpath, err1 := evalSymlinks(path)
+	xdir, err2 := evalSymlinks(dir)
 	if err1 == nil && err2 == nil && str.HasFilePathPrefix(xpath, xdir) {
 		return true
 	}
 	return false
+}
+
+func evalSymlinks(path string) (string, error) {
+	if val, ok := evalSymlinksCache[path]; ok {
+		return val.path, val.err
+	}
+	val := evalSymlinksVal{}
+	val.path, val.err = filepath.EvalSymlinks(path)
+	evalSymlinksCache[path] = val
+	return val.path, val.err
+}
+
+var evalSymlinksCache = make(map[string]evalSymlinksVal)
+
+type evalSymlinksVal struct {
+	path string
+	err  error
 }
 
 func hashGetenv(name string) cache.ActionID {
