@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7020833b_0b698e33",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-03T15:02:37Z",
+      "side": 1,
+      "message": "Let\u0027s drop these commas now. They worked before but don\u0027t now.\n\n(line 625 too)",
+      "range": {
+        "startLine": 619,
+        "startChar": 13,
+        "endLine": 619,
+        "endChar": 14
+      },
+      "revId": "123383ef3dc7b0e57eb8a700255ba5e8f769952c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
