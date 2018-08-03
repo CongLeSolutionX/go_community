@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "e59dc411_28b25382",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-08-03T20:28:08Z",
+      "side": 1,
+      "message": "I inferred from Brad\u0027s last comment that this was preferable, but personally I don\u0027t have an opinion either way. I\u0027ll change it if Brad wants it changed.",
+      "parentUuid": "678e1bd2_b46f98fc",
+      "revId": "643bc4b55f5c258f3c8c8eb5b1eec6104f9b2de3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93bfdf5b_db2e2922",
         "filename": "src/net/http/roundtrip_js.go",
         "patchSetId": 1
