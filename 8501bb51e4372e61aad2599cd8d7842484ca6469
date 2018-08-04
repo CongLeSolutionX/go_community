@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "388cc8c1_c7556863",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-08-04T06:11:20Z",
+      "side": 1,
+      "message": "These are in the reverse of normal order.\nI have to read the function not knowing what evalSymlinksCache is.\nThen I read the var not knowing what an evalSymlinksVal is.\nOnly then do I join the dots.\ntype, var, func, so bottom up, avoids this.",
+      "revId": "8501bb51e4372e61aad2599cd8d7842484ca6469",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
