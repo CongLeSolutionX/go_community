@@ -93,6 +93,7 @@ func ImportPaths(args []string) []string {
 					} else if path := pathInModuleCache(dir); path != "" {
 						pkg = path
 					} else {
+						// No such package. Leave the error for Import.
 						base.Errorf("go: directory %s outside available modules", base.ShortPath(dir))
 						continue
 					}
@@ -337,10 +338,13 @@ func ModuleUsedDirectly(path string) bool {
 	return loaded.direct[path]
 }
 
-// Lookup XXX TODO.
-func Lookup(parentPath, path string) (dir, realPath string, err error) {
-	realPath = ImportMap(path)
-	if realPath == "" {
+// Lookup returns the source directory, import path, and any loading error for
+// the package at path.
+// Lookup requires that one of the Load functions in this package has already
+// been called.
+func Lookup(path string) (dir, realPath string, err error) {
+	pkg, ok := loaded.pkgCache.Get(path).(*loadPkg)
+	if !ok {
 		if isStandardImportPath(path) {
 			dir := filepath.Join(cfg.GOROOT, "src", path)
 			if _, err := os.Stat(dir); err == nil {
@@ -349,7 +353,7 @@ func Lookup(parentPath, path string) (dir, realPath string, err error) {
 		}
 		return "", "", fmt.Errorf("no such package in module")
 	}
-	return PackageDir(realPath), realPath, nil
+	return pkg.dir, pkg.path, pkg.err
 }
 
 // A loader manages the process of loading information about
@@ -457,11 +461,7 @@ func (ld *loader) load(roots func() []string) {
 				}
 				continue
 			}
-			if pkg.err != nil {
-				base.Errorf("go: %s: %s", pkg.stackText(), pkg.err)
-			}
 		}
-		base.ExitIfErrors()
 		if numAdded == 0 {
 			break
 		}
@@ -473,7 +473,6 @@ func (ld *loader) load(roots func() []string) {
 			base.Fatalf("go: %v", err)
 		}
 	}
-	base.ExitIfErrors()
 
 	// Compute directly referenced dependency modules.
 	ld.direct = make(map[string]bool)
@@ -504,9 +503,6 @@ func (ld *loader) load(roots func() []string) {
 			}
 		}
 	}
-
-	// Check for visibility violations.
-	// TODO!
 }
 
 // pkg returns the *loadPkg for path, creating and queuing it if needed.

@@ -9,6 +9,7 @@ import (
 	"cmd/go/internal/module"
 	"cmd/go/internal/semver"
 	"fmt"
+	pathpkg "path"
 	"strings"
 )
 
@@ -186,4 +187,54 @@ func isSemverPrefix(v string) bool {
 // matches the full-width (non-shortened) semantic version v.
 func matchSemverPrefix(p, v string) bool {
 	return len(v) > len(p) && v[len(p)] == '.' && v[:len(p)] == p
+}
+
+// QueryPackage looks up a revision of a module containing path.
+//
+// If multiple matching modules provide the requested package, QueryPackage
+// picks the one with the longest module path.
+//
+// If no module provides the given package but some module exists with a prefix
+// of path and a matching version, QueryPackage returns the info for that module
+// along with a non-nil error.
+func QueryPackage(path, query string, allowed func(module.Version) bool) (module.Version, *modfetch.RevInfo, error) {
+	var (
+		longest     module.Version
+		longestInfo *modfetch.RevInfo
+	)
+	for p := path; p != "."; p = pathpkg.Dir(p) {
+		// We can't upgrade the main module.
+		// Note that this loop does consider upgrading other modules on the build list.
+		// If that's too aggressive we can skip all paths already on the build list,
+		// not just Target.Path, but for now let's try being aggressive.
+		if p == Target.Path {
+			if _, ok := dirInModule(path, Target.Path, ModRoot, true); ok {
+				if query == "latest" {
+					return Target, nil, nil
+				} else {
+					return module.Version{}, nil, fmt.Errorf("can't query for version %v of a package in the current module", query)
+				}
+			}
+		}
+
+		info, err := Query(p, query, allowed)
+		if err != nil {
+			continue
+		}
+		m := module.Version{Path: p, Version: info.Version}
+		root, isLocal, err := fetch(m)
+		if err != nil {
+			return module.Version{}, nil, err
+		}
+		_, ok := dirInModule(path, m.Path, root, isLocal)
+		if ok {
+			return m, info, nil
+		}
+		if longest.Path == "" {
+			longest = m
+			longestInfo = info
+		}
+	}
+
+	return longest, longestInfo, fmt.Errorf("no modules providing package %s for query %q", path, query)
 }
