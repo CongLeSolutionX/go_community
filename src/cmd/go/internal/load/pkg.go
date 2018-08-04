@@ -1767,7 +1767,7 @@ func LoadPackage(arg string, stk *ImportStack) *Package {
 	return LoadImport(arg, base.Cwd, nil, stk, nil, 0)
 }
 
-// packages returns the packages named by the
+// Packages returns the packages named by the
 // command line arguments 'args'. If a named package
 // cannot be loaded at all (for example, if the directory does not exist),
 // then packages prints an error and does not include that
@@ -1787,7 +1787,7 @@ func Packages(args []string) []*Package {
 	return pkgs
 }
 
-// packagesAndErrors is like 'packages' but returns a
+// PackagesAndErrors is like 'packages' but returns a
 // *Package for every argument, even the ones that
 // cannot be loaded at all.
 // The packages that fail to load will have p.Error != nil.

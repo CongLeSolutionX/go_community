@@ -21,7 +21,7 @@ go list -f '{{range .DepsErrors}}{{.Err}}{{end}}' example.com/indirect
 stdout example.com/notfound
 
 ! go list -f '{{if .Error}}error{{end}} {{if .Incomplete}}incomplete{{end}}' example.com/notfound
-stderr 'no Go files'
+stderr 'cannot find module providing package example.com/notfound'
 ! stdout error
 ! stdout incomplete
 
