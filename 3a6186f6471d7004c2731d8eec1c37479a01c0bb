@@ -81,6 +81,30 @@
       "revId": "3a6186f6471d7004c2731d8eec1c37479a01c0bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9610a3a8_ca1ec7d7",
+        "filename": "src/cmd/go/testdata/script/cover_atomic_pkgall.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-04T19:08:50Z",
+      "side": 1,
+      "message": "\u003e I tried the below:\n\u003e ---\n\u003e [!race] stop\n\u003e \n\u003e go test -coverpkg\u003dall -race x\n\u003e stdout ok[\\s\\S]+?coverage\n\u003e ---\n\u003e \n\u003e Is the usage right? The -race does not seem to affect test execution.\n\u003e \u003e go test cmd/go -v -run\u003dScript/cover_atomic\n\u003e \u003e go test -race cmd/go -v -run\u003dScript/cover_atomic\n\u003e \n\u003e The lines beyond \"[!race] stop\" are executed in both cases.\n\u003e The testScript.cmdStop() does not get invoked in either case.\n\nYes, that is correct: [race] indicates whether the race detector can be used, not whether it is enabled in the test binary itself.\n\n(See https://github.com/golang/go/blob/5a720d229d5ebc2f8b599aa54a3d807a1d54365f/src/cmd/go/testdata/script/README#L74.)",
+      "parentUuid": "49cb23d0_a12b64f3",
+      "range": {
+        "startLine": 4,
+        "startChar": 9,
+        "endLine": 4,
+        "endChar": 15
+      },
+      "revId": "3a6186f6471d7004c2731d8eec1c37479a01c0bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

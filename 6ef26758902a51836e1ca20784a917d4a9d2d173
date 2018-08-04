@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44d16850_c7324d92",
+        "filename": "src/cmd/go/testdata/script/cover_pkgall_runtime.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-04T19:08:50Z",
+      "side": 1,
+      "message": "[short] skip\n(at the top)",
+      "revId": "6ef26758902a51836e1ca20784a917d4a9d2d173",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f22105a_a7a04daa",
+        "filename": "src/cmd/go/testdata/script/cover_pkgall_runtime.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-04T19:08:50Z",
+      "side": 1,
+      "message": "[race] stop",
+      "revId": "6ef26758902a51836e1ca20784a917d4a9d2d173",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dfa0a7a_049a394a",
+        "filename": "src/cmd/go/testdata/script/cpu_profile_twice.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-04T19:08:50Z",
+      "side": 1,
+      "message": "[short] skip",
+      "revId": "6ef26758902a51836e1ca20784a917d4a9d2d173",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
