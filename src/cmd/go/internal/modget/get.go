@@ -513,12 +513,26 @@ func runGet(cmd *base.Command, args []string) {
 	}
 
 	if len(install) > 0 {
+		// All requested versions were explicitly @none.
+		// Note that 'go get -u' without any arguments results in len(install) == 1:
+		// search.CleanImportPaths returns "." for empty args.
 		work.BuildInit()
 		var pkgs []string
 		for _, p := range load.PackagesAndErrors(install) {
-			if p.Error == nil || !strings.HasPrefix(p.Error.Err, "no Go files") {
-				pkgs = append(pkgs, p.ImportPath)
+			// Ignore "no Go source files" errors for 'go get' operations on modules.
+			if p.Error != nil {
+				if len(args) == 0 && getU != "" && strings.HasPrefix(p.Error.Err, "no Go files") {
+					// Upgrading modules: skip the implicitly-requested package at the
+					// current directory, even if it is not tho module root.
+					continue
+				}
+				if strings.Contains(p.Error.Err, "cannot find module providing") && modload.ModuleInfo(p.ImportPath) != nil {
+					// Explicitly-requested module, but it doesn't contain a package at the
+					// module root.
+					continue
+				}
 			}
+			pkgs = append(pkgs, p.ImportPath)
 		}
 		// If -d was specified, we're done after the download: no build.
 		// (The load.PackagesAndErrors is what did the download
@@ -557,22 +571,12 @@ func getQuery(path, vers string, forceModulePath bool) (module.Version, error) {
 		return module.Version{}, err
 	}
 
-	// Otherwise, interpret the package path as an import
-	// and determine what module that import would address
-	// if found in the current source code.
-	// Then apply the version to that module.
-	m, _, err := modload.Import(path)
+	// Otherwise, try a package path.
+	m, _, err := modload.QueryPackage(path, vers, modload.Allowed)
 	if err != nil {
-		return module.Version{}, err
+		return module.Version{}, fmt.Errorf("%s is not a known package or module", path)
 	}
-	if m.Path == "" {
-		return module.Version{}, fmt.Errorf("package %q is not in a module", path)
-	}
-	info, err = modload.Query(m.Path, vers, modload.Allowed)
-	if err != nil {
-		return module.Version{}, err
-	}
-	return module.Version{Path: m.Path, Version: info.Version}, nil
+	return m, nil
 }
 
 // isModulePath reports whether path names an actual module,

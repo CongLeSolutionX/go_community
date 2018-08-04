@@ -587,6 +587,8 @@ func runList(cmd *base.Command, args []string) {
 	for _, p := range pkgs {
 		do(&p.PackagePublic)
 	}
+
+	base.ExitIfErrors()
 }
 
 // TrackingWriter tracks the last byte written on every write so
