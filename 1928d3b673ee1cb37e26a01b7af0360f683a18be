@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c90843fb_2d625e67",
+        "filename": "src/go/format/benchmark_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-08-05T15:36:51Z",
+      "side": 1,
+      "message": "2018 :)",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "1928d3b673ee1cb37e26a01b7af0360f683a18be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
