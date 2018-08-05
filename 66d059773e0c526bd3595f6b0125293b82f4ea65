@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2137b31_527812ea",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-05T02:28:22Z",
+      "side": 1,
+      "message": "If we\u0027ve got the right list of packages, the only errors here should be “no such package” errors for packages at the root of explicitly-requested modules, or for the implicitly-requested current directory.",
+      "revId": "66d059773e0c526bd3595f6b0125293b82f4ea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e350dd6a_2134df5a",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-05T02:28:22Z",
+      "side": 1,
+      "message": "Should validate that m.Path \u003d\u003d path, or move the “tolerate valid modules” logic up a level and not return a module at all in case of error.",
+      "range": {
+        "startLine": 138,
+        "startChar": 9,
+        "endLine": 138,
+        "endChar": 10
+      },
+      "revId": "66d059773e0c526bd3595f6b0125293b82f4ea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "381f5b85_04dd573e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-05T02:28:22Z",
+      "side": 1,
+      "message": "Need to omit the Errorf call, I think.",
+      "revId": "66d059773e0c526bd3595f6b0125293b82f4ea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eefdb3aa_43bfd001",
+        "filename": "src/cmd/go/testdata/script/mod_get_indirect.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-05T02:28:22Z",
+      "side": 1,
+      "message": "This command should probably require a `-e` flag: the code imports golang.org/x/text, but that isn\u0027t an actual package.",
+      "revId": "66d059773e0c526bd3595f6b0125293b82f4ea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
