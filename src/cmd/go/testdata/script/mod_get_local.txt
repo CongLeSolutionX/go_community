@@ -36,11 +36,10 @@ cp go.mod go.mod.dotpkg
 
 # 'go get -u -d' with an explicit package in the main module should update
 # only the modules that provide imports for that package.
-# BUG: Today, it fails entirely.
+# BUG: Today, it updates all dependencies of the current module.
 cp go.mod.orig go.mod
-! go get -u -d local/uselang
-stderr 'missing dot in first path element'
-cmp go.mod go.mod.orig
+go get -u -d local/uselang
+cmp go.mod go.mod.dotpkg
 
 
 -- go.mod --
