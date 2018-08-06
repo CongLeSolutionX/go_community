@@ -6,9 +6,10 @@ stderr 'cannot find module providing package appengine'
 ! go get x/y.z
 stderr 'cannot find module providing package x/y.z'
 
-# build should skip over appengine imports
+# build should report all unsatisfied imports,
+# but should be more definitive about non-module import paths
 ! go build
-! stderr appengine
+stderr '"appengine": no such package in active modules'
 stderr 'cannot find module providing package nonexistent.rsc.io'
 
 -- go.mod --
