@@ -5,6 +5,8 @@
 package x509
 
 import (
+	"os"
+	"os/exec"
 	"runtime"
 	"testing"
 	"time"
@@ -14,11 +16,6 @@ func TestSystemRoots(t *testing.T) {
 	switch runtime.GOARCH {
 	case "arm", "arm64":
 		t.Skipf("skipping on %s/%s, no system root", runtime.GOOS, runtime.GOARCH)
-	}
-
-	switch runtime.GOOS {
-	case "darwin":
-		t.Skipf("skipping on %s/%s until golang.org/issue/24652 has been resolved.", runtime.GOOS, runtime.GOARCH)
 	}
 
 	t0 := time.Now()
@@ -36,45 +33,50 @@ func TestSystemRoots(t *testing.T) {
 	t.Logf("    cgo sys roots: %v", sysRootsDuration)
 	t.Logf("non-cgo sys roots: %v", execSysRootsDuration)
 
-	for _, tt := range []*CertPool{sysRoots, execRoots} {
-		if tt == nil {
-			t.Fatal("no system roots")
-		}
-		// On Mavericks, there are 212 bundled certs, at least
-		// there was at one point in time on one machine.
-		// (Maybe it was a corp laptop with extra certs?)
-		// Other OS X users report
-		// 135, 142, 145...  Let's try requiring at least 100,
-		// since this is just a sanity check.
-		t.Logf("got %d roots", len(tt.certs))
-		if want, have := 100, len(tt.certs); have < want {
-			t.Fatalf("want at least %d system roots, have %d", want, have)
-		}
+	// On Mavericks, there are 212 bundled certs, at least there was at
+	// one point in time on one machine. (Maybe it was a corp laptop
+	// with extra certs?) Other OS X users report 135, 142, 145...
+	// Let's try requiring at least 100, since this is just a sanity
+	// check.
+	if want, have := 100, len(sysRoots.certs); have < want {
+		t.Errorf("want at least %d system roots, have %d", want, have)
 	}
 
-	// Check that the two cert pools are roughly the same;
-	// |A∩B| > max(|A|, |B|) / 2 should be a reasonably robust check.
-
-	isect := make(map[string]bool, len(sysRoots.certs))
+	// Check that the two cert pools are the same.
+	sysPool := make(map[string]*Certificate, len(sysRoots.certs))
 	for _, c := range sysRoots.certs {
-		isect[string(c.Raw)] = true
+		sysPool[string(c.Raw)] = c
 	}
-
-	have := 0
 	for _, c := range execRoots.certs {
-		if isect[string(c.Raw)] {
-			have++
+		if _, ok := sysPool[string(c.Raw)]; ok {
+			delete(sysPool, string(c.Raw))
+		} else {
+			// verify-cert lets in certificates that are not trusted roots, but are
+			// signed by trusted roots. This should not be a problem, so confirm that's
+			// the case and skip them.
+			if _, err := c.Verify(VerifyOptions{
+				Roots:         sysRoots,
+				Intermediates: execRoots, // the intermediates for EAP certs are stored in the keychain
+				KeyUsages:     []ExtKeyUsage{ExtKeyUsageAny},
+			}); err != nil {
+				t.Errorf("certificate only present in non-cgo pool: %v (verify error: %v)", c.Subject, err)
+			} else {
+				t.Logf("signed certificate only present in non-cgo pool (acceptable): %v", c.Subject)
+			}
 		}
 	}
-
-	var want int
-	if nsys, nexec := len(sysRoots.certs), len(execRoots.certs); nsys > nexec {
-		want = nsys / 2
-	} else {
-		want = nexec / 2
+	for _, c := range sysPool {
+		t.Errorf("certificate only present in cgo pool: %v", c.Subject)
 	}
 
-	if have < want {
-		t.Errorf("insufficient overlap between cgo and non-cgo roots; want at least %d, have %d", want, have)
+	if t.Failed() && debugDarwinRoots {
+		cmd := exec.Command("security", "dump-trust-settings")
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		cmd.Run()
+		cmd = exec.Command("security", "dump-trust-settings", "-d")
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		cmd.Run()
 	}
 }
