@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "81f70539_d0cb3fc6",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 28422
+      },
+      "writtenOn": "2018-08-06T18:35:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "56b26752_7b9a660a",
+      "revId": "e00c1a00ae850f7f80369520122296e2838321fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b7dc75f_cf21b0b6",
         "filename": "src/cmd/cgo/gcc.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "e00c1a00ae850f7f80369520122296e2838321fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d96bf131_c9ff174d",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 28422
+      },
+      "writtenOn": "2018-08-06T18:35:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0b7dc75f_cf21b0b6",
+      "revId": "e00c1a00ae850f7f80369520122296e2838321fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
