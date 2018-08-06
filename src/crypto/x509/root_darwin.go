@@ -22,7 +22,7 @@ import (
 	"sync"
 )
 
-var debugExecDarwinRoots = strings.Contains(os.Getenv("GODEBUG"), "x509roots=1")
+var debugDarwinRoots = strings.Contains(os.Getenv("GODEBUG"), "x509roots=1")
 
 func (c *Certificate) systemVerify(opts *VerifyOptions) (chains [][]*Certificate, err error) {
 	return nil, nil
