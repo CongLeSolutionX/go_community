@@ -1,0 +1,33 @@
+env GO111MODULE=on
+
+go mod init example.com/m
+
+# get without -d should install the selected version immediately.
+# BUG: should not be stale.
+go get rsc.io/quote@v1.5.1
+go list -f '{{.Stale}} {{.Target}}' rsc.io/quote
+stdout ^true
+
+# get of a new version with -d should make the package stale.
+go get -d rsc.io/quote@v1.5.2
+go list -f '{{.Stale}} {{.Target}}' rsc.io/quote
+stdout ^true
+
+# building  explicitly should make it non-stale again.
+# BUG: should not be stale.
+go install rsc.io/quote
+go list -f '{{.Stale}} {{.Target}}' rsc.io/quote
+stdout ^true
+
+# get of a binary should install it to $GOPATH/bin
+# BUG: vgo-tour should be installed as vgo-tour, not vgo-tour@v1.0.0.
+go get research.swtch.com/vgo-tour
+exec $GOPATH/bin/vgo-tour@v1.0.0
+stdout 'Hello, world.'
+rm $GOPATH/bin/vgo-tour@v1.0.0
+
+# install of a binary should install it to $GOPATH/bin
+# BUG: vgo-tour should be installed as vgo-tour, not vgo-tour@v1.0.0.
+go install research.swtch.com/vgo-tour
+exec $GOPATH/bin/vgo-tour@v1.0.0
+stdout 'Hello, world.'
