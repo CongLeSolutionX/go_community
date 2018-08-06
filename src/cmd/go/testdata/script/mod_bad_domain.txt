@@ -2,9 +2,9 @@ env GO111MODULE=on
 
 # explicit get should report errors about bad names
 ! go get appengine
-stderr 'cannot find module providing package appengine'
+stderr 'appengine is not a known package or module'
 ! go get x/y.z
-stderr 'cannot find module providing package x/y.z'
+stderr 'x/y.z is not a known package or module'
 
 # build should report all unsatisfied imports,
 # but should be more definitive about non-module import paths
