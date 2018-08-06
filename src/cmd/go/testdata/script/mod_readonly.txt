@@ -4,7 +4,7 @@ env GO111MODULE=on
 env GOFLAGS=-mod=readonly
 go mod edit -fmt
 cp go.mod go.mod.empty
-! go list
+! go list all
 stderr 'import lookup disabled by -mod=readonly'
 cmp go.mod go.mod.empty
 
