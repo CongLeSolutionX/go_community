@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "7d5bbb01_1049e431",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-06T17:31:21Z",
+      "side": 1,
+      "message": "Probably this change should be in a separate CL. Seems unrelated.",
+      "revId": "66d059773e0c526bd3595f6b0125293b82f4ea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deb36e67_67af3e81",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-06T17:31:21Z",
+      "side": 1,
+      "message": "If you run \u0027go get x@none\u0027 then len(install) \u003d\u003d 0.",
+      "revId": "66d059773e0c526bd3595f6b0125293b82f4ea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d2137b31_527812ea",
         "filename": "src/cmd/go/internal/modget/get.go",
         "patchSetId": 2
@@ -13,6 +47,41 @@
       "writtenOn": "2018-08-05T02:28:22Z",
       "side": 1,
       "message": "If we\u0027ve got the right list of packages, the only errors here should be “no such package” errors for packages at the root of explicitly-requested modules, or for the implicitly-requested current directory.",
+      "revId": "66d059773e0c526bd3595f6b0125293b82f4ea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45cf500b_10c5917a",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-06T17:31:21Z",
+      "side": 1,
+      "message": "What if we haven\u0027t got the right list of packages? \n\nIt seems very error-prone to assume that we want to discard all errors here for all future possible changes to the go command. There\u0027s one specific error we want to ignore - no Go files in the directory named by the import path. Any other error should certainly be reported (by keeping the import path in pkgs and then having work.InstallPackages do the reporting).",
+      "parentUuid": "d2137b31_527812ea",
+      "revId": "66d059773e0c526bd3595f6b0125293b82f4ea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a3a7424_3b3f77c5",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-06T17:31:21Z",
+      "side": 1,
+      "message": "Doesn\u0027t this break:\n\ngo get golang.org/x/text/language@master\ngo get golang.org/x/tools/cmd/goimports@master\n\netc?",
       "revId": "66d059773e0c526bd3595f6b0125293b82f4ea65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
