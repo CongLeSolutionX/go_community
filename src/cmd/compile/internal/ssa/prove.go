@@ -1071,6 +1071,7 @@ func addLocalInductiveFacts(ft *factsTable, b *Block) {
 }
 
 var ctzNonZeroOp = map[Op]Op{OpCtz8: OpCtz8NonZero, OpCtz16: OpCtz16NonZero, OpCtz32: OpCtz32NonZero, OpCtz64: OpCtz64NonZero}
+var maxint = [4]uint64{math.MaxInt8, math.MaxInt16, math.MaxInt32, math.MaxInt64}
 
 // simplifyBlock simplifies some constant values in b and evaluates
 // branches to non-uniquely dominated successors of b.
@@ -1140,6 +1141,20 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 				v.AuxInt = 1 // see shiftIsBounded
 				if b.Func.pass.debug > 0 {
 					b.Func.Warnl(v.Pos, "Proved %v bounded", v.Op)
+				}
+			}
+		case OpDiv16, OpDiv32, OpDiv64, OpMod16, OpMod32, OpMod64:
+			// On amd64 and 386 fix-up code can be avoided if we know
+			//  the divisor is not -1 or |dividend| < MaxIntNN.
+			divr := v.Args[1]
+			lim, ok := ft.limits[divr.ID]
+			if !ok {
+				continue
+			}
+			if lim.max < -1 || lim.min > -1 || lim.umax <= maxint[int(math.Log2(float64(v.Args[0].Type.Size())))] {
+				v.AuxInt = 1 // see NeedsFixUp
+				if b.Func.pass.debug > 0 {
+					b.Func.Warnl(v.Pos, "Proved %v does not need fix-up", v.Op)
 				}
 			}
 		}

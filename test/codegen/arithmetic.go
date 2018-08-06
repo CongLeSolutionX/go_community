@@ -139,6 +139,46 @@ func ConstMods(n1 uint, n2 int) (uint, int) {
 	return a, b
 }
 
+// Check that fix-up code is not generated for divisions where it has been proven that
+// that the divisor is not -1.
+func NoFix64(divr int64) (int64, int64) {
+	var d int64 = 42
+	var e int64 = 84
+	if divr > 5 {
+		d /= divr // amd64:-"JMP"
+		e %= divr // amd64:-"JMP"
+	}
+	return d, e
+}
+
+func NoFix32(divr int32) (int32, int32) {
+	var d int32 = 42
+	var e int32 = 84
+	if divr > 5 {
+		// amd64:-"JMP"
+		// 386:-"JMP"
+		d /= divr
+		// amd64:-"JMP"
+		// 386:-"JMP"
+		e %= divr
+	}
+	return d, e
+}
+
+func NoFix16(divr int16) (int16, int16) {
+	var d int16 = 42
+	var e int16 = 84
+	if divr > 5 {
+		// amd64:-"JMP"
+		// 386:-"JMP"
+		d /= divr
+		// amd64:-"JMP"
+		// 386:-"JMP"
+		e %= divr
+	}
+	return d, e
+}
+
 // Check that len() and cap() calls divided by powers of two are
 // optimized into shifts and ands
 
