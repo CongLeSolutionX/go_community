@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c0e3f6b_a8415ed5",
+        "filename": "src/cmd/compile/internal/ssa/flagalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-06T21:26:13Z",
+      "side": 1,
+      "message": "These need a comment. Something like:\n// When breaking up a load+compare into a separate load and compare operation,\n// opMap0 specifies the load operation and opMap1 specifies the compare operation.\n\nAlso, make these variables globals (and give them better names). You\u0027re building these maps on every iteration.",
+      "revId": "dc6abb0bd5ff4c616f14d0b4d002381154235510",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
