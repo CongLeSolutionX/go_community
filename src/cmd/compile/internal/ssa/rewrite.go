@@ -418,6 +418,11 @@ func shiftIsBounded(v *Value) bool {
 	return v.AuxInt != 0
 }
 
+// NeedsFixUp reports whether the division needs fix-up code.
+func NeedsFixUp(v *Value) bool {
+	return v.AuxInt == 0
+}
+
 // i2f is used in rules for converting from an AuxInt to a float.
 func i2f(i int64) float64 {
 	return math.Float64frombits(uint64(i))

@@ -1071,6 +1071,7 @@ func addLocalInductiveFacts(ft *factsTable, b *Block) {
 }
 
 var ctzNonZeroOp = map[Op]Op{OpCtz8: OpCtz8NonZero, OpCtz16: OpCtz16NonZero, OpCtz32: OpCtz32NonZero, OpCtz64: OpCtz64NonZero}
+var minint = [4]int64{math.MinInt8, math.MinInt16, math.MinInt32, math.MinInt64}
 
 // simplifyBlock simplifies some constant values in b and evaluates
 // branches to non-uniquely dominated successors of b.
@@ -1140,6 +1141,20 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 				v.AuxInt = 1 // see shiftIsBounded
 				if b.Func.pass.debug > 0 {
 					b.Func.Warnl(v.Pos, "Proved %v bounded", v.Op)
+				}
+			}
+		case OpDiv16, OpDiv32, OpDiv64, OpMod16, OpMod32, OpMod64:
+			// On amd64 and 386 fix-up code can be avoided if we know
+			//  the divisor is not -1 or the dividend > MinIntNN.
+			divr := v.Args[1]
+			divrLim, divrLimok := ft.limits[divr.ID]
+			divd := v.Args[0]
+			divdLim, divdLimok := ft.limits[divd.ID]
+			if (divrLimok && (divrLim.max < -1 || divrLim.min > -1)) ||
+				(divdLimok && divdLim.min > minint[int(math.Log2(float64(divd.Type.Size())))]) {
+				v.AuxInt = 1 // see NeedsFixUp
+				if b.Func.pass.debug > 0 {
+					b.Func.Warnl(v.Pos, "Proved %v does not need fix-up", v.Op)
 				}
 			}
 		}
