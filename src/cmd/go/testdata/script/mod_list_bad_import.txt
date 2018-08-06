@@ -1,0 +1,49 @@
+env GO111MODULE=on
+cd example.com
+
+go list -f '{{if .Error}}error{{end}} {{if .Incomplete}}incomplete{{end}}' example.com/direct
+! stdout error
+stdout 'incomplete'
+
+go list -f '{{range .DepsErrors}}{{.Err}}{{end}}' example.com/direct
+stdout example.com/notfound
+
+cd direct
+go list
+! stdout example.com/notfound
+cd ..
+
+go list -f '{{if .Error}}error{{end}} {{if .Incomplete}}incomplete{{end}}' example.com/indirect
+! stdout error
+stdout incomplete
+
+go list -f '{{range .DepsErrors}}{{.Err}}{{end}}' example.com/indirect
+stdout example.com/notfound
+
+! go list -f '{{if .Error}}error{{end}} {{if .Incomplete}}incomplete{{end}}' example.com/notfound
+stderr 'cannot find module providing package example.com/notfound'
+! stdout error
+! stdout incomplete
+
+go list -e -f '{{if .Error}}error{{end}} {{if .Incomplete}}incomplete{{end}}' example.com/notfound
+stdout error
+stdout incomplete
+
+go list -e -f '{{.ImportPath}}' all
+stdout example.com/direct
+stdout example.com/indirect
+! stdout example.com/notfound
+
+-- example.com/go.mod --
+module example.com
+
+-- example.com/direct/direct.go --
+package direct
+import _ "example.com/notfound"
+
+-- example.com/indirect/indirect.go --
+package indirect
+import _ "example.com/direct"
+
+-- example.com/notfound/README --
+This directory intentionally left blank.
