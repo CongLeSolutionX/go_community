@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0465b56_07179cb2",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-08-06T19:32:53Z",
+      "side": 1,
+      "message": "How about if !isEmpty(s[i]) {\nreturn false\n}\nfor early return?",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
