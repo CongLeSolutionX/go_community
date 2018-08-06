@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c917f80_b7b2b93e",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-06T21:52:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure why we need both conditions here.  Could you add a comment as to why?\n(Is it declarations with missing bodies?  I\u0027m not sure.)",
+      "revId": "c17252ffebf9b05d5a86062ec5d4ab93c612170b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
