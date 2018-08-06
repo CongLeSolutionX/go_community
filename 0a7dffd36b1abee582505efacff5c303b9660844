@@ -16,6 +16,24 @@
       "revId": "0a7dffd36b1abee582505efacff5c303b9660844",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6983e33c_e786cda6",
+        "filename": "src/cmd/asm/internal/arch/arch.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 28643
+      },
+      "writtenOn": "2018-08-06T18:49:30Z",
+      "side": 1,
+      "message": "Looks nice",
+      "parentUuid": "821d6d07_08bee3a3",
+      "revId": "0a7dffd36b1abee582505efacff5c303b9660844",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
