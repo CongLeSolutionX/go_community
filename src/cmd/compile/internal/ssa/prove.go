@@ -1142,6 +1142,20 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 					b.Func.Warnl(v.Pos, "Proved %v bounded", v.Op)
 				}
 			}
+		case OpDiv16, OpDiv32, OpDiv64, OpMod16, OpMod32, OpMod64:
+			// On amd64 and 386 fix-up code can be avoided if we know
+			//  the divisor is not -1.
+			divr := v.Args[1]
+			lim, ok := ft.limits[divr.ID]
+			if !ok {
+				continue
+			}
+			if lim.max < -1 || lim.min > -1 {
+				v.AuxInt = 1 // see MightBeNegativeOne
+				if b.Func.pass.debug > 0 {
+					b.Func.Warnl(v.Pos, "Proved %v not -1", v.Op)
+				}
+			}
 		}
 	}
 

@@ -8,7 +8,10 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
 const (
 	y = 0x0fffFFFF
@@ -992,6 +995,31 @@ func testShiftedOps() {
 	}
 }
 
+// testDivFixUp ensures that signed division fix-ups are being generated.
+func testDivFixUp() {
+	defer func() {
+		if r := recover(); r != nil {
+			failed = true
+			fmt.Println("testDivFixUp failed")
+			if e, ok := r.(runtime.Error); ok {
+				fmt.Printf("runtime error %v\n", e.Error())
+			}
+		}
+	}()
+	var x int16 = -32768
+	var y int32 = -2147483648
+	var z int64 = -9223372036854775808
+
+	for i := -5; i < 0; i++ {
+		_ = x / int16(i)
+		_ = y / int32(i)
+		_ = z / int64(i)
+		_ = x % int16(i)
+		_ = y % int32(i)
+		_ = z % int64(i)
+	}
+}
+
 var failed = false
 
 func main() {
@@ -1013,6 +1041,7 @@ func main() {
 	testLoadSymCombine()
 	testShiftRemoval()
 	testShiftedOps()
+	testDivFixUp()
 
 	if failed {
 		panic("failed")
