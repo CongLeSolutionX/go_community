@@ -242,9 +242,17 @@ func walkstmt(n *Node) *Node {
 		n.Right = walkstmt(n.Right)
 
 	case ODEFER:
+		if isEmpty(n) {
+			n.Op = OEMPTY
+			return n
+		}
 		Curfn.Func.SetHasDefer(true)
 		fallthrough
 	case OPROC:
+		if isEmpty(n) {
+			n.Op = OEMPTY
+			return n
+		}
 		switch n.Left.Op {
 		case OPRINT, OPRINTN:
 			n.Left = wrapCall(n.Left, &n.Ninit)
@@ -367,6 +375,40 @@ func isSmallMakeSlice(n *Node) bool {
 	t := n.Type
 
 	return smallintconst(l) && smallintconst(r) && (t.Elem().Width == 0 || r.Int64() < (1<<16)/t.Elem().Width)
+}
+
+func isEmpty(n *Node) bool {
+	switch n.Op {
+	case ODEFER, OPROC:
+		return isEmpty(n.Left)
+	case OCALLFUNC:
+		return isEmpty(n.Left)
+	case ONAME:
+		if n.Func != nil && n.Func.Inl != nil && n.Func.Inl.Cost == 0 {
+			return true
+		}
+		return false
+	case OCLOSURE:
+		s := n.Func.Closure.Nbody.Slice()
+		empty := true
+		for i := range s {
+			empty = empty && isEmpty(s[i])
+		}
+		return empty
+	case OBLOCK:
+		s := n.List.Slice()
+		empty := true
+		for i := range s {
+			if !(s[i].Op == OLABEL && s[i].Left.Op == ONAME) {
+				empty = empty && isEmpty(s[i])
+			}
+		}
+		return empty
+	case OEMPTY:
+		return true
+	default:
+		return false
+	}
 }
 
 // walk the whole tree of the body of an
