@@ -198,24 +198,26 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		if v.Op == ssa.Op386DIVL || v.Op == ssa.Op386DIVW ||
 			v.Op == ssa.Op386MODL || v.Op == ssa.Op386MODW {
 
-			var c *obj.Prog
-			switch v.Op {
-			case ssa.Op386DIVL, ssa.Op386MODL:
-				c = s.Prog(x86.ACMPL)
-				j = s.Prog(x86.AJEQ)
-				s.Prog(x86.ACDQ) //TODO: fix
+			if ssa.MayBeMinusOne(v) {
+				var c *obj.Prog
+				switch v.Op {
+				case ssa.Op386DIVL, ssa.Op386MODL:
+					c = s.Prog(x86.ACMPL)
+					j = s.Prog(x86.AJEQ)
+					s.Prog(x86.ACDQ) //TODO: fix
 
-			case ssa.Op386DIVW, ssa.Op386MODW:
-				c = s.Prog(x86.ACMPW)
-				j = s.Prog(x86.AJEQ)
-				s.Prog(x86.ACWD)
+				case ssa.Op386DIVW, ssa.Op386MODW:
+					c = s.Prog(x86.ACMPW)
+					j = s.Prog(x86.AJEQ)
+					s.Prog(x86.ACWD)
+				}
+				c.From.Type = obj.TYPE_REG
+				c.From.Reg = x
+				c.To.Type = obj.TYPE_CONST
+				c.To.Offset = -1
+
+				j.To.Type = obj.TYPE_BRANCH
 			}
-			c.From.Type = obj.TYPE_REG
-			c.From.Reg = x
-			c.To.Type = obj.TYPE_CONST
-			c.To.Offset = -1
-
-			j.To.Type = obj.TYPE_BRANCH
 		}
 
 		// for unsigned ints, we sign extend by setting DX = 0
@@ -233,28 +235,30 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = x
 
-		// signed division, rest of the check for -1 case
-		if j != nil {
-			j2 := s.Prog(obj.AJMP)
-			j2.To.Type = obj.TYPE_BRANCH
+		if ssa.MayBeMinusOne(v) {
+			// signed division, rest of the check for -1 case
+			if j != nil {
+				j2 := s.Prog(obj.AJMP)
+				j2.To.Type = obj.TYPE_BRANCH
 
-			var n *obj.Prog
-			if v.Op == ssa.Op386DIVL || v.Op == ssa.Op386DIVW {
-				// n * -1 = -n
-				n = s.Prog(x86.ANEGL)
-				n.To.Type = obj.TYPE_REG
-				n.To.Reg = x86.REG_AX
-			} else {
-				// n % -1 == 0
-				n = s.Prog(x86.AXORL)
-				n.From.Type = obj.TYPE_REG
-				n.From.Reg = x86.REG_DX
-				n.To.Type = obj.TYPE_REG
-				n.To.Reg = x86.REG_DX
+				var n *obj.Prog
+				if v.Op == ssa.Op386DIVL || v.Op == ssa.Op386DIVW {
+					// n * -1 = -n
+					n = s.Prog(x86.ANEGL)
+					n.To.Type = obj.TYPE_REG
+					n.To.Reg = x86.REG_AX
+				} else {
+					// n % -1 == 0
+					n = s.Prog(x86.AXORL)
+					n.From.Type = obj.TYPE_REG
+					n.From.Reg = x86.REG_DX
+					n.To.Type = obj.TYPE_REG
+					n.To.Reg = x86.REG_DX
+				}
+
+				j.To.Val = n
+				j2.To.Val = s.Pc()
 			}
-
-			j.To.Val = n
-			j2.To.Val = s.Pc()
 		}
 
 	case ssa.Op386HMULL, ssa.Op386HMULLU:
