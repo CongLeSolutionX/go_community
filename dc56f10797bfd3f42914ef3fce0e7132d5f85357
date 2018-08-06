@@ -45,6 +45,54 @@
       "revId": "dc56f10797bfd3f42914ef3fce0e7132d5f85357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22043c8e_c2df2da4",
+        "filename": "src/cmd/asm/internal/arch/arch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 28643
+      },
+      "writtenOn": "2018-08-06T09:40:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10f5e07c_d9ce0c5d",
+      "range": {
+        "startLine": 6,
+        "startChar": 49,
+        "endLine": 6,
+        "endChar": 60
+      },
+      "revId": "dc56f10797bfd3f42914ef3fce0e7132d5f85357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b9dffc8_42a19192",
+        "filename": "src/cmd/asm/internal/arch/arch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 28643
+      },
+      "writtenOn": "2018-08-06T09:40:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b5f80ee_a649b09f",
+      "range": {
+        "startLine": 6,
+        "startChar": 24,
+        "endLine": 6,
+        "endChar": 30
+      },
+      "revId": "dc56f10797bfd3f42914ef3fce0e7132d5f85357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
