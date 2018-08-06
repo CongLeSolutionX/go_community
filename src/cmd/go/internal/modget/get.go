@@ -526,7 +526,7 @@ func runGet(cmd *base.Command, args []string) {
 					// current directory, even if it is not tho module root.
 					continue
 				}
-				if strings.HasPrefix(p.Error.Err, "no Go files") && modload.ModuleInfo(p.ImportPath) != nil {
+				if strings.Contains(p.Error.Err, "cannot find module providing") && modload.ModuleInfo(p.ImportPath) != nil {
 					// Explicitly-requested module, but it doesn't contain a package at the
 					// module root.
 					continue
@@ -572,24 +572,12 @@ func getQuery(path, vers string, forceModulePath bool) (module.Version, error) {
 		return module.Version{}, err
 	}
 
-	// Otherwise, interpret the package path as an import
-	// and determine what module that import would address
-	// if found in the current source code.
-	// Then apply the version to that module.
-	m, _, err := modload.Import(path)
-	if e, ok := err.(*modload.ImportMissingError); ok && e.Module.Path != "" {
-		m = e.Module
-	} else if err != nil {
-		return module.Version{}, err
-	}
-	if m.Path == "" {
-		return module.Version{}, fmt.Errorf("package %q is not in a module", path)
-	}
-	info, err = modload.Query(m.Path, vers, modload.Allowed)
+	// Otherwise, try a package path.
+	m, _, err := modload.QueryPackage(path, vers, modload.Allowed)
 	if err != nil {
-		return module.Version{}, err
+		return module.Version{}, fmt.Errorf("%s is not a known package or module", path)
 	}
-	return module.Version{Path: m.Path, Version: info.Version}, nil
+	return m, nil
 }
 
 // isModulePath reports whether path names an actual module,
