@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56b26752_7b9a660a",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-06T18:32:55Z",
+      "side": 1,
+      "message": "You\u0027re building a string only for the purpose of calling len on the string.  Just calculate the length directly, without building the string.",
+      "revId": "e00c1a00ae850f7f80369520122296e2838321fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b7dc75f_cf21b0b6",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-06T18:32:55Z",
+      "side": 1,
+      "message": "Easier to use fmt.Sprintf here.",
+      "revId": "e00c1a00ae850f7f80369520122296e2838321fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
