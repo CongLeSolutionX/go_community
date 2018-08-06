@@ -9,6 +9,7 @@ import (
 	"cmd/go/internal/module"
 	"cmd/go/internal/semver"
 	"fmt"
+	pathpkg "path"
 	"strings"
 )
 
@@ -117,6 +118,10 @@ func Query(path, query string, allowed func(module.Version) bool) (*modfetch.Rev
 		return info, nil
 	}
 
+	if path == Target.Path && query == "latest" {
+		return &modfetch.RevInfo{Version: Target.Version}, nil
+	}
+
 	// Load versions and execute query.
 	repo, err := modfetch.Lookup(path)
 	if err != nil {
@@ -186,4 +191,44 @@ func isSemverPrefix(v string) bool {
 // matches the full-width (non-shortened) semantic version v.
 func matchSemverPrefix(p, v string) bool {
 	return len(v) > len(p) && v[len(p)] == '.' && v[:len(p)] == p
+}
+
+// QueryPackage looks up a revision of a module containing path.
+//
+// If multiple modules with revisions matching the query provide the requested
+// package, QueryPackage picks the one with the longest module path.
+//
+// If the path is in the Target module, QueryPackage returns Target with a nil RevInfo.
+func QueryPackage(path, query string, allowed func(module.Version) bool) (module.Version, *modfetch.RevInfo, error) {
+	if _, ok := dirInModule(path, Target.Path, ModRoot, true); ok {
+		if query != "latest" {
+			return module.Version{}, nil, fmt.Errorf("can't query specific version (%q) for package %s in the main module (%s)", query, path, Target.Path)
+		}
+		if !allowed(Target) {
+			return module.Version{}, nil, fmt.Errorf("internal error: package %s is in the main module (%s), but version is not allowed")
+		}
+		return Target, &modfetch.RevInfo{Version: Target.Version}, nil
+	}
+
+	finalErr := errMissing
+	for p := path; p != "."; p = pathpkg.Dir(p) {
+		info, err := Query(p, query, allowed)
+		if err != nil {
+			if finalErr == errMissing {
+				finalErr = err
+			}
+			continue
+		}
+		m := module.Version{Path: p, Version: info.Version}
+		root, isLocal, err := fetch(m)
+		if err != nil {
+			return module.Version{}, nil, err
+		}
+		_, ok := dirInModule(path, m.Path, root, isLocal)
+		if ok {
+			return m, info, nil
+		}
+	}
+
+	return module.Version{}, nil, finalErr
 }
