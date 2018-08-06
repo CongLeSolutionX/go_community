@@ -1291,7 +1291,10 @@ func (p *Package) rewriteRef(f *File) {
 		if r.Name.Kind != "type" {
 			repl = "(" + repl + ")"
 		}
-		f.Edit.Replace(f.offset(old.Pos()), f.offset(old.End()), repl)
+		fullpos := fset.Position(old.Pos())
+		oldName := old.(*ast.SelectorExpr).X.(*ast.Ident).Name + "." + old.(*ast.SelectorExpr).Sel.Name
+		lineDirective := "/*line :" + strconv.Itoa(fullpos.Line) + ":" + strconv.Itoa(fullpos.Column+len(oldName)) + "*/"
+		f.Edit.Replace(f.offset(old.Pos()), f.offset(old.End()), repl+lineDirective)
 	}
 
 	// Remove functions only used as expressions, so their respective
