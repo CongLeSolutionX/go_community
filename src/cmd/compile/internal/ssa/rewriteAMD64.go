@@ -54869,15 +54869,17 @@ func rewriteValueAMD64_OpDiv16_0(v *Value) bool {
 	_ = b
 	typ := &b.Func.Config.Types
 	_ = typ
-	// match: (Div16 x y)
+	// match: (Div16 [a] x y)
 	// cond:
-	// result: (Select0 (DIVW x y))
+	// result: (Select0 (DIVW [a] x y))
 	for {
+		a := v.AuxInt
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpSelect0)
 		v0 := b.NewValue0(v.Pos, OpAMD64DIVW, types.NewTuple(typ.Int16, typ.Int16))
+		v0.AuxInt = a
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -54909,15 +54911,17 @@ func rewriteValueAMD64_OpDiv32_0(v *Value) bool {
 	_ = b
 	typ := &b.Func.Config.Types
 	_ = typ
-	// match: (Div32 x y)
+	// match: (Div32 [a] x y)
 	// cond:
-	// result: (Select0 (DIVL x y))
+	// result: (Select0 (DIVL [a] x y))
 	for {
+		a := v.AuxInt
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpSelect0)
 		v0 := b.NewValue0(v.Pos, OpAMD64DIVL, types.NewTuple(typ.Int32, typ.Int32))
+		v0.AuxInt = a
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -54963,15 +54967,17 @@ func rewriteValueAMD64_OpDiv64_0(v *Value) bool {
 	_ = b
 	typ := &b.Func.Config.Types
 	_ = typ
-	// match: (Div64 x y)
+	// match: (Div64 [a] x y)
 	// cond:
-	// result: (Select0 (DIVQ x y))
+	// result: (Select0 (DIVQ [a] x y))
 	for {
+		a := v.AuxInt
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpSelect0)
 		v0 := b.NewValue0(v.Pos, OpAMD64DIVQ, types.NewTuple(typ.Int64, typ.Int64))
+		v0.AuxInt = a
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -57049,15 +57055,17 @@ func rewriteValueAMD64_OpMod16_0(v *Value) bool {
 	_ = b
 	typ := &b.Func.Config.Types
 	_ = typ
-	// match: (Mod16 x y)
+	// match: (Mod16 [a] x y)
 	// cond:
-	// result: (Select1 (DIVW x y))
+	// result: (Select1 (DIVW [a] x y))
 	for {
+		a := v.AuxInt
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpSelect1)
 		v0 := b.NewValue0(v.Pos, OpAMD64DIVW, types.NewTuple(typ.Int16, typ.Int16))
+		v0.AuxInt = a
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -57089,15 +57097,17 @@ func rewriteValueAMD64_OpMod32_0(v *Value) bool {
 	_ = b
 	typ := &b.Func.Config.Types
 	_ = typ
-	// match: (Mod32 x y)
+	// match: (Mod32 [a] x y)
 	// cond:
-	// result: (Select1 (DIVL x y))
+	// result: (Select1 (DIVL [a] x y))
 	for {
+		a := v.AuxInt
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpSelect1)
 		v0 := b.NewValue0(v.Pos, OpAMD64DIVL, types.NewTuple(typ.Int32, typ.Int32))
+		v0.AuxInt = a
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -57129,15 +57139,17 @@ func rewriteValueAMD64_OpMod64_0(v *Value) bool {
 	_ = b
 	typ := &b.Func.Config.Types
 	_ = typ
-	// match: (Mod64 x y)
+	// match: (Mod64 [a] x y)
 	// cond:
-	// result: (Select1 (DIVQ x y))
+	// result: (Select1 (DIVQ [a] x y))
 	for {
+		a := v.AuxInt
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpSelect1)
 		v0 := b.NewValue0(v.Pos, OpAMD64DIVQ, types.NewTuple(typ.Int64, typ.Int64))
+		v0.AuxInt = a
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)

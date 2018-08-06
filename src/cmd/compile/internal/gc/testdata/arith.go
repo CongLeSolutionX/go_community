@@ -8,10 +8,20 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
 const (
 	y = 0x0fffFFFF
+)
+
+var (
+	g8  int8
+	g16 int16
+	g32 int32
+	g64 int64
 )
 
 //go:noinline
@@ -992,6 +1002,34 @@ func testShiftedOps() {
 	}
 }
 
+// testDivFixUp ensures that signed division fix-ups are being generated.
+func testDivFixUp() {
+	defer func() {
+		if r := recover(); r != nil {
+			failed = true
+			fmt.Println("testDivFixUp failed")
+			if e, ok := r.(runtime.Error); ok {
+				fmt.Printf("%v\n", e.Error())
+			}
+		}
+	}()
+	var w int8 = -128
+	var x int16 = -32768
+	var y int32 = -2147483648
+	var z int64 = -9223372036854775808
+
+	for i := -5; i < 0; i++ {
+		g8 = w / int8(i)
+		g16 = x / int16(i)
+		g32 = y / int32(i)
+		g64 = z / int64(i)
+		g8 = w % int8(i)
+		g16 = x % int16(i)
+		g32 = y % int32(i)
+		g64 = z % int64(i)
+	}
+}
+
 var failed = false
 
 func main() {
@@ -1013,6 +1051,7 @@ func main() {
 	testLoadSymCombine()
 	testShiftRemoval()
 	testShiftedOps()
+	testDivFixUp()
 
 	if failed {
 		panic("failed")
