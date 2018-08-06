@@ -65,21 +65,21 @@ var genericOps = []opData{
 
 	{name: "Div8", argLength: 2},  // arg0 / arg1, signed
 	{name: "Div8u", argLength: 2}, // arg0 / arg1, unsigned
-	{name: "Div16", argLength: 2},
+	{name: "Div16", argLength: 2, aux: "Bool"},
 	{name: "Div16u", argLength: 2},
-	{name: "Div32", argLength: 2},
+	{name: "Div32", argLength: 2, aux: "Bool"},
 	{name: "Div32u", argLength: 2},
-	{name: "Div64", argLength: 2},
+	{name: "Div64", argLength: 2, aux: "Bool"},
 	{name: "Div64u", argLength: 2},
 	{name: "Div128u", argLength: 3}, // arg0:arg1 / arg2 (128-bit divided by 64-bit), returns (q, r)
 
 	{name: "Mod8", argLength: 2},  // arg0 % arg1, signed
 	{name: "Mod8u", argLength: 2}, // arg0 % arg1, unsigned
-	{name: "Mod16", argLength: 2},
+	{name: "Mod16", argLength: 2, aux: "Bool"},
 	{name: "Mod16u", argLength: 2},
-	{name: "Mod32", argLength: 2},
+	{name: "Mod32", argLength: 2, aux: "Bool"},
 	{name: "Mod32u", argLength: 2},
-	{name: "Mod64", argLength: 2},
+	{name: "Mod64", argLength: 2, aux: "Bool"},
 	{name: "Mod64u", argLength: 2},
 
 	{name: "And8", argLength: 2, commutative: true}, // arg0 & arg1
