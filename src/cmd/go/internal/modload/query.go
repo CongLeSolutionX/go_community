@@ -9,6 +9,7 @@ import (
 	"cmd/go/internal/module"
 	"cmd/go/internal/semver"
 	"fmt"
+	pathpkg "path"
 	"strings"
 )
 
@@ -186,4 +187,34 @@ func isSemverPrefix(v string) bool {
 // matches the full-width (non-shortened) semantic version v.
 func matchSemverPrefix(p, v string) bool {
 	return len(v) > len(p) && v[len(p)] == '.' && v[:len(p)] == p
+}
+
+// QueryPackage looks up a revision of a module containing path.
+//
+// If multiple modules with revisions matching the query provide the requested
+// package, QueryPackage picks the one with the longest module path.
+func QueryPackage(path, query string, allowed func(module.Version) bool) (module.Version, *modfetch.RevInfo, error) {
+	for p := path; p != "."; p = pathpkg.Dir(p) {
+		if p == Target.Path {
+			if _, ok := dirInModule(path, Target.Path, ModRoot, true); ok {
+				return module.Version{}, nil, fmt.Errorf("can't query specific version (%q) for package %s in the current module (%s)", query, path, Target.Path)
+			}
+		}
+
+		info, err := Query(p, query, allowed)
+		if err != nil {
+			continue
+		}
+		m := module.Version{Path: p, Version: info.Version}
+		root, isLocal, err := fetch(m)
+		if err != nil {
+			return module.Version{}, nil, err
+		}
+		_, ok := dirInModule(path, m.Path, root, isLocal)
+		if ok {
+			return m, info, nil
+		}
+	}
+
+	return module.Version{}, nil, errMissing
 }
