@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a96ea22_13e4c497",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-06T23:04:49Z",
+      "side": 0,
+      "message": "This special-case might be load-bearing, and not replicating it in `get` might be a bug. Need to verify that modload.Allowed in read-only mode only allows versions explicitly mentioned in the mod file.",
+      "revId": "a97fec31dd81d351b5f5f271263f4993b6862239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
