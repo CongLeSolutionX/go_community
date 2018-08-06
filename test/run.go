@@ -464,8 +464,10 @@ func (t *test) run() {
 	// Execution recipe stops at first blank line.
 	pos := strings.Index(t.src, "\n\n")
 	if pos == -1 {
-		t.err = errors.New("double newline not found")
-		return
+		if pos = strings.Index(t.src, "\r\n\r\n"); pos == -1 { // Add a check for windows devs as well
+			t.err = errors.New("double newline not found")
+			return
+		}
 	}
 	action := t.src[:pos]
 	if nl := strings.Index(action, "\n"); nl >= 0 && strings.Contains(action[:nl], "+build") {

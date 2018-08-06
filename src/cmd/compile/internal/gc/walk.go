@@ -241,10 +241,15 @@ func walkstmt(n *Node) *Node {
 	case OCASE:
 		n.Right = walkstmt(n.Right)
 
-	case ODEFER:
-		Curfn.Func.SetHasDefer(true)
-		fallthrough
-	case OPROC:
+	case ODEFER, OPROC:
+		if isEmpty(n) {
+			n.Op = OBLOCK
+			return n
+		}
+		if n.Op == ODEFER {
+			Curfn.Func.SetHasDefer(true)
+		}
+
 		switch n.Left.Op {
 		case OPRINT, OPRINTN:
 			n.Left = wrapCall(n.Left, &n.Ninit)
@@ -367,6 +372,49 @@ func isSmallMakeSlice(n *Node) bool {
 	t := n.Type
 
 	return smallintconst(l) && smallintconst(r) && (t.Elem().Width == 0 || r.Int64() < (1<<16)/t.Elem().Width)
+}
+
+func isEmpty(n *Node) bool {
+	// Do we have init work to do? I we do we can't be sure the node is empty
+	if n.Ninit.slice != nil {
+		return false
+	}
+	switch n.Op {
+	// Check if the next op in the chain is empty
+	case ODEFER, OPROC, OCALLFUNC:
+		return isEmpty(n.Left)
+	// If we got to a name decleration (a func decl in our case)
+	case ONAME:
+		// Check if we can inline the function, if we can is the cost 0?
+		if n.Func != nil && n.Func.Inl != nil && n.Func.Inl.Cost == 0 {
+			return true
+		}
+		return false
+	// If we got to a closure (did we define a new function)
+	case OCLOSURE:
+		s := n.Func.Closure.Nbody.Slice()
+		for i := range s {
+			if !isEmpty(s[i]) {
+				return false
+			}
+		}
+		return true
+	// If we got to a block (a func decleration inside a goroutine in our case)
+	case OBLOCK:
+		s := n.List.Slice()
+		for i := range s {
+			// Labels can be declared automaticall (as part of the inlining process)
+			// check if a label was declared, is the next operation ONAME (doing anything)
+			if !(s[i].Op == OLABEL && s[i].Left.Op == ONAME) && !isEmpty(s[i]) {
+				return false
+			}
+		}
+		return true
+	case OEMPTY:
+		return true
+	default:
+		return false
+	}
 }
 
 // walk the whole tree of the body of an
