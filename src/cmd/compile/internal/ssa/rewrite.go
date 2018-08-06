@@ -418,6 +418,11 @@ func shiftIsBounded(v *Value) bool {
 	return v.AuxInt != 0
 }
 
+// MightBeNegativeOne reports whether the divisor could be -1.
+func MightBeNegativeOne(v *Value) bool {
+	return v.AuxInt == 0
+}
+
 // i2f is used in rules for converting from an AuxInt to a float.
 func i2f(i int64) float64 {
 	return math.Float64frombits(uint64(i))
