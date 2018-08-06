@@ -1,0 +1,18 @@
+env GO111MODULE=on
+
+go mod init example.com/m
+
+# get without -d should install the selected version immediately.
+go get rsc.io/quote@v1.5.1
+go list -f '{{.Stale}} {{.Target}}' rsc.io/quote
+stdout 'false .*quote\.a$'
+
+# get of a new version with -d should make the package stale.
+go get -d rsc.io/quote@v1.5.2
+go list -f '{{.Stale}} {{.Target}}' rsc.io/quote
+stdout true
+
+# but installing it explicitly should make it non-stale again.
+go install rsc.io/quote
+go list -f '{{.Stale}} {{.Target}}' rsc.io/quote
+stdout 'false .*quote\.a$'
