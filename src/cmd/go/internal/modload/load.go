@@ -461,6 +461,7 @@ func (ld *loader) load(roots func() []string) {
 				base.Errorf("go: %s: %s", pkg.stackText(), pkg.err)
 			}
 		}
+
 		base.ExitIfErrors()
 		if numAdded == 0 {
 			break
@@ -504,9 +505,6 @@ func (ld *loader) load(roots func() []string) {
 			}
 		}
 	}
-
-	// Check for visibility violations.
-	// TODO!
 }
 
 // pkg returns the *loadPkg for path, creating and queuing it if needed.
