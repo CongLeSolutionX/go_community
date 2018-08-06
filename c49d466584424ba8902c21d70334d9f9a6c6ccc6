@@ -34,6 +34,23 @@
       "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bdeb505_d5d20dec",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-06T22:08:24Z",
+      "side": 1,
+      "message": "You could early exit here also.",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
