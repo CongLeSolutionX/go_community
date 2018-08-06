@@ -41,7 +41,7 @@ func check(t *testing.T, file string) {
 			if len(frags) == 1 {
 				continue
 			}
-			re, err := regexp.Compile(string(frags[1]))
+			re, err := regexp.Compile(strings.TrimSuffix(string(frags[1]), "\r"))
 			if err != nil {
 				t.Errorf("Invalid regexp after `ERROR HERE: `: %#q", frags[1])
 				continue
@@ -121,6 +121,7 @@ func TestReportsTypeErrors(t *testing.T) {
 		"issue16591.go",
 		"issue18452.go",
 		"issue18889.go",
+		"issue26745.go",
 	} {
 		check(t, file)
 	}
