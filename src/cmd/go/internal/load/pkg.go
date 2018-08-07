@@ -561,7 +561,7 @@ func LoadImport(path, srcDir string, parent *Package, stk *ImportStack, importPo
 		return setErrorPos(perr, importPos)
 	}
 	if mode&ResolveImport != 0 {
-		if perr := disallowVendor(srcDir, origPath, p, stk); perr != p {
+		if perr := disallowVendor(parent, srcDir, origPath, p, stk); perr != p {
 			return setErrorPos(perr, importPos)
 		}
 	}
@@ -1023,10 +1023,10 @@ func findInternal(path string) (index int, ok bool) {
 	return 0, false
 }
 
-// disallowVendor checks that srcDir is allowed to import p as path.
+// disallowVendor checks that parent, from srcDir, is allowed to import p as path.
 // If the import is allowed, disallowVendor returns the original package p.
 // If not, it returns a new package containing just an appropriate error.
-func disallowVendor(srcDir, path string, p *Package, stk *ImportStack) *Package {
+func disallowVendor(parent *Package, srcDir, path string, p *Package, stk *ImportStack) *Package {
 	// The stack includes p.ImportPath.
 	// If that's the only thing on the stack, we started
 	// with a name given on the command line, not an
@@ -1035,27 +1035,20 @@ func disallowVendor(srcDir, path string, p *Package, stk *ImportStack) *Package 
 		return p
 	}
 
-	if p.Standard && ModPackageModuleInfo != nil {
-		// Modules must not import vendor packages in the standard library,
-		// but the usual vendor visibility check will not catch them
-		// because the module loader presents them with an ImportPath starting
-		// with "golang_org/" instead of "vendor/".
-		importer := strings.TrimSuffix((*stk)[len(*stk)-2], " (test)")
-		if mod := ModPackageModuleInfo(importer); mod != nil {
-			dir := p.Dir
-			if relDir, err := filepath.Rel(p.Root, p.Dir); err == nil {
-				dir = relDir
-			}
-			if _, ok := FindVendor(filepath.ToSlash(dir)); ok {
-				perr := *p
-				perr.Error = &PackageError{
-					ImportStack: stk.Copy(),
-					Err:         "use of vendored package " + path + " not allowed",
-				}
-				perr.Incomplete = true
-				return &perr
-			}
+	// The standard library vendors some golang.org/x packages
+	// as vendor/golang_org/x/foo, but we don't want non-standard-library
+	// packages to use them. The module loader does not understand the
+	// concept of an import path having a different meaning in different packages
+	// so we have to apply the restriction after the fact.
+	// This hack can be removed once we stop doing that in the standard library.
+	if p.Standard && !parent.Standard && strings.HasPrefix(p.ImportPath, "golang_org/") {
+		perr := *p
+		perr.Error = &PackageError{
+			ImportStack: stk.Copy(),
+			Err:         "use of vendored package " + path + " not allowed",
 		}
+		perr.Incomplete = true
+		return &perr
 	}
 
 	if perr := disallowVendorVisibility(srcDir, p, stk); perr != p {
