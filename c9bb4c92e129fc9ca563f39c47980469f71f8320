@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed5153c8_85c73209",
+        "filename": "src/cmd/go/testdata/script/mod_bad_domain.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-07T14:22:42Z",
+      "side": 1,
+      "message": "You\u0027re changing the semantics here. The build is intended to skip over appengine and now it\u0027s not. I think that\u0027s a mistake. It will break vendoring.",
+      "revId": "c9bb4c92e129fc9ca563f39c47980469f71f8320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b48eab3_a5b7f6b7",
+        "filename": "src/cmd/go/testdata/script/mod_list_bad_import.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-07T14:22:42Z",
+      "side": 1,
+      "message": "There should be some comments here explaining what you want to test.",
+      "revId": "c9bb4c92e129fc9ca563f39c47980469f71f8320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b931fc6_b0f00170",
+        "filename": "src/cmd/go/testdata/script/mod_readonly.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-07T14:22:42Z",
+      "side": 1,
+      "message": "\"go list all\" is a lot more expensive than \"go list\". Why do all?",
+      "revId": "c9bb4c92e129fc9ca563f39c47980469f71f8320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
