@@ -34,6 +34,24 @@
       "revId": "97cbdc575960e2575ebedd82409e18cd6f8e0440",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31577951_3607dcfd",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 2281,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-07T17:08:32Z",
+      "side": 1,
+      "message": "I can\u0027t imagine a case where your second rule would fire, but the canMergeLoad test would fail.  The tricky part of canMergeLoad is if x depends on a later memory state, but that can\u0027t happen because the store\u0027s indirect use of x guarantees that x can\u0027t depend on a later memory state.\n\nThat is, I think Ilya is right, this rule is redundant.",
+      "parentUuid": "faefd45c_bd8c27d4",
+      "revId": "97cbdc575960e2575ebedd82409e18cd6f8e0440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
