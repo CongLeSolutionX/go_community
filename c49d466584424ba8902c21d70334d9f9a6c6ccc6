@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "68cb2eee_659bfe7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 28422
+      },
+      "writtenOn": "2018-08-07T18:42:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "be598988_7b683ff8",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "551702e2_a13d804b",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2ca6eb1_95eee822",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 28422
+      },
+      "writtenOn": "2018-08-07T18:42:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "551702e2_a13d804b",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "72390f25_1b1edf5b",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 28422
+      },
+      "writtenOn": "2018-08-07T18:42:17Z",
+      "side": 1,
+      "message": "What exactly will we use the method for again?",
+      "parentUuid": "fae1a85c_d59af81e",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24b8a2cd_d2c07bc3",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2018-08-07T15:33:33Z",
       "side": 1,
       "message": "I don\u0027t understand what is going on here. Why are we checking n.Func !\u003d nil? A comment would help. Or perhaps just doing this check in the ODEFER, OPROC, and OCALLFUNC cases directly on n.Left?\n\nAlso, Inl.Cost \u003d\u003d 0 is not the right condition for a function being empty. As inlining heuristics evolve, we might decide e.g. that func f() int { return 8 } should have zero or even negative inlining cost. Instead, we need to check whether the function actually is empty.",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fb53625_43974f6d",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 28422
+      },
+      "writtenOn": "2018-08-07T18:42:17Z",
+      "side": 1,
+      "message": "If Inl is nil, accessing its cost would panic.\nI\u0027ll continue the recursion than instead of determining by cost.",
+      "parentUuid": "24b8a2cd_d2c07bc3",
       "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -122,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "002040cb_f2fcea76",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 28422
+      },
+      "writtenOn": "2018-08-07T18:42:17Z",
+      "side": 1,
+      "message": "There are cases where a label is created instead of a function call, inside an OBLOCK there\u0027s an OLABEL I have to target to remove the call.\nIf I\u0027m wrong please tell me, but that\u0027s what I learned from debugging.",
+      "parentUuid": "02665c6d_80f26263",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2bdeb505_d5d20dec",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
@@ -139,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "a9065d6d_7e755837",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 28422
+      },
+      "writtenOn": "2018-08-07T18:42:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2bdeb505_d5d20dec",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6868820_fdab9a04",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
@@ -153,6 +261,24 @@
       "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da9cf769_cf0882bf",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 28422
+      },
+      "writtenOn": "2018-08-07T18:42:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f6868820_fdab9a04",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
