@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "be598988_7b683ff8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-07T15:33:33Z",
+      "side": 1,
+      "message": "This isn\u0027t quite accurate. Rather, calls to empty functions typically get inlined, which causes them to be compiled away to nothing, but deferred function calls are not inlined. (There was discussion of open coding defers in #14939, which might in theory change that.)",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "551702e2_a13d804b",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-07T15:33:33Z",
+      "side": 1,
+      "message": "I think it\u0027d be clearer to do this:\n\ncase ODEFER, OPROC:\n  if isEmpty(n) {\n    n.Op \u003d OEMPTY\n    return n\n  }\n  if n.Op \u003d\u003d ODEFER {\n    Curfn.Func.SetHasDefer(true)\n  }\n  // continue with the original code below",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fae1a85c_d59af81e",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-07T15:33:33Z",
+      "side": 1,
+      "message": "Docs please. Also, consider a method: (*Node).isEmpty. The use of functions everywhere in the compiler is the result of automatic translation from C years ago.",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24b8a2cd_d2c07bc3",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-07T15:33:33Z",
+      "side": 1,
+      "message": "I don\u0027t understand what is going on here. Why are we checking n.Func !\u003d nil? A comment would help. Or perhaps just doing this check in the ODEFER, OPROC, and OCALLFUNC cases directly on n.Left?\n\nAlso, Inl.Cost \u003d\u003d 0 is not the right condition for a function being empty. As inlining heuristics evolve, we might decide e.g. that func f() int { return 8 } should have zero or even negative inlining cost. Instead, we need to check whether the function actually is empty.",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0465b56_07179cb2",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
@@ -37,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "02665c6d_80f26263",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-07T15:33:33Z",
+      "side": 1,
+      "message": "Why are you handling OLABEL and ONAME nodes specially here? It seems sufficient for your purposes and clearer to treat all nodes the same. Note that there\u0027s no way to have a label or a name in a function without also using it somehow without getting a compilation error.",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2bdeb505_d5d20dec",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
@@ -48,6 +133,23 @@
       "writtenOn": "2018-08-06T22:08:24Z",
       "side": 1,
       "message": "You could early exit here also.",
+      "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6868820_fdab9a04",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-07T15:33:33Z",
+      "side": 1,
+      "message": "I\u0027m not sure this actually holds; the node might have some init work to do. I think at the very beginning of this function you might need to add\n\nif n.Ninit !\u003d nil {\n  return false\n}\n\nor something like that.",
       "revId": "c49d466584424ba8902c21d70334d9f9a6c6ccc6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
