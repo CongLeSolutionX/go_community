@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd78eade_7916d51e",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-07T14:38:18Z",
+      "side": 1,
+      "message": "Removing the special cases from the ordinary import use is nice.\nThat said, I\u0027m not sure this is the right get semantics anymore.\nIn general there\u0027s a two-dimensional search space here between\npossible modules providing path and their independent version axes.\n\nI was quite happy about flattening that two-dimensional search space\ninto two steps: first, figure out the current (using \"latest\") module\nproviding the package. Then apply the query to that module.\nIs that algorithm fundamentally at odds with something, or was it an\nincidental casualty? If the latter, I think it would be good to restore\n(in QueryPackage).",
+      "revId": "1baac19071944ead8273eca81b386904ae85ae5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
