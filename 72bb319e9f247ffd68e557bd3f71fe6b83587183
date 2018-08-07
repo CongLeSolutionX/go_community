@@ -34,6 +34,24 @@
       "revId": "72bb319e9f247ffd68e557bd3f71fe6b83587183",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0b60880_0164457f",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 3
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-07T00:43:06Z",
+      "side": 1,
+      "message": "Oh, dur, I missed that. The two-story lowercase \"a\" and \"e\" look very similar.",
+      "parentUuid": "f2b5a618_0aa8f86e",
+      "revId": "72bb319e9f247ffd68e557bd3f71fe6b83587183",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
