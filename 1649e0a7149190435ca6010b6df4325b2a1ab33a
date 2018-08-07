@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f5d9830_11758a39",
+        "filename": "src/crypto/x509/root_darwin_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-08-07T17:58:36Z",
+      "side": 1,
+      "message": "(I\u0027m sure there\u0027s nothing to be done about this, but ugh.)",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "1649e0a7149190435ca6010b6df4325b2a1ab33a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
