@@ -35,6 +35,24 @@
       "revId": "1baac19071944ead8273eca81b386904ae85ae5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b3326bf_fbd92dff",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-07T19:44:28Z",
+      "side": 1,
+      "message": "I\u0027m provisionally marking this resolved (based on the added tests), but happy to continue the discussion if you\u0027re not convinced.",
+      "parentUuid": "8e8f3679_840cc9c8",
+      "revId": "1baac19071944ead8273eca81b386904ae85ae5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
