@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1709470_f96c0293",
+        "filename": "src/cmd/go/testdata/script/mod_install.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-07T14:27:43Z",
+      "side": 1,
+      "message": "Why do you think it should not be stale? \nWhat is {{.Target}}?\nI think it\u0027s an empty string, meaning there is no installable target.\nAssuming that\u0027s right, there\u0027s a philosophical question about whether\na non-existent installation target is \"stale\".",
+      "revId": "4fce2a7e65d09110602bd1f909305a23ae259296",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21450a93_1c747c07",
+        "filename": "src/cmd/go/testdata/script/mod_install.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-07T14:27:43Z",
+      "side": 1,
+      "message": "That is definitely a bug. :-)",
+      "revId": "4fce2a7e65d09110602bd1f909305a23ae259296",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "624fee3d_2963759e",
+        "filename": "src/cmd/go/testdata/script/mod_install.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-07T14:27:43Z",
+      "side": 1,
+      "message": "I kind of understand why go get might have added @v1.0.0.\nWhy does go install? That makes no sense.",
+      "revId": "4fce2a7e65d09110602bd1f909305a23ae259296",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
