@@ -16,6 +16,24 @@
       "revId": "a97fec31dd81d351b5f5f271263f4993b6862239",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fd23ca0_5845375c",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-07T13:46:30Z",
+      "side": 0,
+      "message": "Doesn\u0027t seem to be load-bearing. The “Check each module on the build list” loop above takes care of checking for the package in modules that are already in the go.mod file, and there is an existing test case in mod_readonly.txt that verifies that an explicit `go get` can add modules even with GOFLAGS\u003d-mod\u003dreadonly.",
+      "parentUuid": "1a96ea22_13e4c497",
+      "revId": "a97fec31dd81d351b5f5f271263f4993b6862239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
