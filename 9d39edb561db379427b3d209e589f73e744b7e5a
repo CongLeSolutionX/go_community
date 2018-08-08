@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "998e36a4_ae6ae8ed",
+        "filename": "src/cmd/go/internal/modconv/convert.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-08T16:21:09Z",
+      "side": 1,
+      "message": "If the replacement has some other path and version, don\u0027t we need to add that to the work queue to ensure that we also resolve those hashes to versions?\n\n(I think this needs an integration test, not just a unit test.)",
+      "revId": "9d39edb561db379427b3d209e589f73e744b7e5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de01347b_c265c623",
+        "filename": "src/cmd/go/internal/modconv/dep.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-08T16:21:09Z",
+      "side": 1,
+      "message": "A comment linking to some reference for this (either documentation or code within dep) would be helpful.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 52
+      },
+      "revId": "9d39edb561db379427b3d209e589f73e744b7e5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
