@@ -1,0 +1,16 @@
+env GO111MODULE=on
+
+# Importing a subpackage from within a test should succeed.
+# BUG: https://golang.org/issue/26279
+! go list -test -json .
+
+-- go.mod --
+module example.com/hello
+
+-- blah/blah_test.go --
+package blah_test
+
+import _ "example.com/hello/blah/other"
+
+-- blah/other/other.go --
+package other
