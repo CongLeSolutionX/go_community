@@ -52,6 +52,24 @@
       "revId": "97cbdc575960e2575ebedd82409e18cd6f8e0440",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97704400_39b4db0b",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 2281,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-08-08T13:33:39Z",
+      "side": 1,
+      "message": "Indeed, without this \"redundant\" rule, the following test will fail.\nfunc SubMem(arr []int, b int) int {\n\t// amd64:`SUBQ\\s[A-Z]+,\\s16\\([A-Z]+\\)`\n\tarr[2] -\u003d b\n\t// amd64:`SUBQ\\s[A-Z]+,\\s24\\([A-Z]+\\)`\n\tarr[3] -\u003d b\n}\n\nThe generated asm will fall into ordinary\n v16    00012 (4)       MOVQ    16(AX), CX\n v23    00013 (4)       MOVQ    \"\".b+24(SP), DX\n v18    00014 (4)       SUBQ    DX, CX\n v25    00015 (4)       PCDATA  $2, $0\n v25    00016 (4)       MOVQ    CX, 16(AX)\n\nCould you please have a try?",
+      "parentUuid": "31577951_3607dcfd",
+      "revId": "97cbdc575960e2575ebedd82409e18cd6f8e0440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
