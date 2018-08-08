@@ -22,6 +22,30 @@
       "revId": "d739e806278790b83c6ad6b80315310337821f29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5fd21d0_5b358920",
+        "filename": "src/go/types/testdata/issue26390.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-08-08T16:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fdc4187_cc7d9437",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "d739e806278790b83c6ad6b80315310337821f29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
