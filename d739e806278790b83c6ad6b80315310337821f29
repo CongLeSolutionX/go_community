@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fdc4187_cc7d9437",
+        "filename": "src/go/types/testdata/issue26390.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-08T04:01:19Z",
+      "side": 1,
+      "message": "s/2013/2018/\n\n2018 is the Year of the Gopher.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "d739e806278790b83c6ad6b80315310337821f29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
