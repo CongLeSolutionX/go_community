@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a184bcc_c257c906",
+        "filename": "src/cmd/go/testdata/script/mod_bad_domain.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-09T16:07:51Z",
+      "side": 1,
+      "message": "These tests are fine but they skip over the fact that appengine should still be ignored in the global operations like \u0027go mod tidy\u0027. Please add a test at the end:\n\n# go mod vendor and go mod tidy should ignore appengine imports.\nrm usenonexistent/x.go\ngo mod tidy\ngo mod vendor",
+      "revId": "4355f961d8aa655d9eedfbbb06475b52d48ee5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "251f3915_2e7e3d82",
+        "filename": "src/cmd/go/testdata/script/mod_list_bad_import.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-09T16:07:51Z",
+      "side": 1,
+      "message": "It really seems like if you have a fix for list that you should commit that instead of all these buggy-to-be-fixed-later tests. Is there a fix, or should I work on one?",
+      "revId": "4355f961d8aa655d9eedfbbb06475b52d48ee5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
