@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de77b6b6_9a4622f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-09T18:26:49Z",
+      "side": 1,
+      "message": "I\u0027m having a hard time parsing this subject.\n\nWe try to write these in the verb tense that completes a sentence like:\n\n\"This CL modifies $PKG (the prefix) to ______________ .\"\n\nMaybe:\n\n   cmd/go: make \u0027go list -test\u0027 report the correct import path\n\nOr:\n\n   cmd/go: report the correct import path in go list -test\n\n?",
+      "revId": "789db8635f9e22d874e8229d328e0e861ba2af1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
