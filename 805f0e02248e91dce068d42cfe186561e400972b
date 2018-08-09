@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59048f4e_1c85ca38",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-09T23:51:11Z",
+      "side": 1,
+      "message": "Vet now detects the mistake in this example:",
+      "revId": "805f0e02248e91dce068d42cfe186561e400972b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "658fefef_c843b562",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-09T23:51:11Z",
+      "side": 1,
+      "message": "s/foo/wrapper/",
+      "revId": "805f0e02248e91dce068d42cfe186561e400972b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea6ec5ac_ad4dc19b",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-09T23:51:11Z",
+      "side": 1,
+      "message": "s/foo/wrapper/\ns/%\u003c\u003d/%s/",
+      "revId": "805f0e02248e91dce068d42cfe186561e400972b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
