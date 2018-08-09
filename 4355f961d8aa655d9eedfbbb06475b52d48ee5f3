@@ -33,6 +33,24 @@
       "revId": "4355f961d8aa655d9eedfbbb06475b52d48ee5f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "897e92f9_2044b907",
+        "filename": "src/cmd/go/testdata/script/mod_list_bad_import.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-09T16:20:37Z",
+      "side": 1,
+      "message": "I don\u0027t have a fix for it in the works — you\u0027re welcome to take it on, otherwise I\u0027ll come back to it for 1.12.\n\nI\u0027m adding these tests in part because it will remind me where to put them later, and in part because they make it easier to see which bugs are coverging. (Having two different sets of bugs between GOPATH and module mode implies that we probably have two different bugs to fix, whereas having the same bugs in both modes implies that we\u0027re at least making progress.)",
+      "parentUuid": "251f3915_2e7e3d82",
+      "revId": "4355f961d8aa655d9eedfbbb06475b52d48ee5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
