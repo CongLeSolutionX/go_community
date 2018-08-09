@@ -22,6 +22,30 @@
       "revId": "b24bd8a0025b6f22f27372bf8eb91cf40430acda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03473baf_9b738eda",
+        "filename": "src/cmd/go/testdata/script/list_test_imports.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 21300
+      },
+      "writtenOn": "2018-08-09T20:50:21Z",
+      "side": 1,
+      "message": "Done.\n\nI agree all the escaped characters make it hard to read.",
+      "parentUuid": "a310d30f_b882793e",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 43
+      },
+      "revId": "b24bd8a0025b6f22f27372bf8eb91cf40430acda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
