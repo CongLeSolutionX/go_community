@@ -1,0 +1,28 @@
+env GO111MODULE=on
+
+# initial conditions: using sampler v1.3.0, not listed in go.mod.
+go list -deps
+stdout rsc.io/sampler
+! grep 'rsc.io/sampler v1.3.0' go.mod
+
+# update to v1.3.1, now indirect in go.mod.
+go get rsc.io/sampler@v1.3.1
+grep 'rsc.io/sampler v1.3.1 // indirect' go.mod
+
+# vendoring should not change anything.
+go mod vendor
+grep 'rsc.io/sampler v1.3.1 // indirect' go.mod
+
+# go list -mod=vendor (or go build -mod=vendor) must not modify go.mod.
+# golang.org/issue/26704
+cp go.mod go.mod.orig
+go list -mod=vendor
+cmp go.mod go.mod.orig
+grep 'rsc.io/sampler v1.3.1 // indirect' go.mod
+
+-- go.mod --
+module m
+
+-- x.go --
+package x
+import _ "rsc.io/quote"
