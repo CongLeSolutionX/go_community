@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98919053_ab64f08c",
+        "filename": "src/cmd/go/testdata/script/mod_get_local.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-09T16:17:44Z",
+      "side": 1,
+      "message": "Link to issue mentioned previously (not sure this is a bug).",
+      "revId": "b0a1c5df989eb3a4bf18e1c48c3237801fa2ca0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
