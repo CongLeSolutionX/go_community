@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "add950e2_478ea564",
+        "filename": "src/cmd/go/testdata/script/mod_patterns.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-09T15:59:41Z",
+      "side": 1,
+      "message": "Yes. Please file an issue.\nProbably go list fmt... is not listing fmt either.\n\nThat will make the test a little more difficult (we don\u0027t want to hard-code the exact output list).",
+      "revId": "ae91a5302507fcec55b1ed7204eba0e1a5080070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
