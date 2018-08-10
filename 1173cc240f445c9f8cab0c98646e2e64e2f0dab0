@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "818f21a3_8e2803db",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1342,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-08-10T14:06:02Z",
+      "side": 1,
+      "message": "That\u0027s now three tests of p.UsesCgo() in a row.\nThe next paragraph factors out the two of p.UsesSwig().",
+      "revId": "1173cc240f445c9f8cab0c98646e2e64e2f0dab0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
