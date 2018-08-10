@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d30b04f_68f302a8",
+        "filename": "src/cmd/go/testdata/script/list_test_imports.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-10T00:26:16Z",
+      "side": 1,
+      "message": "I changed this to\n\n    go list -test -f \u0027{{.ImportPath}}:{{with .Imports}} {{join . \", \"}}{{end}}\u0027 a b\n\nso that I could read the imports.txt output.",
+      "revId": "df80a27bf10e0db7e5d0d68364fae51eabb95f6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
