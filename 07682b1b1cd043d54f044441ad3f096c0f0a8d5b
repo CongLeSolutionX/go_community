@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c07680f_3b1d84be",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "s/I/If/",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "636062ed_7d12d9e1",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "n.Ninit.Len() \u003d\u003d 0 please.",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32b2c31d_6d224586",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "When I asked before about why you were checking whether n.Func !\u003d nil, I was trying to understand the design; it struck me as a weird thing to have to check. I think it might be simpler instead to call isEmpty (far above) with n.Left.Left instead of n. Then you know that if n.Op is an ONAME, then n.Func must be non-nil. And you can remove the ODEFER, OPROC, and OCALLFUNC cases just above.",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20a83688_9824a8ed",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "Does anyone write code like\n\nfunc g() {}\n\ndefer func f() { g() }\n\nThat is, would it suffice in practice instead to just \u0027return n.Func.Closure.Nbody.Len() \u003d\u003d 0\u0027?",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5870fd17_465c7ce1",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "What is a func declaration inside a goroutine? It\u0027d be more useful in these comment to give an example, like\n\n// defer f()\n\n// defer func f() { }()\n\n// var a T\n// defer func f() { _ \u003d a}()",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dcb7be0_8f85bd8a",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "// Inlining generates labels.\n// Inlining any empty function shouldn\u0027t preclude this function from being empty.",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad2ca3ed_7e5c641a",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "I think you could just do\n\nif s[i].Op \u003d\u003d OLABEL {\n  continue\n}\n\nIf the function contains only labels, it is empty. So we can just ignore labels; they are irrelevant.",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6883a2e1_16087686",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "Does this case occur? When? (Can you provide Go code in which it occurs?)",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9214934_7b18c149",
+        "filename": "test/codegen/emptyfunctions.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "asmcheck compiles the code below and looks for particular assembly output indicated by special comments. See the other \u0027// asmcheck\u0027 files. Tests in the GOROOT/test directory are not like regular go tests; they have a special driver, run.go. Please take a look around the GOROOT/test directory a bit. As written, I think this needs to be a \u0027// run\u0027 test, and should be in fixedbugs/issue26534.go.",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5efe17f1_6252bd7d",
+        "filename": "test/codegen/emptyfunctions.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem like a strong enough test. Don\u0027t you want the call \u0027defer assert(x \u003d\u003d 0)\u0027 to be optimized away? You don\u0027t test for that here.",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3567b4d3_ea2276b8",
+        "filename": "test/codegen/emptyfunctions.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "This is lots of copy/paste from the defer test. Why not include go statements and defer statements in the same source?",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8425cd88_b051383e",
+        "filename": "test/run.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-10T04:03:37Z",
+      "side": 1,
+      "message": "If we\u0027re going to do this, please do this in a separate CL. But I don\u0027t think we should do this. gofmt switches files to \\n only, and we all use gofmt. See https://github.com/golang/go/issues/16355.",
+      "revId": "07682b1b1cd043d54f044441ad3f096c0f0a8d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
