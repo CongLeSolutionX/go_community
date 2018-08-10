@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc221eb3_17ef42d1",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-10T18:50:58Z",
+      "side": 1,
+      "message": "I\u0027m okay with this CL for Go 1.11 if we unexport these constants and change the values. Let\u0027s use:\n\nconst jsFetchMode \u003d \"js.fetch:mode\"\nconst jsFetchCreds \u003d \"js.fetch:credentials\"",
+      "revId": "f29a7a50c6dec4efc251f10e18ed8418deead134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
