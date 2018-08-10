@@ -1149,7 +1149,7 @@ func startTheWorldWithSema(emitTraceEvent bool) int64 {
 	_g_.m.locks++ // disable preemption because it can be holding p in a local var
 	if netpollinited() {
 		list := netpoll(false) // non-blocking
-		injectglist(list.head.ptr())
+		injectglist(&list)
 	}
 	add := needaddgcproc()
 	lock(&sched.lock)
@@ -2315,7 +2315,7 @@ top:
 		if list := netpoll(false); !list.empty() { // non-blocking
 			// netpoll returns list of goroutines linked by schedlink.
 			gp := list.pop()
-			injectglist(list.head.ptr())
+			injectglist(&list)
 			casgstatus(gp, _Gwaiting, _Grunnable)
 			if trace.enabled {
 				traceGoUnpark(gp, 0)
@@ -2476,14 +2476,14 @@ stop:
 			if _p_ != nil {
 				acquirep(_p_)
 				gp := list.pop()
-				injectglist(list.head.ptr())
+				injectglist(&list)
 				casgstatus(gp, _Gwaiting, _Grunnable)
 				if trace.enabled {
 					traceGoUnpark(gp, 0)
 				}
 				return gp, false
 			}
-			injectglist(list.head.ptr())
+			injectglist(&list)
 		}
 	}
 	stopm()
@@ -2504,7 +2504,7 @@ func pollWork() bool {
 	}
 	if netpollinited() && atomic.Load(&netpollWaiters) > 0 && sched.lastpoll != 0 {
 		if list := netpoll(false); !list.empty() {
-			injectglist(list.head.ptr())
+			injectglist(&list)
 			return true
 		}
 	}
@@ -2529,22 +2529,21 @@ func resetspinning() {
 	}
 }
 
-// Injects the list of runnable G's into the scheduler.
+// Injects the list of runnable G's into the scheduler and clears glist.
 // Can run concurrently with GC.
-func injectglist(glist *g) {
-	if glist == nil {
+func injectglist(glist *gList) {
+	if glist.empty() {
 		return
 	}
 	if trace.enabled {
-		for gp := glist; gp != nil; gp = gp.schedlink.ptr() {
+		for gp := glist.head.ptr(); gp != nil; gp = gp.schedlink.ptr() {
 			traceGoUnpark(gp, 0)
 		}
 	}
 	lock(&sched.lock)
 	var n int
-	for n = 0; glist != nil; n++ {
-		gp := glist
-		glist = gp.schedlink.ptr()
+	for n = 0; !glist.empty(); n++ {
+		gp := glist.pop()
 		casgstatus(gp, _Gwaiting, _Grunnable)
 		globrunqput(gp)
 	}
@@ -2552,6 +2551,7 @@ func injectglist(glist *g) {
 	for ; n != 0 && sched.npidle != 0; n-- {
 		startm(nil, false)
 	}
+	*glist = gList{}
 }
 
 // One round of scheduler: find a runnable goroutine and execute it.
@@ -4390,7 +4390,7 @@ func sysmon() {
 				// observes that there is no work to do and no other running M's
 				// and reports deadlock.
 				incidlelocked(-1)
-				injectglist(list.head.ptr())
+				injectglist(&list)
 				incidlelocked(1)
 			}
 		}
@@ -4405,8 +4405,9 @@ func sysmon() {
 		if t := (gcTrigger{kind: gcTriggerTime, now: now}); t.test() && atomic.Load(&forcegc.idle) != 0 {
 			lock(&forcegc.lock)
 			forcegc.idle = 0
-			forcegc.g.schedlink = 0
-			injectglist(forcegc.g)
+			var list gList
+			list.push(forcegc.g)
+			injectglist(&list)
 			unlock(&forcegc.lock)
 		}
 		// scavenge heap once in a while
