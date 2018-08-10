@@ -1,0 +1,19 @@
+# go list should report import "C"
+go list -f '{{.Imports}}' x.go
+! stdout runtime/cgo
+! stdout unsafe
+! stdout syscall
+stdout C
+
+# go list -compiled should report imports in compiled files as well,
+# adding "runtime/cgo", "unsafe", and "syscall" but not dropping "C".
+go list -compiled -f '{{.Imports}}' x.go
+stdout runtime/cgo
+stdout unsafe
+stdout syscall
+stdout C
+
+
+-- x.go --
+package x
+import "C"

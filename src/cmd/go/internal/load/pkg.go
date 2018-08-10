@@ -157,6 +157,7 @@ type PackageInternal struct {
 	// Unexported fields are not part of the public API.
 	Build             *build.Package
 	Imports           []*Package           // this package's direct imports
+	CompilerImports   []string             // this package's imports in CompiledGoFiles (plus "C" if using cgo)
 	RawImports        []string             // this package's original imports as they appear in the text of the program
 	ForceLibrary      bool                 // this package is a library (even if named "main")
 	CmdlineFiles      bool                 // package built from files listed on command line
@@ -1336,8 +1337,11 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		importPaths = append(importPaths, path)
 	}
 
-	// Cgo translation adds imports of "runtime/cgo" and "syscall",
+	// Cgo translation adds imports of "unsafe", "runtime/cgo" and "syscall",
 	// except for certain packages, to avoid circular dependencies.
+	if p.UsesCgo() {
+		addImport("unsafe")
+	}
 	if p.UsesCgo() && (!p.Standard || !cgoExclude[p.ImportPath]) && cfg.BuildContext.Compiler != "gccgo" {
 		addImport("runtime/cgo")
 	}
@@ -1356,6 +1360,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		// TODO: The .swig and .swigcxx files can use
 		// %go_import directives to import other packages.
 	}
+	p.Internal.CompilerImports = importPaths
 
 	// The linker loads implicit dependencies.
 	if p.Name == "main" && !p.Internal.ForceLibrary {

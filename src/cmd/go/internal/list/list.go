@@ -517,6 +517,10 @@ func runList(cmd *base.Command, args []string) {
 		p.TestImports = p.Resolve(p.TestImports)
 		p.XTestImports = p.Resolve(p.XTestImports)
 		p.DepOnly = !cmdline[p]
+
+		if *listCompiled {
+			p.Imports = p.Internal.CompilerImports
+		}
 	}
 
 	if *listTest {
