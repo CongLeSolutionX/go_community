@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "c282ebec_8ce0e464",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-10T14:40:13Z",
+      "side": 1,
+      "message": "This seems to imply that p.Internal.CompilerImports must be a strict superset of the imports from both GoFiles and CompiledGoFiles.\n\nDo we need to take some explicit step to union them here, or does CompilerImports already include that union? (If the latter, the current comment on CompilerImports is very confusing.)\n\nA test case for a package with cgo and non-cgo source files containing distinct import paths would probably help to clarify things.",
+      "revId": "1173cc240f445c9f8cab0c98646e2e64e2f0dab0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "182a615e_d94623c2",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-10T14:40:13Z",
+      "side": 1,
+      "message": "Please clarify the relationship of CompilerImports to RawImports and Imports in this documentation.\n\n• Are the CompilerImports paths raw or resolved? (Or are they always within the standard library?)\n\n• Are the imports in CompilerImports just the implicit additions from the compiler, or all of the imports found in the generated files (including those that appear in the original files)?",
+      "range": {
+        "startLine": 160,
+        "startChar": 43,
+        "endLine": 160,
+        "endChar": 84
+      },
+      "revId": "1173cc240f445c9f8cab0c98646e2e64e2f0dab0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "818f21a3_8e2803db",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 1
@@ -13,6 +53,23 @@
       "writtenOn": "2018-08-10T14:06:02Z",
       "side": 1,
       "message": "That\u0027s now three tests of p.UsesCgo() in a row.\nThe next paragraph factors out the two of p.UsesSwig().",
+      "revId": "1173cc240f445c9f8cab0c98646e2e64e2f0dab0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a1e149d_1dafd77b",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1436,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-10T14:40:13Z",
+      "side": 1,
+      "message": "This looks like an aliasing bug. At this point, we don\u0027t know whether importPaths aliases p.Internal.CompilerImports, because we may have reallocated it in the addImport call at 1368.\n\nIt\u0027s not obvious to me whether it is intended to alias or not, but we\u0027ll either end up missing an intended mutation or including an unintended one.",
       "revId": "1173cc240f445c9f8cab0c98646e2e64e2f0dab0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
