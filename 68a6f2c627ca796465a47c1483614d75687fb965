@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd81dbbd_76a98531",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-11T19:29:48Z",
+      "side": 1,
+      "message": "No need for these to be globals? Move these to line 101 inside the func callbackLoop?",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 1
+      },
+      "revId": "68a6f2c627ca796465a47c1483614d75687fb965",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
