@@ -70,6 +70,30 @@
       "revId": "68a6f2c627ca796465a47c1483614d75687fb965",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60ab29c6_296f151d",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 28720
+      },
+      "writtenOn": "2018-08-12T04:26:39Z",
+      "side": 1,
+      "message": "I had only looked briefly at it running on 101. After running more benchmarks I still see the performance gain with it in the callback loop and Ive confirmed callback loop is only hit once.\n\nSorry again for the confusion.",
+      "parentUuid": "e6c29b5f_6fd54970",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 1
+      },
+      "revId": "68a6f2c627ca796465a47c1483614d75687fb965",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
