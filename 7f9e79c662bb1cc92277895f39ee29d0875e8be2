@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "019691bf_374a3d0f",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-12T06:19:07Z",
+      "side": 1,
+      "message": "You might as well replace \"if\" starting on line 344 with \"switch runtime.GOARCH {\" ... case \"amd64\" ... case \"386\" ... case \"arm\" .... Should make this code clearer.",
+      "revId": "7f9e79c662bb1cc92277895f39ee29d0875e8be2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a8e5f3d_82222300",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-12T06:19:07Z",
+      "side": 1,
+      "message": "Copy lines 347 and 348 before line 351. Line 351 had a comment before your CL, and the comment should stay.",
+      "revId": "7f9e79c662bb1cc92277895f39ee29d0875e8be2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fd7bf5b_ab9b82d7",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-12T06:19:07Z",
+      "side": 1,
+      "message": "This does not look right.\n\nSetFilePointerEx liDistanceToMove parameter\n\nhttps://docs.microsoft.com/en-us/windows/desktop/api/fileapi/nf-fileapi-setfilepointerex\n\ncannot occupy 3 uintptr\u0027s. And why first of the 3 is 0?\n\nHow large is unitptr on windows/arm? If it is 4 bytes long, than this code should be exactly the same as \"386\" code. No?",
+      "range": {
+        "startLine": 349,
+        "startChar": 72,
+        "endLine": 349,
+        "endChar": 142
+      },
+      "revId": "7f9e79c662bb1cc92277895f39ee29d0875e8be2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
