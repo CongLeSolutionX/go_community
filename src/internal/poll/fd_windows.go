@@ -116,11 +116,17 @@ func (o *operation) InitBufs(buf *[][]byte) {
 		o.bufs = o.bufs[:0]
 	}
 	for _, b := range *buf {
-		var p *byte
-		if len(b) > 0 {
-			p = &b[0]
+		if len(b) == 0 {
+			o.bufs = append(o.bufs, syscall.WSABuf{})
+			continue
 		}
-		o.bufs = append(o.bufs, syscall.WSABuf{Len: uint32(len(b)), Buf: p})
+		for len(b) > maxRW {
+			o.bufs = append(o.bufs, syscall.WSABuf{Len: maxRW, Buf: &b[0]})
+			b = b[maxRW:]
+		}
+		if len(b) > 0 {
+			o.bufs = append(o.bufs, syscall.WSABuf{Len: uint32(len(b)), Buf: &b[0]})
+		}
 	}
 }
 
@@ -461,12 +467,21 @@ func (fd *FD) Shutdown(how int) error {
 	return syscall.Shutdown(fd.Sysfd, how)
 }
 
+// Windows ReadFile and WSARecv use DWORD (uint32) parameter to pass buffer length.
+// This prevents us reading blocks larger than 4GB.
+// See golang.org/issue/26923.
+const maxRW = 1 << 30 // 1GB is large enough and keeps subsequent reads aligned
+
 // Read implements io.Reader.
 func (fd *FD) Read(buf []byte) (int, error) {
 	if err := fd.readLock(); err != nil {
 		return 0, err
 	}
 	defer fd.readUnlock()
+
+	if len(buf) > maxRW {
+		buf = buf[:maxRW]
+	}
 
 	var n int
 	var err error
@@ -581,6 +596,10 @@ func (fd *FD) Pread(b []byte, off int64) (int, error) {
 	}
 	defer fd.decref()
 
+	if len(b) > maxRW {
+		b = b[:maxRW]
+	}
+
 	fd.l.Lock()
 	defer fd.l.Unlock()
 	curoffset, e := syscall.Seek(fd.Sysfd, 0, io.SeekCurrent)
@@ -611,6 +630,9 @@ func (fd *FD) ReadFrom(buf []byte) (int, syscall.Sockaddr, error) {
 	if len(buf) == 0 {
 		return 0, nil, nil
 	}
+	if len(buf) > maxRW {
+		buf = buf[:maxRW]
+	}
 	if err := fd.readLock(); err != nil {
 		return 0, nil, err
 	}
@@ -638,6 +660,10 @@ func (fd *FD) Write(buf []byte) (int, error) {
 		return 0, err
 	}
 	defer fd.writeUnlock()
+
+	if len(buf) > maxRW {
+		buf = buf[:maxRW]
+	}
 
 	var n int
 	var err error
@@ -717,6 +743,10 @@ func (fd *FD) Pwrite(b []byte, off int64) (int, error) {
 	}
 	defer fd.decref()
 
+	if len(b) > maxRW {
+		b = b[:maxRW]
+	}
+
 	fd.l.Lock()
 	defer fd.l.Unlock()
 	curoffset, e := syscall.Seek(fd.Sysfd, 0, io.SeekCurrent)
@@ -763,6 +793,9 @@ func (fd *FD) Writev(buf *[][]byte) (int64, error) {
 func (fd *FD) WriteTo(buf []byte, sa syscall.Sockaddr) (int, error) {
 	if len(buf) == 0 {
 		return 0, nil
+	}
+	if len(buf) > maxRW {
+		buf = buf[:maxRW]
 	}
 	if err := fd.writeLock(); err != nil {
 		return 0, err
@@ -989,6 +1022,10 @@ func (fd *FD) ReadMsg(p []byte, oob []byte) (int, int, int, syscall.Sockaddr, er
 	}
 	defer fd.readUnlock()
 
+	if len(p) > maxRW {
+		p = p[:maxRW]
+	}
+
 	o := &fd.rop
 	o.InitMsg(p, oob)
 	o.rsa = new(syscall.RawSockaddrAny)
@@ -1011,6 +1048,10 @@ func (fd *FD) WriteMsg(p []byte, oob []byte, sa syscall.Sockaddr) (int, int, err
 		return 0, 0, err
 	}
 	defer fd.writeUnlock()
+
+	if len(p) > maxRW {
+		p = p[:maxRW]
+	}
 
 	o := &fd.wop
 	o.InitMsg(p, oob)
