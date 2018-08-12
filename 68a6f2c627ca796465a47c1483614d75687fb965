@@ -46,6 +46,30 @@
       "revId": "68a6f2c627ca796465a47c1483614d75687fb965",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6c29b5f_6fd54970",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-12T02:45:28Z",
+      "side": 1,
+      "message": "callbackLoop is called at most once ever. Look at lines 39 \u0026 40 above. That\u0027s the only place it\u0027s called. It can ONLY be called one time.\n\nSo, I question the value of this whole CL. If you can\u0027t see a performance benefit when you move those lines inside this func, I doubt you can see a performance benefit with them as globals.",
+      "parentUuid": "65351dba_04988528",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 1
+      },
+      "revId": "68a6f2c627ca796465a47c1483614d75687fb965",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
