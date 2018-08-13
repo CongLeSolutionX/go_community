@@ -182,3 +182,9 @@ func AddMul(x int) int {
 	// amd64:"LEAQ\t1"
 	return 2*x + 1
 }
+
+func MULA(x, y, z uint32) uint32 {
+	// arm:`MULA`
+	// arm64:`MADDW`
+	return a*b + c
+}
