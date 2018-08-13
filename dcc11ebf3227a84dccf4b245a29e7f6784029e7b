@@ -52,6 +52,24 @@
       "revId": "dcc11ebf3227a84dccf4b245a29e7f6784029e7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0305b3b_4d516f15",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-13T14:48:06Z",
+      "side": 1,
+      "message": "Agreed. This needs to loop and keep writing until it\u0027s all done, if Windows has a 1GB limit per write.",
+      "parentUuid": "64578ed0_8a65de5b",
+      "revId": "dcc11ebf3227a84dccf4b245a29e7f6784029e7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
