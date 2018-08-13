@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d583d02_6a7d2699",
+        "filename": "src/runtime/msan_arm64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-08-13T15:04:54Z",
+      "side": 1,
+      "message": "Not needed. The next instruction writes to RSP anyway.",
+      "revId": "a8a14fcfaf286521ad98af9d86c6e6a589fbc5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
