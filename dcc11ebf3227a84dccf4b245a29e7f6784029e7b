@@ -16,6 +16,24 @@
       "revId": "dcc11ebf3227a84dccf4b245a29e7f6784029e7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35919fc7_213d25da",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-13T09:41:08Z",
+      "side": 1,
+      "message": "You are correct. io.Writer documentation does not promise that all data will be written. So I use that allowance to write only first maxRW bytes. But even that is not guaranteed, because Windows WriteFile function could do the same, and write only some of maxRW bytes I sent. It is caller who is responsible for making sure all data is written.",
+      "parentUuid": "e73c3dde_d7790439",
+      "revId": "dcc11ebf3227a84dccf4b245a29e7f6784029e7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
