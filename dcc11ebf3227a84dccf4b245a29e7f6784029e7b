@@ -34,6 +34,24 @@
       "revId": "dcc11ebf3227a84dccf4b245a29e7f6784029e7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64578ed0_8a65de5b",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-08-13T10:14:59Z",
+      "side": 1,
+      "message": "io.Writer promises that if less bytes are written, an error is returned. It looks like this CL is breaking that guarantee",
+      "parentUuid": "35919fc7_213d25da",
+      "revId": "dcc11ebf3227a84dccf4b245a29e7f6784029e7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
