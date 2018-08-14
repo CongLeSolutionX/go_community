@@ -705,6 +705,321 @@ func TestLen(t *testing.T) {
 	}
 }
 
+type funUint func(x, y, c uint) (z, cout uint)
+type funUint32 func(x, y, c uint32) (z, cout uint32)
+type funUint64 func(x, y, c uint64) (z, cout uint64)
+type argUint struct {
+	x, y, c, cout, z uint
+}
+type argUint32 struct {
+	x, y, c, cout, z uint32
+}
+type argUint64 struct {
+	x, y, c, cout, z uint64
+}
+
+const (
+	_M   = 1<<UintSize - 1
+	_M32 = 1<<32 - 1
+	_M64 = 1<<64 - 1
+)
+
+var sumUint = []argUint{
+	{0, 0, 0, 0, 0},
+	{0, 1, 0, 0, 1},
+	{0, 0, 1, 0, 1},
+	{0, 1, 1, 0, 2},
+	{12345, 67890, 0, 0, 80235},
+	{12345, 67890, 1, 0, 80236},
+	{_M, 1, 0, 1, 0},
+	{_M, 0, 1, 1, 0},
+	{_M, 1, 1, 1, 1},
+	{_M, _M, 0, 1, _M - 1},
+	{_M, _M, 1, 1, _M},
+}
+
+func testAddSubUint(t *testing.T, msg string, f funUint, a argUint) {
+	z, cout := f(a.x, a.y, a.c)
+	if z != a.z || cout != a.cout {
+		t.Errorf("%s%+v\n\tgot z:cout = %#x:%#x; want %#x:%#x", msg, a, z, cout, a.z, a.cout)
+	}
+}
+
+func TestAddSubUint(t *testing.T) {
+	for _, a := range sumUint {
+		arg := a
+		testAddSubUint(t, "Add", Add, arg)
+
+		arg = argUint{a.y, a.x, a.c, a.cout, a.z}
+		testAddSubUint(t, "Add symmetric", Add, arg)
+
+		arg = argUint{a.z, a.x, a.c, a.cout, a.y}
+		testAddSubUint(t, "Sub", Sub, arg)
+
+		arg = argUint{a.z, a.y, a.c, a.cout, a.x}
+		testAddSubUint(t, "Sub symmetric", Sub, arg)
+	}
+}
+
+var sumUint32 = []argUint32{
+	{0, 0, 0, 0, 0},
+	{0, 1, 0, 0, 1},
+	{0, 0, 1, 0, 1},
+	{0, 1, 1, 0, 2},
+	{12345, 67890, 0, 0, 80235},
+	{12345, 67890, 1, 0, 80236},
+	{_M32, 1, 0, 1, 0},
+	{_M32, 0, 1, 1, 0},
+	{_M32, 1, 1, 1, 1},
+	{_M32, _M32, 0, 1, _M32 - 1},
+	{_M32, _M32, 1, 1, _M32},
+}
+
+func testAddSubUint32(t *testing.T, msg string, f funUint32, a argUint32) {
+	z, cout := f(a.x, a.y, a.c)
+	if z != a.z || cout != a.cout {
+		t.Errorf("%s%+v\n\tgot z:cout = %#x:%#x; want %#x:%#x", msg, a, z, cout, a.z, a.cout)
+	}
+}
+
+func TestAddSubUint32(t *testing.T) {
+	for _, a := range sumUint32 {
+		arg := a
+		testAddSubUint32(t, "Add32", Add32, arg)
+
+		arg = argUint32{a.y, a.x, a.c, a.cout, a.z}
+		testAddSubUint32(t, "Add32 symmetric", Add32, arg)
+
+		arg = argUint32{a.z, a.x, a.c, a.cout, a.y}
+		testAddSubUint32(t, "Sub32", Sub32, arg)
+
+		arg = argUint32{a.z, a.y, a.c, a.cout, a.x}
+		testAddSubUint32(t, "Sub32 symmetric", Sub32, arg)
+	}
+}
+
+var sumUint64 = []argUint64{
+	{0, 0, 0, 0, 0},
+	{0, 1, 0, 0, 1},
+	{0, 0, 1, 0, 1},
+	{0, 1, 1, 0, 2},
+	{12345, 67890, 0, 0, 80235},
+	{12345, 67890, 1, 0, 80236},
+	{_M64, 1, 0, 1, 0},
+	{_M64, 0, 1, 1, 0},
+	{_M64, 1, 1, 1, 1},
+	{_M64, _M64, 0, 1, _M64 - 1},
+	{_M64, _M64, 1, 1, _M64},
+}
+
+func testAddSubUint64(t *testing.T, msg string, f funUint64, a argUint64) {
+	z, cout := f(a.x, a.y, a.c)
+	if z != a.z || cout != a.cout {
+		t.Errorf("%s%+v\n\tgot z:cout = %#x:%#x; want %#x:%#x", msg, a, z, cout, a.z, a.cout)
+	}
+}
+
+func TestAddSubUint64(t *testing.T) {
+	for _, a := range sumUint64 {
+		arg := a
+		testAddSubUint64(t, "Add64", Add64, arg)
+
+		arg = argUint64{a.y, a.x, a.c, a.cout, a.z}
+		testAddSubUint64(t, "Add64 symmetric", Add64, arg)
+
+		arg = argUint64{a.z, a.x, a.c, a.cout, a.y}
+		testAddSubUint64(t, "Sub64", Sub64, arg)
+
+		arg = argUint64{a.z, a.y, a.c, a.cout, a.x}
+		testAddSubUint64(t, "Sub64 symmetric", Sub64, arg)
+	}
+}
+
+var mulUintTests = []struct {
+	x, y      uint
+	hi, lo, r uint
+}{
+	{1 << (UintSize - 1), 2, 1, 0, 1},
+	{_M, _M, _M - 1, 1, 42},
+}
+
+func TestMulDiv(t *testing.T) {
+	for i, test := range mulUintTests {
+		hi, lo := Mul(test.x, test.y)
+		if hi != test.hi || lo != test.lo {
+			t.Errorf("#%d %d * %d got (%x, %x) want (%x, %x)", i, test.x, test.y, hi, lo, test.hi, test.lo)
+		}
+		hi, lo = Mul(test.y, test.x)
+		if hi != test.hi || lo != test.lo {
+			t.Errorf("#%d %d * %d got (%x, %x) want (%x, %x)", i, test.y, test.x, hi, lo, test.hi, test.lo)
+		}
+		q, r := Div(test.hi, test.lo+test.r, test.x)
+		if q != test.y || r != test.r {
+			t.Errorf("#%d (%d,%d) / %d got (%x, %x) want (%x, %x)", i, test.hi, test.lo, test.x, q, r, test.y, test.r)
+		}
+		q, r = Div(test.hi, test.lo+test.r, test.y)
+		if q != test.x || r != test.r {
+			t.Errorf("#%d (%d,%d) / %d got (%x, %x) want (%x, %x)", i, test.hi, test.lo, test.y, q, r, test.x, test.r)
+		}
+	}
+}
+
+var mulUint32Tests = []struct {
+	x, y      uint32
+	hi, lo, r uint32
+}{
+	{1 << 31, 2, 1, 0, 1},
+	{0xc47dfa8c, 50911, 0x98a4, 0x998587f4, 13},
+	{_M32, _M32, _M32 - 1, 1, 42},
+}
+
+func TestMulDiv32(t *testing.T) {
+	for i, test := range mulUint32Tests {
+		hi, lo := Mul32(test.x, test.y)
+		if hi != test.hi || lo != test.lo {
+			t.Errorf("#%d %d * %d got (%d, %d) want (%d, %d)", i, test.x, test.y, hi, lo, test.hi, test.lo)
+		}
+		hi, lo = Mul32(test.y, test.x)
+		if hi != test.hi || lo != test.lo {
+			t.Errorf("#%d %d * %d got (%d, %d) want (%d, %d)", i, test.y, test.x, hi, lo, test.hi, test.lo)
+		}
+		q, r := Div32(test.hi, test.lo+test.r, test.x)
+		if q != test.y || r != test.r {
+			t.Errorf("#%d (%d,%d) / %d got (%d, %d) want (%d, %d)", i, test.hi, test.lo, test.x, q, r, test.y, test.r)
+		}
+		q, r = Div32(test.hi, test.lo+test.r, test.y)
+		if q != test.x || r != test.r {
+			t.Errorf("#%d (%d,%d) / %d got (%d, %d) want (%d, %d)", i, test.hi, test.lo, test.y, q, r, test.x, test.r)
+		}
+	}
+}
+
+var mulUint64Tests = []struct {
+	x, y      uint64
+	hi, lo, r uint64
+}{
+	{1 << 63, 2, 1, 0, 1},
+	{0x3626229738a3b9, 0xd8988a9f1cc4a61, 0x2dd0712657fe8, 0x9dd6a3364c358319, 13},
+	{_M64, _M64, _M64 - 1, 1, 42},
+}
+
+func TestMulDiv64(t *testing.T) {
+	for i, test := range mulUint64Tests {
+		hi, lo := Mul64(test.x, test.y)
+		if hi != test.hi || lo != test.lo {
+			t.Errorf("#%d %d * %d got (%x, %x) want (%x, %x)", i, test.x, test.y, hi, lo, test.hi, test.lo)
+		}
+		hi, lo = Mul64(test.y, test.x)
+		if hi != test.hi || lo != test.lo {
+			t.Errorf("#%d %d * %d got (%x, %x) want (%x, %x)", i, test.y, test.x, hi, lo, test.hi, test.lo)
+		}
+		q, r := Div64(test.hi, test.lo+test.r, test.x)
+		if q != test.y || r != test.r {
+			t.Errorf("#%d (%d,%d) / %d got (%x, %x) want (%x, %x)", i, test.hi, test.lo, test.x, q, r, test.y, test.r)
+		}
+		q, r = Div64(test.hi, test.lo+test.r, test.y)
+		if q != test.x || r != test.r {
+			t.Errorf("#%d (%d,%d) / %d got (%x, %x) want (%x, %x)", i, test.hi, test.lo, test.y, q, r, test.x, test.r)
+		}
+	}
+}
+
+func BenchmarkAdd(b *testing.B) {
+	var z, c uint
+	for i := 0; i < b.N; i++ {
+		z, c = Add(uint(Input), uint(i), c)
+	}
+	Output = int(z + c)
+}
+
+func BenchmarkAdd32(b *testing.B) {
+	var z, c uint32
+	for i := 0; i < b.N; i++ {
+		z, c = Add32(uint32(Input), uint32(i), c)
+	}
+	Output = int(z + c)
+}
+
+func BenchmarkAdd64(b *testing.B) {
+	var z, c uint64
+	for i := 0; i < b.N; i++ {
+		z, c = Add64(uint64(Input), uint64(i), c)
+	}
+	Output = int(z + c)
+}
+
+func BenchmarkSub(b *testing.B) {
+	var z, c uint
+	for i := 0; i < b.N; i++ {
+		z, c = Sub(uint(Input), uint(i), c)
+	}
+	Output = int(z + c)
+}
+
+func BenchmarkSub32(b *testing.B) {
+	var z, c uint32
+	for i := 0; i < b.N; i++ {
+		z, c = Sub32(uint32(Input), uint32(i), c)
+	}
+	Output = int(z + c)
+}
+
+func BenchmarkSub64(b *testing.B) {
+	var z, c uint64
+	for i := 0; i < b.N; i++ {
+		z, c = Add64(uint64(Input), uint64(i), c)
+	}
+	Output = int(z + c)
+}
+
+func BenchmarkMul(b *testing.B) {
+	var hi, lo uint
+	for i := 0; i < b.N; i++ {
+		hi, lo = Mul(uint(Input), uint(i))
+	}
+	Output = int(hi + lo)
+}
+
+func BenchmarkMul32(b *testing.B) {
+	var hi, lo uint32
+	for i := 0; i < b.N; i++ {
+		hi, lo = Mul32(uint32(Input), uint32(i))
+	}
+	Output = int(hi + lo)
+}
+
+func BenchmarkMul64(b *testing.B) {
+	var hi, lo uint64
+	for i := 0; i < b.N; i++ {
+		hi, lo = Mul64(uint64(Input), uint64(i))
+	}
+	Output = int(hi + lo)
+}
+
+func BenchmarkDiv(b *testing.B) {
+	var q, r uint
+	for i := 0; i < b.N; i++ {
+		q, r = Div(1, uint(i), uint(Input))
+	}
+	Output = int(q + r)
+}
+
+func BenchmarkDiv32(b *testing.B) {
+	var q, r uint32
+	for i := 0; i < b.N; i++ {
+		q, r = Div32(1, uint32(i), uint32(Input))
+	}
+	Output = int(q + r)
+}
+
+func BenchmarkDiv64(b *testing.B) {
+	var q, r uint64
+	for i := 0; i < b.N; i++ {
+		q, r = Div64(1, uint64(i), uint64(Input))
+	}
+	Output = int(q + r)
+}
+
 // ----------------------------------------------------------------------------
 // Testing support
 
