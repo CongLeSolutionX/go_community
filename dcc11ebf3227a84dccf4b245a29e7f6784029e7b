@@ -70,6 +70,24 @@
       "revId": "dcc11ebf3227a84dccf4b245a29e7f6784029e7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e75e244_8386fb12",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-14T10:07:23Z",
+      "side": 1,
+      "message": "\u003e Agreed. This needs to loop and keep writing until it\u0027s all done, if Windows has a 1GB limit per write.\n\nI have never argued this case. :-)\nI must have forgotten about io.Writer needed to write everything from the buffer.",
+      "parentUuid": "c0305b3b_4d516f15",
+      "revId": "dcc11ebf3227a84dccf4b245a29e7f6784029e7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
