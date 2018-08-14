@@ -125,6 +125,25 @@ func f14() {
 	_, _ = s1, s2
 }
 
+func leakParams(p1, p2 *int) (*int, *int) { // ERROR "leaking param: p1 to result ~r2 level=0$" "from ~r2 \(return\) at escape_because.go:129$" "leaking param: p2 to result ~r3 level=0$" "from ~r3 \(return\) at escape_because.go:129$"
+	return p1, p2
+}
+
+func assignMultiValueToGlobal1() {
+	// See #26987.
+	i := 0 // ERROR "moved to heap: i$"
+	j := 0
+	sink, _ = leakParams(&i, &j) // ERROR "&i escapes to heap$" "from .out0 \(passed-to-and-returned-from-call\) at escape_because.go:136$" "from sink \(assign-pair-func-call\) at escape_because.go:136$" "&j does not escape$"
+}
+
+func assignMultiValueToGlobal2() {
+	var f = leakParams // To avoid inlining
+
+	i := 0              // ERROR "moved to heap: i$"
+	j := 0              // ERROR "moved to heap: j$"
+	sink, _ = f(&i, &j) // ERROR "&i escapes to heap$" "&j escapes to heap$" "from f\(&i, &j\) \(parameter to indirect call\) at escape_because.go:144$"
+}
+
 // The list below is all of the why-escapes messages seen building the escape analysis tests.
 /*
    for i in escape*go ; do echo compile $i; go build -gcflags '-l -m -m' $i >& `basename $i .go`.log ; done
