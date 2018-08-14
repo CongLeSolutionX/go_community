@@ -3340,6 +3340,26 @@ func init() {
 	addF("math/bits", "OnesCount",
 		makeOnesCountAMD64(ssa.OpPopCount64, ssa.OpPopCount32),
 		sys.AMD64)
+	addF("math/bits", "Mul",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue2(ssa.OpMul64uhilo, types.NewTuple(types.Types[TUINT], types.Types[TUINT]), args[0], args[1])
+		},
+		sys.AMD64, sys.ARM64)
+	addF("math/bits", "Mul64",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue2(ssa.OpMul64uhilo, types.NewTuple(types.Types[TUINT64], types.Types[TUINT64]), args[0], args[1])
+		},
+		sys.AMD64, sys.ARM64)
+	addF("math/bits", "Div",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue3(ssa.OpDiv128u, types.NewTuple(types.Types[TUINT], types.Types[TUINT]), args[0], args[1], args[2])
+		},
+		sys.AMD64)
+	addF("math/bits", "Div64",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue3(ssa.OpDiv128u, types.NewTuple(types.Types[TUINT64], types.Types[TUINT64]), args[0], args[1], args[2])
+		},
+		sys.AMD64)
 
 	/******** sync/atomic ********/
 
