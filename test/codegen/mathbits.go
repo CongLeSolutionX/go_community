@@ -267,3 +267,33 @@ func IterateBits8(n uint8) int {
 	}
 	return i
 }
+
+// --------------- //
+//    bits.Mul*    //
+// --------------- //
+
+func Mul(x, y uint) (hi, lo uint) {
+	// amd64:"MULQ"
+	// arm64:"UMULH","MUL"
+	return bits.Mul(x, y)
+}
+
+func Mul64(x, y uint64) (hi, lo uint64) {
+	// amd64:"MULQ"
+	// arm64:"UMULH","MUL"
+	return bits.Mul64(x, y)
+}
+
+// --------------- //
+//    bits.Div*    //
+// --------------- //
+
+func Div(hi, lo, x uint) (q, r uint) {
+	// amd64:"DIVQ"
+	return bits.Div(hi, lo, x)
+}
+
+func Div64(hi, lo, x uint64) (q, r uint64) {
+	// amd64:"DIVQ"
+	return bits.Div64(hi, lo, x)
+}
