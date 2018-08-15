@@ -60,6 +60,7 @@ var vetTool string
 
 // add build flags to vetFlagDefn.
 func init() {
+	base.Usage = CmdVet.Usage
 	cmdflag.AddKnownFlags("vet", vetFlagDefn)
 	var cmd base.Command
 	work.AddBuildFlags(&cmd)
