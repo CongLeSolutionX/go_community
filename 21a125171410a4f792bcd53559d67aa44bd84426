@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65111a5d_b31c6f58",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-17T14:46:55Z",
+      "side": 1,
+      "message": "If we\u0027re already going out of our way to prepare the same inputs to sort, maybe we should also call sort.Stable so that changes to the sorting algorithm don\u0027t affect the output?",
+      "revId": "21a125171410a4f792bcd53559d67aa44bd84426",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
