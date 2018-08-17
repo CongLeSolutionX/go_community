@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "188f2526_0c4f6b5c",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-08-17T15:10:18Z",
+      "side": 1,
+      "message": "s/enables/will also enable/",
+      "revId": "9aadc6efc089b5ee01ab677ac36cd4f4126f7c41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
