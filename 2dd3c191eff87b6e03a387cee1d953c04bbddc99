@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e699d43_7aecdb09",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-08-17T20:16:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure about removing the read-only test before the Cas. The Cas will often fail, and short-circuiting that without bring the cache line into exclusive mode is probably useful. There should at least be an atomic.Load(\u0026s.sweepgen) \u003d\u003d sg-2 test here, and once you have that it must be safe to combine the two loads of s.sweepgen.",
+      "revId": "2dd3c191eff87b6e03a387cee1d953c04bbddc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf3dfa4b_7b02b8e0",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-08-17T20:16:19Z",
+      "side": 1,
+      "message": "Here, too, I don\u0027t want to lose the guarding load, but it can be an atomic.Load.",
+      "revId": "2dd3c191eff87b6e03a387cee1d953c04bbddc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f4241e5_c5325204",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-08-17T20:16:19Z",
+      "side": 1,
+      "message": "Same comment about losing the guarding load.",
+      "revId": "2dd3c191eff87b6e03a387cee1d953c04bbddc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50ca6a71_979b0aaa",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-08-17T20:16:19Z",
+      "side": 1,
+      "message": "I don\u0027t think any of these loads need to be atomic. They\u0027re not racing with any stores, since this is all protected the os/signal.handlers Mutex (and if they were racing with a store, this code would be horribly broken). The stores are atomic because they\u0027re racing with loads in sigsend. This is explained in the comment above the sig struct, and was clearly carefully thought out. :) So, I\u0027d rather not fix it if it isn\u0027t broken.",
+      "revId": "2dd3c191eff87b6e03a387cee1d953c04bbddc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
