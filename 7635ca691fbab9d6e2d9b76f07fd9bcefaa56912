@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64a5219a_381b847b",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2018-08-18T22:28:51Z",
+      "side": 1,
+      "message": "intentional?",
+      "revId": "7635ca691fbab9d6e2d9b76f07fd9bcefaa56912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
