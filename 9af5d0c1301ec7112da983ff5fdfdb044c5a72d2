@@ -1,0 +1,237 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "880d580a_91e6408a",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "I think you want endif before RET.\n\nAlso, can\u0027t you just set runtime.iscgo variable properly, so you don\u0027t need to change this file?",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78f0ff80_74bac002",
+        "filename": "src/runtime/defs_windows_386.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "\"lr\" would be surprising for readers who are not familiar with windows / arm. Maybe add some comment, like.\n\n// only used on windows / arm",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f48b2d84_bdf1a58e",
+        "filename": "src/runtime/defs_windows_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b95fc0_5bedd67a",
+        "filename": "src/runtime/defs_windows_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "This method needs a comment.",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbfbf521_02fad2cc",
+        "filename": "src/runtime/defs_windows_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fc96317_97a4e551",
+        "filename": "src/runtime/defs_windows_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5bce033_66ee5a1f",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "These consts look out of place here. Move them to os_windows_arm.go. They are not Windows consts. Are they? Do you need all of them?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3969e25_00b12e1e",
+        "filename": "src/runtime/os_windows_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this const. Delete.",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "658ebd83_b94c28df",
+        "filename": "src/runtime/os_windows_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "I take these numbers refer to Linux kernel number. Need some comment, because readers will not expect Linux consts in Windows file.",
+      "range": {
+        "startLine": 10,
+        "startChar": 41,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4110eda_9fd61cf0",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "This line and next seems to be solving some problem with windows amd64 and 386. Please, send that fix in a separate CL. Thank you.",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76ee233e_dbd5eb19",
+        "filename": "src/runtime/tls_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "This looks like TlsSetValue implementation. Where is this implementation documented? Do you have any refs? Add whatever comment you can.",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58016f20_e80db2cc",
+        "filename": "src/runtime/tls_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "Looks like TlsGetValue. Add some doco.",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "138fd828_ec0d117f",
+        "filename": "src/runtime/wincallback.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-18T07:06:44Z",
+      "side": 1,
+      "message": "We won\u0027t have many windows / arm users looking at this file. I think readers will prefer to see 386 / amd64 code first. Reverse the order, and make arm code appear at the bottom.",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
