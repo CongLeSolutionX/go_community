@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71a61d1c_c01c4de7",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-18T22:18:15Z",
+      "side": 1,
+      "message": "This makes sense only in the context of this commit with the commit message.\n\nNobody will understand why this directory bit is here later when reading the code.\n\nIf anything, do:\n\n    \u0026\u0026 !(runtime.GOOS \u003d\u003d \"plan9\" \u0026\u0026 fi.IsDir()) {\n\n... which both comments the code (kinda), and makes this CL a no-op for all the other architectures.\n\nWe don\u0027t want this special case for non-plan9 systems. (I\u0027m not even sure it\u0027s appropriate on plan9, but we also are pretty lax with what we accept for the  plan9 port.)",
+      "range": {
+        "startLine": 382,
+        "startChar": 66,
+        "endLine": 382,
+        "endChar": 80
+      },
+      "revId": "6721375dd3812876b4278909d342a7730ca6a7f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "107c41b5_c235e4b1",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-18T22:18:15Z",
+      "side": 1,
+      "message": "likewise.\n\nBut if this comes up more, a function might be appropriate.",
+      "range": {
+        "startLine": 400,
+        "startChar": 66,
+        "endLine": 400,
+        "endChar": 67
+      },
+      "revId": "6721375dd3812876b4278909d342a7730ca6a7f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
