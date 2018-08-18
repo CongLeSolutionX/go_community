@@ -32,13 +32,15 @@ to standard output, describing each downloaded module (or failure),
 corresponding to this Go struct:
 
     type Module struct {
-        Path    string // module path
-        Version string // module version
-        Error   string // error loading module
-        Info    string // absolute path to cached .info file
-        GoMod   string // absolute path to cached .mod file
-        Zip     string // absolute path to cached .zip file
-        Dir     string // absolute path to cached source root directory
+        Path     string // module path
+        Version  string // module version
+        Error    string // error loading module
+        Info     string // absolute path to cached .info file
+        GoMod    string // absolute path to cached .mod file
+        Zip      string // absolute path to cached .zip file
+        Dir      string // absolute path to cached source root directory
+        Sum      string // checksum for path, version (as in go.sum)
+        GoModSum string // checksum for go.mod (as in go.sum)
     }
 
 See 'go help modules' for more about module queries.
@@ -52,13 +54,15 @@ func init() {
 }
 
 type moduleJSON struct {
-	Path    string `json:",omitempty"`
-	Version string `json:",omitempty"`
-	Error   string `json:",omitempty"`
-	Info    string `json:",omitempty"`
-	GoMod   string `json:",omitempty"`
-	Zip     string `json:",omitempty"`
-	Dir     string `json:",omitempty"`
+	Path     string `json:",omitempty"`
+	Version  string `json:",omitempty"`
+	Error    string `json:",omitempty"`
+	Info     string `json:",omitempty"`
+	GoMod    string `json:",omitempty"`
+	Zip      string `json:",omitempty"`
+	Dir      string `json:",omitempty"`
+	Sum      string `json:",omitempty"`
+	GoModSum string `json:",omitempty"`
 }
 
 func runDownload(cmd *base.Command, args []string) {
@@ -86,6 +90,7 @@ func runDownload(cmd *base.Command, args []string) {
 	}
 
 	work.Do(10, func(item interface{}) {
+		println("CHECK")
 		m := item.(*moduleJSON)
 		var err error
 		m.Info, err = modfetch.InfoFile(m.Path, m.Version)
@@ -98,12 +103,18 @@ func runDownload(cmd *base.Command, args []string) {
 			m.Error = err.Error()
 			return
 		}
+		m.GoModSum, err = modfetch.GoModSum(m.Path, m.Version)
+		if err != nil {
+			m.Error = err.Error()
+			return
+		}
 		mod := module.Version{Path: m.Path, Version: m.Version}
 		m.Zip, err = modfetch.DownloadZip(mod)
 		if err != nil {
 			m.Error = err.Error()
 			return
 		}
+		m.Sum = modfetch.Sum(mod)
 		m.Dir, err = modfetch.Download(mod)
 		if err != nil {
 			m.Error = err.Error()
