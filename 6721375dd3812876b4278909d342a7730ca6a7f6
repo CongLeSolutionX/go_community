@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1c5cf37e_b33f644b",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5280
+      },
+      "writtenOn": "2018-08-18T22:54:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71a61d1c_c01c4de7",
+      "range": {
+        "startLine": 382,
+        "startChar": 66,
+        "endLine": 382,
+        "endChar": 80
+      },
+      "revId": "6721375dd3812876b4278909d342a7730ca6a7f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "107c41b5_c235e4b1",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "6721375dd3812876b4278909d342a7730ca6a7f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "344d3dd8_87d3f778",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5280
+      },
+      "writtenOn": "2018-08-18T22:54:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "107c41b5_c235e4b1",
+      "range": {
+        "startLine": 400,
+        "startChar": 66,
+        "endLine": 400,
+        "endChar": 67
+      },
+      "revId": "6721375dd3812876b4278909d342a7730ca6a7f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
