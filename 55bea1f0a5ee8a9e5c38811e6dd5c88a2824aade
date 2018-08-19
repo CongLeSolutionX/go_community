@@ -16,6 +16,24 @@
       "revId": "55bea1f0a5ee8a9e5c38811e6dd5c88a2824aade",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7286e2e8_d8c06440",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-08-19T19:01:06Z",
+      "side": 1,
+      "message": "I mostly agree - there is a TODO, and I opened #26999 for this inconsistency and potential cleanup in 1.12.\n\nHowever, #26998 is only about the bad help information, which is being fixed here. Perhaps we want to put that in for 1.11 or 1.11.1, so I thought that leaving the issue to its only purpose would be best.\n\nIf it\u0027s still better to not close the issue here, please do insist :)",
+      "parentUuid": "1f5a96fc_f6fc552e",
+      "revId": "55bea1f0a5ee8a9e5c38811e6dd5c88a2824aade",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
