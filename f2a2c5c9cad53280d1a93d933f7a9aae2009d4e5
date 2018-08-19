@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3931d72a_bfaaf647",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-19T07:54:24Z",
+      "side": 1,
+      "message": "Added looping, just in case. It won\u0027t hurt.\n\nI don\u0027t have any points to clear your confusing points. Maybe others will help.",
+      "parentUuid": "12f62bf6_ffb80f6d",
+      "revId": "f2a2c5c9cad53280d1a93d933f7a9aae2009d4e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5c740e4_be0646d6",
         "filename": "src/internal/poll/fd_windows.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fda9d802_c7efd8a2",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-19T07:54:24Z",
+      "side": 1,
+      "message": "Done the loop.",
+      "parentUuid": "a5c740e4_be0646d6",
+      "revId": "f2a2c5c9cad53280d1a93d933f7a9aae2009d4e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "15f007a8_dda412d9",
         "filename": "src/internal/poll/fd_windows.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2018-08-14T10:45:39Z",
       "side": 1,
       "message": "Not sure about WriteMsg, but I wouldn\u0027t be surprised if most Write* interfaces follow the io.Writer convention.",
+      "revId": "f2a2c5c9cad53280d1a93d933f7a9aae2009d4e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "778077ba_acf8fdaf",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-19T07:54:24Z",
+      "side": 1,
+      "message": "Done the loop.",
+      "parentUuid": "15f007a8_dda412d9",
       "revId": "f2a2c5c9cad53280d1a93d933f7a9aae2009d4e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
