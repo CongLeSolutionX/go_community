@@ -46,6 +46,30 @@
       "revId": "440bcdc34dbeabe2cd9e2e2e0f1e5e0d87b8ee6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "750f5d59_d02eec7f",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-20T05:13:06Z",
+      "side": 1,
+      "message": "Fine to submit after fix.",
+      "parentUuid": "81fec2d2_c7018246",
+      "range": {
+        "startLine": 53,
+        "startChar": 55,
+        "endLine": 53,
+        "endChar": 80
+      },
+      "revId": "440bcdc34dbeabe2cd9e2e2e0f1e5e0d87b8ee6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
