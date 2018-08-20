@@ -236,10 +236,15 @@ func Version() string {
 	return sys.TheVersion
 }
 
-// GOOS is the running program's operating system target:
-// one of darwin, freebsd, linux, and so on.
+// GOOS is the running program's operating system target.
+// It will contains one of the following values:
+// android, darwin, dragonfly, freebsd, js, linux, nacl, netbsd, openbsd,
+// plan9, solaris, windows, or zos.
 const GOOS string = sys.GOOS
 
-// GOARCH is the running program's architecture target:
-// one of 386, amd64, arm, s390x, and so on.
+// GOARCH is the running program's architecture target.
+// It will contains one of the following values:
+// 386, amd64, amd64p32, arm, armbe, arm64, arm64be, ppc64, ppc64le, mips,
+// mipsle, mips64, mips64le, mips64p32, mips64p32le, ppc, riscv, riscv64,
+// s390, s390x, sparc, sparc64, or wasm.
 const GOARCH string = sys.GOARCH
