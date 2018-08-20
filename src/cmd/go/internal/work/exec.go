@@ -583,7 +583,7 @@ func (b *Builder) build(a *Action) (err error) {
 	need &^= needCgoHdr
 
 	// Sanity check only, since Package.load already checked as well.
-	if len(gofiles) == 0 {
+	if len(gofiles) == 0 && cfg.CmdName != "list" {
 		return &load.NoGoError{Package: a.Package}
 	}
 

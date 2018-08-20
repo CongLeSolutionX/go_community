@@ -5254,6 +5254,13 @@ func TestIssue22596(t *testing.T) {
 	tg.wantNotStale("p", "", "p stale after install2")
 }
 
+func TestIssue27097(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
+	tg.run("list", "-e", "-compiled", "testonly")
+}
+
 func TestTestCache(t *testing.T) {
 	tooSlow(t)
 
