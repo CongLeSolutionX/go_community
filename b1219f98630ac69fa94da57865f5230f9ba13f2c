@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f67a2d5_af8b9c50",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-21T22:39:06Z",
+      "side": 1,
+      "message": "s/will always fail/will return an error/.",
+      "range": {
+        "startLine": 182,
+        "startChar": 57,
+        "endLine": 182,
+        "endChar": 73
+      },
+      "revId": "b1219f98630ac69fa94da57865f5230f9ba13f2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad06511e_a98797bf",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-21T22:39:06Z",
+      "side": 1,
+      "message": "You still have \"Config.\" here which isn\u0027t in scope.",
+      "range": {
+        "startLine": 182,
+        "startChar": 21,
+        "endLine": 182,
+        "endChar": 27
+      },
+      "revId": "b1219f98630ac69fa94da57865f5230f9ba13f2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72ba49a8_faba1da3",
+        "filename": "src/crypto/tls/prf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-21T22:39:06Z",
+      "side": 1,
+      "message": "don\u0027t we still prefix errors with the package? \"crypto/tls: ...\"",
+      "range": {
+        "startLine": 353,
+        "startChar": 25,
+        "endLine": 353,
+        "endChar": 45
+      },
+      "revId": "b1219f98630ac69fa94da57865f5230f9ba13f2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
