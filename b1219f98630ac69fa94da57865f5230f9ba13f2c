@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "8303a638_602f71ea",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-08-21T22:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f67a2d5_af8b9c50",
+      "range": {
+        "startLine": 182,
+        "startChar": 57,
+        "endLine": 182,
+        "endChar": 73
+      },
+      "revId": "b1219f98630ac69fa94da57865f5230f9ba13f2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e947d86_221f296b",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-08-21T22:58:52Z",
+      "side": 1,
+      "message": "I don\u0027t get what you mean, Config is a package-level type, and Config.Renegotiation is the only field that controls renegotiation behavior.",
+      "parentUuid": "ad06511e_a98797bf",
+      "range": {
+        "startLine": 182,
+        "startChar": 21,
+        "endLine": 182,
+        "endChar": 27
+      },
+      "revId": "b1219f98630ac69fa94da57865f5230f9ba13f2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72ba49a8_faba1da3",
         "filename": "src/crypto/tls/prf.go",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "b1219f98630ac69fa94da57865f5230f9ba13f2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48b48bc3_04f21acb",
+        "filename": "src/crypto/tls/prf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-08-21T22:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72ba49a8_faba1da3",
+      "range": {
+        "startLine": 353,
+        "startChar": 25,
+        "endLine": 353,
+        "endChar": 45
+      },
+      "revId": "b1219f98630ac69fa94da57865f5230f9ba13f2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
