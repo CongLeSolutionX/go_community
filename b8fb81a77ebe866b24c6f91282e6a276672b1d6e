@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23997256_584ae4e5",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-21T08:16:52Z",
+      "side": 1,
+      "message": "i think this is overkill; using switch stmt is enough (and no need to describe or represent your interpretation on the mapping):\n\nswitch len(network)-1 {\ncase \u00274\u0027:\n      hints.ai_family \u003d ...\ncase \u00276\u0027:\n      hints.ai_family \u003d ...\ndefault\n      hints.ai_family \u003d ...\n}",
+      "range": {
+        "startLine": 142,
+        "startChar": 1,
+        "endLine": 142,
+        "endChar": 11
+      },
+      "revId": "b8fb81a77ebe866b24c6f91282e6a276672b1d6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5159fc54_d7e22009",
+        "filename": "src/net/ip.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-21T08:16:52Z",
+      "side": 1,
+      "message": "this is not related to ip address (and what\u0027s the network family? in terms of what?)\ni think this is unnecessary. instead, you can have a mapping btw platform-specific socket address families and network args in cgo_{unix,windows}.go (or lookup_windows.go), the same as fd.ctrlNetwork in sock_posix.go.",
+      "range": {
+        "startLine": 736,
+        "startChar": 5,
+        "endLine": 736,
+        "endChar": 16
+      },
+      "revId": "b8fb81a77ebe866b24c6f91282e6a276672b1d6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9be85ec_e81ca02e",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-21T08:16:52Z",
+      "side": 1,
+      "message": "is there any reason for​ not using lookupIPAddr?",
+      "range": {
+        "startLine": 197,
+        "startChar": 19,
+        "endLine": 197,
+        "endChar": 34
+      },
+      "revId": "b8fb81a77ebe866b24c6f91282e6a276672b1d6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
