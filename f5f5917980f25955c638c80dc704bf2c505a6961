@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa143681_b3fafcaa",
+        "filename": "src/cmd/internal/sys/supported.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-21T02:10:28Z",
+      "side": 1,
+      "message": "This is misleading.\n\nWe don\u0027t support the race detector on netbsd/ppc64le, etc.\n\nSeparate linux out into its own switch case?",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 49
+      },
+      "revId": "f5f5917980f25955c638c80dc704bf2c505a6961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
