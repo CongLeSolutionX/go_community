@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fd17ab19_5a842505",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-08-21T22:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d53142b_82c6e21e",
+      "range": {
+        "startLine": 181,
+        "startChar": 36,
+        "endLine": 181,
+        "endChar": 42
+      },
+      "revId": "76763137d8313f9ba9bde443c0e61a70b93c95b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7756e52e_edfc561b",
         "filename": "src/crypto/tls/common.go",
         "patchSetId": 2
@@ -62,6 +86,48 @@
       "revId": "76763137d8313f9ba9bde443c0e61a70b93c95b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e1d05ca_c8378b32",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-08-21T22:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7756e52e_edfc561b",
+      "revId": "76763137d8313f9ba9bde443c0e61a70b93c95b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b386a529_54cecd48",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-08-21T22:35:00Z",
+      "side": 1,
+      "message": "Just made it return an error. bool returns are an artifact of straight-from-the-RFC implementations.",
+      "parentUuid": "d3106fac_ae4ac43e",
+      "range": {
+        "startLine": 183,
+        "startChar": 90,
+        "endLine": 183,
+        "endChar": 102
+      },
+      "revId": "76763137d8313f9ba9bde443c0e61a70b93c95b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
