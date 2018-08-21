@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e471aef_ce6bd4f6",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-21T22:27:47Z",
+      "side": 1,
+      "message": "copying the big ol\u0027 field struct isn\u0027t expensive here?\n\nshould we store *field in the slice instead?\n\nor do:\n\n  for i :\u003d range se.fields {\n      f :\u003d \u0026se.fields[i]\n\n?",
+      "revId": "807a4741ef83691a0be3ba866c5819db159b3f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
