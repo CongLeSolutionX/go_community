@@ -347,7 +347,7 @@ func (h *finishedHash) discardHandshakeBuffer() {
 }
 
 // noExportedKeyingMaterial is used as a value of
-// ConnectionState.ExportKeyingMaterial when renegotation is enabled and thus
+// ConnectionState.ekm when renegotation is enabled and thus
 // we wish to fail all key-material export requests.
 func noExportedKeyingMaterial(label string, context []byte, length int) ([]byte, bool) {
 	return nil, false

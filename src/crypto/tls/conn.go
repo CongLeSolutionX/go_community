@@ -1315,9 +1315,9 @@ func (c *Conn) ConnectionState() ConnectionState {
 			}
 		}
 		if c.config.Renegotiation != RenegotiateNever {
-			state.ExportKeyingMaterial = noExportedKeyingMaterial
+			state.ekm = noExportedKeyingMaterial
 		} else {
-			state.ExportKeyingMaterial = c.ekm
+			state.ekm = c.ekm
 		}
 	}
 
