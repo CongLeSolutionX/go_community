@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d53142b_82c6e21e",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-21T22:04:19Z",
+      "side": 1,
+      "message": "\"Config\" isn\u0027t in scope here. Reword?",
+      "range": {
+        "startLine": 181,
+        "startChar": 36,
+        "endLine": 181,
+        "endChar": 42
+      },
+      "revId": "76763137d8313f9ba9bde443c0e61a70b93c95b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7756e52e_edfc561b",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-21T22:04:19Z",
+      "side": 1,
+      "message": "Let\u0027s make this a pointer receiver because the ConnectionState struct is huge.",
+      "revId": "76763137d8313f9ba9bde443c0e61a70b93c95b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3106fac_ae4ac43e",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-21T22:04:19Z",
+      "side": 1,
+      "message": "(keyMaterial []byte, ok bool)  ?\n\nAlso, who owns the slice? Is it valid to retain the slice?",
+      "range": {
+        "startLine": 183,
+        "startChar": 90,
+        "endLine": 183,
+        "endChar": 102
+      },
+      "revId": "76763137d8313f9ba9bde443c0e61a70b93c95b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
