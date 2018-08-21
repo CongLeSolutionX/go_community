@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c10d5579_ff6ffa4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-21T08:50:03Z",
+      "side": 1,
+      "message": "perhaps \"net: make cgo resolver work more accurately with network parameter\" ?\nthis change modifies cgo resolver stuff not only for unix variants but windows.\nguidelines: https://github.com/golang/go/wiki/CommitMessage",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "b8fb81a77ebe866b24c6f91282e6a276672b1d6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23997256_584ae4e5",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 5
