@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6924910_84450c42",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-08-22T20:30:30Z",
+      "side": 1,
+      "message": "What about overflow? Mul did handle that.",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 7
+      },
+      "revId": "719af3a18362efe29231db53ffbe2948738f9f86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4a3e356_db3c899b",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-08-22T20:30:30Z",
+      "side": 1,
+      "message": "Same for underflow.",
+      "range": {
+        "startLine": 60,
+        "startChar": 3,
+        "endLine": 60,
+        "endChar": 4
+      },
+      "revId": "719af3a18362efe29231db53ffbe2948738f9f86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
