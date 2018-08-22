@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3c98625_07495be1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-22T14:25:22Z",
+      "side": 1,
+      "message": "I don\u0027t see why this change fixes that issue.  Although that issue has a lot of discussion about the flags passed to vet, it\u0027s actually about passing -unreachable.  This should be Updates, not Fixes.",
+      "revId": "202e57eb79b5ce93cb68bc83c35a69c2f8a34e48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d72a8f89_7ed72729",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-22T14:25:22Z",
+      "side": 1,
+      "message": "Why the extra four spaces on this line?",
+      "revId": "202e57eb79b5ce93cb68bc83c35a69c2f8a34e48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
