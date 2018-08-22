@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ada46cb9_aadb5043",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-22T02:19:06Z",
+      "side": 1,
+      "message": "you can drop these \u00260xffffffffff here and the next line, like the 386 case. uintptr is uint32 still, so:\n\nhttps://play.golang.org/p/uTdYDmn2dGt",
+      "range": {
+        "startLine": 356,
+        "startChar": 92,
+        "endLine": 356,
+        "endChar": 103
+      },
+      "revId": "98c1c0589546a1fb40d902c0eb55c1abeb7830e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
