@@ -171,7 +171,9 @@ flags are also accessible by 'go test'.
 func Usage() {
 	os.Stderr.WriteString("usage: " + testUsage + "\n\n" +
 		strings.TrimSpace(testFlag1) + "\n\n\t" +
-		strings.TrimSpace(testFlag2) + "\n")
+		strings.TrimSpace(testFlag2) + "\n" +
+		"\t    " + strings.Join(testVetFlags," ") + "\n" +
+		"\t    " + strings.TrimSpace(testFlag3) + "\n")
 	os.Exit(2)
 }
 
@@ -293,7 +295,9 @@ const testFlag2 = `
 	    Configure the invocation of "go vet" during "go test"
 	    to use the comma-separated list of vet checks.
 	    If list is empty, "go test" runs "go vet" with a curated list of
-	    checks believed to be always worth addressing.
+	    checks believed to be always worth addressing:
+`
+const testFlag3 = `
 	    If list is "off", "go test" does not run "go vet" at all.
 
 The following flags are also recognized by 'go test' and can be used to
