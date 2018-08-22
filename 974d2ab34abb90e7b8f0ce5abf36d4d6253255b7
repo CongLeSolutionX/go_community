@@ -22,6 +22,30 @@
       "revId": "974d2ab34abb90e7b8f0ce5abf36d4d6253255b7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c67ac98_57060c03",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-22T20:47:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d68a61e_68d44480",
+      "range": {
+        "startLine": 145,
+        "startChar": 1,
+        "endLine": 146,
+        "endChar": 10
+      },
+      "revId": "974d2ab34abb90e7b8f0ce5abf36d4d6253255b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
