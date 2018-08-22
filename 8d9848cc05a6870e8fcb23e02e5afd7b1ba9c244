@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52fb1af4_d187d9f0",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-22T15:05:35Z",
+      "side": 1,
+      "message": "Go terminology for bool funcs is \"reports whether\"",
+      "range": {
+        "startLine": 421,
+        "startChar": 17,
+        "endLine": 421,
+        "endChar": 27
+      },
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ef4efab_68093149",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-22T15:05:35Z",
+      "side": 1,
+      "message": "I was going to say to document this new meaning on the Value type\u0027s AuxInt field, but it already has no docs for anything else, so oh well.",
+      "range": {
+        "startLine": 423,
+        "startChar": 8,
+        "endLine": 423,
+        "endChar": 16
+      },
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
