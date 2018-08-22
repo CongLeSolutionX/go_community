@@ -33,6 +33,24 @@
       "revId": "202e57eb79b5ce93cb68bc83c35a69c2f8a34e48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "695c4070_b2e487de",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2018-08-22T15:14:39Z",
+      "side": 1,
+      "message": "To keep the alignment of the text. Two tabs add 4 spaces too many.",
+      "parentUuid": "d72a8f89_7ed72729",
+      "revId": "202e57eb79b5ce93cb68bc83c35a69c2f8a34e48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
