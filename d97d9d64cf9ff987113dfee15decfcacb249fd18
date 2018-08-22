@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec4ee61a_6c3efcb0",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-08-22T07:28:30Z",
+      "side": 1,
+      "message": "This assumes that there is at least one tag in auxv (which we can document) and allows neither os_freebsd.go or internal/cpu.go to know about the details of _AT_HWCAP support in Free SD. I like to keep internal/cpu clean of knowing the details of auxv support per os which is set in runtime or generally not have os dependent files in internal/cpu.\n\nAs FreeBSD 11.1 is EOL September 30, 2018 and FreeBSD 10 is EOL October 31, 2018 I think we can only drop this workaround after go1.12 as we have not announced deprecation of support for FreeBSD 10? Or can we drop support for FreeBSD 10 with go1.12 and thereby not need to worry about _AT_HWCAP not being present?",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "d97d9d64cf9ff987113dfee15decfcacb249fd18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
