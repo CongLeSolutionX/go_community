@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f270cbe3_4cbd5ffb",
+        "filename": "src/bytes/compare_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-22T23:09:05Z",
+      "side": 1,
+      "message": "This line doesn\u0027t make sense. It\u0027ll be the same stringified output, but the \"offset\" value won\u0027t be in the error, which we want.\n\nLet\u0027s change it to:\n\n     `Compare(%q, %q), offset %d \u003d %v; want %v`, tt.a, tt.b, offset, cmp, tt.i",
+      "range": {
+        "startLine": 52,
+        "startChar": 43,
+        "endLine": 52,
+        "endChar": 51
+      },
+      "revId": "6240558d7728ab9de6737a20ac6973fd9fe8fd66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
