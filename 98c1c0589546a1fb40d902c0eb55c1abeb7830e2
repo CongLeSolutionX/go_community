@@ -22,6 +22,30 @@
       "revId": "98c1c0589546a1fb40d902c0eb55c1abeb7830e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50db2d5e_b264b6f7",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-22T09:21:26Z",
+      "side": 1,
+      "message": "What Brad said.",
+      "parentUuid": "ada46cb9_aadb5043",
+      "range": {
+        "startLine": 356,
+        "startChar": 92,
+        "endLine": 356,
+        "endChar": 103
+      },
+      "revId": "98c1c0589546a1fb40d902c0eb55c1abeb7830e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
