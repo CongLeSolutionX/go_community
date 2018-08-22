@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9389d9ff_10eb7a85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-22T22:08:44Z",
+      "side": 1,
+      "message": "also please refer to https://github.com/golang/go/wiki/CommitMessage#non-normative-references",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "c8f215a62d82664ac068eeba30262fe47830b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23c6147a_1e813256",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-22T22:08:44Z",
+      "side": 1,
+      "message": "switch network[len(network)-1] {\ncase \u00274\u0027:\n\thints.ai_family \u003d C.AF_INET\ncase \u00276\u0027:\n\thints.ai_family \u003d C.AF_INET6\ndefault:\n\thints.ai_family \u003d C.AF_UNSPEC\n}",
+      "range": {
+        "startLine": 145,
+        "startChar": 1,
+        "endLine": 152,
+        "endChar": 2
+      },
+      "revId": "c8f215a62d82664ac068eeba30262fe47830b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26dd0c61_b23ed5b7",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-22T22:08:44Z",
+      "side": 1,
+      "message": "drop this",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 0
+      },
+      "revId": "c8f215a62d82664ac068eeba30262fe47830b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19503d63_3ca227dc",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-22T22:08:44Z",
+      "side": 1,
+      "message": "switch network[len(network)-1] {\ncase \u00274\u0027:\n\tfamily \u003d syscall.AF_INET\ncase \u00276\u0027:\n\tfamily \u003d syscall.AF_INET6\ndefault:\n\tfamily \u003d syscall.AF_UNSPEC\n}",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 2
+      },
+      "revId": "c8f215a62d82664ac068eeba30262fe47830b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
