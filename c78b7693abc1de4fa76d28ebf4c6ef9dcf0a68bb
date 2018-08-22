@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50955774_a1ec168e",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-22T16:34:22Z",
+      "side": 0,
+      "message": "The comment says \"Don\u0027t use iota for these\" and then you deleted the comment and did it anyway.\n\nThis was all intentional. There was some discussion in the CL(s) that added these lines. Look at git blame/log to find the reviews.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 66
+      },
+      "revId": "c78b7693abc1de4fa76d28ebf4c6ef9dcf0a68bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
