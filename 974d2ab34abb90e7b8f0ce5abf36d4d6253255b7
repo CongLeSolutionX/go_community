@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d68a61e_68d44480",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-22T16:32:32Z",
+      "side": 1,
+      "message": "This is wrong. You\u0027re trying to look at the last byte, but not correctly.\n\nWhen network \u003d\u003d \"tcp4\", len(network) - 1 will be 3, but \u00274\u0027 is 52.",
+      "range": {
+        "startLine": 145,
+        "startChar": 1,
+        "endLine": 146,
+        "endChar": 10
+      },
+      "revId": "974d2ab34abb90e7b8f0ce5abf36d4d6253255b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
