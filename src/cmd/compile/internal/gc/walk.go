@@ -3693,6 +3693,13 @@ func walkinrange(n *Node, init *Nodes) *Node {
 		return n
 	}
 
+	// Ensure that Int64() does not overflow on a and c (it'll happen
+	// for any const above 2**63).
+	if a.Val().U.(*Mpint).CmpInt64(a.Int64()) != 0 ||
+		c.Val().U.(*Mpint).CmpInt64(c.Int64()) != 0 {
+		return n
+	}
+
 	if opl == OLT {
 		// We have a < b && ...
 		// We need a ≤ b && ... to safely use unsigned comparison tricks.
