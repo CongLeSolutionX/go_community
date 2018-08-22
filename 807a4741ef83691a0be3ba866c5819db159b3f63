@@ -16,6 +16,24 @@
       "revId": "807a4741ef83691a0be3ba866c5819db159b3f63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a68f4c8_23e91db1",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-08-22T09:33:02Z",
+      "side": 1,
+      "message": "You\u0027re absolutely right - the struct is getting pretty big. And indeed, \u0026se.fields[i] gives a nice extra 9% speedup :) Updated the CL, thanks for the suggestion!\n\nUsing a []*field slice would likely be slower, because we construct this slice once and use it many times. So we do want the field structs to be contiguous in memory.",
+      "parentUuid": "9e471aef_ce6bd4f6",
+      "revId": "807a4741ef83691a0be3ba866c5819db159b3f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
