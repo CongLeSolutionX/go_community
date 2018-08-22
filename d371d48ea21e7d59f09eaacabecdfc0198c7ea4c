@@ -22,6 +22,30 @@
       "revId": "d371d48ea21e7d59f09eaacabecdfc0198c7ea4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "953a95d2_71dc9573",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-08-22T15:31:34Z",
+      "side": 1,
+      "message": "Done - also rebased to fix the conflicts.",
+      "parentUuid": "c9663353_0c15296a",
+      "range": {
+        "startLine": 632,
+        "startChar": 14,
+        "endLine": 646,
+        "endChar": 38
+      },
+      "revId": "d371d48ea21e7d59f09eaacabecdfc0198c7ea4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
