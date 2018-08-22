@@ -16,6 +16,24 @@
       "revId": "7e65d3862de217287b7e014320087da23f09f6c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7edbb5f_26e3f3b7",
+        "filename": "src/internal/syscall/unix/nonblocking.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-08-22T14:49:37Z",
+      "side": 1,
+      "message": "Thanks for noticing, I didn\u0027t consider Solaris. In that case we\u0027ll have to continue using the go:linkname\u0027ed syscall.fcntl.",
+      "parentUuid": "a2d3026e_b8acf9fc",
+      "revId": "7e65d3862de217287b7e014320087da23f09f6c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
