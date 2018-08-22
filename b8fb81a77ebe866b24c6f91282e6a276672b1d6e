@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0db77c8a_21a52804",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-22T07:33:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c10d5579_ff6ffa4c",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "b8fb81a77ebe866b24c6f91282e6a276672b1d6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23997256_584ae4e5",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "b8fb81a77ebe866b24c6f91282e6a276672b1d6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bdad71d_0606558e",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-22T07:33:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23997256_584ae4e5",
+      "range": {
+        "startLine": 142,
+        "startChar": 1,
+        "endLine": 142,
+        "endChar": 11
+      },
+      "revId": "b8fb81a77ebe866b24c6f91282e6a276672b1d6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6c183d9c_b5d559e8",
+        "filename": "src/net/ip.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-22T07:33:07Z",
+      "side": 1,
+      "message": "Agreed. Removed this function. Started to use `len(network)-1` instead.",
+      "parentUuid": "5159fc54_d7e22009",
+      "range": {
+        "startLine": 736,
+        "startChar": 5,
+        "endLine": 736,
+        "endChar": 16
+      },
+      "revId": "b8fb81a77ebe866b24c6f91282e6a276672b1d6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9be85ec_e81ca02e",
         "filename": "src/net/lookup.go",
         "patchSetId": 5
@@ -91,6 +163,30 @@
       "revId": "b8fb81a77ebe866b24c6f91282e6a276672b1d6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4160d35c_9726d2d7",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-22T07:33:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9be85ec_e81ca02e",
+      "range": {
+        "startLine": 197,
+        "startChar": 19,
+        "endLine": 197,
+        "endChar": 34
+      },
+      "revId": "b8fb81a77ebe866b24c6f91282e6a276672b1d6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
