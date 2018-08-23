@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "0fe48d11_4022dcb3",
+        "filename": "src/cmd/link/internal/sym/symbols.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-08-23T20:50:33Z",
+      "side": 1,
+      "message": "I guess most of the attributes don\u0027t apply to type symbols so this is probably harmless, but I still think we\u0027d be better off copying all of them. Up to you.",
+      "parentUuid": "5b32568a_5da3bdad",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0e9821f_00bd885a",
         "filename": "src/cmd/link/internal/sym/symbols.go",
         "patchSetId": 1
@@ -167,6 +185,24 @@
       "side": 1,
       "message": "I\u0027ve tried to move it past fieldtrack and all.bash still passes. I don\u0027t know anything about fieldtracking, though.",
       "parentUuid": "1f3f4896_f982896c",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "484e2e91_615ac25c",
+        "filename": "src/cmd/link/internal/sym/symbols.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-08-23T20:50:33Z",
+      "side": 1,
+      "message": "I think that\u0027s fine.",
+      "parentUuid": "9830cfe8_161c53ee",
       "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ce9ab0c_3f7e576c",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-08-23T20:50:33Z",
+      "side": 1,
+      "message": "This might belong on typeSymbolMangle. Also it\u0027s not quite accurate, since a short name that contains special characters still gets mangled.",
+      "range": {
+        "startLine": 635,
+        "startChar": 0,
+        "endLine": 637,
+        "endChar": 42
+      },
+      "revId": "f34861e477e731cc190331574b6324f9784bad08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57205423_1b496f25",
+        "filename": "src/cmd/link/internal/sym/symbols.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-08-23T20:50:33Z",
+      "side": 1,
+      "message": "I don\u0027t know if it matters, but in principle shouldn\u0027t this be reachparent[dup]\u003dreachparent[s]? Seems like we wouldn\u0027t want the old version in the reachability chain.",
+      "revId": "f34861e477e731cc190331574b6324f9784bad08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
