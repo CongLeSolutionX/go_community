@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7bfb43e_7a764bcf",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3697,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-23T05:25:52Z",
+      "side": 1,
+      "message": "Add \"See issue 27143.\" or similar.",
+      "revId": "b5923713b99bb76cd38de8d9023d13304e86ac9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf70065b_12b5faf3",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3698,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-23T05:25:52Z",
+      "side": 1,
+      "message": "It\u0027d be nicer to add a method for this alongside Int64, something like \"CanInt64\" or \"IsInt64()\". Then this would read\n\nif !a.CanInt64() ||| !c.CanInt64() {\n  return n\n}\n\nwhich is a lot clearer.",
+      "revId": "b5923713b99bb76cd38de8d9023d13304e86ac9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
