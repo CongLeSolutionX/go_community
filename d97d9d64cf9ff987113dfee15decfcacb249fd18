@@ -46,6 +46,30 @@
       "revId": "d97d9d64cf9ff987113dfee15decfcacb249fd18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "532f8e62_e0b99a40",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-08-23T07:07:50Z",
+      "side": 1,
+      "message": "Announcing deprecation of FreeBSD 10 with go1.12 also SGTM. But since we have not announced deprecation with go1.11 (and I don\u0027t think we can do so now; but please correct me if I\u0027m wrong), I think we need to support FreeBSD 10 for go1.12 and the workaround will need to stay.",
+      "parentUuid": "2353ec9c_5f253a60",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "d97d9d64cf9ff987113dfee15decfcacb249fd18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
