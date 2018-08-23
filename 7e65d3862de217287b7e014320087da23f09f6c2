@@ -34,6 +34,24 @@
       "revId": "7e65d3862de217287b7e014320087da23f09f6c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ebd44ce_d3010b46",
+        "filename": "src/internal/syscall/unix/nonblocking.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-08-23T08:09:40Z",
+      "side": 1,
+      "message": "I just checked again on Solaris and it seems we can still use syscall.Syscall for fcntl even though that is not what syscall.fcntl does. In internal/poll.DupCloseOnExec (which is also used by Solaris) we also use this call already:\n\n  r0, _, e1 :\u003d syscall.Syscall(syscall.SYS_FCNTL, uintptr(fd), syscall.F_DUPFD_CLOEXEC, 0)\n\nI verified that unix.IsNonblock from this CL is working using the following test and it passes on solaris/amd64 (and on linux/amd64 for reference):\n\n  package unix_test\n\n  import (\n          \"internal/syscall/unix\"\n          \"syscall\"\n          \"testing\"\n  )\n\n  func TestIsNonBlock(t *testing.T) {\n        p :\u003d make([]int, 2)\n        if err :\u003d syscall.Pipe(p); err !\u003d nil {\n                t.Fatalf(\"pipe: %v\", err)\n        }\n        defer syscall.Close(p[1])\n\n        // Set the the read-side to non-blocking.\n        if err :\u003d syscall.SetNonblock(p[0], true); err !\u003d nil {\n                syscall.Close(p[0])\n                t.Fatalf(\"SetNonblock: %v\", err)\n        }\n\n        nonblock, err :\u003d unix.IsNonblock(p[0])\n        syscall.Close(p[0])\n        if err !\u003d nil {\n                t.Fatalf(\"IsNonblock: %v\", err)\n        }\n        if !nonblock {\n                t.Fatal(\"FD unexpectedly not in non-blocking mode\")\n        }\n  }",
+      "parentUuid": "e7edbb5f_26e3f3b7",
+      "revId": "7e65d3862de217287b7e014320087da23f09f6c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
