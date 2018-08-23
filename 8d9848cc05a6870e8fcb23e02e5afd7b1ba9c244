@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "ecfa5394_b99d8196",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-23T05:18:38Z",
+      "side": 1,
+      "message": "Nit: I\u0027d suggest MightBeNegativeOne. \"May\" could mean \"is allowed to\"; \"might\" is purely epistemic.",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ef4efab_68093149",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 2
