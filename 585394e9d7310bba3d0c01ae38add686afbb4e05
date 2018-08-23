@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdb4a181_e47db011",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-23T07:12:10Z",
+      "side": 1,
+      "message": "how about this:\n\nUnlike the go resolver, the existing cgo resolver exchanges both DNS A\nand AAAA RR queries unconditionally and causes unreasonable connection\nsetup latencies to applications using the cgo resolver.\n\nThis change [please describe the heart of this change] for [please\ndescribe the benefit of this change and unfortunate side effects if\nexist].",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "585394e9d7310bba3d0c01ae38add686afbb4e05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfd1f3d2_8ab57247",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-23T07:12:10Z",
+      "side": 1,
+      "message": "forgot​ to upload the latest change? (drop this)",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 1
+      },
+      "revId": "585394e9d7310bba3d0c01ae38add686afbb4e05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
