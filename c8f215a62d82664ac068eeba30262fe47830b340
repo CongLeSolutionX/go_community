@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "94c444c7_875dc045",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-23T05:24:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23c6147a_1e813256",
+      "range": {
+        "startLine": 145,
+        "startChar": 1,
+        "endLine": 152,
+        "endChar": 2
+      },
+      "revId": "c8f215a62d82664ac068eeba30262fe47830b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26dd0c61_b23ed5b7",
         "filename": "src/net/lookup.go",
         "patchSetId": 9
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "6c573349_edbfe4a2",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-23T05:24:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26dd0c61_b23ed5b7",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 0
+      },
+      "revId": "c8f215a62d82664ac068eeba30262fe47830b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19503d63_3ca227dc",
         "filename": "src/net/lookup_windows.go",
         "patchSetId": 9
@@ -91,6 +139,30 @@
       "revId": "c8f215a62d82664ac068eeba30262fe47830b340",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6a1e371_8dd14247",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-23T05:24:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19503d63_3ca227dc",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 2
+      },
+      "revId": "c8f215a62d82664ac068eeba30262fe47830b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
