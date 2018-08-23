@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78c75167_4de788db",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-23T15:38:29Z",
+      "side": 1,
+      "message": "And use the networkType func here too.",
+      "range": {
+        "startLine": 145,
+        "startChar": 1,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "cac364482a1efcd409e3422f9177d086cec03cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fedcb02_f86e7c64",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-23T15:38:29Z",
+      "side": 1,
+      "message": "First, make a little function, which you can then use in a few places:\n\nfunc networkType(network string) byte {\n    if network \u003d\u003d \"\" {\n        return 0\n    }\n    return network[len(network)-1]\n}\n\nThen make this code a bit shorter:\n\n    family :\u003d syscall_AF_UNSPEC\n    switch networkType(network) {\n    case \u00274\u0027:\n        family \u003d syscall.AF_INET\n    case \u00276\u0027:\n        family \u003d syscall.AF_INET6\n    }",
+      "range": {
+        "startLine": 82,
+        "startChar": 1,
+        "endLine": 94,
+        "endChar": 2
+      },
+      "revId": "cac364482a1efcd409e3422f9177d086cec03cc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
