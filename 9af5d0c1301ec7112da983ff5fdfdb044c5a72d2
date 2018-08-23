@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "160bee8d_8f4bd747",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "There is no RET because this is a tail call. The use of a \u0027B\u0027 instruction as the last instruction of the function implies a tail call.\n\nThe iscgo variable is set automatically by the cgo package when it is present. Cgo is not currently supported on ARM because there is no suitable compiler. G must always be saved to thread local storage because Go code can be called asynchronously by the C runtime, e.g. to handle an exception or callback.",
+      "parentUuid": "880d580a_91e6408a",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78f0ff80_74bac002",
         "filename": "src/runtime/defs_windows_386.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e1f664a_0bc59e14",
+        "filename": "src/runtime/defs_windows_386.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78f0ff80_74bac002",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f23bdfe1_1c4e4a57",
+        "filename": "src/runtime/defs_windows_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f48b2d84_bdf1a58e",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72b95fc0_5bedd67a",
         "filename": "src/runtime/defs_windows_arm.go",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8438414_1a5a8552",
+        "filename": "src/runtime/defs_windows_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "Not used, removed.",
+      "parentUuid": "72b95fc0_5bedd67a",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "59cfe73e_a439fefc",
+        "filename": "src/runtime/defs_windows_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "Not used, removed.",
+      "parentUuid": "dbfbf521_02fad2cc",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fc96317_97a4e551",
         "filename": "src/runtime/defs_windows_arm.go",
         "patchSetId": 2
@@ -101,6 +191,24 @@
       "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72d9037c_1c608189",
+        "filename": "src/runtime/defs_windows_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "Not used, removed.",
+      "parentUuid": "0fc96317_97a4e551",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "ea0384ba_1f704aa3",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "e5bce033_66ee5a1f",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3969e25_00b12e1e",
         "filename": "src/runtime/os_windows_arm.go",
         "patchSetId": 2
@@ -141,6 +273,24 @@
       "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6d34ee1_78a39130",
+        "filename": "src/runtime/os_windows_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3969e25_00b12e1e",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -167,6 +317,30 @@
     },
     {
       "key": {
+        "uuid": "d1ac0433_511acac5",
+        "filename": "src/runtime/os_windows_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "Removed all of it.",
+      "parentUuid": "658ebd83_b94c28df",
+      "range": {
+        "startLine": 10,
+        "startChar": 41,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4110eda_9fd61cf0",
         "filename": "src/runtime/signal_windows.go",
         "patchSetId": 2
@@ -184,6 +358,24 @@
     },
     {
       "key": {
+        "uuid": "18695cc7_df2c6157",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "This was necessary for tracebacks to work properly on ARM. It may be needed for 386/AMD64 but I need more time to test. For now I put it behind an architecture check.",
+      "parentUuid": "f4110eda_9fd61cf0",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76ee233e_dbd5eb19",
         "filename": "src/runtime/tls_arm.s",
         "patchSetId": 2
@@ -195,6 +387,24 @@
       "writtenOn": "2018-08-18T07:06:44Z",
       "side": 1,
       "message": "This looks like TlsSetValue implementation. Where is this implementation documented? Do you have any refs? Add whatever comment you can.",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6101d227_f2926f53",
+        "filename": "src/runtime/tls_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "I cheated and looked at the source code. You can  infer the implementation by dumping the _TEB structure and noting the TlsSlots member:\n+0xe10 TlsSlots         : [64] Ptr32 Void\n\nI don\u0027t think we can call TlsSetValue/TlsGetValue because I think this function may be called when there is an invalid stack. If we can count on the stack being valid, this could be changed to a call to TlsSetValue.",
+      "parentUuid": "76ee233e_dbd5eb19",
       "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -218,6 +428,24 @@
     },
     {
       "key": {
+        "uuid": "76501f94_aecaaee1",
+        "filename": "src/runtime/tls_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58016f20_e80db2cc",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "138fd828_ec0d117f",
         "filename": "src/runtime/wincallback.go",
         "patchSetId": 2
@@ -232,6 +460,24 @@
       "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96392350_e0759dba",
+        "filename": "src/runtime/wincallback.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-08-23T23:40:55Z",
+      "side": 1,
+      "message": "I\u0027ve split the assembly code into architecture-specific files.",
+      "parentUuid": "138fd828_ec0d117f",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
