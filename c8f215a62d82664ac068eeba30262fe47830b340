@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a1e1e245_34f5a964",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-23T05:27:51Z",
+      "side": 1,
+      "message": "Done\n\nAdded a bit more information about general purpose of the change.",
+      "parentUuid": "9389d9ff_10eb7a85",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "c8f215a62d82664ac068eeba30262fe47830b340",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23c6147a_1e813256",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 9
