@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b27c0e77_9ab0d4d3",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-08-23T07:34:37Z",
+      "side": 1,
+      "message": "Is this still needed? After this CL no non-test code in runtime/internal/atomic seems to use it.",
+      "range": {
+        "startLine": 41,
+        "startChar": 39,
+        "endLine": 41,
+        "endChar": 61
+      },
+      "revId": "b25179fe67bf3148f12a5a9aeba897ca10b3f50a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "297b02ed_4c198402",
+        "filename": "src/runtime/internal/atomic/atomic_arm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-08-23T07:34:37Z",
+      "side": 1,
+      "message": "Could/should cpu.CacheLineSize be used here? Also in some other cases below.",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 39
+      },
+      "revId": "b25179fe67bf3148f12a5a9aeba897ca10b3f50a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
