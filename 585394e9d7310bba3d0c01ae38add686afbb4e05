@@ -45,6 +45,30 @@
       "revId": "585394e9d7310bba3d0c01ae38add686afbb4e05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "248381b9_2c5feb98",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-23T08:25:46Z",
+      "side": 1,
+      "message": "Oops. Yeah, sorry.\nDeleted it.",
+      "parentUuid": "dfd1f3d2_8ab57247",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 1
+      },
+      "revId": "585394e9d7310bba3d0c01ae38add686afbb4e05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
