@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2fec41b_16637fa3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2018-08-23T08:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdb4a181_e47db011",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "585394e9d7310bba3d0c01ae38add686afbb4e05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfd1f3d2_8ab57247",
         "filename": "src/net/lookup.go",
         "patchSetId": 10
