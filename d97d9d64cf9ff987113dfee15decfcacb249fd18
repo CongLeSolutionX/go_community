@@ -22,6 +22,30 @@
       "revId": "d97d9d64cf9ff987113dfee15decfcacb249fd18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2353ec9c_5f253a60",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-23T06:27:52Z",
+      "side": 1,
+      "message": "i\u0027d like to hear the opinion of tklauser.\nannouncing the deprecation of support for 10-stable in go1.12 sounds reasonable to me.",
+      "parentUuid": "ec4ee61a_6c3efcb0",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "d97d9d64cf9ff987113dfee15decfcacb249fd18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
