@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "349cba70_f7e5b3fe",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "if you don\u0027t define the meaning of an ​empty network, please use \"ip\" instead.",
+      "range": {
+        "startLine": 52,
+        "startChar": 43,
+        "endLine": 52,
+        "endChar": 45
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb0635f6_e29f9df7",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "while we are here, let\u0027s take care of this too. see https://go-review.googlesource.com/c/go/+/131175/1/src/net/cgo_unix.go#61",
+      "range": {
+        "startLine": 72,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 2
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac8b8a40_fed68fad",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "\"ip\"",
+      "range": {
+        "startLine": 229,
+        "startChar": 35,
+        "endLine": 229,
+        "endChar": 37
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54d024a0_b5602fe4",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "\"ip\"",
+      "range": {
+        "startLine": 233,
+        "startChar": 24,
+        "endLine": 233,
+        "endChar": 26
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1561b12_ed7eb37e",
+        "filename": "src/net/cgo_unix_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "\"ip\"",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 34
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edda0a4f_8fd29f6b",
+        "filename": "src/net/cgo_unix_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "\"ip\"",
+      "range": {
+        "startLine": 31,
+        "startChar": 32,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c31c1da8_2450c816",
+        "filename": "src/net/hook.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "this is the root cause of test failures; see https://go-review.googlesource.com/c/go/+/131175/1/src/net/hook.go",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 2
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "526acb37_ceae0a47",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "if you really need a function that parses a network parameter and returns an IP protocol version, please say so, for example, \"func ipVersion(network string) int\".\n\ni personally prefer https://go-review.googlesource.com/c/go/+/131175/1/src/net/cgo_unix.go#325 and https://go-review.googlesource.com/c/go/+/131175/1/src/net/lookup_windows.go#145, but that\u0027s a matter of taste.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aee9995_c3146587",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "sigh, we forgot to test the network. while we are here, please test the given network; see https://go-review.googlesource.com/c/go/+/131175/1/src/net/lookup.go#298",
+      "range": {
+        "startLine": 309,
+        "startChar": 1,
+        "endLine": 310,
+        "endChar": 49
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d30266a_18087ddc",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "\"ip\"",
+      "range": {
+        "startLine": 68,
+        "startChar": 29,
+        "endLine": 68,
+        "endChar": 31
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58794cd4_ffe1650a",
+        "filename": "src/net/netgo_unix_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-08-24T03:55:42Z",
+      "side": 1,
+      "message": "\"ip\"",
+      "range": {
+        "startLine": 19,
+        "startChar": 32,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "f587f94373d646af830e84500095a8b3735d0925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
