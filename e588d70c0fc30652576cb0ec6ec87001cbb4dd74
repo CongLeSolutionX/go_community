@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2edf41f6_8f6d178a",
+        "filename": "src/internal/cpu/cpu_arm.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-08-24T14:09:54Z",
+      "side": 1,
+      "message": "Thanks, missed this new addition. Added.",
+      "parentUuid": "6142b6fd_4613b4ae",
+      "revId": "e588d70c0fc30652576cb0ec6ec87001cbb4dd74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c167347_8b21d35d",
         "filename": "src/runtime/os_linux_arm.go",
         "patchSetId": 14
