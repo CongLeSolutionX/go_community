@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed89c97c_51b8d02b",
+        "filename": "src/runtime/internal/atomic/atomic_arm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-24T14:28:30Z",
+      "side": 1,
+      "message": "It seems that we have cpu.CacheLineSize, so why use unsafe.Sizeof here?",
+      "revId": "bd88be983c8f73bfac68837c99b3c2a5587e954e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
