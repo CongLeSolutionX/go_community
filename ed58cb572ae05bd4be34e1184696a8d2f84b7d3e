@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "842b1b81_95c405ed",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-24T15:32:26Z",
+      "side": 1,
+      "message": "CPU\u0027s",
+      "revId": "ed58cb572ae05bd4be34e1184696a8d2f84b7d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d010c1fb_4485c67c",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-24T15:32:26Z",
+      "side": 1,
+      "message": "cache line (to be consistent with the line above)",
+      "range": {
+        "startLine": 18,
+        "startChar": 55,
+        "endLine": 18,
+        "endChar": 64
+      },
+      "revId": "ed58cb572ae05bd4be34e1184696a8d2f84b7d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ff7f964_ac259e44",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-24T15:32:26Z",
+      "side": 1,
+      "message": "why is this a var and not a const, then? is this mutated later?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 3
+      },
+      "revId": "ed58cb572ae05bd4be34e1184696a8d2f84b7d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
