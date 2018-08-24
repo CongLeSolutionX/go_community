@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1359a567_84511af9",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-08-24T11:59:52Z",
+      "side": 1,
+      "message": "Wait, so the body is undefined in some cases, and null in some cases ? That is super inconsistent.\n\nIs there a Go equivalent of -\n```\nif (b) {\n} else {\n}\n```\n?\n\nThat is - check the truth-y value of b without checking explicitly twice.\n\nOtherwise, I am fine with it.",
+      "revId": "461af7566202226fc8231e4f5979f61404bcba47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
