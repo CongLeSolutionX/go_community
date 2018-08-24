@@ -34,6 +34,24 @@
       "revId": "bd88be983c8f73bfac68837c99b3c2a5587e954e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "060cf117_8387862e",
+        "filename": "src/runtime/internal/atomic/atomic_arm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-08-24T14:38:17Z",
+      "side": 1,
+      "message": "See comment referenced (e.g. when cachelinesize becomes variable we cant use it for types).\nWe can use/rename to a const cpu.CacheLinePadSize to not have a name clash and make the intention clear then use that here.",
+      "parentUuid": "854c86bf_87c0817d",
+      "revId": "bd88be983c8f73bfac68837c99b3c2a5587e954e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
