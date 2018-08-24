@@ -152,6 +152,30 @@
       "revId": "ed58cb572ae05bd4be34e1184696a8d2f84b7d3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12b5bcf3_2bfc274f",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-08-24T16:30:32Z",
+      "side": 1,
+      "message": "Possibly in a future CL but I currently do not plan to add runtime detection of CacheLineSize for go1.12. The only uses for it currently I know of would be in runtime/mgc{sweepbuf} where its not used for padding structs. See https://golang.org/cl/126601. Only accounting for those we can also make it a constant for now.",
+      "parentUuid": "91681772_003b911e",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 3
+      },
+      "revId": "ed58cb572ae05bd4be34e1184696a8d2f84b7d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
