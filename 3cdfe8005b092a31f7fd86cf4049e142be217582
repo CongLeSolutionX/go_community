@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad6b5a1_ccea3505",
+        "filename": "test/codegen/math.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-08-24T03:52:27Z",
+      "side": 1,
+      "message": "I think there will always a FMOVD, with or without this optimization. You probably want FMOVD\\tF.*, R.* (similar to amd64)?",
+      "revId": "3cdfe8005b092a31f7fd86cf4049e142be217582",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14c9f224_61b9f0fe",
+        "filename": "test/codegen/math.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-08-24T03:52:27Z",
+      "side": 1,
+      "message": "Also here.",
+      "revId": "3cdfe8005b092a31f7fd86cf4049e142be217582",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
