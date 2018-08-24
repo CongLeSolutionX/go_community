@@ -22,6 +22,30 @@
       "revId": "896187c5083bb319484cebd47b601a1a4e3c6966",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a32782d6_5fd92181",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-08-24T10:25:48Z",
+      "side": 1,
+      "message": "As this is the runtime starting any init() wont be executed until runtime.main starts which\nis after args, checkgoarm, osinit, schedinit, ... (see asm_arm.go) \nso any assignment in init would AFAIK not take effect until we are already past archauxv calls and gocheckarm.",
+      "parentUuid": "f66600b8_f992c31d",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 2
+      },
+      "revId": "896187c5083bb319484cebd47b601a1a4e3c6966",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
