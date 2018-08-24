@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f66600b8_f992c31d",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-08-24T09:29:39Z",
+      "side": 1,
+      "message": "why do you need this check and the cpuHWCapSet flag? can\u0027t you just add\n\n  func init() {\n    cpu.HWCap \u003d (_HWCAP_VFP | _HWCAP_VFPv3)\n  }\n\nIt\u0027s the equivalent of the current code or the PS7 version.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 2
+      },
+      "revId": "896187c5083bb319484cebd47b601a1a4e3c6966",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
