@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a118de5_a58936d4",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 7
+      },
+      "lineNbr": 2291,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-24T19:22:02Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this rule.  The previous rule together with the OPload rule just above should catch all cases.  It takes 2 rewrites instead of 1, but that\u0027s fine.",
+      "range": {
+        "startLine": 2290,
+        "startChar": 0,
+        "endLine": 2291,
+        "endChar": 52
+      },
+      "revId": "3e052c9809593aac96f6e7b902e02846ec535075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23877a6e_bceeffa0",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 7
+      },
+      "lineNbr": 2294,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-24T19:22:02Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 2293,
+        "startChar": 0,
+        "endLine": 2294,
+        "endChar": 52
+      },
+      "revId": "3e052c9809593aac96f6e7b902e02846ec535075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
