@@ -116,7 +116,7 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 
 		b := result.Get("body")
 		var body io.ReadCloser
-		if b != js.Undefined() {
+		if b != js.Undefined() && b != js.Null() {
 			body = &streamReader{stream: b.Call("getReader")}
 		} else {
 			// Fall back to using ArrayBuffer
