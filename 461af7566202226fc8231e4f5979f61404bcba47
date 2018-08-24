@@ -16,6 +16,24 @@
       "revId": "461af7566202226fc8231e4f5979f61404bcba47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3720c23_60238dfe",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-08-24T12:08:43Z",
+      "side": 1,
+      "message": "The body is undefined when the browser does not support streaming response bodies (Firefox), and null in this new case, i.e. when the request is blocked because of CORS.\n\nI don\u0027t know if there\u0027s any way we could do a truthy check on the value.",
+      "parentUuid": "1359a567_84511af9",
+      "revId": "461af7566202226fc8231e4f5979f61404bcba47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
