@@ -70,6 +70,30 @@
       "revId": "896187c5083bb319484cebd47b601a1a4e3c6966",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e31739d3_80b93313",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-08-24T10:44:21Z",
+      "side": 1,
+      "message": "right, what if you just stash the _AT_HWCAP value in a private var, and assign it to cpu.HWCap in checkgoarm?\n\n  var hwcap \u003d (_HWCAP_VFP | _HWCAP_VFPv3)\n  ...\n  \n  func archauxv(tag, val uintptr) {\n    switch tag {\n    case _AT_HWCAP:\n      hwcap \u003d val\n    }\n    ..\n  }\n\n  func checkgoarm() {\n    cpu.HWCap \u003d hwcap\n    ...",
+      "parentUuid": "82916c7d_0c17e284",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 2
+      },
+      "revId": "896187c5083bb319484cebd47b601a1a4e3c6966",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
