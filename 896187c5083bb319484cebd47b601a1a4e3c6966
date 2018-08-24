@@ -46,6 +46,30 @@
       "revId": "896187c5083bb319484cebd47b601a1a4e3c6966",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82916c7d_0c17e284",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-08-24T10:32:12Z",
+      "side": 1,
+      "message": "In PS7 the variable is initialized to a constant value without needing init.\n\nThe other possibilities to fix this are:\na) make internal/cpu code aware of OS for initialization of HWCap (this would be the first such case)\nb) add _HWCAP_VFP constants to all runtime freebsd code and init cpu.HWCap when GOARCH\u003darm in sysauxv. (not really arch independent then)",
+      "parentUuid": "a32782d6_5fd92181",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 2
+      },
+      "revId": "896187c5083bb319484cebd47b601a1a4e3c6966",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
