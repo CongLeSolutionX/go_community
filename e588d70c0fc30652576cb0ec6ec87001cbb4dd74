@@ -33,6 +33,24 @@
       "revId": "e588d70c0fc30652576cb0ec6ec87001cbb4dd74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "258dbaa0_0c099c95",
+        "filename": "src/runtime/os_linux_arm.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-08-24T14:06:42Z",
+      "side": 1,
+      "message": "checkgoarm runs very early in runtime startup (after args and before os and sched init) before cpuinit so cpu.ARM variables have not been initialized yet.\nhttps://github.com/golang/go/blob/4363c98f62e9e315ed20b12d2ce47021fd2bf7bc/src/runtime/asm_arm.s#L161",
+      "parentUuid": "6c167347_8b21d35d",
+      "revId": "e588d70c0fc30652576cb0ec6ec87001cbb4dd74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
