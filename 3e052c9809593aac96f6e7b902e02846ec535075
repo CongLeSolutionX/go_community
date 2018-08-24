@@ -69,6 +69,30 @@
       "revId": "3e052c9809593aac96f6e7b902e02846ec535075",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91ca5625_6cc058f2",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 7
+      },
+      "lineNbr": 2294,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-08-24T23:02:56Z",
+      "side": 1,
+      "message": "I also wish that it works with only the above rule, but it actually cames as a surprise that the codegen failed without this (seemed to be) redundant rule. I would rather delete the first one, and keep the later.",
+      "parentUuid": "23877a6e_bceeffa0",
+      "range": {
+        "startLine": 2293,
+        "startChar": 0,
+        "endLine": 2294,
+        "endChar": 52
+      },
+      "revId": "3e052c9809593aac96f6e7b902e02846ec535075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
