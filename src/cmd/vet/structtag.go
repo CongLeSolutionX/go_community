@@ -25,13 +25,12 @@ func init() {
 
 // checkStructFieldTags checks all the field tags of a struct, including checking for duplicates.
 func checkStructFieldTags(f *File, node ast.Node) {
-	astType := node.(*ast.StructType)
-	typ := f.pkg.types[astType].Type.(*types.Struct)
+	typ := f.pkg.types[node.(ast.Expr)].Type.(*types.Struct)
 	var seen map[[2]string]token.Pos
 	for i := 0; i < typ.NumFields(); i++ {
 		field := typ.Field(i)
 		tag := typ.Tag(i)
-		checkCanonicalFieldTag(f, astType, field, tag, &seen)
+		checkCanonicalFieldTag(f, field, tag, &seen)
 	}
 }
 
@@ -39,8 +38,7 @@ var checkTagDups = []string{"json", "xml"}
 var checkTagSpaces = map[string]bool{"json": true, "xml": true, "asn1": true}
 
 // checkCanonicalFieldTag checks a single struct field tag.
-// top is the top-level struct type that is currently being checked.
-func checkCanonicalFieldTag(f *File, top *ast.StructType, field *types.Var, tag string, seen *map[[2]string]token.Pos) {
+func checkCanonicalFieldTag(f *File, field *types.Var, tag string, seen *map[[2]string]token.Pos) {
 	for _, key := range checkTagDups {
 		checkTagDuplicates(f, tag, key, field, field, seen)
 	}
