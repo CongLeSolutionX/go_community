@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "974a0a3c_09cab19c",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-25T00:22:30Z",
+      "side": 1,
+      "message": "As far as I can see this isn\u0027t always correct, so perhaps a TODO comment.",
+      "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1944fb8d_6487229c",
+        "filename": "src/runtime/os_windows_arm.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-25T00:22:30Z",
+      "side": 1,
+      "message": "This now needs to be updated for https://golang.org/cl/114826, which has been committed in the meantime.",
+      "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffd4a468_e5cee18d",
+        "filename": "src/runtime/rt0_windows_arm.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-25T00:22:30Z",
+      "side": 1,
+      "message": "I see that in rt0_windows_386.s the corresponding function branches to _rt0_386 and in rt0_windows_amd64.s it branches to _rt0_amd64.  That suggests that this one should branch to _rt0_arm.  Is that wrong?",
+      "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b4da83a_0f4ad497",
+        "filename": "src/runtime/rt0_windows_arm.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-25T00:22:30Z",
+      "side": 1,
+      "message": "This also does not look like the code in rt0_windows_386.s and rt0_windows_amd64.s.",
+      "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
