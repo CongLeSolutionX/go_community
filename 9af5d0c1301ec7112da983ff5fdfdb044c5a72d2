@@ -376,6 +376,24 @@
     },
     {
       "key": {
+        "uuid": "ba8abac0_df5761a2",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-25T04:49:31Z",
+      "side": 1,
+      "message": "That is fine for now. But, please, add some comment for future readers. Maybe a TODO?",
+      "parentUuid": "18695cc7_df2c6157",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76ee233e_dbd5eb19",
         "filename": "src/runtime/tls_arm.s",
         "patchSetId": 2
@@ -405,6 +423,24 @@
       "side": 1,
       "message": "I cheated and looked at the source code. You can  infer the implementation by dumping the _TEB structure and noting the TlsSlots member:\n+0xe10 TlsSlots         : [64] Ptr32 Void\n\nI don\u0027t think we can call TlsSetValue/TlsGetValue because I think this function may be called when there is an invalid stack. If we can count on the stack being valid, this could be changed to a call to TlsSetValue.",
       "parentUuid": "76ee233e_dbd5eb19",
+      "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4188fd0_005531a9",
+        "filename": "src/runtime/tls_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-25T04:49:31Z",
+      "side": 1,
+      "message": "Your new comment looks fine. Thank you for explaining.",
+      "parentUuid": "6101d227_f2926f53",
       "revId": "9af5d0c1301ec7112da983ff5fdfdb044c5a72d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
