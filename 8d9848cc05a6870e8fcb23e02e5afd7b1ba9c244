@@ -2,6 +2,120 @@
   "comments": [
     {
       "key": {
+        "uuid": "09614b23_1d8ed4fa",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-25T04:21:06Z",
+      "side": 1,
+      "message": "j1 !\u003d nil?",
+      "range": {
+        "startLine": 269,
+        "startChar": 5,
+        "endLine": 269,
+        "endChar": 25
+      },
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "944d9842_28453f3c",
+        "filename": "src/cmd/compile/internal/ssa/gen/386Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-25T04:21:06Z",
+      "side": 1,
+      "message": "You need to describe what Aux means here.",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3fc54ca_49b458e5",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-25T04:21:06Z",
+      "side": 1,
+      "message": "Here also, describe what Aux means.",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8cf7432_05000b9e",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-25T04:21:06Z",
+      "side": 1,
+      "message": "And here also.",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e210c5b_46feda2b",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-25T04:21:06Z",
+      "side": 1,
+      "message": "Don\u0027t you also need AuxInt\u003d1 here?  It may be -1 if we can\u0027t find limits.\n(And this may be the bug in the trybots.)",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aa5466a_f108414a",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-25T04:21:06Z",
+      "side": 1,
+      "message": "The op descriptions say \"aux\" but then you use \"auxint\" here.  They need to be consistent.\nEither set AuxInt to 1 or Aux to true.\nAuxInt is better because the default is 0.  Aux doesn\u0027t default to false, it defaults to empty interface.",
+      "range": {
+        "startLine": 1158,
+        "startChar": 6,
+        "endLine": 1158,
+        "endChar": 12
+      },
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52fb1af4_d187d9f0",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 2
@@ -59,6 +173,64 @@
         "endLine": 423,
         "endChar": 16
       },
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4509a60a_0ad90bde",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-25T04:21:06Z",
+      "side": 1,
+      "message": "The meaning of AuxInt should be documented for each operation in the *Ops.go files.",
+      "parentUuid": "7ef4efab_68093149",
+      "range": {
+        "startLine": 423,
+        "startChar": 8,
+        "endLine": 423,
+        "endChar": 16
+      },
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbf50876_6ef13bd5",
+        "filename": "src/cmd/compile/internal/x86/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-25T04:21:06Z",
+      "side": 1,
+      "message": "I think you can just do `if j !\u003d nil`. The MayBeMinusOne condition should hold if j has been set.",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4458e962_9c63877e",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-25T04:21:06Z",
+      "side": 1,
+      "message": "Add the opposite tests - that we still have the fixup code for conditions where we still need it.  For instance:\n1) no condition\n2) divr \u003e -10\n3) divr \u003c 10\n\nProbably this is not the best file for that. This file tests that optimizations happen.  Correctness tests should go in cmd/compile/internal/gc/testdata/arith.go, I think.  You\u0027ll need to arrange -1/-1 (and -1%-1) divisions and make sure we get a panic.",
       "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
