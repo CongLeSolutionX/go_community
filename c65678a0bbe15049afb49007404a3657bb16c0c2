@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f328006b_b1996592",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-25T06:46:59Z",
+      "side": 1,
+      "message": "s/if/though/\ns/the function\u0027s/Int64\u0027s/",
+      "revId": "c65678a0bbe15049afb49007404a3657bb16c0c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c664900e_cb16fe5f",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-25T06:46:59Z",
+      "side": 1,
+      "message": "In a follow-up CL (so that this one can get backported if necessary), will you try adding:\n\nif !n.CanInt64() {\n  Fatalf(something useful)\n}\n\nThat would have provided an earlier and better diagnosis of the issue. (Although I see that CanInt64 calls Int64, so you\u0027ll have to inline the actual check.)\n\nIdeally you\u0027d try that out before we submit this CL, just to know whether it blows up.",
+      "revId": "c65678a0bbe15049afb49007404a3657bb16c0c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b24e0270_31854d28",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-25T06:46:59Z",
+      "side": 1,
+      "message": "Trailing period, please.",
+      "revId": "c65678a0bbe15049afb49007404a3657bb16c0c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
