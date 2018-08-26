@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "e361f7b8_d5523b5b",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 15760
+      },
+      "writtenOn": "2018-08-26T14:57:23Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure that there is no typo. If s.sweepgen is changed from sg-2 to sg-1 between line 1 and line 2, line 2 and line 3 will both fail, then this span will be swept twice, \"fatal error: freeSpan given cached span\" will be thrown.\nUse this patch to reproduce:\ndiff --git a/src/runtime/mcentral.go b/src/runtime/mcentral.go\nindex fbf3cb590f..937f91e546 100644\n--- a/src/runtime/mcentral.go\n+++ b/src/runtime/mcentral.go\n@@ -51,14 +51,15 @@ func (c *mcentral) cacheSpan() *mspan {\n retry:\n        var s *mspan\n        for s \u003d c.nonempty.first; s !\u003d nil; s \u003d s.next {\n-               if atomic.Load(\u0026s.sweepgen) \u003d\u003d sg-2 \u0026\u0026 atomic.Cas(\u0026s.sweepgen, sg-2, sg-1) {\n+               ssweepgen :\u003d atomic.Load(\u0026s.sweepgen)\n+               if ssweepgen \u003d\u003d sg-2 \u0026\u0026 atomic.Cas(\u0026s.sweepgen, sg-2, sg-1) {\n                        c.nonempty.remove(s)\n                        c.empty.insertBack(s)\n                        unlock(\u0026c.lock)\n                        s.sweep(true)\n                        goto havespan\n                }\n-               if atomic.Load(\u0026s.sweepgen) \u003d\u003d sg-1 {\n+               if ssweepgen \u003d\u003d sg-1 {\n                        // the span is being swept by background sweeper, skip\n                        continue\n                }",
+      "parentUuid": "8c6005de_035c6f3a",
+      "revId": "bcb21109eaeb61e488371318b07792124fa672ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7c7d60b_3ae3d40c",
         "filename": "src/runtime/mcentral.go",
         "patchSetId": 8
