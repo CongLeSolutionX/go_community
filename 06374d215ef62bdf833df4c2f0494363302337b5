@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f2b5e666_808c5754",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-08-26T04:21:59Z",
+      "side": 1,
+      "message": "OK I\u0027ve included slightly more text and added a list of occurrences in std cmd.",
+      "parentUuid": "aa0057ca_3136baaa",
+      "revId": "06374d215ef62bdf833df4c2f0494363302337b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d670ee4_dba35c80",
         "filename": "src/cmd/compile/internal/amd64/ssa.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bbc35acd_95d4970b",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-08-26T04:21:59Z",
+      "side": 1,
+      "message": "OK - I changed the condition to MayBeMinusOne so I can frame the tests as positive.",
+      "parentUuid": "1d670ee4_dba35c80",
+      "revId": "06374d215ef62bdf833df4c2f0494363302337b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16ad9731_728d66c3",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2018-08-21T01:31:57Z",
       "side": 1,
       "message": "Please set v.Aux to true instead.\n\nYou\u0027ll also want to do a run with ssa check on. I don\u0027t remember the exact incantation offhand, use \u0027go tool compile -d\u003dhelp\u0027 to find it.",
+      "revId": "06374d215ef62bdf833df4c2f0494363302337b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2869b3eb_069dbea2",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-08-26T04:21:59Z",
+      "side": 1,
+      "message": "No that doesn\u0027t work. The Boolean function MayBeMinusOne (formerly NotMinusOne) tests AuxInt, not Aux.\nDo you mean here -d\u003dssa/prove/debug\u003d1 ?? That\u0027s what I used to get the number of occurrences in std cmd.",
+      "parentUuid": "16ad9731_728d66c3",
       "revId": "06374d215ef62bdf833df4c2f0494363302337b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

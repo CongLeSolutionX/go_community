@@ -93,6 +93,24 @@
     },
     {
       "key": {
+        "uuid": "7196e625_02761061",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-08-26T04:21:59Z",
+      "side": 1,
+      "message": "Ouch yes.\nNow fixed by making zero the MightBeNegativeOne value, as per your final comment.",
+      "parentUuid": "7e210c5b_46feda2b",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2aa5466a_f108414a",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 2
@@ -104,6 +122,30 @@
       "writtenOn": "2018-08-25T04:21:06Z",
       "side": 1,
       "message": "The op descriptions say \"aux\" but then you use \"auxint\" here.  They need to be consistent.\nEither set AuxInt to 1 or Aux to true.\nAuxInt is better because the default is 0.  Aux doesn\u0027t default to false, it defaults to empty interface.",
+      "range": {
+        "startLine": 1158,
+        "startChar": 6,
+        "endLine": 1158,
+        "endChar": 12
+      },
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8286f013_9add8da2",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-08-26T04:21:59Z",
+      "side": 1,
+      "message": "Yes - changed now to make zero the MightBeNegativeOne value.",
+      "parentUuid": "2aa5466a_f108414a",
       "range": {
         "startLine": 1158,
         "startChar": 6,
@@ -139,6 +181,30 @@
     },
     {
       "key": {
+        "uuid": "1b63f78a_3a1b3be5",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-08-26T04:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52fb1af4_d187d9f0",
+      "range": {
+        "startLine": 421,
+        "startChar": 17,
+        "endLine": 421,
+        "endChar": 27
+      },
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecfa5394_b99d8196",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 2
@@ -153,6 +219,24 @@
       "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da1fb781_4e6b7c66",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-08-26T04:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecfa5394_b99d8196",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
