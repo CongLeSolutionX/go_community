@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1131d7a5_b0236e2a",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-26T02:14:11Z",
+      "side": 1,
+      "message": "Good catch. Done",
+      "parentUuid": "acb5a4b2_ae322b47",
+      "revId": "39e022469a0605e0395fd8ae241793b5a5639eb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "575df6a8_53a10494",
         "filename": "src/internal/poll/fd_windows.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "39e022469a0605e0395fd8ae241793b5a5639eb0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "890e730a_d7c9e45b",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-08-26T02:14:11Z",
+      "side": 1,
+      "message": "Done. I hope I understood your suggestion correctly. I also not sure about text of new error message.",
+      "parentUuid": "575df6a8_53a10494",
+      "revId": "39e022469a0605e0395fd8ae241793b5a5639eb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
