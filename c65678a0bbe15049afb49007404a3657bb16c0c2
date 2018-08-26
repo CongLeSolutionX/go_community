@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "46d1e7cb_7e6be2cc",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-26T21:13:10Z",
+      "side": 1,
+      "message": "Yay. Will you file bugs with any failures like this, so that we can start fixing them and then make this check permanent? Are there any other constant conversions that could use similar checks?",
+      "parentUuid": "54a5f096_646fbd0e",
+      "revId": "c65678a0bbe15049afb49007404a3657bb16c0c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b24e0270_31854d28",
         "filename": "src/cmd/compile/internal/gc/const.go",
         "patchSetId": 3
