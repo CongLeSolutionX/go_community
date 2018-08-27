@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5c489e8_8e0987a2",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-27T16:20:34Z",
+      "side": 0,
+      "message": "what was the original goal of this slicing? It seemed to want to do more than just print \"prefix\". Was it trying to print a specific part of the prefix (Path vs Version), or maybe the suffix?",
+      "range": {
+        "startLine": 126,
+        "startChar": 58,
+        "endLine": 126,
+        "endChar": 81
+      },
+      "revId": "42cc4ca30a7729a4c6d1bb0bbbc3e4a736ef91c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
