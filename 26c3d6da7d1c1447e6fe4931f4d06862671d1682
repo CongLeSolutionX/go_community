@@ -70,6 +70,29 @@
       "revId": "26c3d6da7d1c1447e6fe4931f4d06862671d1682",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c251edbf_935d452b",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-08-27T15:39:53Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is correct. If a is 64-bit, the ADD will preserve the high bits of a. But MADDW will do a 32-bit a+x*y, which will not.\n\nMaybe this is very unlikely to happen because type-checked program don\u0027t mix 32-bit and 64-bit operations. But if we recognize the result of MULW doesn\u0027t need zero extension, we may possibly end up here.\n\nMaybe only rewrite when ADD\u0027s result is 32-bit (or below).",
+      "range": {
+        "startLine": 1060,
+        "startChar": 0,
+        "endLine": 1060,
+        "endChar": 143
+      },
+      "revId": "26c3d6da7d1c1447e6fe4931f4d06862671d1682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
