@@ -165,6 +165,13 @@ func findIndVar(f *Func) []indVar {
 			continue
 		}
 
+		// If max is c + SliceLen with c <= 0 then we drop c.
+		// Makes sure c + SliceLen doesn't overflow when SliceLen == 0.
+		// TODO: save c as an offset from max.
+		if w, c := dropAdd64(max); (w.Op == OpStringLen || w.Op == OpSliceLen) && 0 >= c && -c >= 0 {
+			max = w
+		}
+
 		// We can only guarantee that the loops runs within limits of induction variable
 		// if the increment is ±1 or when the limits are constants.
 		if step != 1 {
