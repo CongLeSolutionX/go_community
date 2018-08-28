@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7cf23219_b4d35841",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-08-28T05:10:29Z",
+      "side": 1,
+      "message": "Done\nfixed in patch set 4",
+      "parentUuid": "bec73a68_fc5dcb4a",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 605,
+        "endChar": 0
+      },
+      "revId": "26c3d6da7d1c1447e6fe4931f4d06862671d1682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c251edbf_935d452b",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 2
