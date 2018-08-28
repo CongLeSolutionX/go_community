@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2ac760_a743a8b1",
+        "filename": "src/cmd/compile/internal/gc/testdata/arith.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-28T16:29:25Z",
+      "side": 1,
+      "message": "Looks like the compiler optimizes this away, so you\u0027re not testing what you think you are.\nWrite the result to a global, e.g.:\n    g16 \u003d x / int16(i)\n    g32 \u003d x / int32(i)\n    g64 \u003d x / int64(i)\n    g16 \u003d x % int16(i)\n    g32 \u003d x % int32(i)\n    g64 \u003d x % int64(i)\nThen after testDivFixUp:\n    var g16 int16\n    var g32 int32\n    var g64 int64\nMake a mistake in your code (have MightBeNegativeOne always return false) and make sure the test fails.",
+      "revId": "a881b1e85eb26b21fb0914e2d786f866540e2e5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa2fc7a_aa5f4bcb",
+        "filename": "src/cmd/compile/internal/x86/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-08-28T16:29:25Z",
+      "side": 1,
+      "message": "I think we still need these sign-extension instructions even in the not--1 (not:-1? not-minus1? why are hyphens and minus signs the same character?) case.\nJust separate those out like we do in the amd64 code.",
+      "range": {
+        "startLine": 207,
+        "startChar": 5,
+        "endLine": 207,
+        "endChar": 21
+      },
+      "revId": "a881b1e85eb26b21fb0914e2d786f866540e2e5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
