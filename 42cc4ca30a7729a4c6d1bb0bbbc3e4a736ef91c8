@@ -22,6 +22,30 @@
       "revId": "42cc4ca30a7729a4c6d1bb0bbbc3e4a736ef91c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c04a1cf_9617e220",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 28904
+      },
+      "writtenOn": "2018-08-28T12:37:16Z",
+      "side": 0,
+      "message": "I\u0027m not sure. I tried hunting it down, but this code hasn\u0027t changed since the first commit in vgo, so whatever was happening here is lost to me. My theory was (is?) that when this was first written, prefix was a path and this removed a trailing slash, but it\u0027s only a guess.\n\nBut now prefix is guaranteed to always ends with a valid semver (i.e. at least a digit preceded by \"v\"), because mod.Version is validated in DownloadDir before this function is called (L45).",
+      "parentUuid": "e5c489e8_8e0987a2",
+      "range": {
+        "startLine": 126,
+        "startChar": 58,
+        "endLine": 126,
+        "endChar": 81
+      },
+      "revId": "42cc4ca30a7729a4c6d1bb0bbbc3e4a736ef91c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
