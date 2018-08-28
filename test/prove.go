@@ -42,8 +42,8 @@ func f1b(a []int, i int, j uint) int {
 	if i >= 10 && i < len(a) {
 		return a[i] // ERROR "Proved IsInBounds$"
 	}
-	if i >= 10 && i < len(a) {
-		return a[i-10] // ERROR "Proved IsInBounds$"
+	if i >= 10 && i < len(a) { // todo: handle this case
+		return a[i-10]
 	}
 	if j < uint(len(a)) {
 		return a[j] // ERROR "Proved IsInBounds$"
@@ -623,7 +623,7 @@ func natcmp(x, y []uint) (r int) {
 
 	i := m - 1
 	for i > 0 && // ERROR "Induction variable: limits \(0,\?\], increment 1"
-		x[i] == // ERROR "Proved IsInBounds$"
+		x[i] == // TODO ERROR "Proved IsInBounds$"
 			y[i] { // ERROR "Proved IsInBounds$"
 		i--
 	}
@@ -645,7 +645,7 @@ func suffix(s, suffix string) bool {
 }
 
 func constsuffix(s string) bool {
-	return suffix(s, "abc") // ERROR "Proved IsSliceInBounds$"
+	return suffix(s, "abc") // TODO ERROR "Proved IsSliceInBounds$"
 }
 
 // oforuntil tests the pattern created by OFORUNTIL blocks. These are
