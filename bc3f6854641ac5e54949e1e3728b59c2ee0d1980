@@ -63,6 +63,24 @@
       "revId": "bc3f6854641ac5e54949e1e3728b59c2ee0d1980",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70507cf3_7bc4f564",
+        "filename": "test/codegen/bits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-08-28T02:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f94e2525_2cb378c6",
+      "revId": "bc3f6854641ac5e54949e1e3728b59c2ee0d1980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
