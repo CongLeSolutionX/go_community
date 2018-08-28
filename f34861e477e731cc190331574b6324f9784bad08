@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2484e1c9_47bc7704",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-08-28T15:28:08Z",
+      "side": 1,
+      "message": "I\u0027ve restored the changes to this comment that my changes were overriding.",
+      "parentUuid": "4ce9ab0c_3f7e576c",
+      "range": {
+        "startLine": 635,
+        "startChar": 0,
+        "endLine": 637,
+        "endChar": 42
+      },
+      "revId": "f34861e477e731cc190331574b6324f9784bad08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57205423_1b496f25",
         "filename": "src/cmd/link/internal/sym/symbols.go",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "f34861e477e731cc190331574b6324f9784bad08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6695eabf_44f0ac93",
+        "filename": "src/cmd/link/internal/sym/symbols.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-08-28T15:28:08Z",
+      "side": 1,
+      "message": "You are right.",
+      "parentUuid": "57205423_1b496f25",
+      "revId": "f34861e477e731cc190331574b6324f9784bad08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
