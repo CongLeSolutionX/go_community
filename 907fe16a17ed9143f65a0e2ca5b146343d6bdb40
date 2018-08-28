@@ -156,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "003f5138_dd9b82f8",
+        "filename": "src/cmd/link/internal/sym/symbols.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-08-28T15:50:30Z",
+      "side": 1,
+      "message": "So I was.",
+      "parentUuid": "7389b5d9_6efa7236",
+      "revId": "907fe16a17ed9143f65a0e2ca5b146343d6bdb40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0e9821f_00bd885a",
         "filename": "src/cmd/link/internal/sym/symbols.go",
         "patchSetId": 1
