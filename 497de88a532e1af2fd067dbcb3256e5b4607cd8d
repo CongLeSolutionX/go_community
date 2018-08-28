@@ -22,6 +22,30 @@
       "revId": "497de88a532e1af2fd067dbcb3256e5b4607cd8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "703a30f4_b0f3d310",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3655,
+      "author": {
+        "id": 26536
+      },
+      "writtenOn": "2018-08-28T09:06:41Z",
+      "side": 1,
+      "message": "Thanks. That is consistent now.",
+      "parentUuid": "e676d037_ccfb2f36",
+      "range": {
+        "startLine": 3655,
+        "startChar": 18,
+        "endLine": 3655,
+        "endChar": 19
+      },
+      "revId": "497de88a532e1af2fd067dbcb3256e5b4607cd8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
