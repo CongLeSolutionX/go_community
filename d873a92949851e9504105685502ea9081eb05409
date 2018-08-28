@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c013cfe_c5c02ca6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "You should say that you are using vdso for the time functions.",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e92fb72_f8ba8ab6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "Can you provide before and after of some of the benchmarks in the time package?",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ed9a593_bf520954",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "I\u0027ve noticed this in other code before but I don\u0027t believe this should ever be needed. R1 better be aligned coming in, you\u0027ve only subtracted 16 so that would leave it aligned.",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d0feb00_b03ccb4f",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "I think it would be better to check this sooner. If you can\u0027t use vdso, then you don\u0027t have to switch to g0 stack, you don\u0027t have to update R1, you shouldn\u0027t set the vdsoPC or vdsoSP, etc.",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9310216_3f2e5037",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "Why not MOVD R1, R4. Doing it this way is a little confusing.",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "347ba7ea_09cc8a62",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "Remove this. When R1 gets restored at the end, then it will get LR from the stack. Look at an objdump to see what happens.",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ede876d_abd5f6b9",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "I would move this to after the BL CTR so it is only done if you are using vdso.",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07c38d1e_76ec4395",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "The above code is only needed if you are using vdso.",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b17b201f_63c31aa9",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "I don\u0027t know when this alignment would be needed.",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16fcaa8a_80ecba19",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "Move earlier",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3fdc182_3cabac69",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-08-28T20:16:18Z",
+      "side": 1,
+      "message": "Remove this.",
+      "revId": "d873a92949851e9504105685502ea9081eb05409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
