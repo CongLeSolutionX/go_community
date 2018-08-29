@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff316c17_2fd073d8",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-08-29T14:54:23Z",
+      "side": 0,
+      "message": "Any reason to drop this comment?",
+      "revId": "210e797b388001a3334843cf474fa338b602893a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

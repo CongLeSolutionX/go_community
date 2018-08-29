@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8d38d1_fa7f783c",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1614,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-08-29T14:54:23Z",
+      "side": 1,
+      "message": "dwarfGenerateDebugSyms now",
+      "range": {
+        "startLine": 1614,
+        "startChar": 14,
+        "endLine": 1614,
+        "endChar": 36
+      },
+      "revId": "2548aa3f6ade7e067a7bd9d509516678d42c8649",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
