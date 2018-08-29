@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "f9b3c5d0_b836ca6f",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 15922
+      },
+      "writtenOn": "2018-08-29T07:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd5e54b7_58f274e8",
+      "range": {
+        "startLine": 271,
+        "startChar": 16,
+        "endLine": 271,
+        "endChar": 17
+      },
+      "revId": "a8a14fcfaf286521ad98af9d86c6e6a589fbc5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "791a23fa_675ae4b2",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 15922
+      },
+      "writtenOn": "2018-08-29T07:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2c0afa0_4a4d4040",
+      "range": {
+        "startLine": 271,
+        "startChar": 28,
+        "endLine": 271,
+        "endChar": 31
+      },
+      "revId": "a8a14fcfaf286521ad98af9d86c6e6a589fbc5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d583d02_6a7d2699",
         "filename": "src/runtime/msan_arm64.s",
         "patchSetId": 19
@@ -101,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "d4a98570_b31b391d",
+        "filename": "src/runtime/msan_arm64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 15922
+      },
+      "writtenOn": "2018-08-29T07:15:20Z",
+      "side": 1,
+      "message": "PMU is the hardware Performance Measurement Unit. It will increase counter when certain hardware events happen. It will trigger exception when the counter reach the threshold.\n\nWhen the exception happens, we will record the call stack so that people can analysis the software behavior. We are expecting to use FP to get the call stack which cause lower overhead than using DRAWF information. LR\u003d*(FP+8); FP\u0027\u003d*FP; LR\u0027\u003d*(FP\u0027+8); FP\u0027\u0027\u003d*FP\u0027; ...\n\nWe cannot get the correct call stack if saved FP is corrupted. But I guess it should be fine. The performance data won\u0027t be very interesting when running with memory sanitizer.",
+      "parentUuid": "b5998d4f_fd52dcfb",
+      "revId": "a8a14fcfaf286521ad98af9d86c6e6a589fbc5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c438d56_f4048c7f",
         "filename": "src/runtime/rt0_android_arm64.s",
         "patchSetId": 19
@@ -118,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "b7062a3a_780eb5f3",
+        "filename": "src/runtime/rt0_android_arm64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 15922
+      },
+      "writtenOn": "2018-08-29T07:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c438d56_f4048c7f",
+      "revId": "a8a14fcfaf286521ad98af9d86c6e6a589fbc5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cf2c981_2416f5af",
         "filename": "src/runtime/rt0_android_arm64.s",
         "patchSetId": 19
@@ -132,6 +216,41 @@
       "revId": "a8a14fcfaf286521ad98af9d86c6e6a589fbc5b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a685f79_de49c9ee",
+        "filename": "src/runtime/rt0_android_arm64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 15922
+      },
+      "writtenOn": "2018-08-29T07:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cf2c981_2416f5af",
+      "revId": "a8a14fcfaf286521ad98af9d86c6e6a589fbc5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f1f7d86_df42331e",
+        "filename": "src/runtime/rt0_android_arm64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 15922
+      },
+      "writtenOn": "2018-08-29T07:15:20Z",
+      "side": 1,
+      "message": "Also there is no need to move SP here. It is called from native and there is no Go frame created.",
+      "revId": "a8a14fcfaf286521ad98af9d86c6e6a589fbc5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
