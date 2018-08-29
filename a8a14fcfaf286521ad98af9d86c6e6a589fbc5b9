@@ -167,6 +167,24 @@
     },
     {
       "key": {
+        "uuid": "6fd031d1_3095854e",
+        "filename": "src/runtime/msan_arm64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-08-29T18:18:53Z",
+      "side": 1,
+      "message": "Thanks for the explanation.\n\nWe are on the g0 stack here, but we didn\u0027t change the FP register, which still points to the FP slot on the old g stack. The C function will save this FP on its frame. If I\u0027m right, if we get a signal that unwinds the stack here, it will find the saved FP from the C function, then continue unwinding to the g stack where msancall is called, instead of the g0 stack. I think this is fine, and in some sense correct because it is the g stack calling the msan function, not the frame above us on the g0 stack. I may be wrong.\n\nWe didn\u0027t save anything at -8(SP) on the g0 stack, so nothing to preserve, I think.",
+      "parentUuid": "d4a98570_b31b391d",
+      "revId": "a8a14fcfaf286521ad98af9d86c6e6a589fbc5b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c438d56_f4048c7f",
         "filename": "src/runtime/rt0_android_arm64.s",
         "patchSetId": 19
