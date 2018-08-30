@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "920fa5bd_6ada51ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-30T18:30:24Z",
+      "side": 1,
+      "message": "You can drop the \"(..)\".  godoc doesn\u0027t treat parentheses after function names specially, so we typically omit them.",
+      "revId": "0640565c1cc0386561504463b8fde3b91eb65d55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01843614_5872ac65",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-30T18:30:24Z",
+      "side": 1,
+      "message": "Maybe also print len(sf) or something?  Something that shows it really is a string?",
+      "revId": "0640565c1cc0386561504463b8fde3b91eb65d55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
