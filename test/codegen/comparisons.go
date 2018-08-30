@@ -173,9 +173,11 @@ func CmpToZero(a, b, d int32) int32 {
 	c4 := int64(a)+int64(b) < 0
 	// not optimized to CMNW/CMN due to further use of b+d
 	// arm64:`ADD`,-`CMNW`
+	// arm:`ADD`,-`CMN`
 	c5 := b+d == 0
 	// not optimized to TSTW/TST due to further use of a&d
 	// arm64:`AND`,-`TSTW`
+	// arm:`AND`,-`TST`
 	c6 := a&d >= 0
 	if c0 {
 		return 1
