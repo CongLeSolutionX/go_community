@@ -39,6 +39,23 @@
       "revId": "f899ad52477b61e1bb3553c7b8402c7b5a062431",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6df9aea5_12330957",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-30T18:31:03Z",
+      "side": 1,
+      "message": "It might be good to use an example that emphasizes the difference between Len and Cap. Perhaps call Grow before Write?",
+      "revId": "f899ad52477b61e1bb3553c7b8402c7b5a062431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
