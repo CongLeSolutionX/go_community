@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89b93ec1_82daaa05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-30T18:30:02Z",
+      "side": 1,
+      "message": "s/Add/add/",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "f899ad52477b61e1bb3553c7b8402c7b5a062431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1637ef18_148743b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-08-30T18:30:02Z",
+      "side": 1,
+      "message": "After the topic line, the rest of the commit message should generally be complete prose (with verbs and punctuation).",
+      "revId": "f899ad52477b61e1bb3553c7b8402c7b5a062431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
