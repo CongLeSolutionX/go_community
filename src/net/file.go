@@ -15,7 +15,9 @@ func (fileAddr) Network() string  { return "file+net" }
 func (f fileAddr) String() string { return string(f) }
 
 // FileConn returns a copy of the network connection corresponding to
-// the open file f.
+// the open file f of the appropriate type. e.g. *UnixConn if the passed socket
+// is a unix socket, *TCPConn if it's a TCP socket.
+//
 // It is the caller's responsibility to close f when finished.
 // Closing c does not affect f, and closing f does not affect c.
 func FileConn(f *os.File) (c Conn, err error) {
