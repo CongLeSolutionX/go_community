@@ -2182,6 +2182,11 @@ const (
 	OpPopCount16
 	OpPopCount32
 	OpPopCount64
+	OpRotateLeft8
+	OpRotateLeft16
+	OpRotateLeft32
+	OpRotateLeft64
+	OpRotateLeft
 	OpSqrt
 	OpFloor
 	OpCeil
@@ -27642,6 +27647,31 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "PopCount64",
 		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "RotateLeft8",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "RotateLeft16",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "RotateLeft32",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "RotateLeft64",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "RotateLeft",
+		argLen:  2,
 		generic: true,
 	},
 	{
