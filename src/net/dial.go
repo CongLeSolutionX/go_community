@@ -295,6 +295,9 @@ func (r *Resolver) resolveAddrList(ctx context.Context, op, network, addr string
 // assumed.
 //
 // For Unix networks, the address must be a file system path.
+//
+// Returns a public implementation of Conn appropriate by the network argument.
+// e.g. "tcp" yields a *TCPConn, "udp" a *UDPConn, "unix" a *UnixConn
 func Dial(network, address string) (Conn, error) {
 	var d Dialer
 	return d.Dial(network, address)

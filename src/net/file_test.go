@@ -86,10 +86,26 @@ func TestFileConn(t *testing.T) {
 		switch c1 := c1.(type) {
 		case *TCPConn:
 			f, err = c1.File()
+			if tt.network != "tcp" {
+				t.Errorf("Dial returned an unexpected *TCPConn conn for network %s",
+					tt.network)
+			}
 		case *UDPConn:
 			f, err = c1.File()
+			if tt.network != "udp" {
+				t.Errorf("Dial returned an unexpected *UDPConn conn for network %s",
+					tt.network)
+			}
 		case *UnixConn:
 			f, err = c1.File()
+			switch tt.network {
+			case "unix", "unixpacket":
+			default:
+				t.Errorf("Dial returned an unexpected *UNIXConn conn for network %s",
+					tt.network)
+			}
+		default:
+			t.Fatalf("Dial returned an unknown type: %T", c1)
 		}
 		if err := c1.Close(); err != nil {
 			if perr := parseCloseError(err, false); perr != nil {
@@ -113,6 +129,27 @@ func TestFileConn(t *testing.T) {
 				t.Error(perr)
 			}
 			t.Fatal(err)
+		}
+		switch c2.(type) {
+		case *TCPConn:
+			if tt.network != "tcp" {
+				t.Errorf("FileConn returned an unexpected *TCPConn conn for network %s",
+					tt.network)
+			}
+		case *UDPConn:
+			if tt.network != "udp" {
+				t.Errorf("FileConn returned an unexpected *UDPConn conn for network %s",
+					tt.network)
+			}
+		case *UnixConn:
+			switch tt.network {
+			case "unix", "unixpacket":
+			default:
+				t.Errorf("FileConn returned an unexpected *UNIXConn conn for network %s",
+					tt.network)
+			}
+		default:
+			t.Fatalf("FileConn returned an unknown type: %T", c1)
 		}
 		defer c2.Close()
 
