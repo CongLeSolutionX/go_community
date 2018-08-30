@@ -158,7 +158,7 @@ func CmpZero4(a int64, ptr *int) {
 	}
 }
 
-func CmpToZero(a, b, d int32) int32 {
+func CmpToZero(a, b, d int32, e, f int64) int32 {
 	// arm:`TST`,-`AND`
 	// arm64:`TSTW`,-`AND`
 	c0 := a&b < 0
@@ -168,14 +168,16 @@ func CmpToZero(a, b, d int32) int32 {
 	// arm:`TEQ`,-`XOR`
 	c2 := a^b < 0
 	// arm64:`TST`,-`AND`
-	c3 := int64(a)&int64(b) < 0
+	c3 := e&f < 0
 	// arm64:`CMN`,-`ADD`
-	c4 := int64(a)+int64(b) < 0
-	// not optimized to CMNW/CMN due to further use of b+d
+	c4 := e+f < 0
+	// not optimized to single CMNW/CMN due to further use of b+d
 	// arm64:`ADD`,-`CMNW`
+	// arm:`ADD`,-`CMN`
 	c5 := b+d == 0
-	// not optimized to TSTW/TST due to further use of a&d
+	// not optimized to single TSTW/TST due to further use of a&d
 	// arm64:`AND`,-`TSTW`
+	// arm:`AND`,-`TST`
 	c6 := a&d >= 0
 	if c0 {
 		return 1
