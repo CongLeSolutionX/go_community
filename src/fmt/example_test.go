@@ -28,8 +28,20 @@ func ExampleStringer() {
 	// Output: Gopher (2)
 }
 
+<<<<<<< HEAD   (788c8a fmt: add example for fmt.Println)
 func ExampleFmtPrintln() {
 	name := "gopher"
 	fmt.Println("Hello, " + name)
 	// Output: Hello, gopher
+=======
+func ExampleSprintf() {
+	i := 30
+	s := "Aug"
+	sf := fmt.Sprintf("Today is %d %s", i, s)
+	fmt.Println(sf)
+	fmt.Println(len(sf))
+	// Output:
+	// Today is 30 Aug
+	// 15
+>>>>>>> BRANCH (5e755e bytes: add example for Buffer.Len)
 }
