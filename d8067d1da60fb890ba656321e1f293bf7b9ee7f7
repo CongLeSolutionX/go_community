@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b60b2f9e_69d94093",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-30T03:25:37Z",
+      "side": 1,
+      "message": "This was supposed to be #27357.\n\nI got confused when approving.",
+      "revId": "d8067d1da60fb890ba656321e1f293bf7b9ee7f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
