@@ -622,7 +622,13 @@ again:
 	LDORB	R5, (R6), R7                         // c7302538
 	LDORB	R5, (RSP), R7                        // e7332538
 	LDADDALD	R2, (R1), R3                 // 2300e2f8
+	LDADDALW	R2, (R1), R3                 // 2300e2b8
+	LDADDALH	R2, (R1), R3                 // 2300e278
+	LDADDALB	R2, (R1), R3                 // 2300e238
+	LDADDALD	R5, (R4), R6                 // 8600e5f8
 	LDADDALW	R5, (R4), R6                 // 8600e5b8
+	LDADDALH	R5, (R4), R6                 // 8600e578
+	LDADDALB	R5, (R4), R6                 // 8600e538
 
 // RET
 //
