@@ -296,6 +296,14 @@ var genericOps = []opData{
 	{name: "Abs", argLength: 1},      // absolute value arg0
 	{name: "Copysign", argLength: 2}, // copy sign from arg0 to arg1
 
+	// 3-input opcode.
+	// Fused-multiply-add, float64 only.
+	// Special cases:
+	//   |a*b+c|==0 → sign of a+b+c
+	//   |fma(a,b,c)|==0 → sign of a*b+c
+	//   fma(0,∞,c), fma(∞,0,c) → NaN
+	{name: "Fma", argLength: 3}, // compute (a*b)+c without intermediate rounding
+
 	// Data movement, max argument length for Phi is indefinite so just pick
 	// a really large number
 	{name: "Phi", argLength: -1, zeroWidth: true}, // select an argument based on which predecessor block we came from

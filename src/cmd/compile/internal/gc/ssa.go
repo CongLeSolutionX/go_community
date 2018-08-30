@@ -3160,6 +3160,11 @@ func init() {
 			return s.newValue2(ssa.OpCopysign, types.Types[TFLOAT64], args[0], args[1])
 		},
 		sys.PPC64)
+	addF("math", "Fma",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue3(ssa.OpFma, types.Types[TFLOAT64], args[0], args[1], args[2])
+		},
+		sys.ARM64, sys.PPC64, sys.S390X)
 
 	makeRoundAMD64 := func(op ssa.Op) func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 		return func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
