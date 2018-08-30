@@ -27,3 +27,9 @@ func ExampleStringer() {
 	fmt.Println(a)
 	// Output: Gopher (2)
 }
+
+func ExampleFmtPrintln() {
+	name := "gopher"
+	fmt.Println("Hello, " + name)
+	// Output: Hello, gopher
+}
