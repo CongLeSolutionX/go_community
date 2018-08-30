@@ -251,10 +251,22 @@ func (r *Resolver) resolveAddrList(ctx context.Context, op, network, addr string
 
 // Dial connects to the address on the named network.
 //
-// Known networks are "tcp", "tcp4" (IPv4-only), "tcp6" (IPv6-only),
-// "udp", "udp4" (IPv4-only), "udp6" (IPv6-only), "ip", "ip4"
-// (IPv4-only), "ip6" (IPv6-only), "unix", "unixgram" and
-// "unixpacket".
+// Known networks and the implementation of Conn returned:
+//
+//	network      |  Implementation  | Notes
+//	-------------+------------------+------------
+//	"tcp"        |  *TCPConn        |
+//	"tcp4"       |  *TCPConn        | IPv4-only
+//	"tcp6"       |  *TCPConn        | IPv6-only
+//	"udp"        |  *UDPConn        |
+//	"udp4"       |  *UDPConn        | IPv4-only
+//	"udp6"       |  *UDPConn        | IPv6-only
+//	"ip"         |  *IPConn         |
+//	"ip4"        |  *IPConn         | IPv4-only
+//	"ip6"        |  *IPConn         | IPv6-only
+//	"unix"       |  *UnixConn       | Unix stream
+//	"unixgram"   |  *UnixConn       | Unix datagram
+//	"unixpacket" |  *UnixConn       | Unix Packet
 //
 // For TCP and UDP networks, the address has the form "host:port".
 // The host must be a literal IP address, or a host name that can be
