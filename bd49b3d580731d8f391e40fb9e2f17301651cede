@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "669a6576_b0a18b07",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2018-08-30T22:34:30Z",
+      "side": 0,
+      "message": "Note that simply removing this update ( \u003e\u003d zero ) causes the bounds check not to be dropped and the test case to panic:\n\nvar size int\na :\u003d make([]int, size)\nprintln(a[len(a)-1])\n\nSo, I\u0027m guessing the issue might be around these zero updates.",
+      "revId": "bd49b3d580731d8f391e40fb9e2f17301651cede",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
