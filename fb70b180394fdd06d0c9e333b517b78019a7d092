@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc848e66_7412c6e9",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-08-30T07:06:10Z",
+      "side": 1,
+      "message": "I did nothing here, but the gofmt.",
+      "range": {
+        "startLine": 782,
+        "startChar": 0,
+        "endLine": 782,
+        "endChar": 59
+      },
+      "revId": "fb70b180394fdd06d0c9e333b517b78019a7d092",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
