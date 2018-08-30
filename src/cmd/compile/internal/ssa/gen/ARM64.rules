@@ -90,6 +90,7 @@
 (Round x) -> (FRINTAD x)
 (RoundToEven x) -> (FRINTND x)
 (Trunc x) -> (FRINTZD x)
+(Fma x y z) -> (FMADDD z x y)
 
 // lowering rotates
 (RotateLeft32 x y) -> (RORW x (NEG <y.Type> y))

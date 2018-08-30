@@ -2222,6 +2222,7 @@ const (
 	OpRoundToEven
 	OpAbs
 	OpCopysign
+	OpFma
 	OpPhi
 	OpCopy
 	OpConvert
@@ -28109,6 +28110,11 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "Copysign",
 		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "Fma",
+		argLen:  3,
 		generic: true,
 	},
 	{
