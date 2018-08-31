@@ -43,6 +43,7 @@ func TestPool(t *testing.T) {
 	p.Put("c")
 	debug.SetGCPercent(100) // to allow following GC to actually run
 	runtime.GC()
+	runtime.GC() // we now keep some objects until two consecutive GCs
 	if g := p.Get(); g != nil {
 		t.Fatalf("got %#v; want nil after GC", g)
 	}
@@ -120,6 +121,57 @@ loop:
 	}
 }
 
+func TestPoolPartialRelease(t *testing.T) {
+	if runtime.GOMAXPROCS(-1) <= 1 {
+		t.Skip("pool partial release test is only stable when GOMAXPROCS > 1")
+	}
+
+	// disable GC so we can control when it happens.
+	defer debug.SetGCPercent(debug.SetGCPercent(-1))
+	waitGC() // run GC now so that any pending GC (triggered by a previous test) does not affect this test
+
+	Ps := runtime.GOMAXPROCS(-1)
+	Gs := Ps * 10
+	Gobjs := 10000
+
+loop:
+	var p Pool
+	var wg WaitGroup
+	start := int32(0)
+	for i := 0; i < Gs; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			atomic.AddInt32(&start, 1)
+			for atomic.LoadInt32(&start) < int32(Ps) {
+				// spin until enough Gs are ready to go
+			}
+			for j := 0; j < Gobjs; j++ {
+				p.Put(new(string))
+			}
+		}()
+	}
+	wg.Wait()
+	if total, empty := p.Shards(); total != Ps || empty != 0 {
+		goto loop
+	}
+
+	waitGC()
+
+	if total, empty := p.Shards(); total != Ps || (empty != Ps/2 && empty != Ps/2+1) {
+		t.Fatalf("shards total %d/%d, empty %d/%d", total, Ps, empty, Ps/2)
+	}
+}
+
+func waitGC() {
+	ch := make(chan struct{})
+	runtime.SetFinalizer(&[16]byte{}, func(_ interface{}) {
+		close(ch)
+	})
+	runtime.GC()
+	<-ch
+}
+
 func TestPoolStress(t *testing.T) {
 	const P = 10
 	N := int(1e6)
@@ -151,24 +203,48 @@ func TestPoolStress(t *testing.T) {
 }
 
 func BenchmarkPool(b *testing.B) {
+	b.ReportAllocs()
 	var p Pool
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			p.Put(1)
+			p.Put(new(int))
 			p.Get()
 		}
 	})
 }
 
 func BenchmarkPoolOverflow(b *testing.B) {
+	b.ReportAllocs()
 	var p Pool
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
 			for b := 0; b < 100; b++ {
-				p.Put(1)
+				p.Put(new(int))
 			}
 			for b := 0; b < 100; b++ {
 				p.Get()
+			}
+		}
+	})
+}
+
+func BenchmarkPoolWithGC(b *testing.B) {
+	b.ReportAllocs()
+	p := Pool{New: func() interface{} { return new(int) }}
+	var f int32
+	b.RunParallel(func(pb *testing.PB) {
+		first := atomic.CompareAndSwapInt32(&f, 0, 1)
+		var inuse []interface{}
+		for pb.Next() {
+			for i := 0; i < 10000; i++ {
+				inuse = append(inuse, p.Get())
+			}
+			for _, v := range inuse {
+				p.Put(v)
+			}
+			inuse = inuse[:0]
+			if first {
+				runtime.GC()
 			}
 		}
 	})
