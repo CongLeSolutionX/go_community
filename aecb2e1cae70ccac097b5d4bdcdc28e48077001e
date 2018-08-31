@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b18b2adc_210209a8",
+        "filename": "src/net/dial.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-08-31T00:26:33Z",
+      "side": 1,
+      "message": "To be honest I don\u0027t know what this means.  I think I can figure it out from the CL description.  But right now I think this sentence just increases confusion.  If we think it\u0027s important to explain the exact type returned for a network, I think we should list them: \"tcp\" returns TCPConn, etc.  But I\u0027m not sure it\u0027s worth doing.  The whole point of Dial is so that people don\u0027t have to think about it.  What if we reverse it: document, for TCPConn, and Dial with \"tcp\" will return that?",
+      "range": {
+        "startLine": 299,
+        "startChar": 55,
+        "endLine": 299,
+        "endChar": 57
+      },
+      "revId": "aecb2e1cae70ccac097b5d4bdcdc28e48077001e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
