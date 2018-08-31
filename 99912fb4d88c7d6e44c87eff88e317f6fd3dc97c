@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b4049c6_ff9382bf",
+        "filename": "doc/install-source.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-31T05:20:59Z",
+      "side": 1,
+      "message": "I\u0027d make these line up with each other. Maybe just replace this \"and\" with \u003cbr\u003e",
+      "range": {
+        "startLine": 642,
+        "startChar": 77,
+        "endLine": 642,
+        "endChar": 82
+      },
+      "revId": "99912fb4d88c7d6e44c87eff88e317f6fd3dc97c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d55ab574_1e765c01",
+        "filename": "doc/install-source.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-08-31T05:20:59Z",
+      "side": 1,
+      "message": "these were in \u003ccode\u003e before",
+      "range": {
+        "startLine": 644,
+        "startChar": 73,
+        "endLine": 644,
+        "endChar": 82
+      },
+      "revId": "99912fb4d88c7d6e44c87eff88e317f6fd3dc97c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
