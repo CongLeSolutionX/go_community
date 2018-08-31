@@ -43,6 +43,7 @@ func TestPool(t *testing.T) {
 	p.Put("c")
 	debug.SetGCPercent(100) // to allow following GC to actually run
 	runtime.GC()
+	runtime.GC() // we now keep some objects until two consecutive GCs
 	if g := p.Get(); g != nil {
 		t.Fatalf("got %#v; want nil after GC", g)
 	}
@@ -98,7 +99,7 @@ loop:
 		var fin, fin1 uint32
 		for i := 0; i < N; i++ {
 			v := new(string)
-			runtime.SetFinalizer(v, func(vv *string) {
+			runtime.SetFinalizer(v, func(_ *string) {
 				atomic.AddUint32(&fin, 1)
 			})
 			p.Put(v)
@@ -118,6 +119,99 @@ loop:
 		}
 		t.Fatalf("only %v out of %v resources are finalized on try %v", fin1, N, try)
 	}
+}
+
+// TestPoolPartialRelease tests that after a GC cycle half of the poolLocals
+// have been dropped.
+func TestPoolPartialRelease(t *testing.T) {
+	if runtime.GOMAXPROCS(-1) <= 1 {
+		t.Skip("pool partial release test is only stable when GOMAXPROCS > 1")
+	}
+
+	// disable GC so we can control when it happens.
+	defer debug.SetGCPercent(debug.SetGCPercent(-1))
+	waitGC() // run GC now so that any pending GC (triggered by a previous test) does not affect this test
+
+	Ps := runtime.GOMAXPROCS(-1)
+	Gs := Ps * 10
+	Gobjs := 10000
+
+loop:
+	p := Pool{}
+	wg := WaitGroup{}
+	for i := 0; i < Gs; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 0; j < Gobjs; j++ {
+				p.Put(new(int))
+			}
+		}()
+	}
+	wg.Wait()
+	if total, empty := p.NumShards(); total != Ps || empty != 0 {
+		// we could not fill correctly all shards; retry
+		for i := 0; i < 4; i++ {
+			waitGC()
+		}
+		goto loop
+	}
+
+	waitGC()
+	if total, empty := p.NumShards(); total != Ps || (empty != Ps/2 && empty != (Ps/2+Ps&1)) {
+		// After the first GC half of the shards should be empty. Note that, when Ps is odd,
+		// depending on the GC cycle we may get either Ps/2 or Ps/2+1 empty shards.
+		t.Fatalf("after first GC: shards total %d/%d, empty %d/%d", total, Ps, empty, Ps/2)
+	}
+
+	waitGC()
+	if total, empty := p.NumShards(); total != Ps || empty != Ps {
+		// After the second GC all shards should be empty.
+		t.Fatalf("after second GC: shards total %d/%d, empty %d/%d", total, Ps, empty, Ps)
+	}
+}
+
+func waitGC() {
+	ch := make(chan struct{})
+	runtime.SetFinalizer(&[16]byte{}, func(_ interface{}) {
+		close(ch)
+	})
+	runtime.GC()
+	<-ch
+}
+
+// TestPoolCleanup tests that Pools are fully GCed within 4 GC cycles (see the
+// comments in poolCleanup).
+func TestPoolCleanup(t *testing.T) {
+	// disable GC so we can control when it happens.
+	defer debug.SetGCPercent(debug.SetGCPercent(-1))
+	waitGC() // run GC now so that any pending GC (triggered by a previous test) does not affect this test
+
+	var finalized int32
+	wg := WaitGroup{}
+
+	for j := 0; j < 1000; j++ {
+		p := new(Pool)
+		runtime.SetFinalizer(p, func(_ *Pool) {
+			atomic.AddInt32(&finalized, 1)
+		})
+		for i := 0; i < 100; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				p.Put(new(int))
+			}()
+		}
+	}
+	wg.Wait()
+
+	for i := 0; i < 4; i++ {
+		waitGC()
+		if atomic.LoadInt32(&finalized) == 1000 {
+			return
+		}
+	}
+	t.Fatalf("Pool not collected after 4 GC cycles: %d collected", atomic.LoadInt32(&finalized))
 }
 
 func TestPoolStress(t *testing.T) {
@@ -151,6 +245,7 @@ func TestPoolStress(t *testing.T) {
 }
 
 func BenchmarkPool(b *testing.B) {
+	b.ReportAllocs()
 	var p Pool
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
@@ -161,6 +256,7 @@ func BenchmarkPool(b *testing.B) {
 }
 
 func BenchmarkPoolOverflow(b *testing.B) {
+	b.ReportAllocs()
 	var p Pool
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
@@ -169,6 +265,28 @@ func BenchmarkPoolOverflow(b *testing.B) {
 			}
 			for b := 0; b < 100; b++ {
 				p.Get()
+			}
+		}
+	})
+}
+
+func BenchmarkPoolWithGC(b *testing.B) {
+	b.ReportAllocs()
+	p := Pool{New: func() interface{} { return new(int) }}
+	var f int32
+	b.RunParallel(func(pb *testing.PB) {
+		first := atomic.CompareAndSwapInt32(&f, 0, 1)
+		var inuse []interface{}
+		for pb.Next() {
+			for i := 0; i < 10000; i++ {
+				inuse = append(inuse, p.Get())
+			}
+			for _, v := range inuse {
+				p.Put(v)
+			}
+			inuse = inuse[:0]
+			if first {
+				runtime.GC()
 			}
 		}
 	})
