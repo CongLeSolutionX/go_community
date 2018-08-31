@@ -22,6 +22,30 @@
       "revId": "aecb2e1cae70ccac097b5d4bdcdc28e48077001e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7304f4c0_5fa10d8b",
+        "filename": "src/net/dial.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 26585
+      },
+      "writtenOn": "2018-08-31T03:01:54Z",
+      "side": 1,
+      "message": "Sorry, I tried to keep it terse. It seems it became almost meaningless.\n\nI looked into moving this to the individual struct definitions, but it felt out of place to explicitly list the network values that would make Dial yield those types when ResolveTCP, DialTCP, etc all refer to the Dial() documentation for details.\n\nFor now, I\u0027ve consolidated this with the list of valid networks at the top of this docstring as a table.",
+      "parentUuid": "b18b2adc_210209a8",
+      "range": {
+        "startLine": 299,
+        "startChar": 55,
+        "endLine": 299,
+        "endChar": 57
+      },
+      "revId": "aecb2e1cae70ccac097b5d4bdcdc28e48077001e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
