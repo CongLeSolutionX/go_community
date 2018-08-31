@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "b4e6a42a_5a81e8fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-31T23:40:25Z",
+      "side": 1,
+      "message": "Please indicate that this is a test fix",
+      "revId": "eab9457b0020ab0a548bc4e789a14d1f99dfce49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35d9eb5f_7dd84d9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-08-31T23:40:25Z",
+      "side": 1,
+      "message": "Please remove the colon. This is magic syntax to get github to autoclose the issue.\n\nAlso, just to confirm, have you run the stress test long enough to have confidence that this is the last remaining such failure?",
+      "revId": "eab9457b0020ab0a548bc4e789a14d1f99dfce49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19f29058_7cc60632",
         "filename": "src/encoding/pem/pem_test.go",
         "patchSetId": 1
