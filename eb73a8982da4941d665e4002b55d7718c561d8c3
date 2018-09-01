@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53faa7b0_e2167a91",
+        "filename": "src/encoding/pem/pem_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-01T20:31:31Z",
+      "side": 1,
+      "message": "typo here and in \"cause\".\n\nAnd end in a period.",
+      "range": {
+        "startLine": 217,
+        "startChar": 27,
+        "endLine": 217,
+        "endChar": 34
+      },
+      "revId": "eb73a8982da4941d665e4002b55d7718c561d8c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
