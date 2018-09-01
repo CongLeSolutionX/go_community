@@ -41,6 +41,9 @@ func (dec *Decoder) UseNumber() { dec.d.useNumber = true }
 // non-ignored, exported fields in the destination.
 func (dec *Decoder) DisallowUnknownFields() { dec.d.disallowUnknownFields = true }
 
+// UseStrictNames causes the Decoder to use case sensitive key matching.
+func (dec *Decoder) UseStrictNames() { dec.d.useStrictNames = true }
+
 // Decode reads the next JSON-encoded value from its
 // input and stores it in the value pointed to by v.
 //

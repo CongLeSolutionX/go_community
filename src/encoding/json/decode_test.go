@@ -383,6 +383,7 @@ type unmarshalTest struct {
 	useNumber             bool
 	golden                bool
 	disallowUnknownFields bool
+	useStrictNames        bool
 }
 
 type B struct {
@@ -871,6 +872,29 @@ var unmarshalTests = []unmarshalTest{
 		err:                   fmt.Errorf("json: unknown field \"extra\""),
 		disallowUnknownFields: true,
 	},
+	// additional tests for useStrictNames
+	{
+		in: `{
+			"HELLO": 1,
+			"Hello": 2,
+			"hello": 3
+		}`,
+		ptr: new(Ambig),
+		out: Ambig{
+			First:  1,
+			Second: 2,
+		},
+		useStrictNames: true,
+	},
+	{
+		in: `{
+			"z": 1
+		}`,
+		ptr:                   new(Point),
+		err:                   fmt.Errorf("json: unknown field \"z\""),
+		useStrictNames:        true,
+		disallowUnknownFields: true,
+	},
 	// issue 26444
 	// UnmarshalTypeError without field & struct values
 	{
@@ -1003,6 +1027,9 @@ func TestUnmarshal(t *testing.T) {
 		}
 		if tt.disallowUnknownFields {
 			dec.DisallowUnknownFields()
+		}
+		if tt.useStrictNames {
+			dec.UseStrictNames()
 		}
 		if err := dec.Decode(v.Interface()); !reflect.DeepEqual(err, tt.err) {
 			t.Errorf("#%d: %v, want %v", i, err, tt.err)

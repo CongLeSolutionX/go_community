@@ -273,6 +273,7 @@ type decodeState struct {
 	savedError            error
 	useNumber             bool
 	disallowUnknownFields bool
+	useStrictNames        bool
 }
 
 // readIndex returns the position of the last byte read.
@@ -712,7 +713,7 @@ func (d *decodeState) object(v reflect.Value) error {
 					f = ff
 					break
 				}
-				if f == nil && ff.equalFold(ff.nameBytes, key) {
+				if f == nil && !d.useStrictNames && ff.equalFold(ff.nameBytes, key) {
 					f = ff
 				}
 			}
