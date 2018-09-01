@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e18e7cb_315f7182",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-09-01T13:47:13Z",
+      "side": 1,
+      "message": "I would prefer window.TextEncoder here, because otherwise it looks a bit like a local variable.\n\nAlso: Missing semicolon.",
+      "revId": "4caa8768845cc46e587d41387978f1d941567dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e4cd8f6_3096783c",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-09-01T13:47:13Z",
+      "side": 1,
+      "message": "Please use \"const\" and \"let\", to be consistent with the rest of the file.",
+      "revId": "4caa8768845cc46e587d41387978f1d941567dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cf73d99_970e1964",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-09-01T13:47:13Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "4caa8768845cc46e587d41387978f1d941567dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82e324bd_675686fc",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-09-01T13:47:13Z",
+      "side": 1,
+      "message": "Missing semicolon.",
+      "revId": "4caa8768845cc46e587d41387978f1d941567dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
