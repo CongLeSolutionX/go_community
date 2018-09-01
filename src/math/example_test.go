@@ -147,9 +147,27 @@ func ExampleCbrt() {
 }
 
 func ExampleCopysign() {
-	a, b := 2.0, -1.0
-	fmt.Printf("%.1f", math.Copysign(a, b))
-	// Output: -2.0
+	a, b := 2.34, -98.76
+	fmt.Printf("%.2f", math.Copysign(a, b))
+	// Output: -2.34
+}
+
+func ExampleCopysign2() {
+	a, b := -2.34, -98.76
+	fmt.Printf("%.2f", math.Copysign(a, b))
+	// Output: -2.34
+}
+
+func ExampleCopysign3() {
+	a, b := -2.34, 98.76
+	fmt.Printf("%.2f", math.Copysign(a, b))
+	// Output: 2.34
+}
+
+func ExampleCopysign4() {
+	a, b := 2.34, 98.76
+	fmt.Printf("%.2f", math.Copysign(a, b))
+	// Output: 2.34
 }
 
 func ExampleDim() {
@@ -170,8 +188,8 @@ func ExampleExp() {
 }
 
 func ExampleExp2() {
-	fmt.Printf("%.1f", math.Exp2(1))
-	// Output: 2.0
+	fmt.Printf("%.1f", math.Exp2(3))
+	// Output: 8.0
 }
 
 func ExampleLog() {
@@ -180,8 +198,8 @@ func ExampleLog() {
 }
 
 func ExampleLog10() {
-	fmt.Printf("%.1f", math.Log10(10.0))
-	// Output: 1.0
+	fmt.Printf("%.1f", math.Log10(1000.0))
+	// Output: 3.0
 }
 
 func ExampleLog1p() {
@@ -195,11 +213,11 @@ func ExampleLog2() {
 }
 
 func ExampleMin() {
-	fmt.Printf("%.1f", math.Min(-2.0, 2.0))
-	// Output: -2.0
+	fmt.Printf("%.1f", math.Min(math.NaN(), 7.2))
+	// Output: NaN
 }
 
 func ExampleMax() {
-	fmt.Printf("%.1f", math.Max(-2.0, 2.0))
-	// Output: 2.0
+	fmt.Printf("%.1f", math.Max(math.Inf(+0), math.Inf(-0)))
+	// Output: +Inf
 }
