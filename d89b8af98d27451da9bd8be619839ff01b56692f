@@ -16,6 +16,24 @@
       "revId": "d89b8af98d27451da9bd8be619839ff01b56692f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39338e48_702502db",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 28917
+      },
+      "writtenOn": "2018-09-02T05:27:57Z",
+      "side": 1,
+      "message": "We are not using `this` in the prototype functions so I\u0027m not convinced using fat arrow syntax here is a good idea.\n\nAs per recommendations found in the link below, I think we should leave the prototype functions alone:\nhttps://stackoverflow.com/a/23045200",
+      "parentUuid": "ebf25670_7f984dd6",
+      "revId": "d89b8af98d27451da9bd8be619839ff01b56692f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
