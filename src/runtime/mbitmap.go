@@ -2037,7 +2037,12 @@ func getgcmask(ep interface{}) (mask []byte) {
 		_g_ := getg()
 		gentraceback(_g_.m.curg.sched.pc, _g_.m.curg.sched.sp, 0, _g_.m.curg, 0, nil, 1000, getgcmaskcb, noescape(unsafe.Pointer(&frame)), 0)
 		if frame.fn.valid() {
-			locals, _ := getStackMap(&frame, nil, false)
+			// TODO: once stack objects are enabled (and their pointers
+			// are no longer described by the stack pointermap directly),
+			// tests using this will probably need fixing. We might need
+			// to loop through the stackobjects and if we're inside one,
+			// use the pointermap from that object.
+			locals, _, _ := getStackMap(&frame, nil, false)
 			if locals.n == 0 {
 				return
 			}
