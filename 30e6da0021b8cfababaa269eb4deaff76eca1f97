@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c10f3f63_b10f7ad2",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-09-03T10:17:22Z",
+      "side": 1,
+      "message": "Is another rule for sign extended MOVWload needed?",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 81
+      },
+      "revId": "30e6da0021b8cfababaa269eb4deaff76eca1f97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
