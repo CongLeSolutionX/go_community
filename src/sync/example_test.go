@@ -57,3 +57,35 @@ func ExampleOnce() {
 	// Output:
 	// Only once
 }
+
+func ExampleMap() {
+	var sm sync.Map
+
+	_, ok := sm.Load("non-existent-key")
+	fmt.Println(ok)
+
+	sm.Store("mykey", "myvalue")
+	v, ok := sm.Load("mykey")
+	fmt.Printf("%q, %v\n", v, ok)
+	// Output:
+	// false
+	// "myvalue", true
+}
+
+func ExampleMap_Range() {
+	var sm sync.Map
+	sm.Store("0", "00")
+	sm.Store("1", "01")
+	sm.Store("2", "10")
+	sm.Store("3", "11")
+
+	sm.Range(func(k, v interface{}) bool {
+		fmt.Printf("%s in binary is %s\n", k, v)
+		return true
+	})
+	// Unordered output:
+	// 2 in binary is 10
+	// 3 in binary is 11
+	// 0 in binary is 00
+	// 1 in binary is 01
+}
