@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e3117e5_8cd4702a",
+        "filename": "src/sync/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-03T09:22:34Z",
+      "side": 1,
+      "message": "non-existent\n\nBut I don\u0027t think the comment is necessary. Comments should add information and not just repeat what the code is doing.",
+      "range": {
+        "startLine": 64,
+        "startChar": 18,
+        "endLine": 64,
+        "endChar": 30
+      },
+      "revId": "7637af7d9449adbcd2e8b30951383a9fc04bc08c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71c28e9b_6c937a8c",
+        "filename": "src/sync/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-03T09:22:34Z",
+      "side": 1,
+      "message": "existent here and next line. But I\u0027d just say:\n\n   _, ok :\u003d sm.Load(\"non-existent-key\")\n   fmt.Println(ok)\n\nNo comments or if statement needed.",
+      "range": {
+        "startLine": 65,
+        "startChar": 26,
+        "endLine": 65,
+        "endChar": 34
+      },
+      "revId": "7637af7d9449adbcd2e8b30951383a9fc04bc08c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbf468f5_34e80faf",
+        "filename": "src/sync/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-03T09:22:34Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "7637af7d9449adbcd2e8b30951383a9fc04bc08c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1fac481_f52a9431",
+        "filename": "src/sync/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-03T09:22:34Z",
+      "side": 1,
+      "message": "fmt.Printf(\"%q, %v\\n\", v, ok)",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 55
+      },
+      "revId": "7637af7d9449adbcd2e8b30951383a9fc04bc08c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
