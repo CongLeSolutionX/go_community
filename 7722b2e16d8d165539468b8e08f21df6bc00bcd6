@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e9b29df7_d82fa2af",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-09-04T19:55:26Z",
+      "side": 1,
+      "message": "I\u0027ve added a comment. When Go isn\u0027t executing a user G, it\u0027s my understanding that curg is 0, which will cause sigprofNonGoPc() to be run below. While this may result in less information in the profile, it should not result in an incorrect profile.",
+      "parentUuid": "974a0a3c_09cab19c",
+      "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1944fb8d_6487229c",
         "filename": "src/runtime/os_windows_arm.go",
         "patchSetId": 14
@@ -33,6 +51,24 @@
       "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d57ed2b4_81366242",
+        "filename": "src/runtime/os_windows_arm.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-09-04T19:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1944fb8d_6487229c",
+      "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5511d1a8_788c05bf",
+        "filename": "src/runtime/rt0_windows_arm.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-09-04T19:55:26Z",
+      "side": 1,
+      "message": "_rt0_arm loads argc and argv from the stack to r0 and r1. On Windows/ARM, nothing is passed to the entry point via stack or registers; i.e. the entry point takes a void parameter list. rt0_go expects to find argc and argv in r0 and r1, which will contain garbage. argc and argv are later set by os.init() which calls GetCommandLine().",
+      "parentUuid": "ffd4a468_e5cee18d",
+      "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b4da83a_0f4ad497",
         "filename": "src/runtime/rt0_windows_arm.s",
         "patchSetId": 14
@@ -67,6 +121,24 @@
       "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd6c8954_23334726",
+        "filename": "src/runtime/rt0_windows_arm.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-09-04T19:55:26Z",
+      "side": 1,
+      "message": "Shared libraries are not currently supported. Will remove.",
+      "parentUuid": "7b4da83a_0f4ad497",
+      "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -90,6 +162,30 @@
       "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f20322c0_ca308d2e",
+        "filename": "src/runtime/tls_arm.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 28473
+      },
+      "writtenOn": "2018-09-04T19:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e38b5823_531572b9",
+      "range": {
+        "startLine": 43,
+        "startChar": 22,
+        "endLine": 43,
+        "endChar": 29
+      },
+      "revId": "7722b2e16d8d165539468b8e08f21df6bc00bcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
