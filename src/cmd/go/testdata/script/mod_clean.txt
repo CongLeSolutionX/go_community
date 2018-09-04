@@ -1,0 +1,8 @@
+env GO111MODULE=on
+
+# go clean modcache shuold have no error
+go clean -modcache
+! stderr 'cannot find module providing package x'
+
+-- go.mod --
+module x

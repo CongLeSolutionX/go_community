@@ -207,6 +207,10 @@ func clean(p *load.Package) {
 	}
 	cleaned[p] = true
 
+	if p.ImportPath == modload.Target.Path {
+		return
+	}
+
 	if p.Dir == "" {
 		base.Errorf("can't load package: %v", p.Error)
 		return
