@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca65c38d_51db66e4",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-09-04T20:31:47Z",
+      "side": 1,
+      "message": "Maybe add a comment about why we don\u0027t want CMN here.",
+      "revId": "4efeb7aee6230873d1dce38d4befdea378f01aa1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
