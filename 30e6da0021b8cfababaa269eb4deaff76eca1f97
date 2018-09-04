@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "566b50b5_c61927ac",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-09-04T03:51:37Z",
+      "side": 1,
+      "message": "This rewrite rule just optimizes Float32bits() function that moves float32 value to uint32 value(zero-extended). So I think it is unnecessary to add another rule you advised in this optimization case.",
+      "parentUuid": "c10f3f63_b10f7ad2",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 81
+      },
+      "revId": "30e6da0021b8cfababaa269eb4deaff76eca1f97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3827ad25_b623d908",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-03T17:02:31Z",
       "side": 1,
       "message": "uint32? I think FMOVS zero-extends the 32-bit value to 64-bit?",
+      "range": {
+        "startLine": 387,
+        "startChar": 81,
+        "endLine": 387,
+        "endChar": 86
+      },
+      "revId": "30e6da0021b8cfababaa269eb4deaff76eca1f97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fc9d9d5_675930a3",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-09-04T03:51:37Z",
+      "side": 1,
+      "message": "FMOVSgpfp and FMOVSfpgp operate float32 value \u003c-\u003e int32 value without conversion.",
+      "parentUuid": "3827ad25_b623d908",
       "range": {
         "startLine": 387,
         "startChar": 81,
