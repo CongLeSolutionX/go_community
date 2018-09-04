@@ -22,6 +22,30 @@
       "revId": "fb24829a487d9c804b5cc38f8dd9fea790798dbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f77a4aa_3682f30d",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1554,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-09-04T07:11:33Z",
+      "side": 1,
+      "message": "Yes, you are right. I found that \"c2 \u003d\u003d ^c1\" condition equals to \"c1|c2 \u003d\u003d ^0\", so we just need to remove the condition \"log2(c1) \u003d\u003d 63\".",
+      "parentUuid": "457e9da7_6f81ee4b",
+      "range": {
+        "startLine": 1554,
+        "startChar": 36,
+        "endLine": 1554,
+        "endChar": 50
+      },
+      "revId": "fb24829a487d9c804b5cc38f8dd9fea790798dbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
