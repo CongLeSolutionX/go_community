@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a134d50d_3ccde5ed",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-09-05T09:24:48Z",
+      "side": 1,
+      "message": "the original int64(a)\u0026int64(b) affect amd64\u0027s expectation of TESTQ, so I change it to new parameters e\u0026f",
+      "range": {
+        "startLine": 174,
+        "startChar": 7,
+        "endLine": 174,
+        "endChar": 14
+      },
+      "revId": "082df821a57a80baeb7d01940ffb46b6d4c33a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
