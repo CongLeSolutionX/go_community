@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc07282c_5c3e6147",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3347,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-09-06T20:42:22Z",
+      "side": 1,
+      "message": "This may probably just alias Mul64 (see the use of alias in sync/atomic below). In fact, both can be just alias math/big.mulWW (or make it the other way around).\n\nAlso Div below.",
+      "range": {
+        "startLine": 3343,
+        "startChar": 0,
+        "endLine": 3347,
+        "endChar": 23
+      },
+      "revId": "6e58e4ea5af67345d4d30162eb722bb3e42514af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
