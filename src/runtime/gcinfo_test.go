@@ -35,14 +35,46 @@ func TestGCInfo(t *testing.T) {
 	verifyGCInfo(t, "data eface", &dataEface, infoEface)
 	verifyGCInfo(t, "data iface", &dataIface, infoIface)
 
-	verifyGCInfo(t, "stack Ptr", new(Ptr), infoPtr)
-	verifyGCInfo(t, "stack ScalarPtr", new(ScalarPtr), infoScalarPtr)
-	verifyGCInfo(t, "stack PtrScalar", new(PtrScalar), infoPtrScalar)
-	verifyGCInfo(t, "stack BigStruct", new(BigStruct), infoBigStruct())
-	verifyGCInfo(t, "stack string", new(string), infoString)
-	verifyGCInfo(t, "stack slice", new([]string), infoSlice)
-	verifyGCInfo(t, "stack eface", new(interface{}), infoEface)
-	verifyGCInfo(t, "stack iface", new(Iface), infoIface)
+	{
+		var x Ptr
+		verifyGCInfo(t, "stack Ptr", &x, infoPtr)
+		isink = x // use x, so x is directly live at verifyGCInfo call.
+	}
+	{
+		var x ScalarPtr
+		verifyGCInfo(t, "stack ScalarPtr", &x, infoScalarPtr)
+		isink = x
+	}
+	{
+		var x PtrScalar
+		verifyGCInfo(t, "stack PtrScalar", &x, infoPtrScalar)
+		isink = x
+	}
+	{
+		var x BigStruct
+		verifyGCInfo(t, "stack BigStruct", &x, infoBigStruct())
+		isink = x
+	}
+	{
+		var x string
+		verifyGCInfo(t, "stack string", &x, infoString)
+		isink = x
+	}
+	{
+		var x []string
+		verifyGCInfo(t, "stack slice", &x, infoSlice)
+		isink = x
+	}
+	{
+		var x interface{}
+		verifyGCInfo(t, "stack eface", &x, infoEface)
+		isink = x
+	}
+	{
+		var x Iface
+		verifyGCInfo(t, "stack iface", &x, infoIface)
+		isink = x
+	}
 
 	for i := 0; i < 10; i++ {
 		verifyGCInfo(t, "heap Ptr", escape(new(Ptr)), trimDead(padDead(infoPtr)))
@@ -56,6 +88,8 @@ func TestGCInfo(t *testing.T) {
 		verifyGCInfo(t, "heap iface", escape(new(Iface)), trimDead(infoIface))
 	}
 }
+
+var isink interface{}
 
 func verifyGCInfo(t *testing.T, name string, p interface{}, mask0 []byte) {
 	mask := runtime.GCMask(p)

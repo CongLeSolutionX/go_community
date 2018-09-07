@@ -1015,6 +1015,9 @@ func scanstack(gp *g, gcw *gcWork) {
 	tracebackdefers(gp, scanframe, nil)
 
 	// Find and scan all reachable stack objects.
+	if false {
+		println("goroutine", gp.goid)
+	}
 	state.buildIndex()
 	for {
 		p := state.removePtr()
@@ -1117,6 +1120,9 @@ func scanframeworker(frame *stkframe, state *stackScanState, gcw *gcWork) {
 			if ptr < frame.sp {
 				// object hasn't been allocated in the frame yet.
 				continue
+			}
+			if false {
+				println("stkobj at", hex(ptr), "of type", obj.typ.string())
 			}
 			state.addObject(ptr, obj.typ)
 		}
