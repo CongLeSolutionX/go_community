@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cebc24f_f6b75b7f",
+        "filename": "src/encoding/xml/xml.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 11106
+      },
+      "writtenOn": "2018-09-07T20:37:47Z",
+      "side": 1,
+      "message": "Maybe it\u0027s worth mentioning that RawXML will never be returned by decoders here so that users don\u0027t type switch for it? Or just leave it off here since it\u0027s only useful for encoders?",
+      "revId": "240a644920d542018b1f835c807db6feb8f60972",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
