@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2bdf658_9ace6b06",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3447,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-09-07T23:59:36Z",
+      "side": 1,
+      "message": "I\u0027m worried about the behavior when you don\u0027t obey the contract.  The x86 instruction will generate a divide error exception on overflow.  The Go code for Div64 does something else on overflow, so the two don\u0027t have identical behavior.\nI know we say the behavior is undefined, but raising a signal vs. returning something is a big difference.  I\u0027d rather we keep the guarding condition in here somehow.\n(Currently we assume math is not calling divWW incorrectly - once we open this opcode up to users, someone will call it incorrectly.)",
+      "revId": "33ab0b8ed4bc27cee36269b2ed25cc0dacfda9e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
