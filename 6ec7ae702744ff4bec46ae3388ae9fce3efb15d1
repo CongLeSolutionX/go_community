@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89cfe803_41615bbd",
+        "filename": "src/crypto/internal/boring/aes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-09-07T16:43:41Z",
+      "side": 1,
+      "message": "|exp_out_len| is always equal to |max_out_len| here. Maybe just pass a single copy to these functions?",
+      "range": {
+        "startLine": 20,
+        "startChar": 16,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "6ec7ae702744ff4bec46ae3388ae9fce3efb15d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47802184_287b8673",
+        "filename": "src/crypto/internal/boring/aes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-09-07T16:43:41Z",
+      "side": 1,
+      "message": "This can just be:\n\nif (out_len !\u003d exp_out_len) {\n  return 0;\n}\nreturn ok;\n\n(And below.)",
+      "revId": "6ec7ae702744ff4bec46ae3388ae9fce3efb15d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
