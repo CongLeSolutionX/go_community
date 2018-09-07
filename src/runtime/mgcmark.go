@@ -771,6 +771,9 @@ func scanstack(gp *g, gcw *gcWork) {
 	tracebackdefers(gp, scanframe, nil)
 
 	// Find and scan all reachable stack objects.
+	if false {
+		println("goroutine", gp.goid)
+	}
 	state.buildIndex()
 	for {
 		p := state.getPtr()
