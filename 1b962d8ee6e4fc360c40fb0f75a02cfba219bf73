@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f313ded_92a3d73b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-09T12:19:48Z",
+      "side": 1,
+      "message": "Also Updates #14626",
+      "revId": "1b962d8ee6e4fc360c40fb0f75a02cfba219bf73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "505edac6_b80e3128",
+        "filename": "src/os/user/lookup_stubs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-09T12:19:48Z",
+      "side": 1,
+      "message": "Please write the issue reference as https://golang.org/issue/27524, or just say \"issue 27524\".  Thanks.",
+      "revId": "1b962d8ee6e4fc360c40fb0f75a02cfba219bf73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
