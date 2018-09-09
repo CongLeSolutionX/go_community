@@ -473,30 +473,26 @@ func (r *Reader) ReadDotLines() ([]string, error) {
 //	}
 //
 func (r *Reader) ReadMIMEHeader() (MIMEHeader, error) {
-	// Avoid lots of small slice allocations later by allocating one
-	// large one ahead of time which we'll cut up into smaller
-	// slices. If this isn't big enough later, we allocate small ones.
-	var strs []string
-	hint := r.upcomingHeaderNewlines()
-	if hint > 0 {
-		strs = make([]string, hint)
-	}
-
-	m := make(MIMEHeader, hint)
-
 	// The first line cannot start with a leading space.
 	if buf, err := r.R.Peek(1); err == nil && (buf[0] == ' ' || buf[0] == '\t') {
 		line, err := r.readLineSlice()
 		if err != nil {
-			return m, err
+			return nil, err
 		}
-		return m, ProtocolError("malformed MIME header initial line: " + string(line))
+		return nil, ProtocolError("malformed MIME header initial line: " + string(line))
 	}
+
+	var slab strings.Builder
+	slab.Grow(r.upcomingHeaderSize())
+	kvIdxs := make([]int32, 0, 40)
 
 	for {
 		kv, err := r.readContinuedLineSlice()
 		if len(kv) == 0 {
-			return m, err
+			if err != nil {
+				return nil, err
+			}
+			return buildHeaders(slab, kvIdxs), nil
 		}
 
 		// Key ends at first colon; should not have trailing spaces
@@ -504,7 +500,7 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader, error) {
 		// them if present.
 		i := bytes.IndexByte(kv, ':')
 		if i < 0 {
-			return m, ProtocolError("malformed MIME header line: " + string(kv))
+			return nil, ProtocolError("malformed MIME header line: " + string(kv))
 		}
 		endKey := i
 		for endKey > 0 && kv[endKey-1] == ' ' {
@@ -524,14 +520,41 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader, error) {
 		for i < len(kv) && (kv[i] == ' ' || kv[i] == '\t') {
 			i++
 		}
-		value := string(kv[i:])
+
+		at := slab.Len()
+		kvIdxs = append(kvIdxs, int32(at), int32(at+len(key)))
+		slab.WriteString(key)
+		slab.Write(kv[i:])
+	}
+}
+
+// buildHeaders builds a MIMEHeader from key/value pairs indexed by kvIdxs in
+// slab.
+func buildHeaders(slab strings.Builder, kvIdxs []int32) MIMEHeader {
+	kvs := slab.String()
+	num := len(kvIdxs) / 2
+	m := make(MIMEHeader, num)
+
+	// More than likely, each key will have only one value.
+	// Most headers aren't multi-valued.
+	// We use strs for all values, but bound the capacity to
+	// one as we slice off of it so that any future append
+	// won't extend the slice into the other values.
+	strs := make([]string, num)
+
+	for i := 0; i < len(kvIdxs)-1; i += 2 {
+		kStart := kvIdxs[i]
+		vStart := kvIdxs[i+1]
+		vEnd := int32(len(kvs))
+		if i < len(kvIdxs)-2 {
+			vEnd = kvIdxs[i+2]
+		}
+
+		key := kvs[kStart:vStart]
+		value := kvs[vStart:vEnd]
 
 		vv := m[key]
-		if vv == nil && len(strs) > 0 {
-			// More than likely this will be a single-element key.
-			// Most headers aren't multi-valued.
-			// Set the capacity on strs[0] to 1, so any future append
-			// won't extend the slice into the other strings.
+		if vv == nil {
 			vv, strs = strs[:1:1], strs[1:]
 			vv[0] = value
 			m[key] = vv
@@ -539,15 +562,13 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader, error) {
 			m[key] = append(vv, value)
 		}
 
-		if err != nil {
-			return m, err
-		}
 	}
+	return m
 }
 
-// upcomingHeaderNewlines returns an approximation of the number of newlines
+// upcomingHeaderSize returns an approximation of total key + values size
 // that will be in this header. If it gets confused, it returns 0.
-func (r *Reader) upcomingHeaderNewlines() (n int) {
+func (r *Reader) upcomingHeaderSize() (size int) {
 	// Try to determine the 'hint' size.
 	r.R.Peek(1) // force a buffer load if empty
 	s := r.R.Buffered()
@@ -562,7 +583,7 @@ func (r *Reader) upcomingHeaderNewlines() (n int) {
 			// implying we're at the end ("\r\n\r\n" or "\n\n")
 			return
 		}
-		n++
+		size += i
 		peek = peek[i+1:]
 	}
 	return
