@@ -346,7 +346,7 @@ func TestCommonHeaders(t *testing.T) {
 	b := []byte("content-Length")
 	want := "Content-Length"
 	n := testing.AllocsPerRun(200, func() {
-		if x := canonicalMIMEHeaderKey(b); x != want {
+		if x := canonicalMIMEHeaderKeyString(b); x != want {
 			t.Fatalf("canonicalMIMEHeaderKey(%q) = %q; want %q", b, x, want)
 		}
 	})

@@ -511,7 +511,7 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader, error) {
 		// As per RFC 7230 field-name is a token, tokens consist of one or more chars.
 		// We could return a ProtocolError here, but better to be liberal in what we
 		// accept, so if we get an empty key, skip it.
-		if key == "" {
+		if len(key) == 0 {
 			continue
 		}
 
@@ -523,7 +523,7 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader, error) {
 
 		at := slab.Len()
 		kvIdxs = append(kvIdxs, int32(at), int32(at+len(key)))
-		slab.WriteString(key)
+		slab.Write(key)
 		slab.Write(kv[i:])
 	}
 }
@@ -605,11 +605,9 @@ func CanonicalMIMEHeaderKey(s string) string {
 		if !validHeaderFieldByte(c) {
 			return s
 		}
-		if upper && 'a' <= c && c <= 'z' {
-			return canonicalMIMEHeaderKey([]byte(s))
-		}
-		if !upper && 'A' <= c && c <= 'Z' {
-			return canonicalMIMEHeaderKey([]byte(s))
+		if (upper && 'a' <= c && c <= 'z') ||
+			(!upper && 'A' <= c && c <= 'Z') {
+			return canonicalMIMEHeaderKeyString([]byte(s))
 		}
 		upper = c == '-'
 	}
@@ -629,20 +627,31 @@ func validHeaderFieldByte(b byte) bool {
 	return int(b) < len(isTokenTable) && isTokenTable[b]
 }
 
+func canonicalMIMEHeaderKeyString(a []byte) string {
+	a = canonicalMIMEHeaderKey(a)
+	// The compiler recognizes m[string(byteSlice)] as a special
+	// case, so a copy of a's bytes into a new string does not
+	// happen in this map lookup:
+	if v := commonHeader[string(a)]; v != "" {
+		return v
+	}
+	return string(a)
+}
+
 // canonicalMIMEHeaderKey is like CanonicalMIMEHeaderKey but is
 // allowed to mutate the provided byte slice before returning the
 // string.
 //
 // For invalid inputs (if a contains spaces or non-token bytes), a
 // is unchanged and a string copy is returned.
-func canonicalMIMEHeaderKey(a []byte) string {
+func canonicalMIMEHeaderKey(a []byte) []byte {
 	// See if a looks like a header key. If not, return it unchanged.
 	for _, c := range a {
 		if validHeaderFieldByte(c) {
 			continue
 		}
 		// Don't canonicalize.
-		return string(a)
+		return a
 	}
 
 	upper := true
@@ -659,13 +668,7 @@ func canonicalMIMEHeaderKey(a []byte) string {
 		a[i] = c
 		upper = c == '-' // for next time
 	}
-	// The compiler recognizes m[string(byteSlice)] as a special
-	// case, so a copy of a's bytes into a new string does not
-	// happen in this map lookup:
-	if v := commonHeader[string(a)]; v != "" {
-		return v
-	}
-	return string(a)
+	return a
 }
 
 // commonHeader interns common header strings.
