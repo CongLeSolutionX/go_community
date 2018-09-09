@@ -22,6 +22,30 @@
       "revId": "fea680a5acb1c7e9b4416d115e0fb69104805c96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce44da6a_2be50ab1",
+        "filename": "src/go/format/benchmark_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2018-09-09T20:38:05Z",
+      "side": 1,
+      "message": "Good idea, thank you.",
+      "parentUuid": "79d4e14d_90614e5b",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 1
+      },
+      "revId": "fea680a5acb1c7e9b4416d115e0fb69104805c96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
