@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acb1281d_087a8a11",
+        "filename": "src/net/textproto/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-09-10T16:35:20Z",
+      "side": 1,
+      "message": "Can you not do just one Peek(2) and use peek[0] to test for ASCII letter or \\n\nif Peek\u0027s return gives as least one byte to check.  Then do the \\r\\n test if\ntwo bytes were returned.  err may be non-nil but peek[0] still valid for Peek(2).",
+      "revId": "90d4bf5e6932c4449de1a0f9ed3052a75b9a6ce5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
