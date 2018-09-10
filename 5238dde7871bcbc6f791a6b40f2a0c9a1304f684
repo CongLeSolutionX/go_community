@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95d013d8_008ec1e0",
+        "filename": "src/net/textproto/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-09-10T17:37:25Z",
+      "side": 1,
+      "message": "This gets rid of the awkward \u0027for if\u0027 and matches the code.\n\n    // and it starts with an ASCII letter (the next header key), or a blank line,\n    // so we can...",
+      "revId": "5238dde7871bcbc6f791a6b40f2a0c9a1304f684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
