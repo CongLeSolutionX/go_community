@@ -46,6 +46,30 @@
       "revId": "6f60119428d9b628f3c1bc5e5c59fa965ffd5cd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "053a3b1d_ffb52f92",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 27300
+      },
+      "writtenOn": "2018-09-10T14:51:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a033821a_5819e57a",
+      "range": {
+        "startLine": 1170,
+        "startChar": 16,
+        "endLine": 1170,
+        "endChar": 20
+      },
+      "revId": "6f60119428d9b628f3c1bc5e5c59fa965ffd5cd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
