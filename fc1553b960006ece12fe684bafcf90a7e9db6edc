@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9be409e4_9919394c",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-09-10T21:43:42Z",
+      "side": 1,
+      "message": "Document what happens if BFC doesn\u0027t apply.",
+      "revId": "fc1553b960006ece12fe684bafcf90a7e9db6edc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "680319ef_39bbd9b3",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-09-10T21:43:42Z",
+      "side": 1,
+      "message": "math/bits.TrailingZeros32. Similarly, LeadingZeros32 below.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 2
+      },
+      "revId": "fc1553b960006ece12fe684bafcf90a7e9db6edc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0754b750_58a1d320",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-09-10T21:43:42Z",
+      "side": 1,
+      "message": "Why cast to 64-bit? To handle m\u003d\u003d32? I think uint32 math works here even when m\u003d\u003d32.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 42
+      },
+      "revId": "fc1553b960006ece12fe684bafcf90a7e9db6edc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
