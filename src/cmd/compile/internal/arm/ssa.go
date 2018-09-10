@@ -16,6 +16,32 @@ import (
 	"cmd/internal/objabi"
 )
 
+func getBFC(v uint32) (lsb uint32, width uint32) {
+	var msb uint32
+	// find the lowest set bit
+	for lsb = 0; lsb < 32; lsb++ {
+		if v&(1<<lsb) != 0 {
+			break
+		}
+	}
+	// find the highest set bit
+	for msb = 32; msb > 0; msb-- {
+		if v&(1<<(msb-1)) != 0 {
+			break
+		}
+	}
+	// v is 0x00000000
+	if msb <= lsb {
+		return 0xffffffff, 0
+	}
+	// check if v is a binary like 0...01...10...0
+	if uint64(1<<msb)-uint64(1<<lsb) == uint64(v) {
+		return lsb, msb - lsb
+	} else {
+		return 0xffffffff, 0
+	}
+}
+
 // loadByType returns the load instruction of the given type.
 func loadByType(t *types.Type) obj.As {
 	if t.IsFloat() {
@@ -267,16 +293,36 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.Reg = v.Args[0].Reg()
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
+	case ssa.OpARMANDconst, ssa.OpARMBICconst:
+		// BFC is only available on ARMv7, and its result is in the source register
+		if objabi.GOARM == 7 && v.Reg() == v.Args[0].Reg() {
+			var val uint32
+			if v.Op == ssa.OpARMANDconst {
+				val = ^uint32(v.AuxInt)
+			} else { // BICconst
+				val = uint32(v.AuxInt)
+			}
+			lsb, width := getBFC(val)
+			// omit imm-12
+			if 8 < width && width < 24 {
+				p := s.Prog(arm.ABFC)
+				p.From.Type = obj.TYPE_CONST
+				p.From.Offset = int64(width)
+				p.SetFrom3(obj.Addr{Type: obj.TYPE_CONST, Offset: int64(lsb)})
+				p.To.Type = obj.TYPE_REG
+				p.To.Reg = v.Reg()
+				break
+			}
+		}
+		fallthrough
 	case ssa.OpARMADDconst,
 		ssa.OpARMADCconst,
 		ssa.OpARMSUBconst,
 		ssa.OpARMSBCconst,
 		ssa.OpARMRSBconst,
 		ssa.OpARMRSCconst,
-		ssa.OpARMANDconst,
 		ssa.OpARMORconst,
 		ssa.OpARMXORconst,
-		ssa.OpARMBICconst,
 		ssa.OpARMSLLconst,
 		ssa.OpARMSRLconst,
 		ssa.OpARMSRAconst:
