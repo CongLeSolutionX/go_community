@@ -16,6 +16,24 @@
       "revId": "90d4bf5e6932c4449de1a0f9ed3052a75b9a6ce5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78984d84_02f9da52",
+        "filename": "src/net/textproto/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-09-10T17:11:19Z",
+      "side": 1,
+      "message": "Good point! That also removes the minor cpu% regression in the benchmark.",
+      "parentUuid": "acb1281d_087a8a11",
+      "revId": "90d4bf5e6932c4449de1a0f9ed3052a75b9a6ce5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
