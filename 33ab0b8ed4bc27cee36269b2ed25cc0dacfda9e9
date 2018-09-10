@@ -16,6 +16,24 @@
       "revId": "33ab0b8ed4bc27cee36269b2ed25cc0dacfda9e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "944bd9dc_47ad9ac2",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3447,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2018-09-10T18:56:32Z",
+      "side": 1,
+      "message": "Yeah, I think for user facing code it might be better to specify the behavior on overflow rather than leaving it undefined.  That way users can be sure all implementations will respond the same. Personally, I would lean toward defining Div to panic on overflow since it seems much more subtle to require users to handle overflow appropriately.  As the pure go implementation is currently written, Div64 returns a signalling value (2^64-1, 2^64-1) on overflow while Div32 just truncates any overflow with the uint32 cast, which also is inconsistent.",
+      "parentUuid": "e2bdf658_9ace6b06",
+      "revId": "33ab0b8ed4bc27cee36269b2ed25cc0dacfda9e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
