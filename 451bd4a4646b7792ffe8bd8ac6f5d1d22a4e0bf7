@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d06c14bc_d5badad6",
+        "filename": "src/go/format/benchmark_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-10T20:21:03Z",
+      "side": 1,
+      "message": "I don\u0027t see much reason for all this text. Surely it is irrelevant for the benchmark, which is completely dominated by the first loop generating the large sequence of \\x00\u0027s.\n\nWhy not just print\n\npackage p\n\nso we have syntactically correct .go file?",
+      "revId": "451bd4a4646b7792ffe8bd8ac6f5d1d22a4e0bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d00478c6_5581c499",
+        "filename": "src/go/format/benchmark_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-10T20:21:03Z",
+      "side": 1,
+      "message": "Is the rest here relevant? As far as I can tell, the benchmark is dominated by the time it takes to format the code generated above.\n\nJust get rid of it?",
+      "range": {
+        "startLine": 45,
+        "startChar": 5,
+        "endLine": 45,
+        "endChar": 16
+      },
+      "revId": "451bd4a4646b7792ffe8bd8ac6f5d1d22a4e0bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ca639b7_5c674dd6",
+        "filename": "src/go/format/benchmark_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-10T20:21:03Z",
+      "side": 1,
+      "message": "Leave this away as well? The generated file doesn\u0027t compile anyway per the above comment.\n\nThis benchmark is really just testing the formatting of the huge var initializer. The rest doesn\u0027t matter. Remove and condense to essence.",
+      "revId": "451bd4a4646b7792ffe8bd8ac6f5d1d22a4e0bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
