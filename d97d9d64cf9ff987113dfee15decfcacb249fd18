@@ -118,6 +118,30 @@
       "revId": "d97d9d64cf9ff987113dfee15decfcacb249fd18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6686359e_74ed7aca",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-09-11T12:10:22Z",
+      "side": 1,
+      "message": "Created #27619, so we don\u0027t forget to deprecate it.",
+      "parentUuid": "2dbf62eb_5ec2b767",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "d97d9d64cf9ff987113dfee15decfcacb249fd18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
