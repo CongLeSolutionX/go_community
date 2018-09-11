@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f62b6cce_981b4653",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-11T17:32:58Z",
+      "side": 1,
+      "message": "This List implementation was not written to be \"consistent\" with the built-in len operating on slices (which is a different data structure, after all).\n\nNote that an uninitialized slice\n\nvar s []T\n\nis a \"ready-to-use\" slice - it doesn\u0027t need to be further initialized before it can be used. This is not the case for a List. For one, it doesn\u0027t say so in the documentation that it\u0027s ok to use it w/o initialization. Furthermore, there are a lot of other functions that would crash as well if the list is not initialized. One would have to fix all of them as well, but that\u0027s not possible because it would require the receiver value to be updated it if was nil (e.g. for InsertBefore).\n\nFixing this only for the non-updating operations will just hide bugs. Let\u0027s not do that. Instead I suggest updating the documentation. See my comment in the source.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 127
+      },
+      "revId": "ea45da85a4144bc488c80c71456335d0b455a34f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86f5da4a_5bcf36e7",
+        "filename": "src/container/list/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-11T17:32:58Z",
+      "side": 1,
+      "message": "I suggest adding the following sentence instead of the code changes below:\n\n// A List must be allocated with New() before it\n// can be used.",
+      "range": {
+        "startLine": 5,
+        "startChar": 47,
+        "endLine": 5,
+        "endChar": 48
+      },
+      "revId": "ea45da85a4144bc488c80c71456335d0b455a34f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7d10129_4481672b",
+        "filename": "src/container/list/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-11T17:32:58Z",
+      "side": 1,
+      "message": "Let\u0027s not do that - Lists must be initialized before use.",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "ea45da85a4144bc488c80c71456335d0b455a34f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
