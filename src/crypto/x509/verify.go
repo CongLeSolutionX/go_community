@@ -918,6 +918,33 @@ func (c *Certificate) commonNameAsHostname() bool {
 	return !ignoreCN && !c.hasSANExtension() && validHostname(c.Subject.CommonName)
 }
 
+// Matches a hostname segment to a pattern segment. The optional support for
+// matching a wildcard segment that doesn't comprise solely of the wildcard
+// character is supported (RFC 6125, section 6.4.3, rule 3).
+func matchHostnamePart(pattern, hostPart string, canUseWildcard bool) bool {
+	if canUseWildcard {
+		star := strings.IndexRune(pattern, '*')
+		// Wildcards are not allowed for unicode hostnames
+		useWildcard := star >= 0 && !strings.HasPrefix(pattern, "xn--")
+
+		if useWildcard {
+			// '*' must match one or more characters. Prevents 'foo*bar' from matching 'foobar'
+			if len(hostPart) < len(pattern) {
+				return false
+			}
+
+			prefix := pattern[:star]
+			suffix := pattern[star+1:]
+
+			// Only one '*' is allowed to represent a wildcard
+			return strings.HasPrefix(hostPart, prefix) &&
+				strings.HasSuffix(hostPart, suffix)
+		}
+	}
+
+	return pattern == hostPart
+}
+
 func matchHostnames(pattern, host string) bool {
 	host = strings.TrimSuffix(host, ".")
 	pattern = strings.TrimSuffix(pattern, ".")
@@ -934,10 +961,9 @@ func matchHostnames(pattern, host string) bool {
 	}
 
 	for i, patternPart := range patternParts {
-		if i == 0 && patternPart == "*" {
-			continue
-		}
-		if patternPart != hostParts[i] {
+		// Wildcard matching is only allowed for the first segment
+		// (RFC 6125, section 6.4.3, rule 1)
+		if !matchHostnamePart(patternPart, hostParts[i], i == 0) {
 			return false
 		}
 	}
