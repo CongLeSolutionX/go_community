@@ -391,13 +391,13 @@ TEXT NAME(SB), WRAPPER, $MAXSIZE-24;		\
 	MOVD	arg+16(FP), R3;			\
 	MOVWZ	argsize+24(FP), R4;			\
 	MOVD	R1, R5;				\
-	ADD	$(FIXED_FRAME-1), R5;			\
-	SUB	$1, R3;				\
+	ADD	$(FIXED_FRAME-8), R5;			\
+	SUB	$8, R3;				\
 	ADD	R5, R4;				\
 	CMP	R5, R4;				\
 	BEQ	4(PC);				\
-	MOVBZU	1(R3), R6;			\
-	MOVBZU	R6, 1(R5);			\
+	MOVDU	8(R3), R6;			\
+	MOVDU	R6, 8(R5);			\
 	BR	-4(PC);				\
 	/* call function */			\
 	MOVD	f+8(FP), R11;			\
