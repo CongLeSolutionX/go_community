@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "9d6b0a0b_68ab8001",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-09-11T10:43:47Z",
+      "side": 1,
+      "message": "fixed in patch set 3.",
+      "parentUuid": "84bd2a43_aef3896f",
+      "revId": "e01d51988f97e5f88733d0f87f274ecf377fde63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "90c7bf3b_5e527fb7",
         "filename": "test/codegen/arithmetic.go",
         "patchSetId": 2
