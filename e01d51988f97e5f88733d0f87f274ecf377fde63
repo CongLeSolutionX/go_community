@@ -103,6 +103,24 @@
       "revId": "e01d51988f97e5f88733d0f87f274ecf377fde63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08d882e5_10c8a7cd",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-09-11T10:15:39Z",
+      "side": 1,
+      "message": "I think that is fairly OK. since the disassembler will decode 0xaaa000 and 0x000aaa to decimal form.",
+      "parentUuid": "0c7328b5_a2a9f4d0",
+      "revId": "e01d51988f97e5f88733d0f87f274ecf377fde63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
