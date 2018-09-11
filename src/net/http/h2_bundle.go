@@ -7026,7 +7026,27 @@ func (t *http2Transport) RoundTripOpt(req *Request, opt http2RoundTripOpt) (*Res
 		return nil, errors.New("http2: unsupported scheme")
 	}
 
-	addr := http2authorityAddr(req.URL.Scheme, req.URL.Host)
+	// If underlying transport has a proxy set, use the proxy url as the key
+	// for the connection pool. Otherwise use the target address.
+	var addr string
+	if t.t1 != nil && t.t1.Proxy != nil {
+		proxyURL, err := t.t1.Proxy(req)
+		if err == nil && proxyURL != nil {
+			port := proxyURL.Port()
+			if port == "" {
+				if proxyURL.Scheme == "http" {
+					port = "80"
+				} else {
+					port = "443"
+				}
+			}
+			addr = net.JoinHostPort(proxyURL.Hostname(), port)
+		}
+	}
+	if addr == "" {
+		addr = http2authorityAddr(req.URL.Scheme, req.URL.Host)
+	}
+
 	for retry := 0; ; retry++ {
 		cc, err := t.connPool().GetClientConn(req, addr)
 		if err != nil {
