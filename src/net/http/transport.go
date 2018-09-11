@@ -110,8 +110,8 @@ type Transport struct {
 	reqMu       sync.Mutex
 	reqCanceler map[*Request]func(error)
 
-	altMu    sync.Mutex   // guards changing altProto only
-	altProto atomic.Value // of nil or map[string]RoundTripper, key is URI scheme
+	altMu    sync.Mutex   // guards changing AltProto only
+	AltProto atomic.Value // of nil or map[string]RoundTripper, key is URI scheme
 
 	connCountMu          sync.Mutex
 	connPerHostCount     map[connectMethodKey]int
@@ -281,8 +281,8 @@ func (t *Transport) onceSetNextProtoDefaults() {
 	// get at its http2.Transport value (via the the "https"
 	// altproto map) so we can call CloseIdleConnections on it if
 	// requested. (Issue 22891)
-	altProto, _ := t.altProto.Load().(map[string]RoundTripper)
-	if rv := reflect.ValueOf(altProto["https"]); rv.IsValid() && rv.Type().Kind() == reflect.Struct && rv.Type().NumField() == 1 {
+	AltProto, _ := t.AltProto.Load().(map[string]RoundTripper)
+	if rv := reflect.ValueOf(AltProto["https"]); rv.IsValid() && rv.Type().Kind() == reflect.Struct && rv.Type().NumField() == 1 {
 		if v := rv.Field(0); v.CanInterface() {
 			if h2i, ok := v.Interface().(h2Transport); ok {
 				t.h2transport = h2i
@@ -410,8 +410,8 @@ func (t *Transport) roundTrip(req *Request) (*Response, error) {
 		}
 	}
 
-	altProto, _ := t.altProto.Load().(map[string]RoundTripper)
-	if altRT := altProto[scheme]; altRT != nil {
+	AltProto, _ := t.AltProto.Load().(map[string]RoundTripper)
+	if altRT := AltProto[scheme]; altRT != nil {
 		if resp, err := altRT.RoundTrip(req); err != ErrSkipAltProtocol {
 			return resp, err
 		}
@@ -557,7 +557,7 @@ var ErrSkipAltProtocol = errors.New("net/http: skip alternate protocol")
 func (t *Transport) RegisterProtocol(scheme string, rt RoundTripper) {
 	t.altMu.Lock()
 	defer t.altMu.Unlock()
-	oldMap, _ := t.altProto.Load().(map[string]RoundTripper)
+	oldMap, _ := t.AltProto.Load().(map[string]RoundTripper)
 	if _, exists := oldMap[scheme]; exists {
 		panic("protocol " + scheme + " already registered")
 	}
@@ -566,7 +566,7 @@ func (t *Transport) RegisterProtocol(scheme string, rt RoundTripper) {
 		newMap[k] = v
 	}
 	newMap[scheme] = rt
-	t.altProto.Store(newMap)
+	t.AltProto.Store(newMap)
 }
 
 // CloseIdleConnections closes any connections which were previously
