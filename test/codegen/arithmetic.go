@@ -10,6 +10,14 @@ package codegen
 // simplifications and optimizations on integer types.
 // For codegen tests on float types, see floats.go.
 
+// ----------- //
+//  addition   //
+// ----------- //
+func AddConst(a uint64) uint64 {
+	// arm64:"ADD\t[$]11182080","ADD\t[$]2730"
+	return a + 0xaaaaaa
+}
+
 // ----------------- //
 //    Subtraction    //
 // ----------------- //
