@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaf32fcd_49066c98",
+        "filename": "src/cmd/go/internal/modconv/convert.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-09-11T19:56:26Z",
+      "side": 1,
+      "message": "A comment for these lines would be helpful. Why a special case for `re.Old` rather than falling back to `path` and `need[path]` as usual? (Is `need[path]` ever not equal to `re.Old.Version`?)",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 11
+      },
+      "revId": "93798bc30bd0e18b2540d2abd570aff11a966c04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e1f7604_192b9419",
+        "filename": "src/cmd/go/testdata/script/mod_convert_dep.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-09-11T19:56:26Z",
+      "side": 1,
+      "message": "s/relpacement/replacement/",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "93798bc30bd0e18b2540d2abd570aff11a966c04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e253dad_cffd8464",
+        "filename": "src/cmd/go/testdata/script/mod_convert_dep.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-09-11T19:56:26Z",
+      "side": 1,
+      "message": "This line is redundant.",
+      "revId": "93798bc30bd0e18b2540d2abd570aff11a966c04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e53eacd_e20555d3",
+        "filename": "src/cmd/go/testdata/script/mod_convert_dep.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-09-11T19:56:26Z",
+      "side": 1,
+      "message": "Build is more expensive than necessary here: `go list -m all` should suffice.",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "93798bc30bd0e18b2540d2abd570aff11a966c04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

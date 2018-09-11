@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0683c4eb_cab03d82",
+        "filename": "src/cmd/go/internal/modconv/convert.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-09-11T19:56:26Z",
+      "side": 1,
+      "message": "Resolved.",
+      "parentUuid": "998e36a4_ae6ae8ed",
+      "revId": "9d39edb561db379427b3d209e589f73e744b7e5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de01347b_c265c623",
         "filename": "src/cmd/go/internal/modconv/dep.go",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2018-08-08T16:21:09Z",
       "side": 1,
       "message": "A comment linking to some reference for this (either documentation or code within dep) would be helpful.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 52
+      },
+      "revId": "9d39edb561db379427b3d209e589f73e744b7e5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cea6540_9705cdc5",
+        "filename": "src/cmd/go/internal/modconv/dep.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-09-11T19:56:26Z",
+      "side": 1,
+      "message": "A comment linking to some reference would still be helpful. (How do we know what the valid source formats are, and/or how do we know that we don\u0027t need to filter out unsupported sources?)",
+      "parentUuid": "de01347b_c265c623",
       "range": {
         "startLine": 81,
         "startChar": 0,
