@@ -316,8 +316,13 @@ var matchHostnamesTests = []matchHostnamesTest{
 	{"*.example.com", "xyz.www.example.com", false},
 	{"*.*.example.com", "xyz.www.example.com", false},
 	{"*.www.*.com", "xyz.www.example.com", false},
-	{"*bar.example.com", "foobar.example.com", false},
-	{"f*.example.com", "foobar.example.com", false},
+	{"*bar.example.com", "foobar.example.com", true},
+	{"f*.example.com", "foobar.example.com", true},
+	{"fo*ar.example.com", "foobar.example.com", true},
+	{"foo*bar.example.com", "foobar.example.com", false},
+	{"*y*.example.com", "xyz.example.com", false},
+	{"*y*.example.com", "xy.example.com", false},
+	{"*y*.example.com", "yz.example.com", false},
 	{"", ".", false},
 	{".", "", false},
 	{".", ".", false},
@@ -328,6 +333,11 @@ var matchHostnamesTests = []matchHostnamesTest{
 	{"*.com.", "example.com", true},
 	{"*.com", "example.com", true},
 	{"*.com", "example.com.", true},
+	{"xn--*.example.com", "xn--6qq79v.example.com", false},
+	{"xn--6qq79v.example.com", "xn--6qq79v.example.com", true},
+	{"*.xn--6qq79v.example.com", "www.xn--6qq79v.example.com", true},
+	{"xn*.example.com", "xn--6qq79v.example.com", true},
+	{"xn*.example.com", "xn6qq79v.example.com", true},
 }
 
 func TestMatchHostnames(t *testing.T) {
