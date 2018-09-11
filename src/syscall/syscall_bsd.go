@@ -351,6 +351,13 @@ func GetsockoptICMPv6Filter(fd, level, opt int) (*ICMPv6Filter, error) {
 	return &value, err
 }
 
+func GetsockoptPID(fd, level, opt int) (int, error) {
+	var value int
+	vallen := _Socklen(sizeofInt)
+	err := getsockopt(fd, level, opt, unsafe.Pointer(&value), &vallen)
+	return value, err
+}
+
 //sys   recvfrom(fd int, p []byte, flags int, from *RawSockaddrAny, fromlen *_Socklen) (n int, err error)
 //sys   sendto(s int, buf []byte, flags int, to unsafe.Pointer, addrlen _Socklen) (err error)
 //sys	recvmsg(s int, msg *Msghdr, flags int) (n int, err error)

@@ -30,6 +30,11 @@ const (
 	AF_LAT                            = 0xe
 	AF_LINK                           = 0x12
 	AF_LOCAL                          = 0x1
+	LOCAL_PEERCRED                    = 0x1
+	LOCAL_PEEREPID                    = 0x3
+	LOCAL_PEEREUUID                   = 0x5
+	LOCAL_PEERPID                     = 0x2
+	LOCAL_PEERUUID                    = 0x4
 	AF_MAX                            = 0x26
 	AF_NATM                           = 0x1f
 	AF_NDRV                           = 0x1b
@@ -812,6 +817,7 @@ const (
 	RTF_IFSCOPE                       = 0x1000000
 	RTF_LLINFO                        = 0x400
 	RTF_LOCAL                         = 0x200000
+	SOL_LOCAL                         = 0x0
 	RTF_MODIFIED                      = 0x20
 	RTF_MULTICAST                     = 0x800000
 	RTF_PINNED                        = 0x100000
