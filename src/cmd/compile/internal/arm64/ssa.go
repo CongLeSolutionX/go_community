@@ -230,9 +230,33 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.SetFrom3(obj.Addr{Type: obj.TYPE_REG, Reg: rn})
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = rt
-	case ssa.OpARM64ADDconst,
-		ssa.OpARM64SUBconst,
-		ssa.OpARM64ANDconst,
+	case ssa.OpARM64ADDconst, ssa.OpARM64SUBconst:
+		// break "ADD $0x345678, Rx" to "ADD $0x678, Rx" and "ADD $0x345000, Rx"
+		// this optimization is not applicable if v.AuxInt is larger than 0xffffff
+		if v.AuxInt <= 0xffffff {
+			h, l := v.AuxInt&0xfff000, v.AuxInt&0x000fff
+			// this optimization is not applicable if any of the two factors is zero
+			if h != 0 && l != 0 {
+				// higher part
+				p := s.Prog(v.Op.Asm())
+				p.From.Type = obj.TYPE_CONST
+				p.From.Offset = h
+				p.Reg = v.Args[0].Reg()
+				p.To.Type = obj.TYPE_REG
+				p.To.Reg = v.Reg()
+				// lower part
+				p = s.Prog(v.Op.Asm())
+				p.From.Type = obj.TYPE_CONST
+				p.From.Offset = l
+				p.Reg = v.Reg()
+				p.To.Type = obj.TYPE_REG
+				p.To.Reg = v.Reg()
+				break
+			}
+		}
+		// fall back to ordinary form
+		fallthrough
+	case ssa.OpARM64ANDconst,
 		ssa.OpARM64ORconst,
 		ssa.OpARM64XORconst,
 		ssa.OpARM64SLLconst,
