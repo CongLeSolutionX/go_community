@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "16e5cec5_c6419f04",
+        "filename": "src/container/list/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-11T22:09:13Z",
+      "side": 1,
+      "message": "I take this back. Line 47 explicitly states that the zero value for List is an empty list ready to use.",
+      "parentUuid": "86f5da4a_5bcf36e7",
+      "range": {
+        "startLine": 5,
+        "startChar": 47,
+        "endLine": 5,
+        "endChar": 48
+      },
+      "revId": "ea45da85a4144bc488c80c71456335d0b455a34f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c7d10129_4481672b",
         "filename": "src/container/list/list.go",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2018-09-11T17:32:58Z",
       "side": 1,
       "message": "Let\u0027s not do that - Lists must be initialized before use.",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "ea45da85a4144bc488c80c71456335d0b455a34f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "440a34d0_a4846465",
+        "filename": "src/container/list/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-11T22:09:13Z",
+      "side": 1,
+      "message": "Ignore. See my follow-up above.",
+      "parentUuid": "c7d10129_4481672b",
       "range": {
         "startLine": 67,
         "startChar": 6,
