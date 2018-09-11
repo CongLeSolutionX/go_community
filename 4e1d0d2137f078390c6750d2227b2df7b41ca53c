@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b7e442c_560fa369",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-09-11T17:56:25Z",
+      "side": 1,
+      "message": "Does this hash the actual exec\u0027d binary as part of the cache key? I could imagine exec wrappers (especially shell scripts) changing over time, and it would be unfortunate if that were not reflected in the test results.\n\nThe in-process file snooping mechanism that we apply for tests unfortunately does not work for external binaries in general.",
+      "range": {
+        "startLine": 1109,
+        "startChar": 24,
+        "endLine": 1109,
+        "endChar": 42
+      },
+      "revId": "4e1d0d2137f078390c6750d2227b2df7b41ca53c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
