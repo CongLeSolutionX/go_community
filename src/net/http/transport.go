@@ -1284,37 +1284,15 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 		}
 	case cm.targetScheme == "https":
 		conn := pconn.conn
-		hdr := t.ProxyConnectHeader
-		if hdr == nil {
-			hdr = make(Header)
+		d := httpConnectNewDialer("tcp", cm.proxyURL, t)
+		// Force the dialer to reuse the tcp connection that was just created
+		// instead of opening a new connection to the proxy.
+		d.ProxyDial = func(_ context.Context, _, _ string) (net.Conn, error) {
+			return conn, nil
 		}
-		connectReq := &Request{
-			Method: "CONNECT",
-			URL:    &url.URL{Opaque: cm.targetAddr},
-			Host:   cm.targetAddr,
-			Header: hdr,
-		}
-		if pa := cm.proxyAuth(); pa != "" {
-			connectReq.Header.Set("Proxy-Authorization", pa)
-		}
-		connectReq.Write(conn)
-
-		// Read response.
-		// Okay to use and discard buffered reader here, because
-		// TLS server will not speak until spoken to.
-		br := bufio.NewReader(conn)
-		resp, err := ReadResponse(br, connectReq)
-		if err != nil {
+		if _, err := d.DialContext(ctx, "tcp", cm.targetAddr); err != nil {
 			conn.Close()
 			return nil, err
-		}
-		if resp.StatusCode != 200 {
-			f := strings.SplitN(resp.Status, " ", 2)
-			conn.Close()
-			if len(f) < 2 {
-				return nil, errors.New("unknown status code")
-			}
-			return nil, errors.New(f[1])
 		}
 	}
 
