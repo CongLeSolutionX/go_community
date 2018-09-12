@@ -117,6 +117,30 @@
       "revId": "30e6da0021b8cfababaa269eb4deaff76eca1f97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "506414cd_39bf5804",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-09-12T19:54:00Z",
+      "side": 1,
+      "message": "Just to be clear, I think this comment needs change. The rest of the CL is good to go.",
+      "parentUuid": "c8ce8abb_e197f5db",
+      "range": {
+        "startLine": 387,
+        "startChar": 81,
+        "endLine": 387,
+        "endChar": 86
+      },
+      "revId": "30e6da0021b8cfababaa269eb4deaff76eca1f97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
