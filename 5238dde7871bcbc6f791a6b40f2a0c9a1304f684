@@ -34,6 +34,23 @@
       "revId": "5238dde7871bcbc6f791a6b40f2a0c9a1304f684",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00ca81c7_91ef9b47",
+        "filename": "src/net/textproto/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-09-12T12:00:10Z",
+      "side": 1,
+      "message": "This is discarding the error return of underlying reads, losing it forever.\nPeek() calls readErr() which clears the stored error that it returns.\nhttps://golang.org/src/bufio/bufio.go?s\u003d3146:3190#L116\nIf Peek() is to be used in any way, old or new, shouldn\u0027t the error be\nreturned?",
+      "revId": "5238dde7871bcbc6f791a6b40f2a0c9a1304f684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
