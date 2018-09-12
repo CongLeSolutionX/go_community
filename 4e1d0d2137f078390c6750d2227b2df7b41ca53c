@@ -22,6 +22,30 @@
       "revId": "4e1d0d2137f078390c6750d2227b2df7b41ca53c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b10b823_edee89af",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 10210
+      },
+      "writtenOn": "2018-09-12T08:58:26Z",
+      "side": 1,
+      "message": "As noted in the description, the hash does indeed include the ExecCmd see:\nhttps://github.com/golang/go/blob/master/src/cmd/go/internal/test/test.go#L1309\n\nSo changing the -exec from -exec test1.sh to -exec test2.sh does invalidate the cache as expected.\n\nIf what your asking is does the hash of script itself not just the script name get included then I believe the answer is no, however this could be done with something like the following:\ndiff --git a/src/cmd/go/internal/test/test.go b/src/cmd/go/internal/test/test.go\nindex 1ca451c733..0a0b484ef6 100644\n--- a/src/cmd/go/internal/test/test.go\n+++ b/src/cmd/go/internal/test/test.go\n@@ -1305,7 +1305,11 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo\n        // the new outputs.\n \n        h :\u003d cache.NewHash(\"testResult\")\n-       fmt.Fprintf(h, \"test binary %s args %q execcmd %q\", id, cacheArgs, work.ExecCmd)\n+       fh :\u003d \"\"\n+       if work.ExecCmd !\u003d \"\" {\n+               fh \u003d b.FileHash(work.ExecCmd)\n+       }\n+       fmt.Fprintf(h, \"test binary %s args %q execcmd %q %s\", id, cacheArgs, work.ExecCmd, fh)\n        testID :\u003d h.Sum()\n        if c.id1 \u003d\u003d (cache.ActionID{}) {\n                c.id1 \u003d testID\ndiff --git a/src/cmd/go/internal/work/buildid.go b/src/cmd/go/internal/work/buildid.go\nindex f6b79711f9..38e4352ab1 100644\n--- a/src/cmd/go/internal/work/buildid.go\n+++ b/src/cmd/go/internal/work/buildid.go\n@@ -299,7 +299,7 @@ func (b *Builder) gccgoToolID(name, language string) (string, error) {\n                if _, err :\u003d os.Stat(exe); err !\u003d nil {\n                        return \"\", fmt.Errorf(\"%s: can not find compiler %q: %v; output %q\", name, exe, err, out)\n                }\n-               id \u003d b.fileHash(exe)\n+               id \u003d b.FileHash(exe)\n        }\n \n        b.id.Lock()\n@@ -381,7 +381,7 @@ func (b *Builder) buildID(file string) string {\n \n        id, err :\u003d buildid.ReadFile(file)\n        if err !\u003d nil {\n-               id \u003d b.fileHash(file)\n+               id \u003d b.FileHash(file)\n        }\n \n        b.id.Lock()\n@@ -391,8 +391,8 @@ func (b *Builder) buildID(file string) string {\n        return id\n }\n \n-// fileHash returns the content hash of the named file.\n-func (b *Builder) fileHash(file string) string {\n+// FileHash returns the content hash of the named file.\n+func (b *Builder) FileHash(file string) string {\n        sum, err :\u003d cache.FileHash(file)\n        if err !\u003d nil {\n                return \"\"",
+      "parentUuid": "5b7e442c_560fa369",
+      "range": {
+        "startLine": 1109,
+        "startChar": 24,
+        "endLine": 1109,
+        "endChar": 42
+      },
+      "revId": "4e1d0d2137f078390c6750d2227b2df7b41ca53c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
