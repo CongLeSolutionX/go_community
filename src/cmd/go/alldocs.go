@@ -1449,6 +1449,11 @@
 // 		The directory where the go command will write
 // 		temporary source files, packages, and binaries.
 //
+// Each entry in the GOFLAGS list of settings must be a standalone flag.
+// That is, you must do 'GOFLAGS=-ldflags=-w' not 'GOFLAGS=-ldflags -w'.
+// The latter would mean to pass -w to go commands that understand it
+// (if any do; if not, it's an error to mention it).
+//
 // Environment variables for use with cgo:
 //
 // 	CC
