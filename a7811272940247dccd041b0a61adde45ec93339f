@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "136b8747_35fb74f3",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-09-12T15:39:32Z",
+      "side": 1,
+      "message": "I think this is better be done in the assembler backend (cmd/internal/obj/arm64) instead of here. I think you have done something similar for ARM32, in the assembler backend. CL 134232 is different in that it needs to use the same register, which may not fit quite well into the \"constant class\" model used in the assembler backend (thinking further, I think it probably can be done there, also).",
+      "revId": "a7811272940247dccd041b0a61adde45ec93339f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
