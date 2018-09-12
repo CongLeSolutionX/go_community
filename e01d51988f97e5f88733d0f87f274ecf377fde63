@@ -211,6 +211,24 @@
       "revId": "e01d51988f97e5f88733d0f87f274ecf377fde63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fff826fb_449d12fd",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-09-12T17:18:17Z",
+      "side": 1,
+      "message": "I do understand if you mean \"The range of immediate values for these instructions is 12 bits,\nand this value can be optionally shifted 12 bits to the left\".\nThat\u0027s to do with the sole way of splitting the lowest 24 b into two for putting into two ADDs.\nBut that\u0027s unrelated to the poor choice of test value, with its repeating 1010... pattern.\nIf the code generator wrongly pulled those 24 b into two then there\u0027s a good chance the\ncorrect result will still be seen by the test.\nSay it turns 0x345678 into two ADDs, one 0x456000 and the other 0x678.\nThe test will fail because the decimals in the arm64 comment don\u0027t match.\nBut extracting those exact same places from 0xaaaaaa gives 0xaaa000 and 0xaaa\nthat are identical to if the code didn\u0027t have a bug thus the test gives a false positive.\n0x8007ff would be better, for example.",
+      "parentUuid": "7db67b94_cdfbd045",
+      "revId": "e01d51988f97e5f88733d0f87f274ecf377fde63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
