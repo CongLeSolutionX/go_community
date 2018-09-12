@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "65518545_6db2ec4e",
+        "filename": "src/runtime/semasleep_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-09-12T23:12:22Z",
+      "side": 1,
+      "message": "Roger that, thanks!",
+      "parentUuid": "65ae5bb5_8c197ff6",
+      "range": {
+        "startLine": 39,
+        "startChar": 53,
+        "endLine": 39,
+        "endChar": 57
+      },
+      "revId": "82ec5aee37622385fa6ea9b8aff993e4908f8567",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f9825f5_4eb6102a",
         "filename": "src/runtime/semasleep_test.go",
         "patchSetId": 2
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "992b33a8_4d72bb43",
+        "filename": "src/runtime/semasleep_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-09-12T23:12:22Z",
+      "side": 1,
+      "message": "Oh cool, thanks!",
+      "parentUuid": "3f9825f5_4eb6102a",
+      "range": {
+        "startLine": 45,
+        "startChar": 26,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "82ec5aee37622385fa6ea9b8aff993e4908f8567",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a486a8c8_1ca5904a",
         "filename": "src/runtime/semasleep_test.go",
         "patchSetId": 2
@@ -76,6 +124,24 @@
       "writtenOn": "2018-09-12T22:05:20Z",
       "side": 1,
       "message": "Add a buffer size of 1 here, so that the goroutine you start below won\u0027t hang forever on the channel send. This could happen if the select loop below exits due to the 2 second timer ending, sending a kill signal to the child process, and returning.  It will no longer read from doneCh, and cmd.Wait() will return after the kill signal is processed by the child.",
+      "revId": "82ec5aee37622385fa6ea9b8aff993e4908f8567",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "387194fb_95a14b24",
+        "filename": "src/runtime/semasleep_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-09-12T23:12:22Z",
+      "side": 1,
+      "message": "Roger that, thanks!",
+      "parentUuid": "a486a8c8_1ca5904a",
       "revId": "82ec5aee37622385fa6ea9b8aff993e4908f8567",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
