@@ -193,6 +193,24 @@
       "revId": "e01d51988f97e5f88733d0f87f274ecf377fde63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7db67b94_cdfbd045",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-09-12T01:36:05Z",
+      "side": 1,
+      "message": "Please read the arm64\u0027s reference manual carefully, it isn\u0027t like you understood.",
+      "parentUuid": "be8781d9_f0d59db4",
+      "revId": "e01d51988f97e5f88733d0f87f274ecf377fde63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
