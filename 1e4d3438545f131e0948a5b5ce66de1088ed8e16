@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de1903ec_4afac370",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-09-12T18:44:02Z",
+      "side": 1,
+      "message": "This is a very short snippet that mentions the new env var, and links to its docs.\n\nCL 126656 that added it has a lot more in depth information (usecases, examples):\n\n\tIn Go 1.11 we have at least two different cases where users may need this.\n\n\t1. Linking can be noticeably slower on underpowered systems\n\tdue to DWARF, and users may want to set -ldflags\u003d-w by default.\n\n\t2. For modules, some users or CI systems will want vendoring always,\n\tso they want -getmode\u003dvendor (soon to be -mod\u003dvendor) by default.\n\n\t$GOFLAGS can be a space-separated list of flag settings, but each\n\tspace-separated entry in the list must be a standalone flag.\n\tThat is, you must do \u0027GOFLAGS\u003d-ldflags\u003d-w\u0027 not \u0027GOFLAGS\u003d-ldflags -w\u0027.\n\tThe latter would mean to pass -w to go commands that understand it\n\t(if any do; if not, it\u0027s an error to mention it).\n\nI was on the fence on whether or not to try to copy that here. I went with not including for now, because I figured the documentation should explain the env var in enough detail to be usable (and people who want a lot more context can find the CL).\n\nAlso, Go 1.11 is already out, so fewer people will be reading the release notes now compared to the cmd/go docs.\n\nI\u0027m happy to try to include more details here if the reviewers suggest doing so.",
+      "revId": "1e4d3438545f131e0948a5b5ce66de1088ed8e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
