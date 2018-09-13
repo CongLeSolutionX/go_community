@@ -57,3 +57,17 @@ func ShadowRead(f *os.File, buf []byte) (err error) {
 func one() int {
 	return 1
 }
+
+// Must not complain with an internal error for the
+// implicitly declared type switch variable v.
+func issue26725(x interface{}) int {
+	switch v := x.(type) {
+	case int, int32:
+		if v, ok := x.(int); ok {
+			return v
+		}
+	case int64:
+		return int(v)
+	}
+	return 0
+}
