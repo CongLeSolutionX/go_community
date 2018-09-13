@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3741fae_35bc3a83",
+        "filename": "src/image/png/writer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2018-09-13T00:50:40Z",
+      "side": 1,
+      "message": "fmt.Sprintf(\"plen-%d\", tc.plen)",
+      "revId": "b2662e6a30a9a8a1f7a374684c332a610ebdcb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bf86db9_a497c1c1",
+        "filename": "src/image/png/writer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2018-09-13T00:50:40Z",
+      "side": 1,
+      "message": "m0.SetColorIndex(x, y, i%tc.plen)",
+      "revId": "b2662e6a30a9a8a1f7a374684c332a610ebdcb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f66118d8_22c5415c",
+        "filename": "src/image/png/writer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2018-09-13T00:50:40Z",
+      "side": 1,
+      "message": "Instead of implementing an ad hoc PNG parser just for this one test, would be better to run the encoded bytes through Decode, and check the resultant pixels?",
+      "revId": "b2662e6a30a9a8a1f7a374684c332a610ebdcb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4534860_ef5f9fc2",
+        "filename": "src/image/png/writer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2018-09-13T00:50:40Z",
+      "side": 1,
+      "message": "Why the magic 528?",
+      "revId": "b2662e6a30a9a8a1f7a374684c332a610ebdcb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a38b9a1f_bc878336",
+        "filename": "src/image/png/writer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2018-09-13T00:50:40Z",
+      "side": 1,
+      "message": "Can you just io.Copy to an ioutil.Discard?",
+      "revId": "b2662e6a30a9a8a1f7a374684c332a610ebdcb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
