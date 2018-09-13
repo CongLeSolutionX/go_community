@@ -16,6 +16,24 @@
       "revId": "a7811272940247dccd041b0a61adde45ec93339f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e70b315_1e45f683",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-09-13T05:28:59Z",
+      "side": 1,
+      "message": "Everything has been moved to the assembler. And I saw further code size reduction by that moving.",
+      "parentUuid": "136b8747_35fb74f3",
+      "revId": "a7811272940247dccd041b0a61adde45ec93339f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
