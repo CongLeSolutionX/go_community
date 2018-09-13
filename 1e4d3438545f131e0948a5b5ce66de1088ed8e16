@@ -34,6 +34,24 @@
       "revId": "1e4d3438545f131e0948a5b5ce66de1088ed8e16",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed912233_63a133bd",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-09-13T17:52:25Z",
+      "side": 1,
+      "message": "I don\u0027t think it was available at the link, so I tried to add it in Patch Set 2. Please take a look and let me know if you think it\u0027s an improvement.\n\nI moved the use examples into the release notes, because I didn\u0027t think they fit into cmd/go documentation well.",
+      "parentUuid": "ac3b2eeb_4711b299",
+      "revId": "1e4d3438545f131e0948a5b5ce66de1088ed8e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
