@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2749945_c00b4787",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1609,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-09-13T07:43:09Z",
+      "side": 1,
+      "message": "I prefer such a special check to creating seperated optabs for ADDS. Since\n1. Too many optab items make code confusing\n2. My previous CL also handled ADDS by a special check",
+      "range": {
+        "startLine": 1607,
+        "startChar": 2,
+        "endLine": 1609,
+        "endChar": 3
+      },
+      "revId": "464e34ff35b204685a84a8d7be497c9c8ba988e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
