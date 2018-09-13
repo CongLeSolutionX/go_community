@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24890c4b_bd8d8b46",
+        "filename": "src/net/textproto/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-13T17:27:39Z",
+      "side": 1,
+      "message": "I\u0027m concerned that some users of this may save just one key/value pair, but that doing so will have the effect of pinning all the key/value pairs in memory.  Is there any reason that that is not a concern?",
+      "revId": "8a3986338120b075a7316217754ff03d7ae69d4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
