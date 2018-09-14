@@ -16,6 +16,24 @@
       "revId": "8a3986338120b075a7316217754ff03d7ae69d4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f35a6fe_689958a0",
+        "filename": "src/net/textproto/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-09-14T05:12:44Z",
+      "side": 1,
+      "message": "That\u0027s a good point, and due to it, may be worth abandoning the PR and the idea as a whole.",
+      "parentUuid": "24890c4b_bd8d8b46",
+      "revId": "8a3986338120b075a7316217754ff03d7ae69d4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
