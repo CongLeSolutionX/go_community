@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dfde6c28_8fe9bd20",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-09-14T15:07:10Z",
+      "side": 1,
+      "message": "And seems a little better, thanks, done.",
+      "parentUuid": "8c586aa6_27d615cf",
+      "revId": "dea5c4e4d9dd4400e5eb9aba23ba56f8f817bd98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1f9c1109_022a3386",
         "filename": "doc/go1.11.html",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "905659da_f9ded23a",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-09-14T15:07:10Z",
+      "side": 1,
+      "message": "Thank you, done.",
+      "parentUuid": "1f9c1109_022a3386",
+      "revId": "dea5c4e4d9dd4400e5eb9aba23ba56f8f817bd98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "948c5ed5_e0babcc4",
         "filename": "doc/go1.11.html",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2018-09-14T02:25:02Z",
       "side": 1,
       "message": "The transition from \u0027-getmode\u003dvendor\u0027 to \u0027-mod\u003dvendor\u0027 already happened prior to shipping 1.11 (see https://golang.org/cl/126696), so this text should probably be updated.\nSorry if I am commenting on the wrong thing here; I have approximately zero experience with Gerrit.",
+      "revId": "dea5c4e4d9dd4400e5eb9aba23ba56f8f817bd98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddd5bc31_eb6d5d09",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-09-14T15:07:10Z",
+      "side": 1,
+      "message": "Thanks for the heads up and for providing the reference CL, thepudds! I wasn\u0027t aware of that; it\u0027s great you caught it. Updated to use the new -mod\u003dvendor flag.",
+      "parentUuid": "948c5ed5_e0babcc4",
       "revId": "dea5c4e4d9dd4400e5eb9aba23ba56f8f817bd98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
