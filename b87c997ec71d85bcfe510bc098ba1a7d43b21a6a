@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "885ba40f_aed556c5",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-09-14T15:17:23Z",
+      "side": 1,
+      "message": "How does adding this here sound?\n\n                         ... an error to mention it). It\u0027s not possible\n    to provide a flag value containing a space, but you can split such\n    values into multiple -flag\u003dvalue entries. For example, to set\n    \u0027-ldflags\u003d-w -s\u0027, you can do \u0027GOFLAGS\u003d-ldflags\u003d-w -ldflags\u003d-s\u0027.",
+      "revId": "b87c997ec71d85bcfe510bc098ba1a7d43b21a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
