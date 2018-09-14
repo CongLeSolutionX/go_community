@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f13e3c58_d2915958",
+        "filename": "src/time/zoneinfo_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 29128
+      },
+      "writtenOn": "2018-09-14T10:06:40Z",
+      "side": 1,
+      "message": "\u003e only if TZ starts with colon\n\nIt\u0027s not true. You can see the code [here](https://sourceware.org/git/?p\u003dglibc.git;a\u003dblob;f\u003dtime/tzset.c;h\u003da828b9fb75bed6ca18460d32c83e31eb30e161b7;hb\u003dHEAD#l386) and a quote from the man tzset page:\n\n\u003e If the colon is omitted each of the above TZ formats will be tried.\n\nI don\u0027t think it\u0027s necessary to keep the same behavior as libc, it should be OK that just make sure cases work for libc also work for go.",
+      "parentUuid": "c9a20e85_1f7fa4c0",
+      "revId": "3218392bb586981379417153c1e3c2298b6c1163",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0dab47cc_dce7a8a1",
         "filename": "src/time/zoneinfo_unix.go",
         "patchSetId": 6
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "TZ here is normally unset.  I often set it to Continent/City-style values.\nIf I were setting it to :​path/to/file then I\u0027d expect :​path/to/file to be the name.\nNot Local, just as it\u0027s not Local when I set it to Europe/Paris: it\u0027s Europe/Paris.\nIf the code continues to do this when a : doesn\u0027t need stripping then it should add\nit back in the name to show POSIX\u0027s colon-TZ logic was done.",
       "parentUuid": "9ff51b90_1b20c7d2",
+      "revId": "3218392bb586981379417153c1e3c2298b6c1163",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff14a77e_5e91f8b7",
+        "filename": "src/time/zoneinfo_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 29128
+      },
+      "writtenOn": "2018-09-14T10:06:40Z",
+      "side": 1,
+      "message": "\u003e :​path/to/file to be the name\n\nI would personally not agree with it. The name here works like timezone id, and timezone id should not be arbitrary string. Besides, no existing packages work that way, it will become a surprise for users who are familiar with other implements.\n\nI think set TZ to a variable just like linking /etc/localtime to another timezone file. As long as /etc/localtime can be treated as `Local`, custom TZ can also be treated as `Local`.",
+      "parentUuid": "cce32f20_f80ec3fb",
       "revId": "3218392bb586981379417153c1e3c2298b6c1163",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
