@@ -34,6 +34,24 @@
       "revId": "b87c997ec71d85bcfe510bc098ba1a7d43b21a6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8ba029b_1b83dff4",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-09-14T17:45:31Z",
+      "side": 1,
+      "message": "An updated version for reviewer consideration:\n\n                                                 ... It\u0027s not possible\n    to provide a flag value containing a space, so you should find an\n    alternate way to express it. For example, to set \u0027-ldflags\u003d-w -s\u0027,\n    you can do \u0027GOFLAGS\u003d-ldflags\u003d-w -ldflags\u003d-s\u0027.\n\nI didn\u0027t want to prescribe a formula that may not always work. The general idea is that users need to find a way to accomplish what they want by using -flag\u003dvalue entries that don\u0027t contain spaces. Hopefully the above communicates that better.",
+      "parentUuid": "885ba40f_aed556c5",
+      "revId": "b87c997ec71d85bcfe510bc098ba1a7d43b21a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
