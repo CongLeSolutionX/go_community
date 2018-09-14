@@ -146,6 +146,13 @@ func (p *ProcessState) Exited() bool {
 	return p.exited()
 }
 
+// Signaled reports whether the program exit by signal.
+// On Plan9, NaCL, JavaScript, or Windows systems, this method always return
+// false.
+func (p *ProcessState) Signaled() bool {
+	return p.signaled()
+}
+
 // Success reports whether the program exited successfully,
 // such as with exit status 0 on Unix.
 func (p *ProcessState) Success() bool {

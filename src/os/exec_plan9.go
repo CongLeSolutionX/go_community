@@ -110,6 +110,10 @@ func (p *ProcessState) exited() bool {
 	return p.status.Exited()
 }
 
+func (p *ProcessState) signaled() bool {
+	return p.status.Signaled()
+}
+
 func (p *ProcessState) success() bool {
 	return p.status.ExitStatus() == 0
 }

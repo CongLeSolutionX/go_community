@@ -81,3 +81,37 @@ func TestWaitid(t *testing.T) {
 
 	<-ch
 }
+
+// Fixes #19798, the Signaled() return value must be true.
+func TestExitBySignal(t *testing.T) {
+	cmd := helperCommand(t, "sleep", "3")
+	if err := cmd.Start(); err != nil {
+		t.Fatal(err)
+	}
+
+	time.Sleep(100 * time.Millisecond)
+
+	if err := cmd.Process.Signal(syscall.SIGINT); err != nil {
+		cmd.Process.Kill()
+		t.Fatal(err)
+	}
+
+	_ = cmd.Wait()
+
+	got := cmd.ProcessState.Exited()
+	want := false
+	if got != want {
+		t.Fatalf("ProcessState.Exited()= %t; want %t", got, want)
+	}
+
+	got = cmd.ProcessState.Success()
+	if got != want {
+		t.Fatalf("ProcessState.Success()= %t; want %t", got, want)
+	}
+
+	got = cmd.ProcessState.Signaled()
+	want = true
+	if got != want {
+		t.Fatalf("ProcessState.Signaled()= %t; want %t", got, want)
+	}
+}
