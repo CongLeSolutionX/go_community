@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c9a20e85_1f7fa4c0",
+        "filename": "src/time/zoneinfo_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-09-14T08:33:09Z",
+      "side": 1,
+      "message": "GNU libc loads an arbitrary file only if TZ starts with colon, matching POSIX,\nbut this patch does that whether there\u0027s a colon or not.\nGNU libc treats :​path as absolute if it starts with a slash, otherwise it tries only\n/usr/share/zoneinfo/:​path but Go will try several places.  Could deviating from the\nplatform\u0027s C library confuse?",
+      "revId": "3218392bb586981379417153c1e3c2298b6c1163",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0dab47cc_dce7a8a1",
         "filename": "src/time/zoneinfo_unix.go",
         "patchSetId": 6
@@ -67,6 +84,24 @@
       "side": 1,
       "message": "`Local` makes sense to me when there is no better name as we access the timezone via a global variable `Local` already. If `Local` is not a suitable name, what alternatives should be used? \nBy the way, the languages I checked, like java or python, follows the similar rules I state before, which always guessing the timezone id on its best effort.",
       "parentUuid": "5087a81a_1d90135e",
+      "revId": "3218392bb586981379417153c1e3c2298b6c1163",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cce32f20_f80ec3fb",
+        "filename": "src/time/zoneinfo_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-09-14T08:33:09Z",
+      "side": 1,
+      "message": "TZ here is normally unset.  I often set it to Continent/City-style values.\nIf I were setting it to :​path/to/file then I\u0027d expect :​path/to/file to be the name.\nNot Local, just as it\u0027s not Local when I set it to Europe/Paris: it\u0027s Europe/Paris.\nIf the code continues to do this when a : doesn\u0027t need stripping then it should add\nit back in the name to show POSIX\u0027s colon-TZ logic was done.",
+      "parentUuid": "9ff51b90_1b20c7d2",
       "revId": "3218392bb586981379417153c1e3c2298b6c1163",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
