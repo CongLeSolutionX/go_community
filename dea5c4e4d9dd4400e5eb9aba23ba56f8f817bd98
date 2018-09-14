@@ -33,6 +33,23 @@
       "revId": "dea5c4e4d9dd4400e5eb9aba23ba56f8f817bd98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "948c5ed5_e0babcc4",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2018-09-14T02:25:02Z",
+      "side": 1,
+      "message": "The transition from \u0027-getmode\u003dvendor\u0027 to \u0027-mod\u003dvendor\u0027 already happened prior to shipping 1.11 (see https://golang.org/cl/126696), so this text should probably be updated.\nSorry if I am commenting on the wrong thing here; I have approximately zero experience with Gerrit.",
+      "revId": "dea5c4e4d9dd4400e5eb9aba23ba56f8f817bd98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
