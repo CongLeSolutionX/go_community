@@ -52,6 +52,24 @@
       "revId": "b87c997ec71d85bcfe510bc098ba1a7d43b21a6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a5e18a5_4468ff8e",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-09-14T17:53:40Z",
+      "side": 1,
+      "message": "More connectives might help:\n\nEach entry in the GOFLAGS list must be a standalone flag.\nBecause the entries are space-separated, flag values must\nnot contain spaces. In some cases, you can provide multiple flag\nvalues instead: for example, to set \u0027-ldflags\u003d-w -s\u0027\nyou can use \u0027GOFLAGS\u003d-ldflags\u003d-w -ldflags\u003d-s\u0027.",
+      "parentUuid": "b8ba029b_1b83dff4",
+      "revId": "b87c997ec71d85bcfe510bc098ba1a7d43b21a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
