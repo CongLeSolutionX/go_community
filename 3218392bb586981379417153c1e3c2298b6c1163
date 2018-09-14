@@ -177,6 +177,24 @@
       "revId": "3218392bb586981379417153c1e3c2298b6c1163",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ed22929_fd65bd63",
+        "filename": "src/time/zoneinfo_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 29128
+      },
+      "writtenOn": "2018-09-14T13:56:11Z",
+      "side": 1,
+      "message": "\u003e ...It\u0027s defining my local-timezone override.\n\nYou can consider it as whatever you want. But according to the POSIX, TZ environment variable is the only stated source that used to detect local timezone.\n\n\u003e The tzset() function shall use the value of the environment variable TZ to set time conversion information used by ctime() , localtime() , mktime() , and strftime(). If TZ is absent from the environment, implementation-defined default timezone information shall be used.",
+      "parentUuid": "25ce2b0f_a6737b71",
+      "revId": "3218392bb586981379417153c1e3c2298b6c1163",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
