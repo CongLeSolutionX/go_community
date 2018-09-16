@@ -719,19 +719,14 @@ const (
 	OpAMD64PXOR
 	OpAMD64LEAQ
 	OpAMD64LEAL
-	OpAMD64LEAW
 	OpAMD64LEAQ1
 	OpAMD64LEAL1
-	OpAMD64LEAW1
 	OpAMD64LEAQ2
 	OpAMD64LEAL2
-	OpAMD64LEAW2
 	OpAMD64LEAQ4
 	OpAMD64LEAL4
-	OpAMD64LEAW4
 	OpAMD64LEAQ8
 	OpAMD64LEAL8
-	OpAMD64LEAW8
 	OpAMD64MOVBload
 	OpAMD64MOVBQSXload
 	OpAMD64MOVWload
@@ -2481,7 +2476,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVSSload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         2,
 		faultOnNilArg0: true,
 		symEffect:      SymRead,
@@ -2497,7 +2492,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVSDload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         2,
 		faultOnNilArg0: true,
 		symEffect:      SymRead,
@@ -2537,7 +2532,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVSSloadidx1",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    3,
 		symEffect: SymRead,
 		asm:       x86.AMOVSS,
@@ -2553,7 +2548,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVSSloadidx4",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    3,
 		symEffect: SymRead,
 		asm:       x86.AMOVSS,
@@ -2569,7 +2564,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVSDloadidx1",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    3,
 		symEffect: SymRead,
 		asm:       x86.AMOVSD,
@@ -2585,7 +2580,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVSDloadidx8",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    3,
 		symEffect: SymRead,
 		asm:       x86.AMOVSD,
@@ -2601,7 +2596,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVSSstore",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		faultOnNilArg0: true,
 		symEffect:      SymWrite,
@@ -2615,7 +2610,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVSDstore",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		faultOnNilArg0: true,
 		symEffect:      SymWrite,
@@ -2629,7 +2624,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVSSstoreidx1",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    4,
 		symEffect: SymWrite,
 		asm:       x86.AMOVSS,
@@ -2643,7 +2638,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVSSstoreidx4",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    4,
 		symEffect: SymWrite,
 		asm:       x86.AMOVSS,
@@ -2657,7 +2652,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVSDstoreidx1",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    4,
 		symEffect: SymWrite,
 		asm:       x86.AMOVSD,
@@ -2671,7 +2666,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVSDstoreidx8",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    4,
 		symEffect: SymWrite,
 		asm:       x86.AMOVSD,
@@ -2685,7 +2680,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "ADDSSload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		faultOnNilArg1: true,
@@ -2703,7 +2698,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "ADDSDload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		faultOnNilArg1: true,
@@ -2721,7 +2716,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "SUBSSload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		faultOnNilArg1: true,
@@ -2739,7 +2734,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "SUBSDload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		faultOnNilArg1: true,
@@ -2757,7 +2752,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MULSSload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		faultOnNilArg1: true,
@@ -2775,7 +2770,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MULSDload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		faultOnNilArg1: true,
@@ -2793,7 +2788,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "DIVSSload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		faultOnNilArg1: true,
@@ -2811,7 +2806,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "DIVSDload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		faultOnNilArg1: true,
@@ -3414,7 +3409,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "CMPLload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		faultOnNilArg0: true,
 		symEffect:      SymRead,
@@ -3428,7 +3423,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "CMPWload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		faultOnNilArg0: true,
 		symEffect:      SymRead,
@@ -3442,7 +3437,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "CMPBload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		faultOnNilArg0: true,
 		symEffect:      SymRead,
@@ -3604,7 +3599,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "SHLLconst",
-		auxType:      auxInt32,
+		auxType:      auxInt8,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -3668,7 +3663,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "SHRLconst",
-		auxType:      auxInt32,
+		auxType:      auxInt8,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -3684,7 +3679,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "SHRWconst",
-		auxType:      auxInt16,
+		auxType:      auxInt8,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -3764,7 +3759,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "SARLconst",
-		auxType:      auxInt32,
+		auxType:      auxInt8,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -3780,7 +3775,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "SARWconst",
-		auxType:      auxInt16,
+		auxType:      auxInt8,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -3812,7 +3807,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "ROLLconst",
-		auxType:      auxInt32,
+		auxType:      auxInt8,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -3828,7 +3823,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "ROLWconst",
-		auxType:      auxInt16,
+		auxType:      auxInt8,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -3860,7 +3855,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "ADDLload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		clobberFlags:   true,
@@ -3879,7 +3874,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "SUBLload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		clobberFlags:   true,
@@ -3898,7 +3893,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MULLload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		clobberFlags:   true,
@@ -3917,7 +3912,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "ANDLload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		clobberFlags:   true,
@@ -3936,7 +3931,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "ORLload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		clobberFlags:   true,
@@ -3955,7 +3950,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "XORLload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		resultInArg0:   true,
 		clobberFlags:   true,
@@ -4425,7 +4420,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:              "LEAL",
-		auxType:           auxSymOff,
+		auxType:           auxSymOff32,
 		argLen:            1,
 		rematerializeable: true,
 		symEffect:         SymAddr,
@@ -4440,7 +4435,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:        "LEAL1",
-		auxType:     auxSymOff,
+		auxType:     auxSymOff32,
 		argLen:      2,
 		commutative: true,
 		symEffect:   SymAddr,
@@ -4456,7 +4451,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "LEAL2",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    2,
 		symEffect: SymAddr,
 		reg: regInfo{
@@ -4471,7 +4466,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "LEAL4",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    2,
 		symEffect: SymAddr,
 		reg: regInfo{
@@ -4486,7 +4481,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "LEAL8",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    2,
 		symEffect: SymAddr,
 		reg: regInfo{
@@ -4501,7 +4496,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVBload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         2,
 		faultOnNilArg0: true,
 		symEffect:      SymRead,
@@ -4517,7 +4512,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVBLSXload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         2,
 		faultOnNilArg0: true,
 		symEffect:      SymRead,
@@ -4533,7 +4528,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVWload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         2,
 		faultOnNilArg0: true,
 		symEffect:      SymRead,
@@ -4549,7 +4544,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVWLSXload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         2,
 		faultOnNilArg0: true,
 		symEffect:      SymRead,
@@ -4565,7 +4560,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVLload",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         2,
 		faultOnNilArg0: true,
 		symEffect:      SymRead,
@@ -4581,7 +4576,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVBstore",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		faultOnNilArg0: true,
 		symEffect:      SymWrite,
@@ -4595,7 +4590,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVWstore",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		faultOnNilArg0: true,
 		symEffect:      SymWrite,
@@ -4609,7 +4604,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "MOVLstore",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		faultOnNilArg0: true,
 		symEffect:      SymWrite,
@@ -4623,7 +4618,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "ADDLmodify",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		clobberFlags:   true,
 		faultOnNilArg0: true,
@@ -4638,7 +4633,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "SUBLmodify",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		clobberFlags:   true,
 		faultOnNilArg0: true,
@@ -4653,7 +4648,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "ANDLmodify",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		clobberFlags:   true,
 		faultOnNilArg0: true,
@@ -4668,7 +4663,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "ORLmodify",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		clobberFlags:   true,
 		faultOnNilArg0: true,
@@ -4683,7 +4678,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "XORLmodify",
-		auxType:        auxSymOff,
+		auxType:        auxSymOff32,
 		argLen:         3,
 		clobberFlags:   true,
 		faultOnNilArg0: true,
@@ -4754,7 +4749,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:        "MOVBloadidx1",
-		auxType:     auxSymOff,
+		auxType:     auxSymOff32,
 		argLen:      3,
 		commutative: true,
 		symEffect:   SymRead,
@@ -4771,7 +4766,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:        "MOVWloadidx1",
-		auxType:     auxSymOff,
+		auxType:     auxSymOff32,
 		argLen:      3,
 		commutative: true,
 		symEffect:   SymRead,
@@ -4788,7 +4783,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVWloadidx2",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    3,
 		symEffect: SymRead,
 		asm:       x86.AMOVWLZX,
@@ -4804,7 +4799,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:        "MOVLloadidx1",
-		auxType:     auxSymOff,
+		auxType:     auxSymOff32,
 		argLen:      3,
 		commutative: true,
 		symEffect:   SymRead,
@@ -4821,7 +4816,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVLloadidx4",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    3,
 		symEffect: SymRead,
 		asm:       x86.AMOVL,
@@ -4837,7 +4832,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:        "MOVBstoreidx1",
-		auxType:     auxSymOff,
+		auxType:     auxSymOff32,
 		argLen:      4,
 		commutative: true,
 		symEffect:   SymWrite,
@@ -4852,7 +4847,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:        "MOVWstoreidx1",
-		auxType:     auxSymOff,
+		auxType:     auxSymOff32,
 		argLen:      4,
 		commutative: true,
 		symEffect:   SymWrite,
@@ -4867,7 +4862,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVWstoreidx2",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    4,
 		symEffect: SymWrite,
 		asm:       x86.AMOVW,
@@ -4881,7 +4876,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:        "MOVLstoreidx1",
-		auxType:     auxSymOff,
+		auxType:     auxSymOff32,
 		argLen:      4,
 		commutative: true,
 		symEffect:   SymWrite,
@@ -4896,7 +4891,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "MOVLstoreidx4",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    4,
 		symEffect: SymWrite,
 		asm:       x86.AMOVL,
@@ -5040,7 +5035,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "CALLstatic",
-		auxType:      auxSymOff,
+		auxType:      auxSymOff32,
 		argLen:       1,
 		clobberFlags: true,
 		call:         true,
@@ -5765,7 +5760,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "ADDQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		clobberFlags: true,
 		asm:          x86.AADDQ,
@@ -5855,7 +5850,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "SUBQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -5921,7 +5916,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "MULQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		clobberFlags: true,
 		asm:          x86.AIMUL3Q,
@@ -6199,7 +6194,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "ANDQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -6293,7 +6288,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "ORQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -6387,7 +6382,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "XORQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -6491,7 +6486,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "CMPQconst",
-		auxType: auxInt32,
+		auxType: auxInt64,
 		argLen:  1,
 		asm:     x86.ACMPQ,
 		reg: regInfo{
@@ -6949,7 +6944,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "TESTQconst",
-		auxType: auxInt32,
+		auxType: auxInt64,
 		argLen:  1,
 		asm:     x86.ATESTQ,
 		reg: regInfo{
@@ -9305,27 +9300,11 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:              "LEAL",
-		auxType:           auxSymOff,
+		auxType:           auxSymOff32,
 		argLen:            1,
 		rematerializeable: true,
 		symEffect:         SymAddr,
 		asm:               x86.ALEAL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
-			},
-			outputs: []outputInfo{
-				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-			},
-		},
-	},
-	{
-		name:              "LEAW",
-		auxType:           auxSymOff,
-		argLen:            1,
-		rematerializeable: true,
-		symEffect:         SymAddr,
-		asm:               x86.ALEAW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
@@ -9354,28 +9333,11 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:        "LEAL1",
-		auxType:     auxSymOff,
+		auxType:     auxSymOff32,
 		argLen:      2,
 		commutative: true,
 		symEffect:   SymAddr,
 		asm:         x86.ALEAL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
-			},
-			outputs: []outputInfo{
-				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-			},
-		},
-	},
-	{
-		name:        "LEAW1",
-		auxType:     auxSymOff,
-		argLen:      2,
-		commutative: true,
-		symEffect:   SymAddr,
-		asm:         x86.ALEAW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -9404,26 +9366,10 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "LEAL2",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    2,
 		symEffect: SymAddr,
 		asm:       x86.ALEAL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
-			},
-			outputs: []outputInfo{
-				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-			},
-		},
-	},
-	{
-		name:      "LEAW2",
-		auxType:   auxSymOff,
-		argLen:    2,
-		symEffect: SymAddr,
-		asm:       x86.ALEAW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -9452,26 +9398,10 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "LEAL4",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    2,
 		symEffect: SymAddr,
 		asm:       x86.ALEAL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
-			},
-			outputs: []outputInfo{
-				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-			},
-		},
-	},
-	{
-		name:      "LEAW4",
-		auxType:   auxSymOff,
-		argLen:    2,
-		symEffect: SymAddr,
-		asm:       x86.ALEAW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -9500,26 +9430,10 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "LEAL8",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    2,
 		symEffect: SymAddr,
 		asm:       x86.ALEAL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
-			},
-			outputs: []outputInfo{
-				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-			},
-		},
-	},
-	{
-		name:      "LEAW8",
-		auxType:   auxSymOff,
-		argLen:    2,
-		symEffect: SymAddr,
-		asm:       x86.ALEAW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15

@@ -195,19 +195,19 @@ func init() {
 		// binary ops
 		{name: "ADDQ", argLength: 2, reg: gp21sp, asm: "ADDQ", commutative: true, clobberFlags: true},                                                                   // arg0 + arg1
 		{name: "ADDL", argLength: 2, reg: gp21sp, asm: "ADDL", commutative: true, clobberFlags: true},                                                                   // arg0 + arg1
-		{name: "ADDQconst", argLength: 1, reg: gp11sp, asm: "ADDQ", aux: "Int32", typ: "UInt64", clobberFlags: true},                                                    // arg0 + auxint
+		{name: "ADDQconst", argLength: 1, reg: gp11sp, asm: "ADDQ", aux: "Int64", typ: "UInt64", clobberFlags: true},                                                    // arg0 + auxint
 		{name: "ADDLconst", argLength: 1, reg: gp11sp, asm: "ADDL", aux: "Int32", clobberFlags: true},                                                                   // arg0 + auxint
 		{name: "ADDQconstmodify", argLength: 2, reg: gpstoreconst, asm: "ADDQ", aux: "SymValAndOff", clobberFlags: true, faultOnNilArg0: true, symEffect: "Read,Write"}, // add ValAndOff(AuxInt).Val() to arg0+ValAndOff(AuxInt).Off()+aux, arg1=mem
 		{name: "ADDLconstmodify", argLength: 2, reg: gpstoreconst, asm: "ADDL", aux: "SymValAndOff", clobberFlags: true, faultOnNilArg0: true, symEffect: "Read,Write"}, // add ValAndOff(AuxInt).Val() to arg0+ValAndOff(AuxInt).Off()+aux, arg1=mem
 
 		{name: "SUBQ", argLength: 2, reg: gp21, asm: "SUBQ", resultInArg0: true, clobberFlags: true},                    // arg0 - arg1
 		{name: "SUBL", argLength: 2, reg: gp21, asm: "SUBL", resultInArg0: true, clobberFlags: true},                    // arg0 - arg1
-		{name: "SUBQconst", argLength: 1, reg: gp11, asm: "SUBQ", aux: "Int32", resultInArg0: true, clobberFlags: true}, // arg0 - auxint
+		{name: "SUBQconst", argLength: 1, reg: gp11, asm: "SUBQ", aux: "Int64", resultInArg0: true, clobberFlags: true}, // arg0 - auxint
 		{name: "SUBLconst", argLength: 1, reg: gp11, asm: "SUBL", aux: "Int32", resultInArg0: true, clobberFlags: true}, // arg0 - auxint
 
 		{name: "MULQ", argLength: 2, reg: gp21, asm: "IMULQ", commutative: true, resultInArg0: true, clobberFlags: true}, // arg0 * arg1
 		{name: "MULL", argLength: 2, reg: gp21, asm: "IMULL", commutative: true, resultInArg0: true, clobberFlags: true}, // arg0 * arg1
-		{name: "MULQconst", argLength: 1, reg: gp11, asm: "IMUL3Q", aux: "Int32", clobberFlags: true},                    // arg0 * auxint
+		{name: "MULQconst", argLength: 1, reg: gp11, asm: "IMUL3Q", aux: "Int64", clobberFlags: true},                    // arg0 * auxint
 		{name: "MULLconst", argLength: 1, reg: gp11, asm: "IMUL3L", aux: "Int32", clobberFlags: true},                    // arg0 * auxint
 
 		{name: "HMULQ", argLength: 2, reg: gp21hmul, commutative: true, asm: "IMULQ", clobberFlags: true}, // (arg0 * arg1) >> width
@@ -229,21 +229,21 @@ func init() {
 
 		{name: "ANDQ", argLength: 2, reg: gp21, asm: "ANDQ", commutative: true, resultInArg0: true, clobberFlags: true},                                                 // arg0 & arg1
 		{name: "ANDL", argLength: 2, reg: gp21, asm: "ANDL", commutative: true, resultInArg0: true, clobberFlags: true},                                                 // arg0 & arg1
-		{name: "ANDQconst", argLength: 1, reg: gp11, asm: "ANDQ", aux: "Int32", resultInArg0: true, clobberFlags: true},                                                 // arg0 & auxint
+		{name: "ANDQconst", argLength: 1, reg: gp11, asm: "ANDQ", aux: "Int64", resultInArg0: true, clobberFlags: true},                                                 // arg0 & auxint
 		{name: "ANDLconst", argLength: 1, reg: gp11, asm: "ANDL", aux: "Int32", resultInArg0: true, clobberFlags: true},                                                 // arg0 & auxint
 		{name: "ANDQconstmodify", argLength: 2, reg: gpstoreconst, asm: "ANDQ", aux: "SymValAndOff", clobberFlags: true, faultOnNilArg0: true, symEffect: "Read,Write"}, // and ValAndOff(AuxInt).Val() to arg0+ValAndOff(AuxInt).Off()+aux, arg1=mem
 		{name: "ANDLconstmodify", argLength: 2, reg: gpstoreconst, asm: "ANDL", aux: "SymValAndOff", clobberFlags: true, faultOnNilArg0: true, symEffect: "Read,Write"}, // and ValAndOff(AuxInt).Val() to arg0+ValAndOff(AuxInt).Off()+aux, arg1=mem
 
 		{name: "ORQ", argLength: 2, reg: gp21, asm: "ORQ", commutative: true, resultInArg0: true, clobberFlags: true},                                                 // arg0 | arg1
 		{name: "ORL", argLength: 2, reg: gp21, asm: "ORL", commutative: true, resultInArg0: true, clobberFlags: true},                                                 // arg0 | arg1
-		{name: "ORQconst", argLength: 1, reg: gp11, asm: "ORQ", aux: "Int32", resultInArg0: true, clobberFlags: true},                                                 // arg0 | auxint
+		{name: "ORQconst", argLength: 1, reg: gp11, asm: "ORQ", aux: "Int64", resultInArg0: true, clobberFlags: true},                                                 // arg0 | auxint
 		{name: "ORLconst", argLength: 1, reg: gp11, asm: "ORL", aux: "Int32", resultInArg0: true, clobberFlags: true},                                                 // arg0 | auxint
 		{name: "ORQconstmodify", argLength: 2, reg: gpstoreconst, asm: "ORQ", aux: "SymValAndOff", clobberFlags: true, faultOnNilArg0: true, symEffect: "Read,Write"}, // or ValAndOff(AuxInt).Val() to arg0+ValAndOff(AuxInt).Off()+aux, arg1=mem
 		{name: "ORLconstmodify", argLength: 2, reg: gpstoreconst, asm: "ORL", aux: "SymValAndOff", clobberFlags: true, faultOnNilArg0: true, symEffect: "Read,Write"}, // or ValAndOff(AuxInt).Val() to arg0+ValAndOff(AuxInt).Off()+aux, arg1=mem
 
 		{name: "XORQ", argLength: 2, reg: gp21, asm: "XORQ", commutative: true, resultInArg0: true, clobberFlags: true},                                                 // arg0 ^ arg1
 		{name: "XORL", argLength: 2, reg: gp21, asm: "XORL", commutative: true, resultInArg0: true, clobberFlags: true},                                                 // arg0 ^ arg1
-		{name: "XORQconst", argLength: 1, reg: gp11, asm: "XORQ", aux: "Int32", resultInArg0: true, clobberFlags: true},                                                 // arg0 ^ auxint
+		{name: "XORQconst", argLength: 1, reg: gp11, asm: "XORQ", aux: "Int64", resultInArg0: true, clobberFlags: true},                                                 // arg0 ^ auxint
 		{name: "XORLconst", argLength: 1, reg: gp11, asm: "XORL", aux: "Int32", resultInArg0: true, clobberFlags: true},                                                 // arg0 ^ auxint
 		{name: "XORQconstmodify", argLength: 2, reg: gpstoreconst, asm: "XORQ", aux: "SymValAndOff", clobberFlags: true, faultOnNilArg0: true, symEffect: "Read,Write"}, // xor ValAndOff(AuxInt).Val() to arg0+ValAndOff(AuxInt).Off()+aux, arg1=mem
 		{name: "XORLconstmodify", argLength: 2, reg: gpstoreconst, asm: "XORL", aux: "SymValAndOff", clobberFlags: true, faultOnNilArg0: true, symEffect: "Read,Write"}, // xor ValAndOff(AuxInt).Val() to arg0+ValAndOff(AuxInt).Off()+aux, arg1=mem
@@ -252,7 +252,7 @@ func init() {
 		{name: "CMPL", argLength: 2, reg: gp2flags, asm: "CMPL", typ: "Flags"},                    // arg0 compare to arg1
 		{name: "CMPW", argLength: 2, reg: gp2flags, asm: "CMPW", typ: "Flags"},                    // arg0 compare to arg1
 		{name: "CMPB", argLength: 2, reg: gp2flags, asm: "CMPB", typ: "Flags"},                    // arg0 compare to arg1
-		{name: "CMPQconst", argLength: 1, reg: gp1flags, asm: "CMPQ", typ: "Flags", aux: "Int32"}, // arg0 compare to auxint
+		{name: "CMPQconst", argLength: 1, reg: gp1flags, asm: "CMPQ", typ: "Flags", aux: "Int64"}, // arg0 compare to auxint
 		{name: "CMPLconst", argLength: 1, reg: gp1flags, asm: "CMPL", typ: "Flags", aux: "Int32"}, // arg0 compare to auxint
 		{name: "CMPWconst", argLength: 1, reg: gp1flags, asm: "CMPW", typ: "Flags", aux: "Int16"}, // arg0 compare to auxint
 		{name: "CMPBconst", argLength: 1, reg: gp1flags, asm: "CMPB", typ: "Flags", aux: "Int8"},  // arg0 compare to auxint
@@ -293,7 +293,7 @@ func init() {
 		{name: "TESTL", argLength: 2, reg: gp2flags, commutative: true, asm: "TESTL", typ: "Flags"}, // (arg0 & arg1) compare to 0
 		{name: "TESTW", argLength: 2, reg: gp2flags, commutative: true, asm: "TESTW", typ: "Flags"}, // (arg0 & arg1) compare to 0
 		{name: "TESTB", argLength: 2, reg: gp2flags, commutative: true, asm: "TESTB", typ: "Flags"}, // (arg0 & arg1) compare to 0
-		{name: "TESTQconst", argLength: 1, reg: gp1flags, asm: "TESTQ", typ: "Flags", aux: "Int32"}, // (arg0 & auxint) compare to 0
+		{name: "TESTQconst", argLength: 1, reg: gp1flags, asm: "TESTQ", typ: "Flags", aux: "Int64"}, // (arg0 & auxint) compare to 0
 		{name: "TESTLconst", argLength: 1, reg: gp1flags, asm: "TESTL", typ: "Flags", aux: "Int32"}, // (arg0 & auxint) compare to 0
 		{name: "TESTWconst", argLength: 1, reg: gp1flags, asm: "TESTW", typ: "Flags", aux: "Int16"}, // (arg0 & auxint) compare to 0
 		{name: "TESTBconst", argLength: 1, reg: gp1flags, asm: "TESTB", typ: "Flags", aux: "Int8"},  // (arg0 & auxint) compare to 0
@@ -506,21 +506,16 @@ func init() {
 
 		{name: "PXOR", argLength: 2, reg: fp21, asm: "PXOR", commutative: true, resultInArg0: true}, // exclusive or, applied to X regs for float negation.
 
-		{name: "LEAQ", argLength: 1, reg: gp11sb, asm: "LEAQ", aux: "SymOff", rematerializeable: true, symEffect: "Addr"}, // arg0 + auxint + offset encoded in aux
-		{name: "LEAL", argLength: 1, reg: gp11sb, asm: "LEAL", aux: "SymOff", rematerializeable: true, symEffect: "Addr"}, // arg0 + auxint + offset encoded in aux
-		{name: "LEAW", argLength: 1, reg: gp11sb, asm: "LEAW", aux: "SymOff", rematerializeable: true, symEffect: "Addr"}, // arg0 + auxint + offset encoded in aux
-		{name: "LEAQ1", argLength: 2, reg: gp21sb, asm: "LEAQ", commutative: true, aux: "SymOff", symEffect: "Addr"},      // arg0 + arg1 + auxint + aux
-		{name: "LEAL1", argLength: 2, reg: gp21sb, asm: "LEAL", commutative: true, aux: "SymOff", symEffect: "Addr"},      // arg0 + arg1 + auxint + aux
-		{name: "LEAW1", argLength: 2, reg: gp21sb, asm: "LEAW", commutative: true, aux: "SymOff", symEffect: "Addr"},      // arg0 + arg1 + auxint + aux
-		{name: "LEAQ2", argLength: 2, reg: gp21sb, asm: "LEAQ", aux: "SymOff", symEffect: "Addr"},                         // arg0 + 2*arg1 + auxint + aux
-		{name: "LEAL2", argLength: 2, reg: gp21sb, asm: "LEAL", aux: "SymOff", symEffect: "Addr"},                         // arg0 + 2*arg1 + auxint + aux
-		{name: "LEAW2", argLength: 2, reg: gp21sb, asm: "LEAW", aux: "SymOff", symEffect: "Addr"},                         // arg0 + 2*arg1 + auxint + aux
-		{name: "LEAQ4", argLength: 2, reg: gp21sb, asm: "LEAQ", aux: "SymOff", symEffect: "Addr"},                         // arg0 + 4*arg1 + auxint + aux
-		{name: "LEAL4", argLength: 2, reg: gp21sb, asm: "LEAL", aux: "SymOff", symEffect: "Addr"},                         // arg0 + 4*arg1 + auxint + aux
-		{name: "LEAW4", argLength: 2, reg: gp21sb, asm: "LEAW", aux: "SymOff", symEffect: "Addr"},                         // arg0 + 4*arg1 + auxint + aux
-		{name: "LEAQ8", argLength: 2, reg: gp21sb, asm: "LEAQ", aux: "SymOff", symEffect: "Addr"},                         // arg0 + 8*arg1 + auxint + aux
-		{name: "LEAL8", argLength: 2, reg: gp21sb, asm: "LEAL", aux: "SymOff", symEffect: "Addr"},                         // arg0 + 8*arg1 + auxint + aux
-		{name: "LEAW8", argLength: 2, reg: gp21sb, asm: "LEAW", aux: "SymOff", symEffect: "Addr"},                         // arg0 + 8*arg1 + auxint + aux
+		{name: "LEAQ", argLength: 1, reg: gp11sb, asm: "LEAQ", aux: "SymOff", rematerializeable: true, symEffect: "Addr"},   // arg0 + auxint + offset encoded in aux
+		{name: "LEAL", argLength: 1, reg: gp11sb, asm: "LEAL", aux: "SymOff32", rematerializeable: true, symEffect: "Addr"}, // arg0 + auxint + offset encoded in aux
+		{name: "LEAQ1", argLength: 2, reg: gp21sb, asm: "LEAQ", commutative: true, aux: "SymOff", symEffect: "Addr"},        // arg0 + arg1 + auxint + aux
+		{name: "LEAL1", argLength: 2, reg: gp21sb, asm: "LEAL", commutative: true, aux: "SymOff32", symEffect: "Addr"},      // arg0 + arg1 + auxint + aux
+		{name: "LEAQ2", argLength: 2, reg: gp21sb, asm: "LEAQ", aux: "SymOff", symEffect: "Addr"},                           // arg0 + 2*arg1 + auxint + aux
+		{name: "LEAL2", argLength: 2, reg: gp21sb, asm: "LEAL", aux: "SymOff32", symEffect: "Addr"},                         // arg0 + 2*arg1 + auxint + aux
+		{name: "LEAQ4", argLength: 2, reg: gp21sb, asm: "LEAQ", aux: "SymOff", symEffect: "Addr"},                           // arg0 + 4*arg1 + auxint + aux
+		{name: "LEAL4", argLength: 2, reg: gp21sb, asm: "LEAL", aux: "SymOff32", symEffect: "Addr"},                         // arg0 + 4*arg1 + auxint + aux
+		{name: "LEAQ8", argLength: 2, reg: gp21sb, asm: "LEAQ", aux: "SymOff", symEffect: "Addr"},                           // arg0 + 8*arg1 + auxint + aux
+		{name: "LEAL8", argLength: 2, reg: gp21sb, asm: "LEAL", aux: "SymOff32", symEffect: "Addr"},                         // arg0 + 8*arg1 + auxint + aux
 		// Note: LEAx{1,2,4,8} must not have OpSB as either argument.
 
 		// auxint+aux == add auxint and the offset of the symbol in aux (if any) to the effective address

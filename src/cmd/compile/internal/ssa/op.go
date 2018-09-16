@@ -70,6 +70,7 @@ const (
 	auxString               // aux is a string
 	auxSym                  // aux is a symbol (a *gc.Node for locals or an *obj.LSym for globals)
 	auxSymOff               // aux is a symbol, auxInt is an offset
+	auxSymOff32             // aux is a symbol, auxInt is an offset (32 bit)
 	auxSymValAndOff         // aux is a symbol, auxInt is a ValAndOff
 	auxTyp                  // aux is a type
 	auxTypSize              // aux is a type, auxInt is a size, must have Aux.(Type).Size() == AuxInt
@@ -137,12 +138,12 @@ func validValAndOff(val, off int64) bool {
 	return true
 }
 
-// makeValAndOff encodes a ValAndOff into an int64 suitable for storing in an AuxInt field.
-func makeValAndOff(val, off int64) int64 {
+// makeValAndOff encodes a ValAndOff from its parts.
+func makeValAndOff(val, off int64) ValAndOff {
 	if !validValAndOff(val, off) {
 		panic("invalid makeValAndOff")
 	}
-	return ValAndOff(val<<32 + int64(uint32(off))).Int64()
+	return ValAndOff(val<<32 + int64(uint32(off)))
 }
 
 func (x ValAndOff) canAdd(off int64) bool {
@@ -150,7 +151,7 @@ func (x ValAndOff) canAdd(off int64) bool {
 	return newoff == int64(int32(newoff))
 }
 
-func (x ValAndOff) add(off int64) int64 {
+func (x ValAndOff) add(off int64) ValAndOff {
 	if !x.canAdd(off) {
 		panic("invalid ValAndOff.add")
 	}

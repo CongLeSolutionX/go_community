@@ -834,11 +834,11 @@ func rewriteValueARM_OpARMADC_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -853,10 +853,10 @@ func rewriteValueARM_OpARMADC_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMADCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -871,10 +871,10 @@ func rewriteValueARM_OpARMADC_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMADCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -888,11 +888,11 @@ func rewriteValueARM_OpARMADC_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -907,11 +907,11 @@ func rewriteValueARM_OpARMADC_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -926,12 +926,12 @@ func rewriteValueARM_OpARMADC_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -946,12 +946,12 @@ func rewriteValueARM_OpARMADC_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -967,11 +967,11 @@ func rewriteValueARM_OpARMADC_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -987,11 +987,11 @@ func rewriteValueARM_OpARMADC_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1006,12 +1006,12 @@ func rewriteValueARM_OpARMADC_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1029,12 +1029,12 @@ func rewriteValueARM_OpARMADC_10(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1050,11 +1050,11 @@ func rewriteValueARM_OpARMADC_10(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1070,11 +1070,11 @@ func rewriteValueARM_OpARMADC_10(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1089,12 +1089,12 @@ func rewriteValueARM_OpARMADC_10(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1109,12 +1109,12 @@ func rewriteValueARM_OpARMADC_10(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1130,11 +1130,11 @@ func rewriteValueARM_OpARMADC_10(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		flags := v.Args[2]
 		v.reset(OpARMADCshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1402,17 +1402,17 @@ func rewriteValueARM_OpARMADCconst_0(v *Value) bool {
 	// cond:
 	// result: (ADCconst [int64(int32(c+d))] x flags)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		flags := v.Args[1]
 		v.reset(OpARMADCconst)
-		v.AuxInt = int64(int32(c + d))
+		v.setAuxInt32(int64(int32(c + d)))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -1421,17 +1421,17 @@ func rewriteValueARM_OpARMADCconst_0(v *Value) bool {
 	// cond:
 	// result: (ADCconst [int64(int32(c-d))] x flags)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		flags := v.Args[1]
 		v.reset(OpARMADCconst)
-		v.AuxInt = int64(int32(c - d))
+		v.setAuxInt32(int64(int32(c - d)))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -1445,19 +1445,19 @@ func rewriteValueARM_OpARMADCshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (ADCconst [c] (SLLconst <x.Type> x [d]) flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(flags)
@@ -1467,17 +1467,17 @@ func rewriteValueARM_OpARMADCshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (ADCconst x [int64(int32(uint32(c)<<uint64(d)))] flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMADCconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -1496,12 +1496,12 @@ func rewriteValueARM_OpARMADCshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		flags := v.Args[3]
 		v.reset(OpARMADCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -1520,10 +1520,10 @@ func rewriteValueARM_OpARMADCshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		flags := v.Args[3]
 		v.reset(OpARMADCshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1538,19 +1538,19 @@ func rewriteValueARM_OpARMADCshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (ADCconst [c] (SRAconst <x.Type> x [d]) flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(flags)
@@ -1560,17 +1560,17 @@ func rewriteValueARM_OpARMADCshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (ADCconst x [int64(int32(c)>>uint64(d))] flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMADCconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -1589,12 +1589,12 @@ func rewriteValueARM_OpARMADCshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		flags := v.Args[3]
 		v.reset(OpARMADCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -1613,10 +1613,10 @@ func rewriteValueARM_OpARMADCshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		flags := v.Args[3]
 		v.reset(OpARMADCshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1631,19 +1631,19 @@ func rewriteValueARM_OpARMADCshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (ADCconst [c] (SRLconst <x.Type> x [d]) flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMADCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(flags)
@@ -1653,17 +1653,17 @@ func rewriteValueARM_OpARMADCshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (ADCconst x [int64(int32(uint32(c)>>uint64(d)))] flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMADCconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -1682,12 +1682,12 @@ func rewriteValueARM_OpARMADCshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		flags := v.Args[3]
 		v.reset(OpARMADCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -1706,10 +1706,10 @@ func rewriteValueARM_OpARMADCshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		flags := v.Args[3]
 		v.reset(OpARMADCshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -1728,9 +1728,9 @@ func rewriteValueARM_OpARMADD_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMADDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -1743,10 +1743,10 @@ func rewriteValueARM_OpARMADD_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMADDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -1760,10 +1760,10 @@ func rewriteValueARM_OpARMADD_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMADDshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -1777,11 +1777,11 @@ func rewriteValueARM_OpARMADD_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMADDshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -1796,10 +1796,10 @@ func rewriteValueARM_OpARMADD_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMADDshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -1813,11 +1813,11 @@ func rewriteValueARM_OpARMADD_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMADDshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -1832,10 +1832,10 @@ func rewriteValueARM_OpARMADD_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMADDshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -1849,11 +1849,11 @@ func rewriteValueARM_OpARMADD_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMADDshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -1987,7 +1987,7 @@ func rewriteValueARM_OpARMADD_10(v *Value) bool {
 		if v_1.Op != OpARMRSBconst {
 			break
 		}
-		if v_1.AuxInt != 0 {
+		if v_1.auxInt32() != 0 {
 			break
 		}
 		y := v_1.Args[0]
@@ -2005,7 +2005,7 @@ func rewriteValueARM_OpARMADD_10(v *Value) bool {
 		if v_0.Op != OpARMRSBconst {
 			break
 		}
-		if v_0.AuxInt != 0 {
+		if v_0.auxInt32() != 0 {
 			break
 		}
 		y := v_0.Args[0]
@@ -2025,16 +2025,16 @@ func rewriteValueARM_OpARMADD_10(v *Value) bool {
 		if v_0.Op != OpARMRSBconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v_0.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMRSBconst {
 			break
 		}
-		d := v_1.AuxInt
+		d := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = c + d
+		v.setAuxInt32(c + d)
 		v0 := b.NewValue0(v.Pos, OpARMADD, t)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -2051,16 +2051,16 @@ func rewriteValueARM_OpARMADD_10(v *Value) bool {
 		if v_0.Op != OpARMRSBconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		y := v_0.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMRSBconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		x := v_1.Args[0]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = c + d
+		v.setAuxInt32(c + d)
 		v0 := b.NewValue0(v.Pos, OpARMADD, t)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -2300,9 +2300,9 @@ func rewriteValueARM_OpARMADDS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMADDSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -2315,10 +2315,10 @@ func rewriteValueARM_OpARMADDS_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMADDSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -2332,10 +2332,10 @@ func rewriteValueARM_OpARMADDS_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMADDSshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -2349,11 +2349,11 @@ func rewriteValueARM_OpARMADDS_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMADDSshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -2368,10 +2368,10 @@ func rewriteValueARM_OpARMADDS_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMADDSshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -2385,11 +2385,11 @@ func rewriteValueARM_OpARMADDS_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMADDSshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -2404,10 +2404,10 @@ func rewriteValueARM_OpARMADDS_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMADDSshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -2421,11 +2421,11 @@ func rewriteValueARM_OpARMADDS_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMADDSshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -2556,18 +2556,18 @@ func rewriteValueARM_OpARMADDSshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (ADDSconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMADDSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -2576,16 +2576,16 @@ func rewriteValueARM_OpARMADDSshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (ADDSconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMADDSconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -2603,11 +2603,11 @@ func rewriteValueARM_OpARMADDSshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMADDSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -2625,9 +2625,9 @@ func rewriteValueARM_OpARMADDSshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMADDSshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -2641,18 +2641,18 @@ func rewriteValueARM_OpARMADDSshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (ADDSconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMADDSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -2661,16 +2661,16 @@ func rewriteValueARM_OpARMADDSshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (ADDSconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMADDSconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -2688,11 +2688,11 @@ func rewriteValueARM_OpARMADDSshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMADDSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -2710,9 +2710,9 @@ func rewriteValueARM_OpARMADDSshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMADDSshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -2726,18 +2726,18 @@ func rewriteValueARM_OpARMADDSshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (ADDSconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMADDSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -2746,16 +2746,16 @@ func rewriteValueARM_OpARMADDSshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (ADDSconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMADDSconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -2773,11 +2773,11 @@ func rewriteValueARM_OpARMADDSshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMADDSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -2795,9 +2795,9 @@ func rewriteValueARM_OpARMADDSshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMADDSshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -2809,16 +2809,16 @@ func rewriteValueARM_OpARMADDconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWaddr [off1+off2] {sym} ptr)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym := v_0.Aux
 		ptr := v_0.Args[0]
 		v.reset(OpARMMOVWaddr)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		return true
@@ -2827,7 +2827,7 @@ func rewriteValueARM_OpARMADDconst_0(v *Value) bool {
 	// cond:
 	// result: x
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt32() != 0 {
 			break
 		}
 		x := v.Args[0]
@@ -2840,13 +2840,13 @@ func rewriteValueARM_OpARMADDconst_0(v *Value) bool {
 	// cond: !isARMImmRot(uint32(c)) && isARMImmRot(uint32(-c))
 	// result: (SUBconst [int64(int32(-c))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		x := v.Args[0]
 		if !(!isARMImmRot(uint32(c)) && isARMImmRot(uint32(-c))) {
 			break
 		}
 		v.reset(OpARMSUBconst)
-		v.AuxInt = int64(int32(-c))
+		v.setAuxInt32(int64(int32(-c)))
 		v.AddArg(x)
 		return true
 	}
@@ -2854,13 +2854,13 @@ func rewriteValueARM_OpARMADDconst_0(v *Value) bool {
 	// cond: objabi.GOARM==7 && !isARMImmRot(uint32(c)) && uint32(c)>0xffff && uint32(-c)<=0xffff
 	// result: (SUBconst [int64(int32(-c))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		x := v.Args[0]
 		if !(objabi.GOARM == 7 && !isARMImmRot(uint32(c)) && uint32(c) > 0xffff && uint32(-c) <= 0xffff) {
 			break
 		}
 		v.reset(OpARMSUBconst)
-		v.AuxInt = int64(int32(-c))
+		v.setAuxInt32(int64(int32(-c)))
 		v.AddArg(x)
 		return true
 	}
@@ -2868,29 +2868,29 @@ func rewriteValueARM_OpARMADDconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [int64(int32(c+d))])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(c + d))
+		v.setAuxInt32(int64(int32(c + d)))
 		return true
 	}
 	// match: (ADDconst [c] (ADDconst [d] x))
 	// cond:
 	// result: (ADDconst [int64(int32(c+d))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMADDconst)
-		v.AuxInt = int64(int32(c + d))
+		v.setAuxInt32(int64(int32(c + d)))
 		v.AddArg(x)
 		return true
 	}
@@ -2898,15 +2898,15 @@ func rewriteValueARM_OpARMADDconst_0(v *Value) bool {
 	// cond:
 	// result: (ADDconst [int64(int32(c-d))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMADDconst)
-		v.AuxInt = int64(int32(c - d))
+		v.setAuxInt32(int64(int32(c - d)))
 		v.AddArg(x)
 		return true
 	}
@@ -2914,15 +2914,15 @@ func rewriteValueARM_OpARMADDconst_0(v *Value) bool {
 	// cond:
 	// result: (RSBconst [int64(int32(c+d))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMRSBconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = int64(int32(c + d))
+		v.setAuxInt32(int64(int32(c + d)))
 		v.AddArg(x)
 		return true
 	}
@@ -2935,18 +2935,18 @@ func rewriteValueARM_OpARMADDshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (ADDconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMADDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -2955,16 +2955,16 @@ func rewriteValueARM_OpARMADDshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (ADDconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMADDconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -2972,13 +2972,13 @@ func rewriteValueARM_OpARMADDshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (SRRconst [32-c] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		if v_0.AuxInt != 32-c {
+		if v_0.auxInt32() != 32-c {
 			break
 		}
 		x := v_0.Args[0]
@@ -2986,7 +2986,7 @@ func rewriteValueARM_OpARMADDshiftLL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMSRRconst)
-		v.AuxInt = 32 - c
+		v.setAuxInt32(32 - c)
 		v.AddArg(x)
 		return true
 	}
@@ -3004,11 +3004,11 @@ func rewriteValueARM_OpARMADDshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMADDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -3026,9 +3026,9 @@ func rewriteValueARM_OpARMADDshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMADDshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3042,18 +3042,18 @@ func rewriteValueARM_OpARMADDshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (ADDconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMADDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -3062,16 +3062,16 @@ func rewriteValueARM_OpARMADDshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (ADDconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMADDconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -3089,11 +3089,11 @@ func rewriteValueARM_OpARMADDshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMADDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -3111,9 +3111,9 @@ func rewriteValueARM_OpARMADDshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMADDshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3127,18 +3127,18 @@ func rewriteValueARM_OpARMADDshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (ADDconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMADDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -3147,16 +3147,16 @@ func rewriteValueARM_OpARMADDshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (ADDconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMADDconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -3164,13 +3164,13 @@ func rewriteValueARM_OpARMADDshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (SRRconst [ c] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		if v_0.AuxInt != 32-c {
+		if v_0.auxInt32() != 32-c {
 			break
 		}
 		x := v_0.Args[0]
@@ -3178,7 +3178,7 @@ func rewriteValueARM_OpARMADDshiftRL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMSRRconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -3196,11 +3196,11 @@ func rewriteValueARM_OpARMADDshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMADDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -3218,9 +3218,9 @@ func rewriteValueARM_OpARMADDshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMADDshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3238,9 +3238,9 @@ func rewriteValueARM_OpARMAND_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMANDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -3253,10 +3253,10 @@ func rewriteValueARM_OpARMAND_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMANDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -3270,10 +3270,10 @@ func rewriteValueARM_OpARMAND_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMANDshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3287,11 +3287,11 @@ func rewriteValueARM_OpARMAND_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMANDshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3306,10 +3306,10 @@ func rewriteValueARM_OpARMAND_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMANDshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3323,11 +3323,11 @@ func rewriteValueARM_OpARMAND_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMANDshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3342,10 +3342,10 @@ func rewriteValueARM_OpARMAND_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMANDshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3359,11 +3359,11 @@ func rewriteValueARM_OpARMAND_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMANDshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3541,10 +3541,10 @@ func rewriteValueARM_OpARMAND_10(v *Value) bool {
 		if v_1.Op != OpARMMVNshiftLL {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMBICshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3558,11 +3558,11 @@ func rewriteValueARM_OpARMAND_10(v *Value) bool {
 		if v_0.Op != OpARMMVNshiftLL {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMBICshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3577,10 +3577,10 @@ func rewriteValueARM_OpARMAND_10(v *Value) bool {
 		if v_1.Op != OpARMMVNshiftRL {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMBICshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3597,11 +3597,11 @@ func rewriteValueARM_OpARMAND_20(v *Value) bool {
 		if v_0.Op != OpARMMVNshiftRL {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMBICshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3616,10 +3616,10 @@ func rewriteValueARM_OpARMAND_20(v *Value) bool {
 		if v_1.Op != OpARMMVNshiftRA {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMBICshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3633,11 +3633,11 @@ func rewriteValueARM_OpARMAND_20(v *Value) bool {
 		if v_0.Op != OpARMMVNshiftRA {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMBICshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3649,18 +3649,18 @@ func rewriteValueARM_OpARMANDconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [0])
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt32() != 0 {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (ANDconst [c] x)
 	// cond: int32(c)==-1
 	// result: x
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		x := v.Args[0]
 		if !(int32(c) == -1) {
 			break
@@ -3674,13 +3674,13 @@ func rewriteValueARM_OpARMANDconst_0(v *Value) bool {
 	// cond: !isARMImmRot(uint32(c)) && isARMImmRot(^uint32(c))
 	// result: (BICconst [int64(int32(^uint32(c)))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		x := v.Args[0]
 		if !(!isARMImmRot(uint32(c)) && isARMImmRot(^uint32(c))) {
 			break
 		}
 		v.reset(OpARMBICconst)
-		v.AuxInt = int64(int32(^uint32(c)))
+		v.setAuxInt32(int64(int32(^uint32(c))))
 		v.AddArg(x)
 		return true
 	}
@@ -3688,13 +3688,13 @@ func rewriteValueARM_OpARMANDconst_0(v *Value) bool {
 	// cond: objabi.GOARM==7 && !isARMImmRot(uint32(c)) && uint32(c)>0xffff && ^uint32(c)<=0xffff
 	// result: (BICconst [int64(int32(^uint32(c)))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		x := v.Args[0]
 		if !(objabi.GOARM == 7 && !isARMImmRot(uint32(c)) && uint32(c) > 0xffff && ^uint32(c) <= 0xffff) {
 			break
 		}
 		v.reset(OpARMBICconst)
-		v.AuxInt = int64(int32(^uint32(c)))
+		v.setAuxInt32(int64(int32(^uint32(c))))
 		v.AddArg(x)
 		return true
 	}
@@ -3702,29 +3702,29 @@ func rewriteValueARM_OpARMANDconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [c&d])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = c & d
+		v.setAuxInt32(c & d)
 		return true
 	}
 	// match: (ANDconst [c] (ANDconst [d] x))
 	// cond:
 	// result: (ANDconst [c&d] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMANDconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMANDconst)
-		v.AuxInt = c & d
+		v.setAuxInt32(c & d)
 		v.AddArg(x)
 		return true
 	}
@@ -3737,18 +3737,18 @@ func rewriteValueARM_OpARMANDshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (ANDconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMANDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -3757,16 +3757,16 @@ func rewriteValueARM_OpARMANDshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (ANDconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMANDconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -3774,14 +3774,14 @@ func rewriteValueARM_OpARMANDshiftLL_0(v *Value) bool {
 	// cond: c==d
 	// result: y
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		if y.Op != OpARMSLLconst {
 			break
 		}
-		c := y.AuxInt
+		c := y.auxInt32()
 		if x != y.Args[0] {
 			break
 		}
@@ -3807,11 +3807,11 @@ func rewriteValueARM_OpARMANDshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMANDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -3829,9 +3829,9 @@ func rewriteValueARM_OpARMANDshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMANDshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3845,18 +3845,18 @@ func rewriteValueARM_OpARMANDshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (ANDconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMANDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -3865,16 +3865,16 @@ func rewriteValueARM_OpARMANDshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (ANDconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMANDconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -3882,14 +3882,14 @@ func rewriteValueARM_OpARMANDshiftRA_0(v *Value) bool {
 	// cond: c==d
 	// result: y
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		if y.Op != OpARMSRAconst {
 			break
 		}
-		c := y.AuxInt
+		c := y.auxInt32()
 		if x != y.Args[0] {
 			break
 		}
@@ -3915,11 +3915,11 @@ func rewriteValueARM_OpARMANDshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMANDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -3937,9 +3937,9 @@ func rewriteValueARM_OpARMANDshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMANDshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -3953,18 +3953,18 @@ func rewriteValueARM_OpARMANDshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (ANDconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMANDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -3973,16 +3973,16 @@ func rewriteValueARM_OpARMANDshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (ANDconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMANDconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -3990,14 +3990,14 @@ func rewriteValueARM_OpARMANDshiftRL_0(v *Value) bool {
 	// cond: c==d
 	// result: y
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		if y.Op != OpARMSRLconst {
 			break
 		}
-		c := y.AuxInt
+		c := y.auxInt32()
 		if x != y.Args[0] {
 			break
 		}
@@ -4023,11 +4023,11 @@ func rewriteValueARM_OpARMANDshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMANDconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -4045,9 +4045,9 @@ func rewriteValueARM_OpARMANDshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMANDshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4059,14 +4059,14 @@ func rewriteValueARM_OpARMBFX_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [int64(int32(d)<<(32-uint32(c&0xff)-uint32(c>>8))>>(32-uint32(c>>8)))])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(d) << (32 - uint32(c&0xff) - uint32(c>>8)) >> (32 - uint32(c>>8)))
+		v.setAuxInt32(int64(int32(d) << (32 - uint32(c&0xff) - uint32(c>>8)) >> (32 - uint32(c>>8))))
 		return true
 	}
 	return false
@@ -4076,14 +4076,14 @@ func rewriteValueARM_OpARMBFXU_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [int64(int32(uint32(d)<<(32-uint32(c&0xff)-uint32(c>>8))>>(32-uint32(c>>8))))])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(uint32(d) << (32 - uint32(c&0xff) - uint32(c>>8)) >> (32 - uint32(c>>8))))
+		v.setAuxInt32(int64(int32(uint32(d) << (32 - uint32(c&0xff) - uint32(c>>8)) >> (32 - uint32(c>>8)))))
 		return true
 	}
 	return false
@@ -4099,9 +4099,9 @@ func rewriteValueARM_OpARMBIC_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMBICconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -4115,10 +4115,10 @@ func rewriteValueARM_OpARMBIC_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMBICshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4133,10 +4133,10 @@ func rewriteValueARM_OpARMBIC_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMBICshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4151,10 +4151,10 @@ func rewriteValueARM_OpARMBIC_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMBICshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4226,7 +4226,7 @@ func rewriteValueARM_OpARMBIC_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -4236,7 +4236,7 @@ func rewriteValueARM_OpARMBICconst_0(v *Value) bool {
 	// cond:
 	// result: x
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt32() != 0 {
 			break
 		}
 		x := v.Args[0]
@@ -4249,25 +4249,25 @@ func rewriteValueARM_OpARMBICconst_0(v *Value) bool {
 	// cond: int32(c)==-1
 	// result: (MOVWconst [0])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		if !(int32(c) == -1) {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (BICconst [c] x)
 	// cond: !isARMImmRot(uint32(c)) && isARMImmRot(^uint32(c))
 	// result: (ANDconst [int64(int32(^uint32(c)))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		x := v.Args[0]
 		if !(!isARMImmRot(uint32(c)) && isARMImmRot(^uint32(c))) {
 			break
 		}
 		v.reset(OpARMANDconst)
-		v.AuxInt = int64(int32(^uint32(c)))
+		v.setAuxInt32(int64(int32(^uint32(c))))
 		v.AddArg(x)
 		return true
 	}
@@ -4275,13 +4275,13 @@ func rewriteValueARM_OpARMBICconst_0(v *Value) bool {
 	// cond: objabi.GOARM==7 && !isARMImmRot(uint32(c)) && uint32(c)>0xffff && ^uint32(c)<=0xffff
 	// result: (ANDconst [int64(int32(^uint32(c)))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		x := v.Args[0]
 		if !(objabi.GOARM == 7 && !isARMImmRot(uint32(c)) && uint32(c) > 0xffff && ^uint32(c) <= 0xffff) {
 			break
 		}
 		v.reset(OpARMANDconst)
-		v.AuxInt = int64(int32(^uint32(c)))
+		v.setAuxInt32(int64(int32(^uint32(c))))
 		v.AddArg(x)
 		return true
 	}
@@ -4289,29 +4289,29 @@ func rewriteValueARM_OpARMBICconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [d&^c])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = d &^ c
+		v.setAuxInt32(d &^ c)
 		return true
 	}
 	// match: (BICconst [c] (BICconst [d] x))
 	// cond:
 	// result: (BICconst [int64(int32(c|d))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMBICconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMBICconst)
-		v.AuxInt = int64(int32(c | d))
+		v.setAuxInt32(int64(int32(c | d)))
 		v.AddArg(x)
 		return true
 	}
@@ -4322,16 +4322,16 @@ func rewriteValueARM_OpARMBICshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (BICconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMBICconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -4339,14 +4339,14 @@ func rewriteValueARM_OpARMBICshiftLL_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -4354,7 +4354,7 @@ func rewriteValueARM_OpARMBICshiftLL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -4371,9 +4371,9 @@ func rewriteValueARM_OpARMBICshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMBICshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4385,16 +4385,16 @@ func rewriteValueARM_OpARMBICshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (BICconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMBICconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -4402,14 +4402,14 @@ func rewriteValueARM_OpARMBICshiftRA_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -4417,7 +4417,7 @@ func rewriteValueARM_OpARMBICshiftRA_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -4434,9 +4434,9 @@ func rewriteValueARM_OpARMBICshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMBICshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4448,16 +4448,16 @@ func rewriteValueARM_OpARMBICshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (BICconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMBICconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -4465,14 +4465,14 @@ func rewriteValueARM_OpARMBICshiftRL_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -4480,7 +4480,7 @@ func rewriteValueARM_OpARMBICshiftRL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -4497,9 +4497,9 @@ func rewriteValueARM_OpARMBICshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMBICshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4517,9 +4517,9 @@ func rewriteValueARM_OpARMCMN_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMCMNconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -4532,10 +4532,10 @@ func rewriteValueARM_OpARMCMN_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMCMNconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -4549,10 +4549,10 @@ func rewriteValueARM_OpARMCMN_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMCMNshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4566,11 +4566,11 @@ func rewriteValueARM_OpARMCMN_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMCMNshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4585,10 +4585,10 @@ func rewriteValueARM_OpARMCMN_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMCMNshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4602,11 +4602,11 @@ func rewriteValueARM_OpARMCMN_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMCMNshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4621,10 +4621,10 @@ func rewriteValueARM_OpARMCMN_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMCMNshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4638,11 +4638,11 @@ func rewriteValueARM_OpARMCMN_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMCMNshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4774,7 +4774,7 @@ func rewriteValueARM_OpARMCMN_10(v *Value) bool {
 		if v_1.Op != OpARMRSBconst {
 			break
 		}
-		if v_1.AuxInt != 0 {
+		if v_1.auxInt32() != 0 {
 			break
 		}
 		y := v_1.Args[0]
@@ -4792,7 +4792,7 @@ func rewriteValueARM_OpARMCMN_10(v *Value) bool {
 		if v_0.Op != OpARMRSBconst {
 			break
 		}
-		if v_0.AuxInt != 0 {
+		if v_0.auxInt32() != 0 {
 			break
 		}
 		y := v_0.Args[0]
@@ -4809,12 +4809,12 @@ func rewriteValueARM_OpARMCMNconst_0(v *Value) bool {
 	// cond: int32(x)==int32(-y)
 	// result: (FlagEQ)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x) == int32(-y)) {
 			break
 		}
@@ -4825,12 +4825,12 @@ func rewriteValueARM_OpARMCMNconst_0(v *Value) bool {
 	// cond: int32(x)<int32(-y) && uint32(x)<uint32(-y)
 	// result: (FlagLT_ULT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x) < int32(-y) && uint32(x) < uint32(-y)) {
 			break
 		}
@@ -4841,12 +4841,12 @@ func rewriteValueARM_OpARMCMNconst_0(v *Value) bool {
 	// cond: int32(x)<int32(-y) && uint32(x)>uint32(-y)
 	// result: (FlagLT_UGT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x) < int32(-y) && uint32(x) > uint32(-y)) {
 			break
 		}
@@ -4857,12 +4857,12 @@ func rewriteValueARM_OpARMCMNconst_0(v *Value) bool {
 	// cond: int32(x)>int32(-y) && uint32(x)<uint32(-y)
 	// result: (FlagGT_ULT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x) > int32(-y) && uint32(x) < uint32(-y)) {
 			break
 		}
@@ -4873,12 +4873,12 @@ func rewriteValueARM_OpARMCMNconst_0(v *Value) bool {
 	// cond: int32(x)>int32(-y) && uint32(x)>uint32(-y)
 	// result: (FlagGT_UGT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x) > int32(-y) && uint32(x) > uint32(-y)) {
 			break
 		}
@@ -4894,18 +4894,18 @@ func rewriteValueARM_OpARMCMNshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (CMNconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMCMNconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -4914,16 +4914,16 @@ func rewriteValueARM_OpARMCMNshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (CMNconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMCMNconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -4941,11 +4941,11 @@ func rewriteValueARM_OpARMCMNshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMCMNconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -4963,9 +4963,9 @@ func rewriteValueARM_OpARMCMNshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMCMNshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -4979,18 +4979,18 @@ func rewriteValueARM_OpARMCMNshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (CMNconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMCMNconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -4999,16 +4999,16 @@ func rewriteValueARM_OpARMCMNshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (CMNconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMCMNconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -5026,11 +5026,11 @@ func rewriteValueARM_OpARMCMNshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMCMNconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -5048,9 +5048,9 @@ func rewriteValueARM_OpARMCMNshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMCMNshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -5064,18 +5064,18 @@ func rewriteValueARM_OpARMCMNshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (CMNconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMCMNconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -5084,16 +5084,16 @@ func rewriteValueARM_OpARMCMNshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (CMNconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMCMNconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -5111,11 +5111,11 @@ func rewriteValueARM_OpARMCMNshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMCMNconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -5133,9 +5133,9 @@ func rewriteValueARM_OpARMCMNshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMCMNshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -5147,14 +5147,14 @@ func rewriteValueARM_OpARMCMOVWHSconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [c])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMFlagEQ {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		return true
 	}
 	// match: (CMOVWHSconst x (FlagLT_ULT))
@@ -5176,14 +5176,14 @@ func rewriteValueARM_OpARMCMOVWHSconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [c])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMFlagLT_UGT {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		return true
 	}
 	// match: (CMOVWHSconst x (FlagGT_ULT))
@@ -5205,21 +5205,21 @@ func rewriteValueARM_OpARMCMOVWHSconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [c])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMFlagGT_UGT {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		return true
 	}
 	// match: (CMOVWHSconst x (InvertFlags flags) [c])
 	// cond:
 	// result: (CMOVWLSconst x flags [c])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
@@ -5228,7 +5228,7 @@ func rewriteValueARM_OpARMCMOVWHSconst_0(v *Value) bool {
 		}
 		flags := v_1.Args[0]
 		v.reset(OpARMCMOVWLSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -5240,28 +5240,28 @@ func rewriteValueARM_OpARMCMOVWLSconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [c])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMFlagEQ {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		return true
 	}
 	// match: (CMOVWLSconst _ (FlagLT_ULT) [c])
 	// cond:
 	// result: (MOVWconst [c])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMFlagLT_ULT {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		return true
 	}
 	// match: (CMOVWLSconst x (FlagLT_UGT))
@@ -5283,14 +5283,14 @@ func rewriteValueARM_OpARMCMOVWLSconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [c])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMFlagGT_ULT {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		return true
 	}
 	// match: (CMOVWLSconst x (FlagGT_UGT))
@@ -5312,7 +5312,7 @@ func rewriteValueARM_OpARMCMOVWLSconst_0(v *Value) bool {
 	// cond:
 	// result: (CMOVWHSconst x flags [c])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
@@ -5321,7 +5321,7 @@ func rewriteValueARM_OpARMCMOVWLSconst_0(v *Value) bool {
 		}
 		flags := v_1.Args[0]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -5341,9 +5341,9 @@ func rewriteValueARM_OpARMCMP_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMCMPconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -5356,11 +5356,11 @@ func rewriteValueARM_OpARMCMP_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMInvertFlags)
 		v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v0.AuxInt = c
+		v0.setAuxInt32(c)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -5375,10 +5375,10 @@ func rewriteValueARM_OpARMCMP_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMCMPshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -5392,12 +5392,12 @@ func rewriteValueARM_OpARMCMP_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMInvertFlags)
 		v0 := b.NewValue0(v.Pos, OpARMCMPshiftLL, types.TypeFlags)
-		v0.AuxInt = c
+		v0.setAuxInt32(c)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -5413,10 +5413,10 @@ func rewriteValueARM_OpARMCMP_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMCMPshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -5430,12 +5430,12 @@ func rewriteValueARM_OpARMCMP_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMInvertFlags)
 		v0 := b.NewValue0(v.Pos, OpARMCMPshiftRL, types.TypeFlags)
-		v0.AuxInt = c
+		v0.setAuxInt32(c)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -5451,10 +5451,10 @@ func rewriteValueARM_OpARMCMP_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMCMPshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -5468,12 +5468,12 @@ func rewriteValueARM_OpARMCMP_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMInvertFlags)
 		v0 := b.NewValue0(v.Pos, OpARMCMPshiftRA, types.TypeFlags)
-		v0.AuxInt = c
+		v0.setAuxInt32(c)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
@@ -5614,7 +5614,7 @@ func rewriteValueARM_OpARMCMP_10(v *Value) bool {
 		if v_1.Op != OpARMRSBconst {
 			break
 		}
-		if v_1.AuxInt != 0 {
+		if v_1.auxInt32() != 0 {
 			break
 		}
 		y := v_1.Args[0]
@@ -5636,7 +5636,7 @@ func rewriteValueARM_OpARMCMPD_0(v *Value) bool {
 		if v_1.Op != OpARMMOVDconst {
 			break
 		}
-		if v_1.AuxInt != 0 {
+		if v_1.auxFloat64() != 0 {
 			break
 		}
 		v.reset(OpARMCMPD0)
@@ -5656,7 +5656,7 @@ func rewriteValueARM_OpARMCMPF_0(v *Value) bool {
 		if v_1.Op != OpARMMOVFconst {
 			break
 		}
-		if v_1.AuxInt != 0 {
+		if v_1.auxFloat64() != 0 {
 			break
 		}
 		v.reset(OpARMCMPF0)
@@ -5670,12 +5670,12 @@ func rewriteValueARM_OpARMCMPconst_0(v *Value) bool {
 	// cond: int32(x)==int32(y)
 	// result: (FlagEQ)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x) == int32(y)) {
 			break
 		}
@@ -5686,12 +5686,12 @@ func rewriteValueARM_OpARMCMPconst_0(v *Value) bool {
 	// cond: int32(x)<int32(y) && uint32(x)<uint32(y)
 	// result: (FlagLT_ULT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x) < int32(y) && uint32(x) < uint32(y)) {
 			break
 		}
@@ -5702,12 +5702,12 @@ func rewriteValueARM_OpARMCMPconst_0(v *Value) bool {
 	// cond: int32(x)<int32(y) && uint32(x)>uint32(y)
 	// result: (FlagLT_UGT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x) < int32(y) && uint32(x) > uint32(y)) {
 			break
 		}
@@ -5718,12 +5718,12 @@ func rewriteValueARM_OpARMCMPconst_0(v *Value) bool {
 	// cond: int32(x)>int32(y) && uint32(x)<uint32(y)
 	// result: (FlagGT_ULT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x) > int32(y) && uint32(x) < uint32(y)) {
 			break
 		}
@@ -5734,12 +5734,12 @@ func rewriteValueARM_OpARMCMPconst_0(v *Value) bool {
 	// cond: int32(x)>int32(y) && uint32(x)>uint32(y)
 	// result: (FlagGT_UGT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x) > int32(y) && uint32(x) > uint32(y)) {
 			break
 		}
@@ -5750,7 +5750,7 @@ func rewriteValueARM_OpARMCMPconst_0(v *Value) bool {
 	// cond: 0xff < c
 	// result: (FlagLT_ULT)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVBUreg {
 			break
@@ -5765,7 +5765,7 @@ func rewriteValueARM_OpARMCMPconst_0(v *Value) bool {
 	// cond: 0xffff < c
 	// result: (FlagLT_ULT)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVHUreg {
 			break
@@ -5780,12 +5780,12 @@ func rewriteValueARM_OpARMCMPconst_0(v *Value) bool {
 	// cond: 0 <= int32(m) && int32(m) < int32(n)
 	// result: (FlagLT_ULT)
 	for {
-		n := v.AuxInt
+		n := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMANDconst {
 			break
 		}
-		m := v_0.AuxInt
+		m := v_0.auxInt32()
 		if !(0 <= int32(m) && int32(m) < int32(n)) {
 			break
 		}
@@ -5796,12 +5796,12 @@ func rewriteValueARM_OpARMCMPconst_0(v *Value) bool {
 	// cond: 0 <= n && 0 < c && c <= 32 && (1<<uint32(32-c)) <= uint32(n)
 	// result: (FlagLT_ULT)
 	for {
-		n := v.AuxInt
+		n := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		if !(0 <= n && 0 < c && c <= 32 && (1<<uint32(32-c)) <= uint32(n)) {
 			break
 		}
@@ -5817,19 +5817,19 @@ func rewriteValueARM_OpARMCMPshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (InvertFlags (CMPconst [c] (SLLconst <x.Type> x [d])))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMInvertFlags)
 		v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v0.AuxInt = c
+		v0.setAuxInt32(c)
 		v1 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v1.AuxInt = d
+		v1.setAuxInt32(d)
 		v1.AddArg(x)
 		v0.AddArg(v1)
 		v.AddArg(v0)
@@ -5839,16 +5839,16 @@ func rewriteValueARM_OpARMCMPshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (CMPconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMCMPconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -5866,12 +5866,12 @@ func rewriteValueARM_OpARMCMPshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMInvertFlags)
 		v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v0.AuxInt = c
+		v0.setAuxInt32(c)
 		v1 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v1.AddArg(x)
 		v1.AddArg(y)
@@ -5890,9 +5890,9 @@ func rewriteValueARM_OpARMCMPshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMCMPshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -5906,19 +5906,19 @@ func rewriteValueARM_OpARMCMPshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (InvertFlags (CMPconst [c] (SRAconst <x.Type> x [d])))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMInvertFlags)
 		v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v0.AuxInt = c
+		v0.setAuxInt32(c)
 		v1 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v1.AuxInt = d
+		v1.setAuxInt32(d)
 		v1.AddArg(x)
 		v0.AddArg(v1)
 		v.AddArg(v0)
@@ -5928,16 +5928,16 @@ func rewriteValueARM_OpARMCMPshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (CMPconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMCMPconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -5955,12 +5955,12 @@ func rewriteValueARM_OpARMCMPshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMInvertFlags)
 		v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v0.AuxInt = c
+		v0.setAuxInt32(c)
 		v1 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v1.AddArg(x)
 		v1.AddArg(y)
@@ -5979,9 +5979,9 @@ func rewriteValueARM_OpARMCMPshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMCMPshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -5995,19 +5995,19 @@ func rewriteValueARM_OpARMCMPshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (InvertFlags (CMPconst [c] (SRLconst <x.Type> x [d])))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMInvertFlags)
 		v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v0.AuxInt = c
+		v0.setAuxInt32(c)
 		v1 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v1.AuxInt = d
+		v1.setAuxInt32(d)
 		v1.AddArg(x)
 		v0.AddArg(v1)
 		v.AddArg(v0)
@@ -6017,16 +6017,16 @@ func rewriteValueARM_OpARMCMPshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (CMPconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMCMPconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -6044,12 +6044,12 @@ func rewriteValueARM_OpARMCMPshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMInvertFlags)
 		v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v0.AuxInt = c
+		v0.setAuxInt32(c)
 		v1 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v1.AddArg(x)
 		v1.AddArg(y)
@@ -6068,9 +6068,9 @@ func rewriteValueARM_OpARMCMPshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMCMPshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -6087,7 +6087,7 @@ func rewriteValueARM_OpARMEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (Equal (FlagLT_ULT))
@@ -6099,7 +6099,7 @@ func rewriteValueARM_OpARMEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (Equal (FlagLT_UGT))
@@ -6111,7 +6111,7 @@ func rewriteValueARM_OpARMEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (Equal (FlagGT_ULT))
@@ -6123,7 +6123,7 @@ func rewriteValueARM_OpARMEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (Equal (FlagGT_UGT))
@@ -6135,7 +6135,7 @@ func rewriteValueARM_OpARMEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (Equal (InvertFlags x))
@@ -6163,7 +6163,7 @@ func rewriteValueARM_OpARMGreaterEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (GreaterEqual (FlagLT_ULT))
@@ -6175,7 +6175,7 @@ func rewriteValueARM_OpARMGreaterEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (GreaterEqual (FlagLT_UGT))
@@ -6187,7 +6187,7 @@ func rewriteValueARM_OpARMGreaterEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (GreaterEqual (FlagGT_ULT))
@@ -6199,7 +6199,7 @@ func rewriteValueARM_OpARMGreaterEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (GreaterEqual (FlagGT_UGT))
@@ -6211,7 +6211,7 @@ func rewriteValueARM_OpARMGreaterEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (GreaterEqual (InvertFlags x))
@@ -6239,7 +6239,7 @@ func rewriteValueARM_OpARMGreaterEqualU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (GreaterEqualU (FlagLT_ULT))
@@ -6251,7 +6251,7 @@ func rewriteValueARM_OpARMGreaterEqualU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (GreaterEqualU (FlagLT_UGT))
@@ -6263,7 +6263,7 @@ func rewriteValueARM_OpARMGreaterEqualU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (GreaterEqualU (FlagGT_ULT))
@@ -6275,7 +6275,7 @@ func rewriteValueARM_OpARMGreaterEqualU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (GreaterEqualU (FlagGT_UGT))
@@ -6287,7 +6287,7 @@ func rewriteValueARM_OpARMGreaterEqualU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (GreaterEqualU (InvertFlags x))
@@ -6315,7 +6315,7 @@ func rewriteValueARM_OpARMGreaterThan_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (GreaterThan (FlagLT_ULT))
@@ -6327,7 +6327,7 @@ func rewriteValueARM_OpARMGreaterThan_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (GreaterThan (FlagLT_UGT))
@@ -6339,7 +6339,7 @@ func rewriteValueARM_OpARMGreaterThan_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (GreaterThan (FlagGT_ULT))
@@ -6351,7 +6351,7 @@ func rewriteValueARM_OpARMGreaterThan_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (GreaterThan (FlagGT_UGT))
@@ -6363,7 +6363,7 @@ func rewriteValueARM_OpARMGreaterThan_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (GreaterThan (InvertFlags x))
@@ -6391,7 +6391,7 @@ func rewriteValueARM_OpARMGreaterThanU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (GreaterThanU (FlagLT_ULT))
@@ -6403,7 +6403,7 @@ func rewriteValueARM_OpARMGreaterThanU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (GreaterThanU (FlagLT_UGT))
@@ -6415,7 +6415,7 @@ func rewriteValueARM_OpARMGreaterThanU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (GreaterThanU (FlagGT_ULT))
@@ -6427,7 +6427,7 @@ func rewriteValueARM_OpARMGreaterThanU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (GreaterThanU (FlagGT_UGT))
@@ -6439,7 +6439,7 @@ func rewriteValueARM_OpARMGreaterThanU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (GreaterThanU (InvertFlags x))
@@ -6467,7 +6467,7 @@ func rewriteValueARM_OpARMLessEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (LessEqual (FlagLT_ULT))
@@ -6479,7 +6479,7 @@ func rewriteValueARM_OpARMLessEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (LessEqual (FlagLT_UGT))
@@ -6491,7 +6491,7 @@ func rewriteValueARM_OpARMLessEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (LessEqual (FlagGT_ULT))
@@ -6503,7 +6503,7 @@ func rewriteValueARM_OpARMLessEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (LessEqual (FlagGT_UGT))
@@ -6515,7 +6515,7 @@ func rewriteValueARM_OpARMLessEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (LessEqual (InvertFlags x))
@@ -6543,7 +6543,7 @@ func rewriteValueARM_OpARMLessEqualU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (LessEqualU (FlagLT_ULT))
@@ -6555,7 +6555,7 @@ func rewriteValueARM_OpARMLessEqualU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (LessEqualU (FlagLT_UGT))
@@ -6567,7 +6567,7 @@ func rewriteValueARM_OpARMLessEqualU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (LessEqualU (FlagGT_ULT))
@@ -6579,7 +6579,7 @@ func rewriteValueARM_OpARMLessEqualU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (LessEqualU (FlagGT_UGT))
@@ -6591,7 +6591,7 @@ func rewriteValueARM_OpARMLessEqualU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (LessEqualU (InvertFlags x))
@@ -6619,7 +6619,7 @@ func rewriteValueARM_OpARMLessThan_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (LessThan (FlagLT_ULT))
@@ -6631,7 +6631,7 @@ func rewriteValueARM_OpARMLessThan_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (LessThan (FlagLT_UGT))
@@ -6643,7 +6643,7 @@ func rewriteValueARM_OpARMLessThan_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (LessThan (FlagGT_ULT))
@@ -6655,7 +6655,7 @@ func rewriteValueARM_OpARMLessThan_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (LessThan (FlagGT_UGT))
@@ -6667,7 +6667,7 @@ func rewriteValueARM_OpARMLessThan_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (LessThan (InvertFlags x))
@@ -6695,7 +6695,7 @@ func rewriteValueARM_OpARMLessThanU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (LessThanU (FlagLT_ULT))
@@ -6707,7 +6707,7 @@ func rewriteValueARM_OpARMLessThanU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (LessThanU (FlagLT_UGT))
@@ -6719,7 +6719,7 @@ func rewriteValueARM_OpARMLessThanU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (LessThanU (FlagGT_ULT))
@@ -6731,7 +6731,7 @@ func rewriteValueARM_OpARMLessThanU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (LessThanU (FlagGT_UGT))
@@ -6743,7 +6743,7 @@ func rewriteValueARM_OpARMLessThanU_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (LessThanU (InvertFlags x))
@@ -6770,18 +6770,18 @@ func rewriteValueARM_OpARMMOVBUload_0(v *Value) bool {
 	// cond:
 	// result: (MOVBUload [off1+off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVBUload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -6791,18 +6791,18 @@ func rewriteValueARM_OpARMMOVBUload_0(v *Value) bool {
 	// cond:
 	// result: (MOVBUload [off1-off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVBUload)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -6812,14 +6812,14 @@ func rewriteValueARM_OpARMMOVBUload_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVBUload [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
@@ -6827,7 +6827,7 @@ func rewriteValueARM_OpARMMOVBUload_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVBUload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -6837,7 +6837,7 @@ func rewriteValueARM_OpARMMOVBUload_0(v *Value) bool {
 	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
 	// result: (MOVBUreg x)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		ptr := v.Args[0]
@@ -6845,7 +6845,7 @@ func rewriteValueARM_OpARMMOVBUload_0(v *Value) bool {
 		if v_1.Op != OpARMMOVBstore {
 			break
 		}
-		off2 := v_1.AuxInt
+		off2 := v_1.auxInt64()
 		sym2 := v_1.Aux
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
@@ -6861,7 +6861,7 @@ func rewriteValueARM_OpARMMOVBUload_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVBUloadidx ptr idx mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -6920,10 +6920,10 @@ func rewriteValueARM_OpARMMOVBUloadidx_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		mem := v.Args[2]
 		v.reset(OpARMMOVBUload)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -6937,11 +6937,11 @@ func rewriteValueARM_OpARMMOVBUloadidx_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		ptr := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBUload)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -6970,10 +6970,10 @@ func rewriteValueARM_OpARMMOVBUreg_0(v *Value) bool {
 		if v_0.Op != OpARMANDconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMANDconst)
-		v.AuxInt = c & 0xff
+		v.setAuxInt32(c & 0xff)
 		v.AddArg(x)
 		return true
 	}
@@ -6997,9 +6997,9 @@ func rewriteValueARM_OpARMMOVBUreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(uint8(c))
+		v.setAuxInt32(int64(uint8(c)))
 		return true
 	}
 	return false
@@ -7013,18 +7013,18 @@ func rewriteValueARM_OpARMMOVBload_0(v *Value) bool {
 	// cond:
 	// result: (MOVBload [off1+off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVBload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7034,18 +7034,18 @@ func rewriteValueARM_OpARMMOVBload_0(v *Value) bool {
 	// cond:
 	// result: (MOVBload [off1-off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVBload)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7055,14 +7055,14 @@ func rewriteValueARM_OpARMMOVBload_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVBload [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
@@ -7070,7 +7070,7 @@ func rewriteValueARM_OpARMMOVBload_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVBload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7080,7 +7080,7 @@ func rewriteValueARM_OpARMMOVBload_0(v *Value) bool {
 	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
 	// result: (MOVBreg x)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		ptr := v.Args[0]
@@ -7088,7 +7088,7 @@ func rewriteValueARM_OpARMMOVBload_0(v *Value) bool {
 		if v_1.Op != OpARMMOVBstore {
 			break
 		}
-		off2 := v_1.AuxInt
+		off2 := v_1.auxInt64()
 		sym2 := v_1.Aux
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
@@ -7104,7 +7104,7 @@ func rewriteValueARM_OpARMMOVBload_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVBloadidx ptr idx mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -7163,10 +7163,10 @@ func rewriteValueARM_OpARMMOVBloadidx_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		mem := v.Args[2]
 		v.reset(OpARMMOVBload)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -7180,11 +7180,11 @@ func rewriteValueARM_OpARMMOVBloadidx_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		ptr := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBload)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -7213,13 +7213,13 @@ func rewriteValueARM_OpARMMOVBreg_0(v *Value) bool {
 		if v_0.Op != OpARMANDconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v_0.Args[0]
 		if !(c&0x80 == 0) {
 			break
 		}
 		v.reset(OpARMANDconst)
-		v.AuxInt = c & 0x7f
+		v.setAuxInt32(c & 0x7f)
 		v.AddArg(x)
 		return true
 	}
@@ -7243,9 +7243,9 @@ func rewriteValueARM_OpARMMOVBreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int8(c))
+		v.setAuxInt32(int64(int8(c)))
 		return true
 	}
 	return false
@@ -7259,19 +7259,19 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [off1+off2] {sym} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -7282,19 +7282,19 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [off1-off2] {sym} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -7305,14 +7305,14 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVBstore [off1+off2] {mergeSym(sym1,sym2)} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		val := v.Args[1]
@@ -7321,7 +7321,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -7332,7 +7332,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [off] {sym} ptr x mem)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		ptr := v.Args[0]
@@ -7343,7 +7343,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 		x := v_1.Args[0]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = off
+		v.setAuxInt64(off)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(x)
@@ -7354,7 +7354,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [off] {sym} ptr x mem)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		ptr := v.Args[0]
@@ -7365,7 +7365,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 		x := v_1.Args[0]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = off
+		v.setAuxInt64(off)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(x)
@@ -7376,7 +7376,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [off] {sym} ptr x mem)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		ptr := v.Args[0]
@@ -7387,7 +7387,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 		x := v_1.Args[0]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = off
+		v.setAuxInt64(off)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(x)
@@ -7398,7 +7398,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [off] {sym} ptr x mem)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		ptr := v.Args[0]
@@ -7409,7 +7409,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 		x := v_1.Args[0]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = off
+		v.setAuxInt64(off)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(x)
@@ -7420,7 +7420,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVBstoreidx ptr idx val mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -7457,11 +7457,11 @@ func rewriteValueARM_OpARMMOVBstoreidx_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -7476,12 +7476,12 @@ func rewriteValueARM_OpARMMOVBstoreidx_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		ptr := v.Args[1]
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -7494,18 +7494,18 @@ func rewriteValueARM_OpARMMOVDload_0(v *Value) bool {
 	// cond:
 	// result: (MOVDload [off1+off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVDload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7515,18 +7515,18 @@ func rewriteValueARM_OpARMMOVDload_0(v *Value) bool {
 	// cond:
 	// result: (MOVDload [off1-off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVDload)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7536,14 +7536,14 @@ func rewriteValueARM_OpARMMOVDload_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVDload [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
@@ -7551,7 +7551,7 @@ func rewriteValueARM_OpARMMOVDload_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVDload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7561,7 +7561,7 @@ func rewriteValueARM_OpARMMOVDload_0(v *Value) bool {
 	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
 	// result: x
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		ptr := v.Args[0]
@@ -7569,7 +7569,7 @@ func rewriteValueARM_OpARMMOVDload_0(v *Value) bool {
 		if v_1.Op != OpARMMOVDstore {
 			break
 		}
-		off2 := v_1.AuxInt
+		off2 := v_1.auxInt64()
 		sym2 := v_1.Aux
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
@@ -7589,19 +7589,19 @@ func rewriteValueARM_OpARMMOVDstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVDstore [off1+off2] {sym} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVDstore)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -7612,19 +7612,19 @@ func rewriteValueARM_OpARMMOVDstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVDstore [off1-off2] {sym} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVDstore)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -7635,14 +7635,14 @@ func rewriteValueARM_OpARMMOVDstore_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVDstore [off1+off2] {mergeSym(sym1,sym2)} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		val := v.Args[1]
@@ -7651,7 +7651,7 @@ func rewriteValueARM_OpARMMOVDstore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVDstore)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -7665,18 +7665,18 @@ func rewriteValueARM_OpARMMOVFload_0(v *Value) bool {
 	// cond:
 	// result: (MOVFload [off1+off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVFload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7686,18 +7686,18 @@ func rewriteValueARM_OpARMMOVFload_0(v *Value) bool {
 	// cond:
 	// result: (MOVFload [off1-off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVFload)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7707,14 +7707,14 @@ func rewriteValueARM_OpARMMOVFload_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVFload [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
@@ -7722,7 +7722,7 @@ func rewriteValueARM_OpARMMOVFload_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVFload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7732,7 +7732,7 @@ func rewriteValueARM_OpARMMOVFload_0(v *Value) bool {
 	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
 	// result: x
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		ptr := v.Args[0]
@@ -7740,7 +7740,7 @@ func rewriteValueARM_OpARMMOVFload_0(v *Value) bool {
 		if v_1.Op != OpARMMOVFstore {
 			break
 		}
-		off2 := v_1.AuxInt
+		off2 := v_1.auxInt64()
 		sym2 := v_1.Aux
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
@@ -7760,19 +7760,19 @@ func rewriteValueARM_OpARMMOVFstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVFstore [off1+off2] {sym} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVFstore)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -7783,19 +7783,19 @@ func rewriteValueARM_OpARMMOVFstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVFstore [off1-off2] {sym} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVFstore)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -7806,14 +7806,14 @@ func rewriteValueARM_OpARMMOVFstore_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVFstore [off1+off2] {mergeSym(sym1,sym2)} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		val := v.Args[1]
@@ -7822,7 +7822,7 @@ func rewriteValueARM_OpARMMOVFstore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVFstore)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -7840,18 +7840,18 @@ func rewriteValueARM_OpARMMOVHUload_0(v *Value) bool {
 	// cond:
 	// result: (MOVHUload [off1+off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVHUload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7861,18 +7861,18 @@ func rewriteValueARM_OpARMMOVHUload_0(v *Value) bool {
 	// cond:
 	// result: (MOVHUload [off1-off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVHUload)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7882,14 +7882,14 @@ func rewriteValueARM_OpARMMOVHUload_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVHUload [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
@@ -7897,7 +7897,7 @@ func rewriteValueARM_OpARMMOVHUload_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVHUload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -7907,7 +7907,7 @@ func rewriteValueARM_OpARMMOVHUload_0(v *Value) bool {
 	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
 	// result: (MOVHUreg x)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		ptr := v.Args[0]
@@ -7915,7 +7915,7 @@ func rewriteValueARM_OpARMMOVHUload_0(v *Value) bool {
 		if v_1.Op != OpARMMOVHstore {
 			break
 		}
-		off2 := v_1.AuxInt
+		off2 := v_1.auxInt64()
 		sym2 := v_1.Aux
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
@@ -7931,7 +7931,7 @@ func rewriteValueARM_OpARMMOVHUload_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVHUloadidx ptr idx mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -7990,10 +7990,10 @@ func rewriteValueARM_OpARMMOVHUloadidx_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		mem := v.Args[2]
 		v.reset(OpARMMOVHUload)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -8007,11 +8007,11 @@ func rewriteValueARM_OpARMMOVHUloadidx_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		ptr := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVHUload)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -8053,10 +8053,10 @@ func rewriteValueARM_OpARMMOVHUreg_0(v *Value) bool {
 		if v_0.Op != OpARMANDconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMANDconst)
-		v.AuxInt = c & 0xffff
+		v.setAuxInt32(c & 0xffff)
 		v.AddArg(x)
 		return true
 	}
@@ -8092,9 +8092,9 @@ func rewriteValueARM_OpARMMOVHUreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(uint16(c))
+		v.setAuxInt32(int64(uint16(c)))
 		return true
 	}
 	return false
@@ -8108,18 +8108,18 @@ func rewriteValueARM_OpARMMOVHload_0(v *Value) bool {
 	// cond:
 	// result: (MOVHload [off1+off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVHload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -8129,18 +8129,18 @@ func rewriteValueARM_OpARMMOVHload_0(v *Value) bool {
 	// cond:
 	// result: (MOVHload [off1-off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVHload)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -8150,14 +8150,14 @@ func rewriteValueARM_OpARMMOVHload_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVHload [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
@@ -8165,7 +8165,7 @@ func rewriteValueARM_OpARMMOVHload_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVHload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -8175,7 +8175,7 @@ func rewriteValueARM_OpARMMOVHload_0(v *Value) bool {
 	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
 	// result: (MOVHreg x)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		ptr := v.Args[0]
@@ -8183,7 +8183,7 @@ func rewriteValueARM_OpARMMOVHload_0(v *Value) bool {
 		if v_1.Op != OpARMMOVHstore {
 			break
 		}
-		off2 := v_1.AuxInt
+		off2 := v_1.auxInt64()
 		sym2 := v_1.Aux
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
@@ -8199,7 +8199,7 @@ func rewriteValueARM_OpARMMOVHload_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVHloadidx ptr idx mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -8258,10 +8258,10 @@ func rewriteValueARM_OpARMMOVHloadidx_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		mem := v.Args[2]
 		v.reset(OpARMMOVHload)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -8275,11 +8275,11 @@ func rewriteValueARM_OpARMMOVHloadidx_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		ptr := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVHload)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -8334,13 +8334,13 @@ func rewriteValueARM_OpARMMOVHreg_0(v *Value) bool {
 		if v_0.Op != OpARMANDconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v_0.Args[0]
 		if !(c&0x8000 == 0) {
 			break
 		}
 		v.reset(OpARMANDconst)
-		v.AuxInt = c & 0x7fff
+		v.setAuxInt32(c & 0x7fff)
 		v.AddArg(x)
 		return true
 	}
@@ -8388,9 +8388,9 @@ func rewriteValueARM_OpARMMOVHreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int16(c))
+		v.setAuxInt32(int64(int16(c)))
 		return true
 	}
 	return false
@@ -8404,19 +8404,19 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVHstore [off1+off2] {sym} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVHstore)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -8427,19 +8427,19 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVHstore [off1-off2] {sym} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVHstore)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -8450,14 +8450,14 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVHstore [off1+off2] {mergeSym(sym1,sym2)} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		val := v.Args[1]
@@ -8466,7 +8466,7 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVHstore)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -8477,7 +8477,7 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVHstore [off] {sym} ptr x mem)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		ptr := v.Args[0]
@@ -8488,7 +8488,7 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 		x := v_1.Args[0]
 		mem := v.Args[2]
 		v.reset(OpARMMOVHstore)
-		v.AuxInt = off
+		v.setAuxInt64(off)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(x)
@@ -8499,7 +8499,7 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVHstore [off] {sym} ptr x mem)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		ptr := v.Args[0]
@@ -8510,7 +8510,7 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 		x := v_1.Args[0]
 		mem := v.Args[2]
 		v.reset(OpARMMOVHstore)
-		v.AuxInt = off
+		v.setAuxInt64(off)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(x)
@@ -8521,7 +8521,7 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVHstoreidx ptr idx val mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -8558,11 +8558,11 @@ func rewriteValueARM_OpARMMOVHstoreidx_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVHstore)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -8577,12 +8577,12 @@ func rewriteValueARM_OpARMMOVHstoreidx_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		ptr := v.Args[1]
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVHstore)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -8599,18 +8599,18 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 	// cond:
 	// result: (MOVWload [off1+off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVWload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -8620,18 +8620,18 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 	// cond:
 	// result: (MOVWload [off1-off2] {sym} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVWload)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -8641,14 +8641,14 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVWload [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
@@ -8656,7 +8656,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWload)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(mem)
@@ -8666,7 +8666,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
 	// result: x
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[1]
 		ptr := v.Args[0]
@@ -8674,7 +8674,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWstore {
 			break
 		}
-		off2 := v_1.AuxInt
+		off2 := v_1.auxInt64()
 		sym2 := v_1.Aux
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
@@ -8691,7 +8691,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVWloadidx ptr idx mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -8717,7 +8717,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVWloadshiftLL ptr idx [c] mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -8726,7 +8726,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 		if v_0.Op != OpARMADDshiftLL {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		_ = v_0.Args[1]
 		ptr := v_0.Args[0]
 		idx := v_0.Args[1]
@@ -8735,7 +8735,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWloadshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(mem)
@@ -8745,7 +8745,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVWloadshiftRL ptr idx [c] mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -8754,7 +8754,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 		if v_0.Op != OpARMADDshiftRL {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		_ = v_0.Args[1]
 		ptr := v_0.Args[0]
 		idx := v_0.Args[1]
@@ -8763,7 +8763,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWloadshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(mem)
@@ -8773,7 +8773,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVWloadshiftRA ptr idx [c] mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -8782,7 +8782,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 		if v_0.Op != OpARMADDshiftRA {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		_ = v_0.Args[1]
 		ptr := v_0.Args[0]
 		idx := v_0.Args[1]
@@ -8791,7 +8791,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWloadshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(mem)
@@ -8835,10 +8835,10 @@ func rewriteValueARM_OpARMMOVWloadidx_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		mem := v.Args[2]
 		v.reset(OpARMMOVWload)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -8852,11 +8852,11 @@ func rewriteValueARM_OpARMMOVWloadidx_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		ptr := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVWload)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -8871,11 +8871,11 @@ func rewriteValueARM_OpARMMOVWloadidx_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		idx := v_1.Args[0]
 		mem := v.Args[2]
 		v.reset(OpARMMOVWloadshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(mem)
@@ -8890,12 +8890,12 @@ func rewriteValueARM_OpARMMOVWloadidx_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVWloadshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(mem)
@@ -8911,11 +8911,11 @@ func rewriteValueARM_OpARMMOVWloadidx_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		idx := v_1.Args[0]
 		mem := v.Args[2]
 		v.reset(OpARMMOVWloadshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(mem)
@@ -8930,12 +8930,12 @@ func rewriteValueARM_OpARMMOVWloadidx_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVWloadshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(mem)
@@ -8951,11 +8951,11 @@ func rewriteValueARM_OpARMMOVWloadidx_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		idx := v_1.Args[0]
 		mem := v.Args[2]
 		v.reset(OpARMMOVWloadshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(mem)
@@ -8970,12 +8970,12 @@ func rewriteValueARM_OpARMMOVWloadidx_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVWloadshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(mem)
@@ -8988,7 +8988,7 @@ func rewriteValueARM_OpARMMOVWloadshiftLL_0(v *Value) bool {
 	// cond: c==d && isSamePtr(ptr, ptr2)
 	// result: x
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[2]
 		ptr := v.Args[0]
 		idx := v.Args[1]
@@ -8996,7 +8996,7 @@ func rewriteValueARM_OpARMMOVWloadshiftLL_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWstoreshiftLL {
 			break
 		}
-		d := v_2.AuxInt
+		d := v_2.auxInt32()
 		_ = v_2.Args[3]
 		ptr2 := v_2.Args[0]
 		if idx != v_2.Args[1] {
@@ -9015,17 +9015,17 @@ func rewriteValueARM_OpARMMOVWloadshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (MOVWload [int64(uint32(c)<<uint64(d))] ptr mem)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		ptr := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		mem := v.Args[2]
 		v.reset(OpARMMOVWload)
-		v.AuxInt = int64(uint32(c) << uint64(d))
+		v.setAuxInt64(int64(uint32(c) << uint64(d)))
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -9037,7 +9037,7 @@ func rewriteValueARM_OpARMMOVWloadshiftRA_0(v *Value) bool {
 	// cond: c==d && isSamePtr(ptr, ptr2)
 	// result: x
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[2]
 		ptr := v.Args[0]
 		idx := v.Args[1]
@@ -9045,7 +9045,7 @@ func rewriteValueARM_OpARMMOVWloadshiftRA_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWstoreshiftRA {
 			break
 		}
-		d := v_2.AuxInt
+		d := v_2.auxInt32()
 		_ = v_2.Args[3]
 		ptr2 := v_2.Args[0]
 		if idx != v_2.Args[1] {
@@ -9064,17 +9064,17 @@ func rewriteValueARM_OpARMMOVWloadshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (MOVWload [int64(int32(c)>>uint64(d))] ptr mem)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		ptr := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		mem := v.Args[2]
 		v.reset(OpARMMOVWload)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt64(int64(int32(c) >> uint64(d)))
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -9086,7 +9086,7 @@ func rewriteValueARM_OpARMMOVWloadshiftRL_0(v *Value) bool {
 	// cond: c==d && isSamePtr(ptr, ptr2)
 	// result: x
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[2]
 		ptr := v.Args[0]
 		idx := v.Args[1]
@@ -9094,7 +9094,7 @@ func rewriteValueARM_OpARMMOVWloadshiftRL_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWstoreshiftRL {
 			break
 		}
-		d := v_2.AuxInt
+		d := v_2.auxInt32()
 		_ = v_2.Args[3]
 		ptr2 := v_2.Args[0]
 		if idx != v_2.Args[1] {
@@ -9113,17 +9113,17 @@ func rewriteValueARM_OpARMMOVWloadshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (MOVWload [int64(uint32(c)>>uint64(d))] ptr mem)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		ptr := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		mem := v.Args[2]
 		v.reset(OpARMMOVWload)
-		v.AuxInt = int64(uint32(c) >> uint64(d))
+		v.setAuxInt64(int64(uint32(c) >> uint64(d)))
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -9151,9 +9151,9 @@ func rewriteValueARM_OpARMMOVWreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		return true
 	}
 	return false
@@ -9167,19 +9167,19 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVWstore [off1+off2] {sym} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVWstore)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -9190,19 +9190,19 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 	// cond:
 	// result: (MOVWstore [off1-off2] {sym} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt32()
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVWstore)
-		v.AuxInt = off1 - off2
+		v.setAuxInt64(off1 - off2)
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -9213,14 +9213,14 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 	// cond: canMergeSym(sym1,sym2)
 	// result: (MOVWstore [off1+off2] {mergeSym(sym1,sym2)} ptr val mem)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt64()
 		sym1 := v.Aux
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		val := v.Args[1]
@@ -9229,7 +9229,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWstore)
-		v.AuxInt = off1 + off2
+		v.setAuxInt64(off1 + off2)
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
 		v.AddArg(val)
@@ -9240,7 +9240,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVWstoreidx ptr idx val mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -9268,7 +9268,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVWstoreshiftLL ptr idx [c] val mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -9277,7 +9277,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 		if v_0.Op != OpARMADDshiftLL {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		_ = v_0.Args[1]
 		ptr := v_0.Args[0]
 		idx := v_0.Args[1]
@@ -9287,7 +9287,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWstoreshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(val)
@@ -9298,7 +9298,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVWstoreshiftRL ptr idx [c] val mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -9307,7 +9307,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 		if v_0.Op != OpARMADDshiftRL {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		_ = v_0.Args[1]
 		ptr := v_0.Args[0]
 		idx := v_0.Args[1]
@@ -9317,7 +9317,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWstoreshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(val)
@@ -9328,7 +9328,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 	// cond: sym == nil && !config.nacl
 	// result: (MOVWstoreshiftRA ptr idx [c] val mem)
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt64() != 0 {
 			break
 		}
 		sym := v.Aux
@@ -9337,7 +9337,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 		if v_0.Op != OpARMADDshiftRA {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		_ = v_0.Args[1]
 		ptr := v_0.Args[0]
 		idx := v_0.Args[1]
@@ -9347,7 +9347,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWstoreshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(val)
@@ -9367,11 +9367,11 @@ func rewriteValueARM_OpARMMOVWstoreidx_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstore)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -9386,12 +9386,12 @@ func rewriteValueARM_OpARMMOVWstoreidx_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		ptr := v.Args[1]
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstore)
-		v.AuxInt = c
+		v.setAuxInt64(c)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -9407,12 +9407,12 @@ func rewriteValueARM_OpARMMOVWstoreidx_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		idx := v_1.Args[0]
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstoreshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(val)
@@ -9428,13 +9428,13 @@ func rewriteValueARM_OpARMMOVWstoreidx_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstoreshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(val)
@@ -9451,12 +9451,12 @@ func rewriteValueARM_OpARMMOVWstoreidx_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		idx := v_1.Args[0]
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstoreshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(val)
@@ -9472,13 +9472,13 @@ func rewriteValueARM_OpARMMOVWstoreidx_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstoreshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(val)
@@ -9495,12 +9495,12 @@ func rewriteValueARM_OpARMMOVWstoreidx_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		idx := v_1.Args[0]
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstoreshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(val)
@@ -9516,13 +9516,13 @@ func rewriteValueARM_OpARMMOVWstoreidx_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstoreshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(ptr)
 		v.AddArg(idx)
 		v.AddArg(val)
@@ -9536,18 +9536,18 @@ func rewriteValueARM_OpARMMOVWstoreshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (MOVWstore [int64(uint32(c)<<uint64(d))] ptr val mem)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[3]
 		ptr := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstore)
-		v.AuxInt = int64(uint32(c) << uint64(d))
+		v.setAuxInt64(int64(uint32(c) << uint64(d)))
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -9560,18 +9560,18 @@ func rewriteValueARM_OpARMMOVWstoreshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (MOVWstore [int64(int32(c)>>uint64(d))] ptr val mem)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[3]
 		ptr := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstore)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt64(int64(int32(c) >> uint64(d)))
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -9584,18 +9584,18 @@ func rewriteValueARM_OpARMMOVWstoreshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (MOVWstore [int64(uint32(c)>>uint64(d))] ptr val mem)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[3]
 		ptr := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpARMMOVWstore)
-		v.AuxInt = int64(uint32(c) >> uint64(d))
+		v.setAuxInt64(int64(uint32(c) >> uint64(d)))
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -9614,12 +9614,12 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if !(int32(c) == -1) {
 			break
 		}
 		v.reset(OpARMRSBconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v.AddArg(x)
 		return true
 	}
@@ -9632,13 +9632,13 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		if !(int32(c) == -1) {
 			break
 		}
 		v.reset(OpARMRSBconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v.AddArg(x)
 		return true
 	}
@@ -9651,11 +9651,11 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		if v_1.AuxInt != 0 {
+		if v_1.auxInt32() != 0 {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (MUL (MOVWconst [0]) _)
@@ -9667,11 +9667,11 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		if v_0.AuxInt != 0 {
+		if v_0.auxInt32() != 0 {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (MUL x (MOVWconst [1]))
@@ -9684,7 +9684,7 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		if v_1.AuxInt != 1 {
+		if v_1.auxInt32() != 1 {
 			break
 		}
 		v.reset(OpCopy)
@@ -9701,7 +9701,7 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		if v_0.AuxInt != 1 {
+		if v_0.auxInt32() != 1 {
 			break
 		}
 		x := v.Args[1]
@@ -9720,12 +9720,12 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if !(isPowerOfTwo(c)) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = log2(c)
+		v.setAuxInt32(log2(c))
 		v.AddArg(x)
 		return true
 	}
@@ -9738,13 +9738,13 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		if !(isPowerOfTwo(c)) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = log2(c)
+		v.setAuxInt32(log2(c))
 		v.AddArg(x)
 		return true
 	}
@@ -9758,12 +9758,12 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if !(isPowerOfTwo(c-1) && int32(c) >= 3) {
 			break
 		}
 		v.reset(OpARMADDshiftLL)
-		v.AuxInt = log2(c - 1)
+		v.setAuxInt32(log2(c - 1))
 		v.AddArg(x)
 		v.AddArg(x)
 		return true
@@ -9777,13 +9777,13 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		if !(isPowerOfTwo(c-1) && int32(c) >= 3) {
 			break
 		}
 		v.reset(OpARMADDshiftLL)
-		v.AuxInt = log2(c - 1)
+		v.setAuxInt32(log2(c - 1))
 		v.AddArg(x)
 		v.AddArg(x)
 		return true
@@ -9803,12 +9803,12 @@ func rewriteValueARM_OpARMMUL_10(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if !(isPowerOfTwo(c+1) && int32(c) >= 7) {
 			break
 		}
 		v.reset(OpARMRSBshiftLL)
-		v.AuxInt = log2(c + 1)
+		v.setAuxInt32(log2(c + 1))
 		v.AddArg(x)
 		v.AddArg(x)
 		return true
@@ -9822,13 +9822,13 @@ func rewriteValueARM_OpARMMUL_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		if !(isPowerOfTwo(c+1) && int32(c) >= 7) {
 			break
 		}
 		v.reset(OpARMRSBshiftLL)
-		v.AuxInt = log2(c + 1)
+		v.setAuxInt32(log2(c + 1))
 		v.AddArg(x)
 		v.AddArg(x)
 		return true
@@ -9843,14 +9843,14 @@ func rewriteValueARM_OpARMMUL_10(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if !(c%3 == 0 && isPowerOfTwo(c/3) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = log2(c / 3)
+		v.setAuxInt32(log2(c / 3))
 		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v0.AuxInt = 1
+		v0.setAuxInt32(1)
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -9865,15 +9865,15 @@ func rewriteValueARM_OpARMMUL_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		if !(c%3 == 0 && isPowerOfTwo(c/3) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = log2(c / 3)
+		v.setAuxInt32(log2(c / 3))
 		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v0.AuxInt = 1
+		v0.setAuxInt32(1)
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -9889,14 +9889,14 @@ func rewriteValueARM_OpARMMUL_10(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if !(c%5 == 0 && isPowerOfTwo(c/5) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = log2(c / 5)
+		v.setAuxInt32(log2(c / 5))
 		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v0.AuxInt = 2
+		v0.setAuxInt32(2)
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -9911,15 +9911,15 @@ func rewriteValueARM_OpARMMUL_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		if !(c%5 == 0 && isPowerOfTwo(c/5) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = log2(c / 5)
+		v.setAuxInt32(log2(c / 5))
 		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v0.AuxInt = 2
+		v0.setAuxInt32(2)
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -9935,14 +9935,14 @@ func rewriteValueARM_OpARMMUL_10(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if !(c%7 == 0 && isPowerOfTwo(c/7) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = log2(c / 7)
+		v.setAuxInt32(log2(c / 7))
 		v0 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
-		v0.AuxInt = 3
+		v0.setAuxInt32(3)
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -9957,15 +9957,15 @@ func rewriteValueARM_OpARMMUL_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		if !(c%7 == 0 && isPowerOfTwo(c/7) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = log2(c / 7)
+		v.setAuxInt32(log2(c / 7))
 		v0 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
-		v0.AuxInt = 3
+		v0.setAuxInt32(3)
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -9981,14 +9981,14 @@ func rewriteValueARM_OpARMMUL_10(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if !(c%9 == 0 && isPowerOfTwo(c/9) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = log2(c / 9)
+		v.setAuxInt32(log2(c / 9))
 		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v0.AuxInt = 3
+		v0.setAuxInt32(3)
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -10003,15 +10003,15 @@ func rewriteValueARM_OpARMMUL_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		if !(c%9 == 0 && isPowerOfTwo(c/9) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = log2(c / 9)
+		v.setAuxInt32(log2(c / 9))
 		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v0.AuxInt = 3
+		v0.setAuxInt32(3)
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -10029,14 +10029,14 @@ func rewriteValueARM_OpARMMUL_20(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_1.AuxInt
+		d := v_1.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(c * d))
+		v.setAuxInt32(int64(int32(c * d)))
 		return true
 	}
 	// match: (MUL (MOVWconst [d]) (MOVWconst [c]))
@@ -10048,14 +10048,14 @@ func rewriteValueARM_OpARMMUL_20(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(c * d))
+		v.setAuxInt32(int64(int32(c * d)))
 		return true
 	}
 	return false
@@ -10073,7 +10073,7 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(int32(c) == -1) {
 			break
@@ -10092,7 +10092,7 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		if v_1.AuxInt != 0 {
+		if v_1.auxInt32() != 0 {
 			break
 		}
 		a := v.Args[2]
@@ -10111,7 +10111,7 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		if v_1.AuxInt != 1 {
+		if v_1.auxInt32() != 1 {
 			break
 		}
 		a := v.Args[2]
@@ -10130,14 +10130,14 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(isPowerOfTwo(c)) {
 			break
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c)
+		v0.setAuxInt32(log2(c))
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(a)
@@ -10153,14 +10153,14 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(isPowerOfTwo(c-1) && int32(c) >= 3) {
 			break
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v0.AuxInt = log2(c - 1)
+		v0.setAuxInt32(log2(c - 1))
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -10177,14 +10177,14 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(isPowerOfTwo(c+1) && int32(c) >= 7) {
 			break
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
-		v0.AuxInt = log2(c + 1)
+		v0.setAuxInt32(log2(c + 1))
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -10201,16 +10201,16 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(c%3 == 0 && isPowerOfTwo(c/3) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 3)
+		v0.setAuxInt32(log2(c / 3))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 1
+		v1.setAuxInt32(1)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10228,16 +10228,16 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(c%5 == 0 && isPowerOfTwo(c/5) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 5)
+		v0.setAuxInt32(log2(c / 5))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 2
+		v1.setAuxInt32(2)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10255,16 +10255,16 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(c%7 == 0 && isPowerOfTwo(c/7) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 7)
+		v0.setAuxInt32(log2(c / 7))
 		v1 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
-		v1.AuxInt = 3
+		v1.setAuxInt32(3)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10282,16 +10282,16 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(c%9 == 0 && isPowerOfTwo(c/9) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 9)
+		v0.setAuxInt32(log2(c / 9))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 3
+		v1.setAuxInt32(3)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10313,7 +10313,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(int32(c) == -1) {
@@ -10333,7 +10333,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		if v_0.AuxInt != 0 {
+		if v_0.auxInt32() != 0 {
 			break
 		}
 		a := v.Args[2]
@@ -10351,7 +10351,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		if v_0.AuxInt != 1 {
+		if v_0.auxInt32() != 1 {
 			break
 		}
 		x := v.Args[1]
@@ -10370,7 +10370,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(isPowerOfTwo(c)) {
@@ -10378,7 +10378,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c)
+		v0.setAuxInt32(log2(c))
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(a)
@@ -10393,7 +10393,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(isPowerOfTwo(c-1) && int32(c) >= 3) {
@@ -10401,7 +10401,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v0.AuxInt = log2(c - 1)
+		v0.setAuxInt32(log2(c - 1))
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -10417,7 +10417,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(isPowerOfTwo(c+1) && int32(c) >= 7) {
@@ -10425,7 +10425,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
-		v0.AuxInt = log2(c + 1)
+		v0.setAuxInt32(log2(c + 1))
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -10441,7 +10441,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(c%3 == 0 && isPowerOfTwo(c/3) && is32Bit(c)) {
@@ -10449,9 +10449,9 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 3)
+		v0.setAuxInt32(log2(c / 3))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 1
+		v1.setAuxInt32(1)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10468,7 +10468,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(c%5 == 0 && isPowerOfTwo(c/5) && is32Bit(c)) {
@@ -10476,9 +10476,9 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 5)
+		v0.setAuxInt32(log2(c / 5))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 2
+		v1.setAuxInt32(2)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10495,7 +10495,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(c%7 == 0 && isPowerOfTwo(c/7) && is32Bit(c)) {
@@ -10503,9 +10503,9 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 7)
+		v0.setAuxInt32(log2(c / 7))
 		v1 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
-		v1.AuxInt = 3
+		v1.setAuxInt32(3)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10522,7 +10522,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(c%9 == 0 && isPowerOfTwo(c/9) && is32Bit(c)) {
@@ -10530,9 +10530,9 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		}
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 9)
+		v0.setAuxInt32(log2(c / 9))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 3
+		v1.setAuxInt32(3)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10552,15 +10552,15 @@ func rewriteValueARM_OpARMMULA_20(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_1.AuxInt
+		d := v_1.auxInt32()
 		a := v.Args[2]
 		v.reset(OpARMADDconst)
-		v.AuxInt = int64(int32(c * d))
+		v.setAuxInt32(int64(int32(c * d)))
 		v.AddArg(a)
 		return true
 	}
@@ -10661,7 +10661,7 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(int32(c) == -1) {
 			break
@@ -10680,7 +10680,7 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		if v_1.AuxInt != 0 {
+		if v_1.auxInt32() != 0 {
 			break
 		}
 		a := v.Args[2]
@@ -10699,7 +10699,7 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		if v_1.AuxInt != 1 {
+		if v_1.auxInt32() != 1 {
 			break
 		}
 		a := v.Args[2]
@@ -10718,14 +10718,14 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(isPowerOfTwo(c)) {
 			break
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c)
+		v0.setAuxInt32(log2(c))
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(a)
@@ -10741,14 +10741,14 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(isPowerOfTwo(c-1) && int32(c) >= 3) {
 			break
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v0.AuxInt = log2(c - 1)
+		v0.setAuxInt32(log2(c - 1))
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -10765,14 +10765,14 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(isPowerOfTwo(c+1) && int32(c) >= 7) {
 			break
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
-		v0.AuxInt = log2(c + 1)
+		v0.setAuxInt32(log2(c + 1))
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -10789,16 +10789,16 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(c%3 == 0 && isPowerOfTwo(c/3) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 3)
+		v0.setAuxInt32(log2(c / 3))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 1
+		v1.setAuxInt32(1)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10816,16 +10816,16 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(c%5 == 0 && isPowerOfTwo(c/5) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 5)
+		v0.setAuxInt32(log2(c / 5))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 2
+		v1.setAuxInt32(2)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10843,16 +10843,16 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(c%7 == 0 && isPowerOfTwo(c/7) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 7)
+		v0.setAuxInt32(log2(c / 7))
 		v1 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
-		v1.AuxInt = 3
+		v1.setAuxInt32(3)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10870,16 +10870,16 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		a := v.Args[2]
 		if !(c%9 == 0 && isPowerOfTwo(c/9) && is32Bit(c)) {
 			break
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 9)
+		v0.setAuxInt32(log2(c / 9))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 3
+		v1.setAuxInt32(3)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -10901,7 +10901,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(int32(c) == -1) {
@@ -10921,7 +10921,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		if v_0.AuxInt != 0 {
+		if v_0.auxInt32() != 0 {
 			break
 		}
 		a := v.Args[2]
@@ -10939,7 +10939,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		if v_0.AuxInt != 1 {
+		if v_0.auxInt32() != 1 {
 			break
 		}
 		x := v.Args[1]
@@ -10958,7 +10958,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(isPowerOfTwo(c)) {
@@ -10966,7 +10966,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c)
+		v0.setAuxInt32(log2(c))
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(a)
@@ -10981,7 +10981,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(isPowerOfTwo(c-1) && int32(c) >= 3) {
@@ -10989,7 +10989,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v0.AuxInt = log2(c - 1)
+		v0.setAuxInt32(log2(c - 1))
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -11005,7 +11005,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(isPowerOfTwo(c+1) && int32(c) >= 7) {
@@ -11013,7 +11013,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
-		v0.AuxInt = log2(c + 1)
+		v0.setAuxInt32(log2(c + 1))
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -11029,7 +11029,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(c%3 == 0 && isPowerOfTwo(c/3) && is32Bit(c)) {
@@ -11037,9 +11037,9 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 3)
+		v0.setAuxInt32(log2(c / 3))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 1
+		v1.setAuxInt32(1)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -11056,7 +11056,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(c%5 == 0 && isPowerOfTwo(c/5) && is32Bit(c)) {
@@ -11064,9 +11064,9 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 5)
+		v0.setAuxInt32(log2(c / 5))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 2
+		v1.setAuxInt32(2)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -11083,7 +11083,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(c%7 == 0 && isPowerOfTwo(c/7) && is32Bit(c)) {
@@ -11091,9 +11091,9 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 7)
+		v0.setAuxInt32(log2(c / 7))
 		v1 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
-		v1.AuxInt = 3
+		v1.setAuxInt32(3)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -11110,7 +11110,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		a := v.Args[2]
 		if !(c%9 == 0 && isPowerOfTwo(c/9) && is32Bit(c)) {
@@ -11118,9 +11118,9 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		}
 		v.reset(OpARMRSB)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = log2(c / 9)
+		v0.setAuxInt32(log2(c / 9))
 		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
-		v1.AuxInt = 3
+		v1.setAuxInt32(3)
 		v1.AddArg(x)
 		v1.AddArg(x)
 		v0.AddArg(v1)
@@ -11140,15 +11140,15 @@ func rewriteValueARM_OpARMMULS_20(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_1.AuxInt
+		d := v_1.auxInt32()
 		a := v.Args[2]
 		v.reset(OpARMSUBconst)
-		v.AuxInt = int64(int32(c * d))
+		v.setAuxInt32(int64(int32(c * d)))
 		v.AddArg(a)
 		return true
 	}
@@ -11163,9 +11163,9 @@ func rewriteValueARM_OpARMMVN_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = ^c
+		v.setAuxInt32(^c)
 		return true
 	}
 	// match: (MVN (SLLconst [c] x))
@@ -11176,10 +11176,10 @@ func rewriteValueARM_OpARMMVN_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMMVNshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -11191,10 +11191,10 @@ func rewriteValueARM_OpARMMVN_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMMVNshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -11206,10 +11206,10 @@ func rewriteValueARM_OpARMMVN_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMMVNshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -11268,14 +11268,14 @@ func rewriteValueARM_OpARMMVNshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [^int64(uint32(c)<<uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = ^int64(uint32(c) << uint64(d))
+		v.setAuxInt32(^int64(uint32(c) << uint64(d)))
 		return true
 	}
 	return false
@@ -11291,9 +11291,9 @@ func rewriteValueARM_OpARMMVNshiftLLreg_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMMVNshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -11304,14 +11304,14 @@ func rewriteValueARM_OpARMMVNshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [^int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = ^int64(int32(c) >> uint64(d))
+		v.setAuxInt32(^int64(int32(c) >> uint64(d)))
 		return true
 	}
 	return false
@@ -11327,9 +11327,9 @@ func rewriteValueARM_OpARMMVNshiftRAreg_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMMVNshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -11340,14 +11340,14 @@ func rewriteValueARM_OpARMMVNshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [^int64(uint32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = ^int64(uint32(c) >> uint64(d))
+		v.setAuxInt32(^int64(uint32(c) >> uint64(d)))
 		return true
 	}
 	return false
@@ -11363,9 +11363,9 @@ func rewriteValueARM_OpARMMVNshiftRLreg_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMMVNshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -11495,7 +11495,7 @@ func rewriteValueARM_OpARMNotEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (NotEqual (FlagLT_ULT))
@@ -11507,7 +11507,7 @@ func rewriteValueARM_OpARMNotEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (NotEqual (FlagLT_UGT))
@@ -11519,7 +11519,7 @@ func rewriteValueARM_OpARMNotEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (NotEqual (FlagGT_ULT))
@@ -11531,7 +11531,7 @@ func rewriteValueARM_OpARMNotEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (NotEqual (FlagGT_UGT))
@@ -11543,7 +11543,7 @@ func rewriteValueARM_OpARMNotEqual_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		return true
 	}
 	// match: (NotEqual (InvertFlags x))
@@ -11572,9 +11572,9 @@ func rewriteValueARM_OpARMOR_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -11587,10 +11587,10 @@ func rewriteValueARM_OpARMOR_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -11604,10 +11604,10 @@ func rewriteValueARM_OpARMOR_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMORshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -11621,11 +11621,11 @@ func rewriteValueARM_OpARMOR_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMORshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -11640,10 +11640,10 @@ func rewriteValueARM_OpARMOR_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMORshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -11657,11 +11657,11 @@ func rewriteValueARM_OpARMOR_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMORshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -11676,10 +11676,10 @@ func rewriteValueARM_OpARMOR_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMORshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -11693,11 +11693,11 @@ func rewriteValueARM_OpARMOR_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMORshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -11840,7 +11840,7 @@ func rewriteValueARM_OpARMORconst_0(v *Value) bool {
 	// cond:
 	// result: x
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt32() != 0 {
 			break
 		}
 		x := v.Args[0]
@@ -11853,41 +11853,41 @@ func rewriteValueARM_OpARMORconst_0(v *Value) bool {
 	// cond: int32(c)==-1
 	// result: (MOVWconst [-1])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		if !(int32(c) == -1) {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = -1
+		v.setAuxInt32(-1)
 		return true
 	}
 	// match: (ORconst [c] (MOVWconst [d]))
 	// cond:
 	// result: (MOVWconst [c|d])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = c | d
+		v.setAuxInt32(c | d)
 		return true
 	}
 	// match: (ORconst [c] (ORconst [d] x))
 	// cond:
 	// result: (ORconst [c|d] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMORconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMORconst)
-		v.AuxInt = c | d
+		v.setAuxInt32(c | d)
 		v.AddArg(x)
 		return true
 	}
@@ -11900,18 +11900,18 @@ func rewriteValueARM_OpARMORshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (ORconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -11920,16 +11920,16 @@ func rewriteValueARM_OpARMORshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (ORconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMORconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -11937,13 +11937,13 @@ func rewriteValueARM_OpARMORshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (SRRconst [32-c] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		if v_0.AuxInt != 32-c {
+		if v_0.auxInt32() != 32-c {
 			break
 		}
 		x := v_0.Args[0]
@@ -11951,7 +11951,7 @@ func rewriteValueARM_OpARMORshiftLL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMSRRconst)
-		v.AuxInt = 32 - c
+		v.setAuxInt32(32 - c)
 		v.AddArg(x)
 		return true
 	}
@@ -11959,14 +11959,14 @@ func rewriteValueARM_OpARMORshiftLL_0(v *Value) bool {
 	// cond: c==d
 	// result: y
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		if y.Op != OpARMSLLconst {
 			break
 		}
-		c := y.AuxInt
+		c := y.auxInt32()
 		if x != y.Args[0] {
 			break
 		}
@@ -11992,11 +11992,11 @@ func rewriteValueARM_OpARMORshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -12014,9 +12014,9 @@ func rewriteValueARM_OpARMORshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMORshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12030,18 +12030,18 @@ func rewriteValueARM_OpARMORshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (ORconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -12050,16 +12050,16 @@ func rewriteValueARM_OpARMORshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (ORconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMORconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -12067,14 +12067,14 @@ func rewriteValueARM_OpARMORshiftRA_0(v *Value) bool {
 	// cond: c==d
 	// result: y
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		if y.Op != OpARMSRAconst {
 			break
 		}
-		c := y.AuxInt
+		c := y.auxInt32()
 		if x != y.Args[0] {
 			break
 		}
@@ -12100,11 +12100,11 @@ func rewriteValueARM_OpARMORshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -12122,9 +12122,9 @@ func rewriteValueARM_OpARMORshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMORshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12138,18 +12138,18 @@ func rewriteValueARM_OpARMORshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (ORconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -12158,16 +12158,16 @@ func rewriteValueARM_OpARMORshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (ORconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMORconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -12175,13 +12175,13 @@ func rewriteValueARM_OpARMORshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (SRRconst [ c] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		if v_0.AuxInt != 32-c {
+		if v_0.auxInt32() != 32-c {
 			break
 		}
 		x := v_0.Args[0]
@@ -12189,7 +12189,7 @@ func rewriteValueARM_OpARMORshiftRL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMSRRconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -12197,14 +12197,14 @@ func rewriteValueARM_OpARMORshiftRL_0(v *Value) bool {
 	// cond: c==d
 	// result: y
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		if y.Op != OpARMSRLconst {
 			break
 		}
-		c := y.AuxInt
+		c := y.auxInt32()
 		if x != y.Args[0] {
 			break
 		}
@@ -12230,11 +12230,11 @@ func rewriteValueARM_OpARMORshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -12252,9 +12252,9 @@ func rewriteValueARM_OpARMORshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMORshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12271,10 +12271,10 @@ func rewriteValueARM_OpARMRSB_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMSUBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -12288,9 +12288,9 @@ func rewriteValueARM_OpARMRSB_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMRSBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -12304,10 +12304,10 @@ func rewriteValueARM_OpARMRSB_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMRSBshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12321,11 +12321,11 @@ func rewriteValueARM_OpARMRSB_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMSUBshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12340,10 +12340,10 @@ func rewriteValueARM_OpARMRSB_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMRSBshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12357,11 +12357,11 @@ func rewriteValueARM_OpARMRSB_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMSUBshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12376,10 +12376,10 @@ func rewriteValueARM_OpARMRSB_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMRSBshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12393,11 +12393,11 @@ func rewriteValueARM_OpARMRSB_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMSUBshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12529,7 +12529,7 @@ func rewriteValueARM_OpARMRSB_10(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (RSB (MUL x y) a)
@@ -12563,18 +12563,18 @@ func rewriteValueARM_OpARMRSBSshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (SUBSconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMSUBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -12583,16 +12583,16 @@ func rewriteValueARM_OpARMRSBSshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (RSBSconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMRSBSconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -12610,11 +12610,11 @@ func rewriteValueARM_OpARMRSBSshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMSUBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -12632,9 +12632,9 @@ func rewriteValueARM_OpARMRSBSshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMRSBSshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12648,18 +12648,18 @@ func rewriteValueARM_OpARMRSBSshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (SUBSconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMSUBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -12668,16 +12668,16 @@ func rewriteValueARM_OpARMRSBSshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (RSBSconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMRSBSconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -12695,11 +12695,11 @@ func rewriteValueARM_OpARMRSBSshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMSUBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -12717,9 +12717,9 @@ func rewriteValueARM_OpARMRSBSshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMRSBSshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12733,18 +12733,18 @@ func rewriteValueARM_OpARMRSBSshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (SUBSconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMSUBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -12753,16 +12753,16 @@ func rewriteValueARM_OpARMRSBSshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (RSBSconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMRSBSconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -12780,11 +12780,11 @@ func rewriteValueARM_OpARMRSBSshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMSUBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -12802,9 +12802,9 @@ func rewriteValueARM_OpARMRSBSshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMRSBSshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12816,29 +12816,29 @@ func rewriteValueARM_OpARMRSBconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [int64(int32(c-d))])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(c - d))
+		v.setAuxInt32(int64(int32(c - d)))
 		return true
 	}
 	// match: (RSBconst [c] (RSBconst [d] x))
 	// cond:
 	// result: (ADDconst [int64(int32(c-d))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMRSBconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMADDconst)
-		v.AuxInt = int64(int32(c - d))
+		v.setAuxInt32(int64(int32(c - d)))
 		v.AddArg(x)
 		return true
 	}
@@ -12846,15 +12846,15 @@ func rewriteValueARM_OpARMRSBconst_0(v *Value) bool {
 	// cond:
 	// result: (RSBconst [int64(int32(c-d))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = int64(int32(c - d))
+		v.setAuxInt32(int64(int32(c - d)))
 		v.AddArg(x)
 		return true
 	}
@@ -12862,15 +12862,15 @@ func rewriteValueARM_OpARMRSBconst_0(v *Value) bool {
 	// cond:
 	// result: (RSBconst [int64(int32(c+d))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = int64(int32(c + d))
+		v.setAuxInt32(int64(int32(c + d)))
 		v.AddArg(x)
 		return true
 	}
@@ -12883,18 +12883,18 @@ func rewriteValueARM_OpARMRSBshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (SUBconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMSUBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -12903,16 +12903,16 @@ func rewriteValueARM_OpARMRSBshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (RSBconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMRSBconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -12920,14 +12920,14 @@ func rewriteValueARM_OpARMRSBshiftLL_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -12935,7 +12935,7 @@ func rewriteValueARM_OpARMRSBshiftLL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -12952,11 +12952,11 @@ func rewriteValueARM_OpARMRSBshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMSUBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -12974,9 +12974,9 @@ func rewriteValueARM_OpARMRSBshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMRSBshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -12990,18 +12990,18 @@ func rewriteValueARM_OpARMRSBshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (SUBconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMSUBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -13010,16 +13010,16 @@ func rewriteValueARM_OpARMRSBshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (RSBconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMRSBconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -13027,14 +13027,14 @@ func rewriteValueARM_OpARMRSBshiftRA_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -13042,7 +13042,7 @@ func rewriteValueARM_OpARMRSBshiftRA_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -13059,11 +13059,11 @@ func rewriteValueARM_OpARMRSBshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMSUBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -13081,9 +13081,9 @@ func rewriteValueARM_OpARMRSBshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMRSBshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -13097,18 +13097,18 @@ func rewriteValueARM_OpARMRSBshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (SUBconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMSUBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -13117,16 +13117,16 @@ func rewriteValueARM_OpARMRSBshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (RSBconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMRSBconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -13134,14 +13134,14 @@ func rewriteValueARM_OpARMRSBshiftRL_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -13149,7 +13149,7 @@ func rewriteValueARM_OpARMRSBshiftRL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -13166,11 +13166,11 @@ func rewriteValueARM_OpARMRSBshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMSUBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -13188,9 +13188,9 @@ func rewriteValueARM_OpARMRSBshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMRSBshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -13202,17 +13202,17 @@ func rewriteValueARM_OpARMRSCconst_0(v *Value) bool {
 	// cond:
 	// result: (RSCconst [int64(int32(c-d))] x flags)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		flags := v.Args[1]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = int64(int32(c - d))
+		v.setAuxInt32(int64(int32(c - d)))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13221,17 +13221,17 @@ func rewriteValueARM_OpARMRSCconst_0(v *Value) bool {
 	// cond:
 	// result: (RSCconst [int64(int32(c+d))] x flags)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		flags := v.Args[1]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = int64(int32(c + d))
+		v.setAuxInt32(int64(int32(c + d)))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13245,19 +13245,19 @@ func rewriteValueARM_OpARMRSCshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (SBCconst [c] (SLLconst <x.Type> x [d]) flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(flags)
@@ -13267,17 +13267,17 @@ func rewriteValueARM_OpARMRSCshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (RSCconst x [int64(int32(uint32(c)<<uint64(d)))] flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13296,12 +13296,12 @@ func rewriteValueARM_OpARMRSCshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		flags := v.Args[3]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -13320,10 +13320,10 @@ func rewriteValueARM_OpARMRSCshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		flags := v.Args[3]
 		v.reset(OpARMRSCshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -13338,19 +13338,19 @@ func rewriteValueARM_OpARMRSCshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (SBCconst [c] (SRAconst <x.Type> x [d]) flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(flags)
@@ -13360,17 +13360,17 @@ func rewriteValueARM_OpARMRSCshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (RSCconst x [int64(int32(c)>>uint64(d))] flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13389,12 +13389,12 @@ func rewriteValueARM_OpARMRSCshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		flags := v.Args[3]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -13413,10 +13413,10 @@ func rewriteValueARM_OpARMRSCshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		flags := v.Args[3]
 		v.reset(OpARMRSCshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -13431,19 +13431,19 @@ func rewriteValueARM_OpARMRSCshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (SBCconst [c] (SRLconst <x.Type> x [d]) flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(flags)
@@ -13453,17 +13453,17 @@ func rewriteValueARM_OpARMRSCshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (RSCconst x [int64(int32(uint32(c)>>uint64(d)))] flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13482,12 +13482,12 @@ func rewriteValueARM_OpARMRSCshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		flags := v.Args[3]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -13506,10 +13506,10 @@ func rewriteValueARM_OpARMRSCshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		flags := v.Args[3]
 		v.reset(OpARMRSCshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -13527,11 +13527,11 @@ func rewriteValueARM_OpARMSBC_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13546,10 +13546,10 @@ func rewriteValueARM_OpARMSBC_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13564,11 +13564,11 @@ func rewriteValueARM_OpARMSBC_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		flags := v.Args[2]
 		v.reset(OpARMSBCshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -13583,12 +13583,12 @@ func rewriteValueARM_OpARMSBC_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMRSCshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -13604,11 +13604,11 @@ func rewriteValueARM_OpARMSBC_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		flags := v.Args[2]
 		v.reset(OpARMSBCshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -13623,12 +13623,12 @@ func rewriteValueARM_OpARMSBC_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMRSCshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -13644,11 +13644,11 @@ func rewriteValueARM_OpARMSBC_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		flags := v.Args[2]
 		v.reset(OpARMSBCshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -13663,12 +13663,12 @@ func rewriteValueARM_OpARMSBC_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMRSCshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -13810,17 +13810,17 @@ func rewriteValueARM_OpARMSBCconst_0(v *Value) bool {
 	// cond:
 	// result: (SBCconst [int64(int32(c-d))] x flags)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		flags := v.Args[1]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = int64(int32(c - d))
+		v.setAuxInt32(int64(int32(c - d)))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13829,17 +13829,17 @@ func rewriteValueARM_OpARMSBCconst_0(v *Value) bool {
 	// cond:
 	// result: (SBCconst [int64(int32(c+d))] x flags)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		flags := v.Args[1]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = int64(int32(c + d))
+		v.setAuxInt32(int64(int32(c + d)))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13853,19 +13853,19 @@ func rewriteValueARM_OpARMSBCshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (RSCconst [c] (SLLconst <x.Type> x [d]) flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(flags)
@@ -13875,17 +13875,17 @@ func rewriteValueARM_OpARMSBCshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (SBCconst x [int64(int32(uint32(c)<<uint64(d)))] flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13904,12 +13904,12 @@ func rewriteValueARM_OpARMSBCshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		flags := v.Args[3]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -13928,10 +13928,10 @@ func rewriteValueARM_OpARMSBCshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		flags := v.Args[3]
 		v.reset(OpARMSBCshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -13946,19 +13946,19 @@ func rewriteValueARM_OpARMSBCshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (RSCconst [c] (SRAconst <x.Type> x [d]) flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(flags)
@@ -13968,17 +13968,17 @@ func rewriteValueARM_OpARMSBCshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (SBCconst x [int64(int32(c)>>uint64(d))] flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -13997,12 +13997,12 @@ func rewriteValueARM_OpARMSBCshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		flags := v.Args[3]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -14021,10 +14021,10 @@ func rewriteValueARM_OpARMSBCshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		flags := v.Args[3]
 		v.reset(OpARMSBCshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -14039,19 +14039,19 @@ func rewriteValueARM_OpARMSBCshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (RSCconst [c] (SRLconst <x.Type> x [d]) flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		flags := v.Args[2]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		v.AddArg(flags)
@@ -14061,17 +14061,17 @@ func rewriteValueARM_OpARMSBCshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (SBCconst x [int64(int32(uint32(c)>>uint64(d)))] flags)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[2]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		flags := v.Args[2]
 		v.reset(OpARMSBCconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		v.AddArg(flags)
 		return true
@@ -14090,12 +14090,12 @@ func rewriteValueARM_OpARMSBCshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		flags := v.Args[3]
 		v.reset(OpARMRSCconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -14114,10 +14114,10 @@ func rewriteValueARM_OpARMSBCshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		flags := v.Args[3]
 		v.reset(OpARMSBCshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(flags)
@@ -14136,9 +14136,9 @@ func rewriteValueARM_OpARMSLL_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSLLconst)
-		v.AuxInt = c & 31
+		v.setAuxInt32(c & 31)
 		v.AddArg(x)
 		return true
 	}
@@ -14149,14 +14149,14 @@ func rewriteValueARM_OpARMSLLconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [int64(int32(uint32(d)<<uint64(c)))])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(uint32(d) << uint64(c)))
+		v.setAuxInt32(int64(int32(uint32(d) << uint64(c))))
 		return true
 	}
 	return false
@@ -14172,9 +14172,9 @@ func rewriteValueARM_OpARMSRA_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSRAconst)
-		v.AuxInt = c & 31
+		v.setAuxInt32(c & 31)
 		v.AddArg(x)
 		return true
 	}
@@ -14192,7 +14192,7 @@ func rewriteValueARM_OpARMSRAcond_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMSRAconst)
-		v.AuxInt = 31
+		v.setAuxInt32(31)
 		v.AddArg(x)
 		return true
 	}
@@ -14223,7 +14223,7 @@ func rewriteValueARM_OpARMSRAcond_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMSRAconst)
-		v.AuxInt = 31
+		v.setAuxInt32(31)
 		v.AddArg(x)
 		return true
 	}
@@ -14254,7 +14254,7 @@ func rewriteValueARM_OpARMSRAcond_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMSRAconst)
-		v.AuxInt = 31
+		v.setAuxInt32(31)
 		v.AddArg(x)
 		return true
 	}
@@ -14265,32 +14265,32 @@ func rewriteValueARM_OpARMSRAconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [int64(int32(d)>>uint64(c))])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(d) >> uint64(c))
+		v.setAuxInt32(int64(int32(d) >> uint64(c)))
 		return true
 	}
 	// match: (SRAconst (SLLconst x [c]) [d])
 	// cond: objabi.GOARM==7 && uint64(d)>=uint64(c) && uint64(d)<=31
 	// result: (BFX [(d-c)|(32-d)<<8] x)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v_0.Args[0]
 		if !(objabi.GOARM == 7 && uint64(d) >= uint64(c) && uint64(d) <= 31) {
 			break
 		}
 		v.reset(OpARMBFX)
-		v.AuxInt = (d - c) | (32-d)<<8
+		v.setAuxInt32((d - c) | (32-d)<<8)
 		v.AddArg(x)
 		return true
 	}
@@ -14307,9 +14307,9 @@ func rewriteValueARM_OpARMSRL_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSRLconst)
-		v.AuxInt = c & 31
+		v.setAuxInt32(c & 31)
 		v.AddArg(x)
 		return true
 	}
@@ -14320,32 +14320,32 @@ func rewriteValueARM_OpARMSRLconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [int64(int32(uint32(d)>>uint64(c)))])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(uint32(d) >> uint64(c)))
+		v.setAuxInt32(int64(int32(uint32(d) >> uint64(c))))
 		return true
 	}
 	// match: (SRLconst (SLLconst x [c]) [d])
 	// cond: objabi.GOARM==7 && uint64(d)>=uint64(c) && uint64(d)<=31
 	// result: (BFXU [(d-c)|(32-d)<<8] x)
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v_0.Args[0]
 		if !(objabi.GOARM == 7 && uint64(d) >= uint64(c) && uint64(d) <= 31) {
 			break
 		}
 		v.reset(OpARMBFXU)
-		v.AuxInt = (d - c) | (32-d)<<8
+		v.setAuxInt32((d - c) | (32-d)<<8)
 		v.AddArg(x)
 		return true
 	}
@@ -14361,10 +14361,10 @@ func rewriteValueARM_OpARMSUB_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -14378,9 +14378,9 @@ func rewriteValueARM_OpARMSUB_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSUBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -14394,10 +14394,10 @@ func rewriteValueARM_OpARMSUB_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMSUBshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14411,11 +14411,11 @@ func rewriteValueARM_OpARMSUB_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMRSBshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14430,10 +14430,10 @@ func rewriteValueARM_OpARMSUB_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMSUBshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14447,11 +14447,11 @@ func rewriteValueARM_OpARMSUB_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMRSBshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14466,10 +14466,10 @@ func rewriteValueARM_OpARMSUB_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMSUBshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14483,11 +14483,11 @@ func rewriteValueARM_OpARMSUB_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMRSBshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14619,7 +14619,7 @@ func rewriteValueARM_OpARMSUB_10(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (SUB a (MUL x y))
@@ -14751,9 +14751,9 @@ func rewriteValueARM_OpARMSUBS_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSUBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -14767,10 +14767,10 @@ func rewriteValueARM_OpARMSUBS_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMSUBSshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14784,11 +14784,11 @@ func rewriteValueARM_OpARMSUBS_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMRSBSshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14803,10 +14803,10 @@ func rewriteValueARM_OpARMSUBS_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMSUBSshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14820,11 +14820,11 @@ func rewriteValueARM_OpARMSUBS_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMRSBSshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14839,10 +14839,10 @@ func rewriteValueARM_OpARMSUBS_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMSUBSshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14856,11 +14856,11 @@ func rewriteValueARM_OpARMSUBS_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMRSBSshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -14991,18 +14991,18 @@ func rewriteValueARM_OpARMSUBSshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (RSBSconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMRSBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -15011,16 +15011,16 @@ func rewriteValueARM_OpARMSUBSshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (SUBSconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSUBSconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -15038,11 +15038,11 @@ func rewriteValueARM_OpARMSUBSshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMRSBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -15060,9 +15060,9 @@ func rewriteValueARM_OpARMSUBSshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMSUBSshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15076,18 +15076,18 @@ func rewriteValueARM_OpARMSUBSshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (RSBSconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMRSBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -15096,16 +15096,16 @@ func rewriteValueARM_OpARMSUBSshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (SUBSconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSUBSconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -15123,11 +15123,11 @@ func rewriteValueARM_OpARMSUBSshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMRSBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -15145,9 +15145,9 @@ func rewriteValueARM_OpARMSUBSshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMSUBSshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15161,18 +15161,18 @@ func rewriteValueARM_OpARMSUBSshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (RSBSconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMRSBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -15181,16 +15181,16 @@ func rewriteValueARM_OpARMSUBSshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (SUBSconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSUBSconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -15208,11 +15208,11 @@ func rewriteValueARM_OpARMSUBSshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMRSBSconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -15230,9 +15230,9 @@ func rewriteValueARM_OpARMSUBSshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMSUBSshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15244,16 +15244,16 @@ func rewriteValueARM_OpARMSUBconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWaddr [off2-off1] {sym} ptr)
 	for {
-		off1 := v.AuxInt
+		off1 := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWaddr {
 			break
 		}
-		off2 := v_0.AuxInt
+		off2 := v_0.auxInt64()
 		sym := v_0.Aux
 		ptr := v_0.Args[0]
 		v.reset(OpARMMOVWaddr)
-		v.AuxInt = off2 - off1
+		v.setAuxInt64(off2 - off1)
 		v.Aux = sym
 		v.AddArg(ptr)
 		return true
@@ -15262,7 +15262,7 @@ func rewriteValueARM_OpARMSUBconst_0(v *Value) bool {
 	// cond:
 	// result: x
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt32() != 0 {
 			break
 		}
 		x := v.Args[0]
@@ -15275,13 +15275,13 @@ func rewriteValueARM_OpARMSUBconst_0(v *Value) bool {
 	// cond: !isARMImmRot(uint32(c)) && isARMImmRot(uint32(-c))
 	// result: (ADDconst [int64(int32(-c))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		x := v.Args[0]
 		if !(!isARMImmRot(uint32(c)) && isARMImmRot(uint32(-c))) {
 			break
 		}
 		v.reset(OpARMADDconst)
-		v.AuxInt = int64(int32(-c))
+		v.setAuxInt32(int64(int32(-c)))
 		v.AddArg(x)
 		return true
 	}
@@ -15289,13 +15289,13 @@ func rewriteValueARM_OpARMSUBconst_0(v *Value) bool {
 	// cond: objabi.GOARM==7 && !isARMImmRot(uint32(c)) && uint32(c)>0xffff && uint32(-c)<=0xffff
 	// result: (ANDconst [int64(int32(-c))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		x := v.Args[0]
 		if !(objabi.GOARM == 7 && !isARMImmRot(uint32(c)) && uint32(c) > 0xffff && uint32(-c) <= 0xffff) {
 			break
 		}
 		v.reset(OpARMANDconst)
-		v.AuxInt = int64(int32(-c))
+		v.setAuxInt32(int64(int32(-c)))
 		v.AddArg(x)
 		return true
 	}
@@ -15303,29 +15303,29 @@ func rewriteValueARM_OpARMSUBconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [int64(int32(d-c))])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(d - c))
+		v.setAuxInt32(int64(int32(d - c)))
 		return true
 	}
 	// match: (SUBconst [c] (SUBconst [d] x))
 	// cond:
 	// result: (ADDconst [int64(int32(-c-d))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSUBconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMADDconst)
-		v.AuxInt = int64(int32(-c - d))
+		v.setAuxInt32(int64(int32(-c - d)))
 		v.AddArg(x)
 		return true
 	}
@@ -15333,15 +15333,15 @@ func rewriteValueARM_OpARMSUBconst_0(v *Value) bool {
 	// cond:
 	// result: (ADDconst [int64(int32(-c+d))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMADDconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMADDconst)
-		v.AuxInt = int64(int32(-c + d))
+		v.setAuxInt32(int64(int32(-c + d)))
 		v.AddArg(x)
 		return true
 	}
@@ -15349,15 +15349,15 @@ func rewriteValueARM_OpARMSUBconst_0(v *Value) bool {
 	// cond:
 	// result: (RSBconst [int64(int32(-c+d))] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMRSBconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = int64(int32(-c + d))
+		v.setAuxInt32(int64(int32(-c + d)))
 		v.AddArg(x)
 		return true
 	}
@@ -15370,18 +15370,18 @@ func rewriteValueARM_OpARMSUBshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (RSBconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -15390,16 +15390,16 @@ func rewriteValueARM_OpARMSUBshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (SUBconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSUBconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -15407,14 +15407,14 @@ func rewriteValueARM_OpARMSUBshiftLL_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -15422,7 +15422,7 @@ func rewriteValueARM_OpARMSUBshiftLL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -15439,11 +15439,11 @@ func rewriteValueARM_OpARMSUBshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -15461,9 +15461,9 @@ func rewriteValueARM_OpARMSUBshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMSUBshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15477,18 +15477,18 @@ func rewriteValueARM_OpARMSUBshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (RSBconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -15497,16 +15497,16 @@ func rewriteValueARM_OpARMSUBshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (SUBconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSUBconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -15514,14 +15514,14 @@ func rewriteValueARM_OpARMSUBshiftRA_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -15529,7 +15529,7 @@ func rewriteValueARM_OpARMSUBshiftRA_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -15546,11 +15546,11 @@ func rewriteValueARM_OpARMSUBshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -15568,9 +15568,9 @@ func rewriteValueARM_OpARMSUBshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMSUBshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15584,18 +15584,18 @@ func rewriteValueARM_OpARMSUBshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (RSBconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -15604,16 +15604,16 @@ func rewriteValueARM_OpARMSUBshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (SUBconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMSUBconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -15621,14 +15621,14 @@ func rewriteValueARM_OpARMSUBshiftRL_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -15636,7 +15636,7 @@ func rewriteValueARM_OpARMSUBshiftRL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -15653,11 +15653,11 @@ func rewriteValueARM_OpARMSUBshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -15675,9 +15675,9 @@ func rewriteValueARM_OpARMSUBshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMSUBshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15695,9 +15695,9 @@ func rewriteValueARM_OpARMTEQ_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMTEQconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -15710,10 +15710,10 @@ func rewriteValueARM_OpARMTEQ_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMTEQconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -15727,10 +15727,10 @@ func rewriteValueARM_OpARMTEQ_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMTEQshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15744,11 +15744,11 @@ func rewriteValueARM_OpARMTEQ_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMTEQshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15763,10 +15763,10 @@ func rewriteValueARM_OpARMTEQ_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMTEQshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15780,11 +15780,11 @@ func rewriteValueARM_OpARMTEQ_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMTEQshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15799,10 +15799,10 @@ func rewriteValueARM_OpARMTEQ_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMTEQshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15816,11 +15816,11 @@ func rewriteValueARM_OpARMTEQ_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMTEQshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15949,12 +15949,12 @@ func rewriteValueARM_OpARMTEQconst_0(v *Value) bool {
 	// cond: int32(x^y)==0
 	// result: (FlagEQ)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x^y) == 0) {
 			break
 		}
@@ -15965,12 +15965,12 @@ func rewriteValueARM_OpARMTEQconst_0(v *Value) bool {
 	// cond: int32(x^y)<0
 	// result: (FlagLT_UGT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x^y) < 0) {
 			break
 		}
@@ -15981,12 +15981,12 @@ func rewriteValueARM_OpARMTEQconst_0(v *Value) bool {
 	// cond: int32(x^y)>0
 	// result: (FlagGT_UGT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x^y) > 0) {
 			break
 		}
@@ -16002,18 +16002,18 @@ func rewriteValueARM_OpARMTEQshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (TEQconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMTEQconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -16022,16 +16022,16 @@ func rewriteValueARM_OpARMTEQshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (TEQconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMTEQconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -16049,11 +16049,11 @@ func rewriteValueARM_OpARMTEQshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMTEQconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -16071,9 +16071,9 @@ func rewriteValueARM_OpARMTEQshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMTEQshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16087,18 +16087,18 @@ func rewriteValueARM_OpARMTEQshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (TEQconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMTEQconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -16107,16 +16107,16 @@ func rewriteValueARM_OpARMTEQshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (TEQconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMTEQconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -16134,11 +16134,11 @@ func rewriteValueARM_OpARMTEQshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMTEQconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -16156,9 +16156,9 @@ func rewriteValueARM_OpARMTEQshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMTEQshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16172,18 +16172,18 @@ func rewriteValueARM_OpARMTEQshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (TEQconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMTEQconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -16192,16 +16192,16 @@ func rewriteValueARM_OpARMTEQshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (TEQconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMTEQconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -16219,11 +16219,11 @@ func rewriteValueARM_OpARMTEQshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMTEQconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -16241,9 +16241,9 @@ func rewriteValueARM_OpARMTEQshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMTEQshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16261,9 +16261,9 @@ func rewriteValueARM_OpARMTST_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMTSTconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -16276,10 +16276,10 @@ func rewriteValueARM_OpARMTST_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMTSTconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -16293,10 +16293,10 @@ func rewriteValueARM_OpARMTST_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMTSTshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16310,11 +16310,11 @@ func rewriteValueARM_OpARMTST_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMTSTshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16329,10 +16329,10 @@ func rewriteValueARM_OpARMTST_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMTSTshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16346,11 +16346,11 @@ func rewriteValueARM_OpARMTST_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMTSTshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16365,10 +16365,10 @@ func rewriteValueARM_OpARMTST_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMTSTshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16382,11 +16382,11 @@ func rewriteValueARM_OpARMTST_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMTSTshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16515,12 +16515,12 @@ func rewriteValueARM_OpARMTSTconst_0(v *Value) bool {
 	// cond: int32(x&y)==0
 	// result: (FlagEQ)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x&y) == 0) {
 			break
 		}
@@ -16531,12 +16531,12 @@ func rewriteValueARM_OpARMTSTconst_0(v *Value) bool {
 	// cond: int32(x&y)<0
 	// result: (FlagLT_UGT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x&y) < 0) {
 			break
 		}
@@ -16547,12 +16547,12 @@ func rewriteValueARM_OpARMTSTconst_0(v *Value) bool {
 	// cond: int32(x&y)>0
 	// result: (FlagGT_UGT)
 	for {
-		y := v.AuxInt
+		y := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		x := v_0.AuxInt
+		x := v_0.auxInt32()
 		if !(int32(x&y) > 0) {
 			break
 		}
@@ -16568,18 +16568,18 @@ func rewriteValueARM_OpARMTSTshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (TSTconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMTSTconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -16588,16 +16588,16 @@ func rewriteValueARM_OpARMTSTshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (TSTconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMTSTconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -16615,11 +16615,11 @@ func rewriteValueARM_OpARMTSTshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMTSTconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -16637,9 +16637,9 @@ func rewriteValueARM_OpARMTSTshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMTSTshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16653,18 +16653,18 @@ func rewriteValueARM_OpARMTSTshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (TSTconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMTSTconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -16673,16 +16673,16 @@ func rewriteValueARM_OpARMTSTshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (TSTconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMTSTconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -16700,11 +16700,11 @@ func rewriteValueARM_OpARMTSTshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMTSTconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -16722,9 +16722,9 @@ func rewriteValueARM_OpARMTSTshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMTSTshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16738,18 +16738,18 @@ func rewriteValueARM_OpARMTSTshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (TSTconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMTSTconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -16758,16 +16758,16 @@ func rewriteValueARM_OpARMTSTshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (TSTconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMTSTconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -16785,11 +16785,11 @@ func rewriteValueARM_OpARMTSTshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMTSTconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -16807,9 +16807,9 @@ func rewriteValueARM_OpARMTSTshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMTSTshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16827,9 +16827,9 @@ func rewriteValueARM_OpARMXOR_0(v *Value) bool {
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMXORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -16842,10 +16842,10 @@ func rewriteValueARM_OpARMXOR_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMXORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -16859,10 +16859,10 @@ func rewriteValueARM_OpARMXOR_0(v *Value) bool {
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMXORshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16876,11 +16876,11 @@ func rewriteValueARM_OpARMXOR_0(v *Value) bool {
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMXORshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16895,10 +16895,10 @@ func rewriteValueARM_OpARMXOR_0(v *Value) bool {
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMXORshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16912,11 +16912,11 @@ func rewriteValueARM_OpARMXOR_0(v *Value) bool {
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMXORshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16931,10 +16931,10 @@ func rewriteValueARM_OpARMXOR_0(v *Value) bool {
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMXORshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16948,11 +16948,11 @@ func rewriteValueARM_OpARMXOR_0(v *Value) bool {
 		if v_0.Op != OpARMSRAconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMXORshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16967,10 +16967,10 @@ func rewriteValueARM_OpARMXOR_0(v *Value) bool {
 		if v_1.Op != OpARMSRRconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		y := v_1.Args[0]
 		v.reset(OpARMXORshiftRR)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -16984,11 +16984,11 @@ func rewriteValueARM_OpARMXOR_0(v *Value) bool {
 		if v_0.Op != OpARMSRRconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		y := v_0.Args[0]
 		x := v.Args[1]
 		v.reset(OpARMXORshiftRR)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -17120,7 +17120,7 @@ func rewriteValueARM_OpARMXOR_10(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -17130,7 +17130,7 @@ func rewriteValueARM_OpARMXORconst_0(v *Value) bool {
 	// cond:
 	// result: x
 	for {
-		if v.AuxInt != 0 {
+		if v.auxInt32() != 0 {
 			break
 		}
 		x := v.Args[0]
@@ -17143,29 +17143,29 @@ func rewriteValueARM_OpARMXORconst_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [c^d])
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = c ^ d
+		v.setAuxInt32(c ^ d)
 		return true
 	}
 	// match: (XORconst [c] (XORconst [d] x))
 	// cond:
 	// result: (XORconst [c^d] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMXORconst {
 			break
 		}
-		d := v_0.AuxInt
+		d := v_0.auxInt32()
 		x := v_0.Args[0]
 		v.reset(OpARMXORconst)
-		v.AuxInt = c ^ d
+		v.setAuxInt32(c ^ d)
 		v.AddArg(x)
 		return true
 	}
@@ -17178,18 +17178,18 @@ func rewriteValueARM_OpARMXORshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (XORconst [c] (SLLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMXORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -17198,16 +17198,16 @@ func rewriteValueARM_OpARMXORshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (XORconst x [int64(int32(uint32(c)<<uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMXORconst)
-		v.AuxInt = int64(int32(uint32(c) << uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) << uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -17215,13 +17215,13 @@ func rewriteValueARM_OpARMXORshiftLL_0(v *Value) bool {
 	// cond:
 	// result: (SRRconst [32-c] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSRLconst {
 			break
 		}
-		if v_0.AuxInt != 32-c {
+		if v_0.auxInt32() != 32-c {
 			break
 		}
 		x := v_0.Args[0]
@@ -17229,7 +17229,7 @@ func rewriteValueARM_OpARMXORshiftLL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMSRRconst)
-		v.AuxInt = 32 - c
+		v.setAuxInt32(32 - c)
 		v.AddArg(x)
 		return true
 	}
@@ -17237,14 +17237,14 @@ func rewriteValueARM_OpARMXORshiftLL_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSLLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -17252,7 +17252,7 @@ func rewriteValueARM_OpARMXORshiftLL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -17269,11 +17269,11 @@ func rewriteValueARM_OpARMXORshiftLLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMXORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -17291,9 +17291,9 @@ func rewriteValueARM_OpARMXORshiftLLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMXORshiftLL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -17307,18 +17307,18 @@ func rewriteValueARM_OpARMXORshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (XORconst [c] (SRAconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMXORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRAconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -17327,16 +17327,16 @@ func rewriteValueARM_OpARMXORshiftRA_0(v *Value) bool {
 	// cond:
 	// result: (XORconst x [int64(int32(c)>>uint64(d))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMXORconst)
-		v.AuxInt = int64(int32(c) >> uint64(d))
+		v.setAuxInt32(int64(int32(c) >> uint64(d)))
 		v.AddArg(x)
 		return true
 	}
@@ -17344,14 +17344,14 @@ func rewriteValueARM_OpARMXORshiftRA_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSRAconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -17359,7 +17359,7 @@ func rewriteValueARM_OpARMXORshiftRA_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -17376,11 +17376,11 @@ func rewriteValueARM_OpARMXORshiftRAreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMXORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRA, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -17398,9 +17398,9 @@ func rewriteValueARM_OpARMXORshiftRAreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMXORshiftRA)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -17414,18 +17414,18 @@ func rewriteValueARM_OpARMXORshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (XORconst [c] (SRLconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMXORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -17434,16 +17434,16 @@ func rewriteValueARM_OpARMXORshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (XORconst x [int64(int32(uint32(c)>>uint64(d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMXORconst)
-		v.AuxInt = int64(int32(uint32(c) >> uint64(d)))
+		v.setAuxInt32(int64(int32(uint32(c) >> uint64(d))))
 		v.AddArg(x)
 		return true
 	}
@@ -17451,13 +17451,13 @@ func rewriteValueARM_OpARMXORshiftRL_0(v *Value) bool {
 	// cond:
 	// result: (SRRconst [ c] x)
 	for {
-		c := v.AuxInt
+		c := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMSLLconst {
 			break
 		}
-		if v_0.AuxInt != 32-c {
+		if v_0.auxInt32() != 32-c {
 			break
 		}
 		x := v_0.Args[0]
@@ -17465,7 +17465,7 @@ func rewriteValueARM_OpARMXORshiftRL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMSRRconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -17473,14 +17473,14 @@ func rewriteValueARM_OpARMXORshiftRL_0(v *Value) bool {
 	// cond: c==d
 	// result: (MOVWconst [0])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMSRLconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		if x != v_1.Args[0] {
 			break
 		}
@@ -17488,7 +17488,7 @@ func rewriteValueARM_OpARMXORshiftRL_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -17505,11 +17505,11 @@ func rewriteValueARM_OpARMXORshiftRLreg_0(v *Value) bool {
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		y := v.Args[2]
 		v.reset(OpARMXORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -17527,9 +17527,9 @@ func rewriteValueARM_OpARMXORshiftRLreg_0(v *Value) bool {
 		if v_2.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_2.AuxInt
+		c := v_2.auxInt32()
 		v.reset(OpARMXORshiftRL)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -17543,18 +17543,18 @@ func rewriteValueARM_OpARMXORshiftRR_0(v *Value) bool {
 	// cond:
 	// result: (XORconst [c] (SRRconst <x.Type> x [d]))
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		v_0 := v.Args[0]
 		if v_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0.AuxInt
+		c := v_0.auxInt32()
 		x := v.Args[1]
 		v.reset(OpARMXORconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v0 := b.NewValue0(v.Pos, OpARMSRRconst, x.Type)
-		v0.AuxInt = d
+		v0.setAuxInt32(d)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -17563,16 +17563,16 @@ func rewriteValueARM_OpARMXORshiftRR_0(v *Value) bool {
 	// cond:
 	// result: (XORconst x [int64(int32(uint32(c)>>uint64(d)|uint32(c)<<uint64(32-d)))])
 	for {
-		d := v.AuxInt
+		d := v.auxInt32()
 		_ = v.Args[1]
 		x := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt32()
 		v.reset(OpARMXORconst)
-		v.AuxInt = int64(int32(uint32(c)>>uint64(d) | uint32(c)<<uint64(32-d)))
+		v.setAuxInt32(int64(int32(uint32(c)>>uint64(d) | uint32(c)<<uint64(32-d))))
 		v.AddArg(x)
 		return true
 	}
@@ -17700,6 +17700,7 @@ func rewriteValueARM_OpAddr_0(v *Value) bool {
 		sym := v.Aux
 		base := v.Args[0]
 		v.reset(OpARMMOVWaddr)
+		v.setAuxInt64(0)
 		v.Aux = sym
 		v.AddArg(base)
 		return true
@@ -17774,7 +17775,7 @@ func rewriteValueARM_OpAvg32u_0(v *Value) bool {
 		y := v.Args[1]
 		v.reset(OpARMADD)
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, t)
-		v0.AuxInt = 1
+		v0.setAuxInt32(1)
 		v1 := b.NewValue0(v.Pos, OpARMSUB, t)
 		v1.AddArg(x)
 		v1.AddArg(y)
@@ -17794,7 +17795,7 @@ func rewriteValueARM_OpBitLen32_0(v *Value) bool {
 		t := v.Type
 		x := v.Args[0]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = 32
+		v.setAuxInt32(32)
 		v0 := b.NewValue0(v.Pos, OpARMCLZ, t)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -17816,20 +17817,20 @@ func rewriteValueARM_OpBswap32_0(v *Value) bool {
 		v.reset(OpARMXOR)
 		v.Type = t
 		v0 := b.NewValue0(v.Pos, OpARMSRLconst, t)
-		v0.AuxInt = 8
+		v0.setAuxInt32(8)
 		v1 := b.NewValue0(v.Pos, OpARMBICconst, t)
-		v1.AuxInt = 0xff0000
+		v1.setAuxInt32(0xff0000)
 		v2 := b.NewValue0(v.Pos, OpARMXOR, t)
 		v2.AddArg(x)
 		v3 := b.NewValue0(v.Pos, OpARMSRRconst, t)
-		v3.AuxInt = 16
+		v3.setAuxInt32(16)
 		v3.AddArg(x)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
 		v0.AddArg(v1)
 		v.AddArg(v0)
 		v4 := b.NewValue0(v.Pos, OpARMSRRconst, t)
-		v4.AuxInt = 8
+		v4.setAuxInt32(8)
 		v4.AddArg(x)
 		v.AddArg(v4)
 		return true
@@ -17853,13 +17854,13 @@ func rewriteValueARM_OpClosureCall_0(v *Value) bool {
 	// cond:
 	// result: (CALLclosure [argwid] entry closure mem)
 	for {
-		argwid := v.AuxInt
+		argwid := v.auxInt64()
 		_ = v.Args[2]
 		entry := v.Args[0]
 		closure := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMCALLclosure)
-		v.AuxInt = argwid
+		v.setAuxInt64(argwid)
 		v.AddArg(entry)
 		v.AddArg(closure)
 		v.AddArg(mem)
@@ -17904,9 +17905,9 @@ func rewriteValueARM_OpConst16_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [val])
 	for {
-		val := v.AuxInt
+		val := v.auxInt16()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = val
+		v.setAuxInt32(val)
 		return true
 	}
 }
@@ -17915,9 +17916,9 @@ func rewriteValueARM_OpConst32_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [val])
 	for {
-		val := v.AuxInt
+		val := v.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = val
+		v.setAuxInt32(val)
 		return true
 	}
 }
@@ -17926,9 +17927,9 @@ func rewriteValueARM_OpConst32F_0(v *Value) bool {
 	// cond:
 	// result: (MOVFconst [val])
 	for {
-		val := v.AuxInt
+		val := v.auxFloat32()
 		v.reset(OpARMMOVFconst)
-		v.AuxInt = val
+		v.setAuxFloat64(val)
 		return true
 	}
 }
@@ -17937,9 +17938,9 @@ func rewriteValueARM_OpConst64F_0(v *Value) bool {
 	// cond:
 	// result: (MOVDconst [val])
 	for {
-		val := v.AuxInt
+		val := v.auxFloat64()
 		v.reset(OpARMMOVDconst)
-		v.AuxInt = val
+		v.setAuxFloat64(val)
 		return true
 	}
 }
@@ -17948,9 +17949,9 @@ func rewriteValueARM_OpConst8_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [val])
 	for {
-		val := v.AuxInt
+		val := v.auxInt8()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = val
+		v.setAuxInt32(val)
 		return true
 	}
 }
@@ -17959,9 +17960,9 @@ func rewriteValueARM_OpConstBool_0(v *Value) bool {
 	// cond:
 	// result: (MOVWconst [b])
 	for {
-		b := v.AuxInt
+		b := v.auxBool()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = b
+		v.setAuxInt32(b)
 		return true
 	}
 }
@@ -17971,7 +17972,7 @@ func rewriteValueARM_OpConstNil_0(v *Value) bool {
 	// result: (MOVWconst [0])
 	for {
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 }
@@ -17988,14 +17989,14 @@ func rewriteValueARM_OpCtz32_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMRSBconst)
-		v.AuxInt = 32
+		v.setAuxInt32(32)
 		v0 := b.NewValue0(v.Pos, OpARMCLZ, t)
 		v1 := b.NewValue0(v.Pos, OpARMSUBconst, t)
-		v1.AuxInt = 1
+		v1.setAuxInt32(1)
 		v2 := b.NewValue0(v.Pos, OpARMAND, t)
 		v2.AddArg(x)
 		v3 := b.NewValue0(v.Pos, OpARMRSBconst, t)
-		v3.AuxInt = 0
+		v3.setAuxInt32(0)
 		v3.AddArg(x)
 		v2.AddArg(v3)
 		v1.AddArg(v2)
@@ -18450,7 +18451,7 @@ func rewriteValueARM_OpEqB_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMXORconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		v0 := b.NewValue0(v.Pos, OpARMXOR, typ.Bool)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -18872,12 +18873,12 @@ func rewriteValueARM_OpInterCall_0(v *Value) bool {
 	// cond:
 	// result: (CALLinter [argwid] entry mem)
 	for {
-		argwid := v.AuxInt
+		argwid := v.auxInt64()
 		_ = v.Args[1]
 		entry := v.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMCALLinter)
-		v.AuxInt = argwid
+		v.setAuxInt64(argwid)
 		v.AddArg(entry)
 		v.AddArg(mem)
 		return true
@@ -18911,7 +18912,7 @@ func rewriteValueARM_OpIsNonNil_0(v *Value) bool {
 		ptr := v.Args[0]
 		v.reset(OpARMNotEqual)
 		v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v0.AuxInt = 0
+		v0.setAuxInt32(0)
 		v0.AddArg(ptr)
 		v.AddArg(v0)
 		return true
@@ -19284,6 +19285,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVBUload)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -19300,6 +19302,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVBload)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -19316,6 +19319,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVBUload)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -19332,6 +19336,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVHload)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -19348,6 +19353,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVHUload)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -19364,6 +19370,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWload)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -19380,6 +19387,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVFload)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -19396,6 +19404,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVDload)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
@@ -19411,6 +19420,7 @@ func rewriteValueARM_OpLocalAddr_0(v *Value) bool {
 		_ = v.Args[1]
 		base := v.Args[0]
 		v.reset(OpARMMOVWaddr)
+		v.setAuxInt64(0)
 		v.Aux = sym
 		v.AddArg(base)
 		return true
@@ -19429,7 +19439,7 @@ func rewriteValueARM_OpLsh16x16_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v1 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
@@ -19437,7 +19447,7 @@ func rewriteValueARM_OpLsh16x16_0(v *Value) bool {
 		v0.AddArg(v1)
 		v.AddArg(v0)
 		v2 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v2.AuxInt = 256
+		v2.setAuxInt32(256)
 		v3 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v3.AddArg(y)
 		v2.AddArg(v3)
@@ -19456,13 +19466,13 @@ func rewriteValueARM_OpLsh16x32_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v1.AuxInt = 256
+		v1.setAuxInt32(256)
 		v1.AddArg(y)
 		v.AddArg(v1)
 		return true
@@ -19479,12 +19489,12 @@ func rewriteValueARM_OpLsh16x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) < 16) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -19497,12 +19507,12 @@ func rewriteValueARM_OpLsh16x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) >= 16) {
 			break
 		}
 		v.reset(OpConst16)
-		v.AuxInt = 0
+		v.setAuxInt16(0)
 		return true
 	}
 	return false
@@ -19540,7 +19550,7 @@ func rewriteValueARM_OpLsh32x16_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v1 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
@@ -19548,7 +19558,7 @@ func rewriteValueARM_OpLsh32x16_0(v *Value) bool {
 		v0.AddArg(v1)
 		v.AddArg(v0)
 		v2 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v2.AuxInt = 256
+		v2.setAuxInt32(256)
 		v3 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v3.AddArg(y)
 		v2.AddArg(v3)
@@ -19567,13 +19577,13 @@ func rewriteValueARM_OpLsh32x32_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v1.AuxInt = 256
+		v1.setAuxInt32(256)
 		v1.AddArg(y)
 		v.AddArg(v1)
 		return true
@@ -19590,12 +19600,12 @@ func rewriteValueARM_OpLsh32x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) < 32) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -19608,12 +19618,12 @@ func rewriteValueARM_OpLsh32x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) >= 32) {
 			break
 		}
 		v.reset(OpConst32)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -19651,7 +19661,7 @@ func rewriteValueARM_OpLsh8x16_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v1 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
@@ -19659,7 +19669,7 @@ func rewriteValueARM_OpLsh8x16_0(v *Value) bool {
 		v0.AddArg(v1)
 		v.AddArg(v0)
 		v2 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v2.AuxInt = 256
+		v2.setAuxInt32(256)
 		v3 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v3.AddArg(y)
 		v2.AddArg(v3)
@@ -19678,13 +19688,13 @@ func rewriteValueARM_OpLsh8x32_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSLL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v1.AuxInt = 256
+		v1.setAuxInt32(256)
 		v1.AddArg(y)
 		v.AddArg(v1)
 		return true
@@ -19701,12 +19711,12 @@ func rewriteValueARM_OpLsh8x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) < 8) {
 			break
 		}
 		v.reset(OpARMSLLconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -19719,12 +19729,12 @@ func rewriteValueARM_OpLsh8x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) >= 8) {
 			break
 		}
 		v.reset(OpConst8)
-		v.AuxInt = 0
+		v.setAuxInt8(0)
 		return true
 	}
 	return false
@@ -19919,7 +19929,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 	// cond:
 	// result: mem
 	for {
-		if v.AuxInt != 0 {
+		if v.auxTypSize() != 0 {
 			break
 		}
 		_ = v.Args[2]
@@ -19933,7 +19943,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore dst (MOVBUload src mem) mem)
 	for {
-		if v.AuxInt != 1 {
+		if v.auxTypSize() != 1 {
 			break
 		}
 		_ = v.Args[2]
@@ -19941,8 +19951,10 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 		src := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBstore)
+		v.setAuxInt64(0)
 		v.AddArg(dst)
 		v0 := b.NewValue0(v.Pos, OpARMMOVBUload, typ.UInt8)
+		v0.setAuxInt64(0)
 		v0.AddArg(src)
 		v0.AddArg(mem)
 		v.AddArg(v0)
@@ -19953,7 +19965,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 	// cond: t.(*types.Type).Alignment()%2 == 0
 	// result: (MOVHstore dst (MOVHUload src mem) mem)
 	for {
-		if v.AuxInt != 2 {
+		if v.auxTypSize() != 2 {
 			break
 		}
 		t := v.Aux
@@ -19965,8 +19977,10 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVHstore)
+		v.setAuxInt64(0)
 		v.AddArg(dst)
 		v0 := b.NewValue0(v.Pos, OpARMMOVHUload, typ.UInt16)
+		v0.setAuxInt64(0)
 		v0.AddArg(src)
 		v0.AddArg(mem)
 		v.AddArg(v0)
@@ -19977,7 +19991,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [1] dst (MOVBUload [1] src mem) (MOVBstore dst (MOVBUload src mem) mem))
 	for {
-		if v.AuxInt != 2 {
+		if v.auxTypSize() != 2 {
 			break
 		}
 		_ = v.Args[2]
@@ -19985,16 +19999,18 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 		src := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = 1
+		v.setAuxInt64(1)
 		v.AddArg(dst)
 		v0 := b.NewValue0(v.Pos, OpARMMOVBUload, typ.UInt8)
-		v0.AuxInt = 1
+		v0.setAuxInt64(1)
 		v0.AddArg(src)
 		v0.AddArg(mem)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
+		v1.setAuxInt64(0)
 		v1.AddArg(dst)
 		v2 := b.NewValue0(v.Pos, OpARMMOVBUload, typ.UInt8)
+		v2.setAuxInt64(0)
 		v2.AddArg(src)
 		v2.AddArg(mem)
 		v1.AddArg(v2)
@@ -20006,7 +20022,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 	// cond: t.(*types.Type).Alignment()%4 == 0
 	// result: (MOVWstore dst (MOVWload src mem) mem)
 	for {
-		if v.AuxInt != 4 {
+		if v.auxTypSize() != 4 {
 			break
 		}
 		t := v.Aux
@@ -20018,8 +20034,10 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWstore)
+		v.setAuxInt64(0)
 		v.AddArg(dst)
 		v0 := b.NewValue0(v.Pos, OpARMMOVWload, typ.UInt32)
+		v0.setAuxInt64(0)
 		v0.AddArg(src)
 		v0.AddArg(mem)
 		v.AddArg(v0)
@@ -20030,7 +20048,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 	// cond: t.(*types.Type).Alignment()%2 == 0
 	// result: (MOVHstore [2] dst (MOVHUload [2] src mem) (MOVHstore dst (MOVHUload src mem) mem))
 	for {
-		if v.AuxInt != 4 {
+		if v.auxTypSize() != 4 {
 			break
 		}
 		t := v.Aux
@@ -20042,16 +20060,18 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVHstore)
-		v.AuxInt = 2
+		v.setAuxInt64(2)
 		v.AddArg(dst)
 		v0 := b.NewValue0(v.Pos, OpARMMOVHUload, typ.UInt16)
-		v0.AuxInt = 2
+		v0.setAuxInt64(2)
 		v0.AddArg(src)
 		v0.AddArg(mem)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMMOVHstore, types.TypeMem)
+		v1.setAuxInt64(0)
 		v1.AddArg(dst)
 		v2 := b.NewValue0(v.Pos, OpARMMOVHUload, typ.UInt16)
+		v2.setAuxInt64(0)
 		v2.AddArg(src)
 		v2.AddArg(mem)
 		v1.AddArg(v2)
@@ -20063,7 +20083,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [3] dst (MOVBUload [3] src mem) (MOVBstore [2] dst (MOVBUload [2] src mem) (MOVBstore [1] dst (MOVBUload [1] src mem) (MOVBstore dst (MOVBUload src mem) mem))))
 	for {
-		if v.AuxInt != 4 {
+		if v.auxTypSize() != 4 {
 			break
 		}
 		_ = v.Args[2]
@@ -20071,32 +20091,34 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 		src := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = 3
+		v.setAuxInt64(3)
 		v.AddArg(dst)
 		v0 := b.NewValue0(v.Pos, OpARMMOVBUload, typ.UInt8)
-		v0.AuxInt = 3
+		v0.setAuxInt64(3)
 		v0.AddArg(src)
 		v0.AddArg(mem)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
-		v1.AuxInt = 2
+		v1.setAuxInt64(2)
 		v1.AddArg(dst)
 		v2 := b.NewValue0(v.Pos, OpARMMOVBUload, typ.UInt8)
-		v2.AuxInt = 2
+		v2.setAuxInt64(2)
 		v2.AddArg(src)
 		v2.AddArg(mem)
 		v1.AddArg(v2)
 		v3 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
-		v3.AuxInt = 1
+		v3.setAuxInt64(1)
 		v3.AddArg(dst)
 		v4 := b.NewValue0(v.Pos, OpARMMOVBUload, typ.UInt8)
-		v4.AuxInt = 1
+		v4.setAuxInt64(1)
 		v4.AddArg(src)
 		v4.AddArg(mem)
 		v3.AddArg(v4)
 		v5 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
+		v5.setAuxInt64(0)
 		v5.AddArg(dst)
 		v6 := b.NewValue0(v.Pos, OpARMMOVBUload, typ.UInt8)
+		v6.setAuxInt64(0)
 		v6.AddArg(src)
 		v6.AddArg(mem)
 		v5.AddArg(v6)
@@ -20110,7 +20132,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [2] dst (MOVBUload [2] src mem) (MOVBstore [1] dst (MOVBUload [1] src mem) (MOVBstore dst (MOVBUload src mem) mem)))
 	for {
-		if v.AuxInt != 3 {
+		if v.auxTypSize() != 3 {
 			break
 		}
 		_ = v.Args[2]
@@ -20118,24 +20140,26 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 		src := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = 2
+		v.setAuxInt64(2)
 		v.AddArg(dst)
 		v0 := b.NewValue0(v.Pos, OpARMMOVBUload, typ.UInt8)
-		v0.AuxInt = 2
+		v0.setAuxInt64(2)
 		v0.AddArg(src)
 		v0.AddArg(mem)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
-		v1.AuxInt = 1
+		v1.setAuxInt64(1)
 		v1.AddArg(dst)
 		v2 := b.NewValue0(v.Pos, OpARMMOVBUload, typ.UInt8)
-		v2.AuxInt = 1
+		v2.setAuxInt64(1)
 		v2.AddArg(src)
 		v2.AddArg(mem)
 		v1.AddArg(v2)
 		v3 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
+		v3.setAuxInt64(0)
 		v3.AddArg(dst)
 		v4 := b.NewValue0(v.Pos, OpARMMOVBUload, typ.UInt8)
+		v4.setAuxInt64(0)
 		v4.AddArg(src)
 		v4.AddArg(mem)
 		v3.AddArg(v4)
@@ -20148,7 +20172,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 	// cond: s%4 == 0 && s > 4 && s <= 512 && t.(*types.Type).Alignment()%4 == 0 && !config.noDuffDevice
 	// result: (DUFFCOPY [8 * (128 - s/4)] dst src mem)
 	for {
-		s := v.AuxInt
+		s := v.auxTypSize()
 		t := v.Aux
 		_ = v.Args[2]
 		dst := v.Args[0]
@@ -20158,7 +20182,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMDUFFCOPY)
-		v.AuxInt = 8 * (128 - s/4)
+		v.setAuxInt64(8 * (128 - s/4))
 		v.AddArg(dst)
 		v.AddArg(src)
 		v.AddArg(mem)
@@ -20168,7 +20192,7 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 	// cond: (s > 512 || config.noDuffDevice) || t.(*types.Type).Alignment()%4 != 0
 	// result: (LoweredMove [t.(*types.Type).Alignment()] dst src (ADDconst <src.Type> src [s-moveSize(t.(*types.Type).Alignment(), config)]) mem)
 	for {
-		s := v.AuxInt
+		s := v.auxTypSize()
 		t := v.Aux
 		_ = v.Args[2]
 		dst := v.Args[0]
@@ -20178,11 +20202,11 @@ func rewriteValueARM_OpMove_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMLoweredMove)
-		v.AuxInt = t.(*types.Type).Alignment()
+		v.setAuxInt64(t.(*types.Type).Alignment())
 		v.AddArg(dst)
 		v.AddArg(src)
 		v0 := b.NewValue0(v.Pos, OpARMADDconst, src.Type)
-		v0.AuxInt = s - moveSize(t.(*types.Type).Alignment(), config)
+		v0.setAuxInt32(s - moveSize(t.(*types.Type).Alignment(), config))
 		v0.AddArg(src)
 		v.AddArg(v0)
 		v.AddArg(mem)
@@ -20281,7 +20305,7 @@ func rewriteValueARM_OpNeg16_0(v *Value) bool {
 	for {
 		x := v.Args[0]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v.AddArg(x)
 		return true
 	}
@@ -20293,7 +20317,7 @@ func rewriteValueARM_OpNeg32_0(v *Value) bool {
 	for {
 		x := v.Args[0]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v.AddArg(x)
 		return true
 	}
@@ -20327,7 +20351,7 @@ func rewriteValueARM_OpNeg8_0(v *Value) bool {
 	for {
 		x := v.Args[0]
 		v.reset(OpARMRSBconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v.AddArg(x)
 		return true
 	}
@@ -20487,7 +20511,7 @@ func rewriteValueARM_OpNot_0(v *Value) bool {
 	for {
 		x := v.Args[0]
 		v.reset(OpARMXORconst)
-		v.AuxInt = 1
+		v.setAuxInt32(1)
 		v.AddArg(x)
 		return true
 	}
@@ -20497,13 +20521,13 @@ func rewriteValueARM_OpOffPtr_0(v *Value) bool {
 	// cond:
 	// result: (MOVWaddr [off] ptr)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		ptr := v.Args[0]
 		if ptr.Op != OpSP {
 			break
 		}
 		v.reset(OpARMMOVWaddr)
-		v.AuxInt = off
+		v.setAuxInt64(off)
 		v.AddArg(ptr)
 		return true
 	}
@@ -20511,10 +20535,10 @@ func rewriteValueARM_OpOffPtr_0(v *Value) bool {
 	// cond:
 	// result: (ADDconst [off] ptr)
 	for {
-		off := v.AuxInt
+		off := v.auxInt64()
 		ptr := v.Args[0]
 		v.reset(OpARMADDconst)
-		v.AuxInt = off
+		v.setAuxInt32(off)
 		v.AddArg(ptr)
 		return true
 	}
@@ -20612,7 +20636,7 @@ func rewriteValueARM_OpRsh16Ux16_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v1 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v1.AddArg(x)
@@ -20622,7 +20646,7 @@ func rewriteValueARM_OpRsh16Ux16_0(v *Value) bool {
 		v0.AddArg(v2)
 		v.AddArg(v0)
 		v3 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v3.AuxInt = 256
+		v3.setAuxInt32(256)
 		v4 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v4.AddArg(y)
 		v3.AddArg(v4)
@@ -20643,7 +20667,7 @@ func rewriteValueARM_OpRsh16Ux32_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v1 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v1.AddArg(x)
@@ -20651,7 +20675,7 @@ func rewriteValueARM_OpRsh16Ux32_0(v *Value) bool {
 		v0.AddArg(y)
 		v.AddArg(v0)
 		v2 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v2.AuxInt = 256
+		v2.setAuxInt32(256)
 		v2.AddArg(y)
 		v.AddArg(v2)
 		return true
@@ -20672,14 +20696,14 @@ func rewriteValueARM_OpRsh16Ux64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) < 16) {
 			break
 		}
 		v.reset(OpARMSRLconst)
-		v.AuxInt = c + 16
+		v.setAuxInt32(c + 16)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, typ.UInt32)
-		v0.AuxInt = 16
+		v0.setAuxInt32(16)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -20693,12 +20717,12 @@ func rewriteValueARM_OpRsh16Ux64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) >= 16) {
 			break
 		}
 		v.reset(OpConst16)
-		v.AuxInt = 0
+		v.setAuxInt16(0)
 		return true
 	}
 	return false
@@ -20745,7 +20769,7 @@ func rewriteValueARM_OpRsh16x16_0(v *Value) bool {
 		v1.AddArg(y)
 		v.AddArg(v1)
 		v2 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v2.AuxInt = 256
+		v2.setAuxInt32(256)
 		v3 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v3.AddArg(y)
 		v2.AddArg(v3)
@@ -20771,7 +20795,7 @@ func rewriteValueARM_OpRsh16x32_0(v *Value) bool {
 		v.AddArg(v0)
 		v.AddArg(y)
 		v1 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v1.AuxInt = 256
+		v1.setAuxInt32(256)
 		v1.AddArg(y)
 		v.AddArg(v1)
 		return true
@@ -20792,14 +20816,14 @@ func rewriteValueARM_OpRsh16x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) < 16) {
 			break
 		}
 		v.reset(OpARMSRAconst)
-		v.AuxInt = c + 16
+		v.setAuxInt32(c + 16)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, typ.UInt32)
-		v0.AuxInt = 16
+		v0.setAuxInt32(16)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -20814,14 +20838,14 @@ func rewriteValueARM_OpRsh16x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) >= 16) {
 			break
 		}
 		v.reset(OpARMSRAconst)
-		v.AuxInt = 31
+		v.setAuxInt32(31)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, typ.UInt32)
-		v0.AuxInt = 16
+		v0.setAuxInt32(16)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -20863,7 +20887,7 @@ func rewriteValueARM_OpRsh32Ux16_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v1 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
@@ -20871,7 +20895,7 @@ func rewriteValueARM_OpRsh32Ux16_0(v *Value) bool {
 		v0.AddArg(v1)
 		v.AddArg(v0)
 		v2 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v2.AuxInt = 256
+		v2.setAuxInt32(256)
 		v3 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v3.AddArg(y)
 		v2.AddArg(v3)
@@ -20890,13 +20914,13 @@ func rewriteValueARM_OpRsh32Ux32_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v1.AuxInt = 256
+		v1.setAuxInt32(256)
 		v1.AddArg(y)
 		v.AddArg(v1)
 		return true
@@ -20913,12 +20937,12 @@ func rewriteValueARM_OpRsh32Ux64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) < 32) {
 			break
 		}
 		v.reset(OpARMSRLconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -20931,12 +20955,12 @@ func rewriteValueARM_OpRsh32Ux64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) >= 32) {
 			break
 		}
 		v.reset(OpConst32)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	return false
@@ -20979,7 +21003,7 @@ func rewriteValueARM_OpRsh32x16_0(v *Value) bool {
 		v0.AddArg(y)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v1.AuxInt = 256
+		v1.setAuxInt32(256)
 		v2 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v2.AddArg(y)
 		v1.AddArg(v2)
@@ -21001,7 +21025,7 @@ func rewriteValueARM_OpRsh32x32_0(v *Value) bool {
 		v.AddArg(x)
 		v.AddArg(y)
 		v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v0.AuxInt = 256
+		v0.setAuxInt32(256)
 		v0.AddArg(y)
 		v.AddArg(v0)
 		return true
@@ -21018,12 +21042,12 @@ func rewriteValueARM_OpRsh32x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) < 32) {
 			break
 		}
 		v.reset(OpARMSRAconst)
-		v.AuxInt = c
+		v.setAuxInt32(c)
 		v.AddArg(x)
 		return true
 	}
@@ -21037,12 +21061,12 @@ func rewriteValueARM_OpRsh32x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) >= 32) {
 			break
 		}
 		v.reset(OpARMSRAconst)
-		v.AuxInt = 31
+		v.setAuxInt32(31)
 		v.AddArg(x)
 		return true
 	}
@@ -21081,7 +21105,7 @@ func rewriteValueARM_OpRsh8Ux16_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v1 := b.NewValue0(v.Pos, OpZeroExt8to32, typ.UInt32)
 		v1.AddArg(x)
@@ -21091,7 +21115,7 @@ func rewriteValueARM_OpRsh8Ux16_0(v *Value) bool {
 		v0.AddArg(v2)
 		v.AddArg(v0)
 		v3 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v3.AuxInt = 256
+		v3.setAuxInt32(256)
 		v4 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v4.AddArg(y)
 		v3.AddArg(v4)
@@ -21112,7 +21136,7 @@ func rewriteValueARM_OpRsh8Ux32_0(v *Value) bool {
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(OpARMCMOVWHSconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		v0 := b.NewValue0(v.Pos, OpARMSRL, x.Type)
 		v1 := b.NewValue0(v.Pos, OpZeroExt8to32, typ.UInt32)
 		v1.AddArg(x)
@@ -21120,7 +21144,7 @@ func rewriteValueARM_OpRsh8Ux32_0(v *Value) bool {
 		v0.AddArg(y)
 		v.AddArg(v0)
 		v2 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v2.AuxInt = 256
+		v2.setAuxInt32(256)
 		v2.AddArg(y)
 		v.AddArg(v2)
 		return true
@@ -21141,14 +21165,14 @@ func rewriteValueARM_OpRsh8Ux64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) < 8) {
 			break
 		}
 		v.reset(OpARMSRLconst)
-		v.AuxInt = c + 24
+		v.setAuxInt32(c + 24)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, typ.UInt32)
-		v0.AuxInt = 24
+		v0.setAuxInt32(24)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -21162,12 +21186,12 @@ func rewriteValueARM_OpRsh8Ux64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) >= 8) {
 			break
 		}
 		v.reset(OpConst8)
-		v.AuxInt = 0
+		v.setAuxInt8(0)
 		return true
 	}
 	return false
@@ -21214,7 +21238,7 @@ func rewriteValueARM_OpRsh8x16_0(v *Value) bool {
 		v1.AddArg(y)
 		v.AddArg(v1)
 		v2 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v2.AuxInt = 256
+		v2.setAuxInt32(256)
 		v3 := b.NewValue0(v.Pos, OpZeroExt16to32, typ.UInt32)
 		v3.AddArg(y)
 		v2.AddArg(v3)
@@ -21240,7 +21264,7 @@ func rewriteValueARM_OpRsh8x32_0(v *Value) bool {
 		v.AddArg(v0)
 		v.AddArg(y)
 		v1 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-		v1.AuxInt = 256
+		v1.setAuxInt32(256)
 		v1.AddArg(y)
 		v.AddArg(v1)
 		return true
@@ -21261,14 +21285,14 @@ func rewriteValueARM_OpRsh8x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) < 8) {
 			break
 		}
 		v.reset(OpARMSRAconst)
-		v.AuxInt = c + 24
+		v.setAuxInt32(c + 24)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, typ.UInt32)
-		v0.AuxInt = 24
+		v0.setAuxInt32(24)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -21283,14 +21307,14 @@ func rewriteValueARM_OpRsh8x64_0(v *Value) bool {
 		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v_1.AuxInt
+		c := v_1.auxInt64()
 		if !(uint64(c) >= 8) {
 			break
 		}
 		v.reset(OpARMSRAconst)
-		v.AuxInt = 31
+		v.setAuxInt32(31)
 		v0 := b.NewValue0(v.Pos, OpARMSLLconst, typ.UInt32)
-		v0.AuxInt = 24
+		v0.setAuxInt32(24)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -21334,7 +21358,7 @@ func rewriteValueARM_OpSelect0_0(v *Value) bool {
 		if v_0_1.Op != OpARMMOVWconst {
 			break
 		}
-		if v_0_1.AuxInt != 1 {
+		if v_0_1.auxInt32() != 1 {
 			break
 		}
 		v.reset(OpCopy)
@@ -21356,12 +21380,12 @@ func rewriteValueARM_OpSelect0_0(v *Value) bool {
 		if v_0_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0_1.AuxInt
+		c := v_0_1.auxInt32()
 		if !(isPowerOfTwo(c)) {
 			break
 		}
 		v.reset(OpARMSRLconst)
-		v.AuxInt = log2(c)
+		v.setAuxInt32(log2(c))
 		v.AddArg(x)
 		return true
 	}
@@ -21378,14 +21402,14 @@ func rewriteValueARM_OpSelect0_0(v *Value) bool {
 		if v_0_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0_0.AuxInt
+		c := v_0_0.auxInt32()
 		v_0_1 := v_0.Args[1]
 		if v_0_1.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0_1.AuxInt
+		d := v_0_1.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(uint32(c) / uint32(d)))
+		v.setAuxInt32(int64(int32(uint32(c) / uint32(d))))
 		return true
 	}
 	return false
@@ -21404,11 +21428,11 @@ func rewriteValueARM_OpSelect1_0(v *Value) bool {
 		if v_0_1.Op != OpARMMOVWconst {
 			break
 		}
-		if v_0_1.AuxInt != 1 {
+		if v_0_1.auxInt32() != 1 {
 			break
 		}
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = 0
+		v.setAuxInt32(0)
 		return true
 	}
 	// match: (Select1 (CALLudiv x (MOVWconst [c])))
@@ -21425,12 +21449,12 @@ func rewriteValueARM_OpSelect1_0(v *Value) bool {
 		if v_0_1.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0_1.AuxInt
+		c := v_0_1.auxInt32()
 		if !(isPowerOfTwo(c)) {
 			break
 		}
 		v.reset(OpARMANDconst)
-		v.AuxInt = c - 1
+		v.setAuxInt32(c - 1)
 		v.AddArg(x)
 		return true
 	}
@@ -21447,14 +21471,14 @@ func rewriteValueARM_OpSelect1_0(v *Value) bool {
 		if v_0_0.Op != OpARMMOVWconst {
 			break
 		}
-		c := v_0_0.AuxInt
+		c := v_0_0.auxInt32()
 		v_0_1 := v_0.Args[1]
 		if v_0_1.Op != OpARMMOVWconst {
 			break
 		}
-		d := v_0_1.AuxInt
+		d := v_0_1.auxInt32()
 		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(uint32(c) % uint32(d)))
+		v.setAuxInt32(int64(int32(uint32(c) % uint32(d))))
 		return true
 	}
 	return false
@@ -21499,7 +21523,7 @@ func rewriteValueARM_OpSignmask_0(v *Value) bool {
 	for {
 		x := v.Args[0]
 		v.reset(OpARMSRAconst)
-		v.AuxInt = 31
+		v.setAuxInt32(31)
 		v.AddArg(x)
 		return true
 	}
@@ -21514,9 +21538,9 @@ func rewriteValueARM_OpSlicemask_0(v *Value) bool {
 		t := v.Type
 		x := v.Args[0]
 		v.reset(OpARMSRAconst)
-		v.AuxInt = 31
+		v.setAuxInt32(31)
 		v0 := b.NewValue0(v.Pos, OpARMRSBconst, t)
-		v0.AuxInt = 0
+		v0.setAuxInt32(0)
 		v0.AddArg(x)
 		v.AddArg(v0)
 		return true
@@ -21538,11 +21562,11 @@ func rewriteValueARM_OpStaticCall_0(v *Value) bool {
 	// cond:
 	// result: (CALLstatic [argwid] {target} mem)
 	for {
-		argwid := v.AuxInt
+		argwid := v.auxInt64()
 		target := v.Aux
 		mem := v.Args[0]
 		v.reset(OpARMCALLstatic)
-		v.AuxInt = argwid
+		v.setAuxInt64(argwid)
 		v.Aux = target
 		v.AddArg(mem)
 		return true
@@ -21562,6 +21586,7 @@ func rewriteValueARM_OpStore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVBstore)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -21580,6 +21605,7 @@ func rewriteValueARM_OpStore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVHstore)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -21598,6 +21624,7 @@ func rewriteValueARM_OpStore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWstore)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -21616,6 +21643,7 @@ func rewriteValueARM_OpStore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVFstore)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -21634,6 +21662,7 @@ func rewriteValueARM_OpStore_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVDstore)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
@@ -21862,7 +21891,7 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 	// cond:
 	// result: mem
 	for {
-		if v.AuxInt != 0 {
+		if v.auxTypSize() != 0 {
 			break
 		}
 		_ = v.Args[1]
@@ -21876,16 +21905,17 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore ptr (MOVWconst [0]) mem)
 	for {
-		if v.AuxInt != 1 {
+		if v.auxTypSize() != 1 {
 			break
 		}
 		_ = v.Args[1]
 		ptr := v.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVBstore)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v0 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v0.AuxInt = 0
+		v0.setAuxInt32(0)
 		v.AddArg(v0)
 		v.AddArg(mem)
 		return true
@@ -21894,7 +21924,7 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 	// cond: t.(*types.Type).Alignment()%2 == 0
 	// result: (MOVHstore ptr (MOVWconst [0]) mem)
 	for {
-		if v.AuxInt != 2 {
+		if v.auxTypSize() != 2 {
 			break
 		}
 		t := v.Aux
@@ -21905,9 +21935,10 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVHstore)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v0 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v0.AuxInt = 0
+		v0.setAuxInt32(0)
 		v.AddArg(v0)
 		v.AddArg(mem)
 		return true
@@ -21916,23 +21947,23 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [1] ptr (MOVWconst [0]) (MOVBstore [0] ptr (MOVWconst [0]) mem))
 	for {
-		if v.AuxInt != 2 {
+		if v.auxTypSize() != 2 {
 			break
 		}
 		_ = v.Args[1]
 		ptr := v.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = 1
+		v.setAuxInt64(1)
 		v.AddArg(ptr)
 		v0 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v0.AuxInt = 0
+		v0.setAuxInt32(0)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
-		v1.AuxInt = 0
+		v1.setAuxInt64(0)
 		v1.AddArg(ptr)
 		v2 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v2.AuxInt = 0
+		v2.setAuxInt32(0)
 		v1.AddArg(v2)
 		v1.AddArg(mem)
 		v.AddArg(v1)
@@ -21942,7 +21973,7 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 	// cond: t.(*types.Type).Alignment()%4 == 0
 	// result: (MOVWstore ptr (MOVWconst [0]) mem)
 	for {
-		if v.AuxInt != 4 {
+		if v.auxTypSize() != 4 {
 			break
 		}
 		t := v.Aux
@@ -21953,9 +21984,10 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVWstore)
+		v.setAuxInt64(0)
 		v.AddArg(ptr)
 		v0 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v0.AuxInt = 0
+		v0.setAuxInt32(0)
 		v.AddArg(v0)
 		v.AddArg(mem)
 		return true
@@ -21964,7 +21996,7 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 	// cond: t.(*types.Type).Alignment()%2 == 0
 	// result: (MOVHstore [2] ptr (MOVWconst [0]) (MOVHstore [0] ptr (MOVWconst [0]) mem))
 	for {
-		if v.AuxInt != 4 {
+		if v.auxTypSize() != 4 {
 			break
 		}
 		t := v.Aux
@@ -21975,16 +22007,16 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMMOVHstore)
-		v.AuxInt = 2
+		v.setAuxInt64(2)
 		v.AddArg(ptr)
 		v0 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v0.AuxInt = 0
+		v0.setAuxInt32(0)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMMOVHstore, types.TypeMem)
-		v1.AuxInt = 0
+		v1.setAuxInt64(0)
 		v1.AddArg(ptr)
 		v2 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v2.AuxInt = 0
+		v2.setAuxInt32(0)
 		v1.AddArg(v2)
 		v1.AddArg(mem)
 		v.AddArg(v1)
@@ -21994,35 +22026,35 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [3] ptr (MOVWconst [0]) (MOVBstore [2] ptr (MOVWconst [0]) (MOVBstore [1] ptr (MOVWconst [0]) (MOVBstore [0] ptr (MOVWconst [0]) mem))))
 	for {
-		if v.AuxInt != 4 {
+		if v.auxTypSize() != 4 {
 			break
 		}
 		_ = v.Args[1]
 		ptr := v.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = 3
+		v.setAuxInt64(3)
 		v.AddArg(ptr)
 		v0 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v0.AuxInt = 0
+		v0.setAuxInt32(0)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
-		v1.AuxInt = 2
+		v1.setAuxInt64(2)
 		v1.AddArg(ptr)
 		v2 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v2.AuxInt = 0
+		v2.setAuxInt32(0)
 		v1.AddArg(v2)
 		v3 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
-		v3.AuxInt = 1
+		v3.setAuxInt64(1)
 		v3.AddArg(ptr)
 		v4 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v4.AuxInt = 0
+		v4.setAuxInt32(0)
 		v3.AddArg(v4)
 		v5 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
-		v5.AuxInt = 0
+		v5.setAuxInt64(0)
 		v5.AddArg(ptr)
 		v6 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v6.AuxInt = 0
+		v6.setAuxInt32(0)
 		v5.AddArg(v6)
 		v5.AddArg(mem)
 		v3.AddArg(v5)
@@ -22034,29 +22066,29 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 	// cond:
 	// result: (MOVBstore [2] ptr (MOVWconst [0]) (MOVBstore [1] ptr (MOVWconst [0]) (MOVBstore [0] ptr (MOVWconst [0]) mem)))
 	for {
-		if v.AuxInt != 3 {
+		if v.auxTypSize() != 3 {
 			break
 		}
 		_ = v.Args[1]
 		ptr := v.Args[0]
 		mem := v.Args[1]
 		v.reset(OpARMMOVBstore)
-		v.AuxInt = 2
+		v.setAuxInt64(2)
 		v.AddArg(ptr)
 		v0 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v0.AuxInt = 0
+		v0.setAuxInt32(0)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
-		v1.AuxInt = 1
+		v1.setAuxInt64(1)
 		v1.AddArg(ptr)
 		v2 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v2.AuxInt = 0
+		v2.setAuxInt32(0)
 		v1.AddArg(v2)
 		v3 := b.NewValue0(v.Pos, OpARMMOVBstore, types.TypeMem)
-		v3.AuxInt = 0
+		v3.setAuxInt64(0)
 		v3.AddArg(ptr)
 		v4 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v4.AuxInt = 0
+		v4.setAuxInt32(0)
 		v3.AddArg(v4)
 		v3.AddArg(mem)
 		v1.AddArg(v3)
@@ -22067,7 +22099,7 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 	// cond: s%4 == 0 && s > 4 && s <= 512 && t.(*types.Type).Alignment()%4 == 0 && !config.noDuffDevice
 	// result: (DUFFZERO [4 * (128 - s/4)] ptr (MOVWconst [0]) mem)
 	for {
-		s := v.AuxInt
+		s := v.auxTypSize()
 		t := v.Aux
 		_ = v.Args[1]
 		ptr := v.Args[0]
@@ -22076,10 +22108,10 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMDUFFZERO)
-		v.AuxInt = 4 * (128 - s/4)
+		v.setAuxInt64(4 * (128 - s/4))
 		v.AddArg(ptr)
 		v0 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v0.AuxInt = 0
+		v0.setAuxInt32(0)
 		v.AddArg(v0)
 		v.AddArg(mem)
 		return true
@@ -22088,7 +22120,7 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 	// cond: (s > 512 || config.noDuffDevice) || t.(*types.Type).Alignment()%4 != 0
 	// result: (LoweredZero [t.(*types.Type).Alignment()] ptr (ADDconst <ptr.Type> ptr [s-moveSize(t.(*types.Type).Alignment(), config)]) (MOVWconst [0]) mem)
 	for {
-		s := v.AuxInt
+		s := v.auxTypSize()
 		t := v.Aux
 		_ = v.Args[1]
 		ptr := v.Args[0]
@@ -22097,14 +22129,14 @@ func rewriteValueARM_OpZero_0(v *Value) bool {
 			break
 		}
 		v.reset(OpARMLoweredZero)
-		v.AuxInt = t.(*types.Type).Alignment()
+		v.setAuxInt64(t.(*types.Type).Alignment())
 		v.AddArg(ptr)
 		v0 := b.NewValue0(v.Pos, OpARMADDconst, ptr.Type)
-		v0.AuxInt = s - moveSize(t.(*types.Type).Alignment(), config)
+		v0.setAuxInt32(s - moveSize(t.(*types.Type).Alignment(), config))
 		v0.AddArg(ptr)
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
-		v1.AuxInt = 0
+		v1.setAuxInt32(0)
 		v.AddArg(v1)
 		v.AddArg(mem)
 		return true
@@ -22155,9 +22187,9 @@ func rewriteValueARM_OpZeromask_0(v *Value) bool {
 	for {
 		x := v.Args[0]
 		v.reset(OpARMSRAconst)
-		v.AuxInt = 31
+		v.setAuxInt32(31)
 		v0 := b.NewValue0(v.Pos, OpARMRSBshiftRL, typ.Int32)
-		v0.AuxInt = 1
+		v0.setAuxInt32(1)
 		v0.AddArg(x)
 		v0.AddArg(x)
 		v.AddArg(v0)
@@ -22264,7 +22296,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22293,7 +22325,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22326,21 +22358,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -22354,14 +22386,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -22370,7 +22402,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -22385,14 +22417,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -22401,7 +22433,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -22416,14 +22448,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -22432,7 +22464,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -22447,7 +22479,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22478,7 +22510,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22509,7 +22541,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22540,7 +22572,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22569,7 +22601,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22602,21 +22634,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMCMNconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -22630,14 +22662,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -22646,7 +22678,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -22661,14 +22693,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -22677,7 +22709,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -22692,14 +22724,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -22708,7 +22740,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -22723,7 +22755,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22754,7 +22786,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22785,7 +22817,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22816,7 +22848,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22845,21 +22877,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMTSTconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -22873,14 +22905,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -22889,7 +22921,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -22904,14 +22936,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -22920,7 +22952,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -22935,14 +22967,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -22951,7 +22983,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -22966,7 +22998,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -22997,7 +23029,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23028,7 +23060,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23059,7 +23091,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23088,21 +23120,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMTEQconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -23116,14 +23148,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -23132,7 +23164,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -23147,14 +23179,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -23163,7 +23195,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -23178,14 +23210,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -23194,7 +23226,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMEQ
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -23209,7 +23241,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23240,7 +23272,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23271,7 +23303,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23384,7 +23416,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23413,7 +23445,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23446,21 +23478,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -23474,14 +23506,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -23490,7 +23522,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -23505,14 +23537,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -23521,7 +23553,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -23536,14 +23568,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -23552,7 +23584,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -23567,7 +23599,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23598,7 +23630,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23629,7 +23661,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23660,7 +23692,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23689,7 +23721,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23722,21 +23754,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMCMNconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -23750,14 +23782,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -23766,7 +23798,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -23781,14 +23813,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -23797,7 +23829,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -23812,14 +23844,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -23828,7 +23860,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -23843,7 +23875,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23874,7 +23906,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23905,7 +23937,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23936,7 +23968,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -23965,21 +23997,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMTSTconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -23993,14 +24025,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24009,7 +24041,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24024,14 +24056,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24040,7 +24072,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24055,14 +24087,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24071,7 +24103,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24086,7 +24118,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24117,7 +24149,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24148,7 +24180,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24179,7 +24211,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24208,21 +24240,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMTEQconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -24236,14 +24268,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24252,7 +24284,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24267,14 +24299,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24283,7 +24315,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24298,14 +24330,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24314,7 +24346,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGE
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24329,7 +24361,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24360,7 +24392,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24391,7 +24423,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24505,7 +24537,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24534,7 +24566,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24567,21 +24599,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -24595,14 +24627,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24611,7 +24643,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24626,14 +24658,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24642,7 +24674,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24657,14 +24689,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24673,7 +24705,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24688,7 +24720,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24719,7 +24751,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24750,7 +24782,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24781,7 +24813,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24810,21 +24842,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMCMNconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -24838,14 +24870,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24854,7 +24886,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24869,14 +24901,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24885,7 +24917,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24900,14 +24932,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -24916,7 +24948,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -24931,7 +24963,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24962,7 +24994,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -24993,7 +25025,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25024,7 +25056,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25053,7 +25085,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25086,21 +25118,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMTSTconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -25114,14 +25146,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -25130,7 +25162,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -25145,14 +25177,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -25161,7 +25193,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -25176,14 +25208,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -25192,7 +25224,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -25207,7 +25239,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25238,7 +25270,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25269,7 +25301,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25300,7 +25332,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25329,21 +25361,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMTEQconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -25357,14 +25389,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -25373,7 +25405,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -25388,14 +25420,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -25404,7 +25436,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -25419,14 +25451,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -25435,7 +25467,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMGT
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -25450,7 +25482,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25481,7 +25513,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25512,7 +25544,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25685,7 +25717,7 @@ func rewriteBlockARM(b *Block) bool {
 			cond := b.Control
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-			v0.AuxInt = 0
+			v0.setAuxInt32(0)
 			v0.AddArg(cond)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -25781,7 +25813,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25810,7 +25842,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25843,21 +25875,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -25871,14 +25903,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -25887,7 +25919,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -25902,14 +25934,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -25918,7 +25950,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -25933,14 +25965,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -25949,7 +25981,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -25964,7 +25996,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -25995,7 +26027,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26026,7 +26058,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26057,7 +26089,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26086,7 +26118,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26119,21 +26151,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMCMNconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -26147,14 +26179,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -26163,7 +26195,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -26178,14 +26210,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -26194,7 +26226,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -26209,14 +26241,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -26225,7 +26257,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -26240,7 +26272,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26271,7 +26303,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26302,7 +26334,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26333,7 +26365,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26362,21 +26394,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMTSTconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -26390,14 +26422,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -26406,7 +26438,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -26421,14 +26453,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -26437,7 +26469,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -26452,14 +26484,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -26468,7 +26500,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -26483,7 +26515,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26514,7 +26546,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26545,7 +26577,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26576,7 +26608,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26605,21 +26637,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMTEQconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -26633,14 +26665,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -26649,7 +26681,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -26664,14 +26696,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -26680,7 +26712,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -26695,14 +26727,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -26711,7 +26743,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLE
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -26726,7 +26758,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26757,7 +26789,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26788,7 +26820,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26902,7 +26934,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26931,7 +26963,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -26964,21 +26996,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -26992,14 +27024,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27008,7 +27040,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27023,14 +27055,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27039,7 +27071,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27054,14 +27086,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27070,7 +27102,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27085,7 +27117,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27116,7 +27148,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27147,7 +27179,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27178,7 +27210,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27207,7 +27239,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27240,21 +27272,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMCMNconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -27268,14 +27300,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27284,7 +27316,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27299,14 +27331,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27315,7 +27347,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27330,14 +27362,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27346,7 +27378,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27361,7 +27393,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27392,7 +27424,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27423,7 +27455,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27454,7 +27486,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27483,21 +27515,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMTSTconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -27511,14 +27543,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27527,7 +27559,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27542,14 +27574,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27558,7 +27590,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27573,14 +27605,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27589,7 +27621,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27604,7 +27636,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27635,7 +27667,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27666,7 +27698,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27697,7 +27729,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27726,21 +27758,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMTEQconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -27754,14 +27786,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27770,7 +27802,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27785,14 +27817,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27801,7 +27833,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27816,14 +27848,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -27832,7 +27864,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMLT
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -27847,7 +27879,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27878,7 +27910,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27909,7 +27941,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -27941,7 +27973,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			v_0 := v.Args[0]
@@ -27962,7 +27994,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			v_0 := v.Args[0]
@@ -27983,7 +28015,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			v_0 := v.Args[0]
@@ -28004,7 +28036,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			v_0 := v.Args[0]
@@ -28025,7 +28057,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			v_0 := v.Args[0]
@@ -28046,7 +28078,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			v_0 := v.Args[0]
@@ -28067,7 +28099,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			v_0 := v.Args[0]
@@ -28088,7 +28120,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			v_0 := v.Args[0]
@@ -28109,7 +28141,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			v_0 := v.Args[0]
@@ -28130,7 +28162,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			v_0 := v.Args[0]
@@ -28231,7 +28263,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28260,7 +28292,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28293,21 +28325,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMCMPconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -28321,14 +28353,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -28337,7 +28369,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -28352,14 +28384,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -28368,7 +28400,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -28383,14 +28415,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMSUBshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -28399,7 +28431,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMCMPshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -28414,7 +28446,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28445,7 +28477,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28476,7 +28508,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28507,7 +28539,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28536,7 +28568,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28569,21 +28601,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMCMNconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -28597,14 +28629,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -28613,7 +28645,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -28628,14 +28660,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -28644,7 +28676,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -28659,14 +28691,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMADDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -28675,7 +28707,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMCMNshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -28690,7 +28722,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28721,7 +28753,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28752,7 +28784,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28783,7 +28815,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28812,21 +28844,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMTSTconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -28840,14 +28872,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -28856,7 +28888,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -28871,14 +28903,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -28887,7 +28919,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -28902,14 +28934,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMANDshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -28918,7 +28950,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMTSTshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -28933,7 +28965,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28964,7 +28996,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -28995,7 +29027,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -29026,7 +29058,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -29055,21 +29087,21 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORconst {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			x := l.Args[0]
 			if !(l.Uses == 1) {
 				break
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMTEQconst, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			b.SetControl(v0)
 			b.Aux = nil
@@ -29083,14 +29115,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftLL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -29099,7 +29131,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftLL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -29114,14 +29146,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRL {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -29130,7 +29162,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRL, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -29145,14 +29177,14 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
 			if l.Op != OpARMXORshiftRA {
 				break
 			}
-			c := l.AuxInt
+			c := l.auxInt32()
 			_ = l.Args[1]
 			x := l.Args[0]
 			y := l.Args[1]
@@ -29161,7 +29193,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			b.Kind = BlockARMNE
 			v0 := b.NewValue0(v.Pos, OpARMTEQshiftRA, types.TypeFlags)
-			v0.AuxInt = c
+			v0.setAuxInt32(c)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.SetControl(v0)
@@ -29176,7 +29208,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -29207,7 +29239,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]
@@ -29238,7 +29270,7 @@ func rewriteBlockARM(b *Block) bool {
 			if v.Op != OpARMCMPconst {
 				break
 			}
-			if v.AuxInt != 0 {
+			if v.auxInt32() != 0 {
 				break
 			}
 			l := v.Args[0]

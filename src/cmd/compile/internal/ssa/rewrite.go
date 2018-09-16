@@ -345,32 +345,57 @@ func nto(x int64) int64 {
 	return ntz(^x)
 }
 
-// log2 returns logarithm in base 2 of uint64(n), with log2(0) = -1.
+// log64 returns logarithm in base 2 of uint64(n), with log64(0) = -1.
 // Rounds down.
-func log2(n int64) int64 {
+// TODO: return int8 instead of int64?
+func log64(n int64) int64 {
 	return int64(bits.Len64(uint64(n))) - 1
+}
+func log32(n int32) int64 {
+	return int64(bits.Len32(uint32(n))) - 1
+}
+func log16(n int16) int64 {
+	return int64(bits.Len16(uint16(n))) - 1
+}
+func log8(n int8) int64 {
+	return int64(bits.Len8(uint8(n))) - 1
 }
 
 // log2uint32 returns logarithm in base 2 of uint32(n), with log2(0) = -1.
 // Rounds down.
-func log2uint32(n int64) int64 {
+func log2uint32(n int32) int64 {
 	return int64(bits.Len32(uint32(n))) - 1
 }
 
-// isPowerOfTwo reports whether n is a power of 2.
-func isPowerOfTwo(n int64) bool {
+// isPowerOfTwoX reports whether the X-bit value n is a power of 2.
+func isPowerOfTwo64(n int64) bool {
+	return n > 0 && n&(n-1) == 0
+}
+func isPowerOfTwo32(n int32) bool {
+	return n > 0 && n&(n-1) == 0
+}
+func isPowerOfTwo16(n int16) bool {
+	return n > 0 && n&(n-1) == 0
+}
+func isPowerOfTwo8(n int8) bool {
 	return n > 0 && n&(n-1) == 0
 }
 
-// isUint64PowerOfTwo reports whether uint64(n) is a power of 2.
-func isUint64PowerOfTwo(in int64) bool {
+// isPowerOfTwoXu reports whether the X-bit unsigned value in is a power of 2.
+func isPowerOfTwo64u(in int64) bool {
 	n := uint64(in)
 	return n > 0 && n&(n-1) == 0
 }
-
-// isUint32PowerOfTwo reports whether uint32(n) is a power of 2.
-func isUint32PowerOfTwo(in int64) bool {
-	n := uint64(uint32(in))
+func isPowerOfTwo32u(in int32) bool {
+	n := uint32(in)
+	return n > 0 && n&(n-1) == 0
+}
+func isPowerOfTwo16u(in int16) bool {
+	n := uint16(in)
+	return n > 0 && n&(n-1) == 0
+}
+func isPowerOfTwo8u(in int8) bool {
+	n := uint8(in)
 	return n > 0 && n&(n-1) == 0
 }
 
@@ -1020,7 +1045,7 @@ func getARM64BFwidth(bfc int64) int64 {
 // checks if mask >> rshift applied at lsb is a valid arm64 bitfield op mask.
 func isARM64BFMask(lsb, mask, rshift int64) bool {
 	shiftedMask := int64(uint64(mask) >> uint64(rshift))
-	return shiftedMask != 0 && isPowerOfTwo(shiftedMask+1) && nto(shiftedMask)+lsb < 64
+	return shiftedMask != 0 && isPowerOfTwo64(shiftedMask+1) && nto(shiftedMask)+lsb < 64
 }
 
 // returns the bitfield width of mask >> rshift for arm64 bitfield ops
