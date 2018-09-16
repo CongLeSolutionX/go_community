@@ -719,19 +719,14 @@ const (
 	OpAMD64PXOR
 	OpAMD64LEAQ
 	OpAMD64LEAL
-	OpAMD64LEAW
 	OpAMD64LEAQ1
 	OpAMD64LEAL1
-	OpAMD64LEAW1
 	OpAMD64LEAQ2
 	OpAMD64LEAL2
-	OpAMD64LEAW2
 	OpAMD64LEAQ4
 	OpAMD64LEAL4
-	OpAMD64LEAW4
 	OpAMD64LEAQ8
 	OpAMD64LEAL8
-	OpAMD64LEAW8
 	OpAMD64MOVBload
 	OpAMD64MOVBQSXload
 	OpAMD64MOVWload
@@ -5765,7 +5760,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "ADDQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		clobberFlags: true,
 		asm:          x86.AADDQ,
@@ -5855,7 +5850,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "SUBQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -5921,7 +5916,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "MULQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		clobberFlags: true,
 		asm:          x86.AIMUL3Q,
@@ -6199,7 +6194,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "ANDQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -6293,7 +6288,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "ORQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -6387,7 +6382,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "XORQconst",
-		auxType:      auxInt32,
+		auxType:      auxInt64,
 		argLen:       1,
 		resultInArg0: true,
 		clobberFlags: true,
@@ -6491,7 +6486,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "CMPQconst",
-		auxType: auxInt32,
+		auxType: auxInt64,
 		argLen:  1,
 		asm:     x86.ACMPQ,
 		reg: regInfo{
@@ -6949,7 +6944,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "TESTQconst",
-		auxType: auxInt32,
+		auxType: auxInt64,
 		argLen:  1,
 		asm:     x86.ATESTQ,
 		reg: regInfo{
@@ -9305,27 +9300,11 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:              "LEAL",
-		auxType:           auxSymOff,
+		auxType:           auxSymOff32,
 		argLen:            1,
 		rematerializeable: true,
 		symEffect:         SymAddr,
 		asm:               x86.ALEAL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
-			},
-			outputs: []outputInfo{
-				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-			},
-		},
-	},
-	{
-		name:              "LEAW",
-		auxType:           auxSymOff,
-		argLen:            1,
-		rematerializeable: true,
-		symEffect:         SymAddr,
-		asm:               x86.ALEAW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
@@ -9354,28 +9333,11 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:        "LEAL1",
-		auxType:     auxSymOff,
+		auxType:     auxSymOff32,
 		argLen:      2,
 		commutative: true,
 		symEffect:   SymAddr,
 		asm:         x86.ALEAL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
-			},
-			outputs: []outputInfo{
-				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-			},
-		},
-	},
-	{
-		name:        "LEAW1",
-		auxType:     auxSymOff,
-		argLen:      2,
-		commutative: true,
-		symEffect:   SymAddr,
-		asm:         x86.ALEAW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -9404,26 +9366,10 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "LEAL2",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    2,
 		symEffect: SymAddr,
 		asm:       x86.ALEAL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
-			},
-			outputs: []outputInfo{
-				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-			},
-		},
-	},
-	{
-		name:      "LEAW2",
-		auxType:   auxSymOff,
-		argLen:    2,
-		symEffect: SymAddr,
-		asm:       x86.ALEAW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -9452,26 +9398,10 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "LEAL4",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    2,
 		symEffect: SymAddr,
 		asm:       x86.ALEAL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
-			},
-			outputs: []outputInfo{
-				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-			},
-		},
-	},
-	{
-		name:      "LEAW4",
-		auxType:   auxSymOff,
-		argLen:    2,
-		symEffect: SymAddr,
-		asm:       x86.ALEAW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
@@ -9500,26 +9430,10 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:      "LEAL8",
-		auxType:   auxSymOff,
+		auxType:   auxSymOff32,
 		argLen:    2,
 		symEffect: SymAddr,
 		asm:       x86.ALEAL,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
-			},
-			outputs: []outputInfo{
-				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
-			},
-		},
-	},
-	{
-		name:      "LEAW8",
-		auxType:   auxSymOff,
-		argLen:    2,
-		symEffect: SymAddr,
-		asm:       x86.ALEAW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15

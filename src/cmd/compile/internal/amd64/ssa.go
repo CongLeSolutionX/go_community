@@ -522,23 +522,22 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = r
 	case ssa.OpAMD64LEAQ1, ssa.OpAMD64LEAQ2, ssa.OpAMD64LEAQ4, ssa.OpAMD64LEAQ8,
-		ssa.OpAMD64LEAL1, ssa.OpAMD64LEAL2, ssa.OpAMD64LEAL4, ssa.OpAMD64LEAL8,
-		ssa.OpAMD64LEAW1, ssa.OpAMD64LEAW2, ssa.OpAMD64LEAW4, ssa.OpAMD64LEAW8:
+		ssa.OpAMD64LEAL1, ssa.OpAMD64LEAL2, ssa.OpAMD64LEAL4, ssa.OpAMD64LEAL8:
 		o := v.Reg()
 		r := v.Args[0].Reg()
 		i := v.Args[1].Reg()
 		p := s.Prog(v.Op.Asm())
 		switch v.Op {
-		case ssa.OpAMD64LEAQ1, ssa.OpAMD64LEAL1, ssa.OpAMD64LEAW1:
+		case ssa.OpAMD64LEAQ1, ssa.OpAMD64LEAL1:
 			p.From.Scale = 1
 			if i == x86.REG_SP {
 				r, i = i, r
 			}
-		case ssa.OpAMD64LEAQ2, ssa.OpAMD64LEAL2, ssa.OpAMD64LEAW2:
+		case ssa.OpAMD64LEAQ2, ssa.OpAMD64LEAL2:
 			p.From.Scale = 2
-		case ssa.OpAMD64LEAQ4, ssa.OpAMD64LEAL4, ssa.OpAMD64LEAW4:
+		case ssa.OpAMD64LEAQ4, ssa.OpAMD64LEAL4:
 			p.From.Scale = 4
-		case ssa.OpAMD64LEAQ8, ssa.OpAMD64LEAL8, ssa.OpAMD64LEAW8:
+		case ssa.OpAMD64LEAQ8, ssa.OpAMD64LEAL8:
 			p.From.Scale = 8
 		}
 		p.From.Type = obj.TYPE_MEM
@@ -553,8 +552,6 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 				p = s.Prog(x86.ALEAQ)
 			case ssa.OpAMD64LEAL1, ssa.OpAMD64LEAL2, ssa.OpAMD64LEAL4, ssa.OpAMD64LEAL8:
 				p = s.Prog(x86.ALEAL)
-			case ssa.OpAMD64LEAW1, ssa.OpAMD64LEAW2, ssa.OpAMD64LEAW4, ssa.OpAMD64LEAW8:
-				p = s.Prog(x86.ALEAW)
 			}
 			p.From.Type = obj.TYPE_MEM
 			p.From.Reg = o
@@ -562,7 +559,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 			p.To.Reg = o
 		}
 		gc.AddAux(&p.From, v)
-	case ssa.OpAMD64LEAQ, ssa.OpAMD64LEAL, ssa.OpAMD64LEAW:
+	case ssa.OpAMD64LEAQ, ssa.OpAMD64LEAL:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_MEM
 		p.From.Reg = v.Args[0].Reg()

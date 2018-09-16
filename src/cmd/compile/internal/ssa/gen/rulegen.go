@@ -424,16 +424,16 @@ func genMatch0(w io.Writer, arch arch, match, v string, m map[string]struct{}, t
 	if auxint != "" {
 		if !isVariable(auxint) {
 			// code
-			fmt.Fprintf(w, "if %s.AuxInt != %s {\nbreak\n}\n", v, auxint)
+			fmt.Fprintf(w, "if %s.%s() != %s {\nbreak\n}\n", v, auxFunc(op), auxint)
 			canFail = true
 		} else {
 			// variable
 			if _, ok := m[auxint]; ok {
-				fmt.Fprintf(w, "if %s.AuxInt != %s {\nbreak\n}\n", v, auxint)
+				fmt.Fprintf(w, "if %s.%s() != %s {\nbreak\n}\n", v, auxFunc(op), auxint)
 				canFail = true
 			} else {
 				m[auxint] = struct{}{}
-				fmt.Fprintf(w, "%s := %s.AuxInt\n", auxint, v)
+				fmt.Fprintf(w, "%s := %s.%s()\n", auxint, v, auxFunc(op))
 			}
 		}
 	}
@@ -504,6 +504,19 @@ func genMatch0(w io.Writer, arch arch, match, v string, m map[string]struct{}, t
 	return canFail
 }
 
+func auxFunc(op opData) string {
+	aux := op.aux
+	switch aux {
+	case "SymOff":
+		aux = "Int64"
+	case "SymOff32":
+		aux = "Int32"
+	case "SymValAndOff":
+		aux = "ValAndOff"
+	}
+	return "aux" + aux
+}
+
 func genResult(w io.Writer, arch arch, result string, loc string) {
 	move := false
 	if result[0] == '@' {
@@ -542,6 +555,7 @@ func genResult0(w io.Writer, arch arch, result string, alloc *int, top, move boo
 	var v string
 	if top && !move {
 		v = "v"
+		// Note: Op must be set before any of the setAux* routines work.
 		fmt.Fprintf(w, "v.reset(Op%s%s)\n", oparch, op.name)
 		if typeOverride {
 			fmt.Fprintf(w, "v.Type = %s\n", typ)
@@ -560,8 +574,45 @@ func genResult0(w io.Writer, arch arch, result string, alloc *int, top, move boo
 		}
 	}
 
-	if auxint != "" {
-		fmt.Fprintf(w, "%s.AuxInt = %s\n", v, auxint)
+	switch op.aux {
+	case "Bool":
+		if auxint == "" {
+			auxint = "false" // TODO: make all [false] explicit?
+		}
+		fmt.Fprintf(w, "%s.setAuxBool(%s)\n", v, auxint)
+	case "Int8":
+		fmt.Fprintf(w, "%s.setAuxInt8(%s)\n", v, auxint)
+	case "Int16":
+		fmt.Fprintf(w, "%s.setAuxInt16(%s)\n", v, auxint)
+	case "Int32":
+		fmt.Fprintf(w, "%s.setAuxInt32(%s)\n", v, auxint)
+	case "Int64":
+		if auxint == "" {
+			auxint = "0" // TODO: make all [0] explicit?
+		}
+		fmt.Fprintf(w, "%s.setAuxInt64(%s)\n", v, auxint)
+	case "Int128":
+		fmt.Fprintf(w, "%s.setAuxInt64(%s)\n", v, auxint) // value is always 0.
+	case "Float32":
+		fmt.Fprintf(w, "%s.setAuxFloat32(%s)\n", v, auxint)
+	case "Float64":
+		fmt.Fprintf(w, "%s.setAuxFloat64(%s)\n", v, auxint)
+	case "TypSize", "SymOff":
+		if auxint == "" {
+			auxint = "0" // TODO: make all [0] explicit?
+		}
+		fmt.Fprintf(w, "%s.setAuxInt64(%s)\n", v, auxint)
+	case "SymOff32":
+		if auxint == "" {
+			auxint = "0" // TODO: make all [0] explicit?
+		}
+		fmt.Fprintf(w, "%s.setAuxInt32(%s)\n", v, auxint)
+	case "SymValAndOff":
+		fmt.Fprintf(w, "%s.setAuxValAndOff(%s)\n", v, auxint)
+	default:
+		if auxint != "" {
+			log.Fatalf("opcode %s has no auxint field, can't set it to %s at %s", op, auxint, loc)
+		}
 	}
 	if aux != "" {
 		fmt.Fprintf(w, "%s.Aux = %s\n", v, aux)
@@ -724,14 +775,14 @@ func parseValue(val string, arch arch, loc string) (op opData, oparch string, ty
 	// Sanity check aux, auxint.
 	if auxint != "" {
 		switch op.aux {
-		case "Bool", "Int8", "Int16", "Int32", "Int64", "Int128", "Float32", "Float64", "SymOff", "SymValAndOff", "SymInt32", "TypSize":
+		case "Bool", "Int8", "Int16", "Int32", "Int64", "Int128", "Float32", "Float64", "SymOff", "SymOff32", "SymValAndOff", "SymInt32", "TypSize":
 		default:
 			log.Fatalf("%s: op %s %s can't have auxint", loc, op.name, op.aux)
 		}
 	}
 	if aux != "" {
 		switch op.aux {
-		case "String", "Sym", "SymOff", "SymValAndOff", "SymInt32", "Typ", "TypSize", "CCop":
+		case "String", "Sym", "SymOff", "SymOff32", "SymValAndOff", "SymInt32", "Typ", "TypSize", "CCop":
 		default:
 			log.Fatalf("%s: op %s %s can't have aux", loc, op.name, op.aux)
 		}
@@ -782,6 +833,9 @@ func unbalanced(s string) bool {
 
 // isVariable reports whether s is a single Go alphanumeric identifier.
 func isVariable(s string) bool {
+	if s == "true" || s == "false" {
+		return false
+	}
 	b, err := regexp.MatchString("^[A-Za-z_][A-Za-z_0-9]*$", s)
 	if err != nil {
 		panic("bad variable regexp")

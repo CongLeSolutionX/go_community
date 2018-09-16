@@ -35,7 +35,7 @@ type Value struct {
 	// even if the represented value is unsigned.
 	// Users of AuxInt which interpret AuxInt as unsigned (e.g. shifts) must be careful.
 	// Use Value.AuxUnsigned to get the zero-extended value of AuxInt.
-	AuxInt int64
+	AuxInt int64 // TODO: don't export.
 	Aux    interface{}
 
 	// Arguments of this value
@@ -124,6 +124,87 @@ func (v *Value) AuxValAndOff() ValAndOff {
 		v.Fatalf("op %s doesn't have a ValAndOff aux field", v.Op)
 	}
 	return ValAndOff(v.AuxInt)
+}
+
+func (v *Value) auxBool() bool {
+	return v.AuxInt != 0
+}
+func (v *Value) auxInt8() int8 {
+	return int8(v.AuxInt)
+}
+func (v *Value) auxInt16() int16 {
+	return int16(v.AuxInt)
+}
+func (v *Value) auxInt32() int32 {
+	return int32(v.AuxInt)
+}
+func (v *Value) auxInt64() int64 {
+	return v.AuxInt
+}
+func (v *Value) auxUint8() uint8 {
+	return uint8(v.AuxInt)
+}
+func (v *Value) auxUint16() uint16 {
+	return uint16(v.AuxInt)
+}
+func (v *Value) auxUint32() uint32 {
+	return uint32(v.AuxInt)
+}
+func (v *Value) auxUint64() uint64 {
+	return uint64(v.AuxInt)
+}
+func (v *Value) auxFloat32() float32 {
+	return math.Float32frombits(uint32(v.AuxInt))
+}
+func (v *Value) auxFloat64() float64 {
+	return math.Float64frombits(uint64(v.AuxInt))
+}
+func (v *Value) auxValAndOff() ValAndOff {
+	return ValAndOff(v.AuxInt)
+}
+func (v *Value) auxTypSize() int64 {
+	return v.AuxInt
+}
+
+func (v *Value) setAuxBool(x bool) {
+	if x {
+		v.AuxInt = 1
+	} else {
+		v.AuxInt = 0
+	}
+}
+func (v *Value) setAuxInt8(x int8) {
+	v.AuxInt = int64(x)
+}
+func (v *Value) setAuxInt16(x int16) {
+	v.AuxInt = int64(x)
+}
+func (v *Value) setAuxInt32(x int32) {
+	v.AuxInt = int64(x)
+}
+func (v *Value) setAuxInt64(x int64) {
+	v.AuxInt = x
+}
+func (v *Value) setAuxUint8(x uint8) {
+	v.AuxInt = int64(x)
+}
+func (v *Value) setAuxUint16(x uint16) {
+	v.AuxInt = int64(x)
+}
+func (v *Value) setAuxUint32(x uint32) {
+	v.AuxInt = int64(x)
+}
+func (v *Value) setAuxUint64(x uint64) {
+	v.AuxInt = int64(x)
+}
+func (v *Value) setAuxFloat32(x float32) {
+	v.AuxInt = int64(math.Float32bits(x))
+}
+func (v *Value) setAuxFloat64(x float64) {
+	v.AuxInt = int64(math.Float64bits(x))
+}
+func (v *Value) setAuxValAndOff(x ValAndOff) {
+	v.AuxInt = x.Int64()
 }
 
 // long form print.  v# = opcode <type> [aux] args [: reg] (names)
