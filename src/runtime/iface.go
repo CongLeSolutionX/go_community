@@ -290,6 +290,20 @@ func convT2E(t *_type, elem unsafe.Pointer) (e eface) {
 	return
 }
 
+func convT2Enoptr(t *_type, elem unsafe.Pointer) (e eface) {
+	if raceenabled {
+		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2Enoptr))
+	}
+	if msanenabled {
+		msanread(elem, t.size)
+	}
+	x := mallocgc(t.size, t, false)
+	memmove(x, elem, t.size)
+	e._type = t
+	e.data = x
+	return
+}
+
 func convT2E16(t *_type, val uint16) (e eface) {
 	var x unsafe.Pointer
 	if val == 0 {
@@ -367,20 +381,6 @@ func convT2Eslice(t *_type, elem unsafe.Pointer) (e eface) {
 	return
 }
 
-func convT2Enoptr(t *_type, elem unsafe.Pointer) (e eface) {
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2Enoptr))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
-	x := mallocgc(t.size, t, false)
-	memmove(x, elem, t.size)
-	e._type = t
-	e.data = x
-	return
-}
-
 func convT2I(tab *itab, elem unsafe.Pointer) (i iface) {
 	t := tab._type
 	if raceenabled {
@@ -391,6 +391,21 @@ func convT2I(tab *itab, elem unsafe.Pointer) (i iface) {
 	}
 	x := mallocgc(t.size, t, true)
 	typedmemmove(t, x, elem)
+	i.tab = tab
+	i.data = x
+	return
+}
+
+func convT2Inoptr(tab *itab, elem unsafe.Pointer) (i iface) {
+	t := tab._type
+	if raceenabled {
+		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2Inoptr))
+	}
+	if msanenabled {
+		msanread(elem, t.size)
+	}
+	x := mallocgc(t.size, t, false)
+	memmove(x, elem, t.size)
 	i.tab = tab
 	i.data = x
 	return
@@ -473,21 +488,6 @@ func convT2Islice(tab *itab, elem unsafe.Pointer) (i iface) {
 		x = mallocgc(t.size, t, true)
 		*(*slice)(x) = *(*slice)(elem)
 	}
-	i.tab = tab
-	i.data = x
-	return
-}
-
-func convT2Inoptr(tab *itab, elem unsafe.Pointer) (i iface) {
-	t := tab._type
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2Inoptr))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
-	x := mallocgc(t.size, t, false)
-	memmove(x, elem, t.size)
 	i.tab = tab
 	i.data = x
 	return

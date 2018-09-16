@@ -65,20 +65,20 @@ func countrunes(string) int
 func convI2I(typ *byte, elem any) (ret any)
 
 func convT2E(typ *byte, elem *any) (ret any)
+func convT2Enoptr(typ *byte, elem *any) (ret any)
 func convT2E16(typ *byte, val any) (ret any)
 func convT2E32(typ *byte, val any) (ret any)
 func convT2E64(typ *byte, val any) (ret any)
 func convT2Estring(typ *byte, elem *any) (ret any)
 func convT2Eslice(typ *byte, elem *any) (ret any)
-func convT2Enoptr(typ *byte, elem *any) (ret any)
 
 func convT2I(tab *byte, elem *any) (ret any)
+func convT2Inoptr(tab *byte, elem *any) (ret any)
 func convT2I16(tab *byte, val any) (ret any)
 func convT2I32(tab *byte, val any) (ret any)
 func convT2I64(tab *byte, val any) (ret any)
 func convT2Istring(tab *byte, elem *any) (ret any)
 func convT2Islice(tab *byte, elem *any) (ret any)
-func convT2Inoptr(tab *byte, elem *any) (ret any)
 
 // interface type assertions x.(T)
 func assertE2I(typ *byte, iface any) (ret any)
