@@ -50,9 +50,13 @@ type outputInfo struct {
 }
 
 type regInfo struct {
-	inputs   []inputInfo // ordered in register allocation order
+	// The inputs are the allowed registers for each input to the instruction, ordered in register allocation order.
+	// It should be as long as the argLength of the instruction.
+	inputs []inputInfo
+	// The clobbers are the set of registers that the instruction overwrites (other than the output registers).
 	clobbers regMask
-	outputs  []outputInfo // ordered in register allocation order
+	// The outputs are the allowed registers for each output of the instruction (normally length 1), ordered in register allocation order.
+	outputs []outputInfo
 }
 
 type auxType int8
