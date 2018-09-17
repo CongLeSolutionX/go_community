@@ -46,6 +46,29 @@
       "revId": "06c4e7aaf5734354073df0c79924898b44617c6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5365617_db42d873",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-17T19:24:32Z",
+      "side": 1,
+      "message": "Maybe this should also say that v is not evaluated in those cases, for completeness.\n\n(E.g., https://play.golang.org/p/fU6xL1rHERc doesn\u0027t cause a nil-pointer panic)",
+      "range": {
+        "startLine": 157,
+        "startChar": 38,
+        "endLine": 158,
+        "endChar": 0
+      },
+      "revId": "06c4e7aaf5734354073df0c79924898b44617c6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
