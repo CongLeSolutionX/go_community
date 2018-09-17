@@ -166,16 +166,15 @@ func newReader() r
 var arr /* ERROR cycle */ = f()
 func f() [len(arr)]int
 
-// TODO(gri) here we should only get one error
-func ff /* ERROR cycle */ (ff /* ERROR not a type */ )
+func ff(ff /* ERROR not a type */ )
 
 type T13 /* ERROR cycle */ [len(b13)]int
 var b13 T13
 
-func g /* ERROR cycle */ () [unsafe.Sizeof(x)]int
+func g() [unsafe.Sizeof(x)]int
 var x = g
 
-func h /* ERROR cycle */ () [h /* ERROR no value */ ()[0]]int { panic(0) }
+func h() [h /* ERROR no value */ ()[0]]int { panic(0) }
 
 var c14 /* ERROR cycle */ T14
 type T14 [uintptr(unsafe.Sizeof(&c14))]byte
