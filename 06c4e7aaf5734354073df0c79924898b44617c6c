@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3d3dd2b_73b8cabf",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-17T06:59:51Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this is saying. What\u0027s an example?",
+      "range": {
+        "startLine": 155,
+        "startChar": 55,
+        "endLine": 157,
+        "endChar": 38
+      },
+      "revId": "06c4e7aaf5734354073df0c79924898b44617c6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
