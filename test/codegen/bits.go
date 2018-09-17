@@ -270,6 +270,12 @@ func bitOpOnMem(a []uint32) {
 	a[1] |= 220
 	// amd64:`XORL\s[$]240,\s8\([A-Z]+\)`
 	a[2] ^= 240
+	// amd64:`ANDL`,-`BTRL`
+	a[3] &= 0xffff7fff
+	// amd64:`ORL`,-`BTSL`
+	a[4] |= 0x4000
+	// amd64:`XORL`-`BTCL`
+	a[5] ^= 0x2000
 }
 
 // Check AND masking on arm64 (Issue #19857)
