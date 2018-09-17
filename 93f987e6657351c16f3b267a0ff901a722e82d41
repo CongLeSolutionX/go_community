@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8358b8dc_07c4efac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2018-09-17T18:46:06Z",
+      "side": 1,
+      "message": "While this is not a correctness issue it can lead ...",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "93f987e6657351c16f3b267a0ff901a722e82d41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
