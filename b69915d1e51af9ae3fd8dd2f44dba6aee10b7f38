@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3be3c8eb_5b024d18",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-17T23:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "310ce43b_4691bf54",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 6
+      },
+      "revId": "b69915d1e51af9ae3fd8dd2f44dba6aee10b7f38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "644510d9_bf3b981b",
         "filename": "src/go/types/typexpr.go",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2018-09-17T22:09:09Z",
       "side": 1,
       "message": "On the face of it, it seems this assertion will fail if obj.Type() \u003d\u003d nil on L47.\nPerhaps rephrase as:\n\n\ttyp :\u003d obj.Type()\n\tif _, gotType :\u003d obj.(*TypeName); typ \u003d\u003d nil || gotType \u0026\u0026 wantType {\n\t\tcheck.objDecl(obj, def)\n\t\ttyp \u003d obj.Type() // type is now assigned\n\t\tassert(typ !\u003d nil)\n\t}",
+      "revId": "b69915d1e51af9ae3fd8dd2f44dba6aee10b7f38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c788433_bee5eb7d",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-09-17T23:08:37Z",
+      "side": 1,
+      "message": "Done, but moved assertion outside the if.",
+      "parentUuid": "644510d9_bf3b981b",
       "revId": "b69915d1e51af9ae3fd8dd2f44dba6aee10b7f38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
