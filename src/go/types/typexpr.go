@@ -17,8 +17,9 @@ import (
 // ident type-checks identifier e and initializes x with the value or type of e.
 // If an error occurred, x.mode is set to invalid.
 // For the meaning of def, see Checker.definedType, below.
+// If wantType is set, the identifier e is expected to denote a type.
 //
-func (check *Checker) ident(x *operand, e *ast.Ident, def *Named) {
+func (check *Checker) ident(x *operand, e *ast.Ident, def *Named, wantType bool) {
 	x.mode = invalid
 	x.expr = e
 
@@ -35,7 +36,17 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *Named) {
 	}
 	check.recordUse(e, obj)
 
-	check.objDecl(obj, def)
+	// Type-check the object.
+	// Only call Checker.objDecl if the object doesn't have a type yet
+	// (in which case we must actually determine it) or the object is a
+	// TypeName and we also want a type (in which case we might detect
+	// a cycle which needs to be reported). Otherwise we can skip the
+	// call and avoid a possible cycle error in favor of the more
+	// informative "not a type/value" error that this function's caller
+	// we issue.
+	if _, gotType := obj.(*TypeName); obj.Type() == nil || gotType && wantType {
+		check.objDecl(obj, def)
+	}
 	typ := obj.Type()
 	assert(typ != nil)
 
@@ -215,7 +226,7 @@ func (check *Checker) typInternal(e ast.Expr, def *Named) Type {
 
 	case *ast.Ident:
 		var x operand
-		check.ident(&x, e, def)
+		check.ident(&x, e, def, true)
 
 		switch x.mode {
 		case typexpr:
