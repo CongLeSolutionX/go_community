@@ -710,6 +710,7 @@
 
 (AND(L|Q)const [c] (AND(L|Q)const [d] x)) -> (AND(L|Q)const [c & d] x)
 (XOR(L|Q)const [c] (XOR(L|Q)const [d] x)) -> (XOR(L|Q)const [c ^ d] x)
+(OR(L|Q)const [c] (OR(L|Q)const [d] x)) -> (OR(L|Q)const [c | d] x)
 
 (MULLconst [c] (MULLconst [d] x)) -> (MULLconst [int64(int32(c * d))] x)
 (MULQconst [c] (MULQconst [d] x)) && is32Bit(c*d) -> (MULQconst [c * d] x)
@@ -1424,6 +1425,12 @@
 (XORLconst [c] (MOVLconst [d])) -> (MOVLconst [c^d])
 (NOTQ (MOVQconst [c])) -> (MOVQconst [^c])
 (NOTL (MOVLconst [c])) -> (MOVLconst [^c])
+(BTSQconst [c] (MOVQconst [d])) -> (MOVQconst [d|(1<<uint32(c&63))])
+(BTRQconst [c] (MOVQconst [d])) -> (MOVQconst [d&^(1<<uint32(c&63))])
+(BTCQconst [c] (MOVQconst [d])) -> (MOVQconst [d^(1<<uint32(c&63))])
+(BTSLconst [c] (MOVLconst [d])) -> (MOVLconst [d|(1<<uint32(c&31))])
+(BTRLconst [c] (MOVLconst [d])) -> (MOVLconst [d&^(1<<uint32(c&31))])
+(BTCLconst [c] (MOVLconst [d])) -> (MOVLconst [d^(1<<uint32(c&31))])
 
 // generic simplifications
 // TODO: more of this
@@ -2395,9 +2402,21 @@
 (MOVQstore [off] {sym} ptr a:((ADD|AND|OR|XOR)Qconst [c] l:(MOVQload [off] {sym} ptr2 mem)) mem)
 	&& isSamePtr(ptr, ptr2) && a.Uses == 1 && l.Uses == 1 && validValAndOff(c,off) ->
 	((ADD|AND|OR|XOR)Qconstmodify {sym} [makeValAndOff(c,off)] ptr mem)
+(MOVQstore [off] {sym} ptr a:((BTS|BTC)Qconst [c] l:(MOVQload [off] {sym} ptr2 mem)) mem)
+	&& isSamePtr(ptr, ptr2) && a.Uses == 1 && l.Uses == 1 && validValAndOff(1<<uint32(c&63),off) ->
+	((OR|XOR)Qconstmodify {sym} [makeValAndOff(1<<uint32(c&63),off)] ptr mem)
+(MOVQstore [off] {sym} ptr a:(BTRQconst [c] l:(MOVQload [off] {sym} ptr2 mem)) mem)
+	&& isSamePtr(ptr, ptr2) && a.Uses == 1 && l.Uses == 1 && validValAndOff(^(1<<uint32(c&63)),off) ->
+	(ANDQconstmodify {sym} [makeValAndOff(^(1<<uint32(c&63)),off)] ptr mem)
 (MOVLstore [off] {sym} ptr a:((ADD|AND|OR|XOR)Lconst [c] l:(MOVLload [off] {sym} ptr2 mem)) mem)
 	&& isSamePtr(ptr, ptr2) && a.Uses == 1 && l.Uses == 1 && validValAndOff(c,off) ->
 	((ADD|AND|OR|XOR)Lconstmodify {sym} [makeValAndOff(c,off)] ptr mem)
+(MOVLstore [off] {sym} ptr a:((BTS|BTC)Lconst [c] l:(MOVLload [off] {sym} ptr2 mem)) mem)
+	&& isSamePtr(ptr, ptr2) && a.Uses == 1 && l.Uses == 1 && validValAndOff(1<<uint32(c&31),off) ->
+	((OR|XOR)Lconstmodify {sym} [makeValAndOff(1<<uint32(c&31),off)] ptr mem)
+(MOVLstore [off] {sym} ptr a:(BTRLconst [c] l:(MOVLload [off] {sym} ptr2 mem)) mem)
+	&& isSamePtr(ptr, ptr2) && a.Uses == 1 && l.Uses == 1 && validValAndOff(^(1<<uint32(c&31)),off) ->
+	(ANDLconstmodify {sym} [makeValAndOff(^(1<<uint32(c&31)),off)] ptr mem)
 
 // float <-> int register moves, with no conversion.
 // These come up when compiling math.{Float{32,64}bits,Float{32,64}frombits}.
