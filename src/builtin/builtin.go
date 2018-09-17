@@ -152,6 +152,9 @@ func delete(m map[Type]Type1, key Type)
 //	String: the number of bytes in v.
 //	Channel: the number of elements queued (unread) in the channel buffer;
 //	if v is nil, len(v) is zero.
+// The result is a constant if v is a string. It is also constant if v is an
+// array or pointer to an array and the expression for v contains no channel
+// receives or function calls.
 func len(v Type) int
 
 // The cap built-in function returns the capacity of v, according to its type:
@@ -161,6 +164,9 @@ func len(v Type) int
 //	if v is nil, cap(v) is zero.
 //	Channel: the channel buffer capacity, in units of elements;
 //	if v is nil, cap(v) is zero.
+// The result is a constant if v is a string. It is also constant if v is an
+// array or pointer to an array and the expression for v contains no channel
+// receives or function calls.
 func cap(v Type) int
 
 // The make built-in function allocates and initializes an object of type
