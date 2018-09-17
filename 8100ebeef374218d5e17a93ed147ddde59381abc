@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1e0d29e_0d8fc462",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1428,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-09-17T16:23:22Z",
+      "side": 1,
+      "message": "You don\u0027t need the \u002663 and \u002631 here.  the BTconst instructions all guarantee their auxint is in range.",
+      "revId": "8100ebeef374218d5e17a93ed147ddde59381abc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93c986c5_af607cce",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 2405,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-09-17T16:23:22Z",
+      "side": 1,
+      "message": "Why convert these back to an OR?\nCan\u0027t we just convert to a BTSQconstmodify?",
+      "revId": "8100ebeef374218d5e17a93ed147ddde59381abc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
