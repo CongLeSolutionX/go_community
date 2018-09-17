@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2cbde763_36e2a097",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-17T05:30:16Z",
+      "side": 1,
+      "message": "I think this first sentence will mislead people into thinking they can use it in a const, like https://play.golang.org/p/eqmhrkne7OX",
+      "range": {
+        "startLine": 155,
+        "startChar": 3,
+        "endLine": 155,
+        "endChar": 45
+      },
+      "revId": "097a94be166f021abbf3028ed352daefb8d64797",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
