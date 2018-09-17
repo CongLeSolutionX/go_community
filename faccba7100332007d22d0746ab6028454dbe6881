@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdf963bf_dc6376f7",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-09-17T01:10:24Z",
+      "side": 1,
+      "message": "I\u0027m not sure what \"register allocation order\" is.\nMaybe \"inputs[i] is the set of allowed registers for Args[i]\".\nSame for outputs.",
+      "range": {
+        "startLine": 53,
+        "startChar": 87,
+        "endLine": 53,
+        "endChar": 112
+      },
+      "revId": "faccba7100332007d22d0746ab6028454dbe6881",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
