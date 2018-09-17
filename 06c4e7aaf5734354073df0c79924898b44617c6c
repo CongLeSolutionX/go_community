@@ -69,6 +69,30 @@
       "revId": "06c4e7aaf5734354073df0c79924898b44617c6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6314aab_15ced233",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-09-17T20:50:07Z",
+      "side": 1,
+      "message": "At this point we\u0027re just writing out the spec again, which I think is way too much detail for a corner case that very few people will see or care about.\n\nLet me try another approach, although as I said I\u0027m leaning towards dropping the whole thing.",
+      "parentUuid": "a5365617_db42d873",
+      "range": {
+        "startLine": 157,
+        "startChar": 38,
+        "endLine": 158,
+        "endChar": 0
+      },
+      "revId": "06c4e7aaf5734354073df0c79924898b44617c6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
