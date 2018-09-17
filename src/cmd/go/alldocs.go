@@ -889,7 +889,7 @@
 //
 // Usage:
 //
-// 	go mod download [-json] [modules]
+// 	go mod download [-insecure] [-json] [modules]
 //
 // Download downloads the named modules, which can be module patterns selecting
 // dependencies of the main module or module queries of the form path@version.
@@ -898,6 +898,9 @@
 // The go command will automatically download modules as needed during ordinary
 // execution. The "go mod download" command is useful mainly for pre-filling
 // the local cache or to compute the answers for a Go module proxy.
+//
+// The -insecure flag permits fetching from repositories and resolving
+// custom domains using insecure schemes such as HTTP. Use with caution.
 //
 // By default, download reports errors to standard error but is otherwise silent.
 // The -json flag causes download to print a sequence of JSON objects
