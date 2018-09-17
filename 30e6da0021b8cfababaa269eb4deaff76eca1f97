@@ -141,6 +141,30 @@
       "revId": "30e6da0021b8cfababaa269eb4deaff76eca1f97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bc2f770_3c5f4098",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-09-17T04:15:47Z",
+      "side": 1,
+      "message": "Sorry for replying so late. I was on vacation a few days ago. I will change this comment. Thank you.",
+      "parentUuid": "506414cd_39bf5804",
+      "range": {
+        "startLine": 387,
+        "startChar": 81,
+        "endLine": 387,
+        "endChar": 86
+      },
+      "revId": "30e6da0021b8cfababaa269eb4deaff76eca1f97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
