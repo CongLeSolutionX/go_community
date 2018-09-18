@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee97ba82_b05eb700",
+        "filename": "src/cmd/go/internal/invariant/invariant.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-09-18T21:40:12Z",
+      "side": 1,
+      "message": "s/OnViolation/ReportViolationsTo/g",
+      "revId": "56f69a022e31953562e5df49a80d44767ce1c0f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
