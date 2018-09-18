@@ -30,13 +30,17 @@ import (
 // clients of a package. Pool provides a way to amortize allocation overhead
 // across many clients.
 //
-// An example of good use of a Pool is in the fmt package, which maintains a
-// dynamically-sized store of temporary output buffers. The store scales under
-// load (when many goroutines are actively printing) and shrinks when
-// quiescent.
+// Each item should have approximately the same memory cost. That is, the amount
+// of memory allocated by the item should be within the same order of magnitude.
+// In particular, items that contain dynamically sized buffers must be bounded
+// in some way; otherwise, the pool may be filled with large buffers,
+// kept alive by continuous reuse of the buffers by applications that only
+// required a small portion of the buffer. In such cases, it is better to only
+// Get and Put small buffers to the Pool, and to allocate the occasional
+// large buffer outside of the Pool.
 //
-// On the other hand, a free list maintained as part of a short-lived object is
-// not a suitable use for a Pool, since the overhead does not amortize well in
+// The use of a Pool is not appropriate for a free list maintained as part of a
+// short-lived object, since the overhead does not amortize well in
 // that scenario. It is more efficient to have such objects implement their own
 // free list.
 //

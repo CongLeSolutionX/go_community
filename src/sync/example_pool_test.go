@@ -6,40 +6,56 @@ package sync_test
 
 import (
 	"bytes"
+	"compress/gzip"
 	"io"
+	"log"
 	"os"
 	"sync"
-	"time"
 )
 
-var bufPool = sync.Pool{
+var readerPool = sync.Pool{
 	New: func() interface{} {
-		// The Pool's New function should generally only return pointer
-		// types, since a pointer can be put into the return interface
-		// value without an allocation:
-		return new(bytes.Buffer)
+		// The New function should generally only return pointer types since
+		// a pointer can be stored in an interface value without an allocation.
+		return new(gzip.Reader)
 	},
 }
 
-// timeNow is a fake version of time.Now for tests.
-func timeNow() time.Time {
-	return time.Unix(1136214245, 0)
+func getReader(r io.Reader) (*gzip.Reader, error) {
+	z := readerPool.Get().(*gzip.Reader)
+	if err := z.Reset(r); err != nil {
+		putReader(z)
+		return nil, err
+	}
+	return z, nil
 }
 
-func Log(w io.Writer, key, val string) {
-	b := bufPool.Get().(*bytes.Buffer)
-	b.Reset()
-	// Replace this with time.Now() in a real logger.
-	b.WriteString(timeNow().UTC().Format(time.RFC3339))
-	b.WriteByte(' ')
-	b.WriteString(key)
-	b.WriteByte('=')
-	b.WriteString(val)
-	w.Write(b.Bytes())
-	bufPool.Put(b)
+func putReader(z *gzip.Reader) {
+	readerPool.Put(z)
 }
 
 func ExamplePool() {
-	Log(os.Stdout, "path", "/search?q=flowers")
-	// Output: 2006-01-02T15:04:05Z path=/search?q=flowers
+	// Produce a compressed file with some testdata.
+	b := new(bytes.Buffer)
+	zw := gzip.NewWriter(b)
+	if _, err := zw.Write([]byte("Hello, world!")); err != nil {
+		log.Fatal(err)
+	}
+	if err := zw.Close(); err != nil {
+		log.Fatal(err)
+	}
+
+	// Obtain a new GZIP reader.
+	// This may allocate a new reader or pull one from the sync.Pool.
+	zr := readerPool.Get().(*gzip.Reader)
+	defer readerPool.Put(zr)
+	if err := zr.Reset(b); err != nil {
+		log.Fatal(err)
+	}
+
+	if _, err := io.Copy(os.Stdout, zr); err != nil {
+		log.Fatal(err)
+	}
+
+	// Output: Hello, world!
 }
