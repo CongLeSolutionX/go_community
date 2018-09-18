@@ -163,9 +163,7 @@ func Marshal(v interface{}) ([]byte, error) {
 	}
 	buf := append([]byte(nil), e.Bytes()...)
 
-	e.Reset()
-	encodeStatePool.Put(e)
-
+	putEncodeState(e)
 	return buf, nil
 }
 
@@ -285,6 +283,20 @@ func newEncodeState() *encodeState {
 		return e
 	}
 	return new(encodeState)
+}
+
+func putEncodeState(e *encodeState) {
+	// Proper usage of a sync.Pool requires each entry to have approximately
+	// the same memory cost. To obtain this property when the stored type
+	// contains a variably-sized buffer, we add a hard limit on the maximum buffer
+	// to place back in the pool.
+	//
+	// See https://golang.org/issue/23199
+	const maxSize = 1 << 16 // 64KiB
+	if e.Cap() > maxSize {
+		return
+	}
+	encodeStatePool.Put(e)
 }
 
 // jsonError is an error wrapper type for internal use only.
