@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34576d81_9539850c",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2018-09-18T02:54:19Z",
+      "side": 1,
+      "message": "I would prefer \u003c 1 rather than \u003c\u003d 0",
+      "revId": "8f6155d61a10be6ab01a411c560684eca1dda75a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
