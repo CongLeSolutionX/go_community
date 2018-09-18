@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3888feae_ede5545e",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-09-18T08:23:13Z",
+      "side": 1,
+      "message": "LGTM, though I found https://golang.org/pkg/go/types/#TypeAndValue.Addressable\nlinks to a specific part of the specification.",
+      "revId": "a262bf0714c86cd90f9594c5aa00c07fdfe30286",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
