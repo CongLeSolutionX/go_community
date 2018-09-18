@@ -36,7 +36,14 @@ func Log(w io.Writer, key, val string) {
 	b.WriteByte('=')
 	b.WriteString(val)
 	w.Write(b.Bytes())
-	bufPool.Put(b)
+
+	// The pool must contain entries that have similar memory costs.
+	// Thus, avoid putting an item back in the pool if it exceeds some threshold.
+	// Failing to do so may result in a memory leak.
+	const maxSize = 1 << 16 // 64KiB
+	if b.Cap() < maxSize {
+		bufPool.Put(b)
+	}
 }
 
 func ExamplePool() {
