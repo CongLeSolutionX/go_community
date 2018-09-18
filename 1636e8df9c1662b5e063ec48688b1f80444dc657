@@ -22,6 +22,30 @@
       "revId": "1636e8df9c1662b5e063ec48688b1f80444dc657",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ad789ed_2e8d884c",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-09-18T21:03:50Z",
+      "side": 1,
+      "message": "Copy paste fail. :(",
+      "parentUuid": "d633e60b_121790d5",
+      "range": {
+        "startLine": 148,
+        "startChar": 17,
+        "endLine": 148,
+        "endChar": 18
+      },
+      "revId": "1636e8df9c1662b5e063ec48688b1f80444dc657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
