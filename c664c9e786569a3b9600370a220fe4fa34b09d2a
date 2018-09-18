@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8b5e1bf_7da0bef5",
+        "filename": "src/runtime/wincallback.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-18T14:31:08Z",
+      "side": 1,
+      "message": "As long as you\u0027re here, this should use the standard format described at https://golang.org/s/generatedcode.",
+      "revId": "c664c9e786569a3b9600370a220fe4fa34b09d2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c418639_dc57a4d3",
+        "filename": "src/runtime/wincallback.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-18T14:31:08Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem useful to create two identical files.  Let\u0027s create one file with a build tag.",
+      "revId": "c664c9e786569a3b9600370a220fe4fa34b09d2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
