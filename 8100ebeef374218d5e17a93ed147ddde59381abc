@@ -33,6 +33,24 @@
       "revId": "8100ebeef374218d5e17a93ed147ddde59381abc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8feebae0_ada40d40",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 2405,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-09-18T10:09:05Z",
+      "side": 1,
+      "message": "The BT*Qconstmodify and BT*modify have been implemented in patch set 4.",
+      "parentUuid": "93c986c5_af607cce",
+      "revId": "8100ebeef374218d5e17a93ed147ddde59381abc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
