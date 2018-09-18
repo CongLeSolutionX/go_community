@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "316c5e21_54c46788",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-09-18T22:09:43Z",
+      "side": 1,
+      "message": "Given the preceding comment explains, delete the single-use const as the\nsole use is on the next line, and if 1\u003c\u003c16 needs explanation,\nI\u0027d say not, then use 64*1024?",
+      "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
