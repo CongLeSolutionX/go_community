@@ -503,14 +503,6 @@ var codeRepoVersionsTests = []struct {
 		path:     "swtch.com/testmod",
 		versions: []string{"v1.0.0", "v1.1.1"},
 	},
-	{
-		path:     "gopkg.in/russross/blackfriday.v2",
-		versions: []string{"v2.0.0"},
-	},
-	{
-		path:     "gopkg.in/natefinch/lumberjack.v2",
-		versions: nil,
-	},
 }
 
 func TestCodeRepoVersions(t *testing.T) {
