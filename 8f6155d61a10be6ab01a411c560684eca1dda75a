@@ -16,6 +16,24 @@
       "revId": "8f6155d61a10be6ab01a411c560684eca1dda75a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04965cce_e4f04af5",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2018-09-18T05:03:27Z",
+      "side": 1,
+      "message": "I think as-is is fine; comparing Cmp results to 0 is idiomatic. E.g., see the Example at https://golang.org/pkg/bytes/#Compare.",
+      "parentUuid": "34576d81_9539850c",
+      "revId": "8f6155d61a10be6ab01a411c560684eca1dda75a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
