@@ -128,6 +128,30 @@
       "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2dae8e7_55c4d569",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-09-19T17:42:37Z",
+      "side": 1,
+      "message": "Problem can now become that one large fmt will empty out all the cached byte slices and pp structs over time by picking one from the sync pool, enlarging the array past the limit and then the whole pp struct and byte slice gets tossed. If getting a pp struct from sync pool is faster than mallocing one and later gcing one what are the downsides of putting the pp struct back in the sync pool? I do not think the code is more complex when keeping the struct.",
+      "parentUuid": "007e0c79_aa7d88b9",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 2
+      },
+      "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
