@@ -7,6 +7,10 @@ package user
 import "sync"
 
 // Current returns the current user.
+//
+// The user is cached at first call to Current.
+// Subsequent calls will return the cached value and will not reflect
+// changes to the current user.
 func Current() (*User, error) {
 	cache.Do(func() { cache.u, cache.err = current() })
 	if cache.err != nil {
