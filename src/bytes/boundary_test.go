@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 //
-// +build linux
+// +build darwin linux
 
 package bytes_test
 
@@ -25,7 +25,7 @@ import (
 // preceded and followed by a faulting page.
 func dangerousSlice(t *testing.T) []byte {
 	pagesize := syscall.Getpagesize()
-	b, err := syscall.Mmap(0, 0, 3*pagesize, syscall.PROT_READ|syscall.PROT_WRITE, syscall.MAP_ANONYMOUS|syscall.MAP_PRIVATE)
+	b, err := syscall.Mmap(0, 0, 3*pagesize, syscall.PROT_READ|syscall.PROT_WRITE, syscall.MAP_ANON|syscall.MAP_PRIVATE)
 	if err != nil {
 		t.Fatalf("mmap failed %s", err)
 	}
