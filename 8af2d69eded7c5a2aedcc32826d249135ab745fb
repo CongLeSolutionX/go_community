@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cc870eb_a91bcd28",
+        "filename": "src/go/build/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-09-19T07:36:33Z",
+      "side": 1,
+      "message": "I would argue that people should not be using runtime.Version for that. That is, use runtime.Version as a replacement for these missing build tags can be confusing for the user, and also prone to subtle bugs.\n\nWhat about saying \"if there is a need to know the specific Go version being used.\"?",
+      "revId": "8af2d69eded7c5a2aedcc32826d249135ab745fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
