@@ -200,6 +200,30 @@
       "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a26948a5_3fed1599",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-09-19T19:41:55Z",
+      "side": 1,
+      "message": "to clarify my earlier concern:\nAs far as I understand one go routine calling \"one large fmt\" call repeatedly will drain the pool for the whole binary.\n\n\"this is exactly the sort of thing that is likely to show up on a microbenchmark but not in real code.\" Which I agree would be a reason to not save the pp if it makes the code more complex or deviates more from previous code which both I do not think apply here.\n\nAt any rate - has been reviewed, submitted and the new code is not wrong either.",
+      "parentUuid": "f32e23b8_38c35da7",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 2
+      },
+      "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
