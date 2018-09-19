@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d044cb42_37631296",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-09-19T17:11:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "316c5e21_54c46788",
+      "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe9d5adf_fe2f13f3",
         "filename": "src/fmt/print.go",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "d0cacab9_818f4a2e",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-09-19T17:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe9d5adf_fe2f13f3",
+      "range": {
+        "startLine": 148,
+        "startChar": 17,
+        "endLine": 148,
+        "endChar": 33
+      },
+      "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a6c33c0_4f2e11e5",
         "filename": "src/fmt/print.go",
         "patchSetId": 2
@@ -62,6 +104,30 @@
       "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "007e0c79_aa7d88b9",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-09-19T17:11:00Z",
+      "side": 1,
+      "message": "A significant part of the previous optimization is the caching of the backing byte slice, not the pp struct.",
+      "parentUuid": "6a6c33c0_4f2e11e5",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 2
+      },
+      "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
