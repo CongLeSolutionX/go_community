@@ -152,6 +152,30 @@
       "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b018b0f_59bbf4a3",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-09-19T18:00:44Z",
+      "side": 1,
+      "message": "I\u0027m going to keep it as is, since this is a minimal change.\n\nSetting p.buf to nil requires me to reason that it is okay for pp.buf to be nil, while other fields are populated. It seems to be the case, but I don\u0027t really want to dig further in this code.\n\nThe fmt package generally isn\u0027t used to format huge objects in a production critical path.",
+      "parentUuid": "c2dae8e7_55c4d569",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 2
+      },
+      "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
