@@ -176,6 +176,30 @@
       "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f32e23b8_38c35da7",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-09-19T18:03:16Z",
+      "side": 1,
+      "message": "“one large fmt” can\u0027t empty the whole pool: it can only remove a single entry, and if the ratio of large to small calls is high, the cost of allocating pp structs will be dwarfed by the cost of the fmt calls anyway.\n\nI agree that saving the pp might be marginally more efficient, but I doubt that it matters here. (Benchmarks would be helpful either way, but even then we\u0027d need to be careful: this is exactly the sort of thing that is likely to show up on a microbenchmark but not in real code.)",
+      "parentUuid": "c2dae8e7_55c4d569",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 2
+      },
+      "revId": "89ec498e8e28a05d00802fdd33248947b60131ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
