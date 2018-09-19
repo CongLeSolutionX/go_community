@@ -70,6 +70,24 @@
       "revId": "8af2d69eded7c5a2aedcc32826d249135ab745fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60da4050_7138d5ab",
+        "filename": "src/go/build/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-09-19T07:59:26Z",
+      "side": 1,
+      "message": "SGTM!",
+      "parentUuid": "74976060_e17c1c5c",
+      "revId": "8af2d69eded7c5a2aedcc32826d249135ab745fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
