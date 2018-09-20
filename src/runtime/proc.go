@@ -663,6 +663,12 @@ func ready(gp *g, traceskip int, next bool) {
 	}
 }
 
+func wakethings() {
+	if atomic.Load(&sched.npidle) != 0 && atomic.Load(&sched.nmspinning) == 0 {
+		wakep()
+	}
+}
+
 func gcprocs() int32 {
 	// Figure out how many CPUs to use during GC.
 	// Limited by gomaxprocs, number of actual CPUs, and MaxGcproc.
@@ -2585,8 +2591,10 @@ top:
 			traceGoUnpark(gp, 0)
 		}
 	}
+	gcwork := false
 	if gp == nil && gcBlackenEnabled != 0 {
 		gp = gcController.findRunnableGCWorker(_g_.m.p.ptr())
+		gcwork = gp != nil
 	}
 	if gp == nil {
 		// Check the global runnable queue once in a while to ensure fairness.
@@ -2613,6 +2621,10 @@ top:
 	// start a new spinning M.
 	if _g_.m.spinning {
 		resetspinning()
+	}
+
+	if gcwork {
+		wakethings()
 	}
 
 	if gp.lockedm != 0 {

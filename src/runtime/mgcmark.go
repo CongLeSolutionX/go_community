@@ -417,13 +417,15 @@ func gcAssistAlloc(gp *g) {
 	}
 
 	traced := false
+	retries := 0
 retry:
 	// Compute the amount of scan work we need to do to make the
 	// balance positive. When the required amount of work is low,
 	// we over-assist to build up credit for future allocations
 	// and amortize the cost of assisting.
 	debtBytes := -gp.gcAssistBytes
-	scanWork := int64(gcController.assistWorkPerByte * float64(debtBytes))
+	scanWork0 := int64(gcController.assistWorkPerByte * float64(debtBytes))
+	scanWork := scanWork0
 	if scanWork < gcOverAssistWork {
 		scanWork = gcOverAssistWork
 		debtBytes = int64(gcController.assistBytesPerWork * float64(scanWork))
@@ -454,6 +456,8 @@ retry:
 			// needed.
 			if traced {
 				traceGCMarkAssistDone()
+				_ = retries
+				// traceGCMarkAssistDone(retries)
 			}
 			return
 		}
@@ -462,6 +466,7 @@ retry:
 	if trace.enabled && !traced {
 		traced = true
 		traceGCMarkAssistStart()
+		// traceGCMarkAssistStart(scanWork0, scanWork)
 	}
 
 	// Perform assist work
@@ -487,6 +492,7 @@ retry:
 		// and try some more.
 		if gp.preempt {
 			Gosched()
+			retries++
 			goto retry
 		}
 
@@ -500,6 +506,7 @@ retry:
 		// as well let background marking take care of the
 		// work that is available.
 		if !gcParkAssist() {
+			retries++
 			goto retry
 		}
 
@@ -508,6 +515,7 @@ retry:
 	}
 	if traced {
 		traceGCMarkAssistDone()
+		// traceGCMarkAssistDone(retries)
 	}
 }
 
@@ -682,6 +690,7 @@ func gcFlushBgCredit(scanWork int64) {
 			// scheduler priority to get itself always run
 			// before other goroutines and always in the
 			// fresh quantum started by GC.
+			trace_userLog(0, "gc", "waking block assist")
 			ready(gp, 0, false)
 		} else {
 			// Partially satisfy this assist.

@@ -1833,22 +1833,30 @@ func gcBgMarkWorker(_p_ *p) {
 			default:
 				throw("gcBgMarkWorker: unexpected gcMarkWorkerMode")
 			case gcMarkWorkerDedicatedMode:
-				gcDrain(&_p_.gcw, gcDrainUntilPreempt|gcDrainFlushBgCredit)
-				if gp.preempt {
+				// gcDrain(&_p_.gcw, gcDrainUntilPreempt|gcDrainFlushBgCredit)
+				if true || gp.preempt {
 					// We were preempted. This is
 					// a useful signal to kick
 					// everything out of the run
 					// queue so it can run
 					// somewhere else.
 					lock(&sched.lock)
+					n := 0
 					for {
 						gp, _ := runqget(_p_)
 						if gp == nil {
 							break
 						}
 						globrunqput(gp)
+						n++
 					}
 					unlock(&sched.lock)
+					if n == 0 {
+						trace_userLog(0, "gc", "run queue empty")
+					}
+					for ; n != 0 && sched.npidle != 0; n-- {
+						startm(nil, false)
+					}
 				}
 				// Go back to draining, this time
 				// without preemption.
