@@ -427,7 +427,12 @@ retry:
 	scanWork0 := int64(gcController.assistWorkPerByte * float64(debtBytes))
 	scanWork := scanWork0
 	if scanWork < gcOverAssistWork {
-		scanWork = gcOverAssistWork
+		x := int64(gcOverAssistWork)
+		// very crude approximation of geomean.
+		for scanWork < x {
+			scanWork <<= 1
+			x >>= 1
+		}
 		debtBytes = int64(gcController.assistBytesPerWork * float64(scanWork))
 	}
 
@@ -455,9 +460,9 @@ retry:
 			// We were able to steal all of the credit we
 			// needed.
 			if traced {
-				traceGCMarkAssistDone()
-				_ = retries
-				// traceGCMarkAssistDone(retries)
+				// traceGCMarkAssistDone()
+				// _ = retries
+				traceGCMarkAssistDone(retries)
 			}
 			return
 		}
@@ -465,8 +470,8 @@ retry:
 
 	if trace.enabled && !traced {
 		traced = true
-		traceGCMarkAssistStart()
-		// traceGCMarkAssistStart(scanWork0, scanWork)
+		// traceGCMarkAssistStart()
+		traceGCMarkAssistStart(scanWork0, scanWork, debtBytes)
 	}
 
 	// Perform assist work
@@ -514,8 +519,8 @@ retry:
 		// this G's assist debt, or the GC cycle is over.
 	}
 	if traced {
-		traceGCMarkAssistDone()
-		// traceGCMarkAssistDone(retries)
+		// traceGCMarkAssistDone()
+		traceGCMarkAssistDone(retries)
 	}
 }
 

@@ -1034,12 +1034,12 @@ func traceGCSweepDone() {
 	_p_.traceSweep = false
 }
 
-func traceGCMarkAssistStart() {
-	traceEvent(traceEvGCMarkAssistStart, 1)
+func traceGCMarkAssistStart(scanWork0, scanWork, debtBytes int64) {
+	traceEvent(traceEvGCMarkAssistStart, 1, uint64(scanWork0), uint64(scanWork), uint64(debtBytes))
 }
 
-func traceGCMarkAssistDone() {
-	traceEvent(traceEvGCMarkAssistDone, -1)
+func traceGCMarkAssistDone(retries int) {
+	traceEvent(traceEvGCMarkAssistDone, -1, uint64(retries))
 }
 
 func traceGoCreate(newg *g, pc uintptr) {

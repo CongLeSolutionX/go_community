@@ -497,6 +497,13 @@ type SortIndexArg struct {
 	Index int `json:"sort_index"`
 }
 
+type MarkAssistArg struct {
+	ScanWork0 uint64 `json:"Initial Scan Work"`
+	ScanWork  uint64 `json:"Adjusted Scan Work"`
+	DebtBytes uint64 `json:"Debt Bytes"`
+	Retries   uint64 `json:"Retries"`
+}
+
 type traceConsumer struct {
 	consumeTimeUnit    func(unit string)
 	consumeViewerEvent func(v *ViewerEvent, required bool)
@@ -683,7 +690,14 @@ func generateTrace(params *traceParams, consumer traceConsumer) error {
 				fakeMarkStart.Link = goFinish
 				text = "MARK ASSIST (unfinished)"
 			}
-			ctx.emitSlice(&fakeMarkStart, text)
+			slice := ctx.makeSlice(&fakeMarkStart, text)
+			if markFinish != nil {
+				slice.Arg = MarkAssistArg{ev.Args[0], ev.Args[1], ev.Args[2], markFinish.Args[0]}
+			} else {
+				slice.Arg = MarkAssistArg{ev.Args[0], ev.Args[1], ev.Args[2], ^uint64(0)}
+			}
+			ctx.emit(slice)
+
 		case trace.EvGCSweepStart:
 			slice := ctx.makeSlice(ev, "SWEEP")
 			if done := ev.Link; done != nil && done.Args[0] != 0 {
