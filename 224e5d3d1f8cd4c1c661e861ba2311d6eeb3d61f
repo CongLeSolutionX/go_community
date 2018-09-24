@@ -106,6 +106,41 @@
       "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06b3e0e9_32c9356f",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-09-24T22:04:14Z",
+      "side": 1,
+      "message": "If you don\u0027t specify the cap, the compiler needs to calculate it computing newcap \u003d oldcap - offset. If you specify it with the same value of len, it does less work.\n\nSubslices are not optimal wrt code generation. An idea I had is to lower non-escaping subslices to field operations, and then DCE/CSE should see that there is no need to actually build a slice, and simply access the parent slice.",
+      "parentUuid": "b4f786b2_cfe3700a",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b36e540f_e3387e81",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-09-24T22:04:14Z",
+      "side": 1,
+      "message": "I might be wrong, but isn\u0027t sufficient to just always accessing [3] first, before the other elements? That is, it might be enough to swap lines here, without using subslices.",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
