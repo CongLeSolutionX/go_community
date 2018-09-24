@@ -34,6 +34,24 @@
       "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10854a3c_81b350f0",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-24T16:05:00Z",
+      "side": 1,
+      "message": "I\u0027d remove the cap part here and elsewhere.",
+      "parentUuid": "7bf8d0c3_bbcdce0b",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
