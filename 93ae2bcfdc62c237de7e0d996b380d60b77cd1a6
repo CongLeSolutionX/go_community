@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "43675417_c0937578",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-09-24T20:29:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cfe8a52_be8255ad",
+      "range": {
+        "startLine": 177,
+        "startChar": 34,
+        "endLine": 177,
+        "endChar": 71
+      },
+      "revId": "93ae2bcfdc62c237de7e0d996b380d60b77cd1a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3cfcd37_0eee11ec",
         "filename": "src/fmt/example_test.go",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "93ae2bcfdc62c237de7e0d996b380d60b77cd1a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c68f2c79_b39b4138",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-09-24T20:29:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3cfcd37_0eee11ec",
+      "range": {
+        "startLine": 178,
+        "startChar": 13,
+        "endLine": 178,
+        "endChar": 27
+      },
+      "revId": "93ae2bcfdc62c237de7e0d996b380d60b77cd1a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0f9d4b84_7fafe5c6",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-09-24T20:29:46Z",
+      "side": 1,
+      "message": "Yes, and the example demonstrates it.",
+      "parentUuid": "edfd0eb7_bbe5ea67",
+      "range": {
+        "startLine": 190,
+        "startChar": 25,
+        "endLine": 190,
+        "endChar": 28
+      },
+      "revId": "93ae2bcfdc62c237de7e0d996b380d60b77cd1a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "589bee0d_a12d2480",
         "filename": "src/fmt/example_test.go",
         "patchSetId": 3
@@ -82,6 +154,24 @@
       "writtenOn": "2018-09-24T19:05:54Z",
       "side": 1,
       "message": "This is not actually the output of that fmt.Printf call.  I think you\u0027ve flipped this Result: line with the next one.",
+      "revId": "93ae2bcfdc62c237de7e0d996b380d60b77cd1a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f26f01d2_d40d1f2f",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-09-24T20:29:46Z",
+      "side": 1,
+      "message": "oops.",
+      "parentUuid": "589bee0d_a12d2480",
       "revId": "93ae2bcfdc62c237de7e0d996b380d60b77cd1a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
