@@ -52,6 +52,24 @@
       "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb22b8e5_f0c5ea6e",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5890
+      },
+      "writtenOn": "2018-09-24T16:28:14Z",
+      "side": 1,
+      "message": "I just did some tests to check this. It seems that caps are required on both the source and destination subslices to give the compiler the necessary hints. \n\nBenchmarks are compared to master\n\nBoth src and dest slices have caps (i.e. this CL):\n\nNRGBAOver-8   697µs ± 1%   650µs ± 1%   -6.75%  (p\u003d0.000 n\u003d10+10)\nNRGBASrc-8    405µs ± 1%   346µs ± 0%  -14.69%  (p\u003d0.000 n\u003d10+9)\n\nJust src slice has caps:\n\nname         old time/op  new time/op  delta\nNRGBAOver-8   697µs ± 1%   670µs ± 1%  -3.90%  (p\u003d0.000 n\u003d10+9)\nNRGBASrc-8    405µs ± 1%   378µs ± 0%  -6.71%  (p\u003d0.000 n\u003d10+10)\n\nJust dest slice has caps:\n\nNRGBAOver-8   697µs ± 1%   696µs ± 1%    ~     (p\u003d0.393 n\u003d10+10)\nNRGBASrc-8    405µs ± 1%   384µs ± 1%  -5.11%  (p\u003d0.000 n\u003d10+10)\n\nNeither slices have caps:\n\nNRGBAOver-8   697µs ± 1%   738µs ± 1%  +5.82%  (p\u003d0.000 n\u003d10+10)\nNRGBASrc-8    405µs ± 1%   424µs ± 1%  +4.70%  (p\u003d0.000 n\u003d10+9)",
+      "parentUuid": "10854a3c_81b350f0",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
