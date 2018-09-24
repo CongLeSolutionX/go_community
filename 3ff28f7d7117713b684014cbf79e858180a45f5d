@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db74d479_be346866",
+        "filename": "src/net/dnsclient.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 12625
+      },
+      "writtenOn": "2018-09-24T17:54:07Z",
+      "side": 0,
+      "message": "Did you intend to remove the period?",
+      "range": {
+        "startLine": 78,
+        "startChar": 43,
+        "endLine": 78,
+        "endChar": 44
+      },
+      "revId": "3ff28f7d7117713b684014cbf79e858180a45f5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
