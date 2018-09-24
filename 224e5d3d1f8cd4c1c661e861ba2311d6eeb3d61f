@@ -16,6 +16,24 @@
       "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bf8d0c3_bbcdce0b",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5890
+      },
+      "writtenOn": "2018-09-24T14:38:27Z",
+      "side": 1,
+      "message": "It is perhaps not strictly necessary but it conveys the information that the subslice is restricted to the 4 elements and no more.",
+      "parentUuid": "5f658364_0e3c4330",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
