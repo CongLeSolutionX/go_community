@@ -22,6 +22,30 @@
       "revId": "3ff28f7d7117713b684014cbf79e858180a45f5d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7399d2ae_52dedfde",
+        "filename": "src/net/dnsclient.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-24T17:56:26Z",
+      "side": 0,
+      "message": "yes. It\u0027s a sentence fragment. We typically only use proper punctuation and case for full sentence in comments that stand alone, not same-line comments.",
+      "parentUuid": "db74d479_be346866",
+      "range": {
+        "startLine": 78,
+        "startChar": 43,
+        "endLine": 78,
+        "endChar": 44
+      },
+      "revId": "3ff28f7d7117713b684014cbf79e858180a45f5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
