@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53de9484_85c877b0",
+        "filename": "src/go/build/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-24T17:34:26Z",
+      "side": 1,
+      "message": "We usually omit the parentheses when referring a function.  godoc can, at least in principle, link runtime.Version to the docs for the function, but the link won\u0027t include the parentheses.",
+      "range": {
+        "startLine": 113,
+        "startChar": 82,
+        "endLine": 113,
+        "endChar": 84
+      },
+      "revId": "790f2b7656ad349c68da48a7cb659cb390fc5a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
