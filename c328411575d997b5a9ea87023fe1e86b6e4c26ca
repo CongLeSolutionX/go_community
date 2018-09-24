@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "907bff8d_0d1032f8",
+        "filename": "src/go/build/doc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-24T18:28:24Z",
+      "side": 1,
+      "message": "Sorry for making another comment, but this file does use the word \"you\" (earlier) and doesn\u0027t use the word \"one.\"  But perhaps this sentence could instead be\n\nPrograms that need the minor release number can call runtime.Version.",
+      "range": {
+        "startLine": 113,
+        "startChar": 55,
+        "endLine": 113,
+        "endChar": 58
+      },
+      "revId": "c328411575d997b5a9ea87023fe1e86b6e4c26ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
