@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cfe8a52_be8255ad",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-24T19:05:54Z",
+      "side": 1,
+      "message": "This makes it sound like %v and %g might be different, but as far as I know they are always the same.",
+      "range": {
+        "startLine": 177,
+        "startChar": 34,
+        "endLine": 177,
+        "endChar": 71
+      },
+      "revId": "93ae2bcfdc62c237de7e0d996b380d60b77cd1a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3cfcd37_0eee11ec",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-24T19:05:54Z",
+      "side": 1,
+      "message": "The meaning of \"prints decimal\" is obscure.  Maybe \"always uses a decimal point\"?",
+      "range": {
+        "startLine": 178,
+        "startChar": 13,
+        "endLine": 178,
+        "endChar": 27
+      },
+      "revId": "93ae2bcfdc62c237de7e0d996b380d60b77cd1a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edfd0eb7_bbe5ea67",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-24T19:05:54Z",
+      "side": 1,
+      "message": "Does \".2\" mean something when using %e?",
+      "range": {
+        "startLine": 190,
+        "startChar": 25,
+        "endLine": 190,
+        "endChar": 28
+      },
+      "revId": "93ae2bcfdc62c237de7e0d996b380d60b77cd1a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "589bee0d_a12d2480",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-24T19:05:54Z",
+      "side": 1,
+      "message": "This is not actually the output of that fmt.Printf call.  I think you\u0027ve flipped this Result: line with the next one.",
+      "revId": "93ae2bcfdc62c237de7e0d996b380d60b77cd1a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
