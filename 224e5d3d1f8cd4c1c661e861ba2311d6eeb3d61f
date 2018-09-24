@@ -88,6 +88,24 @@
       "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4f786b2_cfe3700a",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5890
+      },
+      "writtenOn": "2018-09-24T17:46:54Z",
+      "side": 1,
+      "message": "The best I can find is a reference in https://docs.google.com/document/d/1vdAEAjYdzjnPA9WDOQ1e4e05cYVMpqSxJYZT33Cqw2g/edit that says:\n\n  a \u003d a[:3:len(a)] // one bound check\n  use a[1], a[2], a[3] // no bound checks\n\n(that example seems to use 1-based indices for some reason)\n\nSo we get one bound check for the subslicing action to eliminate the four following ones. This is confirmed by running\n\n  go build -gcflags\u003d\"-d\u003dssa/check_bce/debug\u003d1\" \n\nFor this function it shows\n\n  ./draw.go:309:18: Found IsSliceInBounds\n  ./draw.go:310:18: Found IsSliceInBounds\n  ./draw.go:312:13: Found IsSliceInBounds\n  ./draw.go:321:13: Found IsSliceInBounds\n\nRemoving the cap expressions does not change this output, but removing the len of the subslice reintroduces bounds checks for each element being accessed. So I think there is something else going on here, not just bounds elimination. I did notice that the assembly is smaller with the cap present and has different instructions in this area but I\u0027m not proficient enough with reading it to describe what is going on. I\u0027ll file an issue with the assembly output.",
+      "parentUuid": "aaa08a88_83ba9942",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
