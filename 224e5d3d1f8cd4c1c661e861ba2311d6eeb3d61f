@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f658364_0e3c4330",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2018-09-24T14:13:50Z",
+      "side": 1,
+      "message": "just a drive-by comment...\n\nwhy do we also cap the resulting sub-slice?\nwe don\u0027t append to it and actually only read from it, so there\u0027s no possibility to fiddle with data outside the `i+4` range.\n\nis it \"just\" for symmetry with the \u0027d\u0027 slice below ?",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
