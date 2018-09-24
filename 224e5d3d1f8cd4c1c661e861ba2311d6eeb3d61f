@@ -70,6 +70,24 @@
       "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa08a88_83ba9942",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-24T16:36:15Z",
+      "side": 1,
+      "message": "Okay, I\u0027m fine +2\u0027ing this if you find or file a compiler bug about this and reference it from the commit message.\n\nMaybe also a little comment:\n\n  s :\u003d spix[i : i+4 : i+4] // cap set for Issue NNNN",
+      "parentUuid": "fb22b8e5_f0c5ea6e",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
