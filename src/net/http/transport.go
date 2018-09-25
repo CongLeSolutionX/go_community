@@ -410,10 +410,12 @@ func (t *Transport) roundTrip(req *Request) (*Response, error) {
 		}
 	}
 
-	altProto, _ := t.altProto.Load().(map[string]RoundTripper)
-	if altRT := altProto[scheme]; altRT != nil {
-		if resp, err := altRT.RoundTrip(req); err != ErrSkipAltProtocol {
-			return resp, err
+	if !(scheme == "https" && req.requiresHTTP1()) {
+		altProto, _ := t.altProto.Load().(map[string]RoundTripper)
+		if altRT := altProto[scheme]; altRT != nil {
+			if resp, err := altRT.RoundTrip(req); err != ErrSkipAltProtocol {
+				return resp, err
+			}
 		}
 	}
 	if !isHTTP {
@@ -653,6 +655,7 @@ func (t *Transport) connectMethodForRequest(treq *transportRequest) (cm connectM
 			}
 		}
 	}
+	cm.onlyH1 = treq.requiresHTTP1()
 	return cm, err
 }
 
@@ -1155,6 +1158,9 @@ func (pconn *persistConn) addTLS(name string, trace *httptrace.ClientTrace) erro
 	if cfg.ServerName == "" {
 		cfg.ServerName = name
 	}
+	if pconn.cacheKey.onlyH1 {
+		cfg.NextProtos = nil
+	}
 	plainConn := pconn.conn
 	tlsConn := tls.Client(plainConn, cfg)
 	errc := make(chan error, 2)
@@ -1361,10 +1367,11 @@ func (w persistConnWriter) Write(p []byte) (n int, err error) {
 //
 // A connect method may be of the following types:
 //
-//	Cache key form                    Description
-//	-----------------                 -------------------------
+//	connectMethod.key().String()      Description
+//	------------------------------    -------------------------
 //	|http|foo.com                     http directly to server, no proxy
 //	|https|foo.com                    https directly to server, no proxy
+//	|https,h1|foo.com                 https directly to server w/o HTTP/2, no proxy
 //	http://proxy.com|https|foo.com    http to proxy, then CONNECT to foo.com
 //	http://proxy.com|http             http to proxy, http to anywhere after that
 //	socks5://proxy.com|http|foo.com   socks5 to proxy, then http to foo.com
@@ -1379,6 +1386,7 @@ type connectMethod struct {
 	// then targetAddr is not included in the connect method key, because the socket can
 	// be reused for different targetAddr values.
 	targetAddr string
+	onlyH1     bool // whether to disable HTTP/2 and force HTTP/1
 }
 
 func (cm *connectMethod) key() connectMethodKey {
@@ -1394,6 +1402,7 @@ func (cm *connectMethod) key() connectMethodKey {
 		proxy:  proxyStr,
 		scheme: cm.targetScheme,
 		addr:   targetAddr,
+		onlyH1: cm.onlyH1,
 	}
 }
 
@@ -1428,11 +1437,16 @@ func (cm *connectMethod) tlsHost() string {
 // a URL.
 type connectMethodKey struct {
 	proxy, scheme, addr string
+	onlyH1              bool
 }
 
 func (k connectMethodKey) String() string {
 	// Only used by tests.
-	return fmt.Sprintf("%s|%s|%s", k.proxy, k.scheme, k.addr)
+	var h1 string
+	if k.onlyH1 {
+		h1 = ",h1"
+	}
+	return fmt.Sprintf("%s|%s%s|%s", k.proxy, k.scheme, h1, k.addr)
 }
 
 // persistConn wraps a connection, usually a persistent one
