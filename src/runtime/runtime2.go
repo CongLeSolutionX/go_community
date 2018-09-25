@@ -861,6 +861,7 @@ var (
 	// TODO: deprecate these; use internal/cpu directly.
 	support_popcnt        bool
 	support_sse41         bool
+	support_fma           bool
 	arm64_support_atomics bool
 
 	goarm                uint8 // set by cmd/link on arm systems
