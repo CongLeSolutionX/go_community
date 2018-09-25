@@ -16,6 +16,24 @@
       "revId": "97587bd49c91fdbee04fe1575c79d664d30831f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edfbcab3_815abbfe",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6255
+      },
+      "writtenOn": "2018-09-25T17:41:11Z",
+      "side": 1,
+      "message": "Counter-proposal:\n\nInterrupt is not fully implemented on Windows; in particular, using it with os.Process.Signal will return an error.\n\n(using \"not fully implemented\" and \"in particular\" to hint that other uses are expected to work)",
+      "parentUuid": "731c7f92_12bd5061",
+      "revId": "97587bd49c91fdbee04fe1575c79d664d30831f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
