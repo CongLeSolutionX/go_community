@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "924e6ed8_c478db34",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1543,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-09-25T02:07:29Z",
+      "side": 1,
+      "message": "This range is Ok, won\u0027t harm performance. Since 0 ~ 0xfff and 0xfff000 already be caught by C_ADDCON0 or C_ADDCON in previous judgement.",
+      "range": {
+        "startLine": 1543,
+        "startChar": 3,
+        "endLine": 1543,
+        "endChar": 30
+      },
+      "revId": "41762a704993f4db67589b93e5fd762b0a49841e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
