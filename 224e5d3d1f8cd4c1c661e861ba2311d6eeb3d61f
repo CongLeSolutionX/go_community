@@ -213,6 +213,24 @@
       "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da8047c8_591dd3c1",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5890
+      },
+      "writtenOn": "2018-09-25T17:16:17Z",
+      "side": 1,
+      "message": "Tried the following\n\n  for i, si :\u003d i0, si0; i \u003c i1; i, si \u003d i+4, si+4 {\n    // Convert from non-premultiplied color to pre-multiplied color.\n    sa :\u003d uint32(spix[si+3]) * 0x101\n    sr :\u003d uint32(spix[si+0]) * sa / 0xff\n    sg :\u003d uint32(spix[si+1]) * sa / 0xff\n    sb :\u003d uint32(spix[si+2]) * sa / 0xff\n    \n    da :\u003d uint32(dpix[i+3])\n    dr :\u003d uint32(dpix[i+0])\n    dg :\u003d uint32(dpix[i+1])\n    db :\u003d uint32(dpix[i+2])\n    \n    // The 0x101 is here for the same reason as in drawRGBA.\n    a :\u003d (m - sa) * 0x101\n    \n    dpix[i+3] \u003d uint8((da*a/m + sa) \u003e\u003e 8)\n    dpix[i+0] \u003d uint8((dr*a/m + sr) \u003e\u003e 8)\n    dpix[i+1] \u003d uint8((dg*a/m + sg) \u003e\u003e 8)\n    dpix[i+2] \u003d uint8((db*a/m + sb) \u003e\u003e 8)\n  }\n\nThere is no performance gain from master. Listing bound checks shows they are all still present with this pattern, presumably because of the variable i. The expected bound check elimination only works with constant indices.",
+      "parentUuid": "3a4ef6cd_db4a2699",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
