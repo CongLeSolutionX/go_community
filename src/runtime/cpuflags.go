@@ -23,6 +23,7 @@ var (
 	// TODO: deprecate these; use internal/cpu directly.
 	x86HasPOPCNT bool
 	x86HasSSE41  bool
+	support_fma  bool
 
 	arm64HasATOMICS bool
 )
