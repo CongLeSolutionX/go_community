@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "189fe4c8_cbbaa910",
+        "filename": "src/os/user/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-25T15:11:26Z",
+      "side": 1,
+      "message": "\"The first call will cache the current user information.\"",
+      "revId": "0260f4d9dc71491743388890307cfae74bcb0311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
