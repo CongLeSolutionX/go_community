@@ -288,12 +288,48 @@ func ExampleQuoteRuneToASCII() {
 	// '\u263a'
 }
 
+func ExampleQuoteRuneToGraphic() {
+	s := strconv.QuoteRuneToGraphic('☺')
+	fmt.Println(s)
+
+	s = strconv.QuoteRuneToGraphic('\u263a')
+	fmt.Println(s)
+
+	s = strconv.QuoteRuneToGraphic('\u000a')
+	fmt.Println(s)
+
+	s = strconv.QuoteRuneToGraphic('	')
+	fmt.Println(s)
+
+	// Output:
+	// '☺'
+	// '☺'
+	// '\n'
+	// '\t'
+}
+
 func ExampleQuoteToASCII() {
 	s := strconv.QuoteToASCII(`"Fran & Freddie's Diner	☺"`)
 	fmt.Println(s)
 
 	// Output:
 	// "\"Fran & Freddie's Diner\t\u263a\""
+}
+
+func ExampleQuoteToGraphic() {
+	s := strconv.QuoteToGraphic("☺")
+	fmt.Println(s)
+
+	s = strconv.QuoteToGraphic("This is a \u263a	\u000a")
+	fmt.Println(s)
+
+	s = strconv.QuoteToGraphic(`" This is a ☺ \n "`)
+	fmt.Println(s)
+
+	// Output:
+	// "☺"
+	// "This is a ☺\t\n"
+	// "\" This is a ☺ \\n \""
 }
 
 func ExampleUnquote() {
