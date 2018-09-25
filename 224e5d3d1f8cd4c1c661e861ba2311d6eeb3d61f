@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "47cdfb8c_dd27cc4c",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2018-09-25T07:18:55Z",
+      "side": 1,
+      "message": "Another option is to try\n\n_ \u003d spix[i+3]\n\nsimilar to https://golang.org/src/encoding/binary/binary.go#L63\n\nbut I\u0027m ok with \"s :\u003d spix[i : i+4 : i+4]\" (and the CL overall), with or without a comment, whenever bradfitz is happy.",
+      "parentUuid": "06b3e0e9_32c9356f",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b36e540f_e3387e81",
         "filename": "src/image/draw/draw.go",
         "patchSetId": 2
