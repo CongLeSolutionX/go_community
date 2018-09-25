@@ -151,6 +151,7 @@ var runtimeDecls = [...]struct {
 	{"msanwrite", funcTag, 112},
 	{"support_popcnt", varTag, 11},
 	{"support_sse41", varTag, 11},
+	{"support_fma", varTag, 11},
 }
 
 func runtimeTypes() []*types.Type {
