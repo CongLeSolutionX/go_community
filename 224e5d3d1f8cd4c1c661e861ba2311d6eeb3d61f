@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "9ca669f7_9c874b62",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5890
+      },
+      "writtenOn": "2018-09-25T13:43:07Z",
+      "side": 1,
+      "message": "The bounds check elimination is working correctly. The compiler is emitting a single bounds check for the creation of the subslice. However there is a performance difference between:\n\n  s :\u003d spix[i : i+4]\n\nand \n\n  s :\u003d spix[i : i+4 : i+4]\n\nThis appears to be caused by better assembly being produced. I put a demonstration at https://gist.github.com/iand/342b35819355191aed2a9806434e62be. Compare the assembly when len is specified (https://gist.github.com/iand/342b35819355191aed2a9806434e62be#file-bounds-asm-L271) with the assembly for the short cap (https://gist.github.com/iand/342b35819355191aed2a9806434e62be#file-bounds-asm-L441). It\u0027s 210 bytes vs 167.\n\nNote that there is no difference between \n\n  s :\u003d spix[i : i+4]\n\nand \n\n  s :\u003d spix[i : i+4 : len(spix)]\n\nThe further optimization appears to be due to the small size of the cap, perhaps allowing better use of registers since it\u0027s only 4 bytes.\n\nSo it seems I have accidentally stumbled over a better than expected performance gain.\n\nbradfitz do you still want me to raise an issue for this? It appears to be WAD.",
+      "parentUuid": "47cdfb8c_dd27cc4c",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b36e540f_e3387e81",
         "filename": "src/image/draw/draw.go",
         "patchSetId": 2
