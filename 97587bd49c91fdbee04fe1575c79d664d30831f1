@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "731c7f92_12bd5061",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-09-25T17:09:24Z",
+      "side": 1,
+      "message": "Perhaps keep the \"not implemented\" to make this seem less weird:\n\nOn Windows, sending os.Interrupt to a process with os.Process.Signal is not implemented; it will return an error instead of sending a signal.",
+      "revId": "97587bd49c91fdbee04fe1575c79d664d30831f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
