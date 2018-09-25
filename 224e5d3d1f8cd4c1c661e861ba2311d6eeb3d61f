@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "95e86f71_b6dd72a8",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-25T15:45:28Z",
+      "side": 1,
+      "message": "The issue would give you a short URL to add to a comment, and you need some comment because it\u0027s not obvious why the cap matters.",
+      "parentUuid": "9ca669f7_9c874b62",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b36e540f_e3387e81",
         "filename": "src/image/draw/draw.go",
         "patchSetId": 2
@@ -174,6 +192,24 @@
       "writtenOn": "2018-09-24T22:04:14Z",
       "side": 1,
       "message": "I might be wrong, but isn\u0027t sufficient to just always accessing [3] first, before the other elements? That is, it might be enough to swap lines here, without using subslices.",
+      "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a4ef6cd_db4a2699",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-25T15:45:28Z",
+      "side": 1,
+      "message": "Yeah, I\u0027d be curious to see that tried.",
+      "parentUuid": "b36e540f_e3387e81",
       "revId": "224e5d3d1f8cd4c1c661e861ba2311d6eeb3d61f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
