@@ -161,6 +161,7 @@ var runtimeDecls = [...]struct {
 	{"msanwrite", funcTag, 116},
 	{"x86HasPOPCNT", varTag, 15},
 	{"x86HasSSE41", varTag, 15},
+	{"x86HasFMA", varTag, 15},
 	{"arm64HasATOMICS", varTag, 15},
 }
 
