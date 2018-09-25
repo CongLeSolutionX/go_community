@@ -22,6 +22,30 @@
       "revId": "02f95a6a0058bdb21a535cd75f3c2f2d340f3734",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "041c73a0_a70a2d79",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5890
+      },
+      "writtenOn": "2018-09-25T17:27:54Z",
+      "side": 1,
+      "message": "it\u0027s used on the next line so has to be first",
+      "parentUuid": "8577cdc4_5e4e9cf9",
+      "range": {
+        "startLine": 373,
+        "startChar": 2,
+        "endLine": 373,
+        "endChar": 29
+      },
+      "revId": "02f95a6a0058bdb21a535cd75f3c2f2d340f3734",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
