@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8577cdc4_5e4e9cf9",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-25T17:19:24Z",
+      "side": 1,
+      "message": "did you mean for this [3] to be first or was this from earlier experiments?\n\nyou don\u0027t do that below.",
+      "range": {
+        "startLine": 373,
+        "startChar": 2,
+        "endLine": 373,
+        "endChar": 29
+      },
+      "revId": "02f95a6a0058bdb21a535cd75f3c2f2d340f3734",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
