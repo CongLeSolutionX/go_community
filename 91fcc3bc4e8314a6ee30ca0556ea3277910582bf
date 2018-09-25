@@ -16,6 +16,24 @@
       "revId": "91fcc3bc4e8314a6ee30ca0556ea3277910582bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0050d6bf_9b58b2f1",
+        "filename": "src/syscall/fs_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-09-25T15:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0557cf13_9ac106cf",
+      "revId": "91fcc3bc4e8314a6ee30ca0556ea3277910582bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
