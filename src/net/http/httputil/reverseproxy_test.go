@@ -297,10 +297,6 @@ func TestReverseProxyFlushInterval(t *testing.T) {
 	proxyHandler := NewSingleHostReverseProxy(backendURL)
 	proxyHandler.FlushInterval = time.Microsecond
 
-	done := make(chan bool)
-	onExitFlushLoop = func() { done <- true }
-	defer func() { onExitFlushLoop = nil }()
-
 	frontend := httptest.NewServer(proxyHandler)
 	defer frontend.Close()
 
@@ -313,13 +309,6 @@ func TestReverseProxyFlushInterval(t *testing.T) {
 	defer res.Body.Close()
 	if bodyBytes, _ := ioutil.ReadAll(res.Body); string(bodyBytes) != expected {
 		t.Errorf("got body %q; expected %q", bodyBytes, expected)
-	}
-
-	select {
-	case <-done:
-		// OK
-	case <-time.After(5 * time.Second):
-		t.Error("maxLatencyWriter flushLoop() never exited")
 	}
 }
 
