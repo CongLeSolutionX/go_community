@@ -151,6 +151,9 @@ go	src=..
 			trace
 				testdata
 					+
+			traceparser
+				testdata
+					+
 		io
 			+
 		mime
