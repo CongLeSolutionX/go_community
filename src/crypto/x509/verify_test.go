@@ -1882,6 +1882,7 @@ func TestValidHostname(t *testing.T) {
 		{"exa_mple.com", true},
 		{"foo,bar", false},
 		{"project-dev:us-central1:main", true},
+		{"gøøgle.com", false},
 	}
 	for _, tt := range tests {
 		if got := validHostname(tt.host); got != tt.want {

@@ -115,6 +115,14 @@ func (h HostnameError) Error() string {
 		return "x509: Common Name is not a valid hostname: " + c.Subject.CommonName
 	}
 
+	if c.hasSANExtension() {
+		for _, dnsName := range c.DNSNames {
+			if !validHostname(dnsName) && matchHostnames(toLowerCaseASCII(dnsName), toLowerCaseASCII(h.Host)) {
+				return "x509: Subject Alternative Name is not a valid hostname: " + dnsName
+			}
+		}
+	}
+
 	var valid string
 	if ip := net.ParseIP(h.Host); ip != nil {
 		// Trying to validate an IP
@@ -1004,7 +1012,9 @@ func (c *Certificate) VerifyHostname(h string) error {
 		}
 	} else {
 		for _, match := range c.DNSNames {
-			if matchHostnames(toLowerCaseASCII(match), lowered) {
+			if !validHostname(match) {
+				return HostnameError{c, match}
+			} else if matchHostnames(toLowerCaseASCII(match), lowered) {
 				return nil
 			}
 		}
