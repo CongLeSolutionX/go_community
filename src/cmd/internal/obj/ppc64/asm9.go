@@ -35,6 +35,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"log"
+	"math"
 	"sort"
 )
 
@@ -342,6 +343,8 @@ var optab = []Optab{
 	{AFMOVD, C_LEXT, C_NONE, C_NONE, C_FREG, 36, 8, REGSB},
 	{AFMOVD, C_LAUTO, C_NONE, C_NONE, C_FREG, 36, 8, REGSP},
 	{AFMOVD, C_LOREG, C_NONE, C_NONE, C_FREG, 36, 8, REGZERO},
+	{AFMOVD, C_ZCON, C_NONE, C_NONE, C_FREG, 24, 4, 0},
+	{AFMOVD, C_ADDCON, C_NONE, C_NONE, C_FREG, 24, 8, 0},
 	{AFMOVD, C_ADDR, C_NONE, C_NONE, C_FREG, 75, 8, 0},
 	{AFMOVD, C_FREG, C_NONE, C_NONE, C_SEXT, 7, 4, REGSB},
 	{AFMOVD, C_FREG, C_NONE, C_NONE, C_SAUTO, 7, 4, REGSP},
@@ -499,6 +502,7 @@ var optab = []Optab{
 	/* VSX logical */
 	{AXXLAND, C_VSREG, C_VSREG, C_NONE, C_VSREG, 90, 4, 0}, /* vsx and, xx3-form */
 	{AXXLOR, C_VSREG, C_VSREG, C_NONE, C_VSREG, 90, 4, 0},  /* vsx or, xx3-form */
+	{AXXLOR, C_ZCON, C_NONE, C_NONE, C_FREG, 90, 4, 0},     /* vsx or using fregs (overlap vsreg) */
 
 	/* VSX select */
 	{AXXSEL, C_VSREG, C_VSREG, C_VSREG, C_VSREG, 91, 4, 0}, /* vsx select, xx4-form */
@@ -828,6 +832,20 @@ func (c *ctxt9) aclass(a *obj.Addr) int {
 
 	case obj.TYPE_TEXTSIZE:
 		return C_TEXTSIZE
+
+	case obj.TYPE_FCONST:
+		/* The only cases where FCONST will occur are with float64 +/- 0.
+		   All other float constants are generated in memory. */
+		f64 := a.Val.(float64)
+		if f64 == 0 {
+			if math.Signbit(f64) {
+				return C_ADDCON
+			} else {
+				return C_ZCON
+			}
+		} else {
+			log.Fatalf("Unexpected nonzero FCONST operand %v", a)
+		}
 
 	case obj.TYPE_CONST,
 		obj.TYPE_ADDR:
@@ -2763,6 +2781,13 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			c.ctxt.Diag("%v is not supported", p)
 		}
 
+	case 24: /* lfd fA,float64(0) -> xxlxor xsA,xsaA,xsaA + fneg for -0 */
+		o1 = AOP_XX3I(c.oprrr(AXXLXOR), uint32(p.To.Reg), uint32(p.To.Reg), uint32(p.To.Reg), uint32(0))
+		// This is needed for -0.
+		if o.size == 8 {
+			o2 = AOP_RRR(c.oprrr(AFNEG), uint32(p.To.Reg), 0, uint32(p.To.Reg))
+		}
+
 	case 25:
 		/* sld[.] $sh,rS,rA -> rldicr[.] $sh,rS,mask(0,63-sh),rA; srd[.] -> rldicl */
 		v := c.regoff(&p.From)
@@ -3500,7 +3525,11 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			/* reg reg reg imm */
 			/* operand order: XA, XB, DM, XT */
 			dm := int(c.regoff(p.GetFrom3()))
-			o1 = AOP_XX3I(c.oprrr(p.As), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg), uint32(dm))
+			if dm == 0 {
+				o1 = AOP_XX3I(c.oprrr(AXXLXOR), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg), uint32(dm))
+			} else {
+				o1 = AOP_XX3I(c.oprrr(p.As), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg), uint32(dm))
+			}
 		}
 
 	case 91: /* VSX instructions, XX4-form */
