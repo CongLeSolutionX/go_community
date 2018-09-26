@@ -339,7 +339,7 @@ func TestMatchHostnames(t *testing.T) {
 	}
 }
 
-func TestMatchIP(t *testing.T) {
+func TestVerifyHostname(t *testing.T) {
 	// Check that pattern matching is working.
 	c := &Certificate{
 		DNSNames: []string{"*.foo.bar.baz"},
@@ -347,9 +347,45 @@ func TestMatchIP(t *testing.T) {
 			CommonName: "*.foo.bar.baz",
 		},
 	}
+	c.Extensions, _ = buildExtensions(c, false, c.AuthorityKeyId)
 	err := c.VerifyHostname("quux.foo.bar.baz")
 	if err != nil {
 		t.Fatalf("VerifyHostname(quux.foo.bar.baz): %v", err)
+	}
+
+	// Check that it only works with ASCII(IA5String) strings
+	c = &Certificate{
+		DNSNames: []string{"www.göögle.com"},
+		Subject: pkix.Name{
+			CommonName: "www.göögle.com",
+		},
+	}
+	c.Extensions, _ = buildExtensions(c, false, c.AuthorityKeyId)
+	err = c.VerifyHostname("www.göögle.com")
+	if err == nil {
+		t.Fatalf("VerifyHostname(www.göögle.com) should have failed, did not")
+	}
+	expectedErrMsg := "Subject Alternative Name is not a valid hostname"
+	if !strings.Contains(err.Error(), expectedErrMsg) {
+		t.Errorf("HostnameError did not contain %q: %v", expectedErrMsg, err)
+	}
+}
+
+func TestMatchIP(t *testing.T) {
+	c := &Certificate{
+		IPAddresses: []net.IP{net.ParseIP("127.0.0.1"), net.ParseIP("::1")},
+	}
+	err := c.VerifyHostname("127.0.0.1")
+	if err != nil {
+		t.Fatalf("VerifyHostname(127.0.0.1): %v", err)
+	}
+	err = c.VerifyHostname("::1")
+	if err != nil {
+		t.Fatalf("VerifyHostname(::1): %v", err)
+	}
+	err = c.VerifyHostname("[::1]")
+	if err != nil {
+		t.Fatalf("VerifyHostname([::1]): %v", err)
 	}
 
 	// But check that if we change it to be matching against an IP address,
@@ -363,22 +399,6 @@ func TestMatchIP(t *testing.T) {
 	err = c.VerifyHostname("1.2.3.4")
 	if err == nil {
 		t.Fatalf("VerifyHostname(1.2.3.4) should have failed, did not")
-	}
-
-	c = &Certificate{
-		IPAddresses: []net.IP{net.ParseIP("127.0.0.1"), net.ParseIP("::1")},
-	}
-	err = c.VerifyHostname("127.0.0.1")
-	if err != nil {
-		t.Fatalf("VerifyHostname(127.0.0.1): %v", err)
-	}
-	err = c.VerifyHostname("::1")
-	if err != nil {
-		t.Fatalf("VerifyHostname(::1): %v", err)
-	}
-	err = c.VerifyHostname("[::1]")
-	if err != nil {
-		t.Fatalf("VerifyHostname([::1]): %v", err)
 	}
 }
 
