@@ -1,0 +1,307 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0f99bff_e24e271f",
+        "filename": "src/internal/traceparser/events.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "please comment on what this function does. it\u0027s a long function and mutates various internal fields.",
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f10d458_50fcbe78",
+        "filename": "src/internal/traceparser/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "don\u0027t",
+      "range": {
+        "startLine": 63,
+        "startChar": 12,
+        "endLine": 63,
+        "endChar": 17
+      },
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "187f8f91_c8e5c81e",
+        "filename": "src/internal/traceparser/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "can be a single fmt.Errorf call.",
+      "range": {
+        "startLine": 160,
+        "startChar": 3,
+        "endLine": 162,
+        "endChar": 31
+      },
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a75c5120_cb0a3e1b",
+        "filename": "src/internal/traceparser/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "Before 1.7, there was an unused arg for EvBatch, EvFrequence, EvTimerGoroutine according to the comment in src/internal/trace/parser.go:argNum.",
+      "range": {
+        "startLine": 176,
+        "startChar": 26,
+        "endLine": 176,
+        "endChar": 64
+      },
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17fae32b_181a8d41",
+        "filename": "src/internal/traceparser/raw.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "yes, why not?",
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed385a9a_efcd9de7",
+        "filename": "src/internal/traceparser/raw.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "can you use ev or rawEv instead of ev? I was looking for \u0027ev\u0027 which doesn\u0027t exist.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 5
+      },
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e2e7f9_213c52eb",
+        "filename": "src/internal/traceparser/raw.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "I don\u0027t see any assignment to ev2.sarg here, so it looks like meaningless test.",
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dce225c_348bb67a",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "Is it required to have the file in the OS filesystem?",
+      "range": {
+        "startLine": 17,
+        "startChar": 47,
+        "endLine": 17,
+        "endChar": 77
+      },
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24e607ed_31fdfdc7",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "More explanation on what those exported fields will be helpful. Specifically I want to learn about what MinWant, MaxWant, Preflen (what is prefix?) are, and how Ignored and Added fields become non-zero.",
+      "range": {
+        "startLine": 33,
+        "startChar": 1,
+        "endLine": 33,
+        "endChar": 42
+      },
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f426c4b1_44b4b56e",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "Is this error different from error returned by New()?",
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfa9ac39_7b567e63",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "please delete or follow the style guideline.",
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e112f226_182e825c",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "should this be exported?",
+      "range": {
+        "startLine": 101,
+        "startChar": 3,
+        "endLine": 101,
+        "endChar": 12
+      },
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7307aed0_7c5d9318",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "why pointer type? can tehy be a nil? (RawEvent.String reads *r.args so I guess not)",
+      "range": {
+        "startLine": 106,
+        "startChar": 1,
+        "endLine": 106,
+        "endChar": 15
+      },
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fec3358e_0f346c8c",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "Why not having p.batches to keep batches organized by P, instead of doing this for each Parse call?",
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e463b0a7_73150135",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-09-26T16:59:04Z",
+      "side": 1,
+      "message": "shouldn\u0027t there be adjustment on the number of args as done in internal/trace/parser.go argNum function depending on the version?",
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
