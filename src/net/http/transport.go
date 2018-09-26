@@ -46,10 +46,11 @@ var DefaultTransport RoundTripper = &Transport{
 		KeepAlive: 30 * time.Second,
 		DualStack: true,
 	}).DialContext,
-	MaxIdleConns:          100,
-	IdleConnTimeout:       90 * time.Second,
-	TLSHandshakeTimeout:   10 * time.Second,
-	ExpectContinueTimeout: 1 * time.Second,
+	MaxIdleConns:           100,
+	IdleConnTimeout:        90 * time.Second,
+	TLSHandshakeTimeout:    10 * time.Second,
+	ExpectContinueTimeout:  1 * time.Second,
+	MaxResponseHeaderBytes: 10 << 20,
 }
 
 // DefaultMaxIdleConnsPerHost is the default value of Transport's
