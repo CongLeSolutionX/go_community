@@ -22,6 +22,30 @@
       "revId": "7d31bc34d893472df3ef95cc626c3ae8055f0c27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66976f9d_0b799e47",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 28970
+      },
+      "writtenOn": "2018-09-26T16:49:31Z",
+      "side": 1,
+      "message": "n00bism :). Fixing it up now so it makes more sense...",
+      "parentUuid": "0bc0e725_37a8ce96",
+      "range": {
+        "startLine": 179,
+        "startChar": 1,
+        "endLine": 180,
+        "endChar": 26
+      },
+      "revId": "7d31bc34d893472df3ef95cc626c3ae8055f0c27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
