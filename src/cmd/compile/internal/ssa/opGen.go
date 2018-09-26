@@ -1699,6 +1699,7 @@ const (
 	OpPPC64MOVDaddr
 	OpPPC64MOVDconst
 	OpPPC64FMOVDconst
+	OpPPC64FMOVDzero
 	OpPPC64FMOVSconst
 	OpPPC64FCMPU
 	OpPPC64CMP
@@ -22732,6 +22733,17 @@ var opcodeTable = [...]opInfo{
 		argLen:            0,
 		rematerializeable: true,
 		asm:               ppc64.AFMOVD,
+		reg: regInfo{
+			outputs: []outputInfo{
+				{0, 576460743713488896}, // F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26
+			},
+		},
+	},
+	{
+		name:              "FMOVDzero",
+		argLen:            0,
+		rematerializeable: true,
+		asm:               ppc64.AXXLXOR,
 		reg: regInfo{
 			outputs: []outputInfo{
 				{0, 576460743713488896}, // F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26

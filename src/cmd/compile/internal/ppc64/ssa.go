@@ -664,7 +664,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 
 		}
 
-	case ssa.OpPPC64MOVDconst:
+	case ssa.OpPPC64MOVDconst, ssa.OpPPC64FMOVDzero:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt

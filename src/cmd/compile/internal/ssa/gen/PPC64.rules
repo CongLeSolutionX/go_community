@@ -73,6 +73,7 @@
 (Const(32|64)F [val]) -> (FMOV(S|D)const [val])
 (ConstNil) -> (MOVDconst [0])
 (ConstBool [b]) -> (MOVDconst [b])
+(FMOVDconst [0]) -> (FMOVDzero)
 
 // Constant folding
 (FABS (FMOVDconst [x])) -> (FMOVDconst [auxFrom64F(math.Abs(auxTo64F(x)))])

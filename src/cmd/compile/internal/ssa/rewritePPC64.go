@@ -421,6 +421,8 @@ func rewriteValuePPC64(v *Value) bool {
 		return rewriteValuePPC64_OpPPC64FCEIL_0(v)
 	case OpPPC64FFLOOR:
 		return rewriteValuePPC64_OpPPC64FFLOOR_0(v)
+	case OpPPC64FMOVDconst:
+		return rewriteValuePPC64_OpPPC64FMOVDconst_0(v)
 	case OpPPC64FMOVDload:
 		return rewriteValuePPC64_OpPPC64FMOVDload_0(v)
 	case OpPPC64FMOVDstore:
@@ -6808,6 +6810,19 @@ func rewriteValuePPC64_OpPPC64FFLOOR_0(v *Value) bool {
 		x := v_0.AuxInt
 		v.reset(OpPPC64FMOVDconst)
 		v.AuxInt = auxFrom64F(math.Floor(auxTo64F(x)))
+		return true
+	}
+	return false
+}
+func rewriteValuePPC64_OpPPC64FMOVDconst_0(v *Value) bool {
+	// match: (FMOVDconst [0])
+	// cond:
+	// result: (FMOVDzero)
+	for {
+		if v.AuxInt != 0 {
+			break
+		}
+		v.reset(OpPPC64FMOVDzero)
 		return true
 	}
 	return false

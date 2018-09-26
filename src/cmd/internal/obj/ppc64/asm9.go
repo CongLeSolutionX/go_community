@@ -499,6 +499,7 @@ var optab = []Optab{
 	/* VSX logical */
 	{AXXLAND, C_VSREG, C_VSREG, C_NONE, C_VSREG, 90, 4, 0}, /* vsx and, xx3-form */
 	{AXXLOR, C_VSREG, C_VSREG, C_NONE, C_VSREG, 90, 4, 0},  /* vsx or, xx3-form */
+	{AXXLOR, C_ZCON, C_NONE, C_NONE, C_FREG, 90, 4, 0},     /* vsx or using fregs (overlap vsreg) */
 
 	/* VSX select */
 	{AXXSEL, C_VSREG, C_VSREG, C_VSREG, C_VSREG, 91, 4, 0}, /* vsx select, xx4-form */
@@ -3500,7 +3501,11 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			/* reg reg reg imm */
 			/* operand order: XA, XB, DM, XT */
 			dm := int(c.regoff(p.GetFrom3()))
-			o1 = AOP_XX3I(c.oprrr(p.As), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg), uint32(dm))
+			if dm == 0 {
+				o1 = AOP_XX3I(c.oprrr(AXXLXOR), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg), uint32(dm))
+			} else {
+				o1 = AOP_XX3I(c.oprrr(p.As), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg), uint32(dm))
+			}
 		}
 
 	case 91: /* VSX instructions, XX4-form */
