@@ -173,3 +173,15 @@ func ExampleHandleFunc() {
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
+
+func ExampleHandle() {
+	// Sample http.HandlerFunc to use as http.Handler
+	h1 := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+	// Route root requests to http.Handler above
+	http.Handle("/", h1)
+
+	// Start the web server
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
