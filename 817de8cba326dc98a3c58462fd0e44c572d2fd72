@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eced79e3_485cb929",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-09-26T10:01:33Z",
+      "side": 1,
+      "message": "Same\n\n/Kill/os.Kill/",
+      "range": {
+        "startLine": 14,
+        "startChar": 61,
+        "endLine": 14,
+        "endChar": 65
+      },
+      "revId": "817de8cba326dc98a3c58462fd0e44c572d2fd72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c5fe621_c0fb1c55",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-09-26T10:01:33Z",
+      "side": 1,
+      "message": "Maybe\n\n/Interrupt/os.Interrupt/\n\nto make use of os. prefix consistent across this paragraph. Or remove os. prefix everywhere. Or leave it as is. Up to you.",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 24
+      },
+      "revId": "817de8cba326dc98a3c58462fd0e44c572d2fd72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
