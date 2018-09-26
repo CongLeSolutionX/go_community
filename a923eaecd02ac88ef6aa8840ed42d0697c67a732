@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b89b3629_a0743106",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-09-26T16:37:16Z",
+      "side": 1,
+      "message": "Should these div tests still be part of this CL?\nI would think this would fail, as we just call bits.Div.  Unless it is inlined, in which case you\u0027re just testing that it is inlined, and one of the inlined function\u0027s instruction is a 64-bit divide.  That seems like an unnecessary test. (Or it needs a comment here describing what it is testing and why.)",
+      "revId": "a923eaecd02ac88ef6aa8840ed42d0697c67a732",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
