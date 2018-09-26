@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2c811165_98cba693",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-09-26T14:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a41ad64_d63aab01",
+      "revId": "ba16293f57dea1fb34ce3e85ba15849683637e90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bb0e2d2_cc25f41f",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "ba16293f57dea1fb34ce3e85ba15849683637e90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07c5c8a5_6c353574",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1661,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2018-09-26T14:19:50Z",
+      "side": 1,
+      "message": "Changed it to find the runtime package using `ctxt.LibraryByPkg[\"runtime\"]` in dwarfDefineGlobal. \n\n\u003e Also where are those no-package globals come from? Globals defined in non-Go code?\n\nThe ones I\u0027ve seen were made by the linker.",
+      "parentUuid": "1bb0e2d2_cc25f41f",
+      "range": {
+        "startLine": 1659,
+        "startChar": 3,
+        "endLine": 1661,
+        "endChar": 19
+      },
+      "revId": "ba16293f57dea1fb34ce3e85ba15849683637e90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
