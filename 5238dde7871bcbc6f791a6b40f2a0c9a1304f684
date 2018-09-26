@@ -51,6 +51,24 @@
       "revId": "5238dde7871bcbc6f791a6b40f2a0c9a1304f684",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f37b5401_d52429c7",
+        "filename": "src/net/textproto/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-09-26T17:59:26Z",
+      "side": 1,
+      "message": "I would guess that the intent is that if Peek errors, a future re-read should return the same error. As you pointed out, the error was discarded in the old version as well.",
+      "parentUuid": "00ca81c7_91ef9b47",
+      "revId": "5238dde7871bcbc6f791a6b40f2a0c9a1304f684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
