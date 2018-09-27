@@ -867,7 +867,7 @@ func (p *Package) rewriteCall(f *File, call *Call, name *Name) bool {
 			List: append(stmts, fbody),
 		},
 	}
-	text := strings.Replace(gofmt(lit), "\n", ";", -1)
+	text := strings.ReplaceAll(gofmt(lit), "\n", ";")
 	repl := strings.Split(text, cgoMarker)
 	f.Edit.Insert(f.offset(call.Call.Fun.Pos()), repl[0])
 	f.Edit.Insert(f.offset(call.Call.Fun.End()), repl[1])
@@ -2255,7 +2255,7 @@ func (c *typeConv) Type(dtype dwarf.Type, pos token.Pos) *Type {
 			if ss, ok := dwarfToName[s]; ok {
 				s = ss
 			}
-			s = strings.Replace(s, " ", "", -1)
+			s = strings.ReplaceAll(s, " ", "")
 			name := c.Ident("_Ctype_" + s)
 			tt := *t
 			typedef[name.Name] = &tt

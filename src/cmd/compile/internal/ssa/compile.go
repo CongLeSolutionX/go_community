@@ -128,9 +128,9 @@ var dumpFileSeq int
 func (f *Func) dumpFile(phaseName string) {
 	dumpFileSeq++
 	fname := fmt.Sprintf("%s_%02d__%s.dump", f.Name, dumpFileSeq, phaseName)
-	fname = strings.Replace(fname, " ", "_", -1)
-	fname = strings.Replace(fname, "/", "_", -1)
-	fname = strings.Replace(fname, ":", "_", -1)
+	fname = strings.ReplaceAll(fname, " ", "_")
+	fname = strings.ReplaceAll(fname, "/", "_")
+	fname = strings.ReplaceAll(fname, ":", "_")
 
 	fi, err := os.Create(fname)
 	if err != nil {
@@ -198,7 +198,7 @@ func PhaseOption(phase, flag string, val int, valString string) string {
 		lastcr := 0
 		phasenames := "    check, all, build, intrinsics"
 		for _, p := range passes {
-			pn := strings.Replace(p.name, " ", "_", -1)
+			pn := strings.ReplaceAll(p.name, " ", "_")
 			if len(pn)+len(phasenames)-lastcr > 70 {
 				phasenames += "\n    "
 				lastcr = len(phasenames)
@@ -304,7 +304,7 @@ commas. For example:
 		return ""
 	}
 
-	underphase := strings.Replace(phase, "_", " ", -1)
+	underphase := strings.ReplaceAll(phase, "_", " ")
 	var re *regexp.Regexp
 	if phase[0] == '~' {
 		r, ok := regexp.Compile(underphase[1:])

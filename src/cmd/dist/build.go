@@ -1514,7 +1514,7 @@ func banner() {
 		// is on PATH; assume they know what they are doing.
 	} else if gohostos == "plan9" {
 		// Check that gobin is bound before /bin.
-		pid := strings.Replace(readfile("#c/pid"), " ", "", -1)
+		pid := strings.ReplaceAll(readfile("#c/pid"), " ", "")
 		ns := fmt.Sprintf("/proc/%s/ns", pid)
 		if !strings.Contains(readfile(ns), fmt.Sprintf("bind -b %s /bin", gobin)) {
 			xprintf("*** You need to bind %s before /bin.\n", gobin)

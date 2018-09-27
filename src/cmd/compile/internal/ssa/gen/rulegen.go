@@ -992,7 +992,7 @@ func crossProduct(x [][]string) []string {
 // normalizeWhitespace replaces 2+ whitespace sequences with a single space.
 func normalizeWhitespace(x string) string {
 	x = strings.Join(strings.Fields(x), " ")
-	x = strings.Replace(x, "( ", "(", -1)
-	x = strings.Replace(x, " )", ")", -1)
+	x = strings.ReplaceAll(x, "( ", "(")
+	x = strings.ReplaceAll(x, " )", ")")
 	return x
 }

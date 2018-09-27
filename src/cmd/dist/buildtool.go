@@ -283,12 +283,12 @@ func bootstrapFixImports(srcFile string) string {
 		}
 		if strings.HasPrefix(line, `import "`) || strings.HasPrefix(line, `import . "`) ||
 			inBlock && (strings.HasPrefix(line, "\t\"") || strings.HasPrefix(line, "\t. \"")) {
-			line = strings.Replace(line, `"cmd/`, `"bootstrap/cmd/`, -1)
+			line = strings.ReplaceAll(line, `"cmd/`, `"bootstrap/cmd/`)
 			for _, dir := range bootstrapDirs {
 				if strings.HasPrefix(dir, "cmd/") {
 					continue
 				}
-				line = strings.Replace(line, `"`+dir+`"`, `"bootstrap/`+dir+`"`, -1)
+				line = strings.ReplaceAll(line, `"`+dir+`"`, `"bootstrap/`+dir+`"`)
 			}
 			lines[i] = line
 		}

@@ -419,7 +419,7 @@ func machoadddynlib(lib string, linkmode LinkMode) {
 }
 
 func machoshbits(ctxt *Link, mseg *MachoSeg, sect *sym.Section, segname string) {
-	buf := "__" + strings.Replace(sect.Name[1:], ".", "_", -1)
+	buf := "__" + strings.ReplaceAll(sect.Name[1:], ".", "_")
 
 	var msect *MachoSect
 	if sect.Rwx&1 == 0 && segname != "__DWARF" && (ctxt.Arch.Family == sys.ARM64 ||
@@ -804,7 +804,7 @@ func machosymtab(ctxt *Link) {
 		}
 
 		// replace "·" as ".", because DTrace cannot handle it.
-		Addstring(symstr, strings.Replace(s.Extname(), "·", ".", -1))
+		Addstring(symstr, strings.ReplaceAll(s.Extname(), "·", "."))
 
 		if s.Type == sym.SDYNIMPORT || s.Type == sym.SHOSTOBJ {
 			symtab.AddUint8(0x01)                             // type N_EXT, external symbol

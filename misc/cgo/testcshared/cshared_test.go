@@ -194,7 +194,7 @@ func adbRun(t *testing.T, env []string, adbargs ...string) string {
 	if err != nil {
 		t.Fatalf("adb command failed: %v\n%s\n", err, out)
 	}
-	return strings.Replace(string(out), "\r", "", -1)
+	return strings.ReplaceAll(string(out), "\r", "")
 }
 
 func run(t *testing.T, env []string, args ...string) string {

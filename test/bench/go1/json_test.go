@@ -23,7 +23,7 @@ var (
 
 func makeJsonBytes() []byte {
 	var r io.Reader
-	r = bytes.NewReader(bytes.Replace(jsonbz2_base64, []byte{'\n'}, nil, -1))
+	r = bytes.NewReader(bytes.ReplaceAll(jsonbz2_base64, []byte{'\n'}, nil))
 	r = base64.NewDecoder(base64.StdEncoding, r)
 	r = bzip2.NewReader(r)
 	b, err := ioutil.ReadAll(r)

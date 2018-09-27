@@ -32,8 +32,8 @@ func main() {
 
 	for logBits := uint(3); logBits <= 6; logBits++ {
 		typ := fmt.Sprintf("int%d", 1<<logBits)
-		fmt.Fprint(b, strings.Replace(checkFunc, "XXX", typ, -1))
-		fmt.Fprint(b, strings.Replace(checkFunc, "XXX", "u"+typ, -1))
+		fmt.Fprint(b, strings.ReplaceAll(checkFunc, "XXX", typ))
+		fmt.Fprint(b, strings.ReplaceAll(checkFunc, "XXX", "u"+typ))
 		gentest(b, 1<<logBits, mode&1 != 0, mode&2 != 0)
 	}
 }

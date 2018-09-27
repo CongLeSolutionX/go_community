@@ -22,8 +22,8 @@ func main() {
 
 	for i := 1; i <= ntest; i++ {
 		s := strconv.Itoa(i)
-		decls.WriteString(strings.Replace(decl, "$", s, -1))
-		calls.WriteString(strings.Replace("poison$()\n\tclearfat$()\n\t", "$", s, -1))
+		decls.WriteString(strings.ReplaceAll(decl, "$", s))
+		calls.WriteString(strings.ReplaceAll("poison$()\n\tclearfat$()\n\t", "$", s))
 	}
 
 	program = strings.Replace(program, "$DECLS", decls.String(), 1)

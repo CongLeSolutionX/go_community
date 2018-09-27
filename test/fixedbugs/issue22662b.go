@@ -57,7 +57,7 @@ func main() {
 			log.Fatalf("expected compiling\n---\n%s\n---\nto fail", test.src)
 		}
 
-		errmsg := strings.Replace(string(out), f.Name(), "filename", -1) // use "filename" instead of actual (long) filename
+		errmsg := strings.ReplaceAll(string(out), f.Name(), "filename") // use "filename" instead of actual (long) filename
 		if !strings.HasPrefix(errmsg, test.pos) {
 			log.Fatalf("%q: got %q; want position %q", test.src, errmsg, test.pos)
 		}
