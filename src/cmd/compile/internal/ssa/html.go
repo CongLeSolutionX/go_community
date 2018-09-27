@@ -581,7 +581,7 @@ func (w *HTMLWriter) WriteColumn(phase, title, class, html string) {
 	if w == nil {
 		return
 	}
-	id := strings.Replace(phase, " ", "-", -1)
+	id := strings.ReplaceAll(phase, " ", "-")
 	// collapsed column
 	w.Printf("<td id=\"%v-col\" class=\"collapsed\"><div>%v</div></td>", id, phase)
 

@@ -218,7 +218,7 @@ func main() {
 	}
 	defer os.RemoveAll(dir)
 
-	tests = strings.Replace(tests, "\t", " ", -1)
+	tests = strings.ReplaceAll(tests, "\t", " ")
 	tests = commentRE.ReplaceAllString(tests, "")
 
 	nok := 0
@@ -371,7 +371,7 @@ TestCases:
 }
 
 func indent(s string) string {
-	return strings.Replace(s, "\n", "\n\t", -1)
+	return strings.ReplaceAll(s, "\n", "\n\t")
 }
 
 var bugged = false

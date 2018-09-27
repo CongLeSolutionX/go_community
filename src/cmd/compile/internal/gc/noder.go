@@ -1311,7 +1311,7 @@ func (p *noder) basicLit(lit *syntax.BasicLit) Val {
 	case syntax.StringLit:
 		if len(s) > 0 && s[0] == '`' {
 			// strip carriage returns from raw string
-			s = strings.Replace(s, "\r", "", -1)
+			s = strings.ReplaceAll(s, "\r", "")
 		}
 		// Ignore errors because package syntax already reported them.
 		u, _ := strconv.Unquote(s)

@@ -70,11 +70,11 @@ func main() {
 	for i := 1; i <= 32; i++ {
 		for _, typ := range types {
 			src := template
-			src = strings.Replace(src, "NNN", fmt.Sprint(i), -1)
-			src = strings.Replace(src, "TTT", strings.Title(typ), -1)
-			src = strings.Replace(src, "ttt", typ, -1)
-			src = strings.Replace(src, "ONES", "1"+strings.Repeat(", 1", i-1), -1)
-			src = strings.Replace(src, "TWOS", "2"+strings.Repeat(", 2", i-1), -1)
+			src = strings.ReplaceAll(src, "NNN", fmt.Sprint(i))
+			src = strings.ReplaceAll(src, "TTT", strings.Title(typ))
+			src = strings.ReplaceAll(src, "ttt", typ)
+			src = strings.ReplaceAll(src, "ONES", "1"+strings.Repeat(", 1", i-1))
+			src = strings.ReplaceAll(src, "TWOS", "2"+strings.Repeat(", 2", i-1))
 			fmt.Print(src)
 			tocall = append(tocall, fmt.Sprintf("CheckEq%d_%s", i, strings.Title(typ)))
 		}

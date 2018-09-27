@@ -58,7 +58,7 @@ func expandArgs(in []string) (out []string) {
 			if err != nil {
 				log.Fatal(err)
 			}
-			args := strings.Split(strings.TrimSpace(strings.Replace(string(slurp), "\r", "", -1)), "\n")
+			args := strings.Split(strings.TrimSpace(strings.ReplaceAll(string(slurp), "\r", "")), "\n")
 			out = append(out, expandArgs(args)...)
 		} else if out != nil {
 			out = append(out, s)

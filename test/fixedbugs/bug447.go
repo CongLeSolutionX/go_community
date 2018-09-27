@@ -31,11 +31,11 @@ func main() {
 			names.WriteString("\ttest" + itype + ",\n")
 			for _, fWidth := range floatWidths {
 				ftype := fmt.Sprintf("float%d", fWidth)
-				seg := strings.Replace(testSegment, "$F", ftype, -1)
-				seg = strings.Replace(seg, "$I", itype, -1)
+				seg := strings.ReplaceAll(testSegment, "$F", ftype)
+				seg = strings.ReplaceAll(seg, "$I", itype)
 				segs.WriteString(seg)
 			}
-			body := strings.Replace(testFunc, "$I", itype, -1)
+			body := strings.ReplaceAll(testFunc, "$I", itype)
 			if typ[0] == 'u' {
 				body = strings.Replace(body, "$TEST", " || i < 0", 1)
 			} else {

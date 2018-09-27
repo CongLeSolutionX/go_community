@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	prog = strings.Replace(prog, "BOM", "\uFEFF", -1)
+	prog = strings.ReplaceAll(prog, "BOM", "\uFEFF")
 	fmt.Print(prog)
 }
 

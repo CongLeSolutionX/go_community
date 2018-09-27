@@ -22,7 +22,7 @@ import (
 
 // replace all "". with pkg.
 func expandpkg(t0 string, pkg string) string {
-	return strings.Replace(t0, `"".`, pkg+".", -1)
+	return strings.ReplaceAll(t0, `"".`, pkg+".")
 }
 
 // TODO:

@@ -357,7 +357,7 @@ func (r *objReader) patchDWARFName(s *sym.Symbol) {
 		return
 	}
 	pkgprefix := []byte(objabi.PathToPrefix(r.lib.Pkg) + ".")
-	patched := bytes.Replace(s.P[:e], emptyPkg, pkgprefix, -1)
+	patched := bytes.ReplaceAll(s.P[:e], emptyPkg, pkgprefix)
 
 	s.P = append(patched, s.P[e:]...)
 	delta := int64(len(s.P)) - s.Size

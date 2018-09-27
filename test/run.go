@@ -233,7 +233,7 @@ func compileInDir(runcmd runCmd, dir string, flags []string, localImports bool, 
 }
 
 func linkFile(runcmd runCmd, goname string) (err error) {
-	pfile := strings.Replace(goname, ".go", ".o", -1)
+	pfile := strings.ReplaceAll(goname, ".go", ".o")
 	cmd := []string{goTool(), "tool", "link", "-w", "-o", "a.exe", "-L", "."}
 	if *linkshared {
 		cmd = append(cmd, "-linkshared", "-installsuffix=dynlink")
@@ -305,7 +305,7 @@ func (t *test) goFileName() string {
 }
 
 func (t *test) goDirName() string {
-	return filepath.Join(t.dir, strings.Replace(t.gofile, ".go", ".dir", -1))
+	return filepath.Join(t.dir, strings.ReplaceAll(t.gofile, ".go", ".dir"))
 }
 
 func goDirFiles(longdir string) (filter []os.FileInfo, err error) {
@@ -773,7 +773,7 @@ func (t *test) run() {
 					t.err = err
 					return
 				}
-				if strings.Replace(string(out), "\r\n", "\n", -1) != t.expectedOutput() {
+				if strings.ReplaceAll(string(out), "\r\n", "\n") != t.expectedOutput() {
 					t.err = fmt.Errorf("incorrect output\n%s", out)
 				}
 			}
@@ -852,7 +852,7 @@ func (t *test) run() {
 				t.err = err
 				break
 			}
-			if strings.Replace(string(out), "\r\n", "\n", -1) != t.expectedOutput() {
+			if strings.ReplaceAll(string(out), "\r\n", "\n") != t.expectedOutput() {
 				t.err = fmt.Errorf("incorrect output\n%s", out)
 			}
 		}
@@ -880,7 +880,7 @@ func (t *test) run() {
 			return
 		}
 
-		if strings.Replace(string(out), "\r\n", "\n", -1) != t.expectedOutput() {
+		if strings.ReplaceAll(string(out), "\r\n", "\n") != t.expectedOutput() {
 			t.err = fmt.Errorf("incorrect output\n%s", out)
 		}
 
@@ -925,7 +925,7 @@ func (t *test) run() {
 			t.err = err
 			return
 		}
-		if strings.Replace(string(out), "\r\n", "\n", -1) != t.expectedOutput() {
+		if strings.ReplaceAll(string(out), "\r\n", "\n") != t.expectedOutput() {
 			t.err = fmt.Errorf("incorrect output\n%s", out)
 		}
 
@@ -1088,7 +1088,7 @@ func (t *test) errorCheck(outStr string, wantAuto bool, fullshort ...string) (er
 	for i := range out {
 		for j := 0; j < len(fullshort); j += 2 {
 			full, short := fullshort[j], fullshort[j+1]
-			out[i] = strings.Replace(out[i], full, short, -1)
+			out[i] = strings.ReplaceAll(out[i], full, short)
 		}
 	}
 
@@ -1186,12 +1186,12 @@ func (t *test) updateErrors(out, file string) {
 			continue
 		}
 		msg := errStr[colon2+2:]
-		msg = strings.Replace(msg, file, base, -1) // normalize file mentions in error itself
+		msg = strings.ReplaceAll(msg, file, base) // normalize file mentions in error itself
 		msg = strings.TrimLeft(msg, " \t")
 		for _, r := range []string{`\`, `*`, `+`, `[`, `]`, `(`, `)`} {
-			msg = strings.Replace(msg, r, `\`+r, -1)
+			msg = strings.ReplaceAll(msg, r, `\`+r)
 		}
-		msg = strings.Replace(msg, `"`, `.`, -1)
+		msg = strings.ReplaceAll(msg, `"`, `.`)
 		msg = tmpRe.ReplaceAllLiteralString(msg, `autotmp_[0-9]+`)
 		if errors[line] == nil {
 			errors[line] = make(map[string]bool)

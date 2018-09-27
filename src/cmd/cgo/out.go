@@ -215,8 +215,8 @@ func (p *Package) writeDefs() {
 	}
 
 	if callsMalloc && !*gccgo {
-		fmt.Fprint(fgo2, strings.Replace(cMallocDefGo, "PREFIX", cPrefix, -1))
-		fmt.Fprint(fgcc, strings.Replace(strings.Replace(cMallocDefC, "PREFIX", cPrefix, -1), "PACKED", p.packedAttribute(), -1))
+		fmt.Fprint(fgo2, strings.ReplaceAll(cMallocDefGo, "PREFIX", cPrefix))
+		fmt.Fprint(fgcc, strings.ReplaceAll(strings.Replace(cMallocDefC, "PREFIX", cPrefix, -1), "PACKED", p.packedAttribute()))
 	}
 
 	if err := fgcc.Close(); err != nil {
@@ -1570,7 +1570,7 @@ void _cgoPREFIX_Cfunc__Cmalloc(void *v) {
 `
 
 func (p *Package) cPrologGccgo() string {
-	return strings.Replace(strings.Replace(cPrologGccgo, "PREFIX", cPrefix, -1),
+	return strings.ReplaceAll(strings.Replace(cPrologGccgo, "PREFIX", cPrefix),
 		"GCCGOSYMBOLPREF", p.gccgoSymbolPrefix(), -1)
 }
 
@@ -1687,7 +1687,7 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 `
 
 func (p *Package) gccExportHeaderProlog() string {
-	return strings.Replace(gccExportHeaderProlog, "GOINTBITS", fmt.Sprint(8*p.IntSize), -1)
+	return strings.ReplaceAll(gccExportHeaderProlog, "GOINTBITS", fmt.Sprint(8*p.IntSize))
 }
 
 const gccExportHeaderProlog = `

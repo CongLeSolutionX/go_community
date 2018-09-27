@@ -14,8 +14,8 @@ import (
 )
 
 func main() {
-	prog = strings.Replace(prog, "BQ", "`", -1)
-	prog = strings.Replace(prog, "CR", "\r", -1)
+	prog = strings.ReplaceAll(prog, "BQ", "`")
+	prog = strings.ReplaceAll(prog, "CR", "\r")
 	fmt.Print(prog)
 }
 
