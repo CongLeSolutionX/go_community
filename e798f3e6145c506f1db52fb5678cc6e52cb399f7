@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02ca96fc_e6f5a97f",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-09-27T21:21:01Z",
+      "side": 1,
+      "message": "Just checking: this is okay because debug/gosym never actually looks at nfuncdata, and this change doesn\u0027t alter the size of _func?",
+      "revId": "e798f3e6145c506f1db52fb5678cc6e52cb399f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3581297a_291b2557",
+        "filename": "test/fixedbugs/issue27518a.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-09-27T21:21:01Z",
+      "side": 1,
+      "message": "This comment still claims we do the wrong thing. Update it to probably explain the (correct) thing that we do and what the danger/regression is.",
+      "revId": "e798f3e6145c506f1db52fb5678cc6e52cb399f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
