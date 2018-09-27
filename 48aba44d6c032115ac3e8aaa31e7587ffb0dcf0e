@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c58f1d3a_531e4d72",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 17951
+      },
+      "writtenOn": "2018-09-27T16:12:59Z",
+      "side": 1,
+      "message": "appropritate -\u003e appropriate",
+      "revId": "48aba44d6c032115ac3e8aaa31e7587ffb0dcf0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
