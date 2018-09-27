@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d078830_0e01461f",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-09-27T02:01:09Z",
+      "side": 1,
+      "message": "to distinguish Handle from HandlerFunc, I don\u0027t think this example should use HandlerFunc.\n\nSo I think you\u0027d want to use a separate file to write a full example with a type with a ServeHTTP method.\n\nSee the \"Larger examples\" section of https://blog.golang.org/examples",
+      "range": {
+        "startLine": 178,
+        "startChar": 41,
+        "endLine": 183,
+        "endChar": 21
+      },
+      "revId": "72bca1abfeb8f8c3a65f276e859b19a55e523116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
