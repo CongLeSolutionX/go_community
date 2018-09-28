@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e89aafc8_557ce76e",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-09-28T23:18:03Z",
+      "side": 1,
+      "message": "The only access of nfuncdata in the runtime is to read it, or compute \u0026nfuncdata+sizeof(nfuncdata).\n\ndebug/gosym looks like it uses only 2 fields of this struct.\n It uses nameoff to get the name.\n It tries to get the frame size from another field.\n   After this CL, it reads it from deferreturn\n   Before this CL, it reads it from funcID\n   Before the funcID CL (100739), it reads it from this field:\n      _    int32 // previously legacy frame size; kept for layout compatibility\nSo clearly we haven\u0027t been returning the correct frame size in a while.\n\nI hacked up a debug/gosym reader. It will not return correct (or even reasonable) frame sizes on binaries compiled with 1.5 or later.\nSerious bitrot.",
+      "parentUuid": "02ca96fc_e6f5a97f",
+      "revId": "e798f3e6145c506f1db52fb5678cc6e52cb399f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3581297a_291b2557",
         "filename": "test/fixedbugs/issue27518a.go",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "e798f3e6145c506f1db52fb5678cc6e52cb399f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3abd5426_49afe27a",
+        "filename": "test/fixedbugs/issue27518a.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-09-28T23:18:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3581297a_291b2557",
+      "revId": "e798f3e6145c506f1db52fb5678cc6e52cb399f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
