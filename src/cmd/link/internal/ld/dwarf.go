@@ -77,6 +77,10 @@ func (c dwctxt) Logf(format string, args ...interface{}) {
 	c.linkctxt.Logf(format, args...)
 }
 
+func (c dwctxt) IsDwarf64() bool {
+	return c.linkctxt.HeadType == objabi.Haix
+}
+
 // At the moment these interfaces are only used in the compiler.
 
 func (c dwctxt) AddFileRef(s dwarf.Sym, f interface{}) {
@@ -871,6 +875,32 @@ func defdwsymb(ctxt *Link, s *sym.Symbol, str string, t SymbolType, v int64, got
 	}
 }
 
+// Create the initial length field in Dwarf64 or in Dwarf32
+// with value v and update offset of unit_length if needed
+func createUnitLength(arch *sys.Arch, isd64 bool, s *sym.Symbol, v uint64) {
+	if isd64 {
+		s.AddUint32(arch, 0xFFFFFFFF)
+	}
+	addDwarfField32or64(arch, isd64, s, v)
+}
+
+// Add a Dwarf64 Field or a Dwarf32 field
+func addDwarfField32or64(arch *sys.Arch, isd64 bool, s *sym.Symbol, v uint64) {
+	if isd64 {
+		s.AddUint(arch, v)
+	} else {
+		s.AddUint32(arch, uint32(v))
+	}
+}
+
+func addDwarfRef32or64(ctxt *Link, isd64 bool, s *sym.Symbol, t *sym.Symbol) {
+	if isd64 {
+		adddwarfref(ctxt, s, t, 8)
+	} else {
+		adddwarfref(ctxt, s, t, 4)
+	}
+}
+
 // compilationUnit is per-compilation unit (equivalently, per-package)
 // debug-related data.
 type compilationUnit struct {
@@ -1079,11 +1109,11 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 	// Write .debug_line Line Number Program Header (sec 6.2.4)
 	// Fields marked with (*) must be changed for 64-bit dwarf
 	unitLengthOffset := ls.Size
-	ls.AddUint32(ctxt.Arch, 0) // unit_length (*), filled in at end.
+	createUnitLength(ctxt.Arch, dwarfctxt.IsDwarf64(), ls, 0) // unit_length (*), filled in at end
 	unitstart = ls.Size
 	ls.AddUint16(ctxt.Arch, 2) // dwarf version (appendix F) -- version 3 is incompatible w/ XCode 9.0's dsymutil, latest supported on OSX 10.12 as of 2018-05
 	headerLengthOffset := ls.Size
-	ls.AddUint32(ctxt.Arch, 0) // header_length (*), filled in at end.
+	addDwarfField32or64(ctxt.Arch, dwarfctxt.IsDwarf64(), ls, 0) // header_length (*), filled in at end
 	headerstart = ls.Size
 
 	// cpos == unitstart + 4 + 2 + 4
@@ -1236,8 +1266,16 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 	dwarf.Uleb128put(dwarfctxt, ls, 1)
 	ls.AddUint8(dwarf.DW_LNE_end_sequence)
 
-	ls.SetUint32(ctxt.Arch, unitLengthOffset, uint32(ls.Size-unitstart))
-	ls.SetUint32(ctxt.Arch, headerLengthOffset, uint32(headerend-headerstart))
+	if ctxt.HeadType == objabi.Haix {
+		dwsectCUSize[".debug_line."+unit.lib.String()] = uint64(ls.Size - unitLengthOffset)
+	}
+	if dwarfctxt.IsDwarf64() {
+		ls.SetUint(ctxt.Arch, unitLengthOffset+4, uint64(ls.Size-unitstart)) // +4 because of 0xFFFFFFFF
+		ls.SetUint(ctxt.Arch, headerLengthOffset, uint64(headerend-headerstart))
+	} else {
+		ls.SetUint32(ctxt.Arch, unitLengthOffset, uint32(ls.Size-unitstart))
+		ls.SetUint32(ctxt.Arch, headerLengthOffset, uint32(headerend-headerstart))
+	}
 
 	// Apply any R_DWARFFILEREF relocations, since we now know the
 	// line table file indices for this compilation unit. Note that
@@ -1327,13 +1365,13 @@ func writeframes(ctxt *Link, syms []*sym.Symbol) []*sym.Symbol {
 	if haslinkregister(ctxt) {
 		cieReserve = 32
 	}
-	fs.AddUint32(ctxt.Arch, cieReserve)                        // initial length, must be multiple of thearch.ptrsize
-	fs.AddUint32(ctxt.Arch, 0xffffffff)                        // cid.
-	fs.AddUint8(3)                                             // dwarf version (appendix F)
-	fs.AddUint8(0)                                             // augmentation ""
-	dwarf.Uleb128put(dwarfctxt, fs, 1)                         // code_alignment_factor
-	dwarf.Sleb128put(dwarfctxt, fs, dataAlignmentFactor)       // all CFI offset calculations include multiplication with this factor
-	dwarf.Uleb128put(dwarfctxt, fs, int64(thearch.Dwarfreglr)) // return_address_register
+	createUnitLength(ctxt.Arch, dwarfctxt.IsDwarf64(), fs, uint64(cieReserve)) // initial length, must be multiple of thearch.ptrsize
+	addDwarfField32or64(ctxt.Arch, dwarfctxt.IsDwarf64(), fs, 0xffffffff)      // cid.
+	fs.AddUint8(3)                                                             // dwarf version (appendix F)
+	fs.AddUint8(0)                                                             // augmentation ""
+	dwarf.Uleb128put(dwarfctxt, fs, 1)                                         // code_alignment_factor
+	dwarf.Sleb128put(dwarfctxt, fs, dataAlignmentFactor)                       // all CFI offset calculations include multiplication with this factor
+	dwarf.Uleb128put(dwarfctxt, fs, int64(thearch.Dwarfreglr))                 // return_address_register
 
 	fs.AddUint8(dwarf.DW_CFA_def_cfa)                          // Set the current frame address..
 	dwarf.Uleb128put(dwarfctxt, fs, int64(thearch.Dwarfregsp)) // ...to use the value in the platform's SP register (defined in l.go)...
@@ -1416,9 +1454,9 @@ func writeframes(ctxt *Link, syms []*sym.Symbol) []*sym.Symbol {
 		//	ptrsize: address range
 		fs.AddUint32(ctxt.Arch, uint32(4+2*ctxt.Arch.PtrSize+len(deltaBuf))) // length (excludes itself)
 		if ctxt.LinkMode == LinkExternal {
-			adddwarfref(ctxt, fs, fs, 4)
+			addDwarfRef32or64(ctxt, dwarfctxt.IsDwarf64(), fs, fs)
 		} else {
-			fs.AddUint32(ctxt.Arch, 0) // CIE offset
+			addDwarfField32or64(ctxt.Arch, dwarfctxt.IsDwarf64(), fs, 0) // CIE offset
 		}
 		fs.AddAddr(ctxt.Arch, s)
 		fs.AddUintXX(ctxt.Arch, uint64(s.Size), ctxt.Arch.PtrSize) // address range
@@ -1453,11 +1491,11 @@ func writeinfo(ctxt *Link, syms []*sym.Symbol, units []*compilationUnit, abbrevs
 		// Write .debug_info Compilation Unit Header (sec 7.5.1)
 		// Fields marked with (*) must be changed for 64-bit dwarf
 		// This must match COMPUNITHEADERSIZE above.
-		s.AddUint32(ctxt.Arch, 0) // unit_length (*), will be filled in later.
-		s.AddUint16(ctxt.Arch, 4) // dwarf version (appendix F)
+		createUnitLength(ctxt.Arch, dwarfctxt.IsDwarf64(), s, 0) // unit_length (*), will be filled in later.
+		s.AddUint16(ctxt.Arch, 4)                                // dwarf version (appendix F)
 
 		// debug_abbrev_offset (*)
-		adddwarfref(ctxt, s, abbrevsym, 4)
+		addDwarfRef32or64(ctxt, dwarfctxt.IsDwarf64(), s, abbrevsym)
 
 		s.AddUint8(uint8(ctxt.Arch.PtrSize)) // address_size
 
@@ -1475,8 +1513,17 @@ func writeinfo(ctxt *Link, syms []*sym.Symbol, units []*compilationUnit, abbrevs
 		for _, child := range cu {
 			cusize += child.Size
 		}
-		cusize -= 4 // exclude the length field.
-		s.SetUint32(ctxt.Arch, 0, uint32(cusize))
+		// Save size for AIX symbol table
+		if ctxt.HeadType == objabi.Haix {
+			dwsectCUSize[".debug_info."+s.Name[13:]] = uint64(cusize)
+		}
+		if dwarfctxt.IsDwarf64() {
+			cusize -= 12                            // exclude the length field.
+			s.SetUint(ctxt.Arch, 4, uint64(cusize)) // 4 because of 0XFFFFFFFF
+		} else {
+			cusize -= 4 // exclude the length field.
+			s.SetUint32(ctxt.Arch, 0, uint32(cusize))
+		}
 		// Leave a breadcrumb for writepub. This does not
 		// appear in the DWARF output.
 		newattr(compunit, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, cusize, 0)
@@ -1508,6 +1555,8 @@ func writepub(ctxt *Link, sname string, ispub func(*dwarf.DWDie) bool, syms []*s
 	s.Type = sym.SDWARFSECT
 	syms = append(syms, s)
 
+	var dwarfctxt dwarf.Context = dwctxt{ctxt}
+
 	for _, u := range ctxt.compUnits {
 		if len(u.lib.Textp) == 0 && u.dwinfo.Child == nil {
 			continue
@@ -1517,10 +1566,10 @@ func writepub(ctxt *Link, sname string, ispub func(*dwarf.DWDie) bool, syms []*s
 		culength := uint32(getattr(compunit, dwarf.DW_AT_byte_size).Value) + 4
 
 		// Write .debug_pubnames/types	Header (sec 6.1.1)
-		s.AddUint32(ctxt.Arch, 0)                      // unit_length (*), will be filled in later.
-		s.AddUint16(ctxt.Arch, 2)                      // dwarf version (appendix F)
-		adddwarfref(ctxt, s, dtolsym(compunit.Sym), 4) // debug_info_offset (of the Comp unit Header)
-		s.AddUint32(ctxt.Arch, culength)               // debug_info_length
+		createUnitLength(ctxt.Arch, dwarfctxt.IsDwarf64(), s, 0)                   // unit_length (*), will be filled in later.
+		s.AddUint16(ctxt.Arch, 2)                                                  // dwarf version (appendix F)
+		addDwarfRef32or64(ctxt, dwarfctxt.IsDwarf64(), s, dtolsym(compunit.Sym))   // debug_info_offset (of the Comp unit Header)
+		addDwarfField32or64(ctxt.Arch, dwarfctxt.IsDwarf64(), s, uint64(culength)) // debug_info_length
 
 		for die := compunit.Child; die != nil; die = die.Link {
 			if !ispub(die) {
@@ -1531,19 +1580,33 @@ func writepub(ctxt *Link, sname string, ispub func(*dwarf.DWDie) bool, syms []*s
 			if die.Sym == nil {
 				fmt.Println("Missing sym for ", name)
 			}
-			adddwarfref(ctxt, s, dtolsym(die.Sym), 4)
+			addDwarfRef32or64(ctxt, dwarfctxt.IsDwarf64(), s, dtolsym(die.Sym))
 			Addstring(s, name)
 		}
 
-		s.AddUint32(ctxt.Arch, 0)
+		addDwarfField32or64(ctxt.Arch, dwarfctxt.IsDwarf64(), s, 0) // Null offset
 
-		s.SetUint32(ctxt.Arch, sectionstart, uint32(s.Size-sectionstart)-4) // exclude the length field.
+		// On AIX, save the current size of this compilation unit
+		// in the correspond map
+		if ctxt.HeadType == objabi.Haix {
+			cuname := getCUname(compunit)
+			dwsectCUSize[sname+"."+cuname] = uint64(s.Size - sectionstart)
+		}
+		if dwarfctxt.IsDwarf64() {
+			s.SetUint(ctxt.Arch, sectionstart+4, uint64(s.Size-sectionstart)-12) // exclude the length field.
+		} else {
+			s.SetUint32(ctxt.Arch, sectionstart, uint32(s.Size-sectionstart)-4) // exclude the length field.
+		}
 	}
 
 	return syms
 }
 
 func writegdbscript(ctxt *Link, syms []*sym.Symbol) []*sym.Symbol {
+	// TODO (aix): make it available
+	if ctxt.HeadType == objabi.Haix {
+		return syms
+	}
 	if ctxt.LinkMode == LinkExternal && ctxt.HeadType == objabi.Hwindows && ctxt.BuildMode == BuildModeCArchive {
 		// gcc on Windows places .debug_gdb_scripts in the wrong location, which
 		// causes the program not to run. See https://golang.org/issue/20183
@@ -2016,4 +2079,24 @@ func (v compilationUnitByStartPC) Less(i, j int) bool {
 	default:
 		return v[i].lib.Textp[0].Value < v[j].lib.Textp[0].Value
 	}
+}
+
+// On AIX, the symbol table needs to know where are the compilation units parts
+// for a specific package in each .dw section
+// dwsectCUSize map will save the size of a compilation unit for
+// the corresponding .dw section
+// This size can later be retrieved with the index "sectionName.pkgName"
+var (
+	dwsectCUSize = make(map[string]uint64)
+)
+
+// retrieve the correspond pkg size inside the current section
+func getDwsectSize(sname string, pkgname string) uint64 {
+	return dwsectCUSize[sname+"."+pkgname]
+}
+
+// Use dwinfo to get a compilation unit name
+func getCUname(cu *dwarf.DWDie) string {
+	s := dtolsym(cu.Sym)
+	return s.Name[13:]
 }
