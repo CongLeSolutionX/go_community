@@ -414,12 +414,28 @@ func tagKey(dir string, context *build.Context, tags []string) string {
 	}
 	// TODO: ReleaseTags (need to load default)
 	key := dir
-	for _, tag := range tags {
+
+	tags = append(tags, context.GOOS, context.GOARCH)
+
+	for _, tag := range removeDuplicate(tags) {
 		if ctags[tag] {
 			key += "," + tag
 		}
 	}
 	return key
+}
+
+func removeDuplicate(in []string) (out []string) {
+	sort.Strings(in)
+	j := 0
+	for i := 1; i < len(in); i++ {
+		if in[j] == in[i] {
+			continue
+		}
+		j++
+		in[i], in[j] = in[j], in[i]
+	}
+	return in[:j+1]
 }
 
 // Importing is a sentinel taking the place in Walker.imported
