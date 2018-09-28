@@ -459,7 +459,12 @@ func (c dwCtxt) AddAddress(s dwarf.Sym, data interface{}, value int64) {
 func (c dwCtxt) AddSectionOffset(s dwarf.Sym, size int, t interface{}, ofs int64) {
 	panic("should be used only in the linker")
 }
-func (c dwCtxt) AddDWARFSectionOffset(s dwarf.Sym, size int, t interface{}, ofs int64) {
+func (c dwCtxt) AddDWARFAddrSectionOffset(s dwarf.Sym, t interface{}, ofs int64) {
+	size := 4
+	if c.IsDwarf64() {
+		size = 8
+	}
+
 	ls := s.(*LSym)
 	rsym := t.(*LSym)
 	ls.WriteAddr(c.Link, ls.Size, size, rsym, ofs)
@@ -477,6 +482,10 @@ func (c dwCtxt) AddFileRef(s dwarf.Sym, f interface{}) {
 func (c dwCtxt) CurrentOffset(s dwarf.Sym) int64 {
 	ls := s.(*LSym)
 	return ls.Size
+}
+
+func (c dwCtxt) IsDwarf64() bool {
+	return c.Link.Headtype == objabi.Haix
 }
 
 // Here "from" is a symbol corresponding to an inlined or concrete
