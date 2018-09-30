@@ -70,6 +70,30 @@
       "revId": "a0e7f12771c2e84e626dcf5e30da5d62a3b1adf6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcc9625e_758b41b7",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-09-30T17:10:24Z",
+      "side": 1,
+      "message": "In that case we could make it simpler by putting the polyfill detection in a separate \u003cscript\u003e tag and have it append the polyfill script tag conditionally. Browsers execute all \u003cscript\u003e tags in order. However, I\u0027d like to only do this if it solves the concrete issue. I\u0027m not yet fully clear on what the issue is.",
+      "parentUuid": "c79601f9_6e3d56e8",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 93
+      },
+      "revId": "a0e7f12771c2e84e626dcf5e30da5d62a3b1adf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
