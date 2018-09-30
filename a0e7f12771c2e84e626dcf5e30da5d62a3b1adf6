@@ -46,6 +46,30 @@
       "revId": "a0e7f12771c2e84e626dcf5e30da5d62a3b1adf6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c79601f9_6e3d56e8",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 28917
+      },
+      "writtenOn": "2018-09-30T04:09:30Z",
+      "side": 1,
+      "message": "FYI, incase simply adding an integrity attribute isn\u0027t enough, we can do the more verbose \"only load polyfills if needed\". I\u0027ve kept the code I put together here:\nhttps://github.com/silbinarywolf/go/blob/fix-wasm-exec-for-microsoft-edge-optional-polyfill/misc/wasm/wasm_exec.html",
+      "parentUuid": "fac75971_829c8c05",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 93
+      },
+      "revId": "a0e7f12771c2e84e626dcf5e30da5d62a3b1adf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
