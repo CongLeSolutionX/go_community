@@ -474,6 +474,50 @@ func symtoc(ctxt *ld.Link, s *sym.Symbol) int64 {
 	return toc.Value
 }
 
+/* archrelocdata is a special relocation for AIX operatin system.
+ * When compiling, the algorithm doesn't know if a symbol is a data symbol or
+ * a text symbol.
+ * However, on AIX, .data segment is relocated by the loader and all data must
+ * therefore be accessed via an offset based on TOC symbol, stored in r2
+ * This function changes the default instructions (which are aimed to access text symbol)
+ * to match access via TOC offset
+ * As archrelocaddr function, the offset is split into the two instructions,
+ * to be able to have 31 bits address
+ * TODO(aix): Remove once compilation has been fixed
+ */
+func archrelocdata(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
+	var o1, o2 uint32
+
+	// Change ORIS Rx Rx Vaddr (o1) to ADDIS Rx R2 tocOffset
+	o1 = uint32(val>>32)&0x03E00000 | 0xF<<26 | 2<<16
+	o2 = uint32(val)
+
+	t := ld.Symaddr(r.Sym) + r.Add - ctxt.Syms.Lookup("TOC", 0).Value // sym addr
+	if t != int64(int32(t)) {
+		ld.Errorf(s, "TOC relocation for %s is too big to relocate %s: 0x%x", s.Name, r.Sym, t)
+	}
+
+	if t&0x8000 != 0 {
+		t += 0x10000
+	}
+
+	o1 |= uint32((t >> 16) & 0xFFFF)
+
+	switch r.Type {
+	case objabi.R_ADDRPOWER:
+		o2 |= uint32(t) & 0xFFFF
+	case objabi.R_ADDRPOWER_DS:
+		if t&3 != 0 {
+			ld.Errorf(s, "bad DS reloc for %s: %d", s.Name, ld.Symaddr(r.Sym))
+		}
+		o2 |= uint32(t) & 0xFFFC
+	default:
+		return -1
+	}
+
+	return int64(o1)<<32 | int64(o2)
+}
+
 func archrelocaddr(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 	var o1, o2 uint32
 	if ctxt.Arch.ByteOrder == binary.BigEndian {
@@ -493,7 +537,10 @@ func archrelocaddr(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 
 
 	t := ld.Symaddr(r.Sym) + r.Add
 	if t < 0 || t >= 1<<31 {
-		ld.Errorf(s, "relocation for %s is too big (>=2G): %d", s.Name, ld.Symaddr(r.Sym))
+		if ctxt.HeadType != objabi.Haix {
+			ld.Errorf(s, "relocation for %s is too big (>=2G): 0x%x", s.Name, ld.Symaddr(r.Sym))
+		}
+		// TODO(aix): Add else and check that this relocation was preceded by a R_ADDRPOWER_64REL
 	}
 	if t&0x8000 != 0 {
 		t += 0x10000
@@ -668,7 +715,14 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_GOTOFF:
 		return ld.Symaddr(r.Sym) + r.Add - ld.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
 	case objabi.R_ADDRPOWER, objabi.R_ADDRPOWER_DS:
-		return archrelocaddr(ctxt, r, s, val), true
+		// On AIX, instructions in the case of R_ADDRPOWER with a symbol in .data must be changed
+		if ctxt.HeadType != objabi.Haix || r.Sym.Type == sym.STEXT || r.Sym.Type == sym.SRODATA {
+			return archrelocaddr(ctxt, r, s, val), true
+		} else {
+			return archrelocdata(ctxt, r, s, val), true
+		}
+	case objabi.R_ADDRPOWER_64REL:
+		return (ld.Symaddr(r.Sym) + r.Add) >> 32 & 0xFFFF, true
 	case objabi.R_CALLPOWER:
 		// Bits 6 through 29 = (S + A - P) >> 2
 
