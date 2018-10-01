@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "349d4d09_e8692f40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-01T15:40:34Z",
+      "side": 1,
+      "message": "This line is very long, it\u0027d be nice to wrap it.\n\nSee https://go-review.googlesource.com/c/sys/+/133095/3//COMMIT_MSG#12 for an example.",
+      "revId": "d65ea8038dcc46d19658ab50727b465ca59e9c86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a9c601c_41302d4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-01T15:40:34Z",
+      "side": 1,
+      "message": "It might be helpful to reference the issue here:\n\n    Updates #27151.\n\nOther revert commits tend to do so.",
+      "revId": "d65ea8038dcc46d19658ab50727b465ca59e9c86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
