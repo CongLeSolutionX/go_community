@@ -177,19 +177,24 @@ const (
 	// arm64 hardware (as of ARMv8) limits user addresses to 48
 	// bits, in the range [0, 1<<48).
 	//
+	// On aix/ppc64, the limits is increased to 1<<60 to accept addresses
+	// returned by mmap syscall. These are in range:
+	//  0x0a00000000000000 - 0x0afffffffffffff
+	//
 	// ppc64, mips64, and s390x support arbitrary 64 bit addresses
 	// in hardware. However, since Go only supports Linux on
 	// these, we lean on OS limits. Based on Linux's processor.h,
 	// the user address space is limited as follows on 64-bit
 	// architectures:
 	//
-	// Architecture  Name              Maximum Value (exclusive)
+	// Architecture       Name              Maximum Value (exclusive)
 	// ---------------------------------------------------------------------
-	// amd64         TASK_SIZE_MAX     0x007ffffffff000 (47 bit addresses)
-	// arm64         TASK_SIZE_64      0x01000000000000 (48 bit addresses)
-	// ppc64{,le}    TASK_SIZE_USER64  0x00400000000000 (46 bit addresses)
-	// mips64{,le}   TASK_SIZE64       0x00010000000000 (40 bit addresses)
-	// s390x         TASK_SIZE         1<<64 (64 bit addresses)
+	// amd64              TASK_SIZE_MAX     0x007ffffffff000 (47 bit addresses)
+	// arm64              TASK_SIZE_64      0x01000000000000 (48 bit addresses)
+	// linux/ppc64{,le}   TASK_SIZE_USER64  0x00400000000000 (46 bit addresses)
+	// aix/ppc64          --                1<<60 (60 bit addresses)
+	// mips64{,le}        TASK_SIZE64       0x00010000000000 (40 bit addresses)
+	// s390x              TASK_SIZE         1<<64 (64 bit addresses)
 	//
 	// These limits may increase over time, but are currently at
 	// most 48 bits except on s390x. On all architectures, Linux
@@ -204,7 +209,7 @@ const (
 	// we further limit it to 31 bits.
 	//
 	// WebAssembly currently has a limit of 4GB linear memory.
-	heapAddrBits = (_64bit*(1-sys.GoarchWasm))*48 + (1-_64bit+sys.GoarchWasm)*(32-(sys.GoarchMips+sys.GoarchMipsle))
+	heapAddrBits = (_64bit*(1-sys.GoarchWasm)*(1-sys.GoosAix))*48 + (1-_64bit+sys.GoarchWasm)*(32-(sys.GoarchMips+sys.GoarchMipsle)) + 60*sys.GoosAix
 
 	// maxAlloc is the maximum size of an allocation. On 64-bit,
 	// it's theoretically possible to allocate 1<<heapAddrBits bytes. On
@@ -223,6 +228,7 @@ const (
 	//       Platform  Addr bits  Arena size  L1 entries   L2 entries
 	// --------------  ---------  ----------  ----------  -----------
 	//       */64-bit         48        64MB           1    4M (32MB)
+	//     aix/64-bit         48       256MB        4096    4M (32MB)
 	// windows/64-bit         48         4MB          64    1M  (8MB)
 	//       */32-bit         32         4MB           1  1024  (4KB)
 	//     */mips(le)         31         4MB           1   512  (2KB)
@@ -244,7 +250,7 @@ const (
 	// logHeapArenaBytes is log_2 of heapArenaBytes. For clarity,
 	// prefer using heapArenaBytes where possible (we need the
 	// constant to compute some other constants).
-	logHeapArenaBytes = (6+20)*(_64bit*(1-sys.GoosWindows)) + (2+20)*(_64bit*sys.GoosWindows) + (2+20)*(1-_64bit)
+	logHeapArenaBytes = (6+20)*(_64bit*(1-sys.GoosWindows)*(1-sys.GoosAix)) + (2+20)*(_64bit*sys.GoosWindows) + (2+20)*(1-_64bit) + (8+20)*sys.GoosAix
 
 	// heapArenaBitmapBytes is the size of each heap arena's bitmap.
 	heapArenaBitmapBytes = heapArenaBytes / (sys.PtrSize * 8 / 2)
@@ -264,7 +270,10 @@ const (
 	// We use the L1 map on 64-bit Windows because the arena size
 	// is small, but the address space is still 48 bits, and
 	// there's a high cost to having a large L2.
-	arenaL1Bits = 6 * (_64bit * sys.GoosWindows)
+	//
+	// We use the L1 map on aix/ppc64 to keep the same L2 value
+	// than on Linux.
+	arenaL1Bits = 6*(_64bit*sys.GoosWindows) + 12*sys.GoosAix
 
 	// arenaL2Bits is the number of bits of the arena number
 	// covered by the second level arena index.
@@ -284,7 +293,7 @@ const (
 	// the L2 arena map.
 	arenaBits = arenaL1Bits + arenaL2Bits
 
-	// arenaBaseOffset is the pointer value that corresponds to
+	// arenaBaseOffset is the pointer value that correspond to
 	// index 0 in the heap arena map.
 	//
 	// On amd64, the address space is 48 bits, sign extended to 64
@@ -418,6 +427,8 @@ func mallocinit() {
 		// allocation at 0x40 << 32 because when using 4k pages with 3-level
 		// translation buffers, the user address space is limited to 39 bits
 		// On darwin/arm64, the address space is even smaller.
+		// On AIX, mmap adresses range starts at 0x0A00000000000000 for 64-bit
+		// processes.
 		for i := 0x7f; i >= 0; i-- {
 			var p uintptr
 			switch {
@@ -425,6 +436,13 @@ func mallocinit() {
 				p = uintptr(i)<<40 | uintptrMask&(0x0013<<28)
 			case GOARCH == "arm64":
 				p = uintptr(i)<<40 | uintptrMask&(0x0040<<32)
+			case GOOS == "aix":
+				if i == 0 {
+					// We don't use addresses directly after 0x0A00000000000000
+					// to avoid collisions with others mmaps done by non-go programs.
+					continue
+				}
+				p = uintptr(i)<<40 | uintptrMask&(0xa0<<52)
 			case raceenabled:
 				// The TSAN runtime requires the heap
 				// to be in the range [0x00c000000000,
@@ -458,7 +476,7 @@ func mallocinit() {
 		// 3. We try to stake out a reasonably large initial
 		// heap reservation.
 
-		const arenaMetaSize = unsafe.Sizeof([1 << arenaBits]heapArena{})
+		const arenaMetaSize = (1 << arenaBits) * unsafe.Sizeof(heapArena{})
 		meta := uintptr(sysReserve(nil, arenaMetaSize))
 		if meta != 0 {
 			mheap_.heapArenaAlloc.init(meta, arenaMetaSize)
