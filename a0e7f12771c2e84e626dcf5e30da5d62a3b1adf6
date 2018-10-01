@@ -94,6 +94,30 @@
       "revId": "a0e7f12771c2e84e626dcf5e30da5d62a3b1adf6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29685ef8_83c6072c",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-01T22:58:04Z",
+      "side": 1,
+      "message": "Two main reasons it\u0027s not acceptable:\n\n1) it adds a new dependency on a third-party service (jsdelivr.net)\n2) it makes all users pay the additional bandwidth+latency cost, even when it\u0027s not necessary\n\nI care about (2) much more than (1).\n\nIf (2) was solved, then (1) would go away over time: eventually browsers will support whatever you\u0027re polyfilling and we\u0027d never need to hit that service.",
+      "parentUuid": "dcc9625e_758b41b7",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 93
+      },
+      "revId": "a0e7f12771c2e84e626dcf5e30da5d62a3b1adf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
