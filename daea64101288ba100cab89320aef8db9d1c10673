@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13dc8d96_3b2f7978",
+        "filename": "api/except.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-01T22:48:44Z",
+      "side": 1,
+      "message": "why is this needed?",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "daea64101288ba100cab89320aef8db9d1c10673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0162294_d52470a0",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-01T22:48:44Z",
+      "side": 1,
+      "message": "remove first sentence of this comment",
+      "range": {
+        "startLine": 388,
+        "startChar": 7,
+        "endLine": 388,
+        "endChar": 14
+      },
+      "revId": "daea64101288ba100cab89320aef8db9d1c10673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baafe4e3_b22f7f79",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-01T22:48:44Z",
+      "side": 1,
+      "message": "change inside of parenthesis to:\n\n(the ones listed in the tags argument plus GOOS and GOARCH)",
+      "range": {
+        "startLine": 401,
+        "startChar": 47,
+        "endLine": 401,
+        "endChar": 48
+      },
+      "revId": "daea64101288ba100cab89320aef8db9d1c10673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b14c0056_fd2e77c3",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-01T22:48:44Z",
+      "side": 1,
+      "message": "add a comment before this append?",
+      "range": {
+        "startLine": 418,
+        "startChar": 1,
+        "endLine": 418,
+        "endChar": 5
+      },
+      "revId": "daea64101288ba100cab89320aef8db9d1c10673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04f69bb8_a8e339af",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-01T22:48:44Z",
+      "side": 1,
+      "message": "leave this alone (just: range tags)\n\nbut add on the next line:\n\nsort.Strings(tags)",
+      "range": {
+        "startLine": 420,
+        "startChar": 21,
+        "endLine": 420,
+        "endChar": 36
+      },
+      "revId": "daea64101288ba100cab89320aef8db9d1c10673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a421bad_c893850c",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-01T22:48:44Z",
+      "side": 1,
+      "message": "add below:\n\nctags[tag] \u003d false\n\n(or: delete(ctags, tag)",
+      "range": {
+        "startLine": 422,
+        "startChar": 16,
+        "endLine": 422,
+        "endChar": 19
+      },
+      "revId": "daea64101288ba100cab89320aef8db9d1c10673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "537aaa3f_44e9aff1",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-01T22:48:44Z",
+      "side": 1,
+      "message": "remove - not needed",
+      "revId": "daea64101288ba100cab89320aef8db9d1c10673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
