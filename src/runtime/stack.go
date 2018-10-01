@@ -656,6 +656,15 @@ func adjustframe(frame *stkframe, arg unsafe.Pointer) bool {
 		adjustpointer(adjinfo, unsafe.Pointer(frame.varp))
 	}
 
+	// Adjust framepointer
+	if GOOS == "aix" {
+		// On AIX, the frame pointer must be adapted and it's 0(SP).
+		// It can be null sometimes.
+		if frame.sp != 0 {
+			adjustpointer(adjinfo, unsafe.Pointer(frame.sp))
+		}
+	}
+
 	// Adjust arguments.
 	if args.n > 0 {
 		if stackDebug >= 3 {
