@@ -168,6 +168,59 @@ func TestTinyAlloc(t *testing.T) {
 	}
 }
 
+func TestLargeObjectFragmentation(t *testing.T) {
+	const (
+		target  = 1e8
+		alloc   = 1e6 // Must be large enough to get alloc'd into LOS
+		objects = target/alloc
+	)
+	var saved [objects]interface{}
+	defer func() {
+		// Clear any allocations so it doesn't pollute the heap of other tests.
+		for i := 0; i < objects; i++ {
+			saved[i] = nil
+		}
+		GC()
+	}()
+	// Allocate |heapSize| bytes in |allocSize| chunks, but drop half their
+	// pointers on the floor.
+	n := 0 // Index into saved
+	for i := 0; i < objects; i++ {
+		a := new([alloc]byte)
+		if i % 2 == 0 {
+			saved[n] = a
+			n++
+		}
+	}
+	// Allocate many new objects of 2x allocSize.
+	for i := n; i < objects; i++ {
+		// Write into a global, to prevent this from being optimized away.
+		saved[i] = new([alloc*2]byte)
+	}
+	// Clean up the heap.
+	GC()
+	// heapBacked is an estimate of the amount of physical memory used by
+	// this test. HeapSys is an estimate of the size of the mapped virtual
+	// address space (which may or may not be backed by physical pages)
+	// whereas HeapReleased is an estimate of the amount of bytes returned
+	// to the OS. Their difference then roughly corresponds to the amount
+	// of virtual address space that is backed by physical pages.
+	var stats MemStats
+	ReadMemStats(&stats)
+	heapBacked := stats.HeapSys - stats.HeapReleased
+	// If heapBacked exceeds the amount of memory actually used for heap
+	// allocated objects by 10% (post-GC HeapAlloc should be quite close to
+	// the size of the working set), then fail.
+	//
+	// In the context of this test, that indicates a large amount of LOS
+	// fragmentation with physical pages that are otherwise unused but not
+	// returned to the OS.
+	overuse := float64(heapBacked - stats.HeapAlloc) / float64(stats.HeapAlloc)
+	if overuse > 0.1 {
+		t.Fatalf("exceeded physical memory overuse threshold of 10%%: %3.1f%%", overuse*100)
+	}
+}
+
 type acLink struct {
 	x [1 << 20]byte
 }
