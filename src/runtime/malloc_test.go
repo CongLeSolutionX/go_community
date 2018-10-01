@@ -168,6 +168,57 @@ func TestTinyAlloc(t *testing.T) {
 	}
 }
 
+var maybeSaved []byte
+
+func TestLargeObjectFragmentation(t *testing.T) {
+	const (
+		target  = 1 << 27
+		alloc   = 1 << 20 // Must be large enough to get alloc'd into LOS
+		objects = target / alloc
+	)
+	saved := make([][]byte, 0, objects + objects/2)
+	// Allocate |heapSize| bytes in |allocSize| chunks, but drop half their
+	// pointers on the floor.
+	for i := 0; i < objects; i++ {
+		// Write into a global, to prevent this from being optimized away.
+		maybeSaved = make([]byte, alloc)
+		if i%2 == 0 {
+			saved = append(saved, maybeSaved)
+		}
+	}
+
+	// Clean up the heap.
+	GC()
+	// Allocate many new objects of 2x allocSize.
+	for i := 0; i < objects/2; i++ {
+		saved = append(saved, make([]byte, alloc*2))
+	}
+	// Clean up the heap again just to put it in a known state.
+	GC()
+	// heapBacked is an estimate of the amount of physical memory used by
+	// this test. HeapSys is an estimate of the size of the mapped virtual
+	// address space (which may or may not be backed by physical pages)
+	// whereas HeapReleased is an estimate of the amount of bytes returned
+	// to the OS. Their difference then roughly corresponds to the amount
+	// of virtual address space that is backed by physical pages.
+	var stats MemStats
+	ReadMemStats(&stats)
+	heapBacked := stats.HeapSys - stats.HeapReleased
+	// If heapBacked exceeds the amount of memory actually used for heap
+	// allocated objects by 10% (post-GC HeapAlloc should be quite close to
+	// the size of the working set), then fail.
+	//
+	// In the context of this test, that indicates a large amount of LOS
+	// fragmentation with physical pages that are otherwise unused but not
+	// returned to the OS.
+	overuse := float64(heapBacked-stats.HeapAlloc) / float64(stats.HeapAlloc)
+	if overuse > 0.1 {
+		t.Fatalf("exceeded physical memory overuse threshold of 10%%: " +
+			"%3.1f%% (alloc: %d, sys: %d, rel: %d)",
+			overuse*100, stats.HeapAlloc, stats.HeapSys, stats.HeapReleased)
+	}
+}
+
 type acLink struct {
 	x [1 << 20]byte
 }
