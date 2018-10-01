@@ -1,0 +1,670 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2945f077_5c59b253",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "Need to mention in the release note that trace command stops processing traces from old runtime 1.7 or earlier. RELNOTE\u003dyes",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06734cd3_ed13f01c",
+        "filename": "src/internal/traceparser/consistent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "internal/trace/parser.go",
+      "range": {
+        "startLine": 24,
+        "startChar": 28,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57227c98_a06e22ef",
+        "filename": "src/internal/traceparser/consistent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "I think the error message formatting used in internal/trace/parser.go (postProcessTrace) is easier to understand especially if the error message is exposed to users as parse errors. Do you mind adopting the similar error message format instead of use of gRunning or allowG0 in the error message?",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 61
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f28d444c_a61dd6e1",
+        "filename": "src/internal/traceparser/consistent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "It looks like leftover from debugging.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 5
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f94126c_2da64631",
+        "filename": "src/internal/traceparser/consistent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "s/spans/regions",
+      "range": {
+        "startLine": 191,
+        "startChar": 46,
+        "endLine": 191,
+        "endChar": 52
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "473ee4e2_6cea8ed6",
+        "filename": "src/internal/traceparser/consistent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "nit: the index is sometimes suffixed with \":\" and sometimes not in the error message. Can we be consistent and name this \u0027i\u0027? Previously offset was used, but it seems you prefer the index i now.",
+      "range": {
+        "startLine": 209,
+        "startChar": 23,
+        "endLine": 209,
+        "endChar": 25
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de8516a8_89c56a2b",
+        "filename": "src/internal/traceparser/consistent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "debug leftover",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 5
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c38925c_2fb06b78",
+        "filename": "src/internal/traceparser/consistent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "Unless you plan to submit the followup optimization cl immediately, nobody will not know what to do here. TODO(pjw): ....(details) ...",
+      "range": {
+        "startLine": 222,
+        "startChar": 4,
+        "endLine": 223,
+        "endChar": 35
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13ef71fb_838a8015",
+        "filename": "src/internal/traceparser/consistent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 238,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 5
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ce8925_dcb68e7a",
+        "filename": "src/internal/traceparser/consistent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "For now, a region is bound to a goroutine, so gid\u003d0 shouldn\u0027t happen in theory.",
+      "range": {
+        "startLine": 292,
+        "startChar": 3,
+        "endLine": 292,
+        "endChar": 63
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98308969_f5fb23e1",
+        "filename": "src/internal/traceparser/filebuf/filebuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "Sure! And, a lot of comments with PJW note made the reader think this code is not reliable. Should we worry? Can we have test coverage for all the points you are worrying about and eliminate those comments?",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37c38c38_617ba95e",
+        "filename": "src/internal/traceparser/filebuf/filebuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "Sorry I don\u0027t understand this part of the sentence. What\u0027s FromReader?",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 56
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4404df6_b2c89dd4",
+        "filename": "src/internal/traceparser/filebuf/filebuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "size of what?",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 5
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12e5f25f_9f0f4db1",
+        "filename": "src/internal/traceparser/filebuf/filebuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "what is seekptr?\n\nI think some ascii diagram would help to understand the logic here.",
+      "range": {
+        "startLine": 38,
+        "startChar": 26,
+        "endLine": 38,
+        "endChar": 33
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "126fe55d_1336547e",
+        "filename": "src/internal/traceparser/filebuf/filebuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "is it guaranteed that fb.bufpos \u003c\u003d len(fb.buf) (or fb.bufpos \u003c\u003d fb.fixedlen)?",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 26
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aff0e959_1744e7a0",
+        "filename": "src/internal/traceparser/filebuf/filebuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "no line split",
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2577d17d_7939a4a1",
+        "filename": "src/internal/traceparser/filebuf/filebuf_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "I think the create() \u0026 os.RemoveAll() calls should be arranged through testing.TestMain to be reliable.",
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5f04eee_3a6b1cae",
+        "filename": "src/internal/traceparser/filebuf/rdr_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "It seems table-driven tests or subtests can be used. Parameterize the creation of the filebuf reader instance.",
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f44b10e3_a95439f4",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "It seems one of my previous comments disappeared.\nI think it looks strange to see \u0027Parsed\u0027 have a method \u0027Parse\u0027. How about naming this \"TraceParser\" or \"Parser\"? And, some of the internal fields generated from the recent Parse call (Err, Events, Preflen, Ignored, Added; those cleared by p.clean() call) could be a separate struct returned from the Parse call.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 20
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7363a6b_fe6c0d79",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "r.args can be nil",
+      "range": {
+        "startLine": 112,
+        "startChar": 8,
+        "endLine": 112,
+        "endChar": 16
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8641627_a747f654",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "What\u0027s the expected usage of this P? What fields and methods are safe to be accessed?\n\nAnd, why P and Err are exported?",
+      "range": {
+        "startLine": 131,
+        "startChar": 1,
+        "endLine": 131,
+        "endChar": 12
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d2ea5bf_29d43bef",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "return pe.Err.Error()",
+      "range": {
+        "startLine": 136,
+        "startChar": 7,
+        "endLine": 136,
+        "endChar": 33
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52404a74_be0917ab",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "What do these PJW comments for?",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 27
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6b2586e_eb533395",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "a field per line.\n\nParseError {\n  P: ans\n  Err: fmt.Errorf(\"corrupt trace file: negative time: (max TS\u003d%d, ticks per sec\u003d%d\", ans.MaxTs, ans.TicksPerSec)\n}",
+      "range": {
+        "startLine": 161,
+        "startChar": 20,
+        "endLine": 162,
+        "endChar": 30
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cad41608_d6ca5ac2",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "return p.createEvents(f)",
+      "range": {
+        "startLine": 210,
+        "startChar": 1,
+        "endLine": 214,
+        "endChar": 11
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "734d6a9c_db65dd69",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "why is this necessary here, but not in New()?",
+      "range": {
+        "startLine": 228,
+        "startChar": 1,
+        "endLine": 228,
+        "endChar": 41
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fafc0680_dc46b39f",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "is this debug code necessary?",
+      "range": {
+        "startLine": 244,
+        "startChar": 2,
+        "endLine": 246,
+        "endChar": 3
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89215f67_25d92757",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "mention that EvUserLog is treated specially outside this function.",
+      "range": {
+        "startLine": 253,
+        "startChar": 38,
+        "endLine": 254,
+        "endChar": 23
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b1a9bc7_0957fc57",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "Do nothing? Or should the caller not call this argsAt at all for EvUserLog?",
+      "range": {
+        "startLine": 318,
+        "startChar": 1,
+        "endLine": 320,
+        "endChar": 2
+      },
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de579464_0013cca5",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "where is this being used?",
+      "revId": "31123638585a6aa38bbf6f8a2783ce686fb6a97b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

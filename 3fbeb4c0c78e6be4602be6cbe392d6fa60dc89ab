@@ -208,6 +208,24 @@
     },
     {
       "key": {
+        "uuid": "ad3fe87f_95ed7f11",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-01T17:22:46Z",
+      "side": 1,
+      "message": "I don\u0027t know what the \u0027subroutines\u0027 mean here.",
+      "parentUuid": "f426c4b1_44b4b56e",
+      "revId": "3fbeb4c0c78e6be4602be6cbe392d6fa60dc89ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfa9ac39_7b567e63",
         "filename": "src/internal/traceparser/tr.go",
         "patchSetId": 1
