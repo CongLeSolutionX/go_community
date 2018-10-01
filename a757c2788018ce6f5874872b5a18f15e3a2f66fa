@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "060de462_55a19e56",
+        "filename": "src/cmd/dist/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-01T18:50:36Z",
+      "side": 1,
+      "message": "Does AIX work on anything other than ppc64?  E.g., ppc (32-bit) or ppc64le?  If it does run on such systems it would be nice to give a better error message here.  Even if `uname -m` doesn\u0027t work presumably there is some way to detect the processor.\n\nOr if AIX really only works on ppc64 then this is OK.",
+      "revId": "a757c2788018ce6f5874872b5a18f15e3a2f66fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
