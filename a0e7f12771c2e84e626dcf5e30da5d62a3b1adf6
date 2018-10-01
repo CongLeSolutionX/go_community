@@ -118,6 +118,30 @@
       "revId": "a0e7f12771c2e84e626dcf5e30da5d62a3b1adf6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d641b1a_df02776d",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-10-01T23:57:07Z",
+      "side": 1,
+      "message": "To me, wasm_exec.html is an example on how to embed Go in a web page. It is not a library that people include. For an example, I prefer simplicity.\n\nThe overhead of 5.6 KB is very tiny compared to the size of the wasm binary that the Go compiler currently produces (premature optimization?). It also doesn\u0027t affect latency, since script tags get fetched concurrently. Eventually I would simply remove the polyfill from the example when it is not necessary any more. If you have a site and you want to support older browsers, you have to test and polyfill anyways. This wouldn\u0027t be the only polyfill that you need.\n\nI\u0027m not yet convinced that this needs a change, but I\u0027m also not strongly opposed to a change.",
+      "parentUuid": "29685ef8_83c6072c",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 93
+      },
+      "revId": "a0e7f12771c2e84e626dcf5e30da5d62a3b1adf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
