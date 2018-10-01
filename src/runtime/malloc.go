@@ -284,16 +284,28 @@ const (
 	// the L2 arena map.
 	arenaBits = arenaL1Bits + arenaL2Bits
 
-	// arenaBaseOffset is the pointer value that corresponds to
+	// arenaBaseOffset and arenaBaseOffsetAIX are pointer value that correspond to
 	// index 0 in the heap arena map.
 	//
 	// On amd64, the address space is 48 bits, sign extended to 64
 	// bits. This offset lets us handle "negative" addresses (or
 	// high addresses if viewed as unsigned).
 	//
+	// On AIX, the address space is above 0xa0 << 52. This leads to
+	// addresses on 59 bits. This offset allows us to make the address
+	// space starts at 0xa0 << 52 and keep addresses on 48 bits.
+	//
+	// Both cannot be merged because it's uintptr (so it must be a positive value)
+	// and on AMD it will be added to the pointer to get its index
+	// and on AIX, it must be removed.
+	// It's better to have two constants than to add an if in arenaIndex or arenaBase
+	// functions.
+	// TODO: Find a way to merge both without impacting performances.
+	//
 	// On other platforms, the user address space is contiguous
 	// and starts at 0, so no offset is necessary.
-	arenaBaseOffset uintptr = sys.GoarchAmd64 * (1 << 47)
+	arenaBaseOffset    uintptr = sys.GoarchAmd64 * (1 << 47)
+	arenaBaseOffsetAIX uintptr = sys.GoosAix * (0xa0 << 52)
 
 	// Max number of threads to run garbage collection.
 	// 2, 3, and 4 are all plausible maximums depending
@@ -418,6 +430,8 @@ func mallocinit() {
 		// allocation at 0x40 << 32 because when using 4k pages with 3-level
 		// translation buffers, the user address space is limited to 39 bits
 		// On darwin/arm64, the address space is even smaller.
+		// On AIX, mmap adresses range starts at 0x0A00000000000000 for 64-bit
+		// processes.
 		for i := 0x7f; i >= 0; i-- {
 			var p uintptr
 			switch {
@@ -425,6 +439,13 @@ func mallocinit() {
 				p = uintptr(i)<<40 | uintptrMask&(0x0013<<28)
 			case GOARCH == "arm64":
 				p = uintptr(i)<<40 | uintptrMask&(0x0040<<32)
+			case GOOS == "aix":
+				if i == 0 {
+					// We don't use addresses directly after 0x0A00000000000000
+					// to avoid collisions with others mmaps done by non-go programs.
+					continue
+				}
+				p = uintptr(i)<<40 | uintptrMask&(0xa0<<52)
 			case raceenabled:
 				// The TSAN runtime requires the heap
 				// to be in the range [0x00c000000000,
