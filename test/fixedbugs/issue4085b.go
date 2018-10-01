@@ -21,10 +21,7 @@ func main() {
 	shouldPanic("cap out of range", func() { _ = make(T, 0, int64(n)) })
 	var t *byte
 	if unsafe.Sizeof(t) == 8 {
-		var n2 int64 = 1 << 50
-		shouldPanic("len out of range", func() { _ = make(T, int(n2)) })
-		shouldPanic("cap out of range", func() { _ = make(T, 0, int(n2)) })
-		n2 = 1<<63 - 1
+		var n2 = 1<<63 - 1
 		shouldPanic("len out of range", func() { _ = make(T, int(n2)) })
 		shouldPanic("cap out of range", func() { _ = make(T, 0, int(n2)) })
 	} else {
