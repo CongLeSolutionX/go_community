@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3db3e9a7_7fcdcbf0",
+        "filename": "src/net/http/example_handle_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-01T23:09:53Z",
+      "side": 1,
+      "message": "Let\u0027s use an example that\u0027s not an HTTP router. We have enough of those.\n\nI\u0027d register this at, say, \"/count\" and then make it count.\n\nAdd a \"mu sync.Mutex\" and \"n int\" fields to the struct, then put the method on the pointer receiver.",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 25
+      },
+      "revId": "5842ffeafbe087c533a589a563609355d8783dce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d58ffc37_47ee3779",
+        "filename": "src/net/http/example_handle_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-01T23:09:53Z",
+      "side": 1,
+      "message": "Curious: where did you get the idea that \"*\" was a valid pattern?",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "5842ffeafbe087c533a589a563609355d8783dce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
