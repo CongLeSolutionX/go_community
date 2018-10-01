@@ -16,7 +16,11 @@ func Init(arch *gc.Arch) {
 		arch.LinkArch = &ppc64.Linkppc64le
 	}
 	arch.REGSP = ppc64.REGSP
-	arch.MAXWIDTH = 1 << 50
+	if objabi.GOOS == "aix" {
+		arch.MAXWIDTH = 1 << 60
+	} else {
+		arch.MAXWIDTH = 1 << 50
+	}
 
 	arch.ZeroRange = zerorange
 	arch.ZeroAuto = zeroAuto
