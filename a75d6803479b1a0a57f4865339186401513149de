@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b76a8cd4_80d4b39d",
+        "filename": "src/net/http/export_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T22:31:25Z",
+      "side": 1,
+      "message": "If this were public or cross-package I would totally agree. I\u0027m much less concerned because a) it\u0027s all private, and b) it\u0027s the only bool, so there are no transposition problems.",
+      "parentUuid": "31d0a0a1_92e68d22",
+      "revId": "a75d6803479b1a0a57f4865339186401513149de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a0eddd0_9c29b3ba",
         "filename": "src/net/http/transport.go",
         "patchSetId": 2
