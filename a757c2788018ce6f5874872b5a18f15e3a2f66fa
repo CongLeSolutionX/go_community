@@ -88,6 +88,24 @@
       "revId": "a757c2788018ce6f5874872b5a18f15e3a2f66fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28d8bf89_99ef9108",
+        "filename": "src/cmd/dist/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-02T15:22:50Z",
+      "side": 1,
+      "message": "Yeah sorry, I mistake the sense of your \"work\". To sum up, you can build programs in 32-bits and 64-bits but AIX kernel is always 64-bits. So, you can always have Go with gohostarch \u003d ppc64 on AIX.",
+      "parentUuid": "4a052ea4_2ee97294",
+      "revId": "a757c2788018ce6f5874872b5a18f15e3a2f66fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
