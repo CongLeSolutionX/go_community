@@ -232,6 +232,7 @@ func os_beforeExit() {
 	if raceenabled {
 		racefini()
 	}
+	// println("\nNotableMallocCount=", NotableMallocCount, ", NotableMallocSize=", NotableMallocSize, ", AllocCount=", memstats.nmalloc, ", AllocSize=", memstats.total_alloc)
 }
 
 // start forcegc helper goroutine

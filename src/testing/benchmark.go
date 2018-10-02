@@ -96,11 +96,15 @@ type B struct {
 	result           BenchmarkResult
 	parallelism      int // RunParallel creates parallelism*GOMAXPROCS goroutines
 	// The initial states of memStats.Mallocs and memStats.TotalAlloc.
-	startAllocs uint64
-	startBytes  uint64
+	startAllocs        uint64
+	startBytes         uint64
+	startNotableAllocs uint64
+	startNotableBytes  uint64
 	// The net total of this test after being run.
-	netAllocs uint64
-	netBytes  uint64
+	netAllocs        uint64
+	netBytes         uint64
+	netNotableAllocs uint64
+	netNotableBytes  uint64
 }
 
 // StartTimer starts timing a test. This function is called automatically
@@ -111,6 +115,8 @@ func (b *B) StartTimer() {
 		runtime.ReadMemStats(&memStats)
 		b.startAllocs = memStats.Mallocs
 		b.startBytes = memStats.TotalAlloc
+		b.startNotableAllocs = runtime.NotableMallocCount
+		b.startNotableBytes = runtime.NotableMallocSize
 		b.start = time.Now()
 		b.timerOn = true
 	}
@@ -125,6 +131,8 @@ func (b *B) StopTimer() {
 		runtime.ReadMemStats(&memStats)
 		b.netAllocs += memStats.Mallocs - b.startAllocs
 		b.netBytes += memStats.TotalAlloc - b.startBytes
+		b.netNotableAllocs += runtime.NotableMallocCount - b.startNotableAllocs
+		b.netNotableBytes += runtime.NotableMallocSize - b.startNotableBytes
 		b.timerOn = false
 	}
 }
@@ -136,11 +144,15 @@ func (b *B) ResetTimer() {
 		runtime.ReadMemStats(&memStats)
 		b.startAllocs = memStats.Mallocs
 		b.startBytes = memStats.TotalAlloc
+		b.startNotableAllocs = runtime.NotableMallocCount
+		b.startNotableBytes = runtime.NotableMallocSize
 		b.start = time.Now()
 	}
 	b.duration = 0
 	b.netAllocs = 0
 	b.netBytes = 0
+	b.netNotableAllocs = 0
+	b.netNotableBytes = 0
 }
 
 // SetBytes records the number of bytes processed in a single operation.
@@ -328,16 +340,18 @@ func (b *B) launch() {
 			b.runN(n)
 		}
 	}
-	b.result = BenchmarkResult{b.N, b.duration, b.bytes, b.netAllocs, b.netBytes}
+	b.result = BenchmarkResult{b.N, b.duration, b.bytes, b.netAllocs, b.netBytes, b.netNotableAllocs, b.netNotableBytes}
 }
 
 // The results of a benchmark run.
 type BenchmarkResult struct {
-	N         int           // The number of iterations.
-	T         time.Duration // The total time taken.
-	Bytes     int64         // Bytes processed in one iteration.
-	MemAllocs uint64        // The total number of memory allocations.
-	MemBytes  uint64        // The total number of bytes allocated.
+	N                int           // The number of iterations.
+	T                time.Duration // The total time taken.
+	Bytes            int64         // Bytes processed in one iteration.
+	MemAllocs        uint64        // The total number of memory allocations.
+	MemBytes         uint64        // The total number of bytes allocated.
+	NotableMemAllocs uint64
+	NotableMemBytes  uint64
 }
 
 func (r BenchmarkResult) NsPerOp() int64 {
@@ -370,6 +384,22 @@ func (r BenchmarkResult) AllocedBytesPerOp() int64 {
 	return int64(r.MemBytes) / int64(r.N)
 }
 
+// NotableAllocsPerOp returns r.MemAllocs / r.N.
+func (r BenchmarkResult) NotableAllocsPerOp() int64 {
+	if r.N <= 0 {
+		return 0
+	}
+	return int64(r.NotableMemAllocs) / int64(r.N)
+}
+
+// NotableAllocedBytesPerOp returns r.MemBytes / r.N.
+func (r BenchmarkResult) NotableAllocedBytesPerOp() int64 {
+	if r.N <= 0 {
+		return 0
+	}
+	return int64(r.NotableMemBytes) / int64(r.N)
+}
+
 func (r BenchmarkResult) String() string {
 	mbs := r.mbPerSec()
 	mb := ""
@@ -392,8 +422,8 @@ func (r BenchmarkResult) String() string {
 
 // MemString returns r.AllocedBytesPerOp and r.AllocsPerOp in the same format as 'go test'.
 func (r BenchmarkResult) MemString() string {
-	return fmt.Sprintf("%8d B/op\t%8d allocs/op",
-		r.AllocedBytesPerOp(), r.AllocsPerOp())
+	return fmt.Sprintf("%8d B/op\t%8d allocs/op\t%8d noted_bytes/op\t%8d noted_allocs/op",
+		r.AllocedBytesPerOp(), r.AllocsPerOp(), r.NotableAllocedBytesPerOp(), r.NotableAllocsPerOp())
 }
 
 // benchmarkName returns full name of benchmark including procs suffix.

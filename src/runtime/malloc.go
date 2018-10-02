@@ -316,6 +316,11 @@ const (
 	minLegalPointer uintptr = 4096
 )
 
+// NotableMallocCount and NotableMallocSize track the number
+// and size of notable mallocs, where "notable" was specified
+// by the user at compile time.
+var NotableMallocCount, NotableMallocSize uint64
+
 // physPageSize is the size in bytes of the OS's physical pages.
 // Mapping and unmapping operations must be done at multiples of
 // physPageSize.
@@ -803,6 +808,12 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 	return
 }
 
+func mallocgcNotable(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
+	atomic.Xadd64(&NotableMallocCount, 1)
+	atomic.Xadd64(&NotableMallocSize, int64(size))
+	return mallocgc(size, typ, needzero)
+}
+
 // Allocate an object of size bytes.
 // Small objects are allocated from the per-P cache's free lists.
 // Large objects (> 32 kB) are allocated straight from the heap.
@@ -1066,6 +1077,10 @@ func largeAlloc(size uintptr, needzero bool, noscan bool) *mspan {
 // of this function
 func newobject(typ *_type) unsafe.Pointer {
 	return mallocgc(typ.size, typ, true)
+}
+
+func newobjectNotable(typ *_type) unsafe.Pointer {
+	return mallocgcNotable(typ.size, typ, true)
 }
 
 //go:linkname reflect_unsafe_New reflect.unsafe_New

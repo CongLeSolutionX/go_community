@@ -137,7 +137,7 @@ func buildssa(fn *Node, worker int) *ssa.Func {
 
 	fe := ssafn{
 		curfn: fn,
-		log:   printssa && ssaDumpStdout,
+		log:   printssa,
 	}
 	s.curfn = fn
 

@@ -122,6 +122,17 @@ func supportsDynlink(arch *sys.Arch) bool {
 // timing data for compiler phases
 var timings Timings
 var benchfile string
+var claimsfile string
+
+// flag control optimizations under test
+var testopt int
+
+const (
+	TESTOPT_REPORT_ALLOC    = 1 // Report every allocation produced, in a CSV form
+	TESTOPT_ICALL_NOESC     = 2 // Interface call experiment
+	TESTOPT_STARDOTEQ_NOESC = 4 // Attempt at *x.f = ... vs x = &X{f:...} experiment.
+	TESTOPT_VARSIZE_NOESC   = 8 // Variable-sized slice experiment
+)
 
 var nowritebarrierrecCheck *nowritebarrierrecChecker
 
@@ -253,12 +264,14 @@ func Main(archInit func(*Arch)) {
 	flag.StringVar(&blockprofile, "blockprofile", "", "write block profile to `file`")
 	flag.StringVar(&mutexprofile, "mutexprofile", "", "write mutex profile to `file`")
 	flag.StringVar(&benchfile, "bench", "", "append benchmark times to `file`")
+	flag.StringVar(&claimsfile, "trustme", "", "believe user claims (assertions) in `file` (csv: claim[`alloc`], file, line, column, value[int])")
+	objabi.Flagcount("z", "Optimization test flag", &testopt)
 	objabi.Flagparse(usage)
 
 	// Record flags that affect the build result. (And don't
 	// record flags that don't, since that would cause spurious
 	// changes in the binary.)
-	recordFlags("B", "N", "l", "msan", "race", "shared", "dynlink", "dwarflocationlists")
+	recordFlags("B", "N", "l", "msan", "race", "shared", "dynlink", "dwarflocationlists", "trustme", "z")
 
 	Ctxt.Flag_shared = flag_dynlink || flag_shared
 	Ctxt.Flag_dynlink = flag_dynlink
@@ -292,6 +305,8 @@ func Main(archInit func(*Arch)) {
 	}
 
 	thearch.LinkArch.Init(Ctxt)
+
+	ssa.CredulouslyAcceptUserClaims(claimsfile, Fatalf)
 
 	if outfile == "" {
 		p := flag.Arg(0)
