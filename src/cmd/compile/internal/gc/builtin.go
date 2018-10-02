@@ -10,6 +10,7 @@ var runtimeDecls = [...]struct {
 	typ  int
 }{
 	{"newobject", funcTag, 4},
+	{"newobjectNotable", funcTag, 4},
 	{"panicindex", funcTag, 5},
 	{"panicslice", funcTag, 5},
 	{"panicdivide", funcTag, 5},
@@ -114,6 +115,8 @@ var runtimeDecls = [...]struct {
 	{"block", funcTag, 5},
 	{"makeslice", funcTag, 95},
 	{"makeslice64", funcTag, 96},
+	{"makesliceNotable", funcTag, 95},
+	{"makeslice64Notable", funcTag, 96},
 	{"growslice", funcTag, 98},
 	{"memmove", funcTag, 99},
 	{"memclrNoHeapPointers", funcTag, 100},

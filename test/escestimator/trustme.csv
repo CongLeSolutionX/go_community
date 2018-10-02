@@ -1,0 +1,3 @@
+# This is fragile to being moved, note embedded directory, file names, line and column numbers.
+alloc,"test/escestimator/ev1trustme.go",15,11,1,"makeslice"
+alloc,"test/escestimator/ev1trustme.go",16,11,1,"makeslice"

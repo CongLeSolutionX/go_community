@@ -63,6 +63,37 @@ func makeslice64(et *_type, len64, cap64 int64) unsafe.Pointer {
 	return makeslice(et, len, cap)
 }
 
+func makesliceNotable(et *_type, len, cap int) unsafe.Pointer {
+	mem, overflow := math.MulUintptr(et.size, uintptr(cap))
+	if overflow || mem > maxAlloc || len < 0 || len > cap {
+		// NOTE: Produce a 'len out of range' error instead of a
+		// 'cap out of range' error when someone does make([]T, bignumber).
+		// 'cap out of range' is true too, but since the cap is only being
+		// supplied implicitly, saying len is clearer.
+		// See golang.org/issue/4085.
+		mem, overflow := math.MulUintptr(et.size, uintptr(len))
+		if overflow || mem > maxAlloc || len < 0 {
+			panicmakeslicelen()
+		}
+		panicmakeslicecap()
+	}
+	return mallocgcNotable(et.size*uintptr(cap), et, true)
+}
+
+func makeslice64Notable(et *_type, len64, cap64 int64) unsafe.Pointer {
+	len := int(len64)
+	if int64(len) != len64 {
+		panicmakeslicelen()
+	}
+
+	cap := int(cap64)
+	if int64(cap) != cap64 {
+		panicmakeslicecap()
+	}
+
+	return makesliceNotable(et, len, cap)
+}
+
 // growslice handles slice growth during append.
 // It is passed the slice element type, the old slice, and the desired new minimum capacity,
 // and it returns a new slice with at least that capacity, with the old data

@@ -216,7 +216,7 @@ const (
 // operations are sometimes implicit in the source code; in this case,
 // the value of x.left was copied into a field of an newly allocated T).
 //
-// Each node's level (value and suffixValue) is the maximum for
+// Each node's level (value and suffixValue) is the minimum for
 // all flow paths from (any) sink to that node.
 
 // There's one of these for each Node, and the integer values
@@ -316,7 +316,7 @@ type EscStep struct {
 	where    *Node    // sometimes the endpoints don't match source locations; set 'where' to make that right
 	parent   *EscStep // used in flood to record path
 	why      string   // explanation for this step in the escape-to-heap chain
-	busy     bool     // used in prevent to snip cycles.
+	busy     bool     // used to avoid chasing cycles when printing.
 }
 
 type NodeEscState struct {
@@ -1229,7 +1229,9 @@ func (e *EscState) escassign(dst, src *Node, step *EscStep) {
 
 	case ODOTPTR:
 		dstwhy = "star-dot-equals"
-		dst = &e.theSink // lose track of dereference
+		if testopt&TESTOPT_STARDOTEQ_NOESC == 0 { // Note if test NOT enabled, normal behavior.
+			dst = &e.theSink // lose track of dereference
+		}
 
 		// lose track of key and value
 	case OINDEXMAP:
@@ -1626,10 +1628,12 @@ func (e *EscState) esccall(call *Node, parent *Node) {
 		e.initEscRetval(call, fntype)
 		// If there is a receiver, it also leaks to heap.
 		if call.Op != OCALLFUNC {
-			rf := fntype.Recv()
-			r := call.Left.Left
-			if types.Haspointers(rf.Type) {
-				e.escassignSinkWhy(call, r, "receiver in indirect call")
+			if testopt&TESTOPT_ICALL_NOESC == 0 {
+				rf := fntype.Recv()
+				r := call.Left.Left
+				if types.Haspointers(rf.Type) {
+					e.escassignSinkWhy(call, r, "receiver in indirect call")
+				}
 			}
 		} else { // indirect and OCALLFUNC = could be captured variables, too. (#14409)
 			rets := e.nodeEscState(call).Retval.Slice()
@@ -1950,11 +1954,12 @@ func (e *EscState) escwalkBody(level Level, dst *Node, src *Node, step *EscStep,
 
 	e.pdepth++
 
-	// Input parameter flowing to output parameter?
-	var leaks bool
+	// Declared here because of "goto recurse" below
+	var leaks bool     // Input parameter flowing to output parameter? // TODO misleading comment
 	var osrcesc uint16 // used to prevent duplicate error messages
 
 	dstE := e.nodeEscState(dst)
+
 	if funcOutputAndInput(dst, src) && src.Esc&EscMask < EscHeap && dst.Esc != EscHeap {
 		// This case handles:
 		// 1. return in
@@ -1988,10 +1993,11 @@ func (e *EscState) escwalkBody(level Level, dst *Node, src *Node, step *EscStep,
 		}
 	}
 
+	// Input parameter flowing to output parameter? // TODO this comment is misleading
 	leaks = level.int() <= 0 && level.guaranteedDereference() <= 0 && dstE.Loopdepth < modSrcLoopdepth
 	leaks = leaks || level.int() <= 0 && dst.Esc&EscMask == EscHeap
 
-	osrcesc = src.Esc
+	osrcesc = src.Esc // used to detect change and prevent duplicate messages
 	switch src.Op {
 	case ONAME:
 		if src.Class() == PPARAM && (leaks || dstE.Loopdepth < 0) && src.Esc&EscMask < EscHeap {

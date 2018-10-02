@@ -5,15 +5,20 @@
 package ssa
 
 import (
+	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
+	"encoding/csv"
 	"fmt"
 	"hash/crc32"
+	"io"
 	"log"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"regexp"
 	"runtime"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -135,6 +140,129 @@ func Compile(f *Func) {
 
 	// Squash error printing defer
 	phaseName = ""
+}
+
+type Claim uint8
+
+const (
+	ClaimNone     Claim = iota
+	ClaimTagAlloc       // 1 = allocate specially
+	ClaimCount          // size of array of claims
+)
+
+var claimNames [ClaimCount]string = [ClaimCount]string{"none", "alloc"}
+
+// userClaims -> claim -> filenameLineColumn -> string
+type fileLineColumn struct {
+	file         string
+	line, column uint32
+}
+
+type valueNote struct {
+	value int
+	note  string
+}
+
+// use a slice at the top level to make the usual (no claims) case AFAP.
+// access must be guarded by "if len(userClaims) > claim ..."
+var userClaims []map[fileLineColumn]valueNote
+
+// CredulouslyAcceptUserClaims reads a file of CSV "user claims" and
+// stores the information in a hash table for use in optimization/instrumentation
+// decisions.
+func CredulouslyAcceptUserClaims(claimsfile string, fatalf func(fmt_ string, args ...interface{})) {
+	if claimsfile == "" {
+		return
+	}
+	userClaims = make([]map[fileLineColumn]valueNote, ClaimCount)
+	f, err := os.Open(claimsfile)
+	if err != nil {
+		fatalf("Unable to open user claims file '%s'", claimsfile)
+	}
+	r := csv.NewReader(f)
+	r.Comment = '#'
+	r.TrimLeadingSpace = true
+	r.FieldsPerRecord = -1 // Expect 5 or 6: claim, file, line, column, value [, note]
+	i := 0
+	for {
+		c, err := r.Read()
+		if c == nil && err == io.EOF {
+			break
+		}
+		i++
+		if err != nil {
+			fatalf("%s:%d, CSV file read failed with error %v", claimsfile, i, err)
+		}
+		if len(c) < 5 || len(c) > 6 {
+			fatalf(`%s:%d, CSV file had line with %d entries, expected 5 or 6 ("claim:", "file", line, column, value [, "note"])`)
+		}
+		claim := ClaimNone
+		for i, s := range claimNames {
+			if c[0] == s {
+				claim = Claim(i)
+				break
+			}
+		}
+
+		file := c[1] // filepath.Base(c[1]) // TODO need to canonicalize to full name, why is error fname truncated.
+		// dir := filepath.Dir(c[1]) // TODO need to canonicalize to full name, why is error fname truncated.
+		line, errl := strconv.ParseInt(c[2], 10, 32)
+		column, errc := strconv.ParseInt(c[3], 10, 32)
+		value, errv := strconv.ParseInt(c[4], 10, 32)
+		note := ""
+		if len(c) > 5 {
+			note = c[5]
+		}
+
+		if errl != nil || errc != nil || errv != nil {
+			fatalf("%s:%d, CSV file had problem in line, column, or value (errors are %v, %v, %v)", claimsfile, i, errl, errc, errv)
+		}
+
+		flcmap := userClaims[claim]
+		if flcmap == nil {
+			flcmap = make(map[fileLineColumn]valueNote)
+			userClaims[claim] = flcmap
+		}
+		flcmap[fileLineColumn{file, uint32(line), uint32(column)}] = valueNote{int(value), note}
+	}
+}
+
+func (v *Value) UserClaim(claim Claim, p src.XPos) int {
+	if uint(claim) >= uint(len(userClaims)) {
+		return 0
+	}
+	return UserClaim(claim, p, v.Block.Func.Config.ctxt)
+}
+
+// NormalizeFileName returns filename with any leading GOROOT stripped off,
+// to ensure that path names from different runtimes match (this is for
+// purposes of enabling proposed-optimization measurement experiments,
+// where two copies of the runtime might be compiled differently).
+func NormalizeFileName(file string) string {
+	if strings.HasPrefix(file, objabi.GOROOT) {
+		file = file[len(objabi.GOROOT):]
+		if len(file) > 0 && file[0] == filepath.Separator {
+			file = file[1:]
+		}
+	}
+	// TODO Would be nice to normalize out GOPATH as well, but not all build systems have that.
+	// GOPATH, however, has not caused experiment problems (yet).
+	return file
+}
+
+func UserClaim(claim Claim, p src.XPos, ctxt *obj.Link) int {
+	if uint(claim) >= uint(len(userClaims)) {
+		return 0
+	}
+	claimMap := userClaims[claim]
+	file, line, column, _ := ctxt.OutermostPos(p).FormatFileLineCol() // match linestr in gc/subr.go
+	file = NormalizeFileName(file)
+	flc := fileLineColumn{file, uint32(line), uint32(column)}
+	vn := claimMap[flc]
+	if vn.value != 0 && vn.note != "" && false {
+		fmt.Printf("User claim: %s,%s,%d,%d,%d,\"%s\"\n", claimNames[claim], file, line, column, vn.value, vn.note)
+	}
+	return vn.value
 }
 
 // TODO: should be a config field

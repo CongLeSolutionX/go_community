@@ -133,9 +133,11 @@ func (p Pos) Format(showCol, showOrig bool) string {
 		return "<unknown line number>"
 	}
 
-	if b := p.base; b == b.Pos().base {
+	f, l, c, more := p.FormatFileLineCol()
+	s := format(f, l, c, showCol)
+	if !more || !showOrig {
 		// base is file base (incl. nil)
-		return format(p.Filename(), p.Line(), p.Col(), showCol)
+		return s
 	}
 
 	// base is relative
@@ -146,11 +148,19 @@ func (p Pos) Format(showCol, showOrig bool) string {
 	// that's provided via a line directive).
 	// TODO(gri) This may not be true if we have an inlining base.
 	// We may want to differentiate at some point.
-	s := format(p.RelFilename(), p.RelLine(), p.RelCol(), showCol)
-	if showOrig {
-		s += "[" + format(p.Filename(), p.Line(), p.Col(), showCol) + "]"
-	}
+	s += "[" + format(p.Filename(), p.Line(), p.Col(), showCol) + "]"
 	return s
+}
+
+// FormatFileLineCol returns the line, file, and column that would
+// be reported by Format for the same pos, plus an indication whether
+// there is additional original-location information that would be
+// printed.
+func (p Pos) FormatFileLineCol() (string, uint, uint, bool) {
+	if b := p.base; b == b.Pos().base {
+		return p.Filename(), p.Line(), p.Col(), false
+	}
+	return p.RelFilename(), p.RelLine(), p.RelCol(), true
 }
 
 // format formats a (filename, line, col) tuple as "filename:line" (showCol

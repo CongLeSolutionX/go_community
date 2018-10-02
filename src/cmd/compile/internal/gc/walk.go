@@ -5,8 +5,10 @@
 package gc
 
 import (
+	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
 	"cmd/internal/objabi"
+	"cmd/internal/src"
 	"cmd/internal/sys"
 	"encoding/binary"
 	"fmt"
@@ -197,7 +199,7 @@ func walkstmt(n *Node) *Node {
 				yyerror("%v escapes to heap, not allowed in runtime.", v)
 			}
 			if prealloc[v] == nil {
-				prealloc[v] = callnew(v.Type)
+				prealloc[v] = callnew(v.Type, n.Pos)
 			}
 			nn := nod(OAS, v.Name.Param.Heapaddr, prealloc[v])
 			nn.SetColas(true)
@@ -342,6 +344,23 @@ func walkstmt(n *Node) *Node {
 }
 
 func isSmallMakeSlice(n *Node) bool {
+	if n.Op != OMAKESLICE {
+		return false
+	}
+	if testopt&TESTOPT_VARSIZE_NOESC != 0 { // Note if test NOT enabled, normal behavior.
+		return true // models allocation on some variable-sized alternate stack.
+	}
+	l := n.Left
+	r := n.Right
+	if r == nil {
+		r = l
+	}
+	t := n.Type
+
+	return smallintconst(l) && smallintconst(r) && (t.Elem().Width == 0 || r.Int64() < maxImplicitStackVarSize/t.Elem().Width)
+}
+
+func isSmallMakeSliceOrig(n *Node) bool {
 	if n.Op != OMAKESLICE {
 		return false
 	}
@@ -1159,7 +1178,7 @@ opswitch:
 			r = typecheck(r, ctxExpr)
 			n = r
 		} else {
-			n = callnew(n.Type.Elem())
+			n = callnew(n.Type.Elem(), n.Pos)
 		}
 
 	case OADDSTR:
@@ -1301,7 +1320,7 @@ opswitch:
 			l = r
 		}
 		t := n.Type
-		if n.Esc == EscNone {
+		if n.Esc == EscNone && isSmallMakeSliceOrig(n) { // this code doesn't handle variable-sized slices, even for (non-)reporting purposes.
 			if !isSmallMakeSlice(n) {
 				Fatalf("non-small OMAKESLICE with EscNone: %v", n)
 			}
@@ -1347,6 +1366,14 @@ opswitch:
 
 			m := nod(OSLICEHEADER, nil, nil)
 			m.Type = t
+
+			if ssa.UserClaim(ssa.ClaimTagAlloc, n.Pos, Ctxt) != 0 {
+				fnname += "Notable"
+			}
+
+			if n.Esc != EscNone { // Suppress report if EscNone, it's "not a real allocation"
+				maybeReportAllocation(n.Pos, fnname)
+			}
 
 			fn := syslook(fnname)
 			m.Left = mkcall1(fn, types.Types[TUNSAFEPTR], init, typename(t.Elem()), conv(len, argtype), conv(cap, argtype))
@@ -1417,7 +1444,7 @@ opswitch:
 			if n.Esc == EscNone && len(sc) <= maxImplicitStackVarSize {
 				a = nod(OADDR, temp(t), nil)
 			} else {
-				a = callnew(t)
+				a = callnew(t, n.Pos)
 			}
 			p := temp(t.PtrTo()) // *[n]byte
 			init.Append(typecheck(nod(OAS, p, a), ctxStmt))
@@ -1946,16 +1973,31 @@ func walkprint(nn *Node, init *Nodes) *Node {
 	return r
 }
 
-func callnew(t *types.Type) *Node {
+func callnew(t *types.Type, pos src.XPos) *Node {
 	if t.NotInHeap() {
 		yyerror("%v is go:notinheap; heap allocation disallowed", t)
 	}
 	dowidth(t)
-	fn := syslook("newobject")
+	fnname := "newobject"
+	if ssa.UserClaim(ssa.ClaimTagAlloc, pos, Ctxt) != 0 {
+		fnname += "Notable"
+	}
+	fn := syslook(fnname)
+
+	maybeReportAllocation(pos, fnname)
+
 	fn = substArgTypes(fn, t)
 	v := mkcall1(fn, types.NewPtr(t), nil, typename(t))
 	v.SetNonNil(true)
 	return v
+}
+
+func maybeReportAllocation(pos src.XPos, fnname string) {
+	if testopt&TESTOPT_REPORT_ALLOC != 0 {
+		file, line, column, _ := Ctxt.OutermostPos(pos).FormatFileLineCol() // match linestr in gc/subr.go
+		file = ssa.NormalizeFileName(file)
+		fmt.Printf("%s,\"%s\",%d,%d,%d,\"%s\"\n", "alloc", file, line, column, 1, fnname)
+	}
 }
 
 // isReflectHeaderDataField reports whether l is an expression p.Data
