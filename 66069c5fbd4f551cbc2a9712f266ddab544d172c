@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87d3f5ea_99c9afac",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1954,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T18:32:43Z",
+      "side": 1,
+      "message": "Why don\u0027t we just make this closeBody method keep track of whether it\u0027s been closed?\n\nAnd then we can drop all this other complexity?",
+      "range": {
+        "startLine": 1954,
+        "startChar": 5,
+        "endLine": 1954,
+        "endChar": 31
+      },
+      "revId": "66069c5fbd4f551cbc2a9712f266ddab544d172c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
