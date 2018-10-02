@@ -70,6 +70,24 @@
       "revId": "a757c2788018ce6f5874872b5a18f15e3a2f66fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a052ea4_2ee97294",
+        "filename": "src/cmd/dist/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-02T15:01:52Z",
+      "side": 1,
+      "message": "So when you say that AIX only works on ppc and ppc64be, you mean that it only works on pcc64be?  You can build programs in 32-bit mode but the OS requires a 64-bit processor?",
+      "parentUuid": "c395dea8_2b69efb7",
+      "revId": "a757c2788018ce6f5874872b5a18f15e3a2f66fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
