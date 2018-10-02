@@ -52,6 +52,24 @@
       "revId": "a757c2788018ce6f5874872b5a18f15e3a2f66fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c395dea8_2b69efb7",
+        "filename": "src/cmd/dist/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-02T14:08:24Z",
+      "side": 1,
+      "message": "I\u0027m not sure anyone can actually try to create Go on 32-bit ppc. All actual PowerPC processors are 64 bits, even if they support 32-bits. So, if there is AIX 7.2 on a PowerPC, it will always be able to create 64-bits software. \nI might have an equivalent \"uname -m\" but it will always return 64 bits anyway. So I don\u0027t think it is really useful.",
+      "parentUuid": "43349292_5e5d9e96",
+      "revId": "a757c2788018ce6f5874872b5a18f15e3a2f66fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
