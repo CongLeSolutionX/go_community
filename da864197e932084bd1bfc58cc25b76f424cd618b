@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ec7de68_a9197199",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T15:51:34Z",
+      "side": 1,
+      "message": "drop the \"http.\" here",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "da864197e932084bd1bfc58cc25b76f424cd618b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "998f7afe_eb079147",
+        "filename": "src/net/http/example_handle_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T15:51:34Z",
+      "side": 1,
+      "message": "move this field before the thing it guards.\n\nsince this is a example, let\u0027s add what would otherwise be redundant:\n\n   mu sync.Mutex // guards n",
+      "range": {
+        "startLine": 16,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "da864197e932084bd1bfc58cc25b76f424cd618b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "844805b7_3b491780",
+        "filename": "src/net/http/example_handle_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T15:51:34Z",
+      "side": 1,
+      "message": "h or c",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 7
+      },
+      "revId": "da864197e932084bd1bfc58cc25b76f424cd618b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9354a4e0_d92951e9",
+        "filename": "src/net/http/example_handle_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T15:51:34Z",
+      "side": 1,
+      "message": "this is a data race. You\u0027re accessing e.n without the mutex held.\n\nChange line 22 to:\n\n    defer e.mu.Unlock()\n\nand move it up a line, right after the Lock",
+      "range": {
+        "startLine": 23,
+        "startChar": 33,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "da864197e932084bd1bfc58cc25b76f424cd618b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "021b8b78_a88f4907",
+        "filename": "src/net/http/example_handle_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T15:51:34Z",
+      "side": 1,
+      "message": "No need to zero-initialize these.\n\nAlso, if the methods are on the pointer receiver, never have a value type alive anywhere.\n\nI\u0027d rewrite this to:\n\n   http.Handle(\"/count\", new(countHandler))",
+      "range": {
+        "startLine": 27,
+        "startChar": 19,
+        "endLine": 27,
+        "endChar": 44
+      },
+      "revId": "da864197e932084bd1bfc58cc25b76f424cd618b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
