@@ -228,15 +228,37 @@ func (root *mTreap) removeSpan(span *mspan) {
 	root.removeNode(t)
 }
 
-// scavengetreap visits each node in the treap and scavenges the
-// treapNode's span.
-func scavengetreap(treap *treapNode, now, limit uint64) uintptr {
+// scavenge visits each node in the treap and scavenges the
+// treapNode's span. It then removes the scavenged span from
+// itself and adds it into scav before continuing.
+func (root *mTreap) scavenge(treap *treapNode, scav *mTreap, now, limit uint64) uintptr {
 	if treap == nil {
 		return 0
 	}
-	return scavengeTreapNode(treap, now, limit) +
-		scavengetreap(treap.left, now, limit) +
-		scavengetreap(treap.right, now, limit)
+	released := scavengeTreapNode(treap, now, limit)
+	// If we scavenged the node's span, then we need to remove the
+	// node and add it to scav.
+	if released != 0 {
+		p := treap.parent
+		left := p != nil && p.left == treap
+		s := treap.spanKey
+		root.removeNode(treap)
+		scav.insert(s)
+		// To continue iterating over the treap, we note that node removal
+		// only results in rotation of the subtreap. Thus, we start from
+		// the parent, and go down its new subtree on the same side. Note
+		// that if treap was the root, then we simply continue from the
+		// new root.
+		if p == nil {
+			return released + root.scavenge(root.treap, scav, now, limit)
+		} else if left {
+			return released + root.scavenge(p.left, scav, now, limit)
+		} else {
+			return released + root.scavenge(p.right, scav, now, limit)
+		}
+	}
+	return root.scavenge(treap.left, scav, now, limit) +
+		root.scavenge(treap.right, scav, now, limit)
 }
 
 // rotateLeft rotates the tree rooted at node x.

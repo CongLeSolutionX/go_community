@@ -31,6 +31,7 @@ const minPhysPageSize = 4096
 type mheap struct {
 	lock      mutex
 	free      mTreap    // free treap
+	scav      mTreap    // free and scavenged treap
 	busy      mSpanList // busy lists of large spans length >= _MaxMHeapList
 	sweepgen  uint32    // sweep generation, see comment in mspan
 	sweepdone uint32    // all spans are swept
@@ -890,7 +891,10 @@ func (h *mheap) allocSpanLocked(npage uintptr, stat *uint64) *mspan {
 // Returns nil if no such span currently exists.
 func (h *mheap) allocLarge(npage uintptr) *mspan {
 	// Search treap for smallest span with >= npage pages.
-	return h.free.remove(npage)
+	if s := h.free.remove(npage); s != nil {
+		return s
+	}
+	return h.scav.remove(npage)
 }
 
 // Try to add at least npage pages of memory to the heap,
@@ -998,20 +1002,32 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 	if unusedsince == 0 {
 		s.unusedsince = nanotime()
 	}
-	s.npreleased = 0
 
 	// Coalesce with earlier, later spans.
 	if before := spanOf(s.base() - 1); before != nil && before.state == mSpanFree {
 		// Now adjust s.
 		s.startAddr = before.startAddr
 		s.npages += before.npages
-		s.npreleased = before.npreleased // absorb released pages
 		s.needzero |= before.needzero
 		h.setSpan(before.base(), s)
 		// The size is potentially changing so the treap needs to delete adjacent nodes and
 		// insert back as a combined node.
 		// We have a t, it is large so it has to be in the treap so we can remove it.
-		h.free.removeSpan(before)
+		if before.npreleased == 0 {
+			h.free.removeSpan(before)
+			// Scavenge if s is scavenged.
+			if s.npreleased != 0 {
+				before.scavenge()
+			}
+		} else {
+			h.scav.removeSpan(before)
+			// Scavenge s if we're trying to coalesce with a scavenged
+			// neighbor.
+			if s.npreleased == 0 {
+				s.scavenge()
+			}
+		}
+		s.npreleased += before.npreleased // absorb released pages
 		before.state = mSpanDead
 		h.spanalloc.free(unsafe.Pointer(before))
 	}
@@ -1019,16 +1035,30 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 	// Now check to see if next (greater addresses) span is free and can be coalesced.
 	if after := spanOf(s.base() + s.npages*pageSize); after != nil && after.state == mSpanFree {
 		s.npages += after.npages
-		s.npreleased += after.npreleased
 		s.needzero |= after.needzero
 		h.setSpan(s.base()+s.npages*pageSize-1, s)
-		h.free.removeSpan(after)
+		if after.npreleased == 0 {
+			h.free.removeSpan(after)
+			if s.npreleased != 0 {
+				after.scavenge()
+			}
+		} else {
+			h.scav.removeSpan(after)
+			if s.npreleased == 0 {
+				s.scavenge()
+			}
+		}
+		s.npreleased += after.npreleased
 		after.state = mSpanDead
 		h.spanalloc.free(unsafe.Pointer(after))
 	}
 
 	// Insert s into appropriate list or treap.
-	h.free.insert(s)
+	if s.npreleased != 0 {
+		h.scav.insert(s)
+	} else {
+		h.free.insert(s)
+	}
 }
 
 func scavengeTreapNode(t *treapNode, now, limit uint64) uintptr {
@@ -1048,13 +1078,13 @@ func (h *mheap) scavenge(k int32, now, limit uint64) {
 	gp := getg()
 	gp.m.mallocing++
 	lock(&h.lock)
-	sumreleased := scavengetreap(h.free.treap, now, limit)
+	released := h.free.scavenge(h.free.treap, &h.scav, now, limit)
 	unlock(&h.lock)
 	gp.m.mallocing--
 
 	if debug.gctrace > 0 {
-		if sumreleased > 0 {
-			print("scvg", k, ": ", sumreleased>>20, " MB released\n")
+		if released > 0 {
+			print("scvg", k, ": ", released>>20, " MB released\n")
 		}
 		print("scvg", k, ": inuse: ", memstats.heap_inuse>>20, ", idle: ", memstats.heap_idle>>20, ", sys: ", memstats.heap_sys>>20, ", released: ", memstats.heap_released>>20, ", consumed: ", (memstats.heap_sys-memstats.heap_released)>>20, " (MB)\n")
 	}
