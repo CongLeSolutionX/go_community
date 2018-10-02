@@ -154,9 +154,17 @@ func (root *mTreap) insert(span *mspan) {
 	}
 }
 
-func (root *mTreap) removeNode(t *treapNode) {
+// removeNode removes a node from the treap and returns its successor
+// such that one may continue iteration from the successor. If t is
+// a leaf, note that the successor will be nil.
+func (root *mTreap) removeNode(t *treapNode) *treapNode {
 	if t.spanKey.npages != t.npagesKey {
 		throw("span and treap node npages do not match")
+	}
+	origp := t.parent
+	successorLeft := false
+	if origp != nil && origp.left == t {
+		successorLeft = true
 	}
 
 	// Rotate t down to be leaf of tree for removal, respecting priorities.
@@ -179,6 +187,14 @@ func (root *mTreap) removeNode(t *treapNode) {
 	}
 	// Return the found treapNode's span after freeing the treapNode.
 	mheap_.treapalloc.free(unsafe.Pointer(t))
+
+	if origp == nil {
+		return root.treap
+	} else if successorLeft {
+		return origp.left
+	} else {
+		return origp.right
+	}
 }
 
 // remove searches for, finds, removes from the treap, and returns the smallest
@@ -228,15 +244,33 @@ func (root *mTreap) removeSpan(span *mspan) {
 	root.removeNode(t)
 }
 
-// scavengetreap visits each node in the treap and scavenges the
-// treapNode's span.
-func scavengetreap(treap *treapNode, now, limit uint64) uintptr {
-	if treap == nil {
+// scavenge visits each node in the unscav treap and scavenges the
+// treapNode's span. It then removes the scavenged span from
+// itself and adds it into scav before continuing.
+func scavenge(unscav *mTreap, scav *mTreap, now, limit uint64) uintptr {
+	return scavenge_(unscav, unscav.treap, scav, now, limit)
+}
+
+// scavenge_ is a recursive helper for scavenge. t must always
+// be either a valid node in unscav or nil.
+func scavenge_(unscav *mTreap, t *treapNode, scav *mTreap, now, limit uint64) uintptr {
+	if t == nil {
 		return 0
 	}
-	return scavengeTreapNode(treap, now, limit) +
-		scavengetreap(treap.left, now, limit) +
-		scavengetreap(treap.right, now, limit)
+	released := uintptr(0)
+	s := t.spanKey
+	if (now-uint64(s.unusedsince)) > limit && s.npreleased != s.npages {
+		released = s.scavenge()
+	}
+	if released == 0 {
+		return scavenge_(unscav, t.left, scav, now, limit) +
+			scavenge_(unscav, t.right, scav, now, limit)
+	}
+	// If we scavenged the node's span, then we need to remove the
+	// node and add it to scav.
+	successor := unscav.removeNode(t)
+	scav.insert(s)
+	return released + scavenge_(unscav, successor, scav, now, limit)
 }
 
 // rotateLeft rotates the tree rooted at node x.
