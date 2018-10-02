@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47004551_31ecfaff",
+        "filename": "src/database/sql/example_cli_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T17:48:55Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of funcs with a bunch of contexts in them.\n\nJust name this \"ctx\" and pull out ping and query parts at bottom into their own funcs that take a context (named ctx) and shadow their local ctx variables with their own new ctx variables with timeouts?\n\nThen the defers will fire earlier too.",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 11
+      },
+      "revId": "90baa26d04e17d9bd72930c56540b0c30479886a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
