@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cf17e3f_7f187191",
+        "filename": "src/syscall/fs_js.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T17:45:23Z",
+      "side": 1,
+      "message": "This assumes the jsErr panic value is an js.Error.\n\nWhat about other panic values?\n\nCheck that, then pull this out into a helper function to be shared by the Chdir code below? Might not be worth it if there will only be 2 callers. Up to you.",
+      "range": {
+        "startLine": 300,
+        "startChar": 1,
+        "endLine": 302,
+        "endChar": 3
+      },
+      "revId": "eca2071ed00a8534b485880fe8b3bf91fb4d8992",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43063964_af1fa9a9",
+        "filename": "src/syscall/fs_js.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T17:45:23Z",
+      "side": 1,
+      "message": "this could use a little comment.",
+      "revId": "eca2071ed00a8534b485880fe8b3bf91fb4d8992",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
