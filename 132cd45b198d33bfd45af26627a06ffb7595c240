@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b1674d7a_6e08b2eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T16:26:47Z",
+      "side": 1,
+      "message": "remove the \"http.\" part.",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "132cd45b198d33bfd45af26627a06ffb7595c240",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5b433185_f5b91dd8",
         "filename": "src/net/http/example_handle_test.go",
         "patchSetId": 6
