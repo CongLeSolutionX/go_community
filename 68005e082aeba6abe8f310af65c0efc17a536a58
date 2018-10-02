@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d301704_09dc7d7f",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2018-10-02T15:05:45Z",
+      "side": 1,
+      "message": "I probably want a better name for this",
+      "range": {
+        "startLine": 171,
+        "startChar": 9,
+        "endLine": 171,
+        "endChar": 33
+      },
+      "revId": "68005e082aeba6abe8f310af65c0efc17a536a58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
