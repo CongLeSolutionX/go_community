@@ -32,6 +32,7 @@ type mheap struct {
 	lock      mutex
 	free      [_MaxMHeapList]mSpanList // free lists of given length up to _MaxMHeapList
 	freelarge mTreap                   // free treap of length >= _MaxMHeapList
+	scavlarge mTreap                   // free treap of scavenged length >= _MaxMHeapList
 	busy      [_MaxMHeapList]mSpanList // busy lists of large spans of given length
 	busylarge mSpanList                // busy lists of large spans length >= _MaxMHeapList
 	sweepgen  uint32                   // sweep generation, see comment in mspan
@@ -937,7 +938,10 @@ func (h *mheap) isLargeSpan(npages uintptr) bool {
 // Returns nil if no such span currently exists.
 func (h *mheap) allocLarge(npage uintptr) *mspan {
 	// Search treap for smallest span with >= npage pages.
-	return h.freelarge.remove(npage)
+	if s := h.freelarge.remove(npage); s != nil {
+		return s
+	}
+	return h.scavlarge.remove(npage)
 }
 
 // Try to add at least npage pages of memory to the heap,
@@ -1045,24 +1049,39 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 	if unusedsince == 0 {
 		s.unusedsince = nanotime()
 	}
-	s.npreleased = 0
 
 	// Coalesce with earlier, later spans.
 	if before := spanOf(s.base() - 1); before != nil && before.state == mSpanFree {
 		// Now adjust s.
 		s.startAddr = before.startAddr
 		s.npages += before.npages
-		s.npreleased = before.npreleased // absorb released pages
 		s.needzero |= before.needzero
 		h.setSpan(before.base(), s)
 		// The size is potentially changing so the treap needs to delete adjacent nodes and
 		// insert back as a combined node.
 		if h.isLargeSpan(before.npages) {
 			// We have a t, it is large so it has to be in the treap so we can remove it.
-			h.freelarge.removeSpan(before)
+			if before.npreleased == 0 {
+				h.freelarge.removeSpan(before)
+				// Scavenge if s is scavenged.
+				if s.npreleased != 0 {
+					before.scavenge()
+				}
+			} else {
+				h.scavlarge.removeSpan(before)
+				// Scavenge s if we're trying to coalesce with a scavenged
+				// neighbor.
+				//
+				// TODO(mknyszek): Measure to see if we're over-scavenging,
+				// since scavenging is potentially expensive.
+				if s.npreleased == 0 {
+					s.scavenge()
+				}
+			}
 		} else {
 			h.freeList(before.npages).remove(before)
 		}
+		s.npreleased += before.npreleased // absorb released pages
 		before.state = mSpanDead
 		h.spanalloc.free(unsafe.Pointer(before))
 	}
@@ -1070,21 +1089,35 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 	// Now check to see if next (greater addresses) span is free and can be coalesced.
 	if after := spanOf(s.base() + s.npages*pageSize); after != nil && after.state == mSpanFree {
 		s.npages += after.npages
-		s.npreleased += after.npreleased
 		s.needzero |= after.needzero
 		h.setSpan(s.base()+s.npages*pageSize-1, s)
 		if h.isLargeSpan(after.npages) {
-			h.freelarge.removeSpan(after)
+			if after.npreleased == 0 {
+				h.freelarge.removeSpan(after)
+				if s.npreleased != 0 {
+					after.scavenge()
+				}
+			} else {
+				h.scavlarge.removeSpan(after)
+				if s.npreleased == 0 {
+					s.scavenge()
+				}
+			}
 		} else {
 			h.freeList(after.npages).remove(after)
 		}
+		s.npreleased += after.npreleased
 		after.state = mSpanDead
 		h.spanalloc.free(unsafe.Pointer(after))
 	}
 
 	// Insert s into appropriate list or treap.
 	if h.isLargeSpan(s.npages) {
-		h.freelarge.insert(s)
+		if s.npreleased != 0 {
+			h.scavlarge.insert(s)
+		} else {
+			h.freelarge.insert(s)
+		}
 	} else {
 		h.freeList(s.npages).insert(s)
 	}
@@ -1115,7 +1148,6 @@ func scavengelist(list *mSpanList, now, limit uint64) uintptr {
 	if list.isEmpty() {
 		return 0
 	}
-
 	var sumreleased uintptr
 	for s := list.first; s != nil; s = s.next {
 		if (now-uint64(s.unusedsince)) <= limit || s.npreleased == s.npages {
@@ -1137,7 +1169,7 @@ func (h *mheap) scavenge(k int32, now, limit uint64) {
 	for i := 0; i < len(h.free); i++ {
 		sumreleased += scavengelist(&h.free[i], now, limit)
 	}
-	sumreleased += scavengetreap(h.freelarge.treap, now, limit)
+	sumreleased += h.freelarge.scavenge(h.freelarge.treap, &h.scavlarge, now, limit)
 	unlock(&h.lock)
 	gp.m.mallocing--
 
