@@ -154,9 +154,17 @@ func (root *mTreap) insert(span *mspan) {
 	}
 }
 
-func (root *mTreap) removeNode(t *treapNode) {
+// removeNode removes a node from the treap and returns its successor
+// such that one may continue iteration from the successor. If t is
+// a leaf, it returns nil.
+func (root *mTreap) removeNode(t *treapNode) *treapNode {
 	if t.spanKey.npages != t.npagesKey {
 		throw("span and treap node npages do not match")
+	}
+	origp := t.parent
+	successorLeft := false
+	if origp != nil && origp.left == t {
+		successorLeft = true
 	}
 
 	// Rotate t down to be leaf of tree for removal, respecting priorities.
@@ -179,6 +187,16 @@ func (root *mTreap) removeNode(t *treapNode) {
 	}
 	// Return the found treapNode's span after freeing the treapNode.
 	mheap_.treapalloc.free(unsafe.Pointer(t))
+
+	// The removed node's parent's new child is the successor to the
+	// removed node.
+	if origp == nil {
+		return root.treap
+	} else if successorLeft {
+		return origp.left
+	} else {
+		return origp.right
+	}
 }
 
 // remove searches for, finds, removes from the treap, and returns the smallest
@@ -226,17 +244,6 @@ func (root *mTreap) removeSpan(span *mspan) {
 		}
 	}
 	root.removeNode(t)
-}
-
-// scavengetreap visits each node in the treap and scavenges the
-// treapNode's span.
-func scavengetreap(treap *treapNode, now, limit uint64) uintptr {
-	if treap == nil {
-		return 0
-	}
-	return scavengeTreapNode(treap, now, limit) +
-		scavengetreap(treap.left, now, limit) +
-		scavengetreap(treap.right, now, limit)
 }
 
 // rotateLeft rotates the tree rooted at node x.
