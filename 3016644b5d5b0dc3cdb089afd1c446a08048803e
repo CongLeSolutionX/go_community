@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c653612_6bec7525",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-02T17:39:00Z",
+      "side": 1,
+      "message": "I would change the title to: fix symbol addressing for AIX",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21606564_16018da6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-02T17:39:00Z",
+      "side": 1,
+      "message": "I suggest this instead:\n\nThis changes the code generated for addressing symbols on AIX operation system.",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9ea0c97_3862ec21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-02T17:39:00Z",
+      "side": 1,
+      "message": "I find this confusing. When you say \"on 64 bits addressing\" it is not clear what you mean.\n\nI would say something like: On linux/ppc64 symbol addresses are 32 bits, but for aix/ppc64 they are larger. This requires more instructions and a new relocation type to generate the larger address.",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfe33ec8_92b06d47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-02T17:39:00Z",
+      "side": 1,
+      "message": "I suggest something like: For some symbols, it is not known until link time if they are in the data segment or the text segment. That means some addressing instructions could be changed at link time if necessary.",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d98a7be4_a1213125",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-02T17:39:00Z",
+      "side": 1,
+      "message": "You want to use the word \"lose\" not \"loose\".\nI don\u0027t know what you mean by this.",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba729539_c5a54cfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-02T17:39:00Z",
+      "side": 1,
+      "message": "I would say \"LBRAPIC was added to anames9.go as an operand type.\"",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f996c516_fbda84b2",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-02T17:39:00Z",
+      "side": 1,
+      "message": "I think you can remove the comment about \"why this barfs\". It doesn\u0027t apply to your new code.\n\nI think you just want to say that addresses on AIX are larger than 32 bits.",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "665d2a50_c5b578dd",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-02T17:39:00Z",
+      "side": 1,
+      "message": "The comment for print has been there for a long time, have you used this command to print to the log?",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "997ef91c_760f3ebd",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2211,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-02T17:39:00Z",
+      "side": 1,
+      "message": "symbols on AIX could be up to 64 bit addresses.",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a22beb18_f233226c",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-02T17:39:00Z",
+      "side": 1,
+      "message": "archrelocdata generates special relocation for AIX",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
