@@ -214,6 +214,30 @@
       "revId": "a0e7f12771c2e84e626dcf5e30da5d62a3b1adf6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78f03812_f8ffe1c6",
+        "filename": "misc/wasm/wasm_exec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-02T15:59:06Z",
+      "side": 1,
+      "message": "I did the revert with the assumption that you wanted to cherry-pick this back to the Go 1.11 branch where we\u0027d only want a single commit, not a series of commits with fixes.\n\nIf we don\u0027t need this in Go 1.11 now (because it\u0027d be a no-op comment anyway), then we can just roll forward with commenting it out on master.",
+      "parentUuid": "b276a00a_50e3601d",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 93
+      },
+      "revId": "a0e7f12771c2e84e626dcf5e30da5d62a3b1adf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
