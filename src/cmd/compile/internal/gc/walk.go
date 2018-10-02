@@ -5,11 +5,14 @@
 package gc
 
 import (
+	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
 	"cmd/internal/objabi"
+	"cmd/internal/src"
 	"cmd/internal/sys"
 	"encoding/binary"
 	"fmt"
+	"path/filepath"
 	"strings"
 )
 
@@ -197,7 +200,7 @@ func walkstmt(n *Node) *Node {
 				yyerror("%v escapes to heap, not allowed in runtime.", v)
 			}
 			if prealloc[v] == nil {
-				prealloc[v] = callnew(v.Type)
+				prealloc[v] = callnew(v.Type, n.Pos)
 			}
 			nn := nod(OAS, v.Name.Param.Heapaddr, prealloc[v])
 			nn.SetColas(true)
@@ -1156,7 +1159,7 @@ opswitch:
 			r = typecheck(r, Erv)
 			n = r
 		} else {
-			n = callnew(n.Type.Elem())
+			n = callnew(n.Type.Elem(), n.Pos)
 		}
 
 	case OADDSTR:
@@ -1337,6 +1340,12 @@ opswitch:
 				fnname = "makeslice"
 				argtype = types.Types[TINT]
 			}
+
+			if ssa.UserClaim(ssa.ClaimTagAlloc, n.Pos, Ctxt) != 0 {
+				fnname += "Notable"
+			}
+
+			maybeReportAllocation(n.Pos, fnname)
 
 			fn := syslook(fnname)
 			fn = substArgTypes(fn, t.Elem()) // any-1
@@ -1919,16 +1928,31 @@ func walkprint(nn *Node, init *Nodes) *Node {
 	return r
 }
 
-func callnew(t *types.Type) *Node {
+func callnew(t *types.Type, pos src.XPos) *Node {
 	if t.NotInHeap() {
 		yyerror("%v is go:notinheap; heap allocation disallowed", t)
 	}
 	dowidth(t)
-	fn := syslook("newobject")
+	fnname := "newobject"
+	if ssa.UserClaim(ssa.ClaimTagAlloc, pos, Ctxt) != 0 {
+		fnname += "Notable"
+	}
+	fn := syslook(fnname)
+
+	maybeReportAllocation(pos, fnname)
+
 	fn = substArgTypes(fn, t)
 	v := mkcall1(fn, types.NewPtr(t), nil, typename(t))
 	v.SetNonNil(true)
 	return v
+}
+
+func maybeReportAllocation(pos src.XPos, fnname string) {
+	if testopt&TESTOPT_REPORT_ALLOC != 0 {
+		file, line, column, _ := Ctxt.OutermostPos(pos).FormatFileLineCol() // match linestr in gc/subr.go
+		file = filepath.Base(file)
+		fmt.Printf("%s,%s,%d,%d,%d,\"%s\"\n", "alloc", file, line, column, 1, fnname)
+	}
 }
 
 // isReflectHeaderDataField reports whether l is an expression p.Data

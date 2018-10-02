@@ -64,6 +64,39 @@ func makeslice64(et *_type, len64, cap64 int64) slice {
 	return makeslice(et, len, cap)
 }
 
+func makesliceNotable(et *_type, len, cap int) slice {
+	// NOTE: The len > maxElements check here is not strictly necessary,
+	// but it produces a 'len out of range' error instead of a 'cap out of range' error
+	// when someone does make([]T, bignumber). 'cap out of range' is true too,
+	// but since the cap is only being supplied implicitly, saying len is clearer.
+	// See issue 4085.
+	maxElements := maxSliceCap(et.size)
+	if len < 0 || uintptr(len) > maxElements {
+		panicmakeslicelen()
+	}
+
+	if cap < len || uintptr(cap) > maxElements {
+		panicmakeslicecap()
+	}
+
+	p := mallocgcNotable(et.size*uintptr(cap), et, true)
+	return slice{p, len, cap}
+}
+
+func makeslice64Notable(et *_type, len64, cap64 int64) slice {
+	len := int(len64)
+	if int64(len) != len64 {
+		panicmakeslicelen()
+	}
+
+	cap := int(cap64)
+	if int64(cap) != cap64 {
+		panicmakeslicecap()
+	}
+
+	return makesliceNotable(et, len, cap)
+}
+
 // growslice handles slice growth during append.
 // It is passed the slice element type, the old slice, and the desired new minimum capacity,
 // and it returns a new slice with at least that capacity, with the old data

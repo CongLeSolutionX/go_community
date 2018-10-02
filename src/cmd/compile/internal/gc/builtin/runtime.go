@@ -15,6 +15,7 @@ package runtime
 import "unsafe"
 
 func newobject(typ *byte) *any
+func newobjectNotable(typ *byte) *any
 func panicindex()
 func panicslice()
 func panicdivide()
@@ -155,6 +156,8 @@ func block()
 
 func makeslice(typ *byte, len int, cap int) (ary []any)
 func makeslice64(typ *byte, len int64, cap int64) (ary []any)
+func makesliceNotable(typ *byte, len int, cap int) (ary []any)
+func makeslice64Notable(typ *byte, len int64, cap int64) (ary []any)
 func growslice(typ *byte, old []any, cap int) (ary []any)
 func memmove(to *any, frm *any, length uintptr)
 func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
