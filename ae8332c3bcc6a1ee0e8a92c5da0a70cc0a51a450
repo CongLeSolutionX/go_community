@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "8e73cf42_a95028c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2018-10-03T20:11:59Z",
+      "side": 1,
+      "message": "When I use LOS I really mean memory allocated using the treap.",
+      "parentUuid": "3fafa177_efa93c8c",
+      "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bafaaa6c_f7a5df24",
         "filename": "src/runtime/malloc_test.go",
         "patchSetId": 2
@@ -104,6 +122,23 @@
     },
     {
       "key": {
+        "uuid": "9df503ea_3c4b2d92",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2018-10-03T20:11:59Z",
+      "side": 1,
+      "message": "Someday the compiler might decide \"a\" doesn\u0027t need to be allocated. Perhaps assign \"a\" to a global that overwritten by the next write of \"a\" if it isn\u0027t put in saved.",
+      "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2522c9f9_be2f9cc2",
         "filename": "src/runtime/malloc_test.go",
         "patchSetId": 2
@@ -115,6 +150,29 @@
       "writtenOn": "2018-10-03T17:49:34Z",
       "side": 1,
       "message": "I think you have to do a GC() here in order to free up the unused allocations above. Otherwise, it\u0027s totally legitimate for the backed heap to grow below, since we may not realize those objects are free at all.",
+      "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56f3cc33_7e55271c",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2018-10-03T20:11:59Z",
+      "side": 1,
+      "message": "Not sure what the state of the heap is when entering the test. A ReadMemStats at the top of the test can be used to monitor the effect of the allocation in more isolation.",
+      "range": {
+        "startLine": 208,
+        "startChar": 1,
+        "endLine": 208,
+        "endChar": 19
+      },
       "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
