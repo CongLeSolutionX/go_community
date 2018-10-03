@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "1f74b03a_ac7b2548",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-03T18:28:53Z",
+      "side": 1,
+      "message": "The name of the language is Go: https://tip.golang.org/doc/faq#go_or_golang",
+      "range": {
+        "startLine": 12,
+        "startChar": 53,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cb0cd81_d10b7d3d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
