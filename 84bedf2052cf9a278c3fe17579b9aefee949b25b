@@ -22,6 +22,23 @@
       "revId": "84bedf2052cf9a278c3fe17579b9aefee949b25b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcb1fb6b_22f3a305",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T17:05:37Z",
+      "side": 1,
+      "message": "How could m.flushPending be false here?  You just set it to true.",
+      "revId": "84bedf2052cf9a278c3fe17579b9aefee949b25b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
