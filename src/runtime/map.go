@@ -545,8 +545,7 @@ func mapaccess2_fat(t *maptype, h *hmap, key, zero unsafe.Pointer) (unsafe.Point
 	return v, true
 }
 
-// Like mapaccess, but allocates a slot for the key if it is not present in the map.
-func mapassign(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
+func mapassign_helper(t *maptype, h *hmap, key unsafe.Pointer, clear bool) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
 	}
@@ -584,6 +583,7 @@ again:
 	var inserti *uint8
 	var insertk unsafe.Pointer
 	var val unsafe.Pointer
+	var reused bool
 	for {
 		for i := uintptr(0); i < bucketCnt; i++ {
 			if b.tophash[i] != top {
@@ -630,6 +630,8 @@ again:
 		inserti = &newb.tophash[0]
 		insertk = add(unsafe.Pointer(newb), dataOffset)
 		val = add(insertk, bucketCnt*uintptr(t.keysize))
+	} else {
+		reused = *inserti == empty
 	}
 
 	// store new key/value at insert position
@@ -641,6 +643,7 @@ again:
 	if t.indirectvalue {
 		vmem := newobject(t.elem)
 		*(*unsafe.Pointer)(val) = vmem
+		reused = false
 	}
 	typedmemmove(t.key, insertk, key)
 	*inserti = top
@@ -654,7 +657,20 @@ done:
 	if t.indirectvalue {
 		val = *((*unsafe.Pointer)(val))
 	}
+	if reused && clear {
+		memclrNoHeapPointers(val, t.elem.size)
+	}
 	return val
+}
+
+// Like mapaccess, but allocates a slot for the key if it is not present in the map.
+func mapassign(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
+	return mapassign_helper(t, h, key, false)
+}
+
+// Like mapassign, but clears allocated slot.
+func mapassignop(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
+	return mapassign_helper(t, h, key, true)
 }
 
 func mapdelete(t *maptype, h *hmap, key unsafe.Pointer) {
@@ -712,8 +728,6 @@ search:
 				*(*unsafe.Pointer)(v) = nil
 			} else if t.elem.kind&kindNoPointers == 0 {
 				memclrHasPointers(v, t.elem.size)
-			} else {
-				memclrNoHeapPointers(v, t.elem.size)
 			}
 			b.tophash[i] = empty
 			h.count--

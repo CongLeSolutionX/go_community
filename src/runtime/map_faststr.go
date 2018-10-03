@@ -187,7 +187,7 @@ dohash:
 	return unsafe.Pointer(&zeroVal[0]), false
 }
 
-func mapassign_faststr(t *maptype, h *hmap, s string) unsafe.Pointer {
+func mapassign_faststr_helper(t *maptype, h *hmap, s string, clear bool) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
 	}
@@ -219,6 +219,7 @@ again:
 	var insertb *bmap
 	var inserti uintptr
 	var insertk unsafe.Pointer
+	var reused bool
 
 	for {
 		for i := uintptr(0); i < bucketCnt; i++ {
@@ -261,6 +262,8 @@ again:
 		// all current buckets are full, allocate a new one.
 		insertb = h.newoverflow(t, b)
 		inserti = 0 // not necessary, but avoids needlessly spilling inserti
+	} else {
+		reused = insertb.tophash[inserti] == empty
 	}
 	insertb.tophash[inserti&(bucketCnt-1)] = top // mask inserti to avoid bounds checks
 
@@ -275,7 +278,18 @@ done:
 		throw("concurrent map writes")
 	}
 	h.flags &^= hashWriting
+	if reused && clear {
+		memclrNoHeapPointers(val, t.elem.size)
+	}
 	return val
+}
+
+func mapassign_faststr(t *maptype, h *hmap, s string) unsafe.Pointer {
+	return mapassign_faststr_helper(t, h, s, false)
+}
+
+func mapassignop_faststr(t *maptype, h *hmap, s string) unsafe.Pointer {
+	return mapassign_faststr_helper(t, h, s, true)
 }
 
 func mapdelete_faststr(t *maptype, h *hmap, ky string) {
@@ -317,8 +331,6 @@ search:
 			v := add(unsafe.Pointer(b), dataOffset+bucketCnt*2*sys.PtrSize+i*uintptr(t.valuesize))
 			if t.elem.kind&kindNoPointers == 0 {
 				memclrHasPointers(v, t.elem.size)
-			} else {
-				memclrNoHeapPointers(v, t.elem.size)
 			}
 			b.tophash[i] = empty
 			h.count--

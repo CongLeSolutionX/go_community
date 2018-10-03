@@ -89,7 +89,7 @@ func mapaccess2_fast64(t *maptype, h *hmap, key uint64) (unsafe.Pointer, bool) {
 	return unsafe.Pointer(&zeroVal[0]), false
 }
 
-func mapassign_fast64(t *maptype, h *hmap, key uint64) unsafe.Pointer {
+func mapassign_fast64_helper(t *maptype, h *hmap, key uint64, clear bool) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
 	}
@@ -119,6 +119,7 @@ again:
 	var insertb *bmap
 	var inserti uintptr
 	var insertk unsafe.Pointer
+	var reused bool
 
 	for {
 		for i := uintptr(0); i < bucketCnt; i++ {
@@ -157,6 +158,8 @@ again:
 		// all current buckets are full, allocate a new one.
 		insertb = h.newoverflow(t, b)
 		inserti = 0 // not necessary, but avoids needlessly spilling inserti
+	} else {
+		reused = t.elem.kind&kindNoPointers != 0 && insertb.tophash[inserti] == empty
 	}
 	insertb.tophash[inserti&(bucketCnt-1)] = tophash(hash) // mask inserti to avoid bounds checks
 
@@ -172,10 +175,21 @@ done:
 		throw("concurrent map writes")
 	}
 	h.flags &^= hashWriting
+	if reused && clear {
+		memclrNoHeapPointers(val, t.elem.size)
+	}
 	return val
 }
 
-func mapassign_fast64ptr(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
+func mapassign_fast64(t *maptype, h *hmap, key uint64) unsafe.Pointer {
+	return mapassign_fast64_helper(t, h, key, false)
+}
+
+func mapassignop_fast64(t *maptype, h *hmap, key uint64) unsafe.Pointer {
+	return mapassign_fast64_helper(t, h, key, true)
+}
+
+func mapassign_fast64ptr_helper(t *maptype, h *hmap, key unsafe.Pointer, clear bool) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
 	}
@@ -205,6 +219,7 @@ again:
 	var insertb *bmap
 	var inserti uintptr
 	var insertk unsafe.Pointer
+	var reused bool
 
 	for {
 		for i := uintptr(0); i < bucketCnt; i++ {
@@ -243,6 +258,8 @@ again:
 		// all current buckets are full, allocate a new one.
 		insertb = h.newoverflow(t, b)
 		inserti = 0 // not necessary, but avoids needlessly spilling inserti
+	} else {
+		reused = t.elem.kind&kindNoPointers != 0 && insertb.tophash[inserti] == empty
 	}
 	insertb.tophash[inserti&(bucketCnt-1)] = tophash(hash) // mask inserti to avoid bounds checks
 
@@ -258,7 +275,18 @@ done:
 		throw("concurrent map writes")
 	}
 	h.flags &^= hashWriting
+	if reused && clear {
+		memclrNoHeapPointers(val, t.elem.size)
+	}
 	return val
+}
+
+func mapassign_fast64ptr(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
+	return mapassign_fast64ptr_helper(t, h, key, false)
+}
+
+func mapassignop_fast64ptr(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
+	return mapassign_fast64ptr_helper(t, h, key, true)
 }
 
 func mapdelete_fast64(t *maptype, h *hmap, key uint64) {
@@ -296,8 +324,6 @@ search:
 			v := add(unsafe.Pointer(b), dataOffset+bucketCnt*8+i*uintptr(t.valuesize))
 			if t.elem.kind&kindNoPointers == 0 {
 				memclrHasPointers(v, t.elem.size)
-			} else {
-				memclrNoHeapPointers(v, t.elem.size)
 			}
 			b.tophash[i] = empty
 			h.count--
