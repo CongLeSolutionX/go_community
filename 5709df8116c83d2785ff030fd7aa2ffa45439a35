@@ -22,6 +22,30 @@
       "revId": "5709df8116c83d2785ff030fd7aa2ffa45439a35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86e37f12_5ccc6f74",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-03T22:41:10Z",
+      "side": 1,
+      "message": "FWIW, I suggested leaving this comment and the constant. It\u0027s always good to be able to turn off a cache when debugging; \"caches \u003d\u003d hidden errors\". It doesn\u0027t cost.",
+      "parentUuid": "b5fb9342_2882a070",
+      "range": {
+        "startLine": 388,
+        "startChar": 0,
+        "endLine": 389,
+        "endChar": 24
+      },
+      "revId": "5709df8116c83d2785ff030fd7aa2ffa45439a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
