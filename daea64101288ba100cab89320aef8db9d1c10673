@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3831b0de_130d0154",
+        "filename": "api/except.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2018-10-03T15:12:10Z",
+      "side": 1,
+      "message": "./all.bash will failed without it. \n\n-pkg os (linux-arm), const O_SYNC \u003d 1052672\n-pkg os (linux-arm-cgo), const O_SYNC \u003d 1052672\n\nI found in \"syscall/zerrors_linux_arm.go:663\" and it should be 0x1000(4096) not 0x101000 (1052672)\nbut \"cmd/vendor/golang.org/x/sys/unix/zerrors_linux_arm.go:1172\" export it as 0x101000(1052672)\n\nWhich one should I trust?",
+      "parentUuid": "13dc8d96_3b2f7978",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "daea64101288ba100cab89320aef8db9d1c10673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0162294_d52470a0",
         "filename": "src/cmd/api/goapi.go",
         "patchSetId": 1
