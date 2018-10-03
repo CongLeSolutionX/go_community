@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5fb9342_2882a070",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-03T22:22:05Z",
+      "side": 1,
+      "message": "This comment no longer makes sense given the deleted context.\n\nI think you could probably just remove the constant at this point.",
+      "range": {
+        "startLine": 388,
+        "startChar": 0,
+        "endLine": 389,
+        "endChar": 24
+      },
+      "revId": "5709df8116c83d2785ff030fd7aa2ffa45439a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
