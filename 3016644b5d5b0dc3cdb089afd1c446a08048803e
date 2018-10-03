@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "780382e2_bb0d43d2",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T08:22:09Z",
+      "side": 1,
+      "message": "Yes, but is it still needed for return C_LCON ? I don\u0027t really understand why this comment is here in a first place.",
+      "parentUuid": "f996c516_fbda84b2",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "665d2a50_c5b578dd",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 1
@@ -132,6 +150,24 @@
       "writtenOn": "2018-10-02T17:39:00Z",
       "side": 1,
       "message": "The comment for print has been there for a long time, have you used this command to print to the log?",
+      "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04b43816_f209799d",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T08:22:09Z",
+      "side": 1,
+      "message": "Yes, if I remember well I used this line to get debug information. It the same than \u0027go tool compile -S\u0027 but without all the stuff about garbage collector, Dwarf, etc, at the end. \nMoreover, with the previous print, \"%v\" and \"%d\" cannot be used, that why I changed it.",
+      "parentUuid": "665d2a50_c5b578dd",
       "revId": "3016644b5d5b0dc3cdb089afd1c446a08048803e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
