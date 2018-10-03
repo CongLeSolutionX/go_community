@@ -690,6 +690,11 @@ opswitch:
 			Fatalf("not same expressions: %v != %v", n.Left, n.Right.List.First())
 		}
 
+		// Set a flag that this is a m[k] op=
+		if n.Left.Op == OINDEXMAP && n.Op == OASOP {
+			n.Left.SetIndexMapLValueOp(true)
+		}
+
 		n.Left = walkexpr(n.Left, init)
 		n.Left = safeexpr(n.Left, init)
 
@@ -1150,7 +1155,12 @@ opswitch:
 				// orderexpr made sure key is addressable.
 				key = nod(OADDR, key, nil)
 			}
-			n = mkcall1(mapfn(mapassign[fast], t), nil, init, typename(t), map_, key)
+			if n.IndexMapLValueOp() {
+				n = mkcall1(mapfn(mapassignop[fast], t), nil, init, typename(t), map_, key)
+			} else {
+				reused := nod(OADDR, temp(types.Types[TBOOL]), nil)
+				n = mkcall1(mapfn(mapassign[fast], t), nil, init, typename(t), map_, key, reused)
+			}
 		} else {
 			// m[k] is not the target of an assignment.
 			fast := mapfast(t)
@@ -2815,6 +2825,7 @@ func mkmapnames(base string, ptr string) mapnames {
 var mapaccess1 = mkmapnames("mapaccess1", "")
 var mapaccess2 = mkmapnames("mapaccess2", "")
 var mapassign = mkmapnames("mapassign", "ptr")
+var mapassignop = mkmapnames("mapassignop", "ptr")
 var mapdelete = mkmapnames("mapdelete", "")
 
 func mapfast(t *types.Type) int {

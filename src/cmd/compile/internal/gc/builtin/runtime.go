@@ -110,12 +110,23 @@ func mapaccess2_fast32(mapType *byte, hmap map[any]any, key any) (val *any, pres
 func mapaccess2_fast64(mapType *byte, hmap map[any]any, key any) (val *any, pres bool)
 func mapaccess2_faststr(mapType *byte, hmap map[any]any, key any) (val *any, pres bool)
 func mapaccess2_fat(mapType *byte, hmap map[any]any, key *any, zero *byte) (val *any, pres bool)
-func mapassign(mapType *byte, hmap map[any]any, key *any) (val *any)
-func mapassign_fast32(mapType *byte, hmap map[any]any, key any) (val *any)
-func mapassign_fast32ptr(mapType *byte, hmap map[any]any, key any) (val *any)
-func mapassign_fast64(mapType *byte, hmap map[any]any, key any) (val *any)
-func mapassign_fast64ptr(mapType *byte, hmap map[any]any, key any) (val *any)
-func mapassign_faststr(mapType *byte, hmap map[any]any, key any) (val *any)
+
+// map =
+func mapassign(mapType *byte, hmap map[any]any, key *any, reused *bool) (val *any)
+func mapassign_fast32(mapType *byte, hmap map[any]any, key any, reused *bool) (val *any)
+func mapassign_fast32ptr(mapType *byte, hmap map[any]any, key any, reused *bool) (val *any)
+func mapassign_fast64(mapType *byte, hmap map[any]any, key any, reused *bool) (val *any)
+func mapassign_fast64ptr(mapType *byte, hmap map[any]any, key any, reused *bool) (val *any)
+func mapassign_faststr(mapType *byte, hmap map[any]any, key any, reused *bool) (val *any)
+
+// map op=
+func mapassignop(mapType *byte, hmap map[any]any, key *any) (val *any)
+func mapassignop_fast32(mapType *byte, hmap map[any]any, key any) (val *any)
+func mapassignop_fast32ptr(mapType *byte, hmap map[any]any, key any) (val *any)
+func mapassignop_fast64(mapType *byte, hmap map[any]any, key any) (val *any)
+func mapassignop_fast64ptr(mapType *byte, hmap map[any]any, key any) (val *any)
+func mapassignop_faststr(mapType *byte, hmap map[any]any, key any) (val *any)
+
 func mapiterinit(mapType *byte, hmap map[any]any, hiter *any)
 func mapdelete(mapType *byte, hmap map[any]any, key *any)
 func mapdelete_fast32(mapType *byte, hmap map[any]any, key any)

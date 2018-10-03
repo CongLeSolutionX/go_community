@@ -546,7 +546,7 @@ func mapaccess2_fat(t *maptype, h *hmap, key, zero unsafe.Pointer) (unsafe.Point
 }
 
 // Like mapaccess, but allocates a slot for the key if it is not present in the map.
-func mapassign(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
+func mapassign(t *maptype, h *hmap, key unsafe.Pointer, reused *bool) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
 	}
@@ -630,6 +630,8 @@ again:
 		inserti = &newb.tophash[0]
 		insertk = add(unsafe.Pointer(newb), dataOffset)
 		val = add(insertk, bucketCnt*uintptr(t.keysize))
+	} else {
+		*reused = *inserti == empty
 	}
 
 	// store new key/value at insert position
@@ -641,6 +643,7 @@ again:
 	if t.indirectvalue {
 		vmem := newobject(t.elem)
 		*(*unsafe.Pointer)(val) = vmem
+		*reused = false
 	}
 	typedmemmove(t.key, insertk, key)
 	*inserti = top
@@ -653,6 +656,16 @@ done:
 	h.flags &^= hashWriting
 	if t.indirectvalue {
 		val = *((*unsafe.Pointer)(val))
+	}
+	return val
+}
+
+// Like mapassign, but clears allocated slot.
+func mapassignop(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
+	var reused bool
+	val := mapassign(t, h, key, &reused)
+	if reused {
+		memclrNoHeapPointers(val, t.elem.size)
 	}
 	return val
 }
@@ -712,8 +725,6 @@ search:
 				*(*unsafe.Pointer)(v) = nil
 			} else if t.elem.kind&kindNoPointers == 0 {
 				memclrHasPointers(v, t.elem.size)
-			} else {
-				memclrNoHeapPointers(v, t.elem.size)
 			}
 			b.tophash[i] = empty
 			h.count--
@@ -1256,7 +1267,8 @@ func reflect_mapaccess(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
 
 //go:linkname reflect_mapassign reflect.mapassign
 func reflect_mapassign(t *maptype, h *hmap, key unsafe.Pointer, val unsafe.Pointer) {
-	p := mapassign(t, h, key)
+	var reused bool
+	p := mapassign(t, h, key, &reused)
 	typedmemmove(t.elem, p, val)
 }
 

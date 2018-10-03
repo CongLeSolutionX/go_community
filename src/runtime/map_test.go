@@ -1066,7 +1066,7 @@ func TestIncrementAfterDeleteValueInt32(t *testing.T) {
 	const key1 = 12
 	const key2 = 13
 
-	m := make(map[int]int32)
+	m := make(map[int32]int32)
 	m[key1] = 99
 	delete(m, key1)
 	m[key2]++
@@ -1079,7 +1079,7 @@ func TestIncrementAfterDeleteValueInt64(t *testing.T) {
 	const key1 = 12
 	const key2 = 13
 
-	m := make(map[int]int64)
+	m := make(map[int64]int64)
 	m[key1] = 99
 	delete(m, key1)
 	m[key2]++

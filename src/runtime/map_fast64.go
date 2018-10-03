@@ -89,7 +89,7 @@ func mapaccess2_fast64(t *maptype, h *hmap, key uint64) (unsafe.Pointer, bool) {
 	return unsafe.Pointer(&zeroVal[0]), false
 }
 
-func mapassign_fast64(t *maptype, h *hmap, key uint64) unsafe.Pointer {
+func mapassign_fast64(t *maptype, h *hmap, key uint64, reused *bool) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
 	}
@@ -157,6 +157,8 @@ again:
 		// all current buckets are full, allocate a new one.
 		insertb = h.newoverflow(t, b)
 		inserti = 0 // not necessary, but avoids needlessly spilling inserti
+	} else {
+		*reused = insertb.tophash[inserti] == empty
 	}
 	insertb.tophash[inserti&(bucketCnt-1)] = tophash(hash) // mask inserti to avoid bounds checks
 
@@ -175,7 +177,16 @@ done:
 	return val
 }
 
-func mapassign_fast64ptr(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
+func mapassignop_fast64(t *maptype, h *hmap, key uint64) unsafe.Pointer {
+	var reused bool
+	val := mapassign_fast64(t, h, key, &reused)
+	if reused && t.elem.kind&kindNoPointers != 0 {
+		memclrNoHeapPointers(val, t.elem.size)
+	}
+	return val
+}
+
+func mapassign_fast64ptr(t *maptype, h *hmap, key unsafe.Pointer, reused *bool) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
 	}
@@ -243,6 +254,8 @@ again:
 		// all current buckets are full, allocate a new one.
 		insertb = h.newoverflow(t, b)
 		inserti = 0 // not necessary, but avoids needlessly spilling inserti
+	} else {
+		*reused = insertb.tophash[inserti] == empty
 	}
 	insertb.tophash[inserti&(bucketCnt-1)] = tophash(hash) // mask inserti to avoid bounds checks
 
@@ -258,6 +271,15 @@ done:
 		throw("concurrent map writes")
 	}
 	h.flags &^= hashWriting
+	return val
+}
+
+func mapassignop_fast64ptr(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
+	var reused bool
+	val := mapassign_fast64ptr(t, h, key, &reused)
+	if reused && t.elem.kind&kindNoPointers != 0 {
+		memclrNoHeapPointers(val, t.elem.size)
+	}
 	return val
 }
 
@@ -296,8 +318,6 @@ search:
 			v := add(unsafe.Pointer(b), dataOffset+bucketCnt*8+i*uintptr(t.valuesize))
 			if t.elem.kind&kindNoPointers == 0 {
 				memclrHasPointers(v, t.elem.size)
-			} else {
-				memclrNoHeapPointers(v, t.elem.size)
 			}
 			b.tophash[i] = empty
 			h.count--

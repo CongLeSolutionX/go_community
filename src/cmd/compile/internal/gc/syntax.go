@@ -88,12 +88,30 @@ func (n *Node) IndexMapLValue() bool {
 	return n.aux != 0
 }
 
+func (n *Node) IndexMapLValueOp() bool {
+	if n.Op != OINDEXMAP {
+		Fatalf("unexpected op: %v", n.Op)
+	}
+	return n.aux == 2
+}
+
 func (n *Node) SetIndexMapLValue(b bool) {
 	if n.Op != OINDEXMAP {
 		Fatalf("unexpected op: %v", n.Op)
 	}
 	if b {
 		n.aux = 1
+	} else {
+		n.aux = 0
+	}
+}
+
+func (n *Node) SetIndexMapLValueOp(b bool) {
+	if n.Op != OINDEXMAP {
+		Fatalf("unexpected op: %v", n.Op)
+	}
+	if b {
+		n.aux = 2
 	} else {
 		n.aux = 0
 	}
