@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d12a0060_69ce2983",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T20:02:29Z",
+      "side": 1,
+      "message": "Just\n\nreflect: add an example for Kind",
+      "revId": "e56dac02043280ffb29f09650136b2aa8cbd9b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70c931cf_ea692415",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T20:02:29Z",
+      "side": 1,
+      "message": "This sentence doesn\u0027t really add anything to the topic line, you can omit it.",
+      "revId": "e56dac02043280ffb29f09650136b2aa8cbd9b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75f7fa39_cfa84a50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T20:02:29Z",
+      "side": 1,
+      "message": "It\u0027s not necessary to open an issue in order to send a CL.  You can just send the CL.",
+      "revId": "e56dac02043280ffb29f09650136b2aa8cbd9b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2568d01f_7a5104e4",
+        "filename": "src/reflect/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T20:02:29Z",
+      "side": 1,
+      "message": "You don\u0027t need these variables.  You can just write\n    s :\u003d \"...\"\n    i :\u003d 42",
+      "revId": "e56dac02043280ffb29f09650136b2aa8cbd9b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ae7b2d2_f80b2d10",
+        "filename": "src/reflect/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T20:02:29Z",
+      "side": 1,
+      "message": "How about something that uses reflect.Kind in a more likely way, such as\n\n    for _, v :\u003d range []interface{}{\"hi\", 42} {\n        switch v :\u003d reflect.ValueOf(v).Kind(); v.Kind() {\n        case reflect.String:\n            fmt.Println(v.String())\n        case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:\n            fmt.Println(v.Int())\n        default:\n            fmt.Println(\"unhandled kind %s\", v.Kind())\n        }\n    }",
+      "revId": "e56dac02043280ffb29f09650136b2aa8cbd9b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
