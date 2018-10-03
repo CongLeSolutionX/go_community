@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "752be387_c8c842cd",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-03T16:40:54Z",
+      "side": 1,
+      "message": "Note that this is really just documentation more than it is a change. This was effectively the old behavior. Now it\u0027s just documented \u0026 implemented more efficiently.",
+      "range": {
+        "startLine": 40,
+        "startChar": 42,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "84bedf2052cf9a278c3fe17579b9aefee949b25b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
