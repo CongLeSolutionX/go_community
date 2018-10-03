@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc0983ee_e99f9b34",
+        "filename": "src/syscall/exec_libc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T21:40:45Z",
+      "side": 1,
+      "message": "You don\u0027t need this last line.  It won\u0027t help future readers.",
+      "revId": "c66616344641fbdd82124fe422d034008b929692",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa2bf60_70bd2c19",
+        "filename": "src/syscall/exec_libc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T21:40:45Z",
+      "side": 1,
+      "message": "This will break on Solaris, which already defines SYS_EXECVE and SYS_FCNTL in zsysnum_solaris_amd64.go.  It looks like you can just remove that file in this CL, though.",
+      "revId": "c66616344641fbdd82124fe422d034008b929692",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e14cd6e_61f4a4d6",
+        "filename": "src/syscall/exec_libc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T21:40:45Z",
+      "side": 1,
+      "message": "Since this means that you have to provide a version of dup2child in asm_solaris_amd64.s, I suggest that you instead write dup2child in syscall_solaris.go to call fcntl1.  Then you don\u0027t need the conditional here or below.",
+      "revId": "c66616344641fbdd82124fe422d034008b929692",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84a62dc4_5851b444",
+        "filename": "src/syscall/mkall.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T21:40:45Z",
+      "side": 1,
+      "message": "You may as well make this change on all systems, I don\u0027t see a reason to single out AIX here.",
+      "revId": "c66616344641fbdd82124fe422d034008b929692",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
