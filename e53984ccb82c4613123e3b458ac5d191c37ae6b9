@@ -253,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "4ae926d3_d09b4657",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-03T21:32:53Z",
+      "side": 1,
+      "message": "This isn\u0027t really the right place to have this annotation. If it was crashing from write barriers, it was because it was being called by something else that needed to restrict write barriers. The annotation should be on that function. Do you remember how it was crashing?",
+      "parentUuid": "66ac9db6_690d556d",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "672aec35_60aa5417",
         "filename": "src/runtime/os_aix.go",
         "patchSetId": 2
