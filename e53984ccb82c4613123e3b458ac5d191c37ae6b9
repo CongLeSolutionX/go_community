@@ -1,0 +1,232 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d80ec45d_c78ff1f1",
+        "filename": "src/runtime/defs_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "s/Golang/Go/\n\nhttps://tip.golang.org/doc/faq#go_or_golang",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a72238d9_940df801",
+        "filename": "src/runtime/mem_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "Any reason not to just add an aix build tag to mem_bsd.go?  I don\u0027t see any relevant differences between this file and mem_bsd.go.",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0536434e_5251dc3e",
+        "filename": "src/runtime/mem_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "Remove this commented out code, I don\u0027t think we need it.",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1cda048_18b20e25",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "s/2017/2018/",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01ec54f2_335b9cc0",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "It would be a good idea to verify that both descriptors are \u003c 0x10000 and throw if not.",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "437b87c1_6a2ee6f8",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "No need for the pfd variable, just\n    pfds \u003d append(pfds, pollfd{fd: fd})",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "981751e0_8e631f55",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "Why no write barriers here?  The other netpoll functions don\u0027t have this annotation.",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "672aec35_60aa5417",
+        "filename": "src/runtime/os_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "s/malloc/mallocgc/ ?",
+      "range": {
+        "startLine": 39,
+        "startChar": 48,
+        "endLine": 39,
+        "endChar": 54
+      },
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d6b5bbc_76a1b663",
+        "filename": "src/runtime/os_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "Write these numbers as 1e9, it\u0027s easier to read.",
+      "range": {
+        "startLine": 57,
+        "startChar": 20,
+        "endLine": 57,
+        "endChar": 30
+      },
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7593502_47aacaf8",
+        "filename": "src/runtime/os_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "ts.tv_sec++",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6f6e18f_200ab168",
+        "filename": "src/runtime/sys_aix_ppc64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "Trailing whitespace.\n\nAlso below in this file.",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a1e4743_045e41be",
+        "filename": "src/runtime/sys_aix_ppc64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T13:59:55Z",
+      "side": 1,
+      "message": "Change spaces to tab.",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
