@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2df5530d_19cc0acf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-03T17:49:34Z",
+      "side": 1,
+      "message": "Nit: by convention, we lower-case the first letter of the subject",
+      "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fafa177_efa93c8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-03T17:49:34Z",
+      "side": 1,
+      "message": "I know Rick was using this term, but we haven\u0027t actually used the term \"large object space\" before. I\u0027m not entirely sure we even have that concept in its typical use, since we don\u0027t segregate small objects and large objects. It\u0027s really just \"the heap\" and \"free spans in the heap\".",
+      "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bafaaa6c_f7a5df24",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-03T17:49:34Z",
+      "side": 1,
+      "message": "The general convention for writing sizes in the runtime is \"N \u003c\u003c M\" where M is 10, 20, 30, etc for KiB, MiB, GiB...",
+      "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e330e328_7675fae6",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-03T17:49:34Z",
+      "side": 1,
+      "message": "If you instead do saved :\u003d make([]interface{}, 0, objects), then you can use append below rather than tracking the position yourself in \u0027n\u0027.",
+      "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "334cccaf_10007c10",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-03T17:49:34Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary. As soon as \"saved\" is no longer referenced, it will be eligible for GC (actually, because of the deletion barrier, writing nils to it may make the objects last *longer* :). And if another test cares about the heap being clean before it runs, it will start with a call to GC().",
+      "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e34ef18a_4c04c1bc",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-03T17:49:34Z",
+      "side": 1,
+      "message": "This interface conversion may actually cause a surprise allocation for the itab. It probably doesn\u0027t matter, but you can avoid this by using slices instead of arrays and making saved something like [][]byte.",
+      "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2522c9f9_be2f9cc2",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-03T17:49:34Z",
+      "side": 1,
+      "message": "I think you have to do a GC() here in order to free up the unused allocations above. Otherwise, it\u0027s totally legitimate for the backed heap to grow below, since we may not realize those objects are free at all.",
+      "revId": "ae8332c3bcc6a1ee0e8a92c5da0a70cc0a51a450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
