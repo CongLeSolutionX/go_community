@@ -188,3 +188,19 @@ func BenchmarkAll(b *testing.B) {
 		}
 	}
 }
+
+func TestIssue21181(t *testing.T) {
+	for _, c := range contexts {
+		c.Compiler = build.Default.Compiler
+	}
+	for _, context := range contexts {
+		w := NewWalker(context, "testdata/src/issue21181")
+		pkg, err := w.Import("p")
+		if err != nil {
+			t.Fatal(err)
+			t.Logf("(%s-%s) %s %v", context.GOOS, context.GOARCH,
+				pkg.Name(), w.imported)
+		}
+		w.export(pkg)
+	}
+}
