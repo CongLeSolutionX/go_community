@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1176bbd4_f41b7b55",
+        "filename": "src/crypto/rand/rand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T22:38:24Z",
+      "side": 1,
+      "message": "Perhaps \"waiting to read random data from kernel\"",
+      "range": {
+        "startLine": 28,
+        "startChar": 54,
+        "endLine": 28,
+        "endChar": 56
+      },
+      "revId": "f40a38602ef2291d8f17058795fc616bf2a80f3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7f5f445_a18feb22",
+        "filename": "src/crypto/rand/rand_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-03T22:38:24Z",
+      "side": 1,
+      "message": "This isn\u0027t quite what the CL description says, though, since it only warns if the first read blocks.  Are we confident that no later read can block?  I guess it does seem a bit expensive to check every read.  But the CL description should be updated.",
+      "revId": "f40a38602ef2291d8f17058795fc616bf2a80f3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
