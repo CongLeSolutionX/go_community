@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53888dc8_93b654aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T08:24:54Z",
+      "side": 1,
+      "message": "Do you want me to add the different generated instructions to be clearer ?",
+      "revId": "f7b9541cd6d51ca3f411d8003e346f20a79c0fe4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
