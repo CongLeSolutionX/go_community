@@ -46,6 +46,30 @@
       "revId": "5709df8116c83d2785ff030fd7aa2ffa45439a35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c11bf238_85e0102b",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-03T22:42:56Z",
+      "side": 1,
+      "message": "Okay, it\u0027s fine then. It\u0027s just a little confusing with the previous sentence now deleted. But anybody debugging can spend a few more seconds thinking about this.",
+      "parentUuid": "86e37f12_5ccc6f74",
+      "range": {
+        "startLine": 388,
+        "startChar": 0,
+        "endLine": 389,
+        "endChar": 24
+      },
+      "revId": "5709df8116c83d2785ff030fd7aa2ffa45439a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
