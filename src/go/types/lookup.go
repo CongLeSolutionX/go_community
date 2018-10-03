@@ -179,7 +179,7 @@ func lookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 			//        contains m and the argument list can be assigned to the parameter
 			//        list of m. If x is addressable and &x's method set contains m, x.m()
 			//        is shorthand for (&x).m()".
-			if f, _ := obj.(*Func); f != nil && ptrRecv(f) && !indirect && !addressable {
+			if f, _ := obj.(*Func); f != nil && f.hasPtrRecv && !indirect && !addressable {
 				return nil, nil, true // pointer/addressable receiver required
 			}
 			return

@@ -244,7 +244,7 @@ func (s methodSet) add(list []*Func, index []int, indirect bool, multiples bool)
 			// (!indirect && ptrRecv(f)). A 2nd method on the same level may be in the method
 			// set and may not collide with the first one, thus leading to a false positive.
 			// Is that possible? Investigate.
-			if _, found := s[key]; !found && (indirect || !ptrRecv(f)) {
+			if _, found := s[key]; !found && (indirect || !f.hasPtrRecv) {
 				s[key] = &Selection{MethodVal, nil, f, concat(index, i), indirect}
 				continue
 			}
@@ -252,11 +252,4 @@ func (s methodSet) add(list []*Func, index []int, indirect bool, multiples bool)
 		s[key] = nil // collision
 	}
 	return s
-}
-
-// ptrRecv reports whether the receiver is of the form *T.
-// The receiver must exist.
-func ptrRecv(f *Func) bool {
-	_, isPtr := deref(f.typ.(*Signature).recv.typ)
-	return isPtr
 }
