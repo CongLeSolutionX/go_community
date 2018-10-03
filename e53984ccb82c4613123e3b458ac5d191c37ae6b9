@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a1250b6a_ed782383",
+        "filename": "src/runtime/defs_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T15:28:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d80ec45d_c78ff1f1",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a72238d9_940df801",
         "filename": "src/runtime/mem_aix.go",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2018-10-03T13:59:55Z",
       "side": 1,
       "message": "Any reason not to just add an aix build tag to mem_bsd.go?  I don\u0027t see any relevant differences between this file and mem_bsd.go.",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "006588d4_7dd15c1c",
+        "filename": "src/runtime/mem_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T15:28:50Z",
+      "side": 1,
+      "message": "You\u0027re right it was very different at the beginning of the port but not any longer. \nThere are still two differences: \n - MADV_FREE doesn\u0027t exist on AIX. But madvise has no functionality on AIX, it\u0027s there for compatibility purpose. So I can adapt madvise\u0027s code inside os2_aix.go to don\u0027t have any error and use mem_bsd.go. Or I can switch to MADV_DONTNEED instead of MADV_FREE which is almost the same. \n - In sysMap(), AIX needs to unmap first but a if can resolve this inside mem_bsd.go. \n\nIf you think is better to have +build aix on mem_bsd.go, I can do it easily. As you wish.",
+      "parentUuid": "a72238d9_940df801",
       "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -82,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "dc417a69_638a7a9e",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T15:28:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1cda048_18b20e25",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01ec54f2_335b9cc0",
         "filename": "src/runtime/netpoll_aix.go",
         "patchSetId": 2
@@ -96,6 +162,24 @@
       "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc321a7_7b42896f",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T15:28:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01ec54f2_335b9cc0",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "ba624d08_325e7811",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T15:28:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "437b87c1_6a2ee6f8",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "981751e0_8e631f55",
         "filename": "src/runtime/netpoll_aix.go",
         "patchSetId": 2
@@ -127,6 +229,24 @@
       "writtenOn": "2018-10-03T13:59:55Z",
       "side": 1,
       "message": "Why no write barriers here?  The other netpoll functions don\u0027t have this annotation.",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66ac9db6_690d556d",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T15:28:50Z",
+      "side": 1,
+      "message": "Actually, you can\u0027t have write barriers inside netpoll function. A previous implementation was using write barriers and netpoll was crashing because of it. So, it was added to be sure our future implementations don\u0027t break this rule. \nI think it should be added to others OS too, actually.",
+      "parentUuid": "981751e0_8e631f55",
       "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -156,6 +276,30 @@
     },
     {
       "key": {
+        "uuid": "df3bcdec_00136161",
+        "filename": "src/runtime/os_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T15:28:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "672aec35_60aa5417",
+      "range": {
+        "startLine": 39,
+        "startChar": 48,
+        "endLine": 39,
+        "endChar": 54
+      },
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d6b5bbc_76a1b663",
         "filename": "src/runtime/os_aix.go",
         "patchSetId": 2
@@ -179,6 +323,30 @@
     },
     {
       "key": {
+        "uuid": "08836cf7_4b6eae7f",
+        "filename": "src/runtime/os_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T15:28:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d6b5bbc_76a1b663",
+      "range": {
+        "startLine": 57,
+        "startChar": 20,
+        "endLine": 57,
+        "endChar": 30
+      },
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7593502_47aacaf8",
         "filename": "src/runtime/os_aix.go",
         "patchSetId": 2
@@ -193,6 +361,24 @@
       "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b3b0f3b_89653d53",
+        "filename": "src/runtime/os_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-03T15:28:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7593502_47aacaf8",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
