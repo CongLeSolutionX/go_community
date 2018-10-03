@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b007b96_3957989a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-03T18:27:55Z",
+      "side": 1,
+      "message": "should this be aix/ppc64?",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8100eef_552c4711",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-03T18:27:55Z",
+      "side": 1,
+      "message": "I think should explain the changes you are making and then why. Something like:\n\nR2 does not need to be set for aix/ppc64 since it should remain valid througout golang execution, except after a call to a C function.",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cb0cd81_d10b7d3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-03T18:27:55Z",
+      "side": 1,
+      "message": "What is meant by (cf syscalls)?",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3be7a19a_061e02e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-03T18:27:55Z",
+      "side": 1,
+      "message": "Wasn\u0027t this being done before? I didn\u0027t see that you made any change to how this is done.",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 12
+      },
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9ae6f07_3b59eb67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-03T18:27:55Z",
+      "side": 1,
+      "message": "I don\u0027t know what this means. What new stack layout?",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a2acb5a_fa5b7d53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-03T18:27:55Z",
+      "side": 1,
+      "message": "I don\u0027t understand this because it looks like you added a call to asmcgocall.",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65293039_7414f032",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-03T18:27:55Z",
+      "side": 1,
+      "message": "What is the reason for changing this code on Linux? Was this wrong before?",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "623ecbe5_c92b3597",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-03T18:27:55Z",
+      "side": 1,
+      "message": "You have removed 3 instructions after the BL that were there before. Is there a reason you needed to do that for AIX? Even though for now you know that R5 is not changed across the BL, there is no guarantee that will always be true.",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81f26a47_d0680eb9",
+        "filename": "src/runtime/tls_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-03T18:27:55Z",
+      "side": 1,
+      "message": "iscgo is not set for aix/ppc64?",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
