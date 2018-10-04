@@ -329,9 +329,9 @@ type mspan struct {
 	needzero    uint8      // needs to be zeroed before allocation
 	divShift    uint8      // for divide by elemsize - divMagic.shift
 	divShift2   uint8      // for divide by elemsize - divMagic.shift2
+	scavenged   bool       // whether this span has had its pages released to the OS 
 	elemsize    uintptr    // computed from sizeclass or from npages
 	unusedsince int64      // first time spotted by gc in mspanfree state
-	npreleased  uintptr    // number of pages released to the os
 	limit       uintptr    // end of data in span
 	speciallock mutex      // guards specials list
 	specials    *special   // linked list of special records sorted by offset.
@@ -367,14 +367,13 @@ func (s *mspan) scavenge() uintptr {
 			return 0
 		}
 	}
-	len := end - start
-	released := len - (s.npreleased << _PageShift)
+	released := end - start
 	if physPageSize > _PageSize && released == 0 {
 		return 0
 	}
 	memstats.heap_released += uint64(released)
-	s.npreleased = len >> _PageShift
-	sysUnused(unsafe.Pointer(start), len)
+	s.scavenged = true
+	sysUnused(unsafe.Pointer(start), released)
 	return released
 }
 
@@ -853,10 +852,10 @@ func (h *mheap) allocSpanLocked(npage uintptr, stat *uint64) *mspan {
 	if s.npages < npage {
 		throw("MHeap_AllocLocked - bad npages")
 	}
-	if s.npreleased > 0 {
+	if s.scavenged {
 		sysUsed(unsafe.Pointer(s.base()), s.npages<<_PageShift)
-		memstats.heap_released -= uint64(s.npreleased << _PageShift)
-		s.npreleased = 0
+		memstats.heap_released -= uint64(s.npages << _PageShift)
+		s.scavenged = false
 	}
 
 	if s.npages > npage {
@@ -1013,21 +1012,20 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 		// The size is potentially changing so the treap needs to delete adjacent nodes and
 		// insert back as a combined node.
 		// We have a t, it is large so it has to be in the treap so we can remove it.
-		if before.npreleased == 0 {
+		if !before.scavenged {
 			h.free.removeSpan(before)
 			// Scavenge if s is scavenged.
-			if s.npreleased != 0 {
+			if s.scavenged {
 				before.scavenge()
 			}
 		} else {
 			h.scav.removeSpan(before)
 			// Scavenge s if we're trying to coalesce with a scavenged
 			// neighbor.
-			if s.npreleased == 0 {
+			if !s.scavenged {
 				s.scavenge()
 			}
 		}
-		s.npreleased += before.npreleased // absorb released pages
 		before.state = mSpanDead
 		h.spanalloc.free(unsafe.Pointer(before))
 	}
@@ -1037,24 +1035,23 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 		s.npages += after.npages
 		s.needzero |= after.needzero
 		h.setSpan(s.base()+s.npages*pageSize-1, s)
-		if after.npreleased == 0 {
+		if !after.scavenged {
 			h.free.removeSpan(after)
-			if s.npreleased != 0 {
+			if s.scavenged {
 				after.scavenge()
 			}
 		} else {
 			h.scav.removeSpan(after)
-			if s.npreleased == 0 {
+			if !s.scavenged {
 				s.scavenge()
 			}
 		}
-		s.npreleased += after.npreleased
 		after.state = mSpanDead
 		h.spanalloc.free(unsafe.Pointer(after))
 	}
 
 	// Insert s into appropriate list or treap.
-	if s.npreleased != 0 {
+	if s.scavenged {
 		h.scav.insert(s)
 	} else {
 		h.free.insert(s)
@@ -1063,7 +1060,7 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 
 func scavengeTreapNode(t *treapNode, now, limit uint64) uintptr {
 	s := t.spanKey
-	if (now-uint64(s.unusedsince)) > limit && s.npreleased != s.npages {
+	if (now-uint64(s.unusedsince)) > limit && !s.scavenged {
 		if released := s.scavenge(); released != 0 {
 			return released
 		}
@@ -1109,7 +1106,7 @@ func (span *mspan) init(base uintptr, npages uintptr) {
 	span.elemsize = 0
 	span.state = mSpanDead
 	span.unusedsince = 0
-	span.npreleased = 0
+	span.scavenged = false
 	span.speciallock.key = 0
 	span.specials = nil
 	span.needzero = 0
