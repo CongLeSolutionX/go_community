@@ -933,6 +933,14 @@ func (h *mheap) grow(npage uintptr) bool {
 		return false
 	}
 
+	// Scavenge some pages out of the free treap to make up for
+	// the virtual memory space we just allocated. We prefer to
+	// scavenge the largest spans first since the cost of scavenging
+	// is proportional to the number of sysUnused() calls rather than
+	// the number of pages released, so we make fewer of those calls
+	// with larger spans.
+	scavengeLargest(&h.free, &h.scav, size)
+
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
 	s := (*mspan)(h.spanalloc.alloc())
@@ -1082,6 +1090,53 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 		h.scav.insert(s)
 	} else {
 		h.free.insert(s)
+	}
+}
+
+// scavengeLargest scavenges nbytes worth of spans in unscav
+// starting from the largest span and working down. It then takes those spans
+// and places them in scav.
+func scavengeLargest(unscav *mTreap, scav *mTreap, nbytes uintptr) {
+	t := unscav.treap
+	released := uintptr(0)
+	for released < nbytes {
+		if t == nil {
+			return
+		}
+		// Just grab the largest free span.
+		for t.right != nil {
+			t = t.right
+		}
+		s := t.spanKey
+		start, end := s.physPageBounds()
+		if end-start == 0 {
+			// Since we're going in order of largest-to-smallest span, this
+			// means all other spans are no bigger than s, so we should stop
+			// here before we accidentally iterate over the whole treap.
+			return
+		}
+		// If the largest free span is more than we need, find and remove
+		// the best fit and quit.
+		if end-start > nbytes-released {
+			s = unscav.remove((nbytes - released) / pageSize)
+			if s != nil {
+				s.scavenge()
+				scav.insert(s)
+			}
+			return
+		}
+		released += s.scavenge()
+		p := t.parent
+		unscav.removeNode(t)
+		scav.insert(s)
+		// We can start from the p, since only the subtree of p was
+		// modified by t's removal. If t was the root (no parent)
+		// just start again from the root.
+		if p != nil {
+			t = p
+		} else {
+			t = unscav.treap
+		}
 	}
 }
 
