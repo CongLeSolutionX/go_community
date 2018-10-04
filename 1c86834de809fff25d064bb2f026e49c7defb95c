@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c78250c3_00af9672",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T11:52:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b007b96_3957989a",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8100eef_552c4711",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -59,6 +77,48 @@
     },
     {
       "key": {
+        "uuid": "f7b2880b_f3d91575",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T11:52:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8100eef_552c4711",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c130a476_babe91f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T11:52:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f74b03a_ac7b2548",
+      "range": {
+        "startLine": 12,
+        "startChar": 53,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cb0cd81_d10b7d3d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2018-10-03T18:27:55Z",
       "side": 1,
       "message": "What is meant by (cf syscalls)?",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "960b8df9_10dd4fb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T11:52:19Z",
+      "side": 1,
+      "message": "I mean a C function is called during every syscalls. But yes, it isn\u0027t really usefull...",
+      "parentUuid": "4cb0cd81_d10b7d3d",
       "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "0a20735a_f8bb7746",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T11:52:19Z",
+      "side": 1,
+      "message": "Without cgo, Linux doesn\u0027t save g on the TLS as iscgo \u003d false on save_g.",
+      "parentUuid": "3be7a19a_061e02e0",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 12
+      },
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9ae6f07_3b59eb67",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -110,6 +212,24 @@
       "writtenOn": "2018-10-03T18:27:55Z",
       "side": 1,
       "message": "I don\u0027t know what this means. What new stack layout?",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81f41dca_a5c87276",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T11:52:19Z",
+      "side": 1,
+      "message": "This is linked with https://go-review.googlesource.com/c/go/+/138733. \nOn AIX, LR is saved in the previous frame at 16(R1). On Linux, it\u0027s saved in the current frame at 0(R1).\nIn jmpdefer, I retrieve LR with R31 \u003c- 0(R0) and R31 \u003c- 0(R31) while on Linux, it\u0027s just R31 \u003c- 0(R0). \nIn asmcgocall, I also create my fake backtrace by saving LR to 16(R1).",
+      "parentUuid": "a9ae6f07_3b59eb67",
       "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "0e9ffd51_52d362c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T11:52:19Z",
+      "side": 1,
+      "message": "I\u0027m talking about the 3 instructions at the end.",
+      "parentUuid": "7a2acb5a_fa5b7d53",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65293039_7414f032",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 3
@@ -144,6 +282,24 @@
       "writtenOn": "2018-10-03T18:27:55Z",
       "side": 1,
       "message": "What is the reason for changing this code on Linux? Was this wrong before?",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c308550_776f2448",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T11:52:19Z",
+      "side": 1,
+      "message": "It was but I think this situation can\u0027t occur. \nOn AIX, every syscalls calls asmcgocall then a C function before entering the Kernel. So it needs a huge stack.\nOn Linux, syscalls are made in assembly with sc instructions, and the stack is directly handled by the Kernel afterwards (if I remember well). \nThe only case that I see where it might happen is if a C function is called during the signal handler. But there is no such case by default and I don\u0027t think a user can directly call one of his own function during it.",
+      "parentUuid": "65293039_7414f032",
       "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "98c73ad7_614c3127",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T11:52:19Z",
+      "side": 1,
+      "message": "We had a conversation about it on July/August (I lost my mails so I don\u0027t have it anymore) and we said it could be removed. But I can add it again if you wish.",
+      "parentUuid": "623ecbe5_c92b3597",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81f26a47_d0680eb9",
         "filename": "src/runtime/tls_ppc64x.s",
         "patchSetId": 3
@@ -178,6 +352,24 @@
       "writtenOn": "2018-10-03T18:27:55Z",
       "side": 1,
       "message": "iscgo is not set for aix/ppc64?",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5d097a4_033a4425",
+        "filename": "src/runtime/tls_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T11:52:19Z",
+      "side": 1,
+      "message": "No because CGO isn\u0027t yet available, especially runtime/cgo isn\u0027t port for AIX. \nHowever, I still need part of it, like //go:cgo_import_dynamic or asmcgocall function for syscalls.",
+      "parentUuid": "81f26a47_d0680eb9",
       "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
