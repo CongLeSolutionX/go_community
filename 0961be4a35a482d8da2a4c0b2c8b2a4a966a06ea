@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b2d8835_daf7095e",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-04T15:16:14Z",
+      "side": 1,
+      "message": "anames7.go needs update.",
+      "revId": "0961be4a35a482d8da2a4c0b2c8b2a4a966a06ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e91fcf0e_51f8cfc6",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3495,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-04T15:16:14Z",
+      "side": 1,
+      "message": "Probably use a local variable, maybe op. Reusing o2 here makes it not very easy to read.",
+      "revId": "0961be4a35a482d8da2a4c0b2c8b2a4a966a06ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "169a52e1_b46167ca",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 3496,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-04T15:16:14Z",
+      "side": 1,
+      "message": "Parenthesis is not needed.",
+      "range": {
+        "startLine": 3496,
+        "startChar": 5,
+        "endLine": 3496,
+        "endChar": 17
+      },
+      "revId": "0961be4a35a482d8da2a4c0b2c8b2a4a966a06ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
