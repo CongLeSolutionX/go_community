@@ -908,6 +908,14 @@ func (h *mheap) grow(npage uintptr) bool {
 		return false
 	}
 
+	// Scavenge some pages out of the free treap to make up for
+	// the virtual memory space we just allocated.
+	//
+	// TODO(mknyszek): This may be overkill on some systems, as
+	// we'll try to scavenge up to 8192 pages with a 64 MB arena
+	// size.
+	h.freelarge.scavengeLargest(&h.scavlarge, size>>_PageShift)
+
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
 	s := (*mspan)(h.spanalloc.alloc())
