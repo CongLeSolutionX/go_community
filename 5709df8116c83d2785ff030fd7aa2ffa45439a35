@@ -70,6 +70,98 @@
       "revId": "5709df8116c83d2785ff030fd7aa2ffa45439a35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3368d82a_79d58d36",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-04T05:01:20Z",
+      "side": 1,
+      "message": "s/package/packages/",
+      "range": {
+        "startLine": 416,
+        "startChar": 70,
+        "endLine": 416,
+        "endChar": 77
+      },
+      "revId": "5709df8116c83d2785ff030fd7aa2ffa45439a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c46793_f2690b11",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-04T05:01:20Z",
+      "side": 1,
+      "message": "s/indirect/an indirect/\ns/package, see/package. See/",
+      "range": {
+        "startLine": 417,
+        "startChar": 4,
+        "endLine": 417,
+        "endChar": 12
+      },
+      "revId": "5709df8116c83d2785ff030fd7aa2ffa45439a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8fd5f18_12a1f48a",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-04T05:01:20Z",
+      "side": 1,
+      "message": "end sentence in a period: detail.",
+      "range": {
+        "startLine": 418,
+        "startChar": 13,
+        "endLine": 418,
+        "endChar": 19
+      },
+      "revId": "5709df8116c83d2785ff030fd7aa2ffa45439a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e63590a5_3b856cdd",
+        "filename": "src/cmd/api/goapi_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-04T05:01:20Z",
+      "side": 1,
+      "message": "This will not be reached after t.Fatal. Use t.Fatalf instead.",
+      "range": {
+        "startLine": 201,
+        "startChar": 5,
+        "endLine": 201,
+        "endChar": 9
+      },
+      "revId": "5709df8116c83d2785ff030fd7aa2ffa45439a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
