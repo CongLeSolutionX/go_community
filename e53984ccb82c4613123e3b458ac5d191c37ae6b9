@@ -271,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "297b3372_97fad9b4",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T08:16:16Z",
+      "side": 1,
+      "message": "It happened when a map was used between a fd and its pollDesc. It was being updated inside netpoll() if I remember correctly. However, I don\u0027t have the backtrace anymore. I have tried but I didn\u0027t manage to reproduce the error. If I remember something else, I\u0027ll warn you.",
+      "parentUuid": "4ae926d3_d09b4657",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "672aec35_60aa5417",
         "filename": "src/runtime/os_aix.go",
         "patchSetId": 2
