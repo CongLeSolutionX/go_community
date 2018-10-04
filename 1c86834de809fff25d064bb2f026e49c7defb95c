@@ -236,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "51377d19_2fd4b075",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-04T14:41:01Z",
+      "side": 1,
+      "message": "How about: Some modifications on asm_ppc64.s are due to AIX stack layout.",
+      "parentUuid": "81f41dca_a5c87276",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a2acb5a_fa5b7d53",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -306,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "d9c69c34_6511b4a0",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-04T14:41:01Z",
+      "side": 1,
+      "message": "OK, I think it is fine to leave your change the way it is.",
+      "parentUuid": "3c308550_776f2448",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "623ecbe5_c92b3597",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 3
@@ -335,6 +371,24 @@
       "side": 1,
       "message": "We had a conversation about it on July/August (I lost my mails so I don\u0027t have it anymore) and we said it could be removed. But I can add it again if you wish.",
       "parentUuid": "623ecbe5_c92b3597",
+      "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75e2e615_8baee422",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-04T14:41:01Z",
+      "side": 1,
+      "message": "I looked back and found this note where this was discussed. I think it was Ian that said it was OK to remove the extra instructions. After looking at this more closely, I think it is fine what you did, but I\u0027d prefer that you move the MOVD R5, R1 before the call to save_g instead of after.",
+      "parentUuid": "98c73ad7_614c3127",
       "revId": "1c86834de809fff25d064bb2f026e49c7defb95c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
