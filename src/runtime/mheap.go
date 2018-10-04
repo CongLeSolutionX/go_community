@@ -922,6 +922,14 @@ func (h *mheap) grow(npage uintptr) bool {
 		return false
 	}
 
+	// Scavenge some pages out of the free treap to make up for
+	// the virtual memory space we just allocated. We prefer to
+	// scavenge the largest spans first since the cost of scavenging
+	// is proportional to the number of sysUnused() calls rather than
+	// the number of pages released, so we make fewer of those calls
+	// with larger spans.
+	scavengeLargest(&h.free, &h.scav, size/pageSize)
+
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
 	s := (*mspan)(h.spanalloc.alloc())
