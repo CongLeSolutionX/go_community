@@ -909,6 +909,10 @@ func (h *mheap) grow(npage uintptr) bool {
 		return false
 	}
 
+	// Scavenge some pages out of the free treap to make up for
+	// the virtual memory space we just allocated.
+	h.free.scavengeLargest(&h.scav, size>>_PageShift)
+
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
 	s := (*mspan)(h.spanalloc.alloc())
