@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a93374e2_77295121",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-04T04:46:46Z",
+      "side": 1,
+      "message": "sig doesn\u0027t have to be non-nil for clients - it really depends on what they need this type for. It\u0027s just that there\u0027s no way to set the type afterwards. It seems silly to have to mention that the type is expected to be non-nil for all these factory methods.\n\nThe reality is that this API is for importers, and everybody else has to know what they are doing. I wish I didn\u0027t have to export these in the first place.\n\nThat said, I\u0027ve changed the code in lookup so that I don\u0027t need to rely on this anymore here.",
+      "parentUuid": "94ca5a33_2d09420a",
+      "revId": "afb9dbe55b9e084a59ff31656d7407e1b6070311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47c0eec1_ef9c8ac7",
         "filename": "src/go/types/object.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-10-04T01:12:10Z",
       "side": 1,
       "message": "Is sig.recv.type guaranteed to be set at this point? What if sig.recv is a type alias?",
+      "revId": "afb9dbe55b9e084a59ff31656d7407e1b6070311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cfdfe54_6345acbf",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-04T04:46:46Z",
+      "side": 1,
+      "message": "The primary clients of this are importers. They don\u0027t see aliases in receivers since they have been resolved before export data was created.",
+      "parentUuid": "47c0eec1_ef9c8ac7",
       "revId": "afb9dbe55b9e084a59ff31656d7407e1b6070311",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
