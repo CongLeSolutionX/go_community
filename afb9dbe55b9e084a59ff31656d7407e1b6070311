@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94ca5a33_2d09420a",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-10-04T01:12:10Z",
+      "side": 1,
+      "message": "It would be good to clarify that sig is expected to be non-nil for external clients, and also note within the body of NewFunc that sig\u003d\u003dnil should only occur for FuncDecl, in which case the type is set later during the objMap/objDecl/check.funcDecl flow, and hasPtrRecv is set during method processing.",
+      "revId": "afb9dbe55b9e084a59ff31656d7407e1b6070311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47c0eec1_ef9c8ac7",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-10-04T01:12:10Z",
+      "side": 1,
+      "message": "Is sig.recv.type guaranteed to be set at this point? What if sig.recv is a type alias?",
+      "revId": "afb9dbe55b9e084a59ff31656d7407e1b6070311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f414f8e0_46485a71",
+        "filename": "src/go/types/resolver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-10-04T01:12:10Z",
+      "side": 1,
+      "message": "Don\u0027t forget to handle the corner case of:\n\n  type T \u003d *U\n  func (T) F()\n\nSyntactically typ is not a StarExpr, but its type is *U.",
+      "revId": "afb9dbe55b9e084a59ff31656d7407e1b6070311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
