@@ -307,6 +307,24 @@
     },
     {
       "key": {
+        "uuid": "10d168ae_dd620cee",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-04T14:54:42Z",
+      "side": 1,
+      "message": "Interesting. However, the issue isn\u0027t what netpoll called that had a write barrier, but what called netpoll that needs there to be no write barriers. The annotation should go on that caller.",
+      "parentUuid": "e5eeafe8_79a4a1d7",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "672aec35_60aa5417",
         "filename": "src/runtime/os_aix.go",
         "patchSetId": 2
