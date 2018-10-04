@@ -244,6 +244,46 @@ func (root *mTreap) removeSpan(span *mspan) {
 	root.removeNode(t)
 }
 
+// scavengeLargest scavenges npages worth of physical pages from spans in root
+// starting from the largest span and working down. It then takes those spans
+// and places them in scav.
+func scavengeLargest(unscav *mTreap, scav *mTreap, npages uintptr) {
+	t := unscav.treap
+	for npages > 0 {
+		if t == nil {
+			return
+		}
+		// Just grab the largest free span.
+		for t.right != nil {
+			t = t.right
+		}
+		s := t.spanKey
+		// If the largest free span is more than we need, find and remove
+		// the best fit and quit.
+		if s.npages >= npages {
+			s = unscav.remove(npages)
+			s.scavenge()
+			scav.insert(s)
+			return
+		}
+		released := s.scavenge()
+		// released is in bytes, so just round up to the nearest number
+		// of pages released.
+		npages -= (released + pageSize - 1) / pageSize
+		p := t.parent
+		unscav.removeNode(t)
+		scav.insert(s)
+		// We can start from the p, since only the subtree of p was
+		// modified by t's removal. If t was the root (no parent)
+		// just start again from the root.
+		if p != nil {
+			t = p
+		} else {
+			t = unscav.treap
+		}
+	}
+}
+
 // scavenge visits each node in the unscav treap and scavenges the
 // treapNode's span. It then removes the scavenged span from
 // itself and adds it into scav before continuing.
