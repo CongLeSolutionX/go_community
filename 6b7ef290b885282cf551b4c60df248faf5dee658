@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "202468a8_49ee4a92",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-10-04T18:26:12Z",
+      "side": 1,
+      "message": "There is theoretical and I think practical overhead as this will make binaries bigger (extra pointer needs to be written to stack) and call overhead as each call site now needs to set the pointer. Adding an additional return parameter wont increase code size at call sites as the extra return needs to be written in the mapassign function but can otherwise be ignored by callers.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 82
+      },
+      "revId": "6b7ef290b885282cf551b4c60df248faf5dee658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
