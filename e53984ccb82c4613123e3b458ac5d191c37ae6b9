@@ -289,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "e5eeafe8_79a4a1d7",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-04T08:30:48Z",
+      "side": 1,
+      "message": "Damien, the guy that make this version, remembers that it happened during the iteration of this map inside netpoll.  (for fd, pd :\u003d range mpfds ) with mpfds \u003d map[int32]*pollDesc. \nHowever, it might link with gccgo as it was with this implementation that it happens not this Go version.",
+      "parentUuid": "297b3372_97fad9b4",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "672aec35_60aa5417",
         "filename": "src/runtime/os_aix.go",
         "patchSetId": 2
