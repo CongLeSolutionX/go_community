@@ -259,7 +259,7 @@ func scavenge_(unscav *mTreap, t *treapNode, scav *mTreap, now, limit uint64) ui
 	}
 	released := uintptr(0)
 	s := t.spanKey
-	if (now-uint64(s.unusedsince)) > limit && s.npreleased != s.npages {
+	if (now-uint64(s.unusedsince)) > limit && !s.scavenged {
 		released = s.scavenge()
 	}
 	if released == 0 {
