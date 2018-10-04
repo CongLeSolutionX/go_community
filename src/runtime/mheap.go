@@ -929,6 +929,14 @@ func (h *mheap) grow(npage uintptr) bool {
 		return false
 	}
 
+	// Scavenge some pages out of the free treap to make up for
+	// the virtual memory space we just allocated. We prefer to
+	// scavenge the largest spans first since the cost of scavenging
+	// is proportional to the number of sysUnused() calls rather than
+	// the number of pages released, so we make fewer of those calls
+	// with larger spans.
+	scavengeLargest(&h.free, &h.scav, size/pageSize)
+
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
 	s := (*mspan)(h.spanalloc.alloc())
@@ -1113,6 +1121,54 @@ func scavenge1(unscav *mTreap, t *treapNode, scav *mTreap, now, limit uint64) ui
 		scav.insert(s)
 	}
 	return released + scavenge1(unscav, successor, scav, now, limit)
+}
+
+// scavengeLargest scavenges npages worth of physical pages from spans in unscav
+// starting from the largest span and working down. It then takes those spans
+// and places them in scav.
+func scavengeLargest(unscav *mTreap, scav *mTreap, npages uintptr) {
+	t := unscav.treap
+	for npages > 0 {
+		if t == nil {
+			return
+		}
+		// Just grab the largest free span.
+		for t.right != nil {
+			t = t.right
+		}
+		s := t.spanKey
+		// If the largest free span is more than we need, find and remove
+		// the best fit and quit.
+		if s.npages >= npages {
+			s = unscav.remove(npages)
+			s.scavenge()
+			scav.insert(s)
+			return
+		}
+		released := s.scavenge()
+		if released == 0 {
+			// If we were unable to release anything from s, that probably
+			// means s is too small to actually have any pages released from it.
+			// Since we're going in order of largest-to-smallest span, this
+			// means all other spans are no bigger than s, so we should stop
+			// here before we accidentally iterate over the whole treap.
+			return
+		}
+		// released is in bytes, so just round up to the nearest number
+		// of pages released.
+		npages -= (released + pageSize - 1) / pageSize
+		p := t.parent
+		unscav.removeNode(t)
+		scav.insert(s)
+		// We can start from the p, since only the subtree of p was
+		// modified by t's removal. If t was the root (no parent)
+		// just start again from the root.
+		if p != nil {
+			t = p
+		} else {
+			t = unscav.treap
+		}
+	}
 }
 
 func (h *mheap) scavenge(k int32, now, limit uint64) {
