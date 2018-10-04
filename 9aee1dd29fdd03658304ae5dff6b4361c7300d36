@@ -22,6 +22,30 @@
       "revId": "9aee1dd29fdd03658304ae5dff6b4361c7300d36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "febf5c3a_a8fdbba5",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-04T14:14:49Z",
+      "side": 1,
+      "message": "This is only used when matching the assembly instruction. That means it it OK for the operand in the Go asm to be a scalar float 0, but when it generates the actual binary instruction it does the right thing.",
+      "parentUuid": "411efd6c_3d6f1b47",
+      "range": {
+        "startLine": 502,
+        "startChar": 2,
+        "endLine": 502,
+        "endChar": 8
+      },
+      "revId": "9aee1dd29fdd03658304ae5dff6b4361c7300d36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
