@@ -374,6 +374,7 @@ func (s *mspan) scavenge() uintptr {
 	}
 	released := end - start
 	memstats.heap_released += uint64(released)
+	println("heap_released", memstats.heap_released)
 	s.scavenged = true
 	sysUnused(unsafe.Pointer(start), released)
 	return released
@@ -913,6 +914,7 @@ HaveSpan:
 		sysUsed(unsafe.Pointer(s.base()), s.npages<<_PageShift)
 		start, end := s.physPageBounds()
 		memstats.heap_released -= uint64(end-start)
+		println("heap_released", memstats.heap_released)
 		s.scavenged = false
 	}
 	s.unusedsince = 0
@@ -940,6 +942,14 @@ func (h *mheap) grow(npage uintptr) bool {
 		print("runtime: out of memory: cannot allocate ", ask, "-byte block (", memstats.heap_sys, " in use)\n")
 		return false
 	}
+
+	// Scavenge some pages out of the free treap to make up for
+	// the virtual memory space we just allocated. We prefer to
+	// scavenge the largest spans first since the cost of scavenging
+	// is proportional to the number of sysUnused() calls rather than
+	// the number of pages released, so we make fewer of those calls
+	// with larger spans.
+	h.scavengeLargest(size)
 
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
@@ -1092,6 +1102,7 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 		// before re-scavenging the entire newly-coalesced span,
 		// which will implicitly bump up heap_released.
 		memstats.heap_released -= uint64(prescavenged)
+		println("heap_released", memstats.heap_released)
 		s.scavenge()
 	}
 
@@ -1100,6 +1111,56 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 		h.scav.insert(s)
 	} else {
 		h.free.insert(s)
+	}
+}
+
+// scavengeLargest scavenges nbytes worth of spans in unscav
+// starting from the largest span and working down. It then takes those spans
+// and places them in scav. h must be locked.
+func (h *mheap) scavengeLargest(nbytes uintptr) {
+	// Find the largest child.
+	t := h.free.treap
+	if t == nil {
+		return
+	}
+	for t.right != nil {
+		t = t.right
+	}
+	// Iterate over the treap from the largest child to the smallest by
+	// starting from the largest and finding its predecessor until we've
+	// recovered nbytes worth of physical memory, or it no longer has a
+	// predecessor (meaning the treap is now empty).
+	released := uintptr(0)
+	for t != nil && released < nbytes {
+		s := t.spanKey
+		start, end := s.physPageBounds()
+		if end <= start {
+			// Since we're going in order of largest-to-smallest span, this
+			// means all other spans are no bigger than s. There's a high
+			// chance that the other spans don't even cover a full page,
+			// (though they could) but iterating further just for a handful
+			// of pages probably isn't worth it, so just stop here.
+			//
+			// This check also preserves the invariant that spans that have
+			// `scavenged` set are only ever in the `scav` treap, and
+			// those which have it unset are only in the `free` treap. 
+			return
+		}
+		// If the largest free span is more than we need, find and remove
+		// the best fit and quit.
+		if end-start > nbytes-released {
+			s = h.free.remove(nbytes-released)
+			if s != nil {
+				s.scavenge()
+				h.scav.insert(s)
+			}
+			return
+		}
+		released += s.scavenge()
+		next := h.free.predecessor(t)
+		h.free.removeNode(t)
+		t = next
+		h.scav.insert(s)
 	}
 }
 
