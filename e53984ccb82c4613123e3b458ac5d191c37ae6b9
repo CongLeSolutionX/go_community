@@ -325,6 +325,24 @@
     },
     {
       "key": {
+        "uuid": "069117c2_13154a86",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-04T17:41:03Z",
+      "side": 1,
+      "message": "If this is descended from the gccgo code, then it is likely because until recently gccgo did not support nowritebarrierrec.  It only supported nowritebarrier.  (This has been fixed).  So likely this comment can be removed and we can rely on the callers being marked nowritebarrierrec.",
+      "parentUuid": "10d168ae_dd620cee",
+      "revId": "e53984ccb82c4613123e3b458ac5d191c37ae6b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "672aec35_60aa5417",
         "filename": "src/runtime/os_aix.go",
         "patchSetId": 2
