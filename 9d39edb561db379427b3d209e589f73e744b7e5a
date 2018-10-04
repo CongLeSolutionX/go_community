@@ -81,6 +81,30 @@
       "revId": "9d39edb561db379427b3d209e589f73e744b7e5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d742c7a1_1196e51f",
+        "filename": "src/cmd/go/internal/modconv/dep.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2018-10-04T14:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cea6540_9705cdc5",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 52
+      },
+      "revId": "9d39edb561db379427b3d209e589f73e744b7e5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
