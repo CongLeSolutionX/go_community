@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ecb18e3_f53888f5",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-04T14:40:10Z",
+      "side": 1,
+      "message": "The Wasm failure seems from that r.Off here is the byte offset in the machine code, which is different from the concept of \"PC\" (PC_F+PC_B) we used on Wasm.",
+      "revId": "9dac0a8132d7db5225b27bdd8faeb3158e624159",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
