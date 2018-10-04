@@ -10,7 +10,10 @@ package types
 // in T and returns the corresponding *Var or *Func, an index sequence, and a
 // bool indicating if there were any pointer indirections on the path to the
 // field or method. If addressable is set, T is the type of an addressable
-// variable (only matters for method lookups).
+// variable (only matters for method lookups). If the obj result is a method
+// associated with a concrete (non-interface) type, the method's signature
+// may not be fully set up. Call Checker.objDecl(obj, nil) before accessing
+// the method's type.
 //
 // The last index entry is the field or method index in the (possibly embedded)
 // type where the entry was found, either:
@@ -112,7 +115,7 @@ func lookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 				// look for a matching attached method
 				if i, m := lookupMethod(named.methods, pkg, name); m != nil {
 					// potential match
-					assert(m.typ != nil)
+					// caution: method may not have a proper signature yet
 					index = concat(e.index, i)
 					if obj != nil || e.multiples {
 						return nil, index, false // collision
@@ -248,6 +251,14 @@ func lookupType(m map[Type]int, typ Type) (int, bool) {
 // x is of interface type V).
 //
 func MissingMethod(V Type, T *Interface, static bool) (method *Func, wrongType bool) {
+	return (*Checker)(nil).missingMethod(V, T, static)
+}
+
+// missingMethod is like MissingMethod but accepts a receiver.
+// The receiver may be nil if missingMethod is invoked through
+// an exported API call (such as MissingMethod), i.e., when all
+// methods have been type-checked.
+func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method *Func, wrongType bool) {
 	// fast path for common case
 	if T.Empty() {
 		return
@@ -275,9 +286,15 @@ func MissingMethod(V Type, T *Interface, static bool) (method *Func, wrongType b
 	for _, m := range T.allMethods {
 		obj, _, _ := lookupFieldOrMethod(V, false, m.pkg, m.name)
 
+		// we must have a method (not a field of matching function type)
 		f, _ := obj.(*Func)
 		if f == nil {
 			return m, false
+		}
+
+		// methods may not have a fully set up signature yet
+		if check != nil {
+			check.objDecl(f, nil)
 		}
 
 		if !Identical(f.typ, m.typ) {
@@ -291,14 +308,16 @@ func MissingMethod(V Type, T *Interface, static bool) (method *Func, wrongType b
 // assertableTo reports whether a value of type V can be asserted to have type T.
 // It returns (nil, false) as affirmative answer. Otherwise it returns a missing
 // method required by V and whether it is missing or just has the wrong type.
-func assertableTo(V *Interface, T Type) (method *Func, wrongType bool) {
+// The receiver may be nil if assertableTo is invoked through an exported API call
+// (such as AssertableTo), i.e., when all methods have been type-checked.
+func (check *Checker) assertableTo(V *Interface, T Type) (method *Func, wrongType bool) {
 	// no static check is required if T is an interface
 	// spec: "If T is an interface type, x.(T) asserts that the
 	//        dynamic type of x implements the interface T."
 	if _, ok := T.Underlying().(*Interface); ok && !strict {
 		return
 	}
-	return MissingMethod(T, V, false)
+	return check.missingMethod(T, V, false)
 }
 
 // deref dereferences typ if it is a *Pointer and returns its base and true.
