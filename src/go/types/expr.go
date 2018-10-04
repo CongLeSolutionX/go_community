@@ -576,7 +576,7 @@ func (check *Checker) comparison(x, y *operand, op token.Token) {
 	// spec: "In any comparison, the first operand must be assignable
 	// to the type of the second operand, or vice versa."
 	err := ""
-	if x.assignableTo(check.conf, y.typ, nil) || y.assignableTo(check.conf, x.typ, nil) {
+	if x.assignableTo(check, y.typ, nil) || y.assignableTo(check, x.typ, nil) {
 		defined := false
 		switch op {
 		case token.EQL, token.NEQ:
@@ -1547,7 +1547,7 @@ func keyVal(x constant.Value) interface{} {
 
 // typeAssertion checks that x.(T) is legal; xtyp must be the type of x.
 func (check *Checker) typeAssertion(pos token.Pos, x *operand, xtyp *Interface, T Type) {
-	method, wrongType := assertableTo(xtyp, T)
+	method, wrongType := check.assertableTo(xtyp, T)
 	if method == nil {
 		return
 	}

@@ -112,7 +112,7 @@ func lookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 				// look for a matching attached method
 				if i, m := lookupMethod(named.methods, pkg, name); m != nil {
 					// potential match
-					assert(m.typ != nil)
+					// caution: method may not have a signature yet
 					index = concat(e.index, i)
 					if obj != nil || e.multiples {
 						return nil, index, false // collision
@@ -162,7 +162,6 @@ func lookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 				// look for a matching method
 				// TODO(gri) t.allMethods is sorted - use binary search
 				if i, m := lookupMethod(t.allMethods, pkg, name); m != nil {
-					assert(m.typ != nil)
 					index = concat(e.index, i)
 					if obj != nil || e.multiples {
 						return nil, index, false // collision
@@ -248,6 +247,10 @@ func lookupType(m map[Type]int, typ Type) (int, bool) {
 // x is of interface type V).
 //
 func MissingMethod(V Type, T *Interface, static bool) (method *Func, wrongType bool) {
+	return (*Checker)(nil).missingMethod(V, T, static)
+}
+
+func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method *Func, wrongType bool) {
 	// fast path for common case
 	if T.Empty() {
 		return
@@ -258,13 +261,13 @@ func MissingMethod(V Type, T *Interface, static bool) (method *Func, wrongType b
 	if ityp, _ := V.Underlying().(*Interface); ityp != nil {
 		// TODO(gri) allMethods is sorted - can do this more efficiently
 		for _, m := range T.allMethods {
-			_, obj := lookupMethod(ityp.allMethods, m.pkg, m.name)
-			switch {
-			case obj == nil:
-				if static {
-					return m, false
-				}
-			case !Identical(obj.Type(), m.typ):
+			_, f := lookupMethod(ityp.allMethods, m.pkg, m.name)
+
+			if f == nil && static {
+				return m, false
+			}
+
+			if !Identical(f.typ, m.typ) {
 				return m, true
 			}
 		}
@@ -275,9 +278,17 @@ func MissingMethod(V Type, T *Interface, static bool) (method *Func, wrongType b
 	for _, m := range T.allMethods {
 		obj, _, _ := lookupFieldOrMethod(V, false, m.pkg, m.name)
 
+		// we must have found a method (not a field of matching function type)
 		f, _ := obj.(*Func)
 		if f == nil {
 			return m, false
+		}
+
+		// caution: method may not have a signature yet
+		if check != nil {
+			check.objDecl(f, nil)
+		} else {
+			assert(f.typ != nil)
 		}
 
 		if !Identical(f.typ, m.typ) {
@@ -291,14 +302,14 @@ func MissingMethod(V Type, T *Interface, static bool) (method *Func, wrongType b
 // assertableTo reports whether a value of type V can be asserted to have type T.
 // It returns (nil, false) as affirmative answer. Otherwise it returns a missing
 // method required by V and whether it is missing or just has the wrong type.
-func assertableTo(V *Interface, T Type) (method *Func, wrongType bool) {
+func (check *Checker) assertableTo(V *Interface, T Type) (method *Func, wrongType bool) {
 	// no static check is required if T is an interface
 	// spec: "If T is an interface type, x.(T) asserts that the
 	//        dynamic type of x implements the interface T."
 	if _, ok := T.Underlying().(*Interface); ok && !strict {
 		return
 	}
-	return MissingMethod(T, V, false)
+	return check.missingMethod(T, V, false)
 }
 
 // deref dereferences typ if it is a *Pointer and returns its base and true.

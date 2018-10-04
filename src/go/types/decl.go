@@ -586,7 +586,7 @@ func (check *Checker) addMethodDecls(obj *TypeName) {
 		}
 
 		// type-check
-		check.objDecl(m, nil)
+		// check.objDecl(m, nil)
 
 		if base != nil {
 			base.methods = append(base.methods, m)
