@@ -50,6 +50,24 @@
       "revId": "afb9dbe55b9e084a59ff31656d7407e1b6070311",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22b4939d_ad208840",
+        "filename": "src/go/types/resolver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-04T01:15:00Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is valid code. I filed https://github.com/golang/go/issues/27995 earlier today about this. Feel free to comment on the issue.",
+      "parentUuid": "f414f8e0_46485a71",
+      "revId": "afb9dbe55b9e084a59ff31656d7407e1b6070311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
