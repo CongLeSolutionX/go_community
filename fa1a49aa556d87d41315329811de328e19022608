@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2d2b667_66a91f87",
+        "filename": "src/os/file.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-10-04T09:46:30Z",
+      "side": 1,
+      "message": "any particular reason a switch wasn\u0027t used here, such as inlineability? just curious :)",
+      "revId": "fa1a49aa556d87d41315329811de328e19022608",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
