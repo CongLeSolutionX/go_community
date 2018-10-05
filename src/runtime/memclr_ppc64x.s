@@ -35,12 +35,12 @@ zero8:
 zero32setup:
 	DCBTST (R3)    // prepare data cache
 	MOVD   R7, CTR // number of 32 byte chunks
+	MOVD	$16, R8
+	XXLXOR	VS32, VS32, VS32 // clear VS32 (V0)
 
 zero32:
-	MOVD    R0, 0(R3)       // clear 4 double words
-	MOVD    R0, 8(R3)
-	MOVD    R0, 16(R3)
-	MOVD    R0, 24(R3)
+	STXVD2X VS32, (R3+R0)
+	STXVD2X VS32, (R3+R8)
 	ADD     $32, R3
 	BC      16, 0, zero32   // dec ctr, br zero32 if ctr not 0
 	RLDCLCC $61, R4, $3, R6 // remaining doublewords
