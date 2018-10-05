@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a66f1d6_fbd74f75",
+        "filename": "src/runtime/syscall_solaris.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-10-05T09:08:07Z",
+      "side": 1,
+      "message": "This should return\n\n  (val, err uintptr)\n\nOtherwise this wont compile on solaris:\n\n  /go/src/runtime/syscall_solaris.go:90:2: too many arguments to return\n        have (uintptr, uintptr)\n        want (uintptr)",
+      "range": {
+        "startLine": 89,
+        "startChar": 41,
+        "endLine": 89,
+        "endChar": 53
+      },
+      "revId": "75362c04dc1d574c9e431c3e39e2adb7f16fb2cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95211628_665c9a46",
+        "filename": "src/syscall/exec_libc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-10-05T09:08:07Z",
+      "side": 1,
+      "message": "This import is not used:\n\n  /go/src/syscall/exec_libc.go:12:2: imported and not used: \"runtime\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 9
+      },
+      "revId": "75362c04dc1d574c9e431c3e39e2adb7f16fb2cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f941d190_e39a73d4",
+        "filename": "src/syscall/exec_libc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-10-05T09:08:07Z",
+      "side": 1,
+      "message": "This breaks the solaris build at runtime. I think you need to retain the values previously defined in zsysnum_solaris_amd64.go",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 20
+      },
+      "revId": "75362c04dc1d574c9e431c3e39e2adb7f16fb2cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
