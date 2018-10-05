@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce94916b_b6a1e9ca",
+        "filename": "src/go/types/methodset.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-10-05T14:24:34Z",
+      "side": 1,
+      "message": "\"its type\"",
+      "range": {
+        "startLine": 260,
+        "startChar": 68,
+        "endLine": 260,
+        "endChar": 72
+      },
+      "revId": "2f16716666f9ea96823d7d5b0aec552dccf1333d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
