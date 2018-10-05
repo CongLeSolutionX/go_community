@@ -852,11 +852,6 @@ func (h *mheap) allocSpanLocked(npage uintptr, stat *uint64) *mspan {
 	if s.npages < npage {
 		throw("MHeap_AllocLocked - bad npages")
 	}
-	if s.scavenged {
-		sysUsed(unsafe.Pointer(s.base()), s.npages<<_PageShift)
-		memstats.heap_released -= uint64(s.npages << _PageShift)
-		s.scavenged = false
-	}
 
 	if s.npages > npage {
 		// Trim extra and put it back in the heap.
@@ -867,10 +862,18 @@ func (h *mheap) allocSpanLocked(npage uintptr, stat *uint64) *mspan {
 		h.setSpan(t.base(), t)
 		h.setSpan(t.base()+t.npages*pageSize-1, t)
 		t.needzero = s.needzero
+		t.scavenged = s.scavenged
 		s.state = mSpanManual // prevent coalescing with s
 		t.state = mSpanManual
 		h.freeSpanLocked(t, false, false, s.unusedsince)
 		s.state = mSpanFree
+	}
+	// "Unscavenge" s only AFTER splitting so that
+	// we only sysUsed whatever we actually need.
+	if s.scavenged {
+		sysUsed(unsafe.Pointer(s.base()), s.npages<<_PageShift)
+		memstats.heap_released -= uint64(s.npages << _PageShift)
+		s.scavenged = false
 	}
 	s.unusedsince = 0
 
