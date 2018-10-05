@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67219204_d4c7f3f9",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T20:15:30Z",
+      "side": 1,
+      "message": "Same thought about making this a function rather than a method.",
+      "revId": "98fac125609e6f9d9eacfb632f7bf1d21e103fb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa1983b9_d35d0425",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T20:15:30Z",
+      "side": 1,
+      "message": "Document the justification for preferring larger spans: the cost of scavenging is largely proportional to the number of sysUnused operations, rather than the number of pages released, so it\u0027s better to scavenge fewer, larger spans.",
+      "revId": "98fac125609e6f9d9eacfb632f7bf1d21e103fb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a9a6bba_f2a17e07",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T20:15:30Z",
+      "side": 1,
+      "message": "I wouldn\u0027t bother with this check. I\u0027m sure Rick was debugging some treap issue at some point and this code just hung around.",
+      "revId": "98fac125609e6f9d9eacfb632f7bf1d21e103fb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "337ea0bd_0e2d720a",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T20:15:30Z",
+      "side": 1,
+      "message": "General style is to use division where you can instead of shifting. It makes no difference to the compiler, but it\u0027s easier to read. You can also easily fold the rounding in this way:\n\nnpages -\u003d (released + pageSize - 1) / pageSize",
+      "revId": "98fac125609e6f9d9eacfb632f7bf1d21e103fb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca0396db_552f2848",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T20:15:30Z",
+      "side": 1,
+      "message": "size/pageSize",
+      "revId": "98fac125609e6f9d9eacfb632f7bf1d21e103fb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
