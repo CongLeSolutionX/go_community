@@ -31,9 +31,9 @@ check:
 	// Copying forward if no overlap.
 
 	BC	12, 6, noforwardlarge	// "BEQ CR1, noforwardlarge"
-	MOVD	R6,CTR			// R6 = number of double words
 	SRADCC	$2,R6,R8		// 32 byte chunks?
 	BNE	forward32setup		//
+	MOVD	R6,CTR			// R6 = number of double words
 
 	// Move double words
 
@@ -51,17 +51,14 @@ forward32setup:
 	DCBTST	(R3)			// prepare data cache
 	DCBT	(R4)
 	MOVD	R8, CTR			// double work count
+	MOVD	$16, R8
 
 forward32:
-	MOVD	0(R4), R8		// load 4 double words
-	MOVD	8(R4), R9
-	MOVD	16(R4), R14
-	MOVD	24(R4), R15
-	ADD	$32,R4
-	MOVD	R8, 0(R3)		// store those 4
-	MOVD	R9, 8(R3)
-	MOVD	R14,16(R3)
-	MOVD	R15,24(R3)
+	LXVD2X	(R4+R0), VS32		// load 16 bytes
+	LXVD2X	(R4+R8), VS33
+	ADD	$32, R4
+	STXVD2X VS32, (R3+R0)		// store 16 bytes
+	STXVD2X VS33, (R3+R8)
 	ADD	$32,R3			// bump up for next set
 	BC	16, 0, forward32	// continue
 	RLDCLCC	$61,R5,$3,R6		// remaining doublewords
