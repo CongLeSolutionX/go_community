@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d3eefd3_d0e1c5a5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T19:41:39Z",
+      "side": 1,
+      "message": "Trailing space",
+      "revId": "70cc0fd43e98611e167d97f216b8573f29baa044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc20d09c_97b3b943",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T19:41:39Z",
+      "side": 1,
+      "message": "Perhaps this should \"if s.scavenged { return 0 }\" just to be defensive. Currently this operation is idempotent, but this change makes that no longer the case.",
+      "revId": "70cc0fd43e98611e167d97f216b8573f29baa044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f90b89a4_7298b1c9",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T19:41:39Z",
+      "side": 1,
+      "message": "This isn\u0027t safe since we may have rounded the span boundaries in to match physical page boundaries in mspan.scavenge. We need to do the same thing here so the two heap_released operations cancel. Maybe factor that into a new mspan method that returns its start and end page boundaries?",
+      "revId": "70cc0fd43e98611e167d97f216b8573f29baa044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
