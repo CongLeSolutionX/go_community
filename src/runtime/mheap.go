@@ -884,6 +884,29 @@ HaveSpan:
 	if s.npages < npage {
 		throw("MHeap_AllocLocked - bad npages")
 	}
+
+	if s.npages > npage {
+		// Trim extra and put it back in the heap.
+		t := (*mspan)(h.spanalloc.alloc())
+		t.init(s.base()+npage<<_PageShift, s.npages-npage)
+		s.npages = npage
+		h.setSpan(t.base()-1, s)
+		h.setSpan(t.base(), t)
+		h.setSpan(t.base()+t.npages*pageSize-1, t)
+		t.needzero = s.needzero
+		// To maintain the invariant that only actually scavenged
+		// spans end up in scav, we need to make sure that the
+		// span is scavengable at all (covers at least one physical
+		// page).
+		start, end := t.physPageBounds()
+		t.scavenged = s.scavenged && start < end
+		s.state = mSpanManual // prevent coalescing with s
+		t.state = mSpanManual
+		h.freeSpanLocked(t, false, false, s.unusedsince)
+		s.state = mSpanFree
+	}
+	// "Unscavenge" s only AFTER splitting so that
+	// we only sysUsed whatever we actually need.
 	if s.scavenged {
 		// sysUsed all the pages that are actually available
 		// in the span, but only drop heap_released by the
@@ -896,21 +919,6 @@ HaveSpan:
 		start, end := s.physPageBounds()
 		memstats.heap_released -= uint64(end-start)
 		s.scavenged = false
-	}
-
-	if s.npages > npage {
-		// Trim extra and put it back in the heap.
-		t := (*mspan)(h.spanalloc.alloc())
-		t.init(s.base()+npage<<_PageShift, s.npages-npage)
-		s.npages = npage
-		h.setSpan(t.base()-1, s)
-		h.setSpan(t.base(), t)
-		h.setSpan(t.base()+t.npages*pageSize-1, t)
-		t.needzero = s.needzero
-		s.state = mSpanManual // prevent coalescing with s
-		t.state = mSpanManual
-		h.freeSpanLocked(t, false, false, s.unusedsince)
-		s.state = mSpanFree
 	}
 	s.unusedsince = 0
 
