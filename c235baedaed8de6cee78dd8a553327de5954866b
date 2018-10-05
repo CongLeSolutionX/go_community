@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c5a83f5_735b2a1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T19:16:26Z",
+      "side": 1,
+      "message": "Mention that this slightly changes the page reclaiming policy: currently, for allocations under 1MB, we attempt to reclaim an individual span of the right size or larger. Now, we simply reclaim enough spans to total to the right size. This could potentially increase heap fragmentation, but that\u0027s okay because we\u0027re about to mitigate the general fragmentation problem using virtual memory tricks.",
+      "revId": "c235baedaed8de6cee78dd8a553327de5954866b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70aced30_4f0d9059",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T19:16:26Z",
+      "side": 1,
+      "message": "Out of curiosity, what does it say with benchstat -geomean?\n\nBTW, I often also upload the results to perf.golang.org using https://godoc.org/golang.org/x/perf/cmd/benchsave and link to them here (in addition to pasting the comparison). That way if we want to slice it differently in the future the raw data is available.",
+      "revId": "c235baedaed8de6cee78dd8a553327de5954866b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aea9e681_f49d6d61",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T19:16:26Z",
+      "side": 1,
+      "message": "Remove the _MaxMHeapList constant definition.",
+      "revId": "c235baedaed8de6cee78dd8a553327de5954866b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "526a3c01_2f844d83",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T19:16:26Z",
+      "side": 1,
+      "message": "Update comment since we no longer differentiate \"large\" spans.",
+      "revId": "c235baedaed8de6cee78dd8a553327de5954866b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "419f0b50_5101d408",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T19:16:26Z",
+      "side": 1,
+      "message": "Update comment.",
+      "revId": "c235baedaed8de6cee78dd8a553327de5954866b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
