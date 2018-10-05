@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb5c2521_3b525722",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T20:23:44Z",
+      "side": 1,
+      "message": "This shouldn\u0027t matter. runtime.GC() forces a GC even if GOGC\u003doff. Did this actually cause a problem?",
+      "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bed859df_52df293f",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T20:23:44Z",
+      "side": 1,
+      "message": "I like this word, but I don\u0027t know what it is. :)",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 18
+      },
+      "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d78291b5_addac56f",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T20:23:44Z",
+      "side": 1,
+      "message": "This is almost certainly too big for some of the builders, unfortunately. I would try to keep this under 512 MB. The saving grace may be that none of this memory is touched, so it won\u0027t *actually* get paged in, but I\u0027m not sure we want to depend on that.",
+      "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a1b8d32_a641ce8b",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T20:23:44Z",
+      "side": 1,
+      "message": "// ... This will free up the holes created every other object above.",
+      "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "293e36b3_7b3d725a",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-05T20:23:44Z",
+      "side": 1,
+      "message": "size?",
+      "range": {
+        "startLine": 177,
+        "startChar": 36,
+        "endLine": 177,
+        "endChar": 44
+      },
+      "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
