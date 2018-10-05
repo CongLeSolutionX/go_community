@@ -926,6 +926,16 @@ func (h *mheap) grow(npage uintptr) bool {
 	h.setSpans(s.base(), s.npages, s)
 	atomic.Store(&s.sweepgen, h.sweepgen)
 	s.state = mSpanInUse
+	// Since sysAlloc gives us mapped-but-untouched pages which we place
+	// into a span, it's productive to consider the whole span scavenged
+	// on creation for the purposes of counting HeapReleased.
+	// As a consequence, we will both sysMap and sysUsed new memory, but
+	// on all supported platforms its safe to do this (even Windows;
+	// two MEM_COMMITs to the same page is considered safe
+	// https://msdn.microsoft.com/en-us/library/windows/desktop/aa366887(v=vs.85).aspx).
+	s.scavenged = true
+	start, end := s.physPageBounds()
+	memstats.heap_released += uint64(end - start)
 	h.pagesInUse += uint64(s.npages)
 	h.freeSpanLocked(s, false, true, 0)
 	return true
