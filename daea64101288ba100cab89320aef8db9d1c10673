@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d26ca4b1_ea6172a4",
+        "filename": "api/except.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-05T17:53:26Z",
+      "side": 1,
+      "message": "I finally had some time to check this out. It appears that this was wrong for some time, but now is exposed by the cache fix.",
+      "parentUuid": "3831b0de_130d0154",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "daea64101288ba100cab89320aef8db9d1c10673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0162294_d52470a0",
         "filename": "src/cmd/api/goapi.go",
         "patchSetId": 1
