@@ -926,6 +926,11 @@ func (h *mheap) grow(npage uintptr) bool {
 	h.setSpans(s.base(), s.npages, s)
 	atomic.Store(&s.sweepgen, h.sweepgen)
 	s.state = mSpanInUse
+	// Since sysAlloc gives us mapped-but-untouched pages which we place
+	// into a span, it's productive to consider the whole span scavenged
+	// on creation for the purposes of counting HeapReleased.
+	s.scavenged = true
+	memstats.heap_released += uint64(size)
 	h.pagesInUse += uint64(s.npages)
 	h.freeSpanLocked(s, false, true, 0)
 	return true
