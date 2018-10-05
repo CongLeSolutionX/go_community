@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fdf48577_1b3b933c",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-05T16:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e94d07c8_e9566024",
+      "range": {
+        "startLine": 13,
+        "startChar": 47,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "bf2261b567195549cdc49cefabb0cd95b64d72fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f3bcb1b_4df66e4a",
         "filename": "src/go/types/operand.go",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2018-10-05T14:39:59Z",
       "side": 1,
       "message": "It\u0027s probably best left where it is since it is optional, unlike *operand.",
+      "revId": "bf2261b567195549cdc49cefabb0cd95b64d72fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80200c97_f16d0010",
+        "filename": "src/go/types/operand.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-05T16:14:52Z",
+      "side": 1,
+      "message": "removed comment",
+      "parentUuid": "5f3bcb1b_4df66e4a",
       "revId": "bf2261b567195549cdc49cefabb0cd95b64d72fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
