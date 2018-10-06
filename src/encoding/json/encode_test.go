@@ -1023,3 +1023,42 @@ func TestMarshalUncommonFieldNames(t *testing.T) {
 		t.Fatalf("Marshal: got %s want %s", got, want)
 	}
 }
+
+func TestNonStandardKeys(t *testing.T) {
+	type Nested struct {
+		Empty string `json:"ThisWillBeIgnored,emptykey"`
+	}
+
+	type Object struct {
+		Nested `json:",emptykey"`
+		Smiley string `json:"\U0001F610"`
+		Dash   string `json:"-,"`
+		Quote  string `json:"\","`
+	}
+
+	x := Object{
+		Nested: Nested{Empty: "foo"},
+		Smiley: "bar",
+		Dash:   "baz",
+		Quote:  "qux",
+	}
+
+	b, err := Marshal(x)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := `{"":{"":"foo"},"😐":"bar","-":"baz","\"":"qux"}`
+	got := string(b)
+	if got != want {
+		t.Fatalf("Marshal: got %s want %s", got, want)
+	}
+
+	var y Object
+	if err := Unmarshal(b, &y); err != nil {
+		t.Fatal(err)
+	}
+
+	if x != y {
+		t.Fatalf("Unmarshal: got %#v want %#v", y, x)
+	}
+}
