@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77ce995c_4a719974",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-06T15:22:20Z",
+      "side": 1,
+      "message": "Drop the \"/env\" before the colon. Just:\n\n   os: fix backslash behavior in Expand\n\nOr something.\n\nSee https://github.com/golang/go/wiki/CommitMessage",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "e418e8e9e0cab42ec519f5ed103c3b58e104db57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
