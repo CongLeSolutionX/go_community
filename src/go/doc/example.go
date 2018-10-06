@@ -68,6 +68,9 @@ func Examples(files ...*ast.File) []*Example {
 			if !isTest(name, "Example") {
 				continue
 			}
+			if f.Body == nil { // [issue #28044]
+				continue
+			}
 			var doc string
 			if f.Doc != nil {
 				doc = f.Doc.Text()
