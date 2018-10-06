@@ -19,9 +19,7 @@ import (
 	"reflect"
 	"sort"
 	"strconv"
-	"strings"
 	"sync"
-	"unicode"
 	"unicode/utf8"
 )
 
@@ -71,6 +69,10 @@ import (
 // false, 0, a nil pointer, a nil interface value, and any empty array,
 // slice, map, or string.
 //
+// The "emptykey" option specifies that the field's key is the empty string
+// (""), which cannot be expressed normally. Any name previously specified
+// for the field will be ignored.
+//
 // As a special case, if the field tag is "-", the field is always omitted.
 // Note that a field with name "-" can still be generated using the tag "-,".
 //
@@ -94,6 +96,9 @@ import (
 //
 //   // Field appears in JSON as key "-".
 //   Field int `json:"-,"`
+//
+//   // Field appears in JSON as key "".
+//   Field int `json:",emptykey"
 //
 // The "string" option signals that a field is stored as JSON inside a
 // JSON-encoded string. It applies only to fields of string, floating point,
@@ -829,23 +834,6 @@ func newCondAddrEncoder(canAddrEnc, elseEnc encoderFunc) encoderFunc {
 	return enc.encode
 }
 
-func isValidTag(s string) bool {
-	if s == "" {
-		return false
-	}
-	for _, c := range s {
-		switch {
-		case strings.ContainsRune("!#$%&()*+-./:<=>?@[]^_{|}~ ", c):
-			// Backslash and quote chars are reserved, but
-			// otherwise any punctuation chars are allowed
-			// in a tag name.
-		case !unicode.IsLetter(c) && !unicode.IsDigit(c):
-			return false
-		}
-	}
-	return true
-}
-
 func typeByIndex(t reflect.Type, index []int) reflect.Type {
 	for _, i := range index {
 		if t.Kind() == reflect.Ptr {
@@ -1084,6 +1072,9 @@ func typeFields(t reflect.Type) []field {
 	// Buffer to run HTMLEscape on field names.
 	var nameEscBuf bytes.Buffer
 
+	// State to encode escaped object key.
+	var keyEncoder encodeState
+
 	for len(next) > 0 {
 		current, next = next, current[:0]
 		count, nextCount = nextCount, map[reflect.Type]int{}
@@ -1113,14 +1104,12 @@ func typeFields(t reflect.Type) []field {
 					// Ignore unexported non-embedded fields.
 					continue
 				}
-				tag := sf.Tag.Get("json")
+				tag, hasTag := sf.Tag.Lookup("json")
 				if tag == "-" {
 					continue
 				}
 				name, opts := parseTag(tag)
-				if !isValidTag(name) {
-					name = ""
-				}
+
 				index := make([]int, len(f.index)+1)
 				copy(index, f.index)
 				index[len(f.index)] = i
@@ -1146,13 +1135,14 @@ func typeFields(t reflect.Type) []field {
 
 				// Record found field and index sequence.
 				if name != "" || !sf.Anonymous || ft.Kind() != reflect.Struct {
-					tagged := name != ""
-					if name == "" {
+					if opts.Contains("emptykey") {
+						name = ""
+					} else if name == "" {
 						name = sf.Name
 					}
 					field := field{
 						name:      name,
-						tag:       tagged,
+						tag:       hasTag,
 						index:     index,
 						typ:       ft,
 						omitEmpty: opts.Contains("omitempty"),
@@ -1162,12 +1152,15 @@ func typeFields(t reflect.Type) []field {
 					field.equalFold = foldFunc(field.nameBytes)
 
 					// Build nameEscHTML and nameNonEsc ahead of time.
+					keyEncoder.Reset()
+					keyEncoder.string(field.name, false)
+
 					nameEscBuf.Reset()
-					nameEscBuf.WriteString(`"`)
-					HTMLEscape(&nameEscBuf, field.nameBytes)
-					nameEscBuf.WriteString(`":`)
+					HTMLEscape(&nameEscBuf, keyEncoder.Bytes())
+					nameEscBuf.WriteByte(':')
 					field.nameEscHTML = nameEscBuf.String()
-					field.nameNonEsc = `"` + field.name + `":`
+
+					field.nameNonEsc = keyEncoder.String() + `:`
 
 					fields = append(fields, field)
 					if count[f.typ] > 1 {

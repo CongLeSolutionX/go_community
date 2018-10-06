@@ -108,8 +108,8 @@ func TestEncoderSetEscapeHTML(t *testing.T) {
 		{`"<&>"`, "<&>", `"\u003c\u0026\u003e"`, `"<&>"`},
 		{
 			"tagStruct", tagStruct,
-			`{"\u003c\u003e\u0026#! ":0,"Invalid":0}`,
-			`{"<>&#! ":0,"Invalid":0}`,
+			`{"\u003c\u003e\u0026#! ":0,"\\":0}`,
+			`{"<>&#! ":0,"\\":0}`,
 		},
 	} {
 		var buf bytes.Buffer
