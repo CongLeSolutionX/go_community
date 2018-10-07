@@ -3569,6 +3569,7 @@ func checkMapKeys() {
 	for _, n := range mapqueue {
 		k := n.Type.MapType().Key
 		if !k.Broke() && !IsComparable(k) {
+			k.SetBroke(true)
 			yyerrorl(n.Pos, "invalid map key type %v", k)
 		}
 	}
