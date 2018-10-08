@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dd6c49d_9e26b0c8",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-08T23:48:09Z",
+      "side": 1,
+      "message": "Based on my understanding of the code, the behavior now will be more precisely:\n\n    If zero and not SSE, no periodic flushing is done.\n    If (zero and SSE) or negative value, flush immediately.\n\nJust checking: is the current documentation okay to keep using?\n\nWould anyone get upset that SSE gets flushed immediately when FlushInterval is set to zero, despite the documentation promising no flushing?",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 42
+      },
+      "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdc5dabf_8f8d1170",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-08T23:48:09Z",
+      "side": 1,
+      "message": "Nitpick: it might be more visually pleasing if \"after each\" were moved to the next line.",
+      "range": {
+        "startLine": 41,
+        "startChar": 47,
+        "endLine": 41,
+        "endChar": 58
+      },
+      "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e79354f8_3332b226",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-08T23:48:09Z",
+      "side": 1,
+      "message": "It would be very nice to document this field (allowed values, and their treatment):\n\n\tlatency time.Duration // must be non-zero; negative means flush immediately\n\nThat way, it\u0027s easier for reader to see (less hops) that maxLatencyWriter.Write method will call the m.t \u003d time.AfterFunc(m.latency, m.delayedFlush) value only when m.latency is positive, never when its zero (which would be functional but suboptimal).\n\nIf you wanted maxLatencyWriter to support zero value for latency, then I would suggest changing if m.latency \u003c 0 { to if m.latency \u003c\u003d 0 { to avoid creating a timer when it\u0027s not neccessary.",
+      "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7482b78a_9cfff859",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-08T23:48:09Z",
+      "side": 1,
+      "message": "It was hard to understand what Flush was being referred to. maxLatencyWriter has a Write method but not Flush method.\n\nI guess it means dst.Flush; maybe writing that would be more clear?\n\n(This can be out of scope for this CL, since it was this way before.)",
+      "range": {
+        "startLine": 419,
+        "startChar": 45,
+        "endLine": 419,
+        "endChar": 50
+      },
+      "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5745b1bc_ab832c33",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-08T23:48:09Z",
+      "side": 1,
+      "message": "FWIW, I originally made a comment here that it might be possible to get rid of flushPending and use t !\u003d nil to mean the same as flushPending \u003d\u003d true. The m.flushPending \u003d false line would be changed to m.t \u003d nil.\n\nBut then I realized it\u0027d require a new timer to be created each time, instead of reusing an existing timer and calling its Reset method. So nothing to do here.",
+      "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f7ea39_4f8dcb42",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-08T23:48:09Z",
+      "side": 1,
+      "message": "I\u0027m okay with this being \u003c rather than \u003c\u003d only because m.latency is never zero (at this time).",
+      "range": {
+        "startLine": 428,
+        "startChar": 14,
+        "endLine": 428,
+        "endChar": 15
+      },
+      "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ec48df2_f812667b",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-08T23:48:09Z",
+      "side": 1,
+      "message": "It might be a personal preference, but I think moving this line after the following if/else block would be more readable (without changing behavior, since this happens while m.mu is locked).\n\nThat way, it\u0027s:\n\n1. make it so m.delayedFlush gets executed after m.latency\n2. set m.flushPending to true (it actually is pending now)\n\nInstead of the current:\n\n1. set m.flushPending to true (isn\u0027t actually the case yet until step 2 below happens)\n2. make it so m.delayedFlush gets executed after m.latency\n\nIf you don\u0027t like the suggestion, keeping it as is is fine.",
+      "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50d50d90_4042860c",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-08T23:48:09Z",
+      "side": 1,
+      "message": "Docs at https://godoc.org/time#Timer.Reset say:\n\n    Resetting a timer must take care not to race with the send into t.C that happens when the current timer expires.\n\nJust checking, is it safe to call Reset here because t.C must have already happened, since we only get here after delayedFlush was executed and set m.flushPending \u003d false?",
+      "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f17c89ea_5149d496",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-08T23:48:09Z",
+      "side": 1,
+      "message": "Maybe it\u0027s worth it to add another test case that\u0027s just like the one above, but with \u0026ReverseProxy{FlushInterval: 123}? It would cover the behavior of SSE taking higher precedence than zero FlushInterval value (which is supposed to mean \"no periodic flushing\").",
+      "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
