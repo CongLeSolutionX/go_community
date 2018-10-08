@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7aff8b6b_94df6b50",
+        "filename": "src/runtime/malloc_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2018-10-08T17:29:42Z",
+      "side": 1,
+      "message": "nope, it shouldn\u0027t. this was leftover copy-paste from another test, my bad!",
+      "parentUuid": "cb5c2521_3b525722",
+      "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bed859df_52df293f",
         "filename": "src/runtime/testdata/testprog/gc.go",
         "patchSetId": 13
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "853d3492_30bbea5d",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2018-10-08T17:29:42Z",
+      "side": 1,
+      "message": "the unfortunate consequences of blind find-and-replace...",
+      "parentUuid": "bed859df_52df293f",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 18
+      },
+      "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d78291b5_addac56f",
         "filename": "src/runtime/testdata/testprog/gc.go",
         "patchSetId": 13
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "f1997e9d_23983985",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2018-10-08T17:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d78291b5_addac56f",
+      "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a1b8d32_a641ce8b",
         "filename": "src/runtime/testdata/testprog/gc.go",
         "patchSetId": 13
@@ -73,6 +133,24 @@
       "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05f5bd41_5e3e4129",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2018-10-08T17:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a1b8d32_a641ce8b",
+      "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +174,30 @@
       "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc6cf604_96acb197",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2018-10-08T17:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "293e36b3_7b3d725a",
+      "range": {
+        "startLine": 177,
+        "startChar": 36,
+        "endLine": 177,
+        "endChar": 44
+      },
+      "revId": "2dd79236d02cc01be7b135490fe5e6c45a810652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
