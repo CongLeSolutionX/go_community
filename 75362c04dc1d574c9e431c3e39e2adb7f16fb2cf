@@ -92,6 +92,30 @@
       "revId": "75362c04dc1d574c9e431c3e39e2adb7f16fb2cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7460415_a878a7cb",
+        "filename": "src/syscall/exec_libc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-08T14:40:30Z",
+      "side": 1,
+      "message": "I don\u0027t know whether this breaks anything in the standard library, but it\u0027s true that the old values have been exported for several releases, and we should not change them unnecessarily.  That will break any existing Solaris code that refers to syscall.SYS_FCNTL.  We could break that code if it were important, but here it\u0027s not important.",
+      "parentUuid": "9f0a5a9b_c73ab84f",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 20
+      },
+      "revId": "75362c04dc1d574c9e431c3e39e2adb7f16fb2cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
