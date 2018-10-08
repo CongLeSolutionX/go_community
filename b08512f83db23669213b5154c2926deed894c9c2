@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32d97809_ca71c5f8",
+        "filename": "src/strconv/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-08T14:35:19Z",
+      "side": 1,
+      "message": "Perhaps also an example with a non-printable character.",
+      "revId": "b08512f83db23669213b5154c2926deed894c9c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
