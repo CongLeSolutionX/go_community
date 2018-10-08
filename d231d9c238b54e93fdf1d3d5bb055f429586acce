@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59ec6402_2a688759",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2018-10-08T01:52:53Z",
+      "side": 1,
+      "message": "Thus rules seems redundant to the above one, but lacking it will cause the added codegen test case failure.",
+      "range": {
+        "startLine": 782,
+        "startChar": 0,
+        "endLine": 783,
+        "endChar": 60
+      },
+      "revId": "d231d9c238b54e93fdf1d3d5bb055f429586acce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
