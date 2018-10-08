@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "115ccef7_462440b5",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-08T16:11:53Z",
+      "side": 1,
+      "message": "typo here.\n\nBut should we explicitly explode if they\u0027re set to values we don\u0027t support to prevent mistakes later?",
+      "range": {
+        "startLine": 50,
+        "startChar": 78,
+        "endLine": 50,
+        "endChar": 85
+      },
+      "revId": "e7d2d85bd14069291986c2a1622eb6116ad1b2b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
