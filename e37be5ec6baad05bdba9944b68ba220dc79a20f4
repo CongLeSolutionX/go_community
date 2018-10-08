@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bcc7ed8_38aa9be4",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2018-10-08T14:05:00Z",
+      "side": 1,
+      "message": "IMHO, We should use incremental int here(random maybe better), this test will pass on any condition.",
+      "revId": "e37be5ec6baad05bdba9944b68ba220dc79a20f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60b5ac82_e56fd996",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2018-10-08T14:05:00Z",
+      "side": 1,
+      "message": "Same as above.",
+      "revId": "e37be5ec6baad05bdba9944b68ba220dc79a20f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
