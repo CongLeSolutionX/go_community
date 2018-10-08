@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49f7b65c_ee665b51",
+        "filename": "src/strconv/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-08T17:40:01Z",
+      "side": 1,
+      "message": "Good idea but the line should have a comment saying that there is a tab character in there.",
+      "revId": "4ad0da91c9b332b299b0b13f99d55541854d9437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "036d9baf_50471a18",
+        "filename": "src/strconv/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-08T17:40:01Z",
+      "side": 1,
+      "message": "Similarly a comment here.",
+      "revId": "4ad0da91c9b332b299b0b13f99d55541854d9437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
