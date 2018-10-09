@@ -34,6 +34,24 @@
       "revId": "060a0f3e9dbb081dfa43f74f67366bfe3ad8ebe5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef36f159_e4fb8d73",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-10-09T14:20:50Z",
+      "side": 1,
+      "message": "Yeah, definitely better to add the math import. We rely on the math package in other core parts of the compiler already so it shouldn\u0027t cause any bootstrapping issues.",
+      "parentUuid": "b9d827ef_ad1f40b6",
+      "revId": "060a0f3e9dbb081dfa43f74f67366bfe3ad8ebe5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
