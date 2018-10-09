@@ -468,6 +468,24 @@ func store_be_byte_2_idx2(b []byte, idx int, val uint16) {
 	b[(idx<<1)+0], b[(idx<<1)+1] = byte(val>>8), byte(val)
 }
 
+func store_le_byte_2_idx2(b []byte, idx int, val uint16) {
+	_, _ = b[(idx<<1)+0], b[(idx<<1)+1]
+	// arm64:`MOVH\sR[0-9]+,\s\(R[0-9]+\)\(R[0-9]+<<1\)`,-`MOVB`
+	b[(idx<<1)+1], b[(idx<<1)+0] = byte(val>>8), byte(val)
+}
+
+func store_be_byte_4_idx4(b []byte, idx int, val uint32) {
+	_, _, _, _ = b[(idx<<2)+0], b[(idx<<2)+1], b[(idx<<2)+2], b[(idx<<2)+3]
+	// arm64:`REVW`,`MOVW\sR[0-9]+,\s\(R[0-9]+\)\(R[0-9]+<<2\)`,-`MOVB`,-`MOVH`,-`REV16W`
+	b[(idx<<2)+0], b[(idx<<2)+1], b[(idx<<2)+2], b[(idx<<2)+3] = byte(val>>24), byte(val>>16), byte(val>>8), byte(val)
+}
+
+func store_le_byte_4_idx4_inv(b []byte, idx int, val uint32) {
+	_, _, _, _ = b[(idx<<2)+0], b[(idx<<2)+1], b[(idx<<2)+2], b[(idx<<2)+3]
+	// arm64:`MOVW\sR[0-9]+,\s\(R[0-9]+\)\(R[0-9]+<<2\)`,-`MOVB`,-`MOVH`
+	b[(idx<<2)+3], b[(idx<<2)+2], b[(idx<<2)+1], b[(idx<<2)+0] = byte(val>>24), byte(val>>16), byte(val>>8), byte(val)
+}
+
 // ------------- //
 //    Zeroing    //
 // ------------- //
