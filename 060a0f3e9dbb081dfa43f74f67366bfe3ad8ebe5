@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "000665b9_c8a2fd3a",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-10-09T14:12:41Z",
+      "side": 1,
+      "message": "Something like math.Float64bits(f64)\u0026(1\u003c\u003c63) would avoid the need to import unsafe.",
+      "revId": "060a0f3e9dbb081dfa43f74f67366bfe3ad8ebe5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
