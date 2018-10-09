@@ -5,8 +5,13 @@
 package sync_test
 
 import (
+	"fmt"
 	"internal/race"
+	"internal/testenv"
+	"os"
+	"os/exec"
 	"runtime"
+	"strings"
 	. "sync"
 	"sync/atomic"
 	"testing"
@@ -217,6 +222,56 @@ func TestWaitGroupAlign(t *testing.T) {
 		x.wg.Done()
 	}(&x)
 	x.wg.Wait()
+}
+
+var rangeTests = []struct {
+	name string
+	f    func()
+}{
+	{
+		"WaitGroup.Overflow",
+		func() {
+			wg := &WaitGroup{}
+			wg.Add(1<<31 - 1)
+			wg.Add(2)
+		},
+	},
+	{
+		"WaitGroup.Underflow",
+		func() {
+			wg := &WaitGroup{}
+			wg.Add(-1<<31 - 1)
+		},
+	},
+}
+
+func init() {
+	if len(os.Args) == 3 && os.Args[1] == "TESTRANGE" {
+		for _, test := range rangeTests {
+			if test.name == os.Args[2] {
+				test.f()
+				os.Exit(0)
+			}
+		}
+		fmt.Println("unknown test:", os.Args[2])
+		os.Exit(0)
+	}
+}
+
+func TestWaitGroupRangeOverflow(t *testing.T) {
+	testenv.MustHaveExec(t)
+	out, err := exec.Command(os.Args[0], "TESTRANGE", "WaitGroup.Overflow").CombinedOutput()
+	if err == nil || !strings.Contains(string(out), "sync: WaitGroup counter too large") {
+		t.Errorf("did not find failure with message about too large counter: %s\n%s\n", err, out)
+	}
+}
+
+func TestWaitGroupRangeUnderflow(t *testing.T) {
+	testenv.MustHaveExec(t)
+	out, err := exec.Command(os.Args[0], "TESTRANGE", "WaitGroup.Underflow").CombinedOutput()
+	if err == nil || !strings.Contains(string(out), "sync: WaitGroup counter too large") {
+		t.Errorf("did not find failure with message about too large counter: %s\n%s\n", err, out)
+	}
 }
 
 func BenchmarkWaitGroupUncontended(b *testing.B) {
