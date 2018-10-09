@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "197edc79_11c0805b",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-09T19:40:36Z",
+      "side": 1,
+      "message": "But now the same map key error may be raised twice, but then suppressed when the error are printed, no?\n\nIn checkMapKeys, should mark key as broke if the error was reported, I think.",
+      "range": {
+        "startLine": 540,
+        "startChar": 31,
+        "endLine": 540,
+        "endChar": 34
+      },
+      "revId": "e71b6bc6bed17e28f757d4a240bb3b9031591d32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da9b9c40_7734af92",
+        "filename": "test/fixedbugs/issue28058.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-09T19:40:36Z",
+      "side": 1,
+      "message": "c/2016/2018/",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "e71b6bc6bed17e28f757d4a240bb3b9031591d32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
