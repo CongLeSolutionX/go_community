@@ -46,6 +46,30 @@
       "revId": "33157432bd1360222a24aedd743902303593ec2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8b80f39_5568bfe1",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-09T19:55:35Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "a393c2aa_52c5a0c5",
+      "range": {
+        "startLine": 558,
+        "startChar": 1,
+        "endLine": 558,
+        "endChar": 7
+      },
+      "revId": "33157432bd1360222a24aedd743902303593ec2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
