@@ -5,8 +5,13 @@
 package sync_test
 
 import (
+	"fmt"
 	"internal/race"
+	"internal/testenv"
+	"os"
+	"os/exec"
 	"runtime"
+	"strings"
 	. "sync"
 	"sync/atomic"
 	"testing"
@@ -217,6 +222,28 @@ func TestWaitGroupAlign(t *testing.T) {
 		x.wg.Done()
 	}(&x)
 	x.wg.Wait()
+}
+
+func init() {
+	if len(os.Args) == 2 && os.Args[1] == "TESTRANGE" {
+		exceedWaitGroupRange()
+		fmt.Printf("test completed\n")
+		os.Exit(0)
+	}
+}
+
+func exceedWaitGroupRange() {
+	wg := &WaitGroup{}
+	wg.Add(1<<31 - 1)
+	wg.Add(2)
+}
+
+func TestWaitGroupRange(t *testing.T) {
+	testenv.MustHaveExec(t)
+	out, err := exec.Command(os.Args[0], "TESTRANGE").CombinedOutput()
+	if err == nil || !strings.Contains(string(out), "sync: WaitGroup counter too large") {
+		t.Errorf("did not find failure with message about too large counter: %s\n%s\n", err, out)
+	}
 }
 
 func BenchmarkWaitGroupUncontended(b *testing.B) {

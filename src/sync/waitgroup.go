@@ -63,6 +63,9 @@ func (wg *WaitGroup) Add(delta int) {
 	}
 	state := atomic.AddUint64(statep, uint64(delta)<<32)
 	v := int32(state >> 32)
+	if delta > 1<<31-1 || int(v) < delta {
+		throw("sync: WaitGroup counter too large")
+	}
 	w := uint32(state)
 	if race.Enabled && delta > 0 && v == int32(delta) {
 		// The first increment must be synchronized with Wait.
