@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebb9a2c7_30261295",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64enc.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-10-09T17:50:13Z",
+      "side": 1,
+      "message": "Spaces to align the hex comments.",
+      "range": {
+        "startLine": 102,
+        "startChar": 18,
+        "endLine": 102,
+        "endChar": 19
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45c593a1_78a7cf96",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-10-09T17:50:13Z",
+      "side": 1,
+      "message": "I\u0027d be tempted to drop this form, I don\u0027t think the XXLOR instruction needs to be overloaded this way anymore.",
+      "range": {
+        "startLine": 505,
+        "startChar": 1,
+        "endLine": 505,
+        "endChar": 11
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c30cafe_81eaa4cb",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-10-09T17:50:13Z",
+      "side": 1,
+      "message": "Let\u0027s use C++ style for the new comment here.",
+      "range": {
+        "startLine": 837,
+        "startChar": 2,
+        "endLine": 838,
+        "endChar": 58
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6617fd7_b39107dc",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-10-09T17:50:13Z",
+      "side": 1,
+      "message": "No need for else clause since the if returns.",
+      "range": {
+        "startLine": 843,
+        "startChar": 4,
+        "endLine": 843,
+        "endChar": 11
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a2285ef_9814e4ae",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-10-09T17:50:13Z",
+      "side": 1,
+      "message": "No need for else clause.",
+      "range": {
+        "startLine": 846,
+        "startChar": 3,
+        "endLine": 846,
+        "endChar": 10
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19e8c892_8a2ce34d",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3529,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-10-09T17:50:13Z",
+      "side": 1,
+      "message": "Could you make this more like the following (only one call to AOP_XX3I)?\n\nas :\u003d p.As\nif dm \u003d\u003d 0 {\n    as \u003d AXXLXOR\n}\no1 \u003d AOP_XX3I(c.oprrr(as), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg), uint32(dm)\n\n(or just remove the case 90 modifications as mentioned above)",
+      "range": {
+        "startLine": 3529,
+        "startChar": 26,
+        "endLine": 3529,
+        "endChar": 33
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
