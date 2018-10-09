@@ -352,6 +352,24 @@
       "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "592afaf1_4e64ff3b",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-09T15:40:43Z",
+      "side": 1,
+      "message": "Whoops, yeah, I meant to say \"with \u0026ReverseProxy{FlushInterval: 0}\" but forgot to change 123 to 0.",
+      "parentUuid": "a5c9cd0b_edfe4028",
+      "revId": "d516c8195316121d85c49efb3a19fc797dbb20a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
