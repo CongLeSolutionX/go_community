@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "14cb2b00_3b97fe68",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-09T18:28:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c593a1_78a7cf96",
+      "range": {
+        "startLine": 505,
+        "startChar": 1,
+        "endLine": 505,
+        "endChar": 11
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c30cafe_81eaa4cb",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 6
@@ -68,6 +92,30 @@
       "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a14cf51a_d9b41102",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-09T18:28:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c30cafe_81eaa4cb",
+      "range": {
+        "startLine": 837,
+        "startChar": 2,
+        "endLine": 838,
+        "endChar": 58
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "f8766682_40e3662d",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-09T18:28:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6617fd7_b39107dc",
+      "range": {
+        "startLine": 843,
+        "startChar": 4,
+        "endLine": 843,
+        "endChar": 11
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a2285ef_9814e4ae",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 6
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "d307e5fb_51fd873b",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-09T18:28:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a2285ef_9814e4ae",
+      "range": {
+        "startLine": 846,
+        "startChar": 3,
+        "endLine": 846,
+        "endChar": 10
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19e8c892_8a2ce34d",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 6
@@ -128,6 +224,30 @@
       "writtenOn": "2018-10-09T17:50:13Z",
       "side": 1,
       "message": "Could you make this more like the following (only one call to AOP_XX3I)?\n\nas :\u003d p.As\nif dm \u003d\u003d 0 {\n    as \u003d AXXLXOR\n}\no1 \u003d AOP_XX3I(c.oprrr(as), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg), uint32(dm)\n\n(or just remove the case 90 modifications as mentioned above)",
+      "range": {
+        "startLine": 3529,
+        "startChar": 26,
+        "endLine": 3529,
+        "endChar": 33
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04aacd5c_d304ef03",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3529,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-09T18:28:27Z",
+      "side": 1,
+      "message": "I debated about whether to leave the XXLXOR entry in the opcode table with the scalar float operand so I\u0027m OK with removing it and the code I added here to handle the case. Best to leave things as they were.",
+      "parentUuid": "19e8c892_8a2ce34d",
       "range": {
         "startLine": 3529,
         "startChar": 26,
