@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d8ca209_3439abbe",
+        "filename": "src/syscall/zsysnum_aix_ppc64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-09T14:22:16Z",
+      "side": 1,
+      "message": "Sorry about this, but the convention is that the files in this package that start was \u0027z\u0027 are automatically generated.  This file is hand written,  You should move these to syscall_aix.go or something like that.",
+      "revId": "fa18d5735756ed7aba414fcee1589237cd446a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
