@@ -257,6 +257,30 @@
       "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ecc6e21_a054f836",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3529,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2018-10-09T19:55:47Z",
+      "side": 1,
+      "message": "Yes. And by using VSX registers instead of FPRs, you have more options for register allocation in codegen.",
+      "parentUuid": "04aacd5c_d304ef03",
+      "range": {
+        "startLine": 3529,
+        "startChar": 26,
+        "endLine": 3529,
+        "endChar": 33
+      },
+      "revId": "5162e1e34de98be57aaa05df0f9b6ddaf996f23c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
