@@ -22,6 +22,20 @@ func ScanDir(dir string, tags map[string]bool) ([]string, []string, error) {
 	var files []string
 	for _, info := range infos {
 		name := info.Name()
+
+		// Fully resolve symlinks.
+		if info.Mode()&os.ModeSymlink != 0 {
+			dst, err := filepath.EvalSymlinks(info.Name())
+			if err != nil {
+				break // Ignore malformed symlinks.
+			}
+			dstInfo, err := os.Stat(dst)
+			if err != nil {
+				break // Ignore broken symlinks.
+			}
+			info = dstInfo
+		}
+
 		if info.Mode().IsRegular() && !strings.HasPrefix(name, "_") && strings.HasSuffix(name, ".go") && MatchFile(name, tags) {
 			files = append(files, filepath.Join(dir, name))
 		}
