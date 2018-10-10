@@ -1,0 +1,16 @@
+[!exec:echo] skip
+[!exec:false] skip
+
+# Output from background programs should be buffered before wait and
+# concatenated after.
+exec echo -n foo &
+exec echo bar &
+! exec false &
+
+! stdout foo
+wait
+stdout foobar
+
+# The end of the test should kill any remaining background programs.
+[!exec:sleep] skip
+! exec sleep 86400 &

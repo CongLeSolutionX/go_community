@@ -55,21 +55,27 @@ func TestScript(t *testing.T) {
 
 // A testScript holds execution state for a single test script.
 type testScript struct {
-	t       *testing.T
-	workdir string            // temporary work dir ($WORK)
-	log     bytes.Buffer      // test execution log (printed at end of test)
-	mark    int               // offset of next log truncation
-	cd      string            // current directory during test execution; initially $WORK/gopath/src
-	name    string            // short name of test ("foo")
-	file    string            // full file name ("testdata/script/foo.txt")
-	lineno  int               // line number currently executing
-	line    string            // line currently executing
-	env     []string          // environment list (for os/exec)
-	envMap  map[string]string // environment mapping (matches env)
-	stdout  string            // standard output from last 'go' command; for 'stdout' command
-	stderr  string            // standard error from last 'go' command; for 'stderr' command
-	stopped bool              // test wants to stop early
-	start   time.Time         // time phase started
+	t          *testing.T
+	workdir    string            // temporary work dir ($WORK)
+	log        bytes.Buffer      // test execution log (printed at end of test)
+	mark       int               // offset of next log truncation
+	cd         string            // current directory during test execution; initially $WORK/gopath/src
+	name       string            // short name of test ("foo")
+	file       string            // full file name ("testdata/script/foo.txt")
+	lineno     int               // line number currently executing
+	line       string            // line currently executing
+	env        []string          // environment list (for os/exec)
+	envMap     map[string]string // environment mapping (matches env)
+	stdout     string            // standard output from last 'go' command; for 'stdout' command
+	stderr     string            // standard error from last 'go' command; for 'stderr' command
+	stopped    bool              // test wants to stop early
+	start      time.Time         // time phase started
+	background []backgroundCmd   // backgrounded 'exec' and 'go' commands
+}
+
+type backgroundCmd struct {
+	cmd *exec.Cmd
+	neg bool // if true, cmd should fail
 }
 
 var extraEnvKeys = []string{
@@ -146,6 +152,14 @@ func (ts *testScript) run() {
 	}
 
 	defer func() {
+		// On a normal exit from the test loop, background processes are cleaned up
+		// before we print PASS. If we return early (e.g., due to a test failure),
+		// don't print anything about the processes that were still running.
+		ts.stopBackground()
+		for _, bg := range ts.background {
+			bg.cmd.Wait()
+		}
+
 		markTime()
 		// Flush testScript log to testing.T log.
 		ts.t.Log("\n" + ts.abbrev(ts.log.String()))
@@ -284,9 +298,14 @@ Script:
 
 		// Command can ask script to stop early.
 		if ts.stopped {
-			return
+			// Break instead of returning, so that we check the status of any
+			// background processes and print PASS.
+			break
 		}
 	}
+
+	ts.stopBackground()
+	ts.cmdWait(false, nil)
 
 	// Final phase ended.
 	rewind()
@@ -317,6 +336,7 @@ var scriptCmds = map[string]func(*testScript, bool, []string){
 	"stdout":  (*testScript).cmdStdout,
 	"stop":    (*testScript).cmdStop,
 	"symlink": (*testScript).cmdSymlink,
+	"wait":    (*testScript).cmdWait,
 }
 
 // addcrlf adds CRLF line endings to the named files.
@@ -451,25 +471,34 @@ func (ts *testScript) cmdEnv(neg bool, args []string) {
 
 // exec runs the given command.
 func (ts *testScript) cmdExec(neg bool, args []string) {
-	if len(args) < 1 {
-		ts.fatalf("usage: exec program [args...]")
+	if len(args) < 1 || (len(args) == 1 && args[0] == "&") {
+		ts.fatalf("usage: exec program [args...] [&]")
 	}
+
 	var err error
-	ts.stdout, ts.stderr, err = ts.exec(args[0], args[1:]...)
-	if ts.stdout != "" {
-		fmt.Fprintf(&ts.log, "[stdout]\n%s", ts.stdout)
+	if len(args) > 0 && args[len(args)-1] == "&" {
+		var cmd *exec.Cmd
+		cmd, err = ts.execBackground(args[0], args[1:len(args)-1]...)
+		if err == nil {
+			ts.background = append(ts.background, backgroundCmd{cmd, neg})
+		}
+	} else {
+		ts.stdout, ts.stderr, err = ts.exec(args[0], args[1:]...)
+		if ts.stdout != "" {
+			fmt.Fprintf(&ts.log, "[stdout]\n%s", ts.stdout)
+		}
+		if ts.stderr != "" {
+			fmt.Fprintf(&ts.log, "[stderr]\n%s", ts.stderr)
+		}
+		if err == nil && neg {
+			ts.fatalf("unexpected command success")
+		}
 	}
-	if ts.stderr != "" {
-		fmt.Fprintf(&ts.log, "[stderr]\n%s", ts.stderr)
-	}
+
 	if err != nil {
 		fmt.Fprintf(&ts.log, "[%v]\n", err)
 		if !neg {
 			ts.fatalf("unexpected command failure")
-		}
-	} else {
-		if neg {
-			ts.fatalf("unexpected command success")
 		}
 	}
 }
@@ -545,6 +574,12 @@ func (ts *testScript) cmdSkip(neg bool, args []string) {
 	if neg {
 		ts.fatalf("unsupported: ! skip")
 	}
+
+	// Before we mark the test as skipped, shut down any background processes and
+	// make sure they have returned the correct status.
+	ts.stopBackground()
+	ts.cmdWait(false, nil)
+
 	if len(args) == 1 {
 		ts.t.Skip(args[0])
 	}
@@ -687,6 +722,49 @@ func (ts *testScript) cmdSymlink(neg bool, args []string) {
 	ts.check(os.Symlink(args[2], ts.mkabs(args[0])))
 }
 
+// wait waits for background commands to exit, setting stderr and stdout to their result.
+func (ts *testScript) cmdWait(neg bool, args []string) {
+	if neg {
+		ts.fatalf("unsupported: ! wait")
+	}
+	if len(args) > 0 {
+		ts.fatalf("usage: wait")
+	}
+
+	var stdouts, stderrs []string
+	for _, bg := range ts.background {
+		err := bg.cmd.Wait()
+		args := append([]string{filepath.Base(bg.cmd.Args[0])}, bg.cmd.Args[1:]...)
+		if err == nil {
+			fmt.Fprintf(&ts.log, "[done] %s\n", strings.Join(args, " "))
+		} else {
+			fmt.Fprintf(&ts.log, "[%v]: %s\n", err, strings.Join(args, " "))
+		}
+
+		cmdStdout := bg.cmd.Stdout.(fmt.Stringer).String()
+		if cmdStdout != "" {
+			fmt.Fprintf(&ts.log, "[stdout]\n%s", cmdStdout)
+			stdouts = append(stdouts, cmdStdout)
+		}
+
+		cmdStderr := bg.cmd.Stderr.(fmt.Stringer).String()
+		if cmdStderr != "" {
+			fmt.Fprintf(&ts.log, "[stderr]\n%s", cmdStderr)
+			stderrs = append(stderrs, cmdStderr)
+		}
+
+		if err == nil && bg.neg {
+			ts.fatalf("unexpected command success")
+		} else if err != nil && !bg.neg {
+			ts.fatalf("unexpected command failure")
+		}
+	}
+
+	ts.stdout = strings.Join(stdouts, "")
+	ts.stderr = strings.Join(stderrs, "")
+	ts.background = nil
+}
+
 // Helpers for command implementations.
 
 // abbrev abbreviates the actual work directory in the string s to the literal string "$WORK".
@@ -710,7 +788,7 @@ func (ts *testScript) check(err error) {
 // exec runs the given command line (an actual subprocess, not simulated)
 // in ts.cd with environment ts.env and then returns collected standard output and standard error.
 func (ts *testScript) exec(command string, args ...string) (stdout, stderr string, err error) {
-	cmd := exec.Command(command, args...)
+	cmd := exec.CommandContext(testCtx, command, args...)
 	cmd.Dir = ts.cd
 	cmd.Env = append(ts.env, "PWD="+ts.cd)
 	var stdoutBuf, stderrBuf strings.Builder
@@ -718,6 +796,29 @@ func (ts *testScript) exec(command string, args ...string) (stdout, stderr strin
 	cmd.Stderr = &stderrBuf
 	err = cmd.Run()
 	return stdoutBuf.String(), stderrBuf.String(), err
+}
+
+// execBackground starts the given command line (an actual subprocess, not simulated)
+// in ts.cd with environment ts.env.
+func (ts *testScript) execBackground(command string, args ...string) (*exec.Cmd, error) {
+	cmd := exec.CommandContext(testCtx, command, args...)
+	cmd.Dir = ts.cd
+	cmd.Env = append(ts.env, "PWD="+ts.cd)
+	var stdoutBuf, stderrBuf strings.Builder
+	cmd.Stdout = &stdoutBuf
+	cmd.Stderr = &stderrBuf
+
+	return cmd, cmd.Start()
+}
+
+// stopBackground stops the background processes, preferring os.Interrupt (for a
+// cleaner termination) if it works.
+func (ts *testScript) stopBackground() {
+	for _, bg := range ts.background {
+		if p := bg.cmd.Process; p.Signal(os.Interrupt) != nil {
+			p.Kill()
+		}
+	}
 }
 
 // expand applies environment variable expansion to the string s.
