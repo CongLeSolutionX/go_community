@@ -398,15 +398,13 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 		return
 	}
 
-	// Associate factory functions with the first visible result type, if that
-	// is the only type returned.
+	// Associate factory functions with the first visible result type, as long as
+	// others are predeclared types.
 	if fun.Type.Results.NumFields() >= 1 {
 		var typ *namedType // type to associate the function with
 		numResultTypes := 0
-		for _, res := range fun.Type.Results.List {
-			// exactly one (named or anonymous) result associated
-			// with the first type in result signature (there may
-			// be more than one result)
+		numPredeclaredTypes := 0
+		for i, res := range fun.Type.Results.List {
 			factoryType := res.Type
 			if t, ok := factoryType.(*ast.ArrayType); ok {
 				// We consider functions that return slices or arrays of type
@@ -414,14 +412,24 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 				factoryType = t.Elt
 			}
 			if n, imp := baseTypeName(factoryType); !imp && r.isVisible(n) {
+				// Ignore predeclared types for i > 0. We allow a predeclared type
+				// as the first param in case a struct is type aliased to a predeclared type.
+				// So we need the method to be attached to that struct.
+				if i > 0 && predeclaredTypes[n] {
+					continue
+				}
 				if t := r.lookupType(n); t != nil {
 					typ = t
 					numResultTypes++
+					if predeclaredTypes[n] {
+						numPredeclaredTypes++
+					}
 				}
 			}
 		}
-		// If there is exactly one result type, associate the function with that type.
-		if numResultTypes == 1 {
+		// If there is exactly one result type, or there are only predeclared types before a non-predeclared type,
+		// associate the function with that type.
+		if numResultTypes == 1 || numResultTypes-numPredeclaredTypes == 1 {
 			typ.funcs.set(fun, r.mode&PreserveAST != 0)
 			return
 		}
