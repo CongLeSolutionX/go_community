@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "48525536_716cc295",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 26506
+      },
+      "writtenOn": "2018-10-10T12:36:12Z",
+      "side": 1,
+      "message": "The documentation states: \"If the counter goes negative, Add panics.\"\nWouldn\u0027t changing that behavior break compatibility?",
+      "parentUuid": "75ce000e_481c5a19",
+      "revId": "25437a38db410e2a8ba45c50b450be71fa70d36a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26153dbd_d0465925",
         "filename": "src/sync/waitgroup_test.go",
         "patchSetId": 1
