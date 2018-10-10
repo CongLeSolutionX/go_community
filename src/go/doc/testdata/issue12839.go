@@ -5,6 +5,7 @@
 // Package issue12839 is a go/doc test to test association of a function
 // that returns multiple types.
 // See golang.org/issue/12839.
+// Also golang.org/issue/27928.
 package issue12839
 
 import "p"
@@ -35,4 +36,19 @@ func F3() (a T1, b p.T3) {
 // F4 should not be associated with a type (same as F1)
 func F4() (a T1, b T2) {
 	return T1{}, T2{}
+}
+
+// F5 should be associated with T1.
+func F5() (T1, error) {
+	return T1{}, nil
+}
+
+// F6 should be associated with T1.
+func F6() (*T1, error) {
+	return &T1{}, nil
+}
+
+// F7 should be associated with T1.
+func F7() (T1, string) {
+	return T1{}, nil
 }

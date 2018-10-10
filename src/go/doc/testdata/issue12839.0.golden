@@ -28,6 +28,15 @@ TYPES
 	// F3 should be associated with T1 because b.T3 is from a ...
 	func F3() (a T1, b p.T3)
 
+	// F5 should be associated with T1. 
+	func F5() (T1, error)
+
+	// F6 should be associated with T1. 
+	func F6() (*T1, error)
+
+	// F7 should be associated with T1. 
+	func F7() (T1, string)
+
 	// 
 	type T2 struct{}
 

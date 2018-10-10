@@ -403,7 +403,7 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 	if fun.Type.Results.NumFields() >= 1 {
 		var typ *namedType // type to associate the function with
 		numResultTypes := 0
-		for _, res := range fun.Type.Results.List {
+		for i, res := range fun.Type.Results.List {
 			// exactly one (named or anonymous) result associated
 			// with the first type in result signature (there may
 			// be more than one result)
@@ -414,6 +414,9 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 				factoryType = t.Elt
 			}
 			if n, imp := baseTypeName(factoryType); !imp && r.isVisible(n) {
+				if predeclaredTypes[n] && i > 0 {
+					continue
+				}
 				if t := r.lookupType(n); t != nil {
 					typ = t
 					numResultTypes++
