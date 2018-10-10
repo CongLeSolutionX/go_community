@@ -365,6 +365,16 @@ func (r *reader) readType(decl *ast.GenDecl, spec *ast.TypeSpec) {
 	}
 }
 
+// isPredeclared reports whether a type is a predeclared one
+// and has not been redeclared locally.
+//
+func (r *reader) isPredeclared(n string) bool {
+	if t := r.types[n]; predeclaredTypes[n] && t == nil {
+		return true
+	}
+	return false
+}
+
 // readFunc processes a func or method declaration.
 //
 func (r *reader) readFunc(fun *ast.FuncDecl) {
@@ -398,15 +408,12 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 		return
 	}
 
-	// Associate factory functions with the first visible result type, if that
-	// is the only type returned.
+	// Associate factory functions with the first visible result type, as long as
+	// others are predeclared types.
 	if fun.Type.Results.NumFields() >= 1 {
 		var typ *namedType // type to associate the function with
 		numResultTypes := 0
 		for _, res := range fun.Type.Results.List {
-			// exactly one (named or anonymous) result associated
-			// with the first type in result signature (there may
-			// be more than one result)
 			factoryType := res.Type
 			if t, ok := factoryType.(*ast.ArrayType); ok {
 				// We consider functions that return slices or arrays of type
@@ -414,13 +421,20 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 				factoryType = t.Elt
 			}
 			if n, imp := baseTypeName(factoryType); !imp && r.isVisible(n) {
+				if r.isPredeclared(n) {
+					continue
+				}
 				if t := r.lookupType(n); t != nil {
 					typ = t
 					numResultTypes++
+					if numResultTypes > 1 {
+						break
+					}
 				}
 			}
 		}
-		// If there is exactly one result type, associate the function with that type.
+		// If there is exactly one result type,
+		// associate the function with that type.
 		if numResultTypes == 1 {
 			typ.funcs.set(fun, r.mode&PreserveAST != 0)
 			return
@@ -494,7 +508,7 @@ func (r *reader) readFile(src *ast.File) {
 		}
 	}
 
-	// add all declarations
+	// add all declarations but for functions which are processed in a separate pass
 	for _, decl := range src.Decls {
 		switch d := decl.(type) {
 		case *ast.GenDecl:
@@ -548,8 +562,6 @@ func (r *reader) readFile(src *ast.File) {
 					}
 				}
 			}
-		case *ast.FuncDecl:
-			r.readFunc(d)
 		}
 	}
 
@@ -585,6 +597,15 @@ func (r *reader) readPackage(pkg *ast.Package, mode Mode) {
 			r.fileExports(f)
 		}
 		r.readFile(f)
+	}
+
+	// process functions now that we have better type information.
+	for _, f := range pkg.Files {
+		for _, decl := range f.Decls {
+			if d, ok := decl.(*ast.FuncDecl); ok {
+				r.readFunc(d)
+			}
+		}
 	}
 }
 
