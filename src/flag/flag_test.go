@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"reflect"
 	"sort"
 	"strconv"
 	"strings"
@@ -489,5 +490,68 @@ func TestGetters(t *testing.T) {
 	}
 	if fs.Output() != expectedOutput {
 		t.Errorf("unexpected output: got %v, expected %v", fs.Output(), expectedOutput)
+	}
+}
+
+// Issue 26822: Introduce typed errors but try not to break people who have relied on string parsing
+// in the past.
+func TestErrorStrings(t *testing.T) {
+	tests := []struct {
+		prefix string
+		cases  []string
+		ty     reflect.Type
+	}{
+		{
+			prefix: "bad flag syntax",
+			cases:  []string{"-=", "---"},
+			ty:     reflect.TypeOf(&SyntaxError{}),
+		},
+		{
+			prefix: "flag provided but not defined",
+			cases:  []string{"-b"},
+			ty:     reflect.TypeOf(&UndefinedError{}),
+		},
+		{
+			prefix: "invalid boolean value",
+			cases:  []string{"-bool=x"},
+			ty:     reflect.TypeOf(&SyntaxError{}),
+		},
+		{
+			prefix: "invalid boolean flag",
+			cases:  []string{}, // TODO: no cases that can produce this error?
+			ty:     reflect.TypeOf(&SyntaxError{}),
+		},
+		{
+			prefix: "flag needs an argument",
+			cases:  []string{"-int"},
+			ty:     reflect.TypeOf(&SyntaxError{}),
+		},
+		{
+			prefix: "invalid value",
+			cases:  []string{"-int=foo"},
+			ty:     reflect.TypeOf(&SyntaxError{}),
+		},
+	}
+
+	f := NewFlagSet("test", ContinueOnError)
+	f.Bool("bool", false, "bool value")
+	f.Int("int", 0, "int value")
+	for _, tc := range tests {
+		for _, c := range tc.cases {
+			err := f.Parse([]string{c})
+			if err == nil {
+				t.Errorf("wanted error with prefix %q for arg %q, didn't get one", tc.prefix, c)
+				continue
+			}
+
+			if !strings.HasPrefix(err.Error(), tc.prefix) {
+				t.Errorf("got error %q, expected prefix %q", err.Error(), tc.prefix)
+			}
+
+			if reflect.TypeOf(err) != tc.ty {
+				t.Errorf("got error type %T, wanted %s", err, tc.ty.String())
+			}
+
+		}
 	}
 }

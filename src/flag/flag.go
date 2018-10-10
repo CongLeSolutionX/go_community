@@ -822,8 +822,7 @@ func Var(value Value, name string, usage string) {
 
 // failf prints to standard error a formatted error and usage message and
 // returns the error.
-func (f *FlagSet) failf(format string, a ...interface{}) error {
-	err := fmt.Errorf(format, a...)
+func (f *FlagSet) failf(err error) error {
 	fmt.Fprintln(f.Output(), err)
 	f.usage()
 	return err
@@ -858,7 +857,7 @@ func (f *FlagSet) parseOne() (bool, error) {
 	}
 	name := s[numMinuses:]
 	if len(name) == 0 || name[0] == '-' || name[0] == '=' {
-		return false, f.failf("bad flag syntax: %s", s)
+		return false, f.failf(&SyntaxError{Value: s, Err: fmt.Errorf("bad flag syntax: %s", s)})
 	}
 
 	// it's a flag. does it have an argument?
@@ -880,17 +879,17 @@ func (f *FlagSet) parseOne() (bool, error) {
 			f.usage()
 			return false, ErrHelp
 		}
-		return false, f.failf("flag provided but not defined: -%s", name)
+		return false, f.failf(&UndefinedError{Name: name})
 	}
 
 	if fv, ok := flag.Value.(boolFlag); ok && fv.IsBoolFlag() { // special case: doesn't need an arg
 		if hasValue {
 			if err := fv.Set(value); err != nil {
-				return false, f.failf("invalid boolean value %q for -%s: %v", value, name, err)
+				return false, f.failf(&SyntaxError{Flag: flag, Value: value, Err: fmt.Errorf("invalid boolean value %q for -%s: %v", value, name, err)})
 			}
 		} else {
 			if err := fv.Set("true"); err != nil {
-				return false, f.failf("invalid boolean flag %s: %v", name, err)
+				return false, f.failf(&SyntaxError{Flag: flag, Value: value, Err: fmt.Errorf("invalid boolean flag %s: %v", name, err)})
 			}
 		}
 	} else {
@@ -901,10 +900,10 @@ func (f *FlagSet) parseOne() (bool, error) {
 			value, f.args = f.args[0], f.args[1:]
 		}
 		if !hasValue {
-			return false, f.failf("flag needs an argument: -%s", name)
+			return false, f.failf(&SyntaxError{Flag: flag, Err: fmt.Errorf("flag needs an argument: -%s", name)})
 		}
 		if err := flag.Value.Set(value); err != nil {
-			return false, f.failf("invalid value %q for flag -%s: %v", value, name, err)
+			return false, f.failf(&SyntaxError{Flag: flag, Value: value, Err: fmt.Errorf("invalid value %q for flag -%s: %v", value, name, err)})
 		}
 	}
 	if f.actual == nil {
@@ -993,4 +992,26 @@ func NewFlagSet(name string, errorHandling ErrorHandling) *FlagSet {
 func (f *FlagSet) Init(name string, errorHandling ErrorHandling) {
 	f.name = name
 	f.errorHandling = errorHandling
+}
+
+// UndefinedError is the custom error type returned when Parse encounters
+// a flag that is not defined in the FlagSet.
+type UndefinedError struct {
+	Name string
+}
+
+func (u *UndefinedError) Error() string {
+	return fmt.Sprintf("flag provided but not defined: -%s", u.Name)
+}
+
+// SyntaxError is the custom error type returned when Parse encounters
+// a flag value or name that cannot be parsed.
+type SyntaxError struct {
+	Flag  *Flag // Flag may be nil if the flag name could not be determined
+	Value string
+	Err   error
+}
+
+func (s *SyntaxError) Error() string {
+	return s.Err.Error()
 }
