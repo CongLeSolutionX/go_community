@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cde44957_8bb95d3f",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-10T16:07:55Z",
+      "side": 1,
+      "message": "the correct spelling is \"three\" in this context.",
+      "range": {
+        "startLine": 273,
+        "startChar": 56,
+        "endLine": 275,
+        "endChar": 20
+      },
+      "revId": "4e536b1bda0a4fd77e0d38e6ebd02d3e44e2ebb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
