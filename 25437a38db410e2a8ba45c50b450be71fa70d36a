@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "d05fb276_398fdd91",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-10-10T13:02:44Z",
+      "side": 1,
+      "message": "\u003e Sure, i can split the CL. Are there any conventions for \"linking\" dependent CL\u0027s?\n\nMake them on the same local git branch, and Gerrit should preserve the branch history when it uploads.\n\n\u003e The documentation states: \"If the counter goes negative, Add panics.\"\n\u003e Wouldn\u0027t changing that behavior break compatibility?\n\nI tend to agree. Panicking is fine as long as it leaves the WaitGroup in some consistent state. In particular, an error in Add usage should never cause a call to Wait to unblock prematurely.\n\nIn this case, if I understand correctly, a negative count should leave the Wait calls blocked until an Add sets the count to exactly zero.\n\nThe “Add called concurrently with Wait” panics do not seem so benign. In the first one, the caller has no way to know whether the Add call was observed by Wait, so it\u0027s possible that the Add call had no effect on the count (and subsequent Wait calls will wake too early). In the second one, Add may fail to wake some newly-added Waiter (since it is not reflected in the value of `w`).\n\nSo I think this particular panic is fine, but the other ones should probably become throws.",
+      "parentUuid": "48525536_716cc295",
+      "revId": "25437a38db410e2a8ba45c50b450be71fa70d36a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26153dbd_d0465925",
         "filename": "src/sync/waitgroup_test.go",
         "patchSetId": 1
