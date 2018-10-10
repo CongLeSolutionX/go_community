@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "25b1d20a_73b27264",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 26506
+      },
+      "writtenOn": "2018-10-10T12:28:19Z",
+      "side": 1,
+      "message": "Agreed, however it is probably more unlikely to hit the negative overflow, since the delta itself needs to exceed the range.\n\nPatchset 2 has the check and a test, but the test will only work on 64 bit machines. Is there a way to skip tests on 32 bit machines?",
+      "parentUuid": "8dfe5d21_2afc4fa9",
+      "revId": "25437a38db410e2a8ba45c50b450be71fa70d36a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ada1af9e_9309b204",
         "filename": "src/sync/waitgroup.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-10-10T00:13:40Z",
       "side": 1,
       "message": "It seems to me that we should be consistent about panic and throw in this function.  Maybe this CL should use panic and a separate CL should convert the panic\u0027s to throw\u0027s.",
+      "revId": "25437a38db410e2a8ba45c50b450be71fa70d36a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75ce000e_481c5a19",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 26506
+      },
+      "writtenOn": "2018-10-10T12:28:19Z",
+      "side": 1,
+      "message": "Sure, i can split the CL. Are there any conventions for \"linking\" dependent CL\u0027s?",
+      "parentUuid": "ada1af9e_9309b204",
       "revId": "25437a38db410e2a8ba45c50b450be71fa70d36a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "25437a38db410e2a8ba45c50b450be71fa70d36a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66bce148_43542b53",
+        "filename": "src/sync/waitgroup_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 26506
+      },
+      "writtenOn": "2018-10-10T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26153dbd_d0465925",
+      "revId": "25437a38db410e2a8ba45c50b450be71fa70d36a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
