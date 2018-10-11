@@ -93,6 +93,30 @@
       "revId": "4dee2a60091d794ef6881fa200e4e797c198edb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b17eb54_97e21f93",
+        "filename": "src/os/sys_aix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-11T14:49:36Z",
+      "side": 1,
+      "message": "A way to write that to not be confusing to those unfamiliar with AIX is to say:\n\n  // ... cannot be used because it depends on the AIX \"bsd\" library\n\nBut that doesn\u0027t entirely answer the question. I suppose implicit is that we don\u0027t use C libraries from Go typically and that\u0027s the reason? But AIX does, like Solaris \u0026 Windows, so.\n\nAs for the behavior, in general do whatever godoc says:\n\n   \"Hostname returns the host name reported by the kernel.\"\n\nBut if there are multiple valid answers, try to behave like existing ports do (whatever Linux/Windows/Mac do).",
+      "parentUuid": "f0180bb4_9aa2502c",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "4dee2a60091d794ef6881fa200e4e797c198edb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
