@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ff1a1f8_69931ae5",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-11T18:30:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c2080e3_eff9fd7c",
+      "range": {
+        "startLine": 751,
+        "startChar": 5,
+        "endLine": 751,
+        "endChar": 13
+      },
+      "revId": "8426507b8680bb0c727b8f0f2d7f8fefef3239b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedfa40f_5f6b5388",
         "filename": "src/go/scanner/scanner_test.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "11f4e215_d148f2a0",
+        "filename": "src/go/scanner/scanner_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-11T18:30:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cedfa40f_5f6b5388",
+      "range": {
+        "startLine": 860,
+        "startChar": 1,
+        "endLine": 860,
+        "endChar": 4
+      },
+      "revId": "8426507b8680bb0c727b8f0f2d7f8fefef3239b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d1d1404_b71e189c",
         "filename": "src/go/scanner/scanner_test.go",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2018-10-11T17:42:02Z",
       "side": 1,
       "message": "What tokens are considered error tokens?\n\nAccording to https://godoc.org/go/scanner#Scanner.Scan, it\u0027s not just literal tokens that have non-empty literal string, but also:\n\n• token.COMMENT\n• keyword tokens\n• token.SEMICOLON\n• token.ILLEGAL\n\nWhich seems counter to what the highlighted sentence says.\n\nIs the reason the else branch not taking that error tokens into account because the tokens in this test case are hardcoded and known in advance?",
+      "range": {
+        "startLine": 869,
+        "startChar": 47,
+        "endLine": 869,
+        "endChar": 114
+      },
+      "revId": "8426507b8680bb0c727b8f0f2d7f8fefef3239b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f06904b6_7cc24c25",
+        "filename": "src/go/scanner/scanner_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-11T18:30:36Z",
+      "side": 1,
+      "message": "adjusted comment and code slightly",
+      "parentUuid": "8d1d1404_b71e189c",
       "range": {
         "startLine": 869,
         "startChar": 47,
