@@ -117,6 +117,30 @@
       "revId": "4dee2a60091d794ef6881fa200e4e797c198edb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de72a85e_0e73abb7",
+        "filename": "src/os/sys_aix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-11T15:32:31Z",
+      "side": 1,
+      "message": "Ok thanks, I\u0027ll try to make it clearer next time.  \n\nFor syscall, I\u0027m using the default libc library which has the \"true\" syscalls. The libbsd library is there only for compatibility purposes. However, if your program is linked with it some of the \"true\" syscalls are replaced by \"bsd-like\" syscalls and a lot of problems could happen because of this. I\u0027m not fully aware about the whole thing, but it\u0027s not recommended to use it except if you know what you\u0027re doing. \n\nAbout cgo, I should already be able to import any C functions from any library. But I\u0027ve only tested with libc symbols because there are the ones I need for syscalls. Maybe, it\u0027s not perfect, but as long as I have syscalls it\u0027s far enough for the moment.",
+      "parentUuid": "8b17eb54_97e21f93",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "4dee2a60091d794ef6881fa200e4e797c198edb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
