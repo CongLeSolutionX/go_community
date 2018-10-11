@@ -218,3 +218,81 @@ func TestRawConnControl(t *testing.T) {
 		}
 	})
 }
+
+func TestSyscallConn(t *testing.T) {
+	switch runtime.GOOS {
+	case "darwin", "dragonfly", "freebsd", "linux", "netbsd", "openbsd":
+	default:
+		t.Skipf("not supported on %s", runtime.GOOS)
+	}
+
+	network, f, err := newSyscallConnFile()
+	if err != nil {
+		t.Fatal(err)
+	}
+	c, err := NewSyscallConn(network, f)
+	if err != nil {
+		f.Close()
+		t.Fatal(err)
+	}
+	defer c.Close()
+
+	t.Run("Deadline", func(t *testing.T) {
+		cc, err := c.SyscallConn()
+		if err != nil {
+			t.Fatal(err)
+		}
+		var b [1]byte
+
+		c.SetDeadline(noDeadline)
+		if err := c.SetDeadline(time.Now().Add(-1)); err != nil {
+			t.Fatal(err)
+		}
+		if err = writeRawConn(cc, b[:]); err == nil {
+			t.Fatal("Write should fail")
+		}
+		if perr := parseWriteError(err); perr != nil {
+			t.Error(perr)
+		}
+		if nerr, ok := err.(Error); !ok || !nerr.Timeout() {
+			t.Errorf("got %v; want timeout", err)
+		}
+		if _, err = readRawConn(cc, b[:]); err == nil {
+			t.Fatal("Read should fail")
+		}
+		if perr := parseReadError(err); perr != nil {
+			t.Error(perr)
+		}
+		if nerr, ok := err.(Error); !ok || !nerr.Timeout() {
+			t.Errorf("got %v; want timeout", err)
+		}
+
+		c.SetReadDeadline(noDeadline)
+		if err := c.SetReadDeadline(time.Now().Add(-1)); err != nil {
+			t.Fatal(err)
+		}
+		if _, err = readRawConn(cc, b[:]); err == nil {
+			t.Fatal("Read should fail")
+		}
+		if perr := parseReadError(err); perr != nil {
+			t.Error(perr)
+		}
+		if nerr, ok := err.(Error); !ok || !nerr.Timeout() {
+			t.Errorf("got %v; want timeout", err)
+		}
+
+		c.SetWriteDeadline(noDeadline)
+		if err := c.SetWriteDeadline(time.Now().Add(-1)); err != nil {
+			t.Fatal(err)
+		}
+		if err = writeRawConn(cc, b[:]); err == nil {
+			t.Fatal("Write should fail")
+		}
+		if perr := parseWriteError(err); perr != nil {
+			t.Error(perr)
+		}
+		if nerr, ok := err.(Error); !ok || !nerr.Timeout() {
+			t.Errorf("got %v; want timeout", err)
+		}
+	})
+}

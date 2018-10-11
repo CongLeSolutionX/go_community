@@ -6,6 +6,7 @@ package net
 
 import (
 	"errors"
+	"os"
 	"syscall"
 	"unsafe"
 )
@@ -125,4 +126,8 @@ func controlOnConnSetup(network string, address string, c syscall.RawConn) error
 		return operr
 	}
 	return nil
+}
+
+func newSyscallConnFile() (string, *os.File, error) {
+	return "", nil, errors.New("not supported")
 }
