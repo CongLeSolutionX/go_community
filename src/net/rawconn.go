@@ -5,8 +5,10 @@
 package net
 
 import (
+	"os"
 	"runtime"
 	"syscall"
+	"time"
 )
 
 // BUG(tmm1): On Windows, the Write method of syscall.RawConn
@@ -15,8 +17,11 @@ import (
 // deadlines. If the user-provided callback returns false, the Write
 // method will fail immediately.
 
-// BUG(mikio): On JS, NaCl and Plan 9, the Control, Read and Write
-// methods of syscall.RawConn are not implemented.
+// BUG(mikio): On AIX, JS, NaCl and Plan 9, the Control, Read and
+// Write methods of syscall.RawConn are not implemented.
+
+// BUG(mikio): On AIX, JS, NaCl and Plan 9, methods and functions
+// related to SyscallConn are not implemented.
 
 type rawConn struct {
 	fd *netFD
@@ -78,4 +83,62 @@ func (l *rawListener) Write(func(uintptr) bool) error {
 
 func newRawListener(fd *netFD) (*rawListener, error) {
 	return &rawListener{rawConn{fd: fd}}, nil
+}
+
+// SyscallConn is an implementation of the syscall.Conn interface.
+type SyscallConn struct {
+	c rawConn
+}
+
+func (c *SyscallConn) ok() bool { return c != nil && c.c.fd != nil }
+
+func (c *SyscallConn) Close() error {
+	if !c.ok() {
+		return syscall.EINVAL
+	}
+	return c.c.fd.Close()
+}
+
+// SyscallConn returns a raw network connection.
+func (c *SyscallConn) SyscallConn() (syscall.RawConn, error) {
+	if !c.ok() {
+		return nil, syscall.EINVAL
+	}
+	return &c.c, nil
+}
+
+// SetDeadline implements the SetDeadline method of Conn or PacketConn
+// interface.
+func (c *SyscallConn) SetDeadline(t time.Time) error {
+	if !c.ok() {
+		return syscall.EINVAL
+	}
+	return c.c.fd.pfd.SetDeadline(t)
+}
+
+// SetReadDeadline implements the SetReadDeadline method of Conn or
+// PacketConn interface.
+func (c *SyscallConn) SetReadDeadline(t time.Time) error {
+	if !c.ok() {
+		return syscall.EINVAL
+	}
+	return c.c.fd.pfd.SetReadDeadline(t)
+}
+
+// SetWriteDeadline implements the SetWriteDeadline method of Conn or
+// PacketConn interface.
+func (c *SyscallConn) SetWriteDeadline(t time.Time) error {
+	if !c.ok() {
+		return syscall.EINVAL
+	}
+	return c.c.fd.pfd.SetWriteDeadline(t)
+}
+
+// NewSyscallConn returns a new raw network connection.
+func NewSyscallConn(network string, f *os.File) (*SyscallConn, error) {
+	c, err := newSyscallConn(network, f)
+	if err != nil {
+		return nil, syscall.EINVAL
+	}
+	return c, nil
 }

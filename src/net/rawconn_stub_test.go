@@ -2,12 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build js,wasm nacl plan9
+// +build !aix,!darwin,!dragonfly,!freebsd,!linux,!netbsd,!openbsd,!solaris,!windows
 
 package net
 
 import (
 	"errors"
+	"os"
 	"syscall"
 )
 
@@ -25,4 +26,8 @@ func controlRawConn(c syscall.RawConn, addr Addr) error {
 
 func controlOnConnSetup(network string, address string, c syscall.RawConn) error {
 	return nil
+}
+
+func newSyscallConnFile() (string, *os.File, error) {
+	return "", nil, errors.New("not supported")
 }
