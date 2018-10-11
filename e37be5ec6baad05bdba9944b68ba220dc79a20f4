@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dd045c79_aa0ab60c",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-11T04:33:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bcc7ed8_38aa9be4",
+      "revId": "e37be5ec6baad05bdba9944b68ba220dc79a20f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60b5ac82_e56fd996",
         "filename": "src/crypto/cipher/xor_test.go",
         "patchSetId": 32
@@ -33,6 +51,24 @@
       "revId": "e37be5ec6baad05bdba9944b68ba220dc79a20f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa36987a_589661ef",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-11T04:33:24Z",
+      "side": 1,
+      "message": "I think there is no need to fillrandom for bench?",
+      "parentUuid": "60b5ac82_e56fd996",
+      "revId": "e37be5ec6baad05bdba9944b68ba220dc79a20f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
