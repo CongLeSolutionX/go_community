@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c2080e3_eff9fd7c",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-11T17:42:02Z",
+      "side": 1,
+      "message": "In general (which may not apply in this package), when a line is repeated exactly, the reader may get distracted thinking whether or not it was intentional or a copy/paste error.\n\nTo make it more clear that two s.next() calls one after another are intentional, you could add a comment to one of them (or both), e.g.:\n\n    s.next()\n    s.next() // consume last \u0027.\u0027\n\nOr:\n\n    s.next() // consume second \u0027.\u0027\n    s.next() // consume last \u0027.\u0027",
+      "range": {
+        "startLine": 751,
+        "startChar": 5,
+        "endLine": 751,
+        "endChar": 13
+      },
+      "revId": "8426507b8680bb0c727b8f0f2d7f8fefef3239b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cedfa40f_5f6b5388",
+        "filename": "src/go/scanner/scanner_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-11T17:42:02Z",
+      "side": 1,
+      "message": "Can be const.",
+      "range": {
+        "startLine": 860,
+        "startChar": 1,
+        "endLine": 860,
+        "endChar": 4
+      },
+      "revId": "8426507b8680bb0c727b8f0f2d7f8fefef3239b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d1d1404_b71e189c",
+        "filename": "src/go/scanner/scanner_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-11T17:42:02Z",
+      "side": 1,
+      "message": "What tokens are considered error tokens?\n\nAccording to https://godoc.org/go/scanner#Scanner.Scan, it\u0027s not just literal tokens that have non-empty literal string, but also:\n\n• token.COMMENT\n• keyword tokens\n• token.SEMICOLON\n• token.ILLEGAL\n\nWhich seems counter to what the highlighted sentence says.\n\nIs the reason the else branch not taking that error tokens into account because the tokens in this test case are hardcoded and known in advance?",
+      "range": {
+        "startLine": 869,
+        "startChar": 47,
+        "endLine": 869,
+        "endChar": 114
+      },
+      "revId": "8426507b8680bb0c727b8f0f2d7f8fefef3239b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
