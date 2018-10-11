@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec44715d_6caf0151",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-10-11T14:03:19Z",
+      "side": 1,
+      "message": "This only affects the path/filepath package, so I think this should be\n\n  path/filepath: add AIX operating system\n\nas per https://golang.org/wiki/CommitMessage",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 4
+      },
+      "revId": "3fe06384da95c53563588e083973ff86f67b515e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
