@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85f3a46f_668159a4",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2018-10-11T16:35:49Z",
+      "side": 1,
+      "message": "ha, i have code that\u0027s doing this kind of thing too. not great really. :-\\",
+      "revId": "ed2c50e5202f38a41d842dd7429457fae543ec11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d45691d8_43d9a59c",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2018-10-11T16:35:49Z",
+      "side": 1,
+      "message": "Should we try harder if the process doesn\u0027t exit a while after sending it an interrupt signal?",
+      "revId": "ed2c50e5202f38a41d842dd7429457fae543ec11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3465b652_b3bcc172",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2018-10-11T16:35:49Z",
+      "side": 1,
+      "message": "again, maybe we should give it some time to respond before using Kill. ISTM that the initial signal could very well succeed but the process might not terminate on SIGINT, so we\u0027ll never call Kill, so we\u0027ll time out after minutes rather than seconds.",
+      "revId": "ed2c50e5202f38a41d842dd7429457fae543ec11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5581724_36e157c0",
+        "filename": "src/cmd/go/testdata/script/README",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2018-10-11T16:35:49Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure whether it\u0027s a good idea to concatenate all the output here. That will make it harder to inspect individual command output. Another possibility might be to name the command that we\u0027re waiting for (maybe as a regexp); we wait for anything that\u0027s named. By default `wait` would be equivalent to `wait .*`.",
+      "revId": "ed2c50e5202f38a41d842dd7429457fae543ec11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
