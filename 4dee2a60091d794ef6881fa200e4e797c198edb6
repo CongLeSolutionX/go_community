@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0658d4f8_452cd139",
+        "filename": "src/os/stat_aix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-11T12:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44eccaaa_22e895bb",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "4dee2a60091d794ef6881fa200e4e797c198edb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "839bcd84_9f38e2b3",
         "filename": "src/os/sys_aix.go",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-10T20:14:39Z",
       "side": 1,
       "message": "elaborate? which BSD library?\n\nOr because it requires cgo?\n\nAlso, end in a period.",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "4dee2a60091d794ef6881fa200e4e797c198edb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0180bb4_9aa2502c",
+        "filename": "src/os/sys_aix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-11T12:20:19Z",
+      "side": 1,
+      "message": "AIX has a library called BSD for compatibility purpose. However, I should have changed the comment, because it wasn\u0027t the only reason. \n\ngethostname returns \"hostname.domain.com\" while the u.Nodename taken here has just \"hostname\". \n\nThe problem is that the AIX command hostname also returns \"hostname.domain.com\". I think this could be changed if you\u0027d rather have just the hostname alone (which can be obtained with hostname -s) or have the full name as the default AIX command. Tell me what do you prefer. This can be changed easily.",
+      "parentUuid": "839bcd84_9f38e2b3",
       "range": {
         "startLine": 9,
         "startChar": 41,
