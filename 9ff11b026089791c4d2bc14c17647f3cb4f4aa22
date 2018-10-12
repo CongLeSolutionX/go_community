@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "0c6bc8fd_da718036",
+        "filename": "src/net/interface_aix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-10-12T23:25:16Z",
+      "side": 1,
+      "message": "never mind, sorry, the ipnet structure doesn\u0027t have zone field (added and reverted previously).",
+      "parentUuid": "2a922b79_3148aa16",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 30
+      },
+      "revId": "9ff11b026089791c4d2bc14c17647f3cb4f4aa22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cc46d5d_5b19c3f4",
         "filename": "src/net/ipsock_posix.go",
         "patchSetId": 6
@@ -225,6 +249,30 @@
       "side": 1,
       "message": "Yes, that\u0027s the case. However, I haven\u0027t found any documentation on this point.",
       "parentUuid": "7cc46d5d_5b19c3f4",
+      "range": {
+        "startLine": 137,
+        "startChar": 5,
+        "endLine": 137,
+        "endChar": 26
+      },
+      "revId": "9ff11b026089791c4d2bc14c17647f3cb4f4aa22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7061b344_467d82b9",
+        "filename": "src/net/ipsock_posix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-10-12T23:25:16Z",
+      "side": 1,
+      "message": "thanks for the confirmation.",
+      "parentUuid": "99c026d6_99ac53d2",
       "range": {
         "startLine": 137,
         "startChar": 5,
