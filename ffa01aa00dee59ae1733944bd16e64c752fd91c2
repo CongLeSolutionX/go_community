@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dedf2e55_e3ff687b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-12T00:29:04Z",
+      "side": 1,
+      "message": "Bringing in mode.AllDecls w/o more elaboration (or detailed issue context) is really confusing. No matter whether we consider exporter or non-exported types, the code that you changed is still the same (there\u0027s no reference to mode.AllDecls in the changed code, after all).\n\nI\u0027d say something that is more to the point:\n\nIgnore predeclared types (such as error) in result parameter lists when determining\nwith which result type a method should be associated with. This change will again\nassociate common factory functions with the first result type even if there are more\nthan one result, as long as the others are predeclared types.",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12e9d01b_9b73f98d",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-12T00:29:04Z",
+      "side": 1,
+      "message": "this comment also needs to be adjusted",
+      "range": {
+        "startLine": 402,
+        "startChar": 20,
+        "endLine": 402,
+        "endChar": 21
+      },
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2741e54c_95822c0f",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-12T00:29:04Z",
+      "side": 1,
+      "message": "swap this condition - no need to lookup the map for every first result\n\nif i \u003e 0 \u0026\u0026 predeclaredTypes[n]\n\nAlso: why do you ignore the case i \u003d\u003d 0? This needs a comment.",
+      "range": {
+        "startLine": 417,
+        "startChar": 7,
+        "endLine": 417,
+        "endChar": 23
+      },
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4980f8cc_5f18c5be",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-12T00:29:04Z",
+      "side": 1,
+      "message": "s/one/one non-predeclared/",
+      "range": {
+        "startLine": 426,
+        "startChar": 25,
+        "endLine": 426,
+        "endChar": 28
+      },
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b491007_45eb40b1",
+        "filename": "src/go/doc/testdata/issue12839.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-12T00:29:04Z",
+      "side": 1,
+      "message": "We name the tests after issues so we don\u0027t have to mention them again in comments - it\u0027s just duplication. Here I\u0027d change this line to just mention the new case:\n\n// (See also golang.org/issue/27928.)",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5dd0d24_11a9517f",
+        "filename": "src/go/doc/testdata/issue12839.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-12T00:29:04Z",
+      "side": 1,
+      "message": "There should be additional test cases that have a predeclared type in the first result position. There should be also test cases with more than 2 results, all but one of which have predeclared types. There may be more cases that should be tested.",
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
