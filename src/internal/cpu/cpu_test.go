@@ -13,15 +13,7 @@ import (
 	"testing"
 )
 
-func MustHaveDebugOptionsEnabled(t *testing.T) {
-	if !DebugOptions {
-		t.Skipf("skipping test: cpu feature options not enabled")
-	}
-}
-
 func runDebugOptionsTest(t *testing.T, test string, options string) {
-	MustHaveDebugOptionsEnabled(t)
-
 	testenv.MustHaveExec(t)
 
 	env := "GODEBUGCPU=" + options
@@ -42,8 +34,6 @@ func TestDisableAllCapabilities(t *testing.T) {
 }
 
 func TestAllCapabilitiesDisabled(t *testing.T) {
-	MustHaveDebugOptionsEnabled(t)
-
 	if os.Getenv("GODEBUGCPU") != "all=0" {
 		t.Skipf("skipping test: GODEBUGCPU=all=0 not set")
 	}

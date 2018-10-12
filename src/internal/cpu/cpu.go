@@ -6,11 +6,6 @@
 // used by the Go standard library.
 package cpu
 
-// DebugOptions is set to true by the runtime if go was compiled with GOEXPERIMENT=debugcpu
-// and GOOS is Linux or Darwin.
-// This should not be changed after it is initialized.
-var DebugOptions bool
-
 // CacheLinePad is used to pad structs to avoid false sharing.
 type CacheLinePad struct{ _ [CacheLinePadSize]byte }
 
@@ -139,8 +134,7 @@ type s390x struct {
 
 // Initialize examines the processor and sets the relevant variables above.
 // This is called by the runtime package early in program initialization,
-// before normal init functions are run. env is set by runtime on Linux and Darwin
-// if go was compiled with GOEXPERIMENT=debugcpu.
+// before normal init functions are run. env is set by runtime on Linux and Darwin.
 func Initialize(env string) {
 	doinit()
 	processOptions(env)

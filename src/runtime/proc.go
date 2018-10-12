@@ -478,14 +478,12 @@ const (
 )
 
 // cpuinit extracts the environment variable GODEBUGCPU from the environment on
-// Linux and Darwin if the GOEXPERIMENT debugcpu was set and calls internal/cpu.Initialize.
+// Linux and Darwin and calls internal/cpu.Initialize.
 func cpuinit() {
 	const prefix = "GODEBUGCPU="
 	var env string
 
-	if haveexperiment("debugcpu") && (GOOS == "linux" || GOOS == "darwin") {
-		cpu.DebugOptions = true
-
+	if GOOS == "linux" || GOOS == "darwin" {
 		// Similar to goenv_unix but extracts the environment value for
 		// GODEBUGCPU directly.
 		// TODO(moehrmann): remove when general goenvs() can be called before cpuinit()
