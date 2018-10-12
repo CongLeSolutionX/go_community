@@ -96,6 +96,14 @@ type mheap struct {
 	nlargefree  uint64                  // number of frees for large objects (>maxsmallsize)
 	nsmallfree  [_NumSizeClasses]uint64 // number of frees for small objects (<=maxsmallsize)
 
+	// Budgeting mechanism for scavenging pages.
+	//
+	// If scavengeDebt exceeds scavengeDebtMax then we eagerly scavenge
+	// on the next allocation, until scavengeDebt is <= 0.
+	//
+	// Protected by mheap's lock. 
+	scavengeDebt int64
+
 	// arenas is the heap arena map. It points to the metadata for
 	// the heap for every arena frame of the entire usable virtual
 	// address space.
@@ -847,21 +855,36 @@ func (h *mheap) allocSpanLocked(npage uintptr, stat *uint64) *mspan {
 	}
 	s = h.scav.remove(npage)
 	if s != nil {
-		goto HaveSpan
+		h.scavengeDebt += s.npages
+		goto MaybeScavenge
 	}
 	// On failure, grow the heap and try again.
-	if !h.grow(npage) {
+	if n := h.grow(npage); n == 0 {
 		return nil
+	} else {
+		h.scavengeDebt += n
 	}
 	s = h.free.remove(npage)
 	if s != nil {
-		goto HaveSpan
+		goto MaybeScavenge
 	}
 	s = h.scav.remove(npage)
 	if s != nil {
-		goto HaveSpan
+		goto MaybeScavenge
 	}
 	return nil
+
+MaybeScavenge:
+	if h.scavengeDebt > scavengeDebtMax {
+		// Scavenge some pages out of the free treap to make up for
+		// the virtual memory space we just allocated. We prefer to
+		// scavenge the largest spans first since the cost of scavenging
+		// is proportional to the number of sysUnused() calls rather than
+		// the number of pages released, so we make fewer of those calls
+		// with larger spans.
+		scavenged := scavengeLargest(&h.free, &h.scav, h.scavengeDebt)
+		h.scavengeDebt -= scavenged
+	}
 
 HaveSpan:
 	// Mark span in use.
@@ -911,24 +934,16 @@ HaveSpan:
 }
 
 // Try to add at least npage pages of memory to the heap,
-// returning whether it worked.
+// returning how many pages were actually added.
 //
 // h must be locked.
-func (h *mheap) grow(npage uintptr) bool {
+func (h *mheap) grow(npage uintptr) uintptr {
 	ask := npage << _PageShift
 	v, size := h.sysAlloc(ask)
 	if v == nil {
 		print("runtime: out of memory: cannot allocate ", ask, "-byte block (", memstats.heap_sys, " in use)\n")
-		return false
+		return 0
 	}
-
-	// Scavenge some pages out of the free treap to make up for
-	// the virtual memory space we just allocated. We prefer to
-	// scavenge the largest spans first since the cost of scavenging
-	// is proportional to the number of sysUnused() calls rather than
-	// the number of pages released, so we make fewer of those calls
-	// with larger spans.
-	scavengeLargest(&h.free, &h.scav, size/pageSize)
 
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
@@ -939,7 +954,7 @@ func (h *mheap) grow(npage uintptr) bool {
 	s.state = mSpanInUse
 	h.pagesInUse += uint64(s.npages)
 	h.freeSpanLocked(s, false, true, 0)
-	return true
+	return size/pageSize
 }
 
 // Free the span back into the heap.
