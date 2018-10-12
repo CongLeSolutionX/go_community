@@ -247,9 +247,12 @@ func (root *mTreap) removeSpan(span *mspan) {
 // scavengeLargest scavenges npages worth of physical pages from spans in root
 // starting from the largest span and working down. It then takes those spans
 // and places them in scav.
+//
+// Returns the amount of pages released.
 func scavengeLargest(unscav *mTreap, scav *mTreap, npages uintptr) {
 	t := unscav.treap
-	for npages > 0 {
+	released := uintptr(0)
+	for released < npages {
 		if t == nil {
 			return
 		}
@@ -260,16 +263,16 @@ func scavengeLargest(unscav *mTreap, scav *mTreap, npages uintptr) {
 		s := t.spanKey
 		// If the largest free span is more than we need, find and remove
 		// the best fit and quit.
-		if s.npages >= npages {
+		if s.npages >= (released - npages) {
 			s = unscav.remove(npages)
-			s.scavenge()
+			r := s.scavenge()
 			scav.insert(s)
-			return
+			return released + r
 		}
-		released := s.scavenge()
+		r := s.scavenge()
 		// released is in bytes, so just round up to the nearest number
 		// of pages released.
-		npages -= (released + pageSize - 1) / pageSize
+		released += (r + pageSize - 1) / pageSize
 		p := t.parent
 		unscav.removeNode(t)
 		scav.insert(s)
@@ -282,6 +285,7 @@ func scavengeLargest(unscav *mTreap, scav *mTreap, npages uintptr) {
 			t = unscav.treap
 		}
 	}
+	return released
 }
 
 // scavenge visits each node in the unscav treap and scavenges the
