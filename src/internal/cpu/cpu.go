@@ -155,14 +155,15 @@ var options []option
 type option struct {
 	Name    string
 	Feature *bool
+	Setting string // Stores option value specified in GODEBUGCPU.
 }
 
 // processOptions disables CPU feature values based on the parsed env string.
-// The env string is expected to be of the form feature1=off,feature2=off...
+// The env string is expected to be of the form feature1=value1,feature2=value2...
 // where feature names is one of the architecture specifc list stored in the
-// cpu packages options variable. If env contains all=off then all capabilities
-// referenced through the options variable are disabled. Other feature
-// names and values other than 'off' are silently ignored.
+// cpu packages options variable and values are either 'on' or 'off'.
+// If env contains all=off then all cpu features referenced through the options
+// variable are disabled. Other feature names and values result in warning messages.
 func processOptions(env string) {
 field:
 	for env != "" {
@@ -179,20 +180,37 @@ field:
 		}
 		key, value := field[:i], field[i+1:]
 
-		// Only allow turning off CPU features by specifying 'off'.
-		if value == "off" {
-			if key == "all" {
-				for _, v := range options {
-					*v.Feature = false
-				}
-				return
-			} else {
-				for _, v := range options {
-					if v.Name == key {
-						*v.Feature = false
-						continue field
-					}
-				}
+		switch value {
+		case "on", "off":
+		default:
+			print("GODEBUGCPU: setting \"", value, "\" not supported for option ", key, "\n")
+			continue field
+		}
+
+		if key == "all" {
+			for i := range options {
+				options[i].Setting = value
+			}
+			continue field
+		}
+
+		for i := range options {
+			if options[i].Name == key {
+				options[i].Setting = value
+				continue field
+			}
+		}
+
+		print("GODEBUGCPU: unknown cpu feature \"", key, "\"\n")
+	}
+
+	for _, o := range options {
+		switch o.Setting {
+		case "off":
+			*o.Feature = false
+		case "on":
+			if !*o.Feature {
+				print("GODEBUGCPU: can not enable \"", o.Name, "\", missing hardware support\n")
 			}
 		}
 	}
