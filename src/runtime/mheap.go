@@ -20,6 +20,13 @@ import (
 // sys.PhysPageSize is an upper-bound on the physical page size.
 const minPhysPageSize = 4096
 
+// maxScavengeDebt is that maximum amount of pages that we're willing
+// to leave unscavenged before we decide scavenge for more pages.
+// We set this to be the amount of pages that make up an arena, so
+// we're never more than an arena's worth of memory behind.
+// TODO(mknyszek): Come up with a better threshold.
+const maxScavengeDebt = heapArenaBytes / pageSize
+
 // Main malloc heap.
 // The heap itself is the "free[]" and "large" arrays,
 // but all the other global data is here too.
@@ -95,6 +102,14 @@ type mheap struct {
 	largefree   uint64                  // bytes freed for large objects (>maxsmallsize)
 	nlargefree  uint64                  // number of frees for large objects (>maxsmallsize)
 	nsmallfree  [_NumSizeClasses]uint64 // number of frees for small objects (<=maxsmallsize)
+
+	// Budgeting mechanism for scavenging pages.
+	//
+	// If scavengeDebt exceeds maxScavengeDebt then we eagerly scavenge
+	// on the next allocation, until scavengeDebt is <= 0.
+	//
+	// Protected by mheap's lock.
+	scavengeDebt int64
 
 	// arenas is the heap arena map. It points to the metadata for
 	// the heap for every arena frame of the entire usable virtual
@@ -858,21 +873,37 @@ func (h *mheap) allocSpanLocked(npage uintptr, stat *uint64) *mspan {
 	}
 	s = h.scav.remove(npage)
 	if s != nil {
-		goto HaveSpan
+		h.scavengeDebt += s.npages
+		goto MaybeScavenge
 	}
 	// On failure, grow the heap and try again.
-	if !h.grow(npage) {
+	if n := h.grow(npage); n == 0 {
 		return nil
+	} else {
+		h.scavengeDebt += n
 	}
 	s = h.free.remove(npage)
 	if s != nil {
-		goto HaveSpan
+		goto MaybeScavenge
 	}
 	s = h.scav.remove(npage)
 	if s != nil {
-		goto HaveSpan
+		h.scavengeDebt += n
+		goto MaybeScavenge
 	}
 	return nil
+
+MaybeScavenge:
+	if h.scavengeDebt > maxScavengeDebt {
+		// Scavenge some pages out of the free treap to make up for
+		// the virtual memory space we just allocated. We prefer to
+		// scavenge the largest spans first since the cost of scavenging
+		// is proportional to the number of sysUnused() calls rather than
+		// the number of pages released, so we make fewer of those calls
+		// with larger spans.
+		scavenged := scavengeLargest(&h.free, &h.scav, h.scavengeDebt)
+		h.scavengeDebt -= scavenged
+	}
 
 HaveSpan:
 	// Mark span in use.
@@ -922,24 +953,16 @@ HaveSpan:
 }
 
 // Try to add at least npage pages of memory to the heap,
-// returning whether it worked.
+// returning how many pages were actually added.
 //
 // h must be locked.
-func (h *mheap) grow(npage uintptr) bool {
+func (h *mheap) grow(npage uintptr) uintptr {
 	ask := npage << _PageShift
 	v, size := h.sysAlloc(ask)
 	if v == nil {
 		print("runtime: out of memory: cannot allocate ", ask, "-byte block (", memstats.heap_sys, " in use)\n")
-		return false
+		return 0
 	}
-
-	// Scavenge some pages out of the free treap to make up for
-	// the virtual memory space we just allocated. We prefer to
-	// scavenge the largest spans first since the cost of scavenging
-	// is proportional to the number of sysUnused() calls rather than
-	// the number of pages released, so we make fewer of those calls
-	// with larger spans.
-	scavengeLargest(&h.free, &h.scav, size/pageSize)
 
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
@@ -950,7 +973,7 @@ func (h *mheap) grow(npage uintptr) bool {
 	s.state = mSpanInUse
 	h.pagesInUse += uint64(s.npages)
 	h.freeSpanLocked(s, false, true, 0)
-	return true
+	return size / pageSize
 }
 
 // Free the span back into the heap.
@@ -1123,11 +1146,14 @@ func scavenge1(unscav *mTreap, t *treapNode, scav *mTreap, now, limit uint64) ui
 // scavengeLargest scavenges npages worth of physical pages from spans in unscav
 // starting from the largest span and working down. It then takes those spans
 // and places them in scav.
-func scavengeLargest(unscav *mTreap, scav *mTreap, npages uintptr) {
+//
+// Returns the amount of physical pages released.
+func scavengeLargest(unscav *mTreap, scav *mTreap, npages uintptr) uintptr {
 	t := unscav.treap
-	for npages > 0 {
+	released := uintptr(0)
+	for released < npages {
 		if t == nil {
-			return
+			return released
 		}
 		// Just grab the largest free span.
 		for t.right != nil {
@@ -1139,20 +1165,20 @@ func scavengeLargest(unscav *mTreap, scav *mTreap, npages uintptr) {
 			// Since we're going in order of largest-to-smallest span, this
 			// means all other spans are no bigger than s, so we should stop
 			// here before we accidentally iterate over the whole treap.
-			return
+			return released
 		}
 		// If the largest free span is more than we need, find and remove
 		// the best fit and quit.
-		if end-start >= npages {
+		if end-start >= (npages - released) {
 			s = unscav.remove(npages)
-			s.scavenge()
+			r := s.scavenge()
 			scav.insert(s)
-			return
+			return released + r
 		}
 		r := s.scavenge()
 		// r is in bytes, so just round up to the nearest number of pages
 		// released.
-		npages -= (r + pageSize - 1) / pageSize
+		released += (r + pageSize - 1) / pageSize
 		p := t.parent
 		unscav.removeNode(t)
 		scav.insert(s)
@@ -1165,6 +1191,7 @@ func scavengeLargest(unscav *mTreap, scav *mTreap, npages uintptr) {
 			t = unscav.treap
 		}
 	}
+	return released
 }
 
 func (h *mheap) scavenge(k int32, now, limit uint64) {
