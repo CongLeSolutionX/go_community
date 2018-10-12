@@ -20,7 +20,7 @@ const (
 
 func doinit() {
 	options = []option{
-		{"idiva", &ARM.HasIDIVA},
+		{Name: "idiva", Feature: &ARM.HasIDIVA},
 	}
 
 	// HWCAP feature bits
