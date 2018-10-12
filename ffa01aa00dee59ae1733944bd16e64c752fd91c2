@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2a1d13c_f8c1326c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-10-12T04:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dedf2e55_e3ff687b",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12e9d01b_9b73f98d",
         "filename": "src/go/doc/reader.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "830f6efa_f6fc5500",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-10-12T04:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12e9d01b_9b73f98d",
+      "range": {
+        "startLine": 402,
+        "startChar": 20,
+        "endLine": 402,
+        "endChar": 21
+      },
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a6fee477_3a94098d",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-10-12T04:43:38Z",
+      "side": 1,
+      "message": "Reason below.",
+      "parentUuid": "2741e54c_95822c0f",
+      "range": {
+        "startLine": 417,
+        "startChar": 7,
+        "endLine": 417,
+        "endChar": 23
+      },
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4980f8cc_5f18c5be",
         "filename": "src/go/doc/reader.go",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88bba5af_5b446a5f",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-10-12T04:43:38Z",
+      "side": 1,
+      "message": "This is actually not true. Pre-declared types are allowed for i\u003d\u003d0.\n\nIf you have a type alias which redeclares that type, then a method which returns that pre-declared type will be considered as a factory.\n\ntestdata/b.go has such a case\n\n// Should only appear if AllDecls is set.\ntype uint struct{} // overrides a predeclared type uint\n\nAnyways, the comment needed updation. Done.",
+      "parentUuid": "4980f8cc_5f18c5be",
+      "range": {
+        "startLine": 426,
+        "startChar": 25,
+        "endLine": 426,
+        "endChar": 28
+      },
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "3c198212_9a2b2145",
+        "filename": "src/go/doc/testdata/issue12839.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-10-12T04:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b491007_45eb40b1",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5dd0d24_11a9517f",
         "filename": "src/go/doc/testdata/issue12839.go",
         "patchSetId": 1
@@ -131,6 +251,24 @@
       "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9bc2a23_3d121244",
+        "filename": "src/go/doc/testdata/issue12839.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-10-12T04:43:38Z",
+      "side": 1,
+      "message": "\u003e There should be additional test cases that have a predeclared type in the first result position.\n\nDone. Had to add some more logic to match (int, T1, error) with T1.",
+      "parentUuid": "a5dd0d24_11a9517f",
+      "revId": "ffa01aa00dee59ae1733944bd16e64c752fd91c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
