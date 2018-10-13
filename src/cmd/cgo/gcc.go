@@ -543,8 +543,7 @@ func (p *Package) loadDWARF(f *File, names []*Name) {
 		if e == nil {
 			break
 		}
-		switch e.Tag {
-		case dwarf.TagVariable:
+		if e.Tag == dwarf.TagVariable {
 			name, _ := e.Val(dwarf.AttrName).(string)
 			typOff, _ := e.Val(dwarf.AttrType).(dwarf.Offset)
 			if name == "" || typOff == 0 {
@@ -1026,8 +1025,7 @@ func (p *Package) hasSideEffects(f *File, x ast.Expr) bool {
 	found := false
 	f.walk(x, ctxExpr,
 		func(f *File, x interface{}, context astContext) {
-			switch x.(type) {
-			case *ast.CallExpr:
+			if _, ok := x.(*ast.CallExpr); ok {
 				found = true
 			}
 		})
@@ -1276,8 +1274,7 @@ func (p *Package) rewriteRef(f *File) {
 		// in case expression being replaced is first on line.
 		// See golang.org/issue/6563.
 		pos := (*r.Expr).Pos()
-		switch x := expr.(type) {
-		case *ast.Ident:
+		if x, ok := expr.(*ast.Ident); ok {
 			expr = &ast.Ident{NamePos: pos, Name: x.Name}
 		}
 
