@@ -626,6 +626,12 @@ func ToTitleSpecial(c unicode.SpecialCase, s string) string {
 	return Map(c.ToTitle, s)
 }
 
+// ToValidUTF8 returns a copy of the string s with all bytes in invalid UTF-8 byte sequences
+// mapped to U+FFFD.
+func ToValidUTF8(s string) string {
+	return Map(func(r rune) rune { return r }, s)
+}
+
 // isSeparator reports whether the rune could mark a word boundary.
 // TODO: update when package unicode captures more of the properties.
 func isSeparator(r rune) bool {
