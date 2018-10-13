@@ -354,7 +354,7 @@ func (p *Profile) String() string {
 	ss = append(ss, "Samples:")
 	var sh1 string
 	for _, s := range p.SampleType {
-		sh1 = sh1 + fmt.Sprintf("%s/%s ", s.Type, s.Unit)
+		sh1 += fmt.Sprintf("%s/%s ", s.Type, s.Unit)
 	}
 	ss = append(ss, strings.TrimSpace(sh1))
 	for _, s := range p.Sample {
@@ -362,23 +362,23 @@ func (p *Profile) String() string {
 		for _, v := range s.Value {
 			sv = fmt.Sprintf("%s %10d", sv, v)
 		}
-		sv = sv + ": "
+		sv += ": "
 		for _, l := range s.Location {
-			sv = sv + fmt.Sprintf("%d ", l.ID)
+			sv += fmt.Sprintf("%d ", l.ID)
 		}
 		ss = append(ss, sv)
 		const labelHeader = "                "
 		if len(s.Label) > 0 {
 			ls := labelHeader
 			for k, v := range s.Label {
-				ls = ls + fmt.Sprintf("%s:%v ", k, v)
+				ls += fmt.Sprintf("%s:%v ", k, v)
 			}
 			ss = append(ss, ls)
 		}
 		if len(s.NumLabel) > 0 {
 			ls := labelHeader
 			for k, v := range s.NumLabel {
-				ls = ls + fmt.Sprintf("%s:%v ", k, v)
+				ls += fmt.Sprintf("%s:%v ", k, v)
 			}
 			ss = append(ss, ls)
 		}
