@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf899cde_0c73b6cd",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-10-13T23:13:15Z",
+      "side": 1,
+      "message": "Missing period, confusing grammar.\n\n// ToValidUTF8 treats s as UTF-8-encoded bytes and returns a copy with byte of each invalid UTF-8 byte replaced with U+FFFD.\n\nHowever, perhaps this isn\u0027t the function you want. This might be a better design:\n\n\n// ToValidUTF8 treats s as UTF-8-encoded bytes and returns a copy with run of bytes representing invalid UTF-8 replaced with repl, which may be empty.\nfunc ToValidUTF8(s, repl []byte) []byte {\n  ...\n}\n\nRather than blow up the bytes, replace the bad encoding. And allow the user to specify a possibly empty replacement.\n\nToValidUTF8(s, nil)  clears them out.\nToValidUTF8(s, []byte{\u0027?\u0027}) makes it readable.\n\nThe name might be wrong for this design, but it is a superior function. Also the existing decoding mechanisms don\u0027t do this directly, but replace each byte, which to me argues this is better in part because it adds functionality.\n\nI\u0027ll add this text to the issue.",
+      "revId": "e89e24bdde5522eaf68c04c768fe5842c67da89e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
