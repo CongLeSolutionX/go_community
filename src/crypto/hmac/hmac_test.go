@@ -569,28 +569,47 @@ func TestEqual(t *testing.T) {
 	}
 }
 
-func BenchmarkHMACSHA256_1K(b *testing.B) {
+func benchmarkReset(b *testing.B, f func() hash.Hash, len int) {
 	key := make([]byte, 32)
-	buf := make([]byte, 1024)
-	h := New(sha256.New, key)
-	b.SetBytes(int64(len(buf)))
+	buf := make([]byte, len)
+	var mac []byte
+	h := New(f, key)
+	b.SetBytes(int64(len))
 	for i := 0; i < b.N; i++ {
-		h.Write(buf)
 		h.Reset()
-		mac := h.Sum(nil)
+		h.Write(buf)
+		mac = h.Sum(mac[:0])
 		buf[0] = mac[0]
 	}
 }
 
-func BenchmarkHMACSHA256_32(b *testing.B) {
+func BenchmarkHMAC_Reset(b *testing.B) {
+	b.Run("SHA1/1K", func(b *testing.B) { benchmarkReset(b, sha1.New, 1024) })
+	b.Run("SHA1/32", func(b *testing.B) { benchmarkReset(b, sha1.New, 32) })
+	b.Run("SHA256/1K", func(b *testing.B) { benchmarkReset(b, sha256.New, 1024) })
+	b.Run("SHA256/32", func(b *testing.B) { benchmarkReset(b, sha256.New, 32) })
+	b.Run("SHA512/1K", func(b *testing.B) { benchmarkReset(b, sha512.New, 1024) })
+	b.Run("SHA512/32", func(b *testing.B) { benchmarkReset(b, sha512.New, 32) })
+}
+
+func benchmarkNew(b *testing.B, f func() hash.Hash, len int) {
 	key := make([]byte, 32)
-	buf := make([]byte, 32)
-	h := New(sha256.New, key)
-	b.SetBytes(int64(len(buf)))
+	buf := make([]byte, len)
+	var mac []byte
+	b.SetBytes(int64(len))
 	for i := 0; i < b.N; i++ {
+		h := New(f, key)
 		h.Write(buf)
-		h.Reset()
-		mac := h.Sum(nil)
+		mac = h.Sum(mac[:0])
 		buf[0] = mac[0]
 	}
+}
+
+func BenchmarkHMAC_New(b *testing.B) {
+	b.Run("SHA1/1K", func(b *testing.B) { benchmarkNew(b, sha1.New, 1024) })
+	b.Run("SHA1/32", func(b *testing.B) { benchmarkNew(b, sha1.New, 32) })
+	b.Run("SHA256/1K", func(b *testing.B) { benchmarkNew(b, sha256.New, 1024) })
+	b.Run("SHA256/32", func(b *testing.B) { benchmarkNew(b, sha256.New, 32) })
+	b.Run("SHA512/1K", func(b *testing.B) { benchmarkNew(b, sha512.New, 1024) })
+	b.Run("SHA512/32", func(b *testing.B) { benchmarkNew(b, sha512.New, 32) })
 }
