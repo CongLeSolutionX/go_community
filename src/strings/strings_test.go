@@ -693,6 +693,22 @@ func TestToUpper(t *testing.T) { runStringTests(t, ToUpper, "ToUpper", upperTest
 
 func TestToLower(t *testing.T) { runStringTests(t, ToLower, "ToLower", lowerTests) }
 
+var toValidUTF8Tests = []StringTest{
+	{"", ""},
+	{"abc", "abc"},
+	{"\uFDDD", "\uFDDD"},
+	{"a\xffb", "a\uFFFDb"},
+	{"\xC0\xAF", "\uFFFD\uFFFD"},
+	{"\xE0\x80\xAF", "\uFFFD\uFFFD\uFFFD"},
+	{"\xed\xa0\x80", "\uFFFD\uFFFD\uFFFD"},
+	{"\xed\xbf\xbf", "\uFFFD\uFFFD\uFFFD"},
+	{"\xF0\x80\x80\xaf", "\uFFFD\uFFFD\uFFFD\uFFFD"},
+	{"\xF8\x80\x80\x80\xAF", "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"},
+	{"\xFC\x80\x80\x80\x80\xAF", "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"},
+}
+
+func TestToValidUTF8(t *testing.T) { runStringTests(t, ToValidUTF8, "ToValidUTF8", toValidUTF8Tests) }
+
 func BenchmarkToUpper(b *testing.B) {
 	for _, tc := range upperTests {
 		b.Run(tc.in, func(b *testing.B) {
