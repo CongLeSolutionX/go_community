@@ -14,12 +14,13 @@ import (
 // Possible directories with certificate files; stop after successfully
 // reading at least one file from a directory.
 var certDirectories = []string{
-	"/etc/ssl/certs",               // SLES10/SLES11, https://golang.org/issue/12139
-	"/system/etc/security/cacerts", // Android
-	"/usr/local/share/certs",       // FreeBSD
-	"/etc/pki/tls/certs",           // Fedora/RHEL
-	"/etc/openssl/certs",           // NetBSD
-	"/var/ssl/certs",               // AIX
+	"/etc/ssl/certs",                   // SLES10/SLES11, https://golang.org/issue/12139
+	"/system/etc/security/cacerts",     // Android
+	"/usr/local/share/certs",           // FreeBSD
+	"/etc/pki/tls/certs",               // Fedora/RHEL
+	"/etc/openssl/certs",               // NetBSD
+	"/var/ssl/certs",                   // AIX
+	"/usr/local/share/ca-certificates", // TinyCore
 }
 
 const (
