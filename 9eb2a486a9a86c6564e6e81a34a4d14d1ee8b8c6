@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adef02f7_6d3425c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-14T18:35:01Z",
+      "side": 1,
+      "message": "crypto/x509: add .... \n\n(lowercase verb, package name before colon)\n\nAnd what is \".tcz\"? Is that a typo, or...?\n\nSee https://github.com/golang/go/wiki/CommitMessage",
+      "revId": "9eb2a486a9a86c6564e6e81a34a4d14d1ee8b8c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
