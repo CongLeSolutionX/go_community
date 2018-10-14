@@ -16,6 +16,24 @@
       "revId": "f2caac01c985826ccd2bf6893b3ba537407c44b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "742d3253_d2e5ce79",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-14T04:04:34Z",
+      "side": 0,
+      "message": "I\u0027m not sure I understand your question.\nslicelit() in sinit.go uses the prealloc generated here for OSLICELIT.\nNothing uses the prealloc for OARRAYLIT, so I removed that case.",
+      "parentUuid": "ac23d5b6_ffb8948d",
+      "revId": "f2caac01c985826ccd2bf6893b3ba537407c44b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
