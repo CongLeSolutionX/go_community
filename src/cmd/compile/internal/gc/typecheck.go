@@ -1086,6 +1086,44 @@ func typecheck1(n *Node, top int) *Node {
 		n.Right = assignconv(r, t.Elem(), "send")
 		n.Type = nil
 
+	case OSLICEHEADER:
+		ok |= Erv
+
+		length := len(n.List.Slice())
+		switch {
+		case length == 0:
+			Fatalf("missing len field for OSLICEHEADER")
+		case length == 1:
+			Fatalf("missing cap field for OSLICEHEADER")
+		case length > 2:
+			Fatalf("too many arguments for OSLICEHEADER")
+		}
+
+		if !n.Type.IsSlice() {
+			Fatalf("invalid type %v for OSLICEHEADER", n.Type)
+		}
+
+		n.Left = typecheck(n.Left, Erv)
+		l := typecheck(n.List.First(), Erv)
+		c := typecheck(n.List.Second(), Erv)
+		l = defaultlit(l, types.Types[TINT])
+		c = defaultlit(c, types.Types[TINT])
+
+		if Isconst(l, CTINT) && l.Int64() < 0 {
+			Fatalf("len for OSLICEHEADER must be non-negative")
+		}
+
+		if Isconst(c, CTINT) && c.Int64() < 0 {
+			Fatalf("cap for OSLICEHEADER must be non-negative")
+		}
+
+		if Isconst(l, CTINT) && Isconst(c, CTINT) && l.Val().U.(*Mpint).Cmp(c.Val().U.(*Mpint)) > 0 {
+			Fatalf("len larger than cap for OSLICEHEADER")
+		}
+
+		n.List.SetFirst(l)
+		n.List.SetSecond(c)
+
 	case OSLICE, OSLICE3:
 		ok |= Erv
 		n.Left = typecheck(n.Left, Erv)
