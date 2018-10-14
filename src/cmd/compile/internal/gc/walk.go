@@ -1386,9 +1386,17 @@ opswitch:
 				argtype = types.Types[TINT]
 			}
 
+			ta := types.NewArray(t.Elem(), 0)
 			fn := syslook(fnname)
-			fn = substArgTypes(fn, t.Elem()) // any-1
-			n = mkcall1(fn, t, init, typename(t.Elem()), conv(len, argtype), conv(cap, argtype))
+			fn = substArgTypes(fn, ta) // any-1
+			n.Left = mkcall1(fn, ta.PtrTo(), init, typename(t.Elem()), conv(len, argtype), conv(cap, argtype))
+			n.Left.SetNonNil(true)
+			n.Op = OSLICE3
+			n.SetSliceBounds(nil, conv(len, argtype), conv(cap, argtype))
+			n.SetBounded(true)
+			n = typecheck(n, Erv)
+			n = walkexpr(n, init)
+			n.Type = t
 		}
 
 	case ORUNESTR:
