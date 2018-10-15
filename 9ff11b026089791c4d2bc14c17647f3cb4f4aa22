@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "143a4227_87622579",
+        "filename": "src/net/interface_aix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-10-15T03:19:46Z",
+      "side": 1,
+      "message": "\u003e Is there any reason behind this?\n\nioctl and its friends are error-prone, not good for human beings that tend to make off-by-one errors. fwiw, bsd variants and solaris have specific packages route and lif; see vendor/golang_go/x/net, linux has small code fragments in syscall, windows has internal/syscall. you can use ioctl in net or anyware appropriate.",
+      "parentUuid": "45cc227c_18eea510",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 18
+      },
+      "revId": "9ff11b026089791c4d2bc14c17647f3cb4f4aa22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "975ee366_e48245b8",
         "filename": "src/net/interface_aix.go",
         "patchSetId": 6
