@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3e2c492b_9465c0bd",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-15T02:36:09Z",
+      "side": 1,
+      "message": "OK - more efficient?",
+      "parentUuid": "09614b23_1d8ed4fa",
+      "range": {
+        "startLine": 269,
+        "startChar": 5,
+        "endLine": 269,
+        "endChar": 25
+      },
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "944d9842_28453f3c",
         "filename": "src/cmd/compile/internal/ssa/gen/386Ops.go",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2018-08-25T04:21:06Z",
       "side": 1,
       "message": "You need to describe what Aux means here.",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45e47621_93e54ed8",
+        "filename": "src/cmd/compile/internal/ssa/gen/386Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-15T02:36:09Z",
+      "side": 1,
+      "message": "I\u0027ve described what AuxInt means. Not sure that I have it right yet.\nFor some reason I thought you had to specify aux in the op, otherwise you can\u0027t use AuxInt in the rules - I could easily be wrong about that.",
+      "parentUuid": "944d9842_28453f3c",
       "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "635049eb_cdb4fa26",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-15T02:36:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3fc54ca_49b458e5",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8cf7432_05000b9e",
         "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
         "patchSetId": 2
@@ -73,6 +133,24 @@
       "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dabcab62_67ada6af",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-15T02:36:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8cf7432_05000b9e",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -287,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "9d5cd61a_fb9c8346",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-15T02:36:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4509a60a_0ad90bde",
+      "range": {
+        "startLine": 423,
+        "startChar": 8,
+        "endLine": 423,
+        "endChar": 16
+      },
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbf50876_6ef13bd5",
         "filename": "src/cmd/compile/internal/x86/ssa.go",
         "patchSetId": 2
@@ -304,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "3b852944_53fc67e9",
+        "filename": "src/cmd/compile/internal/x86/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-15T02:36:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf50876_6ef13bd5",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4458e962_9c63877e",
         "filename": "test/codegen/arithmetic.go",
         "patchSetId": 2
@@ -315,6 +435,24 @@
       "writtenOn": "2018-08-25T04:21:06Z",
       "side": 1,
       "message": "Add the opposite tests - that we still have the fixup code for conditions where we still need it.  For instance:\n1) no condition\n2) divr \u003e -10\n3) divr \u003c 10\n\nProbably this is not the best file for that. This file tests that optimizations happen.  Correctness tests should go in cmd/compile/internal/gc/testdata/arith.go, I think.  You\u0027ll need to arrange -1/-1 (and -1%-1) divisions and make sure we get a panic.",
+      "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80d66ea4_af6c7701",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-15T02:36:09Z",
+      "side": 1,
+      "message": "OK I\u0027ve written a test in arithmetic.go which tries the same approach as divbyzero.go.\nI still have to work out how to test that the test fails if the fix-ups aren\u0027t there - I guess some temporary surgery to amd64/ssa.go is needed.",
+      "parentUuid": "4458e962_9c63877e",
       "revId": "8d9848cc05a6870e8fcb23e02e5afd7b1ba9c244",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
