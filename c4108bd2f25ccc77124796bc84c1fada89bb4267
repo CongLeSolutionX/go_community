@@ -16,6 +16,24 @@
       "revId": "c4108bd2f25ccc77124796bc84c1fada89bb4267",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e97d127_8159821a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-15T18:00:23Z",
+      "side": 1,
+      "message": "Actually, I think what you want is something like this:\n\nSuppose you\u0027re merging spans A and B where A is lower in the address space and A is already scavenged, but B is not. Given\n\naStart, aEnd :\u003d A.physPageBounds()\nbStart, bEnd :\u003d B.physPageBounds()\n\nScavenge [aEnd, bEnd) rather than the more obvious but wrong [bStart, bEnd). But be careful if A or B don\u0027t cover a page boundary at all.",
+      "parentUuid": "fef500c2_84960713",
+      "revId": "c4108bd2f25ccc77124796bc84c1fada89bb4267",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
