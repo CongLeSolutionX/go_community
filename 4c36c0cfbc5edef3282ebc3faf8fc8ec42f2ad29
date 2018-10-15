@@ -46,6 +46,30 @@
       "revId": "4c36c0cfbc5edef3282ebc3faf8fc8ec42f2ad29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aeb3ec8_72c45809",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2018-10-15T11:03:48Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5aed5afc_ea529cc8",
+      "range": {
+        "startLine": 515,
+        "startChar": 1,
+        "endLine": 515,
+        "endChar": 14
+      },
+      "revId": "4c36c0cfbc5edef3282ebc3faf8fc8ec42f2ad29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
