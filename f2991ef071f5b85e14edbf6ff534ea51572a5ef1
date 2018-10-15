@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62380be1_a4bb6e90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-15T04:28:54Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem like an accurate description of the change.\n\nAlso s/Replace/replace/ (see https://golang.org/wiki/CommitMessage).",
+      "revId": "f2991ef071f5b85e14edbf6ff534ea51572a5ef1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
