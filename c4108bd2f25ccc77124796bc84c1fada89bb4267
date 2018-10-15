@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef500c2_84960713",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-15T14:41:15Z",
+      "side": 1,
+      "message": "Oh no, this is still wrong. Suppose the physical page size is 64K and we have two spans that go from 0 to 32K and 32K to 64K. We free the span at 0 and eventually scavenge it, but its gets \"rounded-in\" so we actually don\u0027t free any pages, but scavenged gets set. Then we free the span at 32K. Since we want to merge it with the neighboring span, we\u0027ll scavenge it too, but again release no pages. However, the merged span will cover the whole physical page. So if we then try to allocate it, we\u0027ll sysUsed the whole page here and add 64K to heap_released, even though nothing was subtracted from heap_released.\n\nMaybe when we\u0027re merging spans and scavenging a neighbor we need to round *out* whichever side of the unscavenged span has the scavenged neighbor? I think that would be enough to balance the heap_released stat, and would have the advantage of not retaining pages in the middle of otherwise scavenged regions (which can happen right now, though we\u0027ll get the stats right at the moment).",
+      "revId": "c4108bd2f25ccc77124796bc84c1fada89bb4267",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
