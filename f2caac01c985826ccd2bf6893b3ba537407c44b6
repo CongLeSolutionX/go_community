@@ -34,6 +34,24 @@
       "revId": "f2caac01c985826ccd2bf6893b3ba537407c44b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bac08d6d_4122429f",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-15T16:28:36Z",
+      "side": 0,
+      "message": "I meant to ask: for OCLOSURE and OCALLPART, the code in walk that fills in the actual type is changed to a check (like in walkclosure, around line 400). Is there similar thing to be done for OSLICELIT? Looks like that would be \"x.Type \u003d t\" at https://go.googlesource.com/go/+/63e964e1741277c4da004e366111243f9ec942a2/src/cmd/compile/internal/gc/sinit.go#836 ?",
+      "parentUuid": "742d3253_d2e5ce79",
+      "revId": "f2caac01c985826ccd2bf6893b3ba537407c44b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
