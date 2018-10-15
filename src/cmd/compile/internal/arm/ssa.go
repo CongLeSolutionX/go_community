@@ -221,7 +221,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.Reg = r1
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = r
-	case ssa.OpARMMULAF, ssa.OpARMMULAD, ssa.OpARMMULSF, ssa.OpARMMULSD:
+	case ssa.OpARMMULAF, ssa.OpARMMULAD, ssa.OpARMMULSF, ssa.OpARMMULSD, ssa.OpARMFMULAD:
 		r := v.Reg()
 		r0 := v.Args[0].Reg()
 		r1 := v.Args[1].Reg()
