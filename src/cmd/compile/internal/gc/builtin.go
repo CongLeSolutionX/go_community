@@ -162,6 +162,7 @@ var runtimeDecls = [...]struct {
 	{"x86HasPOPCNT", varTag, 15},
 	{"x86HasSSE41", varTag, 15},
 	{"support_fma", varTag, 15},
+	{"arm_support_vfpv4", varTag, 15},
 	{"arm64HasATOMICS", varTag, 15},
 }
 

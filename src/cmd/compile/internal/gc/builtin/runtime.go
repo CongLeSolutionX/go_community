@@ -216,4 +216,5 @@ func msanwrite(addr, size uintptr)
 var x86HasPOPCNT bool
 var x86HasSSE41 bool
 var support_fma bool
+var arm_support_vfpv4 bool
 var arm64HasATOMICS bool

@@ -315,6 +315,7 @@ var (
 	x86HasPOPCNT,
 	x86HasSSE41,
 	supportFMA,
+	supportVFPv4,
 	arm64HasATOMICS,
 	typedmemclr,
 	typedmemmove,
