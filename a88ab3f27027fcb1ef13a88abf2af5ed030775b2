@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b97d927f_23e7dfd5",
+        "filename": "src/cmd/compile/internal/gc/testdata/arith.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-15T17:17:49Z",
+      "side": 1,
+      "message": "Might as well test int8 while we\u0027re here.",
+      "revId": "a88ab3f27027fcb1ef13a88abf2af5ed030775b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0193b1dd_940f73f4",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-15T17:17:49Z",
+      "side": 1,
+      "message": "... or the dividend is not the most negative value.",
+      "revId": "a88ab3f27027fcb1ef13a88abf2af5ed030775b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58db6e11_91d183ac",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-15T17:17:49Z",
+      "side": 1,
+      "message": "This is pretty confusing code.\nI\u0027d rather you just make a map instead of the minint slice\n  var mostNegativeDividend \u003d map[Op]int64 {\n   OpDiv16: -1\u003c\u003c15,\n   OpDiv32: -1\u003c\u003c31,\n   // and so on\n }",
+      "range": {
+        "startLine": 1154,
+        "startChar": 39,
+        "endLine": 1154,
+        "endChar": 80
+      },
+      "revId": "a88ab3f27027fcb1ef13a88abf2af5ed030775b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b21154b_0554e6fd",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-15T17:17:49Z",
+      "side": 1,
+      "message": "NeedsFixUp doesn\u0027t have much of a comment.\nAdd to that comment, or possibly point to the genericOps description instead.",
+      "range": {
+        "startLine": 1155,
+        "startChar": 20,
+        "endLine": 1155,
+        "endChar": 34
+      },
+      "revId": "a88ab3f27027fcb1ef13a88abf2af5ed030775b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
