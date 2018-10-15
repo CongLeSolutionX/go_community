@@ -27,8 +27,11 @@ func mapaccess1_faststr(t *maptype, h *hmap, ky string) unsafe.Pointer {
 		if key.len < 32 {
 			// short key, doing lots of comparisons is ok
 			for i, kptr := uintptr(0), b.keys(); i < bucketCnt; i, kptr = i+1, add(kptr, 2*sys.PtrSize) {
+				if b.tophash[i] == emptyRest {
+					break
+				}
 				k := (*stringStruct)(kptr)
-				if k.len != key.len || b.tophash[i] == empty {
+				if k.len != key.len || b.tophash[i] == emptyOne {
 					continue
 				}
 				if k.str == key.str || memequal(k.str, key.str, uintptr(key.len)) {
@@ -40,8 +43,11 @@ func mapaccess1_faststr(t *maptype, h *hmap, ky string) unsafe.Pointer {
 		// long key, try not to do more comparisons than necessary
 		keymaybe := uintptr(bucketCnt)
 		for i, kptr := uintptr(0), b.keys(); i < bucketCnt; i, kptr = i+1, add(kptr, 2*sys.PtrSize) {
+			if b.tophash[i] == emptyRest {
+				break
+			}
 			k := (*stringStruct)(kptr)
-			if k.len != key.len || b.tophash[i] == empty {
+			if k.len != key.len || b.tophash[i] == emptyOne {
 				continue
 			}
 			if k.str == key.str {
@@ -116,8 +122,11 @@ func mapaccess2_faststr(t *maptype, h *hmap, ky string) (unsafe.Pointer, bool) {
 		if key.len < 32 {
 			// short key, doing lots of comparisons is ok
 			for i, kptr := uintptr(0), b.keys(); i < bucketCnt; i, kptr = i+1, add(kptr, 2*sys.PtrSize) {
+				if b.tophash[i] == emptyRest {
+					break
+				}
 				k := (*stringStruct)(kptr)
-				if k.len != key.len || b.tophash[i] == empty {
+				if k.len != key.len || b.tophash[i] == emptyOne {
 					continue
 				}
 				if k.str == key.str || memequal(k.str, key.str, uintptr(key.len)) {
@@ -129,8 +138,11 @@ func mapaccess2_faststr(t *maptype, h *hmap, ky string) (unsafe.Pointer, bool) {
 		// long key, try not to do more comparisons than necessary
 		keymaybe := uintptr(bucketCnt)
 		for i, kptr := uintptr(0), b.keys(); i < bucketCnt; i, kptr = i+1, add(kptr, 2*sys.PtrSize) {
+			if b.tophash[i] == emptyRest {
+				break
+			}
 			k := (*stringStruct)(kptr)
-			if k.len != key.len || b.tophash[i] == empty {
+			if k.len != key.len || b.tophash[i] == emptyOne {
 				continue
 			}
 			if k.str == key.str {
@@ -220,12 +232,16 @@ again:
 	var inserti uintptr
 	var insertk unsafe.Pointer
 
+bucketloop:
 	for {
 		for i := uintptr(0); i < bucketCnt; i++ {
 			if b.tophash[i] != top {
-				if b.tophash[i] == empty && insertb == nil {
+				if isEmpty(b.tophash[i]) && insertb == nil {
 					insertb = b
 					inserti = i
+				}
+				if b.tophash[i] == emptyRest {
+					break bucketloop
 				}
 				continue
 			}
@@ -320,7 +336,8 @@ search:
 			} else {
 				memclrNoHeapPointers(v, t.elem.size)
 			}
-			b.tophash[i] = empty
+			b.tophash[i] = emptyOne
+			// TODO: emptyRest
 			h.count--
 			break search
 		}
@@ -371,7 +388,7 @@ func evacuate_faststr(t *maptype, h *hmap, oldbucket uintptr) {
 			v := add(k, bucketCnt*2*sys.PtrSize)
 			for i := 0; i < bucketCnt; i, k, v = i+1, add(k, 2*sys.PtrSize), add(v, uintptr(t.valuesize)) {
 				top := b.tophash[i]
-				if top == empty {
+				if isEmpty(top) {
 					b.tophash[i] = evacuatedEmpty
 					continue
 				}
