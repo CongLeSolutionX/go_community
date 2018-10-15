@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e379626c_5f3d899c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARMOps.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-15T17:54:19Z",
+      "side": 1,
+      "message": "Mention that one must check arm_support_vfpv4 before using",
+      "revId": "3da0122619a552b1e1f6d25b950b52a68daa6020",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
