@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e400132d_901d9a96",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-10-15T20:57:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14261253_2dbe9771",
+      "range": {
+        "startLine": 161,
+        "startChar": 18,
+        "endLine": 161,
+        "endChar": 26
+      },
+      "revId": "7776a89c4e2bf7f34316774706a85c620074e3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a01b52a_469d621e",
         "filename": "src/internal/cpu/cpu.go",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "7776a89c4e2bf7f34316774706a85c620074e3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09cfe0d2_72e47707",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-10-15T20:57:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a01b52a_469d621e",
+      "revId": "7776a89c4e2bf7f34316774706a85c620074e3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "c5f8f36c_4335a4bb",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-10-15T20:57:16Z",
+      "side": 1,
+      "message": "I kept the second loop for now as otherwise we seem to need another bool to keep the original cpu feature flag and we would set the actual feature flag back and forth instead of once.",
+      "parentUuid": "2ddf9fb9_da304588",
+      "revId": "7776a89c4e2bf7f34316774706a85c620074e3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f2dffc84_788225f5",
         "filename": "src/internal/cpu/cpu.go",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2018-10-15T20:17:45Z",
       "side": 1,
       "message": "I think I understand what\u0027s happening now.  You\u0027re using the string form to combine multiple flag settings (all\u003doff,flag1\u003don) so you only set each one once here.  That way this check makes some sense.  With my change above, this test won\u0027t work because all\u003doff,flag1\u003don would always fail.\n\nI still think a second boolean (an \"original\" field?) would be preferable to a string for this purpose.",
+      "revId": "7776a89c4e2bf7f34316774706a85c620074e3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b143a9f6_d218c1f1",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-10-15T20:57:16Z",
+      "side": 1,
+      "message": "I agree bools seem better to avoid a lot of potential pointer writes.\n\nIf we keep two loops we need to distinguish 3 states: set on, set off and not set (previosly empty string) in GODEBUGCPU which in the new patchset are stored in a \"specified\" and \"enable\" bool fields now (instead of a string) in the option struct.",
+      "parentUuid": "f2dffc84_788225f5",
       "revId": "7776a89c4e2bf7f34316774706a85c620074e3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
