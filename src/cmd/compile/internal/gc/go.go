@@ -314,6 +314,7 @@ var (
 	supportPopcnt,
 	supportSSE41,
 	supportFMA,
+	supportVFPv4,
 	arm64SupportAtomics,
 	typedmemclr,
 	typedmemmove,
