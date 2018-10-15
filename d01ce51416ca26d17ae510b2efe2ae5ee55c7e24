@@ -16,6 +16,24 @@
       "revId": "d01ce51416ca26d17ae510b2efe2ae5ee55c7e24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ccec2a9_cb4faa68",
+        "filename": "src/runtime/internal/math/math_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-10-15T17:37:08Z",
+      "side": 1,
+      "message": "\u003e Wouldn\u0027t the multiply all constant fold away?\nNot currently due to the function closure of b.Run they are loaded from memory. But sounds like an opportunity for a future optimization :)\n\nWe can load x and y from globals to make sure this is not optimized away in the future.",
+      "parentUuid": "6f4bdb2c_140a520a",
+      "revId": "d01ce51416ca26d17ae510b2efe2ae5ee55c7e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
