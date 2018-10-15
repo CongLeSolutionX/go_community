@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6eefc18_9352cec2",
+        "filename": "src/internal/traceparser/filebuf/filebuf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-15T15:12:04Z",
+      "side": 1,
+      "message": "fixedLen",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "681b739c4c4888f398b958dff2ca059dc6639cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4f1a3f1_180a1082",
+        "filename": "src/internal/traceparser/filebuf/filebuf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-15T15:12:04Z",
+      "side": 1,
+      "message": "move \u0027get\u0027 to this file and place near create. It looks too magical.",
+      "range": {
+        "startLine": 90,
+        "startChar": 21,
+        "endLine": 90,
+        "endChar": 24
+      },
+      "revId": "681b739c4c4888f398b958dff2ca059dc6639cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c952d0d_ddde8b87",
+        "filename": "src/internal/traceparser/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-15T15:12:04Z",
+      "side": 1,
+      "message": "nil",
+      "range": {
+        "startLine": 40,
+        "startChar": 28,
+        "endLine": 40,
+        "endChar": 32
+      },
+      "revId": "681b739c4c4888f398b958dff2ca059dc6639cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2d68a1a_436aace1",
+        "filename": "src/internal/traceparser/fuzz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-15T15:12:04Z",
+      "side": 1,
+      "message": "just return 1 for both case and add the comment as TODO.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 9
+      },
+      "revId": "681b739c4c4888f398b958dff2ca059dc6639cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a9a85ad_065d00b9",
+        "filename": "src/internal/traceparser/robust.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-15T15:12:04Z",
+      "side": 1,
+      "message": "no line break",
+      "revId": "681b739c4c4888f398b958dff2ca059dc6639cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c62cc76_7f304059",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-15T15:12:04Z",
+      "side": 1,
+      "message": "Edited by accident?",
+      "range": {
+        "startLine": 70,
+        "startChar": 31,
+        "endLine": 70,
+        "endChar": 32
+      },
+      "revId": "681b739c4c4888f398b958dff2ca059dc6639cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e56a896c_27e31090",
+        "filename": "src/internal/traceparser/tr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-15T15:12:04Z",
+      "side": 1,
+      "message": "end the sentence.",
+      "range": {
+        "startLine": 249,
+        "startChar": 40,
+        "endLine": 249,
+        "endChar": 45
+      },
+      "revId": "681b739c4c4888f398b958dff2ca059dc6639cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
