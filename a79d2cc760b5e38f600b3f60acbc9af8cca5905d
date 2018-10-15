@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2d46190_5ccbd257",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-15T22:02:54Z",
+      "side": 1,
+      "message": "this comment also needs adjustment - actually you could just delete it",
+      "range": {
+        "startLine": 408,
+        "startChar": 6,
+        "endLine": 408,
+        "endChar": 13
+      },
+      "revId": "a79d2cc760b5e38f600b3f60acbc9af8cca5905d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b2381c2_e2fbee2a",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-15T22:02:54Z",
+      "side": 1,
+      "message": "A couple of issues with this comment, and the code:\n\n1) There\u0027s no struct handling here - this code is general (it just so happens that the example uses a struct, but it could be any other type).\n\n2) Why should this behavior be restricted to the first result? What if we have three results, two of which have types  declared externally, and one, say the middle one, is declared locally and named \u0027uint\u0027? There should be a clearer heuristic here.",
+      "range": {
+        "startLine": 418,
+        "startChar": 18,
+        "endLine": 418,
+        "endChar": 26
+      },
+      "revId": "a79d2cc760b5e38f600b3f60acbc9af8cca5905d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "563f50d7_ba0d1978",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-15T22:02:54Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is needed after all. If you count the predeclared types separately, wouldn\u0027t it just work?",
+      "range": {
+        "startLine": 421,
+        "startChar": 16,
+        "endLine": 421,
+        "endChar": 32
+      },
+      "revId": "a79d2cc760b5e38f600b3f60acbc9af8cca5905d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b58b2e1_7b5a59e4",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-15T22:02:54Z",
+      "side": 1,
+      "message": "I\u0027d move this below numResultTypes++, this is secondary.",
+      "range": {
+        "startLine": 425,
+        "startChar": 8,
+        "endLine": 425,
+        "endChar": 24
+      },
+      "revId": "a79d2cc760b5e38f600b3f60acbc9af8cca5905d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8798789_0be9da66",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-15T22:02:54Z",
+      "side": 1,
+      "message": "adjust comment again, as needed\n\n(also, make sure you use \u0027predeclared\u0027 not \u0027pre-declared\u0027 everywhere)",
+      "range": {
+        "startLine": 433,
+        "startChar": 64,
+        "endLine": 433,
+        "endChar": 72
+      },
+      "revId": "a79d2cc760b5e38f600b3f60acbc9af8cca5905d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
