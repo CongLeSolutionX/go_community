@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b673ab5a_cba5a07f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-15T14:45:13Z",
+      "side": 1,
+      "message": "Is this actually true at the moment given the MADV_FREE issues?",
+      "revId": "58b0158f6924a5a99992597e4f11238cef7227b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e0df2fb_264cdce4",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-15T14:45:13Z",
+      "side": 1,
+      "message": "Probably if you move scavenge to mheap.go, this should go there, too.",
+      "revId": "58b0158f6924a5a99992597e4f11238cef7227b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
