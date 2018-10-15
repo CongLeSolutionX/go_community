@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "efd759ab_0c1d6720",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-15T22:11:11Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure I follow. checkMapKeys empties the mapqueue, so the same element won\u0027t be checked again.\n\nyou\u0027re right - lgtm",
+      "parentUuid": "0fe190a4_ec559b99",
+      "range": {
+        "startLine": 540,
+        "startChar": 31,
+        "endLine": 540,
+        "endChar": 34
+      },
+      "revId": "e71b6bc6bed17e28f757d4a240bb3b9031591d32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da9b9c40_7734af92",
         "filename": "test/fixedbugs/issue28058.go",
         "patchSetId": 3
