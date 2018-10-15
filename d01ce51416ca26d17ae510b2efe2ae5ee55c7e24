@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f4bdb2c_140a520a",
+        "filename": "src/runtime/internal/math/math_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-15T16:34:39Z",
+      "side": 1,
+      "message": "Wouldn\u0027t the multiply all constant fold away?  Maybe not if we intrinsify MulUintptr, as we don\u0027t have rules to fold into those instructions, but if we don\u0027t intrinsify then MulUintptr gets inlined and constant-folded away.\nIt would be better to make it dependent somehow.  Load the args from memory, or use the result as input in the next iteration.",
+      "revId": "d01ce51416ca26d17ae510b2efe2ae5ee55c7e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
