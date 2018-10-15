@@ -8,7 +8,6 @@ import (
 	"archive/zip"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -20,16 +19,24 @@ import (
 	"cmd/go/internal/str"
 )
 
-func Unzip(dir, zipfile, prefix string, maxSize int64) error {
-	if maxSize == 0 {
-		maxSize = codehost.MaxZipFile
-	}
+func Unzip(dir, zipfile, prefix string) error {
+	maxSize := int64(codehost.MaxZipFile)
 
-	// Directory can exist, but must be empty.
-	// except maybe
-	files, _ := ioutil.ReadDir(dir)
-	if len(files) > 0 {
-		return fmt.Errorf("target directory %v exists and is not empty", dir)
+	// We may have created dir previously and even marked it read-only, only to
+	// later fail due to a hash mismatch. Start by cleaning out the directory.
+	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			os.Chmod(dir, 0777)
+		}
+		return nil
+	})
+	if !os.IsNotExist(err) {
+		if err := os.RemoveAll(dir); err != nil {
+			return err
+		}
 	}
 	if err := os.MkdirAll(dir, 0777); err != nil {
 		return err
@@ -113,7 +120,12 @@ func Unzip(dir, zipfile, prefix string, maxSize int64) error {
 		if err := os.MkdirAll(filepath.Dir(dst), 0777); err != nil {
 			return err
 		}
-		w, err := os.OpenFile(dst, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0444)
+		// Since we removed the existing contents above, the only way dst can exist
+		// here is if our locking somehow failed and two concurrent 'go' commands
+		// are unzipping into the same directory simultaneously. If that happens,
+		// they'll still be fine as long as they overwrite the file with exactly the
+		// same data, so don't set O_TRUNC.
+		w, err := os.OpenFile(dst, os.O_WRONLY|os.O_CREATE, 0444)
 		if err != nil {
 			return fmt.Errorf("unzip %v: %v", zipfile, err)
 		}
@@ -142,12 +154,22 @@ func Unzip(dir, zipfile, prefix string, maxSize int64) error {
 	for dir := range dirs {
 		dirlist = append(dirlist, dir)
 	}
-	sort.Strings(dirlist)
-
-	// Run over list backward to chmod children before parents.
-	for i := len(dirlist) - 1; i >= 0; i-- {
-		os.Chmod(dirlist[i], 0555)
-	}
+	// Sort reversed to chmod children before parents.
+	sort.Sort(sort.Reverse(sort.StringSlice(dirlist)))
+	makeReadonly(dirlist...)
 
 	return nil
+}
+
+func makeReadonly(paths ...string) (firstErr error) {
+	for _, path := range paths {
+		mode := os.FileMode(0444)
+		if fi, err := os.Stat(path); err == nil {
+			mode = fi.Mode() &^ 0222 // Remove write bits from existing permissions.
+		}
+		if err := os.Chmod(path, mode); firstErr == nil {
+			firstErr = err
+		}
+	}
+	return firstErr
 }

@@ -407,61 +407,78 @@ func (r *codeRepo) modPrefix(rev string) string {
 	return r.modPath + "@" + rev
 }
 
-func (r *codeRepo) Zip(version string, tmpdir string) (tmpfile string, err error) {
+type statter interface {
+	Stat() (os.FileInfo, error)
+}
+type sizer interface {
+	Size() int64
+}
+
+func detectSize(r interface{}) (int64, bool) {
+	if r, ok := r.(sizer); ok {
+		return r.Size(), true
+	}
+	if r, ok := r.(statter); ok {
+		if fi, err := r.Stat(); err == nil {
+			return fi.Size(), true
+		}
+	}
+	return -1, false
+}
+
+func (r *codeRepo) Zip(dst io.Writer, version string) error {
 	rev, dir, _, err := r.findDir(version)
 	if err != nil {
-		return "", err
+		return err
 	}
 	dl, actualDir, err := r.code.ReadZip(rev, dir, codehost.MaxZipFile)
 	if err != nil {
-		return "", err
+		return err
 	}
+	defer dl.Close()
 	if actualDir != "" && !hasPathPrefix(dir, actualDir) {
-		return "", fmt.Errorf("internal error: downloading %v %v: dir=%q but actualDir=%q", r.path, rev, dir, actualDir)
+		return fmt.Errorf("internal error: downloading %v %v: dir=%q but actualDir=%q", r.path, rev, dir, actualDir)
 	}
 	subdir := strings.Trim(strings.TrimPrefix(dir, actualDir), "/")
 
-	// Spool to local file.
-	f, err := ioutil.TempFile(tmpdir, "go-codehost-")
-	if err != nil {
-		dl.Close()
-		return "", err
-	}
-	defer os.Remove(f.Name())
-	defer f.Close()
-	maxSize := int64(codehost.MaxZipFile)
-	lr := &io.LimitedReader{R: dl, N: maxSize + 1}
-	if _, err := io.Copy(f, lr); err != nil {
-		dl.Close()
-		return "", err
-	}
-	dl.Close()
-	if lr.N <= 0 {
-		return "", fmt.Errorf("downloaded zip file too large")
-	}
-	size := (maxSize + 1) - lr.N
-	if _, err := f.Seek(0, 0); err != nil {
-		return "", err
+	// zip.NewReader wants a size and an io.ReaderAt, but ReadZip only promises an
+	// io.ReadCloser: it may be streaming the zip file from stdout.
+	dlSize, dlSizeOk := detectSize(dl)
+	dlAt, dlAtOk := dl.(io.ReaderAt)
+	if !dlSizeOk || !dlAtOk {
+		// Spool to a temporary file.
+		tmp, err := ioutil.TempFile("", "go-codehost-")
+		if err != nil {
+			return err
+		}
+		dlAt = tmp
+		defer func() {
+			tmp.Close()
+			os.Remove(tmp.Name())
+		}()
+
+		// TODO(https://golang.org/issue/27646): does this limit do more good than harm?
+		lr := &io.LimitedReader{R: dl, N: codehost.MaxZipFile + 1}
+
+		dlSize, err = io.Copy(tmp, lr)
+		if err != nil {
+			return err
+		}
+		if lr.N <= 0 {
+			return fmt.Errorf("downloaded zip file too large")
+		}
+		if _, err := tmp.Seek(0, io.SeekStart); err != nil {
+			return err
+		}
 	}
 
 	// Translate from zip file we have to zip file we want.
-	zr, err := zip.NewReader(f, size)
+	zr, err := zip.NewReader(dlAt, dlSize)
 	if err != nil {
-		return "", err
-	}
-	f2, err := ioutil.TempFile(tmpdir, "go-codezip-")
-	if err != nil {
-		return "", err
+		return err
 	}
 
-	zw := zip.NewWriter(f2)
-	newName := f2.Name()
-	defer func() {
-		f2.Close()
-		if err != nil {
-			os.Remove(newName)
-		}
-	}()
+	zw := zip.NewWriter(dst)
 	if subdir != "" {
 		subdir += "/"
 	}
@@ -472,12 +489,12 @@ func (r *codeRepo) Zip(version string, tmpdir string) (tmpfile string, err error
 		if topPrefix == "" {
 			i := strings.Index(zf.Name, "/")
 			if i < 0 {
-				return "", fmt.Errorf("missing top-level directory prefix")
+				return fmt.Errorf("missing top-level directory prefix")
 			}
 			topPrefix = zf.Name[:i+1]
 		}
 		if !strings.HasPrefix(zf.Name, topPrefix) {
-			return "", fmt.Errorf("zip file contains more than one top-level directory")
+			return fmt.Errorf("zip file contains more than one top-level directory")
 		}
 		dir, file := path.Split(zf.Name)
 		if file == "go.mod" {
@@ -497,11 +514,13 @@ func (r *codeRepo) Zip(version string, tmpdir string) (tmpfile string, err error
 			name = dir[:len(dir)-1]
 		}
 	}
+
+	maxSize := uint64(codehost.MaxZipFile)
 	for _, zf := range zr.File {
 		if topPrefix == "" {
 			i := strings.Index(zf.Name, "/")
 			if i < 0 {
-				return "", fmt.Errorf("missing top-level directory prefix")
+				return fmt.Errorf("missing top-level directory prefix")
 			}
 			topPrefix = zf.Name[:i+1]
 		}
@@ -509,7 +528,7 @@ func (r *codeRepo) Zip(version string, tmpdir string) (tmpfile string, err error
 			continue
 		}
 		if !strings.HasPrefix(zf.Name, topPrefix) {
-			return "", fmt.Errorf("zip file contains more than one top-level directory")
+			return fmt.Errorf("zip file contains more than one top-level directory")
 		}
 		name := strings.TrimPrefix(zf.Name, topPrefix)
 		if !strings.HasPrefix(name, subdir) {
@@ -529,28 +548,31 @@ func (r *codeRepo) Zip(version string, tmpdir string) (tmpfile string, err error
 		}
 		base := path.Base(name)
 		if strings.ToLower(base) == "go.mod" && base != "go.mod" {
-			return "", fmt.Errorf("zip file contains %s, want all lower-case go.mod", zf.Name)
+			return fmt.Errorf("zip file contains %s, want all lower-case go.mod", zf.Name)
 		}
 		if name == "LICENSE" {
 			haveLICENSE = true
 		}
-		size := int64(zf.UncompressedSize)
+		size := zf.UncompressedSize64
 		if size < 0 || maxSize < size {
-			return "", fmt.Errorf("module source tree too big")
+			return fmt.Errorf("module source tree too big")
 		}
 		maxSize -= size
 
 		rc, err := zf.Open()
 		if err != nil {
-			return "", err
+			return err
 		}
 		w, err := zw.Create(r.modPrefix(version) + "/" + name)
-		lr := &io.LimitedReader{R: rc, N: size + 1}
-		if _, err := io.Copy(w, lr); err != nil {
-			return "", err
+		lr := &io.LimitedReader{R: rc, N: int64(size) + 1}
+
+		n, err := io.Copy(w, lr)
+		rc.Close()
+		if err != nil {
+			return err
 		}
-		if lr.N <= 0 {
-			return "", fmt.Errorf("individual file too large")
+		if n > int64(size) {
+			return fmt.Errorf("invalid file size in zip header")
 		}
 	}
 
@@ -559,21 +581,15 @@ func (r *codeRepo) Zip(version string, tmpdir string) (tmpfile string, err error
 		if err == nil {
 			w, err := zw.Create(r.modPrefix(version) + "/LICENSE")
 			if err != nil {
-				return "", err
+				return err
 			}
 			if _, err := w.Write(data); err != nil {
-				return "", err
+				return err
 			}
 		}
 	}
-	if err := zw.Close(); err != nil {
-		return "", err
-	}
-	if err := f2.Close(); err != nil {
-		return "", err
-	}
 
-	return f2.Name(), nil
+	return zw.Close()
 }
 
 // hasPathPrefix reports whether the path s begins with the

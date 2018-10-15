@@ -8,15 +8,18 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"cmd/go/internal/base"
+	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/module"
 	"cmd/go/internal/par"
+	"cmd/go/internal/renameio"
 	"cmd/go/internal/semver"
 )
 
@@ -72,6 +75,20 @@ func DownloadDir(m module.Version) (string, error) {
 		return "", err
 	}
 	return filepath.Join(PkgMod, enc+"@"+encVer), nil
+}
+
+// SideLock returns a lockedfile.Mutex that guards edits to files outside the
+// module cache itself, such as go.sum and go.mod files in the user's working
+// directory.
+func SideLock() (*lockedfile.Mutex, error) {
+	if PkgMod == "" {
+		return nil, fmt.Errorf("internal error: modfetch.PkgMod not set")
+	}
+	path := filepath.Join(PkgMod, "cache", "lock")
+	if err := os.MkdirAll(filepath.Dir(path), 0777); err != nil {
+		return nil, err
+	}
+	return lockedfile.MutexAt(path), nil
 }
 
 // A cachingRepo is a cache around an underlying Repo,
@@ -199,7 +216,9 @@ func (r *cachingRepo) GoMod(rev string) ([]byte, error) {
 
 		text, err = r.r.GoMod(rev)
 		if err == nil {
-			checkGoMod(r.path, rev, text)
+			err = checkGoMod(r.path, rev, text)
+		}
+		if err == nil {
 			if err := writeDiskGoMod(file, text); err != nil {
 				fmt.Fprintf(os.Stderr, "go: writing go.mod cache: %v\n", err)
 			}
@@ -213,8 +232,8 @@ func (r *cachingRepo) GoMod(rev string) ([]byte, error) {
 	return append([]byte(nil), c.text...), nil
 }
 
-func (r *cachingRepo) Zip(version, tmpdir string) (string, error) {
-	return r.r.Zip(version, tmpdir)
+func (r *cachingRepo) Zip(dst io.Writer, version string) error {
+	return r.r.Zip(dst, version)
 }
 
 // Stat is like Lookup(path).Stat(rev) but avoids the
@@ -383,7 +402,7 @@ func readDiskStatByHash(path, rev string) (file string, info *RevInfo, err error
 // and should ignore it.
 var oldVgoPrefix = []byte("//vgo 0.0.")
 
-// readDiskGoMod reads a cached stat result from disk,
+// readDiskGoMod reads a cached go.mod file from disk,
 // returning the name of the cache file and the result.
 // If the read fails, the caller can use
 // writeDiskGoMod(file, data) to write a new cache entry.
@@ -397,7 +416,7 @@ func readDiskGoMod(path, rev string) (file string, data []byte, err error) {
 	}
 
 	if err == nil {
-		checkGoMod(path, rev, data)
+		err = checkGoMod(path, rev, data)
 	}
 
 	return file, data, err
@@ -449,22 +468,8 @@ func writeDiskCache(file string, data []byte) error {
 	if err := os.MkdirAll(filepath.Dir(file), 0777); err != nil {
 		return err
 	}
-	// Write data to temp file next to target file.
-	f, err := ioutil.TempFile(filepath.Dir(file), filepath.Base(file)+".tmp-")
-	if err != nil {
-		return err
-	}
-	defer os.Remove(f.Name())
-	defer f.Close()
-	if _, err := f.Write(data); err != nil {
-		return err
-	}
-	if err := f.Close(); err != nil {
-		return err
-	}
-	// Rename temp file onto cache file,
-	// so that the cache file is always a complete file.
-	if err := os.Rename(f.Name(), file); err != nil {
+
+	if err := renameio.WriteFile(file, data); err != nil {
 		return err
 	}
 
@@ -481,8 +486,18 @@ func rewriteVersionList(dir string) {
 		base.Fatalf("go: internal error: misuse of rewriteVersionList")
 	}
 
-	// TODO(rsc): We should do some kind of directory locking here,
-	// to avoid lost updates.
+	listFile := filepath.Join(dir, "list")
+
+	// We use a separate lockfile here instead of locking listFile itself because
+	// we want to use Rename to write the file atomically. The list may be read by
+	// a GOPROXY HTTP server, and if we crash midway through a rewrite (or if the
+	// HTTP server ignores our locking and serves the file midway through a
+	// rewrite) it's better to serve a stale list than a truncated one.
+	unlock, err := lockedfile.MutexAt(listFile + ".lock").Lock()
+	if err != nil {
+		base.Fatalf("go: can't lock version list lockfile: %v", err)
+	}
+	defer unlock()
 
 	infos, err := ioutil.ReadDir(dir)
 	if err != nil {
@@ -511,12 +526,12 @@ func rewriteVersionList(dir string) {
 		buf.WriteString(v)
 		buf.WriteString("\n")
 	}
-	listFile := filepath.Join(dir, "list")
 	old, _ := ioutil.ReadFile(listFile)
 	if bytes.Equal(buf.Bytes(), old) {
 		return
 	}
-	// TODO: Use rename to install file,
-	// so that readers never see an incomplete file.
-	ioutil.WriteFile(listFile, buf.Bytes(), 0666)
+
+	if err := renameio.WriteFile(listFile, buf.Bytes()); err != nil {
+		base.Fatalf("go: failed to write version list: %v", err)
+	}
 }
