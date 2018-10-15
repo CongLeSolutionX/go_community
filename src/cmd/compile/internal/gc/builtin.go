@@ -152,6 +152,7 @@ var runtimeDecls = [...]struct {
 	{"support_popcnt", varTag, 11},
 	{"support_sse41", varTag, 11},
 	{"support_fma", varTag, 11},
+	{"support_vfpv4", varTag, 11},
 }
 
 func runtimeTypes() []*types.Type {

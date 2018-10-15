@@ -512,6 +512,7 @@ func cpuinit() {
 	support_popcnt = cpu.X86.HasPOPCNT
 	support_sse41 = cpu.X86.HasSSE41
 	support_fma = cpu.X86.HasFMA
+	support_vfpv4 = cpu.ARM.HasVFPv4
 
 	arm64_support_atomics = cpu.ARM64.HasATOMICS
 }

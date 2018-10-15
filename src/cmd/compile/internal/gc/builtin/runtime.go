@@ -198,3 +198,4 @@ func msanwrite(addr, size uintptr)
 var support_popcnt bool
 var support_sse41 bool
 var support_fma bool
+var support_vfpv4 bool

@@ -849,6 +849,7 @@ var (
 	support_popcnt        bool
 	support_sse41         bool
 	support_fma           bool
+	support_vfpv4         bool
 	arm64_support_atomics bool
 
 	goarm                uint8 // set by cmd/link on arm systems
