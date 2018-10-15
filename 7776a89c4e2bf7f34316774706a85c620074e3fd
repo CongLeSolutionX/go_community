@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14261253_2dbe9771",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-15T20:17:45Z",
+      "side": 1,
+      "message": "enables or disables",
+      "range": {
+        "startLine": 161,
+        "startChar": 18,
+        "endLine": 161,
+        "endChar": 26
+      },
+      "revId": "7776a89c4e2bf7f34316774706a85c620074e3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a01b52a_469d621e",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-15T20:17:45Z",
+      "side": 1,
+      "message": "print an error here also?",
+      "revId": "7776a89c4e2bf7f34316774706a85c620074e3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ddf9fb9_da304588",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-15T20:17:45Z",
+      "side": 1,
+      "message": "It seems strange that you\u0027re saving the string, but only temporarily. Can\u0027t you just do:\n\nline 183:\nvar setting bool\nswitch value {\n   case \"on\": setting \u003d true\n   case \"off\": setting \u003d false\n   default: print(\"....\") continue field\n}\n\nhere:\n   *options[i].Feature \u003d setting\n\nThen you don\u0027t need the second loop.\n\nSaving the string also makes me a bit nervous, as that may involve a write barrier before we\u0027re capable of handling write barriers.  (But it seems like that ship has sailed; for instance the write of the options global has a write barrier also.)",
+      "revId": "7776a89c4e2bf7f34316774706a85c620074e3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2dffc84_788225f5",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-15T20:17:45Z",
+      "side": 1,
+      "message": "I think I understand what\u0027s happening now.  You\u0027re using the string form to combine multiple flag settings (all\u003doff,flag1\u003don) so you only set each one once here.  That way this check makes some sense.  With my change above, this test won\u0027t work because all\u003doff,flag1\u003don would always fail.\n\nI still think a second boolean (an \"original\" field?) would be preferable to a string for this purpose.",
+      "revId": "7776a89c4e2bf7f34316774706a85c620074e3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
