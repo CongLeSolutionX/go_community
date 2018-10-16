@@ -11,6 +11,7 @@ import (
 	"html"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -20,6 +21,7 @@ type HTMLWriter struct {
 	Logger
 	w    io.WriteCloser
 	path string
+	dot  *dotWriter
 }
 
 func NewHTMLWriter(path string, logger Logger, funcname string) *HTMLWriter {
@@ -32,6 +34,7 @@ func NewHTMLWriter(path string, logger Logger, funcname string) *HTMLWriter {
 		logger.Fatalf(src.NoXPos, "%v", err)
 	}
 	html := HTMLWriter{w: out, Logger: logger, path: filepath.Join(pwd, path)}
+	html.dot = newDotWriter()
 	html.start(funcname)
 	return &html
 }
@@ -41,6 +44,23 @@ func (w *HTMLWriter) start(name string) {
 		return
 	}
 	w.WriteString("<html>")
+	// TODO: These numbers work well for fannkuch.
+	// The columns are too big for simpler CFGs.
+	// How do I pick a good size?
+	// And it will need to be applied post-facto;
+	// should we buffer the entire HTML so that
+	// we can fix it up in html head,
+	// or should we fix it with javascript?
+	// If we fix it with javascript,
+	// we can just let the user pick the size.
+	// This seems better but the resulting reflow
+	// seems to make Chrome lock up.
+	tableWidth := "300"
+	elemWidth := "400"
+	// if w.dot.err == nil {
+	// 	tableWidth = "300"
+	// 	elemWidth = "400"
+	// }
 	w.WriteString(`<head>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <style>
@@ -67,13 +87,13 @@ body {
 table {
     border: 1px solid black;
     table-layout: fixed;
-    width: 300px;
+    width: ` + tableWidth + `px;
 }
 
 th, td {
     border: 1px solid black;
     overflow: hidden;
-    width: 400px;
+    width: ` + elemWidth + `px;
     vertical-align: top;
     padding: 5px;
 }
@@ -225,6 +245,22 @@ dd.ssa-prog {
 .outline-teal           { outline: teal solid 2px; }
 .outline-maroon         { outline: maroon solid 2px; }
 .outline-black          { outline: black solid 2px; }
+
+span.outline-blue           { outline: blue solid 2px; }
+span.outline-red            { outline: red solid 2px; }
+span.outline-blueviolet     { outline: blueviolet solid 2px; }
+span.outline-darkolivegreen { outline: darkolivegreen solid 2px; }
+span.outline-fuchsia        { outline: fuchsia solid 2px; }
+span.outline-sienna         { outline: sienna solid 2px; }
+span.outline-gold           { outline: gold solid 2px; }
+
+ellipse.outline-blue           { stroke: blue; stroke-width: 3; }
+ellipse.outline-red            { stroke: red; stroke-width: 3; }
+ellipse.outline-blueviolet     { stroke: blueviolet; stroke-width: 3; }
+ellipse.outline-darkolivegreen { stroke: darkolivegreen; stroke-width: 3; }
+ellipse.outline-fuchsia        { stroke: fuchsia; stroke-width: 3; }
+ellipse.outline-sienna         { stroke: sienna; stroke-width: 3; }
+ellipse.outline-gold           { stroke: gold; stroke-width: 3; }
 
 </style>
 
@@ -403,6 +439,54 @@ window.onload = function() {
         }
         td[i].style.display = 'table-cell';
     }
+
+    // find all svg block nodes, add their block classes
+    var nodes = document.querySelectorAll('*[id^="graph_node_"]');
+    for (var i = 0; i < nodes.length; i++) {
+    	var node = nodes[i];
+    	var name = node.id.toString();
+    	var block = name.substring(name.lastIndexOf("_")+1);
+    	node.classList.remove("node");
+    	node.classList.add(block);
+        node.addEventListener('click', ssaBlockClicked);
+        var ellipse = node.getElementsByTagName('ellipse')[0];
+        ellipse.classList.add(block);
+    }
+
+    // make big graphs smaller
+    var targetScale = 0.5;
+    var nodes = document.querySelectorAll('*[id^="svg_graph_"]');
+    for (var i = 0; i < nodes.length; i++) {
+    	var node = nodes[i];
+    	var name = node.id.toString();
+    	var phase = name.substring(name.lastIndexOf("_")+1);
+    	var gNode = document.getElementById("g_graph_"+phase);
+    	var scale = gNode.transform.baseVal.getItem(0).matrix.a;
+    	if (scale > targetScale) {
+    		node.width.baseVal.value *= targetScale / scale;
+    		node.height.baseVal.value *= targetScale / scale;
+    	}
+    }
+
+    document.onkeypress = function(e) {
+    	console.log(e.keyCode);
+    	return; // TODO: decide what to do here...see comments about table width above
+        switch (e.keyCode) {
+        case 'w'.charCodeAt():
+        	// Make columns wider by applying a new "wide columns" class.
+        	var tagnames = ["table", "th", "td"];
+        	for (var j = 0; j < tagnames.length; i++) {
+        		console.log("tag", tagnames[j])
+        		var x = document.getElementsByTagName(tagnames[j]);
+		        for (var i = 0; i < x.length; i++) {
+		        	console.log("add width3 to", x[i])
+		            x[i].classList.add("width3");
+		        }
+        	}
+        case 's'.charCodeAt():
+        	// TODO: make skinnier
+        }
+    };
 };
 
 function toggle_visibility(id) {
@@ -439,6 +523,10 @@ Faded out values and blocks are dead code that has not been eliminated.
 Values printed in italics have a dependency cycle.
 </p>
 
+<p>
+Press 'w' to make the columns wider, 's' to make them skinnier.
+</pr>
+
 </div>
 `)
 	w.WriteString("<table>")
@@ -453,6 +541,10 @@ func (w *HTMLWriter) Close() {
 	io.WriteString(w.w, "</table>")
 	io.WriteString(w.w, "</body>")
 	io.WriteString(w.w, "</html>")
+	// if w.dot.err != nil {
+	// 	// TODO: Put this somewhere visible in the HTML instead of panicking
+	// 	panic(w.dot.err)
+	// }
 	w.w.Close()
 	fmt.Printf("dumped SSA to %v\n", w.path)
 }
@@ -463,8 +555,8 @@ func (w *HTMLWriter) WriteFunc(phase, title string, f *Func) {
 	if w == nil {
 		return // avoid generating HTML just to discard it
 	}
-	w.WriteColumn(phase, title, "", f.HTML())
-	// TODO: Add visual representation of f's CFG.
+	//w.WriteColumn(phase, title, "", f.HTML())
+	w.WriteColumn(phase, title, "", f.HTML(phase, w.dot))
 }
 
 // FuncLines contains source code for a function to be displayed
@@ -694,15 +786,131 @@ func (b *Block) LongHTML() string {
 	return s
 }
 
-func (f *Func) HTML() string {
-	var buf bytes.Buffer
-	fmt.Fprint(&buf, "<code>")
-	p := htmlFuncPrinter{w: &buf}
+func (f *Func) HTML(phase string, dot *dotWriter) string {
+	buf := new(bytes.Buffer)
+	if dot != nil {
+		dot.writeFuncSVG(buf, phase, f)
+	}
+	fmt.Fprint(buf, "<code>")
+	p := htmlFuncPrinter{w: buf}
 	fprintFunc(p, f)
 
 	// fprintFunc(&buf, f) // TODO: HTML, not text, <br /> for line breaks, etc.
-	fmt.Fprint(&buf, "</code>")
+	fmt.Fprint(buf, "</code>")
 	return buf.String()
+}
+
+func (d *dotWriter) writeFuncSVG(w io.Writer, phase string, f *Func) {
+	if d.err != nil {
+		if !d.errPrinted {
+			fmt.Printf("dot: %s\n", d.err)
+			d.errPrinted = true
+		}
+		return
+	}
+	if _, ok := d.phases[phase]; !ok {
+		return
+	}
+	fmt.Printf("CFG %s\n", phase)
+	buf := new(bytes.Buffer)
+	cmd := exec.Command(d.path, "-Tsvg")
+	pipe, err := cmd.StdinPipe()
+	d.setErr(err)
+	cmd.Stdout = buf
+	d.setErr(cmd.Start())
+	fmt.Fprint(pipe, `digraph "" {
+margin=0;
+size="4,40";
+ranksep=.2;
+ratio=compress;
+`)
+	//fmt.Fprintln(pipe, "splines=ortho;")
+	id := strings.Replace(phase, " ", "-", -1)
+	fmt.Fprint(pipe, `id="g_graph_`+id+`";`)
+	for i, b := range f.Blocks {
+		if b.Kind == BlockInvalid {
+			continue
+		}
+		layout := ""
+		if f.laidout {
+			layout = fmt.Sprintf(" (%d)", i)
+		}
+		fmt.Fprintf(pipe, `%v [label="%v%s\n%v",id="graph_node_%v_%v",fontsize=18,fontname="Menlo,Times,serif",margin="0.01,0.03"];`, b, b, layout, b.Kind, id, b)
+		//fmt.Fprintln(pipe)
+	}
+	indexOf := make([]int, f.NumBlocks())
+	for i, b := range f.Blocks {
+		indexOf[b.ID] = i
+	}
+	layoutDrawn := make([]bool, f.NumBlocks())
+	for _, b := range f.Blocks {
+		for i, s := range b.Succs {
+			style := "solid"
+			if b.unlikelyIndex() == i {
+				style = "dashed"
+			}
+			color := "black"
+			if f.laidout && indexOf[s.b.ID] == indexOf[b.ID]+1 {
+				color = "red"
+				layoutDrawn[s.b.ID] = true
+			}
+			fmt.Fprintf(pipe, `%v -> %v [label=" %d ",style="%s",color="%s",fontsize=18,fontname="Menlo,Times,serif"];`, b, s.b, i, style, color)
+			//fmt.Fprintln(pipe)
+		}
+	}
+	if f.laidout {
+		fmt.Fprintln(pipe, "edge[constraint=false];")
+		for i := 1; i < len(f.Blocks); i++ {
+			if layoutDrawn[f.Blocks[i].ID] {
+				continue
+			}
+			fmt.Fprintf(pipe, `%s -> %s [color=gray,style=dashed];`, f.Blocks[i-1], f.Blocks[i])
+			//fmt.Fprintln(pipe)
+		}
+	}
+	fmt.Fprint(pipe, "}")
+	pipe.Close()
+	d.setErr(cmd.Wait())
+
+	// Apparently there's no way to give a reliable target width to dot?
+	// And no way to supply an HTML class for the svg element either?
+	// For now, use an awful hack--edit the html as it passes through
+	// our fingers, finding '<svg width="..." height="..." [everything else]'
+	// and replacing it with '<svg width="100%" [everything else]'.
+
+	d.copyAfter(w, buf, `<svg `)
+	io.WriteString(w, `id="svg_graph_`+id+`" `)
+	// d.copyAfter(w, buf, `width="`)
+	// io.WriteString(w, `100%"`)
+	// d.copyAfter(ioutil.Discard, buf, `"`)
+	// d.copyAfter(ioutil.Discard, buf, `height="`)
+	// d.copyAfter(ioutil.Discard, buf, `"`)
+	if d.err != nil {
+		return
+	}
+	io.Copy(w, buf)
+}
+
+func (b *Block) unlikelyIndex() int {
+	switch b.Likely {
+	case BranchLikely:
+		return 1
+	case BranchUnlikely:
+		return 0
+	}
+	return -1
+}
+
+func (d *dotWriter) copyAfter(w io.Writer, buf *bytes.Buffer, sep string) {
+	if d.err != nil {
+		return
+	}
+	i := bytes.Index(buf.Bytes(), []byte(sep))
+	if i == -1 {
+		d.setErr(fmt.Errorf("couldn't find dot sep %q", sep))
+		return
+	}
+	io.CopyN(w, buf, int64(i+len(sep)))
 }
 
 type htmlFuncPrinter struct {
@@ -769,4 +977,70 @@ func (p htmlFuncPrinter) named(n LocalSlot, vals []*Value) {
 		fmt.Fprintf(p.w, "%s ", val.HTML())
 	}
 	fmt.Fprintf(p.w, "</li>")
+}
+
+type dotWriter struct {
+	path       string
+	err        error
+	errPrinted bool
+	phases     map[string]bool // keys specify phases with CFGs
+}
+
+func newDotWriter() *dotWriter {
+	// GOSSACFG is used to specify for which passes should we display CFGs:
+	// * - all the passes;
+	// a - just the pass a;
+	// a..b - passes between and including a and b.
+	phases := os.Getenv("GOSSACFG")
+	if phases == "" {
+		return nil
+	}
+	// User can specify phase name with - or _ instead of spaces.
+	phases = strings.Replace(phases, "-", " ", -1)
+	phases = strings.Replace(phases, "_", " ", -1)
+	var first, last int
+	if phases == "*" {
+		first = 0
+		last = len(passes) - 1
+	} else if strings.Count(phases, "..") > 0 {
+		spl := strings.Split(phases, "..")
+		if len(spl) != 2 {
+			fmt.Printf("range is not valid: %v\n", phases)
+			return nil
+		}
+		first = passIdxByName(spl[0])
+		last = passIdxByName(spl[1])
+	} else {
+		first = passIdxByName(phases)
+		last = first
+	}
+	if first < 0 || last < 0 || first > last {
+		fmt.Printf("range idxs are not valid: %v %v\n", first, last)
+		return nil
+	}
+	ph := make(map[string]bool)
+	for p := first; p <= last; p++ {
+		ph[passes[p].name] = true
+	}
+	path, err := exec.LookPath("dot")
+	return &dotWriter{path: path, err: err, phases: ph}
+}
+
+func passIdxByName(name string) int {
+	for i, p := range passes {
+		if p.name == name {
+			return i
+		}
+	}
+	return -1
+}
+
+func (d *dotWriter) setErr(err error) {
+	if err == nil {
+		return
+	}
+	fmt.Println(err)
+	if d.err == nil {
+		d.err = err
+	}
 }
