@@ -16,6 +16,24 @@
       "revId": "6aa678f30bfea87450a8b6eb855ba993fee9b40c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35af60eb_50cc7825",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-10-16T19:01:38Z",
+      "side": 1,
+      "message": "yes if we use OSLICEMAKE or similar new op we do not need to do the slice an array pointer dance and unsafe.Pointer is easier to pass to ssa directly to construct the slice without tripping typecheck in between.",
+      "parentUuid": "5ead937b_0839ea0b",
+      "revId": "6aa678f30bfea87450a8b6eb855ba993fee9b40c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
