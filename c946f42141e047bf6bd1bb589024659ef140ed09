@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "16926e9b_fca9914d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-16T17:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "151e2c7b_331f2c8c",
+      "revId": "c946f42141e047bf6bd1bb589024659ef140ed09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "943843c6_e53ae1c9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "149ae121_060aeefc",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-16T17:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef862b52_01dac84e",
+      "revId": "c946f42141e047bf6bd1bb589024659ef140ed09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a11281b_e13c16d5",
         "filename": "src/runtime/map.go",
         "patchSetId": 1
@@ -67,6 +103,24 @@
       "revId": "c946f42141e047bf6bd1bb589024659ef140ed09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e00bc5c7_702ce670",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-16T17:17:14Z",
+      "side": 1,
+      "message": "x\u003d2,y\u003d3 also works. That\u0027s what we\u0027re using.\n\nWe convert evacuatedX to evacuatedY by adding one (line 1161, below).\nWe need them to differ in their low bit so the checkBucket mechanism works (line 892 above).",
+      "parentUuid": "0a11281b_e13c16d5",
+      "revId": "c946f42141e047bf6bd1bb589024659ef140ed09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
