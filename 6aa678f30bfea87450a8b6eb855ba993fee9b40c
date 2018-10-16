@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ead937b_0839ea0b",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-10-16T18:44:17Z",
+      "side": 1,
+      "message": "Return just unsafe.Pointer?",
+      "revId": "6aa678f30bfea87450a8b6eb855ba993fee9b40c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
