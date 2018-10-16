@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed1784ad_493599fd",
+        "filename": "test/fixedbugs/issue26411.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-10-16T22:59:54Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "2201a06edf103e4cdf6f0fa49bad29a57c99b7d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
