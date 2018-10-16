@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbd7e95d_25450898",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-16T05:02:19Z",
+      "side": 1,
+      "message": "Should this be Appendix rather than Section, since it has the \"A.\" prefix?\n\nhttps://tools.ietf.org/html/rfc5246#appendix-A.4.1\n\nOr is the prefix wrong, and it should be Section 4.1?\n\nhttps://tools.ietf.org/html/rfc5246#section-4.1",
+      "range": {
+        "startLine": 131,
+        "startChar": 33,
+        "endLine": 131,
+        "endChar": 40
+      },
+      "revId": "dfcc940014598881188356a0d0b7c982b3bce569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "133ba304_626d3cf2",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-16T05:02:19Z",
+      "side": 1,
+      "message": "Maybe it\u0027s worth considering the space after this comma to be a non-breaking space, and keep the \"Section 4\" on the same line as the \"RFC 2822,\"?\n\nThe advantage being better grep-ability for a specific RFC/section.\n\nI\u0027m okay with both, so up to you. Just wanted to point attention at this.",
+      "range": {
+        "startLine": 244,
+        "startChar": 71,
+        "endLine": 244,
+        "endChar": 72
+      },
+      "revId": "dfcc940014598881188356a0d0b7c982b3bce569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00a6e7b1_17b83563",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-16T05:02:19Z",
+      "side": 1,
+      "message": "I think it\u0027d be worth it to mention this alternate \"RFC XXXX, Appendix X.X\" form in the commit message. (It only mentions \"RFC XXXX, Section X.X\" right now.)",
+      "range": {
+        "startLine": 336,
+        "startChar": 36,
+        "endLine": 336,
+        "endChar": 44
+      },
+      "revId": "dfcc940014598881188356a0d0b7c982b3bce569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
