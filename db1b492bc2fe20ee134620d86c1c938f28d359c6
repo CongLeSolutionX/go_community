@@ -16,6 +16,24 @@
       "revId": "db1b492bc2fe20ee134620d86c1c938f28d359c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a22a772_998c0712",
+        "filename": "src/internal/fmtsort/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-10-16T21:52:03Z",
+      "side": 1,
+      "message": "The map test already covers it, but sure.",
+      "parentUuid": "2cefc9fb_25309a41",
+      "revId": "db1b492bc2fe20ee134620d86c1c938f28d359c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
