@@ -67,6 +67,21 @@ func min(a, b []byte) int {
 	return n
 }
 
+func TestXORSmall(t *testing.T) {
+	i := 15
+	a := make([]byte, i)
+	b := make([]byte, i)
+	fillRandom(a)
+	fillRandom(b)
+	dst := make([]byte, i)
+	xorBytes(dst, a, b)
+	for j := range dst {
+		if a[j]^b[j] != dst[j] {
+			t.Fatalf("i[%d] = %x != %x ^ %x", j, dst[j], a[j], b[j])
+		}
+	}
+}
+
 func BenchmarkXORBytes(b *testing.B) {
 	dst := make([]byte, 1<<15)
 	data0 := make([]byte, 1<<15)
