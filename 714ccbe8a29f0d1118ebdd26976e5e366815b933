@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2029f8c_e2c1dad8",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-16T01:08:57Z",
+      "side": 1,
+      "message": "Is this import grouping change intentional? Okay if so, just don\u0027t want it getting reverted in future CLs otherwise.",
+      "revId": "714ccbe8a29f0d1118ebdd26976e5e366815b933",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

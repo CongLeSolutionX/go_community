@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9205f57_01ca497d",
+        "filename": "src/crypto/tls/key_agreement.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-16T01:08:57Z",
+      "side": 0,
+      "message": "Same question here.",
+      "revId": "bf68744a122b83f44cc454417d5723be04215091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
