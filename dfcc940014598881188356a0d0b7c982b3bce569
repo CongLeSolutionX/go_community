@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e6eea946_42846c94",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-16T17:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbd7e95d_25450898",
+      "range": {
+        "startLine": 131,
+        "startChar": 33,
+        "endLine": 131,
+        "endChar": 40
+      },
+      "revId": "dfcc940014598881188356a0d0b7c982b3bce569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "133ba304_626d3cf2",
         "filename": "src/crypto/x509/verify.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3092c415_b8e1d07c",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-16T17:27:12Z",
+      "side": 1,
+      "message": "Good point, but it feels hard to enforce as it doesn\u0027t stand out, and breaks reflowing tools. I lean towards letting it break the line.",
+      "parentUuid": "133ba304_626d3cf2",
+      "range": {
+        "startLine": 244,
+        "startChar": 71,
+        "endLine": 244,
+        "endChar": 72
+      },
+      "revId": "dfcc940014598881188356a0d0b7c982b3bce569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00a6e7b1_17b83563",
         "filename": "src/crypto/x509/x509.go",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "dfcc940014598881188356a0d0b7c982b3bce569",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bb956e0_473cce11",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-16T17:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00a6e7b1_17b83563",
+      "range": {
+        "startLine": 336,
+        "startChar": 36,
+        "endLine": 336,
+        "endChar": 44
+      },
+      "revId": "dfcc940014598881188356a0d0b7c982b3bce569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
