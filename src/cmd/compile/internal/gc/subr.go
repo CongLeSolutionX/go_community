@@ -808,11 +808,17 @@ func convertop(src *types.Type, dst *types.Type, why *string) Op {
 	}
 
 	// Conversions from regular to go:notinheap are not allowed
-	// (unless it's unsafe.Pointer). This is a runtime-specific
-	// rule.
+	// (unless it's unsafe.Pointer). These are runtime-specific
+	// rules.
 	if src.IsPtr() && dst.IsPtr() && dst.Elem().NotInHeap() && !src.Elem().NotInHeap() {
 		if why != nil {
 			*why = fmt.Sprintf(":\n\t%v is go:notinheap, but %v is not", dst.Elem(), src.Elem())
+		}
+		return 0
+	}
+	if src.IsString() && dst.IsSlice() && dst.Elem().NotInHeap() && (dst.Elem().Etype == types.Bytetype.Etype || dst.Elem().Etype == types.Runetype.Etype) {
+		if why != nil {
+			*why = fmt.Sprintf(":\n\tcannot convert string to slice of go:notinheap %v", dst.Elem())
 		}
 		return 0
 	}
