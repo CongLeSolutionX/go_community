@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4cfdcba8_4ccf15d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:00:36Z",
+      "side": 1,
+      "message": "s/In/in/",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "e360c9d14cb9867889b9eeae9df64358d4cb97f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f58d3ed_3d04a7a4",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
