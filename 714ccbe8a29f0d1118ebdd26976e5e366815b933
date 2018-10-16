@@ -16,6 +16,24 @@
       "revId": "714ccbe8a29f0d1118ebdd26976e5e366815b933",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f8ca167_ab8f7f58",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-16T01:36:38Z",
+      "side": 1,
+      "message": "Huh, I thought I had commented on it in the commit message, but apparently not.\n\ngoimports recently changed to enforce grouping, so this is just applying its formatting. Not doing so would be a nuisance for anyone contributing with goimports enabled, so I ran it on all files in the package.",
+      "parentUuid": "a2029f8c_e2c1dad8",
+      "revId": "714ccbe8a29f0d1118ebdd26976e5e366815b933",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
