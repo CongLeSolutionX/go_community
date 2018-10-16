@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ada57b3d_fa02c925",
+        "filename": "src/internal/traceparser/events.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-16T16:32:58Z",
+      "side": 1,
+      "message": "sort.SliceStable can be used instead eventList+sort.Stable",
+      "range": {
+        "startLine": 86,
+        "startChar": 1,
+        "endLine": 86,
+        "endChar": 31
+      },
+      "revId": "3be972dc54eb29044f1109a94c60242c04ca86cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "587a0afa_5a58d884",
+        "filename": "src/internal/traceparser/file.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-16T16:32:58Z",
+      "side": 1,
+      "message": "(\"failed to read header: read %dbytes instead of 16, err %v\", n, err)",
+      "range": {
+        "startLine": 49,
+        "startChar": 21,
+        "endLine": 49,
+        "endChar": 54
+      },
+      "revId": "3be972dc54eb29044f1109a94c60242c04ca86cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdbd9e45_0061395e",
+        "filename": "src/internal/traceparser/file.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-16T16:32:58Z",
+      "side": 1,
+      "message": "default:\n    return fmt.Errorf(\"unsupported trace file version %d.%d (update Go tool chain)\", ver/1000, ver%1000)",
+      "range": {
+        "startLine": 71,
+        "startChar": 1,
+        "endLine": 72,
+        "endChar": 30
+      },
+      "revId": "3be972dc54eb29044f1109a94c60242c04ca86cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a811ac29_4ea6a1cc",
+        "filename": "src/internal/traceparser/file.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-16T16:32:58Z",
+      "side": 1,
+      "message": "timerGoIDs",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 11
+      },
+      "revId": "3be972dc54eb29044f1109a94c60242c04ca86cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "105387a4_ff545d87",
+        "filename": "src/internal/traceparser/file.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-16T16:32:58Z",
+      "side": 1,
+      "message": "return fmt.Errorf(...)\n\nsame for the following similar return statements",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 10
+      },
+      "revId": "3be972dc54eb29044f1109a94c60242c04ca86cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebe7974f_7f303a62",
+        "filename": "src/internal/traceparser/file.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-16T16:32:58Z",
+      "side": 1,
+      "message": "no line break",
+      "range": {
+        "startLine": 185,
+        "startChar": 34,
+        "endLine": 186,
+        "endChar": 29
+      },
+      "revId": "3be972dc54eb29044f1109a94c60242c04ca86cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c852a33_1d92a160",
+        "filename": "src/internal/traceparser/parser_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-16T16:32:58Z",
+      "side": 1,
+      "message": "can we use ioutil.ReadDir like the old trace parser\u0027s TestParseCanned to keep this test easy to maintain?",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 2
+      },
+      "revId": "3be972dc54eb29044f1109a94c60242c04ca86cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8867ba3_99f5771e",
+        "filename": "src/internal/traceparser/parser_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-16T16:32:58Z",
+      "side": 1,
+      "message": "why is this test data special, and are others uninteresting?",
+      "range": {
+        "startLine": 81,
+        "startChar": 22,
+        "endLine": 81,
+        "endChar": 62
+      },
+      "revId": "3be972dc54eb29044f1109a94c60242c04ca86cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
