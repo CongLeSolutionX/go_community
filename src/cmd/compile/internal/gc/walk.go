@@ -3064,6 +3064,8 @@ func walkappend(n *Node, init *Nodes, dst *Node) *Node {
 	}
 	walkexprlistsafe(n.List.Slice()[1:], init)
 
+	nsrc := n.List.First()
+
 	// walkexprlistsafe will leave OINDEX (s[n]) alone if both s
 	// and n are name or literal, but those may index the slice we're
 	// modifying here. Fix explicitly.
@@ -3072,10 +3074,13 @@ func walkappend(n *Node, init *Nodes, dst *Node) *Node {
 	// before we begin to modify the slice in a visible way.
 	ls := n.List.Slice()[1:]
 	for i, n := range ls {
-		ls[i] = cheapexpr(n, init)
+		n = cheapexpr(n, init)
+		if !eqtype(n.Type, nsrc.Type.Elem()) {
+			n = assignconv(n, nsrc.Type.Elem(), "append")
+			n = walkexpr(n, init)
+		}
+		ls[i] = n
 	}
-
-	nsrc := n.List.First()
 
 	argc := n.List.Len() - 1
 	if argc < 1 {
