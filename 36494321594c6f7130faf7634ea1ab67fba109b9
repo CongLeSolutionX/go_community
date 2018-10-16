@@ -1,0 +1,305 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9588ec1e_b5962e6a",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Comment should take the form\n\n// SectionHeader holds information about an XCOFF section header.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08cfe84b_4feaff4c",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Add a blank line between SectionHeader and Section.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26136fb8_61b13503",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "AuxiliaryCsect is....\n\nand similarly for the comments below.  See https://golang.org/doc/effective_go.html#commentary .",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65fd2a42_dd79c8a6",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Add blank line between FileHeader and File.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54001eaa_faa7c9b0",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "This oddity should be in the method doc.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9898b153_77faffb5",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Check error return.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5d3a5ac_205f9abf",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Check error return.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "387d29b3_30bbf02b",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Check error return.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88df1424_bd3a3be7",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Check error return.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5397f218_b8089ff4",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Check error return.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14873f2b_019c1687",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Check error return.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "381598fa_427fc159",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Check error return.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce37f94a_5d2921e3",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Check error return.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "509f4382_5ce3d218",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Omit the 0 here, just write data[:n]",
+      "range": {
+        "startLine": 439,
+        "startChar": 12,
+        "endLine": 439,
+        "endChar": 13
+      },
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a384b64_c08dd462",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "s/patern/pattern/\nPeriod at end of sentence.",
+      "range": {
+        "startLine": 485,
+        "startChar": 16,
+        "endLine": 485,
+        "endChar": 22
+      },
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8c7043a_64093dc1",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "Check error return here and below.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f29892_ec306d43",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-16T22:18:42Z",
+      "side": 1,
+      "message": "There is no compatibility to worry about, just delete this type.",
+      "revId": "36494321594c6f7130faf7634ea1ab67fba109b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
