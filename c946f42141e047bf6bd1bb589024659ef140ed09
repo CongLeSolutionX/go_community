@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d696508f_8f45f353",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-16T17:18:38Z",
+      "side": 1,
+      "message": "I\u0027m going to do a bit more benchmarking and tweaking where the *Last exit lives.",
+      "parentUuid": "943843c6_e53ae1c9",
+      "revId": "c946f42141e047bf6bd1bb589024659ef140ed09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef862b52_01dac84e",
         "filename": "src/runtime/map.go",
         "patchSetId": 1
