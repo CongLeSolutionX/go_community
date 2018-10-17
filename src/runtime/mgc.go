@@ -823,6 +823,7 @@ func gcSetTriggerRatio(triggerRatio float64) {
 			goal = trigger
 		}
 	}
+	memstats.last_goals[memstats.numgc%uint32(len(memstats.last_goals))] = memstats.next_gc
 	memstats.next_gc = goal
 	if trace.enabled {
 		traceNextGC()

@@ -137,6 +137,12 @@ type mstats struct {
 	// unlike heap_live, heap_marked does not change until the
 	// next mark termination.
 	heap_marked uint64
+
+	// last_goals is a circular buffer (a la pause_ns, indexed in
+	// the same manner using numgc) which contains the most recent
+	// heap goals (i.e. values of next_gc), excluding the current
+	// heap goal.
+	last_goals [16]uint64
 }
 
 var memstats mstats
