@@ -20,6 +20,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"strings"
 	"sync"
@@ -179,7 +180,7 @@ func (test *clientTest) connFromCommand() (conn *recordingConn, child *exec.Cmd,
 	var pemOut bytes.Buffer
 	pem.Encode(&pemOut, &pem.Block{Type: pemType + " PRIVATE KEY", Bytes: derBytes})
 
-	keyPath := tempFile(string(pemOut.Bytes()))
+	keyPath := tempFile(pemOut.String())
 	defer os.Remove(keyPath)
 
 	var command []string
@@ -293,7 +294,7 @@ func (test *clientTest) run(t *testing.T, write bool) {
 		}
 		clientConn = recordingConn
 	} else {
-		clientConn, serverConn = net.Pipe()
+		clientConn, serverConn = localPipe(t)
 	}
 
 	config := test.config
@@ -682,7 +683,7 @@ func TestClientResumption(t *testing.T) {
 	}
 
 	testResumeState := func(test string, didResume bool) {
-		_, hs, err := testHandshake(clientConfig, serverConfig)
+		_, hs, err := testHandshake(t, clientConfig, serverConfig)
 		if err != nil {
 			t.Fatalf("%s: handshake failed: %s", test, err)
 		}
@@ -800,7 +801,7 @@ func TestKeyLog(t *testing.T) {
 	serverConfig := testConfig.Clone()
 	serverConfig.KeyLogWriter = &serverBuf
 
-	c, s := net.Pipe()
+	c, s := localPipe(t)
 	done := make(chan bool)
 
 	go func() {
@@ -838,8 +839,8 @@ func TestKeyLog(t *testing.T) {
 		}
 	}
 
-	checkKeylogLine("client", string(clientBuf.Bytes()))
-	checkKeylogLine("server", string(serverBuf.Bytes()))
+	checkKeylogLine("client", clientBuf.String())
+	checkKeylogLine("server", serverBuf.String())
 }
 
 func TestHandshakeClientALPNMatch(t *testing.T) {
@@ -1021,7 +1022,7 @@ var hostnameInSNITests = []struct {
 
 func TestHostnameInSNI(t *testing.T) {
 	for _, tt := range hostnameInSNITests {
-		c, s := net.Pipe()
+		c, s := localPipe(t)
 
 		go func(host string) {
 			Client(c, &Config{ServerName: host, InsecureSkipVerify: true}).Handshake()
@@ -1059,7 +1060,7 @@ func TestServerSelectingUnconfiguredCipherSuite(t *testing.T) {
 	// This checks that the server can't select a cipher suite that the
 	// client didn't offer. See #13174.
 
-	c, s := net.Pipe()
+	c, s := localPipe(t)
 	errChan := make(chan error, 1)
 
 	go func() {
@@ -1228,7 +1229,7 @@ func TestVerifyPeerCertificate(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		c, s := net.Pipe()
+		c, s := localPipe(t)
 		done := make(chan error)
 
 		var clientCalled, serverCalled bool
@@ -1287,7 +1288,7 @@ func (b *brokenConn) Write(data []byte) (int, error) {
 func TestFailedWrite(t *testing.T) {
 	// Test that a write error during the handshake is returned.
 	for _, breakAfter := range []int{0, 1} {
-		c, s := net.Pipe()
+		c, s := localPipe(t)
 		done := make(chan bool)
 
 		go func() {
@@ -1321,7 +1322,7 @@ func (wcc *writeCountingConn) Write(data []byte) (int, error) {
 }
 
 func TestBuffering(t *testing.T) {
-	c, s := net.Pipe()
+	c, s := localPipe(t)
 	done := make(chan bool)
 
 	clientWCC := &writeCountingConn{Conn: c}
@@ -1350,7 +1351,7 @@ func TestBuffering(t *testing.T) {
 }
 
 func TestAlertFlushing(t *testing.T) {
-	c, s := net.Pipe()
+	c, s := localPipe(t)
 	done := make(chan bool)
 
 	clientWCC := &writeCountingConn{Conn: c}
@@ -1399,7 +1400,7 @@ func TestHandshakeRace(t *testing.T) {
 	// order to provide some evidence that there are no races or deadlocks
 	// in the handshake locking.
 	for i := 0; i < 32; i++ {
-		c, s := net.Pipe()
+		c, s := localPipe(t)
 
 		go func() {
 			server := Server(s, testConfig)
@@ -1430,7 +1431,7 @@ func TestHandshakeRace(t *testing.T) {
 		go func() {
 			<-startRead
 			var reply [1]byte
-			if n, err := client.Read(reply[:]); err != nil || n != 1 {
+			if _, err := io.ReadFull(client, reply[:]); err != nil {
 				panic(err)
 			}
 			c.Close()
@@ -1559,7 +1560,7 @@ func TestGetClientCertificate(t *testing.T) {
 			err error
 		}
 
-		c, s := net.Pipe()
+		c, s := localPipe(t)
 		done := make(chan serverResult)
 
 		go func() {
@@ -1637,7 +1638,7 @@ RwBA9Xk1KBNF
 }
 
 func TestCloseClientConnectionOnIdleServer(t *testing.T) {
-	clientConn, serverConn := net.Pipe()
+	clientConn, serverConn := localPipe(t)
 	client := Client(clientConn, testConfig.Clone())
 	go func() {
 		var b [1]byte
@@ -1647,10 +1648,19 @@ func TestCloseClientConnectionOnIdleServer(t *testing.T) {
 	client.SetWriteDeadline(time.Now().Add(time.Second))
 	err := client.Handshake()
 	if err != nil {
-		if !strings.Contains(err.Error(), "read/write on closed pipe") {
-			t.Errorf("Error expected containing 'read/write on closed pipe' but got '%s'", err.Error())
+		if !isConnectionClosedError(err) {
+			t.Errorf("Expected a closed network connection error but got '%s'", err.Error())
 		}
 	} else {
 		t.Errorf("Error expected, but no error returned")
+	}
+}
+
+func isConnectionClosedError(err error) bool {
+	switch runtime.GOOS {
+	case "nacl", "js":
+		return err == io.EOF
+	default:
+		return strings.Contains(err.Error(), "closed network connection")
 	}
 }
