@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04437d81_e684944a",
+        "filename": "src/cmd/vet/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-10-17T21:28:01Z",
+      "side": 0,
+      "message": "FYI: I deleted this obsolete comment since your +2.",
+      "revId": "a0f57c3fd0cff8b92ffb4257a6d1b56467bf30f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
