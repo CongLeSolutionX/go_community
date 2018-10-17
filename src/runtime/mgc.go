@@ -202,10 +202,14 @@ func readgogc() int32 {
 
 // gcenable is called after the bulk of the runtime initialization,
 // just before we're about to start letting user code run.
-// It kicks off the background sweeper goroutine and enables GC.
+// It kicks off the background sweeper goroutine, the background
+// scavenger goroutine, and enables GC.
 func gcenable() {
-	c := make(chan int, 1)
+	// Kick off sweeping and scavenging.
+	c := make(chan int, 2)
 	go bgsweep(c)
+	go bgscavenge(c)
+	<-c
 	<-c
 	memstats.enablegc = true // now that runtime is initialized, GC is okay
 }
@@ -825,6 +829,7 @@ func gcSetTriggerRatio(triggerRatio float64) {
 	}
 	memstats.last_goals[memstats.numgc%uint32(len(memstats.last_goals))] = memstats.next_gc
 	memstats.next_gc = goal
+
 	if trace.enabled {
 		traceNextGC()
 	}
@@ -832,6 +837,19 @@ func gcSetTriggerRatio(triggerRatio float64) {
 	// Update mark pacing.
 	if gcphase != _GCoff {
 		gcController.revise()
+	}
+
+	// Compute heap statistics between now and the next
+	// GC for use in proportional schemes.
+	heapLiveBasis := atomic.Load64(&memstats.heap_live)
+	heapDistance := int64(trigger) - int64(heapLiveBasis)
+	// Add a little margin so proportional mechanisms are
+	// less likely to leave work undone by the time the
+	// next GC starts.
+	heapDistance -= 1024 * 1024
+	if heapDistance < pageSize {
+		// Avoid setting the proportional ratio extremely high
+		heapDistance = pageSize
 	}
 
 	// Update sweep pacing.
@@ -843,16 +861,6 @@ func gcSetTriggerRatio(triggerRatio float64) {
 		// trigger. Compute the ratio of in-use pages to sweep
 		// per byte allocated, accounting for the fact that
 		// some might already be swept.
-		heapLiveBasis := atomic.Load64(&memstats.heap_live)
-		heapDistance := int64(trigger) - int64(heapLiveBasis)
-		// Add a little margin so rounding errors and
-		// concurrent sweep are less likely to leave pages
-		// unswept when GC starts.
-		heapDistance -= 1024 * 1024
-		if heapDistance < _PageSize {
-			// Avoid setting the sweep ratio extremely high
-			heapDistance = _PageSize
-		}
 		pagesSwept := atomic.Load64(&mheap_.pagesSwept)
 		sweepDistancePages := int64(mheap_.pagesInUse) - int64(pagesSwept)
 		if sweepDistancePages <= 0 {
@@ -866,6 +874,50 @@ func gcSetTriggerRatio(triggerRatio float64) {
 			atomic.Store64(&mheap_.pagesSweptBasis, pagesSwept)
 		}
 	}
+
+	// Update scavenge pacing.
+	retainedGoal := gcScavengeGoal()
+	retainedNow := memstats.heap_sys - memstats.heap_released
+	if retainedNow > retainedGoal {
+		mheap_.scavengeRetainedGoal = retainedGoal
+		mheap_.scavengeRetainedBasis = retainedNow
+		mheap_.scavengeHeapLiveBasis = heapLiveBasis
+		mheap_.scavengeBytesPerByte = float64(retainedGoal-retainedNow) / float64(heapDistance)
+		// Wake up background scavenger.
+		lock(&scavenge.lock)
+		if scavenge.parked {
+			scavenge.parked = false
+			ready(scavenge.g, 0, true)
+		}
+		unlock(&scavenge.lock)
+	} else {
+		mheap_.scavengeBytesPerByte = 0
+	}
+}
+
+// gcScavengeGoal() returns the scavenge goal for the heap, meaning
+// that the runtime should attempt to scavenge memory such that the
+// scavenge goal is retained, in bytes.
+//
+// mheap_.lock must be held or the world must be stopped.
+func gcScavengeGoal() uint64 {
+	n := memstats.numgc
+	if n > uint32(len(memstats.last_goals)) {
+		n = uint32(len(memstats.last_goals))
+	}
+
+	// The last_goals buffer is circular, the most recent goal (not the
+	// current goal) resides in last_goals[(numgc-1)%len(last_goals)], so
+	// just iterate backwards from there.
+	goal := memstats.next_gc
+	for i := uint32(0); i < n; i++ {
+		j := (memstats.numgc - 1 - i) % uint32(len(memstats.last_goals))
+		if memstats.last_goals[j] > goal {
+			goal = memstats.last_goals[j]
+		}
+	}
+	// Multiply by "steady state variance factor" 1.125.
+	return goal + goal/8
 }
 
 // gcGoalUtilization is the goal CPU utilization for

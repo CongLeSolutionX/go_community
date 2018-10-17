@@ -88,6 +88,33 @@ type mheap struct {
 	// TODO(austin): pagesInUse should be a uintptr, but the 386
 	// compiler can't 8-byte align fields.
 
+	// Proportional scavenge
+	//
+	// These parameters represent a linear function from heap_live
+	// to the unscavenged size of the heap. The proportional scavenging
+	// system works to stay in the black by keeping the current RSS
+	// (estimated as memstats.heap_sys - memstats.heap_released)
+	// below this line at the current heap_live.
+	//
+	// The line has slope scavengeBytesPerByte and passes through a
+	// basis point at (scavengeHeapLiveBasis, scavengeRetainedBasis). At
+	// any given time, the system is at (memstats.heap_live,
+	// memstats.heap_sys - memstats.heap_released) in this space.
+	//
+	// It's important that the line pass through a point we
+	// control rather than simply starting at a (0,0) origin
+	// because that lets us adjust scavenging at any time while
+	// accounting for current progress. If we could only adjust
+	// the slope, it would create a discontinuity in debt if any
+	// progress has already been made.
+	//
+	// All fields are protected by the heap lock and are only
+	// updated when the GC trigger ratio is changed.
+	scavengeHeapLiveBasis uint64
+	scavengeRetainedBasis uint64
+	scavengeRetainedGoal  uint64
+	scavengeBytesPerByte  float64
+
 	// Page reclaimer state
 
 	// reclaimIndex is the page index in allArenas of next page to
@@ -1349,6 +1376,67 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 		h.scav.insert(s)
 	} else {
 		h.free.insert(s)
+	}
+}
+
+// State of the background scavenger.
+var scavenge struct {
+	lock   mutex
+	g      *g
+	parked bool
+}
+
+// Background scavenger.
+//
+// The background scavenger maintains the RSS of the application below
+// the line described by the proportional scavenging statistics in
+// the mheap struct.
+func bgscavenge(c chan int) {
+	scavenge.g = getg()
+
+	lock(&scavenge.lock)
+	scavenge.parked = true
+	c <- 1
+	goparkunlock(&scavenge.lock, waitReasonGCScavengeWait, traceEvGoBlock, 1)
+
+	for {
+		// If proportional scavenging is disabled just park because there's
+		// nothing to do until the next update.
+		if mheap_.scavengeBytesPerByte == 0 {
+			lock(&scavenge.lock)
+			scavenge.parked = true
+			goparkunlock(&scavenge.lock, waitReasonGCScavengeWait, traceEvGoBlock, 1)
+			continue
+		}
+
+		lock(&mheap_.lock)
+
+		actual := memstats.heap_sys - memstats.heap_released
+		if actual <= mheap_.scavengeRetainedGoal {
+			// We've already reach our goal for this cycle, so there's no more work to do.
+			unlock(&mheap_.lock)
+			lock(&scavenge.lock)
+			scavenge.parked = true
+			goparkunlock(&scavenge.lock, waitReasonGCScavengeWait, traceEvGoBlock, 1)
+			continue
+		}
+
+		live := atomic.Load64(&memstats.heap_live)
+		want := uint64(mheap_.scavengeBytesPerByte*float64(live-mheap_.scavengeHeapLiveBasis)) + mheap_.scavengeRetainedBasis
+
+		// Always scavenge at least one byte (forcing at least one whole span to
+		// get scavenged) so that we still make progress if the application goes
+		// idle.
+		work := uintptr(1)
+		if actual > want {
+			work = uintptr(actual - want)
+		}
+		mheap_.scavengeLargest(work, false)
+
+		unlock(&mheap_.lock)
+
+		// Give something else a chance to run, no locks are held.
+		Gosched()
 	}
 }
 
