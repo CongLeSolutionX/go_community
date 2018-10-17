@@ -16,6 +16,24 @@
       "revId": "90406a92ec6a867a4d7dd9f8b79416af7976af28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "646db614_b9af6123",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-10-17T18:51:35Z",
+      "side": 1,
+      "message": "Removed.\n\nI was being conservative in leaving the \"----\" there, since it doesn\u0027t hurt anything. But I\u0027m leaning now towards removal as the appropriate thing to do.",
+      "parentUuid": "62488f8a_5a231acc",
+      "revId": "90406a92ec6a867a4d7dd9f8b79416af7976af28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
