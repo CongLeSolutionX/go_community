@@ -143,7 +143,7 @@ func Import(packages map[string]*types.Package, path, srcDir string, lookup func
 
 	switch hdr {
 	case "$$\n":
-		err = fmt.Errorf("import %q: old export format no longer supported (recompile library)", path)
+		err = fmt.Errorf("import %q: old textual export format no longer supported (recompile library)", path)
 
 	case "$$B\n":
 		var data []byte
@@ -162,11 +162,11 @@ func Import(packages map[string]*types.Package, path, srcDir string, lookup func
 		if len(data) > 0 && data[0] == 'i' {
 			_, pkg, err = iImportData(fset, packages, data[1:], id)
 		} else {
-			_, pkg, err = BImportData(fset, packages, data, id)
+			err = fmt.Errorf("import %q: old binary export format no longer supported (recompile library)", path)
 		}
 
 	default:
-		err = fmt.Errorf("unknown export data header: %q", hdr)
+		err = fmt.Errorf("import %q: unknown export data header: %q", path, hdr)
 	}
 
 	return
