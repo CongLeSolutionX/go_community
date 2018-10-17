@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d6a9e6d_589ba5ce",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-10-17T15:50:11Z",
+      "side": 1,
+      "message": "if !ts.stopped {\n    fmt.Fprintf(\u0026ts.log, \"PASS\\n\")\n}\n\nto preserve old behavior that \u0027stop\u0027 did not print PASS.",
+      "revId": "10f1e3037682202e09ead11393e46b376c0aa37c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b77a4e6e_9c468554",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-10-17T15:50:11Z",
+      "side": 1,
+      "message": "This is an odd use of [ ]. The ones below are for labeling different parts of the output. Here a process state is being printed in the [ ] instead. It seems like it would be better to do\n\n\"[background] %s: %v\\n\", strings.Join(args, \" \"), bg.cmd.ProcessState)\n\nIt doesn\u0027t help me to see the process state before seeing what command ran.",
+      "revId": "10f1e3037682202e09ead11393e46b376c0aa37c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55605ba2_e5b55ae6",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-10-17T15:50:11Z",
+      "side": 1,
+      "message": "Type assert to *strings.Builder instead. That\u0027s what the code below uses.\nIt\u0027s easier to answer \"why would this be *strings.Builder\" than the more\nindirect \"why would this be fmt.Stringer\".",
+      "revId": "10f1e3037682202e09ead11393e46b376c0aa37c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdfd6405_9febb8a7",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-10-17T15:50:11Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "10f1e3037682202e09ead11393e46b376c0aa37c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f9889ca_02f8e220",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-10-17T15:50:11Z",
+      "side": 1,
+      "message": "s/the process/cmd/\n(For a second I thought this meant \"the current process\".)",
+      "revId": "10f1e3037682202e09ead11393e46b376c0aa37c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39088060_763b65b7",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-10-17T15:50:11Z",
+      "side": 1,
+      "message": "if err :\u003d p.Signal(os.Interrupt); err !\u003d nil \u0026\u0026 runtime.GOOS \u003d\u003d \"windows\" {\n\nMake it clear that what\u0027s being tested for nil is an error.\nYou could even drop the runtime.GOOS check.",
+      "revId": "10f1e3037682202e09ead11393e46b376c0aa37c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
