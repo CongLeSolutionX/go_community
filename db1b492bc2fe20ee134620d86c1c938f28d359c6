@@ -52,6 +52,24 @@
       "revId": "db1b492bc2fe20ee134620d86c1c938f28d359c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd26d90b_6aec0a4a",
+        "filename": "src/internal/fmtsort/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-10-17T00:02:02Z",
+      "side": 1,
+      "message": "Probably not every single test at the same time,\nbut still useful to have a test to update when fixing bugs in this function.",
+      "parentUuid": "8bba039d_57af266a",
+      "revId": "db1b492bc2fe20ee134620d86c1c938f28d359c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
