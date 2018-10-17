@@ -70,10 +70,7 @@ func testClientHello(t *testing.T, serverConfig *Config, m handshakeMessage) {
 }
 
 func testClientHelloFailure(t *testing.T, serverConfig *Config, m handshakeMessage, expectedSubStr string) {
-	// Create in-memory network connection,
-	// send message to server. Should return
-	// expected error.
-	c, s := net.Pipe()
+	c, s := localPipe(t)
 	go func() {
 		cli := Client(c, testConfig)
 		if ch, ok := m.(*clientHelloMsg); ok {
@@ -202,7 +199,7 @@ func TestRenegotiationExtension(t *testing.T) {
 	}
 
 	var buf []byte
-	c, s := net.Pipe()
+	c, s := localPipe(t)
 
 	go func() {
 		cli := Client(c, testConfig)
@@ -262,7 +259,7 @@ func TestTLS12OnlyCipherSuites(t *testing.T) {
 		supportedPoints:    []uint8{pointFormatUncompressed},
 	}
 
-	c, s := net.Pipe()
+	c, s := localPipe(t)
 	var reply interface{}
 	var clientErr error
 	go func() {
@@ -289,7 +286,7 @@ func TestTLS12OnlyCipherSuites(t *testing.T) {
 }
 
 func TestAlertForwarding(t *testing.T) {
-	c, s := net.Pipe()
+	c, s := localPipe(t)
 	go func() {
 		Client(c, testConfig).sendAlert(alertUnknownCA)
 		c.Close()
@@ -303,7 +300,7 @@ func TestAlertForwarding(t *testing.T) {
 }
 
 func TestClose(t *testing.T) {
-	c, s := net.Pipe()
+	c, s := localPipe(t)
 	go c.Close()
 
 	err := Server(s, testConfig).Handshake()
@@ -313,8 +310,8 @@ func TestClose(t *testing.T) {
 	}
 }
 
-func testHandshake(clientConfig, serverConfig *Config) (serverState, clientState ConnectionState, err error) {
-	c, s := net.Pipe()
+func testHandshake(t *testing.T, clientConfig, serverConfig *Config) (serverState, clientState ConnectionState, err error) {
+	c, s := localPipe(t)
 	done := make(chan bool)
 	go func() {
 		cli := Client(c, clientConfig)
@@ -341,7 +338,7 @@ func TestVersion(t *testing.T) {
 	clientConfig := &Config{
 		InsecureSkipVerify: true,
 	}
-	state, _, err := testHandshake(clientConfig, serverConfig)
+	state, _, err := testHandshake(t, clientConfig, serverConfig)
 	if err != nil {
 		t.Fatalf("handshake failed: %s", err)
 	}
@@ -360,7 +357,7 @@ func TestCipherSuitePreference(t *testing.T) {
 		CipherSuites:       []uint16{TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_RC4_128_SHA},
 		InsecureSkipVerify: true,
 	}
-	state, _, err := testHandshake(clientConfig, serverConfig)
+	state, _, err := testHandshake(t, clientConfig, serverConfig)
 	if err != nil {
 		t.Fatalf("handshake failed: %s", err)
 	}
@@ -370,7 +367,7 @@ func TestCipherSuitePreference(t *testing.T) {
 	}
 
 	serverConfig.PreferServerCipherSuites = true
-	state, _, err = testHandshake(clientConfig, serverConfig)
+	state, _, err = testHandshake(t, clientConfig, serverConfig)
 	if err != nil {
 		t.Fatalf("handshake failed: %s", err)
 	}
@@ -391,7 +388,7 @@ func TestSCTHandshake(t *testing.T) {
 	clientConfig := &Config{
 		InsecureSkipVerify: true,
 	}
-	_, state, err := testHandshake(clientConfig, serverConfig)
+	_, state, err := testHandshake(t, clientConfig, serverConfig)
 	if err != nil {
 		t.Fatalf("handshake failed: %s", err)
 	}
@@ -420,13 +417,13 @@ func TestCrossVersionResume(t *testing.T) {
 
 	// Establish a session at TLS 1.1.
 	clientConfig.MaxVersion = VersionTLS11
-	_, _, err := testHandshake(clientConfig, serverConfig)
+	_, _, err := testHandshake(t, clientConfig, serverConfig)
 	if err != nil {
 		t.Fatalf("handshake failed: %s", err)
 	}
 
 	// The client session cache now contains a TLS 1.1 session.
-	state, _, err := testHandshake(clientConfig, serverConfig)
+	state, _, err := testHandshake(t, clientConfig, serverConfig)
 	if err != nil {
 		t.Fatalf("handshake failed: %s", err)
 	}
@@ -436,7 +433,7 @@ func TestCrossVersionResume(t *testing.T) {
 
 	// Test that the server will decline to resume at a lower version.
 	clientConfig.MaxVersion = VersionTLS10
-	state, _, err = testHandshake(clientConfig, serverConfig)
+	state, _, err = testHandshake(t, clientConfig, serverConfig)
 	if err != nil {
 		t.Fatalf("handshake failed: %s", err)
 	}
@@ -445,7 +442,7 @@ func TestCrossVersionResume(t *testing.T) {
 	}
 
 	// The client session cache now contains a TLS 1.0 session.
-	state, _, err = testHandshake(clientConfig, serverConfig)
+	state, _, err = testHandshake(t, clientConfig, serverConfig)
 	if err != nil {
 		t.Fatalf("handshake failed: %s", err)
 	}
@@ -455,7 +452,7 @@ func TestCrossVersionResume(t *testing.T) {
 
 	// Test that the server will decline to resume at a higher version.
 	clientConfig.MaxVersion = VersionTLS11
-	state, _, err = testHandshake(clientConfig, serverConfig)
+	state, _, err = testHandshake(t, clientConfig, serverConfig)
 	if err != nil {
 		t.Fatalf("handshake failed: %s", err)
 	}
@@ -579,7 +576,7 @@ func (test *serverTest) run(t *testing.T, write bool) {
 		}
 		serverConn = recordingConn
 	} else {
-		clientConn, serverConn = net.Pipe()
+		clientConn, serverConn = localPipe(t)
 	}
 	config := test.config
 	if config == nil {
@@ -832,7 +829,7 @@ func TestHandshakeServerSNIGetCertificate(t *testing.T) {
 	nameToCert := config.NameToCertificate
 	config.NameToCertificate = nil
 	config.GetCertificate = func(clientHello *ClientHelloInfo) (*Certificate, error) {
-		cert, _ := nameToCert[clientHello.ServerName]
+		cert := nameToCert[clientHello.ServerName]
 		return cert, nil
 	}
 	test := &serverTest{
@@ -1025,7 +1022,7 @@ func benchmarkHandshakeServer(b *testing.B, cipherSuite uint16, curve CurveID, c
 	config.Certificates[0].PrivateKey = key
 	config.BuildNameToCertificate()
 
-	clientConn, serverConn := net.Pipe()
+	clientConn, serverConn := localPipe(b)
 	serverConn = &recordingConn{Conn: serverConn}
 	go func() {
 		client := Client(clientConn, testConfig)
@@ -1039,7 +1036,7 @@ func benchmarkHandshakeServer(b *testing.B, cipherSuite uint16, curve CurveID, c
 	flows := serverConn.(*recordingConn).flows
 
 	feeder := make(chan struct{})
-	clientConn, serverConn = net.Pipe()
+	clientConn, serverConn = localPipe(b)
 
 	go func() {
 		for range feeder {
@@ -1051,10 +1048,10 @@ func benchmarkHandshakeServer(b *testing.B, cipherSuite uint16, curve CurveID, c
 				ff := make([]byte, len(f))
 				n, err := io.ReadFull(clientConn, ff)
 				if err != nil {
-					b.Fatalf("#%d: %s\nRead %d, wanted %d, got %x, wanted %x\n", i+1, err, n, len(ff), ff[:n], f)
+					b.Errorf("#%d: %s\nRead %d, wanted %d, got %x, wanted %x\n", i+1, err, n, len(ff), ff[:n], f)
 				}
 				if !bytes.Equal(f, ff) {
-					b.Fatalf("#%d: mismatch on read: got:%x want:%x", i+1, ff, f)
+					b.Errorf("#%d: mismatch on read: got:%x want:%x", i+1, ff, f)
 				}
 			}
 		}
@@ -1216,7 +1213,7 @@ func TestSNIGivenOnFailure(t *testing.T) {
 	// Erase the server's cipher suites to ensure the handshake fails.
 	serverConfig.CipherSuites = nil
 
-	c, s := net.Pipe()
+	c, s := localPipe(t)
 	go func() {
 		cli := Client(c, testConfig)
 		cli.vers = clientHello.vers
@@ -1346,7 +1343,7 @@ func TestGetConfigForClient(t *testing.T) {
 			configReturned = config
 			return config, err
 		}
-		c, s := net.Pipe()
+		c, s := localPipe(t)
 		done := make(chan error)
 
 		go func() {
@@ -1423,7 +1420,7 @@ var testECDSAPrivateKey = &ecdsa.PrivateKey{
 var testP256PrivateKey, _ = x509.ParseECPrivateKey(fromHex("30770201010420012f3b52bc54c36ba3577ad45034e2e8efe1e6999851284cb848725cfe029991a00a06082a8648ce3d030107a14403420004c02c61c9b16283bbcc14956d886d79b358aa614596975f78cece787146abf74c2d5dc578c0992b4f3c631373479ebf3892efe53d21c4f4f1cc9a11c3536b7f75"))
 
 func TestCloseServerConnectionOnIdleClient(t *testing.T) {
-	clientConn, serverConn := net.Pipe()
+	clientConn, serverConn := localPipe(t)
 	server := Server(serverConn, testConfig.Clone())
 	go func() {
 		clientConn.Write([]byte{'0'})
@@ -1432,8 +1429,8 @@ func TestCloseServerConnectionOnIdleClient(t *testing.T) {
 	server.SetReadDeadline(time.Now().Add(time.Second))
 	err := server.Handshake()
 	if err != nil {
-		if !strings.Contains(err.Error(), "read/write on closed pipe") {
-			t.Errorf("Error expected containing 'read/write on closed pipe' but got '%s'", err.Error())
+		if !strings.Contains(err.Error(), "closed network connection") {
+			t.Errorf("Error expected containing 'closed network connection' but got '%s'", err.Error())
 		}
 	} else {
 		t.Errorf("Error expected, but no error returned")
