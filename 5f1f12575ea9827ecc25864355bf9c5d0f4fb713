@@ -16,6 +16,24 @@
       "revId": "5f1f12575ea9827ecc25864355bf9c5d0f4fb713",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f71e0280_c651d457",
+        "filename": "src/runtime/memclr_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-10-17T18:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ecf333d_d1c3b28c",
+      "revId": "5f1f12575ea9827ecc25864355bf9c5d0f4fb713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
