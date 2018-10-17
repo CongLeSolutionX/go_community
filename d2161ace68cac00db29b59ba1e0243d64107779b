@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4820d24f_fb44985c",
+        "filename": "src/cmd/go/internal/vet/vetflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-10-17T21:09:21Z",
+      "side": 1,
+      "message": "It\u0027s safe to assume that \"go\" and \"go tool $x\" have the same version, I think.  Advanced users for which that is not true assume their own risks.",
+      "parentUuid": "2f9d51cf_62e40176",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 31
+      },
+      "revId": "d2161ace68cac00db29b59ba1e0243d64107779b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ab17f39_4b715d06",
         "filename": "src/cmd/go/internal/vet/vetflag.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e66daa50_f1a233c9",
+        "filename": "src/cmd/go/internal/vet/vetflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-10-17T21:09:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ab17f39_4b715d06",
+      "range": {
+        "startLine": 68,
+        "startChar": 25,
+        "endLine": 68,
+        "endChar": 26
+      },
+      "revId": "d2161ace68cac00db29b59ba1e0243d64107779b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "235ca047_af444cef",
         "filename": "src/cmd/go/internal/vet/vetflag.go",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "d2161ace68cac00db29b59ba1e0243d64107779b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1cf4baf_fc4f15f3",
+        "filename": "src/cmd/go/internal/vet/vetflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-10-17T21:09:21Z",
+      "side": 1,
+      "message": "Well spotted. The comment only made sense where it was before.",
+      "parentUuid": "235ca047_af444cef",
+      "range": {
+        "startLine": 77,
+        "startChar": 58,
+        "endLine": 78,
+        "endChar": 28
+      },
+      "revId": "d2161ace68cac00db29b59ba1e0243d64107779b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
