@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac3987f1_77986b0b",
+        "filename": "src/internal/fmtsort/sort.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-10-17T11:38:01Z",
+      "side": 1,
+      "message": "s/Key/key/ as it isn\u0027t exported despite its capital letter?",
+      "revId": "4ff2c840656087b26de1eba814c5968f24c41b4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "749a2d13_fbff0eb6",
+        "filename": "src/internal/fmtsort/sort.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-10-17T11:38:01Z",
+      "side": 1,
+      "message": "Compare two NaNs by their bit pattern for transitiveness?\nIt would also handle \u0027NaN stuffing\u0027 where the variable bits in a\nNaN hold extra information.",
+      "revId": "4ff2c840656087b26de1eba814c5968f24c41b4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
