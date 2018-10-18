@@ -22,6 +22,74 @@
       "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32591c3a_d0594fdc",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 33
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-10-18T23:12:31Z",
+      "side": 1,
+      "message": "Can we do this part in go, and only process loop16 in asm? This way we will have less asm, and similar(?) performance.",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63b4686d_725b1a50",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-10-18T23:12:31Z",
+      "side": 1,
+      "message": "I\u0027d prefer tests for all alignments in [0,16]. It is ok to have reduced set of j,\ne. g. test [0,128] and some large values, like 1024.",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30b9bfe6_416f0553",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-10-18T23:12:31Z",
+      "side": 1,
+      "message": "If you want random values, you can use io.ReadFull(rand.Reader, p). We do this in crypto/cipher/gcm_test.go",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2717113a_8366e3d6",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-10-18T23:12:31Z",
+      "side": 1,
+      "message": "Please make this table-based.",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
