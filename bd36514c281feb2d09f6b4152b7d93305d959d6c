@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1d53ad91_d4ca5bed",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-18T17:16:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dbf832fd_f140d85c",
+      "revId": "bd36514c281feb2d09f6b4152b7d93305d959d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd0c01c3_c051a4e4",
         "filename": "src/crypto/tls/conn.go",
         "patchSetId": 1
@@ -110,6 +128,30 @@
       "revId": "bd36514c281feb2d09f6b4152b7d93305d959d6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e7c222b_3194eb78",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-18T17:16:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "58f5e9af_f9144ec0",
+      "range": {
+        "startLine": 406,
+        "startChar": 61,
+        "endLine": 406,
+        "endChar": 63
+      },
+      "revId": "bd36514c281feb2d09f6b4152b7d93305d959d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
