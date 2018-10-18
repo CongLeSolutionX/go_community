@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9c019ac_e1936a41",
+        "filename": "src/internal/fmtsort/sort.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-10-18T19:25:53Z",
+      "side": 1,
+      "message": "Question: Do I actually need this test? Is it possible to get a typeless nil stored in a map key?",
+      "revId": "3b2459c3915414dc3ca5c3a2902b2ccad7ced8ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
