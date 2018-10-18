@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7738bec7_baa071a2",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-18T17:19:46Z",
+      "side": 1,
+      "message": "To confirm: it looks like these are all for detecting internal errors in the crypto/tls package and can\u0027t be caused by a malicious or buggy TLS peer?",
+      "range": {
+        "startLine": 499,
+        "startChar": 2,
+        "endLine": 512,
+        "endChar": 70
+      },
+      "revId": "5be8af83a9a593492d1fa30009dc0d7c6f6f1b04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d22418c_4b8b5835",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-18T17:19:46Z",
+      "side": 1,
+      "message": "or just:\n\n    return n, io.ErrUnexpectedEOF",
+      "range": {
+        "startLine": 657,
+        "startChar": 2,
+        "endLine": 657,
+        "endChar": 27
+      },
+      "revId": "5be8af83a9a593492d1fa30009dc0d7c6f6f1b04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
