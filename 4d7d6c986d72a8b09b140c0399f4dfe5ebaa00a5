@@ -39,6 +39,30 @@
       "revId": "4d7d6c986d72a8b09b140c0399f4dfe5ebaa00a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f854675_af9784cd",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-10-18T04:10:09Z",
+      "side": 1,
+      "message": "I tried that right at the start because the docs implied it would work, but:\n\n./pkg.go:195:9: cannot use printer.CommentedNode literal (type printer.CommentedNode) as type ast.Node in assignment:\n\tprinter.CommentedNode does not implement ast.Node (missing End method)\n\n\nBut now I realize I don\u0027t need an assignment if I use two calls, and it works. Done.",
+      "parentUuid": "27363d60_f330fd4e",
+      "range": {
+        "startLine": 199,
+        "startChar": 39,
+        "endLine": 199,
+        "endChar": 43
+      },
+      "revId": "4d7d6c986d72a8b09b140c0399f4dfe5ebaa00a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
