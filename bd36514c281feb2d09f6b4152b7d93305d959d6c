@@ -25,6 +25,47 @@
     },
     {
       "key": {
+        "uuid": "169dc29f_169a1802",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-18T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8385410b_b37b901e",
+      "range": {
+        "startLine": 29,
+        "startChar": 61,
+        "endLine": 29,
+        "endChar": 70
+      },
+      "revId": "bd36514c281feb2d09f6b4152b7d93305d959d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbf832fd_f140d85c",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-18T15:05:09Z",
+      "side": 1,
+      "message": "Using this zero value is not documented as safe. Filed https://github.com/golang/go/issues/28269.",
+      "revId": "bd36514c281feb2d09f6b4152b7d93305d959d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd0c01c3_c051a4e4",
         "filename": "src/crypto/tls/conn.go",
         "patchSetId": 1
@@ -36,6 +77,30 @@
       "writtenOn": "2018-10-17T23:03:37Z",
       "side": 1,
       "message": "\u003c\u003d 8? (The sequence number is eight bytes long.)",
+      "range": {
+        "startLine": 406,
+        "startChar": 61,
+        "endLine": 406,
+        "endChar": 63
+      },
+      "revId": "bd36514c281feb2d09f6b4152b7d93305d959d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f5e9af_f9144ec0",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-18T15:05:09Z",
+      "side": 1,
+      "message": "Anything less than 16 bytes is not safe to generate randomly, so I encoded that constraint in the logic instead of special-casing the existing implementation. (I realize we will thankfully never see another short explicit nonce.)",
+      "parentUuid": "dd0c01c3_c051a4e4",
       "range": {
         "startLine": 406,
         "startChar": 61,
@@ -62,6 +127,24 @@
       "revId": "bd36514c281feb2d09f6b4152b7d93305d959d6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4abe9cbe_bdd782cf",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-18T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82328333_12b71862",
+      "revId": "bd36514c281feb2d09f6b4152b7d93305d959d6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
