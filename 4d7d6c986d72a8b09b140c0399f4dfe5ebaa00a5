@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f3e54e5_cf5fa2f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-18T03:32:09Z",
+      "side": 1,
+      "message": "CommentedNode didn\u0027t exist, I think, when I wrote the respective godoc code.",
+      "revId": "4d7d6c986d72a8b09b140c0399f4dfe5ebaa00a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27363d60_f330fd4e",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-18T03:32:09Z",
+      "side": 1,
+      "message": "Have you tried passing in the commentedNode to format.Node? It may work, too, not sure.",
+      "range": {
+        "startLine": 199,
+        "startChar": 39,
+        "endLine": 199,
+        "endChar": 43
+      },
+      "revId": "4d7d6c986d72a8b09b140c0399f4dfe5ebaa00a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
