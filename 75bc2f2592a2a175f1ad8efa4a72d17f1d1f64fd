@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac6556c7_7c72605b",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-18T17:24:12Z",
+      "side": 1,
+      "message": "in an AUX_CSECT entry.\n\n(add \"an\", end in period).",
+      "revId": "75bc2f2592a2a175f1ad8efa4a72d17f1d1f64fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fce4062a_6ee1dccb",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-18T17:24:12Z",
+      "side": 1,
+      "message": "a \u003d\u003e an, and end in period.",
+      "range": {
+        "startLine": 41,
+        "startChar": 59,
+        "endLine": 41,
+        "endChar": 74
+      },
+      "revId": "75bc2f2592a2a175f1ad8efa4a72d17f1d1f64fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c994e495_38c6b77b",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-18T17:24:12Z",
+      "side": 1,
+      "message": "doc?",
+      "revId": "75bc2f2592a2a175f1ad8efa4a72d17f1d1f64fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0d7f031_6579a419",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-18T17:24:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure how to read this sentence.\n\nReword and start and make the subject be the method name?",
+      "revId": "75bc2f2592a2a175f1ad8efa4a72d17f1d1f64fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
