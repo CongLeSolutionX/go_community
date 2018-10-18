@@ -1205,7 +1205,7 @@ HaveSpan:
 		// Also, scavengeLargest may cause coalescing, so prevent
 		// coalescing with s by temporarily changing its state.
 		s.state = mSpanManual
-		h.scavengeLargest(s.npages * pageSize)
+		h.scavengeLargest(s.npages*pageSize, true)
 		s.state = mSpanFree
 	}
 	s.unusedsince = 0
@@ -1240,7 +1240,7 @@ func (h *mheap) grow(npage uintptr) bool {
 	// is proportional to the number of sysUnused() calls rather than
 	// the number of pages released, so we make fewer of those calls
 	// with larger spans.
-	h.scavengeLargest(size)
+	h.scavengeLargest(size, true)
 
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
@@ -1334,11 +1334,11 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 	}
 	s.state = mSpanFree
 
-	// Stamp newly unused spans. The scavenger will use that
-	// info to potentially give back some pages to the OS.
-	s.unusedsince = unusedsince
+	// Stamp newly unused spans.
 	if unusedsince == 0 {
 		s.unusedsince = nanotime()
+	} else {
+		s.unusedsince = unusedsince
 	}
 
 	// Coalesce span with neighbors.
@@ -1355,14 +1355,16 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 // scavengeLargest scavenges nbytes worth of spans in unscav
 // starting from the largest span and working down. It then takes those spans
 // and places them in scav. h must be locked.
-func (h *mheap) scavengeLargest(nbytes uintptr) {
+func (h *mheap) scavengeLargest(nbytes uintptr, useCredit bool) uintptr {
 	// Use up scavenge credit if there's any available.
-	if nbytes > h.scavengeCredit {
-		nbytes -= h.scavengeCredit
-		h.scavengeCredit = 0
-	} else {
-		h.scavengeCredit -= nbytes
-		return
+	if useCredit {
+		if nbytes > h.scavengeCredit {
+			nbytes -= h.scavengeCredit
+			h.scavengeCredit = 0
+		} else {
+			h.scavengeCredit -= nbytes
+			return 0
+		}
 	}
 	// Iterate over the treap backwards (from largest to smallest) scavenging spans
 	// until we've reached our quota of nbytes.
@@ -1392,61 +1394,41 @@ func (h *mheap) scavengeLargest(nbytes uintptr) {
 		h.scav.insert(s)
 		released += r
 	}
-	// If we over-scavenged, turn that extra amount into credit.
-	if released > nbytes {
-		h.scavengeCredit += released - nbytes
-	}
-}
-
-// scavengeAll visits each node in the unscav treap and scavenges the
-// treapNode's span. It then removes the scavenged span from
-// unscav and adds it into scav before continuing. h must be locked.
-func (h *mheap) scavengeAll(now, limit uint64) uintptr {
-	// Iterate over the treap scavenging spans if unused for at least limit time.
-	released := uintptr(0)
-	for t := h.free.start(); t.valid(); {
-		s := t.span()
-		n := t.next()
-		if (now - uint64(s.unusedsince)) > limit {
-			r := s.scavenge()
-			if r != 0 {
-				h.free.erase(t)
-				// Now that s is scavenged, we must eagerly coalesce it
-				// with its neighbors to prevent having two spans with
-				// the same scavenged state adjacent to each other.
-				h.coalesce(s)
-				h.scav.insert(s)
-				released += r
-			}
+	if useCredit {
+		// If we over-scavenged, turn that extra amount into credit.
+		if released > nbytes {
+			h.scavengeCredit += released - nbytes
 		}
-		t = n
 	}
 	return released
 }
 
-func (h *mheap) scavenge(k int32, now, limit uint64) {
+// scavengeAll visits each node in the free treap and scavenges the
+// treapNode's span. It then removes the scavenged span from
+// unscav and adds it into scav before continuing.
+func (h *mheap) scavengeAll() {
 	// Disallow malloc or panic while holding the heap lock. We do
 	// this here because this is an non-mallocgc entry-point to
 	// the mheap API.
 	gp := getg()
 	gp.m.mallocing++
 	lock(&h.lock)
-	released := h.scavengeAll(now, limit)
+	released := h.scavengeLargest(^uintptr(0), false)
 	unlock(&h.lock)
 	gp.m.mallocing--
 
 	if debug.gctrace > 0 {
 		if released > 0 {
-			print("scvg", k, ": ", released>>20, " MB released\n")
+			print("forced scvg: ", released>>20, " MB released\n")
 		}
-		print("scvg", k, ": inuse: ", memstats.heap_inuse>>20, ", idle: ", memstats.heap_idle>>20, ", sys: ", memstats.heap_sys>>20, ", released: ", memstats.heap_released>>20, ", consumed: ", (memstats.heap_sys-memstats.heap_released)>>20, " (MB)\n")
+		print("forced scvg: inuse: ", memstats.heap_inuse>>20, ", idle: ", memstats.heap_idle>>20, ", sys: ", memstats.heap_sys>>20, ", released: ", memstats.heap_released>>20, ", consumed: ", (memstats.heap_sys-memstats.heap_released)>>20, " (MB)\n")
 	}
 }
 
 //go:linkname runtime_debug_freeOSMemory runtime/debug.freeOSMemory
 func runtime_debug_freeOSMemory() {
 	GC()
-	systemstack(func() { mheap_.scavenge(-1, ^uint64(0), 0) })
+	systemstack(func() { mheap_.scavengeAll() })
 }
 
 // Initialize a new span with the given start and npages.

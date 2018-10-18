@@ -112,8 +112,6 @@ It is a comma-separated list of name=val pairs setting these named variables:
 	with a trivial allocator that obtains memory from the operating system and
 	never reclaims any memory.
 
-	scavenge: scavenge=1 enables debugging mode of heap scavenger.
-
 	scheddetail: setting schedtrace=X and scheddetail=1 causes the scheduler to emit
 	detailed multiline info every X milliseconds, describing state of the scheduler,
 	processors, threads and goroutines.
