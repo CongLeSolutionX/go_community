@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d38f3df_d3746e93",
+        "filename": "src/crypto/tls/handshake_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-18T20:16:26Z",
+      "side": 1,
+      "message": "Mutexes should precede the thing they guard. Also, we generally use the factored syntax for globals like this when there\u0027s a mutex:\n\nvar (\n   localMutex    sync.Mutex\n   localListener net.Listener\n)\n\nSome people also use the style:\n\nvar localListener struct {\n    sync.Mutex\n    Val  net.Listener\n}\n\nAnd then you can call \"localListener.Lock()\" etc. But I don\u0027t have a preference either way on that.",
+      "revId": "6a6305bdd0a2c1ff85833fcb2d6212965e11fd35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b16fca3e_fca4db59",
+        "filename": "src/crypto/tls/handshake_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-18T20:16:26Z",
+      "side": 1,
+      "message": "if this fails you should then also try \"[::1]:0\" so it works on IPv6-only systems. See `git grep newLocalListener` in the tree for other code that does this.",
+      "range": {
+        "startLine": 255,
+        "startChar": 30,
+        "endLine": 255,
+        "endChar": 42
+      },
+      "revId": "6a6305bdd0a2c1ff85833fcb2d6212965e11fd35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
