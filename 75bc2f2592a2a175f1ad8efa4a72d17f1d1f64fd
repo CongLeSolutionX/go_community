@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d12d25c6_71cd3f75",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-19T07:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac6556c7_7c72605b",
+      "revId": "75bc2f2592a2a175f1ad8efa4a72d17f1d1f64fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fce4062a_6ee1dccb",
         "filename": "src/cmd/internal/xcoff/file.go",
         "patchSetId": 11
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "abe9d788_579d5e2e",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-19T07:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fce4062a_6ee1dccb",
+      "range": {
+        "startLine": 41,
+        "startChar": 59,
+        "endLine": 41,
+        "endChar": 74
+      },
+      "revId": "75bc2f2592a2a175f1ad8efa4a72d17f1d1f64fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c994e495_38c6b77b",
         "filename": "src/cmd/internal/xcoff/file.go",
         "patchSetId": 11
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "e0d20171_29b6a8d1",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-19T07:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c994e495_38c6b77b",
+      "revId": "75bc2f2592a2a175f1ad8efa4a72d17f1d1f64fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d7f031_6579a419",
         "filename": "src/cmd/internal/xcoff/file.go",
         "patchSetId": 11
@@ -73,6 +133,24 @@
       "revId": "75bc2f2592a2a175f1ad8efa4a72d17f1d1f64fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "776db518_a001e7eb",
+        "filename": "src/cmd/internal/xcoff/file.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-19T07:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d7f031_6579a419",
+      "revId": "75bc2f2592a2a175f1ad8efa4a72d17f1d1f64fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
