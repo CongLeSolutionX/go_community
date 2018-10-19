@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2037cecd_5f17ae97",
+        "filename": "src/cmd/link/internal/loadxcoff/ldxcoff.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T14:16:41Z",
+      "side": 1,
+      "message": "ldSection is an XCOFF section with its symbol.",
+      "revId": "d774aa192aae0ca1e55e0e3fb0a25547632d5cd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5762dd7b_d13c547e",
+        "filename": "src/cmd/link/internal/loadxcoff/ldxcoff.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T14:16:41Z",
+      "side": 1,
+      "message": "s/Unrecognize/Unrecognized/",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 22
+      },
+      "revId": "d774aa192aae0ca1e55e0e3fb0a25547632d5cd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb4efdb6_861ec683",
+        "filename": "src/cmd/link/internal/loadxcoff/ldxcoff.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T14:16:41Z",
+      "side": 1,
+      "message": "Remove these commented out lines.",
+      "revId": "d774aa192aae0ca1e55e0e3fb0a25547632d5cd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "084ca88e_66dfcd12",
+        "filename": "src/cmd/link/internal/loadxcoff/ldxcoff.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T14:16:41Z",
+      "side": 1,
+      "message": "s/relocation/relocations/",
+      "range": {
+        "startLine": 122,
+        "startChar": 9,
+        "endLine": 122,
+        "endChar": 19
+      },
+      "revId": "d774aa192aae0ca1e55e0e3fb0a25547632d5cd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
