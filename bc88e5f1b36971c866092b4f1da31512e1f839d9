@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "13ef79b2_9aee8778",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-19T15:06:45Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. I wasn\u0027t sure it\u0027ll always have size \u003d 4 at that moment. \nHowever, is it OK if I keep the IsDwarf64 method ? In this file, it won\u0027t change that much. But in ld/dwarf.go, it\u0027s needed a lot and I don\u0027t think replace it with objabi.GOOS \u003d\u003d \"aix\" would be clearer.",
+      "parentUuid": "e500018a_7642d94b",
+      "revId": "bc88e5f1b36971c866092b4f1da31512e1f839d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2cd9a6b2_ecfd8f1a",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 10
