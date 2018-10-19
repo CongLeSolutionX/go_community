@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "328639f4_a12491b0",
+        "filename": "src/crypto/cipher/xor_amd64.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-19T03:03:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99c8afe0_7cb2fdb2",
+      "range": {
+        "startLine": 7,
+        "startChar": 39,
+        "endLine": 8,
+        "endChar": 40
+      },
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32591c3a_d0594fdc",
         "filename": "src/crypto/cipher/xor_amd64.s",
         "patchSetId": 33
@@ -36,6 +60,24 @@
       "writtenOn": "2018-10-18T23:12:31Z",
       "side": 1,
       "message": "Can we do this part in go, and only process loop16 in asm? This way we will have less asm, and similar(?) performance.",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a056a15_44e98b89",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 33
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-19T03:03:26Z",
+      "side": 1,
+      "message": "Thank you for your advice. But I think maybe it\u0027s clearer if we do all the xor in a single func call? And it\u0027s easier to do this in asm codes, because it\u0027 easy to backwards or forwards in asm and alignment calculation",
+      "parentUuid": "32591c3a_d0594fdc",
       "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "b3484d9b_3b8c7771",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-19T03:03:26Z",
+      "side": 1,
+      "message": "I think alignments is only about len, nothing about xor. So I think [0,2) is enough, and if we use [0,16], it will cost too much time",
+      "parentUuid": "63b4686d_725b1a50",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30b9bfe6_416f0553",
         "filename": "src/crypto/cipher/xor_test.go",
         "patchSetId": 33
@@ -70,6 +130,24 @@
       "writtenOn": "2018-10-18T23:12:31Z",
       "side": 1,
       "message": "If you want random values, you can use io.ReadFull(rand.Reader, p). We do this in crypto/cipher/gcm_test.go",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1cabb70_e893d882",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-19T03:03:26Z",
+      "side": 1,
+      "message": "\u003e If you want random values, you can use io.ReadFull(rand.Reader, p). We do this in crypto/cipher/gcm_test.go\n\nit will cause import cycle issue:\nimport cycle not allowed in test\npackage crypto/cipher (test)\n\timports crypto/rand\n\timports crypto/aes\n\timports crypto/cipher",
+      "parentUuid": "30b9bfe6_416f0553",
       "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -90,6 +168,24 @@
       "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b9a6778_59f23e4d",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-19T03:03:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2717113a_8366e3d6",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
