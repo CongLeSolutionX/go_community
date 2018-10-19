@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae6bfa62_9131bcda",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-10-19T13:35:22Z",
+      "side": 1,
+      "message": "I think there\u0027s another bug here: we need to reject f(x, y ...int).\n\nFor example:\n\nif len(field.Names) \u003e 1 \u0026\u0026 variadic {\n    check.invalidAST(ftype.Pos(), \"can only use ... with final parameter in list\")\n}",
+      "revId": "a23f25ae037730920de5105eb423ff3197ac9ca6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f24c8228_73f7c1e3",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-10-19T13:35:22Z",
+      "side": 1,
+      "message": "variadic \u003d\u003e len(params) \u003e 0 here, BTW, so you can simply this condition.",
+      "revId": "a23f25ae037730920de5105eb423ff3197ac9ca6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
