@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "08689f64_775cfe0a",
+        "filename": "src/crypto/tls/handshake_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-19T10:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d38f3df_d3746e93",
+      "revId": "6a6305bdd0a2c1ff85833fcb2d6212965e11fd35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b16fca3e_fca4db59",
         "filename": "src/crypto/tls/handshake_test.go",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "6a6305bdd0a2c1ff85833fcb2d6212965e11fd35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86e5cfab_ba993363",
+        "filename": "src/crypto/tls/handshake_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-19T10:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b16fca3e_fca4db59",
+      "range": {
+        "startLine": 255,
+        "startChar": 30,
+        "endLine": 255,
+        "endChar": 42
+      },
+      "revId": "6a6305bdd0a2c1ff85833fcb2d6212965e11fd35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
