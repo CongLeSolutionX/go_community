@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d3ff3c2_5abb91c6",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T18:40:13Z",
+      "side": 1,
+      "message": "Do you still need the IsDwarf64 method?",
+      "revId": "9027d64289fbd776c14abf7540ecba1306e59c0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c5240ec_6b14fee4",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T18:40:13Z",
+      "side": 1,
+      "message": "Does this need to be exported?",
+      "revId": "9027d64289fbd776c14abf7540ecba1306e59c0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52b77e56_b33439d8",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T18:40:13Z",
+      "side": 1,
+      "message": "Does this need to be exported?",
+      "revId": "9027d64289fbd776c14abf7540ecba1306e59c0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cc8be26_464c3337",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T18:40:13Z",
+      "side": 1,
+      "message": "Seems like every call to this and the two new functions below is going to pass exactly the same value for the isd64 parameter.  Why not remove the parameter and call isDwarf64 in these functions?",
+      "range": {
+        "startLine": 885,
+        "startChar": 38,
+        "endLine": 885,
+        "endChar": 43
+      },
+      "revId": "9027d64289fbd776c14abf7540ecba1306e59c0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
