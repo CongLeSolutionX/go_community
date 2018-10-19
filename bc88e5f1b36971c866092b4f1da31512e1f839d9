@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e500018a_7642d94b",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T14:27:14Z",
+      "side": 1,
+      "message": "You are asking the underlying type whether it is 64-bit in order to decide the value to pass as the size argument to AddDWARFSectionOffset.  I think it would be better to add a new method AddDWARFAddrSectionOffset that lets the underlying type choose the right size for an address.",
+      "revId": "bc88e5f1b36971c866092b4f1da31512e1f839d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cd9a6b2_ecfd8f1a",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T14:27:14Z",
+      "side": 1,
+      "message": "Perhaps addDwarfAddrField.",
+      "revId": "bc88e5f1b36971c866092b4f1da31512e1f839d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddf8c13c_8147807c",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-19T14:27:14Z",
+      "side": 1,
+      "message": "addDwarfAddrRef",
+      "revId": "bc88e5f1b36971c866092b4f1da31512e1f839d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
