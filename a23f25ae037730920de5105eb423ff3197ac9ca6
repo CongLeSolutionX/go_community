@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5edd00bd_38dc9928",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-19T18:35:02Z",
+      "side": 1,
+      "message": "ACK - I think the parser should not permit that, either. Prefer to fix in a separate CL to not confuse matters. I filed #28281.",
+      "parentUuid": "ae6bfa62_9131bcda",
+      "revId": "a23f25ae037730920de5105eb423ff3197ac9ca6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f24c8228_73f7c1e3",
         "filename": "src/go/types/typexpr.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "a23f25ae037730920de5105eb423ff3197ac9ca6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e999d57f_a48e25bb",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-19T18:35:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f24c8228_73f7c1e3",
+      "revId": "a23f25ae037730920de5105eb423ff3197ac9ca6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
