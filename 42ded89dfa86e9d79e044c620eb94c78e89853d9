@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b073286b_83ee4463",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-20T21:03:59Z",
+      "side": 1,
+      "message": "/s/update doc to use/say/ to make the title shorter.",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "42ded89dfa86e9d79e044c620eb94c78e89853d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3427af4a_10f005cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-20T21:03:59Z",
+      "side": 1,
+      "message": "\"embedded field\" instead of \"anonymous field\"\n\nField is the more important word here.",
+      "range": {
+        "startLine": 7,
+        "startChar": 57,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "42ded89dfa86e9d79e044c620eb94c78e89853d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19df704c_1fc87329",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-20T21:03:59Z",
+      "side": 1,
+      "message": "From https://golang.org/wiki/CommitMessage:\n\n\u003e the text should be wrapped to ~76 characters (to appease git viewing tools, mainly), unless [...]",
+      "revId": "42ded89dfa86e9d79e044c620eb94c78e89853d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43dddeea_41ee0429",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-20T21:03:59Z",
+      "side": 1,
+      "message": "Mind updating this instance to \"Embedded\"?",
+      "range": {
+        "startLine": 1075,
+        "startChar": 4,
+        "endLine": 1075,
+        "endChar": 13
+      },
+      "revId": "42ded89dfa86e9d79e044c620eb94c78e89853d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
