@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "a11a993b_6b41cb1b",
+        "filename": "src/crypto/cipher/xor_amd64.s",
+        "patchSetId": 33
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-20T02:12:02Z",
+      "side": 1,
+      "message": "Yes, you are right. It will reduce redundancy asm codes.But it seems we don\u0027t need avx2/avx512 here, the improvement in bench is not significant",
+      "parentUuid": "957ba33f_d38e853e",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63b4686d_725b1a50",
         "filename": "src/crypto/cipher/xor_test.go",
         "patchSetId": 33
@@ -190,6 +208,24 @@
     },
     {
       "key": {
+        "uuid": "6f04708b_ad27cafb",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-20T02:12:02Z",
+      "side": 1,
+      "message": "So we need change xorBytes -\u003e XorBytes, is that ok?",
+      "parentUuid": "36153dc5_69ea2289",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2717113a_8366e3d6",
         "filename": "src/crypto/cipher/xor_test.go",
         "patchSetId": 33
@@ -237,6 +273,24 @@
       "side": 1,
       "message": "Looks the same for me",
       "parentUuid": "0b9a6778_59f23e4d",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c302b482_7bdc4242",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-20T02:12:02Z",
+      "side": 1,
+      "message": "table-based in benchmark? Could you explain table-based here? How about use func fillData(p []byte) in this CL to fill byte slice, is that table-based? Thank you. And it\u0027s necessary to fill random data in bench?",
+      "parentUuid": "7f5014fa_07bbbb0a",
       "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
