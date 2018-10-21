@@ -6198,6 +6198,17 @@ func TestGoBuildDashODevNull(t *testing.T) {
 	tg.mustNotExist("hello.exe")
 }
 
+// Issue 28035.
+func TestGoTestDashODevNull(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.parallel()
+	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
+	tg.run("test", "-c", "-o", os.DevNull, filepath.Join(tg.pwd(), "testdata", "src", "hello", "hello.go"))
+	tg.mustNotExist("hello")
+	tg.mustNotExist("hello.exe")
+}
+
 // Issue 25093.
 func TestCoverpkgTestOnly(t *testing.T) {
 	skipIfGccgo(t, "gccgo has no cover tool")
