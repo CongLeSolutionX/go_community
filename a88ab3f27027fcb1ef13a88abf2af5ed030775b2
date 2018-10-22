@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a17cbbf_90d3b98e",
+        "filename": "src/cmd/compile/internal/gc/testdata/arith.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-22T04:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97d927f_23e7dfd5",
+      "revId": "a88ab3f27027fcb1ef13a88abf2af5ed030775b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0193b1dd_940f73f4",
         "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "a88ab3f27027fcb1ef13a88abf2af5ed030775b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36c8e9f4_4708c1f5",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-22T04:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0193b1dd_940f73f4",
+      "revId": "a88ab3f27027fcb1ef13a88abf2af5ed030775b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "ffa393af_af4654ae",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-22T04:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58db6e11_91d183ac",
+      "range": {
+        "startLine": 1154,
+        "startChar": 39,
+        "endLine": 1154,
+        "endChar": 80
+      },
+      "revId": "a88ab3f27027fcb1ef13a88abf2af5ed030775b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b21154b_0554e6fd",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 6
@@ -79,6 +139,30 @@
       "revId": "a88ab3f27027fcb1ef13a88abf2af5ed030775b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dab3b62_9c32c490",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 26297
+      },
+      "writtenOn": "2018-10-22T04:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b21154b_0554e6fd",
+      "range": {
+        "startLine": 1155,
+        "startChar": 20,
+        "endLine": 1155,
+        "endChar": 34
+      },
+      "revId": "a88ab3f27027fcb1ef13a88abf2af5ed030775b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
