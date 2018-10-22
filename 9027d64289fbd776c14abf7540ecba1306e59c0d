@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e6609738_e6c630b5",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-22T08:51:06Z",
+      "side": 1,
+      "message": "If I\u0027m using it inside ld/dwarf.go I need it here.",
+      "parentUuid": "5d3ff3c2_5abb91c6",
+      "revId": "9027d64289fbd776c14abf7540ecba1306e59c0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c5240ec_6b14fee4",
         "filename": "src/cmd/internal/obj/objfile.go",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2018-10-19T18:40:13Z",
       "side": 1,
       "message": "Does this need to be exported?",
+      "revId": "9027d64289fbd776c14abf7540ecba1306e59c0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cd399e5_46b36c6f",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-22T08:51:06Z",
+      "side": 1,
+      "message": "It doesn\u0027t work if not. I think it\u0027s related to the fact that the interface is declared in another package.",
+      "parentUuid": "4c5240ec_6b14fee4",
       "revId": "9027d64289fbd776c14abf7540ecba1306e59c0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -64,6 +100,30 @@
       "writtenOn": "2018-10-19T18:40:13Z",
       "side": 1,
       "message": "Seems like every call to this and the two new functions below is going to pass exactly the same value for the isd64 parameter.  Why not remove the parameter and call isDwarf64 in these functions?",
+      "range": {
+        "startLine": 885,
+        "startChar": 38,
+        "endLine": 885,
+        "endChar": 43
+      },
+      "revId": "9027d64289fbd776c14abf7540ecba1306e59c0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f31d2efc_df147beb",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-22T08:51:06Z",
+      "side": 1,
+      "message": "That\u0027s because to call isDwarf64 you\u0027ll need to pass the whole dwarf context. It isn\u0027t quicker to just pass the result of the method instead of calling the method ?",
+      "parentUuid": "5cc8be26_464c3337",
       "range": {
         "startLine": 885,
         "startChar": 38,
