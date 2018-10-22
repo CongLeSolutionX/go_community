@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ae1c92bb_06383340",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-10-22T19:25:07Z",
+      "side": 1,
+      "message": "I have a synthetic test where I create the buffer which would be returned from the Getdirentries syscall in the old format.\nBut the Getdirentries wrapper limits the syscall to work on a buffer 1/4 the size of user supplied one as a safety measure, as the new fixed part of the Dirent is 3 times larger then the old format\u0027s fixed part.\nDue to this safety, I cannot hit the boundary condition by only modifying the filename/buffer sizes.\n\nI can trigger it if I use a buffer 1/2 of the user supplied size. Should I still add a test like that?",
+      "parentUuid": "16a8bc05_77a8fbcc",
+      "revId": "b7c4f44155ba34230e242be19e20eded4590a850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a7437edb_3f730e27",
         "filename": "src/syscall/syscall_freebsd.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-10-22T13:25:14Z",
       "side": 1,
       "message": "probably don\u0027t need these int(...) on this line and next. untyped constants are more flexible, and flexibility is usually what\u0027s wanted.",
+      "range": {
+        "startLine": 349,
+        "startChar": 17,
+        "endLine": 349,
+        "endChar": 21
+      },
+      "revId": "b7c4f44155ba34230e242be19e20eded4590a850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c818be01_7176f58a",
+        "filename": "src/syscall/syscall_freebsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-10-22T19:25:07Z",
+      "side": 1,
+      "message": "because they are the result of unsafe.Offsetof, they\u0027re typed as uintptrs and then I have to cast them to ints when adding to srcPos/dstPos for eg.",
+      "parentUuid": "a7437edb_3f730e27",
       "range": {
         "startLine": 349,
         "startChar": 17,
