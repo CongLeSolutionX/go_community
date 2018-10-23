@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "858bfd93_f7efe4c1",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1526,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T18:57:29Z",
+      "side": 1,
+      "message": "How about a tiny helper function that both cases call, with a comment explaining it.  Perhaps that function could be written as something like\n\n    strings.TrimPrefix(name, dwarf.InfoPrefix + \".pkg.\")",
+      "parentUuid": "95d98226_cd1b9e2d",
+      "range": {
+        "startLine": 1526,
+        "startChar": 38,
+        "endLine": 1526,
+        "endChar": 40
+      },
+      "revId": "c7aee0e08c952cda4fe2a7c3b1a63d52b6b0dca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8f30d42_fa9f902a",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 13
