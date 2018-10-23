@@ -10,6 +10,7 @@
 	Define flags using flag.String(), Bool(), Int(), etc.
 
 	This declares an integer flag, -flagname, stored in the pointer ip, with type *int.
+	If the flag is not used *ip will be set to 1234.
 		import "flag"
 		var ip = flag.Int("flagname", 1234, "help message for flagname")
 	If you like, you can bind the flag to a variable using the Var() functions.
