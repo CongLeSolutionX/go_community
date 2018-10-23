@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a2aa72c_d4fcc891",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-10-23T17:50:17Z",
+      "side": 1,
+      "message": "Did you mean for this to fallthrough into the 12 case?\nThat requires a \u0027fallthrough\u0027 keyword, or just \u0027case 4,12:\u0027",
+      "range": {
+        "startLine": 623,
+        "startChar": 7,
+        "endLine": 623,
+        "endChar": 13
+      },
+      "revId": "cc4f6693f78d1264562ae20fc4df55862edd09b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
