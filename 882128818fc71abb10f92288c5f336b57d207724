@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "38b83006_8024e85a",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 29666
+      },
+      "writtenOn": "2018-10-23T18:46:41Z",
+      "side": 1,
+      "message": "Agree with Denys and Paul.",
+      "parentUuid": "d3f9399b_819dce0e",
+      "revId": "882128818fc71abb10f92288c5f336b57d207724",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "763d70c6_06882e4a",
         "filename": "src/syscall/js/callback.go",
         "patchSetId": 3
