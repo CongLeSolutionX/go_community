@@ -279,6 +279,11 @@ func ExampleTime_Format() {
 	// If the fraction in the layout is 9s, trailing zeros are dropped.
 	do("9s for fraction", "15:04:05.99999999", "11:06:39.1234")
 
+	// Timestamp is one of the most common method used by developers to share
+	// a date object using APIs and other programming languages.
+	// 20060102150405 is a constant that represents the timestamp formatting.
+	do("Timestamp", "20060102150405", "20150307110639")
+
 	// Output:
 	// default format: 2015-03-07 11:06:39 -0800 PST
 	// Unix format: Sat Mar  7 11:06:39 PST 2015
@@ -296,6 +301,7 @@ func ExampleTime_Format() {
 	// No fraction     "Mon Jan _2 15:04:05 MST 2006" gives "Sat Mar  7 11:06:39 PST 2015"
 	// 0s for fraction "15:04:05.00000" gives "11:06:39.12340"
 	// 9s for fraction "15:04:05.99999999" gives "11:06:39.1234"
+	// Timestamp       "20060102150405" gives "20150307110639"
 
 }
 
