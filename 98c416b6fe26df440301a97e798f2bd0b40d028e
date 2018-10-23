@@ -116,6 +116,24 @@
     },
     {
       "key": {
+        "uuid": "a1ad717f_f8289f3a",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-23T14:44:39Z",
+      "side": 1,
+      "message": "This Logf will be called only if link is asked to print its output on stdin. \nIf you look at data.go:Codeblkpad(), there is: \n if *flagA {\n\tctxt.Logf(\"codeblk [%#x,%#x) at offset %#x\\n\", addr, addr+size, ctxt.Out.Offset())\n }\n\nIt\u0027s almost the same here. I just want to say that the following bytes are inside \".loader section\".",
+      "parentUuid": "bcbe5143_00b9c760",
+      "revId": "98c416b6fe26df440301a97e798f2bd0b40d028e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c5dd8e0_f33b66a7",
         "filename": "src/cmd/link/internal/ld/xcoff.go",
         "patchSetId": 12
