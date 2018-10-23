@@ -1464,6 +1464,9 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode fmtMode) {
 		}
 		mode.Fprintf(s, "make(%v)", n.Type)
 
+	case OMAKESLICECOPY:
+		mode.Fprintf(s, "makeslicecopy(%v, %v, %v)", n.Type, n.Left, n.Right)
+
 	case OPLUS, OMINUS, OADDR, OCOM, OIND, ONOT, ORECV:
 		// Unary
 		mode.Fprintf(s, "%#v", n.Op)

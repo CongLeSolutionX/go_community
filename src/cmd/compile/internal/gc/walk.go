@@ -1353,6 +1353,31 @@ opswitch:
 			n = walkexpr(n, init)
 		}
 
+	case OMAKESLICECOPY:
+		if n.Esc == EscNone {
+			Fatalf("OMAKESLICECOPY with EscNone: %v", n)
+		}
+
+		t := n.Type
+		// set up a call to makeslicecopy.
+
+		if t.Elem().NotInHeap() {
+			Fatalf("%v is go:notinheap; heap allocation disallowed", t.Elem())
+		}
+
+		length := conv(n.Left, types.Types[TINT])
+		copylen := nod(OLEN, n.Right, nil)
+		copyptr := conv(nod(OSPTR, n.Right, nil), types.Types[TUNSAFEPTR])
+
+		fn := syslook("makeslicecopy")
+		s := nod(OSLICEHEADER, nil, nil)
+		s.Left = mkcall1(fn, types.Types[TUNSAFEPTR], init, typename(t.Elem()), length, copylen, copyptr)
+		s.Left.SetNonNil(true)
+		s.List.Set2(length, length)
+		s.Type = t
+		n = typecheck(s, Erv)
+		n = walkexpr(n, init)
+
 	case ORUNESTR:
 		a := nodnil()
 		if n.Esc == EscNone {
@@ -3869,6 +3894,9 @@ func candiscard(n *Node) bool {
 
 		// Difficult to tell what sizes are okay.
 	case OMAKESLICE:
+		return false
+
+	case OMAKESLICECOPY:
 		return false
 	}
 
