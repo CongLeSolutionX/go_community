@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc5dbb23_9aab49fd",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-23T15:32:42Z",
+      "side": 1,
+      "message": "This sounds like advertising for a certain timestamp formatting style, but that Wikipedia page is just like, \"there are many ways to format a date \u0026 time; here are some examples\".\n\nIf people want this format, I don\u0027t think it\u0027s a stretch for them to remove the punctuation from RFC3339\u0027s format.",
+      "range": {
+        "startLine": 281,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 77
+      },
+      "revId": "a237dddf894f9b6ec99f954586c3379997d3b8ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
