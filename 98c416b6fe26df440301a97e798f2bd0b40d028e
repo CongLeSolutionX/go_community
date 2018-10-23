@@ -134,6 +134,24 @@
     },
     {
       "key": {
+        "uuid": "765164c1_d3b04aed",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:47:55Z",
+      "side": 1,
+      "message": "Ah, I see it now.  OK.",
+      "parentUuid": "a1ad717f_f8289f3a",
+      "revId": "98c416b6fe26df440301a97e798f2bd0b40d028e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c5dd8e0_f33b66a7",
         "filename": "src/cmd/link/internal/ld/xcoff.go",
         "patchSetId": 12
