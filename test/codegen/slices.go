@@ -62,6 +62,48 @@ func SliceExtensionInt64(s []int, l64 int64) []int {
 	return append(s, make([]int, l64)...)
 }
 
+// ------------------ //
+//      Make+Copy     //
+// ------------------ //
+
+// Issue #26252 - avoid memclr for make+copy
+
+func SliceMakeCopyLen(s []int) []int {
+	// amd64:`.*runtime\.mallocgc`
+	// amd64:`.*runtime\.memmove`
+	// amd64:-`.*runtime\.makeslice`
+	a := make([]int, len(s))
+	copy(a, s)
+	return a
+}
+
+func SliceMakeCopyLenPtr(s []*int) []*int {
+	// amd64:`.*runtime\.makeslicecopy`
+	// amd64:-`.*runtime\.makeslice$`
+	// amd64:-`.*runtime\.typedslicecopy
+	a := make([]*int, len(s))
+	copy(a, s)
+	return a
+}
+
+func SliceMakeCopyConst(s []int) []int {
+	// amd64:`.*runtime\.makeslicecopy`
+	// amd64:-`.*runtime\.makeslice$`
+	// amd64:-`.*runtime\.memmove`
+	a := make([]int, 4)
+	copy(a, s)
+	return a
+}
+
+func SliceMakeCopyConstPtr(s []*int) []*int {
+	// amd64:`.*runtime\.makeslicecopy`
+	// amd64:-`.*runtime\.makeslice$`
+	// amd64:-`.*runtime\.typedslicecopy
+	a := make([]*int, 4)
+	copy(a, s)
+	return a
+}
+
 // ---------------------- //
 //   Nil check of &s[0]   //
 // ---------------------- //
