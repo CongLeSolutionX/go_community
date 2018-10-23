@@ -79,3 +79,16 @@ func ExampleJoin() {
 	// a/b/c
 	// a/b/c
 }
+
+func ExampleMatch() {
+	fmt.Println("On Unix:")
+	fmt.Println(filepath.Match("/home/catch/*", "/home/catch/all"))
+	fmt.Println(filepath.Match("/home/?opher", "/home/gopher"))
+	fmt.Println(filepath.Match("/home/\\*", "/home/*"))
+
+	// Output:
+	// On Unix:
+	// true <nil>
+	// true <nil>
+	// true <nil>
+}
