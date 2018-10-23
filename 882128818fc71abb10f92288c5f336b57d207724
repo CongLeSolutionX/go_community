@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "876ff0b2_27b52cdf",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-23T16:07:03Z",
+      "side": 1,
+      "message": "s/on the/in the/?",
+      "range": {
+        "startLine": 26,
+        "startChar": 23,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "882128818fc71abb10f92288c5f336b57d207724",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "544e9b78_02907c60",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-23T16:07:03Z",
+      "side": 1,
+      "message": "Changing this signature on people seems a little brutal, even if there\u0027s no API compat promise here.\n\nDid you consider having NewSyncCallback instead?\n\nBut if everybody agrees that this is better, I suppose people can do the +build tag thing to get the behavior they way. The Go wasm ecosystem is young.\n\nAlso: document what \"this\" means and the interface{} return value of fn?",
+      "revId": "882128818fc71abb10f92288c5f336b57d207724",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "763d70c6_06882e4a",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-23T16:07:03Z",
+      "side": 1,
+      "message": "end in a period.",
+      "revId": "882128818fc71abb10f92288c5f336b57d207724",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
