@@ -22,6 +22,30 @@
       "revId": "66069c5fbd4f551cbc2a9712f266ddab544d172c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24988b72_b8ed6400",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1954,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-10-23T15:30:16Z",
+      "side": 1,
+      "message": "That\u0027s an option, but the complexity isn\u0027t completely eliminated. Either GetBody uses would need to be wrapped in something that resets a onceCloser / closed flag (or similar concept), or every usage of GetBody would need to have an additional flag-resetting line.\n\nTo me, it feels a little bit more risky to rely on resetting a flag wherever needed in the future if more places are added, but I could also see how it\u0027d be easier.\n\nWhat do you think?",
+      "parentUuid": "87d3f5ea_99c9afac",
+      "range": {
+        "startLine": 1954,
+        "startChar": 5,
+        "endLine": 1954,
+        "endChar": 31
+      },
+      "revId": "66069c5fbd4f551cbc2a9712f266ddab544d172c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
