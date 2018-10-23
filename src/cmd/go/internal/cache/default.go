@@ -6,10 +6,12 @@ package cache
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
+
+	"cmd/go/internal/lockedfile"
 )
 
 // Default returns the default cache to use, or nil if no cache should be used.
@@ -44,9 +46,9 @@ func initDefaultCache() {
 		}
 		return
 	}
-	if _, err := os.Stat(filepath.Join(dir, "README")); err != nil {
+	if fi, err := os.Stat(filepath.Join(dir, "README")); err != nil || fi.Size() != int64(len(cacheREADME)) {
 		// Best effort.
-		ioutil.WriteFile(filepath.Join(dir, "README"), []byte(cacheREADME), 0666)
+		lockedfile.Write(filepath.Join(dir, "README"), strings.NewReader(cacheREADME), 0666)
 	}
 
 	c, err := Open(dir)

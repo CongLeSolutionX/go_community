@@ -7,6 +7,7 @@ package cache
 
 import (
 	"bytes"
+	"cmd/go/internal/lockedfile"
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
@@ -266,9 +267,15 @@ func (c *Cache) Trim() {
 	now := c.now()
 
 	// We maintain in dir/trim.txt the time of the last completed cache trim.
+	f, err := lockedfile.Edit(filepath.Join(c.dir, "trim.txt"))
+	if err != nil {
+		return
+	}
+	defer f.Close()
+
 	// If the cache has been trimmed recently enough, do nothing.
 	// This is the common case.
-	data, _ := ioutil.ReadFile(filepath.Join(c.dir, "trim.txt"))
+	data, _ := ioutil.ReadAll(f)
 	t, err := strconv.ParseInt(strings.TrimSpace(string(data)), 10, 64)
 	if err == nil && now.Sub(time.Unix(t, 0)) < trimInterval {
 		return
@@ -283,7 +290,15 @@ func (c *Cache) Trim() {
 		c.trimSubdir(subdir, cutoff)
 	}
 
-	ioutil.WriteFile(filepath.Join(c.dir, "trim.txt"), []byte(fmt.Sprintf("%d", now.Unix())), 0666)
+	if err := f.Truncate(0); err != nil {
+		return
+	}
+	if _, err := f.Seek(0, io.SeekStart); err != nil {
+		return
+	}
+	// Ignore errors from here: if we don't write the complete timestamp, the
+	// cache will appear older than it is, and we'll trim it again next time.
+	f.WriteString(fmt.Sprintf("%d", now.Unix()))
 }
 
 // trimSubdir trims a single cache subdirectory.
@@ -338,7 +353,8 @@ func (c *Cache) putIndexEntry(id ActionID, out OutputID, size int64, allowVerify
 	}
 	file := c.fileName(id, "a")
 	if err := ioutil.WriteFile(file, entry, 0666); err != nil {
-		os.Remove(file)
+		// Don't remove the file if partially written: some other process may have
+		// written it successfully.
 		return err
 	}
 	os.Chtimes(file, c.now(), c.now()) // mainly for tests
@@ -391,12 +407,16 @@ func (c *Cache) PutBytes(id ActionID, data []byte) error {
 
 // copyFile copies file into the cache, expecting it to have the given
 // output ID and size, if that file is not present already.
-func (c *Cache) copyFile(file io.ReadSeeker, out OutputID, size int64) error {
+func (c *Cache) copyFile(file io.ReadSeeker, out OutputID, size int64) (err error) {
 	name := c.fileName(out, "d")
 	info, err := os.Stat(name)
 	if err == nil && info.Size() == size {
 		// Check hash.
-		if f, err := os.Open(name); err == nil {
+		//
+		// Lock the file in case some other process is concurrently writing the
+		// correct contents to it: we don't want to truncate and overwrite a valid,
+		// in-progress file.
+		if f, err := lockedfile.Open(name); err == nil {
 			h := sha256.New()
 			io.Copy(h, f)
 			f.Close()
@@ -410,15 +430,28 @@ func (c *Cache) copyFile(file io.ReadSeeker, out OutputID, size int64) error {
 	}
 
 	// Copy file to cache directory.
+	//
+	// Lock the file so that readers don't observe a partially-written file and
+	// assume that it needs to be replaced.
 	mode := os.O_RDWR | os.O_CREATE
 	if err == nil && info.Size() > size { // shouldn't happen but fix in case
 		mode |= os.O_TRUNC
 	}
-	f, err := os.OpenFile(name, mode, 0666)
+	f, err := lockedfile.OpenFile(name, mode, 0666)
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+
+	// From here on, if any of the I/O writing the file fails,
+	// we make a best-effort attempt to truncate the file f
+	// before returning, to avoid leaving bad bytes in the file.
+	defer func() {
+		if err != nil {
+			f.Truncate(0)
+		}
+		f.Close()
+	}()
+
 	if size == 0 {
 		// File now exists with correct size.
 		// Only one possible zero-length file, so contents are OK too.
@@ -426,19 +459,13 @@ func (c *Cache) copyFile(file io.ReadSeeker, out OutputID, size int64) error {
 		return nil
 	}
 
-	// From here on, if any of the I/O writing the file fails,
-	// we make a best-effort attempt to truncate the file f
-	// before returning, to avoid leaving bad bytes in the file.
-
 	// Copy file to f, but also into h to double-check hash.
 	if _, err := file.Seek(0, 0); err != nil {
-		f.Truncate(0)
 		return err
 	}
 	h := sha256.New()
 	w := io.MultiWriter(f, h)
 	if _, err := io.CopyN(w, file, size-1); err != nil {
-		f.Truncate(0)
 		return err
 	}
 	// Check last byte before writing it; writing it will make the size match
@@ -446,26 +473,22 @@ func (c *Cache) copyFile(file io.ReadSeeker, out OutputID, size int64) error {
 	// using the file.
 	buf := make([]byte, 1)
 	if _, err := file.Read(buf); err != nil {
-		f.Truncate(0)
 		return err
 	}
 	h.Write(buf)
 	sum := h.Sum(nil)
 	if !bytes.Equal(sum, out[:]) {
-		f.Truncate(0)
 		return fmt.Errorf("file content changed underfoot")
 	}
 
 	// Commit cache file entry.
 	if _, err := f.Write(buf); err != nil {
-		f.Truncate(0)
 		return err
 	}
 	if err := f.Close(); err != nil {
-		// Data might not have been written,
-		// but file may look like it is the right size.
-		// To be extra careful, remove cached file.
-		os.Remove(name)
+		// At this point it's too late to truncate the file (because it's closed)
+		// and too late to remove it (because some other process may already be
+		// overwriting it with correct contents). Leave it be.
 		return err
 	}
 	os.Chtimes(name, c.now(), c.now()) // mainly for tests
