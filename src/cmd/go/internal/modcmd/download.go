@@ -11,6 +11,7 @@ import (
 	"cmd/go/internal/module"
 	"cmd/go/internal/par"
 	"encoding/json"
+	"fmt"
 	"os"
 )
 
@@ -79,6 +80,7 @@ func runDownload(cmd *base.Command, args []string) {
 			info = info.Replace
 		}
 		if info.Version == "" {
+			fmt.Fprintf(os.Stdout, "no version supplied for path %s unable to download \n", info.Path)
 			continue
 		}
 		m := &moduleJSON{
