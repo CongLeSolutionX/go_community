@@ -15,9 +15,11 @@ import (
 	"strings"
 
 	"cmd/go/internal/base"
+	"cmd/go/internal/modfetch"
 	"cmd/go/internal/modfile"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/module"
+	"cmd/go/internal/renameio"
 )
 
 var cmdEdit = &base.Command{
@@ -107,13 +109,13 @@ var (
 	editJSON   = cmdEdit.Flag.Bool("json", false, "")
 	editPrint  = cmdEdit.Flag.Bool("print", false, "")
 	editModule = cmdEdit.Flag.String("module", "", "")
-	edits      []func(*modfile.File) // edits specified in flags
+	edits      []func(*modfile.File) error // edits specified in flags
 )
 
-type flagFunc func(string)
+type flagFunc func(string) error
 
 func (f flagFunc) String() string     { return "" }
-func (f flagFunc) Set(s string) error { f(s); return nil }
+func (f flagFunc) Set(s string) error { return f(s) }
 
 func init() {
 	cmdEdit.Run = runEdit // break init cycle
@@ -163,14 +165,32 @@ func runEdit(cmd *base.Command, args []string) {
 
 	// TODO(rsc): Implement -go= once we start advertising it.
 
-	data, err := ioutil.ReadFile(gomod)
+	mu, err := modfetch.SideLock()
 	if err != nil {
 		base.Fatalf("go: %v", err)
 	}
 
+	unlock, err := mu.Lock()
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
+	err = applyEdits(gomod)
+	unlock()
+
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
+}
+
+func applyEdits(gomod string) (err error) {
+	data, err := ioutil.ReadFile(gomod)
+	if err != nil {
+		return err
+	}
+
 	modFile, err := modfile.Parse(gomod, data, nil)
 	if err != nil {
-		base.Fatalf("go: errors parsing %s:\n%s", base.ShortPath(gomod), err)
+		return fmt.Errorf("errors parsing %s:\n%s", base.ShortPath(gomod), err)
 	}
 
 	if *editModule != "" {
@@ -179,41 +199,40 @@ func runEdit(cmd *base.Command, args []string) {
 
 	if len(edits) > 0 {
 		for _, edit := range edits {
-			edit(modFile)
+			if err := edit(modFile); err != nil {
+				return err
+			}
 		}
 	}
 	modFile.SortBlocks()
 	modFile.Cleanup() // clean file after edits
 
 	if *editJSON {
-		editPrintJSON(modFile)
-		return
+		return editPrintJSON(modFile)
 	}
 
 	data, err = modFile.Format()
 	if err != nil {
-		base.Fatalf("go: %v", err)
+		return err
 	}
 
 	if *editPrint {
-		os.Stdout.Write(data)
-		return
+		_, err = os.Stdout.Write(data)
+		return err
 	}
 
-	if err := ioutil.WriteFile(gomod, data, 0666); err != nil {
-		base.Fatalf("go: %v", err)
-	}
+	return renameio.WriteFile(gomod, data)
 }
 
 // parsePathVersion parses -flag=arg expecting arg to be path@version.
-func parsePathVersion(flag, arg string) (path, version string) {
+func parsePathVersion(flag, arg string) (path, version string, err error) {
 	i := strings.Index(arg, "@")
 	if i < 0 {
-		base.Fatalf("go mod: -%s=%s: need path@version", flag, arg)
+		return "", "", fmt.Errorf("-%s=%s: need path@version", flag, arg)
 	}
 	path, version = strings.TrimSpace(arg[:i]), strings.TrimSpace(arg[i+1:])
 	if err := module.CheckPath(path); err != nil {
-		base.Fatalf("go mod: -%s=%s: invalid path: %v", flag, arg, err)
+		return "", "", fmt.Errorf("-%s=%s: invalid path: %v", flag, arg, err)
 	}
 
 	// We don't call modfile.CheckPathVersion, because that insists
@@ -222,22 +241,22 @@ func parsePathVersion(flag, arg string) (path, version string) {
 	// the next time it runs (or during -fix).
 	// Even so, we need to make sure the version is a valid token.
 	if modfile.MustQuote(version) {
-		base.Fatalf("go mod: -%s=%s: invalid version %q", flag, arg, version)
+		return "", "", fmt.Errorf("-%s=%s: invalid version %q", flag, arg, version)
 	}
 
-	return path, version
+	return path, version, nil
 }
 
 // parsePath parses -flag=arg expecting arg to be path (not path@version).
-func parsePath(flag, arg string) (path string) {
+func parsePath(flag, arg string) (path string, err error) {
 	if strings.Contains(arg, "@") {
-		base.Fatalf("go mod: -%s=%s: need just path, not path@version", flag, arg)
+		return "", fmt.Errorf("-%s=%s: need just path, not path@version", flag, arg)
 	}
 	path = arg
 	if err := module.CheckPath(path); err != nil {
-		base.Fatalf("go mod: -%s=%s: invalid path: %v", flag, arg, err)
+		return "", fmt.Errorf("-%s=%s: invalid path: %v", flag, arg, err)
 	}
-	return path
+	return path, nil
 }
 
 // parsePathVersionOptional parses path[@version], using adj to
@@ -260,85 +279,110 @@ func parsePathVersionOptional(adj, arg string, allowDirPath bool) (path, version
 }
 
 // flagRequire implements the -require flag.
-func flagRequire(arg string) {
-	path, version := parsePathVersion("require", arg)
-	edits = append(edits, func(f *modfile.File) {
+func flagRequire(arg string) error {
+	path, version, err := parsePathVersion("require", arg)
+	if err != nil {
+		return err
+	}
+	edits = append(edits, func(f *modfile.File) error {
 		if err := f.AddRequire(path, version); err != nil {
-			base.Fatalf("go mod: -require=%s: %v", arg, err)
+			return fmt.Errorf("-require=%s: %v", arg, err)
 		}
+		return nil
 	})
+	return nil
 }
 
 // flagDropRequire implements the -droprequire flag.
-func flagDropRequire(arg string) {
-	path := parsePath("droprequire", arg)
-	edits = append(edits, func(f *modfile.File) {
+func flagDropRequire(arg string) error {
+	path, err := parsePath("droprequire", arg)
+	if err != nil {
+		return err
+	}
+	edits = append(edits, func(f *modfile.File) error {
 		if err := f.DropRequire(path); err != nil {
-			base.Fatalf("go mod: -droprequire=%s: %v", arg, err)
+			return fmt.Errorf("-droprequire=%s: %v", arg, err)
 		}
+		return nil
 	})
+	return nil
 }
 
 // flagExclude implements the -exclude flag.
-func flagExclude(arg string) {
-	path, version := parsePathVersion("exclude", arg)
-	edits = append(edits, func(f *modfile.File) {
+func flagExclude(arg string) error {
+	path, version, err := parsePathVersion("exclude", arg)
+	if err != nil {
+		return err
+	}
+	edits = append(edits, func(f *modfile.File) error {
 		if err := f.AddExclude(path, version); err != nil {
-			base.Fatalf("go mod: -exclude=%s: %v", arg, err)
+			return fmt.Errorf("-exclude=%s: %v", arg, err)
 		}
+		return nil
 	})
+	return nil
 }
 
 // flagDropExclude implements the -dropexclude flag.
-func flagDropExclude(arg string) {
-	path, version := parsePathVersion("dropexclude", arg)
-	edits = append(edits, func(f *modfile.File) {
+func flagDropExclude(arg string) error {
+	path, version, err := parsePathVersion("dropexclude", arg)
+	if err != nil {
+		return err
+	}
+	edits = append(edits, func(f *modfile.File) error {
 		if err := f.DropExclude(path, version); err != nil {
-			base.Fatalf("go mod: -dropexclude=%s: %v", arg, err)
+			return fmt.Errorf("-dropexclude=%s: %v", arg, err)
 		}
+		return nil
 	})
+	return nil
 }
 
 // flagReplace implements the -replace flag.
-func flagReplace(arg string) {
+func flagReplace(arg string) error {
 	var i int
 	if i = strings.Index(arg, "="); i < 0 {
-		base.Fatalf("go mod: -replace=%s: need old[@v]=new[@w] (missing =)", arg)
+		return fmt.Errorf("-replace=%s: need old[@v]=new[@w] (missing =)", arg)
 	}
 	old, new := strings.TrimSpace(arg[:i]), strings.TrimSpace(arg[i+1:])
 	if strings.HasPrefix(new, ">") {
-		base.Fatalf("go mod: -replace=%s: separator between old and new is =, not =>", arg)
+		return fmt.Errorf("-replace=%s: separator between old and new is =, not =>", arg)
 	}
 	oldPath, oldVersion, err := parsePathVersionOptional("old", old, false)
 	if err != nil {
-		base.Fatalf("go mod: -replace=%s: %v", arg, err)
+		return fmt.Errorf("-replace=%s: %v", arg, err)
 	}
 	newPath, newVersion, err := parsePathVersionOptional("new", new, true)
 	if err != nil {
-		base.Fatalf("go mod: -replace=%s: %v", arg, err)
+		return fmt.Errorf("-replace=%s: %v", arg, err)
 	}
 	if newPath == new && !modfile.IsDirectoryPath(new) {
-		base.Fatalf("go mod: -replace=%s: unversioned new path must be local directory", arg)
+		return fmt.Errorf("-replace=%s: unversioned new path must be local directory", arg)
 	}
 
-	edits = append(edits, func(f *modfile.File) {
+	edits = append(edits, func(f *modfile.File) error {
 		if err := f.AddReplace(oldPath, oldVersion, newPath, newVersion); err != nil {
-			base.Fatalf("go mod: -replace=%s: %v", arg, err)
+			return fmt.Errorf("-replace=%s: %v", arg, err)
 		}
+		return nil
 	})
+	return nil
 }
 
 // flagDropReplace implements the -dropreplace flag.
-func flagDropReplace(arg string) {
+func flagDropReplace(arg string) error {
 	path, version, err := parsePathVersionOptional("old", arg, true)
 	if err != nil {
-		base.Fatalf("go mod: -dropreplace=%s: %v", arg, err)
+		return fmt.Errorf("-dropreplace=%s: %v", arg, err)
 	}
-	edits = append(edits, func(f *modfile.File) {
+
+	edits = append(edits, func(f *modfile.File) error {
 		if err := f.DropReplace(path, version); err != nil {
-			base.Fatalf("go mod: -dropreplace=%s: %v", arg, err)
+			return fmt.Errorf("-dropreplace=%s: %v", arg, err)
 		}
+		return nil
 	})
+	return nil
 }
 
 // fileJSON is the -json output data structure.
@@ -361,7 +405,7 @@ type replaceJSON struct {
 }
 
 // editPrintJSON prints the -json output.
-func editPrintJSON(modFile *modfile.File) {
+func editPrintJSON(modFile *modfile.File) error {
 	var f fileJSON
 	f.Module = modFile.Module.Mod
 	for _, r := range modFile.Require {
@@ -375,8 +419,10 @@ func editPrintJSON(modFile *modfile.File) {
 	}
 	data, err := json.MarshalIndent(&f, "", "\t")
 	if err != nil {
-		base.Fatalf("go: internal error: %v", err)
+		return fmt.Errorf("internal error: %v", err)
 	}
 	data = append(data, '\n')
-	os.Stdout.Write(data)
+
+	_, err = os.Stdout.Write(data)
+	return err
 }
