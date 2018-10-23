@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d37e404_eafad098",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-23T21:01:50Z",
+      "side": 1,
+      "message": "Doc comment, particularly to give the units of the result.",
+      "revId": "16b05160973ef8566a9939295103f9a154710230",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d16fe591_579a26a5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-23T21:01:50Z",
+      "side": 1,
+      "message": "Hmm. I think the original sysUsed call was actually correct. Since this is saying \"I\u0027m going to touch memory in this range\", it needs the *inclusive* bounds, not the exclusive bounds.",
+      "revId": "16b05160973ef8566a9939295103f9a154710230",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
