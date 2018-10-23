@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d60b19a7_c40e01eb",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:18:34Z",
+      "side": 1,
+      "message": "Use // comments here and below, not /* comments.",
+      "revId": "98c416b6fe26df440301a97e798f2bd0b40d028e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6603890_fa65904d",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:18:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure we should just log.  A -T or -R option is inherently system-specific.  If somebody is trying to use them on AIX, I think we should call Errorf.\n\nThe error shouldn\u0027t have sentences, it should be more like \"-T not supported on AIX\".",
+      "revId": "98c416b6fe26df440301a97e798f2bd0b40d028e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17555da6_40ebb6ed",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:18:34Z",
+      "side": 1,
+      "message": "s/cf/see/ (we tend to avoid Latin abbreviations.)",
+      "range": {
+        "startLine": 569,
+        "startChar": 47,
+        "endLine": 569,
+        "endChar": 49
+      },
+      "revId": "98c416b6fe26df440301a97e798f2bd0b40d028e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1167b66c_385027db",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:18:34Z",
+      "side": 1,
+      "message": "No newline at end here or for other Exitf calls.",
+      "revId": "98c416b6fe26df440301a97e798f2bd0b40d028e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb8c4ea5_f5060830",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:18:34Z",
+      "side": 1,
+      "message": "s/Undefined/undefined/\nNo newline at end--Exitf adds a newline.",
+      "range": {
+        "startLine": 675,
+        "startChar": 10,
+        "endLine": 675,
+        "endChar": 19
+      },
+      "revId": "98c416b6fe26df440301a97e798f2bd0b40d028e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcbe5143_00b9c760",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:18:34Z",
+      "side": 1,
+      "message": "These unconditional calls to Logf don\u0027t look right.  In the normal case the linker shouldn\u0027t print anything.  They should be conditional on ctxt.Debugvlog !\u003d 0 or something.",
+      "revId": "98c416b6fe26df440301a97e798f2bd0b40d028e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c5dd8e0_f33b66a7",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:18:34Z",
+      "side": 1,
+      "message": "Lowercase, no newline.",
+      "revId": "98c416b6fe26df440301a97e798f2bd0b40d028e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
