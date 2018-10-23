@@ -319,9 +319,68 @@ func (o *Order) cleanTemp(top ordermarker) {
 
 // stmtList orders each of the statements in the list.
 func (o *Order) stmtList(l Nodes) {
-	for _, n := range l.Slice() {
-		o.stmt(n)
+	s := l.Slice()
+	for i := range s {
+		orderMakeSliceCopy(s[i:])
+		o.stmt(s[i])
 	}
+}
+
+// orderMakeSliceCopy matches the pattern:
+//  m = OMAKESLICE([]T, x); OCOPY(m, s)
+// and rewrites it to:
+//  m = OMAKESLICECOPY([]T, x, s); nil
+func orderMakeSliceCopy(s []*Node) {
+	if len(s) < 2 {
+		return
+	}
+
+	asn := s[0]
+	copyn := s[1]
+
+	if asn == nil || asn.Op != OAS {
+		return
+	}
+	if asn.Left.Op != ONAME {
+		return
+	}
+	if asn.Left.isBlank() {
+		return
+	}
+	maken := asn.Right
+	if maken == nil || maken.Op != OMAKESLICE {
+		return
+	}
+	if maken.Esc == EscNone {
+		return
+	}
+	if maken.Left == nil || maken.Right != nil {
+		return
+	}
+	if copyn.Op != OCOPY {
+		return
+	}
+	if copyn.Left.Op != ONAME {
+		return
+	}
+	if asn.Left.Sym != copyn.Left.Sym {
+		return
+	}
+	if copyn.Right.Op == ONAME && copyn.Left.Sym == copyn.Right.Sym {
+		return
+	}
+
+	// Set bounded when m = OMAKESLICE([]T, len(s)); OCOPY(m, s)
+	maken.SetBounded(maken.Left.Op == OLEN && samesafeexpr(maken.Left.Left, copyn.Right))
+
+	maken.Op = OMAKESLICECOPY
+	maken.Right = copyn.Right
+
+	maken = typecheck(maken, ctxExpr)
+
+	s[1] = nil // remove separate copy call
+
+	return
 }
 
 // orderBlock orders the block of statements in n into a new slice,
@@ -1128,6 +1187,7 @@ func (o *Order) expr(n, lhs *Node) *Node {
 		OMAKECHAN,
 		OMAKEMAP,
 		OMAKESLICE,
+		OMAKESLICECOPY,
 		ONEW,
 		OREAL,
 		ORECOVER,
