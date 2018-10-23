@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93cdb9e9_d6a07d1e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-23T21:09:19Z",
+      "side": 1,
+      "message": "t \u003d unscav.removeNode(t) and eliminate p and the logic below?",
+      "revId": "a3bc0b4220c794b2ab4b61bde228ec6e135152ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
