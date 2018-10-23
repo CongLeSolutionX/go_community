@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af9d0223_da4b8ee2",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1526,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:32:07Z",
+      "side": 1,
+      "message": "Where does this 13 come from?",
+      "range": {
+        "startLine": 1526,
+        "startChar": 38,
+        "endLine": 1526,
+        "endChar": 40
+      },
+      "revId": "c7aee0e08c952cda4fe2a7c3b1a63d52b6b0dca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8f30d42_fa9f902a",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1596,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:32:07Z",
+      "side": 1,
+      "message": "Drop this part of the comment, it\u0027s not needed and the word \"correspond\" doesn\u0027t look right anyhow.",
+      "range": {
+        "startLine": 1596,
+        "startChar": 12,
+        "endLine": 1596,
+        "endChar": 22
+      },
+      "revId": "c7aee0e08c952cda4fe2a7c3b1a63d52b6b0dca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7de78a3c_5dec3d78",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 2090,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:32:07Z",
+      "side": 1,
+      "message": "Use periods at end of sentences.",
+      "revId": "c7aee0e08c952cda4fe2a7c3b1a63d52b6b0dca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "584979c7_337e619a",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 2096,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-23T14:32:07Z",
+      "side": 1,
+      "message": "Minor, but since this map isn\u0027t used on most systems let\u0027s leave it as nil and initialize it when needed.",
+      "revId": "c7aee0e08c952cda4fe2a7c3b1a63d52b6b0dca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
