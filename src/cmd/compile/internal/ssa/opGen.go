@@ -3219,7 +3219,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "DIVL",
-		auxType:      auxBool,
 		argLen:       2,
 		clobberFlags: true,
 		asm:          x86.AIDIVL,
@@ -3236,7 +3235,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "DIVW",
-		auxType:      auxBool,
 		argLen:       2,
 		clobberFlags: true,
 		asm:          x86.AIDIVW,
@@ -3285,7 +3283,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "MODL",
-		auxType:      auxBool,
 		argLen:       2,
 		clobberFlags: true,
 		asm:          x86.AIDIVL,
@@ -3302,7 +3299,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "MODW",
-		auxType:      auxBool,
 		argLen:       2,
 		clobberFlags: true,
 		asm:          x86.AIDIVW,
@@ -6443,7 +6439,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "DIVQ",
-		auxType:      auxBool,
 		argLen:       2,
 		clobberFlags: true,
 		asm:          x86.AIDIVQ,
@@ -6460,7 +6455,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "DIVL",
-		auxType:      auxBool,
 		argLen:       2,
 		clobberFlags: true,
 		asm:          x86.AIDIVL,
@@ -6477,7 +6471,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:         "DIVW",
-		auxType:      auxBool,
 		argLen:       2,
 		clobberFlags: true,
 		asm:          x86.AIDIVW,
@@ -28039,7 +28032,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Div16",
-		auxType: auxBool,
 		argLen:  2,
 		generic: true,
 	},
@@ -28050,7 +28042,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Div32",
-		auxType: auxBool,
 		argLen:  2,
 		generic: true,
 	},
@@ -28061,7 +28052,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Div64",
-		auxType: auxBool,
 		argLen:  2,
 		generic: true,
 	},
@@ -28087,7 +28077,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Mod16",
-		auxType: auxBool,
 		argLen:  2,
 		generic: true,
 	},
@@ -28098,7 +28087,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Mod32",
-		auxType: auxBool,
 		argLen:  2,
 		generic: true,
 	},
@@ -28109,7 +28097,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Mod64",
-		auxType: auxBool,
 		argLen:  2,
 		generic: true,
 	},

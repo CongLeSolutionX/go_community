@@ -198,31 +198,24 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		if v.Op == ssa.Op386DIVL || v.Op == ssa.Op386DIVW ||
 			v.Op == ssa.Op386MODL || v.Op == ssa.Op386MODW {
 
-			if ssa.NeedsFixUp(v) {
-				var c *obj.Prog
-				switch v.Op {
-				case ssa.Op386DIVL, ssa.Op386MODL:
-					c = s.Prog(x86.ACMPL)
-					j = s.Prog(x86.AJEQ)
-
-				case ssa.Op386DIVW, ssa.Op386MODW:
-					c = s.Prog(x86.ACMPW)
-					j = s.Prog(x86.AJEQ)
-				}
-				c.From.Type = obj.TYPE_REG
-				c.From.Reg = x
-				c.To.Type = obj.TYPE_CONST
-				c.To.Offset = -1
-
-				j.To.Type = obj.TYPE_BRANCH
-			}
-			// sign extend the dividend
+			var c *obj.Prog
 			switch v.Op {
 			case ssa.Op386DIVL, ssa.Op386MODL:
-				s.Prog(x86.ACDQ)
+				c = s.Prog(x86.ACMPL)
+				j = s.Prog(x86.AJEQ)
+				s.Prog(x86.ACDQ) //TODO: fix
+
 			case ssa.Op386DIVW, ssa.Op386MODW:
+				c = s.Prog(x86.ACMPW)
+				j = s.Prog(x86.AJEQ)
 				s.Prog(x86.ACWD)
 			}
+			c.From.Type = obj.TYPE_REG
+			c.From.Reg = x
+			c.To.Type = obj.TYPE_CONST
+			c.To.Offset = -1
+
+			j.To.Type = obj.TYPE_BRANCH
 		}
 
 		// for unsigned ints, we sign extend by setting DX = 0
