@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f5f1fd9_61fbb1e0",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2095,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2018-10-24T16:28:44Z",
+      "side": 1,
+      "message": "s/uselss/useless",
+      "range": {
+        "startLine": 2095,
+        "startChar": 16,
+        "endLine": 2095,
+        "endChar": 22
+      },
+      "revId": "44fa6e66c5b4f72e3d8d31ae19d1916bfa1e70dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "525b433a_f9e0edcf",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1345,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2018-10-24T16:28:44Z",
+      "side": 1,
+      "message": "useless",
+      "range": {
+        "startLine": 1345,
+        "startChar": 15,
+        "endLine": 1345,
+        "endChar": 21
+      },
+      "revId": "44fa6e66c5b4f72e3d8d31ae19d1916bfa1e70dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
