@@ -21554,16 +21554,14 @@ func rewriteValue386_OpCvt64Fto32F_0(v *Value) bool {
 	}
 }
 func rewriteValue386_OpDiv16_0(v *Value) bool {
-	// match: (Div16 [a] x y)
+	// match: (Div16 x y)
 	// cond:
-	// result: (DIVW [a] x y)
+	// result: (DIVW x y)
 	for {
-		a := v.AuxInt
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(Op386DIVW)
-		v.AuxInt = a
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -21584,16 +21582,14 @@ func rewriteValue386_OpDiv16u_0(v *Value) bool {
 	}
 }
 func rewriteValue386_OpDiv32_0(v *Value) bool {
-	// match: (Div32 [a] x y)
+	// match: (Div32 x y)
 	// cond:
-	// result: (DIVL [a] x y)
+	// result: (DIVL x y)
 	for {
-		a := v.AuxInt
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(Op386DIVL)
-		v.AuxInt = a
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -22961,16 +22957,14 @@ func rewriteValue386_OpLsh8x8_0(v *Value) bool {
 	}
 }
 func rewriteValue386_OpMod16_0(v *Value) bool {
-	// match: (Mod16 [a] x y)
+	// match: (Mod16 x y)
 	// cond:
-	// result: (MODW [a] x y)
+	// result: (MODW x y)
 	for {
-		a := v.AuxInt
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(Op386MODW)
-		v.AuxInt = a
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -22991,16 +22985,14 @@ func rewriteValue386_OpMod16u_0(v *Value) bool {
 	}
 }
 func rewriteValue386_OpMod32_0(v *Value) bool {
-	// match: (Mod32 [a] x y)
+	// match: (Mod32 x y)
 	// cond:
-	// result: (MODL [a] x y)
+	// result: (MODL x y)
 	for {
-		a := v.AuxInt
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
 		v.reset(Op386MODL)
-		v.AuxInt = a
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
