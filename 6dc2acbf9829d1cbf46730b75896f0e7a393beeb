@@ -155,6 +155,23 @@
     },
     {
       "key": {
+        "uuid": "9f6b671d_0796fb7e",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-10-24T21:40:25Z",
+      "side": 1,
+      "message": "We should probably dump d1 and d2 (or at least a seed), otherwise this becomes difficult to reproduce.",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30b9bfe6_416f0553",
         "filename": "src/crypto/cipher/xor_test.go",
         "patchSetId": 33
@@ -226,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "d385a001_7f189f74",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-10-24T21:40:25Z",
+      "side": 1,
+      "message": "This can be done with something like math/export_test.go:\n// xor_test.go\npackage cipher\n\nvar XorBytes \u003d xorBytes // doesn\u0027t pollute the api, because _test files are ignored by go build",
+      "parentUuid": "6f04708b_ad27cafb",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2717113a_8366e3d6",
         "filename": "src/crypto/cipher/xor_test.go",
         "patchSetId": 33
@@ -291,6 +326,24 @@
       "side": 1,
       "message": "table-based in benchmark? Could you explain table-based here? How about use func fillData(p []byte) in this CL to fill byte slice, is that table-based? Thank you. And it\u0027s necessary to fill random data in bench?",
       "parentUuid": "7f5014fa_07bbbb0a",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99afa06e_2e527080",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-10-24T21:40:25Z",
+      "side": 1,
+      "message": "I mean something like this:\nsizes :\u003d [...]int {1\u003c\u003c3,1\u003c\u003c7, etc}\nso it is easy to add new case for benchmarking",
+      "parentUuid": "c302b482_7bdc4242",
       "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
