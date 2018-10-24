@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ada1d577_8b16b11e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-24T03:28:06Z",
+      "side": 1,
+      "message": "Can\u0027t your test just call convertFromDirents11 directly with whatever size it wants to test?",
+      "parentUuid": "ae1c92bb_06383340",
+      "revId": "b7c4f44155ba34230e242be19e20eded4590a850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a7437edb_3f730e27",
         "filename": "src/syscall/syscall_freebsd.go",
         "patchSetId": 1
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "because they are the result of unsafe.Offsetof, they\u0027re typed as uintptrs and then I have to cast them to ints when adding to srcPos/dstPos for eg.",
       "parentUuid": "a7437edb_3f730e27",
+      "range": {
+        "startLine": 349,
+        "startChar": 17,
+        "endLine": 349,
+        "endChar": 21
+      },
+      "revId": "b7c4f44155ba34230e242be19e20eded4590a850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fcb102d_4682a392",
+        "filename": "src/syscall/syscall_freebsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-24T03:28:06Z",
+      "side": 1,
+      "message": "Ah, okay. I didn\u0027t remember that Offsetof returned a typed constant.",
+      "parentUuid": "c818be01_7176f58a",
       "range": {
         "startLine": 349,
         "startChar": 17,
