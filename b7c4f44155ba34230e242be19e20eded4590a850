@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "e7dc808e_c86b4224",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-10-24T05:01:04Z",
+      "side": 1,
+      "message": "I\u0027ve added my test, sorry for not being clear that is what I meant by synthetic.\n\nhttps://go-review.googlesource.com/c/go/+/143637/2/src/syscall/syscall_freebsd_test.go#39\n\nThis is the line I meant, it should be\n\n  buf :\u003d make([]byte, 4*len(old))\n\nto be equivalent to what the Getdirentries wrapper does, but I can only trigger the boundry condition if I increase the ratio of old vs buf to 1/2.",
+      "parentUuid": "ada1d577_8b16b11e",
+      "revId": "b7c4f44155ba34230e242be19e20eded4590a850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a7437edb_3f730e27",
         "filename": "src/syscall/syscall_freebsd.go",
         "patchSetId": 1
