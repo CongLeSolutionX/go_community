@@ -22,6 +22,30 @@
       "revId": "a237dddf894f9b6ec99f954586c3379997d3b8ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cc5cddf_60771c3a",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 29723
+      },
+      "writtenOn": "2018-10-24T17:39:17Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. If an user read about Timestamp, he probably already knows what it is.",
+      "parentUuid": "fc5dbb23_9aab49fd",
+      "range": {
+        "startLine": 281,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 77
+      },
+      "revId": "a237dddf894f9b6ec99f954586c3379997d3b8ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
