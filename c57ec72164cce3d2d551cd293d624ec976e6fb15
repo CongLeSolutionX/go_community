@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aa0b84a_ad59ce01",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-10-24T12:33:35Z",
+      "side": 1,
+      "message": "A comment explaining this condition would be helpful. Why only those two packages, and why only mips and not mips64?",
+      "range": {
+        "startLine": 231,
+        "startChar": 5,
+        "endLine": 231,
+        "endChar": 115
+      },
+      "revId": "c57ec72164cce3d2d551cd293d624ec976e6fb15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
