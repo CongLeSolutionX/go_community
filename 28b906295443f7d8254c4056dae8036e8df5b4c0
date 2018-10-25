@@ -22,6 +22,30 @@
       "revId": "28b906295443f7d8254c4056dae8036e8df5b4c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9331ba8c_3781d947",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-25T11:17:29Z",
+      "side": 1,
+      "message": "Yeah, nope, absolutely didn\u0027t mean to expose them, thanks. Fixed.",
+      "parentUuid": "57a5c8a5_49d461a1",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 0
+      },
+      "revId": "28b906295443f7d8254c4056dae8036e8df5b4c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
