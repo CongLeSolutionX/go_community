@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84012e8b_51d80eec",
+        "filename": "src/crypto/tls/handshake_messages_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:25:59Z",
+      "side": 1,
+      "message": "If the Intn call returns zero, might this leave alpnProtocols \u003d\u003d nil? Is that a problem? (More cases below. I\u0027m guessing that, if the test passes, then it works out.)",
+      "revId": "e459aa261c75ad0a90156358b41e927a31901e58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
