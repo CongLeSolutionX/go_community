@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57a5c8a5_49d461a1",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-25T02:01:00Z",
+      "side": 1,
+      "message": "Surely you don\u0027t mean to export these in the tls package? Especially since they\u0027re unusable by callers since callers can\u0027t instantiate the private vendored cryptobyte package\u0027s String type to pass it as the first argument.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 0
+      },
+      "revId": "28b906295443f7d8254c4056dae8036e8df5b4c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
