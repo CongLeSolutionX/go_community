@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "541ae19f_f737cb4f",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-25T03:11:50Z",
+      "side": 1,
+      "message": "This comment is misleading: it actually returns \u00274\u0027, \u00276\u0027, or 0.\n\nI\u0027ll update this myself before submitting.",
+      "revId": "6d7331a926bd66fb26f4507d1984954ed8b27e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
