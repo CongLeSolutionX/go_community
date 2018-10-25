@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b22e2061_9cc5a473",
+        "filename": "src/cmd/compile/internal/ppc64/galign.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-25T16:07:26Z",
+      "side": 1,
+      "message": "I\u0027d rather keep the distinction between Linux and AIX here. Except if you said that it\u0027s totally safe to do so without (or with ??) changing address space on linux/ppc64.",
+      "revId": "0db2596a1bd0a5a22739aaa69146cf6b97814d47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
