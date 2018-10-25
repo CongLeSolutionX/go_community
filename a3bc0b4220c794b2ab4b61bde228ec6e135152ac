@@ -34,6 +34,24 @@
       "revId": "a3bc0b4220c794b2ab4b61bde228ec6e135152ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "912d8947_0ed91280",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-25T16:44:55Z",
+      "side": 1,
+      "message": "Oh, I see. Okay.\n\nMaybe a cleaner, less assumptiony, abstraction-ier way to do this would be\n\nt2 :\u003d t.pred()\nunsav.removeNode(t)\nt \u003d t2\n\nAnd define (*treapNode).pred to return the predecessor in key order.\n\nIf you also define (*treapNode).succ, then you could make removeNode return nothing again (removing a foot-gun) and convert scavengeTreap into an entirely iterative algorithm.",
+      "parentUuid": "4b6f5466_f292f18d",
+      "revId": "a3bc0b4220c794b2ab4b61bde228ec6e135152ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
