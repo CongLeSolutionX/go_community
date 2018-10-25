@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "e5eb7a9f_e9571348",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-25T04:35:28Z",
+      "side": 1,
+      "message": "I think you mean p\u0026q too, right? We should dump sources if the results are not equal, so we can reproduce the mismatch",
+      "parentUuid": "9f6b671d_0796fb7e",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30b9bfe6_416f0553",
         "filename": "src/crypto/cipher/xor_test.go",
         "patchSetId": 33
@@ -261,6 +279,24 @@
     },
     {
       "key": {
+        "uuid": "cc09944e_f933f604",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-25T04:35:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d385a001_7f189f74",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2717113a_8366e3d6",
         "filename": "src/crypto/cipher/xor_test.go",
         "patchSetId": 33
@@ -344,6 +380,24 @@
       "side": 1,
       "message": "I mean something like this:\nsizes :\u003d [...]int {1\u003c\u003c3,1\u003c\u003c7, etc}\nso it is easy to add new case for benchmarking",
       "parentUuid": "c302b482_7bdc4242",
+      "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd0c7728_6b2f9542",
+        "filename": "src/crypto/cipher/xor_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 28434
+      },
+      "writtenOn": "2018-10-25T04:35:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99afa06e_2e527080",
       "revId": "6dc2acbf9829d1cbf46730b75896f0e7a393beeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
