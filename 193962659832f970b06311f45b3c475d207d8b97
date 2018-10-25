@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5739b4e3_ef59aba7",
+        "filename": "src/os/file_posix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-25T16:02:51Z",
+      "side": 1,
+      "message": "let\u0027s restrict this change to runtime.GOOS \u003d\u003d \"aix\", because I see nothing about ERANGE at http://pubs.opengroup.org/onlinepubs/009695399/functions/readlink.html",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "193962659832f970b06311f45b3c475d207d8b97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
