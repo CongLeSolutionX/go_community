@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28ae3f84_8f32e1ca",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-25T23:57:28Z",
+      "side": 1,
+      "message": "I realized I could remove all those field zeroing operations below by zeroing the entire field instead (not before failing tests a dozen time due to dirty fields).\n\nPTAL.",
+      "revId": "040195c2f67f197a158d2562212155b34866b1cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db7f03b7_c2de153e",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-25T23:57:28Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "040195c2f67f197a158d2562212155b34866b1cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

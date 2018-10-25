@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed44e4bd_bcedc27b",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-25T23:57:28Z",
+      "side": 1,
+      "message": "I will write up some feedback based on this implementation once it\u0027s done.",
+      "parentUuid": "cdad4624_e884e1ba",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d966e02_a38de148",
         "filename": "src/crypto/tls/handshake_messages.go",
         "patchSetId": 4
@@ -53,6 +71,23 @@
     },
     {
       "key": {
+        "uuid": "237801ce_d80662ea",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-25T23:57:28Z",
+      "side": 1,
+      "message": "As yet another development note for cryptobyte: Len()",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8432eb_f33c5bc7",
         "filename": "src/crypto/tls/handshake_messages.go",
         "patchSetId": 4
@@ -64,6 +99,24 @@
       "writtenOn": "2018-10-25T16:03:34Z",
       "side": 1,
       "message": "BoringSSL tracks a number of possible mistakes in the ClientHello and rejects them in an effort to keep the ecosystem clean. I\u0027ll note some places below where Go might do the same but your call in each case whether it\u0027s worth the effort.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ebf3a7e_d4cba392",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-25T23:57:28Z",
+      "side": 1,
+      "message": "The trailing data and non-empty extensions should be handled in a single shot by the \"if !extData.Empty()\" condition after the switch statement (which I only came up with after the first patch set).\n\nI started writing up some duplicates detection, but I realized it would also require updating the test generators, so I will make it a separate CL.",
+      "parentUuid": "4a8432eb_f33c5bc7",
       "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -84,6 +137,24 @@
       "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1765aee5_11826f48",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-25T23:57:28Z",
+      "side": 1,
+      "message": "I plan to do a refactor breaking out each extension into its own function, and this will be easier to do along with that. Noted.",
+      "parentUuid": "77c80864_755cbd97",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +189,24 @@
       "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0701ff9_b2fb995b",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-25T23:57:28Z",
+      "side": 1,
+      "message": "Oh I see that\u0027s new in RFC 6066. Done.",
+      "parentUuid": "209d3bf8_2b5cf573",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
