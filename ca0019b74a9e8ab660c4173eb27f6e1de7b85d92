@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37c76700_2035a13f",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-10-25T23:15:18Z",
+      "side": 1,
+      "message": "emptyLast would sound better to me, but I\u0027m not a native speaker.",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 10
+      },
+      "revId": "ca0019b74a9e8ab660c4173eb27f6e1de7b85d92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4a492b4_26ed1bef",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-10-25T23:15:18Z",
+      "side": 1,
+      "message": "Maybe not reloading b.tophash[i] could provide a small speedup?",
+      "range": {
+        "startLine": 617,
+        "startChar": 7,
+        "endLine": 617,
+        "endChar": 19
+      },
+      "revId": "ca0019b74a9e8ab660c4173eb27f6e1de7b85d92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
