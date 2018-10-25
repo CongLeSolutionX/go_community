@@ -22,6 +22,30 @@
       "revId": "193962659832f970b06311f45b3c475d207d8b97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a2f06c3_a854b7f3",
+        "filename": "src/os/file_posix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-25T16:04:31Z",
+      "side": 1,
+      "message": "(And I do see it at https://www.ibm.com/support/knowledgecenter/en/ssw_aix_71/com.ibm.aix.basetrf2/readlink.htm)",
+      "parentUuid": "5739b4e3_ef59aba7",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "193962659832f970b06311f45b3c475d207d8b97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
