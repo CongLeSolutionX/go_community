@@ -1516,15 +1516,16 @@ func (b *Builder) moveOrCopyFile(dst, src string, perm os.FileMode, force bool) 
 	// This avoids build tags and works even on systems like Plan 9
 	// where the file mask computation incorporates other information.
 	mode := perm
-	f, err := os.OpenFile(filepath.Clean(dst)+"-go-tmp-umask", os.O_WRONLY|os.O_CREATE|os.O_EXCL, perm)
+	// Don't set O_EXCL: if there is another go command racing, assume it's using
+	// the same permissions.
+	f, err := os.OpenFile(filepath.Clean(dst)+"-go-tmp-umask", os.O_WRONLY|os.O_CREATE, perm)
 	if err == nil {
 		fi, err := f.Stat()
 		if err == nil {
 			mode = fi.Mode() & 0777
 		}
-		name := f.Name()
 		f.Close()
-		os.Remove(name)
+		os.Remove(f.Name())
 	}
 
 	if err := os.Chmod(src, mode); err == nil {
