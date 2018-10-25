@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e5d7763_bef558b6",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-10-25T19:53:26Z",
+      "side": 1,
+      "message": "Add copyright header.",
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16a50efb_af113dc1",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-10-25T19:53:26Z",
+      "side": 1,
+      "message": "These are effectively constants: it seems like a shame to include the code for hexDecodeString when we end up only needing it for init-time information that never changes.\n\nPerhaps we should escape the strings into actual constants instead?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dc242e8_dfbfc245",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-10-25T19:53:26Z",
+      "side": 1,
+      "message": "Return an explicit `ok bool`?",
+      "range": {
+        "startLine": 16,
+        "startChar": 26,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49b9744a_409eb60d",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-10-25T19:53:26Z",
+      "side": 1,
+      "message": "This field strikes me as a bit out-of-place: the other information in ModInfo is about modules, but this one is a package path (and in theory we could also make that available in GOPATH mode).\n\nPerhaps we should split the function in two (`ModInfo` and `MainPackage` or similar?)",
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "295da891_b5b88b84",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-10-25T19:53:26Z",
+      "side": 1,
+      "message": "strings.SplitAfterN re-reads the sting, but pathLine is a constant here and the thing we\u0027re parsing is baked into the binary (not user-supplied). Can we assume it\u0027s well-formed and skip ahead by len(pathLine)?",
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6aab167_95525f00",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-10-25T19:53:26Z",
+      "side": 1,
+      "message": "line[len(modLine):] ?",
+      "range": {
+        "startLine": 74,
+        "startChar": 31,
+        "endLine": 74,
+        "endChar": 35
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0416f370_5a8cee45",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-10-25T19:53:26Z",
+      "side": 1,
+      "message": "etc.",
+      "range": {
+        "startLine": 84,
+        "startChar": 31,
+        "endLine": 84,
+        "endChar": 35
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb3c5935_69e57bc4",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-10-25T19:53:26Z",
+      "side": 1,
+      "message": "We sometimes use //go:linkname to break dependency cycles without duplicating code.\n\nThat said, I\u0027m not sure why there would even be a cycle here: why does `encoding/hex` depend on `runtime/debug`?",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 29
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
