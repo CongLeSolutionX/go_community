@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a019bca7_d7759a71",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2018-10-25T11:31:21Z",
+      "side": 1,
+      "message": "Eek, thanks. Fixed.",
+      "parentUuid": "0f2ebdab_755f87fc",
+      "revId": "023c65e93e95c10262aaf260d754c5549c526c61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b68a80cd_f2b0146c",
         "filename": "src/cmd/cgo/out.go",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "023c65e93e95c10262aaf260d754c5549c526c61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9703402_b55629bb",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2018-10-25T11:31:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b68a80cd_f2b0146c",
+      "range": {
+        "startLine": 1235,
+        "startChar": 28,
+        "endLine": 1235,
+        "endChar": 32
+      },
+      "revId": "023c65e93e95c10262aaf260d754c5549c526c61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
