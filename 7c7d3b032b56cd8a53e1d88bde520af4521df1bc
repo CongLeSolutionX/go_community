@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a0b0311_73d91ca9",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-25T22:51:54Z",
+      "side": 1,
+      "message": "prev?",
+      "range": {
+        "startLine": 1172,
+        "startChar": 2,
+        "endLine": 1172,
+        "endChar": 6
+      },
+      "revId": "7c7d3b032b56cd8a53e1d88bde520af4521df1bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
