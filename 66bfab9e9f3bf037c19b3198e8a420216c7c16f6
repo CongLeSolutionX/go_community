@@ -16,6 +16,24 @@
       "revId": "66bfab9e9f3bf037c19b3198e8a420216c7c16f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a6d12a4_6778e334",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-25T20:40:57Z",
+      "side": 1,
+      "message": "Or even report in MB, rounding error is not going to be a problem here.",
+      "parentUuid": "bed1be90_8e844e9b",
+      "revId": "66bfab9e9f3bf037c19b3198e8a420216c7c16f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
