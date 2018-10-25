@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdad4624_e884e1ba",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "I don\u0027t think that anything need to be done for this CL, but this suggests that cryptobyte.Builder could use a SetError method.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d966e02_a38de148",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "(Ditto for suggesting development paths for cryptobyte.)",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7515b79c_278e6718",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "Taking a copy of a Builder like this is surprising to me, but it looks like it\u0027ll work. Just noting that as a third point of development for cryptobyte: Unwrite(n int).",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8432eb_f33c5bc7",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "BoringSSL tracks a number of possible mistakes in the ClientHello and rejects them in an effort to keep the ecosystem clean. I\u0027ll note some places below where Go might do the same but your call in each case whether it\u0027s worth the effort.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77c80864_755cbd97",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "Could track observed extensions and reject if there\u0027s a duplicate.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e03a785_0f57ce01",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "Could reject trailing data in the extension.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "209d3bf8_2b5cf573",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "Could reject having two nameType \u003d\u003d 0 elements.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17f42750_5a8ea8d1",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "Could reject non-empty extensions",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04cb77f8_3b0f00b2",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "Could reject trailing data.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b9e2108_5ade68cc",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "Could reject trailing data.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "615e2d77_bdd440d6",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "Could reject duplicates.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76ea3a0c_f8df4df2",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "trailing data and/or duplicates.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2d9b788_d8e6b8df",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "trailing data.",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5af84f3e_c13a5be2",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-10-25T16:03:34Z",
+      "side": 1,
+      "message": "duplicates.\n\n(You get the idea. Won\u0027t bother with more cases.)",
+      "revId": "42141c440714766e68d0115c163fc2c11d4ff583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
