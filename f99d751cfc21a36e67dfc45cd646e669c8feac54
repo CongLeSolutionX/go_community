@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55e3d94a_8333fa9e",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-25T22:44:11Z",
+      "side": 1,
+      "message": "right child",
+      "range": {
+        "startLine": 356,
+        "startChar": 17,
+        "endLine": 356,
+        "endChar": 27
+      },
+      "revId": "f99d751cfc21a36e67dfc45cd646e669c8feac54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98e8a719_3318bb2f",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-25T22:44:11Z",
+      "side": 1,
+      "message": "Perhaps just \"// See pred\"",
+      "range": {
+        "startLine": 360,
+        "startChar": 0,
+        "endLine": 368,
+        "endChar": 0
+      },
+      "revId": "f99d751cfc21a36e67dfc45cd646e669c8feac54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
