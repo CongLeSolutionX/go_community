@@ -149,6 +149,10 @@ func (*clientHelloMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 	if rand.Intn(10) > 5 {
 		m.scts = true
 	}
+	if rand.Intn(10) > 5 {
+		m.secureRenegotiationSupported = true
+		m.secureRenegotiation = randomBytes(rand.Intn(50)+1, rand)
+	}
 
 	return reflect.ValueOf(m)
 }
@@ -178,6 +182,11 @@ func (*serverHelloMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 
 	for i := 0; i < rand.Intn(4); i++ {
 		m.scts = append(m.scts, randomBytes(rand.Intn(500)+1, rand))
+	}
+
+	if rand.Intn(10) > 5 {
+		m.secureRenegotiationSupported = true
+		m.secureRenegotiation = randomBytes(rand.Intn(50)+1, rand)
 	}
 
 	return reflect.ValueOf(m)
