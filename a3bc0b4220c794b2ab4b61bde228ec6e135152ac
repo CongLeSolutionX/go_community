@@ -16,6 +16,24 @@
       "revId": "a3bc0b4220c794b2ab4b61bde228ec6e135152ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b6f5466_f292f18d",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2018-10-25T16:21:47Z",
+      "side": 1,
+      "message": "it\u0027s unfortunately not quite so simple, and that\u0027s why I did it more explicitly this way in the first place :(\n\nremoveNode returns whatever node is now in the place where the old node was. this means if t is a leaf, then you get back nil. in this particular case, you don\u0027t want nil because that would cause the loop to end prematurely.\n\nhowever, by doing that the logic can simplify a bit. it would look like\n\nt \u003d unscav.removeNode(t)\n...\n// If t was a leaf, start the search again from its parent.\nif t \u003d\u003d nil {\n  t \u003d p\n}\n\nwe don\u0027t need the branch for if p is nil, since in the case where t was the root, removeNode will have handled that for us.",
+      "parentUuid": "93cdb9e9_d6a07d1e",
+      "revId": "a3bc0b4220c794b2ab4b61bde228ec6e135152ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
