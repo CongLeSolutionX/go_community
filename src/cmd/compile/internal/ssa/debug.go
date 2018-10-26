@@ -826,6 +826,8 @@ func firstReg(set RegisterSet) uint8 {
 func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
 	// Run through the function in program text order, building up location
 	// lists as we go. The heavy lifting has mostly already been done.
+
+	isChangedArgOrPhi := []bool{} // Records which initial, changed, zero-width vars are args/phis; these receive special start-of-block treatment
 	for _, b := range state.f.Blocks {
 		if !blockLocs[b.ID].relevant {
 			continue
@@ -834,26 +836,34 @@ func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
 		state.mergePredecessors(b, blockLocs)
 
 		zeroWidthPending := false
+		first := true
 		for _, v := range b.Values {
 			slots := state.valueNames[v.ID]
 			reg, _ := state.f.getHome(v.ID).(*Register)
-			changed := state.processValue(v, slots, reg)
+			changed := state.processValue(v, slots, reg) // changed == added to state.changedVars
 
 			if opcodeTable[v.Op].zeroWidth {
 				if changed {
 					zeroWidthPending = true
+					if first {
+						// for initial run of 0-width + changed instructions, isChangedArgOrPhi is in 1-1 correspondence w/ state.changedVars
+						isChangedArgOrPhi = append(isChangedArgOrPhi, v.Op == OpArg || v.Op == OpPhi)
+					}
 				}
 				continue
 			}
 
+			// Not zero-width; i.e., a "real" instruction.
 			if !changed && !zeroWidthPending {
 				continue
 			}
 
 			zeroWidthPending = false
-			for _, varID := range state.changedVars.contents() {
-				state.updateVar(VarID(varID), v, state.currentState.slots)
+			for i, varID := range state.changedVars.contents() {
+				state.updateVar(VarID(varID), v, i < len(isChangedArgOrPhi) && isChangedArgOrPhi[i], state.currentState.slots)
 			}
+			isChangedArgOrPhi = isChangedArgOrPhi[:0]
+			first = false
 			state.changedVars.clear()
 		}
 	}
@@ -877,9 +887,16 @@ func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
 }
 
 // updateVar updates the pending location list entry for varID to
-// reflect the new locations in curLoc, caused by v.
-func (state *debugState) updateVar(varID VarID, v *Value, curLoc []VarLoc) {
+// reflect the new locations in curLoc, caused by v. If beginAtStart is true,
+// then the location information begins at the very start of the block,
+// not at (ultimately) "valueToProgAfter[v].Pc".  That is, at the Prog for
+// the first value, not the one after.
+func (state *debugState) updateVar(varID VarID, v *Value, beginAtStart bool, curLoc []VarLoc) {
 	// Assemble the location list entry with whatever's live.
+	vloc := v.ID
+	if beginAtStart {
+		vloc = BlockStart.ID
+	}
 	empty := true
 	for _, slotID := range state.varSlots[varID] {
 		if !curLoc[slotID].absent() {
@@ -889,7 +906,7 @@ func (state *debugState) updateVar(varID VarID, v *Value, curLoc []VarLoc) {
 	}
 	pending := &state.pendingEntries[varID]
 	if empty {
-		state.writePendingEntry(varID, v.Block.ID, v.ID)
+		state.writePendingEntry(varID, v.Block.ID, vloc)
 		pending.clear()
 		return
 	}
@@ -908,10 +925,10 @@ func (state *debugState) updateVar(varID VarID, v *Value, curLoc []VarLoc) {
 		}
 	}
 
-	state.writePendingEntry(varID, v.Block.ID, v.ID)
+	state.writePendingEntry(varID, v.Block.ID, vloc)
 	pending.present = true
 	pending.startBlock = v.Block.ID
-	pending.startValue = v.ID
+	pending.startValue = vloc
 	for i, slot := range state.varSlots[varID] {
 		pending.pieces[i] = curLoc[slot]
 	}
