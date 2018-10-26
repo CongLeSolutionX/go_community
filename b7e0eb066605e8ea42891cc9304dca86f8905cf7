@@ -34,6 +34,24 @@
       "revId": "b7e0eb066605e8ea42891cc9304dca86f8905cf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35405f6c_5f8227f3",
+        "filename": "src/internal/cpu/cpu_ppc64x.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2018-10-26T20:31:33Z",
+      "side": 1,
+      "message": "I misremembered: DARN and SCV are not used in tests. I guess they will be used once Power9 code is introduced.",
+      "parentUuid": "e1b47a7d_142d137c",
+      "revId": "b7e0eb066605e8ea42891cc9304dca86f8905cf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
