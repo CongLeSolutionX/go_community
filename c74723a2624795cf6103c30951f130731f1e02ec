@@ -93,6 +93,30 @@
       "revId": "c74723a2624795cf6103c30951f130731f1e02ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65236b1a_d4f1ee38",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2411,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-26T18:13:23Z",
+      "side": 1,
+      "message": "Yeah, I was assuming N was pretty small, but I never failed to be surprised at how people abuse things, so I suppose I shouldn\u0027t assume a small N here.\n\nAlternatively, perhaps you could set a dirty bool bit and lazily sort on first call to the handler method.\n\nIt might be about the same lines of code (or slightly less), but more readable lines. Not sure.",
+      "parentUuid": "0ee1f485_f6f970b7",
+      "range": {
+        "startLine": 2398,
+        "startChar": 19,
+        "endLine": 2411,
+        "endChar": 36
+      },
+      "revId": "c74723a2624795cf6103c30951f130731f1e02ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
