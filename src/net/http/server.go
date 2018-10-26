@@ -2179,7 +2179,8 @@ func RedirectHandler(url string, code int) Handler {
 type ServeMux struct {
 	mu    sync.RWMutex
 	m     map[string]muxEntry
-	hosts bool // whether any patterns contain hostnames
+	es    []muxEntry // slice of entries sorted from longest to shortest.
+	hosts bool       // whether any patterns contain hostnames
 }
 
 type muxEntry struct {
@@ -2194,19 +2195,6 @@ func NewServeMux() *ServeMux { return new(ServeMux) }
 var DefaultServeMux = &defaultServeMux
 
 var defaultServeMux ServeMux
-
-// Does path match pattern?
-func pathMatch(pattern, path string) bool {
-	if len(pattern) == 0 {
-		// should not happen
-		return false
-	}
-	n := len(pattern)
-	if pattern[n-1] != '/' {
-		return pattern == path
-	}
-	return len(path) >= n && path[0:n] == pattern
-}
 
 // cleanPath returns the canonical path for p, eliminating . and .. elements.
 func cleanPath(p string) string {
@@ -2252,16 +2240,12 @@ func (mux *ServeMux) match(path string) (h Handler, pattern string) {
 		return v.h, v.pattern
 	}
 
-	// Check for longest valid match.
-	var n = 0
-	for k, v := range mux.m {
-		if !pathMatch(k, path) {
-			continue
-		}
-		if h == nil || len(k) > n {
-			n = len(k)
-			h = v.h
-			pattern = v.pattern
+	// Check for longest valid match.  mux.es contains all patterns
+	// that end in / sorted from longest to shortest.
+	for _, e := range mux.es {
+		if strings.HasPrefix(path, e.pattern) {
+			h, pattern = e.h, e.pattern
+			break
 		}
 	}
 	return
@@ -2410,7 +2394,22 @@ func (mux *ServeMux) Handle(pattern string, handler Handler) {
 	if mux.m == nil {
 		mux.m = make(map[string]muxEntry)
 	}
-	mux.m[pattern] = muxEntry{h: handler, pattern: pattern}
+	e := muxEntry{h: handler, pattern: pattern}
+	mux.m[pattern] = e
+	if pattern[len(pattern)-1] == '/' {
+		es := mux.es
+		mux.es = nil
+		i := 0
+		for ; i < len(es); i++ {
+			if len(es[i].pattern) > len(pattern) {
+				mux.es = append(mux.es, es[i])
+			} else {
+				break
+			}
+		}
+		mux.es = append(mux.es, e)
+		mux.es = append(mux.es, es[i:]...)
+	}
 
 	if pattern[0] != '/' {
 		mux.hosts = true
