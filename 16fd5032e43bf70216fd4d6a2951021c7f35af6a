@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dee014b9_b0433600",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 45
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-10-26T18:22:25Z",
+      "side": 1,
+      "message": "Trailing space",
+      "revId": "16fd5032e43bf70216fd4d6a2951021c7f35af6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
