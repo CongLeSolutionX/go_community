@@ -91,6 +91,30 @@
       "revId": "262e65b9ab003a60721b208501cc8178d6c1f2cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35ea61a1_4a74ae5a",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 29713
+      },
+      "writtenOn": "2018-10-26T19:26:45Z",
+      "side": 1,
+      "message": "Thanks for this.\nTook another look and ListModules is actually returning an error as part of the ModulePublic object.\n\nI saw a pattern used in go list -m that did the following\n\t\t\tfor _, m :\u003d range mods {\n\t\t\t\tif m.Error !\u003d nil {\n\t\t\t\t\tbase.Errorf(\"go list -m %s: %v\", m.Path, m.Error.Err)\n\t\t\t\t}\n\t\t\t}\n\nso if no version is supplied the error in go list reads like\ngo list -m github.com/lib/pq: module \"github.com/lib/pq\" is not a known dependency\n\nwould similar work here do you think? \n\nI think it\u0027s list modules that actually resolves \u0027latest\u0027 to a real version so would need to clean up the input before calling that if defaulting to latest is the desire?",
+      "parentUuid": "6c13099f_45c31c18",
+      "range": {
+        "startLine": 83,
+        "startChar": 27,
+        "endLine": 83,
+        "endChar": 77
+      },
+      "revId": "262e65b9ab003a60721b208501cc8178d6c1f2cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
