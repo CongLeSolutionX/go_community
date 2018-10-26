@@ -16,6 +16,24 @@
       "revId": "b7e0eb066605e8ea42891cc9304dca86f8905cf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1b47a7d_142d137c",
+        "filename": "src/internal/cpu/cpu_ppc64x.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2018-10-26T20:21:20Z",
+      "side": 1,
+      "message": "Sure. What about DARN and SCV do we need to make sure they are enabled/supported on Linux and AIX and therefore always required? Currently only tests check them but not the go binaries on start like x86 checks MMX or arm some floating point instruction support. Should go binaries fail early if DARN or SCV is not enabled/supported by os kernel?\n\nAny asm file where DARN is used currently or is this soon to be used?",
+      "parentUuid": "a29806e1_3377a212",
+      "revId": "b7e0eb066605e8ea42891cc9304dca86f8905cf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
