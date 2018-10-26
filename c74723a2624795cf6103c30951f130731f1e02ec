@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c61f14a_3aa08660",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2182,
+      "author": {
+        "id": 12225
+      },
+      "writtenOn": "2018-10-26T18:05:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c6c5606_27a0760b",
+      "range": {
+        "startLine": 2182,
+        "startChar": 21,
+        "endLine": 2182,
+        "endChar": 47
+      },
+      "revId": "c74723a2624795cf6103c30951f130731f1e02ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f335a56_22e3f486",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-26T15:16:16Z",
       "side": 1,
       "message": "can you just do an append + a sort.Slice call?",
+      "range": {
+        "startLine": 2398,
+        "startChar": 19,
+        "endLine": 2411,
+        "endChar": 36
+      },
+      "revId": "c74723a2624795cf6103c30951f130731f1e02ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ee1f485_f6f970b7",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2411,
+      "author": {
+        "id": 12225
+      },
+      "writtenOn": "2018-10-26T18:05:30Z",
+      "side": 1,
+      "message": "In the case that mux.Handle is called, this would be an O(n log n) operation.  I didn\u0027t know if n would be typically small (I assume it is), but didn\u0027t want degenerate behavior in case it wasn\u0027t.  This is already make the method go from constant to linear, so I didn\u0027t want to assume too much.\n\nI can add it back in (it was there originally!) if you would still like.",
+      "parentUuid": "1f335a56_22e3f486",
       "range": {
         "startLine": 2398,
         "startChar": 19,
