@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7e416bb_a6a58bd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-26T03:25:23Z",
+      "side": 1,
+      "message": "Can we clarify what are asynchronous callbacks? It seems js.NewCallback only mentions synchronous callbacks. I guess whether a callback is synchronous or asynchronous is just up to the user code? If the user code (Go or JS) directly calls the callback, it is synchronous; if it, say, puts it on an event handler, then it is asynchronous?\n\nAlso, could you add some comment (in the runtime) about how they work together? As I understand, when a callback is called, the JS side will call _resume, which calls wasm_export_resume (enters the Go side), which, I think, will resume the execution on the g that calls into JS \n (either synchronously calling a JS function or calling pause)? So, for asynchronous callback, it will be the \"extra goroutine\" that calls pause, so that goroutine will run the callback? I guess it is not guaranteed to always be the \"extra goroutine\" (probably it doesn\u0027t really matter)?",
+      "range": {
+        "startLine": 14,
+        "startChar": 53,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "890469d6_4103350a",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-26T03:25:23Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not sure I understand this. You mean sp could change from the entry of this function to this point? What calls morestack? Why this function is different from other functions?",
+      "range": {
+        "startLine": 260,
+        "startChar": 39,
+        "endLine": 260,
+        "endChar": 75
+      },
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2b99cd4_03a89b09",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-26T03:25:23Z",
+      "side": 1,
+      "message": "This comment needs update.",
+      "range": {
+        "startLine": 360,
+        "startChar": 41,
+        "endLine": 360,
+        "endChar": 57
+      },
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaf67023_fc9a77ad",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-26T03:25:23Z",
+      "side": 1,
+      "message": "I guess you could go:linkname js.handleCallback and just call that, without going through a func variable?",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 0
+      },
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a3aaf28_76e42126",
+        "filename": "src/runtime/rt0_js_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-26T03:25:23Z",
+      "side": 1,
+      "message": "Add some comment for this function.",
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddabae81_f89859b8",
+        "filename": "src/runtime/rt0_js_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-26T03:25:23Z",
+      "side": 1,
+      "message": "Document that this function is called from JavaScript to retrieve SP.",
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73b90c43_7aa97071",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-26T03:25:23Z",
+      "side": 1,
+      "message": "Probably also document on which goroutine it will run. I see the CL description mentions this, maybe also mention it here.",
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0e9a1a4_889e4c93",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-26T03:25:23Z",
+      "side": 1,
+      "message": "Agree with Brad that \"this\" and the function result need documentation.",
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
