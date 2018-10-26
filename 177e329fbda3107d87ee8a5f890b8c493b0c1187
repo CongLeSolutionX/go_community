@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fdbabd8e_f905ae05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-10-26T08:29:48Z",
+      "side": 1,
+      "message": "\u003e If the user code (Go or JS) directly calls the callback, it is synchronous; if it, say, puts it on an event handler, then it is asynchronous?\n\nYes, exactly.\n\n\u003e I guess it is not guaranteed to always be the \"extra goroutine\"?\n\nIn which case would it not be the extra goroutine? If the callback is not synchronous, then the extra goroutine is the active one when the wasm execution gets paused.",
+      "parentUuid": "a7e416bb_a6a58bd9",
+      "range": {
+        "startLine": 14,
+        "startChar": 53,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "890469d6_4103350a",
         "filename": "misc/wasm/wasm_exec.js",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-26T03:25:23Z",
       "side": 1,
       "message": "Sorry, I\u0027m not sure I understand this. You mean sp could change from the entry of this function to this point? What calls morestack? Why this function is different from other functions?",
+      "range": {
+        "startLine": 260,
+        "startChar": 39,
+        "endLine": 260,
+        "endChar": 75
+      },
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "466318a3_33c8c181",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-10-26T08:29:48Z",
+      "side": 1,
+      "message": "\"morestack\" can be caused by a synchronous callback into Go code. In this case, the \"Reflect.get\" may trigger a JavaScript getter, which may trigger the synchronous callback. This can make the active goroutine switch to a new stack, thus invalidating the SP.",
+      "parentUuid": "890469d6_4103350a",
       "range": {
         "startLine": 260,
         "startChar": 39,
