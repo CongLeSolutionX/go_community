@@ -117,6 +117,30 @@
       "revId": "c74723a2624795cf6103c30951f130731f1e02ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6db00fb_6c68c387",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2411,
+      "author": {
+        "id": 12225
+      },
+      "writtenOn": "2018-10-26T20:53:49Z",
+      "side": 1,
+      "message": "I moved to this is be search based.  This should be pretty fast now for longer sets of entries.  I dislike the idea of lazy sort, since the first request might take a large latency hit.  Let\u0027s pay up front.",
+      "parentUuid": "65236b1a_d4f1ee38",
+      "range": {
+        "startLine": 2398,
+        "startChar": 19,
+        "endLine": 2411,
+        "endChar": 36
+      },
+      "revId": "c74723a2624795cf6103c30951f130731f1e02ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
