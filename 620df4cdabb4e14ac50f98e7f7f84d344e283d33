@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d7540ed1_a2193287",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 29713
+      },
+      "writtenOn": "2018-10-26T20:01:43Z",
+      "side": 1,
+      "message": "Updated that to remove the un-needed detail. Hope its a bit cleaner now",
+      "parentUuid": "d7a83c64_b0f84e96",
+      "revId": "620df4cdabb4e14ac50f98e7f7f84d344e283d33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8bf58aa_925a6a8a",
         "filename": "src/flag/flag.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "620df4cdabb4e14ac50f98e7f7f84d344e283d33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f735b1c_e7bd6966",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 29713
+      },
+      "writtenOn": "2018-10-26T20:01:43Z",
+      "side": 1,
+      "message": "makes sense will update that now",
+      "parentUuid": "c8bf58aa_925a6a8a",
+      "revId": "620df4cdabb4e14ac50f98e7f7f84d344e283d33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
