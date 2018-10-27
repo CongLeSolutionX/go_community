@@ -816,7 +816,7 @@ var unmarshalTests = []unmarshalTest{
 		err: &UnmarshalTypeError{
 			Value:  "string",
 			Struct: "V",
-			Field:  "F2",
+			Field:  "V.F2",
 			Type:   reflect.TypeOf(int32(0)),
 			Offset: 20,
 		},
@@ -827,7 +827,7 @@ var unmarshalTests = []unmarshalTest{
 		err: &UnmarshalTypeError{
 			Value:  "string",
 			Struct: "V",
-			Field:  "F2",
+			Field:  "V.F2",
 			Type:   reflect.TypeOf(int32(0)),
 			Offset: 30,
 		},

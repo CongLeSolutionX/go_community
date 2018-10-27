@@ -730,7 +730,11 @@ func (d *decodeState) object(v reflect.Value) error {
 					}
 					subv = subv.Field(i)
 				}
-				d.errorContext.Field = f.name
+				if originalErrorContext.Field == "" {
+					d.errorContext.Field = f.name
+				} else {
+					d.errorContext.Field = originalErrorContext.Field + "." + f.name
+				}
 				d.errorContext.Struct = t
 			} else if d.disallowUnknownFields {
 				d.saveError(fmt.Errorf("json: unknown field %q", key))
