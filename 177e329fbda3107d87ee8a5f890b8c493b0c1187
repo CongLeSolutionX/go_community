@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4f7ece64_b9469fe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-10-27T16:25:20Z",
+      "side": 1,
+      "message": "Yes, in the terms above this would be a \"synchronous\" callback. But I see that the term \"synchronous\" is confusing when used that way. The differentiation is really between\n\n- callback triggered during a call from Go to JS\n\nand\n\n- callback triggered by the JS event loop.\n\nMaybe we should change the wording accordingly and get rid of the ambiguous term \"synchronous\".",
+      "parentUuid": "8090dfdc_39eb9bfb",
+      "range": {
+        "startLine": 14,
+        "startChar": 53,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "890469d6_4103350a",
         "filename": "misc/wasm/wasm_exec.js",
         "patchSetId": 4
