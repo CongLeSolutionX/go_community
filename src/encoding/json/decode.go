@@ -126,6 +126,7 @@ type UnmarshalTypeError struct {
 	Offset int64        // error occurred after reading Offset bytes
 	Struct string       // name of the struct type containing the field
 	Field  string       // name of the field holding the Go value
+	Path   string       // full path of the field
 }
 
 func (e *UnmarshalTypeError) Error() string {
@@ -268,6 +269,7 @@ type decodeState struct {
 	errorContext struct { // provides context for type errors
 		Struct reflect.Type
 		Field  string
+		Path   string
 	}
 	savedError            error
 	useNumber             bool
@@ -290,6 +292,7 @@ func (d *decodeState) init(data []byte) *decodeState {
 	d.savedError = nil
 	d.errorContext.Struct = nil
 	d.errorContext.Field = ""
+	d.errorContext.Path = ""
 	return d
 }
 
@@ -308,6 +311,7 @@ func (d *decodeState) addErrorContext(err error) error {
 		case *UnmarshalTypeError:
 			err.Struct = d.errorContext.Struct.Name()
 			err.Field = d.errorContext.Field
+			err.Path = d.errorContext.Path
 			return err
 		}
 	}
@@ -732,6 +736,11 @@ func (d *decodeState) object(v reflect.Value) error {
 				}
 				d.errorContext.Field = f.name
 				d.errorContext.Struct = t
+				if originalErrorContext.Path == "" {
+					d.errorContext.Path = f.name
+				} else {
+					d.errorContext.Path = originalErrorContext.Path + "." + f.name
+				}
 			} else if d.disallowUnknownFields {
 				d.saveError(fmt.Errorf("json: unknown field %q", key))
 			}
@@ -819,6 +828,7 @@ func (d *decodeState) object(v reflect.Value) error {
 
 		d.errorContext = originalErrorContext
 	}
+
 	return nil
 }
 
