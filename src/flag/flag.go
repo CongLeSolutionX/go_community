@@ -548,6 +548,9 @@ func (f *FlagSet) PrintDefaults() {
 // the output will be
 //	-I directory
 //		search directory for include files.
+//
+// To change the output destination from the default of os.Stderr,
+// call CommandLine.SetOutput.
 func PrintDefaults() {
 	CommandLine.PrintDefaults()
 }
