@@ -102,6 +102,24 @@
       "revId": "8f01268725098edfaca969f40ce779de88c411fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff6bc8f6_fceea282",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-10-28T19:06:35Z",
+      "side": 1,
+      "message": "Sorry for the question but I don\u0027t understand much of walk/ssa-lower: is OPSLICEHEADER visibile during SSA passes? We need something like that in prove because right now makeslice is a black box and prove doesn\u0027t know that len(make([]byte, n)) \u003d\u003d n",
+      "parentUuid": "58555454_3fbc9c3b",
+      "revId": "8f01268725098edfaca969f40ce779de88c411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
