@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "775a9afd_87e3cbe0",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-10-28T14:55:57Z",
+      "side": 1,
+      "message": "Why not change UnmarshalTypeError.Field to be a full path to the field? I doubt any programs would break if we did that change.\n\nI\u0027m suggesting this because Field will always be a suffix of Path, so having the two seems redundant. And if one just wants the name, they can strip all leading path elements.",
+      "revId": "332caa1d06e8887493d12129dc3198dd39e3670e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fc4e8b0_8252155d",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-10-28T14:55:57Z",
+      "side": 1,
+      "message": "Undo this.",
+      "revId": "332caa1d06e8887493d12129dc3198dd39e3670e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
