@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "814ef0fc_d9ef7d87",
+        "filename": "src/math/unsafe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5295
+      },
+      "writtenOn": "2018-10-28T17:58:55Z",
+      "side": 1,
+      "message": "This just repeats what IEEE 754 defines[0], but the documentation already says `IEEE 754 binary representation`\n\n  [0]: https://en.wikipedia.org/wiki/Single-precision_floating-point_format#IEEE_754_single-precision_binary_floating-point_format:_binary32",
+      "revId": "78294a5ec2d3bbda624cce7c52010e834bea1e4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
