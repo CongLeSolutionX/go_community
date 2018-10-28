@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d9cc5e4_5fc9730f",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2327,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-10-28T18:33:25Z",
+      "side": 1,
+      "message": "n.List.First() and n.List.Second()?",
+      "revId": "8f01268725098edfaca969f40ce779de88c411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d41e55f_85e5858b",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-10-28T18:33:25Z",
+      "side": 1,
+      "message": "Add a comment here that all errors here are Fatalf instead of yyerror because only the compiler can construct an OSLICEHEADER, and we expect OSLICEHEADER nodes to use components that have already been typechecked.",
+      "revId": "8f01268725098edfaca969f40ce779de88c411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaec780a_b4b415cc",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-10-28T18:33:25Z",
+      "side": 1,
+      "message": "Nit: Given that this is an ICE case only, I say you make it shorter:\n\nif x :\u003d n.List.Len(); x !\u003d 2 {\n  Fatalf(\"expected 2 params (len, cap) for OSLICEHEADER, got %d\", x)\n}",
+      "revId": "8f01268725098edfaca969f40ce779de88c411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "036e4793_775aceab",
+        "filename": "src/runtime/runtime-gdb_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-10-28T18:33:25Z",
+      "side": 1,
+      "message": "I\u0027d love for one of the debugger/DWARF folks to take a peek at this and make sure they\u0027re happy with it.",
+      "revId": "8f01268725098edfaca969f40ce779de88c411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5580299d_4f2df5da",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-10-28T18:33:25Z",
+      "side": 1,
+      "message": "Do I remember correctly that you have a separate CL that special-cases len\u003d\u003dcap?",
+      "revId": "8f01268725098edfaca969f40ce779de88c411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
