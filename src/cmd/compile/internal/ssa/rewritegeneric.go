@@ -17356,7 +17356,7 @@ func rewriteValuegeneric_OpMove_20(v *Value) bool {
 		return true
 	}
 	// match: (Move {t1} [s1] dst tmp1 midmem:(Move {t2} [s2] tmp2 src _))
-	// cond: s1 == s2 && t1.(*types.Type).Compare(t2.(*types.Type)) == types.CMPeq && isSamePtr(tmp1, tmp2)
+	// cond: s1 == s2 && t1.(*types.Type).Compare(t2.(*types.Type)) == types.CMPeq && isSamePtr(tmp1, tmp2) && disjoint(src, s2, tmp2, s2) && disjoint(tmp1, s1, dst, s1) && disjoint(src, s1, dst, s2)
 	// result: (Move {t1} [s1] dst src midmem)
 	for {
 		s1 := v.AuxInt
@@ -17373,7 +17373,7 @@ func rewriteValuegeneric_OpMove_20(v *Value) bool {
 		_ = midmem.Args[2]
 		tmp2 := midmem.Args[0]
 		src := midmem.Args[1]
-		if !(s1 == s2 && t1.(*types.Type).Compare(t2.(*types.Type)) == types.CMPeq && isSamePtr(tmp1, tmp2)) {
+		if !(s1 == s2 && t1.(*types.Type).Compare(t2.(*types.Type)) == types.CMPeq && isSamePtr(tmp1, tmp2) && disjoint(src, s2, tmp2, s2) && disjoint(tmp1, s1, dst, s1) && disjoint(src, s1, dst, s2)) {
 			break
 		}
 		v.reset(OpMove)

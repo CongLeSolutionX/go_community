@@ -1808,6 +1808,9 @@
 	&& s1 == s2
 	&& t1.(*types.Type).Compare(t2.(*types.Type)) == types.CMPeq
 	&& isSamePtr(tmp1, tmp2)
+	&& disjoint(src, s2, tmp2, s2)
+	&& disjoint(tmp1, s1, dst, s1)
+	&& disjoint(src, s1, dst, s2)
 	-> (Move {t1} [s1] dst src midmem)
 
 // Elide self-moves. This only happens rarely (e.g test/fixedbugs/bug277.go).
