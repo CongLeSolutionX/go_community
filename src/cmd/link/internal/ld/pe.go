@@ -1514,11 +1514,6 @@ func Asmbpe(ctxt *Link) {
 
 	t := pefile.addSection(".text", int(Segtext.Length), int(Segtext.Length))
 	t.characteristics = IMAGE_SCN_CNT_CODE | IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_MEM_READ
-	if ctxt.LinkMode == LinkExternal {
-		// some data symbols (e.g. masks) end up in the .text section, and they normally
-		// expect larger alignment requirement than the default text section alignment.
-		t.characteristics |= IMAGE_SCN_ALIGN_32BYTES
-	}
 	t.checkSegment(&Segtext)
 	pefile.textSect = t
 
@@ -1540,12 +1535,12 @@ func Asmbpe(ctxt *Link) {
 		pefile.dataSect = d
 	} else {
 		d = pefile.addSection(".data", int(Segdata.Filelen), int(Segdata.Filelen))
-		d.characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE | IMAGE_SCN_ALIGN_32BYTES
+		d.characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE
 		d.checkSegment(&Segdata)
 		pefile.dataSect = d
 
 		b := pefile.addSection(".bss", int(Segdata.Length-Segdata.Filelen), 0)
-		b.characteristics = IMAGE_SCN_CNT_UNINITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE | IMAGE_SCN_ALIGN_32BYTES
+		b.characteristics = IMAGE_SCN_CNT_UNINITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE
 		b.pointerToRawData = 0
 		pefile.bssSect = b
 	}
