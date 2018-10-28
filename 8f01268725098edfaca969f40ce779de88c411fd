@@ -120,6 +120,24 @@
       "revId": "8f01268725098edfaca969f40ce779de88c411fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e14c2cfc_6406b5df",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2018-10-28T19:21:42Z",
+      "side": 1,
+      "message": "Giovanni, no problem asking questions. Compiler is constantly evolving and a big boat and I dont think there is anyone knowing all the corners well. We can all learn a lot from each others expertise and experience working on different compiler parts. Dont hesitate to ask. Happy to answer with what I know around here :)\n\nthe new OPSLICEHEADER node is lowered with this CL into ssa.OpSliceMake in gc/ssa.go. OpSliceMake is an existing op that AFAIK is visible ssa passes and used in ssa rules. e.g.:\n(SlicePtr (SliceMake ptr _ _ )) -\u003e ptr",
+      "parentUuid": "ff6bc8f6_fceea282",
+      "revId": "8f01268725098edfaca969f40ce779de88c411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
