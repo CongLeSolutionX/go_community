@@ -84,6 +84,24 @@
       "revId": "8f01268725098edfaca969f40ce779de88c411fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58555454_3fbc9c3b",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2018-10-28T18:42:52Z",
+      "side": 1,
+      "message": "yes (to be updated after this cl):\nhttps://go-review.googlesource.com/c/go/+/61191\n\nfor constant or known good (e.g. len of slice of type with equal or smaller width)\nlen or cap we can also in later CL avoid makeslice and just do mallocgc+OPSLICEHEADER directly.",
+      "parentUuid": "5580299d_4f2df5da",
+      "revId": "8f01268725098edfaca969f40ce779de88c411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
