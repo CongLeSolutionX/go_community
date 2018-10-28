@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79deedd7_72de8914",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-10-28T23:30:50Z",
+      "side": 1,
+      "message": "Looks fine. Might be worth checking it doesn\u0027t affect the inlinability of baseAndOffset (I think that\u0027s why I avoided the loop originally).",
+      "range": {
+        "startLine": 545,
+        "startChar": 2,
+        "endLine": 545,
+        "endChar": 27
+      },
+      "revId": "94193d4fdc9b5ad73ebfdd5903acc8d15bbf5f79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
