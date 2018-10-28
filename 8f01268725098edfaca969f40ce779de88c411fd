@@ -138,6 +138,24 @@
       "revId": "8f01268725098edfaca969f40ce779de88c411fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "498366ac_6887ce59",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2018-10-28T19:29:27Z",
+      "side": 1,
+      "message": "Since OpSliceMake is used for slice[:n] already then if the prove pass is able to deduce from slice[:n] that len(slice) \u003d\u003d n currently it now should automatically be able to deduce that len(make(_,n)) \u003d\u003d n.",
+      "parentUuid": "e14c2cfc_6406b5df",
+      "revId": "8f01268725098edfaca969f40ce779de88c411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
