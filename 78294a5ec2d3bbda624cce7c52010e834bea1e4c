@@ -34,6 +34,24 @@
       "revId": "78294a5ec2d3bbda624cce7c52010e834bea1e4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8356ce89_10fedd18",
+        "filename": "src/math/unsafe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 29777
+      },
+      "writtenOn": "2018-10-28T19:46:44Z",
+      "side": 1,
+      "message": "That seems a little difficult to unpack. What if we just mention that the sign bit is the most significant, and leave it at that?",
+      "parentUuid": "842811ac_7fade394",
+      "revId": "78294a5ec2d3bbda624cce7c52010e834bea1e4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
