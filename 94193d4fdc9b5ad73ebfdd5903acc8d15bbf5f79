@@ -22,6 +22,30 @@
       "revId": "94193d4fdc9b5ad73ebfdd5903acc8d15bbf5f79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ef6a811_77f8f646",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-10-29T17:02:26Z",
+      "side": 1,
+      "message": "It is no longer inlineable, but I don\u0027t think that that matters much.",
+      "parentUuid": "79deedd7_72de8914",
+      "range": {
+        "startLine": 545,
+        "startChar": 2,
+        "endLine": 545,
+        "endChar": 27
+      },
+      "revId": "94193d4fdc9b5ad73ebfdd5903acc8d15bbf5f79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
