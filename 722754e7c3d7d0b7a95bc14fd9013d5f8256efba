@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bd18fbb_47c0629b",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2609,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-29T15:40:51Z",
+      "side": 1,
+      "message": "// Caller must hold rs.cluemu.\n\nOr \"// rs.closemu must be locked.\"",
+      "range": {
+        "startLine": 2609,
+        "startChar": 3,
+        "endLine": 2609,
+        "endChar": 29
+      },
+      "revId": "722754e7c3d7d0b7a95bc14fd9013d5f8256efba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
