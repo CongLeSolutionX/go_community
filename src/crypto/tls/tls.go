@@ -10,9 +10,10 @@
 // options) such that it includes "tls13=0".
 package tls
 
-// BUG(agl): The crypto/tls package only implements some countermeasures
-// against Lucky13 attacks on CBC-mode encryption, and only on SHA1
-// variants. See http://www.isg.rhul.ac.uk/tls/TLStiming.pdf and
+// BUG(agl): The crypto/tls package only implements countermeasures against
+// Lucky13 attacks on CBC-mode encryption for SHA1 variants. SHA256 variants
+// are uncommon and disabled by default. Prefer AEAD-based cipher suites
+// instead. See http://www.isg.rhul.ac.uk/tls/TLStiming.pdf and
 // https://www.imperialviolet.org/2013/02/04/luckythirteen.html.
 
 import (

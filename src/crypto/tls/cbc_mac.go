@@ -4,7 +4,10 @@
 
 package tls
 
-import "crypto/subtle"
+import (
+	"crypto/subtle"
+	"hash"
+)
 
 // rotateSecretOffset rotates b by n bytes, such that b[i] is set to what was
 // previously b[(i+n)%len(b)]. The contents of b are undefined if n < 0 or
@@ -50,4 +53,63 @@ func copySecretSlice(in []byte, start, length int) []byte {
 	// Fix the rotation.
 	rotateSecretOffset(ret, rotate)
 	return ret
+}
+
+type constantTimeHash interface {
+	hash.Hash
+	ConstantTimeSumWithData(b, data []byte, l int) []byte
+}
+
+// constantTimeHMAC behaves like crypto/hmac, but adds a
+// ConstantTimeSumWithData method to mitigate timing attacks with CBC-mode
+// ciphers.
+type constantTimeHMAC struct {
+	opad, ipad []byte
+	outer      hash.Hash
+	inner      constantTimeHash
+}
+
+func (h *constantTimeHMAC) ConstantTimeSumWithData(in, data []byte, l int) []byte {
+	origLen := len(in)
+	in = h.inner.ConstantTimeSumWithData(in, data, l)
+	h.outer.Reset()
+	h.outer.Write(h.opad)
+	h.outer.Write(in[origLen:])
+	return h.outer.Sum(in[:origLen])
+}
+
+func (h *constantTimeHMAC) Write(p []byte) (n int, err error) {
+	return h.inner.Write(p)
+}
+
+func (h *constantTimeHMAC) Size() int { return h.inner.Size() }
+
+func (h *constantTimeHMAC) BlockSize() int { return h.inner.BlockSize() }
+
+func (h *constantTimeHMAC) Reset() {
+	h.inner.Reset()
+	h.inner.Write(h.ipad)
+}
+
+func newConstantTimeHMAC(h func() hash.Hash, key []byte) *constantTimeHMAC {
+	hm := new(constantTimeHMAC)
+	hm.outer = h()
+	hm.inner = h().(constantTimeHash)
+	blockSize := hm.inner.BlockSize()
+	hm.ipad = make([]byte, blockSize)
+	hm.opad = make([]byte, blockSize)
+	if len(key) > blockSize {
+		// TLS only creates HMAC keys less than the block size.
+		panic("tls: key larger than block size")
+	}
+	copy(hm.ipad, key)
+	copy(hm.opad, key)
+	for i := range hm.ipad {
+		hm.ipad[i] ^= 0x36
+	}
+	for i := range hm.opad {
+		hm.opad[i] ^= 0x5c
+	}
+	hm.inner.Write(hm.ipad)
+	return hm
 }
