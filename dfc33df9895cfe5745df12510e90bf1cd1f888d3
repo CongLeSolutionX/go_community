@@ -34,6 +34,24 @@
       "revId": "dfc33df9895cfe5745df12510e90bf1cd1f888d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6f1e57f_548ea270",
+        "filename": "src/runtime/runtime-gdb_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-10-29T18:49:20Z",
+      "side": 1,
+      "message": "I see. Looking at that, the ordering is only part of it -- I think we actually lost the slice contents? I\u0027ll patch it and take a look.\n\nSeems like this should replace the first regex, though, since that one must have been for 7.7 before your change.",
+      "parentUuid": "f489eca4_89df1531",
+      "revId": "dfc33df9895cfe5745df12510e90bf1cd1f888d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
