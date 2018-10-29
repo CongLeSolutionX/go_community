@@ -335,7 +335,7 @@ func MULS(a, b, c uint32) (uint32, uint32, uint32) {
 	// arm/7:`MULS`,-`MUL\s`
 	// arm64:`MSUBW`,-`MULW`
 	r0 := c - a*b
-	// arm/7:`MULS`-`MUL\s`
+	// arm/7:`MULS`,-`MUL\s`
 	// arm64:`MSUBW`,-`MULW`
 	r1 := a - c*79
 	// arm/7:`SUB`,-`MULS`-`MUL\s`
