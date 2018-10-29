@@ -10,6 +10,7 @@ package sha1
 
 import (
 	"crypto"
+	"crypto/subtle"
 	"errors"
 	"hash"
 )
@@ -23,6 +24,9 @@ const Size = 20
 
 // The blocksize of SHA-1 in bytes.
 const BlockSize = 64
+
+// The base 2 logarithm of BlockSize for right-shifting.
+const blockSizeLog2 = 6
 
 const (
 	chunk = 64
@@ -188,69 +192,119 @@ func (d *digest) checkSum() [Size]byte {
 	return digest
 }
 
-// ConstantTimeSum computes the same result of Sum() but in constant time
-func (d *digest) ConstantTimeSum(in []byte) []byte {
+// ConstantTimeSumWithData computes the same result as Write(data[:l]) followed
+// by Sum(in) but does not modify the digest state. It treats l as secret and
+// len(data) as public. The output is undefined if l < 0, l > len(data), or
+// len(data) >= 2**31.
+func (d *digest) ConstantTimeSumWithData(in, data []byte, l int) []byte {
 	d0 := *d
-	hash := d0.constSum()
+	hash := d0.constSumWithData(data, l)
 	return append(in, hash[:]...)
 }
 
-func (d *digest) constSum() [Size]byte {
+// ConstantTimeSum computes the same result as Sum(). It treats the number of
+// bytes written to the digest as secret, but does so imperfectly. While this
+// method will not leak the length, any preceding calls to Write() would not
+// treat the length as secret. Use ConstantTimeSumWithData() instead.
+func (d *digest) ConstantTimeSum(in []byte) []byte {
+	// ConstantTimeSum treats d.nx as secret, but constSumWithData does
+	// not. This method was exported, so we preserve the incomplete timing
+	// guarantees by rewinding d.x[:d.nx] and passing it back into
+	// constSumWithData as the secret suffix.
+	d0 := *d
+	d0.len -= uint64(d0.nx)
+	d0.nx = 0
+	hash := d0.constSumWithData(d.x[:], d.nx)
+	return append(in, hash[:]...)
+}
+
+func (d *digest) constSumWithData(data []byte, l int) [Size]byte {
+	if chunk != BlockSize {
+		// This logic assumes that chunk and block sizes match. If this
+		// ever changes, this logic should check for d.nx >= BlockSize
+		// and, if so, process d.x down to a partial block. (d.nx is
+		// public, so this can be done without timing precautions.)
+		panic("sha1: code currently assumes the chunk and block sizes are the same")
+	}
+
+	// The final SHA-1 hash is determined by the hash state (d.h) after
+	// incorporating the following, divided into blocks:
+	//
+	// - d.x[:d.nx], the pending partial block.
+	// - data[:l]
+	// - a single byte 0x80
+	// - however many zero bytes are needed for the length below to end on
+	//   a block boundary
+	// - the total length in bits, encoded as an 8-byte big-endian integer
+	//
+	// We must do so without leaking l. Note d.nx is public as it was
+	// computed by Write().
+
+	// First, compute and assemble the encoded length.
 	var length [8]byte
-	l := d.len << 3
+	bits := (uint64(l) + d.len) << 3
 	for i := uint(0); i < 8; i++ {
-		length[i] = byte(l >> (56 - 8*i))
+		length[i] = byte(bits >> (56 - 8*i))
 	}
 
-	nx := byte(d.nx)
-	t := nx - 56                 // if nx < 56 then the MSB of t is one
-	mask1b := byte(int8(t) >> 7) // mask1b is 0xFF iff one block is enough
+	// Compute the number of blocks we actually wish to process. Division
+	// is variable-time, so we count blocks with blockSizeLog2. (The
+	// compiler will likely optimize division to a shift, but this avoids
+	// depending on compiler optimizations.)
+	numBlocks := d.nx + l + 1 + 8
+	numBlocks = (numBlocks + BlockSize - 1) >> blockSizeLog2
 
-	separator := byte(0x80) // gets reset to 0x00 once used
-	for i := byte(0); i < chunk; i++ {
-		mask := byte(int8(i-nx) >> 7) // 0x00 after the end of data
+	// numBlocks is secret due to its use of l. It is publicly upper
+	// bounded by len(data), so compute the public upper bound on the
+	// number of blocks. We must process this many blocks, even if we
+	// ignore most of them.
+	maxBlocks := d.nx + len(data) + 1 + 8
+	maxBlocks = (maxBlocks + BlockSize - 1) >> blockSizeLog2
 
-		// if we reached the end of the data, replace with 0x80 or 0x00
-		d.x[i] = (^mask & separator) | (mask & d.x[i])
-
-		// zero the separator once used
-		separator &= mask
-
-		if i >= 56 {
-			// we might have to write the length here if all fit in one block
-			d.x[i] |= mask1b & length[i-56]
-		}
-	}
-
-	// compress, and only keep the digest if all fit in one block
-	block(d, d.x[:])
-
+	// Assemble and process maxBlocks blocks. For i < numBlocks, we
+	// assemble the correct blocks in constant-time. Blocks beyond that may
+	// have any arbitrary value (this code uses all zeros).
 	var digest [Size]byte
-	for i, s := range d.h {
-		digest[i*4] = mask1b & byte(s>>24)
-		digest[i*4+1] = mask1b & byte(s>>16)
-		digest[i*4+2] = mask1b & byte(s>>8)
-		digest[i*4+3] = mask1b & byte(s)
-	}
-
-	for i := byte(0); i < chunk; i++ {
-		// second block, it's always past the end of data, might start with 0x80
-		if i < 56 {
-			d.x[i] = separator
-			separator = 0
-		} else {
-			d.x[i] = length[i-56]
+	var dataIdx int
+	for i := 0; i < maxBlocks; i++ {
+		isLastBlock := subtle.ConstantTimeEq(int32(i), int32(numBlocks-1))
+		isLastBlockMask := uint8(^(isLastBlock - 1))
+		var start int
+		if i == 0 {
+			// For the first block, skip over the existing partial
+			// block.
+			start = d.nx
 		}
-	}
+		if dataIdx < len(data) {
+			// Fill the block with data, including data past l. The
+			// subsequent loop will zero bytes to discard.
+			copy(d.x[start:BlockSize], data[dataIdx:])
+		}
+		for j := start; j < BlockSize; j++ {
+			// Zero the byte of data if we are past l.
+			isPastLastByte := subtle.ConstantTimeLessOrEq(l, dataIdx)
+			d.x[j] &= uint8(isPastLastByte - 1)
 
-	// compress, and only keep the digest if we actually needed the second block
-	block(d, d.x[:])
+			// The byte immediately after data[:l] is 0x80.
+			isPadByte := subtle.ConstantTimeEq(int32(l), int32(dataIdx))
+			d.x[j] |= 0x80 & uint8(^(isPadByte - 1))
 
-	for i, s := range d.h {
-		digest[i*4] |= ^mask1b & byte(s>>24)
-		digest[i*4+1] |= ^mask1b & byte(s>>16)
-		digest[i*4+2] |= ^mask1b & byte(s>>8)
-		digest[i*4+3] |= ^mask1b & byte(s)
+			// The final block's last 8 bytes are the length.
+			if j >= BlockSize-8 {
+				d.x[j] |= length[j-(BlockSize-8)] & isLastBlockMask
+			}
+
+			dataIdx++
+		}
+
+		// Compress and only keep the digest if this is the last block.
+		block(d, d.x[:BlockSize])
+		for i, s := range d.h {
+			digest[i*4] |= isLastBlockMask & byte(s>>24)
+			digest[i*4+1] |= isLastBlockMask & byte(s>>16)
+			digest[i*4+2] |= isLastBlockMask & byte(s>>8)
+			digest[i*4+3] |= isLastBlockMask & byte(s)
+		}
 	}
 
 	return digest
