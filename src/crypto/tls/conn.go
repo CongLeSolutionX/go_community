@@ -420,11 +420,21 @@ func (hc *halfConn) decrypt(record []byte) ([]byte, recordType, error) {
 			return nil, 0, alertBadRecordMAC
 		}
 
+		// Note, for CBC-mode ciphers, paddingLen and thus n is secret.
 		n := len(payload) - macSize - paddingLen
 		n = subtle.ConstantTimeSelect(int(uint32(n)>>31), 0, n) // if n < 0 { n = 0 }
 		record[3] = byte(n >> 8)
 		record[4] = byte(n)
-		remoteMAC := payload[n : n+macSize]
+		// The remote MAC is payload[n:n+macSize], but n is secret.
+		// Extract it with copySecretSlice. As an optimization, omput
+		// the smallest possible value  for n to avoid searching
+		// unnecessary parts of the payload. (paddingLen is at most
+		// 256.)
+		minN := len(payload) - macSize - 256
+		if minN < 0 {
+			minN = 0
+		}
+		remoteMAC := copySecretSlice(payload[minN:], n-minN, macSize)
 		localMAC := hc.mac.MAC(hc.seq[0:], record[:recordHeaderLen], payload[:n], payload[n+macSize:])
 
 		// This is equivalent to checking the MACs and paddingGood
