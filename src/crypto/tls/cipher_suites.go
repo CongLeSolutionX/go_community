@@ -74,6 +74,11 @@ type cipherSuite struct {
 	aead   func(key, fixedNonce []byte) aead
 }
 
+// BUG(agl): The crypto/tls package only implements countermeasures against
+// Lucky13 attacks on CBC-mode encryption for SHA1 variants. SHA256 variants
+// are uncommon and disabled by default. Prefer AEAD-based cipher suites
+// instead. See http://www.isg.rhul.ac.uk/tls/TLStiming.pdf and
+// https://www.imperialviolet.org/2013/02/04/luckythirteen.html.
 var cipherSuites = []*cipherSuite{
 	// Ciphersuite order is chosen so that ECDHE comes before plain RSA and
 	// AEADs are the top preference.
@@ -149,7 +154,7 @@ func macSHA1(version uint16, key []byte) macFunction {
 		copy(mac.key, key)
 		return mac
 	}
-	return tls10MAC{h: hmac.New(newConstantTimeHash(sha1.New), key)}
+	return tls10MACConstantTime{h: newConstantTimeHMAC(sha1.New, key)}
 }
 
 // macSHA256 returns a SHA-256 based MAC. These are only supported in TLS 1.2
@@ -161,10 +166,14 @@ func macSHA256(version uint16, key []byte) macFunction {
 type macFunction interface {
 	// Size returns the length of the MAC.
 	Size() int
-	// MAC appends the MAC of (seq, header, data) to out. The extra data is fed
-	// into the MAC after obtaining the result to normalize timing. The result
-	// is only valid until the next invocation of MAC as the buffer is reused.
-	MAC(seq, header, data, extra []byte) []byte
+	// MAC appends the MAC of (seq, header, data[:n]) to out. The extra
+	// data is fed into the MAC after obtaining the result to normalize
+	// timing. The result is only valid until the next invocation of MAC as
+	// the buffer is reused.
+	//
+	// In TLS HMAC-SHA1 ciphers, n is treated as secret, but must be
+	// bounded by minN and len(data), which are public. minN must be >= 0.
+	MAC(seq, header, data []byte, minN, n int) []byte
 }
 
 type aead interface {
@@ -306,7 +315,7 @@ var ssl30Pad2 = [48]byte{0x5c, 0x5c, 0x5c, 0x5c, 0x5c, 0x5c, 0x5c, 0x5c, 0x5c, 0
 
 // MAC does not offer constant timing guarantees for SSL v3.0, since it's deemed
 // useless considering the similar, protocol-level POODLE vulnerability.
-func (s ssl30MAC) MAC(seq, header, data, extra []byte) []byte {
+func (s ssl30MAC) MAC(seq, header, data []byte, minN, n int) []byte {
 	padLength := 48
 	if s.h.Size() == 20 {
 		padLength = 40
@@ -318,7 +327,7 @@ func (s ssl30MAC) MAC(seq, header, data, extra []byte) []byte {
 	s.h.Write(seq)
 	s.h.Write(header[:1])
 	s.h.Write(header[3:5])
-	s.h.Write(data)
+	s.h.Write(data[:n])
 	s.buf = s.h.Sum(s.buf[:0])
 
 	s.h.Reset()
@@ -326,29 +335,6 @@ func (s ssl30MAC) MAC(seq, header, data, extra []byte) []byte {
 	s.h.Write(ssl30Pad2[:padLength])
 	s.h.Write(s.buf)
 	return s.h.Sum(s.buf[:0])
-}
-
-type constantTimeHash interface {
-	hash.Hash
-	ConstantTimeSum(b []byte) []byte
-}
-
-// cthWrapper wraps any hash.Hash that implements ConstantTimeSum, and replaces
-// with that all calls to Sum. It's used to obtain a ConstantTimeSum-based HMAC.
-type cthWrapper struct {
-	h constantTimeHash
-}
-
-func (c *cthWrapper) Size() int                   { return c.h.Size() }
-func (c *cthWrapper) BlockSize() int              { return c.h.BlockSize() }
-func (c *cthWrapper) Reset()                      { c.h.Reset() }
-func (c *cthWrapper) Write(p []byte) (int, error) { return c.h.Write(p) }
-func (c *cthWrapper) Sum(b []byte) []byte         { return c.h.ConstantTimeSum(b) }
-
-func newConstantTimeHash(h func() hash.Hash) func() hash.Hash {
-	return func() hash.Hash {
-		return &cthWrapper{h().(constantTimeHash)}
-	}
 }
 
 // tls10MAC implements the TLS 1.0 MAC function. RFC 2246, Section 6.2.3.
@@ -361,19 +347,40 @@ func (s tls10MAC) Size() int {
 	return s.h.Size()
 }
 
-// MAC is guaranteed to take constant time, as long as
-// len(seq)+len(header)+len(data)+len(extra) is constant. extra is not fed into
-// the MAC, but is only provided to make the timing profile constant.
-func (s tls10MAC) MAC(seq, header, data, extra []byte) []byte {
+func (s tls10MAC) MAC(seq, header, data []byte, minN, n int) []byte {
 	s.h.Reset()
 	s.h.Write(seq)
 	s.h.Write(header)
-	s.h.Write(data)
+	s.h.Write(data[:n])
 	res := s.h.Sum(s.buf[:0])
-	if extra != nil {
-		s.h.Write(extra)
-	}
+	// Feed the remainder into the MAC, to partially smooth over the timing
+	// leak. tls10MAC is only used with SHA-256 CBC ciphers which are
+	// disabled by default. crypto/tls does not guarantee constant-time
+	// behavior for them.
+	s.h.Write(data[n:])
 	return res
+}
+
+// tls10MACConstantTime implements the TLS 1.0 MAC function from RFC 2246,
+// Section 6.2.3. It supports constant-time behavior needed to avoid CBC
+// padding attacks.
+type tls10MACConstantTime struct {
+	h   *constantTimeHMAC
+	buf []byte
+}
+
+func (s tls10MACConstantTime) Size() int {
+	return s.h.Size()
+}
+
+func (s tls10MACConstantTime) MAC(seq, header, data []byte, minN, n int) []byte {
+	s.h.Reset()
+	s.h.Write(seq)
+	s.h.Write(header)
+	// Feed the public lower bound into the HMAC normally.
+	s.h.Write(data[:minN])
+	// Handle the remaining n-minN bytes without leaking n.
+	return s.h.ConstantTimeSumWithData(s.buf[:0], data[minN:], n-minN)
 }
 
 func rsaKA(version uint16) keyAgreement {
