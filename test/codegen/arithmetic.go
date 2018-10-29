@@ -33,6 +33,7 @@ func SubMem(arr []int, b, c, d int) int {
 	// 386:`ADDL\s[$]-15,\s\([A-Z]+\)\([A-Z]+\*4\)`
 	arr[d] -= 15
 	// 386:`DECL\s\([A-Z]+\)\([A-Z]+\*4\)`
+	// amd64:`DECQ\s\([A-Z]+\)`
 	arr[b]--
 	// 386:"SUBL\t4"
 	// amd64:"SUBQ\t8"
