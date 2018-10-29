@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00c6d078_1bfd3006",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-29T14:16:38Z",
+      "side": 1,
+      "message": "Also here.",
+      "revId": "2d5f32a84973731b6378fb7bf80ae99050d1f600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af781080_dc962c63",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-29T14:16:38Z",
+      "side": 1,
+      "message": "And here.",
+      "revId": "2d5f32a84973731b6378fb7bf80ae99050d1f600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43beba84_0e3daab6",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-10-29T14:16:38Z",
+      "side": 1,
+      "message": "Here.",
+      "revId": "2d5f32a84973731b6378fb7bf80ae99050d1f600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
