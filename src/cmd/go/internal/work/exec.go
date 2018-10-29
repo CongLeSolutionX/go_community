@@ -709,6 +709,16 @@ func (b *Builder) build(a *Action) (err error) {
 				return err
 			}
 			objects = append(objects, ofiles...)
+		case "aix":
+			asmfile, err := b.gccgoBuildIDXCOFFFile(a)
+			if err != nil {
+				return err
+			}
+			ofiles, err := BuildToolchain.asm(b, a, []string{asmfile})
+			if err != nil {
+				return err
+			}
+			objects = append(objects, ofiles...)
 		}
 	}
 
@@ -2297,6 +2307,10 @@ func (b *Builder) gccArchArgs() []string {
 		return []string{"-mabi=64"}
 	case "mips", "mipsle":
 		return []string{"-mabi=32", "-march=mips32"}
+	case "ppc64":
+		if cfg.Goos == "aix" {
+			return []string{"-maix64"}
+		}
 	}
 	return nil
 }
