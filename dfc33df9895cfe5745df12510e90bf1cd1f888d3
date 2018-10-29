@@ -70,6 +70,24 @@
       "revId": "dfc33df9895cfe5745df12510e90bf1cd1f888d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23d8b6f_28b54797",
+        "filename": "src/runtime/runtime-gdb_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-10-29T19:09:09Z",
+      "side": 1,
+      "message": "Took a quick look. After the change, the test program displays a problem we\u0027ve seen many times before: constant values tend to be materialized at the last possible moment, or not at all. In this case, the debug information is properly tracking the data pointer, but the constants for length and capacity are (correctly) totally missing.\n\nTestNexting is still passing, so I don\u0027t think this is likely to regress real use cases too much. +David just as FYI.\n\nIf you don\u0027t mind, please go ahead and fix it to just test for the presence of the variables in \u0027info variables\u0027 since we\u0027ve got mapvar and strvar covered above.",
+      "parentUuid": "bb0d3349_b8ae58a0",
+      "revId": "dfc33df9895cfe5745df12510e90bf1cd1f888d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
