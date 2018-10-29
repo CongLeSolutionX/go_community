@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fac8229_997443b2",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-10-29T12:18:57Z",
+      "side": 1,
+      "message": "Now I\u0027m realising that Struct and Field overlap. For example, in decode_test.go, you can see \"V\" and \"V.F2\".\n\nPerhaps we should leave Field intact, and instead have Struct contain the full path to the struct type. Then, in an input like:\n\n  {\n    \"S1\": {\n      \"S2\": {\n        \"F\": \"bad-type\"\n      }\n    }\n  }\n\nYou would get Struct\u003d\u003d\"S1.S2\" and Field\u003d\u003d\"F\".\n\nAn alternative is to add a Prefix field, which would contain \"S1\". Then, the full path to the field would be Prefix+\".\"+Struct+\".\"+Field, ignoring leading dots. I\u0027d go with less fields, as long as changing the meaning of the Struct field is fine.\n\nAlso - note that either \"name of\" comment needs changing, if you\u0027re changing what\u0027s contained in the string.",
+      "revId": "a0b4847bff6a9d4cb9f9ec2a6aedcbf0076fb188",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
