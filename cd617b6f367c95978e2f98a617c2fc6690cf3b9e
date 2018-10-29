@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff44e244_4527b368",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-10-29T04:31:13Z",
+      "side": 1,
+      "message": "The grammar here is a little hard to parse; the sentence confused me. It can be simpler:\n\nTo change the destination for flag messages, call CommandLine.SetOutput.",
+      "revId": "cd617b6f367c95978e2f98a617c2fc6690cf3b9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
