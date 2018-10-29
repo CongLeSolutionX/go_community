@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6d131e1_9f438b7a",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-10-29T15:20:37Z",
+      "side": 1,
+      "message": "Converted certificateVerifyMsg, too, and renamed hasSignatureAnsHash to hasSignatureAlgorithm.",
+      "range": {
+        "startLine": 989,
+        "startChar": 0,
+        "endLine": 1029,
+        "endChar": 1
+      },
+      "revId": "9932dc1470bc2f51cf26bac59292a13d41ef6829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
