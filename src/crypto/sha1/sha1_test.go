@@ -65,7 +65,7 @@ func TestGolden(t *testing.T) {
 			t.Fatalf("Sum function: sha1(%s) = %s want %s", g.in, s, g.out)
 		}
 		c := New()
-		for j := 0; j < 4; j++ {
+		for j := 0; j < 3; j++ {
 			var sum []byte
 			switch j {
 			case 0, 1:
@@ -76,17 +76,33 @@ func TestGolden(t *testing.T) {
 				c.Sum(nil)
 				io.WriteString(c, g.in[len(g.in)/2:])
 				sum = c.Sum(nil)
-			case 3:
-				io.WriteString(c, g.in[0:len(g.in)/2])
-				c.(*digest).ConstantTimeSum(nil)
-				io.WriteString(c, g.in[len(g.in)/2:])
-				sum = c.(*digest).ConstantTimeSum(nil)
 			}
 			s := fmt.Sprintf("%x", sum)
 			if s != g.out {
 				t.Fatalf("sha1[%d](%s) = %s want %s", j, g.in, s, g.out)
 			}
 			c.Reset()
+		}
+
+		// Test constant-time operation with up to 20+256 bytes of
+		// excess, matching the possible overheads in TLS CBC ciphers.
+		// (20 bytes of MAC and up to 256 bytes of padding.)
+		const maxExtra = 20 + 256
+		padded := make([]byte, len(g.in)+maxExtra)
+		copy(padded, []byte(g.in))
+		for i := 0; i < maxExtra; i++ {
+			padded[len(g.in)+i] = byte(i)
+		}
+		for start := 0; start <= BlockSize && start <= len(g.in); start++ {
+			for extra := 0; extra < maxExtra; extra++ {
+				io.WriteString(c, g.in[:start])
+				sum := c.(*digest).ConstantTimeSumWithData(nil, padded[start:len(g.in)+extra], len(g.in)-start)
+				s := fmt.Sprintf("%x", sum)
+				if s != g.out {
+					t.Fatalf("sha1[4][%d][%d](%s) = %s want %s", start, extra, g.in, s, g.out)
+				}
+				c.Reset()
+			}
 		}
 	}
 }
