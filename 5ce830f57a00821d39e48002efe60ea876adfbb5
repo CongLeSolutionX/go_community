@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ce8b7af_846fb9c6",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-29T19:06:52Z",
+      "side": 1,
+      "message": "It would be nice to pass just one value here, if we could.\nBoth make([]T, n) and make([]T, 0, n) are cases where we don\u0027t need two values.\nWe could do the checks that require us to differentiate len and cap in the caller.\n\nNot sure if that would blow up the call site too much or not.\nThe distinction between panicmakeslicelen and panicmakeslicecap is also tricky.\nDefinitely shouldn\u0027t hold up this CL.",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 34
+      },
+      "revId": "5ce830f57a00821d39e48002efe60ea876adfbb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
