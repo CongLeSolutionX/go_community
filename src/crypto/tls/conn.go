@@ -379,12 +379,9 @@ func (hc *halfConn) decrypt(record []byte) ([]byte, recordType, error) {
 			}
 			c.CryptBlocks(payload, payload)
 
-			// In a limited attempt to protect against CBC padding oracles like
-			// Lucky13, the data past paddingLen (which is secret) is passed to
-			// the MAC function as extra data, to be fed into the HMAC after
-			// computing the digest. This makes the MAC roughly constant time as
-			// long as the digest computation is constant time and does not
-			// affect the subsequent write, modulo cache effects.
+			// To protect against CBC padding oracles like Lucky13
+			// the results of the padding check below are still
+			// considered secret.
 			paddingLen, paddingGood = extractPadding(payload)
 		default:
 			panic("unknown cipher type")
@@ -433,7 +430,7 @@ func (hc *halfConn) decrypt(record []byte) ([]byte, recordType, error) {
 			minN = 0
 		}
 		remoteMAC := copySecretSlice(payload[minN:], n-minN, macSize)
-		localMAC := hc.mac.MAC(hc.seq[0:], record[:recordHeaderLen], payload[:n], payload[n+macSize:])
+		localMAC := hc.mac.MAC(hc.seq[0:], record[:recordHeaderLen], payload[:len(payload)-macSize], n)
 
 		// This is equivalent to checking the MACs and paddingGood
 		// separately, but in constant-time to prevent distinguishing
@@ -447,6 +444,8 @@ func (hc *halfConn) decrypt(record []byte) ([]byte, recordType, error) {
 			return nil, 0, alertBadRecordMAC
 		}
 
+		// With invalid MACs rejected, n is public and may be used in
+		// slices.
 		plaintext = payload[:n]
 	}
 
@@ -498,7 +497,7 @@ func (hc *halfConn) encrypt(record, payload []byte, rand io.Reader) ([]byte, err
 
 	var mac []byte
 	if hc.mac != nil {
-		mac = hc.mac.MAC(hc.seq[:], record[:recordHeaderLen], payload, nil)
+		mac = hc.mac.MAC(hc.seq[:], record[:recordHeaderLen], payload, len(payload))
 	}
 
 	var dst []byte
