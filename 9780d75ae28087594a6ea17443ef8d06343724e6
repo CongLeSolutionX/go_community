@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4eaac5b_43d737bf",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2418,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-30T18:32:43Z",
+      "side": 1,
+      "message": "I think it\u0027d be easier to follow if you just append a zero value here:\n\n   es \u003d append(es, muxEntry{})\n\nAnd then slide elements down in the copy line",
+      "range": {
+        "startLine": 2418,
+        "startChar": 17,
+        "endLine": 2418,
+        "endChar": 24
+      },
+      "revId": "9780d75ae28087594a6ea17443ef8d06343724e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef0b487c_31d3a630",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2419,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-30T18:32:43Z",
+      "side": 1,
+      "message": "You can omit the colons and upper bounds, no?",
+      "range": {
+        "startLine": 2419,
+        "startChar": 12,
+        "endLine": 2419,
+        "endChar": 27
+      },
+      "revId": "9780d75ae28087594a6ea17443ef8d06343724e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
