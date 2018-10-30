@@ -34,6 +34,24 @@
       "revId": "a0b4847bff6a9d4cb9f9ec2a6aedcbf0076fb188",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35478d3d_5ddcac47",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2018-10-30T07:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0ee2437_97438882",
+      "revId": "a0b4847bff6a9d4cb9f9ec2a6aedcbf0076fb188",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
