@@ -1328,6 +1328,30 @@ func TestBlock(t *testing.T) {
 	}
 }
 
+func TestBlockOverlayWithBOM(t *testing.T) {
+	const (
+		input   = `Master: {{block "list" .}}block{{end}}`
+		overlay = "\ufeff" + `{{define "list"}}overlay{{end}}`
+		want    = "Master: overlay"
+	)
+	tmpl, err := New("outer").Parse(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	tmpl2, err := Must(tmpl.Clone()).Parse(overlay)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var buf bytes.Buffer
+	if err := tmpl2.Execute(&buf, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := buf.String(); got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 // Check that calling an invalid field on nil pointer prints
 // a field error instead of a distracting nil pointer error.
 // https://golang.org/issue/15125

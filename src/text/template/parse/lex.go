@@ -209,6 +209,8 @@ func lex(name, input, left, right string) *lexer {
 	if right == "" {
 		right = rightDelim
 	}
+	// Skip BOM if it's the first character.
+	input = strings.TrimPrefix(input, "\ufeff")
 	l := &lexer{
 		name:       name,
 		input:      input,
