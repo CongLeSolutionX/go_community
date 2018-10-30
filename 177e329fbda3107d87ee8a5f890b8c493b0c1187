@@ -332,6 +332,24 @@
       "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53328bc0_8da50d9f",
+        "filename": "src/syscall/js/callback.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2018-10-30T08:41:38Z",
+      "side": 1,
+      "message": "No, that sounds fine. I think some doc comments will make it clear. :-)",
+      "parentUuid": "69764950_748ee645",
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
