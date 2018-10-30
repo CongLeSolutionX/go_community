@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c15ca416_7fa29fe0",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-30T14:27:32Z",
+      "side": 1,
+      "message": "Looking at this with fresh eyes, it really does look quite a bit like gccgoBuildIDELFFile.  What if we rename that to gccgoBuildIDFile and add in a couple of cfg.Goos \u003d\u003d \"aix\"?",
+      "revId": "ae6daccbe0625249e6d56723f4342b54f9a3be54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
