@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce63982c_de23320f",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2418,
+      "author": {
+        "id": 12225
+      },
+      "writtenOn": "2018-10-30T23:53:23Z",
+      "side": 1,
+      "message": "I had this as\n\n   es \u003d append(es, e)\n\nbut found it confusing to read.  (since the final element doesn\u0027t really matter if it is about to be overwritten.",
+      "parentUuid": "c4eaac5b_43d737bf",
+      "range": {
+        "startLine": 2418,
+        "startChar": 17,
+        "endLine": 2418,
+        "endChar": 24
+      },
+      "revId": "9780d75ae28087594a6ea17443ef8d06343724e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef0b487c_31d3a630",
         "filename": "src/net/http/server.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-30T18:32:43Z",
       "side": 1,
       "message": "You can omit the colons and upper bounds, no?",
+      "range": {
+        "startLine": 2419,
+        "startChar": 12,
+        "endLine": 2419,
+        "endChar": 27
+      },
+      "revId": "9780d75ae28087594a6ea17443ef8d06343724e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13c5502a_6dfe061a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2419,
+      "author": {
+        "id": 12225
+      },
+      "writtenOn": "2018-10-30T23:53:23Z",
+      "side": 1,
+      "message": "The steps for inserting c into the slice [a b d e]\n\n1.  [a b d e e]\n2.  [a b d d e]\n3.  [a b c d e]\n\nThe bounds are necessary for because the slice length changes after the append.  To clarify, what you are asking for is:\n\n1.  [a b d e 0]\n2.  [a b d d e]\n3.  [a b c d e]\n\nThis results in a single extra element being copied.  If you are okay with that I can make it do so.",
+      "parentUuid": "ef0b487c_31d3a630",
       "range": {
         "startLine": 2419,
         "startChar": 12,
