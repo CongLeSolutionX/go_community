@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4e92adf9_cba6e249",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-30T21:23:13Z",
+      "side": 1,
+      "message": "I thought about that name, but emptyLast kind of implies this is the last empty slot, which isn\u0027t right.\nI would like a better name here, if someone can think of something.",
+      "parentUuid": "37c76700_2035a13f",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 10
+      },
+      "revId": "ca0019b74a9e8ab660c4173eb27f6e1de7b85d92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4a492b4_26ed1bef",
         "filename": "src/runtime/map.go",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "ca0019b74a9e8ab660c4173eb27f6e1de7b85d92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ded4626c_d50163e7",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-10-30T21:23:13Z",
+      "side": 1,
+      "message": "The compiler CSEs this load.",
+      "parentUuid": "d4a492b4_26ed1bef",
+      "range": {
+        "startLine": 617,
+        "startChar": 7,
+        "endLine": 617,
+        "endChar": 19
+      },
+      "revId": "ca0019b74a9e8ab660c4173eb27f6e1de7b85d92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
