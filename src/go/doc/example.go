@@ -219,6 +219,12 @@ func playExample(file *ast.File, f *ast.FuncDecl) *ast.File {
 	for i := 0; i < len(depDecls); i++ {
 		switch d := depDecls[i].(type) {
 		case *ast.FuncDecl:
+			if d.Type.Results != nil && len(d.Type.Results.List) > 0 {
+				// Inspect all the return types. See #28492.
+				for _, fi := range d.Type.Results.List {
+					ast.Inspect(fi.Type, inspectFunc)
+				}
+			}
 			ast.Inspect(d.Body, inspectFunc)
 		case *ast.GenDecl:
 			for _, spec := range d.Specs {
