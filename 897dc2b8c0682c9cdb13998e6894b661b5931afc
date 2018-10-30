@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8d971c2_0106b671",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-10-30T23:20:55Z",
+      "side": 1,
+      "message": "Please mention somewhere in the commit message that the freebsd implementation is currently disabled.",
+      "range": {
+        "startLine": 14,
+        "startChar": 64,
+        "endLine": 14,
+        "endChar": 71
+      },
+      "revId": "897dc2b8c0682c9cdb13998e6894b661b5931afc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
