@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a320693_ec3b6975",
+        "filename": "src/math/unsafe.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-30T14:59:04Z",
+      "side": 1,
+      "message": "s/the/The/\n\nAlso for Float64bits.",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "315c767cfcbeab4bf747bb27ac0ad79e47e4e18f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
