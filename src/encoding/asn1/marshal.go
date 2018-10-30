@@ -384,26 +384,7 @@ func appendTimeCommon(dst []byte, t time.Time) []byte {
 	dst = appendTwoDigits(dst, min)
 	dst = appendTwoDigits(dst, sec)
 
-	_, offset := t.Zone()
-
-	switch {
-	case offset/60 == 0:
-		return append(dst, 'Z')
-	case offset > 0:
-		dst = append(dst, '+')
-	case offset < 0:
-		dst = append(dst, '-')
-	}
-
-	offsetMinutes := offset / 60
-	if offsetMinutes < 0 {
-		offsetMinutes = -offsetMinutes
-	}
-
-	dst = appendTwoDigits(dst, offsetMinutes/60)
-	dst = appendTwoDigits(dst, offsetMinutes%60)
-
-	return dst
+	return append(dst, 'Z')
 }
 
 func stripTagAndLength(in []byte) []byte {
@@ -419,7 +400,7 @@ func makeBody(value reflect.Value, params fieldParameters) (e encoder, err error
 	case flagType:
 		return bytesEncoder(nil), nil
 	case timeType:
-		t := value.Interface().(time.Time)
+		t := value.Interface().(time.Time).UTC()
 		if params.timeType == TagGeneralizedTime || outsideUTCRange(t) {
 			return makeGeneralizedTime(t)
 		}
@@ -606,7 +587,7 @@ func makeField(v reflect.Value, params fieldParameters) (e encoder, err error) {
 			tag = params.stringType
 		}
 	case TagUTCTime:
-		if params.timeType == TagGeneralizedTime || outsideUTCRange(v.Interface().(time.Time)) {
+		if params.timeType == TagGeneralizedTime || outsideUTCRange(v.Interface().(time.Time).UTC()) {
 			tag = TagGeneralizedTime
 		}
 	}

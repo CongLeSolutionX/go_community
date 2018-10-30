@@ -95,6 +95,7 @@ type numericStringTest struct {
 type testSET []int
 
 var PST = time.FixedZone("PST", -8*60*60)
+var CET = time.FixedZone("CET", +1*60*60)
 
 type marshalTest struct {
 	in  interface{}
@@ -126,9 +127,12 @@ var marshalTests = []marshalTest{
 	{flagTest{false}, "3000"},
 	{time.Unix(0, 0).UTC(), "170d3730303130313030303030305a"},
 	{time.Unix(1258325776, 0).UTC(), "170d3039313131353232353631365a"},
-	{time.Unix(1258325776, 0).In(PST), "17113039313131353134353631362d30383030"},
+	{time.Unix(1258325776, 0).In(PST), "170d3039313131353232353631365a"},
+	{time.Date(1950, 1, 1, 0, 0, 0, 0, CET), "180f31393439313233313233303030305a"},
+	{time.Date(2049, 12, 31, 23, 0, 0, 0, PST), "180f32303530303130313037303030305a"},
 	{farFuture(), "180f32313030303430353132303130315a"},
 	{generalizedTimeTest{time.Unix(1258325776, 0).UTC()}, "3011180f32303039313131353232353631365a"},
+	{generalizedTimeTest{time.Unix(1258325776, 0).In(PST)}, "3011180f32303039313131353232353631365a"},
 	{BitString{[]byte{0x80}, 1}, "03020780"},
 	{BitString{[]byte{0x81, 0xf0}, 12}, "03030481f0"},
 	{ObjectIdentifier([]int{1, 2, 3, 4}), "06032a0304"},
