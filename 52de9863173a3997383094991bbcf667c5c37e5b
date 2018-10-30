@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c87ecc3c_8022038f",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-30T19:32:00Z",
+      "side": 1,
+      "message": "Done.\nThanks!",
+      "parentUuid": "0e5d7763_bef558b6",
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16a50efb_af113dc1",
         "filename": "src/runtime/debug/mod.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-10-25T19:53:26Z",
       "side": 1,
       "message": "These are effectively constants: it seems like a shame to include the code for hexDecodeString when we end up only needing it for init-time information that never changes.\n\nPerhaps we should escape the strings into actual constants instead?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b442be4e_8eb9d93a",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-30T19:32:00Z",
+      "side": 1,
+      "message": "Either is fine as long as they match the code used in cmd/go/internal/modload.ModInfoProg\nso I can easily find both locations with grep.",
+      "parentUuid": "16a50efb_af113dc1",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "1b9c1387_6b40a796",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-30T19:32:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dc242e8_dfbfc245",
+      "range": {
+        "startLine": 16,
+        "startChar": 26,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49b9744a_409eb60d",
         "filename": "src/runtime/debug/mod.go",
         "patchSetId": 1
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "283dc053_b1c6bdc9",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-30T19:32:00Z",
+      "side": 1,
+      "message": "Renamed to BuildInfo. Actually the encoder is named modload.PackageBuildInfo, so BuildInfo may be a better choice.",
+      "parentUuid": "49b9744a_409eb60d",
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "295da891_b5b88b84",
         "filename": "src/runtime/debug/mod.go",
         "patchSetId": 1
@@ -96,6 +180,24 @@
       "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "624fed81_116ffc62",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-30T19:32:00Z",
+      "side": 1,
+      "message": "PTAL",
+      "parentUuid": "295da891_b5b88b84",
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "16e5ea4d_98a19a10",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-30T19:32:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6aab167_95525f00",
+      "range": {
+        "startLine": 74,
+        "startChar": 31,
+        "endLine": 74,
+        "endChar": 35
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0416f370_5a8cee45",
         "filename": "src/runtime/debug/mod.go",
         "patchSetId": 1
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "577912eb_7cf580f0",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-30T19:32:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0416f370_5a8cee45",
+      "range": {
+        "startLine": 84,
+        "startChar": 31,
+        "endLine": 84,
+        "endChar": 35
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb3c5935_69e57bc4",
         "filename": "src/runtime/debug/mod.go",
         "patchSetId": 1
@@ -156,6 +306,30 @@
       "writtenOn": "2018-10-25T19:53:26Z",
       "side": 1,
       "message": "We sometimes use //go:linkname to break dependency cycles without duplicating code.\n\nThat said, I\u0027m not sure why there would even be a cycle here: why does `encoding/hex` depend on `runtime/debug`?",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 29
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f5f31f7_0a7e9410",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-10-30T19:32:00Z",
+      "side": 1,
+      "message": "The testing package imports runtime/debug. So, any tests may fail. Luckily, strings package\u0027s test is in strings_test. If you want, I can try to remove the use of strings.Split too.",
+      "parentUuid": "fb3c5935_69e57bc4",
       "range": {
         "startLine": 116,
         "startChar": 0,
