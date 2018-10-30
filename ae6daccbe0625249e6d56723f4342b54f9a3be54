@@ -16,6 +16,24 @@
       "revId": "ae6daccbe0625249e6d56723f4342b54f9a3be54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab61a948_13958caf",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-10-30T15:13:09Z",
+      "side": 1,
+      "message": "Yes you\u0027re right. I\u0027ll try it.",
+      "parentUuid": "c15ca416_7fa29fe0",
+      "revId": "ae6daccbe0625249e6d56723f4342b54f9a3be54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
