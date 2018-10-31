@@ -29,8 +29,13 @@ var (
 // hasVectorFacility reports whether the machine has the z/Architecture
 // vector facility installed and enabled.
 func hasVectorFacility() bool
+func hasVMSLFacility() bool
 
 var hasVX = hasVectorFacility()
+var hasVMSL = hasVMSLFacility()
+
+//go:noescape
+func p256MulInternalTrampolineSetup()
 
 func initP256Arch() {
 	if hasVX {
@@ -52,11 +57,14 @@ func (curve p256CurveFast) Params() *CurveParams {
 // Montgomery multiplication modulo P256
 //
 //go:noescape
+func p256SqrAsm(res, in1, in2 []byte)
+
+//go:noescape
 func p256MulAsm(res, in1, in2 []byte)
 
 // Montgomery square modulo P256
 func p256Sqr(res, in []byte) {
-	p256MulAsm(res, in, in)
+	p256SqrAsm(res, in, in)
 }
 
 // Montgomery multiplication by 1
