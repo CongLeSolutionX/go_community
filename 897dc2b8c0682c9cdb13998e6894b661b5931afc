@@ -70,6 +70,30 @@
       "revId": "897dc2b8c0682c9cdb13998e6894b661b5931afc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4650b47a_c7e5e55f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 29433
+      },
+      "writtenOn": "2018-10-31T10:56:21Z",
+      "side": 1,
+      "message": "Yes didn\u0027t realise that it was the same story as the title. Fixed now.",
+      "parentUuid": "f962394c_414069c6",
+      "range": {
+        "startLine": 14,
+        "startChar": 64,
+        "endLine": 14,
+        "endChar": 71
+      },
+      "revId": "897dc2b8c0682c9cdb13998e6894b661b5931afc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
