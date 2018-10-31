@@ -67,47 +67,12 @@
 		maps:               map[key1:value1 key2:value2 ...]
 		pointer to above:   &{}, &[], &map[]
 
-	Width is specified by an optional decimal number immediately preceding the verb.
-	If absent, the width is whatever is necessary to represent the value.
-	Precision is specified after the (optional) width by a period followed by a
-	decimal number. If no period is present, a default precision is used.
-	A period with no following number specifies a precision of zero.
-	Examples:
-		%f     default width, default precision
-		%9f    width 9, default precision
-		%.2f   default width, precision 2
-		%9.2f  width 9, precision 2
-		%9.f   width 9, precision 0
+	The behavior of a verb may be modified by qualifiers between the '%' and
+	the verb. The qualifiers include zero or more flags (individual characters
+	which serve as boolean flags), an optional width and precision, and an
+	optional explicit argument index.
 
-	Width and precision are measured in units of Unicode code points,
-	that is, runes. (This differs from C's printf where the
-	units are always measured in bytes.) Either or both of the flags
-	may be replaced with the character '*', causing their values to be
-	obtained from the next operand (preceding the one to format),
-	which must be of type int.
-
-	For most values, width is the minimum number of runes to output,
-	padding the formatted form with spaces if necessary.
-
-	For strings, byte slices and byte arrays, however, precision
-	limits the length of the input to be formatted (not the size of
-	the output), truncating if necessary. Normally it is measured in
-	runes, but for these types when formatted with the %x or %X format
-	it is measured in bytes.
-
-	For floating-point values, width sets the minimum width of the field and
-	precision sets the number of places after the decimal, if appropriate,
-	except that for %g/%G precision sets the maximum number of significant
-	digits (trailing zeros are removed). For example, given 12.345 the format
-	%6.3f prints 12.345 while %.3g prints 12.3. The default precision for %e, %f
-	and %#g is 6; for %g it is the smallest number of digits necessary to identify
-	the value uniquely.
-
-	For complex numbers, the width and precision apply to the two
-	components independently and the result is parenthesized, so %f applied
-	to 1.2+3.4i produces (1.200000+3.400000i).
-
-	Other flags:
+	Flags:
 		+	always print a sign for numeric values;
 			guarantee ASCII-only output for %q (%+q)
 		-	pad with spaces on the right rather than the left (left-justify the field)
@@ -126,6 +91,86 @@
 	Flags are ignored by verbs that do not expect them.
 	For example there is no alternate decimal format, so %#d and %d
 	behave identically.
+
+	Width and precision:
+
+	Broadly speaking, width specifies how much output to produce,
+	while precision specifies how much information about the operand to encode.
+
+	Width and precision are optional numeric values, following the
+	flags. Width is specified as a decimal number, or '*'. Precision
+	is specified after the optional width as period followed by
+	an optional decimal number, or '*'. In both cases, a '*' obtains
+	the value from the next operand (preceeding the one to format),
+	which must be of type int.
+
+	The default width is whatever is necessary to represent the value.
+	The default precision is defined by the verb. A period with no following
+	value specifies a precision of zero.
+
+	Examples:
+		%f     default width, default precision
+		%9f    width 9, default precision
+		%.2f   default width, precision 2
+		%9.2f  width 9, precision 2
+		%9.f   width 9, precision 0
+		%*.*f  width and precision obtained in order from next two operands
+
+	Width is measured in units of Unicode code points, that is, runes.
+	(This differs from C's printf where the units are always measured
+	in bytes.)
+
+	For most values, width is the minimum number of runes to output,
+	padding the formatted form with spaces if necessary.
+
+	For strings, byte slices and byte arrays, precision limits
+	the length of the input to be formatted, truncating if
+	necessary. Normally it is measured in runes, but for these
+	types, when formatted with the %x or %X format, it is measured
+	in bytes. For instance, the format '%4.1x', used to format a
+	string starting with 'f', prints '  66'; the width specifies
+	that 4 runes are output, but the precision limits conversion to
+	one byte of input.
+
+	For floating-point values, width sets the minimum width of the
+	field and precision sets the number of places after the decimal,
+	if appropriate, except that for %g/%G precision sets the maximum
+	number of significant digits (trailing zeros are removed). For
+	example, given 12.345 the format %6.3f prints 12.345 while %.3g
+	prints 12.3. The default precision for %e, %f and %#g is 6;
+	for %g it is the smallest number of digits necessary to identify
+	the value uniquely.
+
+	For complex numbers, the width and precision apply to the two
+	components independently and the result is parenthesized, so %f
+	applied to 1.2+3.4i produces (1.200000+3.400000i).
+
+	Explicit argument indexes:
+
+	In Printf, Sprintf, and Fprintf, the default behavior is
+	for each formatting verb or ('*' width/precision specifier) to
+	consume successive arguments passed in the call. However, the
+	notation [n] immediately before the verb indicates that the nth
+	one-indexed argument is to be formatted instead. The same notation
+	before a '*' for a width or precision selects the argument index
+	holding the value. After processing a bracketed expression [n],
+	subsequent verbs (or '*' values) will use arguments n+1, n+2,
+	etc. unless otherwise directed.
+
+	For example,
+		fmt.Sprintf("%[2]d %[1]d\n", 11, 22)
+	will yield "22 11", while
+		fmt.Sprintf("%[3]*.[2]*[1]f", 12.0, 2, 6)
+	equivalent to
+		fmt.Sprintf("%6.2f", 12.0)
+	will yield " 12.00". Because an explicit index affects subsequent verbs,
+	this notation can be used to print the same values multiple times
+	by resetting the index for the first argument to be repeated:
+		fmt.Sprintf("%d %d %#[1]x %#x", 16, 17)
+	will yield "16 17 0x10 0x11".
+
+
+	Variant functions:
 
 	For each Printf-like function, there is also a Print function
 	that takes no format and is equivalent to saying %v for every
@@ -184,28 +229,6 @@
 
 	When printing a struct, fmt cannot and therefore does not invoke
 	formatting methods such as Error or String on unexported fields.
-
-	Explicit argument indexes:
-
-	In Printf, Sprintf, and Fprintf, the default behavior is for each
-	formatting verb to format successive arguments passed in the call.
-	However, the notation [n] immediately before the verb indicates that the
-	nth one-indexed argument is to be formatted instead. The same notation
-	before a '*' for a width or precision selects the argument index holding
-	the value. After processing a bracketed expression [n], subsequent verbs
-	will use arguments n+1, n+2, etc. unless otherwise directed.
-
-	For example,
-		fmt.Sprintf("%[2]d %[1]d\n", 11, 22)
-	will yield "22 11", while
-		fmt.Sprintf("%[3]*.[2]*[1]f", 12.0, 2, 6)
-	equivalent to
-		fmt.Sprintf("%6.2f", 12.0)
-	will yield " 12.00". Because an explicit index affects subsequent verbs,
-	this notation can be used to print the same values multiple times
-	by resetting the index for the first argument to be repeated:
-		fmt.Sprintf("%d %d %#[1]x %#x", 16, 17)
-	will yield "16 17 0x10 0x11".
 
 	Format errors:
 
