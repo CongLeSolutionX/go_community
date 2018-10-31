@@ -9,7 +9,14 @@ package elliptic
 // This file contains a constant-time, 32-bit implementation of P256.
 
 import (
+	"internal/cpu"
 	"math/big"
+	"unsafe"
+)
+
+const (
+	offsetS390xHasVX  = unsafe.Offsetof(cpu.S390X.HasVX)
+	offsetS390xHasVE1 = unsafe.Offsetof(cpu.S390X.HasVE1)
 )
 
 type p256Curve struct {
