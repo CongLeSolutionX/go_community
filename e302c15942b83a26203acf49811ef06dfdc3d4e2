@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6330b3a8_61f661ee",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-31T21:54:37Z",
+      "side": 1,
+      "message": "Line 1015 of reverseproxy_test.go uses \"Upgrade\" spelling (capitalized). It\u0027s probably better to be consistent (one way or the other).",
+      "range": {
+        "startLine": 231,
+        "startChar": 35,
+        "endLine": 231,
+        "endChar": 36
+      },
+      "revId": "e302c15942b83a26203acf49811ef06dfdc3d4e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aac4924e_fb18a402",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-10-31T21:54:37Z",
+      "side": 1,
+      "message": "I think the Set method should be used here, because its semantics are a better fit for what you\u0027re doing.\n\nHere, and the line below.",
+      "range": {
+        "startLine": 1015,
+        "startChar": 12,
+        "endLine": 1015,
+        "endChar": 15
+      },
+      "revId": "e302c15942b83a26203acf49811ef06dfdc3d4e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
