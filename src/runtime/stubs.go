@@ -314,3 +314,9 @@ func bool2int(x bool) int {
 // signal handler, which will attempt to tear down the runtime
 // immediately.
 func abort()
+
+// The following reflect function is implemented in runtime assembly.
+// Provide a Go declaration to go with its assembly definitions.
+
+//go:linkname reflect_call reflect.call
+func reflect_call(argtype, f, argptr unsafe.Pointer, argsize uint32, retoffset uint32)
