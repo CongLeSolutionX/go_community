@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "316d5921_62b547cc",
+        "filename": "doc/effective_go.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-10-31T20:08:45Z",
+      "side": 1,
+      "message": "This is OK, but it also would have been fine to leave it alone. The important point is the lesson, not the freshness of this output.",
+      "revId": "c1a85b0ca7de550bc057987cbac0bd5d182d6e0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
