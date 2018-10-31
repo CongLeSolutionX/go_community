@@ -22,6 +22,30 @@
       "revId": "66b2cb14a262a09808d9d88064bcf1fce346440e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b38a5ce2_b849cbae",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-31T19:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68ff0cb8_78cff044",
+      "range": {
+        "startLine": 1376,
+        "startChar": 16,
+        "endLine": 1376,
+        "endChar": 22
+      },
+      "revId": "66b2cb14a262a09808d9d88064bcf1fce346440e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
