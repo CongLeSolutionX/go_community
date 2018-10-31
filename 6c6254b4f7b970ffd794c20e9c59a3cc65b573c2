@@ -16,6 +16,24 @@
       "revId": "6c6254b4f7b970ffd794c20e9c59a3cc65b573c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be71c321_28e30d92",
+        "filename": "src/go/internal/gcimporter/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 16943
+      },
+      "writtenOn": "2018-10-31T20:12:13Z",
+      "side": 1,
+      "message": "From this point onwards, yes. But before it there\u0027s TestIssue13566, which calls compile twice (and both calls need to use the same tmpdir to work) and TestVersionHandling, which doesn\u0027t call it at all, so I don\u0027t think making compile create tmpdir works well. How about wrapping the \"mktmpdir, defer RemoveAll, compile, importPkg\" pattern that\u0027s repeated verbatim in the 5 of the tests (including the 4 after this one), instead?",
+      "parentUuid": "743771a4_c456398f",
+      "revId": "6c6254b4f7b970ffd794c20e9c59a3cc65b573c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
