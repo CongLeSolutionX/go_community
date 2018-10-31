@@ -22,6 +22,23 @@
       "revId": "ba033a94ca42b9588777feb32104b05647dd89c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50dfd241_9e54853c",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-10-31T20:11:54Z",
+      "side": 1,
+      "message": "s/which/that/",
+      "revId": "ba033a94ca42b9588777feb32104b05647dd89c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
