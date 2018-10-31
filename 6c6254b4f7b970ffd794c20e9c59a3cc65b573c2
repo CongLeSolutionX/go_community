@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "743771a4_c456398f",
+        "filename": "src/go/internal/gcimporter/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-10-31T16:43:05Z",
+      "side": 1,
+      "message": "It looks like this is always the same pattern here (and below) which is then used by compile. Perhaps compile should just take care of it (and return a tmpdir)?",
+      "revId": "6c6254b4f7b970ffd794c20e9c59a3cc65b573c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
