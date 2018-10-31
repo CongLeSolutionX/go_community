@@ -6,8 +6,20 @@
 
 package bytealg
 
+import _ "unsafe"
+
 //go:noescape
 func IndexByte(b []byte, c byte) int
 
 //go:noescape
 func IndexByteString(s string, c byte) int
+
+// The declarations below generate ABI wrappers for functions
+// implemented in assembly in this package but declared in another
+// package.
+
+//go:linkname abigen_bytes_IndexByte bytes.IndexByte
+func abigen_bytes_IndexByte(b []byte, c byte) int
+
+//go:linkname abigen_strings_IndexByte strings.IndexByte
+func abigen_strings_IndexByte(s string, c byte) int
