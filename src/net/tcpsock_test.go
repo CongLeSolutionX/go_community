@@ -796,3 +796,34 @@ func TestCopyPipeIntoTCP(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func BenchmarkSetReadDeadline(b *testing.B) {
+	ln, err := Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer ln.Close()
+	var serv Conn
+	done := make(chan error)
+	go func() {
+		var err error
+		serv, err = ln.Accept()
+		done <- err
+	}()
+	c, err := Dial("tcp", ln.Addr().String())
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer c.Close()
+	if err := <-done; err != nil {
+		b.Fatal(err)
+	}
+	defer serv.Close()
+	c.SetWriteDeadline(time.Now().Add(2 * time.Hour))
+	deadline := time.Now().Add(time.Hour)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		c.SetReadDeadline(deadline)
+		deadline = deadline.Add(1)
+	}
+}
