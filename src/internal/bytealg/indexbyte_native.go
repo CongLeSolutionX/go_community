@@ -6,8 +6,16 @@
 
 package bytealg
 
+import _ "unsafe"
+
 //go:noescape
 func IndexByte(b []byte, c byte) int
 
 //go:noescape
 func IndexByteString(s string, c byte) int
+
+//go:linkname bytes_IndexByte bytes.IndexByte
+func bytes_IndexByte(b []byte, c byte) int
+
+//go:linkname strings_IndexByte strings.IndexByte
+func strings_IndexByte(s string, c byte) int

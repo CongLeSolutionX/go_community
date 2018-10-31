@@ -6,5 +6,13 @@
 
 package bytealg
 
+import _ "unsafe" // For go:linkname
+
 //go:noescape
 func Compare(a, b []byte) int
+
+//go:linkname bytes_Compare bytes.Compare
+func bytes_Compare(a, b []byte) int
+
+//go:linkname runtime_cmpstring runtime.cmpstring
+func runtime_cmpstring(a, b string) int

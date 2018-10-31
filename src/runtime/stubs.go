@@ -314,3 +314,6 @@ func bool2int(x bool) int {
 // signal handler, which will attempt to tear down the runtime
 // immediately.
 func abort()
+
+//go:linkname reflect_call reflect.call
+func reflect_call(argtype, f, argptr unsafe.Pointer, argsize uint32, retoffset uint32)
