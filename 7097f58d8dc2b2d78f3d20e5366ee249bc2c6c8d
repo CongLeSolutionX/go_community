@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c54f3b0_dda348b0",
+        "filename": "src/crypto/cipher/xor_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5892
+      },
+      "writtenOn": "2018-10-31T02:55:49Z",
+      "side": 1,
+      "message": "I believe this is missing a bounds check for dst before calling into assembly. AMD64 equivalent: https://github.com/golang/go/commit/5168fcf63f5001b38f9ac64ce5c5e3c2d397363d#diff-8832e924f431a91ea4512df0205f2981R17",
+      "revId": "7097f58d8dc2b2d78f3d20e5366ee249bc2c6c8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
