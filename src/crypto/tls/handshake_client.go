@@ -43,13 +43,17 @@ func makeClientHello(config *Config) (*clientHelloMsg, error) {
 			nextProtosLength += 1 + l
 		}
 	}
-
 	if nextProtosLength > 0xffff {
 		return nil, errors.New("tls: NextProtos values too large")
 	}
 
+	supportedVersions := config.supportedVersions(true)
+	if len(supportedVersions) == 0 {
+		return nil, errors.New("tls: no supported versions satisfy MinVersion and MaxVersion")
+	}
+
 	hello := &clientHelloMsg{
-		vers:                         config.maxVersion(),
+		vers:                         supportedVersions[0],
 		compressionMethods:           []uint8{compressionNone},
 		random:                       make([]byte, 32),
 		ocspStapling:                 true,
@@ -60,6 +64,7 @@ func makeClientHello(config *Config) (*clientHelloMsg, error) {
 		nextProtoNeg:                 len(config.NextProtos) > 0,
 		secureRenegotiationSupported: true,
 		alpnProtocols:                config.NextProtos,
+		supportedVersions:            supportedVersions,
 	}
 	possibleCipherSuites := config.cipherSuites()
 	hello.cipherSuites = make([]uint16, 0, len(possibleCipherSuites))
@@ -140,8 +145,14 @@ func (c *Conn) clientHandshake() error {
 				}
 			}
 
-			versOk := candidateSession.vers >= c.config.minVersion() &&
-				candidateSession.vers <= c.config.maxVersion()
+			versOk := false
+			for _, v := range c.config.supportedVersions(true) {
+				if v == candidateSession.vers {
+					versOk = true
+					break
+				}
+			}
+
 			if versOk && cipherSuiteOk {
 				session = candidateSession
 			}
@@ -273,11 +284,15 @@ func (hs *clientHandshakeState) handshake() error {
 }
 
 func (hs *clientHandshakeState) pickTLSVersion() error {
-	vers, ok := hs.c.config.mutualVersion(hs.serverHello.vers)
-	if !ok || vers < VersionTLS10 {
-		// TLS 1.0 is the minimum version supported as a client.
+	peerVersion := hs.serverHello.vers
+	if hs.serverHello.supportedVersion != 0 {
+		peerVersion = hs.serverHello.supportedVersion
+	}
+
+	vers, ok := hs.c.config.mutualVersion(true, []uint16{peerVersion})
+	if !ok {
 		hs.c.sendAlert(alertProtocolVersion)
-		return fmt.Errorf("tls: server selected unsupported protocol version %x", hs.serverHello.vers)
+		return fmt.Errorf("tls: server selected unsupported protocol version %x", peerVersion)
 	}
 
 	hs.c.vers = vers
