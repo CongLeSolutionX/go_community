@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2294576b_b076f40b",
+        "filename": "doc/effective_go.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-31T15:20:34Z",
+      "side": 1,
+      "message": "The current output is:\n\n$ go doc -all regexp | grep -i parse\n    Compile parses a regular expression and returns, if successful, a Regexp\n    MustCompile is like Compile but panics if the expression cannot be parsed.\n    parsed. It simplifies safe initialization of global variables holding",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 75
+      },
+      "revId": "975dc07e50b58d53898d4277da7a4b78917ee632",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
