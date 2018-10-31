@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e91a5927_93ae35f2",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-10-31T03:01:05Z",
+      "side": 1,
+      "message": "Please move this into the internal/cpu package instead which enables disabling bits for testing.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "d3893d5b3a543fee89636b420d7a64c6d20c4012",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
