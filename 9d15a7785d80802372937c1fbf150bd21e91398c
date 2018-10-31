@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c910cd6_a4a06f6b",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-10-31T14:06:42Z",
+      "side": 1,
+      "message": "I don\u0027t think you need toLower any more, you can just remove it.",
+      "revId": "9d15a7785d80802372937c1fbf150bd21e91398c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
