@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9b9cf49_a245c865",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2018-10-31T19:31:25Z",
+      "side": 1,
+      "message": "This smells like a special-case hack rather than a generalized fix.\n\nThe control flow should be adjusted such that the interface satisfaction on L483 is the primary and only way that that custom unmarshalers are called. In this situations it seems that the checks (specifically L472) prior to the interface satisfaction check needs to be adjusted.",
+      "revId": "e051939d7cc83a5df4e094b9d31921c434eab711",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
