@@ -178,3 +178,12 @@ again:
 	CS	R6, R7, 0(R3) // if R6==(R3) then (R3)=R7 else R6=(R3)
 	BNE	again
 	RET
+
+// abi0Syms is a dummy symbol that creates ABI0 wrappers for Go
+// functions called from assembly in sync/atomic.
+TEXT abi0Syms<>(SB),NOSPLIT,$0-0
+	CALL	·Load(SB)
+	CALL	·Loadp(SB)
+	CALL	·Load64(SB)
+	CALL	·Store(SB)
+	CALL	·Store64(SB)

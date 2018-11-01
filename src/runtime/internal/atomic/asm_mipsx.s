@@ -153,3 +153,12 @@ try_and8:
 	BEQ	R4, try_and8
 	SYNC
 	RET
+
+// abi0Syms is a dummy symbol that creates ABI0 wrappers for Go
+// functions called from assembly in sync/atomic.
+TEXT abi0Syms<>(SB),NOSPLIT,$0-0
+	CALL	·Xadd64(SB)
+	CALL	·Xchg64(SB)
+	CALL	·Cas64(SB)
+	CALL	·Load64(SB)
+	CALL	·Store64(SB)

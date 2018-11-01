@@ -247,3 +247,9 @@ TEXT	·Store64(SB),NOSPLIT,$0-12
 	BLT	2(PC)
 	JMP	armStore64<>(SB)
 	JMP	·goStore64(SB)
+
+// abi0Syms is a dummy symbol that creates ABI0 wrappers for Go
+// functions called from assembly in sync/atomic.
+TEXT abi0Syms<>(SB),NOSPLIT,$0-0
+	CALL	·Xadd(SB)
+	CALL	·Xchg(SB)

@@ -229,3 +229,9 @@ TEXT runtime∕internal∕atomic·And8(SB), NOSPLIT, $0-5
 	LOCK
 	ANDB	BX, (AX)
 	RET
+
+// abi0Syms is a dummy symbol that creates ABI0 wrappers for Go
+// functions called from assembly in sync/atomic.
+TEXT abi0Syms<>(SB),NOSPLIT,$0-0
+	CALL	·Load(SB)
+	CALL	·Loadp(SB)
