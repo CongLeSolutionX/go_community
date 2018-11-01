@@ -2494,8 +2494,12 @@ top:
 			traceGoUnpark(gp, 0)
 		}
 	}
+	// true if this P transitions from running a quantum-expired G to a GC worker. If there is another P available
+	// to continue running this G (or some other ready G that would have been first in line), wake it.
+	nextIsNewGcWorker := false
 	if gp == nil && gcBlackenEnabled != 0 {
 		gp = gcController.findRunnableGCWorker(_g_.m.p.ptr())
+		nextIsNewGcWorker = gp != nil && gp != _g_
 	}
 	if gp == nil {
 		// Check the global runnable queue once in a while to ensure fairness.
@@ -2538,6 +2542,14 @@ top:
 			sched.disable.n++
 			unlock(&sched.lock)
 			goto top
+		}
+	}
+
+	// If a running goroutine's quantum expired into a GC,
+	// wake up an idle p (if there is one) to take over running this (or another ready goroutine).
+	if nextIsNewGcWorker {
+		if atomic.Load(&sched.npidle) != 0 && atomic.Load(&sched.nmspinning) == 0 {
+			wakep()
 		}
 	}
 
