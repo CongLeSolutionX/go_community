@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ef30acb_20786d17",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-11-01T15:30:38Z",
+      "side": 1,
+      "message": "No commented-out code.",
+      "range": {
+        "startLine": 163,
+        "startChar": 28,
+        "endLine": 167,
+        "endChar": 8
+      },
+      "revId": "f3c6a40f3c4cdac1c4d74589a7bb577be923070e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
