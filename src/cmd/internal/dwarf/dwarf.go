@@ -52,6 +52,7 @@ type Sym interface {
 type Var struct {
 	Name          string
 	Abbrev        int // Either DW_ABRV_AUTO[_LOCLIST] or DW_ABRV_PARAM[_LOCLIST]
+	ParamEscapes  bool
 	IsReturnValue bool
 	IsInlFormal   bool
 	StackOffset   int32
@@ -293,9 +294,10 @@ const (
 	// Attribute for DW_TAG_member of a struct type.
 	// Nonzero value indicates the struct field is an embedded field.
 	DW_AT_go_embedded_field = 0x2903
-	DW_AT_go_runtime_type   = 0x2904
-
-	DW_AT_internal_location = 253 // params and locals; not emitted
+	// Points to the runtime._type for a type.
+	DW_AT_go_runtime_type = 0x2904
+	// Indicates that a parameter escapes.
+	DW_AT_go_param_escapes = 0x2905
 )
 
 // Index into the abbrevs table below.
@@ -531,6 +533,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 			{DW_AT_decl_line, DW_FORM_udata},
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_location, DW_FORM_block1},
+			{DW_AT_go_param_escapes, DW_FORM_flag},
 		},
 	},
 
@@ -544,6 +547,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 			{DW_AT_decl_line, DW_FORM_udata},
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_location, DW_FORM_sec_offset},
+			{DW_AT_go_param_escapes, DW_FORM_flag},
 		},
 	},
 
@@ -565,6 +569,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_abstract_origin, DW_FORM_ref_addr},
 			{DW_AT_location, DW_FORM_block1},
+			{DW_AT_go_param_escapes, DW_FORM_flag},
 		},
 	},
 
@@ -575,6 +580,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_abstract_origin, DW_FORM_ref_addr},
 			{DW_AT_location, DW_FORM_sec_offset},
+			{DW_AT_go_param_escapes, DW_FORM_flag},
 		},
 	},
 
@@ -1428,6 +1434,17 @@ func abbrevUsesLoclist(abbrev int) bool {
 	}
 }
 
+func abbrevIsParam(abbrev int) bool {
+	switch abbrev {
+	case DW_ABRV_PARAM, DW_ABRV_PARAM_LOCLIST,
+		DW_ABRV_PARAM_CONCRETE, DW_ABRV_PARAM_CONCRETE_LOCLIST,
+		DW_ABRV_PARAM_ABSTRACT:
+		return true
+	default:
+		return false
+	}
+}
+
 // Emit DWARF attributes for a variable belonging to an 'abstract' subprogram.
 func putAbstractVar(ctxt Context, info Sym, v *Var) {
 	// Remap abbrev
@@ -1507,6 +1524,14 @@ func putvar(ctxt Context, s *FnState, v *Var, absfn Sym, fnabbrev, inlIndex int,
 			loc = AppendSleb128(loc, int64(v.StackOffset))
 		}
 		putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, int64(len(loc)), loc)
+	}
+
+	if abbrevIsParam(abbrev) {
+		var escapes int64
+		if v.ParamEscapes {
+			escapes = 1
+		}
+		putattr(ctxt, s.Info, abbrev, DW_FORM_flag, DW_CLS_FLAG, escapes, 0)
 	}
 
 	// Var has no children => no terminator

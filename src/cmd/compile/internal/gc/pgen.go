@@ -364,6 +364,13 @@ func debuginfo(fnsym *obj.LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCall
 		}
 	}
 
+	paramEscapes := make(map[*types.Sym]bool)
+	for _, fs := range types.RecvsParams {
+		for _, param := range fs(fn.Type).FieldSlice() {
+			paramEscapes[param.Sym] = parsetag(param.Note) != EscNone
+		}
+	}
+
 	var automDecls []*Node
 	// Populate Automs for fn.
 	for _, n := range fn.Func.Dcl {
@@ -396,7 +403,7 @@ func debuginfo(fnsym *obj.LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCall
 		})
 	}
 
-	decls, dwarfVars := createDwarfVars(fnsym, fn.Func, automDecls)
+	decls, dwarfVars := createDwarfVars(fnsym, fn.Func, automDecls, paramEscapes)
 
 	var varScopes []ScopeID
 	for _, decl := range decls {
@@ -431,7 +438,7 @@ func debuginfo(fnsym *obj.LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCall
 
 // createSimpleVars creates a DWARF entry for every variable declared in the
 // function, claiming that they are permanently on the stack.
-func createSimpleVars(automDecls []*Node) ([]*Node, []*dwarf.Var, map[*Node]bool) {
+func createSimpleVars(automDecls []*Node, paramEscapes map[*types.Sym]bool) ([]*Node, []*dwarf.Var, map[*Node]bool) {
 	var vars []*dwarf.Var
 	var decls []*Node
 	selected := make(map[*Node]bool)
@@ -475,6 +482,7 @@ func createSimpleVars(automDecls []*Node) ([]*Node, []*dwarf.Var, map[*Node]bool
 		declpos := Ctxt.InnermostPos(n.Pos)
 		vars = append(vars, &dwarf.Var{
 			Name:          n.Sym.Name,
+			ParamEscapes:  paramEscapes[n.Sym],
 			IsReturnValue: n.Class() == PPARAMOUT,
 			IsInlFormal:   n.InlFormal(),
 			Abbrev:        abbrev,
@@ -492,7 +500,7 @@ func createSimpleVars(automDecls []*Node) ([]*Node, []*dwarf.Var, map[*Node]bool
 
 // createComplexVars creates recomposed DWARF vars with location lists,
 // suitable for describing optimized code.
-func createComplexVars(fn *Func) ([]*Node, []*dwarf.Var, map[*Node]bool) {
+func createComplexVars(fn *Func, paramEscapes map[*types.Sym]bool) ([]*Node, []*dwarf.Var, map[*Node]bool) {
 	debugInfo := fn.DebugInfo
 
 	// Produce a DWARF variable entry for each user variable.
@@ -507,7 +515,7 @@ func createComplexVars(fn *Func) ([]*Node, []*dwarf.Var, map[*Node]bool) {
 			ssaVars[debugInfo.Slots[slot].N.(*Node)] = true
 		}
 
-		if dvar := createComplexVar(fn, ssa.VarID(varID)); dvar != nil {
+		if dvar := createComplexVar(fn, ssa.VarID(varID), paramEscapes); dvar != nil {
 			decls = append(decls, n)
 			vars = append(vars, dvar)
 		}
@@ -518,15 +526,15 @@ func createComplexVars(fn *Func) ([]*Node, []*dwarf.Var, map[*Node]bool) {
 
 // createDwarfVars process fn, returning a list of DWARF variables and the
 // Nodes they represent.
-func createDwarfVars(fnsym *obj.LSym, fn *Func, automDecls []*Node) ([]*Node, []*dwarf.Var) {
+func createDwarfVars(fnsym *obj.LSym, fn *Func, automDecls []*Node, paramEscapes map[*types.Sym]bool) ([]*Node, []*dwarf.Var) {
 	// Collect a raw list of DWARF vars.
 	var vars []*dwarf.Var
 	var decls []*Node
 	var selected map[*Node]bool
 	if Ctxt.Flag_locationlists && Ctxt.Flag_optimize && fn.DebugInfo != nil {
-		decls, vars, selected = createComplexVars(fn)
+		decls, vars, selected = createComplexVars(fn, paramEscapes)
 	} else {
-		decls, vars, selected = createSimpleVars(automDecls)
+		decls, vars, selected = createSimpleVars(automDecls, paramEscapes)
 	}
 
 	var dcl []*Node
@@ -640,7 +648,7 @@ func stackOffset(slot ssa.LocalSlot) int32 {
 }
 
 // createComplexVar builds a single DWARF variable entry and location list.
-func createComplexVar(fn *Func, varID ssa.VarID) *dwarf.Var {
+func createComplexVar(fn *Func, varID ssa.VarID, paramEscapes map[*types.Sym]bool) *dwarf.Var {
 	debug := fn.DebugInfo
 	n := debug.Vars[varID].(*Node)
 
@@ -668,6 +676,7 @@ func createComplexVar(fn *Func, varID ssa.VarID) *dwarf.Var {
 	declpos := Ctxt.InnermostPos(n.Pos)
 	dvar := &dwarf.Var{
 		Name:          n.Sym.Name,
+		ParamEscapes:  paramEscapes[n.Sym],
 		IsReturnValue: n.Class() == PPARAMOUT,
 		IsInlFormal:   n.InlFormal(),
 		Abbrev:        abbrev,
