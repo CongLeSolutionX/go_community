@@ -2503,8 +2503,10 @@ top:
 			traceGoUnpark(gp, 0)
 		}
 	}
+	gcwork := false
 	if gp == nil && gcBlackenEnabled != 0 {
 		gp = gcController.findRunnableGCWorker(_g_.m.p.ptr())
+		gcwork = gp != nil
 	}
 	if gp == nil {
 		// Check the global runnable queue once in a while to ensure fairness.
@@ -2547,6 +2549,14 @@ top:
 			sched.disable.n++
 			unlock(&sched.lock)
 			goto top
+		}
+	}
+
+	// If a running goroutine's quantum expired into a GC,
+	// wake up an idle p (if there is one) to take over running this goroutine.
+	if gcwork {
+		if atomic.Load(&sched.npidle) != 0 && atomic.Load(&sched.nmspinning) == 0 {
+			wakep()
 		}
 	}
 
