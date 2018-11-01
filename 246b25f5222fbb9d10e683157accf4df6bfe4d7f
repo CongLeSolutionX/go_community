@@ -16,6 +16,24 @@
       "revId": "246b25f5222fbb9d10e683157accf4df6bfe4d7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a655e47_7bd1d7aa",
+        "filename": "src/net/tcpsock_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-01T11:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dbb381d_c995e1b2",
+      "revId": "246b25f5222fbb9d10e683157accf4df6bfe4d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
