@@ -194,6 +194,13 @@ func racewriterange(addr, size uintptr)
 func msanread(addr, size uintptr)
 func msanwrite(addr, size uintptr)
 
+// defer and go
+func deferreturn(arg0 uintptr)
+func deferproc(siz int32, fn uintptr)
+func newproc(siz int32, fn uintptr)
+
+func memhash_varlen(p unsafe.Pointer, h uintptr) uintptr
+
 // architecture variants
 var support_popcnt bool
 var support_sse41 bool
