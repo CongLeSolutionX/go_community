@@ -456,7 +456,7 @@ func (state *debugState) liveness() []*BlockDebug {
 
 		// Build the starting state for the block from the final
 		// state of its predecessors.
-		startState, startValid := state.mergePredecessors(b, blockLocs)
+		startState, startValid := state.mergePredecessors(b, blockLocs, nil)
 		changed := false
 		if state.loggingEnabled {
 			state.logf("Processing %v, initial state:\n%v", b, state.stateString(state.currentState))
@@ -518,9 +518,13 @@ func (state *debugState) liveness() []*BlockDebug {
 }
 
 // mergePredecessors takes the end state of each of b's predecessors and
-// intersects them to form the starting state for b. It returns that state in
-// the BlockDebug, and fills state.currentState with it.
-func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) ([]liveSlot, bool) {
+// intersects them to form the starting state for b. It puts that state in
+// blockLocs, and fills state.currentState with it. If convenient, it returns
+// a reused []liveSlot, true that represents the starting state.
+// If previousBlock is non-nil, it registers changes vs. that block's end
+// state in state.changedVars. Note that previousBlock will often not be a
+// predecessor.
+func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug, previousBlock *Block) ([]liveSlot, bool) {
 	// Filter out back branches.
 	var predsBuf [10]*Block
 	preds := predsBuf[:0]
@@ -538,31 +542,66 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) ([
 		state.logf("Merging %v into %v\n", preds2, b)
 	}
 
+	// TODO all the calls to this are overkill; only need to do this for slots that are not present in the merge.
+	markChangedVars := func(slots []liveSlot) {
+		for _, live := range slots {
+			state.changedVars.add(ID(state.slotVars[live.slot]))
+		}
+	}
+
 	if len(preds) == 0 {
+		if previousBlock != nil {
+			// All previous vars are dead.
+			markChangedVars(blockLocs[previousBlock.ID].endState)
+		}
 		state.currentState.reset(nil)
 		return nil, true
 	}
 
 	p0 := blockLocs[preds[0].ID].endState
 	if len(preds) == 1 {
+		if previousBlock != nil && preds[0].ID != previousBlock.ID {
+			// Hard to know which variables still match, so mark
+			// them all changed and deal with it later.
+			markChangedVars(blockLocs[previousBlock.ID].endState)
+			// markChangedVars(p0)
+		}
 		state.currentState.reset(p0)
 		return p0, true
 	}
 
+	baseID := preds[0].ID
+	baseState := p0
+	if previousBlock != nil {
+		// Try to use previousBlock as the base state
+		// if possible.
+		for _, pred := range preds[1:] {
+			if pred.ID == previousBlock.ID {
+				baseID = pred.ID
+				baseState = blockLocs[pred.ID].endState
+				previousBlock = nil // don't need it.
+				break
+			}
+		}
+	}
+
 	if state.loggingEnabled {
-		state.logf("Starting %v with state from %v:\n%v", b, preds[0], state.blockEndStateString(blockLocs[preds[0].ID]))
+		state.logf("Starting %v with state from b%v:\n%v", b, baseID, state.blockEndStateString(blockLocs[baseID]))
 	}
 
 	slotLocs := state.currentState.slots
-	for _, predSlot := range p0 {
+	for _, predSlot := range baseState {
 		slotLocs[predSlot.slot] = VarLoc{predSlot.Registers, predSlot.StackOffset}
 		state.liveCount[predSlot.slot] = 1
 	}
-	for i := 1; i < len(preds); i++ {
-		if state.loggingEnabled {
-			state.logf("Merging in state from %v:\n%v", preds[i], state.blockEndStateString(blockLocs[preds[i].ID]))
+	for _, pred := range preds {
+		if pred.ID == baseID {
+			continue
 		}
-		for _, predSlot := range blockLocs[preds[i].ID].endState {
+		if state.loggingEnabled {
+			state.logf("Merging in state from %v:\n%v", pred, state.blockEndStateString(blockLocs[pred.ID]))
+		}
+		for _, predSlot := range blockLocs[pred.ID].endState {
 			state.liveCount[predSlot.slot]++
 			liveLoc := slotLocs[predSlot.slot]
 			if !liveLoc.onStack() || !predSlot.onStack() || liveLoc.StackOffset != predSlot.StackOffset {
@@ -577,7 +616,7 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) ([
 	// final state, and reuse it if so. In principle it could match any,
 	// but it's probably not worth checking more than the first.
 	unchanged := true
-	for _, predSlot := range p0 {
+	for _, predSlot := range baseState {
 		if state.liveCount[predSlot.slot] != len(preds) ||
 			slotLocs[predSlot.slot].Registers != predSlot.Registers ||
 			slotLocs[predSlot.slot].StackOffset != predSlot.StackOffset {
@@ -587,10 +626,13 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) ([
 	}
 	if unchanged {
 		if state.loggingEnabled {
-			state.logf("After merge, %v matches %v exactly.\n", b, preds[0])
+			state.logf("After merge, %v matches b%v exactly.\n", b, baseID)
 		}
-		state.currentState.reset(p0)
-		return p0, true
+		if previousBlock != nil {
+			markChangedVars(blockLocs[previousBlock.ID].endState)
+		}
+		state.currentState.reset(baseState)
+		return baseState, true
 	}
 
 	for reg := range state.currentState.registers {
@@ -599,7 +641,7 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) ([
 
 	// A slot is live if it was seen in all predecessors, and they all had
 	// some storage in common.
-	for _, predSlot := range p0 {
+	for _, predSlot := range baseState {
 		slotLoc := slotLocs[predSlot.slot]
 
 		if state.liveCount[predSlot.slot] != len(preds) {
@@ -619,6 +661,19 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) ([
 
 			state.currentState.registers[reg] = append(state.currentState.registers[reg], predSlot.slot)
 		}
+	}
+
+	if previousBlock != nil {
+		//// Mark everything in every predecessor as changed. This could
+		//// be optimized with some work.
+		//for _, pred := range preds {
+		//	if state.loggingEnabled {
+		//		state.logf("Mark changed vars from , %v matches b%v exactly.\n", b, baseID)
+		//	}
+		//	markChangedVars(blockLocs[pred.ID].endState)
+		//}
+		markChangedVars(blockLocs[previousBlock.ID].endState)
+
 	}
 	return nil, false
 }
@@ -828,12 +883,18 @@ func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
 	// lists as we go. The heavy lifting has mostly already been done.
 
 	isChangedArg := []bool{} // Records which leading zero-width instructions in the entry block are args.
+	var prevBlock *Block
 	for _, b := range state.f.Blocks {
+		state.mergePredecessors(b, blockLocs, prevBlock)
+
+		// Handle any
+		for _, varID := range state.changedVars.contents() {
+			state.updateVar(VarID(varID), b, BlockStart, true)
+		}
+
 		if !blockLocs[b.ID].relevant {
 			continue
 		}
-
-		state.mergePredecessors(b, blockLocs)
 
 		zeroWidthPending := false
 		first := true
@@ -857,13 +918,16 @@ func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
 			}
 
 			zeroWidthPending = false
+
 			for i, varID := range state.changedVars.contents() {
-				state.updateVar(VarID(varID), v, i < len(isChangedArg) && isChangedArg[i], state.currentState.slots)
+				state.updateVar(VarID(varID), b, v, i < len(isChangedArg) && isChangedArg[i])
 			}
 			isChangedArg = isChangedArg[:0]
 			first = false
 			state.changedVars.clear()
 		}
+
+		prevBlock = b
 	}
 
 	if state.loggingEnabled {
@@ -887,7 +951,8 @@ func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
 // updateVar updates the pending location list entry for varID to
 // reflect the new locations in curLoc, caused by v. If first is true,
 // then the location information begins at the very start of the block.
-func (state *debugState) updateVar(varID VarID, v *Value, first bool, curLoc []VarLoc) {
+func (state *debugState) updateVar(varID VarID, b *Block, v *Value, first bool) {
+	curLoc := state.currentState.slots
 	// Assemble the location list entry with whatever's live.
 	vloc := v.ID
 	if first {
@@ -902,7 +967,7 @@ func (state *debugState) updateVar(varID VarID, v *Value, first bool, curLoc []V
 	}
 	pending := &state.pendingEntries[varID]
 	if empty {
-		state.writePendingEntry(varID, v.Block.ID, vloc)
+		state.writePendingEntry(varID, b.ID, vloc)
 		pending.clear()
 		return
 	}
@@ -921,9 +986,9 @@ func (state *debugState) updateVar(varID VarID, v *Value, first bool, curLoc []V
 		}
 	}
 
-	state.writePendingEntry(varID, v.Block.ID, vloc)
+	state.writePendingEntry(varID, b.ID, vloc)
 	pending.present = true
-	pending.startBlock = v.Block.ID
+	pending.startBlock = b.ID
 	pending.startValue = vloc
 	for i, slot := range state.varSlots[varID] {
 		pending.pieces[i] = curLoc[slot]
