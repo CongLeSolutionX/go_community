@@ -563,7 +563,10 @@ func ptrbit(bv *gobitvector, i uintptr) uint8 {
 // bv describes the memory starting at address scanp.
 // Adjust any pointers contained therein.
 func adjustpointers(scanp unsafe.Pointer, cbv *bitvector, adjinfo *adjustinfo, f funcInfo) {
-	bv := gobv(*cbv)
+	var bv gobitvector
+	if cbv.n > 0 {
+		bv = gobv(*cbv)
+	}
 	minp := adjinfo.old.lo
 	maxp := adjinfo.old.hi
 	delta := adjinfo.delta

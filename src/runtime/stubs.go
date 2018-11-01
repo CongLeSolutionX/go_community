@@ -77,6 +77,11 @@ func reflect_memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr) {
 	memclrNoHeapPointers(ptr, n)
 }
 
+//go:linkname reflect_typedmemclr reflect.typedmemclr
+func reflect_typedmemclr(typ *_type, ptr unsafe.Pointer) {
+	typedmemclr(typ, ptr)
+}
+
 // memmove copies n bytes from "from" to "to".
 // in memmove_*.s
 //go:noescape
