@@ -40,6 +40,7 @@ stderr 'Run ''go help vet'' for details'
 ! go test -h
 stderr 'usage: go test'
 stderr 'Run ''go help test'' for details'
+stderr 'Run ''go tool vet -help'' for vet tools' flags.'
 
 # go help get shows usage for get
 go help get

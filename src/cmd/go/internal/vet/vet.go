@@ -38,7 +38,7 @@ See also: go fmt, go fix.
 func runVet(cmd *base.Command, args []string) {
 	modload.LoadTests = true
 
-	vetFlags, pkgArgs := vetFlags(cmd.Usage, args)
+	vetFlags, pkgArgs := vetFlags(vetUsage, args)
 
 	work.BuildInit()
 	work.VetFlags = vetFlags
