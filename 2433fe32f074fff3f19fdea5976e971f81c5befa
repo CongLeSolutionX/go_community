@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1947bdc1_821e00f7",
+        "filename": "src/runtime/asm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:23:28Z",
+      "side": 1,
+      "message": "Done. Thanks!\n\nApparently I don\u0027t have comment spell-checking in assembly files. Weird.",
+      "parentUuid": "2e590e18_793e31ae",
+      "revId": "2433fe32f074fff3f19fdea5976e971f81c5befa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "376f62af_0668afac",
         "filename": "src/runtime/internal/atomic/asm_amd64.s",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "2433fe32f074fff3f19fdea5976e971f81c5befa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "909e085d_7e4403b6",
+        "filename": "src/runtime/internal/atomic/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:23:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "376f62af_0668afac",
+      "revId": "2433fe32f074fff3f19fdea5976e971f81c5befa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
