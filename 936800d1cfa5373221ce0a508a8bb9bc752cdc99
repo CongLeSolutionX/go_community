@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb494ca9_44d7828c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-11-02T16:28:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f67dca1e_d8faaf8e",
+      "revId": "936800d1cfa5373221ce0a508a8bb9bc752cdc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6846f42d_b8361e69",
         "filename": "src/cmd/go/internal/vet/vetflag.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "936800d1cfa5373221ce0a508a8bb9bc752cdc99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e9e9208_57c7a0a1",
+        "filename": "src/cmd/go/internal/vet/vetflag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-11-02T16:28:26Z",
+      "side": 1,
+      "message": "Good point; done.",
+      "parentUuid": "6846f42d_b8361e69",
+      "revId": "936800d1cfa5373221ce0a508a8bb9bc752cdc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
