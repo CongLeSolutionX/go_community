@@ -144,3 +144,14 @@ func vetFlags(args []string) (passToVet, packageNames []string) {
 	}
 	return args, nil
 }
+
+func Usage() {
+	fmt.Fprintf(os.Stderr, "usage: %s\n", CmdVet.UsageLine)
+	fmt.Fprintf(os.Stderr, "Run 'go help %s' for details.\n", CmdVet.LongName())
+	cmd := "go tool vet"
+	if vetTool != "" {
+		cmd = vetTool
+	}
+	fmt.Fprintf(os.Stderr, "Run '%s -help' for vet tool's flags.\n", cmd)
+	os.Exit(2)
+}

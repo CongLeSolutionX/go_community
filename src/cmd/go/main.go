@@ -244,7 +244,7 @@ func mainUsage() {
 	// TODO(mvdan): fix the cmdflag package instead; see
 	// golang.org/issue/26999
 	if len(os.Args) > 1 && os.Args[1] == "vet" {
-		vet.CmdVet.Usage()
+		vet.Usage()
 	}
 	help.PrintUsage(os.Stderr, base.Go)
 	os.Exit(2)
