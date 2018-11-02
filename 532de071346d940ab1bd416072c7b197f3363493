@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d218197_7d3ecb06",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-02T06:16:02Z",
+      "side": 1,
+      "message": "I caught myself documenting the requirement for supportedVersions to be contiguous, and decided I was being too clever to save an allocation. Replaced with a loop.",
+      "parentUuid": "9579c508_dd06d5f7",
+      "revId": "532de071346d940ab1bd416072c7b197f3363493",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b84687ea_4fe984dd",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "532de071346d940ab1bd416072c7b197f3363493",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be533da7_bb07fa1e",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-02T06:16:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84687ea_4fe984dd",
+      "revId": "532de071346d940ab1bd416072c7b197f3363493",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "45120911_53f99119",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-02T06:16:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f59874b8_514f36f5",
+      "revId": "532de071346d940ab1bd416072c7b197f3363493",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f73d673f_a40fe97d",
         "filename": "src/crypto/tls/handshake_server.go",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "532de071346d940ab1bd416072c7b197f3363493",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ab50db3_ed2294f4",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-02T06:16:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f73d673f_a40fe97d",
+      "revId": "532de071346d940ab1bd416072c7b197f3363493",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
