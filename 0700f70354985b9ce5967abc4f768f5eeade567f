@@ -22,6 +22,30 @@
       "revId": "0700f70354985b9ce5967abc4f768f5eeade567f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d3e97de_c97e430c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 29157
+      },
+      "writtenOn": "2018-11-02T17:41:56Z",
+      "side": 1,
+      "message": "I\u0027ve updated comment, hope now it looks better.",
+      "parentUuid": "0d68356b_88d8e08a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "0700f70354985b9ce5967abc4f768f5eeade567f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
