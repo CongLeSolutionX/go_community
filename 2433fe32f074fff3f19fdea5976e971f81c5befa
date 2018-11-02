@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e590e18_793e31ae",
+        "filename": "src/runtime/asm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2018-11-02T06:44:40Z",
+      "side": 1,
+      "message": "s/assmebly/assembly/",
+      "revId": "2433fe32f074fff3f19fdea5976e971f81c5befa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "376f62af_0668afac",
+        "filename": "src/runtime/internal/atomic/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2018-11-02T06:44:40Z",
+      "side": 1,
+      "message": "s/assmebly/assembly/",
+      "revId": "2433fe32f074fff3f19fdea5976e971f81c5befa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
