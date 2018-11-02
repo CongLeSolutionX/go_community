@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6846f42d_b8361e69",
+        "filename": "src/cmd/go/internal/vet/vetflag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-11-02T15:40:36Z",
+      "side": 1,
+      "message": "Won\u0027t this print something like:\n\nTo see vet tool\u0027s flags, run: go tool vet -help\nusage: go vet [-n] [-x] [build flags] [vet flags] [packages]\nRun \u0027go help vet\u0027 for details.\n\nThat seems a bit confusing. I\u0027d prefer if the added line was at the end, although I imagine that would be a more complex patch.",
+      "revId": "936800d1cfa5373221ce0a508a8bb9bc752cdc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
