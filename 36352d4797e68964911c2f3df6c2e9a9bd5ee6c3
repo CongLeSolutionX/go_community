@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "437be6c9_7506461c",
+        "filename": "src/cmd/compile/internal/ppc64/galign.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "Was there a reason not to increase this to 1\u003c\u003c60 for all ppc64? (Sorry if I lost track of it.)",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc17caef_96e42c7e",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "\"On most 64-bit ...\"",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c3fbf3a_ff937868",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "\"On Linux, Go leans on stricter OS limits.\"",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efdeb3cb_83cf4d38",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "Remove this line from here since the table is about Linux and the limits it places on addresses. The aix/ppc64 paragraph explains the 1\u003c\u003c60 limit.",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ef8d1bc_4d2287a4",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "Move the paragraph about aix/ppc64 here. You don\u0027t have to say \"the limit is increased\" since it\u0027s not \"increasing\" from anything (it just is what it is). So:\n\n\"On aix/ppc64, the limit is 1\u003c\u003c60 to accept addresses returned by the mmap syscall, which are in the range 0x0a00000000000000 - 0x0afffffffffffff.\"",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6690d28_23d659a3",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "Addr bits is 60.",
+      "range": {
+        "startLine": 231,
+        "startChar": 27,
+        "endLine": 231,
+        "endChar": 29
+      },
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d5c201_ba0f38a2",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "\"as on Linux\"",
+      "range": {
+        "startLine": 275,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 8
+      },
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6addd348_db948750",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "Undo this change.",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f626cbbf_9ff2296a",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "\"mmaps start at\"",
+      "range": {
+        "startLine": 430,
+        "startChar": 13,
+        "endLine": 430,
+        "endChar": 42
+      },
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f24868e_fd6da218",
+        "filename": "test/fixedbugs/issue4085b.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "// Test mem \u003e maxAlloc",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2514f37_0a340c70",
+        "filename": "test/fixedbugs/issue4085b.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:55:03Z",
+      "side": 1,
+      "message": "// Test elem.size*cap overflow",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
