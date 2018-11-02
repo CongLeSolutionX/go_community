@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "27969d77_194d01dc",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T19:15:57Z",
+      "side": 1,
+      "message": "Perhaps a brief comment explaining what conversions this condition captures.",
+      "revId": "d4bb0b5fdd7f9556ca560eb7f63f07ebd8f88390",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5a26de5_6a2606cb",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2018-10-17T21:05:27Z",
       "side": 1,
       "message": "Produces:\n\n    notinheap.go:61:13: cannot convert \"foo\" (type string) to type []t3:\n\tcannot convert string to slice of go:notinheap t3\n\nMaybe just \"t3 is go:notinheap\" for the second line is sufficient?",
+      "revId": "d4bb0b5fdd7f9556ca560eb7f63f07ebd8f88390",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3a8b7de_205b4a07",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T19:15:57Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "c5a26de5_6a2606cb",
       "revId": "d4bb0b5fdd7f9556ca560eb7f63f07ebd8f88390",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
