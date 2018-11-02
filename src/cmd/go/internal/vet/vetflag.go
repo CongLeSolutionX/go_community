@@ -101,6 +101,17 @@ func vetFlags(args []string) (passToVet, packageNames []string) {
 		})
 	})
 
+	// Make -help mention vet's flags.
+	prevUsage := base.Usage
+	base.Usage = func() {
+		cmd := "go tool vet"
+		if tool != base.Tool("vet") {
+			cmd = tool
+		}
+		fmt.Fprintf(os.Stderr, "To see vet tool's flags, run: %s -help\n", cmd)
+		prevUsage() // calls os.Exit
+	}
+
 	// Process args.
 	args = str.StringList(cmdflag.FindGOFLAGS(vetFlagDefn), args)
 	for i := 0; i < len(args); i++ {
