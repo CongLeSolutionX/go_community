@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e0f67797_636db6dd",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-02T21:25:29Z",
+      "side": 1,
+      "message": "Correct, that\u0027s definitely wrong. However, I did not wrap my head around TLS_FALLBACK_SCSV and sparse supported_versions yet. I will mull over it and email boringssl@ if I can\u0027t get there myself. Removed from his CL for now.",
+      "parentUuid": "76c1ee71_c326b287",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 25
+      },
+      "revId": "28f182ec319049ec438b05173f8d0c395892d754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66f101c6_9c736083",
         "filename": "src/crypto/tls/handshake_server_tls13.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ad9d91c4_9308087a",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-02T21:25:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66f101c6_9c736083",
+      "range": {
+        "startLine": 191,
+        "startChar": 35,
+        "endLine": 191,
+        "endChar": 42
+      },
+      "revId": "28f182ec319049ec438b05173f8d0c395892d754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bf9a1f6_26b42c35",
         "filename": "src/crypto/tls/handshake_server_tls13.go",
         "patchSetId": 1
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "90507d3e_959826a0",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-02T21:25:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bf9a1f6_26b42c35",
+      "revId": "28f182ec319049ec438b05173f8d0c395892d754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7721b7c_d578cd82",
         "filename": "src/crypto/tls/handshake_server_tls13.go",
         "patchSetId": 1
@@ -79,6 +145,24 @@
       "revId": "28f182ec319049ec438b05173f8d0c395892d754",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94fae7af_a8b3c6ee",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-02T21:25:29Z",
+      "side": 1,
+      "message": "Good catch, fixed.",
+      "parentUuid": "f7721b7c_d578cd82",
+      "revId": "28f182ec319049ec438b05173f8d0c395892d754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
