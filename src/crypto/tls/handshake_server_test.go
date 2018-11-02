@@ -79,17 +79,25 @@ func testClientHelloFailure(t *testing.T, serverConfig *Config, m handshakeMessa
 		cli.writeRecord(recordTypeHandshake, m.marshal())
 		c.Close()
 	}()
+	conn := Server(s, serverConfig)
+	ch, err := conn.readClientHello()
 	hs := serverHandshakeState{
-		c: Server(s, serverConfig),
+		c:           conn,
+		clientHello: ch,
 	}
-	_, err := hs.readClientHello()
+	if err == nil {
+		err = hs.processClientHello()
+	}
+	if err == nil {
+		err = hs.pickCipherSuite()
+	}
 	s.Close()
 	if len(expectedSubStr) == 0 {
 		if err != nil && err != io.EOF {
 			t.Errorf("Got error: %s; expected to succeed", err)
 		}
 	} else if err == nil || !strings.Contains(err.Error(), expectedSubStr) {
-		t.Errorf("Got error: %s; expected to match substring '%s'", err, expectedSubStr)
+		t.Errorf("Got error: %v; expected to match substring '%s'", err, expectedSubStr)
 	}
 }
 
@@ -1286,10 +1294,18 @@ func TestSNIGivenOnFailure(t *testing.T) {
 		cli.writeRecord(recordTypeHandshake, clientHello.marshal())
 		c.Close()
 	}()
+	conn := Server(s, serverConfig)
+	ch, err := conn.readClientHello()
 	hs := serverHandshakeState{
-		c: Server(s, serverConfig),
+		c:           conn,
+		clientHello: ch,
 	}
-	_, err := hs.readClientHello()
+	if err == nil {
+		err = hs.processClientHello()
+	}
+	if err == nil {
+		err = hs.pickCipherSuite()
+	}
 	defer s.Close()
 
 	if err == nil {
