@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "68eda939_685f4bbb",
+        "filename": "misc/cgo/test/issue28545.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-02T17:50:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a6e59f5_ea6d1693",
+      "revId": "429449a25ed21d4ef9758e1598b76cf8c5c688f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81a428bb_9b1f76b9",
         "filename": "src/cmd/cgo/gcc.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-02T14:39:32Z",
       "side": 1,
       "message": "Do these two Exprs capture all possible constant expressions?\n\nDoes *ast.ParenExpr need to be handled? To support constant expressions like (15 / 4).",
+      "revId": "429449a25ed21d4ef9758e1598b76cf8c5c688f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d15d94a1_d20a651d",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-02T17:50:57Z",
+      "side": 1,
+      "message": "Good point.  Done.  The only other case seems to be calling the function \"complex\" with untyped constants, so I added that too.",
+      "parentUuid": "81a428bb_9b1f76b9",
       "revId": "429449a25ed21d4ef9758e1598b76cf8c5c688f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

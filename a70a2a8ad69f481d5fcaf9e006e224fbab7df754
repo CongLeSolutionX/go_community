@@ -16,6 +16,24 @@
       "revId": "a70a2a8ad69f481d5fcaf9e006e224fbab7df754",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab2f40a2_b0ee4d8d",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-02T17:50:57Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "6703e11d_8ee6ff64",
+      "revId": "a70a2a8ad69f481d5fcaf9e006e224fbab7df754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
