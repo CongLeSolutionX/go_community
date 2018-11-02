@@ -16,6 +16,24 @@
       "revId": "fe33538f1b6627901fde75846ad5549e36fc5b92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37070b5f_241c0c92",
+        "filename": "src/internal/bytealg/equal_native.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-02T16:15:42Z",
+      "side": 1,
+      "message": "I suppose because there\u0027s no equal_generic.go. For the other files you have either x_native.go or x_generic.go and they need complimentary build tags. But for equal, all platforms use equal_native.",
+      "parentUuid": "9237a2ca_8f2096dc",
+      "revId": "fe33538f1b6627901fde75846ad5549e36fc5b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
