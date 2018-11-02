@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f5084c5_7a6fb91f",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-11-02T16:32:20Z",
+      "side": 1,
+      "message": "Modifying this may well break a CL of mine that fixes the TODO right here: https://go-review.googlesource.com/c/go/+/144558\n\nCould we get that in first, then rebase \u0026 merge this? In particular because these 11 lines are gone after that cleanup, so your fix might need to be elsewhere.",
+      "revId": "ff558996d300863dead2aa245e7766f966b8eb57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
