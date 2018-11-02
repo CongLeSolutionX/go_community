@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a6e59f5_ea6d1693",
+        "filename": "misc/cgo/test/issue28545.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-02T14:39:32Z",
+      "side": 1,
+      "message": "Maybe add test coverage for a binary expression here as well?\n\n    C.issue28545F(p, 1+1)\n\nUnless there\u0027s a reason not to.",
+      "revId": "429449a25ed21d4ef9758e1598b76cf8c5c688f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81a428bb_9b1f76b9",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-02T14:39:32Z",
+      "side": 1,
+      "message": "Do these two Exprs capture all possible constant expressions?\n\nDoes *ast.ParenExpr need to be handled? To support constant expressions like (15 / 4).",
+      "revId": "429449a25ed21d4ef9758e1598b76cf8c5c688f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

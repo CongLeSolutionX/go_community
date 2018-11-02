@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6703e11d_8ee6ff64",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-02T14:39:32Z",
+      "side": 0,
+      "message": "\"..., or a constant expression of untyped constants.\", perhaps?",
+      "revId": "a70a2a8ad69f481d5fcaf9e006e224fbab7df754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
