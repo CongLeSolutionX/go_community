@@ -49,7 +49,7 @@ type Timer struct {
 }
 
 // Stop prevents the Timer from firing.
-// It returns true if the call stops the timer, false if the timer has already
+// It reports whether the call stops the timer, false if the timer has already
 // expired or been stopped.
 // Stop does not close the channel, to prevent a read from the channel succeeding
 // incorrectly.
@@ -94,7 +94,7 @@ func NewTimer(d Duration) *Timer {
 }
 
 // Reset changes the timer to expire after duration d.
-// It returns true if the timer had been active, false if the timer had
+// It reports whether the timer had been active, false if the timer had
 // expired or been stopped.
 //
 // Resetting a timer must take care not to race with the send into t.C

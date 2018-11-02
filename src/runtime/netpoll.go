@@ -95,7 +95,7 @@ func netpollinited() bool {
 
 //go:linkname poll_runtime_isPollServerDescriptor internal/poll.runtime_isPollServerDescriptor
 
-// poll_runtime_isPollServerDescriptor returns true if fd is a
+// poll_runtime_isPollServerDescriptor reports whether fd is a
 // descriptor being used by netpoll.
 func poll_runtime_isPollServerDescriptor(fd uintptr) bool {
 	fds := netpolldescriptor()
@@ -359,7 +359,7 @@ func netpollgoready(gp *g, traceskip int) {
 	goready(gp, traceskip+1)
 }
 
-// returns true if IO is ready, or false if timedout or closed
+// reports whether IO is ready, or false if timedout or closed
 // waitio - wait only for completed IO, ignore errors
 func netpollblock(pd *pollDesc, mode int32, waitio bool) bool {
 	gpp := &pd.rg

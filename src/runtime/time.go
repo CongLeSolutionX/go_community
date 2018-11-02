@@ -115,7 +115,7 @@ func startTimer(t *timer) {
 }
 
 // stopTimer removes t from the timer heap if it is there.
-// It returns true if t was removed, false if t wasn't even there.
+// It reports whether t was removed, false if t wasn't even there.
 //go:linkname stopTimer time.stopTimer
 func stopTimer(t *timer) bool {
 	return deltimer(t)
