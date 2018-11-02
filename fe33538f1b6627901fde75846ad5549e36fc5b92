@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9237a2ca_8f2096dc",
+        "filename": "src/internal/bytealg/equal_native.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2018-11-02T15:56:12Z",
+      "side": 1,
+      "message": "any reason why this doesn\u0027t also have\n\n// +build 386 amd64 amd64p32 s390x arm arm64 ppc64 ppc64le mips mipsle wasm ?\n\nnot exactly related to this change, but figured I\u0027d ask.",
+      "revId": "fe33538f1b6627901fde75846ad5549e36fc5b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
