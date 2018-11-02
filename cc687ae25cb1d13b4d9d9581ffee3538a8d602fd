@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ae3e9ff_623337de",
+        "filename": "src/internal/syscall/unix/at_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-02T09:28:49Z",
+      "side": 1,
+      "message": "This is shr_64.o and not shr_64.so",
+      "revId": "cc687ae25cb1d13b4d9d9581ffee3538a8d602fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
