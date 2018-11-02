@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f67dca1e_d8faaf8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-11-02T15:49:40Z",
+      "side": 1,
+      "message": "Please expand the commit message to compare the output before and after this change, especially given Daniel\u0027s comment.",
+      "revId": "936800d1cfa5373221ce0a508a8bb9bc752cdc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6846f42d_b8361e69",
         "filename": "src/cmd/go/internal/vet/vetflag.go",
         "patchSetId": 1
