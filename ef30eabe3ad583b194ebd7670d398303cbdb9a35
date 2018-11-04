@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e049ee7_c91bc8e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2018-11-04T06:19:56Z",
+      "side": 1,
+      "message": "Presumably, the params type have the same issue.\nYou might want to handle it in this CL or other CL?",
+      "revId": "ef30eabe3ad583b194ebd7670d398303cbdb9a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64d1d765_c574c48d",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2018-11-04T06:19:56Z",
+      "side": 1,
+      "message": "`\u0026\u0026 len(d.Type.Results.List) \u003e 0` looks unnecessary.",
+      "revId": "ef30eabe3ad583b194ebd7670d398303cbdb9a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
