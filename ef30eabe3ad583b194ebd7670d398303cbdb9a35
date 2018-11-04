@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "146b7fd8_518395d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2018-11-04T06:31:07Z",
+      "side": 1,
+      "message": "I mean the following code (based on your test code) should also be runnable.\n\n```\npackage foo_test\n\nimport (\n\t\"fmt\"\n\t\"io\"\n)\n\nfunc setReader(r io.Reader) { return nil }\n\nfunc Example() {\n\tsetReader()\n\t// Output:\n}\n\nfunc ExampleIgnored() {\n\tfmt.Println(setReader())\n\t// Output: \u003cnil\u003e\n}\n```",
+      "parentUuid": "6e049ee7_c91bc8e8",
+      "revId": "ef30eabe3ad583b194ebd7670d398303cbdb9a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64d1d765_c574c48d",
         "filename": "src/go/doc/example.go",
         "patchSetId": 3
