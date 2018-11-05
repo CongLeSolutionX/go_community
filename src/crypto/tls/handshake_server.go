@@ -323,9 +323,14 @@ func (hs *serverHandshakeState) checkForResumption() bool {
 		return false
 	}
 
-	var ok bool
-	var sessionTicket = append([]uint8{}, hs.clientHello.sessionTicket...)
-	if hs.sessionState, ok = c.decryptTicket(sessionTicket); !ok {
+	sessionTicket := append([]uint8{}, hs.clientHello.sessionTicket...)
+	plaintext, usedOldKey := c.decryptTicket(sessionTicket)
+	if plaintext == nil {
+		return false
+	}
+	hs.sessionState = &sessionState{usedOldKey: usedOldKey}
+	ok := hs.sessionState.unmarshal(plaintext)
+	if !ok {
 		return false
 	}
 
@@ -657,7 +662,7 @@ func (hs *serverHandshakeState) sendSessionTicket() error {
 		masterSecret: hs.masterSecret,
 		certificates: hs.certsFromClient,
 	}
-	m.ticket, err = c.encryptTicket(&state)
+	m.ticket, err = c.encryptTicket(state.marshal())
 	if err != nil {
 		return err
 	}
