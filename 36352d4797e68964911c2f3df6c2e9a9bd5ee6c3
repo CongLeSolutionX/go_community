@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "790b81e8_c8866121",
+        "filename": "src/cmd/compile/internal/ppc64/galign.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T09:53:47Z",
+      "side": 1,
+      "message": "It seems ok. Can you just confirme to me that I don\u0027t need to change anything inside the runtime ?",
+      "parentUuid": "0b0a34fc_64877815",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc17caef_96e42c7e",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 9
