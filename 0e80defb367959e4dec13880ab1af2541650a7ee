@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7dd7d348_80851911",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-05T16:14:49Z",
+      "side": 1,
+      "message": "The trampoline means we aren\u0027t exposing the fact that these functions allocate a stack frame to the compiler. It\u0027s probably safe (for now) but it seems a little bit fragile.\n\nCan we play around with some register allocations to remove the need to allocate a stack frame?",
+      "range": {
+        "startLine": 1313,
+        "startChar": 0,
+        "endLine": 1313,
+        "endChar": 1
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8704f21_3126891e",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1653,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-05T16:14:49Z",
+      "side": 1,
+      "message": "These need to be NOFRAME too. The current compiler will do the right thing anyway but this code is incorrect if this function allocates a stack frame, so it is best to make it explicit.",
+      "range": {
+        "startLine": 1653,
+        "startChar": 27,
+        "endLine": 1653,
+        "endChar": 34
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fed0cc10_ce335617",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-05T16:14:49Z",
+      "side": 1,
+      "message": "This is a global exported symbol, does it have to be?",
+      "range": {
+        "startLine": 1657,
+        "startChar": 5,
+        "endLine": 1657,
+        "endChar": 35
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2243c77d_994b9bdb",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-05T16:14:49Z",
+      "side": 1,
+      "message": "NOFRAME",
+      "range": {
+        "startLine": 1657,
+        "startChar": 40,
+        "endLine": 1657,
+        "endChar": 47
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3518624_182956fd",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1668,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-05T16:14:49Z",
+      "side": 1,
+      "message": "We could simplify the trampolines a bit (performance isn\u0027t important):\n\nTEXT p256MulInternalTrampolineSetup(SB),NOSPLIT|NOFRAME, $0\n        MOVB    ·hasVMSL(SB), R0\n        MOVD    $·p256MulInternalFacility+0x00(SB), R7\n        MOVD    $p256MulInternalVX\u003c\u003e(SB), R8\n        CMPBEQ  R0, $0, novmsl      // VMSL facility \u003d 1, VMSL supported\n        MOVD    $p256MulInternalVMSL\u003c\u003e(SB), R8\nnovmsl:\n        MOVD    R8, 0(R7)\n        BR      (R8)",
+      "range": {
+        "startLine": 1658,
+        "startChar": 0,
+        "endLine": 1668,
+        "endChar": 41
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30dac01d_6afe495c",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1674,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-05T16:14:49Z",
+      "side": 1,
+      "message": "NOFRAME",
+      "range": {
+        "startLine": 1674,
+        "startChar": 27,
+        "endLine": 1674,
+        "endChar": 34
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb242c51_6379bc62",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1678,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-05T16:14:49Z",
+      "side": 1,
+      "message": "NOFRAME",
+      "range": {
+        "startLine": 1678,
+        "startChar": 40,
+        "endLine": 1678,
+        "endChar": 47
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d15cbe49_926a26f8",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1678,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-05T16:14:49Z",
+      "side": 1,
+      "message": "Also a global exported symbol.",
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
