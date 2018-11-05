@@ -599,6 +599,10 @@ func ticketKeyFromBytes(b [32]byte) (key ticketKey) {
 	return key
 }
 
+// maxSessionTicketLifetime is the maximum allowed lifetime of a TLS 1.3 session
+// ticket, and the lifetime we set for tickets we send.
+const maxSessionTicketLifetime = 7 * 24 * time.Hour
+
 // Clone returns a shallow clone of c. It is safe to clone a Config that is
 // being used concurrently by a TLS client or server.
 func (c *Config) Clone() *Config {
