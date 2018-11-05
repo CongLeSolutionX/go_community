@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0b0a34fc_64877815",
+        "filename": "src/cmd/compile/internal/ppc64/galign.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "If I do so, I need to also update the memory space inside the runtime, isn\u0027t it ? That\u0027s I haven\u0027t done it yet. I\u0027ll still give it a try just to check if something seems wrong.",
+      "parentUuid": "437be6c9_7506461c",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc17caef_96e42c7e",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaa32954_4a2bc541",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc17caef_96e42c7e",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a71af69_db99bc7b",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c3fbf3a_ff937868",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efdeb3cb_83cf4d38",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 9
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "9caa099b_a5f673b5",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efdeb3cb_83cf4d38",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ef8d1bc_4d2287a4",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 9
@@ -84,6 +156,24 @@
       "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "600777aa_f25b6448",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ef8d1bc_4d2287a4",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "56908b44_37904b79",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6690d28_23d659a3",
+      "range": {
+        "startLine": 231,
+        "startChar": 27,
+        "endLine": 231,
+        "endChar": 29
+      },
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06d5c201_ba0f38a2",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 9
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "fbb3e1a7_193fc272",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06d5c201_ba0f38a2",
+      "range": {
+        "startLine": 275,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 8
+      },
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6addd348_db948750",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 9
@@ -147,6 +285,24 @@
       "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aed0b906_e31bb792",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6addd348_db948750",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -173,6 +329,30 @@
     },
     {
       "key": {
+        "uuid": "f61d8631_8c36b20e",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f626cbbf_9ff2296a",
+      "range": {
+        "startLine": 430,
+        "startChar": 13,
+        "endLine": 430,
+        "endChar": 42
+      },
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f24868e_fd6da218",
         "filename": "test/fixedbugs/issue4085b.go",
         "patchSetId": 9
@@ -190,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "69a7c572_080937cd",
+        "filename": "test/fixedbugs/issue4085b.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "I\u0027ve done it for chancap.go too.",
+      "parentUuid": "8f24868e_fd6da218",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2514f37_0a340c70",
         "filename": "test/fixedbugs/issue4085b.go",
         "patchSetId": 9
@@ -204,6 +402,24 @@
       "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7afed7b_6d1b5fd1",
+        "filename": "test/fixedbugs/issue4085b.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-05T08:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2514f37_0a340c70",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
