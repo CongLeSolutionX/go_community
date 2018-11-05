@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52daa0e1_0bfbcb8d",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-11-05T18:51:58Z",
+      "side": 1,
+      "message": "what\u0027s \u0027fi\u0027 stand for? \"function input?\" (that\u0027s not right for the Results parameters).\n\nMaybe just \u0027p\u0027 for parameter?",
+      "range": {
+        "startLine": 224,
+        "startChar": 11,
+        "endLine": 224,
+        "endChar": 13
+      },
+      "revId": "34c50a6a92f6953689df088d65fbbf627463eb01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43b224bc_4ca95fdc",
+        "filename": "src/go/doc/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-11-05T18:51:58Z",
+      "side": 1,
+      "message": "s/in/in the/\n\nAlso, move this comment before line 404 because that\u0027s where we access the first example. Up here it\u0027s not clear why one needs to know this.",
+      "range": {
+        "startLine": 393,
+        "startChar": 22,
+        "endLine": 393,
+        "endChar": 24
+      },
+      "revId": "34c50a6a92f6953689df088d65fbbf627463eb01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
