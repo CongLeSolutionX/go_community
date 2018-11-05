@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b80f409_2c56dcbd",
+        "filename": "src/math/unsafe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-11-05T20:48:53Z",
+      "side": 1,
+      "message": "I\u0027m sorry but I believe my original suggestion was more precise and more concise:\n\n// Float32bits returns the IEEE 754 binary representation of f,\n// with the sign bit of f lining up with the sign bit of the result.\n\nThe whole point of adding more comments here is to add missing information. The extra two lines don\u0027t do that:\n\n1) It seems pretty obvious that Float32bits is some form of inverse of Float32frombits - instead I\u0027d write down the invariant explicitly.\n\n2) The 2nd comment just states the obvious, namely that the sign bit of the result, a uint32 is the most significant bit. It should talk about the sign bit of f and the result.\n\nAgain, the point here is to make it clear that these relationships are independent of whatever endianness the underlying architecture is using.\n\nI think this should be:\n\n// Float32bits returns the IEEE 754 binary representation of f,\n// with the sign bit of f and the result in the same bit position,\n// and Float32bits(Float32frombits(x)) \u003d\u003d x.\n\nanalogous for the others.",
+      "revId": "b1f306ac52afbf04f091ff24602362c3ad927e4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
