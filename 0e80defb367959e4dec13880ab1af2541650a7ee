@@ -177,6 +177,29 @@
       "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5fc42c8_64221ccc",
+        "filename": "src/crypto/elliptic/p256_s390x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-11-05T18:32:18Z",
+      "side": 1,
+      "message": "its better to use internal/cpu variables directly (and not cache them in variables) in assembler for an example on amd64 see:\noffset definition: https://github.com/golang/go/blob/05c02444eb2d8b8d3ecd949c4308d8e2323ae087/src/runtime/cpuflags.go#L14 \nuse in asm: \nhttps://github.com/golang/go/blob/05c02444eb2d8b8d3ecd949c4308d8e2323ae087/src/runtime/memmove_amd64.s#L87\n\nI would assume s390x could use a similar approach.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
