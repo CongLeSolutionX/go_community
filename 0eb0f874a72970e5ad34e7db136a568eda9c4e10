@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20165ecc_bea2313f",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-11-06T23:35:09Z",
+      "side": 1,
+      "message": "I assume this is already set in stone somewhere? It doesn\u0027t really fit with the TLS 1.2 format although it\u0027s not worth diverging unless this is the first instance of it.",
+      "revId": "0eb0f874a72970e5ad34e7db136a568eda9c4e10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
