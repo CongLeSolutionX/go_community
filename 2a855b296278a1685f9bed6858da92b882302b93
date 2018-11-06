@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cd24644_ac33eb2e",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1810,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-06T08:44:56Z",
+      "side": 1,
+      "message": "Thinking about it we probably need to make sure src and tmp are disjoint even if isInlineableMemmove is true for src and dst.",
+      "range": {
+        "startLine": 1810,
+        "startChar": 4,
+        "endLine": 1810,
+        "endChar": 31
+      },
+      "revId": "2a855b296278a1685f9bed6858da92b882302b93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
