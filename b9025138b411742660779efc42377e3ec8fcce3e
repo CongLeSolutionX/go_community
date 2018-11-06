@@ -46,6 +46,30 @@
       "revId": "b9025138b411742660779efc42377e3ec8fcce3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5d9339c_8e1d9105",
+        "filename": "src/runtime/cpuflags.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-11-06T16:26:42Z",
+      "side": 1,
+      "message": "If non std lib packages rely on these not to be used externally variables then those packages should switch to x/sys/cpu sooner or later. We could add a comment here about that.",
+      "parentUuid": "1415b8d8_09a81b0c",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 1
+      },
+      "revId": "b9025138b411742660779efc42377e3ec8fcce3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
