@@ -22,6 +22,30 @@
       "revId": "b9025138b411742660779efc42377e3ec8fcce3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1415b8d8_09a81b0c",
+        "filename": "src/runtime/cpuflags.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-11-06T16:22:19Z",
+      "side": 1,
+      "message": "because we still use them in gc/ssa.go to guard instructions emitted by the compiler that are not supported by all CPUs of the architecture. Resolving that will afaik be a bit more work for go1.13 and requirers correctly addressing the fields in the internal/cpu structs.",
+      "parentUuid": "4da112f7_4afe9733",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 1
+      },
+      "revId": "b9025138b411742660779efc42377e3ec8fcce3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
