@@ -769,6 +769,7 @@ func TestHandshakeClientCertRSA(t *testing.T) {
 
 	runClientTestTLS10(t, test)
 	runClientTestTLS12(t, test)
+	runClientTestTLS13(t, test)
 
 	test = &clientTest{
 		name:    "ClientCert-RSA-AES256-GCM-SHA384",
@@ -794,6 +795,7 @@ func TestHandshakeClientCertECDSA(t *testing.T) {
 
 	runClientTestTLS10(t, test)
 	runClientTestTLS12(t, test)
+	runClientTestTLS13(t, test)
 
 	test = &clientTest{
 		name:    "ClientCert-ECDSA-ECDSA",
@@ -835,6 +837,7 @@ func TestHandshakeClientCertRSAPSS(t *testing.T) {
 	}
 
 	runClientTestTLS12(t, test)
+	runClientTestTLS13(t, test)
 }
 
 func TestHandshakeClientCertRSAPKCS1v15(t *testing.T) {
@@ -968,10 +971,9 @@ func testResumption(t *testing.T, version uint16) {
 	serverConfig.ClientAuth = RequireAndVerifyClientCert
 	clientConfig.Certificates = serverConfig.Certificates
 	testResumeState("InitialHandshake", false)
-	if version != VersionTLS13 {
-		// TODO(filippo): reenable when client authentication is implemented
-		testResumeState("WithClientCertificates", true)
+	testResumeState("WithClientCertificates", true)
 
+	if version != VersionTLS13 {
 		// Tickets should be removed from the session cache on TLS handshake failure
 		farFuture := func() time.Time { return time.Unix(16725225600, 0) }
 		serverConfig.Time = farFuture
@@ -1405,6 +1407,11 @@ func TestServerSelectingUnconfiguredCipherSuite(t *testing.T) {
 }
 
 func TestVerifyPeerCertificate(t *testing.T) {
+	t.Run("TLSv12", func(t *testing.T) { testVerifyPeerCertificate(t, VersionTLS12) })
+	t.Run("TLSv13", func(t *testing.T) { testVerifyPeerCertificate(t, VersionTLS13) })
+}
+
+func testVerifyPeerCertificate(t *testing.T, version uint16) {
 	issuer, err := x509.ParseCertificate(testRSACertificateIssuer)
 	if err != nil {
 		panic(err)
@@ -1538,6 +1545,7 @@ func TestVerifyPeerCertificate(t *testing.T) {
 			config.ClientAuth = RequireAndVerifyClientCert
 			config.ClientCAs = rootCAs
 			config.Time = now
+			config.MaxVersion = version
 			test.configureServer(config, &serverCalled)
 
 			err = Server(s, config).Handshake()
@@ -1549,6 +1557,7 @@ func TestVerifyPeerCertificate(t *testing.T) {
 		config.ServerName = "example.golang"
 		config.RootCAs = rootCAs
 		config.Time = now
+		config.MaxVersion = version
 		test.configureClient(config, &clientCalled)
 		clientErr := Client(c, config).Handshake()
 		c.Close()
@@ -1747,13 +1756,6 @@ func TestHandshakeRace(t *testing.T) {
 	}
 }
 
-func TestTLS11SignatureSchemes(t *testing.T) {
-	expected := tls11SignatureSchemesNumECDSA + tls11SignatureSchemesNumRSA
-	if expected != len(tls11SignatureSchemes) {
-		t.Errorf("expected to find %d TLS 1.1 signature schemes, but found %d", expected, len(tls11SignatureSchemes))
-	}
-}
-
 var getClientCertificateTests = []struct {
 	setup               func(*Config, *Config)
 	expectedClientError string
@@ -1836,6 +1838,11 @@ var getClientCertificateTests = []struct {
 }
 
 func TestGetClientCertificate(t *testing.T) {
+	t.Run("TLSv12", func(t *testing.T) { testGetClientCertificate(t, VersionTLS12) })
+	t.Run("TLSv13", func(t *testing.T) { testGetClientCertificate(t, VersionTLS13) })
+}
+
+func testGetClientCertificate(t *testing.T, version uint16) {
 	issuer, err := x509.ParseCertificate(testRSACertificateIssuer)
 	if err != nil {
 		panic(err)
@@ -1848,8 +1855,10 @@ func TestGetClientCertificate(t *testing.T) {
 		serverConfig.RootCAs.AddCert(issuer)
 		serverConfig.ClientCAs = serverConfig.RootCAs
 		serverConfig.Time = func() time.Time { return time.Unix(1476984729, 0) }
+		serverConfig.MaxVersion = version
 
 		clientConfig := testConfig.Clone()
+		clientConfig.MaxVersion = version
 
 		test.setup(clientConfig, serverConfig)
 

@@ -1070,6 +1070,7 @@ type certificateRequestMsgTLS13 struct {
 	scts                             bool
 	supportedSignatureAlgorithms     []SignatureScheme
 	supportedSignatureAlgorithmsCert []SignatureScheme
+	certificateAuthorities           [][]byte
 }
 
 func (m *certificateRequestMsgTLS13) marshal() []byte {
@@ -1114,6 +1115,18 @@ func (m *certificateRequestMsgTLS13) marshal() []byte {
 					b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
 						for _, sigAlgo := range m.supportedSignatureAlgorithmsCert {
 							b.AddUint16(uint16(sigAlgo))
+						}
+					})
+				})
+			}
+			if len(m.certificateAuthorities) > 0 {
+				b.AddUint16(extensionCertificateAuthorities)
+				b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
+					b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
+						for _, ca := range m.certificateAuthorities {
+							b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
+								b.AddBytes(ca)
+							})
 						}
 					})
 				})
@@ -1175,6 +1188,18 @@ func (m *certificateRequestMsgTLS13) unmarshal(data []byte) bool {
 				}
 				m.supportedSignatureAlgorithmsCert = append(
 					m.supportedSignatureAlgorithmsCert, SignatureScheme(sigAndAlg))
+			}
+		case extensionCertificateAuthorities:
+			var auths cryptobyte.String
+			if !extData.ReadUint16LengthPrefixed(&auths) || auths.Empty() {
+				return false
+			}
+			for !auths.Empty() {
+				var ca []byte
+				if !readUint16LengthPrefixed(&auths, &ca) || len(ca) == 0 {
+					return false
+				}
+				m.certificateAuthorities = append(m.certificateAuthorities, ca)
 			}
 		default:
 			// Ignore unknown extensions.
