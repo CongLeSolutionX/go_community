@@ -345,6 +345,30 @@
     },
     {
       "key": {
+        "uuid": "5e20991b_843e12f6",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-11-07T18:20:42Z",
+      "side": 1,
+      "message": "Good point. Thanks.",
+      "parentUuid": "f918e245_cea34a9a",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 0
+      },
+      "revId": "177e329fbda3107d87ee8a5f890b8c493b0c1187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a3aaf28_76e42126",
         "filename": "src/runtime/rt0_js_wasm.s",
         "patchSetId": 4
