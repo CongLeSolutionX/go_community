@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ea182ec8_9e6f46ee",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2018-11-07T01:27:05Z",
+      "side": 1,
+      "message": "That\u0027s really hard without affecting the performance characteristics of the code. We\u0027ve whittled down the list of registers to pretty much the bare minimum while still eliminating as many inter-instruction dependencies as possible. With the NOSPLIT designation it would appear to be safe.",
+      "parentUuid": "7dd7d348_80851911",
+      "range": {
+        "startLine": 1313,
+        "startChar": 0,
+        "endLine": 1313,
+        "endChar": 1
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8704f21_3126891e",
         "filename": "src/crypto/elliptic/p256_asm_s390x.s",
         "patchSetId": 3
