@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20cfaa0a_7e045369",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-11-07T00:22:29Z",
+      "side": 1,
+      "message": ",",
+      "range": {
+        "startLine": 184,
+        "startChar": 15,
+        "endLine": 184,
+        "endChar": 16
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f68a5c7b_8a406c3e",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-11-07T00:22:29Z",
+      "side": 1,
+      "message": "There are paths in loadSession that return \"\" for cacheKey, and I can\u0027t see that it couldn\u0027t flow to here.",
+      "range": {
+        "startLine": 199,
+        "startChar": 35,
+        "endLine": 199,
+        "endChar": 43
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82ca1da2_528b8e9b",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-11-07T00:22:29Z",
+      "side": 1,
+      "message": "… or here? (Because there\u0027s a |return \"\", nil, nil, nil| after setting hello.ticketSupported.",
+      "range": {
+        "startLine": 207,
+        "startChar": 34,
+        "endLine": 207,
+        "endChar": 42
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "914f63d2_91e012f9",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-11-07T00:22:29Z",
+      "side": 1,
+      "message": "\u003e\u003d, for TLS 1.4?",
+      "range": {
+        "startLine": 221,
+        "startChar": 31,
+        "endLine": 221,
+        "endChar": 33
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc586c90_d04eb01e",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-11-07T00:22:29Z",
+      "side": 1,
+      "message": "s/, e/. E/",
+      "range": {
+        "startLine": 273,
+        "startChar": 63,
+        "endLine": 273,
+        "endChar": 66
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d4f234e_9d491274",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-11-07T00:22:29Z",
+      "side": 1,
+      "message": "s/, e/. E/",
+      "range": {
+        "startLine": 289,
+        "startChar": 58,
+        "endLine": 289,
+        "endChar": 61
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
