@@ -22,6 +22,30 @@
       "revId": "ceed288eaf453bb6ee8c1056c3fa5d8bec0a19a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "165dad48_e2588f97",
+        "filename": "src/time/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-11-07T19:59:44Z",
+      "side": 1,
+      "message": "// Representations of time saved by the GobEncode, MarshalBinary\n// MarshalJSON, and MarshalText methods store the Time.Location\u0027s offset, but not\n// the location name. They therefore lose information about Daylight Savings Time.",
+      "parentUuid": "ebaf3add_2009bbc9",
+      "range": {
+        "startLine": 112,
+        "startChar": 3,
+        "endLine": 112,
+        "endChar": 20
+      },
+      "revId": "ceed288eaf453bb6ee8c1056c3fa5d8bec0a19a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
