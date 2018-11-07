@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebaf3add_2009bbc9",
+        "filename": "src/time/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-11-07T15:54:12Z",
+      "side": 1,
+      "message": "\"it is advised to\" isn\u0027t really Go documentation style. You could just omit this whole last sentence.\n\nIn fact, even the \"This can cause issues if...\" sentence isn\u0027t really necessary. Or if it stays, perhaps it should be clarified that it\u0027s only when you do date math with those values (calling Add with a duration) that you might get unexpected results.\n\nMaybe:\n\n// The serialized representations of time via the GobEncode, MarshalBinary\n// MarshalJSON, MarshalText methods capture only the Time.Location\u0027s offset, but not\n// the location name. As a result, date math on the unmarshalled time values will\n// not respect local DST rules.\n\nBut I\u0027ll leave actual wording to Rob.",
+      "range": {
+        "startLine": 112,
+        "startChar": 3,
+        "endLine": 112,
+        "endChar": 20
+      },
+      "revId": "ceed288eaf453bb6ee8c1056c3fa5d8bec0a19a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
