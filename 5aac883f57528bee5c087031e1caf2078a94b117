@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08e833ef_f26d35f4",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-11-07T16:37:44Z",
+      "side": 1,
+      "message": "This is indexed by Sym. Is the Sym unique across the whole package? I thought parameters of different functions with same name have the same Sym?",
+      "range": {
+        "startLine": 370,
+        "startChar": 16,
+        "endLine": 370,
+        "endChar": 25
+      },
+      "revId": "5aac883f57528bee5c087031e1caf2078a94b117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0d5944f_22ada4ba",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-11-07T16:37:44Z",
+      "side": 1,
+      "message": "Pass a bool instead of the map here? This is just about a single variable.",
+      "revId": "5aac883f57528bee5c087031e1caf2078a94b117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e97986bf_e9014c74",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-11-07T16:37:44Z",
+      "side": 1,
+      "message": "These are for inlined functions? Inlined functions may have escape info different than non-inlined version. For example, a parameter may escape to a result, so it \"escapes\", but if the function is inlined, and the result in the caller doesn\u0027t escape, the inlined parameter doesn\u0027t need to escape.\n\nGiven that this is for debugger call injection, which cannot call an inlined function, this is probably not needed for inlined functions.",
+      "range": {
+        "startLine": 565,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 3
+      },
+      "revId": "5aac883f57528bee5c087031e1caf2078a94b117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e6a4486_5f6d94e2",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1441,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-11-07T16:37:44Z",
+      "side": 1,
+      "message": "Same question about inlined functions.",
+      "range": {
+        "startLine": 1440,
+        "startChar": 0,
+        "endLine": 1441,
+        "endChar": 25
+      },
+      "revId": "5aac883f57528bee5c087031e1caf2078a94b117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
