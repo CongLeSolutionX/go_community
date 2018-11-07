@@ -105,6 +105,10 @@ import (
 // change the instant in time being denoted and therefore does not affect the
 // computations described in earlier paragraphs.
 //
+// Representations of time saved by the GobEncode, MarshalBinary
+// MarshalJSON, and MarshalText methods store the Time.Location's offset, but not
+// the location name. They therefore lose information about Daylight Savings Time.
+//
 // In addition to the required “wall clock” reading, a Time may contain an optional
 // reading of the current process's monotonic clock, to provide additional precision
 // for comparison or subtraction.
