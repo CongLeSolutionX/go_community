@@ -105,6 +105,12 @@ import (
 // change the instant in time being denoted and therefore does not affect the
 // computations described in earlier paragraphs.
 //
+// The serialized representations of time via the GobEncode, MarshalBinary
+// MarshalJSON, MarshalText methods capture only the offset, but not the
+// location name of the captured time. This can cause issues if that time zone
+// is affected by DST changes. If you need to handle such cases,
+// it is advised to store the location name separately.
+//
 // In addition to the required “wall clock” reading, a Time may contain an optional
 // reading of the current process's monotonic clock, to provide additional precision
 // for comparison or subtraction.
