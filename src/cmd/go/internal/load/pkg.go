@@ -467,7 +467,7 @@ func LoadImport(path, srcDir string, parent *Package, stk *ImportStack, importPo
 	if strings.Contains(path, "@") {
 		var text string
 		if cfg.ModulesEnabled {
-			text = "can only use path@version syntax with 'go get'"
+			text = "can only use path@version syntax with 'go get', 'go list -m', and 'go mod download'"
 		} else {
 			text = "cannot use path@version syntax in GOPATH mode"
 		}

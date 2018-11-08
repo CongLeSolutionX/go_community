@@ -70,8 +70,9 @@ func Import(path string) (m module.Version, dir string, err error) {
 	// -mod=vendor is special.
 	// Everything must be in the main module or the main module's vendor directory.
 	if cfg.BuildMod == "vendor" {
-		mainDir, mainOK := dirInModule(path, Target.Path, ModRoot, true)
-		vendorDir, vendorOK := dirInModule(path, "", filepath.Join(ModRoot, "vendor"), false)
+		ModRoot()
+		mainDir, mainOK := dirInModule(path, Target.Path, modRoot, true)
+		vendorDir, vendorOK := dirInModule(path, "", filepath.Join(modRoot, "vendor"), false)
 		if mainOK && vendorOK {
 			return module.Version{}, "", fmt.Errorf("ambiguous import: found %s in multiple directories:\n\t%s\n\t%s", path, mainDir, vendorDir)
 		}
