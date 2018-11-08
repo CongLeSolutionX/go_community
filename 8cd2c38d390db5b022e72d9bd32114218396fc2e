@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b03fe39_62571aa8",
+        "filename": "src/time/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-11-08T04:44:09Z",
+      "side": 1,
+      "message": "s/time/a Time value/",
+      "revId": "8cd2c38d390db5b022e72d9bd32114218396fc2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8facd9c_34416a87",
+        "filename": "src/time/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-11-08T04:44:09Z",
+      "side": 1,
+      "message": "s/Savings/Saving/ (just learned this today)",
+      "revId": "8cd2c38d390db5b022e72d9bd32114218396fc2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
