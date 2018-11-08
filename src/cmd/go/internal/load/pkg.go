@@ -1783,6 +1783,9 @@ func loadPackage(arg string, stk *ImportStack) *Package {
 		bp.ImportPath = arg
 		bp.Goroot = true
 		bp.BinDir = cfg.GOROOTbin
+		// TODO(bcmills): The next three lines look like a no-op: cfg.GOROOTbin was
+		// changed from 'gobin' in https://golang.org/cl/36196. What is the intended
+		// behavior here?
 		if cfg.GOROOTbin != "" {
 			bp.BinDir = cfg.GOROOTbin
 		}
