@@ -118,7 +118,7 @@ func matchPackages(pattern string, tags map[string]bool, useStd bool, modules []
 		}
 		var root string
 		if mod.Version == "" {
-			root = ModRoot
+			root = MustModRoot()
 		} else {
 			var err error
 			root, _, err = fetch(mod)

@@ -54,6 +54,13 @@ var loaded *loader
 func ImportPaths(patterns []string) []*search.Match {
 	InitMod()
 
+	if len(patterns) == 0 {
+		// ImportPaths with an empty list of patterns refers to the package or
+		// module in the current directory. Without a main module, we would get a
+		// confusing error message about '.' not being in the current module.
+		MustModRoot()
+	}
+
 	var matches []*search.Match
 	for _, pattern := range search.CleanPatterns(patterns) {
 		m := &search.Match{
@@ -101,10 +108,10 @@ func ImportPaths(patterns []string) []*search.Match {
 					// Note: The checks for @ here are just to avoid misinterpreting
 					// the module cache directories (formerly GOPATH/src/mod/foo@v1.5.2/bar).
 					// It's not strictly necessary but helpful to keep the checks.
-					if dir == ModRoot {
+					if modRoot != "" && dir == modRoot {
 						pkg = Target.Path
-					} else if strings.HasPrefix(dir, ModRoot+string(filepath.Separator)) && !strings.Contains(dir[len(ModRoot):], "@") {
-						suffix := filepath.ToSlash(dir[len(ModRoot):])
+					} else if modRoot != "" && strings.HasPrefix(dir, modRoot+string(filepath.Separator)) && !strings.Contains(dir[len(modRoot):], "@") {
+						suffix := filepath.ToSlash(dir[len(modRoot):])
 						if strings.HasPrefix(suffix, "/vendor/") {
 							// TODO getmode vendor check
 							pkg = strings.TrimPrefix(suffix, "/vendor/")
@@ -118,6 +125,7 @@ func ImportPaths(patterns []string) []*search.Match {
 					} else {
 						pkg = ""
 						if !iterating {
+							MustModRoot()
 							base.Errorf("go: directory %s outside available modules", base.ShortPath(dir))
 						}
 					}
@@ -142,6 +150,11 @@ func ImportPaths(patterns []string) []*search.Match {
 				m.Pkgs = matchPackages(m.Pattern, loaded.tags, true, buildList)
 
 			case m.Pattern == "all":
+				// "all" refers to the dependencies of the main module. If there is no
+				// main module, we could successfully list the standard library, but it
+				// would be confusing at best.
+				MustModRoot()
+
 				loaded.testAll = true
 				if iterating {
 					// Enumerate the packages in the main module.
@@ -251,17 +264,21 @@ func ImportFromFiles(gofiles []string) {
 // DirImportPath returns the effective import path for dir,
 // provided it is within the main module, or else returns ".".
 func DirImportPath(dir string) string {
+	if modRoot == "" {
+		return "."
+	}
+
 	if !filepath.IsAbs(dir) {
 		dir = filepath.Join(cwd, dir)
 	} else {
 		dir = filepath.Clean(dir)
 	}
 
-	if dir == ModRoot {
+	if dir == modRoot {
 		return Target.Path
 	}
-	if strings.HasPrefix(dir, ModRoot+string(filepath.Separator)) {
-		suffix := filepath.ToSlash(dir[len(ModRoot):])
+	if strings.HasPrefix(dir, modRoot+string(filepath.Separator)) {
+		suffix := filepath.ToSlash(dir[len(modRoot):])
 		if strings.HasPrefix(suffix, "/vendor/") {
 			return strings.TrimPrefix(suffix, "/vendor/")
 		}
@@ -337,6 +354,7 @@ var anyTags = map[string]bool{"*": true}
 // TargetPackages returns the list of packages in the target (top-level) module,
 // under all build tag settings.
 func TargetPackages() []string {
+	MustModRoot()
 	return matchPackages("...", anyTags, false, []module.Version{Target})
 }
 
@@ -810,7 +828,7 @@ func WhyDepth(path string) int {
 // a module.Version with Path == "".
 func Replacement(mod module.Version) module.Version {
 	if modFile == nil {
-		// Happens during testing.
+		// Happens during testing and if invoking 'go get' or 'go list' outside a module.
 		return module.Version{}
 	}
 
@@ -887,7 +905,7 @@ func readVendorList() {
 	vendorOnce.Do(func() {
 		vendorList = nil
 		vendorMap = make(map[string]module.Version)
-		data, _ := ioutil.ReadFile(filepath.Join(ModRoot, "vendor/modules.txt"))
+		data, _ := ioutil.ReadFile(filepath.Join(MustModRoot(), "vendor/modules.txt"))
 		var m module.Version
 		for _, line := range strings.Split(string(data), "\n") {
 			if strings.HasPrefix(line, "# ") {
@@ -917,7 +935,7 @@ func (r *mvsReqs) modFileToList(f *modfile.File) []module.Version {
 
 func (r *mvsReqs) required(mod module.Version) ([]module.Version, error) {
 	if mod == Target {
-		if modFile.Go != nil {
+		if modFile != nil && modFile.Go != nil {
 			r.versions.LoadOrStore(mod, modFile.Go.Version)
 		}
 		var list []module.Version
@@ -937,7 +955,7 @@ func (r *mvsReqs) required(mod module.Version) ([]module.Version, error) {
 			// TODO: need to slip the new version into the tags list etc.
 			dir := repl.Path
 			if !filepath.IsAbs(dir) {
-				dir = filepath.Join(ModRoot, dir)
+				dir = filepath.Join(MustModRoot(), dir)
 			}
 			gomod := filepath.Join(dir, "go.mod")
 			data, err := ioutil.ReadFile(gomod)
@@ -1052,13 +1070,13 @@ func (*mvsReqs) next(m module.Version) (module.Version, error) {
 
 func fetch(mod module.Version) (dir string, isLocal bool, err error) {
 	if mod == Target {
-		return ModRoot, true, nil
+		return MustModRoot(), true, nil
 	}
 	if r := Replacement(mod); r.Path != "" {
 		if r.Version == "" {
 			dir = r.Path
 			if !filepath.IsAbs(dir) {
-				dir = filepath.Join(ModRoot, dir)
+				dir = filepath.Join(MustModRoot(), dir)
 			}
 			return dir, true, nil
 		}

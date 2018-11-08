@@ -33,6 +33,7 @@ func runGraph(cmd *base.Command, args []string) {
 	if len(args) > 0 {
 		base.Fatalf("go mod graph: graph takes no arguments")
 	}
+	modload.MustModRoot()
 	modload.LoadBuildList()
 
 	reqs := modload.MinReqs()

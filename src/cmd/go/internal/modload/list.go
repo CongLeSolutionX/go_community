@@ -17,6 +17,10 @@ import (
 )
 
 func ListModules(args []string, listU, listVersions bool) []*modinfo.ModulePublic {
+	// ListModules queries the dependencies of the main module, so there must be a
+	// main module to query.
+	MustModRoot()
+
 	mods := listModules(args)
 	if listU || listVersions {
 		var work par.Work

@@ -37,5 +37,6 @@ func runInit(cmd *base.Command, args []string) {
 	if _, err := os.Stat("go.mod"); err == nil {
 		base.Fatalf("go mod init: go.mod already exists")
 	}
+	modload.MustModRoot()
 	modload.InitMod() // does all the hard work
 }

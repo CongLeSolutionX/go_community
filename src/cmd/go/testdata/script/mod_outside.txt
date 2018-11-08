@@ -1,0 +1,74 @@
+env GO111MODULE=on
+
+# This script tests commands in module mode outside of any module.
+#
+# First, ensure that we really are in module mode, and that we really don't have
+# a go.mod file.
+go env GOMOD
+stdout 'NUL|/dev/null'
+
+# 'go list' and 'go get` without arguments implicitly operate on the main
+# module, and thus should fail.
+! go list
+stderr 'cannot find main module'
+! go list -m
+stderr 'cannot find main module'
+! go list all
+stderr 'cannot find main module'
+! go list -m all
+stderr 'cannot find main module'
+! go get -u
+stderr 'cannot find main module'
+! go get -u all
+stderr 'cannot find main module'
+
+# 'go list' on standard-library packages should work, since they do not depend
+# on the contents of any module.
+go list -deps cmd
+stdout '^fmt$'
+stdout '^cmd/go$'
+
+go list $GOROOT/src/fmt
+stdout '^fmt$'
+
+# 'go list' in the working directory should fail: without a main module, we do
+# not know its package path.
+! go list ./foo
+stderr 'cannot find main module'
+
+# 'go get -d' should download the modules required to build the requested version.
+go get -d example.com/printversion@v1.0.0
+exists $GOPATH/pkg/mod/cache/download/example.com/version/@v/v1.0.0.zip
+
+[short] stop
+
+# 'go get' of a binary without a go.mod should install the requested version,
+# resolving outside dependencies to the latest available versions.
+go get example.com/printversion@v0.1.0
+exec ../bin/printversion
+stdout 'example.com/printversion v0.1.0'
+stdout 'example.com/version v1.1.0'
+
+# 'go get' of a versioned binary should build and install the latest version
+# using its minimal module requirements, ignoring replacements and exclusions.
+go get example.com/printversion
+exec ../bin/printversion
+stdout 'example.com/printversion v1.0.0'
+stdout 'example.com/version v1.0.0'
+
+# 'go get -u=patch' should patch dependencies before installing,
+# again ignoring replacements and exclusions.
+go get -u=patch example.com/printversion@v1.0.0
+exec ../bin/printversion
+stdout 'example.com/printversion v1.0.0'
+stdout 'example.com/version v1.0.1'
+
+# TODO(bcmills): Should 'go list -versions' resolve outside of a module?
+# Should 'go list' work with pkg@version? ('go list -deps' in particular seems
+# useful independent of a main module.)
+
+-- README.txt --
+There is no go.mod file in the working directory.
+
+-- foo/foo.go --
+package foo

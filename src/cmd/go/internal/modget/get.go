@@ -214,6 +214,30 @@ func runGet(cmd *base.Command, args []string) {
 		base.Fatalf("go get: disabled by -mod=%s", cfg.BuildMod)
 	}
 
+	modload.Init()
+	if _, inModule := modload.ModRoot(); !inModule {
+		if *getM {
+			// 'go get -m' could work outside of a module, but since the whole point
+			// of it is to update the module requirements of the main module, it seems
+			// misleading to allow it to proceed.
+			base.Fatalf("go get: can't use -m outside a module")
+		}
+		if len(args) == 0 {
+			// 'go get' without arguments implicitly installs the package in the
+			// current directory, but in order to know the package path we need a
+			// module definition.
+			//
+			// 'go get -u' without arguments implicitly upgrades the dependencies of
+			// the main module.
+			//
+			// If we proceed here, we'll emit an error message like "can't use file
+			// path . outside of a module" below, and that would be confusing since
+			// the user didn't actually request "." explicitly. Instead, emit the
+			// usual error message for operations that require a main module.
+			modload.MustModRoot()
+		}
+	}
+
 	modload.LoadBuildList()
 
 	// Do not allow any updating of go.mod until we've applied
@@ -270,6 +294,12 @@ func runGet(cmd *base.Command, args []string) {
 		//	- Import paths without patterns are left as is, for resolution by getQuery (eventually modload.Import).
 		//
 		if search.IsRelativePath(path) {
+			modRoot, ok := modload.ModRoot()
+			if !ok {
+				// The user provided a relative path on the command line. Provide a
+				// clearer error message that what modload.MustModRoot would produce.
+				base.Fatalf("go get: can't use file path %s outside of a module", path)
+			}
 			// Check that this relative pattern only matches directories in the current module,
 			// and then record the current module as the target.
 			dir := path
@@ -281,8 +311,8 @@ func runGet(cmd *base.Command, args []string) {
 				base.Errorf("go get %s: %v", arg, err)
 				continue
 			}
-			if !str.HasFilePathPrefix(abs, modload.ModRoot) {
-				base.Errorf("go get %s: directory %s is outside module root %s", arg, abs, modload.ModRoot)
+			if !str.HasFilePathPrefix(abs, modRoot) {
+				base.Errorf("go get %s: directory %s is outside module root %s", arg, abs, modRoot)
 				continue
 			}
 			// TODO: Check if abs is inside a nested module.
