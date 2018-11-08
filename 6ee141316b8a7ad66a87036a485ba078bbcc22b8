@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "840806a9_23951f27",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20cfaa0a_7e045369",
+      "range": {
+        "startLine": 184,
+        "startChar": 15,
+        "endLine": 184,
+        "endChar": 16
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f68a5c7b_8a406c3e",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df50a4dc_0b0399f9",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:50:24Z",
+      "side": 1,
+      "message": "Here it\u0027s safe because anytime cacheKey is \"\", session is nil, but still reinforced the if...",
+      "parentUuid": "f68a5c7b_8a406c3e",
+      "range": {
+        "startLine": 199,
+        "startChar": 35,
+        "endLine": 199,
+        "endChar": 43
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "cae77fcc_9a66f0d7",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:50:24Z",
+      "side": 1,
+      "message": "... but here it\u0027s not and it would indeed fail on renegotiation. Good catch.\n\nFixed by checking for cacheKey !\u003d \"\", which is more meaningful anyway. Unsure if we should advertise ticket support on renegotiations at all, but I guess the server might want to give us fresh ones.\n\n(I hate loadSession with its four return values, but I tried breaking it up multiple times and never landed on something I liked better, due to its dual 1.2 and 1.3 use.)",
+      "parentUuid": "82ca1da2_528b8e9b",
+      "range": {
+        "startLine": 207,
+        "startChar": 34,
+        "endLine": 207,
+        "endChar": 42
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "914f63d2_91e012f9",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2018-11-07T00:22:29Z",
       "side": 1,
       "message": "\u003e\u003d, for TLS 1.4?",
+      "range": {
+        "startLine": 221,
+        "startChar": 31,
+        "endLine": 221,
+        "endChar": 33
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "055b9fe7_02cdfde5",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:50:24Z",
+      "side": 1,
+      "message": "I fairly arbitrarily picked \u003d\u003d and !\u003d for VersionTLS13 checks after using \u003e\u003d and \u003c at CF and not liking it. You could argue that there are places like here, generating the ClientHello, where we can confidently predict what we\u0027ll do for TLS 1.4 due to backwards compatibility, but I expect all conditional paths will require auditing anyway, so I opted for consistency.\n\nIf you have a strong opinion, though, mine isn\u0027t.",
+      "parentUuid": "914f63d2_91e012f9",
       "range": {
         "startLine": 221,
         "startChar": 31,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "7167718c_94bf2f14",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc586c90_d04eb01e",
+      "range": {
+        "startLine": 273,
+        "startChar": 63,
+        "endLine": 273,
+        "endChar": 66
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d4f234e_9d491274",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 3
@@ -137,6 +257,30 @@
       "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30f25a93_a24975b7",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d4f234e_9d491274",
+      "range": {
+        "startLine": 289,
+        "startChar": 58,
+        "endLine": 289,
+        "endChar": 61
+      },
+      "revId": "6ee141316b8a7ad66a87036a485ba078bbcc22b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
