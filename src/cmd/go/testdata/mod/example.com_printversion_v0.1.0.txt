@@ -1,0 +1,24 @@
+example.com/printversion v0.1.0
+
+-- .mod --
+module example.com/printversion
+-- .info --
+{"Version":"v0.1.0"}
+-- README.txt --
+There is no go.mod file for this version of the module.
+-- printversion.go --
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"example.com/version"
+)
+
+const v = "v0.1.0"
+
+func main() {
+	fmt.Fprintf(os.Stdout, "example.com/printversion %s\n", v)
+	fmt.Fprintf(os.Stdout, "example.com/version %s\n", version.V)
+}
