@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3bc3edbe_ca53c4e5",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:50:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1819ce25_b699a3ca",
+      "range": {
+        "startLine": 562,
+        "startChar": 25,
+        "endLine": 562,
+        "endChar": 28
+      },
+      "revId": "c6c1aaf35d2696d3c48b0b96e678571ecfadb9e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47845e4e_ec97d35b",
         "filename": "src/crypto/tls/conn.go",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "bb25d862_601e02bf",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:50:10Z",
+      "side": 1,
+      "message": "handshakeComplete indeed guarantees !expectChangeCipherSpec because readChangeCipherSpec() is only called in two locations in the middle of a TLS 1.0–1.2 handshake, but you\u0027re right that that\u0027s not clearly visible. Added a condition to this if.",
+      "parentUuid": "47845e4e_ec97d35b",
+      "revId": "c6c1aaf35d2696d3c48b0b96e678571ecfadb9e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81aa35a1_4676ef22",
         "filename": "src/crypto/tls/conn.go",
         "patchSetId": 2
@@ -56,6 +98,24 @@
       "revId": "c6c1aaf35d2696d3c48b0b96e678571ecfadb9e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e07319a9_2e5979a0",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:50:10Z",
+      "side": 1,
+      "message": "(*Conn).handlePostHandshakeMessage() itself is driven by a \"for c.hand.Len() \u003e 0\" loop in (*Conn).Read.",
+      "parentUuid": "81aa35a1_4676ef22",
+      "revId": "c6c1aaf35d2696d3c48b0b96e678571ecfadb9e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +139,30 @@
       "revId": "c6c1aaf35d2696d3c48b0b96e678571ecfadb9e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ef10f8f_a1a2b993",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:50:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6fe42a4_8140380e",
+      "range": {
+        "startLine": 452,
+        "startChar": 42,
+        "endLine": 452,
+        "endChar": 45
+      },
+      "revId": "c6c1aaf35d2696d3c48b0b96e678571ecfadb9e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
