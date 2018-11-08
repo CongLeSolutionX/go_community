@@ -16,6 +16,24 @@
       "revId": "0eb0f874a72970e5ad34e7db136a568eda9c4e10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88777866_bf0c14dd",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-08T07:31:59Z",
+      "side": 1,
+      "message": "Yeah, implemented by NSS, OpenSSL and Wireshark already by the time I got to it.\n\nhttps://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format",
+      "parentUuid": "20165ecc_bea2313f",
+      "revId": "0eb0f874a72970e5ad34e7db136a568eda9c4e10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
