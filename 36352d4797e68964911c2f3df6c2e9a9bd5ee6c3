@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "3ad4402e_cf785320",
+        "filename": "src/cmd/compile/internal/ppc64/galign.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-08T20:28:33Z",
+      "side": 1,
+      "message": "If the runtime compiles, I believe you should be fine. :) The static and dynamic limits are basically decoupled.",
+      "parentUuid": "790b81e8_c8866121",
+      "revId": "36352d4797e68964911c2f3df6c2e9a9bd5ee6c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc17caef_96e42c7e",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 9
