@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "15614930_b2632840",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3019,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-09T15:19:17Z",
+      "side": 0,
+      "message": "OK, thanks.",
+      "parentUuid": "e4172e6e_d595cd4a",
+      "revId": "a98bb7e244954f1e035e9b9b6868a92cff04089c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "471958c2_16b61be5",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
@@ -51,6 +69,24 @@
       "revId": "a98bb7e244954f1e035e9b9b6868a92cff04089c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f4d60b8_99cad843",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3033,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-09T15:19:17Z",
+      "side": 0,
+      "message": "Marked resolved.",
+      "parentUuid": "471958c2_16b61be5",
+      "revId": "a98bb7e244954f1e035e9b9b6868a92cff04089c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
