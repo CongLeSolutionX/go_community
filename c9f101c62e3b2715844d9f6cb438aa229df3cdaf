@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a01bad98_e31d5b6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-11-09T17:48:54Z",
+      "side": 1,
+      "message": "Remove the colon, to match GitHub magic syntax",
+      "revId": "c9f101c62e3b2715844d9f6cb438aa229df3cdaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
