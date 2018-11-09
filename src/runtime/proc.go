@@ -1027,6 +1027,7 @@ func stopTheWorldWithSema() {
 				traceGoSysBlock(p)
 				traceProcStop(p)
 			}
+			p.oldm = 0
 			p.syscalltick++
 			sched.stopwait--
 		}
@@ -1381,6 +1382,7 @@ func forEachP(fn func(*p)) {
 				traceGoSysBlock(p)
 				traceProcStop(p)
 			}
+			p.oldm = 0
 			p.syscalltick++
 			handoffp(p)
 		}
@@ -2829,6 +2831,8 @@ func reentersyscall(pc, sp uintptr) {
 	_g_.sysblocktraced = true
 	_g_.m.mcache = nil
 	pp := _g_.m.p.ptr()
+	// oldm must be cleared by whoever CASes p.status out of Psyscall.
+	pp.oldm.set(pp.m.ptr())
 	pp.m = 0
 	_g_.m.oldp.set(pp)
 	_g_.m.p = 0
@@ -2866,6 +2870,7 @@ func entersyscall_gcwait() {
 			traceGoSysBlock(_p_)
 			traceProcStop(_p_)
 		}
+		_p_.oldm = 0
 		_p_.syscalltick++
 		if sched.stopwait--; sched.stopwait == 0 {
 			notewakeup(&sched.stopnote)
@@ -3027,6 +3032,7 @@ func exitsyscallfast(oldp *p) bool {
 	if oldp != nil && oldp.status == _Psyscall && atomic.Cas(&oldp.status, _Psyscall, _Pidle) {
 		// There's a cpu for us, so we can run.
 		wirep(oldp)
+		oldp.oldm = 0
 		exitsyscallfast_reacquired()
 		return true
 	}
@@ -4385,51 +4391,51 @@ func retake(now int64) uint32 {
 			continue
 		}
 		pd := &_p_.sysmontick
-		s := _p_.status
-		if s == _Psyscall {
-			// Retake P from syscall if it's there for more than 1 sysmon tick (at least 20us).
+		switch s := _p_.status; s {
+		case _Psyscall:
 			t := int64(_p_.syscalltick)
 			if int64(pd.syscalltick) != t {
+				// First time we have observed this syscall. Don't consider retaking until the next
+				// sysmon tick (at least 20us).
 				pd.syscalltick = uint32(t)
 				pd.syscallwhen = now
-				continue
-			}
-			// On the one hand we don't want to retake Ps if there is no other work to do,
-			// but on the other hand we want to retake them eventually
-			// because they can prevent the sysmon thread from deep sleep.
-			if runqempty(_p_) && atomic.Load(&sched.nmspinning)+atomic.Load(&sched.npidle) > 0 && pd.syscallwhen+10*1000*1000 > now {
-				continue
-			}
-			// Drop allpLock so we can take sched.lock.
-			unlock(&allpLock)
-			// Need to decrement number of idle locked M's
-			// (pretending that one more is running) before the CAS.
-			// Otherwise the M from which we retake can exit the syscall,
-			// increment nmidle and report deadlock.
-			incidlelocked(-1)
-			if atomic.Cas(&_p_.status, s, _Pidle) {
-				if trace.enabled {
-					traceGoSysBlock(_p_)
-					traceProcStop(_p_)
+			} else if !runqempty(_p_) || atomic.Load(&sched.nmspinning)+atomic.Load(&sched.npidle) == 0 || pd.syscallwhen+10*1000*1000 <= now {
+				// Retake the P. Deciding when to retake is delicate: we don't
+				// want to retake Ps if there is no other work to do, but we
+				// want to retake them eventually because they can prevent the
+				// sysmon thread from deep sleep.
+
+				// Drop allpLock so we can take sched.lock.
+				unlock(&allpLock)
+				// Need to decrement number of idle locked M's
+				// (pretending that one more is running) before the CAS.
+				// Otherwise the M from which we retake can exit the syscall,
+				// increment nmidle and report deadlock.
+				incidlelocked(-1)
+				if atomic.Cas(&_p_.status, s, _Pidle) {
+					if trace.enabled {
+						traceGoSysBlock(_p_)
+						traceProcStop(_p_)
+					}
+					n++
+					_p_.oldm = 0
+					_p_.syscalltick++
+					handoffp(_p_)
 				}
-				n++
-				_p_.syscalltick++
-				handoffp(_p_)
+				incidlelocked(1)
+				lock(&allpLock)
+				continue
 			}
-			incidlelocked(1)
-			lock(&allpLock)
-		} else if s == _Prunning {
+			fallthrough // goroutines in syscalls need to be considered for preemption too
+		case _Prunning:
 			// Preempt G if it's running for too long.
 			t := int64(_p_.schedtick)
 			if int64(pd.schedtick) != t {
 				pd.schedtick = uint32(t)
 				pd.schedwhen = now
-				continue
+			} else if pd.schedwhen+forcePreemptNS <= now {
+				preemptone(_p_)
 			}
-			if pd.schedwhen+forcePreemptNS > now {
-				continue
-			}
-			preemptone(_p_)
 		}
 	}
 	unlock(&allpLock)
@@ -4466,6 +4472,11 @@ func preemptall() bool {
 // Grunning
 func preemptone(_p_ *p) bool {
 	mp := _p_.m.ptr()
+	if mp == nil {
+		// P might be in a syscall, in which case the M that launched the
+		// syscall is stored in oldm.
+		mp = _p_.oldm.ptr()
+	}
 	if mp == nil || mp == getg().m {
 		return false
 	}
@@ -4687,7 +4698,11 @@ func globrunqget(_p_ *p, max int32) *g {
 //go:nowritebarrierrec
 func pidleput(_p_ *p) {
 	if !runqempty(_p_) {
-		throw("pidleput: P has non-empty run queue")
+		throw("runtime: P has non-empty run queue")
+	}
+	if _p_.oldm != 0 {
+		print("runtime: p.oldm=", hex(_p_.oldm), "\n")
+		throw("runtime: invalid p state")
 	}
 	_p_.link = sched.pidle
 	sched.pidle.set(_p_)

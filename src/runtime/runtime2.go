@@ -481,6 +481,7 @@ type p struct {
 	syscalltick uint32     // incremented on every system call
 	sysmontick  sysmontick // last tick observed by sysmon
 	m           muintptr   // back-link to associated m (nil if idle)
+	oldm        muintptr   // back-link to m that was associated before executing a syscall
 	mcache      *mcache
 	racectx     uintptr
 
@@ -526,6 +527,8 @@ type p struct {
 	traceSwept, traceReclaimed uintptr
 
 	palloc persistentAlloc // per-P to avoid mutex
+
+	_ uint32 // ensure 64-bit alignment of gcAssistTime and gcFractionalMarkTime
 
 	// Per-P GC state
 	gcAssistTime         int64 // Nanoseconds in assistAlloc

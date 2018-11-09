@@ -15,7 +15,6 @@ import "C"
 import (
 	"context"
 	"math/rand"
-	"runtime"
 	"sync"
 	"testing"
 	"time"
@@ -34,7 +33,6 @@ func test27660(t *testing.T) {
 				// Sleep in C for long enough that it is likely that the runtime
 				// will retake this goroutine's currently wired P.
 				C.usleep(1000 /* 1ms */)
-				runtime.Gosched() // avoid starvation (see #28701)
 			}
 		}()
 		go func() {
