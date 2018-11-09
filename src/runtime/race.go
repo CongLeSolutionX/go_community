@@ -139,6 +139,7 @@ const (
 	raceGetProcCmd = iota
 	raceSymbolizeCodeCmd
 	raceSymbolizeDataCmd
+	raceBadP
 )
 
 // Callback from C into Go, runs on g0.
@@ -150,6 +151,8 @@ func racecallback(cmd uintptr, ctx unsafe.Pointer) {
 		raceSymbolizeCode((*symbolizeCodeContext)(ctx))
 	case raceSymbolizeDataCmd:
 		raceSymbolizeData((*symbolizeDataContext)(ctx))
+	case raceBadP:
+		throw("runtime: race detector invoked without runnable p")
 	default:
 		throw("unknown command")
 	}

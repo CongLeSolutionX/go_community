@@ -398,9 +398,19 @@ TEXT	runtime·racecallbackthunk(SB), NOSPLIT, $56-8
 	MOVQ	g(RARG0), RARG0
 	MOVQ	g_m(RARG0), RARG0
 	MOVQ	m_p(RARG0), RARG0
+	MOVL	p_status(RARG0), AX
+	CMPL	AX, $1	// status == _Prunning
+	JNE badp
 	MOVQ	p_racectx(RARG0), RARG0
 	MOVQ	RARG0, (RARG1)
 	RET
+
+badp:
+	// raceGetProcCmd was invoked on a P that was not runnable.
+	// This indicates a bug in the Go runtime. Proceed into
+	// racecallback with an updated command code of raceBadP (3)
+	// so that we can crash properly.
+	MOVQ	$3, RARG0
 
 rest:
 	// Save callee-saved registers (Go code won't respect that).
