@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2fd1ecc_9e10613c",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-11-09T23:05:05Z",
+      "side": 1,
+      "message": "why the addition of else? You seem to be introducing style changes in this CL too.",
+      "range": {
+        "startLine": 83,
+        "startChar": 3,
+        "endLine": 83,
+        "endChar": 7
+      },
+      "revId": "03b92808e780a701f122feefa587fb004cf07f91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
