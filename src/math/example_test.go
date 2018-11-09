@@ -102,6 +102,31 @@ func ExampleFloor() {
 	// Output: 1.0
 }
 
+func ExampleLog10() {
+	fmt.Printf("%.1f", math.Log10(100))
+	// Output: 2.0
+}
+
+func ExampleMod() {
+	fmt.Printf("%.1f\n", math.Mod(20, 6))
+	fmt.Printf("%.1f\n", math.Mod(20, -6))
+	fmt.Printf("%.1f\n", math.Mod(-20, 6))
+	fmt.Printf("%.1f\n", math.Mod(-20, -6))
+	// Output:
+	// 2.0
+	// 2.0
+	// -2.0
+	// -2.0
+}
+
+func ExampleModf() {
+	a, c := math.Modf(11.9)
+	fmt.Printf("%v\n%.1f", a, c)
+	// Output:
+	// 11
+	// 0.9
+}
+
 func ExamplePow() {
 	c := math.Pow(2, 3)
 	fmt.Printf("%.1f", c)
