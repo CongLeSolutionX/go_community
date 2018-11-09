@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "8e40fd93_77593e31",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3019,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-09T15:23:44Z",
+      "side": 0,
+      "message": "Yeah, as far as I could tell, the old code updated m.cache here and below in adherence to some rule like \"whenever m.p is updated, update m.cache too\", even though m.cache couldn\u0027t be anything but nil. (At least, I don\u0027t see a path where it could be anything but nil.)",
+      "parentUuid": "e4172e6e_d595cd4a",
+      "revId": "a98bb7e244954f1e035e9b9b6868a92cff04089c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "471958c2_16b61be5",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
