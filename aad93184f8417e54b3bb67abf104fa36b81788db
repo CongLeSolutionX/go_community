@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1fa6093c_4a7d1ddf",
+        "filename": "misc/cgo/test/test27660.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-09T20:11:29Z",
+      "side": 1,
+      "message": "If it runs, it\u0027s fine. Just wanted to ensure that it actually runs, because historically some of these tests did not run under race detector.",
+      "parentUuid": "b68adf2d_cb2f0497",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "384dc1b5_5c1ce049",
         "filename": "src/runtime/cgocall.go",
         "patchSetId": 2
@@ -69,6 +87,24 @@
       "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3935f073_c31defce",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-09T20:11:29Z",
+      "side": 1,
+      "message": "You are right. It\u0027s the other way around in the callback.",
+      "parentUuid": "5b5982af_c3b6ca68",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -107,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "41b26c0b_63d7dcc8",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-09T20:11:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "58ca00cb_56e6b3b1",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74b88856_eb804bd6",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
@@ -136,6 +190,24 @@
       "side": 1,
       "message": "Agreed, but I also wasn\u0027t sure whether that would violate the write-barrier rules. HACKING.md has this to say:\n\n\u003e Both directives are used in the scheduler. The write barrier requires\n\u003e an active P (`getg().m.p !\u003d nil`) and scheduler code often runs\n\u003e without an active P. In this case, `go:nowritebarrierrec` is used on\n\u003e functions that release the P or may run without a P and\n\u003e `go:yeswritebarrierrec` is used when code re-acquires an active P.\n\u003e Since these are function-level annotations, code that releases or\n\u003e acquires a P may need to be split across two functions.\n\nBut perhaps it\u0027s not perfectly precise, and what really matters is whether we have a reference to a p that is marked as _Prunning and is not associated with any other m.\n\n...Scratch that. The implementation of `gcWriteBarrier` loads g.m.p, so looks like it is critically important that g.m.p be wired up if a write barrier will be emitted. But I\u0027m also not seeing anything inside of exitsyscallfast_reacquired that actually emits a write barrier. I.e., removing its `yeswritebarrierrec` does not cause a compiler error. So it seems like we can just drop that annotation and push the wiring of P entirely into exitssycallfast_reacquired. Can you double-check me on this?\n\nJust a heads up that I\u0027ll be dropping this code from this CL shortly.",
       "parentUuid": "74b88856_eb804bd6",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e37f3567_3eced938",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3029,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-09T20:11:29Z",
+      "side": 1,
+      "message": "\u003e I.e., removing its `yeswritebarrierrec` does not cause a compiler error. \n\nYou want to say that any write barrier there would cause a compilation error? Is so, i guess it\u0027s fine to move it into the function.",
+      "parentUuid": "dc69ce88_f6d5d15f",
       "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
