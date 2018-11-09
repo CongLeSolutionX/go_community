@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab4f5ddf_1cef16f0",
+        "filename": "misc/cgo/test/test27660.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-09T18:53:14Z",
+      "side": 1,
+      "message": "Nice! This actually reproduces the crash very reliably.\n\nHowever, looking at cmd/dist/test.go:registerTests it seems that these tests are not run in race mode, we bail out before running the misc/cgo tests. Is it correct?\nThere was #12175 for this (or something similar), but it\u0027s still unresolved...",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "384dc1b5_5c1ce049",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-09T18:53:14Z",
+      "side": 1,
+      "message": "This is broken too. We already did entersyscall in the caller.",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3181a796_5db18852",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-09T18:53:14Z",
+      "side": 1,
+      "message": "And this is broken too. I think we just need to hoist these calls to cgocallbackg?",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74b88856_eb804bd6",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3029,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-09T18:53:14Z",
+      "side": 1,
+      "message": "I wonder if it\u0027s safe to do this right inside of exitsyscallfast_reacquired. It would be more reasonable to have it there, because exitsyscallfast_reacquired does all work to wire g and p again. But there is some annotation re write barriers on exitsyscallfast_reacquired, and I don\u0027t know if we need g.m.p set for write barriers or not.",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
