@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83a64efd_24c3671a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-09T17:56:57Z",
+      "side": 1,
+      "message": "s/indicies/indexes/\n\nWhile either spelling is acceptable English, we tend to prefer \"indexes\" in the Go repository.",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "b29af233466383527cf9e8a239edb7060fc104cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
