@@ -481,6 +481,7 @@ type p struct {
 	syscalltick uint32     // incremented on every system call
 	sysmontick  sysmontick // last tick observed by sysmon
 	m           muintptr   // back-link to associated m (nil if idle)
+	oldm        muintptr   // back-link to m that was associated before executing a syscall
 	mcache      *mcache
 	racectx     uintptr
 
