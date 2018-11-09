@@ -80,8 +80,7 @@ func (mset methodSet) add(m *Func) {
 	if old == nil || m.Level < old.Level {
 		mset[m.Name] = m
 		return
-	}
-	if old != nil && m.Level == old.Level {
+	} else if m.Level == old.Level {
 		// conflict - mark it using a method with nil Decl
 		mset[m.Name] = &Func{
 			Name:  m.Name,
