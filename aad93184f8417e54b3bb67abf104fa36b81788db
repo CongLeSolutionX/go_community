@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b68adf2d_cb2f0497",
+        "filename": "misc/cgo/test/test27660.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-09T19:55:20Z",
+      "side": 1,
+      "message": "misc/cgo is run under race as part of cmd/dist\u0027s \"raceTest\" (https://github.com/golang/go/blob/410d63dbe9316c54c897619d36e1b0c5a424e24e/src/cmd/dist/test.go#L1381-L1384) so this seemed like a good place for this test. Let me know if there\u0027s somewhere better though.",
+      "parentUuid": "ab4f5ddf_1cef16f0",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "384dc1b5_5c1ce049",
         "filename": "src/runtime/cgocall.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-09T18:53:14Z",
       "side": 1,
       "message": "This is broken too. We already did entersyscall in the caller.",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b5982af_c3b6ca68",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-09T19:55:20Z",
+      "side": 1,
+      "message": "But then we did an exitsyscall (on L188), no?",
+      "parentUuid": "384dc1b5_5c1ce049",
       "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "58ca00cb_56e6b3b1",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-09T19:55:20Z",
+      "side": 1,
+      "message": "Ditto.",
+      "parentUuid": "3181a796_5db18852",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74b88856_eb804bd6",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2018-11-09T18:53:14Z",
       "side": 1,
       "message": "I wonder if it\u0027s safe to do this right inside of exitsyscallfast_reacquired. It would be more reasonable to have it there, because exitsyscallfast_reacquired does all work to wire g and p again. But there is some annotation re write barriers on exitsyscallfast_reacquired, and I don\u0027t know if we need g.m.p set for write barriers or not.",
+      "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc69ce88_f6d5d15f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3029,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-09T19:55:20Z",
+      "side": 1,
+      "message": "Agreed, but I also wasn\u0027t sure whether that would violate the write-barrier rules. HACKING.md has this to say:\n\n\u003e Both directives are used in the scheduler. The write barrier requires\n\u003e an active P (`getg().m.p !\u003d nil`) and scheduler code often runs\n\u003e without an active P. In this case, `go:nowritebarrierrec` is used on\n\u003e functions that release the P or may run without a P and\n\u003e `go:yeswritebarrierrec` is used when code re-acquires an active P.\n\u003e Since these are function-level annotations, code that releases or\n\u003e acquires a P may need to be split across two functions.\n\nBut perhaps it\u0027s not perfectly precise, and what really matters is whether we have a reference to a p that is marked as _Prunning and is not associated with any other m.\n\n...Scratch that. The implementation of `gcWriteBarrier` loads g.m.p, so looks like it is critically important that g.m.p be wired up if a write barrier will be emitted. But I\u0027m also not seeing anything inside of exitsyscallfast_reacquired that actually emits a write barrier. I.e., removing its `yeswritebarrierrec` does not cause a compiler error. So it seems like we can just drop that annotation and push the wiring of P entirely into exitssycallfast_reacquired. Can you double-check me on this?\n\nJust a heads up that I\u0027ll be dropping this code from this CL shortly.",
+      "parentUuid": "74b88856_eb804bd6",
       "revId": "aad93184f8417e54b3bb67abf104fa36b81788db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
