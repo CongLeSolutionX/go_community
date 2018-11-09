@@ -1027,6 +1027,7 @@ func stopTheWorldWithSema() {
 				traceGoSysBlock(p)
 				traceProcStop(p)
 			}
+			p.oldm = 0
 			p.syscalltick++
 			sched.stopwait--
 		}
@@ -2829,6 +2830,7 @@ func reentersyscall(pc, sp uintptr) {
 	_g_.sysblocktraced = true
 	_g_.m.mcache = nil
 	pp := _g_.m.p.ptr()
+	pp.oldm.set(pp.m.ptr())
 	pp.m = 0
 	_g_.m.oldp.set(pp)
 	_g_.m.p = 0
@@ -2866,6 +2868,7 @@ func entersyscall_gcwait() {
 			traceGoSysBlock(_p_)
 			traceProcStop(_p_)
 		}
+		_p_.oldm = 0
 		_p_.syscalltick++
 		if sched.stopwait--; sched.stopwait == 0 {
 			notewakeup(&sched.stopnote)
@@ -3027,6 +3030,7 @@ func exitsyscallfast(oldp *p) bool {
 	if oldp != nil && oldp.status == _Psyscall && atomic.Cas(&oldp.status, _Psyscall, _Pidle) {
 		// There's a cpu for us, so we can run.
 		wirep(oldp)
+		oldp.oldm = 0
 		exitsyscallfast_reacquired()
 		return true
 	}
@@ -4386,19 +4390,19 @@ func retake(now int64) uint32 {
 		}
 		pd := &_p_.sysmontick
 		s := _p_.status
-		if s == _Psyscall {
+		if _p_.status == _Psyscall {
 			// Retake P from syscall if it's there for more than 1 sysmon tick (at least 20us).
 			t := int64(_p_.syscalltick)
 			if int64(pd.syscalltick) != t {
 				pd.syscalltick = uint32(t)
 				pd.syscallwhen = now
-				continue
+				goto maybePreempt
 			}
 			// On the one hand we don't want to retake Ps if there is no other work to do,
 			// but on the other hand we want to retake them eventually
 			// because they can prevent the sysmon thread from deep sleep.
 			if runqempty(_p_) && atomic.Load(&sched.nmspinning)+atomic.Load(&sched.npidle) > 0 && pd.syscallwhen+10*1000*1000 > now {
-				continue
+				goto maybePreempt
 			}
 			// Drop allpLock so we can take sched.lock.
 			unlock(&allpLock)
@@ -4413,23 +4417,28 @@ func retake(now int64) uint32 {
 					traceProcStop(_p_)
 				}
 				n++
+				_p_.oldm = 0
 				_p_.syscalltick++
 				handoffp(_p_)
 			}
 			incidlelocked(1)
 			lock(&allpLock)
-		} else if s == _Prunning {
-			// Preempt G if it's running for too long.
-			t := int64(_p_.schedtick)
-			if int64(pd.schedtick) != t {
-				pd.schedtick = uint32(t)
-				pd.schedwhen = now
-				continue
-			}
-			if pd.schedwhen+forcePreemptNS > now {
-				continue
-			}
-			preemptone(_p_)
+		} else if s != _Prunning {
+			continue
+		}
+	maybePreempt:
+		// Preempt G if it's running for too long.
+		t := int64(_p_.schedtick)
+		if int64(pd.schedtick) != t {
+			pd.schedtick = uint32(t)
+			pd.schedwhen = now
+			continue
+		}
+		if pd.schedwhen+forcePreemptNS > now {
+			continue
+		}
+		if preemptone(_p_) {
+			n++
 		}
 	}
 	unlock(&allpLock)
@@ -4466,6 +4475,11 @@ func preemptall() bool {
 // Grunning
 func preemptone(_p_ *p) bool {
 	mp := _p_.m.ptr()
+	if mp == nil {
+		// P might be in a syscall, in which case the M that launched the
+		// syscall is stored in oldm.
+		mp = _p_.oldm.ptr()
+	}
 	if mp == nil || mp == getg().m {
 		return false
 	}
