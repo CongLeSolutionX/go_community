@@ -102,6 +102,38 @@ func ExampleFloor() {
 	// Output: 1.0
 }
 
+func ExampleLog10() {
+	c := math.Log10(100)
+	fmt.Printf("%.1f", c)
+	// Output: 2.0
+}
+
+func ExampleMin() {
+	c := math.Min(2, 3)
+	fmt.Printf("%.1f", c)
+	// Output: 2.0
+}
+
+func ExampleMax() {
+	c := math.Max(2, 3)
+	fmt.Printf("%.1f", c)
+	// Output: 3.0
+}
+
+func ExampleMod() {
+	c := math.Mod(20, 6)
+	fmt.Printf("%.1f", c)
+	// Output: 2.0
+}
+
+func ExampleModf() {
+	a, c := math.Modf(11.9)
+	fmt.Printf("%v\n%.1f", a, c)
+	// Output:
+	// 11
+	// 0.9
+}
+
 func ExamplePow() {
 	c := math.Pow(2, 3)
 	fmt.Printf("%.1f", c)
