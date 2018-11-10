@@ -6269,3 +6269,15 @@ func TestCoverpkgTestOnly(t *testing.T) {
 	tg.grepStderrNot("no packages being tested depend on matches", "bad match message")
 	tg.grepStdout("coverage: 100", "no coverage")
 }
+
+// Issue 28696.
+func TestGoRunNonexistentDotDotDot(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.parallel()
+	tg.makeTempdir()
+	tg.setenv("GOPATH", tg.path("."))
+	tg.tempDir("src/exists")
+	tg.runFail("run", "exists/nonexistent/...")
+	tg.grepStderr("no package to run", "go run with wildcard under nonexistent directory should print that there is no package to run")
+}
