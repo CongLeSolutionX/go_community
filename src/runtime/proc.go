@@ -2155,6 +2155,8 @@ func execute(gp *g, inheritTime bool) {
 	_g_.m.curg = gp
 	gp.m = _g_.m
 
+	racewire(gp, "execute")
+
 	// Check whether the profiler needs to be turned on or off.
 	hz := sched.profilehz
 	if _g_.m.profilehz != hz {
@@ -2586,6 +2588,7 @@ func park_m(gp *g) {
 		traceGoPark(_g_.m.waittraceev, _g_.m.waittraceskip)
 	}
 
+	raceunwire(gp, "park")
 	casgstatus(gp, _Grunning, _Gwaiting)
 	dropg()
 
@@ -2611,6 +2614,7 @@ func goschedImpl(gp *g) {
 		dumpgstatus(gp)
 		throw("bad g status")
 	}
+	raceunwire(gp, "sched")
 	casgstatus(gp, _Grunning, _Grunnable)
 	dropg()
 	lock(&sched.lock)
@@ -2663,6 +2667,7 @@ func goexit1() {
 func goexit0(gp *g) {
 	_g_ := getg()
 
+	raceunwire(gp, "exit")
 	casgstatus(gp, _Grunning, _Gdead)
 	if isSystemGoroutine(gp, false) {
 		atomic.Xadd(&sched.ngsys, -1)
@@ -2841,6 +2846,7 @@ func reentersyscall(pc, sp uintptr) {
 // Standard syscall entry used by the go syscall library and normal cgo calls.
 //go:nosplit
 func entersyscall() {
+	raceunwire(getg(), "entersyscall")
 	reentersyscall(getcallerpc(), getcallersp())
 }
 
@@ -2877,6 +2883,9 @@ func entersyscallblock() {
 	_g_ := getg()
 
 	_g_.m.locks++ // see comment in entersyscall
+
+	raceunwire(_g_, "entersyscallblock")
+
 	_g_.throwsplit = true
 	_g_.stackguard0 = stackPreempt // see comment in entersyscall
 	_g_.m.syscalltick = _g_.m.p.ptr().syscalltick
@@ -2967,6 +2976,10 @@ func exitsyscall() {
 			_g_.stackguard0 = _g_.stack.lo + _StackGuard
 		}
 		_g_.throwsplit = false
+
+		_g_.m.locks++
+		racewire(_g_, "exitsyscallfast")
+		_g_.m.locks--
 
 		if sched.disable.user && !schedEnabled(_g_) {
 			// Scheduling of this goroutine is disabled.
@@ -4042,12 +4055,18 @@ func procresize(nprocs int32) *p {
 		if _g_.m.p != 0 {
 			_g_.m.p.ptr().m = 0
 		}
+		if _g_.m.curg != nil {
+			raceunwire(_g_.m.curg, "procresize")
+		}
 		_g_.m.p = 0
 		_g_.m.mcache = nil
 		p := allp[0]
 		p.m = 0
 		p.status = _Pidle
 		acquirep(p)
+		if _g_.m.curg != nil {
+			racewire(_g_.m.curg, "procresize")
+		}
 		if trace.enabled {
 			traceGoStart()
 		}

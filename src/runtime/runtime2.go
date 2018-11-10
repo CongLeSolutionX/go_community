@@ -482,6 +482,7 @@ type p struct {
 	m           muintptr   // back-link to associated m (nil if idle)
 	mcache      *mcache
 	racectx     uintptr
+	racectx1    uintptr
 
 	deferpool    [5][]*_defer // pool of available defer structs of different sizes (see panic.go)
 	deferpoolbuf [5][32]*_defer

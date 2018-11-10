@@ -38,3 +38,5 @@ func racemalloc(p unsafe.Pointer, sz uintptr)                               { th
 func racefree(p unsafe.Pointer, sz uintptr)                                 { throw("race") }
 func racegostart(pc uintptr) uintptr                                        { throw("race"); return 0 }
 func racegoend()                                                            { throw("race") }
+func racewire(gp *g, where string)                                          {}
+func raceunwire(gp *g, where string)                                        {}

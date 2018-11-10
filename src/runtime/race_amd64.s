@@ -392,15 +392,15 @@ TEXT	runtime·racecallbackthunk(SB), NOSPLIT, $56-8
 	// First, code below assumes that we are on curg, while raceGetProcCmd
 	// can be executed on g0. Second, it is called frequently, so will
 	// benefit from this fast path.
-	CMPQ	RARG0, $0
-	JNE	rest
-	get_tls(RARG0)
-	MOVQ	g(RARG0), RARG0
-	MOVQ	g_m(RARG0), RARG0
-	MOVQ	m_p(RARG0), RARG0
-	MOVQ	p_racectx(RARG0), RARG0
-	MOVQ	RARG0, (RARG1)
-	RET
+	//CMPQ	RARG0, $0
+	//JNE	rest
+	//get_tls(RARG0)
+	//MOVQ	g(RARG0), RARG0
+	//MOVQ	g_m(RARG0), RARG0
+	//MOVQ	m_p(RARG0), RARG0
+	//MOVQ	p_racectx(RARG0), RARG0
+	//MOVQ	RARG0, (RARG1)
+	//RET
 
 rest:
 	// Save callee-saved registers (Go code won't respect that).
@@ -416,6 +416,7 @@ rest:
 	// Set g = g0.
 	get_tls(R12)
 	MOVQ	g(R12), R13
+	PUSHQ	R13
 	MOVQ	g_m(R13), R13
 	MOVQ	m_g0(R13), R14
 	MOVQ	R14, g(R12)	// g = m->g0
@@ -426,10 +427,11 @@ rest:
 	POPQ	R12
 	// All registers are smashed after Go code, reload.
 	get_tls(R12)
-	MOVQ	g(R12), R13
-	MOVQ	g_m(R13), R13
-	MOVQ	m_curg(R13), R14
-	MOVQ	R14, g(R12)	// g = m->curg
+	//MOVQ	g(R12), R13
+	//MOVQ	g_m(R13), R13
+	//MOVQ	m_curg(R13), R14
+	POPQ	R13
+	MOVQ	R13, g(R12)
 	// Restore callee-saved registers.
 	POPQ	R15
 	POPQ	R14

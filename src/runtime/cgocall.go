@@ -199,6 +199,7 @@ func cgocallbackg(ctxt uintptr) {
 
 	gp.m.incgo = true
 	// going back to cgo call
+	raceunwire(gp, "cgocallbackg")
 	reentersyscall(savedpc, uintptr(savedsp))
 
 	gp.m.syscall = syscall

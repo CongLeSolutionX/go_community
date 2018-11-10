@@ -7,6 +7,7 @@
 package runtime
 
 import (
+	"runtime/internal/atomic"
 	"unsafe"
 )
 
@@ -145,7 +146,18 @@ const (
 func racecallback(cmd uintptr, ctx unsafe.Pointer) {
 	switch cmd {
 	case raceGetProcCmd:
-		throw("should have been handled by racecallbackthunk")
+		//throw("should have been handled by racecallbackthunk")
+		_p_ := getg().m.p.ptr()
+		racectx := _p_.racectx
+		*(*uintptr)(ctx) = racectx
+		if getg().m.curg != nil {
+			if _p_.racectx1 != uintptr(getg().m.curg.goid) {
+				//println("racectx: ", _p_.racectx1, uintptr(getg().m.curg.goid))
+				//throw("bad racectx")
+			}
+		} else {
+			//throw("no curg")
+		}
 	case raceSymbolizeCodeCmd:
 		raceSymbolizeCode((*symbolizeCodeContext)(ctx))
 	case raceSymbolizeDataCmd:
@@ -495,4 +507,26 @@ func racereleasemergeg(gp *g, addr unsafe.Pointer) {
 //go:nosplit
 func racefingo() {
 	racecall(&__tsan_finalizer_goroutine, getg().racectx, 0, 0, 0)
+}
+
+const racelog = false
+
+func racewire(gp *g, where string) {
+	if racelog {
+		println(where, " wire: ", gp.m.p.ptr().id, gp.goid)
+	}
+	if !atomic.Casuintptr(&gp.m.p.ptr().racectx1, 0, uintptr(gp.goid)) {
+		println(where, " wire: ", gp.m.p.ptr().id, gp.goid, gp.m.p.ptr().racectx)
+		throw(where + " wire")
+	}
+}
+
+func raceunwire(gp *g, where string) {
+	if racelog {
+		println(where, " unwire: ", gp.m.p.ptr().id, gp.goid)
+	}
+	if !atomic.Casuintptr(&gp.m.p.ptr().racectx1, uintptr(gp.goid), 0) {
+		println(where, " unwire: ", gp.m.p.ptr().id, gp.goid, gp.m.p.ptr().racectx)
+		throw(where + " unwire")
+	}
 }
