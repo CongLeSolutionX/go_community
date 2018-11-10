@@ -490,7 +490,7 @@ opswitch:
 		n.Left = walkexpr(n.Left, init)
 		n.Right = walkexpr(n.Right, init)
 
-	case ODOT:
+	case ODOT, ODOTPTR:
 		usefield(n)
 		n.Left = walkexpr(n.Left, init)
 
@@ -504,17 +504,6 @@ opswitch:
 		if !n.Type.IsInterface() && !n.Left.Type.IsEmptyInterface() {
 			n.List.Set1(itabname(n.Type, n.Left.Type))
 		}
-
-	case ODOTPTR:
-		usefield(n)
-		if n.Op == ODOTPTR && n.Left.Type.Elem().Width == 0 {
-			// No actual copy will be generated, so emit an explicit nil check.
-			n.Left = cheapexpr(n.Left, init)
-
-			checknil(n.Left, init)
-		}
-
-		n.Left = walkexpr(n.Left, init)
 
 	case OLEN, OCAP:
 		if isRuneCount(n) {
