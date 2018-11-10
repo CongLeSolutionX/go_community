@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66108359_eaaa1c20",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-10T18:27:53Z",
+      "side": 1,
+      "message": "I\u0027d suggest to use phrasing that is more similar to the other return nil cases in this function. E.g.:\n\n\tif !strings.HasSuffix(file.Name.Name, \"_test\") {\n\t\t// We don\u0027t support examples that are part of the\n\t\t// greater package (yet).\n\t\treturn nil\n\t}\n\n\tif p \u003d\u003d \"syscall/js\" {\n\t\t// We don\u0027t support examples that import syscall/js.\n\t\treturn nil\n\t}\n\n\tswitch n {\n\t...\n\tcase \".\":\n\t\t// We can\u0027t resolve dot imports (yet).\n\t\treturn nil\n\t}",
+      "revId": "549a61191d39eada0b44637f77ff162546f42e1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
