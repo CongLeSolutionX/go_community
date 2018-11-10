@@ -22,6 +22,30 @@
       "revId": "03b92808e780a701f122feefa587fb004cf07f91",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a5f619f_0a349831",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 8455
+      },
+      "writtenOn": "2018-11-10T09:10:48Z",
+      "side": 1,
+      "message": "I thought it reads better and better connects this condition to the parent condition.\n\nI mailed a PS without the elses. PTAL.",
+      "parentUuid": "d2fd1ecc_9e10613c",
+      "range": {
+        "startLine": 83,
+        "startChar": 3,
+        "endLine": 83,
+        "endChar": 7
+      },
+      "revId": "03b92808e780a701f122feefa587fb004cf07f91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
