@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4724130b_3e083a73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-11-10T06:51:50Z",
+      "side": 1,
+      "message": "Let\u0027s add some more content showing what this fix does, so:\n\ncmd/go: do not panic when go run is passed ... under a nonexistent directory\n\nGiven:\n   go run notadir/...\nWe\u0027ll now fail with:\n   go run: no packages were loaded from \"notadir/...\"\n\nFixes #28696",
+      "revId": "c300bd062e9d3f7ec12daaae1229c59ac9a403ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f6c8a25_4a5d2e69",
+        "filename": "src/cmd/go/internal/run/run.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-11-10T06:51:50Z",
+      "side": 1,
+      "message": "We need to provide a format specifier for this string, perhaps:\nbase.Fatalf(\"go run: no packages were loaded from %q\", args[0])",
+      "revId": "c300bd062e9d3f7ec12daaae1229c59ac9a403ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21425b6e_4c8edc79",
+        "filename": "src/cmd/go/testdata/script/run_wildcard.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-11-10T06:51:50Z",
+      "side": 1,
+      "message": "Let\u0027s make this a little more obvious and not likely to clash with any common names.\nHow about:\n\n# go run nonexistent/... should not panic with directory a nonexistent directory\n\n! go run nonexistent/...\nstderr \u0027go run: no packages were loaded from \"nonexistent/...\"$\u0027\n\nand let\u0027s match the entire message as above, lest we might\nnot catch bugs such as the missing format specifier.",
+      "revId": "c300bd062e9d3f7ec12daaae1229c59ac9a403ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
