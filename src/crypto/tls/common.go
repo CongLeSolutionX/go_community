@@ -219,7 +219,7 @@ type ConnectionState struct {
 	// because resumption does not include enough context (see
 	// https://mitls.org/pages/attacks/3SHAKE#channelbindings). This will
 	// change in future versions of Go once the TLS master-secret fix has
-	// been standardized and implemented.
+	// been standardized and implemented. It is not defined in TLS 1.3.
 	TLSUnique []byte
 }
 
