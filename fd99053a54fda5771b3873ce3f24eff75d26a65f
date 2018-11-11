@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "0973f49b_1ec935f0",
+        "filename": "misc/cgo/test/issue28701.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-11T19:31:08Z",
+      "side": 1,
+      "message": "A test with 1 second timeout looks like recipe for flakiness. It will sure happen that a test VM will just not schedule this whole thing for a second once in a while.\nIn few runs of the previous test, we got few timeouts with much larger duration, right? What was that? 1 minute?\nI would increase this timeout right away.",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c4bb4da_499b2f9a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-11T19:31:08Z",
+      "side": 1,
+      "message": "Also reset p.oldm here?\nIt would be nice to have a sanity check somewhere that we don\u0027t left p.oldm. Maybe pidleput or reentersyscall before we set it? Please test that the check will catch this place, and stopTheWorldWithSema if you comment p.oldm\u003d0 out.",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed9fde1e_6f979cfb",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -47,6 +81,24 @@
       "writtenOn": "2018-11-11T14:06:27Z",
       "side": 1,
       "message": "I\u0027m kind of unclear on the synchronization here. Is it really safe to load p.m.ptr() non-atomically? And ditto for the load of p.oldm.ptr() that I\u0027ve added. Couldn\u0027t this P enter a syscall at any moment and set p.m \u003d 0? (This was true even before my last CL, since entersyscallblock has always called handoffp, which sets p.m \u003d 0.)\n\nI\u0027m not worried about reading a potentially stale value, as this function has a big \"might preempt the wrong goroutine\" warning label on it. I am worried, however, about observing only half of the pointer. Are we perhaps assuming that writes/reads of a pointer-sized value are always atomic?",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a10f3ae8_e03de4a8",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4482,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-11T19:31:08Z",
+      "side": 1,
+      "message": "Historically we were sloppy about some atomic accesses because atomic ops were/are expensive (maybe also because of the \"C is portable assembly\" mindset).\nEffectively we consider and hope this to be at least a relaxed atomic load (i.e. gives atomicity but no memory ordering).",
+      "parentUuid": "86c949c0_be8063c7",
       "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
