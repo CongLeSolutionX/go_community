@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "18f51c38_45a1cd3c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2833,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-11T19:50:32Z",
+      "side": 1,
+      "message": "Add a comment here stating that this needs to be reset to 0 by whoever CASes p.status from _Psyscall.\nThat\u0027s the idea, right?",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed9fde1e_6f979cfb",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -82,6 +99,57 @@
       "side": 1,
       "message": "Why this change? We\u0027ve just read status in local variable s one line above.",
       "parentUuid": "ed9fde1e_6f979cfb",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a4515c6_b62c292a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4399,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-11T19:50:32Z",
+      "side": 1,
+      "message": "Now that we start using goto\u0027s perhaps it\u0027s time to refactor it :)\n\nif s \u003d\u003d _Psyscall \u0026\u0026 retakep(_p_) {\n  continue\n}\nif s \u003d\u003d _Psyscall || s \u003d\u003d _Prunning {\n  ... preempt ...\n}",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a6c3750_69483f5f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4441,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-11T19:50:32Z",
+      "side": 1,
+      "message": "Why? This looks harmful for performance and unnecessary.",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f201edc_7f8d26e3",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4456,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-11T19:50:32Z",
+      "side": 1,
+      "message": "We don\u0027t want to preempt _Psyscall here too? I think we need to comment why. Is it because of retries in stopTheWorldWithSema/freezetheworld?",
       "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
