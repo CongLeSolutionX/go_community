@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "55992c04_abd9d8a0",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4393,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-11T19:33:14Z",
+      "side": 1,
+      "message": "Why this change? We\u0027ve just read status in local variable s one line above.",
+      "parentUuid": "ed9fde1e_6f979cfb",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86c949c0_be8063c7",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -99,6 +117,24 @@
       "side": 1,
       "message": "Historically we were sloppy about some atomic accesses because atomic ops were/are expensive (maybe also because of the \"C is portable assembly\" mindset).\nEffectively we consider and hope this to be at least a relaxed atomic load (i.e. gives atomicity but no memory ordering).",
       "parentUuid": "86c949c0_be8063c7",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aaa9160_57e04b71",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4482,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-11T19:33:14Z",
+      "side": 1,
+      "message": "There was a recent discussion of this here:\nhttps://go-review.googlesource.com/c/go/+/142277",
+      "parentUuid": "a10f3ae8_e03de4a8",
       "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
