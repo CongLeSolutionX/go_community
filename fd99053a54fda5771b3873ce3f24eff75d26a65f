@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed9fde1e_6f979cfb",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4393,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-11T14:06:27Z",
+      "side": 1,
+      "message": "Similar to my other comment below: why it is safe to read p.status non-atomically?",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86c949c0_be8063c7",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4482,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-11T14:06:27Z",
+      "side": 1,
+      "message": "I\u0027m kind of unclear on the synchronization here. Is it really safe to load p.m.ptr() non-atomically? And ditto for the load of p.oldm.ptr() that I\u0027ve added. Couldn\u0027t this P enter a syscall at any moment and set p.m \u003d 0? (This was true even before my last CL, since entersyscallblock has always called handoffp, which sets p.m \u003d 0.)\n\nI\u0027m not worried about reading a potentially stale value, as this function has a big \"might preempt the wrong goroutine\" warning label on it. I am worried, however, about observing only half of the pointer. Are we perhaps assuming that writes/reads of a pointer-sized value are always atomic?",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
