@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7db4bd31_66b58bdf",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-11-12T17:34:07Z",
+      "side": 1,
+      "message": "This sentence was added in 2009:\n\n\"document bufio\"\nhttps://github.com/golang/go/commit/5dd4ef5716b12bd4f3bbdf731edb7a411bfe3e2d\n\nAnd it survive a commit titled:\n\n\"bufio: make Reader.Read implement io.Reader semantics\"\nhttps://github.com/golang/go/commit/24a78a026d0efd181f5b645dfb4622c826d9207a\n\n... but these are not io.Reader semantics.\n\nI guess we make an additional guarantee for this type.\n\nI wonder if we should document that extra guarantee. We do seem to implement the behavior:\n\nhttps://play.golang.org/p/NOW8hMlmT5X\n\nI don\u0027t recall whether we test this, though. This is news to me at least.",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 57
+      },
+      "revId": "bc678ee9970c021f2c0d3d519b1e71ea41551525",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
