@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "932a0fd9_b149aa82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T04:13:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "039d10ef_32134a32",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0973f49b_1ec935f0",
         "filename": "misc/cgo/test/issue28701.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-11T19:31:08Z",
       "side": 1,
       "message": "A test with 1 second timeout looks like recipe for flakiness. It will sure happen that a test VM will just not schedule this whole thing for a second once in a while.\nIn few runs of the previous test, we got few timeouts with much larger duration, right? What was that? 1 minute?\nI would increase this timeout right away.",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5116300_a806986f",
+        "filename": "misc/cgo/test/issue28701.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T04:13:51Z",
+      "side": 1,
+      "message": "Ack. I tweaked the constants a bit here. This test now reliably takes 30s+ without the scheduler patch, and about 130ms with the scheduler patch. I upped the timeout to 10s. Do you think that\u0027ll be sufficient to avoid flakes?",
+      "parentUuid": "0973f49b_1ec935f0",
       "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e9454590_4e9bd913",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T04:13:51Z",
+      "side": 1,
+      "message": "Good catch, thanks. I added the check to pidleput. reentersyscall is nosplit so attempting to print there results in an unhelpful morestack explosion.",
+      "parentUuid": "2c4bb4da_499b2f9a",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18f51c38_45a1cd3c",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01159e64_8a59cba0",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2833,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T04:13:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18f51c38_45a1cd3c",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "69d8b58b_dff70834",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4393,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T04:13:51Z",
+      "side": 1,
+      "message": "Remnant from an abandoned refactor. Fixed.",
+      "parentUuid": "55992c04_abd9d8a0",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a4515c6_b62c292a",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -116,6 +206,24 @@
       "writtenOn": "2018-11-11T19:50:32Z",
       "side": 1,
       "message": "Now that we start using goto\u0027s perhaps it\u0027s time to refactor it :)\n\nif s \u003d\u003d _Psyscall \u0026\u0026 retakep(_p_) {\n  continue\n}\nif s \u003d\u003d _Psyscall || s \u003d\u003d _Prunning {\n  ... preempt ...\n}",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a976051f_10e9bd73",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4399,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T04:13:51Z",
+      "side": 1,
+      "message": "Ack. I tried to split this function up unsuccessfully a few times which is why I ended up with the goto. Extracting a function is complicated by the fact that we might need to drop and reacquire allpLock, and we also might need to update the state in p.sysmontick. That makes for extremely non-obvious and single-purpose functions.\n\nI tried a bit harder and was able to refactor the goto into a switch. Let me know what you think.",
+      "parentUuid": "4a4515c6_b62c292a",
       "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -139,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "9f8efbd7_bad6e9f4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4441,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T04:13:51Z",
+      "side": 1,
+      "message": "So with this line the new test takes 130ms ± 5ms. That matches my expectations: 100ms of real \"work\" in the main thread plus some scheduling overhead. But without this line the new test takes 1000ms ± 500ms. That\u0027s better, but falls short of my expectation.\n\nIt seemed to me that if sysmon is preempting goroutines, that should count as sysmon doing work and thus reset its idle counter. Perhaps that\u0027s misguided, though, because goroutines are only preempted after 10ms (the max sysmon tick) while syscalls can be preempted after 20us (the min sysmon tick). Are there scheduler benchmarks somewhere that I can run to determine the impact of this change on other workloads?\n\nThe core problem to be fixed here is that if sysmon ends up with a 10ms tick resolution, it will fail to retake Ps in 20us like it \"normally\" would. Another way to solve this would be to reset sysmon\u0027s tick resolution whenever entersyscall is called. I don\u0027t have a sense of whether that would be a reasonable thing to do. Does your average Go program wind up in entersyscall a lot? I could see the answer being no if some of the more common syscalls (like read/write) end up in entersyscallblock instead, but given that fetching the current time requires a syscall on many platforms, I could also see the answer being yes.",
+      "parentUuid": "1a6c3750_69483f5f",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f201edc_7f8d26e3",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -150,6 +276,24 @@
       "writtenOn": "2018-11-11T19:50:32Z",
       "side": 1,
       "message": "We don\u0027t want to preempt _Psyscall here too? I think we need to comment why. Is it because of retries in stopTheWorldWithSema/freezetheworld?",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8879c832_c76e1b13",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4456,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T04:13:51Z",
+      "side": 1,
+      "message": "That\u0027s a good question. stopTheWorldWithSema and forEachP both retake Ps so preemption is redundant. freezetheworld, however, does not attempt to retake Ps. (Perhaps it should.)\n\nI agree that it\u0027s odd that a function named preemptall ignores Ps in Psyscall while a function named preemptone explicitly handles Ps in Psyscall.\n\nHere\u0027s a proposal: teach preemptall to preempt Ps in Psyscall, purely for consistency\u0027s sake, and, in another CL, teach freezetheworld to retake Ps. What do you think?",
+      "parentUuid": "5f201edc_7f8d26e3",
       "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -203,6 +347,24 @@
       "side": 1,
       "message": "There was a recent discussion of this here:\nhttps://go-review.googlesource.com/c/go/+/142277",
       "parentUuid": "a10f3ae8_e03de4a8",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e39c1cb_00cbdb14",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4482,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T04:13:51Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s helpful context. Sounds like this is OK then. I guess the Go compiler doesn\u0027t reorder memory load/stores the way that a C++ compiler does.",
+      "parentUuid": "1aaa9160_57e04b71",
       "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
