@@ -1255,6 +1255,12 @@ func getStackMap(frame *stkframe, cache *pcvalueCache, debug bool) (locals, args
 	if frame.arglen > 0 {
 		if frame.argmap != nil {
 			args = *frame.argmap
+			n := int32(frame.arglen / sys.PtrSize)
+			if n < args.n {
+				// Don't use more of the arguments than arglen. Arglen is sometimes smaller
+				// because the results section is not initialized yet.
+				args.n = n
+			}
 		} else {
 			stackmap := (*stackmap)(funcdata(f, _FUNCDATA_ArgsPointerMaps))
 			if stackmap == nil || stackmap.n <= 0 {
