@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "690cea0a_03bcc929",
+        "filename": "src/html/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-12T19:09:17Z",
+      "side": 1,
+      "message": "I think this should just say \"Parse strips HTML comments in text.\"  The explanation and workaround seem out of place here.",
+      "revId": "f2251bfebc8e65a403e6b824fb4c6d324c40f876",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
