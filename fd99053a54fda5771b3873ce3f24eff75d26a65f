@@ -301,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "7f1f665d_13eb07fa",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4441,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-12T19:41:06Z",
+      "side": 1,
+      "message": "Also consider a single-goroutine computational program with no syscalls.",
+      "parentUuid": "bf3dfcb4_0f648fe1",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f201edc_7f8d26e3",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
