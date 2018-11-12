@@ -16,6 +16,52 @@
       "revId": "f2251bfebc8e65a403e6b824fb4c6d324c40f876",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c03a8272_1af830f4",
+        "filename": "src/html/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 6255
+      },
+      "writtenOn": "2018-11-12T20:25:38Z",
+      "side": 1,
+      "message": "I believe CSS and JS comments are also stripped.",
+      "range": {
+        "startLine": 176,
+        "startChar": 43,
+        "endLine": 176,
+        "endChar": 54
+      },
+      "revId": "f2251bfebc8e65a403e6b824fb4c6d324c40f876",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "635214f0_83c29d30",
+        "filename": "src/html/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 6255
+      },
+      "writtenOn": "2018-11-12T20:25:38Z",
+      "side": 1,
+      "message": "I think technically they are stripped at execution time, not parse time, but it doesn\u0027t really matter. I agree with Ian that it would be better to document this at package scope or in an example than on the Parse method.",
+      "range": {
+        "startLine": 177,
+        "startChar": 16,
+        "endLine": 177,
+        "endChar": 29
+      },
+      "revId": "f2251bfebc8e65a403e6b824fb4c6d324c40f876",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
