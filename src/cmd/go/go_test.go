@@ -6269,3 +6269,20 @@ func TestCoverpkgTestOnly(t *testing.T) {
 	tg.grepStderrNot("no packages being tested depend on matches", "bad match message")
 	tg.grepStdout("coverage: 100", "no coverage")
 }
+
+// Issue 27665. TestVetAsm verifies that "go vet" analyzes non-Go files.
+func TestVetAsm(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.parallel()
+	tg.tempFile("src/a/a.go", `package a; func f(x int8)`)
+	tg.tempFile("src/a/asm.s", `TEXT ·f(SB),0,$0-1
+	MOVW	x+0(FP), AX
+	RET
+`)
+	tg.setenv("GOPATH", tg.path("."))
+	tg.setenv("GOARCH", "amd64")
+	tg.runFail("vet", "-asmdecl", "a")
+	// want: `[amd64] f: invalid MOVW of x+0(FP); int8 is 1-byte value`
+	tg.grepStderr("invalid MOVW", "go vet -asmdecl failed to produce expected error")
+}
