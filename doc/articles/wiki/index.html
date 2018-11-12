@@ -297,6 +297,20 @@ any requests under the path <code>/view/</code>.
 {{code "doc/articles/wiki/part2.go" `/^func main/` `/^}/`}}
 
 <p>
+We need to also import the <code>log</code> package since we're using
+<code>log.Fatal</code>:
+</p>
+
+<pre>
+import (
+	"fmt"
+	"io/ioutil"
+	<b>"log"</b>
+	"net/http"
+)
+</pre>
+
+<p>
 <a href="part2.go">Click here to view the code we've written so far.</a>
 </p>
 
@@ -372,6 +386,7 @@ also won't be using <code>fmt</code> anymore, so we have to remove that.
 import (
 	<b>"html/template"</b>
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 </pre>
