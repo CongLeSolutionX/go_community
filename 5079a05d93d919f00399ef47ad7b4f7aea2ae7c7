@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fe673ce1_750d10a9",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4426,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T22:12:26Z",
+      "side": 1,
+      "message": "Good point. (Though I think you meant `continue`.)",
+      "parentUuid": "b8e36a3e_2eb08373",
+      "revId": "5079a05d93d919f00399ef47ad7b4f7aea2ae7c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ca1c0e4_22ab5cc8",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-12T19:33:53Z",
       "side": 1,
       "message": "I think the guideline is to prefix any print\u0027s with \"runtime: \" prefix, because it\u0027s a random line that appears intermixed with normal program output (just before a crash, but still).\nWe don\u0027t follow this guideline everywhere, unfortunately, but let\u0027s add it here.",
+      "revId": "5079a05d93d919f00399ef47ad7b4f7aea2ae7c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63736576_1e9a2525",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4705,
+      "author": {
+        "id": 25418
+      },
+      "writtenOn": "2018-11-12T22:12:26Z",
+      "side": 1,
+      "message": "Ack, I copied/pasted from the line above. I\u0027ve adjusted all the messages in this function for consistency.",
+      "parentUuid": "7ca1c0e4_22ab5cc8",
       "revId": "5079a05d93d919f00399ef47ad7b4f7aea2ae7c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
