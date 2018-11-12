@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22f59911_74d26c58",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-11-12T07:17:13Z",
+      "side": 1,
+      "message": "The English grammar was correct as written. The rewrite does not read right to me. I would prefer it stay as is.",
+      "revId": "25036c665786eafe3b58a382cbbb1a6bd77db14d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
