@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6cf7477_a9c88224",
+        "filename": "src/math/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-11-12T09:05:13Z",
+      "side": 1,
+      "message": "What exactly is this example illustrating?\nIs this for completeness only? If yes: Is it desired to provide\nexamples for each and every functions?\nI always thought if math.Min as a helper to get the\nugly stuff of handling Infs and NaNs right, not 2s and 3s.\nMaybe a example should focus on these cases?",
+      "revId": "83e4434c7df389a9d69583ec7aec9a72fe0fad28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0592a3b_ab990b21",
+        "filename": "src/math/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-11-12T09:05:13Z",
+      "side": 1,
+      "message": "Why the temporary c? You could inline the call to Min in\nthe Printf.",
+      "revId": "83e4434c7df389a9d69583ec7aec9a72fe0fad28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "949d491c_3144cb33",
+        "filename": "src/math/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-11-12T09:05:13Z",
+      "side": 1,
+      "message": "Mod(20,6) is a nice example but it is only one\nout of 4 examples, the others are Mod(-20,6),\nMod(20,-6) and Mod(-20,-6). Why do you give just one?",
+      "revId": "83e4434c7df389a9d69583ec7aec9a72fe0fad28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
