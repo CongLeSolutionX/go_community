@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "95f83bde_10b6ff9e",
+        "filename": "misc/cgo/test/issue28701.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-12T19:33:53Z",
+      "side": 1,
+      "message": "I don\u0027t know. We will see. Hopefully.",
+      "parentUuid": "a5116300_a806986f",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c4bb4da_499b2f9a",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -265,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "bf3dfcb4_0f648fe1",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4441,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-12T19:33:53Z",
+      "side": 1,
+      "message": "At the very least this needs to go in a separate change. Even if it touches the same code, it does a very different thing from the rest of the change.\n\nBut I am still not convinced that it\u0027s the right thing to do.\nI believe this speeds up this test program, but we can\u0027t consider it in isolation.\n\nFirst, all other goroutines in the program are also \"real work\". The fact that a goroutine become runnable does not mean that we need to run it right away. If there are more than GOMAXPROCS such goroutines, we simply can\u0027t run all goroutines at the same time. Somebody will have to wait.\nYes, preemption granularity is 10ms. And that\u0027s why we let sysmon to cool down to 10ms if it only preempts goroutines. What you are trying to do is to piggy back on preemption that we have in this program to also speed up syscall retaking. But these are unrelated things. You can have the same syscall pattern but without preemption that will ensure that syscalls are handled faster (I suspect it\u0027s actually this same test but with GOMAXPROCS\u003d1). So this change is very much tailored to bitter specifics of this particular test. If we want to handle syscalls better, we need to handle syscalls better. We can\u0027t piggy back on preemption for this.\n\nYes, normal programs do lots of syscalls. Namely networking programs doing read/write, which are non-blocking and do reentersyscall and normally take ~~5us. It\u0027s intended that sysmon cools down to 10ms for such programs.\n\nRe benchmarks, I don\u0027t have any good to offer. It\u0027s hard to measure.\nBut here is some data. This is percent of CPU taken by \"for (;;) usleep(X)\" C program for different values of X, collected on latest linux kernel and a recent intel cpu:\n\n    64us -\u003e 4.0%\n   128us -\u003e 2.7%\n   256us -\u003e 3.5%\n   512us -\u003e 2.8%\n  1024us -\u003e 1.6%\n  2048us -\u003e 0.6%\n  4096us -\u003e 0.3%\n  8192us -\u003e 0.0%\n\nTens of microseconds sleep takes considerable cpu time. Not imagine that there are several dozens of Go programs running on the same machine at the same time, each of them with own sysmon.",
+      "parentUuid": "9f8efbd7_bad6e9f4",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f201edc_7f8d26e3",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -294,6 +330,24 @@
       "side": 1,
       "message": "That\u0027s a good question. stopTheWorldWithSema and forEachP both retake Ps so preemption is redundant. freezetheworld, however, does not attempt to retake Ps. (Perhaps it should.)\n\nI agree that it\u0027s odd that a function named preemptall ignores Ps in Psyscall while a function named preemptone explicitly handles Ps in Psyscall.\n\nHere\u0027s a proposal: teach preemptall to preempt Ps in Psyscall, purely for consistency\u0027s sake, and, in another CL, teach freezetheworld to retake Ps. What do you think?",
       "parentUuid": "5f201edc_7f8d26e3",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fcde6a1_c7cddf9e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4456,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-12T19:33:53Z",
+      "side": 1,
+      "message": "Does freezetheworld need to retake Ps? What\u0027s the scenario where it fails to stop a goroutine without retaking Ps?",
+      "parentUuid": "8879c832_c76e1b13",
       "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

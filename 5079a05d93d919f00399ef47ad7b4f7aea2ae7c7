@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8e36a3e_2eb08373",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4426,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-12T19:33:53Z",
+      "side": 1,
+      "message": "This looks better. But do we need a break here? It does not make sense to preempt a P that we just retaken.",
+      "revId": "5079a05d93d919f00399ef47ad7b4f7aea2ae7c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ca1c0e4_22ab5cc8",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4705,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-12T19:33:53Z",
+      "side": 1,
+      "message": "I think the guideline is to prefix any print\u0027s with \"runtime: \" prefix, because it\u0027s a random line that appears intermixed with normal program output (just before a crash, but still).\nWe don\u0027t follow this guideline everywhere, unfortunately, but let\u0027s add it here.",
+      "revId": "5079a05d93d919f00399ef47ad7b4f7aea2ae7c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
