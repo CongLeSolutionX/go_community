@@ -1,0 +1,16 @@
+# Issue 27665. Verify that "go vet" analyzes non-Go files.
+
+env GOARCH=amd64
+! go vet -asmdecl a
+# want: `[amd64] f: invalid MOVW of x+0(FP); int8 is 1-byte value`
+stderr 'invalid MOVW'
+
+-- a/a.go --
+package a
+
+func f(x int8)
+
+-- a/asm.s --
+TEXT ·f(SB),0,$0-1
+	MOVW	x+0(FP), AX
+	RET
