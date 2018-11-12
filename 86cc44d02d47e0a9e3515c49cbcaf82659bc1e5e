@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58a35af1_3ab866e0",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-12T22:12:38Z",
+      "side": 1,
+      "message": "I want to share an observation about style. I don\u0027t feel strongly about this, so feel free to go with what you prefer.\n\nI\u0027m more used to seeing \"req\" and \"resp\" names. I found it harder to read this method because \"req\" and \"res\" are visually harder to tell apart (they differ in one character, and that character is the last one).\n\nAdditionally, in Go 1.11.2, this package had 4 instances of \"resp *http.Response\" and 0 instances of \"res *http.Response\".",
+      "revId": "86cc44d02d47e0a9e3515c49cbcaf82659bc1e5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fc8ab65_9367208a",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-12T22:12:38Z",
+      "side": 1,
+      "message": "Would this be better?\n\n    It just runs some io.Copy operations.\n\nTo make it more clear that it doesn\u0027t start any goroutines, its caller uses its methods to do so.",
+      "range": {
+        "startLine": 533,
+        "startChar": 36,
+        "endLine": 533,
+        "endChar": 73
+      },
+      "revId": "86cc44d02d47e0a9e3515c49cbcaf82659bc1e5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "696cbf6f_9380009d",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-12T22:12:38Z",
+      "side": 1,
+      "message": "Why this change? Is it because this test broke, and this updates to use something that\u0027s not exactly \"Upgrade\" to work around that?",
+      "revId": "86cc44d02d47e0a9e3515c49cbcaf82659bc1e5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44c6211e_5bbe25b0",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-12T22:12:38Z",
+      "side": 1,
+      "message": "Should this be updated to be \"Foo-Upgrade\"? Here, and in a few more error messages below?",
+      "range": {
+        "startLine": 161,
+        "startChar": 54,
+        "endLine": 161,
+        "endChar": 63
+      },
+      "revId": "86cc44d02d47e0a9e3515c49cbcaf82659bc1e5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aca42dae_49613346",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-12T22:12:38Z",
+      "side": 1,
+      "message": "For my information, why isn\u0027t this header changed to \"Foo-Upgrade\"?",
+      "range": {
+        "startLine": 164,
+        "startChar": 17,
+        "endLine": 164,
+        "endChar": 26
+      },
+      "revId": "86cc44d02d47e0a9e3515c49cbcaf82659bc1e5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cc48cd3_8d78617b",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1717,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-12T22:12:38Z",
+      "side": 1,
+      "message": "For my information, why this change?",
+      "revId": "86cc44d02d47e0a9e3515c49cbcaf82659bc1e5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
