@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a783b953_760cd8fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-11-12T05:52:36Z",
+      "side": 1,
+      "message": "doc: add missing import of the log package",
+      "revId": "1a001105d397eae5fe88ecf292ba19c0660968a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0034e7c_4ad70dc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-11-12T05:52:36Z",
+      "side": 1,
+      "message": "This does not convey any extra information. We can remove this.",
+      "revId": "1a001105d397eae5fe88ecf292ba19c0660968a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5600db96_c09cbb21",
+        "filename": "doc/articles/wiki/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-11-12T05:52:36Z",
+      "side": 1,
+      "message": "Please move this above the code section, so that the imports come before the code. Also, no need to split log.Fatal into a new line.",
+      "revId": "1a001105d397eae5fe88ecf292ba19c0660968a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
