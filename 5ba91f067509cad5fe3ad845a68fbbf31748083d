@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "603a1bfa_bbc3c58c",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6288,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-11-12T21:15:11Z",
+      "side": 1,
+      "message": "We\u0027ve been migrating cmd/go tests to use a small scripting language.¹ Can this test be expressed in the current script language?\n\n(If not, a comment indicating what\u0027s missing would be helpful.)\n\n¹https://github.com/golang/go/blob/master/src/cmd/go/testdata/script/README",
+      "range": {
+        "startLine": 6278,
+        "startChar": 0,
+        "endLine": 6288,
+        "endChar": 0
+      },
+      "revId": "5ba91f067509cad5fe3ad845a68fbbf31748083d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96cb9242_29a32193",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-11-12T21:15:11Z",
+      "side": 1,
+      "message": "Is there a tracking issue for this, or some other way for readers to determine whether this condition is met?",
+      "range": {
+        "startLine": 1011,
+        "startChar": 32,
+        "endLine": 1011,
+        "endChar": 70
+      },
+      "revId": "5ba91f067509cad5fe3ad845a68fbbf31748083d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
