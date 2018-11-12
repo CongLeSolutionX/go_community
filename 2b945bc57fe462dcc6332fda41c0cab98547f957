@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c4b8aee_29d86e84",
+        "filename": "src/cmd/go/internal/work/gccgo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-12T23:11:43Z",
+      "side": 1,
+      "message": "I suppose AR is OK, but RC is not.  $(AR) is a standard way for Makefiles to refer to the ar program, but $(RC) is not standard.  And when you control $(AR) you can control the flags passed if necessary.  Don\u0027t confuse this rc (an argument to the ar program) with llvm-rc (an implementation of the Windows resource compiler).",
+      "revId": "2b945bc57fe462dcc6332fda41c0cab98547f957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
