@@ -16,6 +16,24 @@
       "revId": "8438f986153ed67e10d9f709c8bf22c844fcf7db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fe59d0e_c7c0b6cf",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-11-13T15:18:35Z",
+      "side": 1,
+      "message": "No, it rounds correctly. We care about full pointers only, so it\u0027s ok to round down.",
+      "parentUuid": "6c90af6d_a6593db7",
+      "revId": "8438f986153ed67e10d9f709c8bf22c844fcf7db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
