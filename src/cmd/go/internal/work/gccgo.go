@@ -184,12 +184,20 @@ func gccgoArchive(basedir, imp string) string {
 }
 
 func (gccgoToolchain) pack(b *Builder, a *Action, afile string, ofiles []string) error {
+	var ok bool
+
 	p := a.Package
 	objdir := a.Objdir
 	var absOfiles []string
 	for _, f := range ofiles {
 		absOfiles = append(absOfiles, mkAbs(objdir, f))
 	}
+
+	var AR string
+	if AR, ok = os.LookupEnv("AR"); !ok {
+		AR = "ar"
+	}
+
 	var arArgs []string
 	if cfg.Goos == "aix" && cfg.Goarch == "ppc64" {
 		// AIX puts both 32-bit and 64-bit objects in the same archive.
@@ -198,10 +206,12 @@ func (gccgoToolchain) pack(b *Builder, a *Action, afile string, ofiles []string)
 		arArgs = []string{"-X64"}
 	}
 
-	return b.run(a, p.Dir, p.ImportPath, nil, "ar", arArgs, "rc", mkAbs(objdir, afile), absOfiles)
+	return b.run(a, p.Dir, p.ImportPath, nil, AR, arArgs, "rc", mkAbs(objdir, afile), absOfiles)
 }
 
 func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string, allactions []*Action, buildmode, desc string) error {
+	var ok bool
+
 	// gccgo needs explicit linking with all package dependencies,
 	// and all LDFLAGS from cgo dependencies.
 	afiles := []string{}
@@ -216,6 +226,11 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 		cxx = len(root.Package.CXXFiles) > 0 || len(root.Package.SwigCXXFiles) > 0
 		objc = len(root.Package.MFiles) > 0
 		fortran = len(root.Package.FFiles) > 0
+	}
+
+	var AR string
+	if AR, ok = os.LookupEnv("AR"); !ok {
+		AR = "ar"
 	}
 
 	readCgoFlags := func(flagsFile string) error {
@@ -257,11 +272,11 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 				return "", nil
 			}
 		}
-		err := b.run(root, root.Objdir, desc, nil, "ar", "x", newArchive, "_cgo_flags")
+		err := b.run(root, root.Objdir, desc, nil, AR, "x", newArchive, "_cgo_flags")
 		if err != nil {
 			return "", err
 		}
-		err = b.run(root, ".", desc, nil, "ar", "d", newArchive, "_cgo_flags")
+		err = b.run(root, ".", desc, nil, AR, "d", newArchive, "_cgo_flags")
 		if err != nil {
 			return "", err
 		}
@@ -473,7 +488,7 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 
 	switch buildmode {
 	case "c-archive":
-		if err := b.run(root, ".", desc, nil, "ar", "rc", realOut, out); err != nil {
+		if err := b.run(root, ".", desc, nil, AR, "rc", realOut, out); err != nil {
 			return err
 		}
 	}
