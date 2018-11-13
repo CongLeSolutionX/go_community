@@ -34,6 +34,24 @@
       "revId": "88a6b3f926620e8d682206700491d54d57ac8360",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30087ae3_f09ce714",
+        "filename": "test/codegen/issue28688.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-11-13T21:35:58Z",
+      "side": 1,
+      "message": "You could use\n\n// run -gcflags\u003d-d\u003dsoftfloat\n\nto force softfloat. Softfloat should work on all architectures.",
+      "parentUuid": "53809621_a7d0538d",
+      "revId": "88a6b3f926620e8d682206700491d54d57ac8360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
