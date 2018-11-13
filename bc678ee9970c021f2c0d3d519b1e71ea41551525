@@ -22,6 +22,30 @@
       "revId": "bc678ee9970c021f2c0d3d519b1e71ea41551525",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6086f83_da04490f",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T03:25:11Z",
+      "side": 1,
+      "message": "I actually moved the \"To read exactly len(p) bytes...\" sentence. \ngit diff is just confused.\n\nBut since you bring it up...\nI think it\u0027s fine to keep guaranteeing it (and documenting it).\nPart of bufio is that it makes readers nicer to use.\nThis is one way they get nicer.\n\nJust eyeballing the tests, it looks like at least the bottom of TestPeek\nwould fail if this guarantee were broken.",
+      "parentUuid": "7db4bd31_66b58bdf",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 57
+      },
+      "revId": "bc678ee9970c021f2c0d3d519b1e71ea41551525",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
