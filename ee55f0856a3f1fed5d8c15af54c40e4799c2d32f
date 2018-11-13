@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ddd9f26_f47e0377",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2018-11-13T07:29:20Z",
+      "side": 1,
+      "message": "I believe this should be a channel of depth 2, \nsince there are two error sources below and one of the\ngoroutines might end up hanging on send to the errc.",
+      "revId": "ee55f0856a3f1fed5d8c15af54c40e4799c2d32f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
