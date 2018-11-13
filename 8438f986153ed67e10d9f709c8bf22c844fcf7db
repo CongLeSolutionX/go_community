@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "563e099d_e28b1aac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-11-13T22:34:31Z",
+      "side": 1,
+      "message": "The bitmap is often shorter, because it is only as long as needed to reach the last pointer.\nIt doesn\u0027t cover any trailing scalars.\n\nOther than that, reflect.makeFuncStub/methodValueCall is the only case I think where this can happen.",
+      "parentUuid": "ba88473f_950471eb",
+      "revId": "8438f986153ed67e10d9f709c8bf22c844fcf7db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c90af6d_a6593db7",
         "filename": "src/runtime/stack.go",
         "patchSetId": 1
