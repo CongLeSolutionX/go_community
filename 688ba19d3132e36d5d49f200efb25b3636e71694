@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f72945a_4fcb2230",
+        "filename": "src/cmd/go/testdata/script/vet_asm.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-11-13T15:57:34Z",
+      "side": 1,
+      "message": "This seems a bit redundant with the \u0027stderr\u0027 directive that follows it.\n\n(If we expect the error message in the comment to remain exactly as-is, we may as well check the exact string; otherwise, an out-of-date comment for an up-to-date assertion seems a bit confusing.)",
+      "revId": "688ba19d3132e36d5d49f200efb25b3636e71694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
