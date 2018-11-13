@@ -418,8 +418,13 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 			byte(certTypeECDSASign),
 		}
 		if c.vers >= VersionTLS12 {
+<<<<<<< HEAD   (13bf5b [dev.boringcrypto] all: merge master into dev.boringcrypto)
 			certReq.hasSignatureAndHash = true
 			certReq.supportedSignatureAlgorithms = supportedSignatureAlgorithms()
+=======
+			certReq.hasSignatureAlgorithm = true
+			certReq.supportedSignatureAlgorithms = supportedSignatureAlgorithms
+>>>>>>> BRANCH (4c8b09 crypto/tls: rewrite some messages with golang.org/x/crypto/c)
 		}
 
 		// An empty list of certificateAuthorities signals to
