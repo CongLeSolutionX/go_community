@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cd0cbde_0b717ded",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T14:43:15Z",
+      "side": 1,
+      "message": "These constants are not necessary at all.\nThe point of searching for them in rsc.io/goversion is to figure out where the string variable is without having symbol information. But inside a program, we know exactly where the string is: it\u0027s modinfo! All that is needed is to cut these magic constants off, and that\u0027s just:\n\n   text :\u003d modinfo[16:len(modinfo)-16]",
+      "revId": "0a2df1270c453640c29f20442694ddc7dc89a12f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d9e03d4_e2c12b7c",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T14:43:15Z",
+      "side": 1,
+      "message": "Can delete now.",
+      "revId": "0a2df1270c453640c29f20442694ddc7dc89a12f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

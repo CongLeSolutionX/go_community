@@ -339,6 +339,30 @@
       "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3edc9a3a_bd918ed4",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T14:43:15Z",
+      "side": 1,
+      "message": "\u003e We sometimes use //go:linkname to break dependency cycles without duplicating code.\n\nPlease don\u0027t suggest this. //go:linkname is a terrible hack that should be avoided unless absolutely necessary. A tiny bit of code duplication is not sufficient justification for the awfulness that is go:linkname. In general code outside runtime should NEVER use it.",
+      "parentUuid": "2f5f31f7_0a7e9410",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 29
+      },
+      "revId": "52de9863173a3997383094991bbcf667c5c37e5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
