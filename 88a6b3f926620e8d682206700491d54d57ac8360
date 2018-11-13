@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2895b798_15afad55",
+        "filename": "test/codegen/issue28688.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-11-13T15:56:48Z",
+      "side": 1,
+      "message": "test/codegen and asmcheck are usually used for testing optimizations. Since this is a correctness bug, I would put the test to test/fixedbugs and use \"// run\" directive. The test can simply panic if the result is wrong.\n\nTesting the register allocation is really looking into implementation detail too much.\n\nThanks.",
+      "revId": "88a6b3f926620e8d682206700491d54d57ac8360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
