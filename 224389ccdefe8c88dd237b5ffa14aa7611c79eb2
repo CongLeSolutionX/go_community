@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f8a7f3c_01f2f51a",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T15:54:13Z",
+      "side": 1,
+      "message": "Might as well just s/modRoot/ModRoot()/ here and on next line and then delete previous line.",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d87c30ac_62494b05",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T15:54:13Z",
+      "side": 1,
+      "message": "if HasModRoot() {",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fb8beee_8a605992",
+        "filename": "src/cmd/go/testdata/script/mod_outside.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T15:54:13Z",
+      "side": 1,
+      "message": "I think the answer should be and currently is no.",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f997bcb_76259ee3",
+        "filename": "src/cmd/go/testdata/script/mod_outside.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T15:54:13Z",
+      "side": 1,
+      "message": "I don\u0027t understand the question. -versions is only allowed with -m, and -versions -m is tested to work on line 45.\n\ngo list -versions (without -m) does not work with a go.mod, so it shouldn\u0027t work without one either. \n\nIn general the answer to any question like this should be: whatever happens if you make an empty directory and echo module m \u003ego.mod and run the command, that\u0027s what it should do with no go.mod.",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a253807_ee7b5b8b",
+        "filename": "src/cmd/go/testdata/script/mod_outside.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T15:54:13Z",
+      "side": 1,
+      "message": "No. Only go get takes @version. Let\u0027s keep @version syntax isolated there.",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5646df7a_2ca286c5",
+        "filename": "src/cmd/go/testdata/script/mod_outside.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T15:54:13Z",
+      "side": 1,
+      "message": "Not sure what this is checking. go clean doesn\u0027t print anything anyway.\nPerhaps the previous line should be \u0027go clean -n\u0027?",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7597af45_50a614c5",
+        "filename": "src/cmd/go/testdata/script/mod_outside.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T15:54:13Z",
+      "side": 1,
+      "message": "Please don\u0027t. We\u0027ve already established the successful output and there are doubtless people expecting it. There\u0027s no need to vary it now. People who want to know how many modules they have can use commands like \u0027go list -m | wc\u0027.",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbfaaa29_4a7a1580",
+        "filename": "src/cmd/go/testdata/script/mod_outside.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-11-13T15:54:13Z",
+      "side": 1,
+      "message": "It should work:\n\n$ mkdir /tmp/zz\n$ cd /tmp/zz\necho module m \u003ego.mod\n$ go run ~/go/test/helloworld.go\nhello, world\n$ \n\nThe effective module path can be \u0027main\u0027.",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
