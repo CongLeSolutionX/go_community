@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "906536cc_0fc361f8",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 27538
+      },
+      "writtenOn": "2018-11-13T23:21:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a063d2e_0d58d928",
+      "revId": "618efc6ec93329771ac1101ce1d8d2a9dfbf9c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1ba246f_e1f3ab8c",
         "filename": "src/cmd/go/internal/work/gccgo.go",
         "patchSetId": 7
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "e7b74ff1_26c31cb5",
+        "filename": "src/cmd/go/internal/work/gccgo.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 27538
+      },
+      "writtenOn": "2018-11-13T23:21:57Z",
+      "side": 1,
+      "message": "Kk. Got it.",
+      "parentUuid": "f1ba246f_e1f3ab8c",
+      "range": {
+        "startLine": 196,
+        "startChar": 5,
+        "endLine": 196,
+        "endChar": 7
+      },
+      "revId": "618efc6ec93329771ac1101ce1d8d2a9dfbf9c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcb8722f_792e7765",
         "filename": "src/cmd/go/internal/work/gccgo.go",
         "patchSetId": 7
@@ -56,6 +98,24 @@
       "revId": "618efc6ec93329771ac1101ce1d8d2a9dfbf9c74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bf45861_ca3288a6",
+        "filename": "src/cmd/go/internal/work/gccgo.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 27538
+      },
+      "writtenOn": "2018-11-13T23:21:57Z",
+      "side": 1,
+      "message": "My latest commit sets this as ar() as you suggested, but is there some better name perhaps? ar() just seems too short and like not really too descriptive to me despite being used by only pack() and link(). I saw the names compiler() and linker() method at the top of the file which made me think about it..\n\nAlthough I guess there\u0027s cc(), ld() and ldShared() defined as well.. So likely it\u0027s fine.\n\nIf you come up with anything better perhaps.. lmk and I\u0027ll update. Otherwise, I left it as just ar().",
+      "parentUuid": "dcb8722f_792e7765",
+      "revId": "618efc6ec93329771ac1101ce1d8d2a9dfbf9c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
