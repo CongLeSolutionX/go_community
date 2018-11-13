@@ -16,6 +16,24 @@
       "revId": "2b945bc57fe462dcc6332fda41c0cab98547f957",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91816457_0f5e5bcd",
+        "filename": "src/cmd/go/internal/work/gccgo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 27538
+      },
+      "writtenOn": "2018-11-13T00:00:05Z",
+      "side": 1,
+      "message": "Ahhh. Thanks you. Got it. Will remove.",
+      "parentUuid": "8c4b8aee_29d86e84",
+      "revId": "2b945bc57fe462dcc6332fda41c0cab98547f957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
