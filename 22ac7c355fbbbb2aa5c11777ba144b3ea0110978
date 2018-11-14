@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f6150ff_9be07c06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-11-14T02:32:08Z",
+      "side": 1,
+      "message": "When the branch is highly unpredictable, it is definitely better to avoid the speculative load. This was one of the key optimizations in https://github.com/golang/go/commit/77a9cb9b4c8f13e7b08ae855699146cbddbdd752. I no longer remember any numbers, but I recall being surprised by how big the impact was, at least in this case. It was high enough that I went and poked around the runtime to see if there was anywhere I could apply the same branch avoidance. :)\n\nI\u0027m still OK with this change going in; I trust that if it causes major regressions, we\u0027ll hear about it, and we can figure it out from there.",
+      "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "683c4106_8cb3c896",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-11-14T02:32:08Z",
+      "side": 1,
+      "message": "Out of curiosity, what percentage of CMOVs does this affect?",
+      "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce2d7f6e_35810037",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-11-14T02:32:08Z",
+      "side": 1,
+      "message": "Have you done a quick sanity check for toolspeed impact? (I can run one if not.)",
+      "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc8024d3_63088893",
+        "filename": "src/cmd/compile/internal/ssa/branchelim.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-11-14T02:32:08Z",
+      "side": 1,
+      "message": "What about calls? How does the branch mispredict for an indirect call vs a load compare?",
+      "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47ac792b_8a599e4d",
+        "filename": "src/cmd/compile/internal/ssa/branchelim.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-11-14T02:32:08Z",
+      "side": 1,
+      "message": "I assume this is for speed, but IIRC, Values aren\u0027t scheduled at this point. Is it worth scheduling them? Or just iterating forward?",
+      "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd84bd30_507998d3",
+        "filename": "src/cmd/compile/internal/ssa/branchelim.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-11-14T02:32:08Z",
+      "side": 1,
+      "message": "This and the other functions could use short doc strings describing the params. (I can guess f and dom and b without much context, but loadAddr is harder.)",
+      "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
