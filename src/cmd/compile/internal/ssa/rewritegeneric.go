@@ -262,17 +262,17 @@ func rewriteValuegeneric(v *Value) bool {
 	case OpMove:
 		return rewriteValuegeneric_OpMove_0(v) || rewriteValuegeneric_OpMove_10(v) || rewriteValuegeneric_OpMove_20(v)
 	case OpMul16:
-		return rewriteValuegeneric_OpMul16_0(v) || rewriteValuegeneric_OpMul16_10(v)
+		return rewriteValuegeneric_OpMul16_0(v) || rewriteValuegeneric_OpMul16_10(v) || rewriteValuegeneric_OpMul16_20(v)
 	case OpMul32:
-		return rewriteValuegeneric_OpMul32_0(v) || rewriteValuegeneric_OpMul32_10(v)
+		return rewriteValuegeneric_OpMul32_0(v) || rewriteValuegeneric_OpMul32_10(v) || rewriteValuegeneric_OpMul32_20(v)
 	case OpMul32F:
 		return rewriteValuegeneric_OpMul32F_0(v)
 	case OpMul64:
-		return rewriteValuegeneric_OpMul64_0(v) || rewriteValuegeneric_OpMul64_10(v)
+		return rewriteValuegeneric_OpMul64_0(v) || rewriteValuegeneric_OpMul64_10(v) || rewriteValuegeneric_OpMul64_20(v)
 	case OpMul64F:
 		return rewriteValuegeneric_OpMul64F_0(v)
 	case OpMul8:
-		return rewriteValuegeneric_OpMul8_0(v) || rewriteValuegeneric_OpMul8_10(v)
+		return rewriteValuegeneric_OpMul8_0(v) || rewriteValuegeneric_OpMul8_10(v) || rewriteValuegeneric_OpMul8_20(v)
 	case OpNeg16:
 		return rewriteValuegeneric_OpNeg16_0(v)
 	case OpNeg32:
@@ -17685,6 +17685,363 @@ func rewriteValuegeneric_OpMul16_10(v *Value) bool {
 		v.AuxInt = 0
 		return true
 	}
+	// match: (Mul16 <t> x (Mul16 <t> x (Mul16 <t> x x)))
+	// cond:
+	// result: (Mul16 <t> (Mul16 <t> x x) (Mul16 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul16 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		if x != v_1.Args[0] {
+			break
+		}
+		v_1_1 := v_1.Args[1]
+		if v_1_1.Op != OpMul16 {
+			break
+		}
+		if v_1_1.Type != t {
+			break
+		}
+		_ = v_1_1.Args[1]
+		if x != v_1_1.Args[0] {
+			break
+		}
+		if x != v_1_1.Args[1] {
+			break
+		}
+		v.reset(OpMul16)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul16, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul16, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul16 <t> x (Mul16 <t> x (Mul16 <t> x x)))
+	// cond:
+	// result: (Mul16 <t> (Mul16 <t> x x) (Mul16 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul16 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		if x != v_1.Args[0] {
+			break
+		}
+		v_1_1 := v_1.Args[1]
+		if v_1_1.Op != OpMul16 {
+			break
+		}
+		if v_1_1.Type != t {
+			break
+		}
+		_ = v_1_1.Args[1]
+		if x != v_1_1.Args[0] {
+			break
+		}
+		if x != v_1_1.Args[1] {
+			break
+		}
+		v.reset(OpMul16)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul16, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul16, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul16 <t> x (Mul16 <t> (Mul16 <t> x x) x))
+	// cond:
+	// result: (Mul16 <t> (Mul16 <t> x x) (Mul16 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul16 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		v_1_0 := v_1.Args[0]
+		if v_1_0.Op != OpMul16 {
+			break
+		}
+		if v_1_0.Type != t {
+			break
+		}
+		_ = v_1_0.Args[1]
+		if x != v_1_0.Args[0] {
+			break
+		}
+		if x != v_1_0.Args[1] {
+			break
+		}
+		if x != v_1.Args[1] {
+			break
+		}
+		v.reset(OpMul16)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul16, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul16, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul16 <t> x (Mul16 <t> (Mul16 <t> x x) x))
+	// cond:
+	// result: (Mul16 <t> (Mul16 <t> x x) (Mul16 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul16 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		v_1_0 := v_1.Args[0]
+		if v_1_0.Op != OpMul16 {
+			break
+		}
+		if v_1_0.Type != t {
+			break
+		}
+		_ = v_1_0.Args[1]
+		if x != v_1_0.Args[0] {
+			break
+		}
+		if x != v_1_0.Args[1] {
+			break
+		}
+		if x != v_1.Args[1] {
+			break
+		}
+		v.reset(OpMul16)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul16, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul16, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul16 <t> (Mul16 <t> x (Mul16 <t> x x)) x)
+	// cond:
+	// result: (Mul16 <t> (Mul16 <t> x x) (Mul16 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul16 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		x := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpMul16 {
+			break
+		}
+		if v_0_1.Type != t {
+			break
+		}
+		_ = v_0_1.Args[1]
+		if x != v_0_1.Args[0] {
+			break
+		}
+		if x != v_0_1.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul16)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul16, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul16, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul16 <t> (Mul16 <t> x (Mul16 <t> x x)) x)
+	// cond:
+	// result: (Mul16 <t> (Mul16 <t> x x) (Mul16 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul16 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		x := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpMul16 {
+			break
+		}
+		if v_0_1.Type != t {
+			break
+		}
+		_ = v_0_1.Args[1]
+		if x != v_0_1.Args[0] {
+			break
+		}
+		if x != v_0_1.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul16)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul16, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul16, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul16 <t> (Mul16 <t> (Mul16 <t> x x) x) x)
+	// cond:
+	// result: (Mul16 <t> (Mul16 <t> x x) (Mul16 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul16 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpMul16 {
+			break
+		}
+		if v_0_0.Type != t {
+			break
+		}
+		_ = v_0_0.Args[1]
+		x := v_0_0.Args[0]
+		if x != v_0_0.Args[1] {
+			break
+		}
+		if x != v_0.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul16)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul16, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul16, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul16 <t> (Mul16 <t> (Mul16 <t> x x) x) x)
+	// cond:
+	// result: (Mul16 <t> (Mul16 <t> x x) (Mul16 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul16 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpMul16 {
+			break
+		}
+		if v_0_0.Type != t {
+			break
+		}
+		_ = v_0_0.Args[1]
+		x := v_0_0.Args[0]
+		if x != v_0_0.Args[1] {
+			break
+		}
+		if x != v_0.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul16)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul16, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul16, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpMul16_20(v *Value) bool {
+	b := v.Block
+	_ = b
 	// match: (Mul16 (Const16 <t> [c]) (Mul16 (Const16 <t> [d]) x))
 	// cond:
 	// result: (Mul16 (Const16 <t> [int64(int16(c*d))]) x)
@@ -18217,6 +18574,363 @@ func rewriteValuegeneric_OpMul32_10(v *Value) bool {
 		}
 		v.reset(OpConst32)
 		v.AuxInt = 0
+		return true
+	}
+	// match: (Mul32 <t> x (Mul32 <t> x (Mul32 <t> x x)))
+	// cond:
+	// result: (Mul32 <t> (Mul32 <t> x x) (Mul32 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul32 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		if x != v_1.Args[0] {
+			break
+		}
+		v_1_1 := v_1.Args[1]
+		if v_1_1.Op != OpMul32 {
+			break
+		}
+		if v_1_1.Type != t {
+			break
+		}
+		_ = v_1_1.Args[1]
+		if x != v_1_1.Args[0] {
+			break
+		}
+		if x != v_1_1.Args[1] {
+			break
+		}
+		v.reset(OpMul32)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul32, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul32, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul32 <t> x (Mul32 <t> x (Mul32 <t> x x)))
+	// cond:
+	// result: (Mul32 <t> (Mul32 <t> x x) (Mul32 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul32 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		if x != v_1.Args[0] {
+			break
+		}
+		v_1_1 := v_1.Args[1]
+		if v_1_1.Op != OpMul32 {
+			break
+		}
+		if v_1_1.Type != t {
+			break
+		}
+		_ = v_1_1.Args[1]
+		if x != v_1_1.Args[0] {
+			break
+		}
+		if x != v_1_1.Args[1] {
+			break
+		}
+		v.reset(OpMul32)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul32, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul32, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul32 <t> x (Mul32 <t> (Mul32 <t> x x) x))
+	// cond:
+	// result: (Mul32 <t> (Mul32 <t> x x) (Mul32 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul32 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		v_1_0 := v_1.Args[0]
+		if v_1_0.Op != OpMul32 {
+			break
+		}
+		if v_1_0.Type != t {
+			break
+		}
+		_ = v_1_0.Args[1]
+		if x != v_1_0.Args[0] {
+			break
+		}
+		if x != v_1_0.Args[1] {
+			break
+		}
+		if x != v_1.Args[1] {
+			break
+		}
+		v.reset(OpMul32)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul32, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul32, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul32 <t> x (Mul32 <t> (Mul32 <t> x x) x))
+	// cond:
+	// result: (Mul32 <t> (Mul32 <t> x x) (Mul32 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul32 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		v_1_0 := v_1.Args[0]
+		if v_1_0.Op != OpMul32 {
+			break
+		}
+		if v_1_0.Type != t {
+			break
+		}
+		_ = v_1_0.Args[1]
+		if x != v_1_0.Args[0] {
+			break
+		}
+		if x != v_1_0.Args[1] {
+			break
+		}
+		if x != v_1.Args[1] {
+			break
+		}
+		v.reset(OpMul32)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul32, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul32, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpMul32_20(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (Mul32 <t> (Mul32 <t> x (Mul32 <t> x x)) x)
+	// cond:
+	// result: (Mul32 <t> (Mul32 <t> x x) (Mul32 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul32 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		x := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpMul32 {
+			break
+		}
+		if v_0_1.Type != t {
+			break
+		}
+		_ = v_0_1.Args[1]
+		if x != v_0_1.Args[0] {
+			break
+		}
+		if x != v_0_1.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul32)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul32, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul32, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul32 <t> (Mul32 <t> x (Mul32 <t> x x)) x)
+	// cond:
+	// result: (Mul32 <t> (Mul32 <t> x x) (Mul32 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul32 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		x := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpMul32 {
+			break
+		}
+		if v_0_1.Type != t {
+			break
+		}
+		_ = v_0_1.Args[1]
+		if x != v_0_1.Args[0] {
+			break
+		}
+		if x != v_0_1.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul32)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul32, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul32, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul32 <t> (Mul32 <t> (Mul32 <t> x x) x) x)
+	// cond:
+	// result: (Mul32 <t> (Mul32 <t> x x) (Mul32 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul32 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpMul32 {
+			break
+		}
+		if v_0_0.Type != t {
+			break
+		}
+		_ = v_0_0.Args[1]
+		x := v_0_0.Args[0]
+		if x != v_0_0.Args[1] {
+			break
+		}
+		if x != v_0.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul32)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul32, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul32, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul32 <t> (Mul32 <t> (Mul32 <t> x x) x) x)
+	// cond:
+	// result: (Mul32 <t> (Mul32 <t> x x) (Mul32 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul32 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpMul32 {
+			break
+		}
+		if v_0_0.Type != t {
+			break
+		}
+		_ = v_0_0.Args[1]
+		x := v_0_0.Args[0]
+		if x != v_0_0.Args[1] {
+			break
+		}
+		if x != v_0.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul32)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul32, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul32, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
 		return true
 	}
 	// match: (Mul32 (Const32 <t> [c]) (Mul32 (Const32 <t> [d]) x))
@@ -18900,6 +19614,363 @@ func rewriteValuegeneric_OpMul64_10(v *Value) bool {
 		v.AuxInt = 0
 		return true
 	}
+	// match: (Mul64 <t> x (Mul64 <t> x (Mul64 <t> x x)))
+	// cond:
+	// result: (Mul64 <t> (Mul64 <t> x x) (Mul64 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul64 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		if x != v_1.Args[0] {
+			break
+		}
+		v_1_1 := v_1.Args[1]
+		if v_1_1.Op != OpMul64 {
+			break
+		}
+		if v_1_1.Type != t {
+			break
+		}
+		_ = v_1_1.Args[1]
+		if x != v_1_1.Args[0] {
+			break
+		}
+		if x != v_1_1.Args[1] {
+			break
+		}
+		v.reset(OpMul64)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul64, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul64, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul64 <t> x (Mul64 <t> x (Mul64 <t> x x)))
+	// cond:
+	// result: (Mul64 <t> (Mul64 <t> x x) (Mul64 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul64 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		if x != v_1.Args[0] {
+			break
+		}
+		v_1_1 := v_1.Args[1]
+		if v_1_1.Op != OpMul64 {
+			break
+		}
+		if v_1_1.Type != t {
+			break
+		}
+		_ = v_1_1.Args[1]
+		if x != v_1_1.Args[0] {
+			break
+		}
+		if x != v_1_1.Args[1] {
+			break
+		}
+		v.reset(OpMul64)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul64, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul64, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul64 <t> x (Mul64 <t> (Mul64 <t> x x) x))
+	// cond:
+	// result: (Mul64 <t> (Mul64 <t> x x) (Mul64 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul64 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		v_1_0 := v_1.Args[0]
+		if v_1_0.Op != OpMul64 {
+			break
+		}
+		if v_1_0.Type != t {
+			break
+		}
+		_ = v_1_0.Args[1]
+		if x != v_1_0.Args[0] {
+			break
+		}
+		if x != v_1_0.Args[1] {
+			break
+		}
+		if x != v_1.Args[1] {
+			break
+		}
+		v.reset(OpMul64)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul64, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul64, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul64 <t> x (Mul64 <t> (Mul64 <t> x x) x))
+	// cond:
+	// result: (Mul64 <t> (Mul64 <t> x x) (Mul64 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul64 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		v_1_0 := v_1.Args[0]
+		if v_1_0.Op != OpMul64 {
+			break
+		}
+		if v_1_0.Type != t {
+			break
+		}
+		_ = v_1_0.Args[1]
+		if x != v_1_0.Args[0] {
+			break
+		}
+		if x != v_1_0.Args[1] {
+			break
+		}
+		if x != v_1.Args[1] {
+			break
+		}
+		v.reset(OpMul64)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul64, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul64, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpMul64_20(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (Mul64 <t> (Mul64 <t> x (Mul64 <t> x x)) x)
+	// cond:
+	// result: (Mul64 <t> (Mul64 <t> x x) (Mul64 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul64 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		x := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpMul64 {
+			break
+		}
+		if v_0_1.Type != t {
+			break
+		}
+		_ = v_0_1.Args[1]
+		if x != v_0_1.Args[0] {
+			break
+		}
+		if x != v_0_1.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul64)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul64, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul64, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul64 <t> (Mul64 <t> x (Mul64 <t> x x)) x)
+	// cond:
+	// result: (Mul64 <t> (Mul64 <t> x x) (Mul64 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul64 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		x := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpMul64 {
+			break
+		}
+		if v_0_1.Type != t {
+			break
+		}
+		_ = v_0_1.Args[1]
+		if x != v_0_1.Args[0] {
+			break
+		}
+		if x != v_0_1.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul64)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul64, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul64, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul64 <t> (Mul64 <t> (Mul64 <t> x x) x) x)
+	// cond:
+	// result: (Mul64 <t> (Mul64 <t> x x) (Mul64 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul64 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpMul64 {
+			break
+		}
+		if v_0_0.Type != t {
+			break
+		}
+		_ = v_0_0.Args[1]
+		x := v_0_0.Args[0]
+		if x != v_0_0.Args[1] {
+			break
+		}
+		if x != v_0.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul64)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul64, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul64, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul64 <t> (Mul64 <t> (Mul64 <t> x x) x) x)
+	// cond:
+	// result: (Mul64 <t> (Mul64 <t> x x) (Mul64 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul64 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpMul64 {
+			break
+		}
+		if v_0_0.Type != t {
+			break
+		}
+		_ = v_0_0.Args[1]
+		x := v_0_0.Args[0]
+		if x != v_0_0.Args[1] {
+			break
+		}
+		if x != v_0.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul64)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul64, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul64, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
 	// match: (Mul64 (Const64 <t> [c]) (Mul64 (Const64 <t> [d]) x))
 	// cond:
 	// result: (Mul64 (Const64 <t> [c*d]) x)
@@ -19421,6 +20492,363 @@ func rewriteValuegeneric_OpMul8_10(v *Value) bool {
 		v.AuxInt = 0
 		return true
 	}
+	// match: (Mul8 <t> x (Mul8 <t> x (Mul8 <t> x x)))
+	// cond:
+	// result: (Mul8 <t> (Mul8 <t> x x) (Mul8 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul8 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		if x != v_1.Args[0] {
+			break
+		}
+		v_1_1 := v_1.Args[1]
+		if v_1_1.Op != OpMul8 {
+			break
+		}
+		if v_1_1.Type != t {
+			break
+		}
+		_ = v_1_1.Args[1]
+		if x != v_1_1.Args[0] {
+			break
+		}
+		if x != v_1_1.Args[1] {
+			break
+		}
+		v.reset(OpMul8)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul8, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul8, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul8 <t> x (Mul8 <t> x (Mul8 <t> x x)))
+	// cond:
+	// result: (Mul8 <t> (Mul8 <t> x x) (Mul8 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul8 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		if x != v_1.Args[0] {
+			break
+		}
+		v_1_1 := v_1.Args[1]
+		if v_1_1.Op != OpMul8 {
+			break
+		}
+		if v_1_1.Type != t {
+			break
+		}
+		_ = v_1_1.Args[1]
+		if x != v_1_1.Args[0] {
+			break
+		}
+		if x != v_1_1.Args[1] {
+			break
+		}
+		v.reset(OpMul8)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul8, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul8, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul8 <t> x (Mul8 <t> (Mul8 <t> x x) x))
+	// cond:
+	// result: (Mul8 <t> (Mul8 <t> x x) (Mul8 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul8 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		v_1_0 := v_1.Args[0]
+		if v_1_0.Op != OpMul8 {
+			break
+		}
+		if v_1_0.Type != t {
+			break
+		}
+		_ = v_1_0.Args[1]
+		if x != v_1_0.Args[0] {
+			break
+		}
+		if x != v_1_0.Args[1] {
+			break
+		}
+		if x != v_1.Args[1] {
+			break
+		}
+		v.reset(OpMul8)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul8, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul8, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul8 <t> x (Mul8 <t> (Mul8 <t> x x) x))
+	// cond:
+	// result: (Mul8 <t> (Mul8 <t> x x) (Mul8 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMul8 {
+			break
+		}
+		if v_1.Type != t {
+			break
+		}
+		_ = v_1.Args[1]
+		v_1_0 := v_1.Args[0]
+		if v_1_0.Op != OpMul8 {
+			break
+		}
+		if v_1_0.Type != t {
+			break
+		}
+		_ = v_1_0.Args[1]
+		if x != v_1_0.Args[0] {
+			break
+		}
+		if x != v_1_0.Args[1] {
+			break
+		}
+		if x != v_1.Args[1] {
+			break
+		}
+		v.reset(OpMul8)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul8, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul8, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul8 <t> (Mul8 <t> x (Mul8 <t> x x)) x)
+	// cond:
+	// result: (Mul8 <t> (Mul8 <t> x x) (Mul8 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul8 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		x := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpMul8 {
+			break
+		}
+		if v_0_1.Type != t {
+			break
+		}
+		_ = v_0_1.Args[1]
+		if x != v_0_1.Args[0] {
+			break
+		}
+		if x != v_0_1.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul8)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul8, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul8, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul8 <t> (Mul8 <t> x (Mul8 <t> x x)) x)
+	// cond:
+	// result: (Mul8 <t> (Mul8 <t> x x) (Mul8 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul8 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		x := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpMul8 {
+			break
+		}
+		if v_0_1.Type != t {
+			break
+		}
+		_ = v_0_1.Args[1]
+		if x != v_0_1.Args[0] {
+			break
+		}
+		if x != v_0_1.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul8)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul8, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul8, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul8 <t> (Mul8 <t> (Mul8 <t> x x) x) x)
+	// cond:
+	// result: (Mul8 <t> (Mul8 <t> x x) (Mul8 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul8 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpMul8 {
+			break
+		}
+		if v_0_0.Type != t {
+			break
+		}
+		_ = v_0_0.Args[1]
+		x := v_0_0.Args[0]
+		if x != v_0_0.Args[1] {
+			break
+		}
+		if x != v_0.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul8)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul8, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul8, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Mul8 <t> (Mul8 <t> (Mul8 <t> x x) x) x)
+	// cond:
+	// result: (Mul8 <t> (Mul8 <t> x x) (Mul8 <t> x x))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpMul8 {
+			break
+		}
+		if v_0.Type != t {
+			break
+		}
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpMul8 {
+			break
+		}
+		if v_0_0.Type != t {
+			break
+		}
+		_ = v_0_0.Args[1]
+		x := v_0_0.Args[0]
+		if x != v_0_0.Args[1] {
+			break
+		}
+		if x != v_0.Args[1] {
+			break
+		}
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpMul8)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpMul8, t)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpMul8, t)
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v.AddArg(v1)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpMul8_20(v *Value) bool {
+	b := v.Block
+	_ = b
 	// match: (Mul8 (Const8 <t> [c]) (Mul8 (Const8 <t> [d]) x))
 	// cond:
 	// result: (Mul8 (Const8 <t> [int64(int8(c*d))]) x)

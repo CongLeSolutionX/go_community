@@ -527,6 +527,10 @@
 (And64 <t> (Const64 [y]) x) && nlo(y) + ntz(y) == 64 && ntz(y) >= 32
   -> (Lsh64x64 (Rsh64Ux64 <t> x (Const64 <t> [ntz(y)])) (Const64 <t> [ntz(y)]))
 
+// Rewrite x*x*x*x to (x*x)*(x*x)
+(Mul(64|32|16|8) <t> x (Mul(64|32|16|8) <t> x (Mul(64|32|16|8) <t> x x)))
+  -> (Mul(64|32|16|8) <t> (Mul(64|32|16|8) <t> x x) (Mul(64|32|16|8) <t> x x))
+
 // simplifications often used for lengths.  e.g. len(s[i:i+5])==5
 (Sub(64|32|16|8) (Add(64|32|16|8) x y) x) -> y
 (Sub(64|32|16|8) (Add(64|32|16|8) x y) y) -> x
