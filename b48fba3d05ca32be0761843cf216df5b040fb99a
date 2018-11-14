@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd2522bc_c8a6b7ac",
+        "filename": "src/cmd/go/internal/run/run.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-11-14T19:08:38Z",
+      "side": 1,
+      "message": "On second thought, I don\u0027t see any quoted messages so perhaps please make the format specifier \"%s\" instead of \"%q\" so:\n   base.Fatalf(\"go run: no packages loaded from %s\", args[0])",
+      "revId": "b48fba3d05ca32be0761843cf216df5b040fb99a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
