@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2c4a32c_af3268df",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-11-14T17:17:21Z",
+      "side": 1,
+      "message": "The 2nd part of this sentence seems grammatically incorrect to me: ... because division by zero. Maybe: ... or because of division by zero (y \u003d\u003d 0).\n\nOr simpler:\n\nDiv panics for y \u003d\u003d 0 (division by zero) or y \u003c\u003d hi (quotient overflow).",
+      "range": {
+        "startLine": 457,
+        "startChar": 26,
+        "endLine": 457,
+        "endChar": 33
+      },
+      "revId": "6cff949dd641ccf63f19754ca4dae5195fce9bf9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
