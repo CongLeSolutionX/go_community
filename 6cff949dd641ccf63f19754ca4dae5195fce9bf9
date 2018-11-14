@@ -22,6 +22,30 @@
       "revId": "6cff949dd641ccf63f19754ca4dae5195fce9bf9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2780867a_2a02eebb",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2018-11-14T17:29:27Z",
+      "side": 1,
+      "message": "I\u0027ll update these to the simpler wording.",
+      "parentUuid": "f2c4a32c_af3268df",
+      "range": {
+        "startLine": 457,
+        "startChar": 26,
+        "endLine": 457,
+        "endChar": 33
+      },
+      "revId": "6cff949dd641ccf63f19754ca4dae5195fce9bf9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
