@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93632438_b75b567b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-11-14T22:19:46Z",
+      "side": 1,
+      "message": "We generally additionally mention the git revision we\u0027re syncing to, and mention which CL in particular we care about.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "4c7a245d3e38466c63eec9074f2d7fce617a4a6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
