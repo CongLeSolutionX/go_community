@@ -175,7 +175,14 @@ const (
 // the code advertises as supported in a TLS 1.2 ClientHello and in a TLS 1.2
 // CertificateRequest. The two fields are merged to match with TLS 1.3.
 // Note that in TLS 1.2, the ECDSA algorithms are not constrained to P-256, etc.
+<<<<<<< HEAD   (e8b350 [dev.boringcrypto] all: merge master into dev.boringcrypto)
 var defaultSupportedSignatureAlgorithms = []SignatureScheme{
+=======
+var supportedSignatureAlgorithms = []SignatureScheme{
+	PSSWithSHA256,
+	PSSWithSHA384,
+	PSSWithSHA512,
+>>>>>>> BRANCH (ee7e44 crypto/tls: advertise and accept rsa_pss_rsae signature algo)
 	PKCS1WithSHA256,
 	ECDSAWithP256AndSHA256,
 	PKCS1WithSHA384,
@@ -267,6 +274,7 @@ const (
 	PKCS1WithSHA384 SignatureScheme = 0x0501
 	PKCS1WithSHA512 SignatureScheme = 0x0601
 
+	// RSASSA-PSS algorithms with public key OID rsaEncryption.
 	PSSWithSHA256 SignatureScheme = 0x0804
 	PSSWithSHA384 SignatureScheme = 0x0805
 	PSSWithSHA512 SignatureScheme = 0x0806
