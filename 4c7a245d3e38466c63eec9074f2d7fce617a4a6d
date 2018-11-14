@@ -70,6 +70,30 @@
       "revId": "4c7a245d3e38466c63eec9074f2d7fce617a4a6d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4a7af26_4be19afb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-11-14T22:40:01Z",
+      "side": 1,
+      "message": "Yes for the former. Did the latter.",
+      "parentUuid": "6a0d93e7_dd7d2da8",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "4c7a245d3e38466c63eec9074f2d7fce617a4a6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
