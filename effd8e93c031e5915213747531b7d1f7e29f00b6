@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ae44e9a_6b7ec34d",
+        "filename": "src/cmd/vet/testdata/sortslice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-11-14T23:49:39Z",
+      "side": 1,
+      "message": "Drive-by comment: Does this mistake really warrant a vet check? The program will immediately panic with an informative error.",
+      "revId": "effd8e93c031e5915213747531b7d1f7e29f00b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
