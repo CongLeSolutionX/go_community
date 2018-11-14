@@ -52,6 +52,24 @@
       "revId": "88a6b3f926620e8d682206700491d54d57ac8360",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "faa6cf18_d15743e3",
+        "filename": "test/codegen/issue28688.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 15090
+      },
+      "writtenOn": "2018-11-14T10:46:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30087ae3_f09ce714",
+      "revId": "88a6b3f926620e8d682206700491d54d57ac8360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
