@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36acf969_df645436",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1504,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-11-14T15:45:40Z",
+      "side": 1,
+      "message": "The difference is this typo. You need to regenerate this file with the typo fixed from the other file.",
+      "range": {
+        "startLine": 1504,
+        "startChar": 27,
+        "endLine": 1504,
+        "endChar": 37
+      },
+      "revId": "98b23c8143422ba69b999ffb2fa77182cfa79fb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
