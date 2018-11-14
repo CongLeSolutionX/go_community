@@ -232,6 +232,24 @@
       "revId": "86cc44d02d47e0a9e3515c49cbcaf82659bc1e5e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05398fdc_ebc00aca",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1717,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-14T19:02:59Z",
+      "side": 1,
+      "message": "Brad, just checking (since there\u0027s no Ack here), did you see this question?",
+      "parentUuid": "7cc48cd3_8d78617b",
+      "revId": "86cc44d02d47e0a9e3515c49cbcaf82659bc1e5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

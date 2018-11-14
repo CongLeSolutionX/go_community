@@ -16,6 +16,24 @@
       "revId": "ee55f0856a3f1fed5d8c15af54c40e4799c2d32f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c73aebc7_e6b204f8",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-14T19:02:59Z",
+      "side": 1,
+      "message": "Buffered channel with buffer size of 1 here looks correct to me. Line 528 will block until it reads a single value off the channel. At most one other error value can get written to the channel, so it\u0027ll be within capacity, allowing that goroutine to finish running and not leak.",
+      "parentUuid": "3ddd9f26_f47e0377",
+      "revId": "ee55f0856a3f1fed5d8c15af54c40e4799c2d32f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
