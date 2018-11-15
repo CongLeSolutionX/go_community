@@ -34,6 +34,24 @@
       "revId": "549a61191d39eada0b44637f77ff162546f42e1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbd27fcb_dae9b827",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-11-15T21:15:18Z",
+      "side": 1,
+      "message": "How about:\n\n    // We don\u0027t support examples that import syscall/js,\n    // because the package syscall/js is not available in the playground.\n\nThat communicates that the code which prepares a runnable example refuses to do so on an example that imports syscall/js because of current playground limitations.\n\nI\u0027m also okay with the current text, this isn\u0027t a blocker. My motivation is to make it more consistent and easier to spot all instances where playExample returns nil to disable the \"play\" button.",
+      "parentUuid": "e3a11792_63151277",
+      "revId": "549a61191d39eada0b44637f77ff162546f42e1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
