@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ffc6b91_b1f32a7a",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-11-15T04:00:45Z",
+      "side": 1,
+      "message": "I suspect this might be correct: [0.5, 1) is the range [0.5, 1[ , i.e., exclusive the value 1.0. Would need to look into algorithm to confirm.",
+      "range": {
+        "startLine": 10,
+        "startChar": 71,
+        "endLine": 10,
+        "endChar": 72
+      },
+      "revId": "63180a3a8d50004ee76e50739e3315c87e6e3f5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
