@@ -934,6 +934,11 @@ func (state *debugState) writePendingEntry(varID VarID, endBlock, endValue ID) {
 		// they get incomplete debug info on 32-bit platforms.
 		return
 	}
+	if start == end {
+		state.logf("Skipping empty location list for %v in %s\n", state.vars[varID], state.f.Name)
+		return
+	}
+
 	list := state.lists[varID]
 	list = appendPtr(state.ctxt, list, start)
 	list = appendPtr(state.ctxt, list, end)
