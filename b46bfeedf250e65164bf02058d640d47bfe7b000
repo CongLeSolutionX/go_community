@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6351e59_840a200b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-11-15T16:20:19Z",
+      "side": 1,
+      "message": "Commit messages should complete the sentence \"Update Go to ...\", so here for example it should be \"escape MIME type \"application/ld+json\" as Javascript\". Also, mismatched quote.\n\nhttp://golang.org/wiki/CommitMessage",
+      "revId": "b46bfeedf250e65164bf02058d640d47bfe7b000",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
