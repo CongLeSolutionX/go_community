@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a4f5a32_b64707af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-16T00:57:47Z",
+      "side": 1,
+      "message": "s/Add/add/\n\n(See https://golang.org/wiki/CommitMessage).",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "fc4a07822aa4720c224ba68f4b5d52ecdf83c319",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bf006f6_db89f610",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-16T00:57:47Z",
+      "side": 1,
+      "message": "String returns the name of k.",
+      "revId": "fc4a07822aa4720c224ba68f4b5d52ecdf83c319",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
