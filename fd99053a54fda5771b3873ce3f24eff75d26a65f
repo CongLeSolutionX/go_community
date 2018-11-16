@@ -337,6 +337,24 @@
     },
     {
       "key": {
+        "uuid": "68a656fd_64264672",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4441,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-16T23:57:40Z",
+      "side": 1,
+      "message": "\u003e Ack, I\u0027ll back this out of this CL. Some thoughts below, though.\n\u003e \n\u003e \u003e Also consider a single-goroutine computational program with no syscalls.\n\u003e \n\u003e Ideally we wouldn\u0027t even bother preempting if there\u0027s no additional work to be scheduled.\n\nOK, then GOMAXPROCS+1 computational goroutines.\n\n\u003e \u003e What you are trying to do is to piggy back on preemption that we have in this program to also speed up syscall retaking. But these are unrelated things. \n\u003e \n\u003e The current design of sysmon already tightly couples preemption with P-retaking. (I\u0027ll admit that this change would have made the coupling worse.) Checking whether goroutines need to be preempted every 20us is a waste of effort when the default preemption threshold is 10ms.\n\nThey are coupled but not in this sense.\nThey are done in the same thread and at the same time, because we iterate over Ps and load their statuses anyway. So it just looks more work and performance hit to decouple them.\n\nBut we don\u0027t require actual preemption to handle syscalls, nor the other way around.\n\n\n\u003e \u003e Yes, normal programs do lots of syscalls. Namely networking programs doing read/write, which are non-blocking and do reentersyscall and normally take ~~5us. It\u0027s intended that sysmon cools down to 10ms for such programs.\n\u003e \n\u003e Which is great until that program performs a syscall that takes 100ms instead of 5us. fsync is the example that comes to mind. When sysmon is running hot, the P that performs the fsync will be retaken in 20us. But if sysmon has cooled down, the P that performs the fsync might not be retaken for 10ms, which is rather a lot of CPU time to leave on the table.\n\nThis does not look related to preemption.\n\n\u003e I\u0027d be happy to take a more principled approach if you\u0027re willing to offer me guidance. Perhaps we should be sampling some percentage of all syscalls and using that to set sysmon\u0027s tick interval?\n\nI don\u0027t know what\u0027s better way to do it.",
+      "parentUuid": "335530a6_df64eefb",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f201edc_7f8d26e3",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -402,6 +420,24 @@
       "side": 1,
       "message": "\u003e Does freezetheworld need to retake Ps? What\u0027s the scenario where it fails to stop a goroutine without retaking Ps?\n\nHere\u0027s an example:\n\n```\npackage main\n\n// #include \u003cunistd.h\u003e\nimport \"C\"\n\nimport \"time\"\n\nvar nilPtr *int\n\nfunc main() {\n  for i :\u003d 0; i \u003c 10; i++ {\n    go func() {\n      // time.Sleep(time.Millisecond)\n      C.usleep(1000)\n      _ \u003d *nilPtr\n    }()\n  }\n  time.Sleep(time.Hour)\n}\n```\n\nWhen the goroutines sleep via time.Sleep, you\u0027ll only ever see one segfault, because the first goroutine to segfault manages to freezeTheWorld before the other goroutines segfault. When the goroutines sleep via C.sleep, you\u0027ll see a bunch of segfaults, because goroutines don\u0027t check for a frozen world when resuming from a segfault.\n\nI\u0027ll admit I don\u0027t particularly care about this example. The output when multiple simultaneous segfaults occur is perfectly readable. But perhaps there is a similar but more compelling example.",
       "parentUuid": "2fcde6a1_c7cddf9e",
+      "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4baeb39c_3267e318",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4456,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-16T23:57:40Z",
+      "side": 1,
+      "message": "Does runtime print \"goroutine running on other thread; stack unavailable\" in any of these cases?\nThat\u0027s the thing that we are trying to avoid with preemption in freezetheworld.",
+      "parentUuid": "715735ef_33b3a9ac",
       "revId": "fd99053a54fda5771b3873ce3f24eff75d26a65f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
