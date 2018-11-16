@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "16ef0b5e_f47e8e54",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2018-11-16T19:42:14Z",
+      "side": 1,
+      "message": "ok - got it to work wihout affecting performance",
+      "parentUuid": "fef4d2d7_8f7cee78",
+      "range": {
+        "startLine": 1313,
+        "startChar": 0,
+        "endLine": 1313,
+        "endChar": 1
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8704f21_3126891e",
         "filename": "src/crypto/elliptic/p256_asm_s390x.s",
         "patchSetId": 3
@@ -228,6 +252,48 @@
     },
     {
       "key": {
+        "uuid": "14e7125a_6499942c",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1678,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2018-11-16T19:42:14Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "eb242c51_6379bc62",
+      "range": {
+        "startLine": 1678,
+        "startChar": 40,
+        "endLine": 1678,
+        "endChar": 47
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb1b415b_f4797c1a",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1678,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2018-11-16T19:42:14Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "d15cbe49_926a26f8",
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5fc42c8_64221ccc",
         "filename": "src/crypto/elliptic/p256_s390x.go",
         "patchSetId": 3
@@ -248,6 +314,30 @@
       "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8380f5b2_3240f477",
+        "filename": "src/crypto/elliptic/p256_s390x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2018-11-16T19:42:14Z",
+      "side": 1,
+      "message": "Thanks for the tips -- got it to work.",
+      "parentUuid": "d5fc42c8_64221ccc",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "0e80defb367959e4dec13880ab1af2541650a7ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
