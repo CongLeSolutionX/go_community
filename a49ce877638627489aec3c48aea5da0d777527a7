@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "35f93d54_9c8ec062",
+        "filename": "src/cmd/go/internal/vet/vetflag.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-11-17T05:48:02Z",
+      "side": 1,
+      "message": "I agree; the exit call forced me to use this form.",
+      "parentUuid": "3c763601_a93dac56",
+      "revId": "a49ce877638627489aec3c48aea5da0d777527a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cd2ac72_1054f0ff",
         "filename": "src/cmd/go/internal/vet/vetflag.go",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "a49ce877638627489aec3c48aea5da0d777527a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84318dc4_ee43a691",
+        "filename": "src/cmd/go/internal/vet/vetflag.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-11-17T05:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cd2ac72_1054f0ff",
+      "revId": "a49ce877638627489aec3c48aea5da0d777527a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
