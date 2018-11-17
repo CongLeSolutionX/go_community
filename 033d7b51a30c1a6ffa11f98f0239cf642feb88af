@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "b2951857_426b2e24",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-11-17T16:49:10Z",
+      "side": 1,
+      "message": "I didn\u0027t have a particular solution in mind :) Sounds like something to figure out with Russ or Bryan, in the context of cmd/go.",
+      "parentUuid": "9fe0262a_cb5205fa",
+      "revId": "033d7b51a30c1a6ffa11f98f0239cf642feb88af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "907f0792_087d904c",
         "filename": "src/cmd/vet/doc.go",
         "patchSetId": 10
@@ -171,6 +189,24 @@
       "side": 1,
       "message": "We will need to maintain this list, but only when cmd/vet/main.go changes.\n\nI realized only yesterday that keeping cmd/vet/main.go as a copy of x/tools/.../vet-lite/main.go made no sense. The main.go file has evolved to become nothing more than a single function call with a list of analyzers, and this CL replaces even its package doc comment by doc.go.\nWe can probably get rid of vet-lite now, or at least relegate it to an internal subpackage of x/tools where it can be used to simulate cmd/vet for debugging and testing.",
       "parentUuid": "f297f101_860ec24e",
+      "revId": "033d7b51a30c1a6ffa11f98f0239cf642feb88af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d939f806_932dde2d",
+        "filename": "src/cmd/vet/doc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-11-17T16:49:10Z",
+      "side": 1,
+      "message": "Ah, you\u0027re right that this will only need to mirror what\u0027s in cmd/vet/main.go. Then there\u0027s less chance of it going out of sync if we update the vendored x/tools.\n\nI agree that removing vet-lite would be good. Even after having read the updates to cmd/vet, I had to think twice about which binary I wanted from x/tools the other day.",
+      "parentUuid": "0e4104bf_b57a6d7b",
       "revId": "033d7b51a30c1a6ffa11f98f0239cf642feb88af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
