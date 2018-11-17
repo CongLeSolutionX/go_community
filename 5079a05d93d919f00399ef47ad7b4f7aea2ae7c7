@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "09687f00_39d0bcc0",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4426,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2018-11-17T00:01:33Z",
+      "side": 1,
+      "message": "break from the switch should work too (and will execute any per-P code after the switch, if we add it in future)",
+      "parentUuid": "fe673ce1_750d10a9",
+      "revId": "5079a05d93d919f00399ef47ad7b4f7aea2ae7c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ca1c0e4_22ab5cc8",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
