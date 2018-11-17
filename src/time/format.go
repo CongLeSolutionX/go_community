@@ -96,6 +96,7 @@ const (
 	stdDay                                         // "2"
 	stdUnderDay                                    // "_2"
 	stdZeroDay                                     // "02"
+	stdDaySuffix                                   // "2nd"
 	stdHour                  = iota + stdNeedClock // "15"
 	stdHour12                                      // "3"
 	stdZeroHour12                                  // "03"
@@ -184,6 +185,9 @@ func nextStdChunk(layout string) (prefix string, std int, suffix string) {
 		case '2': // 2006, 2
 			if len(layout) >= i+4 && layout[i:i+4] == "2006" {
 				return layout[0:i], stdLongYear, layout[i+4:]
+			}
+			if len(layout) > i+3 && layout[i:i+3] == "2nd" {
+				return layout[0:i], stdDaySuffix, layout[i+3:]
 			}
 			return layout[0:i], stdDay, layout[i+1:]
 
@@ -319,6 +323,19 @@ var longMonthNames = []string{
 	"October",
 	"November",
 	"December",
+}
+
+var daySuffixes = []string{
+	"th", // [123]0th
+	"st", // 1st
+	"nd", // 2nd
+	"rd", // 3rd
+	"th", // 4th
+	"th", // 5th
+	"th", // 6th
+	"th", // 7th
+	"th", // 8th
+	"th", // 9th
 }
 
 // match reports whether s1 and s2 match ignoring case.
@@ -553,6 +570,13 @@ func (t Time) AppendFormat(b []byte, layout string) []byte {
 			b = append(b, s...)
 		case stdDay:
 			b = appendInt(b, day, 0)
+		case stdDaySuffix:
+			b = appendInt(b, day, 0)
+			if day > 10 && day < 20 {
+				b = append(b, 't', 'h')
+			} else {
+				b = append(b, daySuffixes[day%10]...)
+			}
 		case stdUnderDay:
 			if day < 10 {
 				b = append(b, ' ')
@@ -856,7 +880,7 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 			_, value, err = lookup(shortDayNames, value)
 		case stdLongWeekDay:
 			_, value, err = lookup(longDayNames, value)
-		case stdDay, stdUnderDay, stdZeroDay:
+		case stdDay, stdUnderDay, stdZeroDay, stdDaySuffix:
 			if std == stdUnderDay && len(value) > 0 && value[0] == ' ' {
 				value = value[1:]
 			}
@@ -864,6 +888,20 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 			if day < 0 {
 				// Note that we allow any one- or two-digit day here.
 				rangeErrString = "day"
+			}
+			// allow any of the usual suffixes
+			if std&stdMask == stdDaySuffix {
+				if len(value) < 2 {
+					err = errBad
+					break
+				}
+				p, value = value[0:2], value[2:]
+				switch p {
+				case "st", "nd", "rd", "th":
+					break
+				default:
+					err = errBad
+				}
 			}
 		case stdHour:
 			hour, value, err = getnum(value, false)

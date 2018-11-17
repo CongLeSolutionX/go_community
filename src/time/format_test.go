@@ -180,6 +180,10 @@ var parseTests = []ParseTest{
 	{"", "Jan _2 15:04:05.999", "Feb  4 21:00:57.012345678", false, false, -1, 9},
 	{"", "Jan _2 15:04:05.999999999", "Feb  4 21:00:57.0123", false, false, -1, 4},
 	{"", "Jan _2 15:04:05.999999999", "Feb  4 21:00:57.012345678", false, false, -1, 9},
+
+	// issue 28841.
+	{"", "Jan 2nd 2006 15:04:05", "Feb 4th 2010 21:00:57", false, false, -1, 0},
+	{"", "Jan 2nd 2006 15:04:05", "Feb 4st 2010 21:00:57", false, false, -1, 0},
 }
 
 func TestParse(t *testing.T) {
@@ -485,6 +489,8 @@ var parseErrorTests = []ParseErrorTest{
 	// issue 21113
 	{"_2 Jan 06 15:04 MST", "4 --- 00 00:00 GMT", "cannot parse"},
 	{"_2 January 06 15:04 MST", "4 --- 00 00:00 GMT", "cannot parse"},
+	// issue 28841
+	{"Jan 2nd 06", "Jan 2 06", "cannot parse"},
 }
 
 func TestParseErrors(t *testing.T) {
