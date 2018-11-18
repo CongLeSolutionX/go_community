@@ -52,6 +52,24 @@
       "revId": "549a61191d39eada0b44637f77ff162546f42e1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f01a3e68_f1a21e8c",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-11-18T20:37:48Z",
+      "side": 1,
+      "message": "I don\u0027t mind the change either. Changed.",
+      "parentUuid": "fbd27fcb_dae9b827",
+      "revId": "549a61191d39eada0b44637f77ff162546f42e1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
