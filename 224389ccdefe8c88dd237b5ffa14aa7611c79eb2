@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "0717c652_2579a790",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2018-11-19T15:23:26Z",
+      "side": 1,
+      "message": "Presumably we create a separate, ephemeral external module for each module we encounter? i.e. if I do go get $package1@$version1 $package2@$version2, where $pacakge1 and $package2 belong to different modules.\n\nAnother nice benefit of treating the package\u0027s module as a dependency is that module version information gets compiled into the resulting binary. Which means that main package authors can start to rely on https://go-review.googlesource.com/c/go/+/144220 to output -version like information.",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3beac124_04dbe396",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2018-11-19T15:23:26Z",
+      "side": 1,
+      "message": "I know we\u0027ve been backwards and forwards on this point in various discussions, but for a \"global\" go get we\u0027ve landed on applying the replacements and exclusions present in the package\u0027s module\u0027s go.mod (for gobin at least). Because if you\u0027re treating each package\u0027s module separately in any case, there\u0027s no danger of any clashes etc.",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d87c30ac_62494b05",
         "filename": "src/cmd/go/internal/modload/query.go",
         "patchSetId": 4
@@ -132,6 +166,23 @@
       "writtenOn": "2018-11-13T15:54:13Z",
       "side": 1,
       "message": "It should work:\n\n$ mkdir /tmp/zz\n$ cd /tmp/zz\necho module m \u003ego.mod\n$ go run ~/go/test/helloworld.go\nhello, world\n$ \n\nThe effective module path can be \u0027main\u0027.",
+      "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f982f7af_0c074d12",
+        "filename": "src/cmd/go/testdata/script/mod_outside.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2018-11-19T15:23:26Z",
+      "side": 1,
+      "message": "As I understand it, this means that go get $package (note, no version) will always hit the network (modulo any GOPROXY setting), because the absence of a version implies @latest. \n\nPer Russ\u0027 comment about needing to get go run working before this lands, this presumably means that go run $package will also always hit the network.\n\nDo I have this right?",
       "revId": "224389ccdefe8c88dd237b5ffa14aa7611c79eb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
