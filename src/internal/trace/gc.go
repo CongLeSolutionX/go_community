@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package traceparser
+package trace
 
 import (
 	"container/heap"
@@ -50,8 +50,7 @@ const (
 //
 // If the UtilPerProc flag is not given, this always returns a single
 // utilization function. Otherwise, it returns one function per P.
-func (p *Parsed) MutatorUtilization(flags UtilFlags) [][]MutatorUtil {
-	events := p.Events
+func MutatorUtilization(events []*Event, flags UtilFlags) [][]MutatorUtil {
 	if len(events) == 0 {
 		return nil
 	}
@@ -442,44 +441,39 @@ func (acc *accumulator) addMU(time int64, mu float64, window time.Duration) bool
 	}
 	acc.bound = acc.mmu
 
-	if acc.nWorst == 0 {
-		// If the minimum has reached zero, it can't go any
-		// lower, so we can stop early.
-		return mu == 0
-	}
-
-	// Consider adding this window to the n worst.
-	if len(acc.wHeap) < acc.nWorst || mu < acc.wHeap[0].MutatorUtil {
-		// This window is lower than the K'th worst window.
-		//
-		// Check if there's any overlapping window
-		// already in the heap and keep whichever is
-		// worse.
-		for i, ui := range acc.wHeap {
-			if time+int64(window) > ui.Time && ui.Time+int64(window) > time {
-				if ui.MutatorUtil <= mu {
-					// Keep the first window.
-					goto keep
-				} else {
-					// Replace it with this window.
-					heap.Remove(&acc.wHeap, i)
-					break
+	if acc.nWorst > 0 {
+		if len(acc.wHeap) < acc.nWorst || mu < acc.wHeap[0].MutatorUtil {
+			// This window is lower than the K'th worst window.
+			//
+			// Check if there's any overlapping window
+			// already in the heap and keep whichever is
+			// worse.
+			for i, ui := range acc.wHeap {
+				if time+int64(window) > ui.Time && ui.Time+int64(window) > time {
+					if ui.MutatorUtil <= mu {
+						// Keep the first window.
+						goto keep
+					} else {
+						// Replace it with this window.
+						heap.Remove(&acc.wHeap, i)
+						break
+					}
 				}
 			}
-		}
 
-		heap.Push(&acc.wHeap, UtilWindow{time, mu})
-		if len(acc.wHeap) > acc.nWorst {
-			heap.Pop(&acc.wHeap)
+			heap.Push(&acc.wHeap, UtilWindow{time, mu})
+			if len(acc.wHeap) > acc.nWorst {
+				heap.Pop(&acc.wHeap)
+			}
+		keep:
 		}
-	keep:
-	}
-	if len(acc.wHeap) < acc.nWorst {
-		// We don't have N windows yet, so keep accumulating.
-		acc.bound = 1.0
-	} else {
-		// Anything above the least worst window has no effect.
-		acc.bound = math.Max(acc.bound, acc.wHeap[0].MutatorUtil)
+		if len(acc.wHeap) < acc.nWorst {
+			// We don't have N windows yet, so keep accumulating.
+			acc.bound = 1.0
+		} else {
+			// Anything above the least worst window has no effect.
+			acc.bound = math.Max(acc.bound, acc.wHeap[0].MutatorUtil)
+		}
 	}
 
 	if acc.mud != nil {
@@ -502,7 +496,7 @@ func (acc *accumulator) addMU(time int64, mu float64, window time.Duration) bool
 	}
 
 	// If we've found enough 0 utilizations, we can stop immediately.
-	return len(acc.wHeap) == acc.nWorst && acc.wHeap[0].MutatorUtil == 0
+	return mu == 0 && (len(acc.wHeap) == 0 || acc.wHeap[0].MutatorUtil == 0)
 }
 
 // MMU returns the minimum mutator utilization for the given time
@@ -654,11 +648,7 @@ func (c *mmuSeries) mkBandUtil(series int, window time.Duration) []bandUtil {
 		panic("maxBands < 2")
 	}
 	tailDur := int64(window) % c.bandDur
-	nUtil := len(c.bands) - maxBands + 1
-	if nUtil < 0 {
-		nUtil = 0
-	}
-	bandU := make([]bandUtil, nUtil)
+	bandU := make([]bandUtil, len(c.bands)-maxBands+1)
 	for i := range bandU {
 		// To compute the worst-case MU, we assume the minimum
 		// for any bands that are only partially overlapped by
