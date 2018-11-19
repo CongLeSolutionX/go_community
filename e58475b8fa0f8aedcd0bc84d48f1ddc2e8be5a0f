@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46e923c2_c0f7645d",
+        "filename": "src/regexp/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-11-19T23:06:06Z",
+      "side": 1,
+      "message": "please use backquotes for all regular expression examples.",
+      "revId": "e58475b8fa0f8aedcd0bc84d48f1ddc2e8be5a0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
