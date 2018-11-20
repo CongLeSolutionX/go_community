@@ -66,8 +66,8 @@ func execSecurityRoots() (*CertPool, error) {
 		"/Library/Keychains/System.keychain",
 	}
 
-	home := os.UserHomeDir()
-	if home == "" {
+	home, err := os.UserHomeDir()
+	if err != nil {
 		if debugExecDarwinRoots {
 			println("crypto/x509: can't get user home directory")
 		}
