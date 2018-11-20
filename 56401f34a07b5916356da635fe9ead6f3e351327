@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a13fae4f_301ea36b",
+        "filename": "src/os/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-20T22:45:26Z",
+      "side": 1,
+      "message": "I suggest changing this to just\n    dir \u003d \"/\"\nto be consistent with the other cases.",
+      "revId": "56401f34a07b5916356da635fe9ead6f3e351327",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66edf826_45f2f193",
+        "filename": "src/os/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-20T22:45:26Z",
+      "side": 1,
+      "message": "dir \u003d \"/\"\n    break",
+      "revId": "56401f34a07b5916356da635fe9ead6f3e351327",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7ed57c0_97028128",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2308,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-11-20T22:45:26Z",
+      "side": 1,
+      "message": "At least log the error.\n    t.Skipf(\"UserHomeDir failed: %v\", err)",
+      "revId": "56401f34a07b5916356da635fe9ead6f3e351327",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
