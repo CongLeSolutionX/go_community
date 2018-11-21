@@ -215,6 +215,10 @@ func TestRemoveAllLongPath(t *testing.T) {
 }
 
 func TestRemoveAllDot(t *testing.T) {
+	if runtime.GOOS == "plan9" {
+		t.Skipf("skipping on %v", runtime.GOOS)
+	}
+
 	prevDir, err := Getwd()
 	if err != nil {
 		t.Fatalf("Could not get wd: %s", err)
