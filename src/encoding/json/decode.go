@@ -262,8 +262,8 @@ func isValidNumber(s string) bool {
 // decodeState represents the state while decoding a JSON value.
 type decodeState struct {
 	data         []byte
-	off          int // next read offset in data
-	opcode       int // last read result
+	off          uint // next read offset in data
+	opcode       int  // last read result
 	scan         scanner
 	errorContext struct { // provides context for type errors
 		Struct reflect.Type
@@ -276,7 +276,7 @@ type decodeState struct {
 
 // readIndex returns the position of the last byte read.
 func (d *decodeState) readIndex() int {
-	return d.off - 1
+	return int(d.off - 1)
 }
 
 // phasePanicMsg is used as a panic message when we end up with something that
@@ -331,12 +331,12 @@ func (d *decodeState) skip() {
 
 // scanNext processes the byte at d.data[d.off].
 func (d *decodeState) scanNext() {
-	if d.off < len(d.data) {
+	if d.off < uint(len(d.data)) {
 		d.opcode = d.scan.step(&d.scan, d.data[d.off])
 		d.off++
 	} else {
 		d.opcode = d.scan.eof()
-		d.off = len(d.data) + 1 // mark processed EOF with len+1
+		d.off = uint(len(d.data) + 1) // mark processed EOF with len+1
 	}
 }
 
@@ -344,7 +344,7 @@ func (d *decodeState) scanNext() {
 // receives a scan code not equal to op.
 func (d *decodeState) scanWhile(op int) {
 	s, data, i := &d.scan, d.data, d.off
-	for i < len(data) {
+	for i < uint(len(data)) {
 		newOp := s.step(s, data[i])
 		i++
 		if newOp != op {
@@ -354,7 +354,7 @@ func (d *decodeState) scanWhile(op int) {
 		}
 	}
 
-	d.off = len(data) + 1 // mark processed EOF with len+1
+	d.off = uint(len(data) + 1) // mark processed EOF with len+1
 	d.opcode = d.scan.eof()
 }
 
