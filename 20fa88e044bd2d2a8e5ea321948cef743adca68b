@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "651e56c1_8131093a",
+        "filename": "src/os/path.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-11-21T22:57:26Z",
+      "side": 1,
+      "message": "s/returns/reports/",
+      "revId": "20fa88e044bd2d2a8e5ea321948cef743adca68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
