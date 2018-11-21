@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa9872e_edffcccc",
+        "filename": "src/os/file.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-11-21T16:03:48Z",
+      "side": 1,
+      "message": "I\u0027d write this without the repeated code and fallthrough.\n\nWhat about something like this:\n\nhttps://play.golang.org/p/3MmcktK_yVJ\n\nfunc UserHomeDir() (string, error) {\n\tenv, enverr :\u003d \"HOME\", \"$HOME\"\n\tswitch runtime.GOOS {\n\tcase \"windows\":\n\t\tenv, enverr \u003d \"USERPROFILE\", \"%userprofile%\"\n\tcase \"plan9\":\n\t\tenv, enverr \u003d \"home\", \"$home\"\n\tcase \"nacl\", \"android\":\n\t\treturn \"/\", nil\n\tcase \"darwin\":\n\t\tif runtime.GOARCH \u003d\u003d \"arm\" || runtime.GOARCH \u003d\u003d \"arm64\" {\n\t\t\treturn \"/\", nil\n\t\t}\n\t}\n\tif v :\u003d Getenv(env); v !\u003d \"\" {\n\t\treturn v, nil\n\t}\n\treturn \"\", errors.New(enverr + \" is not defined\")\n}",
+      "range": {
+        "startLine": 389,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 0
+      },
+      "revId": "047284ed26e36e34057f849fc70e64c9ff93ac9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
