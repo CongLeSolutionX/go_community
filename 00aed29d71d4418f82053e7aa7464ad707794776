@@ -22,6 +22,30 @@
       "revId": "00aed29d71d4418f82053e7aa7464ad707794776",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c9587c2_83894fba",
+        "filename": "src/os/removeall_noat.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2018-11-21T21:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70f26aa7_58b9407d",
+      "range": {
+        "startLine": 26,
+        "startChar": 36,
+        "endLine": 26,
+        "endChar": 46
+      },
+      "revId": "00aed29d71d4418f82053e7aa7464ad707794776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
