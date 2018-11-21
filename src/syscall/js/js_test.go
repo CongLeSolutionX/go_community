@@ -379,3 +379,25 @@ func TestTruthy(t *testing.T) {
 		t.Errorf("got %#v, want %#v", got, want)
 	}
 }
+
+func TestAwait(t *testing.T) {
+	Promise := js.Global().Get("Promise")
+	Object := js.Global().Get("Object")
+
+	if result, ok := Promise.Call("resolve", 42).Await(); !ok || result.Int() != 42 {
+		t.Errorf("got (%#v, %#v), want (%#v, %#v)", result.Int(), ok, 42, true)
+	}
+
+	if result, ok := Promise.Call("reject", 99).Await(); ok || result.Int() != 99 {
+		t.Errorf("got (%#v, %#v), want (%#v, %#v)", result.Int(), ok, 99, false)
+	}
+
+	if result, ok := js.ValueOf(42).Await(); !ok || result.Int() != 42 {
+		t.Errorf("got (%#v, %#v), want (%#v, %#v)", result.Int(), ok, 42, true)
+	}
+
+	o := Object.New()
+	if result, ok := o.Await(); !ok || result != o {
+		t.Errorf("got (%#v, %#v), want (%#v, %#v)", result, ok, o, true)
+	}
+}

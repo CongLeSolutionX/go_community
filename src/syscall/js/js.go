@@ -411,6 +411,37 @@ func (v Value) InstanceOf(t Value) bool {
 
 func valueInstanceOf(v ref, t ref) bool
 
+// Await waits until the promise v has been resolved or rejected and returns the promise's result value.
+// The boolean value ok is true if the promise has been resolved, false if it has been rejected.
+// If v is not a promise, v itself is returned as the value and ok is true.
+func (v Value) Await() (result Value, ok bool) {
+	if v.Type() != TypeObject || v.Get("then").Type() != TypeFunction {
+		return v, true
+	}
+
+	done := make(chan struct{})
+
+	onResolve := NewCallback(func(this Value, args []Value) interface{} {
+		result = args[0]
+		ok = true
+		close(done)
+		return nil
+	})
+	defer onResolve.Release()
+
+	onReject := NewCallback(func(this Value, args []Value) interface{} {
+		result = args[0]
+		ok = false
+		close(done)
+		return nil
+	})
+	defer onReject.Release()
+
+	v.Call("then", onResolve, onReject)
+	<-done
+	return
+}
+
 // A ValueError occurs when a Value method is invoked on
 // a Value that does not support it. Such cases are documented
 // in the description of each method.
