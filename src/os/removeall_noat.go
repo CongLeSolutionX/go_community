@@ -22,6 +22,13 @@ func RemoveAll(path string) error {
 		return nil
 	}
 
+	// The rmdir system call permits to remove "." on Plan 9,
+	// so we don't permit it to remain consistant with the
+	// "at" implementation of RemoveAll.
+	if endsWithDot(path) {
+		return &PathError{"RemoveAll", path, syscall.EINVAL}
+	}
+
 	// Simple case: if Remove works, we're done.
 	err := Remove(path)
 	if err == nil || IsNotExist(err) {
@@ -113,4 +120,15 @@ func RemoveAll(path string) error {
 		err = err1
 	}
 	return err
+}
+
+// endsWithDot returns whether the final component of path is ".".
+func endsWithDot(path string) bool {
+	if path == "." {
+		return true
+	}
+	if len(path) >= 2 && path[len(path)-1] == '.' && IsPathSeparator(path[len(path)-2]) {
+		return true
+	}
+	return false
 }
