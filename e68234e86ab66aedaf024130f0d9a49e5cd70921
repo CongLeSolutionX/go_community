@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad6ce77b_2cbb753e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-11-21T12:11:05Z",
+      "side": 1,
+      "message": "You need to remove the PR body template.",
+      "revId": "e68234e86ab66aedaf024130f0d9a49e5cd70921",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
