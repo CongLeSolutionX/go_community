@@ -830,8 +830,25 @@ func testVariousDeadlines(t *testing.T) {
 			// The server, with no timeouts of its own,
 			// sending bytes to clients as fast as it can.
 			go func() {
+				c.(*TCPConn).SetLinger(0)
 				t0 := time.Now()
-				n, err := io.Copy(c, neverEnding('a'))
+				var (
+					n     int64
+					errCh = make(chan error, 2)
+				)
+				go func() {
+					nw, err := io.Copy(c, neverEnding('a'))
+					n = nw
+					errCh <- err
+				}()
+
+				go func() {
+					var buf [1024]byte
+					_, err := c.Read(buf[:])
+					errCh <- err
+				}()
+
+				err := <-errCh
 				dt := time.Since(t0)
 				c.Close()
 				pasvch <- result{n, err, dt}
