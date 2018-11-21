@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97817eea_1f0a1125",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 29736
+      },
+      "writtenOn": "2018-11-21T07:26:59Z",
+      "side": 1,
+      "message": "you also need to open a new issue for runtime/netpolldeadline",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "5284c4706ea0bbc50cafdab2d0139ab40b7ad8ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a34d6966_e66fcce9",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 29736
+      },
+      "writtenOn": "2018-11-21T07:26:59Z",
+      "side": 1,
+      "message": "this should happen in neverEnding; making neverEnding out-of-band signaling acceptable, otherwise, your change may leak tester goroutines (and that may make interference between tests that is pretty hard to shoot down, including tests vs. benchmarks.)",
+      "range": {
+        "startLine": 845,
+        "startChar": 4,
+        "endLine": 850,
+        "endChar": 0
+      },
+      "revId": "5284c4706ea0bbc50cafdab2d0139ab40b7ad8ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
