@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02a94177_b10d5934",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-11-21T16:27:55Z",
+      "side": 1,
+      "message": "It looks like this is not a pure revert, at least because it ports the MMU code back to the old API. Mention anything that was done in additional to mechanical reverts.",
+      "revId": "de8f639f944a992835b3716c031214fdee89be79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
