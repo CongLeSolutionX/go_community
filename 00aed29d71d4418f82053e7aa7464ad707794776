@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70f26aa7_58b9407d",
+        "filename": "src/os/removeall_noat.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-11-21T20:34:16Z",
+      "side": 1,
+      "message": "Nit: consistent",
+      "range": {
+        "startLine": 26,
+        "startChar": 36,
+        "endLine": 26,
+        "endChar": 46
+      },
+      "revId": "00aed29d71d4418f82053e7aa7464ad707794776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
