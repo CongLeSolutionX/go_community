@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "60982e93_31bf98aa",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 29560
+      },
+      "writtenOn": "2018-11-22T14:14:06Z",
+      "side": 1,
+      "message": "Do you think it\u0027s possible to include AwaitContext implementation as well? I assume syscall package cannot depend on the context package, but it can at least define a context-like type with a single Done() method that returns a channel.",
+      "revId": "f496e9fc4d5afc80106b50efca18f1c27a03a83c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "016a2af2_de0fa549",
         "filename": "src/syscall/js/js.go",
         "patchSetId": 1
