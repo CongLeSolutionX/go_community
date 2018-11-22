@@ -34,6 +34,24 @@
       "revId": "f496e9fc4d5afc80106b50efca18f1c27a03a83c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cba21ca_4cf3bd9d",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-11-22T10:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "312340b5_eccd252e",
+      "revId": "f496e9fc4d5afc80106b50efca18f1c27a03a83c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
