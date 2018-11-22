@@ -16,6 +16,24 @@
       "revId": "f496e9fc4d5afc80106b50efca18f1c27a03a83c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "312340b5_eccd252e",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2018-11-22T10:21:04Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s JavaScript. It relies more on duck typing than on concrete type checks. You can use the \"await\" operator on various types, as long as they behave like a promise. TypeScript has an interface called \"PromiseLike\" for this purpose: https://github.com/Microsoft/TypeScript/blob/f53a27eac0ee702bd14d984deaecadfb42181c99/src/lib/es5.d.ts#L1356",
+      "parentUuid": "016a2af2_de0fa549",
+      "revId": "f496e9fc4d5afc80106b50efca18f1c27a03a83c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
