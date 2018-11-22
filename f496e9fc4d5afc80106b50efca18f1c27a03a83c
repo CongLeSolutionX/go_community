@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "016a2af2_de0fa549",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2018-11-22T09:17:01Z",
+      "side": 1,
+      "message": "This would also be true for any user-defined object with a \"then\" property of type function, right? Just wondering if this check is really enough to tell whether something is a native promise. I\u0027m not very good at JS, but can\u0027t we do a proper type check?",
+      "revId": "f496e9fc4d5afc80106b50efca18f1c27a03a83c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
