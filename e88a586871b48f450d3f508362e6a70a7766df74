@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20b66448_96bf8641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-11-22T15:53:06Z",
+      "side": 1,
+      "message": "note to self - I obviously meant i \u003e\u003d 0 here.",
+      "range": {
+        "startLine": 10,
+        "startChar": 65,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "e88a586871b48f450d3f508362e6a70a7766df74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
