@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-// needwb returns whether we need write barrier for store op v.
+// needwb reports whether we need write barrier for store op v.
 // v must be Store/Move/Zero.
 func needwb(v *Value) bool {
 	t, ok := v.Aux.(*types.Type)
@@ -353,7 +353,7 @@ func round(o int64, r int64) int64 {
 	return (o + r - 1) &^ (r - 1)
 }
 
-// IsStackAddr returns whether v is known to be an address of a stack slot
+// IsStackAddr reports whether v is known to be an address of a stack slot
 func IsStackAddr(v *Value) bool {
 	for v.Op == OpOffPtr || v.Op == OpAddPtr || v.Op == OpPtrIndex || v.Op == OpCopy {
 		v = v.Args[0]
@@ -393,7 +393,7 @@ func IsSanitizerSafeAddr(v *Value) bool {
 	return false
 }
 
-// isVolatile returns whether v is a pointer to argument region on stack which
+// isVolatile reports whether v is a pointer to argument region on stack which
 // will be clobbered by a function call.
 func isVolatile(v *Value) bool {
 	for v.Op == OpOffPtr || v.Op == OpAddPtr || v.Op == OpPtrIndex || v.Op == OpCopy {
