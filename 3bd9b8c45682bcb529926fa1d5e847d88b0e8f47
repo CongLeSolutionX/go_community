@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d907131f_b5aac3b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2018-11-23T05:43:57Z",
+      "side": 1,
+      "message": "I believe commit message can also include this line:\n\n  Updates #21779\n\nIt\u0027s usually added to the end of the commit message body.",
+      "revId": "3bd9b8c45682bcb529926fa1d5e847d88b0e8f47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
