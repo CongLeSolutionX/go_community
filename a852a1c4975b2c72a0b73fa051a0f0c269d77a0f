@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "591a6f6c_afd580b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-11-23T07:13:42Z",
+      "side": 1,
+      "message": "Please update the commit message to this:\n\ncmd/link: remove unused FlagDataAddr or flag -D\n\nFlagDataAddr is a vestige from git commit 0cafb9e.\nIt was never used but unfortunately setting it would\ncause a spurious warning:\n  warning: -D\u003cvalue\u003e is ignored because of -R0x1000\nyet if -R was unset e.g. -R\u003d0, the linker would crash\nwith a divide by zero runtime panic.\n\nFixes #28921",
+      "revId": "a852a1c4975b2c72a0b73fa051a0f0c269d77a0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
