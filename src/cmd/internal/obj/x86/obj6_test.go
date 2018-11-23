@@ -33,22 +33,22 @@ MOVQ $1, name+10(SB) -> NOP; MOVQ name@GOT(SB), R15; MOVQ $1, 10(R15)
 `
 
 type ParsedTestData struct {
-	input              string
-	marks              []int
-	marker_to_input    map[int][]string
-	marker_to_expected map[int][]string
-	marker_to_output   map[int][]string
+	input            string
+	marks            []int
+	markerToInput    map[int][]string
+	markerToExpected map[int][]string
+	markerToOutput   map[int][]string
 }
 
-const marker_start = 1234
+const markerStart = 1234
 
 func parseTestData(t *testing.T) *ParsedTestData {
 	r := &ParsedTestData{}
 	scanner := bufio.NewScanner(strings.NewReader(testdata))
-	r.marker_to_input = make(map[int][]string)
-	r.marker_to_expected = make(map[int][]string)
-	marker := marker_start
-	input_insns := []string{}
+	r.markerToInput = make(map[int][]string)
+	r.markerToExpected = make(map[int][]string)
+	marker := markerStart
+	var inputInsns []string
 	for scanner.Scan() {
 		line := scanner.Text()
 		if len(strings.TrimSpace(line)) == 0 {
@@ -59,25 +59,25 @@ func parseTestData(t *testing.T) *ParsedTestData {
 			t.Fatalf("malformed line %v", line)
 		}
 		r.marks = append(r.marks, marker)
-		marker_insn := fmt.Sprintf("MOVQ $%d, AX", marker)
-		input_insns = append(input_insns, marker_insn)
-		for _, input_insn := range strings.Split(parts[0], ";") {
-			input_insns = append(input_insns, input_insn)
-			r.marker_to_input[marker] = append(r.marker_to_input[marker], normalize(input_insn))
+		markerInsn := fmt.Sprintf("MOVQ $%d, AX", marker)
+		inputInsns = append(inputInsns, markerInsn)
+		for _, inputInsn := range strings.Split(parts[0], ";") {
+			inputInsns = append(inputInsns, inputInsn)
+			r.markerToInput[marker] = append(r.markerToInput[marker], normalize(inputInsn))
 		}
-		for _, expected_insn := range strings.Split(parts[1], ";") {
-			r.marker_to_expected[marker] = append(r.marker_to_expected[marker], normalize(expected_insn))
+		for _, expectedInsn := range strings.Split(parts[1], ";") {
+			r.markerToExpected[marker] = append(r.markerToExpected[marker], normalize(expectedInsn))
 		}
 		marker++
 	}
-	r.input = "TEXT ·foo(SB),$0\n" + strings.Join(input_insns, "\n") + "\n"
+	r.input = "TEXT ·foo(SB),$0\n" + strings.Join(inputInsns, "\n") + "\n"
 	return r
 }
 
-var spaces_re *regexp.Regexp = regexp.MustCompile(`\s+`)
+var spacesRe = regexp.MustCompile(`\s+`)
 
 func normalize(s string) string {
-	return spaces_re.ReplaceAllLiteralString(strings.TrimSpace(s), " ")
+	return spacesRe.ReplaceAllLiteralString(strings.TrimSpace(s), " ")
 }
 
 func asmOutput(t *testing.T, s string) []byte {
@@ -111,7 +111,7 @@ func parseOutput(t *testing.T, td *ParsedTestData, asmout []byte) {
 	scanner := bufio.NewScanner(bytes.NewReader(asmout))
 	marker := regexp.MustCompile(`MOVQ \$([0-9]+), AX`)
 	mark := -1
-	td.marker_to_output = make(map[int][]string)
+	td.markerToOutput = make(map[int][]string)
 	for scanner.Scan() {
 		line := scanner.Text()
 		if line[0] != '\t' {
@@ -122,14 +122,14 @@ func parseOutput(t *testing.T, td *ParsedTestData, asmout []byte) {
 			continue
 		}
 		n := normalize(parts[2])
-		mark_matches := marker.FindStringSubmatch(n)
-		if mark_matches != nil {
-			mark, _ = strconv.Atoi(mark_matches[1])
-			if _, ok := td.marker_to_input[mark]; !ok {
+		markMatches := marker.FindStringSubmatch(n)
+		if markMatches != nil {
+			mark, _ = strconv.Atoi(markMatches[1])
+			if _, ok := td.markerToInput[mark]; !ok {
 				t.Fatalf("unexpected marker %d", mark)
 			}
 		} else if mark != -1 {
-			td.marker_to_output[mark] = append(td.marker_to_output[mark], n)
+			td.markerToOutput[mark] = append(td.markerToOutput[mark], n)
 		}
 	}
 }
@@ -148,9 +148,9 @@ func TestDynlink(t *testing.T) {
 	asmout := asmOutput(t, testdata.input)
 	parseOutput(t, testdata, asmout)
 	for _, m := range testdata.marks {
-		i := strings.Join(testdata.marker_to_input[m], "; ")
-		o := strings.Join(testdata.marker_to_output[m], "; ")
-		e := strings.Join(testdata.marker_to_expected[m], "; ")
+		i := strings.Join(testdata.markerToInput[m], "; ")
+		o := strings.Join(testdata.markerToOutput[m], "; ")
+		e := strings.Join(testdata.markerToExpected[m], "; ")
 		if o != e {
 			if o == i {
 				t.Errorf("%s was unchanged; should have become %s", i, e)
