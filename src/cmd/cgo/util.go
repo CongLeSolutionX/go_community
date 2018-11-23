@@ -95,7 +95,7 @@ func fatalf(msg string, args ...interface{}) {
 
 var nerrors int
 
-func error_(pos token.Pos, msg string, args ...interface{}) {
+func printError(pos token.Pos, msg string, args ...interface{}) {
 	nerrors++
 	if pos.IsValid() {
 		fmt.Fprintf(os.Stderr, "%s: ", fset.Position(pos).String())

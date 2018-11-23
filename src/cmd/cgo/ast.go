@@ -82,7 +82,7 @@ func (f *File) ParseGo(name string, src []byte) {
 			}
 			sawC = true
 			if s.Name != nil {
-				error_(s.Path.Pos(), `cannot rename import "C"`)
+				printError(s.Path.Pos(), `cannot rename import "C"`)
 			}
 			cg := s.Doc
 			if cg == nil && len(d.Specs) == 1 {
@@ -96,7 +96,7 @@ func (f *File) ParseGo(name string, src []byte) {
 		}
 	}
 	if !sawC {
-		error_(ast1.Package, `cannot find import "C"`)
+		printError(ast1.Package, `cannot find import "C"`)
 	}
 
 	// In ast2, strip the import "C" line.
@@ -222,15 +222,15 @@ func (f *File) saveRef(n *ast.Expr, context astContext) {
 		context = ctxExpr
 	}
 	if context == ctxEmbedType {
-		error_(sel.Pos(), "cannot embed C type")
+		printError(sel.Pos(), "cannot embed C type")
 	}
 	goname := sel.Sel.Name
 	if goname == "errno" {
-		error_(sel.Pos(), "cannot refer to errno directly; see documentation")
+		printError(sel.Pos(), "cannot refer to errno directly; see documentation")
 		return
 	}
 	if goname == "_CMalloc" {
-		error_(sel.Pos(), "cannot refer to C._CMalloc; use C.malloc")
+		printError(sel.Pos(), "cannot refer to C._CMalloc; use C.malloc")
 		return
 	}
 	if goname == "malloc" {
@@ -281,11 +281,11 @@ func (f *File) saveExport(x interface{}, context astContext) {
 
 		name := strings.TrimSpace(c.Text[9:])
 		if name == "" {
-			error_(c.Pos(), "export missing name")
+			printError(c.Pos(), "export missing name")
 		}
 
 		if name != n.Name.Name {
-			error_(c.Pos(), "export comment has wrong name %q, want %q", name, n.Name.Name)
+			printError(c.Pos(), "export comment has wrong name %q, want %q", name, n.Name.Name)
 		}
 
 		doc := ""
@@ -350,7 +350,7 @@ func (f *File) walk(x interface{}, context astContext, visit func(*File, interfa
 
 	// everything else just recurs
 	default:
-		error_(token.NoPos, "unexpected type %T in walk", x)
+		printError(token.NoPos, "unexpected type %T in walk", x)
 		panic("unexpected type")
 
 	case nil:

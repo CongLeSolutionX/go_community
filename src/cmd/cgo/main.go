@@ -395,7 +395,7 @@ func (p *Package) Record(f *File) {
 	if p.PackageName == "" {
 		p.PackageName = f.Package
 	} else if p.PackageName != f.Package {
-		error_(token.NoPos, "inconsistent package names: %s, %s", p.PackageName, f.Package)
+		printError(token.NoPos, "inconsistent package names: %s, %s", p.PackageName, f.Package)
 	}
 
 	if p.Name == nil {
@@ -413,7 +413,7 @@ func (p *Package) Record(f *File) {
 				// if some files typedef them and some don't.
 				// Issue 26743.
 			} else if !reflect.DeepEqual(p.Name[k], v) {
-				error_(token.NoPos, "inconsistent definitions for C.%s", fixGo(k))
+				printError(token.NoPos, "inconsistent definitions for C.%s", fixGo(k))
 			}
 		}
 	}
