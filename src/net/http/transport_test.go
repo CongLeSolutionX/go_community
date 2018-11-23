@@ -41,6 +41,8 @@ import (
 	"sync/atomic"
 	"testing"
 	"time"
+
+	"golang_org/x/net/http/httpguts"
 )
 
 // TODO: test 5 pipelined requests with responses: 1) OK, 2) OK, Connection: Close
@@ -308,6 +310,61 @@ func TestTransportConnectionCloseOnRequestDisableKeepAlive(t *testing.T) {
 	if res.Header.Get("X-Saw-Close") != "true" {
 		t.Errorf("handler didn't see Connection: close ")
 	}
+}
+
+// Transport should repeset request.wantsClose make
+// sure Connection: Close should send once
+func TestTransportRespectRequestWantsClose(t *testing.T) {
+
+	testCases := []struct {
+		closeCount int
+		keepAlive  bool
+		close      bool
+	}{
+		{0, false, false},
+		{1, false, true},
+		{1, true, false},
+		{1, true, true},
+	}
+
+	for _, tC := range testCases {
+		desc := fmt.Sprintf("KeepAlive=%v,RequestClose=%v", tC.keepAlive, tC.close)
+		t.Run(desc, func(t *testing.T) {
+			defer afterTest(t)
+			ts := httptest.NewServer(hostPortHandler)
+			defer ts.Close()
+			c := ts.Client()
+			c.Transport.(*Transport).DisableKeepAlives = tC.keepAlive
+			req, err := NewRequest("GET", ts.URL, nil)
+			if err != nil {
+				t.Fatal(err)
+			}
+			closeCount := 0
+			trace := &httptrace.ClientTrace{
+				WroteHeaderField: func(key string, field []string) {
+					if key != "Connection" {
+						return
+					}
+					if httpguts.HeaderValuesContainsToken(field, "close") {
+						closeCount += 1
+					}
+				},
+			}
+			req.Close = tC.close
+			req = req.WithContext(httptrace.WithClientTrace(req.Context(), trace))
+
+			res, err := c.Do(req)
+			if err != nil {
+				t.Fatal(err)
+			}
+			res.Body.Close()
+
+			if tC.closeCount != closeCount {
+				t.Errorf("expecting close %d time, got:%d", tC.closeCount, closeCount)
+			}
+		})
+	}
+
 }
 
 func TestTransportIdleCacheKeys(t *testing.T) {
