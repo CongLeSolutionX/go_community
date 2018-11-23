@@ -442,7 +442,7 @@ func (p *Package) guessKinds(f *File) []*Name {
 				// Don't report an error, and skip adding n to the needType array.
 				continue
 			}
-			error_(f.NamePos[n], "could not determine kind of name for C.%s", fixGo(n.Go))
+			printError(f.NamePos[n], "could not determine kind of name for C.%s", fixGo(n.Go))
 		case notStrLiteral | notType:
 			n.Kind = "iconst"
 		case notIntConst | notStrLiteral | notType:
@@ -462,7 +462,7 @@ func (p *Package) guessKinds(f *File) []*Name {
 		// to users debugging preamble mistakes. See issue 8442.
 		preambleErrors := p.gccErrors([]byte(f.Preamble))
 		if len(preambleErrors) > 0 {
-			error_(token.NoPos, "\n%s errors for preamble:\n%s", p.gccBaseCmd()[0], preambleErrors)
+			printError(token.NoPos, "\n%s errors for preamble:\n%s", p.gccBaseCmd()[0], preambleErrors)
 		}
 
 		fatalf("unresolved names")
@@ -1040,7 +1040,7 @@ func (p *Package) hasPointer(f *File, t ast.Expr, top bool) bool {
 		// approach is to assume it has a pointer.
 		return true
 	default:
-		error_(t.Pos(), "could not understand type %s", gofmt(t))
+		printError(t.Pos(), "could not understand type %s", gofmt(t))
 		return true
 	}
 }
@@ -1325,7 +1325,7 @@ func (p *Package) rewriteRef(f *File) {
 	// functions are only used in calls.
 	for _, r := range f.Ref {
 		if r.Name.IsConst() && r.Name.Const == "" {
-			error_(r.Pos(), "unable to find value of constant C.%s", fixGo(r.Name.Go))
+			printError(r.Pos(), "unable to find value of constant C.%s", fixGo(r.Name.Go))
 		}
 
 		if r.Name.Kind == "func" {
@@ -1390,18 +1390,18 @@ func (p *Package) rewriteName(f *File, r *Ref) ast.Expr {
 			if r.Name.Kind == "type" {
 				r.Context = ctxType
 				if r.Name.Type == nil {
-					error_(r.Pos(), "invalid conversion to C.%s: undefined C type '%s'", fixGo(r.Name.Go), r.Name.C)
+					printError(r.Pos(), "invalid conversion to C.%s: undefined C type '%s'", fixGo(r.Name.Go), r.Name.C)
 					break
 				}
 				expr = r.Name.Type.Go
 				break
 			}
-			error_(r.Pos(), "call of non-function C.%s", fixGo(r.Name.Go))
+			printError(r.Pos(), "call of non-function C.%s", fixGo(r.Name.Go))
 			break
 		}
 		if r.Context == ctxCall2 {
 			if r.Name.Go == "_CMalloc" {
-				error_(r.Pos(), "no two-result form for C.malloc")
+				printError(r.Pos(), "no two-result form for C.malloc")
 				break
 			}
 			// Invent new Name for the two-result function.
@@ -1421,7 +1421,7 @@ func (p *Package) rewriteName(f *File, r *Ref) ast.Expr {
 		switch r.Name.Kind {
 		case "func":
 			if builtinDefs[r.Name.C] != "" {
-				error_(r.Pos(), "use of builtin '%s' not in function call", fixGo(r.Name.C))
+				printError(r.Pos(), "use of builtin '%s' not in function call", fixGo(r.Name.C))
 			}
 
 			// Function is being used in an expression, to e.g. pass around a C function pointer.
@@ -1449,7 +1449,7 @@ func (p *Package) rewriteName(f *File, r *Ref) ast.Expr {
 		case "type":
 			// Okay - might be new(T)
 			if r.Name.Type == nil {
-				error_(r.Pos(), "expression C.%s: undefined C type '%s'", fixGo(r.Name.Go), r.Name.C)
+				printError(r.Pos(), "expression C.%s: undefined C type '%s'", fixGo(r.Name.Go), r.Name.C)
 				break
 			}
 			expr = r.Name.Type.Go
@@ -1462,21 +1462,21 @@ func (p *Package) rewriteName(f *File, r *Ref) ast.Expr {
 		if r.Name.Kind == "var" {
 			expr = &ast.StarExpr{Star: (*r.Expr).Pos(), X: expr}
 		} else {
-			error_(r.Pos(), "only C variables allowed in selector expression %s", fixGo(r.Name.Go))
+			printError(r.Pos(), "only C variables allowed in selector expression %s", fixGo(r.Name.Go))
 		}
 	case ctxType:
 		if r.Name.Kind != "type" {
-			error_(r.Pos(), "expression C.%s used as type", fixGo(r.Name.Go))
+			printError(r.Pos(), "expression C.%s used as type", fixGo(r.Name.Go))
 		} else if r.Name.Type == nil {
 			// Use of C.enum_x, C.struct_x or C.union_x without C definition.
 			// GCC won't raise an error when using pointers to such unknown types.
-			error_(r.Pos(), "type C.%s: undefined C type '%s'", fixGo(r.Name.Go), r.Name.C)
+			printError(r.Pos(), "type C.%s: undefined C type '%s'", fixGo(r.Name.Go), r.Name.C)
 		} else {
 			expr = r.Name.Type.Go
 		}
 	default:
 		if r.Name.Kind == "func" {
-			error_(r.Pos(), "must call C.%s", fixGo(r.Name.Go))
+			printError(r.Pos(), "must call C.%s", fixGo(r.Name.Go))
 		}
 	}
 	return expr
