@@ -16,6 +16,24 @@
       "revId": "a852a1c4975b2c72a0b73fa051a0f0c269d77a0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5c8f2ca_3dd86cb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 30082
+      },
+      "writtenOn": "2018-11-23T10:42:41Z",
+      "side": 1,
+      "message": "Thank you for the review, Emmanuel!\n\nI have updated the message like you\u0027ve suggested.",
+      "parentUuid": "591a6f6c_afd580b0",
+      "revId": "a852a1c4975b2c72a0b73fa051a0f0c269d77a0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
