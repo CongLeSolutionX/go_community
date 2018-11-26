@@ -153,6 +153,59 @@ func checkTreapNode(t *treapNode) {
 	}
 }
 
+type treapIter struct {
+	t *treapNode
+	inc bool
+}
+
+func (i treapIter) span() *mspan {
+	return i.t.spanKey
+}
+
+func (i treapIter) next() treapIter {
+	n := i
+	if i.inc {
+		n.t = i.t.succ()
+	} else {
+		n.t = i.t.pred()
+	}
+	return n
+}
+
+func (root *mTreap) begin() treapIter {
+	i := treapIter{inc: true}
+	t := root.treap
+	if t == nil {
+		return i
+	}
+	for t.left != nil {
+		t = t.left
+	}
+	i.t = t
+	return i
+}
+
+func (root *mTreap) end() treapIter {
+	return treapIter{inc: true}
+}
+
+func (root *mTreap) rbegin() treapIter {
+	i := treapIter{inc: false}
+	t := root.treap
+	if t == nil {
+		return i
+	}
+	for t.right != nil {
+		t = t.right
+	}
+	i.t = t
+	return i
+}
+
+func (root *mTreap) rend() treapIter {
+	return treapIter{inc: false}
+}
+
 // insert adds span to the large span treap.
 func (root *mTreap) insert(span *mspan) {
 	npages := span.npages
@@ -278,6 +331,16 @@ func (root *mTreap) removeSpan(span *mspan) {
 		}
 	}
 	root.removeNode(t)
+}
+
+// erase removes the element referred to by the treap iterator
+// and returns its successor. This operation takes ownership of the
+// iterator and invalidates it, so this iterator should no longer
+// be used.
+func (root *mTreap) erase(i treapIter) treapIter {
+	n := i.next()
+	root.removeNode(i.t)
+	return n
 }
 
 // rotateLeft rotates the tree rooted at node x.
