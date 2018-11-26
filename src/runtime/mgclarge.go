@@ -153,6 +153,78 @@ func checkTreapNode(t *treapNode) {
 	}
 }
 
+// treapIter is a unidirectional iterator type which may be used to iterate over a
+// an mTreap in-order forwards or backwards. Its purpose is to hide details about
+// the treap from users when trying to iterate over it.
+//
+// To create iterators over the treap, call begin or rbegin on an mTreap.
+type treapIter struct {
+	t *treapNode
+	inc bool
+}
+
+// span returns the span at the current position in the treap.
+func (i treapIter) span() *mspan {
+	return i.t.spanKey
+}
+
+// next moves the iterator forward by one.
+func (i treapIter) next() treapIter {
+	n := i
+	if i.inc {
+		n.t = i.t.succ()
+	} else {
+		n.t = i.t.pred()
+	}
+	return n
+}
+
+// begin returns an iterator which may be used to iterate over the treap
+// in increasing order of span size ("forwards").
+func (root *mTreap) begin() treapIter {
+	i := treapIter{inc: true}
+	t := root.treap
+	if t == nil {
+		return i
+	}
+	for t.left != nil {
+		t = t.left
+	}
+	i.t = t
+	return i
+}
+
+// end returns an iterator which represents the element in the treap "just past"
+// the largest node in the treap. Calling next on this iterator is a no-op and
+// span() will return nil. This iterator may be used to check if one has reached
+// the end of the treap for an iterator created with begin.
+func (root *mTreap) end() treapIter {
+	return treapIter{inc: true}
+}
+
+// begin returns an iterator which may be used to iterate over the treap
+// in decreasing order of span size ("reverse").
+func (root *mTreap) rbegin() treapIter {
+	i := treapIter{inc: false}
+	t := root.treap
+	if t == nil {
+		return i
+	}
+	for t.right != nil {
+		t = t.right
+	}
+	i.t = t
+	return i
+}
+
+// rend returns an iterator which represents the element in the treap "just before"
+// the smaller node in the treap. Calling next on this iterator is a no-op and
+// span() will return nil. This iterator may be used to check if one has reached
+// the end of the treap for an iterator created with rbegin.
+func (root *mTreap) rend() treapIter {
+	return treapIter{inc: false}
+}
+
 // insert adds span to the large span treap.
 func (root *mTreap) insert(span *mspan) {
 	npages := span.npages
@@ -278,6 +350,16 @@ func (root *mTreap) removeSpan(span *mspan) {
 		}
 	}
 	root.removeNode(t)
+}
+
+// erase removes the element referred to by the current position of the
+// iterator and returns its successor. This operation consumes the given
+// iterator, so it should no longer be used and iteration should continue
+// from the returned iterator.
+func (root *mTreap) erase(i treapIter) treapIter {
+	n := i.next()
+	root.removeNode(i.t)
+	return n
 }
 
 // rotateLeft rotates the tree rooted at node x.
