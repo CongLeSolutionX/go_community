@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ef18e673_489a43cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-11-26T18:11:06Z",
+      "side": 1,
+      "message": "CMOVs in cmd/go go from 1343 to 1206.  ~10% reduction.",
+      "parentUuid": "683c4106_8cb3c896",
+      "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce2d7f6e_35810037",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
