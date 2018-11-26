@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55dea3f6_acf3314e",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-11-26T19:51:30Z",
+      "side": 1,
+      "message": "Probably not worth worrying about, but if we moved this test+yyerrorl call to typecheckfunc, then I think we can just check if n.Func.Nname.Sym.Linkname has been set.",
+      "revId": "591da2ce38e9792bbd57657ec163f960de8ff5b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
