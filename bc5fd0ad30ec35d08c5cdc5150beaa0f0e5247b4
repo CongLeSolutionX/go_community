@@ -1,0 +1,320 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d8d4faa_bc24b4f2",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "Let\u0027s move the definition of SCRATCH before each of the function definitions (like CPOOL is). It might be good to tidy up some of the the register definitions (we might be able to do some/all the GPRs up front for example). But lets keep this change consistent first.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25669383_67bd6598",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "and p256SqrInternalVMSL? (there isn\u0027t an equivalent comment for p256SqrInternalVMSL)",
+      "range": {
+        "startLine": 1280,
+        "startChar": 3,
+        "endLine": 1280,
+        "endChar": 22
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab52138b_bf8eda0a",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "Let\u0027s add SCRATCH here to make it clear that it is part of the ABI.",
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "589520fd_43f3866c",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "VLM 64(CPOOL), V16, V19? It would also be nice to make the CPOOL registers contiguous and uniform across the functions, but that doesn\u0027t need to be done now.",
+      "range": {
+        "startLine": 1348,
+        "startChar": 0,
+        "endLine": 1351,
+        "endChar": 19
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dae79a8_6e8a22c0",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "Up top we say that V30 and V31 are unmodified but here we modify them. Maybe just say they are clobbered instead? Or use V16-V19 again?",
+      "range": {
+        "startLine": 1468,
+        "startChar": 32,
+        "endLine": 1470,
+        "endChar": 18
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8bc2a01_1f595b47",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1483,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "We could restore these a bit earlier which might make things faster if they are used immediately following the function return - probably not worth it though.",
+      "range": {
+        "startLine": 1483,
+        "startChar": 1,
+        "endLine": 1483,
+        "endChar": 24
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d30758e1_15a07f8e",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1513,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "VLM 64(CPOOL), V16, V18?",
+      "range": {
+        "startLine": 1510,
+        "startChar": 17,
+        "endLine": 1513,
+        "endChar": 18
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b90a252_09714536",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "Same comment as above (V30-V31)",
+      "range": {
+        "startLine": 1626,
+        "startChar": 32,
+        "endLine": 1628,
+        "endChar": 18
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "612bdd89_f03a3626",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "All caps to match other #defines?",
+      "range": {
+        "startLine": 1826,
+        "startChar": 0,
+        "endLine": 1828,
+        "endChar": 1
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a972f93b_4d12a87c",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1843,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "Is this commented out code needed? It should probably be deleted.",
+      "range": {
+        "startLine": 1843,
+        "startChar": 1,
+        "endLine": 1843,
+        "endChar": 2
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f9e34fe_ae86496b",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1846,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "VLM 0(x_ptr), X0, X1?\n\n(if we do this add a comment that X0 - X1 must be contiguous, the same goes for any other VLM/VSTM substitutions you decide to make)",
+      "range": {
+        "startLine": 1844,
+        "startChar": 0,
+        "endLine": 1846,
+        "endChar": 21
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16f88252_bf4dd72a",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1850,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "VLM (CPOOL), P0, P1?",
+      "range": {
+        "startLine": 1848,
+        "startChar": 32,
+        "endLine": 1850,
+        "endChar": 18
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83709556_b1aef93a",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1855,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "VSTM T0, T1, (res_ptr)?",
+      "range": {
+        "startLine": 1853,
+        "startChar": 0,
+        "endLine": 1855,
+        "endChar": 24
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a3762a1_a8c7d355",
+        "filename": "src/crypto/elliptic/p256_s390x.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-11-26T12:19:22Z",
+      "side": 1,
+      "message": "nice",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 19
+      },
+      "revId": "bc5fd0ad30ec35d08c5cdc5150beaa0f0e5247b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
