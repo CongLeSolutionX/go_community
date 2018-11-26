@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "847aeb2f_4941c107",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-11-26T18:59:55Z",
+      "side": 1,
+      "message": "This makes the meaning of previousBlock a little subtle for my taste. (I\u0027m not used to params changing.) Perhaps a separate bool, prevNotPredecessor or something?",
+      "revId": "783aa2526ff59e7e1e9317d0df0ea930054e930a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a11c56d7_c490f9dc",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-11-26T18:59:55Z",
+      "side": 1,
+      "message": "incomplete",
+      "revId": "783aa2526ff59e7e1e9317d0df0ea930054e930a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
