@@ -383,7 +383,7 @@ func addelfdynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 
 func elfreloc1(ctxt *ld.Link, r *sym.Reloc, sectoff int64) bool {
 	// Beware that bit0~bit15 start from the third byte of a instruction in Big-Endian machines.
-	if r.Type == objabi.R_ADDR || r.Type == objabi.R_POWER_TLS ||  r.Type == objabi.R_CALLPOWER {
+	if r.Type == objabi.R_ADDR || r.Type == objabi.R_POWER_TLS || r.Type == objabi.R_CALLPOWER {
 	} else {
 		if ctxt.Arch.ByteOrder == binary.BigEndian {
 			sectoff += 2
@@ -489,13 +489,28 @@ func symtoc(ctxt *ld.Link, s *sym.Symbol) int64 {
 	return toc.Value
 }
 
+// archreloctoc relocates a TOC symbol.
+// If the symbol pointed by this TOC symbol is in .data or .bss, the default ld
+// instruction can be changed to an addi instruction and the symbol address can be
+// used directly.
 func archreloctoc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 	var o1, o2 uint32
 
 	o1 = uint32(val >> 32)
 	o2 = uint32(val)
 
-	t := ld.Symaddr(r.Sym) + r.Add - ctxt.Syms.ROLookup("TOC", 0).Value // sym addr
+	var t int64
+	changeInst := false
+	tarsym := ctxt.Syms.ROLookup(r.Sym.Name[4:], 0)
+	if tarsym != nil && tarsym.Attr.Reachable() && (tarsym.Sect.Seg == &ld.Segdata) {
+		t = ld.Symaddr(tarsym) + r.Add - ctxt.Syms.ROLookup("TOC", 0).Value
+		// change ld to addi in the second instruction
+		o2 = (o2 & 0x03FF0000) | 0xE<<26
+		changeInst = true
+	} else {
+		t = ld.Symaddr(r.Sym) + r.Add - ctxt.Syms.ROLookup("TOC", 0).Value
+	}
+
 	if t != int64(int32(t)) {
 		ld.Errorf(s, "TOC relocation for %s is too big to relocate %s: 0x%x", s.Name, r.Sym, t)
 	}
@@ -508,10 +523,14 @@ func archreloctoc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 
 	switch r.Type {
 	case objabi.R_ADDRPOWER_TOCREL_DS:
-		if t&3 != 0 {
-			ld.Errorf(s, "bad DS reloc for %s: %d", s.Name, ld.Symaddr(r.Sym))
+		if changeInst {
+			o2 |= uint32(t) & 0xFFFF
+		} else {
+			if t&3 != 0 {
+				ld.Errorf(s, "bad DS reloc for %s: %d", s.Name, ld.Symaddr(r.Sym))
+			}
+			o2 |= uint32(t) & 0xFFFC
 		}
-		o2 |= uint32(t) & 0xFFFC
 	default:
 		return -1
 	}
