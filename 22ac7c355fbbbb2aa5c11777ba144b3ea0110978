@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "3a4fe0a3_396592c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-11-26T17:57:50Z",
+      "side": 1,
+      "message": "I have not. If you have that easily available, please do.",
+      "parentUuid": "ce2d7f6e_35810037",
+      "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc8024d3_63088893",
         "filename": "src/cmd/compile/internal/ssa/branchelim.go",
         "patchSetId": 2
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "986bb945_2021ce94",
+        "filename": "src/cmd/compile/internal/ssa/branchelim.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-11-26T17:57:50Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure what you are asking here.\nAre you worried about using CMOV to generate a function pointer? I don\u0027t think there\u0027s any way that can happen. We always load a function pointer from a funcval or itab.\n\nOr are you worried about loads within a callee? Those we\u0027re not detecting here, so that\u0027s a case this code isn\u0027t handling. (We\u0027d still use CMOV to generate an address that is passed to a callee.  Oh well.)",
+      "parentUuid": "bc8024d3_63088893",
+      "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47ac792b_8a599e4d",
         "filename": "src/cmd/compile/internal/ssa/branchelim.go",
         "patchSetId": 2
@@ -81,6 +117,24 @@
       "writtenOn": "2018-11-14T02:32:08Z",
       "side": 1,
       "message": "I assume this is for speed, but IIRC, Values aren\u0027t scheduled at this point. Is it worth scheduling them? Or just iterating forward?",
+      "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3980f913_31200ea7",
+        "filename": "src/cmd/compile/internal/ssa/branchelim.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-11-26T17:57:50Z",
+      "side": 1,
+      "message": "This isn\u0027t needed for correctness, but it should help the loop converge faster. Values tend to be in dependency order, so iterating backwards should help.\nNot that I\u0027ve measured it.",
+      "parentUuid": "47ac792b_8a599e4d",
       "revId": "22ac7c355fbbbb2aa5c11777ba144b3ea0110978",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
