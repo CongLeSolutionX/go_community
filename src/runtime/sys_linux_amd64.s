@@ -33,6 +33,7 @@
 #define SYS_exit		60
 #define SYS_kill		62
 #define SYS_fcntl		72
+#define SYS_getppid		110
 #define SYS_sigaltstack 	131
 #define SYS_arch_prctl		158
 #define SYS_gettid		186
@@ -724,4 +725,13 @@ TEXT runtime·sbrk0(SB),NOSPLIT,$0-8
 	MOVL	$SYS_brk, AX
 	SYSCALL
 	MOVQ	AX, ret+0(FP)
+	RET
+
+TEXT runtime·perfSnapshot(SB),NOSPLIT,$0
+	MOVL	$SYS_getppid, AX
+	SYSCALL
+	MOVL	AX, DI	// arg 1 pid
+	MOVL	$0xc, SI	// arg 2 (SIGUSR2)
+	MOVL	$SYS_kill, AX
+	SYSCALL
 	RET

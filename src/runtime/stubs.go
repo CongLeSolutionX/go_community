@@ -316,3 +316,9 @@ func bool2int(x bool) int {
 // signal handler, which will attempt to tear down the runtime
 // immediately.
 func abort()
+
+// perfSnapshot captures a perf snapshot (assuming the parent process
+// is a "perf record"). The binary should be run under something like
+// "perf record -e intel_pt// -S". The trace can then be decoded with
+// something like "perf script --itrace=i0ns -F tid,sym,ip,flags".
+func perfSnapshot()
