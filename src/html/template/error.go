@@ -215,6 +215,8 @@ const (
 
 func (e *Error) Error() string {
 	switch {
+	case e == nil:
+		return "<nil>"
 	case e.Node != nil:
 		loc, _ := (*parse.Tree)(nil).ErrorContext(e.Node)
 		return fmt.Sprintf("html/template:%s: %s", loc, e.Description)
