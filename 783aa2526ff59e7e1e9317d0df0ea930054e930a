@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "72b074af_af92fae2",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-11-28T14:35:03Z",
+      "side": 1,
+      "message": "Would it be acceptable to use a local predecessorIfNotPrev, nil under exactly the same conditions?\nI am rather fond of nil\u0027ing out the variable I don\u0027t want used under any circumstances, but I understand the desire to not change parameters.",
+      "parentUuid": "847aeb2f_4941c107",
+      "revId": "783aa2526ff59e7e1e9317d0df0ea930054e930a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a11c56d7_c490f9dc",
         "filename": "src/cmd/compile/internal/ssa/debug.go",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-26T18:59:55Z",
       "side": 1,
       "message": "incomplete",
+      "revId": "783aa2526ff59e7e1e9317d0df0ea930054e930a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50b9931d_b532fb48",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-11-28T14:35:03Z",
+      "side": 1,
+      "message": "Will fix, need to figure out what I meant to say.",
+      "parentUuid": "a11c56d7_c490f9dc",
       "revId": "783aa2526ff59e7e1e9317d0df0ea930054e930a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
