@@ -164,6 +164,30 @@
       "revId": "f3369ab5c44a82f7414a1055e7de0d6770feed5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db959007_7d9dfcb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-11-28T15:18:12Z",
+      "side": 1,
+      "message": "Well I also thought about this one, so I\u0027m okay with it.",
+      "parentUuid": "f8cf7a50_eac5d884",
+      "range": {
+        "startLine": 14,
+        "startChar": 53,
+        "endLine": 14,
+        "endChar": 55
+      },
+      "revId": "f3369ab5c44a82f7414a1055e7de0d6770feed5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
