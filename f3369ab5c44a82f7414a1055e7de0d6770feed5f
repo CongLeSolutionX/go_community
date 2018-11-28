@@ -140,6 +140,30 @@
       "revId": "f3369ab5c44a82f7414a1055e7de0d6770feed5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8cf7a50_eac5d884",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-11-28T15:12:30Z",
+      "side": 1,
+      "message": "With my limited English skills, fairly. How about\n\n\"...and the load can be replaced by an addi\"\n\n?",
+      "parentUuid": "3ed1a2da_2844f4ce",
+      "range": {
+        "startLine": 14,
+        "startChar": 53,
+        "endLine": 14,
+        "endChar": 55
+      },
+      "revId": "f3369ab5c44a82f7414a1055e7de0d6770feed5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
