@@ -190,7 +190,7 @@ func gcinit() {
 	memstats.heap_marked = uint64(float64(heapminimum) / (1 + memstats.triggerRatio))
 
 	// Disable heap limit initially.
-	mheap_.maxHeap = ^uintptr(0)
+	gcPressure.maxHeap = ^uintptr(0)
 
 	// Set gcpercent from the environment. This will also compute
 	// and set the GC trigger and goal.
@@ -258,12 +258,32 @@ func setGCPercent(in int32) (out int32) {
 	return out
 }
 
+var gcPressure struct{
+	lock mutex
+
+	// change is called after every gcSetTriggerRatio.
+	// It's provided by package debug. It may be nil.
+	change func(gogc int, maxHeap uintptr, egogc int)
+
+	// maxHeap is the GC heap limit.
+	//
+	// This is set by the user with debug.SetMaxHeap. GC will
+	// attempt to keep heap_live under maxHeap, even if it has to
+	// violate GOGC (up to a point).
+	maxHeap uintptr
+}
+
 //go:linkname gcSetMaxHeap runtime/debug.gcSetMaxHeap
 func gcSetMaxHeap(bytes uintptr, cb func(gogc int, maxHeap uintptr, egogc int)) uintptr {
+	// Don't lock mheap because gcPressure.change has a write barrier on it
+	// which could lead to deadlock.
+	lock(&gcPressure.lock)
+	gcPressure.change = cb
+	prev := gcPressure.maxHeap
+	gcPressure.maxHeap = bytes
+	unlock(&gcPressure.lock)
+
 	lock(&mheap_.lock)
-	prev := mheap_.maxHeap
-	mheap_.maxHeap = bytes
-	mheap_.gcPressureChange = cb
 	// Updating pacing.
 	gcSetTriggerRatio(memstats.triggerRatio)
 	unlock(&mheap_.lock)
@@ -809,9 +829,11 @@ func gcSetTriggerRatio(triggerRatio float64) {
 	if gcpercent >= 0 {
 		goal = memstats.heap_marked + memstats.heap_marked*uint64(gcpercent)/100
 	}
-	if mheap_.maxHeap != ^uintptr(0) && goal > uint64(mheap_.maxHeap) { // Careful of 32-bit uintptr!
+	lock(&gcPressure.lock)
+	if gcPressure.maxHeap != ^uintptr(0) && goal > uint64(gcPressure.maxHeap) { // Careful of 32-bit uintptr!
 		// Use maxHeap-based goal.
-		goal = uint64(mheap_.maxHeap)
+		goal = uint64(gcPressure.maxHeap)
+		unlock(&gcPressure.lock)
 
 		// Avoid thrashing by not letting the
 		// effective GOGC drop below 10.
@@ -831,6 +853,8 @@ func gcSetTriggerRatio(triggerRatio float64) {
 		if goal < lowerBound {
 			goal = lowerBound
 		}
+	} else {
+		unlock(&gcPressure.lock)
 	}
 
 	// Set the trigger ratio, capped to reasonable bounds.
@@ -931,30 +955,35 @@ func gcSetTriggerRatio(triggerRatio float64) {
 	}
 
 	// Notify the debug package of a GC pressure change.
-	if mheap_.gcPressureChange != nil {
+	lock(&gcPressure.lock)
+	if gcPressure.change != nil {
 		if raceenabled {
-			// This call is protected by mheap_.lock, but
+			// This call is protected by gcPressure.lock, but
 			// the race detector can't see that.
-			raceacquire(unsafe.Pointer(&mheap_.gcPressureChange))
+			raceacquire(unsafe.Pointer(&gcPressure.change))
 		}
-		mheap_.gcPressureChange(gcReadPolicyLocked())
+		gcPressure.change(gcReadPolicyLocked())
 		if raceenabled {
-			racerelease(unsafe.Pointer(&mheap_.gcPressureChange))
+			racerelease(unsafe.Pointer(&gcPressure.change))
 		}
 	}
+	unlock(&gcPressure.lock)
 }
 
 //go:linkname gcReadPolicy runtime/debug.gcReadPolicy
 func gcReadPolicy() (gogc int, maxHeap uintptr, egogc int) {
 	lock(&mheap_.lock)
+	lock(&gcPressure.lock)
 	gogc, maxHeap, egogc = gcReadPolicyLocked()
+	unlock(&gcPressure.lock)
 	unlock(&mheap_.lock)
 	return
 }
 
+// Both mheap_.lock and gcPressure.lock must be locked.
 func gcReadPolicyLocked() (gogc int, maxHeap uintptr, egogc int) {
 	goal := memstats.next_gc
-	if goal < uint64(mheap_.maxHeap) && gcpercent >= 0 {
+	if goal < uint64(gcPressure.maxHeap) && gcpercent >= 0 {
 		// We're not up against the max heap size, so just
 		// return GOGC.
 		egogc = int(gcpercent)
@@ -968,7 +997,7 @@ func gcReadPolicyLocked() (gogc int, maxHeap uintptr, egogc int) {
 			egogc = int(gcpercent)
 		}
 	}
-	return int(gcpercent), mheap_.maxHeap, egogc
+	return int(gcpercent), gcPressure.maxHeap, egogc
 }
 
 // gcEffectiveGrowthRatio returns the current effective heap growth
@@ -1301,7 +1330,7 @@ func (t gcTrigger) test() bool {
 		// own write.
 		return memstats.heap_live >= memstats.gc_trigger
 	case gcTriggerTime:
-		if gcpercent < 0 && mheap_.maxHeap == ^uintptr(0) {
+		if gcpercent < 0 && gcPressure.maxHeap == ^uintptr(0) {
 			return false
 		}
 		lastgc := int64(atomic.Load64(&memstats.last_gc_nanotime))
