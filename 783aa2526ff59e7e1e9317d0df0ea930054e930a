@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b6b7590d_28d6da16",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-11-28T14:54:11Z",
+      "side": 1,
+      "message": "Never mind, going with the boolean, it is clearer.",
+      "parentUuid": "72b074af_af92fae2",
+      "revId": "783aa2526ff59e7e1e9317d0df0ea930054e930a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a11c56d7_c490f9dc",
         "filename": "src/cmd/compile/internal/ssa/debug.go",
         "patchSetId": 12
