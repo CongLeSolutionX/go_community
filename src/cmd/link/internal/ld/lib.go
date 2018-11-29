@@ -2020,20 +2020,12 @@ func stkcheck(ctxt *Link, up *chain, depth int) int {
 		// Process calls in this span.
 		for ; ri < endr && uint32(s.R[ri].Off) < pcsp.nextpc; ri++ {
 			r = &s.R[ri]
-			switch r.Type {
-			// Direct call.
-			case objabi.R_CALL, objabi.R_CALLARM, objabi.R_CALLARM64, objabi.R_CALLPOWER, objabi.R_CALLMIPS:
-				ch.limit = int(int32(limit) - pcsp.value - int32(callsize(ctxt)))
-				ch.sym = r.Sym
-				if stkcheck(ctxt, &ch, depth+1) < 0 {
-					return -1
-				}
-
+			switch t := r.Type; {
 			// Indirect call. Assume it is a call to a splitting function,
 			// so we have to make sure it can call morestack.
 			// Arrange the data structures to report both calls, so that
 			// if there is an error, stkprint shows all the steps involved.
-			case objabi.R_CALLIND:
+			case t == objabi.R_CALLIND:
 				ch.limit = int(int32(limit) - pcsp.value - int32(callsize(ctxt)))
 
 				ch.sym = nil
@@ -2041,6 +2033,14 @@ func stkcheck(ctxt *Link, up *chain, depth int) int {
 				ch1.up = &ch
 				ch1.sym = morestack
 				if stkcheck(ctxt, &ch1, depth+2) < 0 {
+					return -1
+				}
+
+			// Direct call.
+			case t.IsDirectJump():
+				ch.limit = int(int32(limit) - pcsp.value - int32(callsize(ctxt)))
+				ch.sym = r.Sym
+				if stkcheck(ctxt, &ch, depth+1) < 0 {
 					return -1
 				}
 			}
@@ -2368,7 +2368,7 @@ func (ctxt *Link) callgraph() {
 			if r.Sym == nil {
 				continue
 			}
-			if (r.Type == objabi.R_CALL || r.Type == objabi.R_CALLARM || r.Type == objabi.R_CALLPOWER || r.Type == objabi.R_CALLMIPS) && r.Sym.Type == sym.STEXT {
+			if r.Type.IsDirectJump() && r.Sym.Type == sym.STEXT {
 				ctxt.Logf("%s calls %s\n", s.Name, r.Sym.Name)
 			}
 		}
