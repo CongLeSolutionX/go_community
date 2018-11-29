@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f53e8e25_6f0acc88",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2769,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-11-29T18:41:17Z",
+      "side": 1,
+      "message": "A comment on this expression would be helpful.\n\n(Is this a round-up assuming that talign is a power of two?)",
+      "revId": "22831effc29860192e0824e0e2c0b9372e1f3060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
