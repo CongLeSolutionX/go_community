@@ -16,6 +16,40 @@
       "revId": "e205a6d7be2a47d7e495e727a198ad1c2165360d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff28e86_ae7fdf89",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 7285
+      },
+      "writtenOn": "2018-11-30T01:25:53Z",
+      "side": 1,
+      "message": "close |verifyCh| here and on L148? Otherwise an error leaves the goroutines hanging.",
+      "revId": "e205a6d7be2a47d7e495e727a198ad1c2165360d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0df5df1e_217876ee",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 7285
+      },
+      "writtenOn": "2018-11-30T01:25:53Z",
+      "side": 1,
+      "message": "(Presumably it\u0027s fine if some of |paths| don\u0027t exist for this command because L76 doesn\u0027t check that the keychains exist before adding them.)",
+      "revId": "e205a6d7be2a47d7e495e727a198ad1c2165360d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
