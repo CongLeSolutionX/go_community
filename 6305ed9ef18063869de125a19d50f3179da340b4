@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "496ef322_c8b72b66",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3745,
+      "author": {
+        "id": 15920
+      },
+      "writtenOn": "2018-11-30T10:49:58Z",
+      "side": 1,
+      "message": "I suspect this check is redundant since gentraceback must succeed when called here. However, it\u0027s probably safer to include the check to avoid this assumption from being broken in future.",
+      "range": {
+        "startLine": 3745,
+        "startChar": 2,
+        "endLine": 3745,
+        "endChar": 11
+      },
+      "revId": "6305ed9ef18063869de125a19d50f3179da340b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
