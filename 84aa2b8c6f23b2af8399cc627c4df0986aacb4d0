@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "744272d6_8ca082c7",
+        "filename": "misc/cgo/test/issue29034.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 15920
+      },
+      "writtenOn": "2018-12-01T01:24:25Z",
+      "side": 1,
+      "message": "I believe it\u0027s available on *bsd, darwin, linux but it\u0027s not a standard - I agree it\u0027s best not to use it.\n\nI\u0027m now reusing testCgoPprof, so this is no longer a concern.",
+      "parentUuid": "93557555_c749e39e",
+      "revId": "84aa2b8c6f23b2af8399cc627c4df0986aacb4d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce525224_ec1b336c",
         "filename": "misc/cgo/test/issue29034.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "77ca7731_8be3dc27",
+        "filename": "misc/cgo/test/issue29034.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 15920
+      },
+      "writtenOn": "2018-12-01T01:24:25Z",
+      "side": 1,
+      "message": "I used Scanner to simplify keeping parse state across functions, but I\u0027ve removed it from the updated version.",
+      "parentUuid": "ce525224_ec1b336c",
+      "revId": "84aa2b8c6f23b2af8399cc627c4df0986aacb4d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dda0ce75_8487ee3b",
         "filename": "misc/cgo/test/issue29034.go",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "84aa2b8c6f23b2af8399cc627c4df0986aacb4d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "003b7bb3_12284e1c",
+        "filename": "misc/cgo/test/issue29034.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 15920
+      },
+      "writtenOn": "2018-12-01T01:24:25Z",
+      "side": 1,
+      "message": "Moved test to testCgoPprof - fixed.",
+      "parentUuid": "dda0ce75_8487ee3b",
+      "revId": "84aa2b8c6f23b2af8399cc627c4df0986aacb4d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
