@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c18c6fea_d8bde7da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-12-03T21:51:16Z",
+      "side": 1,
+      "message": "(typo)\n\ns/non-existant/nonexistent/\n\n(with an \u0027e\u0027)",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "8804548e012fb3299ee470fcc0e3f28e3c3c2e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a22527ae_762124ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-12-03T21:51:16Z",
+      "side": 1,
+      "message": "Abbreviate as \"CL 129061\".\n\n(Gerrit auto-links XRefs.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "8804548e012fb3299ee470fcc0e3f28e3c3c2e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d27d1d63_f1e73ae4",
+        "filename": "src/cmd/go/testdata/script/mod_list_dir.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-12-03T21:51:16Z",
+      "side": 1,
+      "message": "Perhaps \u0027{{with .Error}}.{{end}}\u0027, and update the following stdout command to ensure that it is something reasonable?",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "8804548e012fb3299ee470fcc0e3f28e3c3c2e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
