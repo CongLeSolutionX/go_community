@@ -22,6 +22,30 @@
       "revId": "1353d53ee839a5fd565b70404b834116125632d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e458ea0_a8d43416",
+        "filename": "src/encoding/asn1/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 30182
+      },
+      "writtenOn": "2018-12-03T23:51:15Z",
+      "side": 1,
+      "message": "Hi Brad,\nI\u0027ve updated the commit such that the comment indicates that the format is required to be appropriate for time.Parse().",
+      "parentUuid": "0af9283d_d48ecda3",
+      "range": {
+        "startLine": 85,
+        "startChar": 24,
+        "endLine": 85,
+        "endChar": 66
+      },
+      "revId": "1353d53ee839a5fd565b70404b834116125632d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
