@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68d66b86_85fee256",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-03T19:12:55Z",
+      "side": 1,
+      "message": "I\u0027d make this a separate function isPredeclared that does all the logic.",
+      "range": {
+        "startLine": 414,
+        "startChar": 7,
+        "endLine": 414,
+        "endChar": 23
+      },
+      "revId": "b4d313f455c3e36476ff69b11aa36266d53df10c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b591cb1c_cb35fb36",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-03T19:12:55Z",
+      "side": 1,
+      "message": "why does it matter if t is a struct? (apologies if I asked this in the past)",
+      "range": {
+        "startLine": 418,
+        "startChar": 39,
+        "endLine": 418,
+        "endChar": 47
+      },
+      "revId": "b4d313f455c3e36476ff69b11aa36266d53df10c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44a29253_2f814258",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-03T19:12:55Z",
+      "side": 1,
+      "message": "// add all declarations but for functions which are processed in separate pass",
+      "range": {
+        "startLine": 509,
+        "startChar": 12,
+        "endLine": 509,
+        "endChar": 24
+      },
+      "revId": "b4d313f455c3e36476ff69b11aa36266d53df10c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be70fb9c_7613c840",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-03T19:12:55Z",
+      "side": 1,
+      "message": "use a type assertion\n\nif d, ok :\u003d decl.(*ast.FuncDecl); ok {\n   r.readFunc(d)\n}",
+      "range": {
+        "startLine": 603,
+        "startChar": 13,
+        "endLine": 603,
+        "endChar": 14
+      },
+      "revId": "b4d313f455c3e36476ff69b11aa36266d53df10c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
