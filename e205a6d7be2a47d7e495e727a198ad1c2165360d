@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a9d8c71a_3888588a",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-12-03T21:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab8d687_5ec6cd3e",
+      "revId": "e205a6d7be2a47d7e495e727a198ad1c2165360d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ff28e86_ae7fdf89",
         "filename": "src/crypto/x509/root_darwin.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f124f77e_46db9258",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-12-03T21:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ff28e86_ae7fdf89",
+      "revId": "e205a6d7be2a47d7e495e727a198ad1c2165360d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0df5df1e_217876ee",
         "filename": "src/crypto/x509/root_darwin.go",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2018-11-30T01:25:53Z",
       "side": 1,
       "message": "(Presumably it\u0027s fine if some of |paths| don\u0027t exist for this command because L76 doesn\u0027t check that the keychains exist before adding them.)",
+      "revId": "e205a6d7be2a47d7e495e727a198ad1c2165360d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf9d22cb_ec2604ab",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-12-03T21:19:45Z",
+      "side": 1,
+      "message": "Yep, non-existing paths get ignored.",
+      "parentUuid": "0df5df1e_217876ee",
       "revId": "e205a6d7be2a47d7e495e727a198ad1c2165360d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
