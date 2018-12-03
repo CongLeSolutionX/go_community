@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0af9283d_d48ecda3",
+        "filename": "src/encoding/asn1/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-03T16:24:29Z",
+      "side": 1,
+      "message": "This says nothing about what sort of format this is. You\u0027d need to reference the time package somehow (briefly).",
+      "range": {
+        "startLine": 85,
+        "startChar": 24,
+        "endLine": 85,
+        "endChar": 66
+      },
+      "revId": "1353d53ee839a5fd565b70404b834116125632d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
