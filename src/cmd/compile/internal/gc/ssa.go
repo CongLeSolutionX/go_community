@@ -1204,6 +1204,10 @@ func (s *state) stmt(n *Node) {
 		p := s.expr(n.Left)
 		s.nilCheck(p)
 
+	case OINLMARK:
+		// TODO: make like nil check, take memory and return void?
+		s.vars[&memVar] = s.newValue1I(ssa.OpInlMark, types.TypeMem, n.Xoffset, s.mem())
+
 	default:
 		s.Fatalf("unhandled stmt %v", n.Op)
 	}
@@ -5142,6 +5146,13 @@ func genssa(f *ssa.Func, pp *Progs) {
 				if v.Args[0].Reg() != v.Reg() {
 					v.Fatalf("OpConvert should be a no-op: %s; %s", v.Args[0].LongString(), v.LongString())
 				}
+			case ssa.OpInlMark:
+				// TODO: if matching line number, merge somehow with adjacent instruction?
+				p := s.Prog(obj.AINLMARK)
+				p.From.Type = obj.TYPE_CONST
+				p.From.Offset = int64(v.AuxInt32())
+				p.Pos = v.Pos
+
 			default:
 				// let the backend handle it
 				// Special case for first line in function; move it to the start.
@@ -5522,6 +5533,7 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 	s.PrepareCall(v)
 
 	p := s.Prog(obj.ACALL)
+	p.Pos = v.Pos
 	if sym, ok := v.Aux.(*obj.LSym); ok {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_EXTERN

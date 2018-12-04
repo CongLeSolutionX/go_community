@@ -150,6 +150,10 @@ func (s *Symbol) SetUint8(arch *sys.Arch, r int64, v uint8) int64 {
 	return s.setUintXX(arch, r, uint64(v), 1)
 }
 
+func (s *Symbol) SetUint16(arch *sys.Arch, r int64, v uint16) int64 {
+	return s.setUintXX(arch, r, uint64(v), 2)
+}
+
 func (s *Symbol) SetUint32(arch *sys.Arch, r int64, v uint32) int64 {
 	return s.setUintXX(arch, r, uint64(v), 4)
 }
@@ -507,10 +511,11 @@ type FuncInfo struct {
 
 // InlinedCall is a node in a local inlining tree (FuncInfo.InlTree).
 type InlinedCall struct {
-	Parent int32   // index of parent in InlTree
-	File   *Symbol // file of the inlined call
-	Line   int32   // line number of the inlined call
-	Func   *Symbol // function that was inlined
+	Parent   int32   // index of parent in InlTree
+	File     *Symbol // file of the inlined call
+	Line     int32   // line number of the inlined call
+	Func     *Symbol // function that was inlined
+	ParentPC int32   // PC of the instruction just before the inlined body
 }
 
 type Pcdata struct {
