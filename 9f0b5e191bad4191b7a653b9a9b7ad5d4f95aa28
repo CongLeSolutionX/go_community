@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15170782_35572c19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-12-04T21:29:15Z",
+      "side": 1,
+      "message": "add \"to\" here.",
+      "range": {
+        "startLine": 18,
+        "startChar": 7,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "9f0b5e191bad4191b7a653b9a9b7ad5d4f95aa28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "802c2eae_aaf5ab91",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1666,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-12-04T21:29:15Z",
+      "side": 1,
+      "message": "Why \"recursive\" here?",
+      "range": {
+        "startLine": 1666,
+        "startChar": 44,
+        "endLine": 1666,
+        "endChar": 53
+      },
+      "revId": "9f0b5e191bad4191b7a653b9a9b7ad5d4f95aa28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
