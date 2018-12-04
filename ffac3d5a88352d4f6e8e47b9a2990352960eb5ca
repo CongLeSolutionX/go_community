@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a898e84_0f160768",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-12-04T23:20:06Z",
+      "side": 0,
+      "message": "Maybe do it this way: keeping the original code, add here (in the branch)\n\nif err \u003d\u003d nil \u0026\u0026 inst.Op \u003d\u003d 0 \u0026\u0026 inst.Enc \u003d\u003d 0 { text \u003d \"WORD $0\" }",
+      "revId": "ffac3d5a88352d4f6e8e47b9a2990352960eb5ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
