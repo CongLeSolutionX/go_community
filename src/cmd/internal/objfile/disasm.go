@@ -359,7 +359,12 @@ func disasm_ppc64(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.By
 	size := inst.Len
 	if err != nil || size == 0 || inst.Op == 0 {
 		size = 4
-		text = "?"
+		// Display instruction word of all 0s as WORD $0
+		if err == nil && inst.Op == 0 && inst.Enc == 0 {
+			text = "WORD $0"
+		} else {
+			text = "?"
+		}
 	} else {
 		text = ppc64asm.GoSyntax(inst, pc, lookup)
 	}
