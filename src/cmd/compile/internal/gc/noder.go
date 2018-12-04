@@ -518,7 +518,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 func (p *noder) signature(recv *syntax.Field, typ *syntax.FuncType) *Node {
 	n := p.nod(typ, OTFUNC, nil, nil)
 	if recv != nil {
-		n.Left = p.param(recv, false, false)
+		n.Left, _ = p.param(recv, false, true, false)
 	}
 	n.List.Set(p.params(typ.ParamList, true))
 	n.Rlist.Set(p.params(typ.ResultList, false))
@@ -527,14 +527,17 @@ func (p *noder) signature(recv *syntax.Field, typ *syntax.FuncType) *Node {
 
 func (p *noder) params(params []*syntax.Field, dddOk bool) []*Node {
 	var nodes []*Node
+	var node *Node
+	var toggle bool
 	for i, param := range params {
 		p.setlineno(param)
-		nodes = append(nodes, p.param(param, dddOk, i+1 == len(params)))
+		node, toggle = p.param(param, dddOk, toggle, i+1 == len(params))
+		nodes = append(nodes, node)
 	}
 	return nodes
 }
 
-func (p *noder) param(param *syntax.Field, dddOk, final bool) *Node {
+func (p *noder) param(param *syntax.Field, dddOk, toggle, final bool) (*Node, bool) {
 	var name *types.Sym
 	if param.Name != nil {
 		name = p.name(param.Name)
@@ -545,10 +548,20 @@ func (p *noder) param(param *syntax.Field, dddOk, final bool) *Node {
 
 	// rewrite ...T parameter
 	if typ.Op == ODDD {
+		// only print error first first non-final variadic parameter
+		var firstVariadic bool
+		if !toggle {
+			toggle = true
+			firstVariadic = true
+		}
 		if !dddOk {
 			yyerror("cannot use ... in receiver or result parameter list")
-		} else if !final {
-			yyerror("can only use ... with final parameter in list")
+		} else if !final && firstVariadic {
+			if param.Name == nil {
+				yyerror("cannot use ... with non-final parameter")
+			} else {
+				p.yyerrorpos(param.Name.Pos(), "cannot use ... with non-final parameter %s", param.Name.Value)
+			}
 		}
 		typ.Op = OTARRAY
 		typ.Right = typ.Left
@@ -559,7 +572,7 @@ func (p *noder) param(param *syntax.Field, dddOk, final bool) *Node {
 		}
 	}
 
-	return n
+	return n, toggle
 }
 
 func (p *noder) exprList(expr syntax.Expr) []*Node {
