@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14030422_84243099",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-04T21:44:34Z",
+      "side": 1,
+      "message": "Please revert. What you had before was right. We don\u0027t want to add logic for this here (and everywhere else).\n\nThe fix should be in subr.go where we remove duplicates, if there\u0027s an obvious fix. But it\u0027s better to report them all (this is rare, anyway), then add complexity for this.",
+      "range": {
+        "startLine": 534,
+        "startChar": 8,
+        "endLine": 534,
+        "endChar": 14
+      },
+      "revId": "84222eb28968e79955bb3b3b4f51ef8ae9173b44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8981d053_4633be00",
+        "filename": "test/fixedbugs/issue28450.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-04T21:44:34Z",
+      "side": 1,
+      "message": "just make this package p\n\n(there\u0027s no need for this being main)",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "84222eb28968e79955bb3b3b4f51ef8ae9173b44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f0f422_3fb9be3b",
+        "filename": "test/fixedbugs/issue28450.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-04T21:44:34Z",
+      "side": 1,
+      "message": "remove this - not needed",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "84222eb28968e79955bb3b3b4f51ef8ae9173b44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
