@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbbb121e_8fbbc859",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2018-12-04T22:35:19Z",
+      "side": 1,
+      "message": "link to https://tip.golang.org/pkg/go/doc/#Mode ?",
+      "range": {
+        "startLine": 261,
+        "startChar": 76,
+        "endLine": 261,
+        "endChar": 84
+      },
+      "revId": "f012739df88c2ee9b2f02942e70de049a1b37dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d9486d7_4823c6e6",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2018-12-04T22:35:19Z",
+      "side": 1,
+      "message": "use relative urls so that this works on all godoc instances\n\n  \u003ca href\u003d\"/go/token#File\"\u003e...",
+      "range": {
+        "startLine": 270,
+        "startChar": 19,
+        "endLine": 270,
+        "endChar": 50
+      },
+      "revId": "f012739df88c2ee9b2f02942e70de049a1b37dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
