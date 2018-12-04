@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b8744e3_cf6fb26c",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-12-04T17:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f2c40a9_8ed9aa89",
+      "range": {
+        "startLine": 369,
+        "startChar": 15,
+        "endLine": 369,
+        "endChar": 19
+      },
+      "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0040099d_b618478d",
         "filename": "src/go/doc/reader.go",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d67808e_e157441c",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-12-04T17:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0040099d_b618478d",
+      "range": {
+        "startLine": 372,
+        "startChar": 21,
+        "endLine": 372,
+        "endChar": 37
+      },
+      "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a09f39f3_12988c68",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-12-04T17:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57244c50_664008c6",
+      "range": {
+        "startLine": 423,
+        "startChar": 44,
+        "endLine": 423,
+        "endChar": 47
+      },
+      "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3b14e74_a20bf942",
         "filename": "src/go/doc/reader.go",
         "patchSetId": 6
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "d91d45a1_dc3c4488",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-12-04T17:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3b14e74_a20bf942",
+      "range": {
+        "startLine": 424,
+        "startChar": 9,
+        "endLine": 424,
+        "endChar": 22
+      },
+      "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd35b308_248dc756",
         "filename": "src/go/doc/reader.go",
         "patchSetId": 6
@@ -114,6 +210,30 @@
       "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdf1c4ec_ddc08759",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-12-04T17:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd35b308_248dc756",
+      "range": {
+        "startLine": 602,
+        "startChar": 62,
+        "endLine": 602,
+        "endChar": 63
+      },
+      "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
