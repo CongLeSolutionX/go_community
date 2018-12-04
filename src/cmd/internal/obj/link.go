@@ -393,11 +393,12 @@ type LSym struct {
 
 // A FuncInfo contains extra fields for STEXT symbols.
 type FuncInfo struct {
-	Args   int32
-	Locals int32
-	Text   *Prog
-	Autom  []*Auto
-	Pcln   Pcln
+	Args     int32
+	Locals   int32
+	Text     *Prog
+	Autom    []*Auto
+	Pcln     Pcln
+	InlMarks map[*Prog]int32 // InlMarks[p]=i where p marks just before the start of inline body #i
 
 	dwarfInfoSym   *LSym
 	dwarfLocSym    *LSym
@@ -409,6 +410,17 @@ type FuncInfo struct {
 	GCLocals     *LSym
 	GCRegs       *LSym
 	StackObjects *LSym
+}
+
+// Mark p as the instruction to set as the pc when
+// "unwinding" the inlining frame id. Ususally it should be
+// instruction with a file:line at the callsite, and occur
+// just before the body of the inlined function.
+func (fi *FuncInfo) AddInlMark(p *Prog, id int32) {
+	if fi.InlMarks == nil {
+		fi.InlMarks = map[*Prog]int32{}
+	}
+	fi.InlMarks[p] = id
 }
 
 //go:generate stringer -type ABI

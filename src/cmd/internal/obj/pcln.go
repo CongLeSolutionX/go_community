@@ -193,6 +193,17 @@ func (s *pcinlineState) addBranch(ctxt *Link, globalIndex int) int {
 	return localIndex
 }
 
+func (s *pcinlineState) setParentPC(ctxt *Link, globalIndex int, pc int32) {
+	localIndex, ok := s.globalToLocal[globalIndex]
+	if !ok {
+		//ctxt.Logf("failed setParentPC %d %d %v\n", globalIndex, pc, s.globalToLocal)
+		//ctxt.Logf("%d %d\n", globalIndex, pc)
+		//panic("couldn't find global index")
+		return // TODO: error?
+	}
+	s.localTree.setParentPC(localIndex, pc)
+}
+
 // pctoinline computes the index into the local inlining tree to use at p.
 // If p is not the result of inlining, pctoinline returns -1. Because p.Pos
 // applies to p, phase == 0 (before p) takes care of the update.
@@ -323,6 +334,11 @@ func linkpcln(ctxt *Link, cursym *LSym) {
 
 	pcinlineState := new(pcinlineState)
 	funcpctab(ctxt, &pcln.Pcinline, cursym, "pctoinline", pcinlineState.pctoinline, nil)
+	// Now that we have byte offsets, we can set the parentPC
+	// fields in the inline tree.
+	for p, id := range cursym.Func.InlMarks {
+		pcinlineState.setParentPC(ctxt, int(id), int32(p.Pc))
+	}
 	pcln.InlTree = pcinlineState.localTree
 	if ctxt.Debugpcln == "pctoinline" && len(pcln.InlTree.nodes) > 0 {
 		ctxt.Logf("-- inlining tree for %s:\n", cursym)

@@ -58,8 +58,8 @@ func zeroAuto(pp *gc.Progs, n *gc.Node) {
 	}
 }
 
-func ginsnop(pp *gc.Progs) {
-	pp.Prog(wasm.ANop)
+func ginsnop(pp *gc.Progs) *obj.Prog {
+	return pp.Prog(wasm.ANop)
 }
 
 func ssaMarkMoves(s *gc.SSAGenState, b *ssa.Block) {
