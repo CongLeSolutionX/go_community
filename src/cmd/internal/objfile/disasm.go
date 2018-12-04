@@ -253,7 +253,7 @@ func (d *Disasm) Print(w io.Writer, filter *regexp.Regexp, start, end uint64, pr
 					fmt.Fprintf(tw, "%08x", d.byteOrder.Uint32(code[i+j:]))
 				}
 			}
-			fmt.Fprintf(tw, "\t%s\t\n", text)
+			fmt.Fprintf(tw, "\t%s\n", text)
 		})
 		tw.Flush()
 	}
@@ -357,11 +357,16 @@ func disasm_ppc64(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.By
 	inst, err := ppc64asm.Decode(code, byteOrder)
 	var text string
 	size := inst.Len
-	if err != nil || size == 0 || inst.Op == 0 {
+	// Bad instructions
+	if err != nil || size == 0 || (inst.Op == 0 && inst.Enc != 0) {
 		size = 4
 		text = "?"
+		// Special case for all 0s
+	} else if inst.Op == 0 && inst.Enc == 0 {
+		size = 4
+		text = "WORD $0"
 	} else {
-		text = ppc64asm.GoSyntax(inst, pc, lookup)
+		text = fmt.Sprintf("%-36s // %s", ppc64asm.GoSyntax(inst, pc, lookup), ppc64asm.GNUSyntax(inst))
 	}
 	return text, size
 }
