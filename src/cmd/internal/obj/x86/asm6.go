@@ -536,6 +536,10 @@ var yxchg = []ytab{
 	{Zm_r, 1, argList{Yml, Yrl}},
 }
 
+var yinlmark = []ytab{
+	{Zlit, 1, argList{Yi32}},
+}
+
 var ydivl = []ytab{
 	{Zm_o, 2, argList{Yml}},
 }
@@ -1119,6 +1123,7 @@ var optab =
 	{AINCL, yincl, Px1, opBytes{0x40, 0xff, 00}},
 	{AINCQ, yincq, Pw, opBytes{0xff, 00}},
 	{AINCW, yincq, Pe, opBytes{0xff, 00}},
+	{obj.AINLMARK, yinlmark, Px, opBytes{0x90}},
 	{AINSB, ynone, Pb, opBytes{0x6c}},
 	{AINSL, ynone, Px, opBytes{0x6d}},
 	{AINSERTPS, yxshuf, Pq, opBytes{0x3a, 0x21, 0}},

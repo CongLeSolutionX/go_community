@@ -344,47 +344,41 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 		}
 
 		if pcbuf != nil {
-			if skip == 0 {
-				(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = frame.pc
-			} else {
-				// backup to CALL instruction to read inlining info (same logic as below)
-				tracepc := frame.pc
-				if (n > 0 || flags&_TraceTrap == 0) && frame.pc > f.entry && !waspanic {
-					tracepc--
-				}
-				inldata := funcdata(f, _FUNCDATA_InlTree)
+			// backup to CALL instruction to read inlining info (same logic as below)
+			tracepc := frame.pc
+			if (n > 0 || flags&_TraceTrap == 0) && frame.pc > f.entry && !waspanic {
+				tracepc--
+			}
 
-				// no inlining info, skip the physical frame
-				if inldata == nil {
-					skip--
-					goto skipped
-				}
-
-				ix := pcdatavalue(f, _PCDATA_InlTreeIndex, tracepc, &cache)
+			// If there is inlining info, record the inner frames.
+			if inldata := funcdata(f, _FUNCDATA_InlTree); inldata != nil {
 				inltree := (*[1 << 20]inlinedCall)(inldata)
-				// skip the logical (inlined) frames
-				logicalSkipped := 0
-				for ix >= 0 && skip > 0 {
-					skip--
-					logicalSkipped++
-					ix = inltree[ix].parent
+				for {
+					ix := pcdatavalue(f, _PCDATA_InlTreeIndex, tracepc, &cache)
+					if ix < 0 {
+						break
+					}
+					println(inltree[ix].parent, inltree[ix].parentPc)
+					if skip > 0 {
+						skip--
+					} else if n < max {
+						// TODO: skip wrappers?
+						(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = frame.pc
+						n++
+					}
+					// Back up to an instruction in the "caller".
+					tracepc = frame.fn.entry + uintptr(inltree[ix].parentPc)
+					if inltree[ix].parent < 0 {
+						break
+					}
 				}
-
-				// skip the physical frame if there's more to skip
-				if skip > 0 {
-					skip--
-					goto skipped
-				}
-
-				// now we have a partially skipped frame
-				(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = frame.pc
-
-				// if there's room, pcbuf[1] is a skip PC that encodes the number of skipped frames in pcbuf[0]
-				if n+1 < max {
-					n++
-					pc := skipPC + uintptr(logicalSkipped)
-					(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = pc
-				}
+			}
+			// Record the main frame.
+			if skip > 0 {
+				skip--
+			} else if n < max {
+				(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = tracepc
+				// n++ : happens below
 			}
 		}
 
@@ -451,7 +445,6 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 		}
 		n++
 
-	skipped:
 		if f.funcID == funcID_cgocallback_gofunc && len(cgoCtxt) > 0 {
 			ctxt := cgoCtxt[len(cgoCtxt)-1]
 			cgoCtxt = cgoCtxt[:len(cgoCtxt)-1]

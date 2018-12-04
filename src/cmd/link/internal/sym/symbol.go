@@ -507,10 +507,11 @@ type FuncInfo struct {
 
 // InlinedCall is a node in a local inlining tree (FuncInfo.InlTree).
 type InlinedCall struct {
-	Parent int32   // index of parent in InlTree
-	File   *Symbol // file of the inlined call
-	Line   int32   // line number of the inlined call
-	Func   *Symbol // function that was inlined
+	Parent   int32   // index of parent in InlTree
+	File     *Symbol // file of the inlined call
+	Line     int32   // line number of the inlined call
+	Func     *Symbol // function that was inlined
+	ParentPC int32   // PC of the instruction just before the inlined body
 }
 
 type Pcdata struct {

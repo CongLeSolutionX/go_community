@@ -943,8 +943,9 @@ func stackmapdata(stkmap *stackmap, n int32) bitvector {
 
 // inlinedCall is the encoding of entries in the FUNCDATA_InlTree table.
 type inlinedCall struct {
-	parent int32 // index of parent in the inltree, or < 0
-	file   int32 // fileno index into filetab
-	line   int32 // line number of the call site
-	func_  int32 // offset into pclntab for name of called function
+	parent   int32 // index of parent in the inltree, or < 0
+	file     int32 // fileno index into filetab
+	line     int32 // line number of the call site
+	func_    int32 // offset into pclntab for name of called function
+	parentPc int32 // index of an instruction just before the inlined body (offset from entry)
 }

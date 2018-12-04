@@ -368,10 +368,11 @@ func (ctxt *Link) pclntab() {
 				numberfile(ctxt, call.File)
 				nameoff := nameToOffset(call.Func.Name)
 
-				inlTreeSym.SetUint32(ctxt.Arch, int64(i*16+0), uint32(call.Parent))
-				inlTreeSym.SetUint32(ctxt.Arch, int64(i*16+4), uint32(call.File.Value))
-				inlTreeSym.SetUint32(ctxt.Arch, int64(i*16+8), uint32(call.Line))
-				inlTreeSym.SetUint32(ctxt.Arch, int64(i*16+12), uint32(nameoff))
+				inlTreeSym.SetUint32(ctxt.Arch, int64(i*20+0), uint32(call.Parent))
+				inlTreeSym.SetUint32(ctxt.Arch, int64(i*20+4), uint32(call.File.Value))
+				inlTreeSym.SetUint32(ctxt.Arch, int64(i*20+8), uint32(call.Line))
+				inlTreeSym.SetUint32(ctxt.Arch, int64(i*20+12), uint32(nameoff))
+				inlTreeSym.SetUint32(ctxt.Arch, int64(i*20+16), uint32(call.ParentPC))
 			}
 
 			pcln.Funcdata[objabi.FUNCDATA_InlTree] = inlTreeSym

@@ -551,6 +551,7 @@ var Anames = []string{
 	"RET",
 	"GETCALLERPC",
 	"TEXT",
+	"INLMARK",
 	"UNDEF",
 }
 
