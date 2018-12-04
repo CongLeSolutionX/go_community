@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f2c40a9_8ed9aa89",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-04T17:24:23Z",
+      "side": 1,
+      "message": "If it was redeclared locally, then it\u0027s not a predeclared type...\n\nSimpler:\n\n// isPredeclared reports whether n denotes a predeclared type.",
+      "range": {
+        "startLine": 369,
+        "startChar": 15,
+        "endLine": 369,
+        "endChar": 19
+      },
+      "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0040099d_b618478d",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-04T17:24:23Z",
+      "side": 1,
+      "message": "The way you wrote this requires both r.types and predeclared to be accessed both each time; also the \u0027if\u0027 is not needed. Simpler:\n\nreturn predeclaredTypes[n] \u0026\u0026 r.types[n] \u003d\u003d nil",
+      "range": {
+        "startLine": 372,
+        "startChar": 21,
+        "endLine": 372,
+        "endChar": 37
+      },
+      "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57244c50_664008c6",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-04T17:24:23Z",
+      "side": 1,
+      "message": "if ...; !imp \u0026\u0026 r.isVisible(n) \u0026\u0026 !r.isPredeclared(n) {",
+      "range": {
+        "startLine": 423,
+        "startChar": 44,
+        "endLine": 423,
+        "endChar": 47
+      },
+      "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b14e74_a20bf942",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-04T17:24:23Z",
+      "side": 1,
+      "message": "now you can get rid of this \u0027if\u0027",
+      "range": {
+        "startLine": 424,
+        "startChar": 9,
+        "endLine": 424,
+        "endChar": 22
+      },
+      "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd35b308_248dc756",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-04T17:24:23Z",
+      "side": 1,
+      "message": "remove \u0027.\u0027 at end - this is not a complete sentence (and match style of other comments here)",
+      "range": {
+        "startLine": 602,
+        "startChar": 62,
+        "endLine": 602,
+        "endChar": 63
+      },
+      "revId": "024b19a322db0bfa17a03741c68cfb2dde3b0852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
