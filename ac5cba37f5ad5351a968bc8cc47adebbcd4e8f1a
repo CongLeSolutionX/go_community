@@ -22,6 +22,30 @@
       "revId": "ac5cba37f5ad5351a968bc8cc47adebbcd4e8f1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc02615b_b5e2ae49",
+        "filename": "src/crypto/elliptic/p256.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2018-12-04T22:54:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4e18bd3_b1bb1b53",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "ac5cba37f5ad5351a968bc8cc47adebbcd4e8f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
