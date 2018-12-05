@@ -69,6 +69,24 @@
       "revId": "b51f3c58849b3fa94a94a15373ed661ef814a03a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f906578d_e15af436",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-12-05T15:28:55Z",
+      "side": 1,
+      "message": "This might have its advantages, I agree. As we are in the freeze, this would probably be in the next cycle. Also, probably good to have some discussion on golang-dev or raise a proposal in the issue tracker.\n- We could always do this (as this code does), or have a mode/flag to choose Go or GNU syntax, or both.\n- If we do this, we probably want to do this on all architectures with a consistent format. All supporting architectures have GNUSyntax.\n\n\u003e the Go asm is very different from the ppc64 asm in many cases and writing Go asm is very difficult.\n\nThis is true for other architectures as well (I would say it is not that different, though). ARM64 has a documentation for how to relate the two syntaxes, https://golang.org/pkg/cmd/internal/obj/arm64/, linked from doc/asm. Something to think about.",
+      "parentUuid": "5c0e1731_2a5570d8",
+      "revId": "b51f3c58849b3fa94a94a15373ed661ef814a03a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
