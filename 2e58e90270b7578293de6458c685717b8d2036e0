@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2e10242_92cb718e",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-05T00:50:44Z",
+      "side": 1,
+      "message": "Put this item first in the list of fmt changes.",
+      "revId": "2e58e90270b7578293de6458c685717b8d2036e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
