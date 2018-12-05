@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3ff26ce7_8d5d8c0f",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-12-05T13:34:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1e6cc1a5_683fd8f7",
+      "revId": "b51f3c58849b3fa94a94a15373ed661ef814a03a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afc21e67_e981bd0b",
         "filename": "src/cmd/internal/objfile/disasm.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-12-04T23:20:06Z",
       "side": 1,
       "message": "This is inconsistent with all the other architectures. I would prefer not do it.",
+      "revId": "b51f3c58849b3fa94a94a15373ed661ef814a03a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c0e1731_2a5570d8",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-12-05T13:34:28Z",
+      "side": 1,
+      "message": "Other architectures could add it if they want but I just can\u0027t verify if it is right for them. This makes the tool MUCH more useful for anyone trying to write Go asm and understand how it maps onto the native asm. Unlike x86, the Go asm is very different from the ppc64 asm in many cases and writing Go asm is very difficult.\n\nHow about if I add a new option for verbose information to trigger this?",
+      "parentUuid": "afc21e67_e981bd0b",
       "revId": "b51f3c58849b3fa94a94a15373ed661ef814a03a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
