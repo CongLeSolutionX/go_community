@@ -42,7 +42,6 @@ func openFile(name string, flag int, perm os.FileMode) (*os.File, error) {
 	}
 
 	if err != nil {
-		filelock.Unlock(f)
 		f.Close()
 		return nil, err
 	}
