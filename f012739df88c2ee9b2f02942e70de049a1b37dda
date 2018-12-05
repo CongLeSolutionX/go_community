@@ -211,6 +211,30 @@
       "revId": "f012739df88c2ee9b2f02942e70de049a1b37dda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77169f6a_0c307ac9",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2018-12-05T22:09:42Z",
+      "side": 1,
+      "message": "yep you\u0027re right.",
+      "parentUuid": "41934931_53346957",
+      "range": {
+        "startLine": 270,
+        "startChar": 19,
+        "endLine": 270,
+        "endChar": 50
+      },
+      "revId": "f012739df88c2ee9b2f02942e70de049a1b37dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
