@@ -24,6 +24,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"runtime"
 	"sync"
 	"syscall"
 )
@@ -148,6 +149,12 @@ func setlkw(fd uintptr, lt lockType) error {
 			Start:  0,
 			Len:    0, // All bytes.
 		})
+		if runtime.GOOS == "aix" && err == syscall.EDEADLK {
+			// On AIX, this can occur when two processes tries to read/write
+			// several files in common.
+			time.Sleep(100 * time.Millisecond)
+			continue
+		}
 		if err != syscall.EINTR {
 			return err
 		}
