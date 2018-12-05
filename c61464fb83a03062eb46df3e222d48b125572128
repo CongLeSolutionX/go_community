@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce4c1eef_fcf4c251",
+        "filename": "test/fixedbugs/issue28450.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2018-12-05T00:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ff175c9_c3471be4",
+      "range": {
+        "startLine": 9,
+        "startChar": 44,
+        "endLine": 9,
+        "endChar": 111
+      },
+      "revId": "c61464fb83a03062eb46df3e222d48b125572128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdcccf91_ac9f2785",
         "filename": "test/fixedbugs/issue28450.go",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "c61464fb83a03062eb46df3e222d48b125572128",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3dfae34_4182115a",
+        "filename": "test/fixedbugs/issue28450.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2018-12-05T00:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdcccf91_ac9f2785",
+      "revId": "c61464fb83a03062eb46df3e222d48b125572128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
