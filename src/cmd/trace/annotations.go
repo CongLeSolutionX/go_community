@@ -1155,6 +1155,18 @@ func isUserAnnotationEvent(ev *trace.Event) (taskID uint64, ok bool) {
 }
 
 var templUserRegionType = template.Must(template.New("").Funcs(template.FuncMap{
+	"startAsMillisecond": func(ev *trace.Event) float64 {
+		if ev == nil {
+			return 0
+		}
+		return float64(ev.Ts) / 1e6
+	},
+	"endAsMillisecond": func(ev *trace.Event) float64 {
+		if ev == nil {
+			return float64(lastTimestamp()) / 1e6
+		}
+		return float64(ev.Ts) / 1e6
+	},
 	"prettyDuration": func(nsec int64) template.HTML {
 		d := time.Duration(nsec) * time.Nanosecond
 		return template.HTML(niceDuration(d))
@@ -1248,7 +1260,9 @@ function reloadTable(key, value) {
 </tr>
 {{range .Data}}
   <tr>
-    <td> <a href="/trace?goid={{.G}}">{{.G}}</a> </td>
+    <td>
+         <a href="/trace?goid={{.G}}#{{startAsMillisecond .Start}}:{{endAsMillisecond .End}}">
+	{{.G}}</a> </td>
     <td> {{if .TaskID}}<a href="/trace?taskid={{.TaskID}}">{{.TaskID}}</a>{{end}} </td>
     <td> {{prettyDuration .TotalTime}} </td>
     <td>
