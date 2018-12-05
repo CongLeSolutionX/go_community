@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53892f54_35da95a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-12-05T13:34:17Z",
+      "side": 1,
+      "message": "I don\u0027t think this is correct. f.Close() in openFile() is os.File.Close(), but the filelock.Unlock() in closeFile() is only done when calling lockedfile.File.Close(). So I think the explicit filelock.Unlock(f) is necessary in the error path of openFile().\n\nI\u0027m not very familiar with the lockedfile code though and will let Bryan review.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "d4869897fa065a7cb2a3317eb6ae342b7a3c4ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
