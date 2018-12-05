@@ -105,6 +105,24 @@
       "revId": "b51f3c58849b3fa94a94a15373ed661ef814a03a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67126ebc_488c992b",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-12-05T20:28:03Z",
+      "side": 1,
+      "message": "\u003e I actually had asked about this once before and got no response. \n\nThen I would try the issue tracker. Issues are likely to be tracked. Thanks.",
+      "parentUuid": "430d3bd1_5be6978d",
+      "revId": "b51f3c58849b3fa94a94a15373ed661ef814a03a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
