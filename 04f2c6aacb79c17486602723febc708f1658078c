@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c369fba_12511d76",
+        "filename": "src/go/internal/gccgoimporter/ar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-05T21:18:54Z",
+      "side": 1,
+      "message": "s/form a/from an/",
+      "range": {
+        "startLine": 130,
+        "startChar": 44,
+        "endLine": 130,
+        "endChar": 45
+      },
+      "revId": "04f2c6aacb79c17486602723febc708f1658078c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
