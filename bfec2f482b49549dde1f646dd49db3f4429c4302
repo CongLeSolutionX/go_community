@@ -22,6 +22,30 @@
       "revId": "bfec2f482b49549dde1f646dd49db3f4429c4302",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28b88884_52f37dbd",
+        "filename": "src/cmd/go/internal/lockedfile/lockedfile_filelock.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-12-05T15:36:01Z",
+      "side": 1,
+      "message": "It already happens: \nhttps://build.golang.org/log/4e5a6386007a0f65411c94603e0d84a2156cf821\n\nI think this is related to https://github.com/golang/go/issues/27993. There is a lot of timeout lately, not only on AIX. \nhttps://build.golang.org/log/5f825c05d7fc214657e47a7b03c9ec1c11e31f70\nhttps://build.golang.org/log/5e2f2cc32e36eee30335f92ab4c5d34983c0bb79\n...",
+      "parentUuid": "1acae12f_0b3b9d7d",
+      "range": {
+        "startLine": 38,
+        "startChar": 9,
+        "endLine": 38,
+        "endChar": 10
+      },
+      "revId": "bfec2f482b49549dde1f646dd49db3f4429c4302",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
