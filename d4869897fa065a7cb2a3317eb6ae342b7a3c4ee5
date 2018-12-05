@@ -22,6 +22,30 @@
       "revId": "d4869897fa065a7cb2a3317eb6ae342b7a3c4ee5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15fcc94f_07dafbc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-12-05T13:37:36Z",
+      "side": 1,
+      "message": "To be precise: the `f` in this `f.Close()` is a `*os.File`, not a `*lockedfile.File`.",
+      "parentUuid": "53892f54_35da95a9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "d4869897fa065a7cb2a3317eb6ae342b7a3c4ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
