@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "113ccb40_6a26a34e",
+        "filename": "src/cmd/go/internal/lockedfile/lockedfile_filelock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-12-05T14:32:32Z",
+      "side": 1,
+      "message": "A non-nil error is only possible here if we called Truncate. It\u0027s probably clearer to negate the inner condition above:\n\n\tif flag\u0026os.O_TRUNC \u003d\u003d os.O_TRUNC {\n\t\tif err \u003d f.Truncate(0); err !\u003d nil {\n\t\t\t// […]\n\t\t\tif fi, statErr :\u003d f.Stat(); statErr !\u003d nil || fi.Mode().IsRegular() {\n\t\t\t\tfilelock.Unlock(f)\n\t\t\t\tf.Close()\n\t\t\t\treturn nil, err\n\t\t\t}\n\t\t}\n\t}",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 2
+      },
+      "revId": "cfff38653cf730b07d6947ea669f48bb2d8f9bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
