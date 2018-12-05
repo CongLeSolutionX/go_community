@@ -46,6 +46,30 @@
       "revId": "d4869897fa065a7cb2a3317eb6ae342b7a3c4ee5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a52bf5bb_68567131",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2018-12-05T13:55:28Z",
+      "side": 1,
+      "message": "oh yes you\u0027re right.... \nBut lockedfile.Unlock() file is still called twice when an error occurs.\n\nOpen file: 9 $WORK/gopath/pkg/mod/cache/download/rsc.io/sampler/@v/list.lock\nlock 9 $WORK/gopath/pkg/mod/cache/download/rsc.io/sampler/@v/list.lock(0xed9de)\n\nerror: 9 $WORK/gopath/pkg/mod/cache/download/rsc.io/sampler/@v/list.lock Lock $WORK/gopath/pkg/mod/cache/download/rsc.io/sampler/@v/list.lock: deadlock condition if locked\nunlock 9 $WORK/gopath/pkg/mod/cache/download/rsc.io/sampler/@v/list.lock\n           \nunlock 9 $WORK/gopath/pkg/mod/cache/download/rsc.io/sampler/@v/list.lock\npanic: unlock called on a file that is not locked",
+      "parentUuid": "15fcc94f_07dafbc8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "d4869897fa065a7cb2a3317eb6ae342b7a3c4ee5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
