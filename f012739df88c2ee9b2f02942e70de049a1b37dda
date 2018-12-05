@@ -72,6 +72,54 @@
     },
     {
       "key": {
+        "uuid": "45ebc7cb_22ccfd5e",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2018-12-05T16:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bbd6b00_895e9153",
+      "range": {
+        "startLine": 261,
+        "startChar": 44,
+        "endLine": 261,
+        "endChar": 51
+      },
+      "revId": "f012739df88c2ee9b2f02942e70de049a1b37dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e238fb3c_1f462201",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2018-12-05T16:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7b07b83_5c5a81b5",
+      "range": {
+        "startLine": 261,
+        "startChar": 76,
+        "endLine": 261,
+        "endChar": 84
+      },
+      "revId": "f012739df88c2ee9b2f02942e70de049a1b37dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4f6f0ca_8e04f4bf",
         "filename": "doc/go1.12.html",
         "patchSetId": 2
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "495adfac_6177c2e7",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2018-12-05T16:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4f6f0ca_8e04f4bf",
+      "range": {
+        "startLine": 262,
+        "startChar": 54,
+        "endLine": 262,
+        "endChar": 60
+      },
+      "revId": "f012739df88c2ee9b2f02942e70de049a1b37dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d9486d7_4823c6e6",
         "filename": "doc/go1.12.html",
         "patchSetId": 2
@@ -115,6 +187,30 @@
       "revId": "f012739df88c2ee9b2f02942e70de049a1b37dda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41934931_53346957",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2018-12-05T16:56:09Z",
+      "side": 1,
+      "message": "Good tip. Fixed. Though it looked like it needed to be \"/pkg/go/token\", instead of \"/go/token\"",
+      "parentUuid": "9d9486d7_4823c6e6",
+      "range": {
+        "startLine": 270,
+        "startChar": 19,
+        "endLine": 270,
+        "endChar": 50
+      },
+      "revId": "f012739df88c2ee9b2f02942e70de049a1b37dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
