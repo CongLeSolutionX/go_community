@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d90cfac_68d23499",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-06T16:13:24Z",
+      "side": 1,
+      "message": "Use \u003ccode\u003e on the symbols. Optionally with links.\n\nThe voice used by Go is typically more direct, like:\n\n    \"Calling testing.Short before flag.Parse now returns an error instead of panicking.\"\n\nOr:\n\n     \"testing.Short no longer panics when called before flag.Parse; it now returns an error.\"\n\nBut wait, testing.Short returns a bool. So I\u0027m not sure what \"An error will occur\" means. Oooohh... it calls os.Exit(2) now.\n\nSo:\n\n      \"Calling testing.Short before flag.Parse now fails more gracefully. It previously panicked with a confusing error message.\"\n\nBut at that point I\u0027m not sure it\u0027s worth mentioning. It\u0027s a minor improvement for an uncommon mistake.",
+      "range": {
+        "startLine": 559,
+        "startChar": 6,
+        "endLine": 559,
+        "endChar": 85
+      },
+      "revId": "9fef2717e94255fe96dd9d3fee7a28d8d990f24e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c7b12f2_25d56292",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-06T16:13:24Z",
+      "side": 1,
+      "message": "\u003ccode\u003e-benchtime\u003c/code\u003e",
+      "range": {
+        "startLine": 563,
+        "startChar": 11,
+        "endLine": 563,
+        "endChar": 20
+      },
+      "revId": "9fef2717e94255fe96dd9d3fee7a28d8d990f24e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "083d593d_175084d2",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-06T16:13:24Z",
+      "side": 1,
+      "message": "\"This can be done by\" is a little passive for Go\u0027s documentation voice.\n\nMaybe:\n\n     \"The \u003ccode\u003e-benchtime\u003c/code\u003e flag now supports setting an explicit iteration count instead of a time when the value ends with an \"\u003ccode\u003ex\u003c/code\u003e\". For example, \u003ccode\u003e-benchtime\u003d100x\u003c/code\u003e runs the benchmark 100 times.\"",
+      "range": {
+        "startLine": 563,
+        "startChar": 69,
+        "endLine": 563,
+        "endChar": 88
+      },
+      "revId": "9fef2717e94255fe96dd9d3fee7a28d8d990f24e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
