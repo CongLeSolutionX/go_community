@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f25d4414_6babd2b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-12-06T20:39:54Z",
+      "side": 1,
+      "message": "Updates #16860 (?)\nUpdates #24976 (?)",
+      "revId": "662fb050d39a70b0f3e5ed57a86026dfc9a7a2c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
