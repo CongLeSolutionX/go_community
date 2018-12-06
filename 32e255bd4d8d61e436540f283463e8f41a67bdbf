@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3119fa38_0193ac70",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-06T18:51:21Z",
+      "side": 1,
+      "message": "See my earlier comment. \"returns an error\" is misleading as testing.Short only returns a bool. What it actually does is write to stderr and call os.Exit(2), which is all that panic does anyway. So this just crashes with nicer formatting than it did before, which I don\u0027t think is worth calling out. It\u0027s a fringe failure more anyway. (Normal tests don\u0027t require a flag.Parse.. only if you use testing.Main, which is rare)\n\nSo I\u0027d just delete this probably, but you can see what others think if you\u0027re on the fence yourself.",
+      "range": {
+        "startLine": 559,
+        "startChar": 135,
+        "endLine": 559,
+        "endChar": 155
+      },
+      "revId": "32e255bd4d8d61e436540f283463e8f41a67bdbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
