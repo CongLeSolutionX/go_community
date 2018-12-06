@@ -556,11 +556,11 @@ for {
 <dl id="testing"><dt><a href="/pkg/testing/">testing</a></dt>
   <dd>
     <p><!-- CL 121936 -->
-      TODO: <a href="https://golang.org/cl/121936">https://golang.org/cl/121936</a>: exit with error if testing.Short is called before flag.Parse
+      An error will occur if testing.Short is called without first calling flag.Parse. Previously, this would cause a panic. 
     </p>
 
     <p><!-- CL 139258 -->
-      TODO: <a href="https://golang.org/cl/139258">https://golang.org/cl/139258</a>: implement -benchtime=100x
+      The -benchtime flag now allows for setting an iteration count. This can be done by setting -benchtime=100x to run a benchmark 100 times. 
     </p>
 
 </dl><!-- testing -->
