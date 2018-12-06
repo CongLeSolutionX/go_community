@@ -372,7 +372,7 @@ func (d Weekday) String() string {
 // over and over. Instead, we can change to a different epoch so long
 // ago that all the times we care about will be positive, and then round
 // to zero and round down coincide. These presentation routines already
-// have to add the zone offset, so adding the translation to the
+// have to add the zone offsetSec, so adding the translation to the
 // alternate epoch is cheap. For example, having a non-negative time t
 // means that we can write
 //
@@ -450,7 +450,7 @@ func (t Time) IsZero() bool {
 	return t.sec() == 0 && t.nsec() == 0
 }
 
-// abs returns the time t as an absolute time, adjusted by the zone offset.
+// abs returns the time t as an absolute time, adjusted by the zone offsetSec.
 // It is called when computing a presentation property like Month or Hour.
 func (t Time) abs() uint64 {
 	l := t.loc
@@ -461,10 +461,10 @@ func (t Time) abs() uint64 {
 	sec := t.unixSec()
 	if l != &utcLoc {
 		if l.cacheZone != nil && l.cacheStart <= sec && sec < l.cacheEnd {
-			sec += int64(l.cacheZone.offset)
+			sec += int64(l.cacheZone.offsetSec)
 		} else {
-			_, offset, _, _ := l.lookup(sec)
-			sec += int64(offset)
+			_, offsetSec, _, _ := l.lookup(sec)
+			sec += int64(offsetSec)
 		}
 	}
 	return uint64(sec + (unixToInternal + internalToAbsolute))
@@ -472,7 +472,7 @@ func (t Time) abs() uint64 {
 
 // locabs is a combination of the Zone and abs methods,
 // extracting both return values from a single zone lookup.
-func (t Time) locabs() (name string, offset int, abs uint64) {
+func (t Time) locabs() (name string, offsetSec int, abs uint64) {
 	l := t.loc
 	if l == nil || l == &localLoc {
 		l = l.get()
@@ -482,11 +482,11 @@ func (t Time) locabs() (name string, offset int, abs uint64) {
 	if l != &utcLoc {
 		if l.cacheZone != nil && l.cacheStart <= sec && sec < l.cacheEnd {
 			name = l.cacheZone.name
-			offset = l.cacheZone.offset
+			offsetSec = l.cacheZone.offsetSec
 		} else {
-			name, offset, _, _ = l.lookup(sec)
+			name, offsetSec, _, _ = l.lookup(sec)
 		}
-		sec += int64(offset)
+		sec += int64(offsetSec)
 	} else {
 		name = "UTC"
 	}
@@ -1134,8 +1134,8 @@ func (t Time) Location() *Location {
 
 // Zone computes the time zone in effect at time t, returning the abbreviated
 // name of the zone (such as "CET") and its offset in seconds east of UTC.
-func (t Time) Zone() (name string, offset int) {
-	name, offset, _, _ = t.loc.lookup(t.unixSec())
+func (t Time) Zone() (name string, offsetSec int) {
+	name, offsetSec, _, _ = t.loc.lookup(t.unixSec())
 	return
 }
 
@@ -1165,15 +1165,15 @@ func (t Time) MarshalBinary() ([]byte, error) {
 	if t.Location() == UTC {
 		offsetMin = -1
 	} else {
-		_, offset := t.Zone()
-		if offset%60 != 0 {
-			return nil, errors.New("Time.MarshalBinary: zone offset has fractional minute")
+		_, offsetSec := t.Zone()
+		if offsetSec%60 != 0 {
+			return nil, errors.New("Time.MarshalBinary: zone offsetSec has fractional minute")
 		}
-		offset /= 60
-		if offset < -32768 || offset == -1 || offset > 32767 {
-			return nil, errors.New("Time.MarshalBinary: unexpected zone offset")
+		offsetSec /= 60
+		if offsetSec < -32768 || offsetSec == -1 || offsetSec > 32767 {
+			return nil, errors.New("Time.MarshalBinary: unexpected zone offsetSec")
 		}
-		offsetMin = int16(offset)
+		offsetMin = int16(offsetSec)
 	}
 
 	sec := t.sec()
@@ -1192,7 +1192,7 @@ func (t Time) MarshalBinary() ([]byte, error) {
 		byte(nsec >> 16),
 		byte(nsec >> 8),
 		byte(nsec),
-		byte(offsetMin >> 8), // bytes 13-14: zone offset in minutes
+		byte(offsetMin >> 8), // bytes 13-14: zone offsetSec in minutes
 		byte(offsetMin),
 	}
 
@@ -1210,7 +1210,7 @@ func (t *Time) UnmarshalBinary(data []byte) error {
 		return errors.New("Time.UnmarshalBinary: unsupported version")
 	}
 
-	if len(buf) != /*version*/ 1+ /*sec*/ 8+ /*nsec*/ 4+ /*zone offset*/ 2 {
+	if len(buf) != /*version*/ 1+ /*sec*/ 8+ /*nsec*/ 4+ /*zone offsetSec*/ 2 {
 		return errors.New("Time.UnmarshalBinary: invalid length")
 	}
 
@@ -1222,18 +1222,18 @@ func (t *Time) UnmarshalBinary(data []byte) error {
 	nsec := int32(buf[3]) | int32(buf[2])<<8 | int32(buf[1])<<16 | int32(buf[0])<<24
 
 	buf = buf[4:]
-	offset := int(int16(buf[1])|int16(buf[0])<<8) * 60
+	offsetSec := int(int16(buf[1])|int16(buf[0])<<8) * 60
 
 	*t = Time{}
 	t.wall = uint64(nsec)
 	t.ext = sec
 
-	if offset == -1*60 {
+	if offsetSec == -1*60 {
 		t.setLoc(&utcLoc)
-	} else if _, localoff, _, _ := Local.lookup(t.unixSec()); offset == localoff {
+	} else if _, localoff, _, _ := Local.lookup(t.unixSec()); offsetSec == localoff {
 		t.setLoc(Local)
 	} else {
-		t.setLoc(FixedZone("", offset))
+		t.setLoc(FixedZone("", offsetSec))
 	}
 
 	return nil
@@ -1411,19 +1411,19 @@ func Date(year int, month Month, day, hour, min, sec, nsec int, loc *Location) T
 
 	unix := int64(abs) + (absoluteToInternal + internalToUnix)
 
-	// Look for zone offset for t, so we can adjust to UTC.
+	// Look for zone offsetSec for t, so we can adjust to UTC.
 	// The lookup function expects UTC, so we pass t in the
 	// hope that it will not be too close to a zone transition,
 	// and then adjust if it is.
-	_, offset, start, end := loc.lookup(unix)
-	if offset != 0 {
-		switch utc := unix - int64(offset); {
+	_, offsetSec, start, end := loc.lookup(unix)
+	if offsetSec != 0 {
+		switch utc := unix - int64(offsetSec); {
 		case utc < start:
-			_, offset, _, _ = loc.lookup(start - 1)
+			_, offsetSec, _, _ = loc.lookup(start - 1)
 		case utc >= end:
-			_, offset, _, _ = loc.lookup(end)
+			_, offsetSec, _, _ = loc.lookup(end)
 		}
-		unix -= int64(offset)
+		unix -= int64(offsetSec)
 	}
 
 	t := unixTime(unix, int32(nsec))

@@ -64,19 +64,19 @@ func loadZoneDataPlan9(s string) (l *Location, err error) {
 
 	var zones [2]zone
 
-	// standard timezone offset
+	// standard timezone offsetSec
 	o, err := atoi(f[1])
 	if err != nil {
 		return nil, badData
 	}
-	zones[0] = zone{name: f[0], offset: o, isDST: false}
+	zones[0] = zone{name: f[0], offsetSec: o, isDST: false}
 
-	// alternate timezone offset
+	// alternate timezone offsetSec
 	o, err = atoi(f[3])
 	if err != nil {
 		return nil, badData
 	}
-	zones[1] = zone{name: f[2], offset: o, isDST: true}
+	zones[1] = zone{name: f[2], offsetSec: o, isDST: true}
 
 	// transition time pairs
 	var tx []zoneTrans
@@ -90,7 +90,7 @@ func loadZoneDataPlan9(s string) (l *Location, err error) {
 		if err != nil {
 			return nil, badData
 		}
-		t -= zones[0].offset
+		t -= zones[0].offsetSec
 		tx = append(tx, zoneTrans{when: int64(t), index: uint8(zi)})
 	}
 

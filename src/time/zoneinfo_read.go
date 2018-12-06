@@ -163,7 +163,7 @@ func LoadLocationFromTZData(name string, data []byte) (*Location, error) {
 		if n, ok = zonedata.big4(); !ok {
 			return nil, badData
 		}
-		zone[i].offset = int(int32(n))
+		zone[i].offsetSec = int(int32(n))
 		var b byte
 		if b, ok = zonedata.byte(); !ok {
 			return nil, badData

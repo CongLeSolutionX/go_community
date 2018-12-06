@@ -23,22 +23,22 @@ func initLocal() {
 
 	z := zone{}
 	d := js.Global().Get("Date").New()
-	offset := d.Call("getTimezoneOffset").Int() * -1
-	z.offset = offset * 60
+	offsetSec := d.Call("getTimezoneOffset").Int() * -1
+	z.offsetSec = offsetSec * 60
 	// According to https://tc39.github.io/ecma262/#sec-timezoneestring,
 	// the timezone name from (new Date()).toTimeString() is an implementation-dependent
 	// result, and in Google Chrome, it gives the fully expanded name rather than
 	// the abbreviation.
-	// Hence, we construct the name from the offset.
+	// Hence, we construct the name from the offsetSec.
 	z.name = "UTC"
-	if offset < 0 {
+	if offsetSec < 0 {
 		z.name += "-"
-		offset *= -1
+		offsetSec *= -1
 	} else {
 		z.name += "+"
 	}
-	z.name += itoa(offset / 60)
-	min := offset % 60
+	z.name += itoa(offsetSec / 60)
+	min := offsetSec % 60
 	if min != 0 {
 		z.name += ":" + itoa(min)
 	}

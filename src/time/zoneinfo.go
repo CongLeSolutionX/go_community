@@ -36,9 +36,9 @@ type Location struct {
 
 // A zone represents a single time zone such as CEST or CET.
 type zone struct {
-	name   string // abbreviated name, "CET"
-	offset int    // seconds east of UTC
-	isDST  bool   // is this zone Daylight Savings Time?
+	name      string // abbreviated name, "CET"
+	offsetSec int    // seconds east of UTC
+	isDST     bool   // is this zone Daylight Savings Time?
 }
 
 // A zoneTrans represents a single time zone transition.
@@ -89,10 +89,10 @@ func (l *Location) String() string {
 
 // FixedZone returns a Location that always uses
 // the given zone name and offset (seconds east of UTC).
-func FixedZone(name string, offset int) *Location {
+func FixedZone(name string, offsetSec int) *Location {
 	l := &Location{
 		name:       name,
-		zone:       []zone{{name, offset, false}},
+		zone:       []zone{{name, offsetSec, false}},
 		tx:         []zoneTrans{{alpha, 0, false, false}},
 		cacheStart: alpha,
 		cacheEnd:   omega,
@@ -108,12 +108,12 @@ func FixedZone(name string, offset int) *Location {
 // the start and end times bracketing sec when that zone is in effect,
 // the offset in seconds east of UTC (such as -5*60*60), and whether
 // the daylight savings is being observed at that time.
-func (l *Location) lookup(sec int64) (name string, offset int, start, end int64) {
+func (l *Location) lookup(sec int64) (name string, offsetSec int, start, end int64) {
 	l = l.get()
 
 	if len(l.zone) == 0 {
 		name = "UTC"
-		offset = 0
+		offsetSec = 0
 		start = alpha
 		end = omega
 		return
@@ -121,7 +121,7 @@ func (l *Location) lookup(sec int64) (name string, offset int, start, end int64)
 
 	if zone := l.cacheZone; zone != nil && l.cacheStart <= sec && sec < l.cacheEnd {
 		name = zone.name
-		offset = zone.offset
+		offsetSec = zone.offsetSec
 		start = l.cacheStart
 		end = l.cacheEnd
 		return
@@ -130,7 +130,7 @@ func (l *Location) lookup(sec int64) (name string, offset int, start, end int64)
 	if len(l.tx) == 0 || sec < l.tx[0].when {
 		zone := &l.zone[l.lookupFirstZone()]
 		name = zone.name
-		offset = zone.offset
+		offsetSec = zone.offsetSec
 		start = alpha
 		if len(l.tx) > 0 {
 			end = l.tx[0].when
@@ -158,7 +158,7 @@ func (l *Location) lookup(sec int64) (name string, offset int, start, end int64)
 	}
 	zone := &l.zone[tx[lo].index]
 	name = zone.name
-	offset = zone.offset
+	offsetSec = zone.offsetSec
 	start = tx[lo].when
 	// end = maintained during the search
 	return
@@ -219,7 +219,7 @@ func (l *Location) firstZoneUsed() bool {
 // lookupName returns information about the time zone with
 // the given name (such as "EST") at the given pseudo-Unix time
 // (what the given time of day would be in UTC).
-func (l *Location) lookupName(name string, unix int64) (offset int, ok bool) {
+func (l *Location) lookupName(name string, unix int64) (offsetSec int, ok bool) {
 	l = l.get()
 
 	// First try for a zone with the right name that was actually
@@ -231,9 +231,9 @@ func (l *Location) lookupName(name string, unix int64) (offset int, ok bool) {
 	for i := range l.zone {
 		zone := &l.zone[i]
 		if zone.name == name {
-			nam, offset, _, _ := l.lookup(unix - int64(zone.offset))
+			nam, offsetSec, _, _ := l.lookup(unix - int64(zone.offsetSec))
 			if nam == zone.name {
-				return offset, true
+				return offsetSec, true
 			}
 		}
 	}
@@ -242,7 +242,7 @@ func (l *Location) lookupName(name string, unix int64) (offset int, ok bool) {
 	for i := range l.zone {
 		zone := &l.zone[i]
 		if zone.name == name {
-			return zone.offset, true
+			return zone.offsetSec, true
 		}
 	}
 

@@ -156,7 +156,7 @@ func initLocalFromTZI(i *syscall.Timezoneinformation) {
 	std.name = stdname
 	if nzone == 1 {
 		// No daylight savings.
-		std.offset = -int(i.Bias) * 60
+		std.offsetSec = -int(i.Bias) * 60
 		l.cacheStart = alpha
 		l.cacheEnd = omega
 		l.cacheZone = std
@@ -169,11 +169,11 @@ func initLocalFromTZI(i *syscall.Timezoneinformation) {
 	// StandardBias must be ignored if StandardDate is not set,
 	// so this computation is delayed until after the nzone==1
 	// return above.
-	std.offset = -int(i.Bias+i.StandardBias) * 60
+	std.offsetSec = -int(i.Bias+i.StandardBias) * 60
 
 	dst := &l.zone[1]
 	dst.name = dstname
-	dst.offset = -int(i.Bias+i.DaylightBias) * 60
+	dst.offsetSec = -int(i.Bias+i.DaylightBias) * 60
 	dst.isDST = true
 
 	// Arrange so that d0 is first transition date, d1 second,
@@ -195,12 +195,12 @@ func initLocalFromTZI(i *syscall.Timezoneinformation) {
 	txi := 0
 	for y := year - 100; y < year+100; y++ {
 		tx := &l.tx[txi]
-		tx.when = pseudoUnix(y, d0) - int64(l.zone[i1].offset)
+		tx.when = pseudoUnix(y, d0) - int64(l.zone[i1].offsetSec)
 		tx.index = uint8(i0)
 		txi++
 
 		tx = &l.tx[txi]
-		tx.when = pseudoUnix(y, d1) - int64(l.zone[i0].offset)
+		tx.when = pseudoUnix(y, d1) - int64(l.zone[i0].offsetSec)
 		tx.index = uint8(i1)
 		txi++
 	}
