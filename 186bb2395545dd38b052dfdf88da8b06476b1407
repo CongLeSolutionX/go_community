@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b54f9f58_c9604352",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-07T17:32:27Z",
+      "side": 1,
+      "message": "You could just do i.t \u003d i.t.succ(), etc and avoid this extra copy.",
+      "revId": "186bb2395545dd38b052dfdf88da8b06476b1407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b327672f_cf90077e",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-07T17:32:27Z",
+      "side": 1,
+      "message": "rbegin",
+      "range": {
+        "startLine": 206,
+        "startChar": 3,
+        "endLine": 206,
+        "endChar": 8
+      },
+      "revId": "186bb2395545dd38b052dfdf88da8b06476b1407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff96915e_67d759aa",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-07T17:32:27Z",
+      "side": 1,
+      "message": "I\u0027m still undecided on whether the STL was the right pattern to follow these, but I\u0027m obviously not going to make it completely change this at this point. :)\n\nFor the record, a few other patterns that come to mind:\n\n1. node/next()/prev()/valid(). Use would look something like\n\n   for it :\u003d treap.first(); it.valid(); it.next() {  // maybe it \u003d it.next()\n     // .. use it.node\n   }\n\nNice because you don\u0027t need a concept of past-the-end or past-the-beginning, and one iterator can go either way. You just need \"valid\" and \"invalid\" and it\u0027s fine if an invalid iterator can\u0027t become valid again.\n\n2. Java-style hasNext()/next()/hasPrev()/prev().\n\n   for it :\u003d treap.begin(); it.hasNext(); {\n     n :\u003d it.next()  // moves to the next element and return its\n   }\n\nNot great. You still need a concept of past-the-end/beginning, and even weirder is that the iterator starts past-the-beginning. hasNext and next may duplicate work.\n\n3. \"x, ok\" style.\n\n   for it, ok :\u003d treap.first(); it, ok \u003d it.next(); ok {\n     // .. use it.node\n   }\n\nSimilar to pattern 1, but the validity is explicitly returned from operations. Seems a little more cumbersome to use.",
+      "revId": "186bb2395545dd38b052dfdf88da8b06476b1407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9d9f344_3ebdc11e",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-07T17:32:27Z",
+      "side": 1,
+      "message": "Perhaps \"and returns i.next()\" since it could be the successor or the predecessor depending on i\u0027s mode.",
+      "range": {
+        "startLine": 357,
+        "startChar": 24,
+        "endLine": 357,
+        "endChar": 37
+      },
+      "revId": "186bb2395545dd38b052dfdf88da8b06476b1407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
