@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acfa9f22_50d91fef",
+        "filename": "src/cmd/go/internal/modcmd/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-12-07T21:34:17Z",
+      "side": 1,
+      "message": "s/module name/module path/\n\nAnd I tend to think of “version string” as something like “v1.0.0-alpha1”...\n\nPerhaps: \"go mod init: module path must not contain \u0027@\u0027\"",
+      "range": {
+        "startLine": 42,
+        "startChar": 40,
+        "endLine": 42,
+        "endChar": 84
+      },
+      "revId": "05fb003bbe3a2cb70ac71f4679f624068dcd09d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
