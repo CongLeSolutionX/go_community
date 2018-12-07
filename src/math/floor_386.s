@@ -7,7 +7,7 @@
 // func Ceil(x float64) float64
 TEXT ·Ceil(SB),NOSPLIT,$0
 	FMOVD   x+0(FP), F0  // F0=x
-	FSTCW   -2(SP)       // save old Control Word
+	FNSTCW  -2(SP)       // save old Control Word
 	MOVW    -2(SP), AX
 	ANDW    $0xf3ff, AX
 	ORW     $0x0800, AX  // Rounding Control set to +Inf
@@ -21,7 +21,7 @@ TEXT ·Ceil(SB),NOSPLIT,$0
 // func Floor(x float64) float64
 TEXT ·Floor(SB),NOSPLIT,$0
 	FMOVD   x+0(FP), F0  // F0=x
-	FSTCW   -2(SP)       // save old Control Word
+	FNSTCW  -2(SP)       // save old Control Word
 	MOVW    -2(SP), AX
 	ANDW    $0xf3ff, AX
 	ORW     $0x0400, AX  // Rounding Control set to -Inf
@@ -35,7 +35,7 @@ TEXT ·Floor(SB),NOSPLIT,$0
 // func Trunc(x float64) float64
 TEXT ·Trunc(SB),NOSPLIT,$0
 	FMOVD   x+0(FP), F0  // F0=x
-	FSTCW   -2(SP)       // save old Control Word
+	FNSTCW  -2(SP)       // save old Control Word
 	MOVW    -2(SP), AX
 	ORW     $0x0c00, AX  // Rounding Control set to truncate
 	MOVW    AX, -4(SP)   // store new Control Word

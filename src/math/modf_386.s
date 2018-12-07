@@ -21,7 +21,7 @@ TEXT ·Modf(SB),NOSPLIT,$0
 notNegativeZero:
 	FMOVD   f+0(FP), F0  // F0=f
 	FMOVD   F0, F1       // F0=f, F1=f
-	FSTCW   -2(SP)       // save old Control Word
+	FNSTCW  -2(SP)       // save old Control Word
 	MOVW    -2(SP), AX
 	ORW     $0x0c00, AX  // Rounding Control set to truncate
 	MOVW    AX, -4(SP)   // store new Control Word

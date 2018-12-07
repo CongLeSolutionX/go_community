@@ -1798,18 +1798,18 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	//TODO: FMULL (R11)                     // 41dc0b
 	//TODO: FMULP F0, F2                    // deca
 	//TODO: FMULP F0, F3                    // decb
-	//TODO: FNCLEX                          // dbe2
-	//TODO: FNINIT                          // dbe3
+	FNCLEX                                  // dbe2
+	FNINIT                                  // dbe3
 	FNOP                                    // d9d0
-	//TODO: FNSAVEL (BX)                    // dd33
-	//TODO: FNSAVEL (R11)                   // 41dd33
-	//TODO: FNSTCW (BX)                     // d93b
-	//TODO: FNSTCW (R11)                    // 41d93b
-	//TODO: FNSTENVL (BX)                   // d933
-	//TODO: FNSTENVL (R11)                  // 41d933
-	//TODO: FNSTSW AX                       // dfe0
-	//TODO: FNSTSW (BX)                     // dd3b
-	//TODO: FNSTSW (R11)                    // 41dd3b
+	FNSAVE (BX)                             // dd33
+	FNSAVE (R11)                            // 41dd33
+	FNSTCW (BX)                             // d93b
+	FNSTCW (R11)                            // 41d93b
+	FNSTENV (BX)                            // d933
+	FNSTENV (R11)                           // 41d933
+	FNSTSW AX                               // dfe0
+	FNSTSW (BX)                             // dd3b
+	FNSTSW (R11)                            // 41dd3b
 	FPATAN                                  // d9f3
 	FPREM                                   // d9f8
 	FPREM1                                  // d9f5
@@ -1865,7 +1865,7 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	//TODO: FUCOMP F2                       // ddea
 	//TODO: FUCOMP F3                       // ddeb
 	//TODO: FUCOMPP                         // dae9
-	//TODO: FWAIT                           // 9b
+	FWAIT                                   // 9b
 	FXAM                                    // d9e5
 	//TODO: FXCH F2                         // d9ca
 	//TODO: FXCH F3                         // d9cb

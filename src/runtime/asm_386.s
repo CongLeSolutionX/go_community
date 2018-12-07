@@ -1344,7 +1344,7 @@ TEXT runtime·uint32tofloat64(SB),NOSPLIT,$8-12
 
 TEXT runtime·float64touint32(SB),NOSPLIT,$12-12
 	FMOVD	a+0(FP), F0
-	FSTCW	0(SP)
+	FNSTCW	0(SP)
 	FLDCW	runtime·controlWord64trunc(SB)
 	FMOVVP	F0, 4(SP)
 	FLDCW	0(SP)

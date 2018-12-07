@@ -139,7 +139,7 @@ func ssaGenValue387(s *gc.SSAGenState, v *ssa.Value) {
 		// Set precision if needed.  64 bits is the default.
 		switch v.Op {
 		case ssa.Op386ADDSS, ssa.Op386SUBSS, ssa.Op386MULSS, ssa.Op386DIVSS:
-			p := s.Prog(x86.AFSTCW)
+			p := s.Prog(x86.AFNSTCW)
 			s.AddrScratch(&p.To)
 			p = s.Prog(x86.AFLDCW)
 			p.From.Type = obj.TYPE_MEM
@@ -188,7 +188,7 @@ func ssaGenValue387(s *gc.SSAGenState, v *ssa.Value) {
 		s.AddrScratch(&p.To)
 
 		// Move status word into AX.
-		p = s.Prog(x86.AFSTSW)
+		p = s.Prog(x86.AFNSTSW)
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = x86.REG_AX
 
@@ -226,7 +226,7 @@ func ssaGenValue387(s *gc.SSAGenState, v *ssa.Value) {
 		push(s, v.Args[0])
 
 		// Save control word.
-		p := s.Prog(x86.AFSTCW)
+		p := s.Prog(x86.AFNSTCW)
 		s.AddrScratch(&p.To)
 		p.To.Offset += 4
 

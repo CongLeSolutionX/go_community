@@ -8,7 +8,7 @@
 TEXT ·Frexp(SB),NOSPLIT,$0
 	FMOVD   f+0(FP), F0   // F0=f
 	FXAM
-	FSTSW   AX
+	FNSTSW  AX
 	SAHF
 	JNP     nan_zero_inf
 	JCS     nan_zero_inf

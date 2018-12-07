@@ -23,7 +23,7 @@ TEXT ·Hypot(SB),NOSPLIT,$0
 	JCC     2(PC)        // jump if F0 >= F1
 	FXCHD   F0, F1       // F0=|p| (larger), F1=|q| (smaller)
 	FTST                 // compare F0 to 0
-	FSTSW	AX
+	FNSTSW  AX
 	ANDW    $0x4000, AX
 	JNE     10(PC)       // jump if F0 = 0
 	FXCHD   F0, F1       // F0=q (smaller), F1=p (larger)

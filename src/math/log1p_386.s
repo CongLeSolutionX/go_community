@@ -10,7 +10,7 @@ TEXT ·Log1p(SB),NOSPLIT,$0
 	FMOVD   x+0(FP), F0  // F0=x, F1=1-sqrt(2)/2 = 0.29289321881345247559915564
 	FABS                 // F0=|x|, F1=1-sqrt(2)/2
 	FUCOMPP F0, F1       // compare F0 to F1
-	FSTSW   AX
+	FNSTSW  AX
 	FLDLN2               // F0=log(2)
 	ANDW    $0x0100, AX
 	JEQ     use_fyl2x    // jump if F0 >= F1

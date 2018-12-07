@@ -8,7 +8,7 @@
 TEXT ·Sincos(SB),NOSPLIT,$0
 	FMOVD   x+0(FP), F0  // F0=x
 	FSINCOS              // F0=cos(x), F1=sin(x) if -2**63 < x < 2**63
-	FSTSW   AX           // AX=status word
+	FNSTSW  AX           // AX=status word
 	ANDW    $0x0400, AX
 	JNE     4(PC)        // jump if x outside range
 	FMOVDP  F0, cos+16(FP) // F0=sin(x)
@@ -18,7 +18,7 @@ TEXT ·Sincos(SB),NOSPLIT,$0
 	FADDD   F0, F0       // F0=2*Pi, F1=x
 	FXCHD   F0, F1       // F0=x, F1=2*Pi
 	FPREM1               // F0=reduced_x, F1=2*Pi
-	FSTSW   AX           // AX=status word
+	FNSTSW  AX           // AX=status word
 	ANDW    $0x0400, AX
 	JNE     -3(PC)       // jump if reduction incomplete
 	FMOVDP  F0, F1       // F0=reduced_x

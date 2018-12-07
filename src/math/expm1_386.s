@@ -10,7 +10,7 @@ TEXT ·Expm1(SB),NOSPLIT,$0
 	FMOVD   x+0(FP), F0  // F0=x, F1=1/log2(e)
 	FABS                 // F0=|x|, F1=1/log2(e)
 	FUCOMPP F0, F1       // compare F0 to F1
-	FSTSW   AX
+	FNSTSW  AX
 	SAHF
 	JCC     use_exp      // jump if F0 >= F1
 	FLDL2E                // F0=log2(e)
