@@ -227,6 +227,8 @@ func TestRespectSetgidDir(t *testing.T) {
 		if runtime.GOARCH == "arm" || runtime.GOARCH == "arm64" {
 			t.Skip("can't set SetGID bit with chmod on iOS")
 		}
+	case "windows", "plan9":
+		t.Skip("SetGID bit is ignored on Windows and Plan 9")
 	}
 
 	var b Builder
@@ -245,16 +247,23 @@ func TestRespectSetgidDir(t *testing.T) {
 	}
 	defer os.RemoveAll(setgiddir)
 
-	if runtime.GOOS == "freebsd" {
-		err = os.Chown(setgiddir, os.Getuid(), os.Getgid())
-		if err != nil {
-			t.Fatal(err)
-		}
+	// On BSD systems, chmod with the setgid bit will fail if the current user is
+	// not a member of the group that owns the directory. On Linux, chmod will
+	// silently fail to set the setgid bit.
+	// Explicitly set the group to the user's current group.
+	if err := os.Chown(setgiddir, os.Getuid(), os.Getgid()); err != nil {
+		t.Fatal(err)
 	}
 
 	// Change setgiddir's permissions to include the SetGID bit.
 	if err := os.Chmod(setgiddir, 0755|os.ModeSetgid); err != nil {
 		t.Fatal(err)
+	}
+	// Verify that the SetGID bit was not ignored.
+	if fi, err := os.Stat(setgiddir); err != nil {
+		t.Fatal(err)
+	} else if fi.Mode()&os.ModeSetgid == 0 {
+		t.Fatalf("os.Chmod(%q, 0755|os.ModeSetgid) returned nil, but ModeSetgid is still unset", setgiddir)
 	}
 
 	pkgfile, err := ioutil.TempFile("", "pkgfile")
