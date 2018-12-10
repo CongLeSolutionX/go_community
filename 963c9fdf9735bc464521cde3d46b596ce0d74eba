@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85904d0b_c1ceea62",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-12-10T23:48:17Z",
+      "side": 1,
+      "message": "I found this very hard to read. That boolean is complex. The code is also wrong, as it thinks the empty string is a valid identifier. If you\u0027re going to check it, get it right.\n\nif len(ident) \u003d\u003d 0 {\n  return false\n}\nfor i, c :\u003d range ident {\n  if i \u003e 0 \u0026\u0026 unicode.IsDigit(c)) {\n    continue\n  }\n  if c \u003d\u003d \u0027_\u0027 || unicode.IsLetter(c) {\n    continue\n  }\n  return false\n}\nreturn true",
+      "revId": "963c9fdf9735bc464521cde3d46b596ce0d74eba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
