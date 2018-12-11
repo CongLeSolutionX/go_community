@@ -34,6 +34,24 @@
       "revId": "a2f0a9048b3ff704ed8888adf965ba1f472460a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "195d14b4_7ec6927b",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-11T15:01:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efa9982c_f5652484",
+      "revId": "a2f0a9048b3ff704ed8888adf965ba1f472460a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
