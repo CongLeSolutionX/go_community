@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76b06b03_302167ff",
+        "filename": "src/go/format/benchmark_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-12-11T23:43:52Z",
+      "side": 1,
+      "message": "This is not the correct path anymore.",
+      "range": {
+        "startLine": 18,
+        "startChar": 54,
+        "endLine": 18,
+        "endChar": 60
+      },
+      "revId": "c0a449df291f5e235bd0e23d426df9c04dfa495a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
