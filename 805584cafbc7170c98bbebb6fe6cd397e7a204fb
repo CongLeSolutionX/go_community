@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bbd41af_7dce7ae4",
+        "filename": "test/heapsampling.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-12-11T19:15:53Z",
+      "side": 1,
+      "message": "I am confused. how is the firstLine computed fnames[0] relevant to the other in fnames?",
+      "revId": "805584cafbc7170c98bbebb6fe6cd397e7a204fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c24dbd5_e790d231",
+        "filename": "test/heapsampling.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-12-11T19:15:53Z",
+      "side": 1,
+      "message": "why is this change necessary?\nI read that the line is set by the first successfully resolved pc, and count allocation whose stack includes the named function. Previous logic is on the other hand counting only the allocation that occurs exactly in the name function. Is it right? Can you reflect this behavior in the comment?",
+      "revId": "805584cafbc7170c98bbebb6fe6cd397e7a204fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
