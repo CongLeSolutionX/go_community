@@ -879,17 +879,14 @@ func profilem(mp *m, thread uintptr) {
 		// We cannot pull R10 from the thread context because
 		// it might be executing C code, in which case R10
 		// would not be g.
-		gp = mp.curg
+		tls := &mp.tls[0]
+		gp = **((***g)(unsafe.Pointer(tls)))
 	case "386", "amd64":
 		tls := &mp.tls[0]
 		gp = *((**g)(unsafe.Pointer(tls)))
 	}
 
-	if gp == nil {
-		sigprofNonGoPC(r.ip())
-	} else {
-		sigprof(r.ip(), r.sp(), 0, gp, mp)
-	}
+	sigprof(r.ip(), r.sp(), 0, gp, mp)
 }
 
 func profileloop1(param uintptr) uint32 {
