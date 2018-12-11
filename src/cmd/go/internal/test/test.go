@@ -1414,7 +1414,7 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 			if !filepath.IsAbs(name) {
 				name = filepath.Join(pwd, name)
 			}
-			if !inDir(name, a.Package.Root) {
+			if a.Package.Root == "" || !inDir(name, a.Package.Root) {
 				// Do not recheck files outside the GOPATH or GOROOT root.
 				break
 			}
@@ -1423,7 +1423,7 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 			if !filepath.IsAbs(name) {
 				name = filepath.Join(pwd, name)
 			}
-			if !inDir(name, a.Package.Root) {
+			if a.Package.Root == "" || !inDir(name, a.Package.Root) {
 				// Do not recheck files outside the GOPATH or GOROOT root.
 				break
 			}
