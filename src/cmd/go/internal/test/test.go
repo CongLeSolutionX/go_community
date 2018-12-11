@@ -1414,8 +1414,8 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 			if !filepath.IsAbs(name) {
 				name = filepath.Join(pwd, name)
 			}
-			if !inDir(name, a.Package.Root) {
-				// Do not recheck files outside the GOPATH or GOROOT root.
+			if a.Package.Root != "" && !inDir(name, a.Package.Root) {
+				// Do not recheck files outside the module, GOPATH, or GOROOT root.
 				break
 			}
 			fmt.Fprintf(h, "stat %s %x\n", name, hashStat(name))
@@ -1423,8 +1423,8 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 			if !filepath.IsAbs(name) {
 				name = filepath.Join(pwd, name)
 			}
-			if !inDir(name, a.Package.Root) {
-				// Do not recheck files outside the GOPATH or GOROOT root.
+			if a.Package.Root != "" && !inDir(name, a.Package.Root) {
+				// Do not recheck files outside the module, GOPATH, or GOROOT root.
 				break
 			}
 			fh, err := hashOpen(name)
