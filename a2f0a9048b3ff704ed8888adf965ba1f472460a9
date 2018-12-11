@@ -16,6 +16,24 @@
       "revId": "a2f0a9048b3ff704ed8888adf965ba1f472460a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa9982c_f5652484",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-12-11T06:42:15Z",
+      "side": 1,
+      "message": "This would be better as\nreturn fmt.Errorf(\"-var: %q is not a valid identifier\")\nor something like that. As written, the variable name appears where we would often expect an error.",
+      "parentUuid": "3045368f_1f7b92a7",
+      "revId": "a2f0a9048b3ff704ed8888adf965ba1f472460a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
