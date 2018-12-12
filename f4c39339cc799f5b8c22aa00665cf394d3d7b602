@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "635a5e2c_0a33402f",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 15920
+      },
+      "writtenOn": "2018-12-12T22:52:28Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s true.\n\nThe issue is that mkdir on BSD will inherit the parent group, but Linux/POSIX will use the effective group ID of the process. With BSD, the process may not be able to setgid on the new directory. If setgid was set on the parent directory under Linux, then it may fail on Linux as well. This is a good reason to make the chown universal.\n\nI\u0027ve update my earlier CL with some alternative wording and made the chown universal to match this.",
+      "range": {
+        "startLine": 250,
+        "startChar": 20,
+        "endLine": 252,
+        "endChar": 40
+      },
+      "revId": "f4c39339cc799f5b8c22aa00665cf394d3d7b602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1c3181d_d4d43e33",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 15920
+      },
+      "writtenOn": "2018-12-12T22:52:28Z",
+      "side": 1,
+      "message": "Personally, I think we should be able to assume if os.Chmod succeeds that setgid is in place. If not, Chown should be fixed. I think we can drop this.",
+      "range": {
+        "startLine": 262,
+        "startChar": 1,
+        "endLine": 267,
+        "endChar": 2
+      },
+      "revId": "f4c39339cc799f5b8c22aa00665cf394d3d7b602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
