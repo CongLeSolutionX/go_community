@@ -22,6 +22,30 @@
       "revId": "321a3d6e85e6440b5c753b3fd6a0e028dcc08143",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70db83d7_9f95d4f9",
+        "filename": "src/syscall/sockcmsg_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2018-12-12T17:26:20Z",
+      "side": 0,
+      "message": "This would require evaluating runtime.GOOS and runtime.GOARCH on every cmsgAlignOf invocation for every platform, which seemed less than ideal - moving it to an init means that we only ever evaluate it once. That said, looking more closely at the generated code it seems that the compiler is optimising this far more than I expected, since they\u0027re constants.\n\nFWIW this is also the method that is now being used in golang.org/x/sys/unix, so if we decide to do it differently here we should probably be consistent.",
+      "parentUuid": "d2b5007e_9b885675",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 2
+      },
+      "revId": "321a3d6e85e6440b5c753b3fd6a0e028dcc08143",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
