@@ -69,6 +69,30 @@
       "revId": "f4c39339cc799f5b8c22aa00665cf394d3d7b602",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef91f534_647d190d",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-12-12T23:03:31Z",
+      "side": 1,
+      "message": "Silently dropping setgid is the documented behavior on Linux.\nPer http://man7.org/linux/man-pages/man2/chmod.2.html:\n“\n       If the calling process is not privileged (Linux: does not have the\n       CAP_FSETID capability), and the group of the file does not match the\n       effective group ID of the process or one of its supplementary group\n       IDs, the S_ISGID bit will be turned off, but this will not cause an\n       error to be returned\n”",
+      "parentUuid": "9d429128_3b3957a9",
+      "range": {
+        "startLine": 262,
+        "startChar": 1,
+        "endLine": 267,
+        "endChar": 2
+      },
+      "revId": "f4c39339cc799f5b8c22aa00665cf394d3d7b602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
