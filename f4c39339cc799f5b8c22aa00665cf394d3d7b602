@@ -45,6 +45,30 @@
       "revId": "f4c39339cc799f5b8c22aa00665cf394d3d7b602",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d429128_3b3957a9",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 15920
+      },
+      "writtenOn": "2018-12-12T23:00:48Z",
+      "side": 1,
+      "message": "Oops.. \"If not, Chmod should be fixed\"",
+      "parentUuid": "e1c3181d_d4d43e33",
+      "range": {
+        "startLine": 262,
+        "startChar": 1,
+        "endLine": 267,
+        "endChar": 2
+      },
+      "revId": "f4c39339cc799f5b8c22aa00665cf394d3d7b602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
