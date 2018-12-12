@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8a5cb60d_fcb405cf",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-12T06:19:49Z",
+      "side": 1,
+      "message": "We don\u0027t have general long file name support in the os package.  For example, we don\u0027t use openat for os.Open.  That might be a good idea at some point, but until then it seems fine to me to restrict the path passed to RemoveAll to short file names.\n\nThat point is different from the desire to use unlinkat, etc., when removing the contents of the directory.  Although the directory passed to RemoveAll must itself must be a short name, we have removed the requirement that the deepest subdirectory of the removed directory must be a short name.",
+      "parentUuid": "241dd1db_2aa06bce",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 14
+      },
+      "revId": "ba1de79a3a542b5bf25c4cc3be1c91d1ede47c55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa091eef_699b3403",
         "filename": "src/os/removeall_at.go",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2018-12-12T05:05:42Z",
       "side": 1,
       "message": "A consequence of adding this here instead of inside removeAllFrom is that it works only on top-level unreadable empty directories. If an unreadable empty directory is a child directory, RemoveAll on tip will still return an error, while RemoveAll in Go 1.11 succeeds.\n\nHere\u0027s a new test case, https://play.golang.org/p/u4IKceJ7SGj (note it creates 2 directories now, instead of 1), and its output:\n\n    \t$ go run .\n\ttemp file was removed: true\n\t$ gotip run .\n\t2018/12/11 23:18:57 os.RemoveAll: permission denied\n\texit status 1\n\nMy question: was this an intentional decision?\n\nOr do we want to preserve the 1.11 behavior even for non-top-level unreadable empty directories? A potential concern with trying to preserve old behavior recursively is that it may affect performance negatively, since you may have to do an extra unlinkat call with the AT_REMOVEDIR parameter.",
+      "revId": "ba1de79a3a542b5bf25c4cc3be1c91d1ede47c55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22e7ded9_4c2ac289",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-12T06:19:49Z",
+      "side": 1,
+      "message": "\u003e A consequence of adding this here instead of inside removeAllFrom is that it works only on top-level unreadable empty directories. If an unreadable empty directory is a child directory, RemoveAll on tip will still return an error, while RemoveAll in Go 1.11 succeeds.\n\u003e \n\u003e Here\u0027s a new test case, https://play.golang.org/p/u4IKceJ7SGj (note it creates 2 directories now, instead of 1), and its output:\n\u003e \n\u003e     \t$ go run .\n\u003e \ttemp file was removed: true\n\u003e \t$ gotip run .\n\u003e \t2018/12/11 23:18:57 os.RemoveAll: permission denied\n\u003e \texit status 1\n\u003e \n\u003e My question: was this an intentional decision?\n\u003e \n\u003e Or do we want to preserve the 1.11 behavior even for non-top-level unreadable empty directories? A potential concern with trying to preserve old behavior recursively is that it may affect performance negatively, since you may have to do an extra unlinkat call with the AT_REMOVEDIR parameter.\n\nGood point.  It was not an intentional decision.  It seems clearly most important to preserve this behavior at top level, but it would be nice to do it at lower levels too.",
+      "parentUuid": "aa091eef_699b3403",
       "revId": "ba1de79a3a542b5bf25c4cc3be1c91d1ede47c55",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "6194fe23_752234e7",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-12T06:19:49Z",
+      "side": 1,
+      "message": "\u003e Just an observation:\n\u003e \n\u003e Unlike Remove, Unlinkat with an argument of 0 only removes files, not directories. To remove directories, unix.AT_REMOVEDIR needs to be specified. This is the cause of the behavior difference compared to the previous RemoveAll that used Remove calls.\n\nSounds good, want to send a patch?",
+      "parentUuid": "d8b05fe5_1946169b",
+      "range": {
+        "startLine": 53,
+        "startChar": 28,
+        "endLine": 53,
+        "endChar": 38
+      },
+      "revId": "ba1de79a3a542b5bf25c4cc3be1c91d1ede47c55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c49a63d9_ff414c85",
         "filename": "src/os/removeall_test.go",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2018-12-12T05:05:42Z",
       "side": 1,
       "message": "Have you considered using !os.IsNotExist(err) to detect that the directory was removed? Is err \u003d\u003d nil check better?\n\nIt seems to me that err \u003d\u003d nil would not detect that the subdirectory wasn\u0027t removed if Stat returns an error.",
+      "range": {
+        "startLine": 291,
+        "startChar": 28,
+        "endLine": 291,
+        "endChar": 38
+      },
+      "revId": "ba1de79a3a542b5bf25c4cc3be1c91d1ede47c55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b353a38_d5f11e1f",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-12T06:19:49Z",
+      "side": 1,
+      "message": "I don\u0027t see why Stat would return an error, but, sure, I\u0027ll approve a change to use os.IsNotExist if you like.",
+      "parentUuid": "c49a63d9_ff414c85",
       "range": {
         "startLine": 291,
         "startChar": 28,
