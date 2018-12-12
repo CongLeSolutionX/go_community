@@ -231,7 +231,11 @@ for {
 <dl id="bufio"><dt><a href="/pkg/bufio/">bufio</a></dt>
   <dd>
     <p><!-- CL 149297 -->
-      TODO: <a href="https://golang.org/cl/149297">https://golang.org/cl/149297</a>: make Reader.Peek invalidate Unreads
+      <a href="/pkg/bufio/#Reader.UnreadRune"><code>Reader.UnreadRune</code></a> and
+      <a href="/pkg/bufio/#Reader.UnreadByte"><code>Reader.UnreadByte</code></a> will now return an error
+      if they are called after <a href="/pkg/bufio/#Reader.Peek"><code>Reader.Peek</code></a>. This is because
+      <code>Reader.Peek</code> potentially reads from the underlying <code>io.Reader</code>, discarding
+      previous buffers that <code>Reader.UnreadRune</code> and <code>Reader.UnreadByte</code> rely on.
     </p>
 
 </dl><!-- bufio -->
@@ -584,20 +588,23 @@ for {
 
 <dl id="syscall"><dt><a href="/pkg/syscall/">syscall</a></dt>
   <dd>
-    <p><!-- CL 125456 -->
-      TODO: <a href="https://golang.org/cl/125456">https://golang.org/cl/125456</a>: implement Unix Socket for Windows
+    <p><!-- CL 138595 -->
+      64-bit inodes are now supported on FreeBSD 12, allowing programs to support very large files.
+      Some types have been adjusted accordingly.
     </p>
 
-    <p><!-- CL 138595 -->
-      TODO: <a href="https://golang.org/cl/138595">https://golang.org/cl/138595</a>: FreeBSD 12 ino64 support
+    <p><!-- CL 125456 -->
+      The unix socket
+      (<a href="https://blogs.msdn.microsoft.com/commandline/2017/12/19/af_unix-comes-to-windows/"><code>AF_UNIX</code></a>)
+      address family is now supported for compatible versions of Windows.
     </p>
 
     <p><!-- CL 141639 -->
-      TODO: <a href="https://golang.org/cl/141639">https://golang.org/cl/141639</a>: implement syscalls on Darwin using libSystem
+      <code>libSystem</code> is now used when making syscalls on Darwin.
     </p>
 
     <p><!-- CL 147117 -->
-      TODO: <a href="https://golang.org/cl/147117">https://golang.org/cl/147117</a>: add Syscall18 on Windows
+      The new function <code>syscall.Syscall18</code> has been introduced for Windows, allowing for calls with up to 18 arguments.
     </p>
 
 </dl><!-- syscall -->
