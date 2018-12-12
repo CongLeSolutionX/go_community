@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2b5007e_9b885675",
+        "filename": "src/syscall/sockcmsg_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-12-12T16:20:03Z",
+      "side": 0,
+      "message": "Why not just\n\n  else if runtime.GOOS \u003d\u003d \"openbsd\" \u0026\u0026 runtime.GOARCH \u003d\u003d \"arm\" {\n          // OpenBSD armv7 requires 64-bit alignment.\n          salign \u003d 8\n  }\n\ninstead of moving everything to func init()?",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 2
+      },
+      "revId": "321a3d6e85e6440b5c753b3fd6a0e028dcc08143",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
