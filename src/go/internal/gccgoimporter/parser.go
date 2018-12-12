@@ -33,7 +33,7 @@ type parser struct {
 	initdata InitData                  // package init priority data
 }
 
-// When reading V1 export data it's possible to encounter a defined
+// When reading pre-V3 export data it's possible to encounter a defined
 // type N1 with an underlying defined type N2 while we are still
 // reading in that defined type N2; see issue #29006 for an instance
 // of this. Example:
@@ -526,7 +526,7 @@ func (p *parser) parseNamedType(nlist []int) types.Type {
 	underlying := p.parseType(pkg)
 	if nt.Underlying() == nil {
 		if underlying.Underlying() == nil {
-			if p.version != "v1" {
+			if p.version != "v1" && p.version != "v2" {
 				p.errorf("internal error: unexpected fixup required for %v", nt)
 			}
 			fix := fixupRecord{toUpdate: nt, target: underlying}
