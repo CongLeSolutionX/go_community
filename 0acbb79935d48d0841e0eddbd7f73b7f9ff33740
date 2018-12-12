@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae1fcabf_026cc692",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-12T20:27:54Z",
+      "side": 1,
+      "message": "Write this reference as https://golang.org/cl/151997.",
+      "revId": "0acbb79935d48d0841e0eddbd7f73b7f9ff33740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49d94df1_8c45508d",
+        "filename": "src/go/internal/gccgoimporter/testdata/issue29198.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-12T20:27:54Z",
+      "side": 1,
+      "message": "Add a copyright header, I guess.  Seems like some .go files here have one, some don\u0027t.",
+      "revId": "0acbb79935d48d0841e0eddbd7f73b7f9ff33740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
