@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec046c4b_b6c3ab97",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-12T22:26:33Z",
+      "side": 1,
+      "message": "Not sure why we need to say why. We don\u0027t usually. Curious readers can DOM inspect to find the HTML CL comment and look up the CL and issues.",
+      "range": {
+        "startLine": 236,
+        "startChar": 95,
+        "endLine": 236,
+        "endChar": 110
+      },
+      "revId": "618e71f49cc51a4d38f71ab993d5df1f9b86ed01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08b2210f_817e8d24",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-12T22:26:33Z",
+      "side": 1,
+      "message": "rather than a sentence with three \"Reader.\" in it, maybe:\n\n   \"_Reader_\u0027s _UnreadRune_ and _UnreadByte_ will now return an error if they are called after _Peek_.\"",
+      "range": {
+        "startLine": 234,
+        "startChar": 52,
+        "endLine": 236,
+        "endChar": 65
+      },
+      "revId": "618e71f49cc51a4d38f71ab993d5df1f9b86ed01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a5ae97b_c12f4fe3",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-12T22:26:33Z",
+      "side": 1,
+      "message": "This isn\u0027t about large files I don\u0027t think. Maybe just omit? Or remove it from here and mention it up in the Ports section without going into detail of what it means?",
+      "range": {
+        "startLine": 592,
+        "startChar": 74,
+        "endLine": 592,
+        "endChar": 98
+      },
+      "revId": "618e71f49cc51a4d38f71ab993d5df1f9b86ed01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62613d07_1c770f3c",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-12T22:26:33Z",
+      "side": 1,
+      "message": "Ah, this is why. Okay, you can keep it in this section.",
+      "range": {
+        "startLine": 593,
+        "startChar": 6,
+        "endLine": 593,
+        "endChar": 47
+      },
+      "revId": "618e71f49cc51a4d38f71ab993d5df1f9b86ed01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb8607ea_4fb0d87e",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-12T22:26:33Z",
+      "side": 1,
+      "message": "Unix? Or whatever we normally say. Or link to net.UnixConn and then you can use the word UnixConn?",
+      "revId": "618e71f49cc51a4d38f71ab993d5df1f9b86ed01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcd0a8c5_b52223cb",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-12T22:26:33Z",
+      "side": 1,
+      "message": "move to Port section above? This is worth highlighting more and saying we\u0027re now going through the proper syscall mechanism so we shouldn\u0027t be broken by future versions of macOS.",
+      "revId": "618e71f49cc51a4d38f71ab993d5df1f9b86ed01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7434d996_9e9f1a0b",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-12T22:26:33Z",
+      "side": 1,
+      "message": "No need to repeat \"syscall.\" in the syscall section.",
+      "range": {
+        "startLine": 607,
+        "startChar": 29,
+        "endLine": 607,
+        "endChar": 36
+      },
+      "revId": "618e71f49cc51a4d38f71ab993d5df1f9b86ed01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
