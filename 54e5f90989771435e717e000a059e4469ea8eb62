@@ -16,6 +16,24 @@
       "revId": "54e5f90989771435e717e000a059e4469ea8eb62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37bc35e2_fc2e99a9",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-12-12T21:21:57Z",
+      "side": 1,
+      "message": "Possibly, although if we somehow get a name ending in \"/\" that is *not* a directory that would be pretty bad too. I think I\u0027ll leave it in for now.",
+      "parentUuid": "9bb944ad_c61cf086",
+      "revId": "54e5f90989771435e717e000a059e4469ea8eb62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
