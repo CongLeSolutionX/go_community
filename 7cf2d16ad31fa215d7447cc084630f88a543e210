@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5eeb8f55_5d30a0c6",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-12T00:07:22Z",
+      "side": 1,
+      "message": "This comment should be removed or updated.",
+      "revId": "7cf2d16ad31fa215d7447cc084630f88a543e210",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dca72b28_11149260",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-12T00:07:22Z",
+      "side": 1,
+      "message": "Remove trailing whitespace.",
+      "revId": "7cf2d16ad31fa215d7447cc084630f88a543e210",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
