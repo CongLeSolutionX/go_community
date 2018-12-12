@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bb944ad_c61cf086",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2018-12-12T19:12:25Z",
+      "side": 1,
+      "message": "Nit: does this make the \"drop directory dummy entries\" check below redundant?",
+      "revId": "54e5f90989771435e717e000a059e4469ea8eb62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
