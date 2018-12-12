@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48f53b7e_9953a7de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2018-12-12T20:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae1fcabf_026cc692",
+      "revId": "0acbb79935d48d0841e0eddbd7f73b7f9ff33740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49d94df1_8c45508d",
         "filename": "src/go/internal/gccgoimporter/testdata/issue29198.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "0acbb79935d48d0841e0eddbd7f73b7f9ff33740",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4341a74_49b2fe73",
+        "filename": "src/go/internal/gccgoimporter/testdata/issue29198.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2018-12-12T20:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49d94df1_8c45508d",
+      "revId": "0acbb79935d48d0841e0eddbd7f73b7f9ff33740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
