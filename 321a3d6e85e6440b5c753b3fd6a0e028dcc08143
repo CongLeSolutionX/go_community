@@ -46,6 +46,30 @@
       "revId": "321a3d6e85e6440b5c753b3fd6a0e028dcc08143",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df9cfcfb_b68829f1",
+        "filename": "src/syscall/sockcmsg_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-12T23:02:00Z",
+      "side": 0,
+      "message": "Looks like you\u0027ve changed it to not use an init function, so I\u0027ll just note for the record that runtime.GOOS and runtime.GOARCH are constants, so all the comparisons disappear at compile time.",
+      "parentUuid": "70db83d7_9f95d4f9",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 2
+      },
+      "revId": "321a3d6e85e6440b5c753b3fd6a0e028dcc08143",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
