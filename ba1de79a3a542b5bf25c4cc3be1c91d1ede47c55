@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "241dd1db_2aa06bce",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-12-12T05:05:42Z",
+      "side": 1,
+      "message": "Have you considered using unix.Unlinkat (with the unix.AT_REMOVEDIR parameter) instead of Remove here?\n\nIt would have to be moved after the Open(parentDir) block, since it requires the parent file descriptor. Something like this:\n\n\tparent, err :\u003d Open(parentDir)\n\tif IsNotExist(err) {\n\t\t// If parent does not exist, base cannot exist. Fail silently\n\t\treturn nil\n\t}\n\tif err !\u003d nil {\n\t\treturn err\n\t}\n\tdefer parent.Close()\n\n\t// Simple case: if Unlinkat with AT_REMOVEDIR works, we\u0027re done.\n\terr \u003d unix.Unlinkat(int(parent.Fd()), base, unix.AT_REMOVEDIR)\n\tif err \u003d\u003d nil || IsNotExist(err) {\n\t\treturn nil\n\t}\n\n\treturn removeAllFrom(parent, base)\n\nThe motivation to prefer Unlinkat over Remove is for #27029.",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 14
+      },
+      "revId": "ba1de79a3a542b5bf25c4cc3be1c91d1ede47c55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa091eef_699b3403",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-12-12T05:05:42Z",
+      "side": 1,
+      "message": "A consequence of adding this here instead of inside removeAllFrom is that it works only on top-level unreadable empty directories. If an unreadable empty directory is a child directory, RemoveAll on tip will still return an error, while RemoveAll in Go 1.11 succeeds.\n\nHere\u0027s a new test case, https://play.golang.org/p/u4IKceJ7SGj (note it creates 2 directories now, instead of 1), and its output:\n\n    \t$ go run .\n\ttemp file was removed: true\n\t$ gotip run .\n\t2018/12/11 23:18:57 os.RemoveAll: permission denied\n\texit status 1\n\nMy question: was this an intentional decision?\n\nOr do we want to preserve the 1.11 behavior even for non-top-level unreadable empty directories? A potential concern with trying to preserve old behavior recursively is that it may affect performance negatively, since you may have to do an extra unlinkat call with the AT_REMOVEDIR parameter.",
+      "revId": "ba1de79a3a542b5bf25c4cc3be1c91d1ede47c55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8b05fe5_1946169b",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-12-12T05:05:42Z",
+      "side": 1,
+      "message": "Just an observation:\n\nUnlike Remove, Unlinkat with an argument of 0 only removes files, not directories. To remove directories, unix.AT_REMOVEDIR needs to be specified. This is the cause of the behavior difference compared to the previous RemoveAll that used Remove calls.",
+      "range": {
+        "startLine": 53,
+        "startChar": 28,
+        "endLine": 53,
+        "endChar": 38
+      },
+      "revId": "ba1de79a3a542b5bf25c4cc3be1c91d1ede47c55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c49a63d9_ff414c85",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-12-12T05:05:42Z",
+      "side": 1,
+      "message": "Have you considered using !os.IsNotExist(err) to detect that the directory was removed? Is err \u003d\u003d nil check better?\n\nIt seems to me that err \u003d\u003d nil would not detect that the subdirectory wasn\u0027t removed if Stat returns an error.",
+      "range": {
+        "startLine": 291,
+        "startChar": 28,
+        "endLine": 291,
+        "endChar": 38
+      },
+      "revId": "ba1de79a3a542b5bf25c4cc3be1c91d1ede47c55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
