@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ea7a5b5_2de0cb5d",
+        "filename": "src/math/trig_reduce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2018-12-13T18:03:10Z",
+      "side": 1,
+      "message": "s/gives/give/",
+      "range": {
+        "startLine": 71,
+        "startChar": 44,
+        "endLine": 71,
+        "endChar": 49
+      },
+      "revId": "bf1c8527ac124653835eae32b6ae7b255ef14d10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
