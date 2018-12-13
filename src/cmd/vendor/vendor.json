@@ -133,8 +133,8 @@
 		{
 			"checksumSHA1": "6AYGJTfvoIblJAxlh0AEIQrRKgo=",
 			"path": "golang.org/x/sys/unix",
-			"revision": "b05ddf57801d2239d6ab0ee35f9d981e0420f4ac",
-			"revisionTime": "2018-12-11T16:24:22Z"
+			"revision": "586ba8c9bb141bbbea1ffb47b201443fd43385dd",
+			"revisionTime": "2018-12-13T13:55:01Z"
 		},
 		{
 			"checksumSHA1": "s+lofQ+SCdhmy0cQp9FpdQncuuI=",
