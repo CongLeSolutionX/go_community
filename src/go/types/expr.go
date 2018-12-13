@@ -510,6 +510,39 @@ func (check *Checker) convertUntyped(x *operand, target Type) {
 		return
 	}
 
+	// In case of a type parameter, conversion must succeed against
+	// all types enumerated by the the type parameter bound.
+	if t, _ := target.Underlying().(*TypeParam); t != nil {
+		types := t.Interface().allTypes
+		if len(types) == 0 {
+			goto Error
+		}
+
+		for _, t := range types {
+			check.convertUntypedInternal(x, t)
+			if x.mode == invalid {
+				goto Error
+			}
+		}
+
+		x.typ = target
+		check.updateExprType(x.expr, target, true) // UntypedNils are final
+		return
+	}
+
+	check.convertUntypedInternal(x, target)
+	return
+
+Error:
+	// TODO(gri) better error message (explain cause)
+	check.errorf(x.pos(), "cannot convert %s to %s", x, target)
+	x.mode = invalid
+}
+
+// convertUntypedInternal should only be called by convertUntyped.
+func (check *Checker) convertUntypedInternal(x *operand, target Type) {
+	assert(isTyped(target))
+
 	// typed target
 	switch t := target.Underlying().(type) {
 	case *Basic:
@@ -558,7 +591,7 @@ func (check *Checker) convertUntyped(x *operand, target Type) {
 			target = Typ[UntypedNil]
 		} else {
 			// cannot assign untyped values to non-empty interfaces
-			check.completeInterface(t)
+			check.completeInterface(token.NoPos, t)
 			if !t.Empty() {
 				goto Error
 			}
@@ -975,8 +1008,8 @@ const (
 // If hint != nil, it is the type of a composite literal element.
 //
 func (check *Checker) rawExpr(x *operand, e ast.Expr, hint Type) exprKind {
-	if trace {
-		check.trace(e.Pos(), "%s", e)
+	if check.conf.Trace {
+		check.trace(e.Pos(), "expr %s", e)
 		check.indent++
 		defer func() {
 			check.indent--
@@ -1328,6 +1361,42 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 			x.typ = typ.elem
 			x.expr = e
 			return expression
+
+		case *TypeParam:
+			// A generic variable can be indexed if all types
+			// in its type bound support indexing and have the
+			// same element type.
+			var elem Type
+			if typ.Interface().is(func(t Type) bool {
+				var e Type
+				switch t := t.(type) {
+				case *Basic:
+					if isString(t) {
+						e = universeByte
+					}
+				case *Array:
+					e = t.elem
+				case *Pointer:
+					if t, _ := t.base.Underlying().(*Array); t != nil {
+						e = t.elem
+					}
+				case *Slice:
+					e = t.elem
+				case *Map:
+					e = t.elem
+				case *TypeParam:
+					check.errorf(x.pos(), "type of %s contains a type parameter - cannot index (implementation restriction)", x)
+				}
+				if e != nil && (e == elem || elem == nil) {
+					elem = e
+					return true
+				}
+				return false
+			}) {
+				valid = true
+				x.mode = variable
+				x.typ = elem
+			}
 		}
 
 		if !valid {
@@ -1389,6 +1458,10 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		case *Slice:
 			valid = true
 			// x.typ doesn't change
+
+		case *TypeParam:
+			check.errorf(x.pos(), "generic slice expressions not yet implemented")
+			goto Error
 		}
 
 		if !valid {
@@ -1449,9 +1522,16 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		if x.mode == invalid {
 			goto Error
 		}
-		xtyp, _ := x.typ.Underlying().(*Interface)
-		if xtyp == nil {
-			check.invalidOp(x.pos(), "%s is not an interface", x)
+		var xtyp *Interface
+		var strict bool
+		switch t := x.typ.Underlying().(type) {
+		case *Interface:
+			xtyp = t
+		case *TypeParam:
+			xtyp = t.Interface()
+			strict = true
+		default:
+			check.invalidOp(x.pos(), "%s is not an interface or generic type", x)
 			goto Error
 		}
 		// x.(type) expressions are handled explicitly in type switches
@@ -1463,7 +1543,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 		if T == Typ[Invalid] {
 			goto Error
 		}
-		check.typeAssertion(x.pos(), x, xtyp, T)
+		check.typeAssertion(x.pos(), x, xtyp, T, strict)
 		x.mode = commaok
 		x.typ = T
 
@@ -1561,8 +1641,8 @@ func keyVal(x constant.Value) interface{} {
 }
 
 // typeAssertion checks that x.(T) is legal; xtyp must be the type of x.
-func (check *Checker) typeAssertion(pos token.Pos, x *operand, xtyp *Interface, T Type) {
-	method, wrongType := check.assertableTo(xtyp, T)
+func (check *Checker) typeAssertion(pos token.Pos, x *operand, xtyp *Interface, T Type, strict bool) {
+	method, wrongType := check.assertableTo(xtyp, T, strict)
 	if method == nil {
 		return
 	}
@@ -1576,42 +1656,26 @@ func (check *Checker) typeAssertion(pos token.Pos, x *operand, xtyp *Interface, 
 	check.errorf(pos, "%s cannot have dynamic type %s (%s %s)", x, T, msg, method.name)
 }
 
-func (check *Checker) singleValue(x *operand) {
-	if x.mode == value {
-		// tuple types are never named - no need for underlying type below
-		if t, ok := x.typ.(*Tuple); ok {
-			assert(t.Len() != 1)
-			check.errorf(x.pos(), "%d-valued %s where single value is expected", t.Len(), x)
-			x.mode = invalid
-		}
-	}
-}
-
 // expr typechecks expression e and initializes x with the expression value.
 // The result must be a single value.
 // If an error occurred, x.mode is set to invalid.
 //
 func (check *Checker) expr(x *operand, e ast.Expr) {
-	check.multiExpr(x, e)
+	check.rawExpr(x, e, nil)
+	check.exclude(x, 1<<novalue|1<<builtin|1<<typexpr)
 	check.singleValue(x)
 }
 
-// multiExpr is like expr but the result may be a multi-value.
+// multiExpr is like expr but the result may also be a multi-value.
 func (check *Checker) multiExpr(x *operand, e ast.Expr) {
 	check.rawExpr(x, e, nil)
-	var msg string
-	switch x.mode {
-	default:
-		return
-	case novalue:
-		msg = "%s used as value"
-	case builtin:
-		msg = "%s must be called"
-	case typexpr:
-		msg = "%s is not an expression"
-	}
-	check.errorf(x.pos(), msg, x)
-	x.mode = invalid
+	check.exclude(x, 1<<novalue|1<<builtin|1<<typexpr)
+}
+
+// multiExprOrType is like multiExpr but the result may also be a type.
+func (check *Checker) multiExprOrType(x *operand, e ast.Expr) {
+	check.rawExpr(x, e, nil)
+	check.exclude(x, 1<<novalue|1<<builtin)
 }
 
 // exprWithHint typechecks expression e and initializes x with the expression value;
@@ -1621,20 +1685,8 @@ func (check *Checker) multiExpr(x *operand, e ast.Expr) {
 func (check *Checker) exprWithHint(x *operand, e ast.Expr, hint Type) {
 	assert(hint != nil)
 	check.rawExpr(x, e, hint)
+	check.exclude(x, 1<<novalue|1<<builtin|1<<typexpr)
 	check.singleValue(x)
-	var msg string
-	switch x.mode {
-	default:
-		return
-	case novalue:
-		msg = "%s used as value"
-	case builtin:
-		msg = "%s must be called"
-	case typexpr:
-		msg = "%s is not an expression"
-	}
-	check.errorf(x.pos(), msg, x)
-	x.mode = invalid
 }
 
 // exprOrType typechecks expression or type e and initializes x with the expression value or type.
@@ -1642,9 +1694,42 @@ func (check *Checker) exprWithHint(x *operand, e ast.Expr, hint Type) {
 //
 func (check *Checker) exprOrType(x *operand, e ast.Expr) {
 	check.rawExpr(x, e, nil)
+	check.exclude(x, 1<<novalue)
 	check.singleValue(x)
-	if x.mode == novalue {
-		check.errorf(x.pos(), "%s used as value or type", x)
+}
+
+// exclude reports an error if x.mode is in modeset and sets x.mode to invalid.
+// The modeset may contain any of 1<<novalue, 1<<builtin, 1<<typexpr.
+func (check *Checker) exclude(x *operand, modeset uint) {
+	if modeset&(1<<x.mode) != 0 {
+		var msg string
+		switch x.mode {
+		case novalue:
+			if modeset&(1<<typexpr) != 0 {
+				msg = "%s used as value"
+			} else {
+				msg = "%s used as value or type"
+			}
+		case builtin:
+			msg = "%s must be called"
+		case typexpr:
+			msg = "%s is not an expression"
+		default:
+			unreachable()
+		}
+		check.errorf(x.pos(), msg, x)
 		x.mode = invalid
+	}
+}
+
+// singleValue reports an error if x describes a tuple and sets x.mode to invalid.
+func (check *Checker) singleValue(x *operand) {
+	if x.mode == value {
+		// tuple types are never named - no need for underlying type below
+		if t, ok := x.typ.(*Tuple); ok {
+			assert(t.Len() != 1)
+			check.errorf(x.pos(), "%d-valued %s where single value is expected", t.Len(), x)
+			x.mode = invalid
+		}
 	}
 }

@@ -105,6 +105,9 @@ type Config struct {
 	//          Do not use casually!
 	FakeImportC bool
 
+	// If Trace is set, a debug trace is printed to stdout.
+	Trace bool
+
 	// If Error != nil, it is called with each error found
 	// during type checking; err has dynamic type Error.
 	// Secondary errors (for instance, to enumerate all types
@@ -154,6 +157,11 @@ type Info struct {
 	// only in the Defs map, and identifiers denoting packages in
 	// qualified identifiers are collected in the Uses map.
 	Types map[ast.Expr]TypeAndValue
+
+	// Inferred maps calls of parameterized functions that use
+	// type inferrence to the inferred type arguments and signature
+	// of the function called.
+	Inferred map[*ast.CallExpr]Inferred
 
 	// Defs maps identifiers to the objects they define (including
 	// package names, dots "." of dot-imports, and blank "_" identifiers).
@@ -311,6 +319,13 @@ func (tv TypeAndValue) HasOk() bool {
 	return tv.mode == commaok || tv.mode == mapindex
 }
 
+// Inferred reports the inferred type arguments and signature
+// for a parameterized function call that uses type inference.
+type Inferred struct {
+	Targs []Type
+	Sig   *Signature
+}
+
 // An Initializer describes a package-level variable, or a list of variables in case
 // of a multi-valued initialization expression, and the corresponding initialization
 // expression.
@@ -350,7 +365,7 @@ func (conf *Config) Check(path string, fset *token.FileSet, files []*ast.File, i
 
 // AssertableTo reports whether a value of type V can be asserted to have type T.
 func AssertableTo(V *Interface, T Type) bool {
-	m, _ := (*Checker)(nil).assertableTo(V, T)
+	m, _ := (*Checker)(nil).assertableTo(V, T, false)
 	return m == nil
 }
 
