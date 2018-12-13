@@ -1,0 +1,15 @@
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package p
+
+func f1 (type T interface{ type T }) ()
+func f2 (type T, T2 interface{ type T, int }) ()
+
+func _() {
+	f1(int)()
+	f1(string)()
+	f2(int, int)()
+	f2(int, string /* ERROR string does not satisfy */ )()
+}

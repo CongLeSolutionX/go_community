@@ -105,6 +105,9 @@ type Config struct {
 	//          Do not use casually!
 	FakeImportC bool
 
+	// If Trace is set, a debug trace is printed to stdout.
+	Trace bool
+
 	// If Error != nil, it is called with each error found
 	// during type checking; err has dynamic type Error.
 	// Secondary errors (for instance, to enumerate all types
