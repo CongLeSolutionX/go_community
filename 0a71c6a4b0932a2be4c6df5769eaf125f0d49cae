@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecb87bfa_a1db4093",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-13T23:44:44Z",
+      "side": 1,
+      "message": "You don\u0027t need this function.  Just change neverEnding(...) below to neverEnding{...}.",
+      "revId": "0a71c6a4b0932a2be4c6df5769eaf125f0d49cae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
