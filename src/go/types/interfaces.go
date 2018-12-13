@@ -143,7 +143,7 @@ func (check *Checker) infoFromTypeLit(scope *Scope, iface *ast.InterfaceType, tn
 		check.interfaces = make(map[*TypeName]*ifaceInfo)
 	}
 
-	if trace {
+	if check.conf.Trace {
 		check.trace(iface.Pos(), "-- collect methods for %v (path = %s, objPath = %s)", iface, pathString(path), objPathString(check.objPath))
 		check.indent++
 		defer func() {
@@ -326,7 +326,7 @@ typenameLoop:
 	// doesn't matter for the purpose of determining the under-
 	// lying interface.)
 	if decl := check.objMap[tname]; decl != nil {
-		switch typ := unparen(decl.typ).(type) {
+		switch typ := unparen(decl.tdecl.Type).(type) {
 		case *ast.Ident:
 			// type tname T
 			name = typ
