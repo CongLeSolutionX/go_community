@@ -61,7 +61,7 @@ type PackagePublic struct {
 	Doc           string                `json:",omitempty"` // package documentation string
 	Target        string                `json:",omitempty"` // installed target for this package (may be executable)
 	Shlib         string                `json:",omitempty"` // the shared library that contains this package (only set when -linkshared)
-	Root          string                `json:",omitempty"` // Go root or Go path dir containing this package
+	Root          string                `json:",omitempty"` // Go root, Go path dir, or module root dir containing this package
 	ConflictDir   string                `json:",omitempty"` // Dir is hidden by this other directory
 	ForTest       string                `json:",omitempty"` // package is only for use in named test
 	Export        string                `json:",omitempty"` // file containing export data (set by go list -export)
@@ -533,6 +533,7 @@ func LoadImport(path, srcDir string, parent *Package, stk *ImportStack, importPo
 		var err error
 		if modDir != "" {
 			bp, err = cfg.BuildContext.ImportDir(modDir, 0)
+			bp.Root = modDir
 		} else if modErr != nil {
 			bp = new(build.Package)
 			err = fmt.Errorf("unknown import path %q: %v", importPath, modErr)

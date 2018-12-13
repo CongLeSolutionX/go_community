@@ -1,14 +1,29 @@
 [short] skip
 
 env GO111MODULE=on
-
-# The first run of a test with a fresh GOCACHE should not be cached.
-# The second run should be.
 env GOCACHE=$WORK/gocache
-go test .
+env GODEBUG=gocachetest=1
+
+# The first run of a test should not be cached.
+# The second run should be.
+
+go test -run=WriteTmp .
 ! stdout '(cached)'
-go test .
+go test -run=WriteTmp .
 stdout '(cached)'
+
+[!exec:sleep] stop
+# The go command refuses to cache access to files younger than 2s, so sleep that long.
+exec sleep 2
+
+# Touching a file that the test reads from within its testdata should invalidate the cache.
+go test -run=ReadTestdata .
+! stdout '(cached)'
+go test -run=ReadTestdata .
+stdout '(cached)'
+cp testdata/bar.txt testdata/foo.txt
+go test -run=ReadTestdata .
+! stdout '(cached)'
 
 -- go.mod --
 module golang.org/issue/29111/foo
@@ -16,22 +31,35 @@ module golang.org/issue/29111/foo
 -- foo.go --
 package foo
 
+-- testdata/foo.txt --
+foo
+-- testdata/bar.txt --
+bar
+
 -- foo_test.go --
 package foo_test
 
 import (
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"testing"
 )
 
-func TestX(t *testing.T) {
+func TestWriteTmp(t *testing.T) {
 	dir, err := ioutil.TempDir("", "")
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer os.RemoveAll(dir)
 	err = ioutil.WriteFile(filepath.Join(dir, "x"), nil, 0666)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestReadTestdata(t *testing.T) {
+	_, err := ioutil.ReadFile("testdata/foo.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
