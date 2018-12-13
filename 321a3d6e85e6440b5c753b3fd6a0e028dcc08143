@@ -94,6 +94,30 @@
       "revId": "321a3d6e85e6440b5c753b3fd6a0e028dcc08143",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e751d398_53546644",
+        "filename": "src/syscall/sockcmsg_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2018-12-13T07:53:40Z",
+      "side": 0,
+      "message": "Thanks (FWIW I would have done the same later today).",
+      "parentUuid": "6ed9a62f_2a953628",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 2
+      },
+      "revId": "321a3d6e85e6440b5c753b3fd6a0e028dcc08143",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
