@@ -156,8 +156,8 @@ func (g *CommentGroup) Text() string {
 //
 type Field struct {
 	Doc     *CommentGroup // associated documentation; or nil
-	Names   []*Ident      // field/method/parameter names; or nil
-	Type    Expr          // field/method/parameter type
+	Names   []*Ident      // field/method/(type) parameter names; or nil
+	Type    Expr          // field/method/parameter type or contract
 	Tag     *BasicLit     // field tag; or nil
 	Comment *CommentGroup // line comments; or nil
 }
@@ -207,7 +207,7 @@ func (f *FieldList) End() token.Pos {
 	return token.NoPos
 }
 
-// NumFields returns the number of parameters or struct fields represented by a FieldList.
+// NumFields returns the number of (type) parameters or struct fields represented by a FieldList.
 func (f *FieldList) NumFields() int {
 	n := 0
 	if f != nil {
@@ -416,7 +416,22 @@ type (
 		Dir   ChanDir   // channel direction
 		Value Expr      // value type
 	}
+
+	// A ContractType node represents a contract.
+	ContractType struct {
+		Contract    token.Pos     // position of "contract" pseudo keyword
+		TParams     []*Ident      // list of (incoming) type parameters; or nil
+		Lbrace      token.Pos     // position of "{"
+		Constraints []*Constraint // list of constraints
+		Rbrace      token.Pos     // position of "}"
+	}
 )
+
+type Constraint struct {
+	Param  *Ident   // constrained type parameter; or nil (for embedded constraints)
+	MNames []*Ident // list of method names; or nil (for embedded contracts or type constraints)
+	Types  []Expr   // embedded constraint (single *CallExpr), list of types, or list of method types (*FuncType)
+}
 
 // Pos and End implementations for expression/type nodes.
 
@@ -452,6 +467,7 @@ func (x *FuncType) Pos() token.Pos {
 func (x *InterfaceType) Pos() token.Pos { return x.Interface }
 func (x *MapType) Pos() token.Pos       { return x.Map }
 func (x *ChanType) Pos() token.Pos      { return x.Begin }
+func (x *ContractType) Pos() token.Pos  { return x.Contract }
 
 func (x *BadExpr) End() token.Pos { return x.To }
 func (x *Ident) End() token.Pos   { return token.Pos(int(x.NamePos) + len(x.Name)) }
@@ -485,6 +501,7 @@ func (x *FuncType) End() token.Pos {
 func (x *InterfaceType) End() token.Pos { return x.Methods.End() }
 func (x *MapType) End() token.Pos       { return x.Value.End() }
 func (x *ChanType) End() token.Pos      { return x.Value.End() }
+func (x *ContractType) End() token.Pos  { return x.Rbrace }
 
 // exprNode() ensures that only expression/type nodes can be
 // assigned to an Expr.
@@ -512,6 +529,7 @@ func (*FuncType) exprNode()      {}
 func (*InterfaceType) exprNode() {}
 func (*MapType) exprNode()       {}
 func (*ChanType) exprNode()      {}
+func (*ContractType) exprNode()  {}
 
 // ----------------------------------------------------------------------------
 // Convenience functions for Idents
@@ -844,6 +862,7 @@ type (
 	TypeSpec struct {
 		Doc     *CommentGroup // associated documentation; or nil
 		Name    *Ident        // type name
+		TParams *FieldList    // type parameters; or nil
 		Assign  token.Pos     // position of '=', if any
 		Type    Expr          // *Ident, *ParenExpr, *SelectorExpr, *StarExpr, or any of the *XxxTypes
 		Comment *CommentGroup // line comments; or nil
@@ -919,11 +938,12 @@ type (
 
 	// A FuncDecl node represents a function declaration.
 	FuncDecl struct {
-		Doc  *CommentGroup // associated documentation; or nil
-		Recv *FieldList    // receiver (methods); or nil (functions)
-		Name *Ident        // function/method name
-		Type *FuncType     // function signature: parameters, results, and position of "func" keyword
-		Body *BlockStmt    // function body; or nil for external (non-Go) function
+		Doc     *CommentGroup // associated documentation; or nil
+		Recv    *FieldList    // receiver (methods); or nil (functions)
+		Name    *Ident        // function/method name
+		TParams *FieldList    // type parameters; or nil
+		Type    *FuncType     // function signature: parameters, results, and position of "func" keyword
+		Body    *BlockStmt    // function body; or nil for external (non-Go) function
 	}
 )
 

@@ -9,6 +9,7 @@ package types
 import (
 	"bytes"
 	"fmt"
+	"strings"
 )
 
 // A Qualifier controls how named package-level objects are printed in
@@ -121,11 +122,19 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 			if i > 0 {
 				buf.WriteString("; ")
 			}
-			if !f.embedded {
-				buf.WriteString(f.name)
+			buf.WriteString(f.name)
+			if f.embedded {
+				// emphasize that the embedded field's name
+				// doesn't match the field's type name
+				if f.name != embeddedFieldName(f.typ) {
+					buf.WriteString(" /* = ")
+					writeType(buf, f.typ, qf, visited)
+					buf.WriteString(" */")
+				}
+			} else {
 				buf.WriteByte(' ')
+				writeType(buf, f.typ, qf, visited)
 			}
-			writeType(buf, f.typ, qf, visited)
 			if tag := t.Tag(i); tag != "" {
 				fmt.Fprintf(buf, " %q", tag)
 			}
@@ -227,15 +236,48 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 		}
 
 	case *Named:
-		s := "<Named w/o object>"
-		if obj := t.obj; obj != nil {
-			if obj.pkg != nil {
-				writePackage(buf, obj.pkg, qf)
+		writeTypeName(buf, t.obj, qf)
+		// if t.obj != nil && len(t.obj.tparams) > 0 {
+		// 	buf.WriteByte('(')
+		// 	for i, tpar := range t.obj.tparams {
+		// 		if i > 0 {
+		// 			buf.WriteString(", ")
+		// 		}
+		// 		writeTypeName(buf, tpar, qf)
+		// 	}
+		// 	buf.WriteByte(')')
+		// }
+
+	case *Parameterized:
+		writeTypeName(buf, t.tname, qf)
+		if len(t.targs) > 0 {
+			buf.WriteByte('(')
+			for i, targ := range t.targs {
+				if i > 0 {
+					buf.WriteString(", ")
+				}
+				writeType(buf, targ, qf, visited)
 			}
-			// TODO(gri): function-local named types should be displayed
-			// differently from named types at package level to avoid
-			// ambiguity.
-			s = obj.name
+			buf.WriteByte(')')
+		}
+
+	case *Contract:
+		buf.WriteString("contract(")
+		for i, p := range t.TParams {
+			if i > 0 {
+				buf.WriteString(", ")
+			}
+			buf.WriteString(p.name)
+		}
+		buf.WriteString("){}")
+		// TODO write contract body
+
+	case *TypeParam:
+		var s string
+		if t.obj != nil {
+			s = t.obj.name
+		} else {
+			s = fmt.Sprintf("TypeParam[%d]", t.index)
 		}
 		buf.WriteString(s)
 
@@ -243,6 +285,25 @@ func writeType(buf *bytes.Buffer, typ Type, qf Qualifier, visited []Type) {
 		// For externally defined implementations of Type.
 		buf.WriteString(t.String())
 	}
+}
+
+func writeTypeName(buf *bytes.Buffer, obj *TypeName, qf Qualifier) {
+	s := "<Named w/o object>"
+	if obj != nil {
+		// Don't prefix an instantiated type (which is marked by a closing '>')
+		// with yet another package name - the instantiated type is already fully
+		// qualified. See code in subst.go.
+		// TODO(gri) Need to factor out '>' or named type string generation;
+		// this dependency is too subtle.
+		if obj.pkg != nil && !strings.HasSuffix(obj.name, ">") {
+			writePackage(buf, obj.pkg, qf)
+		}
+		// TODO(gri): function-local named types should be displayed
+		// differently from named types at package level to avoid
+		// ambiguity.
+		s = obj.name
+	}
+	buf.WriteString(s)
 }
 
 func writeTuple(buf *bytes.Buffer, tup *Tuple, variadic bool, qf Qualifier, visited []Type) {
@@ -287,6 +348,17 @@ func WriteSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier) {
 }
 
 func writeSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier, visited []Type) {
+	if len(sig.tparams) > 0 {
+		buf.WriteString("(type ")
+		for i, tname := range sig.tparams {
+			if i > 0 {
+				buf.WriteString(", ")
+			}
+			buf.WriteString(tname.name)
+		}
+		buf.WriteByte(')')
+	}
+
 	writeTuple(buf, sig.params, sig.variadic, qf, visited)
 
 	n := sig.results.Len()
@@ -304,4 +376,21 @@ func writeSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier, visited []T
 
 	// multiple or named result(s)
 	writeTuple(buf, sig.results, false, qf, visited)
+}
+
+// embeddedFieldName returns an embedded field's name given its type.
+// The result is "" if the type doesn't have an embedded field name.
+func embeddedFieldName(typ Type) string {
+	switch t := typ.(type) {
+	case *Basic:
+		return t.name
+	case *Named:
+		return t.obj.name
+	case *Pointer:
+		// *T is ok, but **T is not
+		if _, ok := t.base.(*Pointer); !ok {
+			return embeddedFieldName(t.base)
+		}
+	}
+	return "" // not a (pointer to) a defined type
 }

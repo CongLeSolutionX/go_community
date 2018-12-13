@@ -42,8 +42,9 @@ import (
 )
 
 var (
-	listErrors = flag.Bool("errlist", false, "list errors")
-	testFiles  = flag.String("files", "", "space-separated list of test files")
+	haltOnError = flag.Bool("halt", false, "halt on error")
+	listErrors  = flag.Bool("errlist", false, "list errors")
+	testFiles   = flag.String("files", "", "space-separated list of test files")
 )
 
 // The test filenames do not end in .go so that they are invisible
@@ -96,6 +97,13 @@ var tests = [][]string{
 	{"testdata/issue23203a.src"},
 	{"testdata/issue23203b.src"},
 	{"testdata/issue28251.src"},
+
+	// Go 2 tests (type parameters and contracts)
+	{"testdata/tmp.go2"}, // used for ad-hoc tests - file contents transient
+	{"testdata/typeparams.go2"},
+	{"testdata/typeinst.go2"},
+	{"testdata/typeinst2.go2"},
+	{"testdata/contracts.go2"},
 }
 
 var fset = token.NewFileSet()
@@ -260,8 +268,12 @@ func checkFiles(t *testing.T, testfiles []string) {
 	if len(testfiles) == 1 && testfiles[0] == "testdata/importC.src" {
 		conf.FakeImportC = true
 	}
+	conf.Trace = testing.Verbose()
 	conf.Importer = importer.Default()
 	conf.Error = func(err error) {
+		if *haltOnError {
+			defer panic(err)
+		}
 		if *listErrors {
 			t.Error(err)
 			return

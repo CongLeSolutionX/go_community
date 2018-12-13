@@ -1,0 +1,13 @@
+package p
+
+func f(type T)([]*T) int
+
+var _ = f(nil) // ERROR cannot infer
+
+func g(type T)(T) int
+
+var _ = g(nil) // ERROR cannot infer
+
+func h(type T)(T, T) int
+
+var _ = h(nil /* ERROR cannot convert */, uintptr(1))
