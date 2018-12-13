@@ -199,11 +199,14 @@ type Signature struct {
 	// and store it in the Func Object) because when type-checking a function
 	// literal we call the general type checker which returns a general Type.
 	// We then unpack the *Signature and use the scope for the literal body.
-	scope    *Scope // function scope, present for package-local signatures
-	recv     *Var   // nil if not a method
-	params   *Tuple // (incoming) parameters from left to right; or nil
-	results  *Tuple // (outgoing) results from left to right; or nil
-	variadic bool   // true if the last parameter's type is of the form ...T (or string, for append built-in only)
+	scope *Scope // function scope, present for package-local signatures
+	recv  *Var   // nil if not a method
+	// TODO(gri) do we need to keep tparams in the Signature, rather than the Func object?
+	// (how are they different from type parameters which we keep with the TypeName?)
+	tparams  []*TypeName // type parameters from left to right; or nil
+	params   *Tuple      // (incoming) parameters from left to right; or nil
+	results  *Tuple      // (outgoing) results from left to right; or nil
+	variadic bool        // true if the last parameter's type is of the form ...T (or string, for append built-in only)
 }
 
 // NewSignature returns a new function type for the given receiver, parameters,
@@ -220,7 +223,7 @@ func NewSignature(recv *Var, params, results *Tuple, variadic bool) *Signature {
 			panic("types.NewSignature: variadic parameter must be of unnamed slice type")
 		}
 	}
-	return &Signature{nil, recv, params, results, variadic}
+	return &Signature{nil, recv, nil, params, results, variadic}
 }
 
 // Recv returns the receiver of signature s (if a method), or nil if a
@@ -415,7 +418,7 @@ func (c *Chan) Dir() ChanDir { return c.dir }
 // Elem returns the element type of channel c.
 func (c *Chan) Elem() Type { return c.elem }
 
-// A Named represents a named type.
+// A Named represents a named (defined) type.
 type Named struct {
 	obj        *TypeName // corresponding declared object
 	underlying Type      // possibly a *Named during setup; never a *Named once set up completely
@@ -463,28 +466,85 @@ func (t *Named) AddMethod(m *Func) {
 	}
 }
 
+// A Parameterized represents a type name instantiated with type arguments;
+// e.g., myType(P, int) where P might be a (yet to be instantiated) type parameter.
+// A Parameterized is similar to an *ast.CallExpr, but for types.
+type Parameterized struct {
+	tname *TypeName // instantiated type
+	targs []Type    // len(targs) == len(tname.tparams)
+}
+
+// A Contract represents a contract.
+type Contract struct {
+	TParams []*TypeName
+	IFaces  map[*TypeName]*Interface
+}
+
+// ifaceAt returns the interface matching for the respective
+// contract type parameter with the given index. If c is nil
+// the result is the empty interface.
+func (c *Contract) ifaceAt(index int) *Interface {
+	var iface *Interface
+	if c != nil {
+		iface = c.IFaces[c.TParams[index]]
+	}
+	if iface == nil {
+		iface = &emptyInterface
+	}
+	return iface
+}
+
+// A TypeParam represents a type parameter type.
+type TypeParam struct {
+	obj   *TypeName
+	index int
+	contr *Contract // nil if no contract
+}
+
+// NewTypeParam returns a new TypeParam.
+func NewTypeParam(obj *TypeName, index int, contr *Contract) *TypeParam {
+	typ := &TypeParam{obj, index, contr}
+	if obj.typ == nil {
+		obj.typ = typ
+	}
+	return typ
+}
+
+// Interface returns the type parameter's interface as
+// specified via its contract. If there is no contract,
+// the result is the empty interface.
+func (t *TypeParam) Interface() *Interface {
+	return t.contr.ifaceAt(t.index)
+}
+
 // Implementations for Type methods.
 
-func (b *Basic) Underlying() Type     { return b }
-func (a *Array) Underlying() Type     { return a }
-func (s *Slice) Underlying() Type     { return s }
-func (s *Struct) Underlying() Type    { return s }
-func (p *Pointer) Underlying() Type   { return p }
-func (t *Tuple) Underlying() Type     { return t }
-func (s *Signature) Underlying() Type { return s }
-func (t *Interface) Underlying() Type { return t }
-func (m *Map) Underlying() Type       { return m }
-func (c *Chan) Underlying() Type      { return c }
-func (t *Named) Underlying() Type     { return t.underlying }
+func (b *Basic) Underlying() Type         { return b }
+func (a *Array) Underlying() Type         { return a }
+func (s *Slice) Underlying() Type         { return s }
+func (s *Struct) Underlying() Type        { return s }
+func (p *Pointer) Underlying() Type       { return p }
+func (t *Tuple) Underlying() Type         { return t }
+func (s *Signature) Underlying() Type     { return s }
+func (t *Interface) Underlying() Type     { return t }
+func (m *Map) Underlying() Type           { return m }
+func (c *Chan) Underlying() Type          { return c }
+func (t *Named) Underlying() Type         { return t.underlying }
+func (p *Parameterized) Underlying() Type { return p.tname.typ.Underlying() }
+func (c *Contract) Underlying() Type      { return c }
+func (t *TypeParam) Underlying() Type     { return t }
 
-func (b *Basic) String() string     { return TypeString(b, nil) }
-func (a *Array) String() string     { return TypeString(a, nil) }
-func (s *Slice) String() string     { return TypeString(s, nil) }
-func (s *Struct) String() string    { return TypeString(s, nil) }
-func (p *Pointer) String() string   { return TypeString(p, nil) }
-func (t *Tuple) String() string     { return TypeString(t, nil) }
-func (s *Signature) String() string { return TypeString(s, nil) }
-func (t *Interface) String() string { return TypeString(t, nil) }
-func (m *Map) String() string       { return TypeString(m, nil) }
-func (c *Chan) String() string      { return TypeString(c, nil) }
-func (t *Named) String() string     { return TypeString(t, nil) }
+func (b *Basic) String() string         { return TypeString(b, nil) }
+func (a *Array) String() string         { return TypeString(a, nil) }
+func (s *Slice) String() string         { return TypeString(s, nil) }
+func (s *Struct) String() string        { return TypeString(s, nil) }
+func (p *Pointer) String() string       { return TypeString(p, nil) }
+func (t *Tuple) String() string         { return TypeString(t, nil) }
+func (s *Signature) String() string     { return TypeString(s, nil) }
+func (t *Interface) String() string     { return TypeString(t, nil) }
+func (m *Map) String() string           { return TypeString(m, nil) }
+func (c *Chan) String() string          { return TypeString(c, nil) }
+func (t *Named) String() string         { return TypeString(t, nil) }
+func (p *Parameterized) String() string { return TypeString(p, nil) }
+func (c *Contract) String() string      { return TypeString(c, nil) }
+func (t *TypeParam) String() string     { return TypeString(t, nil) }

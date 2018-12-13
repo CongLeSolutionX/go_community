@@ -71,7 +71,7 @@ func lookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 		return // blank fields/methods are never found
 	}
 
-	typ, isPtr := deref(T)
+	typ, isPtr := derefUnpack(T)
 
 	// *typ where typ is an interface has no methods.
 	if isPtr && IsInterface(typ) {
@@ -155,7 +155,7 @@ func lookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 					// this depth, f.typ appears multiple times at the next
 					// depth.
 					if obj == nil && f.embedded {
-						typ, isPtr := deref(f.typ)
+						typ, isPtr := derefUnpack(f.typ)
 						// TODO(gri) optimization: ignore types that can't
 						// have fields or methods (only Named, Struct, and
 						// Interface types need to be considered).
@@ -329,6 +329,20 @@ func deref(typ Type) (Type, bool) {
 		return p.base, true
 	}
 	return typ, false
+}
+
+// derefUnpack is like deref but it also unpacks type parameters
+// and parameterized types.
+func derefUnpack(typ Type) (Type, bool) {
+	typ, ptr := deref(typ)
+	// TODO(gri) do we need to iterate/recurse here for unpacking?
+	switch t := typ.(type) {
+	case *Parameterized:
+		typ = t.tname.typ
+	case *TypeParam:
+		typ = t.Interface()
+	}
+	return typ, ptr
 }
 
 // derefStructPtr dereferences typ if it is a (named or unnamed) pointer to a

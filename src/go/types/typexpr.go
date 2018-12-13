@@ -126,7 +126,7 @@ func (check *Checker) typ(e ast.Expr) Type {
 // any components of e are type-checked.
 //
 func (check *Checker) definedType(e ast.Expr, def *Named) (T Type) {
-	if trace {
+	if check.conf.Trace {
 		check.trace(e.Pos(), "%s", e)
 		check.indent++
 		defer func() {
@@ -152,6 +152,24 @@ func (check *Checker) indirectType(e ast.Expr) Type {
 	return check.definedType(e, nil)
 }
 
+// instantiatedType is like typ but it ensures that a Parametrized type is
+// fully instantiated if all type parameters are known.
+// (When we type-check a parameterized function body, parameterized types
+// whose type parameters are incoming parameters cannot be instantiated.)
+func (check *Checker) instantiatedType(e ast.Expr) Type {
+	typ := check.typ(e)
+	// A parameterized type where all type arguments are known
+	// (i.e., not type parameters themselves) can be instantiated.
+	if ptyp, _ := typ.(*Parameterized); ptyp != nil && !IsParameterized(ptyp) {
+		typ = check.inst(ptyp.tname, ptyp.targs)
+		// TODO(gri) can this ever be nil? comment.
+		if typ == nil {
+			return Typ[Invalid] // error was reported by check.instatiate
+		}
+	}
+	return typ
+}
+
 // funcType type-checks a function or method type.
 func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast.FuncType) {
 	scope := NewScope(check.scope, token.NoPos, token.NoPos, "function")
@@ -169,7 +187,7 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 		var recv *Var
 		switch len(recvList) {
 		case 0:
-			check.error(recvPar.Pos(), "method is missing receiver")
+			// error reported by resolver
 			recv = NewParam(0, nil, "", Typ[Invalid]) // ignore recv below
 		default:
 			// more than one receiver
@@ -182,6 +200,11 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 		// (ignore invalid types - error was reported before)
 		if t, _ := deref(recv.typ); t != Typ[Invalid] {
 			var err string
+			// TODO(gri) Unpacking a parameterized receiver here is a bit of a party trick
+			// and probably not very robust. Rethink this code.
+			if p, _ := t.(*Parameterized); p != nil {
+				t = p.tname.typ
+			}
 			if T, _ := t.(*Named); T != nil {
 				// spec: "The type denoted by T is called the receiver base type; it must not
 				// be a pointer or interface type and it must be declared in the same package
@@ -258,6 +281,20 @@ func (check *Checker) typInternal(e ast.Expr, def *Named) Type {
 		default:
 			check.errorf(x.pos(), "%s is not a type", &x)
 		}
+
+	case *ast.CallExpr:
+		typ := new(Parameterized)
+		def.setUnderlying(typ)
+		if check.parameterizedType(typ, e) {
+			if IsParameterizedList(typ.targs) {
+				return typ
+			}
+			typ := check.inst(typ.tname, typ.targs)
+			def.setUnderlying(typ) // TODO(gri) do we need this?
+			return typ
+		}
+		// TODO(gri) If we have a cycle and we reach here, "leafs" of
+		// the cycle may refer to a not fully set up Parameterized typ.
 
 	case *ast.ParenExpr:
 		return check.definedType(e.X, def)
@@ -343,6 +380,12 @@ func (check *Checker) typInternal(e ast.Expr, def *Named) Type {
 		typ.elem = check.indirectType(e.Value)
 		return typ
 
+	case *ast.ContractType:
+		typ := new(Contract)
+		def.setUnderlying(typ)
+		check.contractType(typ, e)
+		return typ
+
 	default:
 		check.errorf(e.Pos(), "%s is not a type", e)
 	}
@@ -402,6 +445,75 @@ func (check *Checker) arrayLength(e ast.Expr) int64 {
 	}
 	check.errorf(x.pos(), "array length %s must be integer", &x)
 	return -1
+}
+
+// typeList provides the list of types corresponding to the incoming expression list.
+// If an error occured, the result is nil, but all list elements were type-checked.
+func (check *Checker) typeList(list []ast.Expr) []Type {
+	res := make([]Type, len(list)) // res != nil even if len(list) == 0
+	ok := true
+	for i, x := range list {
+		t := check.typ(x)
+		if t == Typ[Invalid] {
+			ok = false
+		}
+		res[i] = t
+	}
+	if ok {
+		return res
+
+	}
+	return nil
+}
+
+func (check *Checker) parameterizedType(typ *Parameterized, e *ast.CallExpr) bool {
+	t := check.typ(e.Fun)
+	if t == Typ[Invalid] {
+		return false // error already reported
+	}
+
+	named, _ := t.(*Named)
+	if named == nil || named.obj == nil || !named.obj.IsParameterized() {
+		check.errorf(e.Pos(), "%s is not a parametrized type", t)
+		return false
+	}
+
+	// the number of supplied types must match the number of type parameters
+	// TODO(gri) fold into code below - we want to eval args always
+	tname := named.obj
+	if len(e.Args) != len(tname.tparams) {
+		// TODO(gri) provide better error message
+		check.errorf(e.Pos(), "got %d arguments but %d type parameters", len(e.Args), len(tname.tparams))
+		return false
+	}
+
+	// evaluate arguments
+	args := check.typeList(e.Args)
+	if args == nil {
+		return false
+	}
+
+	// TODO(gri) quick hack - clean this up
+	// Also, it looks like contract should be part of the parameterized type,
+	// not its individual type parameters, at least as long as we only permit
+	// one contract. If we permit multiple contracts C1, C2 as in
+	//
+	//	type _(type A, B C1, B C2, ...)
+	//
+	// the current approach may be the right one. The current approach also
+	// lends itself more easily to a design where we just use interfaces
+	// rather than contracts.
+	assert(len(tname.tparams) > 0)
+	contr := tname.tparams[0].typ.(*TypeParam).contr
+	if !check.satisfyContract(contr, args) {
+		// TODO(gri) need to put in some work for really good error messages here
+		check.errorf(e.Pos(), "contract for %s is not satisfied", tname)
+	}
+
+	// complete parameterized type
+	typ.tname = tname
+	typ.targs = args
+	return true
 }
 
 func (check *Checker) collectParams(scope *Scope, list *ast.FieldList, variadicOk bool) (params []*Var, variadic bool) {
@@ -486,7 +598,7 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 	// functions).
 	interfaceContext := check.context // capture for use in closure below
 	check.later(func() {
-		if trace {
+		if check.conf.Trace {
 			check.trace(iface.Pos(), "-- delayed checking embedded interfaces of %v", iface)
 			check.indent++
 			defer func() {

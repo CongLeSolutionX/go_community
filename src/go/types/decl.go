@@ -67,7 +67,7 @@ func objPathString(path []Object) string {
 // objDecl type-checks the declaration of obj in its respective (file) context.
 // For the meaning of def, see Checker.definedType, in typexpr.go.
 func (check *Checker) objDecl(obj Object, def *Named) {
-	if trace {
+	if check.conf.Trace {
 		check.trace(obj.Pos(), "-- checking %s %s (objPath = %s)", obj.color(), obj, objPathString(check.objPath))
 		check.indent++
 		defer func() {
@@ -198,13 +198,13 @@ func (check *Checker) objDecl(obj Object, def *Named) {
 	switch obj := obj.(type) {
 	case *Const:
 		check.decl = d // new package-level const decl
-		check.constDecl(obj, d.typ, d.init)
+		check.constDecl(obj, d.vtyp, d.init)
 	case *Var:
 		check.decl = d // new package-level var decl
-		check.varDecl(obj, d.lhs, d.typ, d.init)
+		check.varDecl(obj, d.lhs, d.vtyp, d.init)
 	case *TypeName:
 		// invalid recursive types are detected via path
-		check.typeDecl(obj, d.typ, def, d.alias)
+		check.typeDecl(obj, d.tdecl, def)
 	case *Func:
 		// functions may be recursive - no need to track dependencies
 		check.funcDecl(obj, d)
@@ -275,7 +275,7 @@ func (check *Checker) typeCycle(obj Object) (isCycle bool) {
 				// this information explicitly in the object.
 				var alias bool
 				if d := check.objMap[obj]; d != nil {
-					alias = d.alias // package-level object
+					alias = d.tdecl.Assign.IsValid() // package-level object
 				} else {
 					alias = obj.IsAlias() // function local object
 				}
@@ -290,7 +290,7 @@ func (check *Checker) typeCycle(obj Object) (isCycle bool) {
 		}
 	}
 
-	if trace {
+	if check.conf.Trace {
 		check.trace(obj.Pos(), "## cycle detected: objPath = %s->%s (len = %d)", objPathString(cycle), obj.Name(), ncycle)
 		check.trace(obj.Pos(), "## cycle contains: %d values, has indirection = %v, has type definition = %v", nval, hasIndir, hasTDef)
 		defer func() {
@@ -341,7 +341,7 @@ func (check *Checker) constDecl(obj *Const, typ, init ast.Expr) {
 
 	// determine type, if any
 	if typ != nil {
-		t := check.typ(typ)
+		t := check.instantiatedType(typ)
 		if !isConstType(t) {
 			// don't report an error if the type is an invalid C (defined) type
 			// (issue #22090)
@@ -367,7 +367,7 @@ func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init ast.Expr) {
 
 	// determine type, if any
 	if typ != nil {
-		obj.typ = check.typ(typ)
+		obj.typ = check.instantiatedType(typ)
 		// We cannot spread the type to all lhs variables if there
 		// are more than one since that would mark them as checked
 		// (see Checker.objDecl) and the assignment of init exprs,
@@ -442,22 +442,34 @@ func (n *Named) setUnderlying(typ Type) {
 	}
 }
 
-func (check *Checker) typeDecl(obj *TypeName, typ ast.Expr, def *Named, alias bool) {
+func (check *Checker) typeDecl(obj *TypeName, tdecl *ast.TypeSpec, def *Named) {
 	assert(obj.typ == nil)
 
-	if alias {
+	if tdecl.Assign.IsValid() {
+		// type alias declaration
+
+		if tdecl.TParams != nil {
+			check.errorf(tdecl.TParams.Pos(), "type alias cannot be parameterized")
+			// continue but ignore type parameters
+		}
 
 		obj.typ = Typ[Invalid]
-		obj.typ = check.typ(typ)
+		obj.typ = check.typ(tdecl.Type)
 
 	} else {
+		// defined type declaration
 
 		named := &Named{obj: obj}
 		def.setUnderlying(named)
 		obj.typ = named // make sure recursive type declarations terminate
 
+		if tdecl.TParams != nil {
+			check.openScope(tdecl, "type parameters")
+			obj.tparams = check.collectTypeParams(tdecl.TParams)
+		}
+
 		// determine underlying type of named
-		check.definedType(typ, named)
+		check.definedType(tdecl.Type, named)
 
 		// The underlying type of named may be itself a named type that is
 		// incomplete:
@@ -474,9 +486,48 @@ func (check *Checker) typeDecl(obj *TypeName, typ ast.Expr, def *Named, alias bo
 		// any forward chain (they always end in an unnamed type).
 		named.underlying = underlying(named.underlying)
 
+		// this must happen before addMethodDecls - cannot use defer
+		// TODO(gri) consider refactoring this
+		if tdecl.TParams != nil {
+			check.closeScope()
+		}
+
 	}
 
 	check.addMethodDecls(obj)
+}
+
+func (check *Checker) collectTypeParams(list *ast.FieldList) (tparams []*TypeName) {
+	for _, f := range list.List {
+		var contr *Contract
+		if f.Type != nil {
+			typ := check.indirectType(f.Type)
+			if typ != Typ[Invalid] {
+				if contr, _ = typ.Underlying().(*Contract); contr != nil {
+					if len(f.Names) != len(contr.TParams) {
+						// TODO(gri) improve error message
+						check.errorf(f.Type.Pos(), "%d type parameters but contract expects %d", len(f.Names), len(contr.TParams))
+						contr = nil // cannot use this contract
+					}
+				} else {
+					check.errorf(f.Type.Pos(), "%s is not a contract", typ)
+				}
+			}
+		}
+
+		for _, name := range f.Names {
+			tparams = append(tparams, check.declareTypeParam(name, len(tparams), contr))
+		}
+	}
+
+	return tparams
+}
+
+func (check *Checker) declareTypeParam(name *ast.Ident, index int, contr *Contract) *TypeName {
+	tpar := NewTypeName(name.Pos(), check.pkg, name.Name, nil)
+	NewTypeParam(tpar, index, contr)                        // assigns type to tpar as a side-effect
+	check.declare(check.scope, name, tpar, check.scope.pos) // TODO(gri) check scope position
+	return tpar
 }
 
 func (check *Checker) addMethodDecls(obj *TypeName) {
@@ -489,7 +540,7 @@ func (check *Checker) addMethodDecls(obj *TypeName) {
 		return
 	}
 	delete(check.methods, obj)
-	assert(!check.objMap[obj].alias) // don't use TypeName.IsAlias (requires fully set up object)
+	assert(!check.objMap[obj].tdecl.Assign.IsValid()) // don't use TypeName.IsAlias (requires fully set up object)
 
 	// use an objset to check for name conflicts
 	var mset objset
@@ -545,13 +596,32 @@ func (check *Checker) funcDecl(obj *Func, decl *declInfo) {
 	// func declarations cannot use iota
 	assert(check.iota == nil)
 
+	fdecl := decl.fdecl
+	if fdecl.IsMethod() {
+		_, _, tparams := check.unpackRecv(fdecl.Recv.List[0].Type, true)
+		if len(tparams) > 0 {
+			// TODO(gri) need to provide contract
+			// (check that number of parameters match is done when type-checking the receiver expression)
+			check.openScope(fdecl, "receiver type parameters")
+			defer check.closeScope()
+			for i, name := range tparams {
+				obj.tparams = append(obj.tparams, check.declareTypeParam(name, i, nil))
+			}
+		}
+	} else if fdecl.TParams != nil {
+		check.openScope(fdecl, "function type parameters")
+		defer check.closeScope()
+		obj.tparams = check.collectTypeParams(fdecl.TParams)
+	}
+
 	sig := new(Signature)
 	obj.typ = sig // guard against cycles
-	fdecl := decl.fdecl
 	check.funcType(sig, fdecl.Recv, fdecl.Type)
-	if sig.recv == nil && obj.name == "init" && (sig.params.Len() > 0 || sig.results.Len() > 0) {
-		check.errorf(fdecl.Pos(), "func init must have no arguments and no return values")
-		// ok to continue
+	if !fdecl.IsMethod() {
+		// only functions can have type parameters that need to be passed
+		// (the obj.tparams for methods are the receiver parameters)
+		// TODO(gri) remove the need for storing tparams in signatures
+		sig.tparams = obj.tparams
 	}
 
 	// function body must be type-checked after global declarations
@@ -682,7 +752,7 @@ func (check *Checker) declStmt(decl ast.Decl) {
 				check.declare(check.scope, s.Name, obj, scopePos)
 				// mark and unmark type before calling typeDecl; its type is still nil (see Checker.objDecl)
 				obj.setColor(grey + color(check.push(obj)))
-				check.typeDecl(obj, s.Type, nil, s.Assign.IsValid())
+				check.typeDecl(obj, s, nil)
 				check.pop().setColor(black)
 			default:
 				check.invalidAST(s.Pos(), "const, type, or var declaration expected")

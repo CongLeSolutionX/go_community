@@ -1,0 +1,59 @@
+This code contains changes to go/types and the go/* support libraries
+to type-check generic code as outlined in the latest contracts proposal
+and presented by Ian Lance Taylor at GopherCon 2019 in San Diego.
+
+CAUTION: EARLY PROTOTYPE. MISSING PIECES. THERE ARE BUGS.
+
+Read and use the code at your own risk.
+
+That said, the go/parser and go/ast changes are working and pass tests
+including all the larger examples in the latest contracts design doc.
+Look for the *.go2 files in go/parser/testdata.
+
+gofmt works only partly with parameterized code.
+
+The type-checker is starting to work but is not complete.
+I will update this CL from time to time as progress happens.
+
+Specifically, the following pieces (and more) are missing from type-
+checking or lead to unexpected behavior:
+
+- Importing of packages with type parameters or contracts.
+- Type-checking of contracts is limited to contracts with methods.
+- Methods with parameterized receiver types are not implemented yet.
+
+The following is "working" (as in: can be type-checked without errors):
+
+- Declaration and use of parameterized types.
+- Declaration and use (calls) of parameterized functions,
+  including type inference from function arguments.
+- Some larger tests pass mostly (see testdata/*.go2 files).
+
+Some code may look like it's working, but it may simply not do anything.
+
+Error messages, where present, are in usable condition but expect
+them to be significantly better in a more complete implementation.
+
+To play with this prototype:
+
+- Cherry-pick this CL on top of tip (the cherry-pick was tested with
+  tip at 4983a0b75b40):
+
+  git fetch "https://go.googlesource.com/go" ... && git cherry-pick FETCH_HEAD
+
+  (replace the ... with the respective information from Gerrit's CL page)
+
+- Build the gotype command:
+
+  go install go/types/gotype.go
+
+- Run it against a test case (assuming gotype was installed in a location that
+  is in your $PATH):
+
+  gotype $GOROOT/src/go/types/examples/functions.go2
+
+See also `gotype -h` for more information.
+
+Note: Currently, files containing parameterized code have extension ".go2".
+This is solely to distinguish them from regular Go code and to prevent gofmt
+from touching them. We expect a proper implementation to keep using ".go".
