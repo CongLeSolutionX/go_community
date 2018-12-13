@@ -1,0 +1,51 @@
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package p
+
+/*
+type I interface{
+        m(type A)(A)
+}
+ 
+type S struct{}
+ 
+func (S) m(type B)(B)
+ 
+var _ I = S{}
+
+type E(type T) interface {
+        m(type B)(B)
+}
+
+type II interface{
+        (E(int))
+        mm() int
+}
+
+var _ I = II(nil)
+*/
+
+contract C(A, B) {
+        A a()
+        B b()
+}
+
+//func fa(type A, B, C) (A, B, C)
+//func fb(type A, B, C ABC) (A, B, C)
+//func fc(type A, B, C ABC(A, B, C)) (A, B, C)
+func fd(type A, B, X C(B, A)) ()
+
+type tA struct{}; func (tA) a()
+type tB struct{}; func (tB) b()
+
+func _() {
+        //var a tA
+        //var b tB
+        //fa(a, b, 0)
+        //(a, b, 0)
+        //(a, b, 0)
+        //fd(a, b, 0)
+        fd(tA /* ERROR does not satisfy */ , tB, int)()
+}

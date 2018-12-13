@@ -31,7 +31,7 @@ func WriteExpr(buf *bytes.Buffer, x ast.Expr) {
 
 	switch x := x.(type) {
 	default:
-		buf.WriteString("(bad expr)") // nil, ast.BadExpr, ast.KeyValueExpr
+		buf.WriteString("(ast: bad expr)") // nil, ast.BadExpr, ast.KeyValueExpr
 
 	case *ast.Ident:
 		buf.WriteString(x.Name)
@@ -98,12 +98,7 @@ func WriteExpr(buf *bytes.Buffer, x ast.Expr) {
 	case *ast.CallExpr:
 		WriteExpr(buf, x.Fun)
 		buf.WriteByte('(')
-		for i, arg := range x.Args {
-			if i > 0 {
-				buf.WriteString(", ")
-			}
-			WriteExpr(buf, arg)
-		}
+		writeExprList(buf, x.Args)
 		if x.Ellipsis.IsValid() {
 			buf.WriteString("...")
 		}
@@ -144,6 +139,13 @@ func WriteExpr(buf *bytes.Buffer, x ast.Expr) {
 	case *ast.InterfaceType:
 		buf.WriteString("interface{")
 		writeFieldList(buf, x.Methods, "; ", true)
+		if len(x.Types) > 0 {
+			if len(x.Methods.List) > 0 {
+				buf.WriteString("; ")
+			}
+			buf.WriteString("type ")
+			writeExprList(buf, x.Types)
+		}
 		buf.WriteByte('}')
 
 	case *ast.MapType:
@@ -199,12 +201,7 @@ func writeFieldList(buf *bytes.Buffer, fields *ast.FieldList, sep string, iface 
 		}
 
 		// field list names
-		for i, name := range f.Names {
-			if i > 0 {
-				buf.WriteString(", ")
-			}
-			buf.WriteString(name.Name)
-		}
+		writeIdentList(buf, f.Names)
 
 		// types of interface methods consist of signatures only
 		if sig, _ := f.Type.(*ast.FuncType); sig != nil && iface {
@@ -220,5 +217,23 @@ func writeFieldList(buf *bytes.Buffer, fields *ast.FieldList, sep string, iface 
 		WriteExpr(buf, f.Type)
 
 		// ignore tag
+	}
+}
+
+func writeIdentList(buf *bytes.Buffer, list []*ast.Ident) {
+	for i, x := range list {
+		if i > 0 {
+			buf.WriteString(", ")
+		}
+		buf.WriteString(x.Name)
+	}
+}
+
+func writeExprList(buf *bytes.Buffer, list []ast.Expr) {
+	for i, x := range list {
+		if i > 0 {
+			buf.WriteString(", ")
+		}
+		WriteExpr(buf, x)
 	}
 }
