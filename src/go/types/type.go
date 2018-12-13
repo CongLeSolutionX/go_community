@@ -199,11 +199,13 @@ type Signature struct {
 	// and store it in the Func Object) because when type-checking a function
 	// literal we call the general type checker which returns a general Type.
 	// We then unpack the *Signature and use the scope for the literal body.
-	scope    *Scope // function scope, present for package-local signatures
-	recv     *Var   // nil if not a method
-	params   *Tuple // (incoming) parameters from left to right; or nil
-	results  *Tuple // (outgoing) results from left to right; or nil
-	variadic bool   // true if the last parameter's type is of the form ...T (or string, for append built-in only)
+	scope    *Scope      // function scope, present for package-local signatures
+	recv     *Var        // nil if not a method
+	rparams  []*TypeName // reveiver type parameters from left to right; or nil
+	tparams  []*TypeName // type parameters from left to right; or nil
+	params   *Tuple      // (incoming) parameters from left to right; or nil
+	results  *Tuple      // (outgoing) results from left to right; or nil
+	variadic bool        // true if the last parameter's type is of the form ...T (or string, for append built-in only)
 }
 
 // NewSignature returns a new function type for the given receiver, parameters,
@@ -220,7 +222,7 @@ func NewSignature(recv *Var, params, results *Tuple, variadic bool) *Signature {
 			panic("types.NewSignature: variadic parameter must be of unnamed slice type")
 		}
 	}
-	return &Signature{nil, recv, params, results, variadic}
+	return &Signature{nil, recv, nil, nil, params, results, variadic}
 }
 
 // Recv returns the receiver of signature s (if a method), or nil if a
@@ -243,9 +245,21 @@ func (s *Signature) Variadic() bool { return s.variadic }
 // An Interface represents an interface type.
 type Interface struct {
 	methods   []*Func // ordered list of explicitly declared methods
+	types     []Type  // list of explicitly declared types (for contracts)
 	embeddeds []Type  // ordered list of explicitly embedded types
 
 	allMethods []*Func // ordered list of methods declared with or embedded in this interface (TODO(gri): replace with mset)
+	allTypes   []Type  // list of types declared with or embedded in this interface
+}
+
+// is reports whether interface t represents types that all satisfy pred.
+func (t *Interface) is(pred func(Type) bool) bool {
+	for _, t := range t.allTypes {
+		if !pred(t) {
+			return false
+		}
+	}
+	return true
 }
 
 // emptyInterface represents the empty (completed) interface
@@ -347,6 +361,16 @@ func (t *Interface) Method(i int) *Func { t.assertCompleteness(); return t.allMe
 // The interface must have been completed.
 func (t *Interface) Empty() bool { t.assertCompleteness(); return len(t.allMethods) == 0 }
 
+// includes reports whether the interface t includes the type typ.
+func (t *Interface) includes(typ Type) bool {
+	for _, t := range t.allTypes {
+		if Identical(t, typ) {
+			return true
+		}
+	}
+	return false
+}
+
 // Complete computes the interface's method set. It must be called by users of
 // NewInterfaceType and NewInterface after the interface's embedded types are
 // fully defined and before using the interface type in any way other than to
@@ -379,12 +403,16 @@ func (t *Interface) Complete() *Interface {
 		addMethod(m, true)
 	}
 
+	var types []Type
+	types = append(types, t.types...)
+
 	for _, typ := range t.embeddeds {
 		typ := typ.Underlying().(*Interface)
 		typ.Complete()
 		for _, m := range typ.allMethods {
 			addMethod(m, false)
 		}
+		types = append(types, typ.types...)
 	}
 
 	for i := 0; i < len(todo); i += 2 {
@@ -399,6 +427,7 @@ func (t *Interface) Complete() *Interface {
 		sort.Sort(byUniqueMethodName(methods))
 		t.allMethods = methods
 	}
+	t.allTypes = types
 
 	return t
 }
@@ -446,13 +475,15 @@ func (c *Chan) Dir() ChanDir { return c.dir }
 // Elem returns the element type of channel c.
 func (c *Chan) Elem() Type { return c.elem }
 
-// A Named represents a named type.
+// A Named represents a named (defined) type.
 type Named struct {
-	info       typeInfo  // for cycle detection
-	obj        *TypeName // corresponding declared object
-	orig       Type      // type (on RHS of declaration) this *Named type is derived of (for cycle reporting)
-	underlying Type      // possibly a *Named during setup; never a *Named once set up completely
-	methods    []*Func   // methods declared for this type (not the method set of this type); signatures are type-checked lazily
+	info       typeInfo    // for cycle detection
+	obj        *TypeName   // corresponding declared object
+	orig       Type        // type (on RHS of declaration) this *Named type is derived of (for cycle reporting)
+	underlying Type        // possibly a *Named during setup; never a *Named once set up completely
+	tparams    []*TypeName // type parameters, or nil
+	targs      []Type      // type arguments (after instantiation), or nil
+	methods    []*Func     // methods declared for this type (not the method set of this type); signatures are type-checked lazily
 }
 
 // NewNamed returns a new named type for the given type name, underlying type, and associated methods.
@@ -496,6 +527,30 @@ func (t *Named) AddMethod(m *Func) {
 	}
 }
 
+// A TypeParam represents a type parameter type.
+type TypeParam struct {
+	id    uint64    // unique id
+	obj   *TypeName // corresponding type name
+	index int       // parameter index
+	bound Type      // *Named or *Interface; underlying type is always *Interface
+}
+
+// NewTypeParam returns a new TypeParam.
+func (check *Checker) NewTypeParam(obj *TypeName, index int, bound Type) *TypeParam {
+	typ := &TypeParam{check.nextId, obj, index, bound}
+	check.nextId++
+	if obj.typ == nil {
+		obj.typ = typ
+	}
+	return typ
+}
+
+func (t *TypeParam) Interface() *Interface {
+	iface := t.bound.Underlying().(*Interface)
+	iface.Complete() // TODO(gri) should we use check.completeInterface instead?
+	return iface
+}
+
 // Implementations for Type methods.
 
 func (b *Basic) Underlying() Type     { return b }
@@ -509,6 +564,7 @@ func (t *Interface) Underlying() Type { return t }
 func (m *Map) Underlying() Type       { return m }
 func (c *Chan) Underlying() Type      { return c }
 func (t *Named) Underlying() Type     { return t.underlying }
+func (t *TypeParam) Underlying() Type { return t } // TODO(gri) should this return t.Interface() instead?
 
 func (b *Basic) String() string     { return TypeString(b, nil) }
 func (a *Array) String() string     { return TypeString(a, nil) }
@@ -521,3 +577,4 @@ func (t *Interface) String() string { return TypeString(t, nil) }
 func (m *Map) String() string       { return TypeString(m, nil) }
 func (c *Chan) String() string      { return TypeString(c, nil) }
 func (t *Named) String() string     { return TypeString(t, nil) }
+func (t *TypeParam) String() string { return TypeString(t, nil) }

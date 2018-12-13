@@ -1,0 +1,109 @@
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This file shows some examples of type-parameterized types.
+
+package p
+
+// List is just what it says - a slice of E elements.
+type List(type E) []E
+
+// A parameterized (generic) type must always be instantiated
+// before it can be used to designate the type of a variable
+// (including a struct field, or function parameter); though
+// for the latter cases, the provided type may be another type
+// parameter. So:
+var _ List(byte) = []byte{}
+
+// A generic binary tree might be declared as follows.
+type Tree(type E) struct {
+	// TODO(gri) should be able to use Tree w/o repeating type args
+	left, right *Tree(E)
+	payload E
+}
+
+// A simple instantiation of Tree:
+var root1 Tree(int)
+
+// The actual type parameter provided may be a parameterized
+// type itself:
+var root2 Tree(List(int))
+
+// A couple of more complex examples.
+// Here, we need extra parentheses around the element type of the slices on the right
+// to resolve the parsing ambiguity between the conversion []List(int) and the slice
+// type with a parameterized elements type [](List(int)).
+var _ List(List(int)) = [](List(int)){}
+var _ List(List(List(Tree(int)))) = [](List(List(Tree(int)))){}
+
+// Type parameters act like type aliases. Given the declarations:
+type T1(type P) struct {
+	f P
+}
+
+type T2(type P) struct {
+	f struct {
+		g P
+	}
+}
+
+var x1 T1(struct{ g int })
+var x2 T2(int)
+
+func _() {
+	// This assignment is invalid because the types of x1, x2 are T1(...)
+	// and T2(...) respectively, which are two different defined types.
+	x1 = x2 // ERROR assignment
+
+	// This assignment is valid because the types of x1.f and x2.f are
+	// both struct { g int }; the type parameters act like type aliases
+	// and their actual names don't come into play here.
+	x1.f = x2.f
+}
+
+// We can verify this behavior using type aliases instead:
+type T1a struct {
+	f A1
+}
+type A1 = struct { g int }
+
+type T2a struct {
+	f struct {
+		g A2
+	}
+}
+type A2 = int
+
+var x1a T1a
+var x2a T2a
+
+func _() {
+	x1a = x2a // ERROR assignment
+	x1a.f = x2a.f
+}
+
+// Another interesting corner case are generic types that don't use
+// their type arguments. For instance:
+type T(type P) struct{}
+
+var xint T(int)
+var xbool T(bool)
+
+// Are these two variables of the same type? After all, their underlying
+// types are identical. We consider them to be different because each type
+// instantiation creates a new named type, in this case T<int> and T<bool>
+// even if their underlying types are identical. This is sensible because
+// we might still have methods that have different signatures or behave
+// differently depending on the type arguments, and thus we can't possibly
+// consider such types identical. Consequently:
+func _() {
+	xint = xbool // ERROR assignment
+}
+
+// Generic types cannot be used without instantiation.
+var _ T // ERROR cannot use generic type T
+
+// In type context, parameterized (generic) types cannot use instantiation syntax.
+// See also NOTES entry from 12/4/2019.
+var _ (T /* ERROR cannot use generic type T */ )( /* ERROR expected ';' */ int)

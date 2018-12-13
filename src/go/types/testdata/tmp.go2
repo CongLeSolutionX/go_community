@@ -1,0 +1,13 @@
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package p
+
+type B1 interface{type int}
+
+type T3(type P B1) P
+
+type B2 interface{type int, string}
+
+func _(type P B2)(x T3(P /* ERROR missing type string */ ))

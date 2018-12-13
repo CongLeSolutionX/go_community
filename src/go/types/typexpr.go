@@ -7,6 +7,7 @@
 package types
 
 import (
+	"fmt"
 	"go/ast"
 	"go/constant"
 	"go/token"
@@ -35,6 +36,13 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *Named, wantType bool)
 		return
 	}
 	check.recordUse(e, obj)
+
+	// If we have a contract, don't bother type-checking it and avoid a
+	// possible cycle error in favor of the more informative error below.
+	if obj, _ := obj.(*Contract); obj != nil {
+		check.errorf(e.Pos(), "use of contract %s not in type parameter declaration", obj.name)
+		return
+	}
 
 	// Type-check the object.
 	// Only call Checker.objDecl if the object doesn't have a type yet
@@ -97,6 +105,9 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *Named, wantType bool)
 		}
 		x.mode = variable
 
+	case *Contract:
+		unreachable() // handled earlier
+
 	case *Func:
 		check.addDeclDep(obj)
 		x.mode = value
@@ -116,6 +127,7 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *Named, wantType bool)
 }
 
 // typ type-checks the type expression e and returns its type, or Typ[Invalid].
+// The type must not be an (uninstantiated) generic type.
 func (check *Checker) typ(e ast.Expr) Type {
 	return check.definedType(e, nil)
 }
@@ -125,32 +137,89 @@ func (check *Checker) typ(e ast.Expr) Type {
 // in a type declaration, and def.underlying will be set to the type of e before
 // any components of e are type-checked.
 //
-func (check *Checker) definedType(e ast.Expr, def *Named) (T Type) {
-	if trace {
-		check.trace(e.Pos(), "%s", e)
-		check.indent++
-		defer func() {
-			check.indent--
-			check.trace(e.Pos(), "=> %s", T)
-		}()
+func (check *Checker) definedType(e ast.Expr, def *Named) Type {
+	typ := check.typInternal(e, def)
+	assert(isTyped(typ))
+	if isGeneric(typ) {
+		check.errorf(e.Pos(), "cannot use generic type %s without instantiation", typ)
+		typ = Typ[Invalid]
 	}
+	check.recordTypeAndValue(e, typexpr, typ, nil)
+	return typ
+}
 
-	T = check.typInternal(e, def)
-	assert(isTyped(T))
-	check.recordTypeAndValue(e, typexpr, T, nil)
-
-	return
+// generic is like typ but the type must be an (uninstantiated) generic type.
+func (check *Checker) genericType(e ast.Expr) Type {
+	typ := check.typInternal(e, nil)
+	assert(isTyped(typ))
+	if typ != Typ[Invalid] && !isGeneric(typ) {
+		check.errorf(e.Pos(), "%s is not a generic type", typ)
+		typ = Typ[Invalid]
+	}
+	// TODO(gri) what is the correct call below?
+	check.recordTypeAndValue(e, typexpr, typ, nil)
+	return typ
 }
 
 // funcType type-checks a function or method type.
-func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast.FuncType) {
-	scope := NewScope(check.scope, token.NoPos, token.NoPos, "function")
-	scope.isFunc = true
-	check.recordScope(ftyp, scope)
+func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftparams *ast.FieldList, ftyp *ast.FuncType) {
+	check.openScope(ftyp, "function")
+	check.scope.isFunc = true
+	check.recordScope(ftyp, check.scope)
+	sig.scope = check.scope
+	defer check.closeScope()
 
+	if recvPar != nil && len(recvPar.List) > 0 {
+		_, rname, rparams := check.unpackRecv(recvPar.List[0].Type, true)
+		if len(rparams) > 0 {
+			sig.rparams = check.declareTypeParams(nil, rparams, nil)
+			// determine receiver type to get its type parameters
+			// and the respective type parameter bounds
+			var recvTParams []*TypeName
+			if rname != nil {
+				// recv should be a Named type (otherwise an error is reported elsewhere)
+				if recv, _ := check.genericType(rname).(*Named); recv != nil {
+					recvTParams = recv.tparams
+				}
+			}
+			// provide type parameter bounds
+			// - only do this if we have the right number (otherwise an error is reported elsewhere)
+			if len(sig.rparams) == len(recvTParams) {
+				list := make([]Type, len(sig.rparams))
+				for i, t := range sig.rparams {
+					list[i] = t.typ
+				}
+				for i, tname := range sig.rparams {
+					bound := recvTParams[i].typ.(*TypeParam).bound
+					// bound is (possibly) parameterized in the context of the
+					// receiver type declaration. Substitute parameters for the
+					// current context.
+					// TODO(gri) should we assume now that bounds always exist?
+					//           (no bound == empty interface)
+					if bound != nil {
+						bound = check.subst(tname.pos, bound, recvTParams, list)
+						tname.typ.(*TypeParam).bound = bound
+					}
+				}
+			}
+		}
+	}
+
+	if ftparams != nil {
+		sig.tparams = check.collectTypeParams(ftparams)
+	}
+
+	// Value (non-type) parameters' scope starts in the function body. Use a temporary scope for their
+	// declarations and the squash that scope into the parent scope (and report any redeclarations at
+	// at that time).
+	scope := NewScope(check.scope, token.NoPos, token.NoPos, "function body (temp. scope)")
 	recvList, _ := check.collectParams(scope, recvPar, false)
 	params, variadic := check.collectParams(scope, ftyp.Params, true)
 	results, _ := check.collectParams(scope, ftyp.Results, false)
+	scope.Squash(func(obj, alt Object) {
+		check.errorf(obj.Pos(), "%s redeclared in this block", obj.Name())
+		check.reportAltDecl(alt)
+	})
 
 	if recvPar != nil {
 		// recv parameter list present (may be empty)
@@ -159,7 +228,7 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 		var recv *Var
 		switch len(recvList) {
 		case 0:
-			check.error(recvPar.Pos(), "method is missing receiver")
+			// error reported by resolver
 			recv = NewParam(0, nil, "", Typ[Invalid]) // ignore recv below
 		default:
 			// more than one receiver
@@ -201,16 +270,24 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 		sig.recv = recv
 	}
 
-	sig.scope = scope
 	sig.params = NewTuple(params...)
 	sig.results = NewTuple(results...)
 	sig.variadic = variadic
 }
 
 // typInternal drives type checking of types.
-// Must only be called by definedType.
+// Must only be called by definedType or genericType.
 //
-func (check *Checker) typInternal(e ast.Expr, def *Named) Type {
+func (check *Checker) typInternal(e ast.Expr, def *Named) (T Type) {
+	if check.conf.Trace {
+		check.trace(e.Pos(), "type %s", e)
+		check.indent++
+		defer func() {
+			check.indent--
+			check.trace(e.Pos(), "=> %s (%s)", T, fmt.Sprintf("%T", T))
+		}()
+	}
+
 	switch e := e.(type) {
 	case *ast.BadExpr:
 		// ignore - error reported before
@@ -249,7 +326,30 @@ func (check *Checker) typInternal(e ast.Expr, def *Named) Type {
 			check.errorf(x.pos(), "%s is not a type", &x)
 		}
 
+	case *ast.CallExpr:
+		typ := check.genericType(e.Fun) // TODO(gri) what about cycles?
+		if typ == Typ[Invalid] {
+			return typ // error already reported
+		}
+
+		// evaluate arguments (always)
+		targs := check.typeList(e.Args)
+		if targs == nil {
+			return Typ[Invalid]
+		}
+
+		// instantiate parameterized type
+		poslist := make([]token.Pos, len(e.Args))
+		for i, arg := range e.Args {
+			poslist[i] = arg.Pos()
+		}
+		typ = check.instantiate(e.Pos(), typ, targs, poslist)
+		def.setUnderlying(typ)
+		return typ
+
 	case *ast.ParenExpr:
+		// Generic types must be instantiated before they can be used in any form.
+		// Consequently, generic types cannot be parenthesized.
 		return check.definedType(e.X, def)
 
 	case *ast.ArrayType:
@@ -282,7 +382,7 @@ func (check *Checker) typInternal(e ast.Expr, def *Named) Type {
 	case *ast.FuncType:
 		typ := new(Signature)
 		def.setUnderlying(typ)
-		check.funcType(typ, nil, e)
+		check.funcType(typ, nil, nil, e)
 		return typ
 
 	case *ast.InterfaceType:
@@ -392,6 +492,22 @@ func (check *Checker) arrayLength(e ast.Expr) int64 {
 	}
 	check.errorf(x.pos(), "array length %s must be integer", &x)
 	return -1
+}
+
+// typeList provides the list of types corresponding to the incoming expression list.
+// If an error occured, the result is nil, but all list elements were type-checked.
+func (check *Checker) typeList(list []ast.Expr) []Type {
+	res := make([]Type, len(list)) // res != nil even if len(list) == 0
+	for i, x := range list {
+		t := check.typ(x)
+		if t == Typ[Invalid] {
+			res = nil
+		}
+		if res != nil {
+			res[i] = t
+		}
+	}
+	return res
 }
 
 func (check *Checker) collectParams(scope *Scope, list *ast.FieldList, variadicOk bool) (params []*Var, variadic bool) {
@@ -511,7 +627,10 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 		}
 	}
 
-	if len(ityp.methods) == 0 && len(ityp.embeddeds) == 0 {
+	// type constraints
+	ityp.types = check.collectTypeConstraints(iface.Pos(), ityp.types, iface.Types)
+
+	if len(ityp.methods) == 0 && len(ityp.types) == 0 && len(ityp.embeddeds) == 0 {
 		// empty interface
 		ityp.allMethods = markComplete
 		return
@@ -521,10 +640,10 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 	sort.Sort(byUniqueMethodName(ityp.methods))
 	sort.Stable(byUniqueTypeName(ityp.embeddeds))
 
-	check.later(func() { check.completeInterface(ityp) })
+	check.later(func() { check.completeInterface(iface.Pos(), ityp) })
 }
 
-func (check *Checker) completeInterface(ityp *Interface) {
+func (check *Checker) completeInterface(pos token.Pos, ityp *Interface) {
 	if ityp.allMethods != nil {
 		return
 	}
@@ -537,12 +656,19 @@ func (check *Checker) completeInterface(ityp *Interface) {
 		panic("internal error: incomplete interface")
 	}
 
-	if trace {
-		check.trace(token.NoPos, "complete %s", ityp)
+	if check.conf.Trace {
+		// Types don't generally have position information.
+		// If we don't have a valid pos provided, try to use
+		// one close enough.
+		if !pos.IsValid() && len(ityp.methods) > 0 {
+			pos = ityp.methods[0].pos
+		}
+
+		check.trace(pos, "complete %s", ityp)
 		check.indent++
 		defer func() {
 			check.indent--
-			check.trace(token.NoPos, "=> %s", ityp)
+			check.trace(pos, "=> %s (methods = %v, types = %v)", ityp, ityp.allMethods, ityp.allTypes)
 		}()
 	}
 
@@ -592,6 +718,11 @@ func (check *Checker) completeInterface(ityp *Interface) {
 		addMethod(m.pos, m, true)
 	}
 
+	// collect types
+	// TODO(gri) report error for multiply explicitly declared identical types
+	var types []Type
+	types = append(types, ityp.types...)
+
 	posList := check.posMap[ityp]
 	for i, typ := range ityp.embeddeds {
 		pos := posList[i] // embedding position
@@ -601,16 +732,18 @@ func (check *Checker) completeInterface(ityp *Interface) {
 			// Ignore it.
 			continue
 		}
-		check.completeInterface(typ)
+		check.completeInterface(pos, typ)
 		for _, m := range typ.allMethods {
 			addMethod(pos, m, false) // use embedding position pos rather than m.pos
 		}
+		types = append(types, typ.allTypes...)
 	}
 
 	if methods != nil {
 		sort.Sort(byUniqueMethodName(methods))
 		ityp.allMethods = methods
 	}
+	ityp.allTypes = types
 }
 
 // byUniqueTypeName named type lists can be sorted by their unique type names.

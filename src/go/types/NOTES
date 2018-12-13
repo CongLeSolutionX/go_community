@@ -1,0 +1,56 @@
+This file works as a sort of notebook/implementation log. It replaces my notebook based approach
+so we have a better track record. I only switched to this file recently, hence it is incomplete.
+
+TODO
+- type assertions on/against parameterized types
+- no need for error messages where a _ type parameter cannot be inferred (_ cannot be used)
+- use Underlying() to return a type parameter's bound? investigate!
+- better error message when declaring a contract local to a function (parser gets out of sync)
+- if type parameters are repeated in recursive instantiation, they must be the same order (not yet checked)
+- use []*TypeParam for tparams in subst? (unclear)
+
+OPEN ISSUES
+- instantiating a parameterized function type w/o value or result parameters may have unexpected side-effects
+  (we don't make a copy of the signature in some cases) - investigate
+- using a contract and enumerating type arguments currently leads to an error (e.g. func f(type T C(T)) (x T) ... )
+
+DESIGN/IMPLEMENTATION
+- 11/19/2019: For type parameters with interface bounds to work, the scope of all type parameters in
+  a type parameter list starts at the "type" keyword. This makes all type parameters visible for all
+  type parameter bounds (interfaces that may be parameterized with the type parameters).
+
+- 12/4/2019: do not allow parenthesized generic uninstantiated types (unless instantiated implicitly)
+  In other words: generic types must always be instantiated before they can be used in any form
+  More generally: Only permit type instantiation T(x) in type context, when the type is a named type.
+  Do not permit it in general in type context: e.g., disallow []T(x) because we consider that a
+  conversion, in general. Same for ([]T)(x).
+
+- 12/12/2019: represent type bounds always as (possibly unnamed) interfaces
+  (contracts are user syntactic sugar)
+
+- 12/19/2019: Type parameters don't act like type aliases. For instance:
+
+        func f(type T1, T2)(x T1) T2 { return x }
+
+  is not valid, no matter how T1 and T2 are instantiated (but if T1 and T2 were type aliases with
+  both of them having type int, the return x would be valid). In fact, the type parameters act more
+  like named types with the methods described by their type bound. But type parameters are never
+  interfaces. To determine: Given a type parameter P, is P == underlying(P) (like for basic types),
+  or is the the underlying type of P something else (like for defined types). Is there an observable
+  difference?
+
+- 12/19/2019: Rewrote contract handling: they are now treated as Objects (rather than Types) throughout.
+
+- 12/20/2019: Decided to start moving type parameters to types (from TypeName to Named), need to do the
+  same for Func. This make more sense as in general any type (conceptually even literal types) could
+  have type parameters. It's a property of the type, not the type name. It also simplified the code.
+
+- 12/20/2019: Type parameters may be part of type lists in contracts/interfaces. It just falls out
+  naturally. Added test cases.
+
+- 12/23/2019: Decision: Type parameters and ordinary (value) parameters are in the same block, notably
+  the function block. The scope of type parameters starts at the 'type' keyword; the scope of ordinary
+  parameters starts with the (opening '{' of the) function body. Both scopes end with the closing '}'
+  of the function body (i.e., the end of the function block).
+
+- 1/2/2020: Implementation decision: contracts can only be declared at the package level.
