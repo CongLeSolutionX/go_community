@@ -147,7 +147,11 @@ func operandString(x *operand, qf Qualifier) string {
 	// <typ>
 	if hasType {
 		if x.typ != Typ[Invalid] {
-			buf.WriteString(" of type ")
+			intro := " of type "
+			if isGeneric(x.typ) {
+				intro = " of generic type "
+			}
+			buf.WriteString(intro)
 			WriteType(&buf, x.typ, qf)
 		} else {
 			buf.WriteString(" with invalid type")
@@ -236,7 +240,7 @@ func (x *operand) assignableTo(check *Checker, T Type, reason *string) bool {
 				return Vb.kind == UntypedBool && isBoolean(Tu)
 			}
 		case *Interface:
-			check.completeInterface(t)
+			check.completeInterface(token.NoPos, t)
 			return x.isNil() || t.Empty()
 		case *Pointer, *Signature, *Slice, *Map, *Chan:
 			return x.isNil()

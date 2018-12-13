@@ -14,7 +14,7 @@ import (
 )
 
 func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body *ast.BlockStmt, iota constant.Value) {
-	if trace {
+	if check.conf.Trace {
 		check.trace(body.Pos(), "--- %s: %s", name, sig)
 		defer func() {
 			check.trace(body.End(), "--- <end>")
@@ -48,6 +48,11 @@ func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body
 	if sig.results.Len() > 0 && !check.isTerminating(body, "") {
 		check.error(body.Rbrace, "missing return")
 	}
+
+	// TODO(gri) Should we make it an error to declare generic functions
+	//           where the type parameters are not used?
+	// 12/19/2018: Probably not - it can make sense to have an API with
+	//           all functions uniformly sharing the same type parameters.
 
 	// spec: "Implementation restriction: A compiler may make it illegal to
 	// declare a variable inside a function body if the variable is never used."
@@ -147,9 +152,9 @@ func (check *Checker) multipleDefaults(list []ast.Stmt) {
 	}
 }
 
-func (check *Checker) openScope(s ast.Stmt, comment string) {
-	scope := NewScope(check.scope, s.Pos(), s.End(), comment)
-	check.recordScope(s, scope)
+func (check *Checker) openScope(node ast.Node, comment string) {
+	scope := NewScope(check.scope, node.Pos(), node.End(), comment)
+	check.recordScope(node, scope)
 	check.scope = scope
 }
 
@@ -260,7 +265,7 @@ L:
 	}
 }
 
-func (check *Checker) caseTypes(x *operand, xtyp *Interface, types []ast.Expr, seen map[Type]token.Pos) (T Type) {
+func (check *Checker) caseTypes(x *operand, xtyp *Interface, types []ast.Expr, seen map[Type]token.Pos, strict bool) (T Type) {
 L:
 	for _, e := range types {
 		T = check.typOrNil(e)
@@ -283,7 +288,7 @@ L:
 		}
 		seen[T] = e.Pos()
 		if T != nil {
-			check.typeAssertion(e.Pos(), x, xtyp, T)
+			check.typeAssertion(e.Pos(), x, xtyp, T, strict)
 		}
 	}
 	return
@@ -594,7 +599,7 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 			return
 		}
 
-		// rhs must be of the form: expr.(type) and expr must be an interface
+		// rhs must be of the form: expr.(type) and expr must be an interface or generic type
 		expr, _ := rhs.(*ast.TypeAssertExpr)
 		if expr == nil || expr.Type != nil {
 			check.invalidAST(s.Pos(), "incorrect form of type switch guard")
@@ -605,9 +610,16 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 		if x.mode == invalid {
 			return
 		}
-		xtyp, _ := x.typ.Underlying().(*Interface)
-		if xtyp == nil {
-			check.errorf(x.pos(), "%s is not an interface", &x)
+		var xtyp *Interface
+		var strict bool
+		switch t := x.typ.Underlying().(type) {
+		case *Interface:
+			xtyp = t
+		case *TypeParam:
+			xtyp = t.Interface()
+			strict = true
+		default:
+			check.errorf(x.pos(), "%s is not an interface or generic type", &x)
 			return
 		}
 
@@ -622,7 +634,7 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 				continue
 			}
 			// Check each type in this type switch case.
-			T := check.caseTypes(&x, xtyp, clause.List, seen)
+			T := check.caseTypes(&x, xtyp, clause.List, seen, strict)
 			check.openScope(clause, "case")
 			// If lhs exists, declare a corresponding variable in the case-local scope.
 			if lhs != nil {
@@ -746,43 +758,21 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 		// determine key/value types
 		var key, val Type
 		if x.mode != invalid {
-			switch typ := x.typ.Underlying().(type) {
-			case *Basic:
-				if isString(typ) {
-					key = Typ[Int]
-					val = universeRune // use 'rune' name
-				}
-			case *Array:
-				key = Typ[Int]
-				val = typ.elem
-			case *Slice:
-				key = Typ[Int]
-				val = typ.elem
-			case *Pointer:
-				if typ, _ := typ.base.Underlying().(*Array); typ != nil {
-					key = Typ[Int]
-					val = typ.elem
-				}
-			case *Map:
-				key = typ.key
-				val = typ.elem
-			case *Chan:
-				key = typ.elem
-				val = Typ[Invalid]
-				if typ.dir == SendOnly {
-					check.errorf(x.pos(), "cannot range over send-only channel %s", &x)
-					// ok to continue
-				}
-				if s.Value != nil {
-					check.errorf(s.Value.Pos(), "iteration over %s permits only one iteration variable", &x)
-					// ok to continue
-				}
+			typ := x.typ.Underlying()
+			if _, ok := typ.(*Chan); ok && s.Value != nil {
+				// TODO(gri) this also needs to happen for channels in generic variables
+				check.softErrorf(s.Value.Pos(), "range over %s permits only one iteration variable", &x)
+				// ok to continue
 			}
-		}
-
-		if key == nil {
-			check.errorf(x.pos(), "cannot range over %s", &x)
-			// ok to continue
+			var msg string
+			key, val, msg = rangeKeyVal(typ, isVarName(s.Key), isVarName(s.Value))
+			if key == nil || msg != "" {
+				if msg != "" {
+					msg = ": " + msg
+				}
+				check.softErrorf(x.pos(), "cannot range over %s%s", &x, msg)
+				// ok to continue
+			}
 		}
 
 		// check assignment to/declaration of iteration variables
@@ -863,4 +853,73 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 	default:
 		check.error(s.Pos(), "invalid statement")
 	}
+}
+
+// isVarName reports whether x is a non-nil, non-blank (_) expression.
+func isVarName(x ast.Expr) bool {
+	if x == nil {
+		return false
+	}
+	ident, _ := unparen(x).(*ast.Ident)
+	return ident == nil || ident.Name != "_"
+}
+
+// rangeKeyVal returns the key and value type produced by a range clause
+// over an expression of type typ, and possibly an error message. If the
+// range clause is not permitted the returned key is nil or msg is not
+// empty (in that case we still may have a non-nil key type which can be
+// used to reduce the chance for follow-on errors).
+// The wantKey, wantVal, and hasVal flags indicate which of the iteration
+// variables are used or present; this matters if we range over a generic
+// type where not all keys or values are of the same type.
+func rangeKeyVal(typ Type, wantKey, wantVal bool) (Type, Type, string) {
+	switch typ := typ.(type) {
+	case *Basic:
+		if isString(typ) {
+			return Typ[Int], universeRune, "" // use 'rune' name
+		}
+	case *Array:
+		return Typ[Int], typ.elem, ""
+	case *Slice:
+		return Typ[Int], typ.elem, ""
+	case *Pointer:
+		if typ, _ := typ.base.Underlying().(*Array); typ != nil {
+			return Typ[Int], typ.elem, ""
+		}
+	case *Map:
+		return typ.key, typ.elem, ""
+	case *Chan:
+		var msg string
+		if typ.dir == SendOnly {
+			msg = "send-only channel"
+		}
+		return typ.elem, Typ[Invalid], msg
+	case *TypeParam:
+		first := true
+		var key, val Type
+		var msg string
+		typ.Interface().is(func(t Type) bool {
+			k, v, m := rangeKeyVal(t, wantKey, wantVal)
+			if k == nil || m != "" {
+				key, val, msg = k, v, m
+				return false
+			}
+			if first {
+				key, val, msg = k, v, m
+				first = false
+				return true
+			}
+			if wantKey && !Identical(key, k) {
+				key, val, msg = nil, nil, "all possible values must have the same key type"
+				return false
+			}
+			if wantVal && !Identical(val, v) {
+				key, val, msg = nil, nil, "all possible values must have the same element type"
+				return false
+			}
+			return true
+		})
+		return key, val, msg
+	}
+	return nil, nil, ""
 }
