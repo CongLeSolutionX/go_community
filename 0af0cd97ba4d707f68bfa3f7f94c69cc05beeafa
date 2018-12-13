@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0ad64c_1724ff42",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-13T03:45:16Z",
+      "side": 1,
+      "message": "t.Skips should usually include a reference to a bug if it\u0027s meant to be fixed. But if this is a permanent condition, perhaps word it differently like \"test is not applicable to ...\"",
+      "range": {
+        "startLine": 874,
+        "startChar": 10,
+        "endLine": 874,
+        "endChar": 81
+      },
+      "revId": "0af0cd97ba4d707f68bfa3f7f94c69cc05beeafa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
