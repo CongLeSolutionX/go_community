@@ -14,7 +14,7 @@ import (
 )
 
 func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body *ast.BlockStmt, iota constant.Value) {
-	if trace {
+	if check.conf.Trace {
 		check.trace(body.Pos(), "--- %s: %s", name, sig)
 		defer func() {
 			check.trace(body.End(), "--- <end>")
@@ -48,6 +48,11 @@ func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body
 	if sig.results.Len() > 0 && !check.isTerminating(body, "") {
 		check.error(body.Rbrace, "missing return")
 	}
+
+	// TODO(gri) Should we make it an error to declare generic functions
+	//           where the type parameters are not used?
+	// 12/19/2018: Probably not - it can make sense to have an API with
+	//           all functions uniformly sharing the same type parameters.
 
 	// spec: "Implementation restriction: A compiler may make it illegal to
 	// declare a variable inside a function body if the variable is never used."
@@ -147,9 +152,9 @@ func (check *Checker) multipleDefaults(list []ast.Stmt) {
 	}
 }
 
-func (check *Checker) openScope(s ast.Stmt, comment string) {
-	scope := NewScope(check.scope, s.Pos(), s.End(), comment)
-	check.recordScope(s, scope)
+func (check *Checker) openScope(node ast.Node, comment string) {
+	scope := NewScope(check.scope, node.Pos(), node.End(), comment)
+	check.recordScope(node, scope)
 	check.scope = scope
 }
 
