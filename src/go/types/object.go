@@ -213,6 +213,7 @@ func (*Const) isDependency() {} // a constant may be a dependency of an initiali
 // A TypeName represents a name for a (defined or alias) type.
 type TypeName struct {
 	object
+	tparams []*TypeName // type parameters from left to right; or nil
 }
 
 // NewTypeName returns a new type name denoting the given typ.
@@ -223,7 +224,12 @@ type TypeName struct {
 // argument for NewNamed, which will set the TypeName's type as a side-
 // effect.
 func NewTypeName(pos token.Pos, pkg *Package, name string, typ Type) *TypeName {
-	return &TypeName{object{nil, pos, pkg, name, typ, 0, colorFor(typ), token.NoPos}}
+	return &TypeName{object{nil, pos, pkg, name, typ, 0, colorFor(typ), token.NoPos}, nil}
+}
+
+// IsParameterized reports whether obj is a parametrized type.
+func (obj *TypeName) IsParameterized() bool {
+	return len(obj.tparams) > 0
 }
 
 // IsAlias reports whether obj is an alias name for a type.
@@ -248,6 +254,17 @@ func (obj *TypeName) IsAlias() bool {
 	default:
 		return true
 	}
+}
+
+// TypeParams returns the list if *TypeParam types for the type parameters of obj; or nil.
+func (obj *TypeName) TypeParams() (tparams []*TypeParam) {
+	if n := len(obj.tparams); n > 0 {
+		tparams = make([]*TypeParam, n)
+		for i, tpar := range obj.tparams {
+			tparams[i] = tpar.typ.(*TypeParam)
+		}
+	}
+	return
 }
 
 // A Variable represents a declared variable (including function parameters and results, and struct fields).
@@ -293,18 +310,19 @@ func (*Var) isDependency() {} // a variable may be a dependency of an initializa
 // An abstract method may belong to many interfaces due to embedding.
 type Func struct {
 	object
-	hasPtrRecv bool // only valid for methods that don't have a type yet
+	hasPtrRecv bool        // only valid for methods that don't have a type yet
+	tparams    []*TypeName // type parameters from left to right (rcvr parameters for methods); or nil
 }
 
 // NewFunc returns a new function with the given signature, representing
 // the function's type.
 func NewFunc(pos token.Pos, pkg *Package, name string, sig *Signature) *Func {
-	// don't store a nil signature
+	// don't store a (typed) nil signature
 	var typ Type
 	if sig != nil {
 		typ = sig
 	}
-	return &Func{object{nil, pos, pkg, name, typ, 0, colorFor(typ), token.NoPos}, false}
+	return &Func{object{nil, pos, pkg, name, typ, 0, colorFor(typ), token.NoPos}, false, nil}
 }
 
 // FullName returns the package- or receiver-type-qualified name of
@@ -377,6 +395,26 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 	case *Func:
 		buf.WriteString("func ")
 		writeFuncName(buf, obj, qf)
+		// Func.tparams is used for functions and methods; but for methods
+		// these are the receiver parameters. Don't print them twice.
+		// TODO(gri) Consider putting receiver and type parameters in the Func
+		//           object, not the signature. That might simplify things.
+		if len(obj.tparams) > 0 && (typ == nil || typ.(*Signature).recv == nil) {
+			buf.WriteString("(type ")
+			for i, tname := range obj.tparams {
+				if i > 0 {
+					buf.WriteString(", ")
+				}
+				buf.WriteString(tname.name)
+				if tname.typ != nil && tname.typ.(*TypeParam).bound != nil {
+					// TODO(gri) Instead of writing the bound with each type
+					//           parameter, consider bundling them up.
+					buf.WriteByte(' ')
+					WriteType(buf, tname.typ.(*TypeParam).bound, nil)
+				}
+			}
+			buf.WriteByte(')')
+		}
 		if typ != nil {
 			WriteSignature(buf, typ.(*Signature), qf)
 		}
@@ -416,6 +454,24 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 		// are the same; see also comment in TypeName.IsAlias).
 		if _, ok := typ.(*Basic); ok {
 			return
+		}
+		if tname.IsParameterized() {
+			fmt.Fprint(buf, "(type ")
+			for i, p := range tname.tparams {
+				if i > 0 {
+					fmt.Fprint(buf, ", ")
+				}
+				buf.WriteString(p.name)
+				if p.typ != nil {
+					if ptyp, _ := p.typ.(*TypeParam); ptyp != nil && ptyp.bound != nil {
+						buf.WriteByte(' ')
+						WriteType(buf, ptyp.bound, qf)
+						// TODO(gri) if this is a generic type bound, we should print
+						// the type parameters
+					}
+				}
+			}
+			fmt.Fprint(buf, ")")
 		}
 		if tname.IsAlias() {
 			buf.WriteString(" =")

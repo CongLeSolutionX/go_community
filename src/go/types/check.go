@@ -7,16 +7,14 @@
 package types
 
 import (
+	"fmt"
 	"go/ast"
 	"go/constant"
 	"go/token"
 )
 
 // debugging/development support
-const (
-	debug = false // leave on during development
-	trace = false // turn on for detailed type resolution traces
-)
+const debug = true // leave on during development
 
 // If Strict is set, the type-checker enforces additional
 // rules not specified by the Go 1 spec, but which will
@@ -76,9 +74,11 @@ type Checker struct {
 	fset *token.FileSet
 	pkg  *Package
 	*Info
+	nextId uint64                     // unique Id for type parameters (first valid Id is 1)
 	objMap map[Object]*declInfo       // maps package-level objects and (non-interface) methods to declaration info
 	impMap map[importKey]*Package     // maps (import path, source directory) to (complete or fake) package
 	posMap map[*Interface][]token.Pos // maps interface types to lists of embedded interface positions
+	typMap map[string]*TypeName       // maps an instantiated type to a *Named type -- TODO(gri) this is a quick hack; fix this
 	pkgCnt map[string]int             // counts number of imported packages with a given name (for better error messages)
 
 	// information collected during type-checking of a set of package files
@@ -188,9 +188,11 @@ func NewChecker(conf *Config, fset *token.FileSet, pkg *Package, info *Info) *Ch
 		fset:   fset,
 		pkg:    pkg,
 		Info:   info,
+		nextId: 1,
 		objMap: make(map[Object]*declInfo),
 		impMap: make(map[importKey]*Package),
 		posMap: make(map[*Interface][]token.Pos),
+		typMap: make(map[string]*TypeName),
 		pkgCnt: make(map[string]int),
 	}
 }
@@ -250,21 +252,34 @@ func (check *Checker) Files(files []*ast.File) error { return check.checkFiles(f
 func (check *Checker) checkFiles(files []*ast.File) (err error) {
 	defer check.handleBailout(&err)
 
+	print := func(msg string) {
+		if check.conf.Trace {
+			fmt.Println(msg)
+		}
+	}
+
+	print("== initFiles ==")
 	check.initFiles(files)
 
+	print("== collectObjects ==")
 	check.collectObjects()
 
+	print("== packageObjects ==")
 	check.packageObjects()
 
+	print("== processDelayed ==")
 	check.processDelayed(0) // incl. all functions
 	check.processFinals()
 
+	print("== initOrder ==")
 	check.initOrder()
 
 	if !check.conf.DisableUnusedImportCheck {
+		print("== unusedImports ==")
 		check.unusedImports()
 	}
 
+	print("== recordUntyped ==")
 	check.recordUntyped()
 
 	check.pkg.complete = true

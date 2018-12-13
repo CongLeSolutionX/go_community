@@ -6,6 +6,8 @@
 
 package types
 
+import "go/token"
+
 // LookupFieldOrMethod looks up a field or method with given package and name
 // in T and returns the corresponding *Var or *Func, an index sequence, and a
 // bool indicating if there were any pointer indirections on the path to the
@@ -80,7 +82,7 @@ func (check *Checker) lookupFieldOrMethod(T Type, addressable bool, pkg *Package
 		return // blank fields/methods are never found
 	}
 
-	typ, isPtr := deref(T)
+	typ, isPtr := derefUnpack(T)
 
 	// *typ where typ is an interface has no methods.
 	if isPtr && IsInterface(typ) {
@@ -164,7 +166,7 @@ func (check *Checker) lookupFieldOrMethod(T Type, addressable bool, pkg *Package
 					// this depth, f.typ appears multiple times at the next
 					// depth.
 					if obj == nil && f.embedded {
-						typ, isPtr := deref(f.typ)
+						typ, isPtr := derefUnpack(f.typ)
 						// TODO(gri) optimization: ignore types that can't
 						// have fields or methods (only Named, Struct, and
 						// Interface types need to be considered).
@@ -175,7 +177,7 @@ func (check *Checker) lookupFieldOrMethod(T Type, addressable bool, pkg *Package
 			case *Interface:
 				// look for a matching method
 				// TODO(gri) t.allMethods is sorted - use binary search
-				check.completeInterface(t)
+				check.completeInterface(token.NoPos, t)
 				if i, m := lookupMethod(t.allMethods, pkg, name); m != nil {
 					assert(m.typ != nil)
 					index = concat(e.index, i)
@@ -271,7 +273,7 @@ func MissingMethod(V Type, T *Interface, static bool) (method *Func, wrongType b
 // an exported API call (such as MissingMethod), i.e., when all
 // methods have been type-checked.
 func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method *Func, wrongType bool) {
-	check.completeInterface(T)
+	check.completeInterface(token.NoPos, T)
 
 	// fast path for common case
 	if T.Empty() {
@@ -279,7 +281,7 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method *
 	}
 
 	if ityp, _ := V.Underlying().(*Interface); ityp != nil {
-		check.completeInterface(ityp)
+		check.completeInterface(token.NoPos, ityp)
 		// TODO(gri) allMethods is sorted - can do this more efficiently
 		for _, m := range T.allMethods {
 			_, obj := lookupMethod(ityp.allMethods, m.pkg, m.name)
@@ -340,6 +342,16 @@ func deref(typ Type) (Type, bool) {
 		return p.base, true
 	}
 	return typ, false
+}
+
+// derefUnpack is like deref but it also unpacks type parameters
+// and parameterized types.
+func derefUnpack(typ Type) (Type, bool) {
+	typ, ptr := deref(typ)
+	if tpar, _ := typ.(*TypeParam); tpar != nil {
+		typ = tpar.bound
+	}
+	return typ, ptr
 }
 
 // derefStructPtr dereferences typ if it is a (named or unnamed) pointer to a
