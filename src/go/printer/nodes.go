@@ -1707,6 +1707,9 @@ func (p *printer) funcDecl(d *ast.FuncDecl) {
 		p.print(blank)
 	}
 	p.expr(d.Name)
+	if d.TParams.NumFields() != 0 {
+		p.parameters(d.TParams)
+	}
 	p.signature(d.Type.Params, d.Type.Results)
 	p.funcBody(p.distanceFrom(d.Pos()), vtab, d.Body)
 }
