@@ -42,7 +42,7 @@ func mustTypecheck(t *testing.T, path, source string, info *Info) string {
 	return pkg.Name()
 }
 
-func mayTypecheck(t *testing.T, path, source string, info *Info) string {
+func mayTypecheck(t *testing.T, path, source string, info *Info) (string, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, path, source, 0)
 	if f == nil { // ignore errors unless f is nil
@@ -52,8 +52,8 @@ func mayTypecheck(t *testing.T, path, source string, info *Info) string {
 		Error:    func(err error) {},
 		Importer: importer.Default(),
 	}
-	pkg, _ := conf.Check(f.Name.Name, fset, []*ast.File{f}, info)
-	return pkg.Name()
+	pkg, err := conf.Check(f.Name.Name, fset, []*ast.File{f}, info)
+	return pkg.Name(), err
 }
 
 func TestValuesInfo(t *testing.T) {
@@ -274,11 +274,27 @@ func TestTypesInfo(t *testing.T) {
 		{`package x3; var x = panic("");`, `panic`, `func(interface{})`},
 		{`package x4; func _() { panic("") }`, `panic`, `func(interface{})`},
 		{`package x5; func _() { var x map[string][...]int; x = map[string][...]int{"": {1,2,3}} }`, `x`, `map[string][-1]int`},
+
+		// parameterized functions
+		{`package p0; func f(type T)(T); var _ = f(int)`, `f`, `func(type T₁)(T₁)`},
+		{`package p1; func f(type T)(T); var _ = f(int)`, `f(int)`, `func(int)`},
+		{`package p2; func f(type T)(T); var _ = f(42)`, `f`, `func(type T₁)(T₁)`},
+		{`package p2; func f(type T)(T); var _ = f(42)`, `f(42)`, `()`},
+
+		// type parameters
+		{`package t0; type t(type) int; var _ t`, `t`, `t0.t`},
+		{`package t1; type t(type P) int; var _ t(int)`, `t`, `t1.t(type P₁)`},
+		{`package t2; type t(type P interface{}) int; var _ t(int)`, `t`, `t2.t(type P₁)`},
+		{`package t3; type t(type P, Q interface{}) int; var _ t(int, int)`, `t`, `t3.t(type P₁, Q₂)`},
+		{`package t4; type t(type P, Q interface{ m() }) int; var _ t(int, int)`, `t`, `t4.t(type P₁, Q₂ interface{m()})`},
+
+		// instantiated types must be sanitized
+		{`package g0; type t(type P) int; var x struct{ f t(int) }; var _ = x.f`, `x.f`, `g0.t(int)`},
 	}
 
 	for _, test := range tests {
 		info := Info{Types: make(map[ast.Expr]TypeAndValue)}
-		name := mayTypecheck(t, "TypesInfo", test.src, &info)
+		name, _ := mayTypecheck(t, "TypesInfo", test.src, &info)
 
 		// look for expression type
 		var typ Type
@@ -296,6 +312,210 @@ func TestTypesInfo(t *testing.T) {
 		// check that type is correct
 		if got := typ.String(); got != test.typ {
 			t.Errorf("package %s: got %s; want %s", name, got, test.typ)
+		}
+	}
+}
+
+func TestInferredInfo(t *testing.T) {
+	var tests = []struct {
+		src   string
+		fun   string
+		targs []string
+		sig   string
+	}{
+		{`package p0; func f(type T)(T); func _() { f(42) }`,
+			`f`,
+			[]string{`int`},
+			`func(int)`,
+		},
+		{`package p1; func f(type T)(T) T; func _() { f('@') }`,
+			`f`,
+			[]string{`rune`},
+			`func(rune) rune`,
+		},
+		{`package p2; func f(type T)(...T) T; func _() { f(0i) }`,
+			`f`,
+			[]string{`complex128`},
+			`func(...complex128) complex128`,
+		},
+		{`package p3; func f(type A, B, C)(A, *B, []C); func _() { f(1.2, new(string), []byte{}) }`,
+			`f`,
+			[]string{`float64`, `string`, `byte`},
+			`func(float64, *string, []byte)`,
+		},
+		{`package p4; func f(type A, B)(A, *B, ...[]B); func _() { f(1.2, new(byte)) }`,
+			`f`,
+			[]string{`float64`, `byte`},
+			`func(float64, *byte, ...[]byte)`,
+		},
+
+		// we don't know how to translate these but we can type-check them
+		{`package q0; type T struct{}; func (T) m(type P)(P); func _(x T) { x.m(42) }`,
+			`x.m`,
+			[]string{`int`},
+			`func(int)`,
+		},
+		{`package q1; type T struct{}; func (T) m(type P)(P) P; func _(x T) { x.m(42) }`,
+			`x.m`,
+			[]string{`int`},
+			`func(int) int`,
+		},
+		{`package q2; type T struct{}; func (T) m(type P)(...P) P; func _(x T) { x.m(42) }`,
+			`x.m`,
+			[]string{`int`},
+			`func(...int) int`,
+		},
+		{`package q3; type T struct{}; func (T) m(type A, B, C)(A, *B, []C); func _(x T) { x.m(1.2, new(string), []byte{}) }`,
+			`x.m`,
+			[]string{`float64`, `string`, `byte`},
+			`func(float64, *string, []byte)`,
+		},
+		{`package q4; type T struct{}; func (T) m(type A, B)(A, *B, ...[]B); func _(x T) { x.m(1.2, new(byte)) }`,
+			`x.m`,
+			[]string{`float64`, `byte`},
+			`func(float64, *byte, ...[]byte)`,
+		},
+
+		{`package r0; type T(type P) struct{}; func (_ T(P)) m(type Q)(Q); func _(type P)(x T(P)) { x.m(42) }`,
+			`x.m`,
+			[]string{`int`},
+			`func(int)`,
+		},
+		{`package r1; type T interface{ m(type P)(P) }; func _(x T) { x.m(4.2) }`,
+			`x.m`,
+			[]string{`float64`},
+			`func(float64)`,
+		},
+	}
+
+	for _, test := range tests {
+		info := Info{Inferred: make(map[*ast.CallExpr]Inferred)}
+		name, err := mayTypecheck(t, "InferredInfo", test.src, &info)
+		if err != nil {
+			t.Errorf("package %s: %v", name, err)
+			continue
+		}
+
+		// look for inferred type arguments and signature
+		var targs []Type
+		var sig *Signature
+		for call, inf := range info.Inferred {
+			if ExprString(call.Fun) == test.fun {
+				targs = inf.Targs
+				sig = inf.Sig
+				break
+			}
+		}
+		if targs == nil {
+			t.Errorf("package %s: no inferred information found for %s", name, test.fun)
+			continue
+		}
+
+		// check that type arguments are correct
+		if len(targs) != len(test.targs) {
+			t.Errorf("package %s: got %d type arguments; want %d", name, len(targs), len(test.targs))
+			continue
+		}
+		for i, targ := range targs {
+			if got := targ.String(); got != test.targs[i] {
+				t.Errorf("package %s, %d. type argument: got %s; want %s", name, i, got, test.targs[i])
+				continue
+			}
+		}
+
+		// check that signature is correct
+		if got := sig.String(); got != test.sig {
+			t.Errorf("package %s: got %s; want %s", name, got, test.sig)
+		}
+	}
+}
+
+func TestDefsInfo(t *testing.T) {
+	var tests = []struct {
+		src  string
+		obj  string
+		want string
+	}{
+		{`package p0; const x = 42`, `x`, `const p0.x untyped int`},
+		{`package p1; const x int = 42`, `x`, `const p1.x int`},
+		{`package p2; var x int`, `x`, `var p2.x int`},
+		{`package p3; type x int`, `x`, `type p3.x int`},
+		{`package p4; func f()`, `f`, `func p4.f()`},
+
+		// generic types must be sanitized
+		// (need to use sufficiently nested types to provoke unexpanded types)
+		{`package g0; type t(type P) P; const x = (t(int))(42)`, `x`, `const g0.x g0.t(int)`},
+		{`package g1; type t(type P) P; var x = (t(int))(42)`, `x`, `var g1.x g1.t(int)`},
+		{`package g2; type t(type P) P; type x struct{ f t(int) }`, `x`, `type g2.x struct{f g2.t(int)}`},
+		{`package g3; type t(type P) P; func f(x struct{ f t(string) }); var g = f`, `g`, `var g3.g func(x struct{f g3.t(string)})`},
+	}
+
+	for _, test := range tests {
+		info := Info{
+			Defs: make(map[*ast.Ident]Object),
+		}
+		name := mustTypecheck(t, "DefsInfo", test.src, &info)
+
+		// find object
+		var def Object
+		for id, obj := range info.Defs {
+			if id.Name == test.obj {
+				def = obj
+				break
+			}
+		}
+		if def == nil {
+			t.Errorf("package %s: %s not found", name, test.obj)
+			continue
+		}
+
+		if got := def.String(); got != test.want {
+			t.Errorf("package %s: got %s; want %s", name, got, test.want)
+		}
+	}
+}
+
+func TestUsesInfo(t *testing.T) {
+	var tests = []struct {
+		src  string
+		obj  string
+		want string
+	}{
+		{`package p0; func _() { _ = x }; const x = 42`, `x`, `const p0.x untyped int`},
+		{`package p1; func _() { _ = x }; const x int = 42`, `x`, `const p1.x int`},
+		{`package p2; func _() { _ = x }; var x int`, `x`, `var p2.x int`},
+		{`package p3; func _() { type _ x }; type x int`, `x`, `type p3.x int`},
+		{`package p4; func _() { _ = f }; func f()`, `f`, `func p4.f()`},
+
+		// generic types must be sanitized
+		// (need to use sufficiently nested types to provoke unexpanded types)
+		{`package g0; func _() { _ = x }; type t(type P) P; const x = (t(int))(42)`, `x`, `const g0.x g0.t(int)`},
+		{`package g1; func _() { _ = x }; type t(type P) P; var x = (t(int))(42)`, `x`, `var g1.x g1.t(int)`},
+		{`package g2; func _() { type _ x }; type t(type P) P; type x struct{ f t(int) }`, `x`, `type g2.x struct{f g2.t(int)}`},
+		{`package g3; func _() { _ = f }; type t(type P) P; func f(x struct{ f t(string) })`, `f`, `func g3.f(x struct{f g3.t(string)})`},
+	}
+
+	for _, test := range tests {
+		info := Info{
+			Uses: make(map[*ast.Ident]Object),
+		}
+		name := mustTypecheck(t, "UsesInfo", test.src, &info)
+
+		// find object
+		var use Object
+		for id, obj := range info.Uses {
+			if id.Name == test.obj {
+				use = obj
+				break
+			}
+		}
+		if use == nil {
+			t.Errorf("package %s: %s not found", name, test.obj)
+			continue
+		}
+
+		if got := use.String(); got != test.want {
+			t.Errorf("package %s: got %s; want %s", name, got, test.want)
 		}
 	}
 }

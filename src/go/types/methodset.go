@@ -76,7 +76,7 @@ func NewMethodSet(T Type) *MethodSet {
 	// method set up to the current depth, allocated lazily
 	var base methodSet
 
-	typ, isPtr := deref(T)
+	typ, isPtr := derefUnpack(T)
 
 	// *typ where typ is an interface has no methods.
 	if isPtr && IsInterface(typ) {
@@ -108,7 +108,7 @@ func NewMethodSet(T Type) *MethodSet {
 
 			// If we have a named type, we may have associated methods.
 			// Look for those first.
-			if named, _ := typ.(*Named); named != nil {
+			if named := typ.Named(); named != nil {
 				if seen[named] {
 					// We have seen this type before, at a more shallow depth
 					// (note that multiples of this type at the current depth
@@ -141,7 +141,7 @@ func NewMethodSet(T Type) *MethodSet {
 					// this depth, f.Type appears multiple times at the next
 					// depth.
 					if f.embedded {
-						typ, isPtr := deref(f.typ)
+						typ, isPtr := derefUnpack(f.typ)
 						// TODO(gri) optimization: ignore types that can't
 						// have fields or methods (only Named, Struct, and
 						// Interface types need to be considered).

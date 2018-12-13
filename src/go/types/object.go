@@ -36,6 +36,9 @@ type Object interface {
 	// color returns the object's color.
 	color() color
 
+	// setType sets the type of the object.
+	setType(Type)
+
 	// setOrder sets the order number of the object. It must be > 0.
 	setOrder(uint32)
 
@@ -149,6 +152,7 @@ func (obj *object) color() color        { return obj.color_ }
 func (obj *object) scopePos() token.Pos { return obj.scopePos_ }
 
 func (obj *object) setParent(parent *Scope)   { obj.parent = parent }
+func (obj *object) setType(typ Type)          { obj.typ = typ }
 func (obj *object) setOrder(order uint32)     { assert(order > 0); obj.order_ = order }
 func (obj *object) setColor(color color)      { assert(color != white); obj.color_ = color }
 func (obj *object) setScopePos(pos token.Pos) { obj.scopePos_ = pos }
@@ -299,7 +303,7 @@ type Func struct {
 // NewFunc returns a new function with the given signature, representing
 // the function's type.
 func NewFunc(pos token.Pos, pkg *Package, name string, sig *Signature) *Func {
-	// don't store a nil signature
+	// don't store a (typed) nil signature
 	var typ Type
 	if sig != nil {
 		typ = sig
@@ -319,6 +323,18 @@ func (obj *Func) FullName() string {
 func (obj *Func) Scope() *Scope { return obj.typ.(*Signature).scope }
 
 func (*Func) isDependency() {} // a function may be a dependency of an initialization expression
+
+// A Contract represents a declared contract.
+type Contract struct {
+	object
+	TParams []*TypeName // type parameters in declaration order
+	Bounds  []*Named    // underlying type is always *Interface
+}
+
+// NewContract returns a new contract.
+func NewContract(pos token.Pos, pkg *Package, name string) *Contract {
+	return &Contract{object{nil, pos, pkg, name, nil, 0, white, token.NoPos}, nil, nil}
+}
 
 // A Label represents a declared label.
 // Labels don't have a type.
@@ -382,6 +398,31 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 		}
 		return
 
+	case *Contract:
+		buf.WriteString("contract ")
+		buf.WriteString(obj.name) // TODO(gri) qualify this!
+		buf.WriteByte('(')
+		for i, tpar := range obj.TParams {
+			if i > 0 {
+				buf.WriteString(", ")
+			}
+			WriteType(buf, tpar.typ, qf)
+		}
+		buf.WriteString(") {")
+		for i, bound := range obj.Bounds {
+			if i > 0 {
+				buf.WriteString("; ")
+			}
+			WriteType(buf, obj.TParams[i].typ, qf)
+			buf.WriteByte(' ')
+			WriteType(buf, bound, qf)
+			buf.WriteString(" = ")
+			WriteType(buf, bound.underlying, qf)
+			i++
+		}
+		buf.WriteByte('}')
+		return
+
 	case *Label:
 		buf.WriteString("label")
 		typ = nil
@@ -420,7 +461,7 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 		if tname.IsAlias() {
 			buf.WriteString(" =")
 		} else {
-			typ = typ.Underlying()
+			typ = typ.Under()
 		}
 	}
 

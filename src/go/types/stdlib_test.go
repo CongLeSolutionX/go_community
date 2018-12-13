@@ -184,6 +184,7 @@ func TestStdFixed(t *testing.T) {
 		"issue31747.go",  // go/types does not have constraints on language level (-lang=go1.12) (see #31793)
 		"issue34329.go",  // go/types does not have constraints on language level (-lang=go1.13) (see #31793)
 		"bug251.go",      // issue #34333 which was exposed with fix for #34151
+		"bug299.go",      // go/types permits parenthesized embedded fields
 	)
 }
 
@@ -240,7 +241,7 @@ func typecheck(t *testing.T, path string, filenames []string) {
 	// Perform checks of API invariants.
 
 	// All Objects have a package, except predeclared ones.
-	errorError := Universe.Lookup("error").Type().Underlying().(*Interface).ExplicitMethod(0) // (error).Error
+	errorError := Universe.Lookup("error").Type().Interface().ExplicitMethod(0) // (error).Error
 	for id, obj := range info.Uses {
 		predeclared := obj == Universe.Lookup(obj.Name()) || obj == errorError
 		if predeclared == (obj.Pkg() != nil) {
