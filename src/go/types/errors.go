@@ -82,12 +82,12 @@ func (check *Checker) err(pos token.Pos, msg string, soft bool) {
 		return
 	}
 
-	err := Error{check.fset, pos, msg, soft}
+	err := Error{check.fset, pos, stripSubscripts(msg), msg, soft}
 	if check.firstErr == nil {
 		check.firstErr = err
 	}
 
-	if trace {
+	if check.conf.Trace {
 		check.trace(pos, "ERROR: %s", msg)
 	}
 
@@ -120,4 +120,19 @@ func (check *Checker) invalidArg(pos token.Pos, format string, args ...interface
 
 func (check *Checker) invalidOp(pos token.Pos, format string, args ...interface{}) {
 	check.errorf(pos, "invalid operation: "+format, args...)
+}
+
+// stripSubscripts removes subscripts from s.
+func stripSubscripts(s string) string {
+	var b strings.Builder
+	for _, r := range s {
+		// strip subscript digits
+		if !('₀' <= r && r < '₀'+10) { // '₀' == U+2080
+			b.WriteRune(r)
+		}
+	}
+	if b.Len() < len(s) {
+		return b.String()
+	}
+	return s
 }

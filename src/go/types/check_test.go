@@ -98,6 +98,28 @@ var tests = [][]string{
 	{"testdata/issue23203b.src"},
 	{"testdata/issue28251.src"},
 	{"testdata/issue6977.src"},
+
+	// Go 2 tests (type parameters and contracts)
+	{"testdata/tmp.go2"}, // used for ad-hoc tests - file contents transient
+	{"testdata/typeparams.go2"},
+	{"testdata/typeinst.go2"},
+	{"testdata/typeinst2.go2"},
+	{"testdata/contracts.go2"},
+	{"testdata/issues.go2"},
+	{"testdata/todos.go2"},
+
+	// Go 2 examples from design doc
+	{"testdata/slices.go2"},
+	{"testdata/chans.go2"},
+	{"testdata/map.go2"},
+	{"testdata/map2.go2"},
+	{"testdata/linalg.go2"},
+
+	// Go 2 prototype examples
+	{"examples/contracts.go2"},
+	{"examples/functions.go2"},
+	{"examples/methods.go2"},
+	{"examples/types.go2"},
 }
 
 var fset = token.NewFileSet()
@@ -262,7 +284,10 @@ func checkFiles(t *testing.T, testfiles []string) {
 	if len(testfiles) == 1 && testfiles[0] == "testdata/importC.src" {
 		conf.FakeImportC = true
 	}
-	conf.Importer = importer.Default()
+	conf.Trace = testing.Verbose()
+	// We don't use importer.Default() below so we can eventually
+	// get testdata/map.go2 to import chans (still to be fixed).
+	conf.Importer = importer.ForCompiler(fset, "source", nil)
 	conf.Error = func(err error) {
 		if *haltOnError {
 			defer panic(err)

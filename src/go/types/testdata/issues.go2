@@ -1,0 +1,109 @@
+// Copyright 2020 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This file contains regression tests for bugs found.
+
+package p
+
+// This used to crash with an assertion failure when
+// instantiating f(int, int). The assertion was checking
+// that the number of type parameters and arguments was
+// matching for the embedded contract anInt (rather, its
+// corresponding interface bound) but it really compared
+// the numbers for anInt and twoInt (which embedds anInt).
+// The fix simply uses the instantiated non-parameterized
+// underlying interface of atInt<K> rather than anInt<K>.
+contract anInt(T) {
+	T int
+}
+
+contract twoInt(K, _) {
+	anInt(K)
+}
+
+func f(type K, V twoInt)()
+
+func _ () {
+	f(int, int)()
+}
+
+// This is the original (simplified) program causing the same issue.
+contract comparable(T) {
+	T int, int8, int16, int32, int64,
+		uint, uint8, uint16, uint32, uint64, uintptr,
+		float32, float64,
+		string
+}
+
+contract twocomparable(K, V) {
+	comparable(K)
+	comparable(V)
+}
+
+func Equal(type K, V twocomparable)(m1, m2 map[K]V)
+
+func _() {
+	var m map[int]int
+	Equal(m, nil)
+}
+
+// If we have a receiver of pointer type (below: *T) we must ignore
+// the pointer in the implementation of the method lookup because
+// the type bound of T is an interface an pointer to interface types
+// have no methods and then the lookup would fail.
+contract C(T) {
+    T m()
+}
+
+// using contract C
+func _(type T C)(x *T) {
+	x.m()
+}
+
+// using an interface as bound
+func _(type T interface{ m() })(x *T) {
+	x.m()
+}
+
+// This is the original (simplified) program causing the same issue.
+type GraphP(type Node, Edge GP) struct {
+	nodes []*Node
+}
+
+contract GP(Node, Edge) {
+	Node Edges() []*Edge
+}
+
+func (g *GraphP(Node, Edge)) Edges(n *Node) []*Edge {
+	return n.Edges()
+}
+
+// In a generic function body all method calls will be pointer method calls.
+// If necessary, the function body will insert temporary variables, not seen
+// by the user, in order to get an addressable variable to use to call the method.
+// Thus, assume an argument type for a generic function to be the type of addressable
+// values in the generic function when checking if the argument type satisfies the
+// generic function's type bound.
+func f2(type _ interface{ m1(); m2() })()
+
+type T struct{}
+func (T) m1()
+func (*T) m2()
+
+func _() {
+	f2(T)()
+	f2(*T)()
+}
+
+// This is the original (simplified) program causing the same issue.
+func NewP(type Node, Edge GP)(nodes []*Node) *GraphP(Node, Edge) {
+	return &GraphP(Node, Edge){nodes: nodes}
+}
+
+type N struct{}
+func (n *N) Edges() []*E { return nil }
+type E struct{}
+func F() {
+	_ = NewP(N, E)(nil)
+}

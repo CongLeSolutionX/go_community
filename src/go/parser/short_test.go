@@ -48,12 +48,80 @@ var valids = []string{
 	`package p; var _ = map[*P]int{&P{}:0, {}:1}`,
 	`package p; type T = int`,
 	`package p; type (T = p.T; _ = struct{}; x = *T)`,
+	`package p; type T (*int)`,
+
+	// structs with parameterized embedded fields (for symmetry with interfaces)
+	`package p; type _ struct{ ((int)) }`,
+	`package p; type _ struct{ (*(int)) }`,
+	`package p; type _ struct{ ([]byte) }`, // disallowed by type-checker
+
+	// type parameters
+	`package p; type T(type P) struct { P }`,
+	`package p; type T(type P comparable) struct { P }`,
+	`package p; type T(type P comparable(P)) struct { P }`,
+	`package p; type T(type P1, P2) struct { P1; f []P2 }`,
+
+	`package p; var _ = [](T(int)){}`,
+	`package p; var _ = func()T(nil)`,
+	`package p; func _(type)()`,
+	`package p; func _(type)()()`,
+	`package p; func _(T (P))`,
+	`package p; func _((T(P)))`,
+	`package p; func _(T []E)`,
+	`package p; func _(T [P]E)`,
+	`package p; func _(x T(P1, P2, P3))`,
+	`package p; func _((T(P1, P2, P3)))`,
+
+	// method type parameters (if methodTypeParamsOk)
+	`package p; func _(type A, B)(a A) B`,
+	`package p; func _(type A, B C)(a A) B`,
+	`package p; func _(type A, B C(A, B))(a A) B`,
+	`package p; func (T) _(type A, B)(a A) B`,
+	`package p; func (T) _(type A, B C)(a A) B`,
+	`package p; func (T) _(type A, B C(A, B))(a A) B`,
+	`package p; type _ interface { _(type A, B)(a A) B }`,
+	`package p; type _ interface { _(type A, B C)(a A) B }`,
+	`package p; type _ interface { _(type A, B C(A, B))(a A) B }`,
+
+	// contracts
+	`package p; contract C(){}`,
+	`package p; contract C(T, S, R,){}`,
+	`package p; contract C(T){ T (m(x, int)); }`,
+	`package p; contract (C1(){}; C2(){})`,
+	`package p; contract C(T){ T int, float64, string }`,
+	`package p; contract C(T){ T int,
+		float64,
+		string
+	}`,
+	`package p; contract C(T){ T m(int), n() float64, o(x string) rune }`,
+	`package p; contract C(T){ T int, m(int), float64, n() float64, o(x string) rune }`,
+	`package p; contract C(T){ T int; T imported.T; T chan<-int; T m(x int) float64; C0(); imported.C1(int, T,) }`,
+	`package p; contract C(T){ T int, imported.T, chan<-int; T m(x int) float64; C0(); imported.C1(int, T,) }`,
+	`package p; contract C(T){ (C(T)); (((imported.T))) }`,
+	`package p; contract C(T){ *T m() }`,
+	`package p; func _(type T1, T2 interface{})(x T1) T2`,
+	`package p; func _(type T1 interface{ m() }, T2, T3 interface{})(x T1, y T3) T2`,
+
+	// interfaces with (contract) type lists
+	`package p; type _ interface{type int}`,
+	`package p; type _ interface{type int, float32; type bool; m(); type string;}`,
+
+	// interfaces with parenthesized embedded and possibly parameterized interfaces
+	`package p; type I1 interface{}; type I2 interface{ (I1) }`,
+	`package p; type I1(type T) interface{}; type I2 interface{ (I1(int)) }`,
+	`package p; type I1(type T) interface{}; type I2(type T) interface{ (I1(T)) }`,
 }
 
 func TestValid(t *testing.T) {
 	for _, src := range valids {
 		checkErrors(t, src, src)
 	}
+}
+
+// TestSingle is useful to track down a problem with a single short test program.
+func TestSingle(t *testing.T) {
+	const src = `package p; var _ = T(P){}`
+	checkErrors(t, src, src)
 }
 
 var invalids = []string{
@@ -102,7 +170,19 @@ var invalids = []string{
 	`package p; func f() { go f /* ERROR HERE "function must be invoked" */ }`,
 	`package p; func f() { defer func() {} /* ERROR HERE "function must be invoked" */ }`,
 	`package p; func f() { go func() { func() { f(x func /* ERROR "missing ','" */ (){}) } } }`,
-	`package p; func f(x func(), u v func /* ERROR "missing ','" */ ()){}`,
+	//`package p; func f(x func(), u v func /* ERROR "missing ','" */ ()){}`,
+
+	// type parameters
+	`package p; var _ func( /* ERROR "no type parameters" */ type T)(T)`,
+	`package p; func _() ( /* ERROR "no type parameters" */ type T)(T)`,
+	`package p; func ( /* ERROR "no type parameters" */ type T)(T) _()`,
+
+	// contracts
+	`package p; contract C(T, T /* ERROR "T redeclared" */ ) {}`,
+	`package p; contract C(T) { imported /* ERROR "expected type parameter name" */ .T int }`,
+	`package p; contract C(T) { * /* ERROR "requires a method" */ C(T) }`,
+	`package p; contract C(T) { * /* ERROR "requires a method" */ T int }`,
+	`package p; func _() { contract /* ERROR "cannot be inside function" */ C(T) { T m(); type int, float32 } }`,
 
 	// issue 8656
 	`package p; func f() (a b string /* ERROR "missing ','" */ , ok bool)`,
@@ -118,11 +198,11 @@ var invalids = []string{
 	`package p; var _ = struct { x int, /* ERROR "expected ';', found ','" */ y float }{};`,
 
 	// issue 11611
-	`package p; type _ struct { int, } /* ERROR "expected type, found '}'" */ ;`,
+	`package p; type _ struct { int, } /* ERROR "expected 'IDENT', found '}'" */ ;`,
 	`package p; type _ struct { int, float } /* ERROR "expected type, found '}'" */ ;`,
-	`package p; type _ struct { ( /* ERROR "expected anonymous field" */ int) };`,
-	`package p; func _()(x, y, z ... /* ERROR "expected '\)', found '...'" */ int){}`,
-	`package p; func _()(... /* ERROR "expected type, found '...'" */ int){}`,
+	//`package p; type _ struct { ( /* ERROR "cannot parenthesize embedded type" */ int) };`,
+	//`package p; func _()(x, y, z ... /* ERROR "expected '\)', found '...'" */ int){}`,
+	//`package p; func _()(... /* ERROR "expected type, found '...'" */ int){}`,
 
 	// issue 13475
 	`package p; func f() { if true {} else ; /* ERROR "expected if statement or block" */ }`,

@@ -1,0 +1,14 @@
+package list
+
+type List(type T) struct {
+	root Elem(T)
+}
+
+type Elem(type T) struct {
+	next *Elem(T)
+	list *List(T)
+}
+
+func (l *List(T)) Init() {
+	l.root.next = &l.root
+}
