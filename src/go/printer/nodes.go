@@ -319,8 +319,11 @@ func (p *printer) exprList(prev0 token.Pos, list []ast.Expr, depth int, mode exp
 	}
 }
 
-func (p *printer) parameters(fields *ast.FieldList) {
+func (p *printer) parameters(isTypeParam bool, fields *ast.FieldList) {
 	p.print(fields.Opening, token.LPAREN)
+	if isTypeParam {
+		p.print(token.TYPE)
+	}
 	if len(fields.List) > 0 {
 		prevLine := p.lineFor(fields.Opening)
 		ws := indent
@@ -328,13 +331,8 @@ func (p *printer) parameters(fields *ast.FieldList) {
 			// determine par begin and end line (may be different
 			// if there are multiple parameter names for this par
 			// or the type is on a separate line)
-			var parLineBeg int
-			if len(par.Names) > 0 {
-				parLineBeg = p.lineFor(par.Names[0].Pos())
-			} else {
-				parLineBeg = p.lineFor(par.Type.Pos())
-			}
-			var parLineEnd = p.lineFor(par.Type.End())
+			parLineBeg := p.lineFor(par.Pos())
+			parLineEnd := p.lineFor(par.End())
 			// separating "," if needed
 			needsLinebreak := 0 < prevLine && prevLine < parLineBeg
 			if i > 0 {
@@ -350,7 +348,7 @@ func (p *printer) parameters(fields *ast.FieldList) {
 			if needsLinebreak && p.linebreak(parLineBeg, 0, ws, true) > 0 {
 				// break line if the opening "(" or previous parameter ended on a different line
 				ws = ignore
-			} else if i > 0 {
+			} else if isTypeParam && len(par.Names) > 0 || i > 0 {
 				p.print(blank)
 			}
 			// parameter names
@@ -362,10 +360,14 @@ func (p *printer) parameters(fields *ast.FieldList) {
 				// by a linebreak call after a type, or in the next multi-line identList
 				// will do the right thing.
 				p.identList(par.Names, ws == indent)
-				p.print(blank)
+				if par.Type != nil {
+					p.print(blank)
+				}
 			}
 			// parameter type
-			p.expr(stripParensAlways(par.Type))
+			if par.Type != nil {
+				p.expr(stripParensAlways(par.Type))
+			}
 			prevLine = parLineEnd
 		}
 		// if the closing ")" is on a separate line from the last parameter,
@@ -382,22 +384,26 @@ func (p *printer) parameters(fields *ast.FieldList) {
 	p.print(fields.Closing, token.RPAREN)
 }
 
-func (p *printer) signature(params, result *ast.FieldList) {
-	if params != nil {
-		p.parameters(params)
+func (p *printer) signature(sig *ast.FuncType) {
+	if sig.TParams != nil {
+		p.parameters(true, sig.TParams)
+	}
+	if sig.Params != nil {
+		p.parameters(false, sig.Params)
 	} else {
 		p.print(token.LPAREN, token.RPAREN)
 	}
-	n := result.NumFields()
+	res := sig.Results
+	n := res.NumFields()
 	if n > 0 {
-		// result != nil
+		// res != nil
 		p.print(blank)
-		if n == 1 && result.List[0].Names == nil {
-			// single anonymous result; no ()'s
-			p.expr(stripParensAlways(result.List[0].Type))
+		if n == 1 && res.List[0].Names == nil {
+			// single anonymous res; no ()'s
+			p.expr(stripParensAlways(res.List[0].Type))
 			return
 		}
-		p.parameters(result)
+		p.parameters(false, res)
 	}
 }
 
@@ -467,10 +473,18 @@ func (p *printer) fieldList(fields *ast.FieldList, isStruct, isIncomplete bool) 
 				}
 				p.expr(f.Type)
 			} else { // interface
-				if ftyp, isFtyp := f.Type.(*ast.FuncType); isFtyp {
-					// method
-					p.expr(f.Names[0])
-					p.signature(ftyp.Params, ftyp.Results)
+				if len(f.Names) > 0 {
+					// type list type or method
+					name := f.Names[0] // "type" or method name
+					p.expr(name)
+					if name.Name == "type" {
+						// type list type
+						p.print(blank)
+						p.expr(f.Type)
+					} else {
+						// method
+						p.signature(f.Type.(*ast.FuncType)) // don't print "func"
+					}
 				} else {
 					// embedded interface
 					p.expr(f.Type)
@@ -538,19 +552,47 @@ func (p *printer) fieldList(fields *ast.FieldList, isStruct, isIncomplete bool) 
 	} else { // interface
 
 		var line int
+		var prev *ast.Ident // previous "type" identifier
 		for i, f := range list {
+			var name *ast.Ident // first name, or nil
+			if len(f.Names) > 0 {
+				name = f.Names[0]
+			}
 			if i > 0 {
-				p.linebreak(p.lineFor(f.Pos()), 1, ignore, p.linesFrom(line) > 0)
+				// don't do a line break (min == 0) if we are printing a list of types
+				// TODO(gri) this doesn't work quite right if the list of types is
+				//           spread across multiple lines
+				min := 1
+				if prev != nil && name == prev {
+					min = 0
+				}
+				p.linebreak(p.lineFor(f.Pos()), min, ignore, p.linesFrom(line) > 0)
 			}
 			p.setComment(f.Doc)
 			p.recordLine(&line)
-			if ftyp, isFtyp := f.Type.(*ast.FuncType); isFtyp {
-				// method
-				p.expr(f.Names[0])
-				p.signature(ftyp.Params, ftyp.Results)
+			if name != nil {
+				// type list type or method
+				if name.Name == "type" {
+					// type list type
+					if name == prev {
+						// type is part of a list of types
+						p.print(token.COMMA, blank)
+					} else {
+						// type starts a new list of types
+						p.print(name, blank)
+					}
+					p.expr(f.Type)
+					prev = name
+				} else {
+					// method
+					p.expr(name)
+					p.signature(f.Type.(*ast.FuncType)) // don't print "func"
+					prev = nil
+				}
 			} else {
 				// embedded interface
 				p.expr(f.Type)
+				prev = nil
 			}
 			p.setComment(f.Comment)
 		}
@@ -797,7 +839,7 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 		p.print(x.Type.Pos(), token.FUNC)
 		// See the comment in funcDecl about how the header size is computed.
 		startCol := p.out.Column - len("func")
-		p.signature(x.Type.Params, x.Type.Results)
+		p.signature(x.Type)
 		p.funcBody(p.distanceFrom(x.Type.Pos(), startCol), blank, x.Body)
 
 	case *ast.ParenExpr:
@@ -942,7 +984,7 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 
 	case *ast.FuncType:
 		p.print(token.FUNC)
-		p.signature(x.Params, x.Results)
+		p.signature(x)
 
 	case *ast.InterfaceType:
 		p.print(token.INTERFACE)
@@ -1002,6 +1044,30 @@ func (p *printer) expr0(x ast.Expr, depth int) {
 func (p *printer) expr(x ast.Expr) {
 	const depth = 1
 	p.expr1(x, token.LowestPrec, depth)
+}
+
+func (p *printer) constraint(x *ast.Constraint) {
+	p.print(x.Pos())
+	if x.Star.IsValid() {
+		p.print(token.MUL)
+	}
+	if x.Param == nil {
+		// embedded contract
+		p.expr(x.Types[0])
+		return
+	}
+	// method or list of types
+	p.print(x.Param, vtab)
+	if len(x.MNames) > 0 && x.MNames[0] != nil {
+		// single method
+		// For now we only support a single method
+		// even though the parser is more relaxed.
+		p.print(x.MNames[0])
+		p.signature(x.Types[0].(*ast.FuncType))
+		return
+	}
+	// list of types
+	p.exprList(token.NoPos, x.Types, 1, 0, token.NoPos, false)
 }
 
 // ----------------------------------------------------------------------------
@@ -1522,6 +1588,9 @@ func (p *printer) spec(spec ast.Spec, n int, doIndent bool) {
 	case *ast.TypeSpec:
 		p.setComment(s.Doc)
 		p.expr(s.Name)
+		if s.TParams != nil {
+			p.parameters(true, s.TParams)
+		}
 		if n == 1 {
 			p.print(blank)
 		} else {
@@ -1533,6 +1602,31 @@ func (p *printer) spec(spec ast.Spec, n int, doIndent bool) {
 		p.expr(s.Type)
 		p.setComment(s.Comment)
 
+	case *ast.ContractSpec:
+		p.setComment(s.Doc)
+		p.expr(s.Name)
+		p.print(token.LPAREN)
+		for i, par := range s.TParams {
+			if i > 0 {
+				p.print(token.COMMA, blank)
+			}
+			p.print(par)
+		}
+		p.print(token.RPAREN)
+		if len(s.Constraints) > 0 {
+			p.print(blank, s.Lbrace, token.LBRACE, indent)
+			for _, c := range s.Constraints {
+				p.linebreak(p.lineFor(c.Pos()), 1, ignore, false)
+				p.constraint(c)
+			}
+			p.print(unindent)
+			p.linebreak(p.lineFor(s.Rbrace), 1, ignore, true)
+			p.print(s.Rbrace, token.RBRACE)
+		} else {
+			p.print(s.Lbrace, token.LBRACE, s.Rbrace, token.RBRACE)
+		}
+		p.setComment(s.Comment)
+
 	default:
 		panic("unreachable")
 	}
@@ -1540,7 +1634,14 @@ func (p *printer) spec(spec ast.Spec, n int, doIndent bool) {
 
 func (p *printer) genDecl(d *ast.GenDecl) {
 	p.setComment(d.Doc)
-	p.print(d.Pos(), d.Tok, blank)
+	// Contract declarations rely on the pseudo-keyword (identifier) "contract";
+	// in the AST the respective token is ast.IDENT. Catch and correct this here.
+	if d.Tok == token.IDENT {
+		p.print(&ast.Ident{NamePos: d.Pos(), Name: "contract"})
+	} else {
+		p.print(d.Pos(), d.Tok)
+	}
+	p.print(blank)
 
 	if d.Lparen.IsValid() || len(d.Specs) > 1 {
 		// group of parenthesized declarations
@@ -1710,11 +1811,11 @@ func (p *printer) funcDecl(d *ast.FuncDecl) {
 	// FUNC is emitted).
 	startCol := p.out.Column - len("func ")
 	if d.Recv != nil {
-		p.parameters(d.Recv) // method: print receiver
+		p.parameters(false, d.Recv) // method: print receiver
 		p.print(blank)
 	}
 	p.expr(d.Name)
-	p.signature(d.Type.Params, d.Type.Results)
+	p.signature(d.Type)
 	p.funcBody(p.distanceFrom(d.Pos(), startCol), vtab, d.Body)
 }
 

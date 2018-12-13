@@ -147,7 +147,11 @@ func operandString(x *operand, qf Qualifier) string {
 	// <typ>
 	if hasType {
 		if x.typ != Typ[Invalid] {
-			buf.WriteString(" of type ")
+			intro := " of type "
+			if isGeneric(x.typ) {
+				intro = " of generic type "
+			}
+			buf.WriteString(intro)
 			WriteType(&buf, x.typ, qf)
 		} else {
 			buf.WriteString(" with invalid type")
@@ -236,7 +240,7 @@ func (x *operand) assignableTo(check *Checker, T Type, reason *string) bool {
 				return Vb.kind == UntypedBool && isBoolean(Tu)
 			}
 		case *Interface:
-			check.completeInterface(t)
+			check.completeInterface(token.NoPos, t)
 			return x.isNil() || t.Empty()
 		case *Pointer, *Signature, *Slice, *Map, *Chan:
 			return x.isNil()
@@ -252,7 +256,7 @@ func (x *operand) assignableTo(check *Checker, T Type, reason *string) bool {
 
 	// T is an interface type and x implements T
 	if Ti, ok := Tu.(*Interface); ok {
-		if m, wrongType := check.missingMethod(x.typ, Ti, true); m != nil /* Implements(x.typ, Ti) */ {
+		if m, wrongType := check.missingMethod(x.typ, false, Ti, true); m != nil /* Implements(x.typ, Ti) */ {
 			if reason != nil {
 				if wrongType {
 					*reason = "wrong type for method " + m.Name()

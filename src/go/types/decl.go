@@ -5,6 +5,7 @@
 package types
 
 import (
+	"fmt"
 	"go/ast"
 	"go/constant"
 	"go/token"
@@ -52,7 +53,10 @@ func pathString(path []Object) string {
 // objDecl type-checks the declaration of obj in its respective (file) context.
 // For the meaning of def, see Checker.definedType, in typexpr.go.
 func (check *Checker) objDecl(obj Object, def *Named) {
-	if trace {
+	if check.conf.Trace && obj.Type() == nil {
+		if check.indent == 0 {
+			fmt.Println() // empty line between top-level objects for readability
+		}
 		check.trace(obj.Pos(), "-- checking %s (%s, objPath = %s)", obj, obj.color(), pathString(check.objPath))
 		check.indent++
 		defer func() {
@@ -154,6 +158,12 @@ func (check *Checker) objDecl(obj Object, def *Named) {
 				// initialize a variable with the function.
 			}
 
+		case *Contract:
+			// TODO(gri) is there anything else we need to do here?
+			if check.cycle(obj) {
+				obj.typ = Typ[Invalid]
+			}
+
 		default:
 			unreachable()
 		}
@@ -183,16 +193,19 @@ func (check *Checker) objDecl(obj Object, def *Named) {
 	switch obj := obj.(type) {
 	case *Const:
 		check.decl = d // new package-level const decl
-		check.constDecl(obj, d.typ, d.init)
+		check.constDecl(obj, d.vtyp, d.init)
 	case *Var:
 		check.decl = d // new package-level var decl
-		check.varDecl(obj, d.lhs, d.typ, d.init)
+		check.varDecl(obj, d.lhs, d.vtyp, d.init)
 	case *TypeName:
 		// invalid recursive types are detected via path
-		check.typeDecl(obj, d.typ, def, d.alias)
+		check.typeDecl(obj, d.tdecl, def)
+		check.collectMethods(obj) // methods can only be added to top-level types
 	case *Func:
 		// functions may be recursive - no need to track dependencies
 		check.funcDecl(obj, d)
+	case *Contract:
+		check.contractDecl(obj, d.cdecl)
 	default:
 		unreachable()
 	}
@@ -234,7 +247,7 @@ func (check *Checker) cycle(obj Object) (isCycle bool) {
 			// this information explicitly in the object.
 			var alias bool
 			if d := check.objMap[obj]; d != nil {
-				alias = d.alias // package-level object
+				alias = d.tdecl.Assign.IsValid() // package-level object
 			} else {
 				alias = obj.IsAlias() // function local object
 			}
@@ -243,12 +256,14 @@ func (check *Checker) cycle(obj Object) (isCycle bool) {
 			}
 		case *Func:
 			// ignored for now
+		case *Contract:
+			// TODO(gri) what do we need to do here, if anything?
 		default:
 			unreachable()
 		}
 	}
 
-	if trace {
+	if check.conf.Trace {
 		check.trace(obj.Pos(), "## cycle detected: objPath = %s->%s (len = %d)", pathString(cycle), obj.Name(), len(cycle))
 		check.trace(obj.Pos(), "## cycle contains: %d values, %d type definitions", nval, ndef)
 		defer func() {
@@ -539,26 +554,39 @@ func (n *Named) setUnderlying(typ Type) {
 	}
 }
 
-func (check *Checker) typeDecl(obj *TypeName, typ ast.Expr, def *Named, alias bool) {
+func (check *Checker) typeDecl(obj *TypeName, tdecl *ast.TypeSpec, def *Named) {
 	assert(obj.typ == nil)
 
 	check.later(func() {
 		check.validType(obj.typ, nil)
 	})
 
-	if alias {
+	if tdecl.Assign.IsValid() {
+		// type alias declaration
+
+		if tdecl.TParams != nil {
+			check.errorf(tdecl.TParams.Pos(), "type alias cannot be parameterized")
+			// continue but ignore type parameters
+		}
 
 		obj.typ = Typ[Invalid]
-		obj.typ = check.typ(typ)
+		obj.typ = check.typ(tdecl.Type)
 
 	} else {
+		// defined type declaration
 
 		named := &Named{obj: obj}
 		def.setUnderlying(named)
 		obj.typ = named // make sure recursive type declarations terminate
 
+		if tdecl.TParams != nil {
+			check.openScope(tdecl, "type parameters")
+			defer check.closeScope()
+			named.tparams = check.collectTypeParams(tdecl.TParams)
+		}
+
 		// determine underlying type of named
-		named.orig = check.definedType(typ, named)
+		named.orig = check.definedType(tdecl.Type, named)
 
 		// The underlying type of named may be itself a named type that is
 		// incomplete:
@@ -574,13 +602,216 @@ func (check *Checker) typeDecl(obj *TypeName, typ ast.Expr, def *Named, alias bo
 		// Determine the (final, unnamed) underlying type by resolving
 		// any forward chain.
 		named.underlying = check.underlying(named)
-
 	}
 
-	check.addMethodDecls(obj)
 }
 
-func (check *Checker) addMethodDecls(obj *TypeName) {
+func (check *Checker) collectTypeParams(list *ast.FieldList) (tparams []*TypeName) {
+	// Declare type parameters up-front, with empty interface as type bound.
+	// If we use interfaces as type bounds, the scope of type parameters starts at
+	// the beginning of the type parameter list (so we can have mutually recursive
+	// parameterized interfaces). If we use contracts, it doesn't matter that the
+	// type parameters are all declared early (it's not observable since a contract
+	// always applies to the type parameter names immediately preceeding it).
+	for _, f := range list.List {
+		tparams = check.declareTypeParams(tparams, f.Names)
+	}
+
+	// If the type parameters are constraint via contracts, ensure that each type
+	// parameter is used at most once. Create a map to check this correspondence.
+	// Eventually, we may be able to relax this constraint and remove the need for
+	// this map.
+	unused := make(map[*TypeParam]bool, len(tparams))
+	for _, tname := range tparams {
+		unused[tname.typ.(*TypeParam)] = true
+	}
+
+	setBoundAt := func(at int, bound Type) {
+		assert(IsInterface(bound))
+		tparams[at].typ.(*TypeParam).bound = bound
+	}
+
+	index := 0
+	for _, f := range list.List {
+		if f.Type == nil {
+			goto next
+		}
+
+		// If f.Type denotes a contract, handle everything here so we don't
+		// need to set up a special contract mode for operands just to carry
+		// its information through in form of some contract Type.
+		if obj, targs, valid := check.contractExpr(f.Type, unused); obj != nil {
+			// we have a (possibly invalid) contract expression
+			if !valid {
+				goto next
+			}
+			// TODO(gri) can we have this code below also be handled by contractExpr?
+			if targs == nil {
+				// obj denotes a valid uninstantiated contract =>
+				// use the declared type parameters as "arguments"
+				if len(f.Names) != len(obj.TParams) {
+					check.errorf(f.Type.Pos(), "%d type parameters but contract expects %d", len(f.Names), len(obj.TParams))
+					goto next
+				}
+				// Use contract's matching type parameter bound and
+				// instantiate it with the actual type arguments targs.
+				targs := make([]Type, len(f.Names))
+				for i, tparam := range tparams[index : index+len(f.Names)] {
+					targs[i] = tparam.typ
+				}
+				for i, name := range f.Names {
+					bound := obj.Bounds[i]
+					setBoundAt(index+i, check.instantiate(name.Pos(), bound, targs, nil))
+				}
+			}
+			goto next
+		}
+
+		// otherwise, bound must be an interface
+		if bound := check.typ(f.Type); IsInterface(bound) {
+			for i, _ := range f.Names {
+				setBoundAt(index+i, bound)
+			}
+		} else if bound != Typ[Invalid] {
+			check.errorf(f.Type.Pos(), "%s is not an interface or contract", bound)
+		}
+
+	next:
+		index += len(f.Names)
+	}
+
+	return
+}
+
+// contractExpr returns the contract obj of a contract name x = C or
+// the contract obj and type arguments targs of an instantiated contract
+// expression x = C(T1, T2, ...), and whether the expression is valid.
+// The set unused contains all (outer, incoming) type parameters that
+// have not yet been used in a contract expression. It must be set prior
+// to calling contractExpr and is updated by contractExpr.
+//
+// If x denotes a contract, the result obj is that contract; otherwise
+// obj == nil and the remaining results are undefined. If the contract
+// exists but the contract or the type arguments (if any) have errors
+// valid is false.
+// If x is a valid instantiated contract expression, targs is the list
+// of (incomming) type parameters used as arguments for the contract,
+// with their type bounds set according to the contract.
+func (check *Checker) contractExpr(x ast.Expr, unused map[*TypeParam]bool) (obj *Contract, targs []Type, valid bool) {
+	// permit any parenthesized expression
+	x = unparen(x)
+
+	// a call expression might be an instantiated contract => unpack
+	var call *ast.CallExpr
+	if call, _ = x.(*ast.CallExpr); call != nil {
+		x = call.Fun
+	}
+
+	// determine contract obj
+	switch x := x.(type) {
+	case *ast.Ident:
+		// local contract
+		if obj, _ = check.lookup(x.Name).(*Contract); obj != nil {
+			// set up contract if not yet done
+			if obj.typ == nil {
+				check.objDecl(obj, nil)
+			}
+		}
+
+	case *ast.SelectorExpr:
+		// imported contract
+		// TODO(gri) use a shared function between this and check.selector
+		if ident, _ := x.X.(*ast.Ident); ident != nil {
+			identObj := check.lookup(ident.Name)
+			if pname, _ := identObj.(*PkgName); pname != nil {
+				assert(pname.pkg == check.pkg)
+				check.recordUse(ident, pname)
+				pname.used = true
+				pkg := pname.imported
+				exp := pkg.scope.Lookup(x.Sel.Name)
+				if exp == nil {
+					if !pkg.fake {
+						check.errorf(x.Pos(), "%s not declared by package %s", x, pkg.name)
+						return
+					}
+				} else if !exp.Exported() {
+					check.errorf(x.Pos(), "%s not exported by packge %s", x, pkg.name)
+					return
+				} else {
+					obj, _ = exp.(*Contract)
+				}
+			}
+		}
+	}
+
+	if obj == nil {
+		return // not a contract
+	}
+
+	assert(obj.typ != nil)
+	if obj.typ == Typ[Invalid] {
+		if call != nil {
+			check.use(call.Args...)
+		}
+		return // we have a contract but it's broken
+	}
+
+	if call != nil {
+		// collect type arguments
+		if len(call.Args) != len(obj.TParams) {
+			check.errorf(call.Pos(), "%d type parameters but contract expects %d", len(call.Args), len(obj.TParams))
+			check.use(call.Args...)
+			return
+		}
+		// For now, a contract type argument must be one of the (incoming)
+		// type parameters, and each of these type parameters may be used
+		// at most once.
+		for _, arg := range call.Args {
+			targ := check.typ(arg)
+			if tparam, _ := targ.(*TypeParam); tparam != nil {
+				if ok, found := unused[tparam]; ok {
+					unused[tparam] = false
+					targs = append(targs, targ)
+				} else if found {
+					check.errorf(arg.Pos(), "%s used multiple times (not supported due to implementation restriction)", arg)
+				} else {
+					check.errorf(arg.Pos(), "%s is not an incoming type parameter (not supported due to implementation restriction)", arg)
+				}
+			} else if targ != Typ[Invalid] {
+				check.errorf(arg.Pos(), "%s is not a type parameter (not supported due to implementation restriction)", arg)
+			}
+		}
+		if len(targs) != len(call.Args) {
+			return // some arguments are invalid
+		}
+		// Use contract's matching type parameter bound, instantiate
+		// it with the actual type arguments targs, and set the bound
+		// for the type parameter.
+		for i, bound := range obj.Bounds {
+			targs[i].(*TypeParam).bound = check.instantiate(call.Args[i].Pos(), bound, targs, nil).(*Named)
+		}
+	}
+
+	valid = true
+	return
+}
+
+func (check *Checker) declareTypeParams(tparams []*TypeName, names []*ast.Ident) []*TypeName {
+	for _, name := range names {
+		tpar := NewTypeName(name.Pos(), check.pkg, name.Name, nil)
+		check.NewTypeParam(tpar, len(tparams), &emptyInterface) // assigns type to tpar as a side-effect
+		check.declare(check.scope, name, tpar, check.scope.pos) // TODO(gri) check scope position
+		tparams = append(tparams, tpar)
+	}
+
+	if check.conf.Trace && len(names) > 0 {
+		check.trace(names[0].Pos(), "type params = %v", tparams[len(tparams)-len(names):])
+	}
+
+	return tparams
+}
+
+func (check *Checker) collectMethods(obj *TypeName) {
 	// get associated methods
 	// (Checker.collectObjects only collects methods with non-blank names;
 	// Checker.resolveBaseTypeName ensures that obj is not an alias name
@@ -590,7 +821,7 @@ func (check *Checker) addMethodDecls(obj *TypeName) {
 		return
 	}
 	delete(check.methods, obj)
-	assert(!check.objMap[obj].alias) // don't use TypeName.IsAlias (requires fully set up object)
+	assert(!check.objMap[obj].tdecl.Assign.IsValid()) // don't use TypeName.IsAlias (requires fully set up object)
 
 	// use an objset to check for name conflicts
 	var mset objset
@@ -648,12 +879,18 @@ func (check *Checker) funcDecl(obj *Func, decl *declInfo) {
 
 	sig := new(Signature)
 	obj.typ = sig // guard against cycles
+
+	// Avoid cycle error when referring to method while type-checking the signature.
+	// This avoids a nuisance in the best case (non-parameterized receiver type) and
+	// since the method is not a type, we get an error. If we have a parameterized
+	// receiver type, instantiating the receiver type leads to the instantiation of
+	// its methods, and we don't want a cycle error in that case.
+	// TODO(gri) review if this is correct and/or whether we still need this?
+	saved := obj.color_
+	obj.color_ = black
 	fdecl := decl.fdecl
 	check.funcType(sig, fdecl.Recv, fdecl.Type)
-	if sig.recv == nil && obj.name == "init" && (sig.params.Len() > 0 || sig.results.Len() > 0) {
-		check.errorf(fdecl.Pos(), "func init must have no arguments and no return values")
-		// ok to continue
-	}
+	obj.color_ = saved
 
 	// function body must be type-checked after global declarations
 	// (functions implemented elsewhere have no body)
@@ -783,7 +1020,7 @@ func (check *Checker) declStmt(decl ast.Decl) {
 				check.declare(check.scope, s.Name, obj, scopePos)
 				// mark and unmark type before calling typeDecl; its type is still nil (see Checker.objDecl)
 				obj.setColor(grey + color(check.push(obj)))
-				check.typeDecl(obj, s.Type, nil, s.Assign.IsValid())
+				check.typeDecl(obj, s, nil)
 				check.pop().setColor(black)
 			default:
 				check.invalidAST(s.Pos(), "const, type, or var declaration expected")

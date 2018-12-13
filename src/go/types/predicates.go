@@ -6,7 +6,10 @@
 
 package types
 
-import "sort"
+import (
+	"go/token"
+	"sort"
+)
 
 func isNamed(typ Type) bool {
 	if _, ok := typ.(*Basic); ok {
@@ -16,40 +19,30 @@ func isNamed(typ Type) bool {
 	return ok
 }
 
-func isBoolean(typ Type) bool {
-	t, ok := typ.Underlying().(*Basic)
-	return ok && t.info&IsBoolean != 0
+// isGeneric reports whether a type is a generic, uninstantiated type (generic signatures are not included).
+func isGeneric(typ Type) bool {
+	// A parameterized type is only instantiated if it doesn't have an instantiation already.
+	named, _ := typ.(*Named)
+	return named != nil && named.obj != nil && named.tparams != nil && named.targs == nil
 }
 
-func isInteger(typ Type) bool {
-	t, ok := typ.Underlying().(*Basic)
-	return ok && t.info&IsInteger != 0
+func is(typ Type, what BasicInfo) bool {
+	switch t := typ.Underlying().(type) {
+	case *Basic:
+		return t.info&what != 0
+	case *TypeParam:
+		return t.Interface().is(func(typ Type) bool { return is(typ, what) })
+	}
+	return false
 }
 
-func isUnsigned(typ Type) bool {
-	t, ok := typ.Underlying().(*Basic)
-	return ok && t.info&IsUnsigned != 0
-}
-
-func isFloat(typ Type) bool {
-	t, ok := typ.Underlying().(*Basic)
-	return ok && t.info&IsFloat != 0
-}
-
-func isComplex(typ Type) bool {
-	t, ok := typ.Underlying().(*Basic)
-	return ok && t.info&IsComplex != 0
-}
-
-func isNumeric(typ Type) bool {
-	t, ok := typ.Underlying().(*Basic)
-	return ok && t.info&IsNumeric != 0
-}
-
-func isString(typ Type) bool {
-	t, ok := typ.Underlying().(*Basic)
-	return ok && t.info&IsString != 0
-}
+func isBoolean(typ Type) bool  { return is(typ, IsBoolean) }
+func isInteger(typ Type) bool  { return is(typ, IsInteger) }
+func isUnsigned(typ Type) bool { return is(typ, IsUnsigned) }
+func isFloat(typ Type) bool    { return is(typ, IsFloat) }
+func isComplex(typ Type) bool  { return is(typ, IsComplex) }
+func isNumeric(typ Type) bool  { return is(typ, IsNumeric) }
+func isString(typ Type) bool   { return is(typ, IsString) }
 
 func isTyped(typ Type) bool {
 	t, ok := typ.Underlying().(*Basic)
@@ -61,10 +54,7 @@ func isUntyped(typ Type) bool {
 	return ok && t.info&IsUntyped != 0
 }
 
-func isOrdered(typ Type) bool {
-	t, ok := typ.Underlying().(*Basic)
-	return ok && t.info&IsOrdered != 0
-}
+func isOrdered(typ Type) bool { return is(typ, IsOrdered) }
 
 func isConstType(typ Type) bool {
 	t, ok := typ.Underlying().(*Basic)
@@ -95,6 +85,11 @@ func Comparable(T Type) bool {
 		return true
 	case *Array:
 		return Comparable(t.elem)
+	case *TypeParam:
+		iface := t.Interface()
+		// If the magic method == exists, the type parameter is comparable.
+		_, m := lookupMethod(iface.allMethods, nil, "==")
+		return m != nil || iface.is(Comparable)
 	}
 	return false
 }
@@ -132,6 +127,7 @@ func (p *ifacePair) identical(q *ifacePair) bool {
 	return p.x == q.x && p.y == q.y || p.x == q.y && p.y == q.x
 }
 
+// For changes to this code the corresponding changes should be made to unifier.nify.
 func (check *Checker) identical0(x, y Type, cmpTags bool, p *ifacePair) bool {
 	if x == y {
 		return true
@@ -209,8 +205,11 @@ func (check *Checker) identical0(x, y Type, cmpTags bool, p *ifacePair) bool {
 		// and result values, corresponding parameter and result types are identical,
 		// and either both functions are variadic or neither is. Parameter and result
 		// names are not required to match.
+		// Generic functions must also have matching type parameter lists, but for the
+		// parameter names.
 		if y, ok := y.(*Signature); ok {
 			return x.variadic == y.variadic &&
+				check.identicalTParams(x.tparams, y.tparams, cmpTags, p) &&
 				check.identical0(x.params, y.params, cmpTags, p) &&
 				check.identical0(x.results, y.results, cmpTags, p)
 		}
@@ -225,8 +224,8 @@ func (check *Checker) identical0(x, y Type, cmpTags bool, p *ifacePair) bool {
 			// that case, interfaces are expected to be complete and lazy completion
 			// here is not needed.
 			if check != nil {
-				check.completeInterface(x)
-				check.completeInterface(y)
+				check.completeInterface(token.NoPos, x)
+				check.completeInterface(token.NoPos, y)
 			}
 			a := x.allMethods
 			b := y.allMethods
@@ -291,16 +290,36 @@ func (check *Checker) identical0(x, y Type, cmpTags bool, p *ifacePair) bool {
 		// Two named types are identical if their type names originate
 		// in the same type declaration.
 		if y, ok := y.(*Named); ok {
+			// TODO(gri) Why is x == y not sufficient? And if it is,
+			//           we can just return false here because x == y
+			//           is caught in the very beginning of this function.
 			return x.obj == y.obj
 		}
 
+	case *TypeParam:
+		// nothing to do (x and y being equal is caught in the very beginning of this function)
+
 	case nil:
+		// avoid a crash in case of nil type
 
 	default:
 		unreachable()
 	}
 
 	return false
+}
+
+func (check *Checker) identicalTParams(x, y []*TypeName, cmpTags bool, p *ifacePair) bool {
+	if len(x) != len(y) {
+		return false
+	}
+	for i, x := range x {
+		y := y[i]
+		if !check.identical0(x.typ.(*TypeParam).bound, y.typ.(*TypeParam).bound, cmpTags, p) {
+			return false
+		}
+	}
+	return true
 }
 
 // Default returns the default "typed" type for an "untyped" type;

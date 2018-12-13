@@ -17,12 +17,13 @@ import (
 
 // A declInfo describes a package-level const, type, var, or func declaration.
 type declInfo struct {
-	file  *Scope        // scope of file containing this declaration
-	lhs   []*Var        // lhs of n:1 variable declarations, or nil
-	typ   ast.Expr      // type, or nil
-	init  ast.Expr      // init/orig expression, or nil
-	fdecl *ast.FuncDecl // func declaration, or nil
-	alias bool          // type alias declaration
+	file  *Scope            // scope of file containing this declaration
+	lhs   []*Var            // lhs of n:1 variable declarations, or nil
+	vtyp  ast.Expr          // type, or nil (for const and var declarations only)
+	init  ast.Expr          // init/orig expression, or nil (for const and var declarations only)
+	tdecl *ast.TypeSpec     // type declaration, or nil
+	fdecl *ast.FuncDecl     // func declaration, or nil
+	cdecl *ast.ContractSpec // contract declaration, or nil
 
 	// The deps field tracks initialization expression dependencies.
 	deps map[Object]bool // lazily initialized
@@ -213,7 +214,13 @@ func (check *Checker) collectObjects() {
 		pkgImports[imp] = true
 	}
 
-	var methods []*Func // list of methods with non-blank _ names
+	type methodInfo struct {
+		obj  *Func      // method
+		ptr  bool       // true if pointer receiver
+		recv *ast.Ident // receiver type name
+	}
+	var methods []methodInfo // collected methods with valid receivers and non-blank _ names
+	var fileScopes []*Scope
 	for fileNo, file := range check.files {
 		// The package identifier denotes the current package,
 		// but there is no corresponding package object.
@@ -227,6 +234,7 @@ func (check *Checker) collectObjects() {
 			pos, end = token.Pos(f.Base()), token.Pos(f.Base()+f.Size())
 		}
 		fileScope := NewScope(check.pkg.scope, pos, end, check.filename(fileNo))
+		fileScopes = append(fileScopes, fileScope)
 		check.recordScope(file, fileScope)
 
 		// determine file directory, necessary to resolve imports
@@ -339,7 +347,7 @@ func (check *Checker) collectObjects() {
 									init = last.Values[i]
 								}
 
-								d := &declInfo{file: fileScope, typ: last.Type, init: init}
+								d := &declInfo{file: fileScope, vtyp: last.Type, init: init}
 								check.declarePkgObj(name, obj, d)
 							}
 
@@ -356,7 +364,7 @@ func (check *Checker) collectObjects() {
 								// The lhs elements are only set up after the for loop below,
 								// but that's ok because declareVar only collects the declInfo
 								// for a later phase.
-								d1 = &declInfo{file: fileScope, lhs: lhs, typ: s.Type, init: s.Values[0]}
+								d1 = &declInfo{file: fileScope, lhs: lhs, vtyp: s.Type, init: s.Values[0]}
 							}
 
 							// declare all variables
@@ -371,7 +379,7 @@ func (check *Checker) collectObjects() {
 									if i < len(s.Values) {
 										init = s.Values[i]
 									}
-									d = &declInfo{file: fileScope, typ: s.Type, init: init}
+									d = &declInfo{file: fileScope, vtyp: s.Type, init: init}
 								}
 
 								check.declarePkgObj(name, obj, d)
@@ -385,7 +393,11 @@ func (check *Checker) collectObjects() {
 
 					case *ast.TypeSpec:
 						obj := NewTypeName(s.Name.Pos(), pkg, s.Name.Name, nil)
-						check.declarePkgObj(s.Name, obj, &declInfo{file: fileScope, typ: s.Type, alias: s.Assign.IsValid()})
+						check.declarePkgObj(s.Name, obj, &declInfo{file: fileScope, tdecl: s})
+
+					case *ast.ContractSpec:
+						obj := NewContract(s.Name.Pos(), pkg, s.Name.Name)
+						check.declarePkgObj(s.Name, obj, &declInfo{file: fileScope, cdecl: s})
 
 					default:
 						check.invalidAST(s.Pos(), "unknown ast.Spec node %T", s)
@@ -395,14 +407,25 @@ func (check *Checker) collectObjects() {
 			case *ast.FuncDecl:
 				name := d.Name.Name
 				obj := NewFunc(d.Name.Pos(), pkg, name, nil)
-				if d.Recv == nil {
+				if !d.IsMethod() {
 					// regular function
+					if d.Recv != nil {
+						check.errorf(d.Recv.Pos(), "method is missing receiver")
+						// treat as function
+					}
 					if name == "init" {
+						if d.Type.TParams != nil {
+							check.softErrorf(d.Type.TParams.Pos(), "func init must have no type parameters")
+						}
+						if t := d.Type; t.Params.NumFields() != 0 || t.Results != nil {
+							check.softErrorf(d.Pos(), "func init must have no arguments and no return values")
+						}
 						// don't declare init functions in the package scope - they are invisible
 						obj.parent = pkg.scope
 						check.recordDef(d.Name, obj)
 						// init functions must have a body
 						if d.Body == nil {
+							// TODO(gri) make this error message consistent with the others above
 							check.softErrorf(obj.pos, "missing function body")
 						}
 					} else {
@@ -410,11 +433,16 @@ func (check *Checker) collectObjects() {
 					}
 				} else {
 					// method
-					// (Methods with blank _ names are never found; no need to collect
-					// them for later type association. They will still be type-checked
-					// with all the other functions.)
-					if name != "_" {
-						methods = append(methods, obj)
+					// d.Recv != nil && len(d.Recv.List) > 0
+					if !methodTypeParamsOk && d.Type.TParams != nil {
+						check.invalidAST(d.Type.TParams.Pos(), "method must have no type parameters")
+					}
+					ptr, recv, _ := check.unpackRecv(d.Recv.List[0].Type, false)
+					// (Methods with invalid receiver cannot be associated to a type, and
+					// methods with blank _ names are never found; no need to collect any
+					// of them. They will still be type-checked with all the other functions.)
+					if recv != nil && name != "_" {
+						methods = append(methods, methodInfo{obj, ptr, recv})
 					}
 					check.recordDef(d.Name, obj)
 				}
@@ -433,7 +461,7 @@ func (check *Checker) collectObjects() {
 	}
 
 	// verify that objects in package and file scopes have different names
-	for _, scope := range check.pkg.scope.children /* file scopes */ {
+	for _, scope := range fileScopes {
 		for _, obj := range scope.elems {
 			if alt := pkg.scope.Lookup(obj.Name()); alt != nil {
 				if pkg, ok := obj.(*PkgName); ok {
@@ -452,34 +480,84 @@ func (check *Checker) collectObjects() {
 	// associate methods with receiver base type name where possible.
 	// Ignore methods that have an invalid receiver. They will be
 	// type-checked later, with regular functions.
-	if methods == nil {
-		return // nothing to do
-	}
-	check.methods = make(map[*TypeName][]*Func)
-	for _, f := range methods {
-		fdecl := check.objMap[f].fdecl
-		if list := fdecl.Recv.List; len(list) > 0 {
-			// f is a method.
-			// Determine the receiver base type and associate f with it.
-			ptr, base := check.resolveBaseTypeName(list[0].Type)
+	if methods != nil {
+		check.methods = make(map[*TypeName][]*Func)
+		for i := range methods {
+			m := &methods[i]
+			// Determine the receiver base type and associate m with it.
+			ptr, base := check.resolveBaseTypeName(m.ptr, m.recv)
 			if base != nil {
-				f.hasPtrRecv = ptr
-				check.methods[base] = append(check.methods[base], f)
+				m.obj.hasPtrRecv = ptr
+				check.methods[base] = append(check.methods[base], m.obj)
 			}
 		}
 	}
+}
+
+// unpackRecv unpacks a receiver type and returns its components: ptr indicates whether
+// rtyp is a pointer receiver, rname is the receiver type name, and tparams are its
+// type parameters, if any. The type parameters are only unpacked if unpackParams is
+// set. If rname is nil, the receiver is unusable (i.e., the source has a bug which we
+// cannot easily work around).
+func (check *Checker) unpackRecv(rtyp ast.Expr, unpackParams bool) (ptr bool, rname *ast.Ident, tparams []*ast.Ident) {
+L: // unpack receiver type
+	// This accepts invalid receivers such as ***T and does not
+	// work for other invalid receivers, but we don't care. The
+	// validity of receiver expressions is checked elsewhere.
+	for {
+		switch t := rtyp.(type) {
+		case *ast.ParenExpr:
+			rtyp = t.X
+		case *ast.StarExpr:
+			rtyp = t.X
+		default:
+			break L
+		}
+	}
+
+	// unpack type parameters, if any
+	if ptyp, _ := rtyp.(*ast.CallExpr); ptyp != nil {
+		rtyp = ptyp.Fun
+		if unpackParams {
+			for _, arg := range ptyp.Args {
+				var par *ast.Ident
+				switch arg := arg.(type) {
+				case *ast.Ident:
+					par = arg
+				case *ast.BadExpr:
+					// ignore - error already reported by parser
+				case nil:
+					check.invalidAST(ptyp.Pos(), "parameterized receiver contains nil parameters")
+				default:
+					check.errorf(arg.Pos(), "receiver type parameter %s must be an identifier", arg)
+				}
+				if par == nil {
+					par = &ast.Ident{NamePos: arg.Pos(), Name: "_"}
+				}
+				tparams = append(tparams, par)
+			}
+		}
+	}
+
+	// unpack receiver name
+	if name, _ := rtyp.(*ast.Ident); name != nil {
+		rname = name
+	}
+
+	return
 }
 
 // resolveBaseTypeName returns the non-alias base type name for typ, and whether
 // there was a pointer indirection to get to it. The base type name must be declared
 // in package scope, and there can be at most one pointer indirection. If no such type
 // name exists, the returned base is nil.
-func (check *Checker) resolveBaseTypeName(typ ast.Expr) (ptr bool, base *TypeName) {
+func (check *Checker) resolveBaseTypeName(seenPtr bool, typ ast.Expr) (ptr bool, base *TypeName) {
 	// Algorithm: Starting from a type expression, which may be a name,
 	// we follow that type through alias declarations until we reach a
 	// non-alias type name. If we encounter anything but pointer types or
 	// parentheses we're done. If we encounter more than one pointer type
 	// we're done.
+	ptr = seenPtr
 	var seen map[*TypeName]bool
 	for {
 		typ = unparen(typ)
@@ -520,13 +598,13 @@ func (check *Checker) resolveBaseTypeName(typ ast.Expr) (ptr bool, base *TypeNam
 
 		// we're done if tdecl defined tname as a new type
 		// (rather than an alias)
-		tdecl := check.objMap[tname] // must exist for objects in package scope
-		if !tdecl.alias {
+		tdecl := check.objMap[tname].tdecl // must exist for objects in package scope
+		if !tdecl.Assign.IsValid() {
 			return ptr, tname
 		}
 
 		// otherwise, continue resolving
-		typ = tdecl.typ
+		typ = tdecl.Type
 		if seen == nil {
 			seen = make(map[*TypeName]bool)
 		}
@@ -548,7 +626,7 @@ func (check *Checker) packageObjects() {
 	// add new methods to already type-checked types (from a prior Checker.Files call)
 	for _, obj := range objList {
 		if obj, _ := obj.(*TypeName); obj != nil && obj.typ != nil {
-			check.addMethodDecls(obj)
+			check.collectMethods(obj)
 		}
 	}
 
@@ -562,7 +640,7 @@ func (check *Checker) packageObjects() {
 	// phase 1
 	for _, obj := range objList {
 		// If we have a type alias, collect it for the 2nd phase.
-		if tname, _ := obj.(*TypeName); tname != nil && check.objMap[tname].alias {
+		if tname, _ := obj.(*TypeName); tname != nil && check.objMap[tname].tdecl.Assign.IsValid() {
 			aliasList = append(aliasList, tname)
 			continue
 		}
