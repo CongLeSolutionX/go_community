@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff2ee241_2b062096",
+        "filename": "src/crypto/cipher/xor_arm64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-12-14T16:02:16Z",
+      "side": 1,
+      "message": "This is not BCE (bound check elimination?). We actually do a bound check here, to ensure dst has enough space. Change the comment to make it clear.",
+      "revId": "71a58babf76f814d952f06cf1add28afbab158da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06badd01_ff5b24b7",
+        "filename": "src/crypto/cipher/xor_arm64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-12-14T16:02:16Z",
+      "side": 1,
+      "message": "If this works on all ARM64 machine, I think we should name it xorBytesARM64.",
+      "revId": "71a58babf76f814d952f06cf1add28afbab158da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "556636e3_69500516",
+        "filename": "src/crypto/cipher/xor_arm64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-12-14T16:02:16Z",
+      "side": 1,
+      "message": "This branch cannot be taken, right? If it is \"equal\", the BGE above should be taken. Also, if R3\u003d\u003d8, I don\u0027t think you want to go to end. \"CBZ R3, end\" is probably what you meant?",
+      "revId": "71a58babf76f814d952f06cf1add28afbab158da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9acef1ad_327819ed",
+        "filename": "src/crypto/cipher/xor_arm64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-12-14T16:02:16Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "71a58babf76f814d952f06cf1add28afbab158da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
