@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "537cf46c_97f9c034",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-12-14T21:25:30Z",
+      "side": 1,
+      "message": "a fix? I see only one.\n\ngo1.9.2 docs below have text like:\n\n    It includes a fix to a bug introduced in Go 1.9.1 that broke \u003ccode\u003ego\u003c/code\u003e \u003ccode\u003eget\u003c/code\u003e\n    of non-Git repositories under certain conditions.\n\nSo perhaps:\n\n    It includes a fix to a bug introduced in Go 1.10.6 that broke \u003ccode\u003ego\u003c/code\u003e \u003ccode\u003eget\u003c/code\u003e\n    on import path patterns under certain conditions.\n\nOptional.",
+      "range": {
+        "startLine": 125,
+        "startChar": 40,
+        "endLine": 125,
+        "endChar": 45
+      },
+      "revId": "3f773c9d351f19adc50224a021ef048e7acc2362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
