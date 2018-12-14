@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f524961_b5162c93",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-14T17:04:45Z",
+      "side": 1,
+      "message": "No longer need this given the new code above?",
+      "range": {
+        "startLine": 513,
+        "startChar": 2,
+        "endLine": 515,
+        "endChar": 3
+      },
+      "revId": "c364bdffe6c2eec73c81163eece2b4925da60bff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
