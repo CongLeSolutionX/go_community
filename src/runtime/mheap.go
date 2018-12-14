@@ -287,6 +287,65 @@ const (
 	mSpanFree
 )
 
+// The state of the mspan with respect to scavenging, i.e. whether the
+// memory region it describes is:
+//
+// * Backed by physical pages (unscavenged).
+//
+// * Returned to the OS and not backed by physical pages (scavenged).
+//
+// * Backed by physical pages, but because of where it lies is unable
+//   to be scavenged (unscavengable).
+//
+// Newly-mapped spans are unscavenged provided they span at least one
+// physical page (which is currently true on every system supported).
+// They may become scavenged by either the periodic sysmon scavenger
+// (scavengeAll) or by the heap-growth scavenging process. If a span is
+// trimmed during allocation such that it does not cover a physical
+// page, then when it is freed it will be considered unscavengable
+// until it coalesces with a nearby span.
+//
+// Spans transition between the states according to these rules:
+//
+// * A freed span is always unscavenged at first.
+//
+// * A span created by growing the heap is unscavenged at first.
+//
+// * When a span changes size due to allocation, both itself and the
+//   trimmed off section may become unscavengable. The trimmed section
+//   will retain the old state of the span otherwise. Both must
+//   transition before the allocation completes.
+//
+// * Coalescing an unscavengable span may result in the span becoming
+//   unscavenged or scavenged, depending on what it spans it coalesces
+//   with. See mheap.coalesce() for more details.
+//
+// * Regular scavenging mechanisms can cause a span to move from the
+//   unscavenged to scavenged state.
+//
+// Note also that on systems where physPageSize < pageSize, no span will
+// ever enter the unscavengable state because a span will always cover
+// at least one physical page by construction.
+type mSpanScavState uint8
+
+const (
+	mSpanUnscavenged mSpanScavState = iota // Backed by phyiscal pages.
+	mSpanScavenged                         // Not backed by physical pages (they have been returned to the OS explicitly).
+
+	// This state means that the span is unable to be scavenged because
+	// it does not cover at least one physical page.
+	//
+	// This state does not imply that the span can never be scavenged.
+	// It only means the span's base and length mean it doesn't cover
+	// at least one physical page as determined by physPageBounds, and
+	// therefore we cannot safely call madvise on the span because the
+	// pages it lies on are also covered by other spans. A span may
+	// become scavengable again and return to either of the other
+	// states by coalescing with another span such that it covers at
+	// least one physical page.
+	mSpanUnscavengable
+)
+
 // mSpanStateNames are the names of the span states, indexed by
 // mSpanState.
 var mSpanStateNames = []string{
@@ -377,20 +436,20 @@ type mspan struct {
 	// h->sweepgen is incremented by 2 after every GC
 
 	sweepgen    uint32
-	divMul      uint16     // for divide by elemsize - divMagic.mul
-	baseMask    uint16     // if non-0, elemsize is a power of 2, & this will get object allocation base
-	allocCount  uint16     // number of allocated objects
-	spanclass   spanClass  // size class and noscan (uint8)
-	state       mSpanState // mspaninuse etc
-	needzero    uint8      // needs to be zeroed before allocation
-	divShift    uint8      // for divide by elemsize - divMagic.shift
-	divShift2   uint8      // for divide by elemsize - divMagic.shift2
-	scavenged   bool       // whether this span has had its pages released to the OS
-	elemsize    uintptr    // computed from sizeclass or from npages
-	unusedsince int64      // first time spotted by gc in mspanfree state
-	limit       uintptr    // end of data in span
-	speciallock mutex      // guards specials list
-	specials    *special   // linked list of special records sorted by offset.
+	divMul      uint16         // for divide by elemsize - divMagic.mul
+	baseMask    uint16         // if non-0, elemsize is a power of 2, & this will get object allocation base
+	allocCount  uint16         // number of allocated objects
+	spanclass   spanClass      // size class and noscan (uint8)
+	state       mSpanState     // mspaninuse etc
+	needzero    uint8          // needs to be zeroed before allocation
+	divShift    uint8          // for divide by elemsize - divMagic.shift
+	divShift2   uint8          // for divide by elemsize - divMagic.shift2
+	scavState   mSpanScavState // whether this span has had its pages released to the OS
+	elemsize    uintptr        // computed from sizeclass or from npages
+	unusedsince int64          // first time spotted by gc in mspanfree state
+	limit       uintptr        // end of data in span
+	speciallock mutex          // guards specials list
+	specials    *special       // linked list of special records sorted by offset.
 }
 
 func (s *mspan) base() uintptr {
@@ -419,9 +478,19 @@ func (s *mspan) physPageBounds() (uintptr, uintptr) {
 	return start, end
 }
 
+func (s *mspan) coalescesWith(t *mspan) bool {
+	return t.state == mSpanFree &&
+		(s.scavState == mSpanUnscavengable ||
+			t.scavState == mSpanUnscavengable ||
+			s.scavState == t.scavState)
+}
+
 func (h *mheap) coalesce(s *mspan) {
-	// We scavenge s at the end after coalescing if s or anything
-	// it merged with is marked scavenged.
+	// We scavenge s at the end after coalescing if s is unscavengable and it coalesces with
+	// a scavenged span or if s is scavenged and merges with at least one unscavengable span.
+	// When two unscavengable spans merge and their result becomes scavengable, they will
+	// always be unscavenged because the physical pages backing them were previously
+	// unscavenged.
 	needsScavenge := false
 	prescavenged := s.released() // number of bytes already scavenged.
 
@@ -436,12 +505,24 @@ func (h *mheap) coalesce(s *mspan) {
 		s.needzero |= other.needzero
 
 		// If before or s are scavenged, then we need to scavenge the final coalesced span.
-		needsScavenge = needsScavenge || other.scavenged || s.scavenged
+		needsScavenge = needsScavenge || other.scavState == mSpanScavenged || s.scavState == mSpanScavenged
 		prescavenged += other.released()
+
+		// s only needs a scavenge state change if it's unscavengable.
+		if s.scavState == mSpanUnscavengable {
+			if other.scavState == mSpanUnscavengable {
+				start, end := s.physPageBounds()
+				if start < end {
+					s.scavState = mSpanUnscavenged
+				}
+			} else {
+				s.scavState = other.scavState
+			}
+		}
 
 		// The size is potentially changing so the treap needs to delete adjacent nodes and
 		// insert back as a combined node.
-		if other.scavenged {
+		if other.scavState == mSpanScavenged {
 			h.scav.removeSpan(other)
 		} else {
 			h.free.removeSpan(other)
@@ -451,13 +532,13 @@ func (h *mheap) coalesce(s *mspan) {
 	}
 
 	// Coalesce with earlier, later spans.
-	if before := spanOf(s.base() - 1); before != nil && before.state == mSpanFree {
+	if before := spanOf(s.base() - 1); before != nil && s.coalescesWith(before) {
 		merge(before)
 		h.setSpan(s.base(), s)
 	}
 
 	// Now check to see if next (greater addresses) span is free and can be coalesced.
-	if after := spanOf(s.base() + s.npages*pageSize); after != nil && after.state == mSpanFree {
+	if after := spanOf(s.base() + s.npages*pageSize); after != nil && s.coalescesWith(after) {
 		merge(after)
 		h.setSpan(s.base()+s.npages*pageSize-1, s)
 	}
@@ -489,7 +570,7 @@ func (s *mspan) scavenge() uintptr {
 	}
 	released := end - start
 	memstats.heap_released += uint64(released)
-	s.scavenged = true
+	s.scavState = mSpanScavenged
 	sysUnused(unsafe.Pointer(start), released)
 	return released
 }
@@ -497,7 +578,7 @@ func (s *mspan) scavenge() uintptr {
 // released returns the number of bytes in this span
 // which were returned back to the OS.
 func (s *mspan) released() uintptr {
-	if !s.scavenged {
+	if s.scavState != mSpanScavenged {
 		return 0
 	}
 	start, end := s.physPageBounds()
@@ -1123,9 +1204,13 @@ HaveSpan:
 		t.needzero = s.needzero
 		// If s was scavenged, then t may be scavenged.
 		start, end := t.physPageBounds()
-		if s.scavenged && start < end {
+		if s.scavState == mSpanScavenged && start < end {
 			memstats.heap_released += uint64(end - start)
-			t.scavenged = true
+			t.scavState = mSpanScavenged
+		} else if s.scavState == mSpanUnscavenged && start < end {
+			t.scavState = mSpanUnscavenged
+		} else {
+			t.scavState = mSpanUnscavengable
 		}
 		s.state = mSpanManual // prevent coalescing with s
 		t.state = mSpanManual
@@ -1134,12 +1219,19 @@ HaveSpan:
 	}
 	// "Unscavenge" s only AFTER splitting so that
 	// we only sysUsed whatever we actually need.
-	if s.scavenged {
+	if s.scavState == mSpanScavenged {
 		// sysUsed all the pages that are actually available
 		// in the span. Note that we don't need to decrement
 		// heap_released since we already did so earlier.
 		sysUsed(unsafe.Pointer(s.base()), s.npages<<_PageShift)
-		s.scavenged = false
+		s.scavState = mSpanUnscavenged
+	}
+	// If s has shrunk to a point where it doesn't cover a physical page
+	// anymore, mark it unscavengable. Do this after we check if it was
+	// scavenged so that we can sysUsed it.
+	start, end := s.physPageBounds()
+	if start >= end {
+		s.scavState = mSpanUnscavengable
 	}
 	s.unusedsince = 0
 
@@ -1183,6 +1275,10 @@ func (h *mheap) grow(npage uintptr) bool {
 	atomic.Store(&s.sweepgen, h.sweepgen)
 	s.state = mSpanInUse
 	h.pagesInUse += uint64(s.npages)
+	start, end := s.physPageBounds()
+	if end <= start {
+		throw("freshly mapped span is unscavengable")
+	}
 	h.freeSpanLocked(s, false, true, 0)
 	return true
 }
@@ -1278,7 +1374,7 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 	h.coalesce(s)
 
 	// Insert s into the appropriate treap.
-	if s.scavenged {
+	if s.scavState == mSpanScavenged {
 		h.scav.insert(s)
 	} else {
 		h.free.insert(s)
@@ -1310,6 +1406,7 @@ func (h *mheap) scavengeLargest(nbytes uintptr) {
 		n := t.prev()
 		h.free.erase(t)
 		t = n
+		h.coalesce(s)
 		h.scav.insert(s)
 		released += r
 	}
@@ -1328,6 +1425,7 @@ func (h *mheap) scavengeAll(now, limit uint64) uintptr {
 			r := s.scavenge()
 			if r != 0 {
 				h.free.erase(t)
+				h.coalesce(s)
 				h.scav.insert(s)
 				released += r
 			}
@@ -1375,7 +1473,7 @@ func (span *mspan) init(base uintptr, npages uintptr) {
 	span.elemsize = 0
 	span.state = mSpanDead
 	span.unusedsince = 0
-	span.scavenged = false
+	span.scavState = mSpanUnscavenged
 	span.speciallock.key = 0
 	span.specials = nil
 	span.needzero = 0
