@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35c32f11_a56caba4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-12-14T17:40:37Z",
+      "side": 1,
+      "message": "We should make this significantly less tedious with tooling.",
+      "revId": "d55420ef69022723e6f5e963ad64310ba21f31e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
