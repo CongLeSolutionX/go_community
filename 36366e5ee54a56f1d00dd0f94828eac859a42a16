@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a06fe17b_1725cff5",
+        "filename": "src/cmd/go/testdata/script/build_nocache.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2018-12-14T22:49:39Z",
+      "side": 1,
+      "message": "To what extent should read-only operations like \"go list\" continue to work with GOCACHE\u003doff? This test should probably cover \"go list\" either way.",
+      "revId": "36366e5ee54a56f1d00dd0f94828eac859a42a16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
