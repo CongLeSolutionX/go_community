@@ -22,6 +22,30 @@
       "revId": "3f773c9d351f19adc50224a021ef048e7acc2362",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac3478e0_2f4d1936",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-12-14T21:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "537cf46c_97f9c034",
+      "range": {
+        "startLine": 125,
+        "startChar": 40,
+        "endLine": 125,
+        "endChar": 45
+      },
+      "revId": "3f773c9d351f19adc50224a021ef048e7acc2362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
