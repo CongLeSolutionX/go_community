@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbd620e_4cfd2fa4",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2018-12-14T16:29:01Z",
+      "side": 1,
+      "message": "For a lay audience, I suspect this is a bit scary and unclear. What about something like:\n\nEarly data (also called \"0-RTT mode\") is not currently supported as a client or server. Additionally, a Go 1.12 server does not support skipping unexpected early data if a client sends it. Since TLS 1.3 0-RTT mode involves clients keeping state regarding which servers support 0-RTT, a Go 1.12 server thus cannot be part of a load-balancing pool where some other servers do support 0-RTT. If switching a domain from a server that supported 0-RTT to a Go 1.12 server, 0-RTT would have to be disabled for at least the lifetime of the issued session tickets before the switch to ensure uninterrupted operation.",
+      "range": {
+        "startLine": 239,
+        "startChar": 42,
+        "endLine": 241,
+        "endChar": 64
+      },
+      "revId": "a62c3819d652bd8f8e15cff210b53f92f28ce9e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
