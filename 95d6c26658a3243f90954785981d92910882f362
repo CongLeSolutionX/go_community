@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a41aa969_ae272557",
+        "filename": "src/cmd/go/internal/get/vcs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-12-14T15:56:12Z",
+      "side": 1,
+      "message": "I don\u0027t see why this is a TODO. Leave it in forever.\n\n// Should have been taken care of above, but make sure.",
+      "revId": "95d6c26658a3243f90954785981d92910882f362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
