@@ -22,6 +22,30 @@
       "revId": "cc1446e3729e3d277b8ca16ba50c98e42a70885e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eba15ba5_4da423ac",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-12-14T01:07:38Z",
+      "side": 1,
+      "message": "I think it\u0027s okay as is because it\u0027s consistent with the release notes for Go 1.9.4 and Go 1.8.7 (see below). That\u0027s where I got this from.",
+      "parentUuid": "2bce3211_f8ddc445",
+      "range": {
+        "startLine": 53,
+        "startChar": 65,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "cc1446e3729e3d277b8ca16ba50c98e42a70885e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
