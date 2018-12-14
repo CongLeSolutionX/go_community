@@ -654,6 +654,16 @@ func (t *tester) registerTests() {
 				})
 			}
 		}
+		if goos != "android" {
+			t.tests = append(t.tests, distTest{
+				name:    "cgo_syso",
+				heading: "../misc/cgo/testsyso",
+				fn: func(dt *distTest) error {
+					t.addCmd(dt, "misc/cgo/testsyso", "go", "run", "main.go")
+					return nil
+				},
+			})
+		}
 	}
 	if t.cgoEnabled {
 		t.tests = append(t.tests, distTest{
