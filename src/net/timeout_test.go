@@ -802,11 +802,21 @@ func TestVariousDeadlines4Proc(t *testing.T) {
 	testVariousDeadlines(t)
 }
 
-type neverEnding byte
+type neverEnding struct {
+	b        byte
+	shutdown chan struct{}
+}
 
-func (b neverEnding) Read(p []byte) (int, error) {
+func (n *neverEnding) Read(p []byte) (int, error) {
+	select {
+	case _, ok := <-n.shutdown:
+		if !ok {
+			return 0, io.EOF
+		}
+	default:
+	}
 	for i := range p {
-		p[i] = byte(b)
+		p[i] = n.b
 	}
 	return len(p), nil
 }
@@ -822,7 +832,7 @@ func testVariousDeadlines(t *testing.T) {
 	}
 
 	ch := make(chan error, 1)
-	pasvch := make(chan result)
+	pasvch := make(chan result, 1)
 	handler := func(ls *localServer, ln Listener) {
 		for {
 			c, err := ln.Accept()
@@ -833,8 +843,28 @@ func testVariousDeadlines(t *testing.T) {
 			// The server, with no timeouts of its own,
 			// sending bytes to clients as fast as it can.
 			go func() {
+				c.(*TCPConn).SetLinger(0)
+				shutdownWriter := make(chan struct{})
 				t0 := time.Now()
-				n, err := io.Copy(c, neverEnding('a'))
+				var (
+					n   int64
+					err error
+					wg  sync.WaitGroup
+				)
+				wg.Add(2)
+				go func() {
+					defer wg.Done()
+					n, err = io.Copy(c, &neverEnding{'a', shutdownWriter})
+				}()
+
+				go func() {
+					defer wg.Done()
+					var buf [1024]byte
+					c.Read(buf[:])
+					close(shutdownWriter)
+				}()
+
+				wg.Wait()
 				dt := time.Since(t0)
 				c.Close()
 				pasvch <- result{n, err, dt}
