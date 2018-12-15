@@ -1,0 +1,3 @@
+pkg unicode, const Version = "11.0.0"
+// TODO: add a new line of the following form for each new script and property.
+pkg unicode, var <new script or property> *RangeTable

@@ -15,7 +15,7 @@ type T struct {
 }
 
 // Hand-chosen tests from Unicode 5.1.0, 6.0.0, 6.2.0, 6.3.0, 7.0.0, 8.0.0,
-// 9.0.0, 10.0.0.
+// 9.0.0, 10.0.0, 11.0.0.
 // mostly to discover when new scripts and categories arise.
 // If this tests fails, add the missing scripts to the test and add entries
 // of the form
@@ -53,6 +53,7 @@ var inTest = []T{
 	{0xa663, "Cyrillic"},
 	{0x10430, "Deseret"},
 	{0x094a, "Devanagari"},
+	{0x11800, "Dogra"},
 	{0x1BC00, "Duployan"},
 	{0x13001, "Egyptian_Hieroglyphs"},
 	{0x10500, "Elbasan"},
@@ -63,9 +64,11 @@ var inTest = []T{
 	{0x11303, "Grantha"},
 	{0x03ae, "Greek"},
 	{0x0abf, "Gujarati"},
+	{0x11D60, "Gunjala_Gondi"},
 	{0x0a24, "Gurmukhi"},
 	{0x3028, "Han"},
 	{0x11b8, "Hangul"},
+	{0x10D00, "Hanifi_Rohingya"},
 	{0x1727, "Hanunoo"},
 	{0x108FF, "Hatran"},
 	{0x05a0, "Hebrew"},
@@ -93,11 +96,13 @@ var inTest = []T{
 	{0x10290, "Lycian"},
 	{0x10930, "Lydian"},
 	{0x11173, "Mahajani"},
+	{0x11EF8, "Makasar"},
 	{0x0d42, "Malayalam"},
 	{0x0843, "Mandaic"},
 	{0x10ac8, "Manichaean"},
 	{0x11cB6, "Marchen"},
 	{0x11d59, "Masaram_Gondi"},
+	{0x16E81, "Medefaidrin"},
 	{0xabd0, "Meetei_Mayek"},
 	{0x1e800, "Mende_Kikakui"},
 	{0x1099f, "Meroitic_Hieroglyphs"},
@@ -120,6 +125,7 @@ var inTest = []T{
 	{0x10a80, "Old_North_Arabian"},
 	{0x10350, "Old_Permic"},
 	{0x103c9, "Old_Persian"},
+	{0x10F00, "Old_Sogdian"},
 	{0x10a6f, "Old_South_Arabian"},
 	{0x10c20, "Old_Turkic"},
 	{0x0b3e, "Oriya"},
@@ -140,6 +146,7 @@ var inTest = []T{
 	{0x115c1, "Siddham"},
 	{0x1D920, "SignWriting"},
 	{0x0dbd, "Sinhala"},
+	{0x10F30, "Sogdian"},
 	{0x110d0, "Sora_Sompeng"},
 	{0x11a99, "Soyombo"},
 	{0x1ba3, "Sundanese"},

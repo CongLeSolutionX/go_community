@@ -17,12 +17,11 @@ package idna
 
 import (
 	"fmt"
-	"strings"
-	"unicode/utf8"
-
 	"internal/x/text/secure/bidirule"
 	"internal/x/text/unicode/bidi"
 	"internal/x/text/unicode/norm"
+	"strings"
+	"unicode/utf8"
 )
 
 // NOTE: Unlike common practice in Go APIs, the functions will return a
