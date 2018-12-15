@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41af214e_07572ba9",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3146,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-12-15T19:00:02Z",
+      "side": 1,
+      "message": "Should we condition on GOOS\u003dandroid also?",
+      "revId": "0b7eec1dea78fc45d84429417cd35c215084dd85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
