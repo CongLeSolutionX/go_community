@@ -16,6 +16,24 @@
       "revId": "36366e5ee54a56f1d00dd0f94828eac859a42a16",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03fd1b5e_580d0131",
+        "filename": "src/cmd/go/testdata/script/build_nocache.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-12-15T00:16:43Z",
+      "side": 1,
+      "message": "Anything that doesn\u0027t write to or populate build cache entries should work.\n\nWill follow up with expanded tests: they\u0027re mostly orthogonal to the diagnostics in this CL.",
+      "parentUuid": "a06fe17b_1725cff5",
+      "revId": "36366e5ee54a56f1d00dd0f94828eac859a42a16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
