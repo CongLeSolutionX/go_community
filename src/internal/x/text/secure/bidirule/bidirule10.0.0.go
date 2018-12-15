@@ -4,5 +4,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// secure is a repository of text security related packages.
-package secure // import "internal/x/text/secure"
+package bidirule
+
+func (t *Transformer) isFinal() bool {
+	return t.state == ruleLTRFinal || t.state == ruleRTLFinal || t.state == ruleInitial
+}
