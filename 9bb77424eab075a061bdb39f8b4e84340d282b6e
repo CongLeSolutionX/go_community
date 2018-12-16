@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fde949f6_a42056d3",
+        "filename": "src/runtime/export_debug_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-16T22:07:06Z",
+      "side": 1,
+      "message": "Done. Folding it into the switch would be a little tricky.",
+      "parentUuid": "fddbc7dc_f0e0e933",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "9bb77424eab075a061bdb39f8b4e84340d282b6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71671a36_911e95ab",
         "filename": "src/runtime/export_debug_test.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "26c14ef3_f28f0a80",
+        "filename": "src/runtime/export_debug_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-16T22:07:06Z",
+      "side": 1,
+      "message": "I did it this way to fall through to the \"return nil, h.err\" if it retries too much.",
+      "parentUuid": "71671a36_911e95ab",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 16
+      },
+      "revId": "9bb77424eab075a061bdb39f8b4e84340d282b6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69990565_8f6e2037",
         "filename": "src/runtime/export_debug_test.go",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "9bb77424eab075a061bdb39f8b4e84340d282b6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d23805ab_9387ebee",
+        "filename": "src/runtime/export_debug_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-16T22:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69990565_8f6e2037",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 12
+      },
+      "revId": "9bb77424eab075a061bdb39f8b4e84340d282b6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
