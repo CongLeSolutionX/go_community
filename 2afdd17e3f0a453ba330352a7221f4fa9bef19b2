@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "681cd3e8_cb440449",
+        "filename": "src/strconv/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-12-16T20:12:08Z",
+      "side": 1,
+      "message": "Please capitalize and punctuate comments, especially in examples.\n// There is a tab character inside the string literal.\n\nBut this is a long comment on a long line, so it might be easier to read like this:\n\n// The string literal on the next line contains a tab character.\ns :\u003d strconv.Quote(`\"Fran \u0026 Freddie\u0027s Diner\t☺\"`)",
+      "revId": "2afdd17e3f0a453ba330352a7221f4fa9bef19b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e246d7c_456c5951",
+        "filename": "src/strconv/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-12-16T20:12:08Z",
+      "side": 1,
+      "message": "ditto throughout",
+      "revId": "2afdd17e3f0a453ba330352a7221f4fa9bef19b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
