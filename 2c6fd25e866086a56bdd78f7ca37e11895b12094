@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec65d779_3cdee915",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-17T23:28:11Z",
+      "side": 1,
+      "message": "missing word here.\n\neither \"represents the JavaScript undefined value\"\nor \"represents Javascript\u0027s undefined value\"",
+      "range": {
+        "startLine": 739,
+        "startChar": 26,
+        "endLine": 739,
+        "endChar": 47
+      },
+      "revId": "2c6fd25e866086a56bdd78f7ca37e11895b12094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
