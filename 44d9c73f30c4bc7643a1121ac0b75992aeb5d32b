@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d189b54_a9ef6326",
+        "filename": "src/os/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-17T15:55:21Z",
+      "side": 1,
+      "message": "This is an os.FileInfo, not an os.FileMode.\n\nI don\u0027t think this is doing what you want:\n\n   permissions: \u0026{%!o(string\u003dx.go) 0272 0644 {04456355414 0732352336726 025470300} {04001 02137220 01 0100644 01750 01750 0 0 0272 010000 010 {013405743327 01007444015} {013405743326 04456355414} {013405743326 04475562522} [0 0 0]}}",
+      "range": {
+        "startLine": 58,
+        "startChar": 34,
+        "endLine": 58,
+        "endChar": 36
+      },
+      "revId": "44d9c73f30c4bc7643a1121ac0b75992aeb5d32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
