@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d1a119f_a98cf24f",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-17T21:01:37Z",
+      "side": 1,
+      "message": "This is a bit ambiguous.  Maybe \"release memory back to the operating system\".",
+      "revId": "0e6873e3054c14f79af1e934ce36371ec47d3d58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e22c4871_a9a642cf",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-17T21:01:37Z",
+      "side": 1,
+      "message": "back to the operating system",
+      "revId": "0e6873e3054c14f79af1e934ce36371ec47d3d58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
