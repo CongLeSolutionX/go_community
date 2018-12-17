@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a762bbb_2585f7fb",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-17T21:17:34Z",
+      "side": 1,
+      "message": "changeInst is vague, you could call this useAddi.",
+      "revId": "d893840767896fd4a2f9066b7ff3e1797c955c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3a96af5_4df1ce7e",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-17T21:17:34Z",
+      "side": 1,
+      "message": "The \"4\" here needs a comment.  Or better still be written as something along the lines of\n    const prefix \u003d \"....\"\n    var tarSym *syms.Symbol\n    if strings.HasPrefix(r.sym.Name, prefix) {\n        tarSym \u003d ctxt.Symx.ROLookup(strings.TrimPrefix(r.sym.Name, prefix), 0)\n    }\n    ...",
+      "revId": "d893840767896fd4a2f9066b7ff3e1797c955c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
