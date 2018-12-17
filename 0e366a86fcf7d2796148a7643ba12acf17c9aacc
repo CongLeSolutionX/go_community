@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44216286_67f952de",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-17T23:16:29Z",
+      "side": 1,
+      "message": "drop \"been\"? \"has changed\" works.",
+      "range": {
+        "startLine": 739,
+        "startChar": 10,
+        "endLine": 739,
+        "endChar": 14
+      },
+      "revId": "0e366a86fcf7d2796148a7643ba12acf17c9aacc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a4c3e00_6fc81615",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-17T23:16:29Z",
+      "side": 1,
+      "message": "now represents the Javascript \u003ccode\u003eundefined\u003c/code\u003e value rather than ...",
+      "range": {
+        "startLine": 739,
+        "startChar": 43,
+        "endLine": 739,
+        "endChar": 52
+      },
+      "revId": "0e366a86fcf7d2796148a7643ba12acf17c9aacc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
