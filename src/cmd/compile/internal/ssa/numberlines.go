@@ -7,7 +7,7 @@ package ssa
 import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
-	"math"
+	"sort"
 )
 
 func isPoorStatementOp(op Op) bool {
@@ -51,7 +51,7 @@ func nextGoodStatementIndex(v *Value, i int, b *Block) int {
 		if b.Values[j].Pos.IsStmt() == src.PosNotStmt { // ignore non-statements
 			continue
 		}
-		if b.Values[j].Pos.Line() == v.Pos.Line() {
+		if b.Values[j].Pos.Line() == v.Pos.Line() && v.Pos.SameFile(b.Values[j].Pos) {
 			return j
 		}
 		return i
@@ -83,17 +83,45 @@ func (b *Block) FirstPossibleStmtValue() *Value {
 	return nil
 }
 
+type fileAndPair struct {
+	f  int32
+	lp linepair
+}
+
+type fileAndPairs []fileAndPair
+
+func (fap fileAndPairs) Len() int {
+	return len(fap)
+}
+func (fap fileAndPairs) Less(i, j int) bool {
+	return fap[i].f < fap[j].f
+}
+func (fap fileAndPairs) Swap(i, j int) {
+	fap[i], fap[j] = fap[j], fap[i]
+}
+
 func numberLines(f *Func) {
 	po := f.Postorder()
 	endlines := make(map[ID]src.XPos)
-	last := uint(0)              // uint follows type of XPos.Line()
-	first := uint(math.MaxInt32) // unsigned, but large valid int when cast
-	note := func(line uint) {
-		if line < first {
-			first = line
+	ranges := make(map[int]linepair)
+	note := func(p src.XPos) {
+		if p == src.NoXPos {
+			return
 		}
-		if line > last {
-			last = line
+		line := uint32(p.Line())
+		i := int(p.FileIndex())
+		lp, found := ranges[i]
+		change := false
+		if line < lp.first || !found {
+			lp.first = line
+			change = true
+		}
+		if line > lp.last {
+			lp.last = line
+			change = true
+		}
+		if change {
+			ranges[i] = lp
 		}
 	}
 
@@ -103,13 +131,11 @@ func numberLines(f *Func) {
 		// Find the first interesting position and check to see if it differs from any predecessor
 		firstPos := src.NoXPos
 		firstPosIndex := -1
-		if b.Pos.IsStmt() != src.PosNotStmt {
-			note(b.Pos.Line())
-		}
+		note(b.Pos)
 		for i := 0; i < len(b.Values); i++ {
 			v := b.Values[i]
+			note(v.Pos)
 			if v.Pos.IsStmt() != src.PosNotStmt {
-				note(v.Pos.Line())
 				// skip ahead to better instruction for this line if possible
 				i = nextGoodStatementIndex(v, i, b)
 				v = b.Values[i]
@@ -161,7 +187,7 @@ func numberLines(f *Func) {
 			if v.Pos.IsStmt() == src.PosNotStmt {
 				continue
 			}
-			note(v.Pos.Line())
+			note(v.Pos)
 			// skip ahead if possible
 			i = nextGoodStatementIndex(v, i, b)
 			v = b.Values[i]
@@ -178,5 +204,32 @@ func numberLines(f *Func) {
 		}
 		endlines[b.ID] = firstPos
 	}
-	f.cachedLineStarts = newBiasedSparseMap(int(first), int(last))
+	if f.pass.stats > 0 {
+		var entries fileAndPairs
+		for k, v := range ranges {
+			entries = append(entries, fileAndPair{int32(k), v})
+		}
+		sort.Sort(entries)
+		total := uint64(0)
+		maxfile := int32(0)
+		minline := uint32(0xffffffff)
+		maxline := uint32(0)
+		for _, v := range entries {
+			if f.pass.stats > 1 {
+				f.LogStat("file", v.f, "low", v.lp.first, "high", v.lp.last)
+			}
+			total += uint64(v.lp.last - v.lp.first)
+			if maxfile < v.f {
+				maxfile = v.f
+			}
+			if minline > v.lp.first {
+				minline = v.lp.first
+			}
+			if maxline < v.lp.last {
+				maxline = v.lp.last
+			}
+		}
+		f.LogStat("SUM_LINE_RANGE", total, "MAXMIN_LINE_RANGE", maxline-minline, "MAXFILE", maxfile, "NFILES", len(entries))
+	}
+	f.cachedLineStarts = newXposmap(ranges)
 }
