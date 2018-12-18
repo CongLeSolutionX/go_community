@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf0b4d4_621af27d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-18T20:41:15Z",
+      "side": 1,
+      "message": "I think you got cut off :)",
+      "revId": "1e5a0fe26c4ea6578fc45fe429ca024120a91699",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b175b60_925a18ed",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-18T20:41:15Z",
+      "side": 1,
+      "message": "There should be a comment somewhere explaining the connection between dying and writebuf. Maybe here it should say \"// This has the side-effect of disabling g.writebuf.\"",
+      "revId": "1e5a0fe26c4ea6578fc45fe429ca024120a91699",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd69f563_716607ae",
+        "filename": "src/runtime/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-18T20:41:15Z",
+      "side": 1,
+      "message": "I think this needs a little more elaboration. It\u0027s not just about not caring outside the panicking state, it\u0027s that we definitely don\u0027t want to use writebuf in a panicking state. It may also be worth mentioning here that panic can\u0027t just nil writebuf because it\u0027s not allowed to have write barrier.",
+      "revId": "1e5a0fe26c4ea6578fc45fe429ca024120a91699",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
