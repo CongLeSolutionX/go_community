@@ -39,6 +39,29 @@
       "revId": "b8245e9577470a4c5a2bcd73b9a0d94aef261021",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78463e40_9f2e2d56",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-12-18T10:44:58Z",
+      "side": 1,
+      "message": "If you like more detail:\n\n\"as the register is reserved on some OS\u0027es such as iOS\"",
+      "range": {
+        "startLine": 263,
+        "startChar": 7,
+        "endLine": 263,
+        "endChar": 54
+      },
+      "revId": "b8245e9577470a4c5a2bcd73b9a0d94aef261021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
