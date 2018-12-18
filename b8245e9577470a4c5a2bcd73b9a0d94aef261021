@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9be8aaba_cf5bda08",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-12-18T16:20:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d297bb52_7ae53ee8",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 29
+      },
+      "revId": "b8245e9577470a4c5a2bcd73b9a0d94aef261021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf46c490_ce51a26a",
         "filename": "doc/go1.12.html",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "b8245e9577470a4c5a2bcd73b9a0d94aef261021",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47390c99_daf6db7c",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-12-18T16:20:54Z",
+      "side": 1,
+      "message": "Done by a separate CL.",
+      "parentUuid": "cf46c490_ce51a26a",
+      "revId": "b8245e9577470a4c5a2bcd73b9a0d94aef261021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "c421f3c4_369a9520",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-12-18T16:20:54Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "4974ce6b_afc443e3",
+      "range": {
+        "startLine": 77,
+        "startChar": 61,
+        "endLine": 77,
+        "endChar": 66
+      },
+      "revId": "b8245e9577470a4c5a2bcd73b9a0d94aef261021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78463e40_9f2e2d56",
         "filename": "doc/go1.12.html",
         "patchSetId": 1
@@ -85,6 +151,30 @@
       "revId": "b8245e9577470a4c5a2bcd73b9a0d94aef261021",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25c184ee_a5e9baba",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-12-18T16:20:54Z",
+      "side": 1,
+      "message": "Thanks, but I\u0027d rather not go into the details of what\u0027s safe and what\u0027s not in the release notes.",
+      "parentUuid": "78463e40_9f2e2d56",
+      "range": {
+        "startLine": 263,
+        "startChar": 7,
+        "endLine": 263,
+        "endChar": 54
+      },
+      "revId": "b8245e9577470a4c5a2bcd73b9a0d94aef261021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
