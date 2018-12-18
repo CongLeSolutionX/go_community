@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5c56bea3_3e728199",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-12-18T15:31:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6964fca_3378a78f",
+      "range": {
+        "startLine": 280,
+        "startChar": 15,
+        "endLine": 280,
+        "endChar": 32
+      },
+      "revId": "e44a1a3d360356faf910fac7bbd9daca1acb2329",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e63315a2_2b087218",
         "filename": "doc/go1.12.html",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "e44a1a3d360356faf910fac7bbd9daca1acb2329",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a23f6b6_5b71129d",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-12-18T15:31:00Z",
+      "side": 1,
+      "message": "Done. Windows is also likely the only GOOS we will still add support for later.",
+      "parentUuid": "e63315a2_2b087218",
+      "range": {
+        "startLine": 282,
+        "startChar": 15,
+        "endLine": 282,
+        "endChar": 43
+      },
+      "revId": "e44a1a3d360356faf910fac7bbd9daca1acb2329",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
