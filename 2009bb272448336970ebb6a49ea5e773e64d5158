@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26de2b9b_b5560596",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-12-18T15:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a47f450_d702b320",
+      "range": {
+        "startLine": 280,
+        "startChar": 15,
+        "endLine": 280,
+        "endChar": 32
+      },
+      "revId": "2009bb272448336970ebb6a49ea5e773e64d5158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8f573f8_9b96633c",
         "filename": "doc/go1.12.html",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-12-18T15:29:29Z",
       "side": 1,
       "message": "Windows, Plan 9, or Native Client.\n\n(Or just \"Windows\" without mentioning GOOS\u003dplan9 or GOOS\u003dnacl, since they\u0027re not really used and any users using them are advanced enough to know this already.)",
+      "range": {
+        "startLine": 282,
+        "startChar": 25,
+        "endLine": 282,
+        "endChar": 67
+      },
+      "revId": "2009bb272448336970ebb6a49ea5e773e64d5158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "242f5b53_184c5478",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-12-18T15:32:51Z",
+      "side": 1,
+      "message": "Used Windows as per earlier comments. Send this version before I had read your earlier comments sorry. Just mentioning Windows sgtm.",
+      "parentUuid": "a8f573f8_9b96633c",
       "range": {
         "startLine": 282,
         "startChar": 25,
