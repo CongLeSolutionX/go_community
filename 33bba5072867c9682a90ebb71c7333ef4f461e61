@@ -46,6 +46,30 @@
       "revId": "33bba5072867c9682a90ebb71c7333ef4f461e61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be50d782_cf94b43a",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-12-18T16:05:05Z",
+      "side": 1,
+      "message": "Its clarified here:\nhttps://golang.org/pkg/runtime/#hdr-Environment_Variables\n\"The GODEBUG variable controls debugging variables within the runtime. It is a comma-separated list of name\u003dval pairs setting these named variables:\"\n\nI think also mentioning that at the start of diagnostic section would avoid confusion.",
+      "parentUuid": "71ac5a31_bbee2868",
+      "range": {
+        "startLine": 278,
+        "startChar": 8,
+        "endLine": 279,
+        "endChar": 65
+      },
+      "revId": "33bba5072867c9682a90ebb71c7333ef4f461e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
