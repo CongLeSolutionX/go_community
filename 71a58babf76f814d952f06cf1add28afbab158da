@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0fa83465_66e281e3",
+        "filename": "src/crypto/cipher/xor_arm64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2018-12-18T05:04:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff2ee241_2b062096",
+      "revId": "71a58babf76f814d952f06cf1add28afbab158da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06badd01_ff5b24b7",
         "filename": "src/crypto/cipher/xor_arm64.go",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "71a58babf76f814d952f06cf1add28afbab158da",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "543a0bb5_82abc410",
+        "filename": "src/crypto/cipher/xor_arm64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2018-12-18T05:04:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06badd01_ff5b24b7",
+      "revId": "71a58babf76f814d952f06cf1add28afbab158da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "51a4aa3a_ab950aad",
+        "filename": "src/crypto/cipher/xor_arm64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2018-12-18T05:04:52Z",
+      "side": 1,
+      "message": "You are right, Done",
+      "parentUuid": "556636e3_69500516",
+      "revId": "71a58babf76f814d952f06cf1add28afbab158da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9acef1ad_327819ed",
         "filename": "src/crypto/cipher/xor_arm64.s",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "71a58babf76f814d952f06cf1add28afbab158da",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c549348d_ce00831e",
+        "filename": "src/crypto/cipher/xor_arm64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2018-12-18T05:04:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9acef1ad_327819ed",
+      "revId": "71a58babf76f814d952f06cf1add28afbab158da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
