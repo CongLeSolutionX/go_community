@@ -45,6 +45,30 @@
       "revId": "0e366a86fcf7d2796148a7643ba12acf17c9aacc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f96d7e8_f2575a90",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-12-18T00:45:45Z",
+      "side": 1,
+      "message": "Would it be better to write this as:\n\n    ... the JavaScript value \u003ccode\u003eundefined\u003c/code\u003e ...\n\nTo be consistent with the phrasing used (more than once) at https://tip.golang.org/pkg/syscall/js/?GOOS\u003djs\u0026GOARCH\u003dwasm.",
+      "parentUuid": "3a4c3e00_6fc81615",
+      "range": {
+        "startLine": 739,
+        "startChar": 43,
+        "endLine": 739,
+        "endChar": 52
+      },
+      "revId": "0e366a86fcf7d2796148a7643ba12acf17c9aacc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
