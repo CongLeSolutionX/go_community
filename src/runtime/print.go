@@ -89,7 +89,9 @@ func gwrite(b []byte) {
 	}
 	recordForPanic(b)
 	gp := getg()
-	if gp == nil || gp.writebuf == nil {
+	// Don't use the writebuf if gp.m is dying, we only care about
+	// writing to the writebuf outside of a panicking state.
+	if gp == nil || gp.writebuf == nil || gp.m.dying > 0 {
 		writeErr(b)
 		return
 	}
