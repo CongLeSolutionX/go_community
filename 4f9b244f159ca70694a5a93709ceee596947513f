@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89ebba14_fc779ded",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-12-18T03:19:08Z",
+      "side": 1,
+      "message": "I wonder whether it would help to cache this in the ssa.Cache instead of ssa.Func. There\u0027s a bit more work to do--have to reset it from previous uses, and replace it if it is too small (and maybe if it is way too large?)--but might be worth it.",
+      "revId": "4f9b244f159ca70694a5a93709ceee596947513f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a0e9cf6_c11a3d4d",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-12-18T03:19:08Z",
+      "side": 1,
+      "message": "Can we ask the number of file indices that exist? Then this could be a slice instead of a map, allocated with the correct number of indices.",
+      "revId": "4f9b244f159ca70694a5a93709ceee596947513f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29e1f2ed_ff71e879",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-12-18T03:19:08Z",
+      "side": 1,
+      "message": "You could delete this...",
+      "revId": "4f9b244f159ca70694a5a93709ceee596947513f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bab7e0c4_ad782557",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-12-18T03:19:08Z",
+      "side": 1,
+      "message": "...in favor of doing this:\n\nif line \u003c lp.first || !found {\n\n(I think. Please double-check.)",
+      "revId": "4f9b244f159ca70694a5a93709ceee596947513f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2451c20_f99d3208",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-12-18T03:19:08Z",
+      "side": 1,
+      "message": "+1\n\nThis is a nicer abstraction.",
+      "revId": "4f9b244f159ca70694a5a93709ceee596947513f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06b20be3_481773aa",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-12-18T03:19:08Z",
+      "side": 1,
+      "message": "Delete",
+      "revId": "4f9b244f159ca70694a5a93709ceee596947513f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc5ef122_3aade3ae",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-12-18T03:19:08Z",
+      "side": 1,
+      "message": "Write a regular docstring instead. People can grep to find why it exists. Maybe something like:\n\n// FileIndex returns a small integer usable as an opaque index.",
+      "revId": "4f9b244f159ca70694a5a93709ceee596947513f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f17a9d81_cf2c4af7",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-12-18T03:19:08Z",
+      "side": 1,
+      "message": "Maybe FileIndex, for clarity? It was non-obvious at call sites.",
+      "revId": "4f9b244f159ca70694a5a93709ceee596947513f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
