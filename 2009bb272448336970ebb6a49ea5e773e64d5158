@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a47f450_d702b320",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-18T15:29:29Z",
+      "side": 1,
+      "message": "s/allows to disable/disables/",
+      "range": {
+        "startLine": 280,
+        "startChar": 15,
+        "endLine": 280,
+        "endChar": 32
+      },
+      "revId": "2009bb272448336970ebb6a49ea5e773e64d5158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8f573f8_9b96633c",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-18T15:29:29Z",
+      "side": 1,
+      "message": "Windows, Plan 9, or Native Client.\n\n(Or just \"Windows\" without mentioning GOOS\u003dplan9 or GOOS\u003dnacl, since they\u0027re not really used and any users using them are advanced enough to know this already.)",
+      "range": {
+        "startLine": 282,
+        "startChar": 25,
+        "endLine": 282,
+        "endChar": 67
+      },
+      "revId": "2009bb272448336970ebb6a49ea5e773e64d5158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
