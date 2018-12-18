@@ -45,6 +45,57 @@
       "revId": "1de8601310c0e8436af66c9e70b0fc04a41c58e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49253d96_51f7ec92",
+        "filename": "src/runtime/pprof/protomem_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-18T20:16:18Z",
+      "side": 1,
+      "message": "How does this change relate to the addition of inlining PCs?",
+      "revId": "1de8601310c0e8436af66c9e70b0fc04a41c58e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25603e26_9148cc3d",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-18T20:16:18Z",
+      "side": 1,
+      "message": "Document the reason for this loop. IIUC, you need a one frame \"lookahead\" to figure out the \"more\" result.",
+      "revId": "1de8601310c0e8436af66c9e70b0fc04a41c58e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c76f41_0272cac8",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-18T20:16:18Z",
+      "side": 1,
+      "message": "Maybe a comment explaining what this is doing. I assume you\u0027re just avoiding slice allocation in the common case.",
+      "revId": "1de8601310c0e8436af66c9e70b0fc04a41c58e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
