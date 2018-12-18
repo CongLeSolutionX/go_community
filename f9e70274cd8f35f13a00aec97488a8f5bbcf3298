@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3a8fa68a_82aa9693",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-18T19:36:49Z",
+      "side": 1,
+      "message": "I think new ports warrant a new heading (AIX and windows/arm), and Darwin with two bullets probably worth a heading.\n\nYou could lump the linux/arm64 race detector, hurd, and cgo on linux/ppc64 together into an Other section, or just at top after Ports before an \u003ch3\u003e",
+      "parentUuid": "e5028ccb_19366377",
+      "revId": "f9e70274cd8f35f13a00aec97488a8f5bbcf3298",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7bf06e21_9277e5b0",
         "filename": "doc/go1.12.html",
         "patchSetId": 4
