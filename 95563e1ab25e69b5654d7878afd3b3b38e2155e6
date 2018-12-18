@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aea2f8cb_e877fff3",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-18T01:00:31Z",
+      "side": 1,
+      "message": "Drop \"backed by a JavaScript value\"? I don\u0027t know what that means so it\u0027s likely readers won\u0027t either.\n\nThe sentence seems to work without it.",
+      "range": {
+        "startLine": 729,
+        "startChar": 16,
+        "endLine": 729,
+        "endChar": 44
+      },
+      "revId": "95563e1ab25e69b5654d7878afd3b3b38e2155e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
