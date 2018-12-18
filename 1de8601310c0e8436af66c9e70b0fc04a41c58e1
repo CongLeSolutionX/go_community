@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d6874725_9addc850",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-12-18T20:21:31Z",
+      "side": 1,
+      "message": "After SSA-ification, does anything keep the inlmark in the \"right\" place? (Is the right place even well-defined after the contents of the inlined function get reordered?)",
+      "revId": "1de8601310c0e8436af66c9e70b0fc04a41c58e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7c92052b_196faa1a",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 5
