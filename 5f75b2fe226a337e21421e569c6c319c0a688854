@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00cbc722_bd8c05cb",
+        "filename": "src/os/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-18T00:57:07Z",
+      "side": 1,
+      "message": "You\u0027re still missing a call to:\n\nhttps://golang.org/pkg/os/#FileMode.Perm\n\nAs-is, you\u0027re printing out the node type bits.",
+      "revId": "5f75b2fe226a337e21421e569c6c319c0a688854",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
