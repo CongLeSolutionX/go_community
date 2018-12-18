@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fab9936d_63be8a15",
+        "filename": "src/cmd/go/testdata/script/mod_test_cached.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-12-18T16:41:45Z",
+      "side": 1,
+      "message": "The same is true for \u0027go test -run\u003dWriteTmp\u0027 (without the trailing dot) - it should never be cached. Test that here too please.",
+      "revId": "6b4cdbef3ce0706779c76d0bf54c11e2138de674",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
