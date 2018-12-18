@@ -22,6 +22,30 @@
       "revId": "3855fe7254cbce964a53efdf6d8c9fdde9b4419c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c570167f_8e8f3f78",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-12-18T16:44:45Z",
+      "side": 0,
+      "message": "No problem. Both URLs are functional, https://golang.org/doc/go1compat.html just redirects to https://golang.org/doc/go1compat. They are used inconsistently across various doc1.*.html documents.",
+      "parentUuid": "f5a47c74_c9e2d3da",
+      "range": {
+        "startLine": 30,
+        "startChar": 67,
+        "endLine": 30,
+        "endChar": 72
+      },
+      "revId": "3855fe7254cbce964a53efdf6d8c9fdde9b4419c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
