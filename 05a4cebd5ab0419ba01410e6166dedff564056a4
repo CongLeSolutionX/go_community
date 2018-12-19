@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98a0d80f_ff3a4453",
+        "filename": "src/hash/empty.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-12-19T21:47:07Z",
+      "side": 1,
+      "message": "Maybe the other way around is cleaner. Add two adapter functions calling memhash into runtime/alg.go and linkname them there? Then this hack is not needed. IIRC reflect functions are also linknamed from the runtime.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 59
+      },
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "302fa968_e532c642",
+        "filename": "src/hash/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-12-19T21:47:07Z",
+      "side": 1,
+      "message": "I think runtime.strhash is better here as it the version used also by typ algs and not the test adapter function.",
+      "range": {
+        "startLine": 56,
+        "startChar": 32,
+        "endLine": 56,
+        "endChar": 50
+      },
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c025282e_e4c8aa79",
+        "filename": "src/hash/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-12-19T21:47:07Z",
+      "side": 1,
+      "message": "why not uint? Nowadays size of uint and uintptr should always match. We could change the runtime internals too to use uint without breakage but this will be a public API so not easily changed later.",
+      "range": {
+        "startLine": 57,
+        "startChar": 38,
+        "endLine": 57,
+        "endChar": 45
+      },
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
