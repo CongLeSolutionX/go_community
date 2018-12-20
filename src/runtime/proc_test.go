@@ -885,12 +885,6 @@ func TestLockOSThreadNesting(t *testing.T) {
 
 func TestLockOSThreadExit(t *testing.T) {
 	testLockOSThreadExit(t, "testprog")
-
-	want := "OK\n"
-	output := runTestProg(t, "testprog", "LockOSThreadAvoidsStatePropagation", "GOMAXPROCS=1")
-	if output != want {
-		t.Errorf("want %s, got %s\n", want, output)
-	}
 }
 
 func testLockOSThreadExit(t *testing.T, prog string) {
@@ -901,6 +895,22 @@ func testLockOSThreadExit(t *testing.T, prog string) {
 	}
 
 	output = runTestProg(t, prog, "LockOSThreadAlt")
+	if output != want {
+		t.Errorf("want %s, got %s\n", want, output)
+	}
+}
+
+func TestLockOSThreadAvoidsStatePropagation(t *testing.T) {
+	if runtime.GOOS == "linux" && runtime.GOARCH == "arm64" {
+		// The linux/arm64 builders are containerized in such a way that the unshare syscall
+		// fails with EPERM when called, and the testprog below relies on being able to
+		// execute the syscall successfully on Linux.
+		//
+		// See #29366.
+		t.Skip("linux/arm64 builders don't have permissions to execute unshare syscall")
+	}
+	want := "OK\n"
+	output := runTestProg(t, "testprog", "LockOSThreadAvoidsStatePropagation", "GOMAXPROCS=1")
 	if output != want {
 		t.Errorf("want %s, got %s\n", want, output)
 	}
