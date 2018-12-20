@@ -886,11 +886,6 @@ func TestLockOSThreadNesting(t *testing.T) {
 func TestLockOSThreadExit(t *testing.T) {
 	testLockOSThreadExit(t, "testprog")
 
-	want := "OK\n"
-	output := runTestProg(t, "testprog", "LockOSThreadAvoidsStatePropagation", "GOMAXPROCS=1")
-	if output != want {
-		t.Errorf("want %s, got %s\n", want, output)
-	}
 }
 
 func testLockOSThreadExit(t *testing.T, prog string) {
@@ -902,6 +897,17 @@ func testLockOSThreadExit(t *testing.T, prog string) {
 
 	output = runTestProg(t, prog, "LockOSThreadAlt")
 	if output != want {
+		t.Errorf("want %s, got %s\n", want, output)
+	}
+}
+
+func TestLockOSThreadAvoidsStatePropagation(t *testing.T) {
+	want := "OK\n"
+	skip := "unshare not permitted\n"
+	output := runTestProg(t, "testprog", "LockOSThreadAvoidsStatePropagation", "GOMAXPROCS=1")
+	if output == skip {
+		t.Skip("unshare syscall not permitted on this system")
+	} else if output != want {
 		t.Errorf("want %s, got %s\n", want, output)
 	}
 }
