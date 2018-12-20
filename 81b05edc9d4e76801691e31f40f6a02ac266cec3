@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80f99234_ff1dd14c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-12-20T13:53:43Z",
+      "side": 1,
+      "message": "Perhaps\n\ncompress/flate: fix the old url for the flate algorithm\n\n?",
+      "revId": "81b05edc9d4e76801691e31f40f6a02ac266cec3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdebc5a6_ca14179d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-12-20T13:53:43Z",
+      "side": 1,
+      "message": "Drop these 3 lines. I don\u0027t think you need to repeat the actual change in the commit message.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "81b05edc9d4e76801691e31f40f6a02ac266cec3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e69dfcae_01b53a39",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-12-20T13:53:43Z",
+      "side": 1,
+      "message": "Is https://github.com/madler/zlib/raw/master/doc/algorithm.txt even better?",
+      "revId": "81b05edc9d4e76801691e31f40f6a02ac266cec3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
