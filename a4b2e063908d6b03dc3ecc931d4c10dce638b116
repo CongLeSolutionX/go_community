@@ -52,6 +52,24 @@
       "revId": "a4b2e063908d6b03dc3ecc931d4c10dce638b116",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f6ea5d_fe98fff6",
+        "filename": "src/net/sendfile_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-20T23:11:21Z",
+      "side": 1,
+      "message": "OK, I sent CL 155517 to add SyscallConn to os.File, which is desirable in and of itself, and should be able to use that here.",
+      "parentUuid": "253f7542_df788f68",
+      "revId": "a4b2e063908d6b03dc3ecc931d4c10dce638b116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
