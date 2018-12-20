@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d6a18aa_45e067e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9725
+      },
+      "writtenOn": "2018-12-20T14:19:38Z",
+      "side": 1,
+      "message": "I\u0027ll give you that, thank you!",
+      "parentUuid": "80f99234_ff1dd14c",
+      "revId": "81b05edc9d4e76801691e31f40f6a02ac266cec3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bdebc5a6_ca14179d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f97572f1_4689eb41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 9725
+      },
+      "writtenOn": "2018-12-20T14:19:38Z",
+      "side": 1,
+      "message": "OK, I droped.",
+      "parentUuid": "bdebc5a6_ca14179d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "81b05edc9d4e76801691e31f40f6a02ac266cec3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e69dfcae_01b53a39",
         "filename": "src/compress/flate/inflate.go",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2018-12-20T13:53:43Z",
       "side": 1,
       "message": "Is https://github.com/madler/zlib/raw/master/doc/algorithm.txt even better?",
+      "revId": "81b05edc9d4e76801691e31f40f6a02ac266cec3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b0789d1_cbaad095",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 9725
+      },
+      "writtenOn": "2018-12-20T14:19:38Z",
+      "side": 1,
+      "message": "I thought about that too.\n\nI searched those sites are gzip.org and zlib.net.\nBut I didn\u0027t find to the algorithm.txt file.\n\nThe madler/zlib repo is linked zlib official site. As I selected this URL.\n\nI\u0027ll quickly fix if you know a better URL.",
+      "parentUuid": "e69dfcae_01b53a39",
       "revId": "81b05edc9d4e76801691e31f40f6a02ac266cec3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
