@@ -32,6 +32,11 @@ func sendFile(c *netFD, r io.Reader) (written int64, err error, handled bool) {
 		return 0, nil, false
 	}
 
+	// Don't try to call sendfile with a non-seekable file.
+	if _, err := f.Seek(0, io.SeekCurrent); err != nil {
+		return 0, nil, false
+	}
+
 	written, err = poll.SendFile(&c.pfd, int(f.Fd()), remain)
 
 	if lr != nil {
