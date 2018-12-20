@@ -16,6 +16,24 @@
       "revId": "a4b2e063908d6b03dc3ecc931d4c10dce638b116",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1478cc7_a939600e",
+        "filename": "src/net/sendfile_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-20T03:54:34Z",
+      "side": 1,
+      "message": "No, at this point the Go type is known: *os.File.  If we were willing to add a horrible hack to let the net package dig into the os package, we could ask whether the descriptor is in blocking mode.  I couldn\u0027t bring myself to do that but I\u0027m open to suggestions.",
+      "parentUuid": "2b1dc278_cf7c4d3c",
+      "revId": "a4b2e063908d6b03dc3ecc931d4c10dce638b116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
