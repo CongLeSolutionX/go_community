@@ -34,6 +34,24 @@
       "revId": "a4b2e063908d6b03dc3ecc931d4c10dce638b116",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "253f7542_df788f68",
+        "filename": "src/net/sendfile_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-20T05:45:29Z",
+      "side": 1,
+      "message": "Sorry, I meant the type of the fd under it.\n\nI\u0027d be fine with a hack to avoid slowing down a fast path. Like, if this is only for pipes, can we check f.Name() to see if its name starts with \"|\"? That\u0027s gross but works today. But if it\u0027s for other types, I\u0027d rather just do some shared-common-internal-package for secret API between net and os.",
+      "parentUuid": "c1478cc7_a939600e",
+      "revId": "a4b2e063908d6b03dc3ecc931d4c10dce638b116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
