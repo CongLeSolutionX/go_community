@@ -53,6 +53,9 @@ for that version of the given module.
 GET $GOPROXY/<module>/@v/<version>.zip returns the zip archive
 for that version of the given module.
 
+GET $GOPROXY/<module>/@latest returns JSON-formatted metadata
+about the latest commit in the default branch of the given module.
+
 To avoid problems when serving from case-sensitive file systems,
 the <module> and <version> elements are case-encoded, replacing every
 uppercase letter with an exclamation mark followed by the correponding
@@ -63,6 +66,8 @@ this Go data structure, which may be expanded in the future:
 
     type Info struct {
         Version string    // version string
+        Name    string    // complete ID in underlying repository
+        Short   string    // shortened ID, for use in pseudo-version
         Time    time.Time // commit time
     }
 
