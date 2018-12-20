@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "42c83bef_1fbcb072",
+        "filename": "src/hash/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2018-12-20T01:19:57Z",
+      "side": 1,
+      "message": "typo \"crypographic\"",
+      "range": {
+        "startLine": 5,
+        "startChar": 21,
+        "endLine": 5,
+        "endChar": 32
+      },
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58c716e1_597ba5d5",
+        "filename": "src/hash/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2018-12-20T01:19:57Z",
+      "side": 1,
+      "message": "IIRC this idiom was optimized last cycle:\n\n  append(b, make([]byte, wordsize)...)",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 43
+      },
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "302fa968_e532c642",
         "filename": "src/hash/runtime.go",
         "patchSetId": 2
@@ -65,6 +111,23 @@
         "endLine": 57,
         "endChar": 45
       },
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "544a4d59_510fe275",
+        "filename": "src/hash/runtime_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2018-12-20T01:19:57Z",
+      "side": 1,
+      "message": "Would this be better as a test that just asserts there are no allocs (with testing.AllocsPerRun)? We have a bunch of those elsewhere.",
       "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
