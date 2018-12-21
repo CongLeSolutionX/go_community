@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c6cd6ee_058bfdc6",
+        "filename": "src/runtime/proc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-21T17:38:47Z",
+      "side": 1,
+      "message": "* No need for final \\n\n* use %q instead of %s for failing strings (%q shows whitespace, empty strings, binary chars)\n* Go typical format is got first then want, like:\n\n      \"foo(%d) \u003d %q; want %q\"\n\n  Or \"output: %q; want %q\"",
+      "range": {
+        "startLine": 910,
+        "startChar": 12,
+        "endLine": 910,
+        "endChar": 28
+      },
+      "revId": "f0d2edcc78494b4e993f8ca72a27ea8822042ca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
