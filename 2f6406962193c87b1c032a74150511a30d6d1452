@@ -22,6 +22,30 @@
       "revId": "2f6406962193c87b1c032a74150511a30d6d1452",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c634d8a0_f55755a4",
+        "filename": "src/os/rawconn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-12-21T14:23:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f4533de_5cb0a7cd",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "2f6406962193c87b1c032a74150511a30d6d1452",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
