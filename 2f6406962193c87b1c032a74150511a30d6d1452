@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f4533de_5cb0a7cd",
+        "filename": "src/os/rawconn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-12-21T13:43:01Z",
+      "side": 1,
+      "message": "Typo: syscall",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "2f6406962193c87b1c032a74150511a30d6d1452",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
