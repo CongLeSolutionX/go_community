@@ -22,6 +22,30 @@
       "revId": "f0d2edcc78494b4e993f8ca72a27ea8822042ca5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8c98e9a_11d0bf07",
+        "filename": "src/runtime/proc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2018-12-21T17:46:50Z",
+      "side": 1,
+      "message": "* Got it, and removed it for others in this file.\n* Right, that would be an improvement for sure.\n* AFAICT in this file it\u0027s all \"want\" then \"got\", so I\u0027m going to keep it that way for consistency\u0027s sake.",
+      "parentUuid": "5c6cd6ee_058bfdc6",
+      "range": {
+        "startLine": 910,
+        "startChar": 12,
+        "endLine": 910,
+        "endChar": 28
+      },
+      "revId": "f0d2edcc78494b4e993f8ca72a27ea8822042ca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
