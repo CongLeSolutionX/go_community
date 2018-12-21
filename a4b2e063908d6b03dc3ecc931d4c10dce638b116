@@ -88,6 +88,24 @@
       "revId": "a4b2e063908d6b03dc3ecc931d4c10dce638b116",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71f55858_6591ad6c",
+        "filename": "src/net/sendfile_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-12-21T16:26:18Z",
+      "side": 1,
+      "message": "I\u0027m fine with that for Go 1.12, even.",
+      "parentUuid": "2ed20731_69514872",
+      "revId": "a4b2e063908d6b03dc3ecc931d4c10dce638b116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
