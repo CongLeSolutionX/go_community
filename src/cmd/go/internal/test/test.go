@@ -167,7 +167,9 @@ See also: go build, go vet.
 var HelpTestflag = &base.Command{
 	UsageLine: "testflag",
 	Short:     "testing flags",
-	Long: `
+	Long:      helpTestflagPart1 + "\t     " + strings.Join(testVetFlags," ") + helpTestflagPart2,
+}
+const helpTestflagPart1 =	`
 The 'go test' command takes both flags that apply to 'go test' itself
 and flags that apply to the resulting test binary.
 
@@ -279,7 +281,9 @@ control the execution of any test:
 	    Configure the invocation of "go vet" during "go test"
 	    to use the comma-separated list of vet checks.
 	    If list is empty, "go test" runs "go vet" with a curated list of
-	    checks believed to be always worth addressing.
+	    checks believed to be always worth addressing, i.e.
+`
+const helpTestflagPart2 =	`
 	    If list is "off", "go test" does not run "go vet" at all.
 
 The following flags are also recognized by 'go test' and can be used to
@@ -398,8 +402,7 @@ In the first example, the -x and the second -v are passed through to the
 test binary unchanged and with no effect on the go command itself.
 In the second example, the argument math is passed through to the test
 binary, instead of being interpreted as the package list.
-`,
-}
+`
 
 var HelpTestfunc = &base.Command{
 	UsageLine: "testfunc",
