@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "5f0e55f8_d5303bfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-12-24T21:29:41Z",
+      "side": 1,
+      "message": "Perhaps replace this line with\n\nruntime: adjust PROCESS_ALL_ACCESS in TestNumCPU\n\nIt better describes what this change does.",
+      "revId": "67c08eb3c1523f4fcf7ab1fe2cc170788ec9ab08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0028fc2_4731963d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-12-24T21:29:41Z",
+      "side": 1,
+      "message": "People reading your change in the future (including you and me), will wonder why this change was made. It will be nice to explain it here. For example, you can add something like this:\n```\nAs per https://docs.microsoft.com/en-us/windows/desktop/procthread/process-security-and-access-rights\n\n\u003e The size of the PROCESS_ALL_ACCESS flag increased on Windows Server 2008\n\u003e and Windows Vista. ...\n\nSo change in TestNumCPU PROCESS_ALL_ACCESS value as specified for the latest Windows version.\n```",
+      "revId": "67c08eb3c1523f4fcf7ab1fe2cc170788ec9ab08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78ea5587_024d9a6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-12-24T21:29:41Z",
+      "side": 1,
+      "message": "You `PROCESS_ALL_ACCESS now checks for 0xFFFF.` comment does not make things clearer here. Future commit reader will look at the your code change, if they want to see what happened to PROCESS_ALL_ACCESS value.\n\nJust change line 9 with\n\nFixes #29176",
+      "revId": "67c08eb3c1523f4fcf7ab1fe2cc170788ec9ab08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7dca88c4_43827d54",
         "filename": "src/runtime/syscall_windows_test.go",
         "patchSetId": 1
