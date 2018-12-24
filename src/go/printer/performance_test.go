@@ -14,10 +14,10 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"os"
+	"strings"
 	"testing"
 )
-
-var testfile *ast.File
 
 func testprint(out io.Writer, file *ast.File) {
 	if err := (&Config{TabIndent | UseSpaces, 8, 0}).Fprint(out, fset, file); err != nil {
@@ -26,9 +26,7 @@ func testprint(out io.Writer, file *ast.File) {
 }
 
 // cannot initialize in init because (printer) Fprint launches goroutines.
-func initialize() {
-	const filename = "testdata/parser.go"
-
+func initialize(filename string) *ast.File {
 	src, err := ioutil.ReadFile(filename)
 	if err != nil {
 		log.Fatalf("%s", err)
@@ -45,14 +43,41 @@ func initialize() {
 		log.Fatalf("print error: %s not idempotent", filename)
 	}
 
-	testfile = file
+	return file
 }
 
 func BenchmarkPrint(b *testing.B) {
-	if testfile == nil {
-		initialize()
-	}
+	f := initialize("testdata/parser.go")
+	b.ResetTimer()
+	b.ReportAllocs()
 	for i := 0; i < b.N; i++ {
-		testprint(ioutil.Discard, testfile)
+		testprint(ioutil.Discard, f)
+	}
+}
+
+func makeUnbalanced() *os.File {
+	f, err := ioutil.TempFile("testdata", "*.go")
+	if err != nil {
+		log.Fatalf("failed to create temp benchmark file")
+	}
+
+	f.WriteString("package p\n\nvar n = 1" + strings.Repeat(" + 1", 16000) + "\n")
+	return f
+}
+
+func BenchmarkPrintUnbalanced(b *testing.B) {
+	f := makeUnbalanced()
+	file := initialize(f.Name())
+
+	b.ResetTimer()
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		testprint(ioutil.Discard, file)
+	}
+
+	f.Close()
+	err := os.Remove(f.Name())
+	if err != nil {
+		b.Fatalf("failed to removed temp file %v", f.Name())
 	}
 }
