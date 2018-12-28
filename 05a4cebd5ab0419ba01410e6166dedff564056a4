@@ -82,6 +82,69 @@
     },
     {
       "key": {
+        "uuid": "09553764_4ef4c578",
+        "filename": "src/hash/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-12-28T17:43:01Z",
+      "side": 1,
+      "message": "I don\u0027t like calling this \"Runtime\". At an API level it has nothing to do with the runtime. It just happens to share its implementation with the runtime.\nWe need a \"fast but unspecified\" name.",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54f0e08f_a9d78756",
+        "filename": "src/hash/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-12-28T17:43:01Z",
+      "side": 1,
+      "message": "There\u0027s no seeding of the hash here, so it\u0027s completely deterministic.\nWe should assign something random to the x field.\n\nThat will prevent people from depending on the exact result, and hopefully also help prevent hash collision attacks on the users of this API.",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 48
+      },
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfae8d31_84082a17",
+        "filename": "src/hash/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-12-28T17:43:01Z",
+      "side": 1,
+      "message": "Same thing about seeding here.  I\u0027m not sure how to solve it, The Reset API doesn\u0027t provide a way to specify a seed.\nMaybe we should remember the initial seed we used in the constructor?",
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58c716e1_597ba5d5",
         "filename": "src/hash/runtime.go",
         "patchSetId": 2
