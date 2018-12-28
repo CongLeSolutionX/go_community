@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "5bd958d0_6ecc1454",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-12-28T18:14:16Z",
+      "side": 1,
+      "message": "I\u0027ve expanded it a bit.",
+      "parentUuid": "7c92052b_196faa1a",
+      "range": {
+        "startLine": 417,
+        "startChar": 13,
+        "endLine": 417,
+        "endChar": 60
+      },
+      "revId": "1de8601310c0e8436af66c9e70b0fc04a41c58e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3ae41f9_198dd72b",
         "filename": "src/cmd/link/internal/sym/symbol.go",
         "patchSetId": 5
@@ -53,6 +77,30 @@
       "writtenOn": "2018-12-12T03:02:02Z",
       "side": 1,
       "message": "Is this an actual PC? It might not fit in (signed) 32 bits, right?",
+      "range": {
+        "startLine": 518,
+        "startChar": 21,
+        "endLine": 518,
+        "endChar": 23
+      },
+      "revId": "1de8601310c0e8436af66c9e70b0fc04a41c58e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dc75e8b_03ffcef4",
+        "filename": "src/cmd/link/internal/sym/symbol.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-12-28T18:14:16Z",
+      "side": 1,
+      "message": "It\u0027s a relative PC to the start of the function, so it should always fit. I\u0027ll update the comment.",
+      "parentUuid": "b3ae41f9_198dd72b",
       "range": {
         "startLine": 518,
         "startChar": 21,
