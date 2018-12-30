@@ -16,6 +16,24 @@
       "revId": "9c0088a531052c90d4503056fa38883f7bc1a5ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a9abd53_8b2115a9",
+        "filename": "src/strconv/atoi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-12-30T22:53:13Z",
+      "side": 1,
+      "message": "That reads better, but I was trying to phrase this in a way that was only about the results. “is equivalent to” intimates similar/identical implementation.",
+      "parentUuid": "8d975c48_fd8e8d35",
+      "revId": "9c0088a531052c90d4503056fa38883f7bc1a5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
