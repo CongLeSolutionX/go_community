@@ -54,13 +54,13 @@ func sqrt(x float64) float64 {
 func abs(x, y float64) {
 	// amd64:"BTRQ\t[$]63"
 	// arm64:"FABSD\t"
-	// s390x:"LPDFR\t",-"MOVD\t"     (no integer load/store)
+	// s390x:"LPDFR\t"
 	// ppc64:"FABS\t"
 	// ppc64le:"FABS\t"
 	sink64[0] = math.Abs(x)
 
 	// amd64:"BTRQ\t[$]63","PXOR"    (TODO: this should be BTSQ)
-	// s390x:"LNDFR\t",-"MOVD\t"     (no integer load/store)
+	// s390x:"LNDFR\t"
 	// ppc64:"FNABS\t"
 	// ppc64le:"FNABS\t"
 	sink64[1] = -math.Abs(y)
@@ -75,13 +75,13 @@ func abs32(x float32) float32 {
 // Check that it's using integer registers
 func copysign(a, b, c float64) {
 	// amd64:"BTRQ\t[$]63","SHRQ\t[$]63","SHLQ\t[$]63","ORQ"
-	// s390x:"CPSDR",-"MOVD"         (no integer load/store)
+	// s390x:"CPSDR"
 	// ppc64:"FCPSGN"
 	// ppc64le:"FCPSGN"
 	sink64[0] = math.Copysign(a, b)
 
 	// amd64:"BTSQ\t[$]63"
-	// s390x:"LNDFR\t",-"MOVD\t"     (no integer load/store)
+	// s390x:"LNDFR\t"
 	// ppc64:"FCPSGN"
 	// ppc64le:"FCPSGN"
 	// arm64:"ORR", -"AND"
@@ -89,11 +89,11 @@ func copysign(a, b, c float64) {
 
 	// Like math.Copysign(c, -1), but with integer operations. Useful
 	// for platforms that have a copysign opcode to see if it's detected.
-	// s390x:"LNDFR\t",-"MOVD\t"     (no integer load/store)
+	// s390x:"LNDFR\t"
 	sink64[2] = math.Float64frombits(math.Float64bits(a) | 1<<63)
 
 	// amd64:-"SHLQ\t[$]1",-"SHRQ\t[$]1","SHRQ\t[$]63","SHLQ\t[$]63","ORQ"
-	// s390x:"CPSDR\t",-"MOVD\t"     (no integer load/store)
+	// s390x:"CPSDR\t"
 	// ppc64:"FCPSGN"
 	// ppc64le:"FCPSGN"
 	sink64[3] = math.Copysign(-1, c)
