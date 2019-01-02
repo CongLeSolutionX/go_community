@@ -123,6 +123,10 @@ func (b *Reader) readErr() error {
 // being valid at the next read call. If Peek returns fewer than n bytes, it
 // also returns an error explaining why the read is short. The error is
 // ErrBufferFull if n is larger than b's buffer size.
+//
+// Calling Peek causes any future UnreadByte or UnreadRune calls to
+// return errors until a suitable read method is called. See the
+// UnreadByte and UnreadRune documentation.
 func (b *Reader) Peek(n int) ([]byte, error) {
 	if n < 0 {
 		return nil, ErrNegativeCount
@@ -252,6 +256,11 @@ func (b *Reader) ReadByte() (byte, error) {
 }
 
 // UnreadByte unreads the last byte. Only the most recently read byte can be unread.
+//
+// UnreadByte returns an error if the most recent method called on
+// the Reader was not a read operation (Read, ReadByte, ReadRune,
+// ReadSlice) that yielded one or more bytes. Notably, Peek is not
+// considered a read operation.
 func (b *Reader) UnreadByte() error {
 	if b.lastByte < 0 || b.r == 0 && b.w > 0 {
 		return ErrInvalidUnreadByte
