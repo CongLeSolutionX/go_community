@@ -16,6 +16,24 @@
       "revId": "fad2634091f955b074600e54693cf06a535e0a2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64c25770_a40b27c4",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-02T17:42:36Z",
+      "side": 1,
+      "message": "There\u0027s no concurrent access to any of the fields in gcWork. There would be nothing for the atomic.Store here to synchronize with. The comparison in mgc.go happens with the world stopped, so it\u0027s not racing with anything.",
+      "parentUuid": "a3bc92e5_570d5ee1",
+      "revId": "fad2634091f955b074600e54693cf06a535e0a2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
