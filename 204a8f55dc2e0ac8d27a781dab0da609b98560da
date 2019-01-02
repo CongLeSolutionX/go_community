@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24781181_c46e5085",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-01-02T16:01:56Z",
+      "side": 0,
+      "message": "This was correct before. One way you say \"mtime\" is to say \"em time\", and \"em\" (the sound/spelling of the letter \u0027m\u0027) starts with a vowel sound.\n\nIt would also be fine (\u003d\u003d not worth changing) if it were written the other way (\"a mtime\") which I\u0027d assume the other imagined as \"a modification time\", but it\u0027s not worth changing either way.",
+      "range": {
+        "startLine": 272,
+        "startChar": 17,
+        "endLine": 272,
+        "endChar": 25
+      },
+      "revId": "204a8f55dc2e0ac8d27a781dab0da609b98560da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
