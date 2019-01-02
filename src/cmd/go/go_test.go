@@ -269,7 +269,7 @@ func isAlpineLinux() bool {
 	return err == nil && fi.Mode().IsRegular()
 }
 
-// The length of an mtime tick on this system. This is an estimate of
+// The length of a mtime tick on this system. This is an estimate of
 // how long we need to sleep to ensure that the mtime of two files is
 // different.
 // We used to try to be clever but that didn't always work (see golang.org/issue/12205).
