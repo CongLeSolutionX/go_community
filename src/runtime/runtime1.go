@@ -313,6 +313,7 @@ var debug struct {
 	scheddetail        int32
 	schedtrace         int32
 	tracebackancestors int32
+	madvdontneed       int32 // for Linux; issue 28466
 }
 
 var dbgvars = []dbgVar{
@@ -330,6 +331,7 @@ var dbgvars = []dbgVar{
 	{"scheddetail", &debug.scheddetail},
 	{"schedtrace", &debug.schedtrace},
 	{"tracebackancestors", &debug.tracebackancestors},
+	{"madvdontneed", &debug.madvdontneed},
 }
 
 func parsedebugvars() {
