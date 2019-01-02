@@ -572,6 +572,12 @@ for {
       <a href="/pkg/net/#UnixConn"><code>UnixConn</code></a> to a
       <a href="/pkg/net/#TCPConn"><code>TCPConn</code></a>.
     </p>
+
+    <p><!-- CL 146342, CL 146340, CL 146345, CL 146339, CL 146343, CL 146337, CL 146341, CL 146338 -->
+      <code>Conn.SetDeadline</code> is now much faster and now scales better with higher
+      numbers of CPUs.
+    </p>
+
 </dl><!-- net -->
 
 <dl id="net/http"><dt><a href="/pkg/net/http/">net/http</a></dt>
