@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d2498883_1c022b03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-01-03T23:10:47Z",
+      "side": 1,
+      "message": "The individual bitmaps within a stackmap are byte padded, but stackmaps are their own symbols and have alignment padding between them.\nIn the case of this benchmark there\u0027s only one bitmap in the stackmap.\nI\u0027m going to modify the test so that there\u0027s more than one bitmap, so we don\u0027t need so many args.",
+      "parentUuid": "7e46f951_8db02977",
+      "revId": "37d9b26bebb2026fea05093a73a5fe2299963704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "afa7425f_d2658042",
         "filename": "test/fixedbugs/issue29362b.go",
         "patchSetId": 1
