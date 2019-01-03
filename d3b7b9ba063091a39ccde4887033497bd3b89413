@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f30c597_c92d8ff3",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-01-03T04:19:20Z",
+      "side": 1,
+      "message": "Is the double \"now\" intentional? Maybe remove one of them if not.",
+      "range": {
+        "startLine": 577,
+        "startChar": 39,
+        "endLine": 577,
+        "endChar": 62
+      },
+      "revId": "d3b7b9ba063091a39ccde4887033497bd3b89413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
