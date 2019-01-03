@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6cb9f12_0cd624bc",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-01-03T04:13:15Z",
+      "side": 1,
+      "message": "I find it hard to tell from this sentence whether it precludes _all_ future use of UnreadByte/UnreadRune, or only some. Do you know which is it?",
+      "revId": "39d077299d561c33ccf97b7f439e2fc0b8824a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eab1e6c7_a6f25758",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-01-03T04:13:15Z",
+      "side": 1,
+      "message": "Does it return an error only when called immediately after a call to Peek, or every time after Peek has been called just once?",
+      "revId": "39d077299d561c33ccf97b7f439e2fc0b8824a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
