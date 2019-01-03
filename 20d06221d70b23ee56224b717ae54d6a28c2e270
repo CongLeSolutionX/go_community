@@ -16,6 +16,24 @@
       "revId": "20d06221d70b23ee56224b717ae54d6a28c2e270",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bbb0c93_d6897e97",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-01-03T02:12:28Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "4f9aefaa_5e89d354",
+      "revId": "20d06221d70b23ee56224b717ae54d6a28c2e270",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
