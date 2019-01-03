@@ -22,6 +22,29 @@
       "revId": "d3b7b9ba063091a39ccde4887033497bd3b89413",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d24f2062_ab5c0815",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-03T05:12:05Z",
+      "side": 1,
+      "message": "Dmitry\u0027s changes were more about the timer code in general; there was little specific to SetDeadline.  This would be better in the pkg/runtime section and say something like \"timer and deadline code is faster and scales better with higher numbers of CPUs.\"",
+      "range": {
+        "startLine": 577,
+        "startChar": 13,
+        "endLine": 577,
+        "endChar": 28
+      },
+      "revId": "d3b7b9ba063091a39ccde4887033497bd3b89413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
