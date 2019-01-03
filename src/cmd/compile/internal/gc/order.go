@@ -209,7 +209,8 @@ func (o *Order) addrTemp(n *Node) *Node {
 		vstat := staticname(n.Type)
 		vstat.Name.SetReadonly(true)
 		var out []*Node
-		staticassign(vstat, n, &out)
+		var defnset NodeSet
+		staticassign(vstat, n, &out, &defnset)
 		if out != nil {
 			Fatalf("staticassign of const generated code: %+v", n)
 		}

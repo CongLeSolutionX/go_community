@@ -34,20 +34,20 @@ var (
 
 // init1 walks the AST starting at n, and accumulates in out
 // the list of definitions needing init code in dependency order.
-func init1(n *Node, out *[]*Node) {
+func init1(n *Node, out *[]*Node, prev *Node, defnset *NodeSet, deps *Deps) {
 	if n == nil {
 		return
 	}
-	init1(n.Left, out)
-	init1(n.Right, out)
+	init1(n.Left, out, prev, defnset, deps)
+	init1(n.Right, out, prev, defnset, deps)
 	for _, n1 := range n.List.Slice() {
-		init1(n1, out)
+		init1(n1, out, prev, defnset, deps)
 	}
 
 	if n.isMethodExpression() {
 		// Methods called as Type.Method(receiver, ...).
 		// Definitions for method expressions are stored in type->nname.
-		init1(asNode(n.Type.FuncType().Nname), out)
+		init1(asNode(n.Type.FuncType().Nname), out, prev, defnset, deps)
 	}
 
 	if n.Op != ONAME {
@@ -62,6 +62,14 @@ func init1(n *Node, out *[]*Node) {
 			break
 		}
 		return
+	}
+
+	// This node is a top-level assignment. Track dependencies. Do this here
+	// because we want to track deps even for things that are already in `out`
+	// so that we can traverse the full dependency graph back up in initfix.
+	if defn := n.Name.Defn; defn != nil {
+		deps.add(prev, n)
+		prev = n
 	}
 
 	if n.Initorder() == InitDone {
@@ -108,7 +116,7 @@ func init1(n *Node, out *[]*Node) {
 			Fatalf("init1: bad defn")
 
 		case ODCLFUNC:
-			init2list(defn.Nbody, out)
+			init2list(defn.Nbody, out, prev, defnset, deps)
 
 		case OAS:
 			if defn.Left != n {
@@ -122,15 +130,16 @@ func init1(n *Node, out *[]*Node) {
 				break
 			}
 
-			init2(defn.Right, out)
+			init2(defn.Right, out, prev, defnset, deps)
 			if Debug['j'] != 0 {
 				fmt.Printf("%v\n", n.Sym)
 			}
-			if n.isBlank() || !staticinit(n, out) {
+			if n.isBlank() || !staticinit(n, out, defnset) {
 				if Debug['%'] != 0 {
 					Dump("nonstatic", defn)
 				}
 				*out = append(*out, defn)
+				defnset.add(defn)
 			}
 
 		case OAS2FUNC, OAS2MAPR, OAS2DOTTYPE, OAS2RECV:
@@ -139,12 +148,13 @@ func init1(n *Node, out *[]*Node) {
 			}
 			defn.SetInitorder(InitPending)
 			for _, n2 := range defn.Rlist.Slice() {
-				init1(n2, out)
+				init1(n2, out, prev, defnset, deps)
 			}
 			if Debug['%'] != 0 {
 				Dump("nonstatic", defn)
 			}
 			*out = append(*out, defn)
+			defnset.add(defn)
 			defn.SetInitorder(InitDone)
 		}
 	}
@@ -196,7 +206,7 @@ func foundinitloop(node, visited *Node) {
 }
 
 // recurse over n, doing init1 everywhere.
-func init2(n *Node, out *[]*Node) {
+func init2(n *Node, out *[]*Node, prev *Node, defnset *NodeSet, deps *Deps) {
 	if n == nil || n.Initorder() == InitDone {
 		return
 	}
@@ -205,39 +215,179 @@ func init2(n *Node, out *[]*Node) {
 		Fatalf("name %v with ninit: %+v\n", n.Sym, n)
 	}
 
-	init1(n, out)
-	init2(n.Left, out)
-	init2(n.Right, out)
-	init2list(n.Ninit, out)
-	init2list(n.List, out)
-	init2list(n.Rlist, out)
-	init2list(n.Nbody, out)
+	init1(n, out, prev, defnset, deps)
+	init2(n.Left, out, prev, defnset, deps)
+	init2(n.Right, out, prev, defnset, deps)
+	init2list(n.Ninit, out, prev, defnset, deps)
+	init2list(n.List, out, prev, defnset, deps)
+	init2list(n.Rlist, out, prev, defnset, deps)
+	init2list(n.Nbody, out, prev, defnset, deps)
 
 	switch n.Op {
 	case OCLOSURE:
-		init2list(n.Func.Closure.Nbody, out)
+		init2list(n.Func.Closure.Nbody, out, prev, defnset, deps)
 	case ODOTMETH, OCALLPART:
-		init2(asNode(n.Type.FuncType().Nname), out)
+		init2(asNode(n.Type.FuncType().Nname), out, prev, defnset, deps)
 	}
 }
 
-func init2list(l Nodes, out *[]*Node) {
+func init2list(l Nodes, out *[]*Node, prev *Node, defnset *NodeSet, deps *Deps) {
 	for _, n := range l.Slice() {
-		init2(n, out)
+		init2(n, out, prev, defnset, deps)
 	}
 }
 
-func initreorder(l []*Node, out *[]*Node) {
+func initreorder(l []*Node, out *[]*Node, sorted *[]*Node, defnset *NodeSet, deps *Deps) {
 	for _, n := range l {
 		switch n.Op {
 		case ODCLFUNC, ODCLCONST, ODCLTYPE:
 			continue
 		}
-
-		initreorder(n.Ninit.Slice(), out)
+		*sorted = append(*sorted, n)
+		initreorder(n.Ninit.Slice(), out, sorted, defnset, deps)
 		n.Ninit.Set(nil)
-		init1(n, out)
+		init1(n, out, nil, defnset, deps)
 	}
+}
+
+// NodeSet represents a set of Nodes.
+type NodeSet struct {
+	nodes map[*Node]struct{}
+}
+
+func (ns *NodeSet) add(defn *Node) {
+	if ns.nodes == nil {
+		ns.nodes = make(map[*Node]struct{})
+	}
+	ns.nodes[defn] = struct{}{}
+}
+
+func (ns *NodeSet) remove(defn *Node) {
+	delete(ns.nodes, defn)
+}
+
+func (ns *NodeSet) has(defn *Node) bool {
+	_, yes := ns.nodes[defn]
+	return yes
+}
+
+// Deps represents the dependency graph of Nodes in a Go program.
+type Deps struct {
+	fwd map[*Node]map[*Node]struct{}
+	bck map[*Node]map[*Node]struct{}
+}
+
+func (d *Deps) add(a, b *Node) {
+	// Add a and b to deps, with b as a dependency of a.
+	if d.fwd[a] == nil {
+		d.fwd[a] = make(map[*Node]struct{})
+	}
+	if d.bck[b] == nil {
+		d.bck[b] = make(map[*Node]struct{})
+	}
+	d.fwd[a][b] = struct{}{}
+	d.bck[b][a] = struct{}{}
+
+	// Also add `b` to `fwd`, because if `b` doesn't itself have any
+	// dependencies, then we we'll never see it again, this is our only chance,
+	// and we want to *know* that it has no deps so that we can begin with it
+	// when building `lout` in `initfix`.
+	if d.fwd[b] == nil {
+		d.fwd[b] = make(map[*Node]struct{})
+	}
+}
+
+func (d *Deps) _remove(b *Node, defnset *NodeSet) {
+	for a, _ := range d.bck[b] {
+		if a == nil {
+			continue
+		}
+		delete(d.fwd[a], b)
+		delete(d.bck[b], a)
+
+		if len(d.bck[b]) == 0 {
+			delete(d.bck, b)
+		}
+		if isleaf := len(d.fwd[a]) == 0; isleaf {
+			if isnecessary := defnset.has(a.Name.Defn); !isnecessary {
+				// TODO DRY up with similar logic in prune
+				d._remove(a, defnset)
+			}
+		}
+	}
+}
+
+func (d *Deps) remove(defn *Node, defnset *NodeSet) {
+	// Remove defn from deps.
+	switch defn.Op {
+	case OAS:
+		d._remove(defn.Left, defnset)
+	case OAS2, OAS2FUNC, OAS2RECV, OAS2MAPR, OAS2DOTTYPE:
+		for _, n2 := range *defn.List.slice {
+			d._remove(n2, defnset)
+		}
+	}
+}
+
+func (d *Deps) decycle(a *Node, seen *NodeSet, depth int) {
+	// Break cycles.
+	if depth >= 128 {
+		return
+	}
+	for b, _ := range d.fwd[a] {
+		if seen.has(b) {
+			delete(d.fwd[a], b)
+			delete(d.bck[b], a)
+		} else {
+			seen.add(b)
+			d.decycle(b, seen, depth+1)
+			seen.remove(b)
+		}
+	}
+}
+
+func (d *Deps) prune(defnset *NodeSet) {
+	// Remove all obviously unnecessary leaf nodes.
+	for n, _ := range d.fwd {
+		if isleaf := len(d.fwd[n]) == 0; isleaf {
+			if isnecessary := defnset.has(n.Name.Defn); !isnecessary {
+				// TODO DRY up with similar logic in _remove
+				d._remove(n, defnset)
+			}
+		}
+	}
+}
+
+func (d *Deps) ready(defn *Node) bool {
+	// Is defn ready to be initialized? If there are still unsatisfied
+	// dependencies, then it is not ready.
+
+	_ready := func(n *Node) bool {
+		unsatisfied, maybe := d.fwd[n]
+		if maybe {
+			return len(unsatisfied) == 0
+		}
+		return true
+	}
+
+	switch defn.Op {
+	case OAS:
+		return _ready(defn.Left)
+	case OAS2, OAS2FUNC, OAS2RECV, OAS2MAPR, OAS2DOTTYPE:
+		for _, n2 := range *defn.List.slice {
+			if !_ready(n2) {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func remove(s []*Node, i int) []*Node {
+	j := len(s) - 1
+	s[i] = s[j]
+	s[j] = nil
+	return s[:j]
 }
 
 // initfix computes initialization order for a list l of top-level
@@ -245,17 +395,61 @@ func initreorder(l []*Node, out *[]*Node) {
 // to include in the init() function body.
 func initfix(l []*Node) []*Node {
 	var lout []*Node
+	var sorted []*Node
+	var defnset = NodeSet{}
+	var deps = Deps{
+		fwd: make(map[*Node]map[*Node]struct{}),
+		bck: make(map[*Node]map[*Node]struct{}),
+	}
+
 	initplans = make(map[*Node]*InitPlan)
 	lno := lineno
-	initreorder(l, &lout)
+	initreorder(l, &lout, &sorted, &defnset, &deps)
 	lineno = lno
 	initplans = nil
-	return lout
+
+	deps.decycle(nil, &NodeSet{}, 0)
+	deps.prune(&defnset)
+
+	var out []*Node
+
+	// front-load static assignments
+	for _, defn := range lout {
+		if defnset.has(defn) {
+			continue // defnset only tracks non-static assignments
+		}
+		out = append(out, defn)
+	}
+
+	// now append dynamic assignments
+	seatbelt := 0
+	for len(defnset.nodes) > 0 {
+		if seatbelt == 2^32 {
+			panic("probable infinite loop detected")
+		}
+		seatbelt += 1
+
+		for i := 0; i < len(sorted); i += 1 {
+			defn := sorted[i] // can't use range because we're going to mutate sorted
+			if want := defnset.has(defn); want {
+				if !deps.ready(defn) {
+					continue
+				}
+				out = append(out, defn)
+				deps.remove(defn, &defnset)
+				defnset.remove(defn)
+			}
+			sorted = remove(sorted, i)
+			i -= 1
+		}
+	}
+
+	return out
 }
 
 // compilation of top-level (static) assignments
 // into DATA statements if at all possible.
-func staticinit(n *Node, out *[]*Node) bool {
+func staticinit(n *Node, out *[]*Node, defnset *NodeSet) bool {
 	if n.Op != ONAME || n.Class() != PEXTERN || n.Name.Defn == nil || n.Name.Defn.Op != OAS {
 		Fatalf("staticinit")
 	}
@@ -263,12 +457,12 @@ func staticinit(n *Node, out *[]*Node) bool {
 	lineno = n.Pos
 	l := n.Name.Defn.Left
 	r := n.Name.Defn.Right
-	return staticassign(l, r, out)
+	return staticassign(l, r, out, defnset)
 }
 
 // like staticassign but we are copying an already
 // initialized value r.
-func staticcopy(l *Node, r *Node, out *[]*Node) bool {
+func staticcopy(l *Node, r *Node, out *[]*Node, defnset *NodeSet) bool {
 	if r.Op != ONAME {
 		return false
 	}
@@ -294,7 +488,7 @@ func staticcopy(l *Node, r *Node, out *[]*Node) bool {
 
 	switch r.Op {
 	case ONAME:
-		if staticcopy(l, r, out) {
+		if staticcopy(l, r, out, defnset) {
 			return true
 		}
 		// We may have skipped past one or more OCONVNOPs, so
@@ -350,7 +544,7 @@ func staticcopy(l *Node, r *Node, out *[]*Node) bool {
 				continue
 			}
 			ll := n.sepcopy()
-			if staticcopy(ll, e.Expr, out) {
+			if staticcopy(ll, e.Expr, out, defnset) {
 				continue
 			}
 			// Requires computation, but we're
@@ -368,14 +562,14 @@ func staticcopy(l *Node, r *Node, out *[]*Node) bool {
 	return false
 }
 
-func staticassign(l *Node, r *Node, out *[]*Node) bool {
+func staticassign(l *Node, r *Node, out *[]*Node, defnset *NodeSet) bool {
 	for r.Op == OCONVNOP {
 		r = r.Left
 	}
 
 	switch r.Op {
 	case ONAME:
-		return staticcopy(l, r, out)
+		return staticcopy(l, r, out, defnset)
 
 	case OLITERAL:
 		if isZero(r) {
@@ -404,7 +598,7 @@ func staticassign(l *Node, r *Node, out *[]*Node) bool {
 			gdata(l, nod(OADDR, a, nil), int(l.Type.Width))
 
 			// Init underlying literal.
-			if !staticassign(a, r.Left, out) {
+			if !staticassign(a, r.Left, out, defnset) {
 				*out = append(*out, nod(OAS, a, r.Left))
 			}
 			return true
@@ -452,7 +646,7 @@ func staticassign(l *Node, r *Node, out *[]*Node) bool {
 			}
 			setlineno(e.Expr)
 			a := n.sepcopy()
-			if !staticassign(a, e.Expr, out) {
+			if !staticassign(a, e.Expr, out, defnset) {
 				*out = append(*out, nod(OAS, a, e.Expr))
 			}
 		}
@@ -516,14 +710,14 @@ func staticassign(l *Node, r *Node, out *[]*Node) bool {
 			n.Type = val.Type
 			setlineno(val)
 			a := n.sepcopy()
-			if !staticassign(a, val, out) {
+			if !staticassign(a, val, out, defnset) {
 				*out = append(*out, nod(OAS, a, val))
 			}
 		} else {
 			// Construct temp to hold val, write pointer to temp into n.
 			a := staticname(val.Type)
 			inittemps[val] = a
-			if !staticassign(a, val, out) {
+			if !staticassign(a, val, out, defnset) {
 				*out = append(*out, nod(OAS, a, val))
 			}
 			ptr := nod(OADDR, a, nil)

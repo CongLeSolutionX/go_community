@@ -726,12 +726,14 @@ var unaryDst = map[obj.As]bool{
 	AVZERO: true,
 }
 
-var Links390x = obj.LinkArch{
-	Arch:           sys.ArchS390X,
-	Init:           buildop,
-	Preprocess:     preprocess,
-	Assemble:       spanz,
-	Progedit:       progedit,
-	UnaryDst:       unaryDst,
-	DWARFRegisters: S390XDWARFRegisters,
+func MakeLinks390x() *obj.LinkArch {
+	return &obj.LinkArch{
+		Arch:           sys.ArchS390X,
+		Init:           buildop,
+		Preprocess:     preprocess,
+		Assemble:       spanz,
+		Progedit:       progedit,
+		UnaryDst:       unaryDst,
+		DWARFRegisters: S390XDWARFRegisters,
+	}
 }

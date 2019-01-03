@@ -11,9 +11,9 @@ import (
 )
 
 func Init(arch *gc.Arch) {
-	arch.LinkArch = &ppc64.Linkppc64
+	arch.LinkArch = ppc64.MakeLinkppc64()
 	if objabi.GOARCH == "ppc64le" {
-		arch.LinkArch = &ppc64.Linkppc64le
+		arch.LinkArch = ppc64.MakeLinkppc64le()
 	}
 	arch.REGSP = ppc64.REGSP
 	arch.MAXWIDTH = 1 << 60

@@ -12,9 +12,9 @@ import (
 )
 
 func Init(arch *gc.Arch) {
-	arch.LinkArch = &mips.Linkmips
+	arch.LinkArch = mips.MakeLinkmips()
 	if objabi.GOARCH == "mipsle" {
-		arch.LinkArch = &mips.Linkmipsle
+		arch.LinkArch = mips.MakeLinkmipsle()
 	}
 	arch.REGSP = mips.REGSP
 	arch.MAXWIDTH = (1 << 31) - 1

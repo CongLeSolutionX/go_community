@@ -1190,20 +1190,24 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 	return p
 }
 
-var Linkppc64 = obj.LinkArch{
-	Arch:           sys.ArchPPC64,
-	Init:           buildop,
-	Preprocess:     preprocess,
-	Assemble:       span9,
-	Progedit:       progedit,
-	DWARFRegisters: PPC64DWARFRegisters,
+func MakeLinkppc64() *obj.LinkArch {
+	return &obj.LinkArch{
+		Arch:           sys.ArchPPC64,
+		Init:           buildop,
+		Preprocess:     preprocess,
+		Assemble:       span9,
+		Progedit:       progedit,
+		DWARFRegisters: PPC64DWARFRegisters,
+	}
 }
 
-var Linkppc64le = obj.LinkArch{
-	Arch:           sys.ArchPPC64LE,
-	Init:           buildop,
-	Preprocess:     preprocess,
-	Assemble:       span9,
-	Progedit:       progedit,
-	DWARFRegisters: PPC64DWARFRegisters,
+func MakeLinkppc64le() *obj.LinkArch {
+	return &obj.LinkArch{
+		Arch:           sys.ArchPPC64LE,
+		Init:           buildop,
+		Preprocess:     preprocess,
+		Assemble:       span9,
+		Progedit:       progedit,
+		DWARFRegisters: PPC64DWARFRegisters,
+	}
 }

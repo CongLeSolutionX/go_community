@@ -52,42 +52,42 @@ func nilRegisterNumber(name string, n int16) (int16, bool) {
 func Set(GOARCH string) *Arch {
 	switch GOARCH {
 	case "386":
-		return archX86(&x86.Link386)
+		return archX86(x86.MakeLink386())
 	case "amd64":
-		return archX86(&x86.Linkamd64)
+		return archX86(x86.MakeLinkamd64())
 	case "amd64p32":
-		return archX86(&x86.Linkamd64p32)
+		return archX86(x86.MakeLinkamd64p32())
 	case "arm":
 		return archArm()
 	case "arm64":
 		return archArm64()
 	case "mips":
 		a := archMips()
-		a.LinkArch = &mips.Linkmips
+		a.LinkArch = mips.MakeLinkmips()
 		return a
 	case "mipsle":
 		a := archMips()
-		a.LinkArch = &mips.Linkmipsle
+		a.LinkArch = mips.MakeLinkmipsle()
 		return a
 	case "mips64":
 		a := archMips64()
-		a.LinkArch = &mips.Linkmips64
+		a.LinkArch = mips.MakeLinkmips64()
 		return a
 	case "mips64le":
 		a := archMips64()
-		a.LinkArch = &mips.Linkmips64le
+		a.LinkArch = mips.MakeLinkmips64le()
 		return a
 	case "ppc64":
 		a := archPPC64()
-		a.LinkArch = &ppc64.Linkppc64
+		a.LinkArch = ppc64.MakeLinkppc64()
 		return a
 	case "ppc64le":
 		a := archPPC64()
-		a.LinkArch = &ppc64.Linkppc64le
+		a.LinkArch = ppc64.MakeLinkppc64le()
 		return a
 	case "s390x":
 		a := archS390x()
-		a.LinkArch = &s390x.Links390x
+		a.LinkArch = s390x.MakeLinks390x()
 		return a
 	case "wasm":
 		return archWasm()
@@ -414,7 +414,7 @@ func archPPC64() *Arch {
 	instructions["BL"] = ppc64.ABL
 
 	return &Arch{
-		LinkArch:       &ppc64.Linkppc64,
+		LinkArch:       ppc64.MakeLinkppc64(),
 		Instructions:   instructions,
 		Register:       register,
 		RegisterPrefix: registerPrefix,
@@ -470,7 +470,7 @@ func archMips() *Arch {
 	instructions["JAL"] = mips.AJAL
 
 	return &Arch{
-		LinkArch:       &mips.Linkmipsle,
+		LinkArch:       mips.MakeLinkmipsle(),
 		Instructions:   instructions,
 		Register:       register,
 		RegisterPrefix: registerPrefix,
@@ -527,7 +527,7 @@ func archMips64() *Arch {
 	instructions["JAL"] = mips.AJAL
 
 	return &Arch{
-		LinkArch:       &mips.Linkmips64,
+		LinkArch:       mips.MakeLinkmips64(),
 		Instructions:   instructions,
 		Register:       register,
 		RegisterPrefix: registerPrefix,
@@ -580,7 +580,7 @@ func archS390x() *Arch {
 	instructions["BL"] = s390x.ABL
 
 	return &Arch{
-		LinkArch:       &s390x.Links390x,
+		LinkArch:       s390x.MakeLinks390x(),
 		Instructions:   instructions,
 		Register:       register,
 		RegisterPrefix: registerPrefix,

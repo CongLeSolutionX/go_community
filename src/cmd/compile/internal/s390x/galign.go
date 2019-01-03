@@ -10,7 +10,7 @@ import (
 )
 
 func Init(arch *gc.Arch) {
-	arch.LinkArch = &s390x.Links390x
+	arch.LinkArch = s390x.MakeLinks390x()
 	arch.REGSP = s390x.REGSP
 	arch.MAXWIDTH = 1 << 50
 

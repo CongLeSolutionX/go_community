@@ -13,7 +13,7 @@ import (
 )
 
 func Init(arch *gc.Arch) {
-	arch.LinkArch = &x86.Link386
+	arch.LinkArch = x86.MakeLink386()
 	arch.REGSP = x86.REGSP
 	switch v := objabi.GO386; v {
 	case "387":

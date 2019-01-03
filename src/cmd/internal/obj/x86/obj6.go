@@ -1273,32 +1273,38 @@ var unaryDst = map[obj.As]bool{
 	AXSAVES:     true,
 }
 
-var Linkamd64 = obj.LinkArch{
-	Arch:           sys.ArchAMD64,
-	Init:           instinit,
-	Preprocess:     preprocess,
-	Assemble:       span6,
-	Progedit:       progedit,
-	UnaryDst:       unaryDst,
-	DWARFRegisters: AMD64DWARFRegisters,
+func MakeLinkamd64() *obj.LinkArch {
+	return &obj.LinkArch{
+		Arch:           sys.ArchAMD64,
+		Init:           instinit,
+		Preprocess:     preprocess,
+		Assemble:       span6,
+		Progedit:       progedit,
+		UnaryDst:       unaryDst,
+		DWARFRegisters: AMD64DWARFRegisters,
+	}
 }
 
-var Linkamd64p32 = obj.LinkArch{
-	Arch:           sys.ArchAMD64P32,
-	Init:           instinit,
-	Preprocess:     preprocess,
-	Assemble:       span6,
-	Progedit:       progedit,
-	UnaryDst:       unaryDst,
-	DWARFRegisters: AMD64DWARFRegisters,
+func MakeLinkamd64p32() *obj.LinkArch {
+	return &obj.LinkArch{
+		Arch:           sys.ArchAMD64P32,
+		Init:           instinit,
+		Preprocess:     preprocess,
+		Assemble:       span6,
+		Progedit:       progedit,
+		UnaryDst:       unaryDst,
+		DWARFRegisters: AMD64DWARFRegisters,
+	}
 }
 
-var Link386 = obj.LinkArch{
-	Arch:           sys.Arch386,
-	Init:           instinit,
-	Preprocess:     preprocess,
-	Assemble:       span6,
-	Progedit:       progedit,
-	UnaryDst:       unaryDst,
-	DWARFRegisters: X86DWARFRegisters,
+func MakeLink386() *obj.LinkArch {
+	return &obj.LinkArch{
+		Arch:           sys.Arch386,
+		Init:           instinit,
+		Preprocess:     preprocess,
+		Assemble:       span6,
+		Progedit:       progedit,
+		UnaryDst:       unaryDst,
+		DWARFRegisters: X86DWARFRegisters,
+	}
 }
