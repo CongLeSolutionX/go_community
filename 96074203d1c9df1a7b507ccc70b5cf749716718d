@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2879fb48_a8c8e792",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-01-04T18:05:46Z",
+      "side": 1,
+      "message": "Technically the OAS and temp nodes in cas0 have not been walked. It\u0027s only the conds that have been walked. Presumably the OAS and temp don\u0027t need walking?",
+      "revId": "96074203d1c9df1a7b507ccc70b5cf749716718d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
