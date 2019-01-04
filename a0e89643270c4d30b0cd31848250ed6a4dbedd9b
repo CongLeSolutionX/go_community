@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "598caa8f_25dea5da",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-01-04T19:01:12Z",
+      "side": 1,
+      "message": "Actually I think my example is bogus.\n\nBut it does seem like the behavior at EOF and multiple Read calls returning zero bytes is inconsistent with what they do the lastByte value. I\u0027ll play more later.",
+      "parentUuid": "34ad7dba_74dce395",
+      "range": {
+        "startLine": 262,
+        "startChar": 14,
+        "endLine": 262,
+        "endChar": 44
+      },
+      "revId": "a0e89643270c4d30b0cd31848250ed6a4dbedd9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bea0a263_6401d6d1",
         "filename": "src/bufio/bufio.go",
         "patchSetId": 2
