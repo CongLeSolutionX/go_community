@@ -294,6 +294,7 @@ func (s *exprSwitch) walk(sw *Node) {
 	}
 
 	// convert the switch into OIF statements
+	var cas0 []*Node
 	var cas []*Node
 	if s.kind == switchKindTrue || s.kind == switchKindFalse {
 		s.exprname = nodbool(s.kind == switchKindTrue)
@@ -302,7 +303,7 @@ func (s *exprSwitch) walk(sw *Node) {
 		s.exprname = cond
 	} else {
 		s.exprname = temp(cond.Type)
-		cas = []*Node{nod(OAS, s.exprname, cond)}
+		cas0 = []*Node{nod(OAS, s.exprname, cond)}
 		typecheckslice(cas, ctxStmt)
 	}
 
@@ -332,6 +333,8 @@ func (s *exprSwitch) walk(sw *Node) {
 		cas = append(cas, clauses.defjmp)
 		sw.Nbody.Prepend(cas...)
 		walkstmtlist(sw.Nbody.Slice())
+		sw.Nbody.Prepend(cas0...) // cas0, if not empty, has already been walked.
+
 	}
 }
 
