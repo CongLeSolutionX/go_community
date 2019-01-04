@@ -16,6 +16,24 @@
       "revId": "96074203d1c9df1a7b507ccc70b5cf749716718d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d375f7f_1abb5f0a",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-01-04T18:55:13Z",
+      "side": 1,
+      "message": "Ugh. I am not happy with that, though it seems to be okay (so far).",
+      "parentUuid": "2879fb48_a8c8e792",
+      "revId": "96074203d1c9df1a7b507ccc70b5cf749716718d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
