@@ -1102,19 +1102,20 @@ HaveSpan:
 // h must be locked.
 func (h *mheap) grow(npage uintptr) bool {
 	ask := npage << _PageShift
+
+	// Scavenge some pages out of the free treap to make up for
+	// the virtual memory space we are about to allocate. We prefer to
+	// scavenge the largest spans first since the cost of scavenging
+	// is proportional to the number of sysUnused() calls rather than
+	// the number of pages released, so we make fewer of those calls
+	// with larger spans.
+	h.scavengeLargest(round(ask, heapArenaBytes))
+
 	v, size := h.sysAlloc(ask)
 	if v == nil {
 		print("runtime: out of memory: cannot allocate ", ask, "-byte block (", memstats.heap_sys, " in use)\n")
 		return false
 	}
-
-	// Scavenge some pages out of the free treap to make up for
-	// the virtual memory space we just allocated. We prefer to
-	// scavenge the largest spans first since the cost of scavenging
-	// is proportional to the number of sysUnused() calls rather than
-	// the number of pages released, so we make fewer of those calls
-	// with larger spans.
-	h.scavengeLargest(size)
 
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
