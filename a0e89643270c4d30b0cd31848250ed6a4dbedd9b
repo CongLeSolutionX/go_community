@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f3de548f_b660bff7",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-01-04T18:18:26Z",
+      "side": 1,
+      "message": "I think this case needs a:\n\n   b.lastByte \u003d -1\n   b.lastRuneSize \u003d -1\n\nAnd the exit path on line 218.\n\nOr maybe just unconditional and then remove the lastRuneSize assignments below and let lastByte be initialized properly in the happy paths.",
+      "range": {
+        "startLine": 200,
+        "startChar": 1,
+        "endLine": 201,
+        "endChar": 23
+      },
+      "revId": "a0e89643270c4d30b0cd31848250ed6a4dbedd9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e1cc4c6_57d5b276",
         "filename": "src/bufio/bufio.go",
         "patchSetId": 2
@@ -13,6 +36,30 @@
       "writtenOn": "2019-01-04T17:53:31Z",
       "side": 1,
       "message": "This suggests UnreadByte after Read(make([]byte, 0)) will fail, but AFAICT it doesn\u0027t.",
+      "range": {
+        "startLine": 262,
+        "startChar": 14,
+        "endLine": 262,
+        "endChar": 44
+      },
+      "revId": "a0e89643270c4d30b0cd31848250ed6a4dbedd9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34ad7dba_74dce395",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-01-04T18:18:26Z",
+      "side": 1,
+      "message": "It does --- sometimes! This looks like a bug.\n\nhttps://play.golang.org/p/LpGfQYKfbVp\n\nSee comment above.\n\nI think we should keep the stronger wording for now since I think it\u0027s a bug that we sometimes allow it.\n\nThe main point is that people should check errors.\n\nAt least we mention the word \"error\" in the docs now, even if it was in the signature before.",
+      "parentUuid": "6e1cc4c6_57d5b276",
       "range": {
         "startLine": 262,
         "startChar": 14,
