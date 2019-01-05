@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7959677_b813b4ed",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-01-05T00:26:21Z",
+      "side": 1,
+      "message": "Derp: \"we we\u0027ll\"",
+      "revId": "95da678af80d4f207aa290c72eee562ffc88bc5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
