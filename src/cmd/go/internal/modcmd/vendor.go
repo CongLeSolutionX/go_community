@@ -62,6 +62,9 @@ func runVendor(cmd *base.Command, args []string) {
 		if pkgs := modpkgs[m]; len(pkgs) > 0 {
 			repl := ""
 			if r := modload.Replacement(m); r.Path != "" {
+				if strings.HasPrefix(r.Path, "./vendor") || strings.HasPrefix(r.Path, ".\vendor") {
+					base.Fatalf("go mod vendor: vendor directory should not be used in replacement")
+				}
 				repl = " => " + r.Path
 				if r.Version != "" {
 					repl += " " + r.Version

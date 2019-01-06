@@ -1,5 +1,12 @@
 env GO111MODULE=on
 
+# Replacement should not use a vendor directory as the target.
+go mod vendor
+! stderr 'vendor directory should not be used in replacement'
+
+cp go.mod1 go.mod
+rm -r vendor
+
 # Before vendoring, we expect to see the original directory.
 go list -f '{{.Version}} {{.Dir}}' -m rsc.io/quote/v3
 stdout 'v3.0.0'
@@ -24,6 +31,12 @@ stdout '.*[/\\]vendor[/\\]rsc.io[/\\]quote[/\\]v3'
 -- go.mod --
 module example.com/replace
 
+require example.com/r/replace v0.0.0
+replace example.com/r/replace => ./vendor/example.com/r/replace
+
+-- go.mod1 --
+module example.com/replace
+
 require rsc.io/quote/v3 v3.0.0
 replace rsc.io/quote/v3 => ./local/not-rsc.io/quote/v3
 
@@ -37,3 +50,9 @@ module not-rsc.io/quote/v3
 
 -- local/not-rsc.io/quote/v3/quote.go --
 package quote
+
+-- vendor/example.com/r/replace/go.mod --
+module example.com/r/replace
+
+-- vendor/example.com/r/replace/r.go --
+package r
