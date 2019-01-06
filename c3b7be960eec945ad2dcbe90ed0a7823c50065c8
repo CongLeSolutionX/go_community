@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5884edc_c9484df8",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-01-06T13:26:44Z",
+      "side": 1,
+      "message": "I guess I should comment these if I\u0027m going to comment the methods of Deps. Also I never looked at this CL in godoc, I prolly could/should do that.",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12d2130e_0e001db3",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-01-06T13:26:44Z",
+      "side": 1,
+      "message": "Derp: \"defn _is_ ready\"",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aedc0d0e_01c48ded",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-01-06T13:26:44Z",
+      "side": 1,
+      "message": "Should probably inline this vs. a separate function.",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "841920c5_c2842f83",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-01-06T13:26:44Z",
+      "side": 1,
+      "message": "outset might be a clearer name?",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6777876_d5563190",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-01-06T13:26:44Z",
+      "side": 1,
+      "message": "I\u0027ve convinced TryBot (at least) that this strategy works, batching dynamic(?) and static assignments. *Why* does it work? That\u0027d be good to understand and perhaps state.",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
