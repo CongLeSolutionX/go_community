@@ -121,9 +121,9 @@ type Transport struct {
 	// Request. If the function returns a non-nil error, the
 	// request is aborted with the provided error.
 	//
-	// The proxy type is determined by the URL scheme. "http",
-	// "https", and "socks5" are supported. If the scheme is empty,
-	// "http" is assumed.
+	// The proxy type is determined by the URL scheme.
+	// "http", "https", "socks5" and "socks5h" are supported.
+	// If the scheme is empty, "http" is assumed.
 	//
 	// If Proxy is nil or returns a nil *URL, no proxy is used.
 	Proxy func(*Request) (*url.URL, error)
@@ -1276,7 +1276,7 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 	switch {
 	case cm.proxyURL == nil:
 		// Do nothing. Not using a proxy.
-	case cm.proxyURL.Scheme == "socks5":
+	case cm.proxyURL.Scheme == "socks5" || cm.proxyURL.Scheme == "socks5h":
 		conn := pconn.conn
 		d := socksNewDialer("tcp", conn.RemoteAddr().String())
 		if u := cm.proxyURL.User; u != nil {
@@ -2276,9 +2276,10 @@ func (pc *persistConn) closeLocked(err error) {
 }
 
 var portMap = map[string]string{
-	"http":   "80",
-	"https":  "443",
-	"socks5": "1080",
+	"http":    "80",
+	"https":   "443",
+	"socks5":  "1080",
+	"socks5h": "1080",
 }
 
 // canonicalAddr returns url.Host but always with a ":port" suffix
