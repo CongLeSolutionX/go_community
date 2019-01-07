@@ -89,6 +89,11 @@ var proxyForURLTests = []proxyForURLTest{{
 	},
 	want: "socks5://127.0.0.1",
 }, {
+	cfg: httpproxy.Config{
+		HTTPProxy: "socks5h://127.0.0.1",
+	},
+	want: "socks5h://127.0.0.1",
+}, {
 	// Don't use secure for http
 	cfg: httpproxy.Config{
 		HTTPProxy:  "http.proxy.tld",
