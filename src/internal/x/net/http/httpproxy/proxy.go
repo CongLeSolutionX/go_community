@@ -155,7 +155,8 @@ func parseProxy(proxy string) (*url.URL, error) {
 	if err != nil ||
 		(proxyURL.Scheme != "http" &&
 			proxyURL.Scheme != "https" &&
-			proxyURL.Scheme != "socks5") {
+			proxyURL.Scheme != "socks5" &&
+			proxyURL.Scheme != "socks5h") {
 		// proxy was bogus. Try prepending "http://" to it and
 		// see if that parses correctly. If not, we fall
 		// through and complain about the original one.
@@ -274,9 +275,8 @@ func (c *config) init() {
 }
 
 var portMap = map[string]string{
-	"http":   "80",
-	"https":  "443",
-	"socks5": "1080",
+	"http":  "80",
+	"https": "443",
 }
 
 // canonicalAddr returns url.Host but always with a ":port" suffix
