@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e7a71f3_a2df8705",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-08T22:45:49Z",
+      "side": 1,
+      "message": "I though it was blocking on the channel that allocated the sudog, not simply grabbing the channel\u0027s lock.",
+      "range": {
+        "startLine": 12,
+        "startChar": 38,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "14acb01a151a93be9c6027f51195ceb79ef211c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee75d3df_aac04b33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-08T22:45:49Z",
+      "side": 1,
+      "message": "\"..., which will acquire the channel lock.\"",
+      "revId": "14acb01a151a93be9c6027f51195ceb79ef211c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d056a8e_3c574a70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-08T22:45:49Z",
+      "side": 1,
+      "message": "Maybe say a little about how this CL fixes the problem.",
+      "revId": "14acb01a151a93be9c6027f51195ceb79ef211c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c4b38a8_2bd40112",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-08T22:45:49Z",
+      "side": 1,
+      "message": "\"If it returns true, the caller must call gcPolicyNotify() after releasing the heap lock.\" or something",
+      "revId": "14acb01a151a93be9c6027f51195ceb79ef211c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18f9baff_f04be6bd",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-08T22:45:49Z",
+      "side": 1,
+      "message": "Can we do this without the gcPressure.lock, just to reduce the number of locks in play? E.g., acquire gcPressure.lock, read gcPressure.notify into a local variable, release gcPressure.lock, then do the send?",
+      "revId": "14acb01a151a93be9c6027f51195ceb79ef211c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
