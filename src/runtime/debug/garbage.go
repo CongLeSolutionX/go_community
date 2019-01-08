@@ -265,28 +265,11 @@ func SetMaxHeap(bytes uintptr, notify chan<- struct{}) uintptr {
 	if notify == nil {
 		panic("SetMaxHeap requires a non-nil notify channel")
 	}
-	var prevGCP GCPolicy
-	ReadGCPolicy(&prevGCP)
-	return gcSetMaxHeap(bytes, func(gogc int, maxHeap uintptr, egogc int) {
-		// This function may run with runtime locks or during
-		// STW. Non-blocking channel sends are okay.
-		gcp := GCPolicy{gogc, maxHeap, egogc}
-		// The runtime calls this function on every
-		// gcSetTriggerRatio, which may not actually change
-		// the GCPolicy.
-		if gcp == prevGCP {
-			return
-		}
-		prevGCP = gcp
-		select {
-		case notify <- struct{}{}:
-		default:
-		}
-	})
+	return gcSetMaxHeap(bytes, notify)
 }
 
 // gcSetMaxHeap is provided by package runtime.
-func gcSetMaxHeap(bytes uintptr, cb func(gogc int, maxHeap uintptr, egogc int)) uintptr
+func gcSetMaxHeap(bytes uintptr, notify chan<- struct{}) uintptr
 
 // ReadGCPolicy reads the garbage collector's current policy for
 // managing the heap size. This includes static settings controlled by

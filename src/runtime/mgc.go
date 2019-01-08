@@ -235,8 +235,12 @@ func setGCPercent(in int32) (out int32) {
 		heapminimum = 0
 	}
 	// Update pacing in response to gcpercent change.
-	gcSetTriggerRatio(memstats.triggerRatio)
+	updated := gcSetTriggerRatio(memstats.triggerRatio)
 	unlock(&mheap_.lock)
+
+	if updated {
+		gcPolicyNotify()
+	}
 
 	// If we just disabled GC, wait for any concurrent GC to
 	// finish so we always return with no GC running.
@@ -258,35 +262,44 @@ func setGCPercent(in int32) (out int32) {
 	return out
 }
 
-var gcPressure struct{
+var gcPressure struct {
 	lock mutex
 
-	// change is called after every gcSetTriggerRatio.
-	// It's provided by package debug. It may be nil.
-	change func(gogc int, maxHeap uintptr, egogc int)
+	// notify is a notification channel for GC pressure changes
+	// with a notification sent after every gcSetTriggerRatio.
+	// It is provided by package debug. It may be nil.
+	notify chan<- struct{}
 
-	// maxHeap is the GC heap limit.
+	// Together gogc, maxHeap, and egogc represent the GC policy.
 	//
-	// This is set by the user with debug.SetMaxHeap. GC will
+	// gogc is GOGC, maxHeap is the GC heap limit, and egogc is the effective GOGC.
+	//
+	// These are set by the user with debug.SetMaxHeap. GC will
 	// attempt to keep heap_live under maxHeap, even if it has to
 	// violate GOGC (up to a point).
+	gogc    int
 	maxHeap uintptr
+	egogc   int
 }
 
 //go:linkname gcSetMaxHeap runtime/debug.gcSetMaxHeap
-func gcSetMaxHeap(bytes uintptr, cb func(gogc int, maxHeap uintptr, egogc int)) uintptr {
-	// Don't lock mheap because gcPressure.change has a write barrier on it
+func gcSetMaxHeap(bytes uintptr, notify chan<- struct{}) uintptr {
+	// Don't lock mheap because gcPressure.notify has a write barrier on it
 	// which could lead to deadlock.
 	lock(&gcPressure.lock)
-	gcPressure.change = cb
+	gcPressure.notify = notify
 	prev := gcPressure.maxHeap
 	gcPressure.maxHeap = bytes
 	unlock(&gcPressure.lock)
 
 	lock(&mheap_.lock)
 	// Updating pacing.
-	gcSetTriggerRatio(memstats.triggerRatio)
+	updated := gcSetTriggerRatio(memstats.triggerRatio)
 	unlock(&mheap_.lock)
+
+	if updated {
+		gcPolicyNotify()
+	}
 	return prev
 }
 
@@ -813,8 +826,12 @@ func pollFractionalWorkerExit() bool {
 // This depends on gcpercent, mheap_.maxHeap, memstats.heap_marked,
 // and memstats.heap_live. These must be up to date.
 //
+// Returns whether or not there was a change in the GC policy.
+// IF it returns true, the caller must call gcPolicyNotify() after
+// releasing the heap lock.
+//
 // mheap_.lock must be held or the world must be stopped.
-func gcSetTriggerRatio(triggerRatio float64) {
+func gcSetTriggerRatio(triggerRatio float64) (changed bool) {
 	// Since GOGC ratios are in terms of heap_marked, make sure it
 	// isn't 0. This shouldn't happen, but if it does we want to
 	// avoid infinities and divide-by-zeroes.
@@ -954,20 +971,44 @@ func gcSetTriggerRatio(triggerRatio float64) {
 		}
 	}
 
-	// Notify the debug package of a GC pressure change.
+	// Update the GC policy due to a GC pressure change.
 	lock(&gcPressure.lock)
-	if gcPressure.change != nil {
-		if raceenabled {
-			// This call is protected by gcPressure.lock, but
-			// the race detector can't see that.
-			raceacquire(unsafe.Pointer(&gcPressure.change))
-		}
-		gcPressure.change(gcReadPolicyLocked())
-		if raceenabled {
-			racerelease(unsafe.Pointer(&gcPressure.change))
-		}
+	gogc, maxHeap, egogc := gcReadPolicyLocked()
+	if gogc != gcPressure.gogc || maxHeap != gcPressure.maxHeap || egogc != gcPressure.egogc {
+		gcPressure.gogc, gcPressure.maxHeap, gcPressure.egogc = gogc, maxHeap, egogc
+		changed = true
 	}
 	unlock(&gcPressure.lock)
+	return
+}
+
+// Sends a non-blocking notification on gcPressure.notify.
+//
+// mheap_.lock and gcPressure.lock must not be held.
+func gcPolicyNotify() {
+	lock(&gcPressure.lock)
+	if gcPressure.notify == nil {
+		unlock(&gcPressure.lock)
+		return
+	}
+	if raceenabled {
+		// notify is protected by gcPressure.lock, but
+		// the race detector can't see that.
+		raceacquire(unsafe.Pointer(&gcPressure.notify))
+	}
+	// Just grab the channel first so that we're holding as
+	// few locks as possible when we actually make the channel send.
+	n := gcPressure.notify
+	if raceenabled {
+		racerelease(unsafe.Pointer(&gcPressure.notify))
+	}
+	unlock(&gcPressure.lock)
+
+	// Perform a non-blocking send on the channel.
+	select {
+	case n <- struct{}{}:
+	default:
+	}
 }
 
 //go:linkname gcReadPolicy runtime/debug.gcReadPolicy
@@ -1709,7 +1750,9 @@ func gcMarkTermination(nextTriggerRatio float64) {
 	}
 
 	// Update GC trigger and pacing for the next cycle.
-	gcSetTriggerRatio(nextTriggerRatio)
+	if gcSetTriggerRatio(nextTriggerRatio) {
+		gcPolicyNotify()
+	}
 
 	// Update timing memstats
 	now := nanotime()
