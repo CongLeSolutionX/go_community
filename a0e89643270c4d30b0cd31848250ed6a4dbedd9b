@@ -139,6 +139,30 @@
       "revId": "a0e89643270c4d30b0cd31848250ed6a4dbedd9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f157b192_2b573060",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-01-08T18:20:26Z",
+      "side": 1,
+      "message": "I agree we should make this change. Otherwise, the reader may think that a Peek is okay since it\u0027s not a read operation. Brad, did you see this comment?",
+      "parentUuid": "bea0a263_6401d6d1",
+      "range": {
+        "startLine": 302,
+        "startChar": 56,
+        "endLine": 302,
+        "endChar": 70
+      },
+      "revId": "a0e89643270c4d30b0cd31848250ed6a4dbedd9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
