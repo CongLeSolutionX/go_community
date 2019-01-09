@@ -10,11 +10,29 @@ const (
 	STACKSYSTEM = 0
 	StackSystem = STACKSYSTEM
 	StackBig    = 4096
-	StackGuard  = 880*stackGuardMultiplier + StackSystem
 	StackSmall  = 128
-	StackLimit  = StackGuard - StackSystem - StackSmall
 )
 
 const (
 	StackPreempt = -1314 // 0xfff...fade
 )
+
+var StackGuard int64
+var StackLimit int64
+
+func init() {
+	// Initialize StackGuard and StackLimit according to target system.
+	StackGuard = 880*stackGuardMultiplier() + StackSystem
+	StackLimit = StackGuard - StackSystem - StackSmall
+}
+
+// stackGuardMultiplier returns a multiplier to apply to the default
+// stack guard size. Larger multipliers are used for non-optimized
+// builds that have larger stack frames or for specific targets.
+func stackGuardMultiplier() int64 {
+	// On AIX, a larger stack is needed for syscalls
+	if GOOS == "aix" {
+		return 2
+	}
+	return stackGuardMultiplierHost
+}

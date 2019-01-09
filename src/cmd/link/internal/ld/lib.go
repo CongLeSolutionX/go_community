@@ -1914,7 +1914,7 @@ func (ctxt *Link) dostkcheck() {
 	// of non-splitting functions.
 	ch.up = nil
 
-	ch.limit = objabi.StackLimit - callsize(ctxt)
+	ch.limit = int(objabi.StackLimit) - callsize(ctxt)
 	if objabi.GOARCH == "arm64" {
 		// need extra 8 bytes below SP to save FP
 		ch.limit -= 8
@@ -1950,7 +1950,7 @@ func stkcheck(ctxt *Link, up *chain, depth int) int {
 
 	// Don't duplicate work: only need to consider each
 	// function at top of safe zone once.
-	top := limit == objabi.StackLimit-callsize(ctxt)
+	top := limit == int(objabi.StackLimit)-callsize(ctxt)
 	if top {
 		if s.Attr.StackCheck() {
 			return 0
@@ -2007,7 +2007,7 @@ func stkcheck(ctxt *Link, up *chain, depth int) int {
 		if s.FuncInfo != nil {
 			locals = s.FuncInfo.Locals
 		}
-		limit = int(objabi.StackLimit+locals) + int(ctxt.FixedFrameSize())
+		limit = int(objabi.StackLimit) + int(locals) + int(ctxt.FixedFrameSize())
 	}
 
 	// Walk through sp adjustments in function, consuming relocs.
