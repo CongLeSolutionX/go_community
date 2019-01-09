@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be28c61d_68f8cecb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-09T14:36:20Z",
+      "side": 1,
+      "message": "cmd/dist, cmd/link, runtime:",
+      "revId": "381f74166c407d1d035782efe8c4d00ca5594f77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19082a6e_fc1e5740",
+        "filename": "src/cmd/dist/buildruntime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-09T14:36:20Z",
+      "side": 1,
+      "message": "\"Host\" doesn\u0027t seem like the right term here. This function isn\u0027t trying to express a difference in stack-multiplier between the host and the target.  It\u0027s trying to say that if the runtime is built without optimization, then we need a larger stack multiplier.  I suggest stackGuardMultiplierDefault.",
+      "range": {
+        "startLine": 89,
+        "startChar": 5,
+        "endLine": 89,
+        "endChar": 29
+      },
+      "revId": "381f74166c407d1d035782efe8c4d00ca5594f77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7d35424_2e086346",
+        "filename": "src/cmd/internal/objabi/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-09T14:36:20Z",
+      "side": 1,
+      "message": "I think it\u0027s OK if these are type \"int\", they are never going to be large.",
+      "revId": "381f74166c407d1d035782efe8c4d00ca5594f77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34cadc9a_c3e9a69b",
+        "filename": "src/cmd/internal/objabi/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-09T14:36:20Z",
+      "side": 1,
+      "message": "I don\u0027t see a need for this init function, just initialize the variables directly.",
+      "revId": "381f74166c407d1d035782efe8c4d00ca5594f77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3b04ee1_5b8ae7ce",
+        "filename": "src/cmd/internal/objabi/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-09T14:36:20Z",
+      "side": 1,
+      "message": "Period at end of complete sentence.",
+      "range": {
+        "startLine": 33,
+        "startChar": 41,
+        "endLine": 33,
+        "endChar": 49
+      },
+      "revId": "381f74166c407d1d035782efe8c4d00ca5594f77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f32a319_998e64a1",
+        "filename": "src/runtime/internal/sys/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-09T14:36:20Z",
+      "side": 1,
+      "message": "s/2018/2019/\n\n2019 is the Year of the Gopher.\n\nBut really this may as well go in stubs.go rather than adding a new file, there are already a few constants in stubs.go.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "381f74166c407d1d035782efe8c4d00ca5594f77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
