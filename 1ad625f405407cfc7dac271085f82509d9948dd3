@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0153876d_8874b99a",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-01-09T19:42:42Z",
+      "side": 1,
+      "message": "Should this now call LookupABI (followed by calling init if needed)? There\u0027s overlap in functionality now. Or should this go and LookupABI have an init?",
+      "range": {
+        "startLine": 111,
+        "startChar": 18,
+        "endLine": 111,
+        "endChar": 28
+      },
+      "revId": "1ad625f405407cfc7dac271085f82509d9948dd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
