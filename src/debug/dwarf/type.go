@@ -140,6 +140,19 @@ type PtrType struct {
 
 func (t *PtrType) String() string { return "*" + t.Type.String() }
 
+// A ReferenceType represents C++ reference lvalue or rvalue type.
+type ReferenceType struct {
+	CommonType
+	Type Type
+}
+
+func (t *ReferenceType) String() string {
+	if t.Name != "" {
+		return t.Name
+	}
+	return "&" + t.Type.String()
+}
+
 // A StructType represents a struct, union, or C++ class type.
 type StructType struct {
 	CommonType
@@ -629,6 +642,25 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 		}
 		t.Type = typeOf(e)
 
+	case TagReferenceType, TagRvalueReferenceType:
+		// Type modifier (DWARF v2 §5.2)
+		//  Ignored attributes: AttrAddrClass, AttrAllocated,
+		//                      AttrAssociated, AttrDataLocation,
+		//	AttrType: referred-to type
+		t := new(ReferenceType)
+		typ = t
+		typeCache[off] = t
+		if e.Val(AttrType) == nil {
+			// NB: would it better to issue a decode error here?
+			t.Type = &VoidType{}
+			break
+		}
+		t.Type = typeOf(e)
+		name, ok := e.Val(AttrName).(string)
+		if ok {
+			t.Name = name
+		}
+
 	case TagSubroutineType:
 		// Subroutine type.  (DWARF v2 §5.7)
 		// Attributes:
@@ -696,7 +728,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 				// type's size once the type graph is
 				// constructed.
 				*typedefs = append(*typedefs, t)
-			case *PtrType:
+			case *PtrType, *ReferenceType:
 				b = int64(addressSize)
 			}
 		}

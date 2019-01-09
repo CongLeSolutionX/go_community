@@ -168,3 +168,49 @@ func TestTypedefCycle(t *testing.T) {
 		}
 	}
 }
+
+var referenceTypeTests = []string{
+	// name:string
+	":&int",
+	":&double",
+}
+
+func TestReferenceTypes(t *testing.T) {
+	// Issue 29601:
+	// Verify minimal support for C++ reference types.
+	// cppreftype.elf built with g++ 7.3
+	//    g++ -g -c -o cppreftype.elf cppreftype.cc
+	d := elfData(t, "testdata/cppreftype.elf")
+	r := d.Reader()
+	seen := make(map[string]bool)
+	for {
+		e, err := r.Next()
+		if err != nil {
+			t.Fatal("r.Next:", err)
+		}
+		if e == nil {
+			break
+		}
+		if e.Tag == TagReferenceType {
+			typ, err := d.Type(e.Offset)
+			if err != nil {
+				t.Fatal("d.Type:", err)
+			}
+			rt := typ.(*ReferenceType)
+			tag := rt.Name + ":" + typ.String()
+			seen[tag] = true
+			if typ.Size() != int64(r.AddressSize()) {
+				t.Errorf("type %s got size %d expected %d",
+					typ.String(), typ.Size(), r.AddressSize())
+			}
+		}
+		if e.Tag != TagCompileUnit {
+			r.SkipChildren()
+		}
+	}
+	for _, v := range referenceTypeTests {
+		if !seen[v] {
+			t.Errorf("missing %s", v)
+		}
+	}
+}
