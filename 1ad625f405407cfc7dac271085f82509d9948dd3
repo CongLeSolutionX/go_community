@@ -22,6 +22,30 @@
       "revId": "1ad625f405407cfc7dac271085f82509d9948dd3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d8401d_992cfbed",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-10T01:45:07Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessarily bad to have multiple similar implementations here, given that the implementation is pretty simple. I don\u0027t think LookupInit can just call LookupABI, since the init has to be called under the lock. But I\u0027m not so keen on adding \"init\" to LookupABI either, since it\u0027s really quite subtle to use init correctly.\n\nWe could have an unexported function that does all the things and make Lookup, LookupInit, and LookupABI (and maybe LookupStatic?) call it, but since it\u0027s only a few lines of code I don\u0027t know that it\u0027s worth it.",
+      "parentUuid": "0153876d_8874b99a",
+      "range": {
+        "startLine": 111,
+        "startChar": 18,
+        "endLine": 111,
+        "endChar": 28
+      },
+      "revId": "1ad625f405407cfc7dac271085f82509d9948dd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
