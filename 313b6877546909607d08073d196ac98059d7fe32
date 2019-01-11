@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d984bf79_083ab809",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 30659
+      },
+      "writtenOn": "2019-01-11T15:37:15Z",
+      "side": 1,
+      "message": "Thx; I took another PR as example, must\u0027ve picked a wrong one \u0027:-)",
+      "parentUuid": "7f32c6f0_f172d142",
+      "revId": "313b6877546909607d08073d196ac98059d7fe32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2c18d55_2bca8094",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "547cbb3e_27352a3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 30659
+      },
+      "writtenOn": "2019-01-11T15:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2c18d55_2bca8094",
+      "range": {
+        "startLine": 13,
+        "startChar": 68,
+        "endLine": 23,
+        "endChar": 70
+      },
+      "revId": "313b6877546909607d08073d196ac98059d7fe32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0f3e87_d58c43e1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -62,6 +104,30 @@
       "revId": "313b6877546909607d08073d196ac98059d7fe32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b76e062c_18255b70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 30659
+      },
+      "writtenOn": "2019-01-11T15:37:15Z",
+      "side": 1,
+      "message": "I _think_ it\u0027s looking good now (getting familiar with your workflow)",
+      "parentUuid": "9a0f3e87_d58c43e1",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "313b6877546909607d08073d196ac98059d7fe32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
