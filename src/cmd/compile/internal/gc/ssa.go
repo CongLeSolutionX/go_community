@@ -3309,8 +3309,15 @@ func init() {
 		sys.ARM64, sys.S390X)
 	alias("math/bits", "ReverseBytes64", "runtime/internal/sys", "Bswap64", all...)
 	alias("math/bits", "ReverseBytes32", "runtime/internal/sys", "Bswap32", all...)
+	addF("math/bits", "ReverseBytes16",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue1(ssa.OpBswap16, types.Types[TUINT16], args[0])
+		},
+		sys.ARM64)
 	// ReverseBytes inlines correctly, no need to intrinsify it.
 	// ReverseBytes16 lowers to a rotate, no need for anything special here.
+	// Arm64 doesn't have a 16-bit rotate instruction, but there is a REV16 instruction
+	// for ReverseBytes16, so intrinsify ReverseBytes16 on arm64.
 	addF("math/bits", "Len64",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			return s.newValue1(ssa.OpBitLen64, types.Types[TINT], args[0])

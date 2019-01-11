@@ -2275,6 +2275,7 @@ const (
 	OpBitLen16
 	OpBitLen32
 	OpBitLen64
+	OpBswap16
 	OpBswap32
 	OpBswap64
 	OpBitRev8
@@ -29128,6 +29129,11 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "BitLen64",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "Bswap16",
 		argLen:  1,
 		generic: true,
 	},

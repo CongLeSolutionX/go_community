@@ -437,6 +437,8 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpBitRev64_0(v)
 	case OpBitRev8:
 		return rewriteValueARM64_OpBitRev8_0(v)
+	case OpBswap16:
+		return rewriteValueARM64_OpBswap16_0(v)
 	case OpBswap32:
 		return rewriteValueARM64_OpBswap32_0(v)
 	case OpBswap64:
@@ -32790,6 +32792,17 @@ func rewriteValueARM64_OpBitRev8_0(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpARM64RBIT, typ.UInt64)
 		v0.AddArg(x)
 		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValueARM64_OpBswap16_0(v *Value) bool {
+	// match: (Bswap16 x)
+	// cond:
+	// result: (REV16W x)
+	for {
+		x := v.Args[0]
+		v.reset(OpARM64REV16W)
+		v.AddArg(x)
 		return true
 	}
 }
