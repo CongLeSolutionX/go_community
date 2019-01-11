@@ -126,6 +126,7 @@
 
 (Bswap64 x) -> (REV x)
 (Bswap32 x) -> (REVW x)
+(Bswap16 x) -> (REV16W x)
 
 (BitRev64 x) -> (RBIT x)
 (BitRev32 x) -> (RBITW x)
