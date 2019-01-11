@@ -8,7 +8,10 @@
 
 package dwarf
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 // A Type conventionally represents a pointer to any of the
 // specific Type structures (CharType, StructType, etc.).
@@ -712,6 +715,10 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 		typ = t
 		typeCache[off] = t
 		t.Name, _ = e.Val(AttrName).(string)
+	default:
+		descr := fmt.Sprintf("unimplemented type tag %v", e.Tag)
+		err = DecodeError{"", e.Offset, descr}
+		goto Error
 	}
 
 	if err != nil {

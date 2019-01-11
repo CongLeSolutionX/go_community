@@ -9,6 +9,8 @@ import (
 	"debug/elf"
 	"debug/macho"
 	"debug/pe"
+	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -211,6 +213,47 @@ func TestReferenceTypes(t *testing.T) {
 	for _, v := range referenceTypeTests {
 		if !seen[v] {
 			t.Errorf("missing %s", v)
+		}
+	}
+}
+
+func TestUnknownTypeDie(t *testing.T) {
+	// Issue 29601:
+	// If the type decoder encounters a type that it doesn't
+	// support, make sure an error is returned (as opposed to
+	// having the decoder crash). NB: here DW_TAG_ptr_to_member_type
+	// is being used as an example of an unsupported type tag --
+	// if at some point we support that, we'll have to pick
+	// some other tag.
+
+	// cppptrtomemtype.elf built with g++ 7.3
+	//    g++ -g -c -o cppptrtomemtype.elf cppptrtomemtype.cc
+	d := elfData(t, "testdata/cppptrtomemtype.elf")
+	r := d.Reader()
+	for {
+		e, err := r.Next()
+		if err != nil {
+			t.Fatal("r.Next:", err)
+		}
+		if e == nil {
+			break
+		}
+		if e.Tag == TagPtrToMemberType {
+			_, err := d.Type(e.Offset)
+			// expect error here but no crash
+			expected := "unimplemented type tag PtrToMemberType"
+			if err == nil {
+				t.Fatal("expected error, didn't get one")
+			} else {
+				message := fmt.Sprint(err)
+				if !strings.Contains(message, expected) {
+					t.Fatalf("err expected to contain '%s', got '%s'",
+						expected, message)
+				}
+			}
+		}
+		if e.Tag != TagCompileUnit {
+			r.SkipChildren()
 		}
 	}
 }
