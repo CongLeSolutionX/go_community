@@ -56,6 +56,24 @@
       "revId": "6fa25113c0b31d1095639e5d033ddf038fb8fb20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc452830_2245440a",
+        "filename": "test/fixedbugs/issue29610.dir/b.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-11T00:30:28Z",
+      "side": 1,
+      "message": "This is OK--the explanatory comment is in issue29610.go, which is where it should be.",
+      "parentUuid": "3d110f79_34aa0589",
+      "revId": "6fa25113c0b31d1095639e5d033ddf038fb8fb20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
