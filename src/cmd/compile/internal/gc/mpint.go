@@ -281,6 +281,11 @@ func (a *Mpint) SetInt64(c int64) {
 }
 
 func (a *Mpint) SetString(as string) {
+	// TODO(gri) remove stripSep and 0o/0O-octal handling once SetString can handle them
+	as = stripSep(as)
+	if len(as) >= 2 && as[0] == '0' && (as[1] == 'o' || as[1] == 'O') {
+		as = "0" + as[2:]
+	}
 	_, ok := a.Val.SetString(as, 0)
 	if !ok {
 		// required syntax is [+-][0[x]]d*
@@ -305,4 +310,24 @@ func (a *Mpint) GoString() string {
 
 func (a *Mpint) String() string {
 	return fmt.Sprintf("%#x", &a.Val)
+}
+
+func stripSep(s string) string {
+	// avoid making a copy if there are no separators (common case)
+	i := 0
+	for i < len(s) && s[i] != '_' {
+		i++
+	}
+	if i == len(s) {
+		return s
+	}
+
+	// make a copy of s without separators
+	var buf []byte
+	for i := 0; i < len(s); i++ {
+		if c := s[i]; c != '_' {
+			buf = append(buf, c)
+		}
+	}
+	return string(buf)
 }
