@@ -45,15 +45,17 @@ func TestTokens(t *testing.T) {
 	// make source
 	var buf bytes.Buffer
 	for i, s := range sampleTokens {
-		buf.WriteString("\t\t\t\t"[:i&3])           // leading indentation
-		buf.WriteString(s.src)                      // token
-		buf.WriteString("        "[:i&7])           // trailing spaces
-		buf.WriteString("/*line foo:1 */ // bar\n") // comments (don't crash w/o directive handler)
+		buf.WriteString("\t\t\t\t"[:i&3])                                     // leading indentation
+		buf.WriteString(s.src)                                                // token
+		buf.WriteString("        "[:i&7])                                     // trailing spaces
+		buf.WriteString(fmt.Sprintf("/*line foo:%d */ // bar\n", i+linebase)) // comments (don't crash w/o directive handler)
 	}
 
 	// scan source
 	var got scanner
-	got.init(&buf, nil, 0)
+	got.init(&buf, func(line, col uint, msg string) {
+		t.Fatalf("%d:%d: %s", line, col, msg)
+	}, 0)
 	got.next()
 	for i, want := range sampleTokens {
 		nlsemi := false
@@ -140,8 +142,16 @@ var sampleTokens = [...]struct {
 	{_Literal, "12345", 0, 0},
 	{_Literal, "123456789012345678890123456789012345678890", 0, 0},
 	{_Literal, "01234567", 0, 0},
-	{_Literal, "0x0", 0, 0},
+	{_Literal, "0_1_234_567", 0, 0},
+	{_Literal, "0X0", 0, 0},
 	{_Literal, "0xcafebabe", 0, 0},
+	{_Literal, "0x_cafe_babe", 0, 0},
+	{_Literal, "0O0", 0, 0},
+	{_Literal, "0o000", 0, 0},
+	{_Literal, "0o_000", 0, 0},
+	{_Literal, "0B1", 0, 0},
+	{_Literal, "0b01100110", 0, 0},
+	{_Literal, "0b_0110_0110", 0, 0},
 	{_Literal, "0.", 0, 0},
 	{_Literal, "0.e0", 0, 0},
 	{_Literal, "0.e-1", 0, 0},
@@ -323,6 +333,278 @@ func TestComments(t *testing.T) {
 	}
 }
 
+func TestNumbers(t *testing.T) {
+	for _, test := range []struct {
+		kind             LitKind
+		src, tokens, err string
+	}{
+		// 0-octals
+		{IntLit, "0", "0", ""},
+		{IntLit, "0123", "0123", ""},
+		{IntLit, "0123456", "0123456", ""},
+		{IntLit, "0812345", "0812345", "invalid digit '8' in octal literal"},
+		{IntLit, "0123459", "0123459", "invalid digit '9' in octal literal"},
+
+		{IntLit, "0_123", "0_123", ""},
+		{IntLit, "0123_456", "0123_456", ""},
+		{IntLit, "0_812345", "0_812345", "invalid digit '8' in octal literal"},
+		{IntLit, "0123_459", "0123_459", "invalid digit '9' in octal literal"},
+
+		{IntLit, "0x", "0 x", ""},
+		{IntLit, "0123F.", "0123 F .", ""},
+		{IntLit, "0123456x", "0123456 x", ""},
+		{IntLit, "0812345_", "0812345 _", "invalid digit '8' in octal literal"},
+		{IntLit, "0123459F", "0123459 F", "invalid digit '9' in octal literal"},
+
+		{IntLit, "0__123", "0 __123", ""},
+		{IntLit, "0123__456", "0123 __456", ""},
+
+		// decimals
+		{IntLit, "1", "1", ""},
+		{IntLit, "1234", "1234", ""},
+		{IntLit, "1234567", "1234567", ""},
+
+		{IntLit, "1_234", "1_234", ""},
+		{IntLit, "1_234_567", "1_234_567", ""},
+
+		{IntLit, "1x", "1 x", ""},
+		{IntLit, "1__234", "1 __234", ""},
+		{IntLit, "1_234__567", "1_234 __567", ""},
+
+		// hexadecimals
+		{IntLit, "0x0", "0x0", ""},
+		{IntLit, "0x1234", "0x1234", ""},
+		{IntLit, "0xcafef00d", "0xcafef00d", ""},
+
+		{IntLit, "0X0", "0X0", ""},
+		{IntLit, "0X1234", "0X1234", ""},
+		{IntLit, "0XCAFEf00d", "0XCAFEf00d", ""},
+
+		{IntLit, "0X_0", "0X_0", ""},
+		{IntLit, "0X_1234", "0X_1234", ""},
+		{IntLit, "0X_CAFE_f00d", "0X_CAFE_f00d", ""},
+
+		{IntLit, "0x.", "0 x .", ""},
+		{IntLit, "0x0i", "0x0 i", ""}, // no hexadecimal imaginary values
+		{IntLit, "0x__0", "0 x__0", ""},
+		{IntLit, "0x_1234_", "0x_1234 _", ""},
+		{IntLit, "0xcafe__f00d", "0xcafe __f00d", ""},
+
+		// octals
+		{IntLit, "0o0", "0o0", ""},
+		{IntLit, "0o1234", "0o1234", ""},
+		{IntLit, "0o01234567", "0o01234567", ""},
+
+		{IntLit, "0O0", "0O0", ""},
+		{IntLit, "0O1234", "0O1234", ""},
+		{IntLit, "0O01234567", "0O01234567", ""},
+
+		{IntLit, "0o_0", "0o_0", ""},
+		{IntLit, "0o_1234", "0o_1234", ""},
+		{IntLit, "0o0123_4567", "0o0123_4567", ""},
+
+		{IntLit, "0o0_", "0o0 _", ""},
+		{IntLit, "0o1234i", "0o1234 i", ""}, // no 0o-octal imaginary values
+		{IntLit, "0o012345678", "0o01234567 8", ""},
+
+		{IntLit, "0o_0", "0o_0", ""},
+		{IntLit, "0o_1234", "0o_1234", ""},
+		{IntLit, "0o0123_4567", "0o0123_4567", ""},
+
+		{IntLit, "0o__0", "0 o__0", ""},
+		{IntLit, "0o__1234", "0 o__1234", ""},
+		{IntLit, "0o0123__4567", "0o0123 __4567", ""},
+
+		// binaries
+		{IntLit, "0b0", "0b0", ""},
+		{IntLit, "0b1011", "0b1011", ""},
+		{IntLit, "0b00101101", "0b00101101", ""},
+
+		{IntLit, "0B0", "0B0", ""},
+		{IntLit, "0B1011", "0B1011", ""},
+		{IntLit, "0B00101101", "0B00101101", ""},
+
+		{IntLit, "0b_0", "0b_0", ""},
+		{IntLit, "0b10_11", "0b10_11", ""},
+		{IntLit, "0b_0010_1101", "0b_0010_1101", ""},
+
+		{IntLit, "0b0_", "0b0 _", ""},
+		{IntLit, "0b1011i", "0b1011 i", ""}, // no binary imaginary values
+		{IntLit, "0b00102101", "0b0010 2101", ""},
+
+		{IntLit, "0b__0", "0 b__0", ""},
+		{IntLit, "0b10__11", "0b10 __11", ""},
+		{IntLit, "0b__0010_1101", "0 b__0010_1101", ""},
+
+		// decimal floats
+		{FloatLit, "0.", "0.", ""},
+		{FloatLit, "123.", "123.", ""},
+		{FloatLit, "0123.", "0123.", ""},
+
+		{FloatLit, ".0", ".0", ""},
+		{FloatLit, ".123", ".123", ""},
+		{FloatLit, ".0123", ".0123", ""},
+
+		{FloatLit, "0e0", "0e0", ""},
+		{FloatLit, "123e+0", "123e+0", ""},
+		{FloatLit, "0123E-1", "0123E-1", ""},
+
+		{FloatLit, "0e-0", "0e-0", ""},
+		{FloatLit, "123E+0", "123E+0", ""},
+		{FloatLit, "0123E123", "0123E123", ""},
+
+		{FloatLit, "0.e+1", "0.e+1", ""},
+		{FloatLit, "123.E-10", "123.E-10", ""},
+		{FloatLit, "0123.e123", "0123.e123", ""},
+
+		{FloatLit, ".0e-1", ".0e-1", ""},
+		{FloatLit, ".123E+10", ".123E+10", ""},
+		{FloatLit, ".0123E123", ".0123E123", ""},
+
+		{FloatLit, "0.0", "0.0", ""},
+		{FloatLit, "123.123", "123.123", ""},
+		{FloatLit, "0123.0123", "0123.0123", ""},
+
+		{FloatLit, "0.0e1", "0.0e1", ""},
+		{FloatLit, "123.123E-10", "123.123E-10", ""},
+		{FloatLit, "0123.0123e+456", "0123.0123e+456", ""},
+
+		{FloatLit, "1_2_3.", "1_2_3.", ""},
+		{FloatLit, "0_123.", "0_123.", ""},
+
+		{FloatLit, "0_0e0", "0_0e0", ""},
+		{FloatLit, "1_2_3e0", "1_2_3e0", ""},
+		{FloatLit, "0_123e0", "0_123e0", ""},
+
+		{FloatLit, "0e-0_0", "0e-0_0", ""},
+		{FloatLit, "1_2_3E+0", "1_2_3E+0", ""},
+		{FloatLit, "0123E1_2_3", "0123E1_2_3", ""},
+
+		{FloatLit, "0.e+1", "0.e+1", ""},
+		{FloatLit, "123.E-1_0", "123.E-1_0", ""},
+		{FloatLit, "01_23.e123", "01_23.e123", ""},
+
+		{FloatLit, ".0e-1", ".0e-1", ""},
+		{FloatLit, ".123E+10", ".123E+10", ""},
+		{FloatLit, ".0123E123", ".0123E123", ""},
+
+		{FloatLit, "1_2_3.123", "1_2_3.123", ""},
+		{FloatLit, "0123.01_23", "0123.01_23", ""},
+
+		{FloatLit, "0._", "0. _", ""},
+		{FloatLit, "123.x", "123. x", ""},
+		{FloatLit, "0123.x", "0123. x", ""},
+
+		{FloatLit, "0e", "0e", "exponent has no digits"},
+		{FloatLit, "0E", "0E", "exponent has no digits"},
+		{FloatLit, "0e+", "0e+", "exponent has no digits"},
+		{FloatLit, "0e+_0", "0e+ _0", "exponent has no digits"},
+		{FloatLit, "0e+f", "0e+ f", "exponent has no digits"},
+
+		// hexadecimal floats
+		{FloatLit, "0x0.p+0", "0x0.p+0", ""},
+		{FloatLit, "0Xdeadcafe.p-10", "0Xdeadcafe.p-10", ""},
+		{FloatLit, "0x1234.P123", "0x1234.P123", ""},
+
+		{FloatLit, "0x.1p-0", "0x.1p-0", ""},
+		{FloatLit, "0X.deadcafep2", "0X.deadcafep2", ""},
+		{FloatLit, "0x.1234P+10", "0x.1234P+10", ""},
+
+		{FloatLit, "0x0p0", "0x0p0", ""},
+		{FloatLit, "0Xdeadcafep+1", "0Xdeadcafep+1", ""},
+		{FloatLit, "0x1234P-10", "0x1234P-10", ""},
+
+		{FloatLit, "0x0.0p0", "0x0.0p0", ""},
+		{FloatLit, "0Xdead.cafep+1", "0Xdead.cafep+1", ""},
+		{FloatLit, "0x12.34P-10", "0x12.34P-10", ""},
+
+		{FloatLit, "0Xdead_cafep+1", "0Xdead_cafep+1", ""},
+		{FloatLit, "0x_1234P-10", "0x_1234P-10", ""},
+
+		{FloatLit, "0X_dead_cafe.p-10", "0X_dead_cafe.p-10", ""},
+		{FloatLit, "0x12_34.P1_2_3", "0x12_34.P1_2_3", ""},
+
+		{FloatLit, "0x0p0i", "0x0p0 i", ""}, // no hexadecimal float imaginary values
+
+		{FloatLit, "0x0.", "0x0.", "hexadecimal float requires an exponent"},
+		{FloatLit, "0x0._", "0x0. _", "hexadecimal float requires an exponent"},
+		{FloatLit, "0x.0", "0x.0", "hexadecimal float requires an exponent"},
+		{FloatLit, "0x1.1e0", "0x1.1e0", "hexadecimal float requires an exponent"},
+		{FloatLit, "0xa.b_p0", "0xa.b _p0", "hexadecimal float requires an exponent"},
+		{FloatLit, "0xA._BP1", "0xA. _BP1", "hexadecimal float requires an exponent"},
+
+		{FloatLit, "0x0p", "0x0p", "exponent has no digits"},
+		{FloatLit, "0x.1p-_0", "0x.1p- _0", "exponent has no digits"},
+		{FloatLit, "0x1234PAB", "0x1234P AB", "exponent has no digits"},
+
+		// imaginaries
+		{ImagLit, "0i", "0i", ""},
+		{ImagLit, "00i", "00i", ""},
+		{ImagLit, "1234i", "1234i", ""},
+		{ImagLit, "1234567i", "1234567i", ""},
+
+		{ImagLit, "1_234i", "1_234i", ""},
+		{ImagLit, "1_234_567i", "1_234_567i", ""},
+
+		{ImagLit, "0.i", "0.i", ""},
+		{ImagLit, "123.i", "123.i", ""},
+		{ImagLit, "0123.i", "0123.i", ""},
+
+		{ImagLit, "0.e+1i", "0.e+1i", ""},
+		{ImagLit, "123.E-1_0i", "123.E-1_0i", ""},
+		{ImagLit, "01_23.e123i", "01_23.e123i", ""},
+	} {
+		var s scanner
+		var err string
+		s.init(strings.NewReader(test.src), func(line, col uint, msg string) {
+			err = msg
+		}, 0)
+
+		for i, want := range strings.Split(test.tokens, " ") {
+			err = ""
+			s.next()
+
+			// compute lit where where s.lit is not defined
+			var lit string
+			switch s.tok {
+			case _Name, _Literal:
+				lit = s.lit
+			case _Dot:
+				lit = "."
+			case _Operator:
+				switch s.op {
+				case Add:
+					lit = "+"
+				case Sub:
+					lit = "-"
+				}
+			}
+
+			if i == 0 {
+				if s.tok != _Literal || s.kind != test.kind {
+					t.Errorf("%q: got token %s (kind = %d); want literal (kind = %d)", test.src, s.tok, s.kind, test.kind)
+				}
+				if err != test.err {
+					t.Errorf("%q: got error %q; want %q", test.src, err, test.err)
+				}
+			}
+
+			if lit != want {
+				t.Errorf("%q: got literal %q (%s); want %s", test.src, lit, s.tok, want)
+			}
+		}
+
+		// make sure we read all
+		s.next()
+		if s.tok == _Semi {
+			s.next()
+		}
+		if s.tok != _EOF {
+			t.Errorf("%q: got %s; want EOF", test.src, s.tok)
+		}
+	}
+}
+
 func TestScanErrors(t *testing.T) {
 	for _, test := range []struct {
 		src, msg  string
@@ -345,12 +627,10 @@ func TestScanErrors(t *testing.T) {
 
 		{"x + ~y", "invalid character U+007E '~'", 0, 4},
 		{"foo$bar = 0", "invalid character U+0024 '$'", 0, 3},
-		{"const x = 0xyz", "malformed hex constant", 0, 12},
-		{"0123456789", "malformed octal constant", 0, 10},
+		{"0123456789", "invalid digit '8' in octal literal", 0, 10},
 		{"0123456789. /* foobar", "comment not terminated", 0, 12},   // valid float constant
 		{"0123456789e0 /*\nfoobar", "comment not terminated", 0, 13}, // valid float constant
-		{"var a, b = 08, 07\n", "malformed octal constant", 0, 13},
-		{"(x + 1.0e+x)", "malformed floating-point constant exponent", 0, 10},
+		{"var a, b = 09, 07\n", "invalid digit '9' in octal literal", 0, 13},
 
 		{`''`, "empty character literal or unescaped ' in character literal", 0, 1},
 		{"'\n", "newline in character literal", 0, 1},

@@ -4,7 +4,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Expects to see error messages on 'p' exponents.
+// Expects to see error messages on 'p' exponents
+// for non-hexadecimal floats.
 
 package main
 
@@ -16,14 +17,14 @@ const (
 	x3 = 0x1e10 // integer (e is a hex digit)
 )
 
-// 'p' exponents are invalid - the 'p' is not considered
-// part of a floating-point number, but introduces a new
-// (unexpected) name.
+// 'p' exponents are invalid for non-hexadecimal floats - the
+// 'p' is not considered part of a floating-point number, but
+// introduces a new (unexpected) name.
 //
 // Error recovery is not ideal and we use a new declaration
 // each time for the parser to recover.
 
-const x4 = 0x1p10 // ERROR "unexpected p10"
+const x4 = 0x1p10 // valid hexadecimal float
 const x5 = 1p10   // ERROR "unexpected p10"
 const x6 = 0p0    // ERROR "unexpected p0"
 
