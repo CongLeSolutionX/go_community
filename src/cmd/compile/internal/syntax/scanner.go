@@ -149,8 +149,9 @@ redo:
 
 	case '.':
 		c = s.getr()
-		if isDigit(c) {
-			s.unread(1)
+		if isDecimal(c) {
+			s.ungetr()
+			s.unread(1) // correct position of '.' (needed by startLit in number)
 			s.number('.')
 			break
 		}
@@ -323,16 +324,12 @@ func isLetter(c rune) bool {
 	return 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || c == '_'
 }
 
-func isDigit(c rune) bool {
-	return '0' <= c && c <= '9'
-}
-
 func (s *scanner) ident() {
 	s.startLit()
 
 	// accelerate common case (7bit ASCII)
 	c := s.getr()
-	for isLetter(c) || isDigit(c) {
+	for isLetter(c) || isDecimal(c) {
 		c = s.getr()
 	}
 
@@ -401,83 +398,170 @@ func init() {
 	}
 }
 
+func isBinary(c rune) bool  { return c == '0' || c == '1' }
+func isOctal(c rune) bool   { return '0' <= c && c <= '7' }
+func isDecimal(c rune) bool { return '0' <= c && c <= '9' }
+func isHex(c rune) bool     { return '0' <= c && c <= '9' || 'a' <= c && c <= 'f' || 'A' <= c && c <= 'F' }
+
+func (s *scanner) digits(isValid func(rune) bool, n0 int) (c rune, n int) {
+	n = n0
+	for {
+		c = s.getr()
+		if c == '_' {
+			n++
+			c = s.getr()
+		}
+		if !isValid(c) {
+			return
+		}
+		n = 0
+	}
+}
+
+func (s *scanner) exponent() (c rune, n int) {
+	c = s.getr()
+	if c == '-' || c == '+' {
+		c = s.getr()
+	}
+	if isDecimal(c) {
+		c, n = s.digits(isDecimal, 0)
+	} else {
+		s.error("exponent has no digits")
+	}
+	return
+}
+
 func (s *scanner) number(c rune) {
 	s.startLit()
 
+	// integer part
+	n := 0 // no. of chars past a valid literal from most recent reading position
 	if c != '.' {
 		s.kind = IntLit // until proven otherwise
 		if c == '0' {
 			c = s.getr()
-			if c == 'x' || c == 'X' {
-				// hex
+			switch c {
+			case 'x', 'X':
 				c = s.getr()
-				hasDigit := false
-				for isDigit(c) || 'a' <= c && c <= 'f' || 'A' <= c && c <= 'F' {
+
+				// integer part of hexadecimal int or float
+				hasDigits := false
+				if c != '.' {
+					s.ungetr()
+					c, n = s.digits(isHex, 1)
+					if n != 0 || c != '.' && c != 'p' && c != 'P' {
+						goto done // trailing _ (n == 1), no hex digits (n == 2), or just hexadecimal int
+					}
+					hasDigits = true
+				}
+
+				// fractional part of hexadecimal float
+				if c == '.' {
+					s.kind = FloatLit
 					c = s.getr()
-					hasDigit = true
+					if isHex(c) {
+						c, n = s.digits(isHex, 0)
+						if n != 0 {
+							s.error("hexadecimal float requires an exponent")
+							goto done // trailing _
+						}
+					} else if !hasDigits {
+						// 0x. will be tokenized as 0 x .
+						s.kind = IntLit
+						n = len("x.")
+						goto done
+					}
 				}
-				if !hasDigit {
-					s.error("malformed hex constant")
+
+				// exponent of hexadecimal float
+				if c == 'p' || c == 'P' {
+					s.kind = FloatLit
+					c, n = s.exponent()
+				} else {
+					s.error("hexadecimal float requires an exponent")
 				}
+				goto done
+
+			case 'o', 'O':
+				_, n = s.digits(isOctal, 1)
+				goto done
+
+			case 'b', 'B':
+				_, n = s.digits(isBinary, 1)
 				goto done
 			}
 
-			// decimal 0, octal, or float
-			has8or9 := false
-			for isDigit(c) {
-				if c > '7' {
-					has8or9 = true
+			// integer part of 0-octal or decimal float
+			var invalidDigit rune
+			n = 0
+			for {
+				if c == '_' {
+					n = 1
+					c = s.getr()
+				}
+				if !isDecimal(c) {
+					break
+				}
+				n = 0
+				if c > '7' && invalidDigit == 0 {
+					invalidDigit = c
 				}
 				c = s.getr()
 			}
-			if c != '.' && c != 'e' && c != 'E' && c != 'i' {
-				// octal
-				if has8or9 {
-					s.error("malformed octal constant")
+
+			//  0-octal followed by a fraction, exponent, or 'i' is considered a decimal float
+			if n != 0 || c != '.' && c != 'e' && c != 'E' && c != 'i' {
+				// trailing _ or just 0-octal
+				if invalidDigit != 0 {
+					// TODO(gri) should report error at invalid digit position
+					s.error(fmt.Sprintf("invalid digit %q in octal literal", invalidDigit))
 				}
 				goto done
 			}
 
 		} else {
-			// decimal or float
-			for isDigit(c) {
-				c = s.getr()
+			// integer part of decimal int or float
+			// (the caller of number ensures that we have at least one digit)
+			c, n = s.digits(isDecimal, 0)
+			if n != 0 {
+				goto done // trailing _
 			}
 		}
 	}
 
-	// float
+	// fractional part of decimal float
 	if c == '.' {
 		s.kind = FloatLit
 		c = s.getr()
-		for isDigit(c) {
-			c = s.getr()
+		if isDecimal(c) {
+			c, n = s.digits(isDecimal, 0)
+			if n != 0 {
+				goto done // trailing _
+			}
 		}
 	}
 
-	// exponent
+	// exponent of decimal float
 	if c == 'e' || c == 'E' {
 		s.kind = FloatLit
-		c = s.getr()
-		if c == '-' || c == '+' {
-			c = s.getr()
-		}
-		if !isDigit(c) {
-			s.error("malformed floating-point constant exponent")
-		}
-		for isDigit(c) {
-			c = s.getr()
+		c, n = s.exponent()
+		if n != 0 {
+			goto done // trailing _
 		}
 	}
 
-	// complex
+	// imaginary float
 	if c == 'i' {
 		s.kind = ImagLit
 		s.getr()
 	}
 
 done:
+	if n > 0 {
+		s.unread(n)
+	}
 	s.ungetr()
+
 	s.nlsemi = true
 	s.lit = string(s.stopLit())
 	s.tok = _Literal
@@ -713,7 +797,7 @@ func (s *scanner) escape(quote rune) bool {
 	for i := n; i > 0; i-- {
 		d := base
 		switch {
-		case isDigit(c):
+		case isDecimal(c):
 			d = uint32(c) - '0'
 		case 'a' <= c && c <= 'f':
 			d = uint32(c) - ('a' - 10)
