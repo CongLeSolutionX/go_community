@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "12325f11_f78eb309",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-01-13T20:04:00Z",
+      "side": 1,
+      "message": "simplify",
+      "revId": "5105f60ea99027e356d8a81974561444e015d258",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f45cac5a_d94d3aae",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
