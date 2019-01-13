@@ -7,6 +7,7 @@ package gc
 import (
 	"fmt"
 	"math/big"
+	"strings"
 )
 
 // implements integer arithmetic
@@ -281,6 +282,11 @@ func (a *Mpint) SetInt64(c int64) {
 }
 
 func (a *Mpint) SetString(as string) {
+	// TODO(gri) remove stripSep and 0o/0O-octal handling once SetString can handle them
+	as = stripSep(as)
+	if len(as) >= 2 && as[0] == '0' && (as[1] == 'o' || as[1] == 'O') {
+		as = "0" + as[2:]
+	}
 	_, ok := a.Val.SetString(as, 0)
 	if !ok {
 		// required syntax is [+-][0[x]]d*
@@ -305,4 +311,12 @@ func (a *Mpint) GoString() string {
 
 func (a *Mpint) String() string {
 	return fmt.Sprintf("%#x", &a.Val)
+}
+
+func stripSep(s string) string {
+	// avoid making a copy if there are no separators (common case)
+	if strings.IndexByte(s, '_') >= 0 {
+		return strings.Replace(s, "_", "", -1)
+	}
+	return s
 }
