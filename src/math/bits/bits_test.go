@@ -713,12 +713,6 @@ const (
 )
 
 func TestAddSubUint(t *testing.T) {
-	test := func(msg string, f func(x, y, c uint) (z, cout uint), x, y, c, z, cout uint) {
-		z1, cout1 := f(x, y, c)
-		if z1 != z || cout1 != cout {
-			t.Errorf("%s: got z:cout = %#x:%#x; want %#x:%#x", msg, z1, cout1, z, cout)
-		}
-	}
 	for _, a := range []struct{ x, y, c, z, cout uint }{
 		{0, 0, 0, 0, 0},
 		{0, 1, 0, 1, 0},
@@ -732,20 +726,26 @@ func TestAddSubUint(t *testing.T) {
 		{_M, _M, 0, _M - 1, 1},
 		{_M, _M, 1, _M, 1},
 	} {
-		test("Add", Add, a.x, a.y, a.c, a.z, a.cout)
-		test("Add symmetric", Add, a.y, a.x, a.c, a.z, a.cout)
-		test("Sub", Sub, a.z, a.x, a.c, a.y, a.cout)
-		test("Sub symmetric", Sub, a.z, a.y, a.c, a.x, a.cout)
+		z1, cout1 := Add(a.x, a.y, a.c)
+		if z1 != a.z || cout1 != a.cout {
+			t.Errorf("Add: got z:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.z, a.cout)
+		}
+		z1, cout1 = Add(a.y, a.x, a.c)
+		if z1 != a.z || cout1 != a.cout {
+			t.Errorf("Add symmetric: got z:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.z, a.cout)
+		}
+		z1, cout1 = Sub(a.z, a.x, a.c)
+		if z1 != a.y || cout1 != a.cout {
+			t.Errorf("Sub: got y:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.y, a.cout)
+		}
+		z1, cout1 = Sub(a.z, a.y, a.c)
+		if z1 != a.x || cout1 != a.cout {
+			t.Errorf("Sub symmetric: got x:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.x, a.cout)
+		}
 	}
 }
 
 func TestAddSubUint32(t *testing.T) {
-	test := func(msg string, f func(x, y, c uint32) (z, cout uint32), x, y, c, z, cout uint32) {
-		z1, cout1 := f(x, y, c)
-		if z1 != z || cout1 != cout {
-			t.Errorf("%s: got z:cout = %#x:%#x; want %#x:%#x", msg, z1, cout1, z, cout)
-		}
-	}
 	for _, a := range []struct{ x, y, c, z, cout uint32 }{
 		{0, 0, 0, 0, 0},
 		{0, 1, 0, 1, 0},
@@ -759,20 +759,26 @@ func TestAddSubUint32(t *testing.T) {
 		{_M32, _M32, 0, _M32 - 1, 1},
 		{_M32, _M32, 1, _M32, 1},
 	} {
-		test("Add32", Add32, a.x, a.y, a.c, a.z, a.cout)
-		test("Add32 symmetric", Add32, a.y, a.x, a.c, a.z, a.cout)
-		test("Sub32", Sub32, a.z, a.x, a.c, a.y, a.cout)
-		test("Sub32 symmetric", Sub32, a.z, a.y, a.c, a.x, a.cout)
+		z1, cout1 := Add32(a.x, a.y, a.c)
+		if z1 != a.z || cout1 != a.cout {
+			t.Errorf("Add32: got z:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.z, a.cout)
+		}
+		z1, cout1 = Add32(a.y, a.x, a.c)
+		if z1 != a.z || cout1 != a.cout {
+			t.Errorf("Add32 symmetric: got z:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.z, a.cout)
+		}
+		z1, cout1 = Sub32(a.z, a.x, a.c)
+		if z1 != a.y || cout1 != a.cout {
+			t.Errorf("Sub32: got y:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.y, a.cout)
+		}
+		z1, cout1 = Sub32(a.z, a.y, a.c)
+		if z1 != a.x || cout1 != a.cout {
+			t.Errorf("Sub32 symmetric: got x:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.x, a.cout)
+		}
 	}
 }
 
 func TestAddSubUint64(t *testing.T) {
-	test := func(msg string, f func(x, y, c uint64) (z, cout uint64), x, y, c, z, cout uint64) {
-		z1, cout1 := f(x, y, c)
-		if z1 != z || cout1 != cout {
-			t.Errorf("%s: got z:cout = %#x:%#x; want %#x:%#x", msg, z1, cout1, z, cout)
-		}
-	}
 	for _, a := range []struct{ x, y, c, z, cout uint64 }{
 		{0, 0, 0, 0, 0},
 		{0, 1, 0, 1, 0},
@@ -786,26 +792,26 @@ func TestAddSubUint64(t *testing.T) {
 		{_M64, _M64, 0, _M64 - 1, 1},
 		{_M64, _M64, 1, _M64, 1},
 	} {
-		test("Add64", Add64, a.x, a.y, a.c, a.z, a.cout)
-		test("Add64 symmetric", Add64, a.y, a.x, a.c, a.z, a.cout)
-		test("Sub64", Sub64, a.z, a.x, a.c, a.y, a.cout)
-		test("Sub64 symmetric", Sub64, a.z, a.y, a.c, a.x, a.cout)
+		z1, cout1 := Add64(a.x, a.y, a.c)
+		if z1 != a.z || cout1 != a.cout {
+			t.Errorf("Add64: got z:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.z, a.cout)
+		}
+		z1, cout1 = Add64(a.y, a.x, a.c)
+		if z1 != a.z || cout1 != a.cout {
+			t.Errorf("Add64 symmetric: got z:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.z, a.cout)
+		}
+		z1, cout1 = Sub64(a.z, a.x, a.c)
+		if z1 != a.y || cout1 != a.cout {
+			t.Errorf("Sub64: got y:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.y, a.cout)
+		}
+		z1, cout1 = Sub64(a.z, a.y, a.c)
+		if z1 != a.x || cout1 != a.cout {
+			t.Errorf("Sub64 symmetric: got x:cout = %#x:%#x; want %#x:%#x", z1, cout1, a.x, a.cout)
+		}
 	}
 }
 
 func TestMulDiv(t *testing.T) {
-	testMul := func(msg string, f func(x, y uint) (hi, lo uint), x, y, hi, lo uint) {
-		hi1, lo1 := f(x, y)
-		if hi1 != hi || lo1 != lo {
-			t.Errorf("%s: got hi:lo = %#x:%#x; want %#x:%#x", msg, hi1, lo1, hi, lo)
-		}
-	}
-	testDiv := func(msg string, f func(hi, lo, y uint) (q, r uint), hi, lo, y, q, r uint) {
-		q1, r1 := f(hi, lo, y)
-		if q1 != q || r1 != r {
-			t.Errorf("%s: got q:r = %#x:%#x; want %#x:%#x", msg, q1, r1, q, r)
-		}
-	}
 	for _, a := range []struct {
 		x, y      uint
 		hi, lo, r uint
@@ -813,26 +819,26 @@ func TestMulDiv(t *testing.T) {
 		{1 << (UintSize - 1), 2, 1, 0, 1},
 		{_M, _M, _M - 1, 1, 42},
 	} {
-		testMul("Mul", Mul, a.x, a.y, a.hi, a.lo)
-		testMul("Mul symmetric", Mul, a.y, a.x, a.hi, a.lo)
-		testDiv("Div", Div, a.hi, a.lo+a.r, a.y, a.x, a.r)
-		testDiv("Div symmetric", Div, a.hi, a.lo+a.r, a.x, a.y, a.r)
+		hi1, lo1 := Mul(a.x, a.y)
+		if hi1 != a.hi || lo1 != a.lo {
+			t.Errorf("Mul: got hi:lo = %#x:%#x; want %#x:%#x", hi1, lo1, a.hi, a.lo)
+		}
+		hi1, lo1 = Mul(a.y, a.x)
+		if hi1 != a.hi || lo1 != a.lo {
+			t.Errorf("Mul symmetric: got hi:lo = %#x:%#x; want %#x:%#x", hi1, lo1, a.hi, a.lo)
+		}
+		q1, r1 := Div(a.hi, a.lo+a.r, a.y)
+		if q1 != a.x || r1 != a.r {
+			t.Errorf("Div: got q:r = %#x:%#x; want %#x:%#x", q1, r1, a.x, a.r)
+		}
+		q1, r1 = Div(a.hi, a.lo+a.r, a.x)
+		if q1 != a.y || r1 != a.r {
+			t.Errorf("Div: got q:r = %#x:%#x; want %#x:%#x", q1, r1, a.y, a.r)
+		}
 	}
 }
 
 func TestMulDiv32(t *testing.T) {
-	testMul := func(msg string, f func(x, y uint32) (hi, lo uint32), x, y, hi, lo uint32) {
-		hi1, lo1 := f(x, y)
-		if hi1 != hi || lo1 != lo {
-			t.Errorf("%s: got hi:lo = %#x:%#x; want %#x:%#x", msg, hi1, lo1, hi, lo)
-		}
-	}
-	testDiv := func(msg string, f func(hi, lo, y uint32) (q, r uint32), hi, lo, y, q, r uint32) {
-		q1, r1 := f(hi, lo, y)
-		if q1 != q || r1 != r {
-			t.Errorf("%s: got q:r = %#x:%#x; want %#x:%#x", msg, q1, r1, q, r)
-		}
-	}
 	for _, a := range []struct {
 		x, y      uint32
 		hi, lo, r uint32
@@ -841,26 +847,26 @@ func TestMulDiv32(t *testing.T) {
 		{0xc47dfa8c, 50911, 0x98a4, 0x998587f4, 13},
 		{_M32, _M32, _M32 - 1, 1, 42},
 	} {
-		testMul("Mul32", Mul32, a.x, a.y, a.hi, a.lo)
-		testMul("Mul32 symmetric", Mul32, a.y, a.x, a.hi, a.lo)
-		testDiv("Div32", Div32, a.hi, a.lo+a.r, a.y, a.x, a.r)
-		testDiv("Div32 symmetric", Div32, a.hi, a.lo+a.r, a.x, a.y, a.r)
+		hi1, lo1 := Mul32(a.x, a.y)
+		if hi1 != a.hi || lo1 != a.lo {
+			t.Errorf("Mul32: got hi:lo = %#x:%#x; want %#x:%#x", hi1, lo1, a.hi, a.lo)
+		}
+		hi1, lo1 = Mul32(a.y, a.x)
+		if hi1 != a.hi || lo1 != a.lo {
+			t.Errorf("Mul32 symmetric: got hi:lo = %#x:%#x; want %#x:%#x", hi1, lo1, a.hi, a.lo)
+		}
+		q1, r1 := Div32(a.hi, a.lo+a.r, a.y)
+		if q1 != a.x || r1 != a.r {
+			t.Errorf("Div32: got q:r = %#x:%#x; want %#x:%#x", q1, r1, a.x, a.r)
+		}
+		q1, r1 = Div32(a.hi, a.lo+a.r, a.x)
+		if q1 != a.y || r1 != a.r {
+			t.Errorf("Div32: got q:r = %#x:%#x; want %#x:%#x", q1, r1, a.y, a.r)
+		}
 	}
 }
 
 func TestMulDiv64(t *testing.T) {
-	testMul := func(msg string, f func(x, y uint64) (hi, lo uint64), x, y, hi, lo uint64) {
-		hi1, lo1 := f(x, y)
-		if hi1 != hi || lo1 != lo {
-			t.Errorf("%s: got hi:lo = %#x:%#x; want %#x:%#x", msg, hi1, lo1, hi, lo)
-		}
-	}
-	testDiv := func(msg string, f func(hi, lo, y uint64) (q, r uint64), hi, lo, y, q, r uint64) {
-		q1, r1 := f(hi, lo, y)
-		if q1 != q || r1 != r {
-			t.Errorf("%s: got q:r = %#x:%#x; want %#x:%#x", msg, q1, r1, q, r)
-		}
-	}
 	for _, a := range []struct {
 		x, y      uint64
 		hi, lo, r uint64
@@ -869,10 +875,22 @@ func TestMulDiv64(t *testing.T) {
 		{0x3626229738a3b9, 0xd8988a9f1cc4a61, 0x2dd0712657fe8, 0x9dd6a3364c358319, 13},
 		{_M64, _M64, _M64 - 1, 1, 42},
 	} {
-		testMul("Mul64", Mul64, a.x, a.y, a.hi, a.lo)
-		testMul("Mul64 symmetric", Mul64, a.y, a.x, a.hi, a.lo)
-		testDiv("Div64", Div64, a.hi, a.lo+a.r, a.y, a.x, a.r)
-		testDiv("Div64 symmetric", Div64, a.hi, a.lo+a.r, a.x, a.y, a.r)
+		hi1, lo1 := Mul64(a.x, a.y)
+		if hi1 != a.hi || lo1 != a.lo {
+			t.Errorf("Mul64: got hi:lo = %#x:%#x; want %#x:%#x", hi1, lo1, a.hi, a.lo)
+		}
+		hi1, lo1 = Mul64(a.y, a.x)
+		if hi1 != a.hi || lo1 != a.lo {
+			t.Errorf("Mul64 symmetric: got hi:lo = %#x:%#x; want %#x:%#x", hi1, lo1, a.hi, a.lo)
+		}
+		q1, r1 := Div64(a.hi, a.lo+a.r, a.y)
+		if q1 != a.x || r1 != a.r {
+			t.Errorf("Div64: got q:r = %#x:%#x; want %#x:%#x", q1, r1, a.x, a.r)
+		}
+		q1, r1 = Div64(a.hi, a.lo+a.r, a.x)
+		if q1 != a.y || r1 != a.r {
+			t.Errorf("Div64: got q:r = %#x:%#x; want %#x:%#x", q1, r1, a.y, a.r)
+		}
 	}
 }
 
@@ -975,10 +993,28 @@ func BenchmarkAdd32(b *testing.B) {
 	Output = int(z + c)
 }
 
+func BenchmarkAdd32Overflow(b *testing.B) {
+	var input uint32 = 0xffffffff
+	var z, c uint32
+	for i := 0; i < b.N; i++ {
+		z, c = Add32(input, uint32(i), c)
+	}
+	Output = int(z + c)
+}
+
 func BenchmarkAdd64(b *testing.B) {
 	var z, c uint64
 	for i := 0; i < b.N; i++ {
 		z, c = Add64(uint64(Input), uint64(i), c)
+	}
+	Output = int(z + c)
+}
+
+func BenchmarkAdd64Overflow(b *testing.B) {
+	var input uint64 = 0xffffffffffffffff
+	var z, c uint64
+	for i := 0; i < b.N; i++ {
+		z, c = Add64(input, uint64(i), c)
 	}
 	Output = int(z + c)
 }
@@ -1014,10 +1050,28 @@ func BenchmarkSub32(b *testing.B) {
 	Output = int(z + c)
 }
 
+func BenchmarkSub32Overflow(b *testing.B) {
+	var input uint32 = 1
+	var z, c uint32
+	for i := 0; i < b.N; i++ {
+		z, c = Sub32(input, uint32(i), c)
+	}
+	Output = int(z + c)
+}
+
 func BenchmarkSub64(b *testing.B) {
 	var z, c uint64
 	for i := 0; i < b.N; i++ {
 		z, c = Sub64(uint64(Input), uint64(i), c)
+	}
+	Output = int(z + c)
+}
+
+func BenchmarkSub64Overflow(b *testing.B) {
+	var input uint64 = 1
+	var z, c uint64
+	for i := 0; i < b.N; i++ {
+		z, c = Sub64(input, uint64(i), c)
 	}
 	Output = int(z + c)
 }

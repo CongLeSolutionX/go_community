@@ -373,10 +373,14 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpAdd32_0(v)
 	case OpAdd32F:
 		return rewriteValueARM64_OpAdd32F_0(v)
+	case OpAdd32withcarry:
+		return rewriteValueARM64_OpAdd32withcarry_0(v)
 	case OpAdd64:
 		return rewriteValueARM64_OpAdd64_0(v)
 	case OpAdd64F:
 		return rewriteValueARM64_OpAdd64F_0(v)
+	case OpAdd64carry:
+		return rewriteValueARM64_OpAdd64carry_0(v)
 	case OpAdd8:
 		return rewriteValueARM64_OpAdd8_0(v)
 	case OpAddPtr:
@@ -32287,6 +32291,22 @@ func rewriteValueARM64_OpAdd32F_0(v *Value) bool {
 		return true
 	}
 }
+func rewriteValueARM64_OpAdd32withcarry_0(v *Value) bool {
+	// match: (Add32withcarry x y c)
+	// cond:
+	// result: (LoweredAdd32carry x y c)
+	for {
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		c := v.Args[2]
+		v.reset(OpARM64LoweredAdd32carry)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(c)
+		return true
+	}
+}
 func rewriteValueARM64_OpAdd64_0(v *Value) bool {
 	// match: (Add64 x y)
 	// cond:
@@ -32312,6 +32332,22 @@ func rewriteValueARM64_OpAdd64F_0(v *Value) bool {
 		v.reset(OpARM64FADDD)
 		v.AddArg(x)
 		v.AddArg(y)
+		return true
+	}
+}
+func rewriteValueARM64_OpAdd64carry_0(v *Value) bool {
+	// match: (Add64carry x y c)
+	// cond:
+	// result: (LoweredAdd64carry x y c)
+	for {
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		c := v.Args[2]
+		v.reset(OpARM64LoweredAdd64carry)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(c)
 		return true
 	}
 }

@@ -503,6 +503,72 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p1.Reg = r0
 		p1.To.Type = obj.TYPE_REG
 		p1.To.Reg = v.Reg1()
+	case ssa.OpARM64LoweredAdd64carry:
+		// ADDS		Rarg2, Rarg1, Rout0
+		// ADC		ZR, ZR, Rout1
+		// ADDS		Rout0, Rarg0, Rout0
+		// CSINC	LO, Rout1, ZR, Rout1
+		r0 := v.Args[0].Reg()
+		r1 := v.Args[1].Reg()
+		r2 := v.Args[2].Reg()
+		p := s.Prog(arm64.AADDS)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = r2
+		p.Reg = r1
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg0()
+		p1 := s.Prog(arm64.AADC)
+		p1.From.Type = obj.TYPE_REG
+		p1.From.Reg = arm64.REGZERO
+		p1.Reg = arm64.REGZERO
+		p1.To.Type = obj.TYPE_REG
+		p1.To.Reg = v.Reg1()
+		p2 := s.Prog(arm64.AADDS)
+		p2.From.Type = obj.TYPE_REG
+		p2.From.Reg = v.Reg0()
+		p2.Reg = r0
+		p2.To.Type = obj.TYPE_REG
+		p2.To.Reg = v.Reg0()
+		p3 := s.Prog(arm64.ACSINC)
+		p3.From.Type = obj.TYPE_REG // assembler encodes conditional bits in Reg
+		p3.From.Reg = arm64.COND_LO
+		p3.Reg = v.Reg1()
+		p3.SetFrom3(obj.Addr{Type: obj.TYPE_REG, Reg: arm64.REGZERO})
+		p3.To.Type = obj.TYPE_REG
+		p3.To.Reg = v.Reg1()
+	case ssa.OpARM64LoweredAdd32carry:
+		// ADDSW	Rarg2, Rarg1, Rout0
+		// ADCW		ZR, ZR, Rout1
+		// ADDSW	Rout0, Rarg0, Rout0
+		// CSINCW	LO, Rout1, ZR, Rout1
+		r0 := v.Args[0].Reg()
+		r1 := v.Args[1].Reg()
+		r2 := v.Args[2].Reg()
+		p := s.Prog(arm64.AADDSW)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = r2
+		p.Reg = r1
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg0()
+		p1 := s.Prog(arm64.AADCW)
+		p1.From.Type = obj.TYPE_REG
+		p1.From.Reg = arm64.REGZERO
+		p1.Reg = arm64.REGZERO
+		p1.To.Type = obj.TYPE_REG
+		p1.To.Reg = v.Reg1()
+		p2 := s.Prog(arm64.AADDSW)
+		p2.From.Type = obj.TYPE_REG
+		p2.From.Reg = v.Reg0()
+		p2.Reg = r0
+		p2.To.Type = obj.TYPE_REG
+		p2.To.Reg = v.Reg0()
+		p3 := s.Prog(arm64.ACSINCW)
+		p3.From.Type = obj.TYPE_REG // assembler encodes conditional bits in Reg
+		p3.From.Reg = arm64.COND_LO
+		p3.Reg = v.Reg1()
+		p3.SetFrom3(obj.Addr{Type: obj.TYPE_REG, Reg: arm64.REGZERO})
+		p3.To.Type = obj.TYPE_REG
+		p3.To.Reg = v.Reg1()
 	case ssa.OpARM64LoweredAtomicExchange64,
 		ssa.OpARM64LoweredAtomicExchange32:
 		// LDAXR	(Rarg0), Rout
