@@ -144,6 +144,7 @@ func init() {
 		gp2flags  = regInfo{inputs: []regMask{gpg, gpg}}
 		gp2flags1 = regInfo{inputs: []regMask{gp, gp}, outputs: []regMask{gp}}
 		gp22      = regInfo{inputs: []regMask{gpg, gpg}, outputs: []regMask{gp, gp}}
+		gp32      = regInfo{inputs: []regMask{gpg, gpg, gpg}, outputs: []regMask{gp, gp}}
 		gpload    = regInfo{inputs: []regMask{gpspsbg}, outputs: []regMask{gp}}
 		gp2load   = regInfo{inputs: []regMask{gpspsbg, gpg}, outputs: []regMask{gp}}
 		gpstore   = regInfo{inputs: []regMask{gpspsbg, gpg}}
@@ -208,7 +209,10 @@ func init() {
 		{name: "EON", argLength: 2, reg: gp21, asm: "EON"},                    // arg0 ^ ^arg1
 		{name: "ORN", argLength: 2, reg: gp21, asm: "ORN"},                    // arg0 | ^arg1
 
-		{name: "LoweredMuluhilo", argLength: 2, reg: gp22, resultNotInArgs: true}, // arg0 * arg1, returns (hi, lo)
+		{name: "LoweredMuluhilo", argLength: 2, reg: gp22, resultNotInArgs: true},   // arg0 * arg1, returns (hi, lo)
+		{name: "LoweredAdd64carry", argLength: 3, reg: gp32, resultNotInArgs: true}, // arg0 + arg1 + arg2, returns (value, carry)
+		{name: "LoweredAdd32carry", argLength: 3, reg: gp32, resultNotInArgs: true}, // arg0 + arg1 + arg2, returns (value, carry)
+
 		// unary ops
 		{name: "MVN", argLength: 1, reg: gp11, asm: "MVN"},         // ^arg0
 		{name: "NEG", argLength: 1, reg: gp11, asm: "NEG"},         // -arg0
