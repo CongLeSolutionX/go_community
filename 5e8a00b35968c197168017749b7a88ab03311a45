@@ -16,6 +16,24 @@
       "revId": "5e8a00b35968c197168017749b7a88ab03311a45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47ff165c_684e6d31",
+        "filename": "doc/articles/wiki/index.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-01-14T16:38:12Z",
+      "side": 1,
+      "message": "Personally, I think it will help.\n\nThis article is written as a tutorial, aimed at beginners. We want them to be able to follow along by reading the article. The \"The html/template package\" section explicitly mentions this - \n\n\"First, we must add \u003ccode\u003ehtml/template\u003c/code\u003e to the list of imports. We\nalso won\u0027t be using \u003ccode\u003efmt\u003c/code\u003e anymore, so we have to remove that.\"\n\nTo keep the tone consistent, I think we should add this line too.\n\nIf not the line, atleast we should add the imports. The bold text will make it clear that it is being added.",
+      "parentUuid": "8fac1c68_41b68f29",
+      "revId": "5e8a00b35968c197168017749b7a88ab03311a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
