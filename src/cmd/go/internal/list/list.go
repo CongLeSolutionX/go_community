@@ -252,10 +252,10 @@ For example, 'go list -m -u all' might print:
 (For tools, 'go list -m -u -json all' may be more convenient to parse.)
 
 The -versions flag causes list to set the Module's Versions field
-to a list of all known versions of that module, ordered according
-to semantic versioning, earliest to latest. The flag also changes
-the default output format to display the module path followed by the
-space-separated version list.
+to a list of all tagged release and pre-release versions of that module,
+ordered according to semantic versioning, earliest to latest.
+The flag also changes the default output format to display
+the modulepath followed by the space-separated version list.
 
 The arguments to list -m are interpreted as a list of modules, not packages.
 The main module is the module containing the current directory.

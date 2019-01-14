@@ -40,8 +40,15 @@ can be a module proxy.
 
 The GET requests sent to a Go module proxy are:
 
-GET $GOPROXY/<module>/@v/list returns a list of all known versions of the
-given module, one per line.
+GET $GOPROXY/<module>/@v/list returns a list of all tagged release and
+pre-release versions of the given module, one per line. Pseudo-versions
+are not included. The proxy returns an empty list if there are no tagged
+versions.
+
+GET $GOPROXY/<module>/@latest returns JSON-formatted metadata about
+the latest available tagged version, or the latest pseudo-version
+if there are no tagged versions of the given module. Go commands use
+this query only when the preceding GET /@v/list returns an empty list.
 
 GET $GOPROXY/<module>/@v/<version>.info returns JSON-formatted metadata
 about that version of the given module.
