@@ -34,6 +34,24 @@
       "revId": "5e8a00b35968c197168017749b7a88ab03311a45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "020f689b_66b1dd14",
+        "filename": "doc/articles/wiki/index.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-01-14T18:34:22Z",
+      "side": 1,
+      "message": "Then let\u0027s reword to make it clear this code is importing things that are used later.\n\nAs written it sounds like \"To use net/http, we need to import net/http and also log.\" (\"Why also log for http?\", asks the reader!)",
+      "parentUuid": "47ff165c_684e6d31",
+      "revId": "5e8a00b35968c197168017749b7a88ab03311a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
