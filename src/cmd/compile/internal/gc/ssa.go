@@ -3491,12 +3491,17 @@ func init() {
 		},
 		sys.AMD64, sys.ARM64, sys.PPC64)
 	alias("math/bits", "Mul", "math/bits", "Mul64", sys.ArchAMD64, sys.ArchARM64, sys.ArchPPC64)
+	addF("math/bits", "Add32",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue3(ssa.OpAdd32withcarry, types.NewTuple(types.Types[TUINT32], types.Types[TUINT32]), args[0], args[1], args[2])
+		},
+		sys.ARM64)
 	addF("math/bits", "Add64",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			return s.newValue3(ssa.OpAdd64carry, types.NewTuple(types.Types[TUINT64], types.Types[TUINT64]), args[0], args[1], args[2])
 		},
-		sys.AMD64)
-	alias("math/bits", "Add", "math/bits", "Add64", sys.ArchAMD64)
+		sys.AMD64, sys.ARM64)
+	alias("math/bits", "Add", "math/bits", "Add64", sys.ArchAMD64, sys.ArchARM64)
 	addF("math/bits", "Sub64",
 		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 			return s.newValue3(ssa.OpSub64borrow, types.NewTuple(types.Types[TUINT64], types.Types[TUINT64]), args[0], args[1], args[2])

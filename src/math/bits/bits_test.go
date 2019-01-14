@@ -736,6 +736,11 @@ func TestAddSubUint(t *testing.T) {
 		test("Add symmetric", Add, a.y, a.x, a.c, a.z, a.cout)
 		test("Sub", Sub, a.z, a.x, a.c, a.y, a.cout)
 		test("Sub symmetric", Sub, a.z, a.y, a.c, a.x, a.cout)
+		test("Add intrinsic", func(x, y, c uint) (uint, uint) { return Add(x, y, c) }, a.x, a.y, a.c, a.z, a.cout)
+		test("Add intrinsic symmetric", func(x, y, c uint) (uint, uint) { return Add(x, y, c) }, a.y, a.x, a.c, a.z, a.cout)
+		test("Sub intrinsic", func(x, y, c uint) (uint, uint) { return Sub(x, y, c) }, a.z, a.x, a.c, a.y, a.cout)
+		test("Add intrinsic symmetric", func(x, y, c uint) (uint, uint) { return Sub(x, y, c) }, a.z, a.y, a.c, a.x, a.cout)
+
 	}
 }
 
@@ -763,6 +768,10 @@ func TestAddSubUint32(t *testing.T) {
 		test("Add32 symmetric", Add32, a.y, a.x, a.c, a.z, a.cout)
 		test("Sub32", Sub32, a.z, a.x, a.c, a.y, a.cout)
 		test("Sub32 symmetric", Sub32, a.z, a.y, a.c, a.x, a.cout)
+		test("Add32 intrinsic", func(x, y, c uint32) (uint32, uint32) { return Add32(x, y, c) }, a.x, a.y, a.c, a.z, a.cout)
+		test("Add32 intrinsic symmetric", func(x, y, c uint32) (uint32, uint32) { return Add32(x, y, c) }, a.y, a.x, a.c, a.z, a.cout)
+		test("Sub32 intrinsic", func(x, y, c uint32) (uint32, uint32) { return Sub32(x, y, c) }, a.z, a.x, a.c, a.y, a.cout)
+		test("Add32 intrinsic symmetric", func(x, y, c uint32) (uint32, uint32) { return Sub32(x, y, c) }, a.z, a.y, a.c, a.x, a.cout)
 	}
 }
 
@@ -790,6 +799,10 @@ func TestAddSubUint64(t *testing.T) {
 		test("Add64 symmetric", Add64, a.y, a.x, a.c, a.z, a.cout)
 		test("Sub64", Sub64, a.z, a.x, a.c, a.y, a.cout)
 		test("Sub64 symmetric", Sub64, a.z, a.y, a.c, a.x, a.cout)
+		test("Add64 intrinsic", func(x, y, c uint64) (uint64, uint64) { return Add64(x, y, c) }, a.x, a.y, a.c, a.z, a.cout)
+		test("Add64 intrinsic symmetric", func(x, y, c uint64) (uint64, uint64) { return Add64(x, y, c) }, a.y, a.x, a.c, a.z, a.cout)
+		test("Sub64 intrinsic", func(x, y, c uint64) (uint64, uint64) { return Sub64(x, y, c) }, a.z, a.x, a.c, a.y, a.cout)
+		test("Add64 intrinsic symmetric", func(x, y, c uint64) (uint64, uint64) { return Sub64(x, y, c) }, a.z, a.y, a.c, a.x, a.cout)
 	}
 }
 
@@ -817,6 +830,10 @@ func TestMulDiv(t *testing.T) {
 		testMul("Mul symmetric", Mul, a.y, a.x, a.hi, a.lo)
 		testDiv("Div", Div, a.hi, a.lo+a.r, a.y, a.x, a.r)
 		testDiv("Div symmetric", Div, a.hi, a.lo+a.r, a.x, a.y, a.r)
+		testMul("Mul intrinsic", func(x, y uint) (uint, uint) { return Mul(x, y) }, a.x, a.y, a.hi, a.lo)
+		testMul("Mul intrinsic symmetric", func(x, y uint) (uint, uint) { return Mul(x, y) }, a.y, a.x, a.hi, a.lo)
+		testDiv("Div intrinsic", func(hi, lo, y uint) (uint, uint) { return Div(hi, lo, y) }, a.hi, a.lo+a.r, a.y, a.x, a.r)
+		testDiv("Div intrinsic symmetric", func(hi, lo, y uint) (uint, uint) { return Div(hi, lo, y) }, a.hi, a.lo+a.r, a.x, a.y, a.r)
 	}
 }
 
@@ -845,6 +862,10 @@ func TestMulDiv32(t *testing.T) {
 		testMul("Mul32 symmetric", Mul32, a.y, a.x, a.hi, a.lo)
 		testDiv("Div32", Div32, a.hi, a.lo+a.r, a.y, a.x, a.r)
 		testDiv("Div32 symmetric", Div32, a.hi, a.lo+a.r, a.x, a.y, a.r)
+		testMul("Mul32 intrinsic", func(x, y uint32) (uint32, uint32) { return Mul32(x, y) }, a.x, a.y, a.hi, a.lo)
+		testMul("Mul32 intrinsic symmetric", func(x, y uint32) (uint32, uint32) { return Mul32(x, y) }, a.y, a.x, a.hi, a.lo)
+		testDiv("Div32 intrinsic", func(hi, lo, y uint32) (uint32, uint32) { return Div32(hi, lo, y) }, a.hi, a.lo+a.r, a.y, a.x, a.r)
+		testDiv("Div32 intrinsic symmetric", func(hi, lo, y uint32) (uint32, uint32) { return Div32(hi, lo, y) }, a.hi, a.lo+a.r, a.x, a.y, a.r)
 	}
 }
 
@@ -873,6 +894,10 @@ func TestMulDiv64(t *testing.T) {
 		testMul("Mul64 symmetric", Mul64, a.y, a.x, a.hi, a.lo)
 		testDiv("Div64", Div64, a.hi, a.lo+a.r, a.y, a.x, a.r)
 		testDiv("Div64 symmetric", Div64, a.hi, a.lo+a.r, a.x, a.y, a.r)
+		testMul("Mul64 intrinsic", func(x, y uint64) (uint64, uint64) { return Mul64(x, y) }, a.x, a.y, a.hi, a.lo)
+		testMul("Mul64 intrinsic symmetric", func(x, y uint64) (uint64, uint64) { return Mul64(x, y) }, a.y, a.x, a.hi, a.lo)
+		testDiv("Div64 intrinsic", func(hi, lo, y uint64) (uint64, uint64) { return Div64(hi, lo, y) }, a.hi, a.lo+a.r, a.y, a.x, a.r)
+		testDiv("Div64 intrinsic symmetric", func(hi, lo, y uint64) (uint64, uint64) { return Div64(hi, lo, y) }, a.hi, a.lo+a.r, a.x, a.y, a.r)
 	}
 }
 
@@ -975,10 +1000,28 @@ func BenchmarkAdd32(b *testing.B) {
 	Output = int(z + c)
 }
 
+func BenchmarkAdd32Overflow(b *testing.B) {
+	var input uint32 = 0xffffffff
+	var z, c uint32
+	for i := 0; i < b.N; i++ {
+		z, c = Add32(input, uint32(i), c)
+	}
+	Output = int(z + c)
+}
+
 func BenchmarkAdd64(b *testing.B) {
 	var z, c uint64
 	for i := 0; i < b.N; i++ {
 		z, c = Add64(uint64(Input), uint64(i), c)
+	}
+	Output = int(z + c)
+}
+
+func BenchmarkAdd64Overflow(b *testing.B) {
+	var input uint64 = 0xffffffffffffffff
+	var z, c uint64
+	for i := 0; i < b.N; i++ {
+		z, c = Add64(input, uint64(i), c)
 	}
 	Output = int(z + c)
 }
@@ -1014,10 +1057,28 @@ func BenchmarkSub32(b *testing.B) {
 	Output = int(z + c)
 }
 
+func BenchmarkSub32Overflow(b *testing.B) {
+	var input uint32 = 1
+	var z, c uint32
+	for i := 0; i < b.N; i++ {
+		z, c = Sub32(input, uint32(i), c)
+	}
+	Output = int(z + c)
+}
+
 func BenchmarkSub64(b *testing.B) {
 	var z, c uint64
 	for i := 0; i < b.N; i++ {
 		z, c = Sub64(uint64(Input), uint64(i), c)
+	}
+	Output = int(z + c)
+}
+
+func BenchmarkSub64Overflow(b *testing.B) {
+	var input uint64 = 1
+	var z, c uint64
+	for i := 0; i < b.N; i++ {
+		z, c = Sub64(input, uint64(i), c)
 	}
 	Output = int(z + c)
 }
