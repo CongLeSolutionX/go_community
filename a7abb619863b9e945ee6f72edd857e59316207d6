@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01c6cd80_7adbac06",
+        "filename": "src/strconv/extfloat.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-01-14T18:09:36Z",
+      "side": 1,
+      "message": "The old code does rounding which is missing here.",
+      "range": {
+        "startLine": 217,
+        "startChar": 13,
+        "endLine": 217,
+        "endChar": 17
+      },
+      "revId": "a7abb619863b9e945ee6f72edd857e59316207d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
