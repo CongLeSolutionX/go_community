@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c6024863_7ef96753",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-14T22:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40d17908_f65d4b47",
+      "revId": "1d0c47fbf758b895ec882d99981322ea9f9e59cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95a5960b_6584cd39",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "1d0c47fbf758b895ec882d99981322ea9f9e59cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8fa1291_098c1f61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-14T22:56:01Z",
+      "side": 1,
+      "message": "reworded the whole thing to include this information",
+      "parentUuid": "95a5960b_6584cd39",
+      "revId": "1d0c47fbf758b895ec882d99981322ea9f9e59cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f23d5bc5_09444495",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-14T22:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6b1180b_efe71972",
+      "revId": "1d0c47fbf758b895ec882d99981322ea9f9e59cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4044f67_c3c87764",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "1d0c47fbf758b895ec882d99981322ea9f9e59cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4310f8df_6bcc7938",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-14T22:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4044f67_c3c87764",
+      "revId": "1d0c47fbf758b895ec882d99981322ea9f9e59cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "4ac24353_d12d1345",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-14T22:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce015a84_6e7d5f4b",
+      "revId": "1d0c47fbf758b895ec882d99981322ea9f9e59cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "217eb642_e5aeb31a",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 2
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "716330f5_b35ec3a7",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-14T22:56:01Z",
+      "side": 1,
+      "message": "I clarified the case of two unscavengable spans. The result of coalescing unscavengable spans is an unscavenged span (if it\u0027s scavengable). Wow maybe I should have better terms for this.",
+      "parentUuid": "217eb642_e5aeb31a",
+      "revId": "1d0c47fbf758b895ec882d99981322ea9f9e59cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "074aef2e_f5493e91",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 2
@@ -115,6 +223,24 @@
       "writtenOn": "2019-01-14T21:16:49Z",
       "side": 1,
       "message": "span.scavState \u003d mSpanUnscavenged?",
+      "revId": "1d0c47fbf758b895ec882d99981322ea9f9e59cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d33fd66_54cd7530",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-14T22:56:01Z",
+      "side": 1,
+      "message": "this is probably a sane default, though only the caller truly knows. maybe it\u0027s worth having an additional \"dummy\" state like mSpanDead for cases where the value should not matter (e.g. when the span is in use or if the span is dead).\n\nI could also add an argument to init() so the caller MUST decide what the state of the span is, and then init() has the logic for deciding this.",
+      "parentUuid": "074aef2e_f5493e91",
       "revId": "1d0c47fbf758b895ec882d99981322ea9f9e59cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
