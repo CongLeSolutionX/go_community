@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fac1c68_41b68f29",
+        "filename": "doc/articles/wiki/index.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-01-14T16:11:18Z",
+      "side": 1,
+      "message": "It isn\u0027t clear from the text why this is required at this point.\n\nBut I don\u0027t think this is needed. This sentence \u0026 code example teaches the reader that \"If you need X, you need to import X\". Later they use \"log\" and if they get a compilation error, they\u0027ll remember they need to import X.\n\nI\u0027d rather have the user hit that learning point than muddle this text up.",
+      "revId": "5e8a00b35968c197168017749b7a88ab03311a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
