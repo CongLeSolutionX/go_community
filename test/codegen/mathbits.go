@@ -331,21 +331,25 @@ func IterateBits8(n uint8) int {
 // --------------- //
 
 func Add(x, y, ci uint) (r, co uint) {
+	// arm64:"ADDS","ADC","ADDS","CSINC"
 	// amd64:"NEGL","ADCQ","SBBQ","NEGQ"
 	return bits.Add(x, y, ci)
 }
 
 func AddC(x, ci uint) (r, co uint) {
+	// arm64:"ADDS","ADC","ADDS","CSINC"
 	// amd64:"NEGL","ADCQ","SBBQ","NEGQ"
 	return bits.Add(x, 7, ci)
 }
 
 func AddZ(x, y uint) (r, co uint) {
+	// arm64:"ADDS","ADC","ADDS","CSINC"
 	// amd64:"ADDQ","SBBQ","NEGQ",-"NEGL",-"ADCQ"
 	return bits.Add(x, y, 0)
 }
 
 func AddR(x, y, ci uint) uint {
+	// arm64:"ADDS","ADC","ADDS","CSINC"
 	// amd64:"NEGL","ADCQ",-"SBBQ",-"NEGQ"
 	r, _ := bits.Add(x, y, ci)
 	return r
@@ -354,26 +358,31 @@ func AddM(p, q, r *[3]uint) {
 	var c uint
 	r[0], c = bits.Add(p[0], q[0], c)
 	// amd64:"ADCQ",-"NEGL",-"SBBQ",-"NEGQ"
+	// arm64:"ADDS","ADC","ADDS","CSINC"
 	r[1], c = bits.Add(p[1], q[1], c)
 	r[2], c = bits.Add(p[2], q[2], c)
 }
 
 func Add64(x, y, ci uint64) (r, co uint64) {
+	// arm64:"ADDS","ADC","ADDS","CSINC"
 	// amd64:"NEGL","ADCQ","SBBQ","NEGQ"
 	return bits.Add64(x, y, ci)
 }
 
 func Add64C(x, ci uint64) (r, co uint64) {
+	// arm64:"ADDS","ADC","ADDS","CSINC"
 	// amd64:"NEGL","ADCQ","SBBQ","NEGQ"
 	return bits.Add64(x, 7, ci)
 }
 
 func Add64Z(x, y uint64) (r, co uint64) {
+	// arm64:"ADDS","ADC","ADDS","CSINC"
 	// amd64:"ADDQ","SBBQ","NEGQ",-"NEGL",-"ADCQ"
 	return bits.Add64(x, y, 0)
 }
 
 func Add64R(x, y, ci uint64) uint64 {
+	// arm64:"ADDS","ADC","ADDS","CSINC"
 	// amd64:"NEGL","ADCQ",-"SBBQ",-"NEGQ"
 	r, _ := bits.Add64(x, y, ci)
 	return r
@@ -381,9 +390,15 @@ func Add64R(x, y, ci uint64) uint64 {
 func Add64M(p, q, r *[3]uint64) {
 	var c uint64
 	r[0], c = bits.Add64(p[0], q[0], c)
+	// arm64:"ADDS","ADC","ADDS","CSINC"
 	// amd64:"ADCQ",-"NEGL",-"SBBQ",-"NEGQ"
 	r[1], c = bits.Add64(p[1], q[1], c)
 	r[2], c = bits.Add64(p[2], q[2], c)
+}
+
+func Add32(x, y, ci uint32) (r, co uint32) {
+	// arm64:"ADDSW","ADCW","ADDSW","CSINCW"
+	return bits.Add32(x, y, ci)
 }
 
 // --------------- //
