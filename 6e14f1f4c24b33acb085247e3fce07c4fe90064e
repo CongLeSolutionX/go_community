@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd8281b1_8a61a731",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-01-15T15:41:15Z",
+      "side": 1,
+      "message": "This seems like a strange place to do this computation, since it duplicates the logic from the modload package.\n\nInstead, perhaps we should change modload/init.go so that we populate these variables regardless of whether we enter module mode.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 56
+      },
+      "revId": "6e14f1f4c24b33acb085247e3fce07c4fe90064e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
