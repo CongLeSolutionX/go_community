@@ -52,6 +52,24 @@
       "revId": "5e8a00b35968c197168017749b7a88ab03311a45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05994ab4_d0428b80",
+        "filename": "doc/articles/wiki/index.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-01-15T08:09:44Z",
+      "side": 1,
+      "message": "Makes sense. I have removed \"package\" because it sounded repetitive. \n\n\u003e We also need to import \u003ccode\u003elog\u003c/code\u003e which is used later while starting the web server.\n\nKept it short and simple. Does this look good ?",
+      "parentUuid": "020f689b_66b1dd14",
+      "revId": "5e8a00b35968c197168017749b7a88ab03311a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
