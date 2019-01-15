@@ -879,10 +879,14 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpSub32_0(v)
 	case OpSub32F:
 		return rewriteValueARM64_OpSub32F_0(v)
+	case OpSub32borrow:
+		return rewriteValueARM64_OpSub32borrow_0(v)
 	case OpSub64:
 		return rewriteValueARM64_OpSub64_0(v)
 	case OpSub64F:
 		return rewriteValueARM64_OpSub64F_0(v)
+	case OpSub64borrow:
+		return rewriteValueARM64_OpSub64borrow_0(v)
 	case OpSub8:
 		return rewriteValueARM64_OpSub8_0(v)
 	case OpSubPtr:
@@ -37799,6 +37803,22 @@ func rewriteValueARM64_OpSub32F_0(v *Value) bool {
 		return true
 	}
 }
+func rewriteValueARM64_OpSub32borrow_0(v *Value) bool {
+	// match: (Sub32borrow x y c)
+	// cond:
+	// result: (LoweredSub32borrow x y c)
+	for {
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		c := v.Args[2]
+		v.reset(OpARM64LoweredSub32borrow)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(c)
+		return true
+	}
+}
 func rewriteValueARM64_OpSub64_0(v *Value) bool {
 	// match: (Sub64 x y)
 	// cond:
@@ -37824,6 +37844,22 @@ func rewriteValueARM64_OpSub64F_0(v *Value) bool {
 		v.reset(OpARM64FSUBD)
 		v.AddArg(x)
 		v.AddArg(y)
+		return true
+	}
+}
+func rewriteValueARM64_OpSub64borrow_0(v *Value) bool {
+	// match: (Sub64borrow x y c)
+	// cond:
+	// result: (LoweredSub64borrow x y c)
+	for {
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		c := v.Args[2]
+		v.reset(OpARM64LoweredSub64borrow)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(c)
 		return true
 	}
 }

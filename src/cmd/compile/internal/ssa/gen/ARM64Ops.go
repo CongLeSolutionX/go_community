@@ -209,9 +209,11 @@ func init() {
 		{name: "EON", argLength: 2, reg: gp21, asm: "EON"},                    // arg0 ^ ^arg1
 		{name: "ORN", argLength: 2, reg: gp21, asm: "ORN"},                    // arg0 | ^arg1
 
-		{name: "LoweredMuluhilo", argLength: 2, reg: gp22, resultNotInArgs: true},   // arg0 * arg1, returns (hi, lo)
-		{name: "LoweredAdd64carry", argLength: 3, reg: gp32, resultNotInArgs: true}, // arg0 + arg1 + arg2, returns (value, carry)
-		{name: "LoweredAdd32carry", argLength: 3, reg: gp32, resultNotInArgs: true}, // arg0 + arg1 + arg2, returns (value, carry)
+		{name: "LoweredMuluhilo", argLength: 2, reg: gp22, resultNotInArgs: true},    // arg0 * arg1, returns (hi, lo)
+		{name: "LoweredAdd64carry", argLength: 3, reg: gp32, resultNotInArgs: true},  // arg0 + arg1 + arg2, returns (value, carry)
+		{name: "LoweredAdd32carry", argLength: 3, reg: gp32, resultNotInArgs: true},  // arg0 + arg1 + arg2, returns (value, carry)
+		{name: "LoweredSub64borrow", argLength: 3, reg: gp32, resultNotInArgs: true}, // arg0 - arg1 - arg2, returns (value, borrow)
+		{name: "LoweredSub32borrow", argLength: 3, reg: gp32, resultNotInArgs: true}, // arg0 - arg1 - arg2, returns (value, borrow)
 
 		// unary ops
 		{name: "MVN", argLength: 1, reg: gp11, asm: "MVN"},         // ^arg0
