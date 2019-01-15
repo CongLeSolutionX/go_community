@@ -5,13 +5,17 @@
 package modcmd
 
 import (
+	"encoding/json"
+	"os"
+	"path/filepath"
+
 	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
 	"cmd/go/internal/modfetch"
+	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/module"
 	"cmd/go/internal/par"
-	"encoding/json"
-	"os"
 )
 
 var cmdDownload = &base.Command{
@@ -66,6 +70,15 @@ type moduleJSON struct {
 }
 
 func runDownload(cmd *base.Command, args []string) {
+	if !modload.HasModRoot() {
+		list := filepath.SplitList(cfg.BuildContext.GOPATH)
+		if len(list) == 0 || list[0] == "" {
+			base.Fatalf("missing $GOPATH")
+		}
+		pkgMod := filepath.Join(list[0], "pkg/mod")
+		modfetch.PkgMod = pkgMod
+		codehost.WorkRoot = filepath.Join(pkgMod, "cache/vcs")
+	}
 	if len(args) == 0 {
 		args = []string{"all"}
 	}
