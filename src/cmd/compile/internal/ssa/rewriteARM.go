@@ -459,6 +459,8 @@ func rewriteValueARM(v *Value) bool {
 		return rewriteValueARM_OpAvg32u_0(v)
 	case OpBitLen32:
 		return rewriteValueARM_OpBitLen32_0(v)
+	case OpBswap16:
+		return rewriteValueARM_OpBswap16_0(v)
 	case OpBswap32:
 		return rewriteValueARM_OpBswap32_0(v)
 	case OpClosureCall:
@@ -17856,6 +17858,47 @@ func rewriteValueARM_OpBitLen32_0(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
+}
+func rewriteValueARM_OpBswap16_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (Bswap16 <t> x)
+	// cond: objabi.GOARM==5
+	// result: (OR <t> (SLLconst <t> x [8]) (SRLconst <t> (SLLconst <t> x [16]) [24]))
+	for {
+		t := v.Type
+		x := v.Args[0]
+		if !(objabi.GOARM == 5) {
+			break
+		}
+		v.reset(OpARMOR)
+		v.Type = t
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, t)
+		v0.AuxInt = 8
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpARMSRLconst, t)
+		v1.AuxInt = 24
+		v2 := b.NewValue0(v.Pos, OpARMSLLconst, t)
+		v2.AuxInt = 16
+		v2.AddArg(x)
+		v1.AddArg(v2)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Bswap16 x)
+	// cond: objabi.GOARM>=6
+	// result: (REV16 x)
+	for {
+		x := v.Args[0]
+		if !(objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMREV16)
+		v.AddArg(x)
+		return true
+	}
+	return false
 }
 func rewriteValueARM_OpBswap32_0(v *Value) bool {
 	b := v.Block

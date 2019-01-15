@@ -83,9 +83,14 @@
 	(XOR <t>
 		(SRLconst <t> (BICconst <t> (XOR <t> x (SRRconst <t> [16] x)) [0xff0000]) [8])
 		(SRRconst <t> x [8]))
+(Bswap16 <t> x) && objabi.GOARM==5 ->
+	(OR <t>
+		(SLLconst <t> x [8])
+		(SRLconst <t> (SLLconst <t> x [16]) [24]))
 
 // byte swap for ARMv6 and above
 (Bswap32 x) && objabi.GOARM>=6 -> (REV x)
+(Bswap16 x) && objabi.GOARM>=6 -> (REV16 x)
 
 // boolean ops -- booleans are represented with 0=false, 1=true
 (AndB x y) -> (AND x y)
