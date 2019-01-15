@@ -5131,6 +5131,17 @@ func genssa(f *ssa.Func, pp *Progs) {
 		}
 	}
 
+	// Remember positions that we need an inline mark for.
+	// For tracebacks we only need line information, so
+	// we use AtColumn1 to ignore column information.
+	for _, b := range f.Blocks {
+		for _, v := range b.Values {
+			if v.Op == ssa.OpInlMark {
+				pp.inlineMarkProg[v.Pos.AtColumn1()] = nil
+			}
+		}
+	}
+
 	// Emit basic blocks
 	for i, b := range f.Blocks {
 		s.bstart[b.ID] = s.pp.next
@@ -5167,12 +5178,18 @@ func genssa(f *ssa.Func, pp *Progs) {
 					v.Fatalf("OpConvert should be a no-op: %s; %s", v.Args[0].LongString(), v.LongString())
 				}
 			case ssa.OpInlMark:
-				p := thearch.Ginsnop(s.pp)
+				p := pp.inlineMarkProg[v.Pos.AtColumn1()]
+				if p == nil {
+					p = thearch.Ginsnop(s.pp)
+				} else {
+					// Make sure we don't reuse the same instruction for two different
+					// inlinings. That could lead to infinite loops during traceback.
+					delete(pp.inlineMarkProg, v.Pos.AtColumn1())
+				}
 				if pp.curfn.Func.lsym != nil {
 					// lsym is nil if the function name is "_".
 					pp.curfn.Func.lsym.Func.AddInlMark(p, v.AuxInt32())
 				}
-				// TODO: if matching line number, merge somehow with previous instruction?
 
 			default:
 				// let the backend handle it

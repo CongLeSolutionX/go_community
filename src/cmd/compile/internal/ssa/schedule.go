@@ -19,7 +19,8 @@ const (
 	ScoreReadFlags
 	ScoreDefault
 	ScoreFlags
-	ScoreControl // towards bottom of block
+	ScoreControl
+	ScoreInlMark // towards bottom of block
 )
 
 type ValHeap struct {
@@ -144,6 +145,12 @@ func schedule(f *Func) {
 				// This makes sure that we only have one live flags
 				// value at a time.
 				score[v.ID] = ScoreFlags
+			case v.Op == OpInlMark:
+				// Push inline marks late, so other instructions with the
+				// same line number will be before the inline mark. That will
+				// let us use those other instructions for the inline mark
+				// instead of having to insert nops.
+				score[v.ID] = ScoreInlMark
 			default:
 				score[v.ID] = ScoreDefault
 				// If we're reading flags, schedule earlier to keep flag lifetime short.

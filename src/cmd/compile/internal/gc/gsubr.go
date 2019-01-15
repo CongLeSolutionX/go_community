@@ -52,6 +52,8 @@ type Progs struct {
 
 	nextLive LivenessIndex // liveness index for the next Prog
 	prevLive LivenessIndex // last emitted liveness index
+
+	inlineMarkProg map[src.XPos]*obj.Prog // map from position of an inline mark to a Prog with that position
 }
 
 // newProgs returns a new Progs for fn.
@@ -72,6 +74,7 @@ func newProgs(fn *Node, worker int) *Progs {
 	pp.settext(fn)
 	pp.nextLive = LivenessInvalid
 	pp.prevLive = LivenessInvalid
+	pp.inlineMarkProg = map[src.XPos]*obj.Prog{}
 	return pp
 }
 
@@ -136,6 +139,9 @@ func (pp *Progs) Prog(as obj.As) *obj.Prog {
 
 	p.As = as
 	p.Pos = pp.pos
+	if _, ok := pp.inlineMarkProg[p.Pos.AtColumn1()]; ok { // want to remember a Prog for this position
+		pp.inlineMarkProg[p.Pos.AtColumn1()] = p // overwrite, so we keep most recent prog for each position
+	}
 	if pp.pos.IsStmt() == src.PosIsStmt {
 		// Clear IsStmt for later Progs at this pos provided that as can be marked as a stmt
 		if ssa.LosesStmtMark(as) {
