@@ -134,6 +134,8 @@
 
 (Add64carry x y c) -> (LoweredAdd64carry x y c)
 (Add32withcarry x y c) -> (LoweredAdd32carry x y c)
+(Sub64borrow x y c) -> (LoweredSub64borrow x y c)
+(Sub32borrow x y c) -> (LoweredSub32borrow x y c)
 
 // boolean ops -- booleans are represented with 0=false, 1=true
 (AndB x y) -> (AND x y)
