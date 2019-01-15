@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f5518d9_f6811237",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-15T17:41:52Z",
+      "side": 1,
+      "message": "Thanks.  You need to update the description.",
+      "revId": "0f0a9c548fd6ca5c2ea477cf07561d93ab202f5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
