@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfe8ea9c_079c2c11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-15T00:33:02Z",
+      "side": 1,
+      "message": "Say what you changed.  Don\u0027t just say \"fix.  See https://golang.org/wiki/CommitMessage.",
+      "revId": "f7f76231f662aa11cf564aaf726b8a4967aa4acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab2e7e8c_ed44a9d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-15T00:33:02Z",
+      "side": 1,
+      "message": "Write this as\n\nFixes #29469",
+      "revId": "f7f76231f662aa11cf564aaf726b8a4967aa4acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4945492c_62a74f00",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3732,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-15T00:33:02Z",
+      "side": 1,
+      "message": "This seems to be an exact copy of the existing line.",
+      "revId": "f7f76231f662aa11cf564aaf726b8a4967aa4acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be1738f4_f1598ca7",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1612,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-15T00:33:02Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem right.  T and V can have the same identical underlying type even if one of them is named.  I think this needs to be fixed elsewhere.",
+      "revId": "f7f76231f662aa11cf564aaf726b8a4967aa4acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
