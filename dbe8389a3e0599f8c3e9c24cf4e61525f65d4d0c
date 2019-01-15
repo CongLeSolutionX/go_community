@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49191a6b_216dfc0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-15T23:40:35Z",
+      "side": 1,
+      "message": "Isn\u0027t newly-mapped memory going to take page faults anyway?",
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e3fc611_3355ca6b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-15T23:40:35Z",
+      "side": 1,
+      "message": "Start this doc comment with what mSpanUnscavengable means, not what it doesn\u0027t mean. :)\n\nWrap this comment a bit tighter. Most of the runtime is wrapped at 72 columns.",
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97f39107_dfa008b3",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-15T23:40:35Z",
+      "side": 1,
+      "message": "their",
+      "range": {
+        "startLine": 462,
+        "startChar": 43,
+        "endLine": 462,
+        "endChar": 48
+      },
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ab8187d_364d06a0",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-15T23:40:35Z",
+      "side": 1,
+      "message": "Move this condition into coalescesWith. Probably you want to swap the receiver and argument so this becomes s.coalescesWith(before) and then assume (and document) the receiver is already mSpanFree. It would be weird to assume the argument was mSpanFree but not assume that of the receiver.",
+      "range": {
+        "startLine": 469,
+        "startChar": 53,
+        "endLine": 469,
+        "endChar": 78
+      },
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de220ffb_14c0fd75",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-15T23:40:35Z",
+      "side": 1,
+      "message": "Won\u0027t this cause unnecessary scavenging if s and before are already both scavenged? (Maybe that was already a problem.)",
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf2d2de5_70cb1c30",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-15T23:40:35Z",
+      "side": 1,
+      "message": "Consider abstracting this into a method on s that returns the combined scavenge state. E.g., s.scavState \u003d s.mergeScavState(before) here and s.scavState \u003d s.mergeScavState(after) below.",
+      "range": {
+        "startLine": 477,
+        "startChar": 64,
+        "endLine": 487,
+        "endChar": 3
+      },
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
