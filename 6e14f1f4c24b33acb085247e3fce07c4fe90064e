@@ -22,6 +22,30 @@
       "revId": "6e14f1f4c24b33acb085247e3fce07c4fe90064e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "891ae0b2_056c849c",
+        "filename": "src/cmd/go/internal/modcmd/download.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2019-01-15T17:32:45Z",
+      "side": 1,
+      "message": "Agreed with you.",
+      "parentUuid": "cd8281b1_8a61a731",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 56
+      },
+      "revId": "6e14f1f4c24b33acb085247e3fce07c4fe90064e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
