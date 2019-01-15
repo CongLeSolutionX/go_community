@@ -165,13 +165,7 @@ func Init() {
 		modRoot = cwd
 	} else {
 		modRoot, _ = FindModuleRoot(cwd, "", MustUseModules)
-		if modRoot == "" {
-			if !MustUseModules {
-				// GO111MODULE is 'auto' (or unset), and we can't find a module root.
-				// Stay in GOPATH mode.
-				return
-			}
-		} else if search.InDir(modRoot, os.TempDir()) == "." {
+		if search.InDir(modRoot, os.TempDir()) == "." {
 			// If you create /tmp/go.mod for experimenting,
 			// then any tests that create work directories under /tmp
 			// will find it and get modules when they're not expecting them.
@@ -210,6 +204,14 @@ func Init() {
 	modfetch.PkgMod = pkgMod
 	codehost.WorkRoot = filepath.Join(pkgMod, "cache/vcs")
 
+	if modRoot == "" {
+		if !MustUseModules {
+			// GO111MODULE is 'auto' (or unset), and we can't find a module root.
+			// Stay in GOPATH mode.
+			// go mod download need to install this hooks to make it work.
+			return
+		}
+	}
 	cfg.ModulesEnabled = true
 	load.ModBinDir = BinDir
 	load.ModLookup = Lookup
