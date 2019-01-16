@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a33098c_97aa5a28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-01-16T18:10:42Z",
+      "side": 1,
+      "message": "Please take a look at https://golang.org/wiki/CommitMessage for some style guidelines that we want to follow when writing commit messages. Particularly, see these bullet points:\n\n\u003e • the part after the colon uses the verb tense + phrase that completes the blank in, \"This change modifies Go to ___________\"\n\u003e • the verb after the colon is lowercase",
+      "revId": "81fd1e7328685e885b0ae396997c2be020c0225e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "850b46c4_48c80be4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-01-16T18:10:42Z",
+      "side": 1,
+      "message": "Also per https://golang.org/wiki/CommitMessage, remove this here and instead add this phrase at the bottom:\n\n    Fixes #29261\n\nThat\u0027ll also help with keeping the body closer to ~76 character width.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "81fd1e7328685e885b0ae396997c2be020c0225e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc136031_7a2adb39",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-01-16T18:10:42Z",
+      "side": 1,
+      "message": "I don\u0027t think this implements the behavior we want, based on the function comment and the discussion in #29261.\n\nSpecifically, this will return \"URL scheme has invalid character\" error for rawurl that does not contain \u0027:\u0027 character but contains a \u0027/\u0027 character, which is valid for a path.\n\nI think in order to implement this, you might have to first check if the \u0027:\u0027 character is present with strings.IndexByte, then validate the part of it as a valid scheme. But perhaps there are other ways to accomplish this.",
+      "revId": "81fd1e7328685e885b0ae396997c2be020c0225e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
