@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "61e32e9b_e8c0337b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-16T21:15:23Z",
+      "side": 1,
+      "message": "Interesting. That\u0027s completely counter-intuitive to me, but clearly someone has thought carefully about this. :)",
+      "parentUuid": "854a39a0_bf453efd",
+      "revId": "805584cafbc7170c98bbebb6fe6cd397e7a204fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ffda395_1abeb4f1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "It takes 5 seconds on my linux workstation. The previous version took about .5 seconds.\nWhat would be acceptable?",
       "parentUuid": "82556c82_7a45c8ae",
+      "revId": "805584cafbc7170c98bbebb6fe6cd397e7a204fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1656c45_82b252cf",
+        "filename": "test/heapsampling.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-16T21:15:23Z",
+      "side": 1,
+      "message": "5 seconds is definitely too long. 1 second is probably okay. Rather than always running three tests, could we instead check the profile after each test and call it good if we get a good profile?",
+      "parentUuid": "bc6a1de8_80553d60",
       "revId": "805584cafbc7170c98bbebb6fe6cd397e7a204fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
