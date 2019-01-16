@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d83bc231_f6e0f7ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-16T00:57:11Z",
+      "side": 1,
+      "message": "yup good catch, removed",
+      "parentUuid": "49191a6b_216dfc0e",
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e3fc611_3355ca6b",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0373575b_7638d420",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-16T00:57:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e3fc611_3355ca6b",
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "27b2aede_fc31bb2e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-16T00:57:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97f39107_dfa008b3",
+      "range": {
+        "startLine": 462,
+        "startChar": 43,
+        "endLine": 462,
+        "endChar": 48
+      },
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ab8187d_364d06a0",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 5
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "81d5fa7a_8a24251b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-16T00:57:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ab8187d_364d06a0",
+      "range": {
+        "startLine": 469,
+        "startChar": 53,
+        "endLine": 469,
+        "endChar": 78
+      },
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de220ffb_14c0fd75",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 5
@@ -93,6 +177,24 @@
       "writtenOn": "2019-01-15T23:40:35Z",
       "side": 1,
       "message": "Won\u0027t this cause unnecessary scavenging if s and before are already both scavenged? (Maybe that was already a problem.)",
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20ce0495_e539b311",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-16T00:57:11Z",
+      "side": 1,
+      "message": "as it turns out, no. the unnecessary scavenging from before was if no coalescing happened then it might still scavenge. that was fixed.\n\nconsider two adjacent scavenged spans. both extend half-way into a physical page where they meet. if we coalesce these two, we need to re-scavenge because the page in the middle wouldn\u0027t be scavenged otherwise, and the accounting would be incorrect.",
+      "parentUuid": "de220ffb_14c0fd75",
       "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -119,6 +221,30 @@
       "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d087153a_b911a049",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-01-16T00:57:11Z",
+      "side": 1,
+      "message": "done in a different change",
+      "parentUuid": "bf2d2de5_70cb1c30",
+      "range": {
+        "startLine": 477,
+        "startChar": 64,
+        "endLine": 487,
+        "endChar": 3
+      },
+      "revId": "dbe8389a3e0599f8c3e9c24cf4e61525f65d4d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
