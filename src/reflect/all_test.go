@@ -3378,6 +3378,10 @@ type MyBytes []byte
 type MyRunes []int32
 type MyFunc func()
 type MyByte byte
+type NoDup *NoDup
+type NoDupChan chan NoDup
+type NoDupChanRcv <-chan NoDup
+type NoDupChanSnd chan<- NoDup
 
 var convertTests = []struct {
 	in  Value
@@ -3726,6 +3730,12 @@ var convertTests = []struct {
 	{V((**MyByte)(nil)), V((**MyByte)(nil))},
 	{V((chan byte)(nil)), V((chan byte)(nil))},
 	{V((chan MyByte)(nil)), V((chan MyByte)(nil))},
+	{V(NoDupChan(nil)), V(NoDupChan(nil))},
+	{V(NoDupChanRcv(nil)), V(NoDupChanRcv(nil))},
+	{V(NoDupChanSnd(nil)), V(NoDupChanSnd(nil))},
+	{V((*NoDupChan)(nil)), V((*NoDupChan)(nil))},
+	{V((*NoDupChanRcv)(nil)), V((*NoDupChanRcv)(nil))},
+	{V((*NoDupChanSnd)(nil)), V((*NoDupChanSnd)(nil))},
 	{V(([]byte)(nil)), V(([]byte)(nil))},
 	{V(([]MyByte)(nil)), V(([]MyByte)(nil))},
 	{V((map[int]byte)(nil)), V((map[int]byte)(nil))},
@@ -3744,8 +3754,6 @@ var convertTests = []struct {
 	{V((chan int)(nil)), V((chan<- int)(nil))},
 	{V((chan string)(nil)), V((<-chan string)(nil))},
 	{V((chan string)(nil)), V((chan<- string)(nil))},
-	{V((chan byte)(nil)), V((chan byte)(nil))},
-	{V((chan MyByte)(nil)), V((chan MyByte)(nil))},
 	{V((map[int]bool)(nil)), V((map[int]bool)(nil))},
 	{V((map[int]byte)(nil)), V((map[int]byte)(nil))},
 	{V((map[uint]bool)(nil)), V((map[uint]bool)(nil))},
