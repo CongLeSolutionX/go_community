@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d150be3_7f3081fb",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-01-17T03:07:54Z",
+      "side": 1,
+      "message": "I thought we\u0027d used https://go.googlesource.com/proposal/+/master/design/27539-internal-abi.md in the past but I forget where.",
+      "revId": "b55e475291d16cda05cb5625019c8efd66cfd9ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
