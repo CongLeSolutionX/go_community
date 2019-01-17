@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb1b8d04_27ca1786",
+        "filename": "src/runtime/testdata/testprog/memprof.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-17T23:37:40Z",
+      "side": 1,
+      "message": "This will cause 100% memory profiling in *all* testprog tests. Can you instead add this to the top of func MemProf?\n\nI also don\u0027t understand why this change is necessary. Why did your change to sampling make this test reliably fail with no samples? Shouldn\u0027t it have more samples, if anything?",
+      "revId": "aed1e8441b71dfeef4eaf7bae622473dfb77a4d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
