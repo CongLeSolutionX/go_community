@@ -16,6 +16,24 @@
       "revId": "b55e475291d16cda05cb5625019c8efd66cfd9ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86b389b8_5e521722",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-17T03:33:47Z",
+      "side": 1,
+      "message": "That doesn\u0027t render the table in the compatibility section.",
+      "parentUuid": "9d150be3_7f3081fb",
+      "revId": "b55e475291d16cda05cb5625019c8efd66cfd9ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
