@@ -16,6 +16,24 @@
       "revId": "79739945de05c2f00759fdd967a0545bc5cdd6af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ed53c42_ad71dbbc",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-01-18T22:42:58Z",
+      "side": 1,
+      "message": "Actually, disregard. I think there\u0027s a still better fix.",
+      "parentUuid": "e8f6dfb8_d8d49af7",
+      "revId": "79739945de05c2f00759fdd967a0545bc5cdd6af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
