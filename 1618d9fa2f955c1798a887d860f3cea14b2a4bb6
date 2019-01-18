@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff26d579_2a22ac15",
+        "filename": "test/heapsampling.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-18T18:41:59Z",
+      "side": 1,
+      "message": "Typo: \"if\"",
+      "range": {
+        "startLine": 45,
+        "startChar": 65,
+        "endLine": 45,
+        "endChar": 67
+      },
+      "revId": "1618d9fa2f955c1798a887d860f3cea14b2a4bb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cf76579_97f3c087",
+        "filename": "test/heapsampling.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-18T18:41:59Z",
+      "side": 1,
+      "message": "This is only one critical character different from the standard error-checking pattern \"if err :\u003d x; err !\u003d nil { return err }\", which makes it very easy to mis-read. Since you\u0027re throwing out the errors anyway, I\u0027d recommend doing these checks (and the ones in testInterleavedAllocations) as\n\n  if checkAllocations(...) \u003d\u003d nil {\n    return nil\n  }",
+      "revId": "1618d9fa2f955c1798a887d860f3cea14b2a4bb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
