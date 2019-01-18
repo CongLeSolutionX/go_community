@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e6b9d55_19cd8fb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-01-18T16:07:29Z",
+      "side": 1,
+      "message": "Suggest: If a type switch case expression has failed typechecking, the case body is likely to also fail with confusing or spurious errors. Suppress typechecking the case body when this happens.\n\n\nAlso, nit: Please manually break onto two lines, at the period.\n\n(Optional reading, if you are curious: https://rhodesmill.org/brandon/2012/one-sentence-per-line/ and https://github.com/torvalds/linux/pull/17#issuecomment-5661185)\n\nAlso, since you\u0027re here: s/passed/past/ :)",
+      "revId": "63f489576d62c9bbead708b88f92d81577f54c8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a578ecd_606b4159",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-01-18T16:07:29Z",
+      "side": 1,
+      "message": "Remove the colon to match GitHub magic syntax.",
+      "revId": "63f489576d62c9bbead708b88f92d81577f54c8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9a89db3_19c32a58",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-01-18T16:07:29Z",
+      "side": 1,
+      "message": "s/caseTypeBroken/caseExprBroken/",
+      "revId": "63f489576d62c9bbead708b88f92d81577f54c8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "018ec954_cee2f8b3",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-01-18T16:07:29Z",
+      "side": 1,
+      "message": "I\u0027d invert this condition, and document a bit:\n\nif caseTypeBroken {\n  // The case expression failed typechecking.\n  // Avoid spurious/confusing errors by not also typechecking the case body.\n  // See golang.org/issue/28926.\n  continue\n}\ntypecheckslice(ncase.Nbody.Slice(), ctxStmt)",
+      "revId": "63f489576d62c9bbead708b88f92d81577f54c8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c04168a8_d02b831f",
+        "filename": "test/fixedbugs/issue28926.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-01-18T16:07:29Z",
+      "side": 1,
+      "message": "We usually spell this:\n\n// ok: this error ...",
+      "revId": "63f489576d62c9bbead708b88f92d81577f54c8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ce05661_08605a19",
+        "filename": "test/fixedbugs/issue28926.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-01-18T16:07:29Z",
+      "side": 1,
+      "message": "Add a valid case expression with typechecking failures in the body, to check that typechecking suppression only affects individual single case body.",
+      "revId": "63f489576d62c9bbead708b88f92d81577f54c8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
