@@ -91,6 +91,24 @@
       "revId": "79739945de05c2f00759fdd967a0545bc5cdd6af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5916ae7f_7f37219b",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 29971
+      },
+      "writtenOn": "2019-01-18T22:54:05Z",
+      "side": 1,
+      "message": "I tried. Doesn\u0027t work. But yeah... I did the same thing you are doing for 3 days or so. :D But I\u0027ll wait. You know the code better than me, I\u0027m sure of that. :)",
+      "parentUuid": "7ed53c42_ad71dbbc",
+      "revId": "79739945de05c2f00759fdd967a0545bc5cdd6af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
