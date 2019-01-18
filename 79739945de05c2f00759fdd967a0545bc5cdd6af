@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1bff9b38_1ad4016b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-01-18T22:53:24Z",
+      "side": 1,
+      "message": "Typically we write just \"Fixes #28926.\" when you\u0027re working within the golang/go repo itself.",
+      "revId": "79739945de05c2f00759fdd967a0545bc5cdd6af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc5a12c1_5b700b12",
         "filename": "src/cmd/compile/internal/gc/swt.go",
         "patchSetId": 2
