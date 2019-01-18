@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f6dfb8_d8d49af7",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-01-18T22:35:06Z",
+      "side": 1,
+      "message": "I suspect this patchset could be simplified to simply putting\n\n    if nvar.Type \u003d\u003d nil {\n        // Avoid spurious errors ....\n        continue\n    }\n\nafter the ncase.Rlist.SetFirst call.",
+      "revId": "79739945de05c2f00759fdd967a0545bc5cdd6af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
