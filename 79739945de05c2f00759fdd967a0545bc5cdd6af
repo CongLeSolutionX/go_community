@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "dc5a12c1_5b700b12",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-01-18T22:52:32Z",
+      "side": 1,
+      "message": "Change this to\n\n    if nvar.Type \u003d\u003d nil || nvar.Type.IsUntyped() {\n        // ...\n        continue\n    }\n\nand move it down before line 208 (the nvar typecheck).",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 3
+      },
+      "revId": "79739945de05c2f00759fdd967a0545bc5cdd6af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95b9d759_0d6f4542",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-01-18T22:52:32Z",
+      "side": 1,
+      "message": "Change this to\n\n    if ll.Len() \u003d\u003d 1 \u0026\u0026 (ll.First().Type \u003d\u003d nil || !ll.First().Type.IsKind(TNIL)) {",
+      "revId": "79739945de05c2f00759fdd967a0545bc5cdd6af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8f6dfb8_d8d49af7",
         "filename": "src/cmd/compile/internal/gc/swt.go",
         "patchSetId": 2
