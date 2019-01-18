@@ -16,6 +16,24 @@
       "revId": "aed1e8441b71dfeef4eaf7bae622473dfb77a4d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d6547f0_bf0b2936",
+        "filename": "src/runtime/testdata/testprog/memprof.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 12698
+      },
+      "writtenOn": "2019-01-18T00:13:44Z",
+      "side": 1,
+      "message": "Right. Sorry about that. Moved it to MemProf.\n\nBefore this commit, allocations larger than the sampling rate (512k) were always being sampled. This testcase relies on that forced sampling. The last allocation of the loop on line 27 would allocate just over 512k bytes, just over the cutoff.\n\nWith this commit, we no longer force sampling of large allocations. The likelihood of sampling\ngrows with the size of the allocation, but there is no longer a cutoff. This makes this testcase flaky, as it is possible to have a run where none of the allocations in MemProf were sampled.\n\nI\u0027ve also reduced the iteration count of the loop, as with the forced sampling we no longer\nrequire a large allocation to trigger sampling.",
+      "parentUuid": "fb1b8d04_27ca1786",
+      "revId": "aed1e8441b71dfeef4eaf7bae622473dfb77a4d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
