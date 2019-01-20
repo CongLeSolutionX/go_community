@@ -68,6 +68,13 @@ func panicoverflow() {
 	panic(overflowError)
 }
 
+var shiftError = error(errorString("negative shift amount"))
+
+func panicshift() {
+	panicCheckMalloc(floatError)
+	panic(shiftError)
+}
+
 var floatError = error(errorString("floating point error"))
 
 func panicfloat() {
