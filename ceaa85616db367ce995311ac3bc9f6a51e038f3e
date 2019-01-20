@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eea0d0d9_552ef193",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-01-20T22:29:30Z",
+      "side": 1,
+      "message": "IIUC, a nice way to do this would be to move the walkinrange optimization to SSA world, thus killing two birds with one stone.",
+      "revId": "ceaa85616db367ce995311ac3bc9f6a51e038f3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
