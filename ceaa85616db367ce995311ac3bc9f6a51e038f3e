@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "939b8f99_fb87d1a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-01-21T16:47:41Z",
+      "side": 1,
+      "message": "I don\u0027t think that would work directly, as the comparisons aren\u0027t quite arranged correctly. We\u0027d have:\n\nif i \u003c 0 { panic }\nif i \u003e\u003d 64 { i \u003d 63 }\nresult \u003d x \u003e\u003e i\n\nor\n\nif i \u003c 0 { panic }\nif i \u003e\u003d 64 { result \u003d 0 }\nelse { result \u003d x \u003c\u003c i }\n\nBut yes, moving walkinrange to SSA would be good to do regardless.",
+      "parentUuid": "eea0d0d9_552ef193",
+      "revId": "ceaa85616db367ce995311ac3bc9f6a51e038f3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f54d549_dbb0905e",
         "filename": "src/runtime/panic.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "ceaa85616db367ce995311ac3bc9f6a51e038f3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6bed7ce_43a13c39",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-01-21T16:47:41Z",
+      "side": 1,
+      "message": "Yes, thanks.",
+      "parentUuid": "0f54d549_dbb0905e",
+      "revId": "ceaa85616db367ce995311ac3bc9f6a51e038f3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
