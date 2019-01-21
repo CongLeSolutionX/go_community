@@ -49,8 +49,8 @@ that can be run locally. It must either be in the shell path
 command alias, described below.
 
 To convey to humans and machine tools that code is generated,
-generated source should have a line early in the file that
-matches the following regular expression (in Go syntax):
+generated source should have a line, conventionally early in the file,
+that matches the following regular expression (in Go syntax):
 
 	^// Code generated .* DO NOT EDIT\.$
 
