@@ -16,6 +16,24 @@
       "revId": "aa5e7a0fd0a73aea84e979b8d353a72301d7b913",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc66aaae_4d84a64f",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-01-22T02:05:59Z",
+      "side": 1,
+      "message": "\u003e \"conventionally early\" is odd writing.\n\nI can see that now. What if it said \"generally early\" or \"typically early\", would that still be odd?\n\n\u003e how about\n\u003e\n\u003e ... generated source should have a line near the beginning of the\nfile ...\n\nI\u0027m afraid such phrasing suffers from a similar lack of clarity about whether a matching line counts, if it appears not very early in the file. The goal of this CL is to make it very clear that the line still counts when found anywhere in the file, as the original specification explicitly said.\n\nHow about one of these 2 new proposals:\n\n\u003e To convey to humans and machine tools that code is generated,\n\u003e generated source should have a line, which is typically placed\n\u003e near the beginning of the file, that matches the following\n\u003e regular expression (in Go syntax):\n\u003e\n\u003e     ^// Code generated .* DO NOT EDIT\\.$\n\nOr:\n\n\u003e To convey to humans and machine tools that code is generated,\n\u003e generated source should have a line that matches the following\n\u003e regular expression (in Go syntax):\n\u003e \n\u003e     ^// Code generated .* DO NOT EDIT\\.$\n\u003e \n\u003e The line may appear anywhere in the file, but is typically\n\u003e placed near the beginning for human findability.",
+      "parentUuid": "aaef03d3_8ea877ba",
+      "revId": "aa5e7a0fd0a73aea84e979b8d353a72301d7b913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
