@@ -56,6 +56,24 @@
       "revId": "81fd1e7328685e885b0ae396997c2be020c0225e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3c6026d_0f08bab1",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 30788
+      },
+      "writtenOn": "2019-01-23T16:28:39Z",
+      "side": 1,
+      "message": "Thanks for the guidance, I think I have a better idea now. I will update the PR in the next day or two.",
+      "parentUuid": "bc136031_7a2adb39",
+      "revId": "81fd1e7328685e885b0ae396997c2be020c0225e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
