@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eba783d1_e6444b67",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3313,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-01-23T16:39:09Z",
+      "side": 1,
+      "message": "This is not related to what is described in the CL. Should be a separate CL.",
+      "range": {
+        "startLine": 3312,
+        "startChar": 0,
+        "endLine": 3313,
+        "endChar": 73
+      },
+      "revId": "85c005f2a5b09c2e3d47d3f9604e87d8a1a5e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4298d39a_6c07623a",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-01-23T16:39:09Z",
+      "side": 1,
+      "message": "Can we do (x \u003c\u003c 16 | x) \u003e\u003e 8 ? I.e.\nORR x\u003c\u003c16, x, out\nSLL $8, out\n\nI think this is one fewer instruction.",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 44
+      },
+      "revId": "85c005f2a5b09c2e3d47d3f9604e87d8a1a5e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
