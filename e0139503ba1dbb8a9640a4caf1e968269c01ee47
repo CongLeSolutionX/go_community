@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "e341b8f1_1f348348",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3498,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-01-24T07:58:53Z",
+      "side": 1,
+      "message": "I know that the 32-bit addition with a carry can be implemented with 64-bit addition, but since Add32 is an API, it is likely to be used by users, so I think it is necessary to optimize it.",
+      "parentUuid": "aa7aaf80_2eb92e48",
+      "range": {
+        "startLine": 3494,
+        "startChar": 0,
+        "endLine": 3498,
+        "endChar": 12
+      },
+      "revId": "e0139503ba1dbb8a9640a4caf1e968269c01ee47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "745732c8_ed65f0ed",
         "filename": "src/math/bits/bits_test.go",
         "patchSetId": 3
