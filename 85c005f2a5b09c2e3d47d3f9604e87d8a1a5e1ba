@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "317cde02_dbc7a4c9",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3313,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-01-24T04:10:08Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t notice that some platforms don\u0027t need this intrinsic, but arm64 and arm need this alias, so I think p4... and p8... should be sys.ArchARM64, sys.ArchARM. In addition, does this need to be a separate CL, can I update the commit message and keep them in this CL?",
+      "parentUuid": "5350d651_6f4ac514",
+      "range": {
+        "startLine": 3312,
+        "startChar": 0,
+        "endLine": 3313,
+        "endChar": 73
+      },
+      "revId": "85c005f2a5b09c2e3d47d3f9604e87d8a1a5e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4298d39a_6c07623a",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2019-01-23T16:39:09Z",
       "side": 1,
       "message": "Can we do (x \u003c\u003c 16 | x) \u003e\u003e 8 ? I.e.\nORR x\u003c\u003c16, x, out\nSLL $8, out\n\nI think this is one fewer instruction.",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 44
+      },
+      "revId": "85c005f2a5b09c2e3d47d3f9604e87d8a1a5e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "663ac21b_9c12cde8",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-01-24T04:10:08Z",
+      "side": 1,
+      "message": "No, because although x is 16 bits, it will be loaded to a 32 bits register, and the high 16 bits are not set to 0, this will result in test failure.\n--- FAIL: TestReverseBytes (0.00s)\n    bits_test.go:593: ReverseBytes16(0x6789) \u003d\u003d 0xcd67; want 0x8967\nFAIL",
+      "parentUuid": "4298d39a_6c07623a",
       "range": {
         "startLine": 87,
         "startChar": 0,
