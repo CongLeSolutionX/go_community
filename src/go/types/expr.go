@@ -659,7 +659,7 @@ func (check *Checker) shift(x, y *operand, e *ast.BinaryExpr, op token.Token) {
 	// integer type or be an untyped constant representable by a value of
 	// type uint."
 	switch {
-	case isUnsigned(y.typ):
+	case isInteger(y.typ):
 		// nothing to do
 	case isUntyped(y.typ):
 		check.convertUntyped(y, Typ[Uint])
@@ -668,21 +668,31 @@ func (check *Checker) shift(x, y *operand, e *ast.BinaryExpr, op token.Token) {
 			return
 		}
 	default:
-		check.invalidOp(y.pos(), "shift count %s must be unsigned integer", y)
+		check.invalidOp(y.pos(), "shift count %s must be integer", y)
 		x.mode = invalid
 		return
 	}
 
+	var yval constant.Value
+	if y.mode == constant_ {
+		// rhs must be an integer value
+		yval = constant.ToInt(y.val)
+		if yval.Kind() != constant.Int {
+			check.invalidOp(y.pos(), "shift count %s must be integer", y)
+			x.mode = invalid
+			return
+		}
+		// rhs must not be negative
+		if constant.Sign(yval) < 0 {
+			check.invalidOp(y.pos(), "negative shift count %s", y)
+			x.mode = invalid
+			return
+		}
+	}
+
 	if x.mode == constant_ {
 		if y.mode == constant_ {
-			// rhs must be an integer value
-			yval := constant.ToInt(y.val)
-			if yval.Kind() != constant.Int {
-				check.invalidOp(y.pos(), "shift count %s must be unsigned integer", y)
-				x.mode = invalid
-				return
-			}
-			// rhs must be within reasonable bounds
+			// rhs must be within reasonable bounds in constant shifts
 			const shiftBound = 1023 - 1 + 52 // so we can express smallestFloat64
 			s, ok := constant.Uint64Val(yval)
 			if !ok || s > shiftBound {
@@ -690,6 +700,7 @@ func (check *Checker) shift(x, y *operand, e *ast.BinaryExpr, op token.Token) {
 				x.mode = invalid
 				return
 			}
+
 			// The lhs is representable as an integer but may not be an integer
 			// (e.g., 2.0, an untyped float) - this can only happen for untyped
 			// non-integer numeric constants. Correct the type so that the shift
@@ -739,11 +750,6 @@ func (check *Checker) shift(x, y *operand, e *ast.BinaryExpr, op token.Token) {
 			x.mode = value
 			return
 		}
-	}
-
-	// constant rhs must be >= 0
-	if y.mode == constant_ && constant.Sign(y.val) < 0 {
-		check.invalidOp(y.pos(), "shift count %s must not be negative", y)
 	}
 
 	// non-constant shift - lhs must be an integer
