@@ -1190,6 +1190,17 @@ HaveSpan:
 		// heap_released since we already did so earlier.
 		sysUsed(unsafe.Pointer(s.base()), s.npages<<_PageShift)
 		s.scavenged = false
+
+		// To prevent scavenging mechanisms from falling behind,
+		// we need to treat a span allocation of a scavenged span
+		// as a "heap growth" and scavenge something else in its
+		// place if possible.
+		//
+		// Also, scavengeLargest may cause coalescing, so prevent
+		// coalescing with s by temporarily changing its state.
+		s.state = mSpanManual
+		h.scavengeLargest(s.npages * pageSize)
+		s.state = mSpanFree
 	}
 	s.unusedsince = 0
 
