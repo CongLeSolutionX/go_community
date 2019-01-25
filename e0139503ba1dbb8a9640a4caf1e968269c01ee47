@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fec668f3_a893a9a7",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-01-25T02:55:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35406b0c_4fb9dcc3",
+      "range": {
+        "startLine": 507,
+        "startChar": 9,
+        "endLine": 507,
+        "endChar": 11
+      },
+      "revId": "e0139503ba1dbb8a9640a4caf1e968269c01ee47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa7aaf80_2eb92e48",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 3
@@ -83,6 +107,30 @@
       "writtenOn": "2019-01-23T16:55:53Z",
       "side": 1,
       "message": "This has a lot of duplication. I think we should keep the original test function. I believe we can test intrinsics by wrapping it in a closure, like\n\ntest(\"Add intrinsic\", func(x, y, c uint) (uint, uint) { return Add(x, y, c) }, a.x, a.y, a.z, a.c, a.cout)\n\nThis way, Add is called directly and should be intrinsified.",
+      "range": {
+        "startLine": 729,
+        "startChar": 0,
+        "endLine": 744,
+        "endChar": 3
+      },
+      "revId": "e0139503ba1dbb8a9640a4caf1e968269c01ee47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08d33d11_e8bb46b3",
+        "filename": "src/math/bits/bits_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-01-25T02:55:49Z",
+      "side": 1,
+      "message": "Yes, this way works, thanks for your suggestion.",
+      "parentUuid": "745732c8_ed65f0ed",
       "range": {
         "startLine": 729,
         "startChar": 0,
