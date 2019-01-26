@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f1f30011_87270948",
+        "filename": "src/cmd/compile/internal/gc/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-01-26T23:28:30Z",
+      "side": 1,
+      "message": "No, lookup is package-local, so this would be pkg.init.ializers, which is not a possible user-level name.\nI\u0027m willing to consider other ways of naming, though, if you have a good idea.",
+      "parentUuid": "18b83b3d_b246d5d9",
+      "revId": "ee6f6d9d733b086ee750e292b26641dc9657ede5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc66a611_91ea3056",
         "filename": "test/fixedbugs/issue29919.dir/a.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-01-26T19:10:49Z",
       "side": 1,
       "message": "Do you need this \"if false\"?  Maybe this would be clearer as \"if debug\" with a \"const debug \u003d false\".  Similarly for \"if false\" below.",
+      "revId": "ee6f6d9d733b086ee750e292b26641dc9657ede5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68b0493a_45385e66",
+        "filename": "test/fixedbugs/issue29919.dir/a.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-01-26T23:28:30Z",
+      "side": 1,
+      "message": "Not needed, but helps with debugging the test.  I\u0027d like to print unconditionally, but unfortunately rundir tests require output to match a golden file, which is hard to do here as the stack trace has absolute path names in it.\n\nI\u0027ll modify to use the const debug \u003d false idiom.",
+      "parentUuid": "cc66a611_91ea3056",
       "revId": "ee6f6d9d733b086ee750e292b26641dc9657ede5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
