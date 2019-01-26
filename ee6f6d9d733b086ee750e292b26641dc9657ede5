@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18b83b3d_b246d5d9",
+        "filename": "src/cmd/compile/internal/gc/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-26T19:10:49Z",
+      "side": 1,
+      "message": "Could this conflict with a variable name \"ializers\" in a package named \"init\"?  As far as I can see current uses of an \"init.\" prefix are always followed by a digit, which clearly cannot conflict.",
+      "revId": "ee6f6d9d733b086ee750e292b26641dc9657ede5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc66a611_91ea3056",
+        "filename": "test/fixedbugs/issue29919.dir/a.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-26T19:10:49Z",
+      "side": 1,
+      "message": "Do you need this \"if false\"?  Maybe this would be clearer as \"if debug\" with a \"const debug \u003d false\".  Similarly for \"if false\" below.",
+      "revId": "ee6f6d9d733b086ee750e292b26641dc9657ede5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
