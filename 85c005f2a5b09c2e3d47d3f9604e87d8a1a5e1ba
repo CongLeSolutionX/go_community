@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1258ccc4_1dd8a107",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3313,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-01-28T15:54:20Z",
+      "side": 1,
+      "message": "Can you explain why it is needed on ARM(64)? Why inlining doesn\u0027t just do the right thing?\n\nvar x uint\nfunc F() { x \u003d bits.ReverseBytes(x) }\n\n\"\".F STEXT size\u003d48 args\u003d0x0 locals\u003d0x0 leaf\n\t0x0000 00000 (/tmp/x.go:7)\tTEXT\t\"\".F(SB), LEAF|NOFRAME|ABIInternal, $0-0\n\t0x0000 00000 (/tmp/x.go:7)\tFUNCDATA\tZR, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x0000 00000 (/tmp/x.go:7)\tFUNCDATA\t$1, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x0000 00000 (/tmp/x.go:7)\tFUNCDATA\t$3, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)\n\t0x0000 00000 (/tmp/x.go:7)\tPCDATA\t$2, ZR\n\t0x0000 00000 (/tmp/x.go:7)\tPCDATA\tZR, ZR\n\t0x0000 00000 (/tmp/x.go:7)\tHINT\tZR\n\t0x0004 00004 (/tmp/x.go:7)\tMOVD\t\"\".x(SB), R0\n\t0x0010 00016 ($GOROOT/src/math/bits/bits.go:257)\tREV\tR0, R0\n\t0x0014 00020 (/tmp/x.go:7)\tMOVD\tR0, \"\".x(SB)\n\t0x0020 00032 (/tmp/x.go:7)\tRET\t(R30)",
+      "parentUuid": "317cde02_dbc7a4c9",
+      "range": {
+        "startLine": 3312,
+        "startChar": 0,
+        "endLine": 3313,
+        "endChar": 73
+      },
+      "revId": "85c005f2a5b09c2e3d47d3f9604e87d8a1a5e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4298d39a_6c07623a",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 1
