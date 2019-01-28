@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abcebebc_9c9c4a2c",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-01-28T17:00:26Z",
+      "side": 1,
+      "message": "How about just \"Tour\", like https://golang.org/doc/go1.8#tool_yacc\n\nOr at least say \"removed\" instead of \"removal\".\n\nBut I\u0027d just say \"Tour\"",
+      "revId": "a18a4d8ba208c14eab917db052b934e5f90f5169",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59fd735f_9fe16471",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-01-28T17:00:26Z",
+      "side": 1,
+      "message": "You could drop this backstory and just say \"The Go tour is no longer included in the main ...\"\n\nAdd a \u003c!-- CL nnnn --\u003e comment to cross-reference to the CL+issue.",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 61
+      },
+      "revId": "a18a4d8ba208c14eab917db052b934e5f90f5169",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df7b3711_4abda42a",
+        "filename": "doc/go1.12.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-01-28T17:00:26Z",
+      "side": 1,
+      "message": "To run the tour locally, instead of running go tool tour, manually install it:\n\n...",
+      "range": {
+        "startLine": 120,
+        "startChar": 54,
+        "endLine": 123,
+        "endChar": 52
+      },
+      "revId": "a18a4d8ba208c14eab917db052b934e5f90f5169",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
