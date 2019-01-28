@@ -10,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"testing"
 )
 
@@ -802,11 +803,10 @@ var errors = []struct {
 	{"078.", token.FLOAT, 0, "078.", ""},
 	{"07801234567.", token.FLOAT, 0, "07801234567.", ""},
 	{"078e0", token.FLOAT, 0, "078e0", ""},
-	{"0E", token.FLOAT, 0, "0E", "illegal floating-point exponent"}, // issue 17621
-	{"078", token.INT, 0, "078", "illegal octal number"},
-	{"07800000009", token.INT, 0, "07800000009", "illegal octal number"},
-	{"0x", token.INT, 0, "0x", "illegal hexadecimal number"},
-	{"0X", token.INT, 0, "0X", "illegal hexadecimal number"},
+	{"0E", token.FLOAT, 2, "0E", "exponent has no digits"}, // issue 17621
+	{"078", token.INT, 2, "078", "invalid digit '8' in octal literal"},
+	{"07090000008", token.INT, 3, "07090000008", "invalid digit '9' in octal literal"},
+	{"0x", token.INT, 0, "0", ""},
 	{"\"abc\x00def\"", token.STRING, 4, "\"abc\x00def\"", "illegal character NUL"},
 	{"\"abc\x80def\"", token.STRING, 4, "\"abc\x80def\"", "illegal UTF-8 encoding"},
 	{"\ufeff\ufeff", token.ILLEGAL, 3, "\ufeff\ufeff", "illegal byte order mark"},                        // only first BOM is ignored
@@ -909,6 +909,271 @@ func BenchmarkScanFile(b *testing.B) {
 			if tok == token.EOF {
 				break
 			}
+		}
+	}
+}
+
+func TestNumbers(t *testing.T) {
+	for _, test := range []struct {
+		tok              token.Token
+		src, tokens, err string
+	}{
+		// 0-octals
+		{token.INT, "0", "0", ""},
+		{token.INT, "0123", "0123", ""},
+		{token.INT, "0123456", "0123456", ""},
+		{token.INT, "0812345", "0812345", "invalid digit '8' in octal literal"},
+		{token.INT, "0123459", "0123459", "invalid digit '9' in octal literal"},
+
+		{token.INT, "0_123", "0_123", ""},
+		{token.INT, "0123_456", "0123_456", ""},
+		{token.INT, "0_812345", "0_812345", "invalid digit '8' in octal literal"},
+		{token.INT, "0123_459", "0123_459", "invalid digit '9' in octal literal"},
+
+		{token.INT, "0x", "0 x", ""},
+		{token.INT, "0123F.", "0123 F .", ""},
+		{token.INT, "0123456x", "0123456 x", ""},
+		{token.INT, "0812345_", "0812345 _", "invalid digit '8' in octal literal"},
+		{token.INT, "0123459F", "0123459 F", "invalid digit '9' in octal literal"},
+
+		{token.INT, "0__123", "0 __123", ""},
+		{token.INT, "0123__456", "0123 __456", ""},
+
+		// decimals
+		{token.INT, "1", "1", ""},
+		{token.INT, "1234", "1234", ""},
+		{token.INT, "1234567", "1234567", ""},
+
+		{token.INT, "1_234", "1_234", ""},
+		{token.INT, "1_234_567", "1_234_567", ""},
+
+		{token.INT, "1x", "1 x", ""},
+		{token.INT, "1__234", "1 __234", ""},
+		{token.INT, "1_234__567", "1_234 __567", ""},
+
+		// hexadecimals
+		{token.INT, "0x0", "0x0", ""},
+		{token.INT, "0x1234", "0x1234", ""},
+		{token.INT, "0xcafef00d", "0xcafef00d", ""},
+
+		{token.INT, "0X0", "0X0", ""},
+		{token.INT, "0X1234", "0X1234", ""},
+		{token.INT, "0XCAFEf00d", "0XCAFEf00d", ""},
+
+		{token.INT, "0X_0", "0X_0", ""},
+		{token.INT, "0X_1234", "0X_1234", ""},
+		{token.INT, "0X_CAFE_f00d", "0X_CAFE_f00d", ""},
+
+		{token.INT, "0x.", "0 x .", ""},
+		{token.INT, "0x0i", "0x0 i", ""}, // no hexadecimal imaginary values
+		{token.INT, "0x__0", "0 x__0", ""},
+		{token.INT, "0x_1234_", "0x_1234 _", ""},
+		{token.INT, "0xcafe__f00d", "0xcafe __f00d", ""},
+
+		// octals
+		{token.INT, "0o0", "0o0", ""},
+		{token.INT, "0o1234", "0o1234", ""},
+		{token.INT, "0o01234567", "0o01234567", ""},
+
+		{token.INT, "0O0", "0O0", ""},
+		{token.INT, "0O1234", "0O1234", ""},
+		{token.INT, "0O01234567", "0O01234567", ""},
+
+		{token.INT, "0o_0", "0o_0", ""},
+		{token.INT, "0o_1234", "0o_1234", ""},
+		{token.INT, "0o0123_4567", "0o0123_4567", ""},
+
+		{token.INT, "0o0_", "0o0 _", ""},
+		{token.INT, "0o1234i", "0o1234 i", ""}, // no 0o-octal imaginary values
+		{token.INT, "0o012345678", "0o01234567 8", ""},
+
+		{token.INT, "0O_0", "0O_0", ""},
+		{token.INT, "0O_1234", "0O_1234", ""},
+		{token.INT, "0O0123_4567", "0O0123_4567", ""},
+
+		{token.INT, "0o__0", "0 o__0", ""},
+		{token.INT, "0o__1234", "0 o__1234", ""},
+		{token.INT, "0o0123__4567", "0o0123 __4567", ""},
+
+		// binaries
+		{token.INT, "0b0", "0b0", ""},
+		{token.INT, "0b1011", "0b1011", ""},
+		{token.INT, "0b00101101", "0b00101101", ""},
+
+		{token.INT, "0B0", "0B0", ""},
+		{token.INT, "0B1011", "0B1011", ""},
+		{token.INT, "0B00101101", "0B00101101", ""},
+
+		{token.INT, "0b_0", "0b_0", ""},
+		{token.INT, "0b10_11", "0b10_11", ""},
+		{token.INT, "0b_0010_1101", "0b_0010_1101", ""},
+
+		{token.INT, "0b0_", "0b0 _", ""},
+		{token.INT, "0b1011i", "0b1011 i", ""}, // no binary imaginary values
+		{token.INT, "0b00102101", "0b0010 2101", ""},
+
+		{token.INT, "0b__0", "0 b__0", ""},
+		{token.INT, "0b10__11", "0b10 __11", ""},
+		{token.INT, "0b__0010_1101", "0 b__0010_1101", ""},
+
+		// decimal floats
+		{token.FLOAT, "0.", "0.", ""},
+		{token.FLOAT, "123.", "123.", ""},
+		{token.FLOAT, "0123.", "0123.", ""},
+
+		{token.FLOAT, ".0", ".0", ""},
+		{token.FLOAT, ".123", ".123", ""},
+		{token.FLOAT, ".0123", ".0123", ""},
+
+		{token.FLOAT, "0e0", "0e0", ""},
+		{token.FLOAT, "123e+0", "123e+0", ""},
+		{token.FLOAT, "0123E-1", "0123E-1", ""},
+
+		{token.FLOAT, "0e-0", "0e-0", ""},
+		{token.FLOAT, "123E+0", "123E+0", ""},
+		{token.FLOAT, "0123E123", "0123E123", ""},
+
+		{token.FLOAT, "0.e+1", "0.e+1", ""},
+		{token.FLOAT, "123.E-10", "123.E-10", ""},
+		{token.FLOAT, "0123.e123", "0123.e123", ""},
+
+		{token.FLOAT, ".0e-1", ".0e-1", ""},
+		{token.FLOAT, ".123E+10", ".123E+10", ""},
+		{token.FLOAT, ".0123E123", ".0123E123", ""},
+
+		{token.FLOAT, "0.0", "0.0", ""},
+		{token.FLOAT, "123.123", "123.123", ""},
+		{token.FLOAT, "0123.0123", "0123.0123", ""},
+
+		{token.FLOAT, "0.0e1", "0.0e1", ""},
+		{token.FLOAT, "123.123E-10", "123.123E-10", ""},
+		{token.FLOAT, "0123.0123e+456", "0123.0123e+456", ""},
+
+		{token.FLOAT, "1_2_3.", "1_2_3.", ""},
+		{token.FLOAT, "0_123.", "0_123.", ""},
+
+		{token.FLOAT, "0_0e0", "0_0e0", ""},
+		{token.FLOAT, "1_2_3e0", "1_2_3e0", ""},
+		{token.FLOAT, "0_123e0", "0_123e0", ""},
+
+		{token.FLOAT, "0e-0_0", "0e-0_0", ""},
+		{token.FLOAT, "1_2_3E+0", "1_2_3E+0", ""},
+		{token.FLOAT, "0123E1_2_3", "0123E1_2_3", ""},
+
+		{token.FLOAT, "0.e+1", "0.e+1", ""},
+		{token.FLOAT, "123.E-1_0", "123.E-1_0", ""},
+		{token.FLOAT, "01_23.e123", "01_23.e123", ""},
+
+		{token.FLOAT, ".0e-1", ".0e-1", ""},
+		{token.FLOAT, ".123E+10", ".123E+10", ""},
+		{token.FLOAT, ".0123E123", ".0123E123", ""},
+
+		{token.FLOAT, "1_2_3.123", "1_2_3.123", ""},
+		{token.FLOAT, "0123.01_23", "0123.01_23", ""},
+
+		{token.FLOAT, "0._", "0. _", ""},
+		{token.FLOAT, "123.x", "123. x", ""},
+		{token.FLOAT, "0123.x", "0123. x", ""},
+
+		{token.FLOAT, "0e", "0e", "exponent has no digits"},
+		{token.FLOAT, "0E", "0E", "exponent has no digits"},
+		{token.FLOAT, "0e+", "0e+", "exponent has no digits"},
+		{token.FLOAT, "0e+_0", "0e+ _0", "exponent has no digits"},
+		{token.FLOAT, "0e+f", "0e+ f", "exponent has no digits"},
+
+		// hexadecimal floats
+		{token.FLOAT, "0x0.p+0", "0x0.p+0", ""},
+		{token.FLOAT, "0Xdeadcafe.p-10", "0Xdeadcafe.p-10", ""},
+		{token.FLOAT, "0x1234.P123", "0x1234.P123", ""},
+
+		{token.FLOAT, "0x.1p-0", "0x.1p-0", ""},
+		{token.FLOAT, "0X.deadcafep2", "0X.deadcafep2", ""},
+		{token.FLOAT, "0x.1234P+10", "0x.1234P+10", ""},
+
+		{token.FLOAT, "0x0p0", "0x0p0", ""},
+		{token.FLOAT, "0Xdeadcafep+1", "0Xdeadcafep+1", ""},
+		{token.FLOAT, "0x1234P-10", "0x1234P-10", ""},
+
+		{token.FLOAT, "0x0.0p0", "0x0.0p0", ""},
+		{token.FLOAT, "0Xdead.cafep+1", "0Xdead.cafep+1", ""},
+		{token.FLOAT, "0x12.34P-10", "0x12.34P-10", ""},
+
+		{token.FLOAT, "0Xdead_cafep+1", "0Xdead_cafep+1", ""},
+		{token.FLOAT, "0x_1234P-10", "0x_1234P-10", ""},
+
+		{token.FLOAT, "0X_dead_cafe.p-10", "0X_dead_cafe.p-10", ""},
+		{token.FLOAT, "0x12_34.P1_2_3", "0x12_34.P1_2_3", ""},
+
+		{token.FLOAT, "0x0p0i", "0x0p0 i", ""}, // no hexadecimal float imaginary values
+
+		{token.FLOAT, "0x0.", "0x0.", "hexadecimal float requires an exponent"},
+		{token.FLOAT, "0x0._", "0x0. _", "hexadecimal float requires an exponent"},
+		{token.FLOAT, "0x.0", "0x.0", "hexadecimal float requires an exponent"},
+		{token.FLOAT, "0x1.1e0", "0x1.1e0", "hexadecimal float requires an exponent"},
+		{token.FLOAT, "0xa.b_p0", "0xa.b _p0", "hexadecimal float requires an exponent"},
+		{token.FLOAT, "0xA._BP1", "0xA. _BP1", "hexadecimal float requires an exponent"},
+
+		{token.FLOAT, "0x0p", "0x0p", "exponent has no digits"},
+		{token.FLOAT, "0x.1p-_0", "0x.1p- _0", "exponent has no digits"},
+		{token.FLOAT, "0x1234PAB", "0x1234P AB", "exponent has no digits"},
+
+		// imaginaries
+		{token.IMAG, "0i", "0i", ""},
+		{token.IMAG, "00i", "00i", ""},
+		{token.IMAG, "1234i", "1234i", ""},
+		{token.IMAG, "1234567i", "1234567i", ""},
+
+		{token.IMAG, "1_234i", "1_234i", ""},
+		{token.IMAG, "1_234_567i", "1_234_567i", ""},
+
+		{token.IMAG, "0.i", "0.i", ""},
+		{token.IMAG, "123.i", "123.i", ""},
+		{token.IMAG, "0123.i", "0123.i", ""},
+
+		{token.IMAG, "0.e+1i", "0.e+1i", ""},
+		{token.IMAG, "123.E-1_0i", "123.E-1_0i", ""},
+		{token.IMAG, "01_23.e123i", "01_23.e123i", ""},
+	} {
+		var s Scanner
+		var err string
+		s.Init(fset.AddFile("", fset.Base(), len(test.src)), []byte(test.src), func(_ token.Position, msg string) {
+			err = msg
+		}, 0)
+		for i, want := range strings.Split(test.tokens, " ") {
+			err = ""
+			_, tok, lit := s.Scan()
+
+			// compute lit where for tokens where lit is not defined
+			switch tok {
+			case token.PERIOD:
+				lit = "."
+			case token.ADD:
+				lit = "+"
+			case token.SUB:
+				lit = "-"
+			}
+
+			if i == 0 {
+				if tok != test.tok {
+					t.Errorf("%q: got token %s; want %s", test.src, tok, test.tok)
+				}
+				if err != test.err {
+					t.Errorf("%q: got error %q; want %q", test.src, err, test.err)
+				}
+			}
+
+			if lit != want {
+				t.Errorf("%q: got literal %q (%s); want %s", test.src, lit, tok, want)
+			}
+		}
+
+		// make sure we read all
+		_, tok, _ := s.Scan()
+		if tok == token.SEMICOLON {
+			_, tok, _ = s.Scan()
+		}
+		if tok != token.EOF {
+			t.Errorf("%q: got %s; want EOF", test.src, tok)
 		}
 	}
 }
