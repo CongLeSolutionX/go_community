@@ -22,6 +22,30 @@
       "revId": "a7abb619863b9e945ee6f72edd857e59316207d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3441bcfa_cc9ec2b9",
+        "filename": "src/strconv/extfloat.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2019-01-28T20:31:15Z",
+      "side": 1,
+      "message": "var rem uint64\nf.mant, rem \u003d  bits.Mul64(f.mant, g.mant)\nf.mant +\u003d rem \u003e\u003e 63\n\nwould match the previous behavior of round-to-nearest ties round-up.  But I am not sure why the original code uses ties round-up instead of ties round-to-even.  As noted, the tests don\u0027t seem to probe the rounding behavior of this multiplication thoroughly.",
+      "parentUuid": "01c6cd80_7adbac06",
+      "range": {
+        "startLine": 217,
+        "startChar": 13,
+        "endLine": 217,
+        "endChar": 17
+      },
+      "revId": "a7abb619863b9e945ee6f72edd857e59316207d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
