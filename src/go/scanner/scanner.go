@@ -50,6 +50,14 @@ type Scanner struct {
 
 const bom = 0xFEFF // byte order mark, only permitted as very first character
 
+// reset resets the scanner's state to the character at offs, but
+// it leaves the current line offset or insertSemi state alone.
+//
+func (s *Scanner) reset(offs int) {
+	s.rdOffset = offs
+	s.next()
+}
+
 // Read the next Unicode char into s.ch.
 // s.ch < 0 means end-of-file.
 //
@@ -340,7 +348,7 @@ func isLetter(ch rune) bool {
 }
 
 func isDigit(ch rune) bool {
-	return '0' <= ch && ch <= '9' || ch >= utf8.RuneSelf && unicode.IsDigit(ch)
+	return isDecimal(ch) || ch >= utf8.RuneSelf && unicode.IsDigit(ch)
 }
 
 func (s *Scanner) scanIdentifier() string {
@@ -363,87 +371,159 @@ func digitVal(ch rune) int {
 	return 16 // larger than any legal digit val
 }
 
-func (s *Scanner) scanMantissa(base int) {
-	for digitVal(s.ch) < base {
-		s.next()
-	}
+func isBinary(ch rune) bool  { return ch == '0' || ch == '1' }
+func isOctal(ch rune) bool   { return '0' <= ch && ch <= '7' }
+func isDecimal(ch rune) bool { return '0' <= ch && ch <= '9' }
+func isHex(ch rune) bool {
+	return '0' <= ch && ch <= '9' || 'a' <= ch && ch <= 'f' || 'A' <= ch && ch <= 'F'
 }
 
-func (s *Scanner) scanNumber(seenDecimalPoint bool) (token.Token, string) {
-	// digitVal(s.ch) < 10
+func (s *Scanner) scanDigits(isValid func(rune) bool) bool {
 	offs := s.offset
-	tok := token.INT
-
-	if seenDecimalPoint {
-		offs--
-		tok = token.FLOAT
-		s.scanMantissa(10)
-		goto exponent
-	}
-
-	if s.ch == '0' {
-		// int or float
-		offs := s.offset
-		s.next()
-		if s.ch == 'x' || s.ch == 'X' {
-			// hexadecimal int
+	for isValid(s.ch) || s.ch == '_' && isValid(rune(s.peek())) {
+		if s.ch == '_' {
 			s.next()
-			s.scanMantissa(16)
-			if s.offset-offs <= 2 {
-				// only scanned "0x" or "0X"
-				s.error(offs, "illegal hexadecimal number")
-			}
-		} else {
-			// octal int or float
-			seenDecimalDigit := false
-			s.scanMantissa(8)
-			if s.ch == '8' || s.ch == '9' {
-				// illegal octal int or float
-				seenDecimalDigit = true
-				s.scanMantissa(10)
-			}
-			if s.ch == '.' || s.ch == 'e' || s.ch == 'E' || s.ch == 'i' {
-				goto fraction
-			}
-			// octal int
-			if seenDecimalDigit {
-				s.error(offs, "illegal octal number")
-			}
 		}
-		goto exit
+		s.next()
+	}
+	return s.offset > offs
+}
+
+func (s *Scanner) scanExponent() bool {
+	if s.ch == '-' || s.ch == '+' {
+		s.next()
+	}
+	if !isDecimal(s.ch) {
+		s.error(s.offset, "exponent has no digits")
+		return false
+	}
+	s.scanDigits(isDecimal)
+	return true
+}
+
+func (s *Scanner) scanNumber() (token.Token, string) {
+	offs := s.offset
+	tok := token.ILLEGAL
+
+	// integer part
+	if s.ch != '.' {
+		tok = token.INT // until proven otherwise
+		if s.ch == '0' {
+			s.next()
+			switch s.ch {
+			case 'x', 'X':
+				// integer part of hexadecimal int or float
+				s.next()
+				hasDigits := false
+				if s.ch != '.' {
+					if !s.scanDigits(isHex) {
+						goto zero
+					}
+					if s.ch != '.' && s.ch != 'p' && s.ch != 'P' {
+						goto done // just hexadecimal int
+					}
+					hasDigits = true
+				}
+
+				// fractional part of hexadecimal float
+				if s.ch == '.' {
+					tok = token.FLOAT
+					s.next()
+					if isHex(s.ch) {
+						s.next()
+						s.scanDigits(isHex)
+					} else if !hasDigits {
+						goto zero // 0x. will be tokenized as 0 x .
+					}
+				}
+
+				// exponent of hexadecimal float
+				if s.ch == 'p' || s.ch == 'P' {
+					tok = token.FLOAT
+					s.next()
+					s.scanExponent()
+				} else {
+					s.error(offs, "hexadecimal float requires an exponent")
+				}
+				goto done
+
+			case 'o', 'O':
+				s.next()
+				if !s.scanDigits(isOctal) {
+					goto zero
+				}
+				goto done
+
+			case 'b', 'B':
+				s.next()
+				if !s.scanDigits(isBinary) {
+					goto zero
+				}
+				goto done
+			}
+
+			// integer part of 0-octal or decimal float
+			var invalid struct {
+				offs  int
+				digit rune
+			}
+			for isDecimal(s.ch) || s.ch == '_' && isDecimal(rune(s.peek())) {
+				if s.ch == '_' {
+					s.next()
+				}
+				if s.ch > '7' && invalid.digit == 0 {
+					invalid.offs = s.offset
+					invalid.digit = s.ch
+				}
+				s.next()
+			}
+			//  0-octal followed by a fraction, exponent, or 'i' is considered a decimal float
+			if s.ch != '.' && s.ch != 'e' && s.ch != 'E' && s.ch != 'i' {
+				// 0-octal
+				if invalid.digit != 0 {
+					s.error(invalid.offs, fmt.Sprintf("invalid digit %q in octal literal", invalid.digit))
+				}
+				goto done
+			}
+
+		} else {
+			// integer part of decimal int or float
+			// (the caller of number ensures that we have at least one digit)
+			s.scanDigits(isDecimal)
+		}
 	}
 
-	// decimal int or float
-	s.scanMantissa(10)
-
-fraction:
+	// fractional part of decimal float
 	if s.ch == '.' {
 		tok = token.FLOAT
 		s.next()
-		s.scanMantissa(10)
+		if isDecimal(s.ch) {
+			s.next()
+			s.scanDigits(isDecimal)
+		}
 	}
 
-exponent:
+	// exponent of decimal float
 	if s.ch == 'e' || s.ch == 'E' {
 		tok = token.FLOAT
 		s.next()
-		if s.ch == '-' || s.ch == '+' {
-			s.next()
-		}
-		if digitVal(s.ch) < 10 {
-			s.scanMantissa(10)
-		} else {
-			s.error(offs, "illegal floating-point exponent")
+		if !s.scanExponent() {
+			goto done // invalid exponent
 		}
 	}
 
+	// imaginary float
 	if s.ch == 'i' {
 		tok = token.IMAG
 		s.next()
 	}
 
-exit:
+done:
 	return tok, string(s.src[offs:s.offset])
+
+zero:
+	s.reset(offs + 1)
+	return token.INT, "0"
 }
 
 // scanEscape parses an escape sequence where rune is the accepted
@@ -708,9 +788,9 @@ scanAgain:
 			insertSemi = true
 			tok = token.IDENT
 		}
-	case '0' <= ch && ch <= '9':
+	case isDecimal(ch) || ch == '.' && isDecimal(rune(s.peek())):
 		insertSemi = true
-		tok, lit = s.scanNumber(false)
+		tok, lit = s.scanNumber()
 	default:
 		s.next() // always make progress
 		switch ch {
@@ -741,16 +821,12 @@ scanAgain:
 		case ':':
 			tok = s.switch2(token.COLON, token.DEFINE)
 		case '.':
-			if '0' <= s.ch && s.ch <= '9' {
-				insertSemi = true
-				tok, lit = s.scanNumber(true)
-			} else {
-				tok = token.PERIOD
-				if s.ch == '.' && s.peek() == '.' {
-					s.next()
-					s.next() // consume last '.'
-					tok = token.ELLIPSIS
-				}
+			// fractions starting with a '.' are handled by outer switch
+			tok = token.PERIOD
+			if s.ch == '.' && s.peek() == '.' {
+				s.next()
+				s.next() // consume last '.'
+				tok = token.ELLIPSIS
 			}
 		case ',':
 			tok = token.COMMA
