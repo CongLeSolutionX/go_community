@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19d7f93e_98ac238a",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-01-28T22:12:53Z",
+      "side": 1,
+      "message": "The use of MOVD and AX suggests that we should only run this test on amd64.",
+      "revId": "728e254038659363f1ec84ab44f2debd590aedc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
