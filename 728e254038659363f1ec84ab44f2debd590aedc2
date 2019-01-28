@@ -16,6 +16,24 @@
       "revId": "728e254038659363f1ec84ab44f2debd590aedc2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d6a4a27_90ceffad",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-28T22:46:27Z",
+      "side": 1,
+      "message": "We only build and link this code, we don\u0027t run it. So it matters what we target, but the test can run on any arch.",
+      "parentUuid": "19d7f93e_98ac238a",
+      "revId": "728e254038659363f1ec84ab44f2debd590aedc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
