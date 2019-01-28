@@ -82,6 +82,47 @@
     },
     {
       "key": {
+        "uuid": "67435629_20d4d2ff",
+        "filename": "src/hash/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2019-01-28T00:54:27Z",
+      "side": 1,
+      "message": "and \"is a\"",
+      "parentUuid": "42c83bef_1fbcb072",
+      "range": {
+        "startLine": 5,
+        "startChar": 21,
+        "endLine": 5,
+        "endChar": 32
+      },
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4f58275_de809f22",
+        "filename": "src/hash/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2019-01-28T00:54:27Z",
+      "side": 1,
+      "message": "Do we really want to explicitly document that it is the one used by the runtime? Wouldn\u0027t it be safer to just say that it is \"a fast, non-cryptographic hash function\" without specifying more? What if tomorrow the runtime chooses to use a completely different hashing mechanism that can\u0027t fit in this interface?",
+      "revId": "05a4cebd5ab0419ba01410e6166dedff564056a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09553764_4ef4c578",
         "filename": "src/hash/runtime.go",
         "patchSetId": 2
