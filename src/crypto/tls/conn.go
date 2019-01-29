@@ -1202,6 +1202,7 @@ func (c *Conn) handleKeyUpdate(keyUpdate *keyUpdateMsg) error {
 		c.out.Lock()
 		defer c.out.Unlock()
 
+		// TODO(filippo): only send once in a row. [KeyUpdate-RequestACK]
 		msg := &keyUpdateMsg{}
 		_, err := c.writeRecordLocked(recordTypeHandshake, msg.marshal())
 		if err != nil {
