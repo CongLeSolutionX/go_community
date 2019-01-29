@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5cdb9fc_c94b7e68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-29T16:55:28Z",
+      "side": 1,
+      "message": "Given that the newly sysAlloc\u0027d memory hasn\u0027t been touched yet, is this actually a problem on UNIX OSes? I can see it would be a problem on Windows.",
+      "revId": "ef8406090c4e29688d06f7605d5b2707dcc23a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b77d8da_087cd925",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-01-29T16:55:28Z",
+      "side": 1,
+      "message": "I\u0027m worried that this duplicates some logic from sysAlloc for the ask rounding.\n\nIf we did introduce a notion of scavenging credit (like I mentioned in golang.org/cl/159500), then this would only have to be an approximation, since we could adjust the credit based on size after sysAlloc.",
+      "revId": "ef8406090c4e29688d06f7605d5b2707dcc23a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
