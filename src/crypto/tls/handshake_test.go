@@ -254,6 +254,8 @@ func localPipe(t testing.TB) (net.Conn, net.Conn) {
 }
 
 func TestMain(m *testing.M) {
+	bogoShimMain()
+
 	l, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
 		l, err = net.Listen("tcp6", "[::1]:0")

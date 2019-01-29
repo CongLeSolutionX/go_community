@@ -1,0 +1,6 @@
+{
+    "DisabledTests": {
+        "*-NoTicket-*": "crypto/tls does not support Session IDs",
+        "SkipEarlyData-*": "crypto/tls does not support skipping early data"
+    }
+}
