@@ -165,7 +165,7 @@ func TestBasicOperations(t *testing.T) {
 		if c != testString[1] {
 			t.Errorf("ReadByte wrong value c=%v", c)
 		}
-		c, err = buf.ReadByte()
+		_, err = buf.ReadByte()
 		if err == nil {
 			t.Error("ReadByte unexpected not eof")
 		}
