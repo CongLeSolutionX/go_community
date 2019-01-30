@@ -935,6 +935,9 @@ func expect(want string, got tstring) {
 			return
 		}
 		match, err = regexp.MatchString(want, got.e)
+		if err != nil {
+			panic(fmt.Sprintf("Error for regexp %s, %v\n", want, err))
+		}
 		if match {
 			return
 		}
