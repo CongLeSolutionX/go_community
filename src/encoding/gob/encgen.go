@@ -163,9 +163,8 @@ func main() {
 	if err != nil {
 		log.Fatal("source format error:", err)
 	}
-	fd, err := os.Create(*output)
-	_, err = fd.Write(source)
-	if err != nil {
+	fd, _ := os.Create(*output)
+	if _, err := fd.Write(source); err != nil {
 		log.Fatal(err)
 	}
 }
