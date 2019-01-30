@@ -1270,10 +1270,6 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 	case 15: /* teq $c r,r */
 		v := c.regoff(&p.From)
-		r := int(p.Reg)
-		if r == 0 {
-			r = REGZERO
-		}
 		/* only use 10 bits of trap code */
 		o1 = OP_IRR(c.opirr(p.As), (uint32(v)&0x3FF)<<6, uint32(p.Reg), uint32(p.To.Reg))
 
