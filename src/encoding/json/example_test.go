@@ -301,3 +301,15 @@ func ExampleValid() {
 	// Output:
 	// true false
 }
+
+func ExampleHTMLEscape() {
+	dst := new(bytes.Buffer)
+
+	src := []byte(`{"Name":"<b>HTML content</b>"}`)
+
+	json.HTMLEscape(dst, src)
+
+	fmt.Println(dst)
+	// Output:
+	//{"Name":"\u003cb\u003eHTML content\u003c/b\u003e"}
+}
