@@ -1120,7 +1120,6 @@ func (t *tester) runPending(nextTest *distTest) {
 	var last *distTest
 	for ended < len(worklist) {
 		for started < len(worklist) && started-ended < maxbg {
-			//println("start", started)
 			w := worklist[started]
 			started++
 			w.start <- !t.failed || t.keepGoing
@@ -1141,7 +1140,6 @@ func (t *tester) runPending(nextTest *distTest) {
 		if vflag > 1 {
 			errprintf("%s\n", strings.Join(w.cmd.Args, " "))
 		}
-		//println("wait", ended)
 		ended++
 		<-w.end
 		os.Stdout.Write(w.out)

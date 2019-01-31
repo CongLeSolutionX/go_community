@@ -741,7 +741,6 @@ func funcline1(f funcInfo, targetpc uintptr, strict bool) (file string, line int
 	fileno := int(pcvalue(f, f.pcfile, targetpc, nil, strict))
 	line = pcvalue(f, f.pcln, targetpc, nil, strict)
 	if fileno == -1 || line == -1 || fileno >= len(datap.filetab) {
-		// print("looking for ", hex(targetpc), " in ", funcname(f), " got file=", fileno, " line=", lineno, "\n")
 		return "?", 0
 	}
 	file = gostringnocopy(&datap.pclntable[datap.filetab[fileno]])
