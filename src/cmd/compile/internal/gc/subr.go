@@ -256,7 +256,12 @@ func autolabel(prefix string) *types.Sym {
 }
 
 func restrictlookup(name string, pkg *types.Pkg) *types.Sym {
-	if !types.IsExported(name) && pkg != localpkg {
+	if name == "" {
+		// This can happen if we encountered a syntax error, for example
+		// the unintentional use of a keyword in "types.const", where a
+		// user meant "types.Const". Don't give a confusing error here,
+		// as we already emitted a syntax error.
+	} else if !types.IsExported(name) && pkg != localpkg {
 		yyerror("cannot refer to unexported name %s.%s", pkg.Name, name)
 	}
 	return pkg.Lookup(name)

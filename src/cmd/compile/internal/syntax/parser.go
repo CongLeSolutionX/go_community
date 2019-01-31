@@ -2178,7 +2178,7 @@ func (p *parser) name() *Name {
 		return n
 	}
 
-	n := p.newName("_")
+	n := p.newName("")
 	p.syntaxError("expecting name")
 	p.advance()
 	return n
@@ -2215,7 +2215,7 @@ func (p *parser) qualifiedName(name *Name) Expr {
 	case p.tok == _Name:
 		name = p.name()
 	default:
-		name = p.newName("_")
+		name = p.newName("")
 		p.syntaxError("expecting name")
 		p.advance(_Dot, _Semi, _Rbrace)
 	}
