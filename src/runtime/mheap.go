@@ -1116,21 +1116,21 @@ func (h *mheap) treapForSpan(span *mspan) *mTreap {
 // structures if one is available. Otherwise returns nil.
 // h must be locked.
 func (h *mheap) pickFreeSpan(npage uintptr) *mspan {
+	// Try the free spans first...
 	tf := h.free.find(npage)
-	ts := h.scav.find(npage)
-
-	// Check for whichever treap gave us the smaller, non-nil result.
-	// Note that we want the _smaller_ free span, i.e. the free span
-	// closer in size to the amount we requested (npage).
-	var s *mspan
-	if tf.valid() && (!ts.valid() || tf.span().npages <= ts.span().npages) {
-		s = tf.span()
+	if tf.valid() {
+		s := tf.span()
 		h.free.erase(tf)
-	} else if ts.valid() && (!tf.valid() || tf.span().npages > ts.span().npages) {
-		s = ts.span()
-		h.scav.erase(ts)
+		return s
 	}
-	return s
+	// ...then the scavenged spans.
+	ts := h.scav.find(npage)
+	if ts.valid() {
+		s := ts.span()
+		h.scav.erase(ts)
+		return s
+	}
+	return nil
 }
 
 // Allocates a span of the given size.  h must be locked.
