@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac306bf0_3d86fd6a",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2019-01-31T15:46:58Z",
+      "side": 1,
+      "message": "I assume this is reached only if we successfully executed convertUntyped on L665 from a float or complex constant.  Could you add test cases for 1\u003c\u003c1.0 and 1\u003c\u003c(1+0i), and also a comment here?",
+      "revId": "d24452b8b3b782a776b9566427c1be484f791850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
