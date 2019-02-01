@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41cfb77c_8aa45e70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-01T19:59:09Z",
+      "side": 1,
+      "message": "Put Fixes on its own line with a blank line after the title (put two \\n before the \"F\")\n\nAnd then remove the trailing period on the subject line too",
+      "revId": "b0d9b1ed9a659e4ebe00e7cb34a2f13864cc43c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
