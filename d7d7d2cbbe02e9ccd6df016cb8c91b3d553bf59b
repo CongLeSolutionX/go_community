@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6f769306_77a01164",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-01T18:01:23Z",
+      "side": 1,
+      "message": "Inefficient implies a performance problem, which wasn\u0027t here.\n\nHow about you change this to:\n\n   bytes: clean up a test",
+      "parentUuid": "3396f52d_6d247eb2",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "d7d7d2cbbe02e9ccd6df016cb8c91b3d553bf59b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf7dc5f4_d0941f1a",
         "filename": "src/bytes/buffer_test.go",
         "patchSetId": 1

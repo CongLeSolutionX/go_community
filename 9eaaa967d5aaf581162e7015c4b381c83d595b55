@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "494e49b3_33abd904",
+        "filename": "src/bytes/buffer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-01T18:01:23Z",
+      "side": 1,
+      "message": "I\u0027d combine these into one:\n\n    if c !\u003d testString[1] || err !\u003d nil {\n       t.Errorf(\"ReadByte \u003d %q, %v; want %q, nil\", ...)\n    }",
+      "range": {
+        "startLine": 162,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 3
+      },
+      "revId": "9eaaa967d5aaf581162e7015c4b381c83d595b55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bc4a4ac_7b427a1c",
+        "filename": "src/bytes/buffer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-01T18:01:23Z",
+      "side": 1,
+      "message": "I\u0027d keep c here and do the same check + Errorf as above.\n\nNo need to say first and second, even--- the test output will have the line number",
+      "revId": "9eaaa967d5aaf581162e7015c4b381c83d595b55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
