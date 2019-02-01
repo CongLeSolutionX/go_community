@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3396f52d_6d247eb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16005
+      },
+      "writtenOn": "2019-02-01T16:54:59Z",
+      "side": 1,
+      "message": "Actually, \"ineffectual\" is the word I was looking for (the tool I used to find this assignment is aptly called \"ineffassign\" which I incorrectly interpreted as \"inefficient assign\").\nI\u0027m not a native English speaker, but after looking at the translations for \"inefficient\" at dict.cc it seems quite applicable.\n\nWell, maybe that\u0027s just me finding an excuse.. I\u0027ll update if requested.",
+      "parentUuid": "7826f5b8_c876b0d4",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "d7d7d2cbbe02e9ccd6df016cb8c91b3d553bf59b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf7dc5f4_d0941f1a",
         "filename": "src/bytes/buffer_test.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-31T15:55:32Z",
       "side": 1,
       "message": "All these test failure messages are pretty bad and not up to our (current) standards or style.\n\ne.g. line 163: what was the error? and how do you know it\u0027s EOF?\n\nline 166: what was expected? and quote them both.\n\nline 170: \"unexpected not eof\"? No, it was unexpected success reading a byte. So which byte? I\u0027d keep the assignment to c but show it in the error message.",
+      "range": {
+        "startLine": 162,
+        "startChar": 17,
+        "endLine": 170,
+        "endChar": 41
+      },
+      "revId": "d7d7d2cbbe02e9ccd6df016cb8c91b3d553bf59b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3649bc0_9ca7c39e",
+        "filename": "src/bytes/buffer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 16005
+      },
+      "writtenOn": "2019-02-01T16:54:59Z",
+      "side": 1,
+      "message": "This change doesn\u0027t touch any of the error messages:\n\n```\n-        c, err \u003d buf.ReadByte()\n+        _, err \u003d buf.ReadByte()\n```",
+      "parentUuid": "bf7dc5f4_d0941f1a",
       "range": {
         "startLine": 162,
         "startChar": 17,
