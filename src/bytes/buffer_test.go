@@ -160,14 +160,14 @@ func TestBasicOperations(t *testing.T) {
 		buf.WriteByte(testString[1])
 		c, err := buf.ReadByte()
 		if err != nil {
-			t.Error("ReadByte unexpected eof")
+			t.Errorf("first call to ReadByte returned unexpected error: %v", err)
 		}
 		if c != testString[1] {
-			t.Errorf("ReadByte wrong value c=%v", c)
+			t.Errorf("first call to ReadByte returned incorrect value: got %q, want %q", c, testString[1])
 		}
-		c, err = buf.ReadByte()
-		if err == nil {
-			t.Error("ReadByte unexpected not eof")
+		_, err = buf.ReadByte()
+		if err != io.EOF {
+			t.Error("second call to ReadByte returned unexpected error: got %v, want io.EOF", err)
 		}
 	}
 }
