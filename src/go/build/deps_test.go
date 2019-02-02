@@ -146,7 +146,7 @@ var pkgDeps = map[string][]string{
 	// End of linear dependency definitions.
 
 	// Operating system access.
-	"syscall":                           {"L0", "internal/oserror", "internal/race", "internal/syscall/windows/sysdll", "syscall/js", "unicode/utf16"},
+	"syscall":                           {"L0", "internal/oserror", "internal/race", "internal/syscall/windows/sysdll", "sort", "strings", "syscall/js", "unicode/utf16"},
 	"syscall/js":                        {"L0"},
 	"internal/oserror":                  {"L0"},
 	"internal/syscall/unix":             {"L0", "syscall"},
