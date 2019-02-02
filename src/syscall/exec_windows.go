@@ -7,6 +7,8 @@
 package syscall
 
 import (
+	"sort"
+	"strings"
 	"sync"
 	"unicode/utf16"
 	"unsafe"
@@ -94,25 +96,58 @@ func makeCmdLine(args []string) string {
 	return s
 }
 
+type nameValue struct {
+	name      string
+	nameValue string
+}
+
+func envBlockSorted(envv []string) (nvs []*nameValue, nullPaddedLength int) {
+	// Firstly we need to extract just the
+	// name part of name=value enviroment variable.
+	// and then case-insensitively sort names.
+	nvs = make([]*nameValue, len(envv))
+	for i, nv := range envv {
+		eqi := strings.Index(nv, "=")
+		if eqi < 0 {
+			eqi = len(nv)
+		}
+
+		nvs[i] = &nameValue{
+			name:      strings.ToLower(nv[:eqi]),
+			nameValue: nv,
+		}
+		nullPaddedLength += len(nv) + 1
+	}
+	nullPaddedLength += 1
+
+	// Sort the fields by name now.
+	sort.Slice(nvs, func(i, j int) bool {
+		ni, nj := nvs[i], nvs[j]
+		return ni.name < nj.name
+	})
+
+	return
+}
+
 // createEnvBlock converts an array of environment strings into
 // the representation required by CreateProcess: a sequence of NUL
 // terminated strings followed by a nil.
 // Last bytes are two UCS-2 NULs, or four NUL bytes.
+//
+// As per Issue #29530, the environment variables will be sorted in
+// alphabetical order by name, with case-insensitive order,
+// Unicode order, without regard to locale.
 func createEnvBlock(envv []string) *uint16 {
 	if len(envv) == 0 {
 		return &utf16.Encode([]rune("\x00\x00"))[0]
 	}
-	length := 0
-	for _, s := range envv {
-		length += len(s) + 1
-	}
-	length += 1
+	nvs, length := envBlockSorted(envv)
 
 	b := make([]byte, length)
 	i := 0
-	for _, s := range envv {
-		l := len(s)
-		copy(b[i:i+l], []byte(s))
+	for _, nv := range nvs {
+		l := len(nv.nameValue)
+		copy(b[i:i+l], []byte(nv.nameValue))
 		copy(b[i+l:i+l+1], []byte{0})
 		i = i + l + 1
 	}
