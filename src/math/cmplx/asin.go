@@ -49,8 +49,31 @@ import "math"
 
 // Asin returns the inverse sine of x.
 func Asin(x complex128) complex128 {
-	if imag(x) == 0 && math.Abs(real(x)) <= 1 {
+	switch {
+	case imag(x) == 0 && math.Abs(real(x)) <= 1:
 		return complex(math.Asin(real(x)), imag(x))
+	case real(x) == 0 && math.Abs(imag(x)) <= 1:
+		return complex(real(x), math.Asinh(imag(x)))
+	case math.IsNaN(imag(x)):
+		switch {
+		case real(x) == 0:
+			return complex(real(x), math.NaN())
+		case math.IsInf(real(x), 0):
+			return complex(math.NaN(), real(x))
+		default:
+			return NaN()
+		}
+	case math.IsInf(imag(x), 0):
+		switch {
+		case math.IsNaN(real(x)):
+			return complex(real(x), imag(x))
+		case math.IsInf(real(x), 0):
+			return complex(math.Copysign(math.Pi/4, real(x)), imag(x))
+		default:
+			return complex(math.Copysign(0, real(x)), imag(x))
+		}
+	case math.IsInf(real(x), 0):
+		return complex(math.Copysign(math.Pi/2, real(x)), math.Copysign(real(x), imag(x)))
 	}
 	ct := complex(-imag(x), real(x)) // i * x
 	xx := x * x
@@ -62,8 +85,31 @@ func Asin(x complex128) complex128 {
 
 // Asinh returns the inverse hyperbolic sine of x.
 func Asinh(x complex128) complex128 {
-	if imag(x) == 0 && math.Abs(real(x)) <= 1 {
+	switch {
+	case imag(x) == 0 && math.Abs(real(x)) <= 1:
 		return complex(math.Asinh(real(x)), imag(x))
+	case real(x) == 0 && math.Abs(imag(x)) <= 1:
+		return complex(real(x), math.Asin(imag(x)))
+	case math.IsInf(real(x), 0):
+		switch {
+		case math.IsInf(imag(x), 0):
+			return complex(real(x), math.Copysign(math.Pi/4, imag(x)))
+		case math.IsNaN(imag(x)):
+			return complex(real(x), imag(x))
+		default:
+			return complex(real(x), math.Copysign(0.0, imag(x)))
+		}
+	case math.IsNaN(real(x)):
+		switch {
+		case imag(x) == 0:
+			return complex(real(x), imag(x))
+		case math.IsInf(imag(x), 0):
+			return complex(imag(x), real(x))
+		default:
+			return NaN()
+		}
+	case math.IsInf(imag(x), 0):
+		return complex(math.Copysign(imag(x), real(x)), math.Copysign(math.Pi/2, imag(x)))
 	}
 	xx := x * x
 	x1 := complex(1+real(xx), imag(xx)) // 1 + x*x
@@ -91,6 +137,9 @@ func Acos(x complex128) complex128 {
 
 // Acosh returns the inverse hyperbolic cosine of x.
 func Acosh(x complex128) complex128 {
+	if x == 0 {
+		return complex(0, math.Copysign(math.Pi/2, imag(x)))
+	}
 	w := Acos(x)
 	if imag(w) <= 0 {
 		return complex(-imag(w), real(w)) // i * w
@@ -133,6 +182,17 @@ func Acosh(x complex128) complex128 {
 
 // Atan returns the inverse tangent of x.
 func Atan(x complex128) complex128 {
+	switch {
+	case imag(x) == 0:
+		return complex(math.Atan(real(x)), imag(x))
+	case real(x) == 0 && math.Abs(imag(x)) <= 1:
+		return complex(real(x), math.Atanh(imag(x)))
+	case math.IsInf(imag(x), 0) || math.IsInf(real(x), 0):
+		if math.IsNaN(real(x)) {
+			return complex(math.NaN(), math.Copysign(0, imag(x)))
+		}
+		return complex(math.Copysign(math.Pi/2, real(x)), math.Copysign(0, imag(x)))
+	}
 	x2 := real(x) * real(x)
 	a := 1 - x2 - imag(x)*imag(x)
 	if a == 0 {

@@ -51,6 +51,19 @@ import "math"
 
 // Sin returns the sine of x.
 func Sin(x complex128) complex128 {
+	switch {
+	case imag(x) == 0 && (math.IsInf(real(x), 0) || math.IsNaN(real(x))):
+		return complex(math.NaN(), imag(x))
+	case math.IsInf(imag(x), 0):
+		switch {
+		case real(x) == 0:
+			return x
+		case math.IsInf(real(x), 0) || math.IsNaN(real(x)):
+			return complex(math.NaN(), imag(x))
+		}
+	case real(x) == 0 && math.IsNaN(imag(x)):
+		return x
+	}
 	s, c := math.Sincos(real(x))
 	sh, ch := sinhcosh(imag(x))
 	return complex(s*ch, c*sh)
@@ -71,6 +84,19 @@ func Sin(x complex128) complex128 {
 
 // Sinh returns the hyperbolic sine of x.
 func Sinh(x complex128) complex128 {
+	switch {
+	case real(x) == 0 && (math.IsInf(imag(x), 0) || math.IsNaN(imag(x))):
+		return complex(real(x), math.NaN())
+	case math.IsInf(real(x), 0):
+		switch {
+		case imag(x) == 0:
+			return complex(real(x), imag(x))
+		case math.IsInf(imag(x), 0) || math.IsNaN(imag(x)):
+			return complex(real(x), math.NaN())
+		}
+	case imag(x) == 0 && math.IsNaN(real(x)):
+		return complex(math.NaN(), imag(x))
+	}
 	s, c := math.Sincos(imag(x))
 	sh, ch := sinhcosh(real(x))
 	return complex(c*sh, s*ch)
@@ -96,6 +122,19 @@ func Sinh(x complex128) complex128 {
 
 // Cos returns the cosine of x.
 func Cos(x complex128) complex128 {
+	switch {
+	case imag(x) == 0 && (math.IsInf(real(x), 0) || math.IsNaN(real(x))):
+		return complex(math.NaN(), -imag(x)*math.Copysign(0, real(x)))
+	case math.IsInf(imag(x), 0):
+		switch {
+		case real(x) == 0:
+			return complex(math.Inf(1), -real(x)*math.Copysign(0, imag(x)))
+		case math.IsInf(real(x), 0) || math.IsNaN(real(x)):
+			return complex(math.Inf(1), math.NaN())
+		}
+	case real(x) == 0 && math.IsNaN(imag(x)):
+		return complex(math.NaN(), 0)
+	}
 	s, c := math.Sincos(real(x))
 	sh, ch := sinhcosh(imag(x))
 	return complex(c*ch, -s*sh)
@@ -115,6 +154,19 @@ func Cos(x complex128) complex128 {
 
 // Cosh returns the hyperbolic cosine of x.
 func Cosh(x complex128) complex128 {
+	switch {
+	case real(x) == 0 && (math.IsInf(imag(x), 0) || math.IsNaN(imag(x))):
+		return complex(math.NaN(), real(x)*math.Copysign(0, imag(x)))
+	case math.IsInf(real(x), 0):
+		switch {
+		case imag(x) == 0:
+			return complex(math.Inf(1), imag(x)*math.Copysign(0, real(x)))
+		case math.IsInf(imag(x), 0) || math.IsNaN(imag(x)):
+			return complex(math.Inf(1), math.NaN())
+		}
+	case imag(x) == 0 && math.IsNaN(real(x)):
+		return complex(math.NaN(), imag(x))
+	}
 	s, c := math.Sincos(imag(x))
 	sh, ch := sinhcosh(real(x))
 	return complex(c*ch, s*sh)
