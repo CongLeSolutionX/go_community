@@ -1109,6 +1109,13 @@ func (t *tester) runPending(nextTest *distTest) {
 			} else {
 				timelog("start", w.dt.name)
 				w.out, w.err = w.cmd.CombinedOutput()
+				if w.err != nil {
+					if isUnsupportedVMASize(w) {
+						timelog("skip", w.dt.name)
+						w.out = []byte(fmt.Sprintf("skipped due to unsupported VMA\n"))
+						w.err = nil
+					}
+				}
 			}
 			timelog("end", w.dt.name)
 			w.end <- true
@@ -1471,6 +1478,11 @@ func (t *tester) packageHasBenchmarks(pkg string) bool {
 // raceDetectorSupported is a copy of the function
 // cmd/internal/sys.RaceDetectorSupported, which can't be used here
 // because cmd/dist has to be buildable by Go 1.4.
+// Race detector only supports 48-bit VMA on arm64. But we don't have
+// a good solution to check VMA size(See https://golang.org/issue/29948)
+// raceDetectorSupported will always return true for arm64. But race
+// detector tests may abort on non 48-bit VMA configuration, the tests
+// will be marked as "skipped" in this case.
 func raceDetectorSupported(goos, goarch string) bool {
 	switch goos {
 	case "linux":
@@ -1491,4 +1503,16 @@ func mSanSupported(goos, goarch string) bool {
 	default:
 		return false
 	}
+}
+// isUnsupportedVMASize is used to tell whether the failure is caused by
+// unsupported VMA for race detector(for example, run race detector on
+// arm64 machine configured with 39-bit VMA)
+func isUnsupportedVMASize(w *work) bool {
+	unsupportedVMA := []byte(fmt.Sprintf("unsupported VMA range"))
+	if w.dt.name == "race" {
+		if bytes.Contains(w.out, unsupportedVMA) {
+			return true
+		}
+	}
+	return false
 }
