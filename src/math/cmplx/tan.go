@@ -57,6 +57,16 @@ import "math"
 
 // Tan returns the tangent of x.
 func Tan(x complex128) complex128 {
+	switch {
+	case math.IsInf(imag(x), 0):
+		switch {
+		case math.IsInf(real(x), 0) || math.IsNaN(real(x)):
+			return complex(math.Copysign(0, real(x)), math.Copysign(1, imag(x)))
+		}
+		return complex(math.Copysign(0, math.Sin(2*real(x))), math.Copysign(1, imag(x)))
+	case real(x) == 0 && math.IsNaN(imag(x)):
+		return x
+	}
 	d := math.Cos(2*real(x)) + math.Cosh(2*imag(x))
 	if math.Abs(d) < 0.25 {
 		d = tanSeries(x)
@@ -81,6 +91,16 @@ func Tan(x complex128) complex128 {
 
 // Tanh returns the hyperbolic tangent of x.
 func Tanh(x complex128) complex128 {
+	switch {
+	case math.IsInf(real(x), 0):
+		switch {
+		case math.IsInf(imag(x), 0) || math.IsNaN(imag(x)):
+			return complex(math.Copysign(1, real(x)), math.Copysign(0, imag(x)))
+		}
+		return complex(math.Copysign(1, real(x)), math.Copysign(0, math.Sin(2*imag(x))))
+	case imag(x) == 0 && math.IsNaN(real(x)):
+		return x
+	}
 	d := math.Cosh(2*real(x)) + math.Cos(2*imag(x))
 	if d == 0 {
 		return Inf()
