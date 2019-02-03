@@ -22,6 +22,30 @@
       "revId": "10488fb23ff9695719f1deb73d38c2e12d2ef697",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81c90c3d_cb5801a9",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-03T06:20:18Z",
+      "side": 1,
+      "message": "Yes, that should be OK.  The problem here wasn\u0027t copying the array as such, it was that it was a copy of the array that was passed to memcpy.  The copy of the array passed to _cgoCheckPointer will not be modified, it will only be examined for pointers.  I think this is more correct than 1.11, which would give an error for an array of Go pointers although that is OK by the pointer-passing rules.  We could avoid the copy with a bit more work, but that would be a bigger change for 1.12 and it\u0027s not like the situation comes up much.",
+      "parentUuid": "7b28aa08_1fcddcb2",
+      "range": {
+        "startLine": 1172,
+        "startChar": 48,
+        "endLine": 1172,
+        "endChar": 61
+      },
+      "revId": "10488fb23ff9695719f1deb73d38c2e12d2ef697",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
