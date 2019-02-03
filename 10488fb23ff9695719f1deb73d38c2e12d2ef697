@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b28aa08_1fcddcb2",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-02-03T05:53:04Z",
+      "side": 1,
+      "message": "This still makes a copy of the array when passing it to _cgoCheckPointer, right?\nIs that ok?",
+      "range": {
+        "startLine": 1172,
+        "startChar": 48,
+        "endLine": 1172,
+        "endChar": 61
+      },
+      "revId": "10488fb23ff9695719f1deb73d38c2e12d2ef697",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
