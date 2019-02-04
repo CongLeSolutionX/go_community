@@ -112,9 +112,12 @@ type PrivateKey interface{}
 
 // Signer is an interface for an opaque private key that can be used for
 // signing operations. For example, an RSA key kept in a hardware module.
+//
+// A Signer implementation that returns a *rsa.PublicKey or *ecdsa.PublicKey
+// from Public is expected to behave like *rsa.PrivateKey or *ecdsa.PrivateKey,
+// respectively.
 type Signer interface {
-	// Public returns the public key corresponding to the opaque,
-	// private key.
+	// Public returns the public key corresponding to the opaque private key.
 	Public() PublicKey
 
 	// Sign signs digest with the private key, possibly using entropy from
