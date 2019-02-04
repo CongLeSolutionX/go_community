@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of November 16, 2018",
+	"Subtitle": "Version of February 14, 2019",
 	"Path": "/ref/spec"
 }-->
 
@@ -118,6 +118,7 @@ The underscore character <code>_</code> (U+005F) is considered a letter.
 <pre class="ebnf">
 letter        = unicode_letter | "_" .
 decimal_digit = "0" … "9" .
+binary_digit  = "0" | "1" .
 octal_digit   = "0" … "7" .
 hex_digit     = "0" … "9" | "A" … "F" | "a" … "f" .
 </pre>
@@ -273,71 +274,148 @@ The following character sequences represent <a href="#Operators">operators</a>
 <p>
 An integer literal is a sequence of digits representing an
 <a href="#Constants">integer constant</a>.
-An optional prefix sets a non-decimal base: <code>0</code> for octal, <code>0x</code> or
-<code>0X</code> for hexadecimal.  In hexadecimal literals, letters
-<code>a-f</code> and <code>A-F</code> represent values 10 through 15.
+An optional prefix sets a non-decimal base: <code>0b</code> or <code>0B</code>
+for binary, <code>0</code>, <code>0o</code>, or <code>0O</code> for octal,
+and <code>0x</code> or <code>0X</code> for hexadecimal.
+A single <code>0</code> is considered a decimal zero.
+In hexadecimal literals, letters <code>a…f</code> and <code>A…F</code>
+represent values 10 through 15.
+</p>
+<p>
+For readability, an underscore character <code>_</code> may appear after
+a base prefix or between successive digits; such underscores do not change
+the literal value.
 </p>
 <pre class="ebnf">
-int_lit     = decimal_lit | octal_lit | hex_lit .
-decimal_lit = ( "1" … "9" ) { decimal_digit } .
-octal_lit   = "0" { octal_digit } .
-hex_lit     = "0" ( "x" | "X" ) hex_digit { hex_digit } .
+int_lit        = decimal_lit | binary_lit | octal_lit | hex_lit .
+decimal_lit    = "0" | ( "1" … "9" ) [ [ "_" ] decimal_digits ] .
+binary_lit     = "0" ( "b" | "B" ) [ "_" ] binary_digits .
+octal_lit      = "0" [ "o" | "O" ] [ "_" ] octal_digits .
+hex_lit        = "0" ( "x" | "X" ) [ "_" ] hex_digits .
+
+decimal_digits = decimal_digit { [ "_" ] decimal_digit } .
+binary_digits  = binary_digit { [ "_" ] binary_digit } .
+octal_digits   = octal_digit { [ "_" ] octal_digit } .
+hex_digits     = hex_digit { [ "_" ] hex_digit } .
 </pre>
 
 <pre>
 42
+4_2
 0600
+0_600
+0o600
+0O600       // second character is capital letter 'O'
 0xBadFace
+0xBad_Face
+0x_67_7a_2f_cc_40_c6
 170141183460469231731687303715884105727
+170_141183_460469_231731_687303_715884_105727
+
+_42         // an identifier, not an integer literal
+42_         // invalid: _ must separate successive digits
+4__2        // invalid: only one _ at a time
+0_xBadFace  // invalid: _ must separate successive digits
 </pre>
 
 <h3 id="Floating-point_literals">Floating-point literals</h3>
 <p>
-A floating-point literal is a decimal representation of a
+A floating-point literal is a decimal or hexadecimal representation of a
 <a href="#Constants">floating-point constant</a>.
-It has an integer part, a decimal point, a fractional part,
-and an exponent part.  The integer and fractional part comprise
-decimal digits; the exponent part is an <code>e</code> or <code>E</code>
-followed by an optionally signed decimal exponent.  One of the
-integer part or the fractional part may be elided; one of the decimal
-point or the exponent may be elided.
+</p>
+<p>
+A decimal floating-point literal consists of an integer part (decimal digits),
+a decimal point, a fractional part (decimal digits), and an exponent part
+(<code>e</code> or <code>E</code> followed by an optional sign and decimal digits).
+One of the integer part or the fractional part may be elided; one of the decimal point
+or the exponent part may be elided.
+An exponent value exp scales the mantissa (integer and fractional part) by 10<sup>exp</sup>.
+</p>
+<p>
+A hexadecimal floating-point literal consists of a <code>0x</code> or <code>0X</code>
+prefix, an integer part (hexadecimal digits), a radix point, a fractional part (hexadecimal digits),
+and an exponent part (<code>p</code> or <code>P</code> followed by an optional sign and decimal digits).
+One of the integer part or the fractional part may be elided; the radix point may be elided as well,
+but the exponent part is required. (This syntax matches the one given in IEEE 754-2008 §5.12.3.)
+An exponent value exp scales the mantissa (integer and fractional part) by 2<sup>exp</sup>.
+</p>
+<p>
+For readability, an underscore character <code>_</code> may appear after
+a base prefix or between successive digits; such underscores do not change
+the literal value.
 </p>
 <pre class="ebnf">
-float_lit = decimals "." [ decimals ] [ exponent ] |
-            decimals exponent |
-            "." decimals [ exponent ] .
-decimals  = decimal_digit { decimal_digit } .
-exponent  = ( "e" | "E" ) [ "+" | "-" ] decimals .
+float_lit         = decimal_float_lit | hex_float_lit .
+
+decimal_float_lit = decimal_digits "." [ decimal_digits ] [ decimal_exponent ] |
+                    decimal_digits decimal_exponent |
+                    "." decimal_digits [ decimal_exponent ] .
+decimal_exponent  = ( "e" | "E" ) [ "+" | "-" ] decimal_digits .
+
+hex_float_lit     = "0" ( "x" | "X" ) hex_mantissa hex_exponent .
+hex_mantissa      = [ "_" ] hex_digits "." [ hex_digits ] |
+                    [ "_" ] hex_digits |
+                    "." hex_digits .
+hex_exponent      = ( "p" | "P" ) [ "+" | "-" ] decimal_digits .
 </pre>
 
 <pre>
 0.
 72.40
-072.40  // == 72.40
+072.40       // == 72.40
 2.71828
 1.e+0
 6.67428e-11
 1E6
 .25
 .12345E+5
+1_5.         // == 15.0
+0.15e+0_2    // == 15.0
+
+0x1p-2       // == 0.25
+0x2.p10      // == 2048.0
+0x1.Fp+0     // == 1.9375
+0X.8p-0      // == 0.5
+0X_1FFFP-16  // == 0.1249847412109375
+0x15e-2      // == 0x15e - 2 (integer subtraction)
+
+0x.p1        // invalid: mantissa has no digits
+1p-2         // invalid: p exponent requires hexadecimal mantissa
+0x1.5e-2     // invalid: hexadecimal mantissa requires p exponent
+1_.5         // invalid: _ must separate successive digits
+1._5         // invalid: _ must separate successive digits
+1.5_e1       // invalid: _ must separate successive digits
+1.5e_1       // invalid: _ must separate successive digits
+1.5e1_       // invalid: _ must separate successive digits
 </pre>
 
 <h3 id="Imaginary_literals">Imaginary literals</h3>
 <p>
-An imaginary literal is a decimal representation of the imaginary part of a
+An imaginary literal represents the imaginary part of a
 <a href="#Constants">complex constant</a>.
-It consists of a
-<a href="#Floating-point_literals">floating-point literal</a>
-or decimal integer followed
-by the lower-case letter <code>i</code>.
+It consists of an <a href="#Integer_literals">integer</a> or
+<a href="#Floating-point_literals">floating-point</a> literal
+followed by the lower-case letter <code>i</code>.
+The value of an imaginary literal is the value of the respective
+integer or floating-point literal multiplied by the imaginary unit <i>i</i>.
 </p>
+
 <pre class="ebnf">
-imaginary_lit = (decimals | float_lit) "i" .
+imaginary_lit = (decimal_digits | int_lit | float_lit) "i" .
 </pre>
+
+<p>
+For backward-compatibility, if the imaginary literal consists
+entirely of decimal digits (and possibly underscores) followed by <code>i</code>,
+the respective integer literal is considered a decimal integer, even if it
+starts with a leading <code>0</code>.
+</p>
 
 <pre>
 0i
-011i  // == 11i
+0123i         // == 123i for backward-compatibility
+0o123i        // == 0o123 * 1i == 83i
+0xabci        // == 0xabc * 1i == 2748i
 0.i
 2.71828i
 1.e+0i
@@ -345,6 +423,7 @@ imaginary_lit = (decimals | float_lit) "i" .
 1E6i
 .25i
 .12345E+5i
+0x1p-2i       // == 0x1p-2 * 1i == 0.25i
 </pre>
 
 
