@@ -16,6 +16,24 @@
       "revId": "23bb2fb5737f0f9734981f2ab5bcb7fe0b18388c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9804e05_08b10ed2",
+        "filename": "src/crypto/crypto.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-02-04T21:10:23Z",
+      "side": 1,
+      "message": "This is not just about wrappers. The final concrete implementation might be an HSM, so there might not be an actual *rsa.PrivateKey, so I wanted to encode the requirement that the behavior has to be the same. Carrying the type of opts in wrappers is important, but not necessarily enough if the final concrete implementation does not look at it.\n\nThe docs of (*rsa.PrivateKey).Sign are pretty good, so I wanted to redirect to them.",
+      "parentUuid": "bdeac3ce_7a2a00ef",
+      "revId": "23bb2fb5737f0f9734981f2ab5bcb7fe0b18388c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
