@@ -47,6 +47,10 @@ func (s *scanner) init(src io.Reader, errh func(line, col uint, msg string), mod
 	s.nlsemi = false
 }
 
+func (s *scanner) errorf(format string, args ...interface{}) {
+	s.error(fmt.Sprintf(format, args...))
+}
+
 // next advances the scanner by reading the next token.
 //
 // If a read, source encoding, or lexical error occurs, next calls
@@ -305,7 +309,7 @@ redo:
 
 	default:
 		s.tok = 0
-		s.error(fmt.Sprintf("invalid character %#U", c))
+		s.errorf("invalid character %#U", c)
 		goto redo
 	}
 
@@ -321,7 +325,7 @@ assignop:
 }
 
 func isLetter(c rune) bool {
-	return 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || c == '_'
+	return 'a' <= lower(c) && lower(c) <= 'z' || c == '_'
 }
 
 func (s *scanner) ident() {
@@ -369,10 +373,10 @@ func (s *scanner) isIdentRune(c rune, first bool) bool {
 		// ok
 	case unicode.IsDigit(c):
 		if first {
-			s.error(fmt.Sprintf("identifier cannot begin with digit %#U", c))
+			s.errorf("identifier cannot begin with digit %#U", c)
 		}
 	case c >= utf8.RuneSelf:
-		s.error(fmt.Sprintf("invalid identifier character %#U", c))
+		s.errorf("invalid identifier character %#U", c)
 	default:
 		return false
 	}
@@ -398,35 +402,40 @@ func init() {
 	}
 }
 
-func isBinary(c rune) bool  { return c == '0' || c == '1' }
-func isOctal(c rune) bool   { return '0' <= c && c <= '7' }
+func lower(c rune) rune     { return 'a' - 'A' | c }
 func isDecimal(c rune) bool { return '0' <= c && c <= '9' }
-func isHex(c rune) bool     { return '0' <= c && c <= '9' || 'a' <= c && c <= 'f' || 'A' <= c && c <= 'F' }
+func isHex(c rune) bool     { return '0' <= c && c <= '9' || 'a' <= lower(c) && lower(c) <= 'f' }
 
-func (s *scanner) digits(isValid func(rune) bool, n0 int) (c rune, n int) {
-	n = n0
-	for {
-		c = s.getr()
-		if c == '_' {
-			n++
+// digits accepts the sequence { digit | '_' } starting with c0.
+// If base <= 10, digits accepts any decimal digit but records
+// the index (relative to the literal start) of a digit >= base
+// in *invalid, if *invalid < 0.
+// digits returns the first rune that is not part of the sequence
+// anymore, and a bitset describing whether the sequence contained
+// digits (bit 0 is set), or separators '_' (bit 1 is set).
+func (s *scanner) digits(c0 rune, base int, invalid *int) (c rune, digsep int) {
+	c = c0
+	if base <= 10 {
+		max := rune('0' + base)
+		for isDecimal(c) || c == '_' {
+			ds := 1
+			if c == '_' {
+				ds = 2
+			} else if c >= max && *invalid < 0 {
+				*invalid = int(s.col0 - s.col) // record invalid rune index
+			}
+			digsep |= ds
 			c = s.getr()
 		}
-		if !isValid(c) {
-			return
-		}
-		n = 0
-	}
-}
-
-func (s *scanner) exponent() (c rune, n int) {
-	c = s.getr()
-	if c == '-' || c == '+' {
-		c = s.getr()
-	}
-	if isDecimal(c) {
-		c, n = s.digits(isDecimal, 0)
 	} else {
-		s.error("exponent has no digits")
+		for isHex(c) || c == '_' {
+			ds := 1
+			if c == '_' {
+				ds = 2
+			}
+			digsep |= ds
+			c = s.getr()
+		}
 	}
 	return
 }
@@ -434,137 +443,150 @@ func (s *scanner) exponent() (c rune, n int) {
 func (s *scanner) number(c rune) {
 	s.startLit()
 
+	base := 10        // number base
+	prefix := rune(0) // one of 0 (decimal), '0' (0-octal), 'x', 'o', or 'b'
+	digsep := 0       // bit 0: digit present, bit 1: '_' present
+	invalid := -1     // index of invalid digit in literal, or < 0
+
 	// integer part
-	n := 0 // no. of chars past a valid literal from most recent reading position
+	var ds int
 	if c != '.' {
-		s.kind = IntLit // until proven otherwise
+		s.kind = IntLit
 		if c == '0' {
 			c = s.getr()
-			switch c {
-			case 'x', 'X':
+			switch lower(c) {
+			case 'x':
 				c = s.getr()
-
-				// integer part of hexadecimal int or float
-				hasDigits := false
-				if c != '.' {
-					s.ungetr()
-					c, n = s.digits(isHex, 1)
-					if n != 0 || c != '.' && c != 'p' && c != 'P' {
-						goto done // trailing _ (n == 1), no hex digits (n == 2), or just hexadecimal int
-					}
-					hasDigits = true
-				}
-
-				// fractional part of hexadecimal float
-				if c == '.' {
-					s.kind = FloatLit
-					c = s.getr()
-					if isHex(c) {
-						c, n = s.digits(isHex, 0)
-						if n != 0 {
-							s.error("hexadecimal float requires an exponent")
-							goto done // trailing _
-						}
-					} else if !hasDigits {
-						// 0x. will be tokenized as 0 x .
-						s.kind = IntLit
-						n = len("x.")
-						goto done
-					}
-				}
-
-				// exponent of hexadecimal float
-				if c == 'p' || c == 'P' {
-					s.kind = FloatLit
-					c, n = s.exponent()
-				} else {
-					s.error("hexadecimal float requires an exponent")
-				}
-				goto done
-
-			case 'o', 'O':
-				_, n = s.digits(isOctal, 1)
-				goto done
-
-			case 'b', 'B':
-				_, n = s.digits(isBinary, 1)
-				goto done
-			}
-
-			// integer part of 0-octal or decimal float
-			var invalidDigit rune
-			n = 0
-			for {
-				if c == '_' {
-					n = 1
-					c = s.getr()
-				}
-				if !isDecimal(c) {
-					break
-				}
-				n = 0
-				if c > '7' && invalidDigit == 0 {
-					invalidDigit = c
-				}
+				base, prefix = 16, 'x'
+			case 'o':
 				c = s.getr()
-			}
-
-			//  0-octal followed by a fraction, exponent, or 'i' is considered a decimal float
-			if n != 0 || c != '.' && c != 'e' && c != 'E' && c != 'i' {
-				// trailing _ or just 0-octal
-				if invalidDigit != 0 {
-					// TODO(gri) should report error at invalid digit position
-					s.error(fmt.Sprintf("invalid digit %q in octal literal", invalidDigit))
-				}
-				goto done
-			}
-
-		} else {
-			// integer part of decimal int or float
-			// (the caller of number ensures that we have at least one digit)
-			c, n = s.digits(isDecimal, 0)
-			if n != 0 {
-				goto done // trailing _
+				base, prefix = 8, 'o'
+			case 'b':
+				c = s.getr()
+				base, prefix = 2, 'b'
+			default:
+				base, prefix = 8, '0'
+				digsep = 1 // leading 0
 			}
 		}
+		c, ds = s.digits(c, base, &invalid)
+		digsep |= ds
 	}
 
-	// fractional part of decimal float
+	// fractional part
 	if c == '.' {
 		s.kind = FloatLit
+		if prefix == 'o' || prefix == 'b' {
+			s.error("invalid radix point in " + litname(prefix))
+		}
+		c, ds = s.digits(s.getr(), base, &invalid)
+		digsep |= ds
+	}
+
+	if digsep&1 == 0 {
+		s.error(litname(prefix) + " has no digits")
+	}
+
+	// exponent
+	if e := lower(c); e == 'e' || e == 'p' {
+		if e == 'p' && (prefix == 0 || prefix == '0') {
+			s.errorf("invalid exponent %q on decimal float literal", c)
+		} else if prefix == 'o' || prefix == 'b' {
+			s.error("invalid exponent on " + litname(prefix))
+		}
 		c = s.getr()
-		if isDecimal(c) {
-			c, n = s.digits(isDecimal, 0)
-			if n != 0 {
-				goto done // trailing _
-			}
-		}
-	}
-
-	// exponent of decimal float
-	if c == 'e' || c == 'E' {
 		s.kind = FloatLit
-		c, n = s.exponent()
-		if n != 0 {
-			goto done // trailing _
+		if c == '+' || c == '-' {
+			c = s.getr()
 		}
+		c, ds = s.digits(c, 10, nil)
+		digsep |= ds
+		if ds&1 == 0 {
+			s.error("exponent has no digits")
+		}
+		if prefix == 'o' || prefix == 'b' {
+			s.error("invalid exponent on " + litname(prefix))
+		}
+	} else if prefix == 'x' && s.kind == FloatLit {
+		s.error("hexadecimal float literal requires an exponent")
 	}
 
-	// imaginary float
+	// suffix 'i'
 	if c == 'i' {
 		s.kind = ImagLit
-		s.getr()
-	}
-
-done:
-	if n > 0 {
-		s.unread(n)
+		if prefix != 0 && prefix != '0' {
+			s.error("invalid suffix 'i' on " + litname(prefix))
+		}
+		c = s.getr()
 	}
 	s.ungetr()
 
 	s.nlsemi = true
 	s.lit = string(s.stopLit())
 	s.tok = _Literal
+
+	if s.kind == IntLit && invalid >= 0 {
+		s.errh(s.line, s.col+uint(invalid), fmt.Sprintf("invalid digit %q in %s", s.lit[invalid], litname(prefix)))
+	}
+
+	if digsep&2 != 0 {
+		if i := invalidSep(s.lit); i >= 0 {
+			s.errh(s.line, s.col+uint(i), "'_' does not separate consecutive digits")
+		}
+	}
+}
+
+func litname(prefix rune) string {
+	switch prefix {
+	case 'x':
+		return "hexadecimal literal"
+	case 'o', '0':
+		return "octal literal"
+	case 'b':
+		return "binary literal"
+	}
+	return "decimal literal"
+}
+
+// invalidSep returns the index of the first invalid separator in x, or -1.
+func invalidSep(x string) int {
+	d := '.' // digit, one of '_', '0' (a digit), or '.' (anything else)
+	i := 0
+	hex := false
+
+	// a prefix counts as a digit
+	if len(x) >= 2 && x[0] == '0' {
+		x1 := x[1]
+		hex = x1 == 'x' || x1 == 'X'
+		if hex || x1 == 'o' || x1 == 'O' || x1 == 'b' || x1 == 'B' {
+			d = '0'
+			i = 2
+		}
+	}
+
+	// mantissa and exponent
+	for ; i < len(x); i++ {
+		p := d // previous digit
+		d = rune(x[i])
+		switch {
+		case d == '_':
+			if p != '0' {
+				return i
+			}
+		case isDecimal(d) || hex && isHex(d):
+			d = '0'
+		default:
+			if p == '_' {
+				return i - 1
+			}
+			d = '.'
+		}
+	}
+	if d == '_' {
+		return len(x) - 1
+	}
+
+	return -1
 }
 
 func (s *scanner) rune() {
@@ -799,10 +821,8 @@ func (s *scanner) escape(quote rune) bool {
 		switch {
 		case isDecimal(c):
 			d = uint32(c) - '0'
-		case 'a' <= c && c <= 'f':
-			d = uint32(c) - ('a' - 10)
-		case 'A' <= c && c <= 'F':
-			d = uint32(c) - ('A' - 10)
+		case 'a' <= lower(c) && lower(c) <= 'f':
+			d = uint32(lower(c)) - ('a' - 10)
 		}
 		if d >= base {
 			if c < 0 {
@@ -812,7 +832,7 @@ func (s *scanner) escape(quote rune) bool {
 			if base == 8 {
 				kind = "octal"
 			}
-			s.error(fmt.Sprintf("non-%s character in escape sequence: %c", kind, c))
+			s.errorf("non-%s character in escape sequence: %c", kind, c)
 			s.ungetr()
 			return false
 		}
@@ -823,7 +843,7 @@ func (s *scanner) escape(quote rune) bool {
 	s.ungetr()
 
 	if x > max && base == 8 {
-		s.error(fmt.Sprintf("octal escape value > 255: %d", x))
+		s.errorf("octal escape value > 255: %d", x)
 		return false
 	}
 
