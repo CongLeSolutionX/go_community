@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdeac3ce_7a2a00ef",
+        "filename": "src/crypto/crypto.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-04T20:51:08Z",
+      "side": 1,
+      "message": "This is still pretty vague to my eyes, and I\u0027m not sure it belongs up here.  As I understand the problem you are trying to address, it is that the Sign method didn\u0027t pass on the full SignerOpts type, just the value of the HashFunc method.  But the Sign method does explicitly say that the type may matter.  That already seems like a more general comment than this paragraph adds.  Perhaps we just need to add, in the comment about Sign, something like\n\nBecause Sign may type assert opts, when wrapping a Signer with another Signer, you must pass down the opts value, not just the result of calling opts.HashFunc.",
+      "revId": "23bb2fb5737f0f9734981f2ab5bcb7fe0b18388c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
