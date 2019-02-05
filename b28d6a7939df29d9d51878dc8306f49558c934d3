@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98e2cd05_60a5f79a",
+        "filename": "src/log/log.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-02-05T18:51:30Z",
+      "side": 1,
+      "message": "Also seems appropriate to add the same note to the Flags() methods for consistency",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 275,
+        "endChar": 45
+      },
+      "revId": "b28d6a7939df29d9d51878dc8306f49558c934d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
