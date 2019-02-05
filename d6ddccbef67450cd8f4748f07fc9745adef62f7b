@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99d92cf9_b95cdc60",
+        "filename": "src/internal/x/text/transform/transform.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-02-05T18:10:09Z",
+      "side": 1,
+      "message": "This code is auto-generated and not meant to be edited directly.",
+      "range": {
+        "startLine": 1,
+        "startChar": 65,
+        "endLine": 1,
+        "endChar": 76
+      },
+      "revId": "d6ddccbef67450cd8f4748f07fc9745adef62f7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
