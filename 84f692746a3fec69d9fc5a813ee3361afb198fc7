@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "baed3e5a_2cae324c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2019-02-05T16:37:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b9e0b15_428eaf8b",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "84f692746a3fec69d9fc5a813ee3361afb198fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90191434_7d55264b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2019-02-05T16:06:12Z",
       "side": 1,
       "message": "Interesting. This is, of course, not how function calls normally work. And it would have some odd consequences, like if you did a stack trace while in g, it would look like f called g.\n\nIs the reason for this to let debugCall open up the argument frame for f so that there\u0027s a place to put g\u0027s result? Why not do something more like a typical function call:\n\n1. Initiate the call to g. When debugCall has opened g\u0027s argument frame, copy x in. Resume until debugCall indicates g has returned.\n2. Read g\u0027s result off the stack into debugger memory.\n3. Let g return all the way and stop it at a breakpoint in the current frame.\n4. Initiate the call to f. When debugCall has opened f\u0027s argument frame, copy g\u0027s result out of debugger memory and into f\u0027s argument.\n5. Complete the call to f.\n\nIs there a reason this doesn\u0027t work? (Or am I totally missing what problem this is solving? :)",
+      "revId": "84f692746a3fec69d9fc5a813ee3361afb198fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c675c39_44d27547",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2019-02-05T16:37:10Z",
+      "side": 1,
+      "message": "If the return value of g is a pointer to the stack and the stack moves between the point where g returns and the argument frame of f is allocated it will be invalid.\n\nIf the return value of g is a pointer to heap memory the object it points to could be free\u0027d by the GC between the point where g returns and the point where the argument frame of f is allocated.\n\nConsider also something like this f(g1(), g2(), g3()) the target process will run quite a while between the point where g1 returns and f has an argument frame.\n\nIf I keep everything in the target\u0027s memory I don\u0027t have to worry about this. \n\nAm I mistaken?",
+      "parentUuid": "90191434_7d55264b",
       "revId": "84f692746a3fec69d9fc5a813ee3361afb198fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -62,6 +104,30 @@
       "revId": "84f692746a3fec69d9fc5a813ee3361afb198fc7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcbfa2af_d27bfe10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2019-02-05T16:37:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "128b9a37_1794d2ae",
+      "range": {
+        "startLine": 30,
+        "startChar": 39,
+        "endLine": 30,
+        "endChar": 45
+      },
+      "revId": "84f692746a3fec69d9fc5a813ee3361afb198fc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
