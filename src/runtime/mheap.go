@@ -1229,10 +1229,10 @@ HaveSpan:
 		// grew the RSS. Mitigate this by scavenging enough free
 		// space to make up for it.
 		//
-		// Also, scavengeLargest may cause coalescing, so prevent
+		// Also, scavenge may cause coalescing, so prevent
 		// coalescing with s by temporarily changing its state.
 		s.state = mSpanManual
-		h.scavengeLargest(s.npages*pageSize, true)
+		h.scavenge(s.npages*pageSize, true)
 		s.state = mSpanFree
 	}
 	s.unusedsince = 0
@@ -1267,7 +1267,7 @@ func (h *mheap) grow(npage uintptr) bool {
 	// is proportional to the number of sysUnused() calls rather than
 	// the number of pages released, so we make fewer of those calls
 	// with larger spans.
-	h.scavengeLargest(size, true)
+	h.scavenge(size, true)
 
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
@@ -1431,7 +1431,7 @@ func bgscavenge(c chan int) {
 		if actual > want {
 			work = uintptr(actual - want)
 		}
-		mheap_.scavengeLargest(work, false)
+		mheap_.scavenge(work, false)
 
 		unlock(&mheap_.lock)
 
@@ -1440,10 +1440,10 @@ func bgscavenge(c chan int) {
 	}
 }
 
-// scavengeLargest scavenges nbytes worth of spans in unscav
-// starting from the largest span and working down. It then takes those spans
-// and places them in scav. h must be locked.
-func (h *mheap) scavengeLargest(nbytes uintptr, useCredit bool) uintptr {
+// scavenge scavenges nbytes worth of spans in the free treap by
+// starting from the span with the highest base address and working down.
+// It then takes those spans and places them in scav. h must be locked.
+func (h *mheap) scavenge(nbytes uintptr, useCredit bool) uintptr {
 	// Use up scavenge credit if there's any available.
 	if useCredit {
 		if nbytes > h.scavengeCredit {
@@ -1454,23 +1454,16 @@ func (h *mheap) scavengeLargest(nbytes uintptr, useCredit bool) uintptr {
 			return 0
 		}
 	}
-	// Iterate over the treap backwards (from largest to smallest) scavenging spans
-	// until we've reached our quota of nbytes.
+	// Iterate over the treap backwards (from highest address to lowest address)
+	// scavenging spans until we've reached our quota of nbytes.
 	released := uintptr(0)
 	for t := h.free.end(); released < nbytes && t.valid(); {
 		s := t.span()
 		r := s.scavenge()
 		if r == 0 {
-			// Since we're going in order of largest-to-smallest span, this
-			// means all other spans are no bigger than s. There's a high
-			// chance that the other spans don't even cover a full page,
-			// (though they could) but iterating further just for a handful
-			// of pages probably isn't worth it, so just stop here.
-			//
-			// This check also preserves the invariant that spans that have
-			// `scavenged` set are only ever in the `scav` treap, and
-			// those which have it unset are only in the `free` treap.
-			break
+			// This span doesn't cover at least one physical page, so skip it.
+			t = t.prev()
+			continue
 		}
 		n := t.prev()
 		h.free.erase(t)
@@ -1501,7 +1494,7 @@ func (h *mheap) scavengeAll() {
 	gp := getg()
 	gp.m.mallocing++
 	lock(&h.lock)
-	released := h.scavengeLargest(^uintptr(0), false)
+	released := h.scavenge(^uintptr(0), false)
 	unlock(&h.lock)
 	gp.m.mallocing--
 

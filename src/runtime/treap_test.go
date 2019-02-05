@@ -50,15 +50,15 @@ func TestTreap(t *testing.T) {
 		}
 		tr.RemoveSpan(spans[0])
 	})
-	t.Run("FindBestFit", func(t *testing.T) {
+	t.Run("FindFirstFit", func(t *testing.T) {
 		// Ensure find actually finds a best-fit element.
 		tr := runtime.Treap{}
 		for _, s := range spans {
 			tr.Insert(s)
 		}
 		i := tr.Find(5)
-		if i.Span().Pages() != 5 {
-			t.Fatalf("expected span of size 5 as best-fit, instead found span of size %d", i.Span().Pages())
+		if i.Span().Base() != 0xc000010000 {
+			t.Fatalf("expected span at lowest address which could fit 5 pages, instead found span at %x", i.Span().Base())
 		}
 		for _, s := range spans {
 			tr.RemoveSpan(s)
@@ -74,13 +74,13 @@ func TestTreap(t *testing.T) {
 			// from the start and that it iterates over the elements in order.
 			// Also ensures that Start returns a valid iterator.
 			spans := 0
-			lastSize := uintptr(0)
+			lastBase := uintptr(0)
 			for i := tr.Start(); i.Valid(); i = i.Next() {
 				spans++
-				if lastSize > i.Span().Pages() {
-					t.Fatalf("not iterating in correct order: encountered size %d before %d", lastSize, i.Span().Pages())
+				if lastBase > i.Span().Base() {
+					t.Fatalf("not iterating in correct order: encountered base %x before %x", lastBase, i.Span().Base())
 				}
-				lastSize = i.Span().Pages()
+				lastBase = i.Span().Base()
 			}
 			if spans != tr.Size() {
 				t.Fatal("failed to iterate forwards over full treap")
@@ -91,13 +91,13 @@ func TestTreap(t *testing.T) {
 			// from the end and that it iterates over the elements in reverse
 			// order. Also ensures that End returns a valid iterator.
 			spans := 0
-			lastSize := ^uintptr(0)
+			lastBase := ^uintptr(0)
 			for i := tr.End(); i.Valid(); i = i.Prev() {
 				spans++
-				if lastSize < i.Span().Pages() {
-					t.Fatalf("not iterating in correct order: encountered size %d before %d", lastSize, i.Span().Pages())
+				if lastBase < i.Span().Base() {
+					t.Fatalf("not iterating in correct order: encountered base %x before %x", lastBase, i.Span().Base())
 				}
-				lastSize = i.Span().Pages()
+				lastBase = i.Span().Base()
 			}
 			if spans != tr.Size() {
 				t.Fatal("failed to iterate backwards over full treap")
@@ -137,9 +137,6 @@ func TestTreap(t *testing.T) {
 			tr.Insert(s)
 		}
 		i := tr.Find(5)
-		if !i.Valid() {
-			t.Fatal("failed to find span of size 5")
-		}
 		s := i.Span()
 		n := i.Next()
 		p := i.Prev()

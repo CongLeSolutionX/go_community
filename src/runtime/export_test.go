@@ -593,7 +593,7 @@ func (t *Treap) Insert(s Span) {
 }
 
 func (t *Treap) Find(npages uintptr) TreapIter {
-	return TreapIter{treapIter{t: t.find(npages)}}
+	return TreapIter{t.find(npages)}
 }
 
 func (t *Treap) Erase(i TreapIter) {
@@ -628,4 +628,5 @@ func (t *Treap) Size() int {
 
 func (t *Treap) CheckInvariants() {
 	t.mTreap.treap.walkTreap(checkTreapNode)
+	t.mTreap.treap.validateMaxPages()
 }
