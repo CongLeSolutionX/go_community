@@ -1200,10 +1200,10 @@ HaveSpan:
 		// grew the RSS. Mitigate this by scavenging enough free
 		// space to make up for it.
 		//
-		// Also, scavengeLargest may cause coalescing, so prevent
+		// Also, scavenge may cause coalescing, so prevent
 		// coalescing with s by temporarily changing its state.
 		s.state = mSpanManual
-		h.scavengeLargest(s.npages * pageSize)
+		h.scavenge(s.npages * pageSize)
 		s.state = mSpanFree
 	}
 	s.unusedsince = 0
@@ -1238,7 +1238,7 @@ func (h *mheap) grow(npage uintptr) bool {
 	// is proportional to the number of sysUnused() calls rather than
 	// the number of pages released, so we make fewer of those calls
 	// with larger spans.
-	h.scavengeLargest(size)
+	h.scavenge(size)
 
 	// Create a fake "in use" span and free it, so that the
 	// right coalescing happens.
@@ -1346,35 +1346,28 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 	h.treapForSpan(s).insert(s)
 }
 
-// scavengeLargest scavenges nbytes worth of spans in unscav
-// starting from the largest span and working down. It then takes those spans
-// and places them in scav. h must be locked.
-func (h *mheap) scavengeLargest(nbytes uintptr) {
+// scavenge scavenges nbytes worth of spans in the free treap by
+// starting from the span with the highest base address and working down.
+// It then takes those spans and places them in scav. h must be locked.
+func (h *mheap) scavenge(nbytes uintptr) uintptr {
 	// Use up scavenge credit if there's any available.
 	if nbytes > h.scavengeCredit {
 		nbytes -= h.scavengeCredit
 		h.scavengeCredit = 0
 	} else {
 		h.scavengeCredit -= nbytes
-		return
+		return nbytes
 	}
-	// Iterate over the treap backwards (from largest to smallest) scavenging spans
-	// until we've reached our quota of nbytes.
+	// Iterate over the treap backwards (from highest address to lowest address)
+	// scavenging spans until we've reached our quota of nbytes.
 	released := uintptr(0)
 	for t := h.free.end(); released < nbytes && t.valid(); {
 		s := t.span()
 		r := s.scavenge()
 		if r == 0 {
-			// Since we're going in order of largest-to-smallest span, this
-			// means all other spans are no bigger than s. There's a high
-			// chance that the other spans don't even cover a full page,
-			// (though they could) but iterating further just for a handful
-			// of pages probably isn't worth it, so just stop here.
-			//
-			// This check also preserves the invariant that spans that have
-			// `scavenged` set are only ever in the `scav` treap, and
-			// those which have it unset are only in the `free` treap.
-			break
+			// This span doesn't cover at least one physical page, so skip it.
+			t = t.prev()
+			continue
 		}
 		n := t.prev()
 		h.free.erase(t)
@@ -1390,12 +1383,13 @@ func (h *mheap) scavengeLargest(nbytes uintptr) {
 	if released > nbytes {
 		h.scavengeCredit += released - nbytes
 	}
+	return released
 }
 
 // scavengeAll visits each node in the unscav treap and scavenges the
 // treapNode's span. It then removes the scavenged span from
 // unscav and adds it into scav before continuing. h must be locked.
-func (h *mheap) scavengeAll(now, limit uint64) uintptr {
+func (h *mheap) scavengeAllLocked(now, limit uint64) uintptr {
 	// Iterate over the treap scavenging spans if unused for at least limit time.
 	released := uintptr(0)
 	for t := h.free.start(); t.valid(); {
@@ -1418,14 +1412,14 @@ func (h *mheap) scavengeAll(now, limit uint64) uintptr {
 	return released
 }
 
-func (h *mheap) scavenge(k int32, now, limit uint64) {
+func (h *mheap) scavengeAll(k int32, now, limit uint64) {
 	// Disallow malloc or panic while holding the heap lock. We do
 	// this here because this is an non-mallocgc entry-point to
 	// the mheap API.
 	gp := getg()
 	gp.m.mallocing++
 	lock(&h.lock)
-	released := h.scavengeAll(now, limit)
+	released := h.scavengeAllLocked(now, limit)
 	unlock(&h.lock)
 	gp.m.mallocing--
 
@@ -1440,7 +1434,7 @@ func (h *mheap) scavenge(k int32, now, limit uint64) {
 //go:linkname runtime_debug_freeOSMemory runtime/debug.freeOSMemory
 func runtime_debug_freeOSMemory() {
 	GC()
-	systemstack(func() { mheap_.scavenge(-1, ^uint64(0), 0) })
+	systemstack(func() { mheap_.scavengeAll(-1, ^uint64(0), 0) })
 }
 
 // Initialize a new span with the given start and npages.
