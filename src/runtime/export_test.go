@@ -625,4 +625,5 @@ func (t *Treap) Size() int {
 
 func (t *Treap) CheckInvariants() {
 	t.mTreap.treap.walkTreap(checkTreapNode)
+	t.mTreap.treap.validateMaxPages()
 }
