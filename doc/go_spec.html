@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of February 5, 2019",
+	"Subtitle": "Version of February 6, 2019",
 	"Path": "/ref/spec"
 }-->
 
@@ -163,6 +163,15 @@ may trigger the insertion of a <a href="#Semicolons">semicolon</a>.
 While breaking the input into tokens,
 the next token is the longest sequence of characters that form a
 valid token.
+</p>
+
+<p>
+Implementation restriction: For better error messages, a compiler may break
+the input into character sequences that are longer than a valid token, as long 
+as this does not render invalid programs valid or vice versa.
+For instance, the input <code>0x.0</code> may be consumed as an invalid
+hexadecimal floating-point token rather than an invalid sequence of valid
+tokens <code>0</code>, <code>x</code>, and <code>.0</code>.
 </p>
 
 <h3 id="Semicolons">Semicolons</h3>
