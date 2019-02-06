@@ -59,6 +59,16 @@ func (d *dataIO) big4() (n uint32, ok bool) {
 	return uint32(p[3]) | uint32(p[2])<<8 | uint32(p[1])<<16 | uint32(p[0])<<24, true
 }
 
+func (d *dataIO) big8() (n uint64, ok bool) {
+	n1, ok1 := d.big4()
+	n2, ok2 := d.big4()
+	if !ok1 || !ok2 {
+		d.error = true
+		return 0, false
+	}
+	return (uint64(n1) << 32) | uint64(n2), true
+}
+
 func (d *dataIO) byte() (n byte, ok bool) {
 	p := d.read(1)
 	if len(p) < 1 {
@@ -87,63 +97,10 @@ var badData = errors.New("malformed time zone information")
 func LoadLocationFromTZData(name string, data []byte) (*Location, error) {
 	d := dataIO{data, false}
 
-	// 4-byte magic "TZif"
-	if magic := d.read(4); string(magic) != "TZif" {
-		return nil, badData
+	version, nzone, ntime, txtimesd, txzones, zonedatad, abbrev, isstd, isutc, err := readOneZoneCopy(&d, false)
+	if err != nil {
+		return nil, err
 	}
-
-	// 1-byte version, then 15 bytes of padding
-	var p []byte
-	if p = d.read(16); len(p) != 16 || p[0] != 0 && p[0] != '2' && p[0] != '3' {
-		return nil, badData
-	}
-
-	// six big-endian 32-bit integers:
-	//	number of UTC/local indicators
-	//	number of standard/wall indicators
-	//	number of leap seconds
-	//	number of transition times
-	//	number of local time zones
-	//	number of characters of time zone abbrev strings
-	const (
-		NUTCLocal = iota
-		NStdWall
-		NLeap
-		NTime
-		NZone
-		NChar
-	)
-	var n [6]int
-	for i := 0; i < 6; i++ {
-		nn, ok := d.big4()
-		if !ok {
-			return nil, badData
-		}
-		n[i] = int(nn)
-	}
-
-	// Transition times.
-	txtimes := dataIO{d.read(n[NTime] * 4), false}
-
-	// Time zone indices for transition times.
-	txzones := d.read(n[NTime])
-
-	// Zone info structures
-	zonedata := dataIO{d.read(n[NZone] * 6), false}
-
-	// Time zone abbreviations.
-	abbrev := d.read(n[NChar])
-
-	// Leap-second time pairs
-	d.read(n[NLeap] * 8)
-
-	// Whether tx times associated with local time types
-	// are specified as standard time or wall time.
-	isstd := d.read(n[NStdWall])
-
-	// Whether tx times associated with local time types
-	// are specified as UTC or local time.
-	isutc := d.read(n[NUTCLocal])
 
 	if d.error { // ran out of data
 		return nil, badData
@@ -151,16 +108,31 @@ func LoadLocationFromTZData(name string, data []byte) (*Location, error) {
 
 	// If version == 2 or 3, the entire file repeats, this time using
 	// 8-byte ints for txtimes and leap seconds.
-	// We won't need those until 2106.
+	// Use that if available.
+	if version != 1 {
+		_, nzone, ntime, txtimesd, txzones, zonedatad, abbrev, isstd, isutc, err = readOneZoneCopy(&d, true)
+		if err != nil {
+			return nil, err
+		}
+		if d.error {
+			return nil, badData
+		}
+	}
+
+	txtimes := dataIO{txtimesd, false}
+	zonedata := dataIO{zonedatad, false}
 
 	// Now we can build up a useful data structure.
 	// First the zone information.
 	//	utcoff[4] isdst[1] nameindex[1]
-	zone := make([]zone, n[NZone])
+	zone := make([]zone, nzone)
 	for i := range zone {
 		var ok bool
 		var n uint32
 		if n, ok = zonedata.big4(); !ok {
+			return nil, badData
+		}
+		if uint32(int(n)) != n {
 			return nil, badData
 		}
 		zone[i].offset = int(int32(n))
@@ -184,14 +156,23 @@ func LoadLocationFromTZData(name string, data []byte) (*Location, error) {
 	}
 
 	// Now the transition time info.
-	tx := make([]zoneTrans, n[NTime])
+	tx := make([]zoneTrans, ntime)
 	for i := range tx {
-		var ok bool
-		var n uint32
-		if n, ok = txtimes.big4(); !ok {
-			return nil, badData
+		var n int64
+		if version == 1 {
+			if n4, ok := txtimes.big4(); !ok {
+				return nil, badData
+			} else {
+				n = int64(int32(n4))
+			}
+		} else {
+			if n8, ok := txtimes.big8(); !ok {
+				return nil, badData
+			} else {
+				n = int64(n8)
+			}
 		}
-		tx[i].when = int64(int32(n))
+		tx[i].when = n
 		if int(txzones[i]) >= len(zone) {
 			return nil, badData
 		}
@@ -228,6 +209,97 @@ func LoadLocationFromTZData(name string, data []byte) (*Location, error) {
 	}
 
 	return l, nil
+}
+
+// readOneZoneCopy reads one copy of the zoneinfo data. After version 1 of
+// tzdata, the zoneinfo data is often written twice, once as 32-bit
+// and once as 64-bit.
+func readOneZoneCopy(d *dataIO, is64 bool) (version, nzone, ntime int, txtimes, txzones, zonedata, abbrev, isstd, isutc []byte, err error) {
+	// 4-byte magic "TZif"
+	if magic := d.read(4); string(magic) != "TZif" {
+		err = badData
+		return
+	}
+
+	// 1-byte version, then 15 bytes of padding
+	var p []byte
+	if p = d.read(16); len(p) != 16 {
+		err = badData
+		return
+	} else {
+		switch p[0] {
+		case 0:
+			version = 1
+		case '2':
+			version = 2
+		case '3':
+			version = 3
+		default:
+			err = badData
+			return
+		}
+	}
+
+	// six big-endian 32-bit integers:
+	//	number of UTC/local indicators
+	//	number of standard/wall indicators
+	//	number of leap seconds
+	//	number of transition times
+	//	number of local time zones
+	//	number of characters of time zone abbrev strings
+	const (
+		NUTCLocal = iota
+		NStdWall
+		NLeap
+		NTime
+		NZone
+		NChar
+	)
+	var n [6]int
+	for i := 0; i < 6; i++ {
+		nn, ok := d.big4()
+		if !ok {
+			err = badData
+			return
+		}
+		if uint32(int(nn)) != nn {
+			err = badData
+			return
+		}
+		n[i] = int(nn)
+	}
+
+	nzone = n[NZone]
+	ntime = n[NTime]
+
+	// Transition times.
+	size := 4
+	if is64 {
+		size = 8
+	}
+	txtimes = d.read(n[NTime] * size)
+
+	// Time zone indices for transition times.
+	txzones = d.read(n[NTime])
+
+	// Zone info structures
+	zonedata = d.read(n[NZone] * 6)
+
+	// Time zone abbreviations.
+	abbrev = d.read(n[NChar])
+
+	// Leap-second time pairs
+	d.read(n[NLeap] * (size + 4))
+
+	// Whether tx times associated with local time types
+	// are specified as standard time or wall time.
+	isstd = d.read(n[NStdWall])
+
+	// Whether tx times associated with local time types
+	// are specified as UTC or local time.
+	isutc = d.read(n[NUTCLocal])
+
+	return
 }
 
 // loadTzinfoFromDirOrZip returns the contents of the file with the given name
