@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abcd17c1_5574018a",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-08T23:29:33Z",
+      "side": 1,
+      "message": "If the slowdown and the extra allocations come from this function, I wonder maybe we could lazily allocate the map, i.e. do it when we see at least two file indices. Maybe it is still common that there is only one file.",
+      "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3d8e875_c20573e4",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-08T23:29:33Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01e1d117_030bce76",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-08T23:29:33Z",
+      "side": 1,
+      "message": "Add a blank line before this line.",
+      "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19d98830_eca256df",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-08T23:29:33Z",
+      "side": 1,
+      "message": "Could you add comments about these two fields? Why they are necessary? To save a mapaccess in the common case?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96860d2d_d44c764b",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-08T23:29:33Z",
+      "side": 1,
+      "message": "Does it make sense to get/return sparse maps from/to f.Cache?",
+      "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
