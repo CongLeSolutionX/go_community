@@ -177,7 +177,11 @@ NextCandidate:
 		return nil, errors.New("tls: certificate private key does not implement crypto.Signer")
 	}
 
+<<<<<<< HEAD   (14c64d [dev.boringcrypto] misc/boring: add go1.10.8b4 and go1.11.5b)
 	signatureAlgorithm, sigType, hashFunc, err := pickSignatureAlgorithm(priv.Public(), clientHello.supportedSignatureAlgorithms, supportedSignatureAlgorithms(), ka.version)
+=======
+	signatureAlgorithm, sigType, hashFunc, err := pickSignatureAlgorithm(priv.Public(), clientHello.supportedSignatureAlgorithms, supportedSignatureAlgorithmsTLS12, ka.version)
+>>>>>>> BRANCH (7ccd35 crypto/tls: disable RSA-PSS in TLS 1.2)
 	if err != nil {
 		return nil, err
 	}
