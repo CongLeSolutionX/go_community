@@ -22,6 +22,30 @@
       "revId": "0ee32877422f5939817385a164dce6b8ddf578e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "311540e9_a5538d1d",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-02-08T19:12:29Z",
+      "side": 1,
+      "message": "ah it\u0027s because println prints to stderr while fmt.Printf prints to stdout.",
+      "parentUuid": "7f6323dd_d25550b2",
+      "range": {
+        "startLine": 254,
+        "startChar": 3,
+        "endLine": 254,
+        "endChar": 13
+      },
+      "revId": "0ee32877422f5939817385a164dce6b8ddf578e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
