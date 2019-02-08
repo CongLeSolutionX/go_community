@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "565f6994_db25d512",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-02-08T21:21:25Z",
+      "side": 1,
+      "message": "prefix should still be the package:\n\ncmd/internal/obj/x86: change naming from snake to camel case",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "c124681d57b78e85ccaea31178af4d839c6a1a95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
