@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f6323dd_d25550b2",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-02-08T18:24:56Z",
+      "side": 1,
+      "message": "The other code uses\n\n  println(fmt.Sprintf(...))\n\nThough it\u0027s unclear to me why that\u0027s used over fmt.Println. For now I\u0027m tempted to say keep it consistent but I don\u0027t know the reasoning.",
+      "range": {
+        "startLine": 254,
+        "startChar": 3,
+        "endLine": 254,
+        "endChar": 13
+      },
+      "revId": "0ee32877422f5939817385a164dce6b8ddf578e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
