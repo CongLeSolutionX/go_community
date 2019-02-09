@@ -140,10 +140,13 @@ func checkTreapNode(t *treapNode) {
 	if t == nil {
 		return
 	}
-	if t.spanKey.npages != t.npagesKey || t.spanKey.next != nil {
+	if t.spanKey.next != nil || t.spanKey.prev != nil || t.spanKey.list != nil {
+		throw("span may be on an mSpanList while simultaneously in the treap")
+	}
+	if t.spanKey.npages != t.npagesKey {
 		println("runtime: checkTreapNode treapNode t=", t, "     t.npagesKey=", t.npagesKey,
 			"t.spanKey.npages=", t.spanKey.npages)
-		throw("why does span.npages and treap.ngagesKey do not match?")
+		throw("span.npages and treap.npagesKey do not match")
 	}
 	if t.left != nil && lessThan(t.left.npagesKey, t.left.spanKey) {
 		throw("t.lessThan(t.left.npagesKey, t.left.spanKey) is not false")
