@@ -96,8 +96,8 @@ func (e *SyntaxError) Error() string { return e.msg }
 func decodeError(dec *json.Decoder, val struct{}) error { // OMIT
 	var f os.FileInfo // OMIT
 	if err := dec.Decode(&val); err != nil {
-		if serr, ok := err.(*json.SyntaxError); ok {
-			line, col := findLine(f, serr.Offset)
+		if syntaxError, ok := err.(*json.SyntaxError); ok {
+			line, col := findLine(f, syntaxError.Offset)
 			return fmt.Errorf("%s:%d:%d: %v", f.Name(), line, col, err)
 		}
 		return err
@@ -113,7 +113,7 @@ func findLine(os.FileInfo, int64) (int, int) {
 
 func netError(err error) { // OMIT
 	for { // OMIT
-		if nerr, ok := err.(net.Error); ok && nerr.Temporary() {
+		if netErr, ok := err.(net.Error); ok && netErr.Temporary() {
 			time.Sleep(1e9)
 			continue
 		}
