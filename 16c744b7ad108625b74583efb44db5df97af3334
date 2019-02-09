@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "259978fe_9834c1b5",
+        "filename": "doc/debugging_with_gdb.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-02-09T12:54:43Z",
+      "side": 1,
+      "message": "This is not a typo",
+      "revId": "16c744b7ad108625b74583efb44db5df97af3334",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61a6c410_6bb90908",
+        "filename": "doc/progs/error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-02-09T12:54:43Z",
+      "side": 1,
+      "message": "This is intentional and we use this pattern throughout the standard library.",
+      "revId": "16c744b7ad108625b74583efb44db5df97af3334",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
