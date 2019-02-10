@@ -91,3 +91,21 @@ func ExampleWriter_RegisterCompressor() {
 
 	// Proceed to add files to w.
 }
+
+func ExampleReader_RegisterDecompressor() {
+	// Override the default Deflate decompressor.
+
+	// Open a zip archive for reading.
+	r, err := zip.OpenReader("testdata/readme.zip")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer r.Close()
+
+	// Register a custom Deflate decompressor.
+	r.RegisterDecompressor(zip.Deflate, func(r io.Reader) io.ReadCloser {
+		return flate.NewReader(r)
+	})
+
+	// Proceed to read from r.
+}
