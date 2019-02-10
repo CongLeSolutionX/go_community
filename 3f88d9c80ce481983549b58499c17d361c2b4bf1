@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fa99230_8faceadf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-10T21:33:31Z",
+      "side": 1,
+      "message": "See https://github.com/golang/go/wiki/CommitMessage\n\nThis should start with a verb (like \"fix typos\")",
+      "revId": "3f88d9c80ce481983549b58499c17d361c2b4bf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
