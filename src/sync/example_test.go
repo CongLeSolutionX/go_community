@@ -57,3 +57,29 @@ func ExampleOnce() {
 	// Output:
 	// Only once
 }
+
+func ExampleMap() {
+	var gophers sync.Map
+	// Store
+	gophers.Store("cow", "moo")
+	gophers.Store("chicken", "cluck")
+	gophers.Store("gopher", "go")
+
+	// Load
+	_, found := gophers.Load("gopher")
+	if found {
+		fmt.Println("gopher found")
+	}
+
+
+	// Range & Delete
+	gophers.Range(func(key interface{}, value interface{}) bool {
+		if key.(string) == "chicken" {
+			gophers.Delete(key.(string))
+		}
+		return true
+	})
+
+	// Output:
+	// gopher found
+}
