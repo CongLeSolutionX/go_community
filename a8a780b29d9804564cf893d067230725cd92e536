@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac773dce_80ed3fd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-02-10T13:39:58Z",
+      "side": 1,
+      "message": "Move \"Fixes #nnn\" to its own line.",
+      "revId": "a8a780b29d9804564cf893d067230725cd92e536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e907991_689401de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-02-10T13:39:58Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "a8a780b29d9804564cf893d067230725cd92e536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07b1515f_70e82eef",
+        "filename": "src/sync/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-02-10T13:39:58Z",
+      "side": 1,
+      "message": "Where does db.Memdb come from? Did you mean just \"map\"?",
+      "revId": "a8a780b29d9804564cf893d067230725cd92e536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc6d817c_65f46d54",
+        "filename": "src/sync/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-02-10T13:39:58Z",
+      "side": 1,
+      "message": "Is the iteration order of (*sync.Map).Range stable? I didn\u0027t see it mentioned in the documentation.",
+      "range": {
+        "startLine": 86,
+        "startChar": 1,
+        "endLine": 87,
+        "endChar": 13
+      },
+      "revId": "a8a780b29d9804564cf893d067230725cd92e536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
