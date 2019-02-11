@@ -2933,6 +2933,79 @@ func rewriteValueARM_OpARMADDconst_0(v *Value) bool {
 func rewriteValueARM_OpARMADDshiftLL_0(v *Value) bool {
 	b := v.Block
 	_ = b
+	typ := &b.Func.Config.Types
+	_ = typ
+	// match: (ADDshiftLL <typ.UInt16> [8] (BFXU <typ.UInt16> [arm64BFAuxInt(8, 8)] x) x)
+	// cond:
+	// result: (REV16 x)
+	for {
+		if v.Type != typ.UInt16 {
+			break
+		}
+		if v.AuxInt != 8 {
+			break
+		}
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMBFXU {
+			break
+		}
+		if v_0.Type != typ.UInt16 {
+			break
+		}
+		if v_0.AuxInt != arm64BFAuxInt(8, 8) {
+			break
+		}
+		x := v_0.Args[0]
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpARMREV16)
+		v.AddArg(x)
+		return true
+	}
+	// match: (ADDshiftLL <typ.UInt16> [8] (SRLconst <typ.UInt16> [24] (SLLconst <typ.UInt32> [16] x)) x)
+	// cond: objabi.GOARM>=6
+	// result: (REV16 x)
+	for {
+		if v.Type != typ.UInt16 {
+			break
+		}
+		if v.AuxInt != 8 {
+			break
+		}
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMSRLconst {
+			break
+		}
+		if v_0.Type != typ.UInt16 {
+			break
+		}
+		if v_0.AuxInt != 24 {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpARMSLLconst {
+			break
+		}
+		if v_0_0.Type != typ.UInt32 {
+			break
+		}
+		if v_0_0.AuxInt != 16 {
+			break
+		}
+		x := v_0_0.Args[0]
+		if x != v.Args[1] {
+			break
+		}
+		if !(objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMREV16)
+		v.AddArg(x)
+		return true
+	}
 	// match: (ADDshiftLL (MOVWconst [c]) x [d])
 	// cond:
 	// result: (ADDconst [c] (SLLconst <x.Type> x [d]))
@@ -11952,6 +12025,79 @@ func rewriteValueARM_OpARMORconst_0(v *Value) bool {
 func rewriteValueARM_OpARMORshiftLL_0(v *Value) bool {
 	b := v.Block
 	_ = b
+	typ := &b.Func.Config.Types
+	_ = typ
+	// match: (ORshiftLL <typ.UInt16> [8] (BFXU <typ.UInt16> [arm64BFAuxInt(8, 8)] x) x)
+	// cond:
+	// result: (REV16 x)
+	for {
+		if v.Type != typ.UInt16 {
+			break
+		}
+		if v.AuxInt != 8 {
+			break
+		}
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMBFXU {
+			break
+		}
+		if v_0.Type != typ.UInt16 {
+			break
+		}
+		if v_0.AuxInt != arm64BFAuxInt(8, 8) {
+			break
+		}
+		x := v_0.Args[0]
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpARMREV16)
+		v.AddArg(x)
+		return true
+	}
+	// match: (ORshiftLL <typ.UInt16> [8] (SRLconst <typ.UInt16> [24] (SLLconst <typ.UInt32> [16] x)) x)
+	// cond: objabi.GOARM>=6
+	// result: (REV16 x)
+	for {
+		if v.Type != typ.UInt16 {
+			break
+		}
+		if v.AuxInt != 8 {
+			break
+		}
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMSRLconst {
+			break
+		}
+		if v_0.Type != typ.UInt16 {
+			break
+		}
+		if v_0.AuxInt != 24 {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpARMSLLconst {
+			break
+		}
+		if v_0_0.Type != typ.UInt32 {
+			break
+		}
+		if v_0_0.AuxInt != 16 {
+			break
+		}
+		x := v_0_0.Args[0]
+		if x != v.Args[1] {
+			break
+		}
+		if !(objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMREV16)
+		v.AddArg(x)
+		return true
+	}
 	// match: (ORshiftLL (MOVWconst [c]) x [d])
 	// cond:
 	// result: (ORconst [c] (SLLconst <x.Type> x [d]))
@@ -17230,6 +17376,79 @@ func rewriteValueARM_OpARMXORconst_0(v *Value) bool {
 func rewriteValueARM_OpARMXORshiftLL_0(v *Value) bool {
 	b := v.Block
 	_ = b
+	typ := &b.Func.Config.Types
+	_ = typ
+	// match: (XORshiftLL <typ.UInt16> [8] (BFXU <typ.UInt16> [arm64BFAuxInt(8, 8)] x) x)
+	// cond:
+	// result: (REV16 x)
+	for {
+		if v.Type != typ.UInt16 {
+			break
+		}
+		if v.AuxInt != 8 {
+			break
+		}
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMBFXU {
+			break
+		}
+		if v_0.Type != typ.UInt16 {
+			break
+		}
+		if v_0.AuxInt != arm64BFAuxInt(8, 8) {
+			break
+		}
+		x := v_0.Args[0]
+		if x != v.Args[1] {
+			break
+		}
+		v.reset(OpARMREV16)
+		v.AddArg(x)
+		return true
+	}
+	// match: (XORshiftLL <typ.UInt16> [8] (SRLconst <typ.UInt16> [24] (SLLconst <typ.UInt32> [16] x)) x)
+	// cond: objabi.GOARM>=6
+	// result: (REV16 x)
+	for {
+		if v.Type != typ.UInt16 {
+			break
+		}
+		if v.AuxInt != 8 {
+			break
+		}
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMSRLconst {
+			break
+		}
+		if v_0.Type != typ.UInt16 {
+			break
+		}
+		if v_0.AuxInt != 24 {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpARMSLLconst {
+			break
+		}
+		if v_0_0.Type != typ.UInt32 {
+			break
+		}
+		if v_0_0.AuxInt != 16 {
+			break
+		}
+		x := v_0_0.Args[0]
+		if x != v.Args[1] {
+			break
+		}
+		if !(objabi.GOARM >= 6) {
+			break
+		}
+		v.reset(OpARMREV16)
+		v.AddArg(x)
+		return true
+	}
 	// match: (XORshiftLL (MOVWconst [c]) x [d])
 	// cond:
 	// result: (XORconst [c] (SLLconst <x.Type> x [d]))
