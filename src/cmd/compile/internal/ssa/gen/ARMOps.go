@@ -209,6 +209,7 @@ func init() {
 
 		{name: "CLZ", argLength: 1, reg: gp11, asm: "CLZ"},   // count leading zero
 		{name: "REV", argLength: 1, reg: gp11, asm: "REV"},   // reverse byte order
+		{name: "REV16", argLength: 1, reg: gp11, asm: "REV16"}, // reverse byte order in 16-bit halfwords
 		{name: "RBIT", argLength: 1, reg: gp11, asm: "RBIT"}, // reverse bit order
 
 		// shifts
