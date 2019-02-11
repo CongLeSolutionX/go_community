@@ -40,6 +40,10 @@ cd outside
 go list -m all
 stdout 'rsc.io/sampler v1.3.0'
 
+# Test 'go mod tidy' with replacements (see golang.org/issue/30166).
+cd $WORK/x
+go mod tidy
+
 -- go.mod --
 module example.com/tidy
 
@@ -69,3 +73,25 @@ import (
 	_ "rsc.io/sampler"
 	_ "golang.org/x/text/language"
 )
+
+-- $WORK/x/go.mod --
+module example.com/tidy
+
+require rsc.io/quote/v3 v3.0.0
+replace rsc.io/quote/v3 => ./not-rsc.io/quote/v3
+
+-- $WORK/x/imports.go --
+package tidy
+
+import _ "rsc.io/quote/v3"
+
+-- $WORK/x/not-rsc.io/quote/v3/go.mod --
+module not-rsc.io/quote/v3
+
+require rsc.io/quote/v3 v3.0.0
+
+-- $WORK/x/not-rsc.io/quote/v3/quote.go --
+package quote
+
+import _ "rsc.io/quote/v3"
+
