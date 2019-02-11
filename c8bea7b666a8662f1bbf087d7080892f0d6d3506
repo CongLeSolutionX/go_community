@@ -22,6 +22,30 @@
       "revId": "c8bea7b666a8662f1bbf087d7080892f0d6d3506",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b125cbf_29d29cec",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-02-11T23:00:48Z",
+      "side": 1,
+      "message": "Or, even \"logDepth generates the output at an arbitrary stack depth.\"",
+      "parentUuid": "f0ce93e6_4d1a83e5",
+      "range": {
+        "startLine": 617,
+        "startChar": 34,
+        "endLine": 617,
+        "endChar": 61
+      },
+      "revId": "c8bea7b666a8662f1bbf087d7080892f0d6d3506",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
