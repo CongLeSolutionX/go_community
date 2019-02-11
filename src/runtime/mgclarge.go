@@ -301,7 +301,7 @@ func (root *mTreap) removeNode(t *treapNode) {
 // This is slightly more complicated than a simple binary tree search
 // since if an exact match is not found the next larger node is
 // returned.
-func (root *mTreap) find(npages uintptr) *treapNode {
+func (root *mTreap) find(npages uintptr) treapIter {
 	t := root.treap
 	for t != nil {
 		if t.spanKey == nil {
@@ -312,10 +312,10 @@ func (root *mTreap) find(npages uintptr) *treapNode {
 		} else if t.left != nil && t.left.npagesKey >= npages {
 			t = t.left
 		} else {
-			return t
+			return treapIter{t}
 		}
 	}
-	return nil
+	return treapIter{}
 }
 
 // removeSpan searches for, finds, deletes span along with
