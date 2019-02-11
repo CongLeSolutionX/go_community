@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36f2264e_c7f648a8",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-02-11T19:31:31Z",
+      "side": 1,
+      "message": "The slowdown comes in other phases using the data structure stored in f.cachedLineStarts.\nThe 1-element cache ought to catch that case; the first probe uses the map, then all the others hit the cache.\nThe memory consumption (before this CL) is believed to come from wide variations in line numbers between inliner and inlinee, enhanced by the size of machine-generated files.",
+      "parentUuid": "abcd17c1_5574018a",
+      "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3d8e875_c20573e4",
         "filename": "src/cmd/compile/internal/ssa/xposmap.go",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "e6715a76_6c6a72fa",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-02-11T19:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3d8e875_c20573e4",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01e1d117_030bce76",
         "filename": "src/cmd/compile/internal/ssa/xposmap.go",
         "patchSetId": 6
@@ -56,6 +98,24 @@
       "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5c1bfb9_24c15634",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-02-11T19:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01e1d117_030bce76",
+      "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "08468118_885e6433",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-02-11T19:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19d98830_eca256df",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96860d2d_d44c764b",
         "filename": "src/cmd/compile/internal/ssa/xposmap.go",
         "patchSetId": 6
@@ -93,6 +177,24 @@
       "writtenOn": "2019-02-08T23:29:33Z",
       "side": 1,
       "message": "Does it make sense to get/return sparse maps from/to f.Cache?",
+      "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae47600c_46c4efab",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-02-11T19:31:31Z",
+      "side": 1,
+      "message": "Not in f.Cache; this data structure is itself stored in f.cachedLineStarts\nand is effectively itself a cache.",
+      "parentUuid": "96860d2d_d44c764b",
       "revId": "6c24731ab12e388d241fe940910b84b16c9c65d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
