@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1efbe5fc_109ad106",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-02-11T17:59:14Z",
+      "side": 1,
+      "message": "Sorry, this should be Reader.RegisterDecompressor",
+      "parentUuid": "f62a7aba_a088a567",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "0da4e37ffae1ce63780e1479d8b5bb5364ae2b3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91ad34d9_91c10a54",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
