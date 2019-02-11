@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c6a722c_b65c4e71",
+        "filename": "src/cmd/go/internal/modcmd/tidy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-02-11T18:10:32Z",
+      "side": 0,
+      "message": "This comment should not be deleted in this CL: the entire import graph may be different when replacements are applied, so we\u0027ll actually have to do a lot more work for this TODO.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 51
+      },
+      "revId": "e1b49ad608c0b51acf75f8248e1167acbbcb5d30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

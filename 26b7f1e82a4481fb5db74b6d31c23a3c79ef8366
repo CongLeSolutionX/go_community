@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e0b8524_b399c254",
+        "filename": "src/cmd/go/internal/modcmd/tidy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-02-11T18:10:32Z",
+      "side": 1,
+      "message": "This results in keeping a module that we haven\u0027t loaded at all as part of the `go mod tidy` sweep. That may be ok, but it\u0027s too big of a semantic change for this late in the cycle.",
+      "revId": "26b7f1e82a4481fb5db74b6d31c23a3c79ef8366",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
