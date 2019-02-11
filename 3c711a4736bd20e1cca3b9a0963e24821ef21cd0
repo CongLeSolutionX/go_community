@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bb90a4c_130c7385",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-02-11T17:54:55Z",
+      "side": 1,
+      "message": "to be consistent with ExampleIndent, I would write:\n\n  var out bytes.Buffer\n  json.HTMLEscape(\u0026out, []byte(`{\"Name\":\"\u003cb\u003eHTML content\u003c/b\u003e\"}`))\n  out.WriteTo(os.Stdout)",
+      "range": {
+        "startLine": 306,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 25
+      },
+      "revId": "3c711a4736bd20e1cca3b9a0963e24821ef21cd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
