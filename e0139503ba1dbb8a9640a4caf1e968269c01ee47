@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "ed9c9868_370dd154",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3498,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-02-12T08:48:55Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t understand \"User could use Add32, which will just inline the 64-bit addition.\", do you mean Go compiler will turn two Add32 to one Add64? For example,\n        _, c1 :\u003d bits.Add32(x1, y1, carry)\n        r, c2 :\u003d bits.Add32(x2, y2, c1)\nThese two Add32 do not seem to be inlined into one Add64. Could you give me more details, thanks.",
+      "parentUuid": "ca1aaa3f_64de3cc9",
+      "range": {
+        "startLine": 3494,
+        "startChar": 0,
+        "endLine": 3498,
+        "endChar": 12
+      },
+      "revId": "e0139503ba1dbb8a9640a4caf1e968269c01ee47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "745732c8_ed65f0ed",
         "filename": "src/math/bits/bits_test.go",
         "patchSetId": 3
