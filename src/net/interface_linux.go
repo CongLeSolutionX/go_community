@@ -56,7 +56,11 @@ const (
 )
 
 func newLink(ifim *syscall.IfInfomsg, attrs []syscall.NetlinkRouteAttr) *Interface {
-	ifi := &Interface{Index: int(ifim.Index), Flags: linkFlags(ifim.Flags)}
+	ifi := &Interface{
+		Index: int(ifim.Index),
+		Flags: linkFlags(ifim.Flags),
+		Sys:   &syscall.NetDevice{Type: int(ifim.Type), Flags: int(ifim.Flags)},
+	}
 	for _, a := range attrs {
 		switch a.Attr.Type {
 		case syscall.IFLA_ADDRESS:
@@ -89,6 +93,8 @@ func newLink(ifim *syscall.IfInfomsg, attrs []syscall.NetlinkRouteAttr) *Interfa
 			ifi.Name = string(a.Value[:len(a.Value)-1])
 		case syscall.IFLA_MTU:
 			ifi.MTU = int(*(*uint32)(unsafe.Pointer(&a.Value[:4][0])))
+		case syscall.IFLA_IFALIAS:
+			ifi.Sys.(*syscall.NetDevice).Alias = string(a.Value[:len(a.Value)-1])
 		}
 	}
 	return ifi
