@@ -7,6 +7,7 @@ package net
 import (
 	"errors"
 	"sync"
+	"syscall"
 	"time"
 )
 
@@ -33,6 +34,13 @@ type Interface struct {
 	Name         string       // e.g., "en0", "lo0", "eth0.100"
 	HardwareAddr HardwareAddr // IEEE MAC-48, EUI-48 and EUI-64 form
 	Flags        Flags        // e.g., FlagUp, FlagLoopback, FlagMulticast
+
+	// Sys contains system-dependent network interface information.
+	//
+	// Convert it to the appropriate type, such as syscall.IFNet
+	// on BSD variants, syscall.NetDevice on Linux, to access its
+	// contents.
+	Sys syscall.NetworkInterface
 }
 
 type Flags uint

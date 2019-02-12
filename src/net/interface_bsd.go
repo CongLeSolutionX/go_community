@@ -45,6 +45,7 @@ func interfaceTable(ifindex int) ([]Interface, error) {
 					break
 				}
 			}
+			ift[n].Sys = &syscall.IFNet{Flags: m.Flags}
 			n++
 			if ifindex == m.Index {
 				return ift[:n], nil

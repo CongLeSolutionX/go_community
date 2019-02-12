@@ -11,6 +11,8 @@ import (
 	"fmt"
 	"os/exec"
 	"runtime"
+	"syscall"
+	"testing"
 )
 
 func (ti *testInterface) setBroadcast(vid int) error {
@@ -57,4 +59,30 @@ func (ti *testInterface) setPointToPoint(suffix int) error {
 
 func (ti *testInterface) setLinkLocal(suffix int) error {
 	return errors.New("not yet implemented for BSD")
+}
+
+func TestInterfaceSys(t *testing.T) {
+	ift, err := Interfaces()
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, ifi := range ift {
+		sys, ok := ifi.Sys.(*syscall.IFNet)
+		if !ok {
+			t.Errorf("want syscall.IFNet for %#v", ifi)
+			continue
+		}
+		var s string
+		if sys.Flags&syscall.IFF_UP != 0 {
+			s += "up"
+		} else {
+			s += "down"
+		}
+		if sys.Flags&syscall.IFF_RUNNING != 0 {
+			s += "/running"
+		} else {
+			s += "/dormant"
+		}
+		t.Logf("%s: admin+oper/drv=%s sys=%#v", ifi.Name, s, sys)
+	}
 }
