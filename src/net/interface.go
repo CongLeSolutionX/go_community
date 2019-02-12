@@ -7,6 +7,7 @@ package net
 import (
 	"errors"
 	"sync"
+	"syscall"
 	"time"
 )
 
@@ -93,6 +94,21 @@ func (ifi *Interface) MulticastAddrs() ([]Addr, error) {
 		err = &OpError{Op: "route", Net: "ip+net", Source: nil, Addr: nil, Err: err}
 	}
 	return ifat, err
+}
+
+// Sys returns system-dependent network interface information.
+//
+// Convert it to the appropriate type, such as syscall.IFNet on BSD
+// variants, syscall.NetDevice on Linux, to access its contents.
+func (ifi *Interface) Sys() syscall.NetworkInterface {
+	if ifi == nil || ifi.Index <= 0 {
+		return nil
+	}
+	sys := sysInterface(ifi.Index)
+	if sys == nil {
+		return nil
+	}
+	return sys
 }
 
 // Interfaces returns a list of the system's network interfaces.

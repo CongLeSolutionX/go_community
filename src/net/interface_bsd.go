@@ -116,3 +116,20 @@ func interfaceAddrTable(ifi *Interface) ([]Addr, error) {
 	}
 	return ifat, nil
 }
+
+func sysInterface(ifindex int) syscall.NetworkInterface {
+	msgs, err := interfaceMessages(ifindex)
+	if err != nil {
+		return nil
+	}
+	for _, m := range msgs {
+		switch m := m.(type) {
+		case *route.InterfaceMessage:
+			if ifindex != m.Index {
+				continue
+			}
+			return &syscall.IFNet{Flags: m.Flags}
+		}
+	}
+	return nil
+}

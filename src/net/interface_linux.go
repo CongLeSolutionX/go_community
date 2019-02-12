@@ -267,3 +267,39 @@ func parseProcNetIGMP6(path string, ifi *Interface) []Addr {
 	}
 	return ifmat
 }
+
+func sysInterface(ifindex int) syscall.NetworkInterface {
+	tab, err := syscall.NetlinkRIB(syscall.RTM_GETLINK, syscall.AF_UNSPEC)
+	if err != nil {
+		return nil
+	}
+	msgs, err := syscall.ParseNetlinkMessage(tab)
+	if err != nil {
+		return nil
+	}
+loop:
+	for _, m := range msgs {
+		switch m.Header.Type {
+		case syscall.NLMSG_DONE:
+			break loop
+		case syscall.RTM_NEWLINK:
+			ifim := (*syscall.IfInfomsg)(unsafe.Pointer(&m.Data[0]))
+			if ifindex != int(ifim.Index) {
+				continue
+			}
+			attrs, err := syscall.ParseNetlinkRouteAttr(&m)
+			if err != nil {
+				return nil
+			}
+			sys := syscall.NetDevice{Type: int(ifim.Type), Flags: int(ifim.Flags)}
+			for _, a := range attrs {
+				switch a.Attr.Type {
+				case syscall.IFLA_IFALIAS:
+					sys.Alias = string(a.Value[:len(a.Value)-1])
+				}
+			}
+			return &sys
+		}
+	}
+	return nil
+}

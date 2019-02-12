@@ -7,6 +7,7 @@ package net
 import (
 	"errors"
 	"os"
+	"syscall"
 )
 
 // If the ifindex is zero, interfaceTable returns mappings of all
@@ -195,4 +196,8 @@ func interfaceAddrTable(ifi *Interface) ([]Addr, error) {
 // interface.
 func interfaceMulticastAddrTable(ifi *Interface) ([]Addr, error) {
 	return nil, nil
+}
+
+func sysInterface(ifindex int) syscall.NetworkInterface {
+	return nil
 }

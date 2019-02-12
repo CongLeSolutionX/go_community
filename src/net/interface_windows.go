@@ -175,3 +175,7 @@ func interfaceMulticastAddrTable(ifi *Interface) ([]Addr, error) {
 	}
 	return ifat, nil
 }
+
+func sysInterface(ifindex int) syscall.NetworkInterface {
+	return nil
+}
