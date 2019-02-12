@@ -39,9 +39,11 @@ func interfaceTable(ifindex int) ([]Interface, error) {
 				ift[n].HardwareAddr = make([]byte, len(sa.Addr))
 				copy(ift[n].HardwareAddr, sa.Addr)
 			}
+			ift[n].Sys = &syscall.IFNet{Flags: m.Flags}
 			for _, sys := range m.Sys() {
 				if imx, ok := sys.(*route.InterfaceMetrics); ok {
 					ift[n].MTU = imx.MTU
+					ift[n].Sys.(*syscall.IFNet).Type = imx.Type
 					break
 				}
 			}

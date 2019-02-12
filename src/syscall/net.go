@@ -32,3 +32,11 @@ type Conn interface {
 	// SyscallConn returns a raw network connection.
 	SyscallConn() (RawConn, error)
 }
+
+// A NetworkInterface represetns system-dependent network interface
+// information.
+type NetworkInterface interface {
+	// Next returns the next information when the interface
+	// comprises of multiple sub-interfaces or nil.
+	Next(ifindex int) NetworkInterface
+}
