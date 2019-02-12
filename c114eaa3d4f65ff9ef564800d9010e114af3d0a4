@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a18cb0a9_d800f495",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-02-12T19:24:49Z",
+      "side": 1,
+      "message": "just\n\n  encoding/json: add example for json.HTMLEscape",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 87
+      },
+      "revId": "c114eaa3d4f65ff9ef564800d9010e114af3d0a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
