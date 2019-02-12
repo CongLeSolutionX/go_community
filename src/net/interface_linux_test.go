@@ -7,6 +7,7 @@ package net
 import (
 	"fmt"
 	"os/exec"
+	"syscall"
 	"testing"
 )
 
@@ -129,5 +130,36 @@ func TestParseProcNet(t *testing.T) {
 	}
 	if len(ifmat6) != numOfTestIPv6MCAddrs {
 		t.Fatalf("got %d; want %d", len(ifmat6), numOfTestIPv6MCAddrs)
+	}
+}
+
+func TestInterfaceSys(t *testing.T) {
+	const (
+		sysIFF_UP       = 0x01
+		sysIFF_RUNNING  = 0x40
+		sysIFF_LOWER_UP = 0x10000
+	)
+	ift, err := Interfaces()
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, ifi := range ift {
+		sys, ok := ifi.Sys.(*syscall.NetDevice)
+		if !ok {
+			t.Errorf("want syscall.NetDevice for %#v", ifi)
+			continue
+		}
+		var s string
+		for _, f := range []int{sysIFF_UP, sysIFF_RUNNING, sysIFF_LOWER_UP} {
+			if s != "" {
+				s += "/"
+			}
+			if sys.Flags&f != 0 {
+				s += "up"
+			} else {
+				s += "down"
+			}
+		}
+		t.Logf("%s: admin/oper/phys=%s sys=%#v", ifi.Name, s, sys)
 	}
 }
