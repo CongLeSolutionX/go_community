@@ -36,7 +36,9 @@ func (b *Builder) copyCheck() {
 		// See issue 23382.
 		// TODO: once issue 7921 is fixed, this should be reverted to
 		// just "b.addr = b".
-		b.addr = (*Builder)(noescape(unsafe.Pointer(b)))
+		// b.addr = (*Builder)(noescape(unsafe.Pointer(b)))
+		b.addr = b
+		// TODO(mdempsky): checkptr (correctly) detects that noescape above is unsafe.
 	} else if b.addr != b {
 		panic("strings: illegal use of non-zero Builder copied by value")
 	}

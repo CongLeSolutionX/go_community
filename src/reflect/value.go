@@ -1860,6 +1860,11 @@ func (v Value) Uint() uint64 {
 	panic(&ValueError{"reflect.Value.Uint", v.kind()})
 }
 
+//go:noinline
+// This is necessary currently because otherwise v.UnsafeAddr() gets inlined,
+// and then walkcheckptr can't recognize the pattern unsafe.Pointer(v.UnsafeAddr()) as safe.
+// TODO(mdempsky): Find a better solution.
+
 // UnsafeAddr returns a pointer to v's data.
 // It is for advanced clients that also import the "unsafe" package.
 // It panics if v is not addressable.
