@@ -952,6 +952,14 @@ opswitch:
 
 	case OCONV, OCONVNOP:
 		n.Left = walkexpr(n.Left, init)
+		if Debug_checkptr != 0 && n.Op == OCONVNOP {
+			switch {
+			case n.Type.IsPtr() && n.Left.Type.Etype == TUNSAFEPTR: // unsafe.Pointer to *T
+				walkCheckPtrAlignment(n, init)
+			case n.Type.Etype == TUNSAFEPTR && n.Left.Type.Etype == TUINTPTR: // uintptr to unsafe.Pointer
+				walkCheckPtrArithmetic(n, init)
+			}
+		}
 		param, result := rtconvfn(n.Left.Type, n.Type)
 		if param == Txxx {
 			break
@@ -3898,4 +3906,49 @@ func canMergeLoads() bool {
 // These are optimized into a call to runtime.countrunes.
 func isRuneCount(n *Node) bool {
 	return Debug['N'] == 0 && !instrumenting && n.Op == OLEN && n.Left.Op == OSTR2RUNES
+}
+
+func walkCheckPtrAlignment(n *Node, init *Nodes) {
+	align := n.Type.Elem().Alignment()
+	if align == 1 {
+		return
+	}
+
+	init.Append(mkcall("checkptrAlignment", nil, init, n.Left, typename(n.Type.Elem())))
+}
+
+func walkCheckPtrArithmetic(n *Node, init *Nodes) {
+	// TODO(mdempsky): Make stricter. We only need to exempt
+	// reflect.Value.Pointer and reflect.Value.UnsafeAddr.
+	switch n.Left.Op {
+	case OCALLFUNC, OCALLMETH, OCALLINTER:
+		return
+	}
+
+	var originals []*Node
+
+	var walk func(n *Node)
+	walk = func(n *Node) {
+		switch n.Op {
+		case OADD:
+			walk(n.Left)
+			walk(n.Right)
+		case OSUB, OANDNOT:
+			walk(n.Left)
+		case OCONVNOP:
+			if n.Left.Type.Etype == TUNSAFEPTR {
+				n.Left = cheapexpr(n.Left, init)
+				originals = append(originals, n.Left)
+			}
+		}
+	}
+	walk(n.Left)
+
+	n.Left = cheapexpr(n.Left, init)
+
+	slice := mkdotargslice(types.NewSlice(types.Types[TUNSAFEPTR]), originals, init, nil)
+	slice.Esc = EscNone
+	slice.SetNoescape(true)
+
+	init.Append(mkcall("checkptrArithmetic", nil, init, n, slice))
 }
