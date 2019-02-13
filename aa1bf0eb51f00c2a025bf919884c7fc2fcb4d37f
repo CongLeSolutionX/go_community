@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b92b2c0_66bd8d68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 29736
+      },
+      "writtenOn": "2019-02-13T23:27:28Z",
+      "side": 1,
+      "message": "internal/x/net/http/httpproxy: update from upstream\n\nThis change updates the httpproxy package to git rev XXXX for ...",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "aa1bf0eb51f00c2a025bf919884c7fc2fcb4d37f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
