@@ -64,6 +64,7 @@ do
 	echo "### Building $target"
 	export GOOS=$(echo $target | sed 's/-.*//')
 	export GOARCH=$(echo $target | sed 's/.*-//')
+	export GO111MODULE=off
 	unset GO386 GOARM
 	if [ "$GOARCH" = "arm5" ]; then
 		export GOARCH=arm
