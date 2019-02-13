@@ -811,6 +811,7 @@ func (t *tester) bgDirCmd(dir, bin string, args ...string) *exec.Cmd {
 	} else {
 		cmd.Dir = filepath.Join(goroot, dir)
 	}
+	cmd.Env = append(os.Environ(), "GO111MODULE=off")
 	return cmd
 }
 
