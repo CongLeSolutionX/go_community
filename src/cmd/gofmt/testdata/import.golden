@@ -1,3 +1,5 @@
+// package comment
+// before main
 package main
 
 import (
@@ -123,4 +125,56 @@ import (
 	"dedup_by_group"
 
 	"dedup_by_group"
+)
+
+import (
+	"fmt" // for Printf
+	/* comment */ io1 "io"
+	/* comment */ io2 "io"
+	/* comment */ "log"
+)
+
+import (
+	"fmt"
+	/* comment */ io1 "io"
+	/* comment */ io2 "io" // hello
+	"math"                 /* right side */
+	// end
+)
+
+import (
+	"errors" // for New
+	"fmt"
+	/* comment */ io1 "io" /* before */ // after
+	io2 "io"               // another
+	// end
+)
+
+import (
+	"errors" // for New
+	/* left */ "fmt" /* right */
+	"log"            // for Fatal
+	/* left */ "math" /* right */
+)
+
+import /* why */ /* comment here? */ (
+	/* comment */ "fmt"
+	"math"
+)
+
+// Dedup with different import styles
+import (
+	"path"
+	. "path"
+	_ "path"
+	pathpkg "path"
+)
+
+/* comment */
+import (
+	"fmt"
+	"math" // for Abs
+	// This is a new run
+	"errors"
+	"fmt"
 )
