@@ -129,3 +129,41 @@ import (
 
 	"dedup_by_group"
 )
+
+import (
+	/* comment */ io1 "io"
+	/* comment */ io2 "io"
+)
+
+import (
+	/* comment */ io1 "io" // hello
+	/* comment */ io2 "io"
+)
+
+import (
+	/* comment */ io1 "io" /* before */ // after
+	io2 "io" // another
+	// end
+)
+
+import /* why */ /* comment here? */ (
+	"fmt"
+	"math"
+)
+
+// Dedup with different import styles
+import (
+	"path"
+	. "path"
+	_ "path"
+	"path"
+	pathpkg "path"
+)
+
+/* comment */
+import (
+	"math" // for Abs
+	"fmt"
+	// This is a new run
+	"errors"
+)

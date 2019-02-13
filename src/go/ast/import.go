@@ -89,6 +89,11 @@ type posSpan struct {
 	End   token.Pos
 }
 
+type cgPos struct {
+	left bool // true if comment is to the left of the spec, false otherwise.
+	cg   *CommentGroup
+}
+
 func sortSpecs(fset *token.FileSet, f *File, specs []Spec) []Spec {
 	// Can't short-circuit here even if specs are already sorted,
 	// since they might yet need deduplication.
@@ -122,21 +127,26 @@ func sortSpecs(fset *token.FileSet, f *File, specs []Spec) []Spec {
 	}
 	comments := f.Comments[cstart:cend]
 
-	// Assign each comment to the import spec preceding it.
-	importComments := map[*ImportSpec][]*CommentGroup{}
+	// Assign each comment to the import spec on the same line.
+	importComments := map[*ImportSpec][]cgPos{}
 	specIndex := 0
 	for _, g := range comments {
 		for specIndex+1 < len(specs) && pos[specIndex+1].Start <= g.Pos() {
 			specIndex++
 		}
+		var left bool
+		if specIndex+1 < len(specs) && fset.Position(pos[specIndex].Start).Line+1 == fset.Position(g.Pos()).Line {
+			specIndex++
+			left = true
+		}
 		s := specs[specIndex].(*ImportSpec)
-		importComments[s] = append(importComments[s], g)
+		importComments[s] = append(importComments[s], cgPos{left: left, cg: g})
 	}
 
 	// Sort the import specs by import path.
 	// Remove duplicates, when possible without data loss.
 	// Reassign the import paths to have the same position sequence.
-	// Reassign each comment to abut the end of its spec.
+	// Reassign each comment to the spec on the same line.
 	// Sort the comments by new position.
 	sort.Slice(specs, func(i, j int) bool {
 		ipath := importPath(specs[i])
@@ -174,8 +184,16 @@ func sortSpecs(fset *token.FileSet, f *File, specs []Spec) []Spec {
 		s.Path.ValuePos = pos[i].Start
 		s.EndPos = pos[i].End
 		for _, g := range importComments[s] {
-			for _, c := range g.List {
-				c.Slash = pos[i].End
+			for _, c := range g.cg.List {
+				if g.left {
+					c.Slash = pos[i].Start - 1
+				} else {
+					// An import spec can have both block comment and a line comment
+					// to its right. In that case, both of them will have the same pos.
+					// But while formatting the AST, the line comment gets moved to
+					// after the block comment.
+					c.Slash = pos[i].End
+				}
 			}
 		}
 	}
