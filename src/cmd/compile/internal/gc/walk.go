@@ -963,6 +963,12 @@ opswitch:
 
 	case OCONV, OCONVNOP:
 		n.Left = walkexpr(n.Left, init)
+		// TODO(mdempsky): Currently skipping sync because
+		// there seems to be a weird problem with checking
+		// pointers inside poolCleanup.
+		if Debug_checkptr != 0 && !compiling_runtime && myimportpath != "sync" && n.Op == OCONVNOP {
+			n = walkcheckptr(n, init)
+		}
 		param, result := rtconvfn(n.Left.Type, n.Type)
 		if param == Txxx {
 			break
@@ -3979,3 +3985,64 @@ func canMergeLoads() bool {
 func isRuneCount(n *Node) bool {
 	return Debug['N'] == 0 && !instrumenting && n.Op == OLEN && n.Left.Op == OSTR2RUNES
 }
+
+func walkcheckptr(n *Node, init *Nodes) *Node {
+	if checkptrVisiting[n] {
+		return n
+	}
+	checkptrVisiting[n] = true
+	defer delete(checkptrVisiting, n)
+
+Outer:
+	switch {
+	case n.Type.IsPtr() && n.Left.Type.Etype == TUNSAFEPTR && n.Type.Elem().Alignment() != 1:
+		// Conversion from unsafe.Pointer to *T; validate alignment.
+		n.Left = cheapexpr(n.Left, init)
+
+		unaligned := nod(ONE, nod(OAND, convnop(n.Left, types.Types[TUINTPTR]), nodintconst(n.Type.Elem().Alignment()-1)),
+			nodintconst(0))
+		unaligned = typecheck(unaligned, ctxExpr)
+
+		nif := nod(OIF, unaligned, nil)
+		nif.Nbody.Set1(mkcall("checkptrUnaligned", nil, init, n.Left, typename(n.Type.Elem())))
+		init.Append(nif)
+
+	case n.Type.Etype == TUNSAFEPTR && n.Left.Type.Etype == TUINTPTR:
+		// TODO(mdempsky): Make stricter.
+		switch n.Left.Op {
+		case OCALLFUNC, OCALLMETH, OCALLINTER:
+			break Outer
+		}
+
+		var originals []*Node
+
+		var walk func(n *Node)
+		walk = func(n *Node) {
+			switch n.Op {
+			case OADD:
+				walk(n.Left)
+				walk(n.Right)
+			case OSUB, OANDNOT:
+				walk(n.Left)
+			case OCONVNOP:
+				if n.Left.Type.Etype == TUNSAFEPTR {
+					n.Left = cheapexpr(n.Left, init)
+					originals = append(originals, n.Left)
+				}
+			}
+		}
+		walk(n.Left)
+
+		n.Left = cheapexpr(n.Left, init)
+
+		slice := mkdotargslice(types.NewSlice(types.Types[TUNSAFEPTR]), originals, init, nil)
+		slice.Esc = EscNone
+		slice.SetNoescape(true)
+
+		init.Append(mkcall("checkptrArithmetic", nil, init, n, slice))
+	}
+
+	return n
+}
+
+var checkptrVisiting = map[*Node]bool{}
