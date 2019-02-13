@@ -80,6 +80,12 @@ rm go.mod
 # cd $WORK/gopath/src/link
 # ! go mod init
 
+# In Plan 9, directories are automatically created in /n.
+# For example, /n/go.mod always exist, but it's a directory.
+# Test that we ignore directories when trying to find go.mod and other config files.
+cd $WORK/gomoddir
+! go mod init
+
 -- $WORK/x/x.go --
 package x // import "x"
 
@@ -89,3 +95,8 @@ package y
 package z
 -- $GOPATH/src/example.com/x/y/z/Godeps/Godeps.json --
 {"ImportPath": "unexpected.com/z"}
+
+-- $WORK/gomoddir/go.mod/README.txt --
+../go.mod is a directory, not a file.
+-- $WORK/gomoddir/Gopkg.lock/README.txt --
+../Gopkg.lock is a directory, not a file.
