@@ -124,3 +124,19 @@ import (
 
 	"dedup_by_group"
 )
+
+import (
+	/* comment */ io1 "io"
+	/* comment */ io2 "io"
+)
+
+import (
+	/* comment */ io1 "io" // hello
+	/* comment */ io2 "io"
+)
+
+import (
+	/* comment */ io1 "io" /* before */ // after
+	io2 "io"               // another
+	// end
+)
