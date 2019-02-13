@@ -148,3 +148,15 @@ func (syms *Symbols) SymExtname(s *Symbol) string {
 func (syms *Symbols) SetSymExtname(s *Symbol, newname string) {
 	s.setExtname(newname)
 }
+
+func (syms *Symbols) Lock() {
+	syms.names.Lock()
+}
+
+func (syms *Symbols) Unlock() {
+	syms.names.Unlock()
+}
+
+func (syms *Symbols) NameStats() SNTStats {
+	return syms.names.stats()
+}
