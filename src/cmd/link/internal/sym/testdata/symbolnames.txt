@@ -1,0 +1,1000 @@
+type..namedata.WithIsStmt.
+go.range.cmd/compile/internal/ssa.rewriteValueAMD64_OpAMD64SETGstore_0
+cmd/compile/internal/ssa.statictmp_2272
+type.*func() go/token.Pos
+go.info.reflect.(*Value).Slice
+gclocals·274e8acccd066303c7ddd20033339f4e
+go.loc.cmd/internal/obj.(*LSym).SeenGlobl
+type..namedata.*func(*gc.Node) *types.Type-
+type..namedata.Spadj.
+go.string."branch out of range (%#x)\n%v [%s]"
+go.isstmt.cmd/compile/internal/ssa.rewriteValueS390X_OpCom16_0
+go.isstmt.runtime.aeshash
+go.string."VPADDW"
+go.isstmt.syscall.Dup
+type.noalg.map.hdr[int]*cmd/compile/internal/ssa.Value
+go.isstmt.cmd/compile/internal/ssa.rewriteValueARM_OpARMCMNshiftLLreg_0
+type..namedata.*map.bucket[reflect.Type]int-
+type.*[]cmd/compile/internal/ppc64.iselOp
+go.info.cmd/compile/internal/gc.(*Val).Ctype
+type..namedata.*func(template.Template) parse.item-
+type..namedata.montgomery-
+cmd/compile/internal/gc.(*bvec).Clear
+go.range.sort.StringSlice.Search
+cmd/compile/internal/gc.(*GCProg).end
+type..namedata.*map.hdr[string]*types.Sym-
+go.range.cmd/compile/internal/ssa.rewriteValueARM64_OpMul64uhilo_0
+go.info.go/ast.(*TypeAssertExpr).End
+go.string."runtime.SetFinalizer: pointer not at beginning of allocated block"
+go.info.cmd/compile/internal/ssa.rewriteValuePPC64_OpZeroExt8to16_0
+go.range.text/template/parse.(*Tree).newCommand
+cmd/compile/internal/ssa.rewriteValueS390X_OpMove_0
+go.loc.cmd/compile/internal/ssa.rewriteValueARM_OpARMMULS_20
+go.info.reflect.(*funcTypeFixed16).NumIn
+go.loc.runtime.procPin
+gclocals·d2f3115d85d0a6a52a7f0e3ca92014b2
+type.*map[reflect.Type]bool
+type.func(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Name }) bool
+go.isstmt.type..hash.cmd/compile/internal/syntax.ArrayType
+go.loc.cmd/compile/internal/ssa.rewriteValueAMD64_OpClosureCall_0
+cmd/compile/internal/ssa.statictmp_1434
+cmd/compile/internal/gc.(*intWriter).String
+go.info.cmd/compile/internal/ssa.rewriteValueWasm_OpNeg8_0
+$f64.3e91642d7ff202fd
+go.range.encoding/binary.bigEndian.Uint64
+type..namedata.*[1]dwarf.dwAttrForm-
+go.range.runtime.(*_type).name
+go.string."VPADDUSB"
+go.info.runtime.(*sigctxt).rflags
+go.info.time.Duration.Hours
+type..namedata.*func() obj.As-
+gclocals·f7b83f9efe7ff37c1930a2c8ec3991e4
+go.isstmt.reflect.(*chanType).NumIn
+cmd/compile/internal/gc.okas
+type..namedata.*func(big.nat, big.Word, big.Word) big.nat-
+go.isstmt.cmd/compile/internal/gc.(*fmtSymTypeId).Format
+type.func(*uint32, *runtime.sudog, bool)
+go.string."PM"
+type..namedata.*[256]ssa.bp-
+cmd/compile/internal/gc.slicebytes
+go.info.unicode/utf8.DecodeRuneInString
+go.isstmt.cmd/compile/internal/ssa.rewriteValueS390X_OpTrunc16to8_0
+type..namedata.SetBroke.
+go.range.type..hash.[24]string
+gclocals·ddd70e5d989482a9f61b3161e2d7dee8
+unicode.statictmp_320
+go.string."SetFields of %v: width previously calculated"
+go.range.cmd/internal/obj.(*Link).LookupStatic
+cmd/compile/internal/gc.statictmp_77
+go.range.math/big.bigEndianWord
+cmd/internal/obj/x86.yimul3
+type.[456]uint16
+cmd/compile/internal/ssa.(*debugState).allocBlock
+go.loc.cmd/compile/internal/ssa.rewriteValueMIPS_OpRsh16Ux32_0
+pkgs.ptr
+cmd/compile/internal/ssa.rewriteValueARM64_OpZero_10
+go.loc.cmd/compile/internal/types.(*Type).ChanDir
+type..hashfunc.struct { cmd/internal/obj.bit cmd/internal/obj.Attribute; cmd/internal/obj.s string }
+go.isstmt.internal/fmtsort.isNaN
+type..namedata.*func(*parse.BoolNode) parse.NodeType-
+go.loc.cmd/compile/internal/ssa.rewriteValuePPC64_OpRsh8Ux64_0
+type..alg536
+gclocals·aeda44737799868542dff03cae428cd4
+go.string."VBROADCASTF64X2"
+go.info.cmd/compile/internal/ssa.rewriteValueMIPS64_OpRsh32x64_0
+type.encoding/json.UnmarshalTypeError
+go.range.cmd/compile/internal/ssa.rewriteValuePPC64_OpRound32F_0
+type..namedata.local_largefree-
+go.info.time.Now
+go.isstmt.type..eq.go/ast.SendStmt
+go.isstmt.math/big.(*Int).Neg
+&rng
+sync.(*Cond).Broadcast
+go.loc.text/template.intLike
+go.isstmt.reflect.(*chanType).NumMethod
+type.map[cmd/compile/internal/ssa.ID]*cmd/compile/internal/ssa.Value
+type..namedata.patch-
+cmd/compile/internal/ssa.rewriteValueARM64_OpLsh64x32_0
+$f64.43e0000000000000
+go.info.cmd/internal/obj/mips.offoverlap
+go.info.runtime.newBucket
+type.func(*flag.Flag)
+go.range.runtime.gotraceback
+cmd/internal/obj/ppc64.(*ctxt9).oploadx
+go.string."gcprog: found end instruction after"
+gclocals·bce915a570b5459f9f7d6360f1a725da
+go.isstmt.cmd/internal/obj/arm.(*ocmp).Swap
+runtime.gcbits.98ffffffffffffff7f
+type.[3]cmd/compile/internal/syntax.Expr
+go.range.type..hash.cmd/compile/internal/gc.Error
+go.info.cmd/compile/internal/gc.(*varRegVec).Copy$abstract
+go/ast.(*BadStmt).Pos
+go.range.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Name; cmd/compile/internal/gc.Param }).Format
+gclocals·095458ff53745100e81eb5995c6f5845
+type..namedata.padChar-
+type.func(runtime.nameOff) runtime.name
+type.*func(*cmd/compile/internal/ssa.SparseTreeNode) int32
+gclocals·227e125debc80387c1c4daf8d3e2de3a
+type..namedata.priority-
+go.range.runtime.(*itabTableType).add-fm
+go.info.cmd/compile/internal/gc.(*Order).as2
+go.isstmt.cmd/compile/internal/syntax.(*CallStmt).aStmt
+gclocals·5af50758fddc9cb86a671b33db6ca8e3
+go.isstmt.cmd/compile/internal/ssa.addBranchRestrictions
+go.isstmt.cmd/compile/internal/types.(*Type).SetInterface
+oldbucket
+go/token.(*File).SetLines
+runtime/pprof.countHeap
+go.string."nequiv;"
+go.string."\\b"
+go/doc.(*reader).readNote
+type.func(interface {}, interface {}, *go/ast.Scope, go/ast.ObjKind, ...*go/ast.Ident)
+go.range.cmd/internal/gcprog.(*Writer).Init
+go.isstmt.cmd/compile/internal/ssa.rewriteValueS390X_OpRsh32Ux32_0
+go.loc.reflect.Value.Addr
+go.info.runtime.overLoadFactor$abstract
+go.loc.math/rand.Shuffle
+go.loc.syscall.Klogctl
+go.range.cmd/compile/internal/ssa.(*Value).LongString
+internal/poll.(*FD).SetWriteDeadline
+go.isstmt.cmd/compile/internal/types.(*Type).cmp
+go.info.cmd/compile/internal/ssa.layoutOrder
+type.func(reflect.name, int, string) *uint8
+net/url.PathEscape
+go.info.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Func }).ExportInline
+go.info.reflect.(*Value).Bytes
+gclocals·f039bf97ed85a2cc88b9c4d166ad4ccb
+go.info.cmd/compile/internal/gc.(*lines).write
+cmd/internal/obj/ppc64.AOP_Z23I
+type.*func(*os.Process) error
+type..namedata.sendq-
+gclocals·4224e27987bbb20ded998a64b017609e
+go.loc.cmd/compile/internal/ssa.rewriteValuePPC64_OpPPC64MOVWZload_0
+cmd/compile/internal/ssa.statictmp_307
+gclocals·703bd0fc265645766c9dc67a49ca5408
+text/template/parse.(*Tree).ErrorContext
+text/template.init.ializers
+go.range.reflect.(*ptrType).AssignableTo
+go.itablink.*go/ast.printer,io.Writer
+cmd/compile/internal/ssa.statictmp_1234
+cmd/internal/obj/arm64.prfopfield
+go.info.path/filepath.ToSlash$abstract
+cmd/internal/obj/x86.yxcmpi
+type..alg.cmd/internal/obj/x86.AsmBuf
+go.info.go/ast.filterDecl
+type.func(*cmd/compile/internal/ssa.liveSlot) int32
+type.map[*cmd/compile/internal/gc.Node]uint64
+unicode.Mongolian
+go.isstmt.math/big.nlz
+go.range.internal/bytealg.countGenericString
+type..namedata.*sys.Uintreg.
+go.string." out of range"
+go.loc.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Name }).SetNoescape
+go.string."XORL"
+cmd/compile/internal/ssa.bySourcePos.Less
+cmd/compile/internal/ssa.rewriteValueARM64_OpARM64CMPshiftRA_0
+gclocals·56c7423856f5ba5bae267a14f16cc65f
+type.func(*uint32) (*runtime.sudog, int64)
+go.range.cmd/compile/internal/gc.argvar
+go.loc.reflect.Value.recv
+gclocals·5eb16e55335821be794ca5ef89b994f2
+type.*func(*cmd/compile/internal/types.Fields) int
+value.cap
+cmd/compile/internal/gc.(*Func).Needctxt
+go.range.runtime.gcBgMarkWorker.func2
+type..eqfunc.struct { reflect.ityp *reflect.rtype; reflect.typ *reflect.rtype; reflect.hash uint32; _ [4]uint8; reflect.fun [100000]unsafe.Pointer }
+cmd/compile/internal/ssa.rewriteValuePPC64_OpPPC64FABS_0
+cmd/compile/internal/gc.exportsym.stkobj
+cmd/compile/internal/ssa.statictmp_2452
+go.string." before newline"
+go.string."VPKLSF"
+go.info.compress/flate.(*huffmanBitWriter).writeDynamicHeader
+cmd/compile/internal/ssa.linkRegS390X
+type..namedata.*[396]uint32-
+go.loc.cmd/compile/internal/syntax.(*AssignStmt).aNode
+go.string."HARDcy;"
+type..namedata.time-
+type..namedata.bucketsize-
+go.loc.cmd/compile/internal/types.byPath.Len
+go.string."heartsuit;"
+type..namedata.*func(*syntax.Regexp) bool-
+type.*func(*cmd/internal/obj.Link, *cmd/internal/obj.Addr, *cmd/internal/obj.Addr, *cmd/internal/obj.Addr, uint8, uint8)
+go.info.cmd/internal/src.(*PosBase).SymFilename
+go.string."INSW"
+go.range.cmd/compile/internal/ssa.rewriteValueARM64_OpARM64MOVBUloadidx_0
+type.*func(*cmd/compile/internal/ssa.ByTopo) int
+go.string."erms"
+go.loc.cmd/compile/internal/ssa.rewriteValueARM_OpLeq8_0
+go.info.compress/flate.(*dictDecoder).tryWriteCopy$abstract
+type.func(*go/doc.reader, *go/ast.GenDecl, *go/ast.TypeSpec)
+go.range.strconv.underscoreOK
+type.*[58]unicode.Range32
+cmd/compile/internal/ssa.statictmp_397
+cmd/compile/internal/ssa.rewriteValueMIPS64_OpGeq64F_0
+type.cmd/compile/internal/gc.Nodes
+go.isstmt.cmd/compile/internal/ssa.rewriteValueS390X_OpRsh16Ux32_0
+go.range.time.(*Duration).String
+go.range.cmd/compile/internal/ssa.rewriteValueWasm_OpOffPtr_0
+cmd/compile/internal/gc.(*varRegVec).Clear
+type..namedata.*ast.SwitchStmt.
+type.func(cmd/internal/obj/arm64.ocmp, int, int)
+go.isstmt.go/scanner.(*Scanner).Scan
+go.info.text/template.Template.text/template/parse.newText
+go.loc.time.interrupt
+w3
+go.isstmt.path.Split
+go.range.cmd/internal/obj/x86.evexBits.P
+type.*func(*runtime.gcControllerState)
+go.range.cmd/compile/internal/ssa.(*pendingEntry).clear
+go.info.cmd/compile/internal/ssa.rewriteValuePPC64_OpGeq32F_0
+go.loc.runtime.cgoIsGoPointer
+cmd/compile/internal/gc.dumpobj1.stkobj
+cmd/compile/internal/ssa.rewriteValueS390X_OpRsh8Ux16_0
+go.range.cmd/compile/internal/gc.init.2.func51
+go.loc.cmd/compile/internal/ssa.rewriteValueWasm_OpCvt32Fto32_0
+go.isstmt.regexp.(*inputs).newString
+gclocals·8514dacd10664c3b24cb0eda969dddbf
+type.func(*cmd/compile/internal/gc.exporter, *cmd/compile/internal/types.Type)
+fv.data
+go.string."n+1st bit isn't set"
+go.range.cmd/compile/internal/ssa.rewriteValueWasm_OpWasmI64Load8U_0
+go.range.cmd/compile/internal/ssa.rewriteValuegeneric_OpLess8U_0
+go.range.math/big.(*Float).ord
+go.loc.go/ast.(*SendStmt).stmtNode
+go.loc.cmd/compile/internal/ssa.rewriteValueARM64_OpARM64MOVWstoreidx4_0
+go.range.encoding/base64.(*CorruptInputError).Error
+go.string."VMLB"
+cmd/compile/internal/ssa.statictmp_3389
+type..namedata.*func(*struct { gc.Node; gc.Func }) interface {}-
+type.*struct { F uintptr; go/doc.para *[]string; go/doc.out *[]go/doc.block }
+go.string."unknown"
+go.string."&lt;"
+type..namedata.*crypto.Signer.
+go.range.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Func }).NoInline
+go.isstmt.type..hash.[1]cmd/internal/obj.Reloc
+go.info.cmd/compile/internal/ssa.ByTopo.Less
+type.*cmd/compile/internal/ssa.desiredStateEntry
+cmd/internal/obj.Attribute.ReflectMethod
+cmd/compile/internal/gc.init.2.func42
+go.loc.time.(*Time).YearDay
+type.*func(*cmd/compile/internal/ssa.poset, uint32, uint32)
+go.range.cmd/compile/internal/gc.(*Liveness).emit.func1
+go.string."Ccirc;"
+go.loc.type..eq.compress/flate.WriteError
+go.loc.cmd/compile/internal/gc.duintxx
+gclocals·7cda546bc962fcd14f62f956639d400f
+go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Name }).Int64
+type..namedata.*func(*sha1.digest, []uint8) error-
+go.string."Extender"
+type.*func(*cmd/internal/bio.Reader) (uint8, error)
+gclocals·be75c6061b3ada2df6ecc0728aa0c9ef
+go.range.cmd/compile/internal/ssa.rewriteValue386_Op386MULLconst_0
+type..namedata.CloseWrite.
+syscall.statictmp_40
+go.isstmt.cmd/compile/internal/ssa.rewriteValueWasm_OpRsh32Ux8_0
+go.info.text/template/parse.Pos.Position$abstract
+go.range.runtime.memclrNoHeapPointers
+type..namedata.*gc.Level.
+type.func(*cmd/compile/internal/gc.state, *cmd/compile/internal/ssa.Value)
+type..namedata.*func(*flag.FlagSet, string, string, string) *string-
+type.func(text/template.Template, []map[string]interface {}, *text/template/parse.lexer, map[string]*text/template/parse.Tree)
+type..namedata.*[]*uint8-
+go.range.cmd/compile/internal/ssa.rewriteValueAMD64_OpXor64_0
+type.func(uint64) *math/big.Float
+gclocals·a56cdb767b5b4e23481b2ea147e2dfac
+go.info.cmd/compile/internal/ssa.alignof
+go.string."CSEL"
+type..namedata.*runtime._defer-
+go.info.internal/poll.(*FD).SetDeadline
+go.loc.cmd/compile/internal/ssa.rewriteValueARM64_OpXor64_0
+type..namedata.libcallsp-
+type.*func(cmd/compile/internal/ssa.bySourcePos, int, int)
+type..namedata.*func(*gc.noder, syntax.Expr) []*gc.Node-
+go.info.strconv.lower$abstract
+gclocals·62095d8bf6f9b865256ca64199f4db6c
+type.*cmd/compile/internal/gc.constState
+text/template.(*state).at
+go.loc.cmd/internal/obj.RegisterOpSuffix
+go.isstmt.cmd/compile/internal/gc.(*Node).SetOpt
+type..namedata.*chan struct {}-
+gclocals·65360767af185bb8048ada1fb5cf6a2e
+io.(*multiWriter).WriteString
+type..eqfunc.cmd/compile/internal/gc.fmtTypeTypeId
+type.func(int, *cmd/internal/obj.LSym)
+label.len
+go.string."I32Add"
+cmd/compile/internal/ssa.rewriteValueAMD64_OpAMD64CMPWload_0.stkobj
+go.loc.cmd/compile/internal/syntax.lineComment
+idToIdx.cap
+type.func(*text/template/parse.Tree, []map[string]interface {}, *text/template/parse.lexer, map[string]*text/template/parse.Tree)
+type..namedata.*[16]uint16-
+time.(*Time).Location
+go.info.cmd/compile/internal/syntax.Fprint
+type.func(int, error) error
+go.string."fdiv32"
+type.*func() math/big.RoundingMode
+go.info.*reflect.funcTypeFixed64
+go.range.cmd/compile/internal/ssa.rewriteValueMIPS_OpDiv32u_0
+go.range.cmd/internal/obj.dwCtxt.RecordDclReference
+type.*runtime.pollCache
+math/bits.TrailingZeros16
+cmd/compile/internal/gc.Main.func7
+go.range.reflect.(*funcTypeFixed64).uncommon
+go.loc.os/exec.closeOnce.Truncate
+go.loc.text/template.Template.text/template/parse.newTemplate
+go.info.*text/template/parse.IdentifierNode
+go.range.cmd/compile/internal/ssa.(*Func).DebugHashMatch
+go.isstmt.cmd/compile/internal/ssa.rewriteValueMIPS_OpEq16_0
+type..namedata.omvs-
+go.itablink.*os.File,cmd/compile/internal/ssa.writeSyncer
+cmd/compile/internal/ssa.statictmp_1991
+type..namedata.addMappingEntry-
+type.*func(cmd/compile/internal/syntax.token, cmd/compile/internal/syntax.token, cmd/compile/internal/syntax.token, func() bool) cmd/compile/internal/syntax.Pos
+internal/poll.(*fdMutex).incref
+type..namedata.*func(uintptr, uintptr) error-
+type.*func(cmd/internal/obj.dwCtxt) bool
+type.*func(*cmd/internal/src.PosTable, cmd/internal/src.Pos) cmd/internal/src.XPos
+go.string."casgstatus"
+go.isstmt.cmd/compile/internal/gc.(*EscState).initEscRetval
+type.noalg.map.bucket[*cmd/compile/internal/types.Pkg]bool
+go.string."bigoplus;"
+go.info.cmd/compile/internal/ssa.(*Edge).Index
+go.string."1 or 2 expressions"
+go.info.cmd/compile/internal/ssa.rewriteValue386_Op386MOVLloadidx1_0
+cmd/compile/internal/ssa.statictmp_3437
+go.string."cannot index slice/array with type %s"
+go.range.os/exec.ExitError.Success
+type.*func(*reflect.funcTypeFixed128, string) (reflect.StructField, bool)
+go.string."gt"
+go.loc.reflect.(*rtype).MethodByName
+go.isstmt.cmd/compile/internal/ssa.rewriteValueARM_OpBswap32_0
+go.range.cmd/compile/internal/ssa.rewriteValue386_Op386LEAL_0
+go.range.cmd/compile/internal/ssa.rewriteValueARM_OpARMMOVHstoreidx_0
+go.info.cmd/compile/internal/ssa.rewriteValueARM_OpDiv8u_0
+cmd/compile/internal/gc.(*Op).IsSlice3.stkobj
+go.isstmt.cmd/compile/internal/ssa.rewriteValueMIPS_OpDiv64F_0
+go.isstmt.cmd/compile/internal/ssa.rewriteValueS390X_OpCvt64to64F_0
+go.range.type..hash.go/ast.KeyValueExpr
+go.loc.cmd/compile/internal/ssa.rewriteValueMIPS64_OpMIPS64LoweredAtomicStore64_0
+type..namedata.*func(*reflect.funcTypeFixed8) []reflect.method-
+type..hash.[35]cmd/compile/internal/ssa.Register
+go.info.go/build.hasSubdir
+regs
+go.itab.*os.SyscallError,error
+type..namedata.parseCommClause-
+type..hash.cmd/internal/obj/arm64.Optab
+type..namedata.*func(int64, int64) *big.Int-
+go.isstmt.cmd/compile/internal/ssa.rewriteValueAMD64_OpAnd32_0
+type.*func(go/scanner.Error) string
+go.info.go/scanner.Error.Error
+cmd/compile/internal/ssa.rewriteValueAMD64_OpAMD64ANDLload_0
+compress/flate.statictmp_6
+cmd/compile/internal/ssa.statictmp_459
+gclocals·0a4de4acc40d4c3bf41954ffcfec271d
+go.info.cmd/compile/internal/gc.(*state).newValueOrSfCall1
+go.loc.math/big.(*Float).sqrtDirect
+container/heap.Interface.Push
+type.noalg.map.hdr[string]int
+cmd/internal/obj.Nopout
+gclocals·7327af105339fbf778629d465a4ef61f
+go.range.flag.numError
+go.loc.cmd/compile/internal/gc.(*importReader).Read
+go.loc.cmd/compile/internal/syntax.(*VarDecl).Pos
+go.string."FNEGS"
+go.loc.net/url.validEncodedPath
+type.func(*cmd/internal/obj.Link, float64) *cmd/internal/obj.LSym
+cE
+type.func(*math/big.nat) bool
+go.isstmt.reflect.(*arrayType).ConvertibleTo
+type.func(cmd/internal/bio.Writer) int
+go.range.cmd/compile/internal/syntax.(*CompositeLit).aNode
+go.info.encoding/json.byIndex.Swap
+tmp2
+type..namedata.Outer.
+minexp
+cmd/compile/internal/ssa.rewriteValuePPC64_OpPPC64MOVHload_0.stkobj
+reflect.(*Value).Kind
+runtime.(*mheap).setSpan
+go.loc.cmd/compile/internal/ssa.rewriteValueMIPS64_OpLeq16U_0
+type.*[9][16]uint8
+go.loc.math/rand.Int31
+go.info.cmd/compile/internal/ssa.rewriteValuePPC64_OpGeq16_0
+go.string."VCON"
+go.info.cmd/compile/internal/gc.(*state).entryNewValue0$abstract
+go.range.cmd/compile/internal/gc.inspect
+type.*func() uint8
+go.info.syscall.ParseUnixCredentials
+type.*func(*regexp/syntax.ranges, int, int) bool
+go.loc.cmd/compile/internal/ssa.rewriteValueARM64_OpStaticCall_0
+runtime/pprof.countMutex
+type.*func(*reflect.funcTypeFixed128) string
+type.func(cmd/compile/internal/gc.varsByScopeAndOffset, int, int)
+e.data
+go.loc.type..eq.cmd/compile/internal/gc.mapnames
+go.info.cmd/compile/internal/ssa.(*Value).SetArg$abstract
+type..eqfunc258
+go.range.cmd/compile/internal/gc.checkreturn
+go.isstmt.runtime.setg
+type.*[]go/ast.Decl
+flag.isZeroValue.stkobj
+go.range.bufio.ReadWriter.WriteByte
+go.info.cmd/compile/internal/ssa.rewriteValue386_Op386SETNE_0
+cmd/compile/internal/ssa.rewriteValueMIPS64_OpLeq32_0
+go.string."exporter: CANNOT EXPORT: %v\nPlease notify gri@\n"
+go.loc.cmd/compile/internal/ssa.rewriteValuePPC64_OpPPC64FSQRT_0
+go.range.cmd/compile/internal/ssa.mergeSym
+cmd/compile/internal/ssa.statictmp_751
+go.info.text/template.(*Template).text/template/parse.newNil
+cmd/internal/obj.(*DwarfFixupTable).Finalize.stkobj
+go.info.cmd/compile/internal/gc.(*Liveness).markUnsafePoints.func1
+os.basename
+go.string."HMULLU"
+type.*func(*runtime.treapNode, func(*runtime.treapNode))
+go.info.cmd/compile/internal/ssa.rewriteValueMIPS64_OpRsh16x16_0
+type.*func(*cmd/compile/internal/gc.noder, *cmd/compile/internal/syntax.BlockStmt) []*cmd/compile/internal/gc.Node
+type..namedata.Bsize.
+go.loc.cmd/compile/internal/gc.tconv
+go.info.reflect.rtypeOff$abstract
+go.string."Len"
+cmd/compile/internal/gc.nolocalimports
+type..namedata.*syscall.NetlinkRouteRequest.
+go.info.cmd/compile/internal/ssa.rewriteValueARM64_OpARM64MVNshiftLL_0
+go.range.cmd/compile/internal/ssa.(*stringFuncPrinter).named
+go.range.reflect.fnv1
+go.loc.cmd/internal/obj/x86.nacladdr
+cmd/compile/internal/ssa.newSparseTree
+go.isstmt.cmd/compile/internal/ssa.rewriteValueMIPS64_OpGeq32F_0
+runtime.rawruneslice
+go.range.regexp/syntax.isalnum
+go.isstmt.type..eq.cmd/compile/internal/gc.fmtTypeTypeId
+go.info.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Func }).cmd/compile/internal/gc.initLSym
+type.func(*cmd/internal/obj.DwarfFixupTable, *cmd/internal/obj.LSym) interface {}
+go.range.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Name; cmd/compile/internal/gc.Param }).cmd/compile/internal/gc.jconv
+opkg
+go.loc.runtime.fastlog2
+go.info.cmd/internal/obj.(*Link).Float32Sym
+go.string."CMOVWOC"
+cmd/compile/internal/mips64.ginsnop·f
+go.isstmt.cmd/compile/internal/ssa.rewriteValue386_Op386NOTL_0
+go.string."DoubleRightTee;"
+type.*func(*regexp.inputs, []uint8) regexp.input
+go.range.fmt.(*fmt).fmtBoolean
+type.*func(*cmd/internal/obj/ppc64.ctxt9, *cmd/internal/obj.Addr) int32
+go.info.cmd/compile/internal/gc.safeexpr
+type..namedata.*func(*types.Pkg, string) (*types.Sym, bool)-
+go.info.cmd/internal/obj/s390x.zE$abstract
+go.string."lAarr;"
+go.info.runtime.asminit
+go.range.text/template.errRecover
+go.range.cmd/compile/internal/ssa.rewriteValueS390X_OpAddPtr_0
+type..namedata.*hash.Hash64.
+runtime.evacuate_faststr.stkobj
+cmd/compile/internal/gc.intReader.ReadRune
+go/token.initdone·
+type..namedata.issafepoint-
+go.info.cmd/internal/obj/x86.compressedDisp8$abstract
+gclocals·23df5efab668c78f460d382dd13a810a
+type.func(*math/big.nat, uint64) math/big.nat
+go.string."nsubset;"
+go.range.cmd/compile/internal/ssa.rewriteValueARM_OpARMADDconst_0
+go.info.math/big.Accuracy.String
+go.string."NOP"
+go.itablink.*go/ast.CallExpr,go/ast.Node
+go.range.cmd/compile/internal/ssa.rewriteValueARM64_OpCom16_0
+cmd/compile/internal/ssa.rewriteValueARM64_OpARM64MOVWstore_0.stkobj
+type..namedata.*func(*reflect.sliceType, []int) reflect.StructField-
+type.*map[uint32]int64
+go.loc.runtime.moduledataverify1
+gpp
+cmd/compile/internal/ssa.htmlFuncPrinter.endDepCycle.stkobj
+go/scanner.PrintError
+go.range.cmd/compile/internal/ssa.rewriteValue386_Op386MULLconst_20
+go.string."digraph poset {\n"
+gclocals·b4a54e4c24f4f2c6035ef1c0c6f8e034
+go.loc.reflect.(*funcTypeFixed4).Key
+go.range.cmd/compile/internal/ssa.rewriteValueAMD64_OpAMD64MOVLf2i_0
+type.*func(*go/ast.LabeledStmt)
+go.range.cmd/compile/internal/ssa.rewriteValueARM_OpARMSUBshiftRLreg_0
+type.[][]*cmd/compile/internal/ssa.Block
+hash/crc32.statictmp_4
+cmd/compile/internal/ssa.rewriteValueS390X_OpS390XORWload_0
+type..namedata.*func(*json.encodeState, io.Writer) (int64, error)-
+go.string."unknown internal map type"
+math/big.nat.expNN
+cmd/compile/internal/ssa.decodeValue
+type.*func(*cmd/compile/internal/ssa.Block, cmd/internal/src.XPos, cmd/compile/internal/ssa.Op, *cmd/compile/internal/types.Type, interface {}) *cmd/compile/internal/ssa.Value
+go.info.cmd/compile/internal/gc.(*exportWriter).doTyp
+type..hashfunc.strconv.decimal
+type.func(cmd/internal/src.XPos, cmd/internal/src.XPos) bool
+go.info.cmd/compile/internal/ssa.rewriteValueS390X_OpS390XMOVWZreg_10
+gclocals·1e578448f7750b5afacb09fabe98ca69
+gclocals·380aeb1340fbebfa470a0a3f9282563e
+type.*func(cmd/compile/internal/syntax.Pos, string)
+go.range.cmd/compile/internal/ssa.rewriteValuegeneric_OpDiv16u_0
+type.[]reflect.StructField
+type..namedata.*dwarf.Range.
+gclocals·ef0f2bbf1d7384448ba186d06e4bca0a
+go.info.cmd/compile/internal/ssa.rewriteValueARM_OpARMMULS_20
+type.func(*flag.FlagSet, []string) error
+go.range.cmd/compile/internal/ssa.rewriteValueARM_OpARMMULS_10
+go.string."ZeroExt8to16"
+type.[]*cmd/internal/obj.Auto
+go.loc.cmd/compile/internal/ssa.rewriteValue386_Op386ORL_20
+go.string."F32Sqrt"
+type.*encoding/hex.encoder
+go.string."NE"
+type.*func(*strings.genericReplacer, string, bool) (string, int, bool)
+go.info.cmd/compile/internal/ssa.rewriteValueARM_OpCvt32to32F_0
+go.loc.compress/gzip.(*Reader).Multistream
+go.info.sort.reverse.Len
+z2.cap
+go.isstmt.cmd/internal/bio.(*Reader).Discard
+go.isstmt.reflect.(*funcType).Name
+cmd/compile/internal/gc.predecl
+type.noalg.map.bucket[cmd/compile/internal/ssa.Location]cmd/compile/internal/ssa.contentRecord
+go.info.cmd/compile/internal/ssa.rewriteValueMIPS64_OpLess32U_0
+type..namedata.Nodes.
+go.string."bkarow;"
+go.loc.cmd/compile/internal/ssa.rewriteValuePPC64_OpLsh8x64_0
+go.info.cmd/compile/internal/gc.asTypesNode$abstract
+go.range.cmd/compile/internal/ssa.rewriteValueARM64_OpARM64MOVHloadidx2_0
+go.isstmt.encoding/binary.(*decoder).value
+syscall.Settimeofday.stkobj
+encoding/json.(*encodeState).bytes.tryGrowByReslice
+go.isstmt.cmd/compile/internal/ssa.(*poset).findroot
+type.noalg.map.bucket[uint32][]*cmd/compile/internal/gc.Node
+go.range.cmd/compile/internal/gc.(*fmtTypeDbg).Format
+go.string."OC"
+go.isstmt.cmd/compile/internal/gc.reduceSlice
+go.isstmt.type..eq.encoding/json.SyntaxError
+go.range.cmd/compile/internal/ssa.rewriteValueMIPS_OpMul8_0
+go.range.internal/poll.runtime_Semacquire
+go.isstmt.cmd/compile/internal/ssa.rewriteValueS390X_OpRound32F_0
+go.info.go/ast.(*EmptyStmt).Pos
+go.loc.cmd/internal/objabi.(*versionFlag).Set
+gclocals·1626640563f04aacb2534d0a2e499eba
+gclocals·f61900f586cd47483fba0dc3c8ac28cc
+go.range.cmd/compile/internal/ssa.rewriteValueMIPS64_OpRsh32Ux32_0
+type..namedata.*func(*fmt.ss, bool, func(int32) bool) []uint8-
+maxLocals
+gclocals·c34df681d27649039e01c334fdde2891
+type.*func() (uint8, bool)
+go.loc.cmd/compile/internal/gc.(*importReader).qualifiedIdent
+go.string.".GT"
+go.loc.type..eq.cmd/compile/internal/gc.Error
+go.info.cmd/internal/obj.NewDwarfFixupTable
+type..namedata.*[113]x86.Movtab-
+cmd/compile/internal/ssa.rewriteValue386_OpMod8u_0
+cmd/compile/internal/ssa.statictmp_2521
+unicode.Old_Hungarian
+reflect.newName
+reflect.callReflect.stkobj
+go.isstmt.cmd/compile/internal/ssa.rewriteValueARM_OpARMMOVHstoreidx_0
+go.string."Lscr;"
+go.range.runtime.setGNoWB
+go.string."LDREXD"
+reflect.statictmp_153
+type..namedata.*struct { F uintptr; s *reflect.sliceHeader; size uintptr; typ *reflect.rtype; tmp unsafe.Pointer }-
+type..namedata.os/exec.7
+go.string." × "
+go.isstmt.runtime.heapBits.forward
+type..namedata.resolve-
+cmd/compile/internal/ssa.rewriteValueAMD64_OpAMD64MOVQstoreidx1_0
+cmd/compile/internal/syntax.statictmp_169
+go.isstmt.cmd/compile/internal/ssa.rewriteValueARM64_OpARM64MOVDstoreidx_0
+cmd/compile/internal/gc.tracePrint.stkobj
+gclocals·3b0d303bac84a394b94860ba459e471f
+type.*func() *runtime.traceAllocBlock
+type..namedata.*func(*reflect.funcTypeFixed64) reflect.Kind-
+go.isstmt.cmd/compile/internal/ssa.rewriteValue386_Op386ANDLconstmodifyidx4_0
+go.string."FMOVV"
+cmd/compile/internal/gc.fnpkg
+go.string."XXLOR"
+os.Expand
+go.loc.type..hash.[63]cmd/compile/internal/ssa.Register
+go.itablink.*cmd/compile/internal/syntax.CompositeLit,cmd/compile/internal/syntax.Expr
+go.string."Rsh32Ux8"
+go.loc.bytes.Runes
+gclocals·78b3952c2d4166662573a9ca94b247d8
+go/scanner.ErrorList.Len
+text/template.Template.ErrorContext
+go.info.go.interface { F() }.F
+runtime.gcSweep
+type.*func(*cmd/compile/internal/syntax.StructType) cmd/compile/internal/syntax.Pos
+go.info.*go/ast.FuncLit
+go.info.reflect.(*sliceType).uncommon
+type.*func(*cmd/compile/internal/gc.state, cmd/compile/internal/ssa.Op, *cmd/compile/internal/types.Type, int64, *cmd/compile/internal/ssa.Value, *cmd/compile/internal/ssa.Value) *cmd/compile/internal/ssa.Value
+go.isstmt.cmd/compile/internal/ssa.rewriteValueWasm_OpEq16_0
+type.**[]*runtime.moduledata
+go.string."infin;"
+go.loc.cmd/compile/internal/ssa.rewriteValueS390X_OpSelect0_0
+$f64.bfe993ba70c285de
+go.range.cmd/compile/internal/ssa.rewriteValueARM_OpARMADDshiftLL_0
+type.[][4]cmd/compile/internal/ssa.register
+go.info.cmd/compile/internal/ssa.rewriteValueS390X_OpS390XSRAW_10
+go.range.cmd/compile/internal/gc.tofunargsfield
+go.string."CX"
+go.info.reflect.Value.MapIndex
+go.isstmt.runtime.sighandler
+go.info.cmd/compile/internal/types.(*Type).ChanDir
+type.func(int) uint8
+go.loc.os/exec.(*closeOnce).os.seek
+type..namedata.reclaimIndex-
+type.*func(*strings.Reader) error
+type.*[]compress/flate.literalNode
+cmd/compile/internal/ssa.statictmp_1614
+strconv.CanBackquote
+type.go/token.Token
+type..namedata.ctx-
+type.func(*reflect.funcTypeFixed128) reflect.ChanDir
+go.range.cmd/compile/internal/ssa.rewriteValueMIPS64_OpNeq64_0
+type..namedata.startCycle-
+type..namedata.*[]ssa.VarID-
+go.info.type..hash.[48]cmd/compile/internal/ssa.Register
+strings.LastIndex
+go.info.io/ioutil.ReadDir.func1
+go.range.bufio.(*Reader).ReadBytes
+go.range.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Func }).SetHasVal
+go.info.go/doc.sortedValues
+fmt.(*ss).scanBool.stkobj
+gclocals·dd90c2f231fa3fa37c332d6f79b9410b
+go.isstmt.cmd/internal/obj.dwCtxt.AddSectionOffset
+go.range.cmd/compile/internal/ssa.rewriteValueS390X_OpRsh16Ux16_0
+go.range.reflect.(*ptrType).Name
+type.*[5]*unicode.RangeTable
+go.range.syscall.StringBytePtr
+go.info.cmd/compile/internal/gc.toint
+go.isstmt.text/template/parse.(*Tree).parseTemplateName
+type.func(*runtime._type, runtime.typeOff) *runtime._type
+go.range.runtime.gcSweep
+go.info.cmd/compile/internal/gc.yyerrorl
+gofile..$GOROOT/src/fmt/scan.go
+cmd/compile/internal/ssa.rewriteValueAMD64_OpAnd8_0
+go.string."DIVPD"
+gclocals·6d07da18afbb9de3e0388ea8c5b0a789
+cmd/internal/obj.(*Link).Float32Sym
+go.range.cmd/compile/internal/ssa.rewriteValuegeneric_OpLsh8x64_0
+cmd/compile/internal/ssa.statictmp_371
+go.loc.type..eq.cmd/compile/internal/syntax.BasicLit
+math/bits.ReverseBytes64
+go.info.map[*cmd/compile/internal/ssa.Value]cmd/compile/internal/ssa.GCNode
+go.range.cmd/compile/internal/ssa.rewriteValueMIPS64_OpOr8_0
+cmd/compile/internal/ssa.statictmp_1821
+gclocals·ef1d9f91ac37fdf5c9a182206575fa84
+go.info.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Name; cmd/compile/internal/gc.Param }).SetTChanDir
+go.info.math/big.(*Rat).Cmp
+type.*func(cmd/internal/src.XPos, cmd/compile/internal/ssa.Op, *cmd/compile/internal/types.Type, *cmd/compile/internal/ssa.Value, *cmd/compile/internal/ssa.Value) *cmd/compile/internal/ssa.Value
+type..namedata.*struct { F uintptr; c *context.timerCtx }-
+go.loc.go/ast.fprint
+gclocals·1894eea78229ec3bb3179ae6273f45dd
+go.range.cmd/compile/internal/gc.init.2.func45
+go.loc.type..hash.go/ast.TypeSwitchStmt
+nPkgs
+type.*func(*bufio.Reader) error
+go.isstmt.cmd/compile/internal/gc.mktag
+go.info.reflect.(*funcTypeFixed64).Kind
+go.isstmt.cmd/compile/internal/ssa.rewriteValuegeneric_OpAnd16_10
+go.isstmt.runtime.(*profBuf).write
+go.loc.cmd/compile/internal/ssa.rewriteValueS390X_OpGetClosurePtr_0
+go.range.text/template/parse.leftTrimLength
+go.string."lesdoto;"
+go.range.cmd/compile/internal/ssa.rewriteValueAMD64_OpAMD64ADDQ_20
+go.range.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Func }).InstrumentBody
+go.loc.cmd/compile/internal/syntax.NewFileBase
+go.string."Tagbanwa"
+go.info.type..eq.cmd/compile/internal/gc.fmtNodeErr
+type.*func() []*cmd/compile/internal/types.Field
+gclocals·f56121dc5afbeb649c82d04c976c1bb6
+type..alg.cmd/compile/internal/ssa.stackValState
+ipkg.len
+type.[1]cmd/internal/obj.Reloc
+go.string."DIV"
+family
+go.string."IRETW"
+gofile..$GOROOT/src/runtime/mcentral.go
+rewrite.cap
+gclocals·51f119246160baa562817d4aab3bb59c
+type..namedata.*struct { F uintptr; f *os.File }-
+ifunc
+reflect.Value.IsValid
+go.info.cmd/compile/internal/gc.min8$abstract
+type..namedata.*func(ssa.partitionByArgClass, int, int) bool-
+go.range.cmd/compile/internal/ssa.rewriteValueS390X_OpS390XMOVBstoreidx_20
+go.loc.cmd/compile/internal/ssa.rewriteValueS390X_OpGreater64F_0
+go.isstmt.internal/bytealg.Compare
+go.info.time.(*Time).Truncate
+type..namedata.Appendpp.
+go.string."`"
+go.info.cmd/compile/internal/gc.(*intWriter).bytes.readSlice
+type..namedata.updateVar-
+go.range.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Func }).SetNilCheckDisabled
+go.string."AH"
+type.*cmd/compile/internal/ssa.register
+go.isstmt.encoding/json.(*encodeState).WriteTo
+go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Name; cmd/compile/internal/gc.Param }).SetIsClosureVar
+compress/flate.(*huffmanEncoder).generate
+go.info.reflect.(*arrayType).NumField
+go.loc.flag.(*FlagSet).Bool
+type..hashfunc1125899906842608
+go.info.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Name }).Walkdef
+go.info.func(*runtime.g)
+cmd/compile/internal/ssa.rewriteValueARM64_OpARM64MADD_20
+type..namedata.*func(*parse.DotNode) parse.Node-
+runtime.mpreinit
+go.itablink.cmd/internal/obj/ppc64.ocmp,sort.Interface
+go.info.cmd/compile/internal/ssa.rewriteValueMIPS_OpDiv32u_0
+type..namedata.*func([]interface {}) (int, error)-
+go.isstmt.cmd/compile/internal/ssa.rewriteBlockdec
+fmt.(*fmt).padString
+os.statictmp_9
+type.*[13]*cmd/internal/sys.Arch
+go.isstmt.hash.Hash32.Sum32
+go.loc.go/ast.(*CallExpr).exprNode
+go.isstmt.cmd/compile/internal/ssa.rewriteValueARM_OpARMORshiftRAreg_0
+type..namedata.InlVars.
+go.string."missing ']' in host"
+go.range.sort.(*Float64Slice).Swap
+go.info.internal/poll.(*FD).WriteOnce
+cmd/compile/internal/gc.variter
+strings.(*Reader).Reset
+go.info.text/tabwriter.(*Writer).Write
+gclocals·6648ec93ef140a764d35b04087e825ee
+go.range.cmd/compile/internal/ssa.rewriteValuePPC64_OpSlicemask_0
+go.loc.syscall.readlinkat
+type..namedata.syscall-
+go.loc.cmd/internal/obj/wasm.preprocess.func2
+spaceCount
+go.range.go/ast.Stmt.End
+go.isstmt.cmd/compile/internal/ssa.(*node32).insert
+type.*func(runtime.profIndex)
+go.isstmt.cmd/compile/internal/ssa.rewriteValueARM64_OpARM64SRAconst_0
+type.func(*cmd/compile/internal/gc.Progs)
+cmd/compile/internal/ssa.statictmp_652
+go.isstmt.runtime.deferreturn
+go.isstmt.type..hash.[15]runtime.dbgVar
+go.info._rt0_amd64_lib
+go.info.cmd/compile/internal/ssa.(*Value).RegName
+type..namedata.*func(int32, syntax.Flags) *syntax.Regexp-
+go.info.cmd/internal/obj/s390x.zVRIc
+unicode.Z
+cmd/compile/internal/syntax.(*StructType).Pos
+go.isstmt.cmd/internal/src.(*Pos).IsStmt
+type..namedata.Buffer.
+go.isstmt.cmd/compile/internal/ssa.(*regAllocState).isGReg
+go.string."MUL"
+go.range.reflect.cvtStringRunes
+go.info.cmd/compile/internal/types.(*Field).SetBroke
+go.loc.cmd/compile/internal/ssa.rewriteValueS390X_OpS390XOR_120
+go.info.cmd/compile/internal/ssa.rewriteValueS390X_OpGreater32F_0
+go.info.go/doc.convertQuotes$abstract
+go.info.cmd/internal/obj/arm.preprocess
+go.loc.cmd/compile/internal/ssa.rewriteValueWasm_OpMod8u_0
+type.func(*runtime.bmap, *runtime.maptype, *runtime.bmap)
+gclocals·f9375698e7c2546129c026d7634003fb
+go.string."llhard;"
+reflect.(*mapType).PkgPath
+go.loc.regexp/syntax.(*Error).Error
+go.string."Rsh32x8"
+cmd/compile/internal/ssa.statictmp_2298
+type.func(syscall.WaitStatus) int
+go.isstmt.cmd/compile/internal/ssa.(*sortvalues).Less
+cmd/compile/internal/syntax.statictmp_201
+go.loc.cmd/compile/internal/ssa.(*HTMLWriter).Logf
+go.isstmt.type..eq.[100]string
+cmd/compile/internal/ssa.rewriteValueARM_OpARMSUBSshiftRA_0
+go.loc.path/filepath.scanChunk
+go/ast.(*ValueSpec).End
+type.*func(*runtime.mheap, []runtime.arenaIdx, uintptr, uintptr) uintptr
+cmd/compile/internal/syntax..gobytes.4
+.autotmp_675
+go.string."CBZW"
+type.func(*encoding/json.encodeState, io.Writer) (int64, error)
+regexp/syntax.(*parser).parsePerlFlags
+type.*cmd/internal/obj/arm.Opcross
+type..namedata.InUseObjects.
+cmd/compile/internal/ssa.rewriteValueAMD64_OpAMD64MOVBload_0
+unicode._Nushu
+go.range.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Func }).SetHasCall
+reflect.memclrNoHeapPointers
+gofile..$GOROOT/src/math/atanh.go
+text/template/parse.(*ChainNode).tree
+type.func(string) reflect.Value
+type.func() cmd/compile/internal/gc.Ctype
+go.loc.cmd/internal/obj.LSym.ABI
+go.info.cmd/compile/internal/ssa.rewriteValueMIPS64_OpRsh8Ux32_0
+cmd/internal/obj/mips.statictmp_8
+go.isstmt.cmd/internal/obj/s390x.(*ctxtz).zopstore
+go.info.bufio.(*ReadWriter).WriteTo
+oldpath
+type..eqfunc272
+go.string."-I"
+go.isstmt.runtime.netpollgoready
+type..namedata.*func(*gc.Val, fmt.State, gc.FmtFlag)-
+go.loc.cmd/compile/internal/ssa.rewriteValuegeneric_OpNeq8_0
+graphicOnly
+type.runtime.itab
+go.string."] n="
+go.isstmt.cmd/compile/internal/ssa.rewriteValueAMD64_OpAMD64MOVLloadidx1_0
+go.string."frasl;"
+go.string."phis in single-predecessor block"
+go.loc.cmd/compile/internal/ssa.rewriteValue386_Op386MULLload_0
+go.loc.cmd/compile/internal/ssa.rewriteValue386_Op386MULSS_0
+type.func(int64, *int8)
+gclocals·93fb27fd7492dc89968c84641fd94c53
+go.loc.type..eq.[69]string
+type..namedata.*func(*types.Sym, *types.Sym) types.Cmp-
+type..namedata.*func(*runtime.funcInfo) bool-
+cmd/compile/internal/ssa.statictmp_3296
+bufio.(*Reader).Buffered
+go.isstmt.cmd/compile/internal/gc.(*intWriter).ReadByte
+type.func(*cmd/internal/bio.Reader, int) ([]uint8, error)
+type.*func(*cmd/compile/internal/gc.state, *cmd/compile/internal/gc.Node, *cmd/compile/internal/ssa.Value, bool, cmd/compile/internal/gc.skipMask)
+type.func(text/template/parse.Pos, text/template/parse.Node) *text/template/parse.ChainNode
+go.isstmt.text/tabwriter.(*Writer).dump
+line1
+go.info.*[32]uintptr
+go.range.cmd/compile/internal/ssa.rewriteValuePPC64_OpDiv16u_0
+go.info.go/ast.(*ValueSpec).End
+type..namedata.*sort.StringSlice.
+go.info.cmd/compile/internal/syntax.Stmt.aStmt
+go.info.cmd/internal/obj/s390x.form
+runtime.(*gcTrigger).test
+.autotmp_199
+unicode.statictmp_70
+go.string."Union;"
+type.func(*runtime/pprof.Profile, io.Writer, int) error
+go.info.cmd/compile/internal/ssa.rewriteValueMIPS_OpGreater16U_0
+gclocals·268b11f56622f8a8fcd54778ceffeac6
+go.info.cmd/compile/internal/ssa.rewriteValueAMD64_OpAMD64CMPLconst_0
+gclocals·256377df1ac8a2abcc72306ff0618b83
+go.info.cmd/compile/internal/gc.varsByScopeAndOffset.Len
+type..namedata.*func() (uint64, big.Accuracy)-
+exprodata
+go.range.runtime.funcspdelta
+go.info.bytes.(*Buffer).Grow
+type.*func(int) *cmd/internal/obj.LSym
+go.string."notinva;"
+go.range.os.timeout.Timeout
+type..namedata.*func(*big.Rat) int-
+gclocals·ad7a46302d93a875bfccb882c57d158d
+runtime.(*mTreap).rotateLeft
+go.isstmt.cmd/compile/internal/ssa.StackOffset.stackOffsetValue
+go.string."CDQ"
+go.string."test"
+gclocals·7038129f7496bd0f55ee57109f80acd8
+go.isstmt.compress/flate.(*compressor).storeHuff
+runtime/internal/sys.DefaultGoroot.str
+go.info.sort.Stable
+unicode.Unified_Ideograph
+go.range.cmd/compile/internal/ssa.rewriteValueS390X_OpAvg64u_0
+go.range.internal/poll.(*FD).Write
+type..namedata.Jt.
+type.syscall.Utimbuf
+go.info.*go/doc.lazyRE
+type..namedata.Esterror.
+cmd/compile/internal/ssa.statictmp_2827
+type.*[]struct { cmd/compile/internal/gc.name string; cmd/compile/internal/gc.etype cmd/compile/internal/types.EType; cmd/compile/internal/gc.sameas32 cmd/compile/internal/types.EType; cmd/compile/internal/gc.sameas64 cmd/compile/internal/types.EType }
+go.loc.math/big.(*Int).GobDecode
+cmd/compile/internal/ssa.statictmp_3277
+go.loc.syscall.pipe
+go.loc.cmd/compile/internal/ssa.rewriteValue386_Op386XORLload_0
+gclocals·95efdd408468c1873ad6d0a0934bc6b6
+runtime.netpollWriteDeadline
+go.range.cmd/compile/internal/ssa.rewriteValueMIPS64_OpMIPS64SGTU_0
+go.isstmt.runtime.stackpoolalloc
+go.isstmt.runtime.gcMarkTinyAllocs
+go.info.runtime.(*mTreap).start
+go.range.time.init
+cmd/compile/internal/ssa.rewriteValueWasm_OpWasmI64Xor_0
+go.range.cmd/compile/internal/ssa.postorderWithNumbering
+reflect.(*interfaceType).typeOff
+go.isstmt.net/url.(*URL).UnmarshalBinary
+go.string."oelig;"
+cmd/compile/internal/ssa.statictmp_770
+go.info.*[14]struct { cmd/internal/obj.bit cmd/internal/obj.Attribute; cmd/internal/obj.s string }
+type.func(*go/parser.parser)
+go.isstmt.sync.(*WaitGroup).Done
+go.string."FSIN"
+type.func(complex128, int, int32)
+cmd/compile/internal/ssa.rewriteValueMIPS_OpMIPSSGTconst_0
+go.string."bytes.Reader.UnreadRune: previous operation was not ReadRune"
+go.range.reflect.mapassign
+go.isstmt.cmd/compile/internal/ssa.ValAndOff.add
+go.range.type..hash.struct { go/parser.pos go/token.Pos; go/parser.lit string }
+go.info.runtime.templateThread
+go.range.time.(*Time).Round
+type.*func(cmd/compile/internal/ssa.regMask, *cmd/compile/internal/ssa.Value) cmd/compile/internal/ssa.register
+go.isstmt.cmd/compile/internal/ssa.rewriteValueS390X_OpS390XFMOVSload_0
+type..namedata.HasERMS.
+gofile..$GOROOT/src/runtime/race0.go
+type.func(cmd/compile/internal/arm.shift) string
+context.(*deadlineExceededError).Temporary
+internal/poll.(*FD).decref·f
+go.string."Qscr;"
+type.func(*runtime.profBuf, int64)
+go.range.runtime.goready.func1
+cmd/compile/internal/gc.(*EscState).escassignSinkWhy.stkobj
+gclocals·0909d8a5aad2e57e97b5066f1e3e620a
+cmd/compile/internal/ssa.rewriteValueMIPS64_OpMul8_0
+go.isstmt.encoding/json.(*scanner).error
+cmd/compile/internal/syntax.(*parser).unaryExpr
+go.info.math/rand.(*lockedSource).read
+go.info.cmd/compile/internal/gc.fncall
+type..namedata.inList-
+go.range.cmd/compile/internal/ssa.rewriteValuegeneric_OpEq32F_0
+go.isstmt.go/doc.sortedFuncs
+cmd/compile/internal/gc.pkgnotused
+cmd/compile/internal/ssa.rewriteValuePPC64_OpPPC64MOVWstoreidx_0
+go.isstmt.cmd/compile/internal/syntax.(*parser).methodDecl
+go.loc.cmd/compile/internal/gc.(*EscState).escassignfromtag
+go.info.go/ast.Decl
+cmd/compile/internal/ssa.rewriteValue386_Op386MOVWloadidx1_0
+.autotmp_234
+type..eqfunc92
+go.isstmt.reflect.(*sliceType).String
+type..namedata.*func(*gc.Node, *types.Type, bool) *gc.Node-
+type.*func(*cmd/compile/internal/gc.caseClauseByType, int, int) bool
+go.loc.cmd/compile/internal/ssa.rewriteValueARM64_OpAtomicLoadPtr_0
+cmd/compile/internal/gc.intReader.ReadString
+go.string."VBROADCASTI64X4"
+go.range.encoding/json.(*Number).Int64
+type..namedata.*func([]gc.caseClause)-
+cmd/compile/internal/ssa.statictmp_2153
+&hasDots
+go.isstmt.cmd/compile/internal/ssa.rewriteValueARM_OpARMCMOVWHSconst_0
+go.info.go.(*struct { cmd/compile/internal/gc.Node; cmd/compile/internal/gc.Name; cmd/compile/internal/gc.Param }).SetAddable
+go.loc.cmd/compile/internal/ssa.findlive
+runtime.cgoAlwaysFalse
+go.info.cmd/compile/internal/ssa.rewriteValuePPC64_OpEq64F_0
+type..namedata.NewValue1I.
+go.loc.cmd/compile/internal/ssa.rewriteValueARM_OpARMCMNshiftRA_0
+go.string."time: missing unit in duration "
+importpkg
+go.isstmt.cmd/compile/internal/ssa.rewriteValueS390X_OpS390XFNEG_0
+go.isstmt.bufio.(*ReadWriter).fill
+gofile..$GOROOT/src/runtime/os_linux_generic.go
+type..alg.cmd/compile/internal/ssa.valState
+go.info.regexp.Compile
+go.string."semacquire not on the G stack"
+go.info.math.asin
+cmd/internal/obj/x86.ydivl
+go.isstmt.text/template.(*Template).setOption
+type.*func(*go/parser.parser, go/ast.Expr) *go/ast.CallExpr
+type.*runtime.stackObject
+go.isstmt.time.preadn
+type..namedata.pragcgobuf-
+go.loc.type..eq.reflect.funcTypeFixed16
+type..namedata.curBlock-
+type..namedata.text/template.32
+go.string."STVEHX"
+cmd/compile/internal/ssa.rewriteValuegeneric_OpIsInBounds_0
+go/ast.(*SendStmt).stmtNode
+cmd/compile/internal/syntax.(*LabeledStmt).Pos
+cmd/compile/internal/ssa.rewriteValueS390X_OpMul8_0
+go.info.encoding/json.mapEncoder.encode-fm
+go.loc.time.Time.Round
+go.info.type..hash.[8]float64
+go.loc.cmd/compile/internal/gc.commonPrefixLen
+runtime.(*sigctxt).rflags
+type.func(cmd/internal/obj/ppc64.ocmp, int, int)
+go.info.syscall.Timeval
+go.isstmt.main.init
+go.string."VLPB"
+type.func(*time.Time) (string, int, uint64)
+gclocals·1ce1dd5ec38623d490b56d5c0b33f7f9
+type.*func(*cmd/internal/obj.LinkArch, ...cmd/internal/sys.ArchFamily) bool
+go.loc.cmd/compile/internal/ssa.rewriteValueAMD64_OpNeq64F_0
+go.loc.context.WithDeadline
+go.info.internal/poll.(*FD).incref
+go.isstmt.time.(*Duration).Hours
+type..namedata.*func(time.Time) time.Weekday-
+type..namedata.localIdent-
+type.*cmd/compile/internal/ssa.lcaRange
+go.info.runtime.sellock
+go.info.runtime.(*timer).assignBucket
+type.cmd/compile/internal/ssa.HTMLWriter
+go.isstmt.runtime/pprof.(*profMap).lookup
+go.string."runtime: nameOff "
+go.string."BTQ"
+cmd/compile/internal/ssa.statictmp_275
+go.info.*struct { runtime.enabled bool; runtime.pad [3]uint8; runtime.needed bool; runtime.cgo bool; runtime.alignme uint64 }
