@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06b136c5_a69ce3a9",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1481,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-14T15:22:50Z",
+      "side": 1,
+      "message": "The race detector",
+      "revId": "6b01134b85c7a30de81cb0f5280526ad11c020e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d6c16bf_6f10fa43",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-14T15:22:50Z",
+      "side": 1,
+      "message": "change \"is used to tell whether\" to \"reports whether\"",
+      "range": {
+        "startLine": 1507,
+        "startChar": 24,
+        "endLine": 1507,
+        "endChar": 47
+      },
+      "revId": "6b01134b85c7a30de81cb0f5280526ad11c020e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9adb98c_e863149c",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-14T15:22:50Z",
+      "side": 1,
+      "message": "add a blank line before this",
+      "revId": "6b01134b85c7a30de81cb0f5280526ad11c020e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0f36256_930211dc",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1508,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-14T15:22:50Z",
+      "side": 1,
+      "message": "\"an unsupported\"",
+      "range": {
+        "startLine": 1508,
+        "startChar": 3,
+        "endLine": 1508,
+        "endChar": 14
+      },
+      "revId": "6b01134b85c7a30de81cb0f5280526ad11c020e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e27ca35_cd9026ac",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1508,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-14T15:22:50Z",
+      "side": 1,
+      "message": "change \"run\" to \"running the\"",
+      "range": {
+        "startLine": 1508,
+        "startChar": 55,
+        "endLine": 1508,
+        "endChar": 58
+      },
+      "revId": "6b01134b85c7a30de81cb0f5280526ad11c020e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "187e5aef_34a1e07a",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1509,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-14T15:22:50Z",
+      "side": 1,
+      "message": "an arm64",
+      "revId": "6b01134b85c7a30de81cb0f5280526ad11c020e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
