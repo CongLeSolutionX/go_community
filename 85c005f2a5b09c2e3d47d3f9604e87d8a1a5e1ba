@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "06d0ecb6_08d52998",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3313,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-02-14T09:36:52Z",
+      "side": 1,
+      "message": "bits.ReverseBytes is inlined to bits.ReverseBytes32 on arm, but the benchmark performance of these two functions are different. If I add these two alias, their performance is the same, that\u0027s quite weird.",
+      "parentUuid": "1258ccc4_1dd8a107",
+      "range": {
+        "startLine": 3312,
+        "startChar": 0,
+        "endLine": 3313,
+        "endChar": 73
+      },
+      "revId": "85c005f2a5b09c2e3d47d3f9604e87d8a1a5e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4298d39a_6c07623a",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 1
