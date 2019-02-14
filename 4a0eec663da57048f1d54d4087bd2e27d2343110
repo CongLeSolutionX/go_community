@@ -16,6 +16,24 @@
       "revId": "4a0eec663da57048f1d54d4087bd2e27d2343110",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "773b0ef1_e82a1716",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 6005,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-02-14T23:04:45Z",
+      "side": 1,
+      "message": "Yes. The change doesn\u0027t affect the example on this line, but the signed integer s is then used on the next line in a shift example that now can use a signed integer.",
+      "parentUuid": "ddbd91fe_8da6e95b",
+      "revId": "4a0eec663da57048f1d54d4087bd2e27d2343110",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
