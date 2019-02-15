@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c7f8c33_ea5e8228",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-15T23:46:26Z",
+      "side": 1,
+      "message": "wrong verb tense here. change this to \"make\" per https://github.com/golang/go/wiki/CommitMessage\n\nAnd \"dependent\" for American English. (Also, I think it\u0027s wrong in British too... it\u0027d make it a noun rather than an adjective with the -ant)",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "594bc578852d6e684b06d40b6b4f133a722f2ad1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
