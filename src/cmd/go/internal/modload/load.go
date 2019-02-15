@@ -12,6 +12,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	pathpkg "path"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -20,6 +21,7 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/imports"
+	"cmd/go/internal/load"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/modfile"
 	"cmd/go/internal/module"
@@ -90,7 +92,9 @@ func ImportPaths(patterns []string) []*search.Match {
 				// the exact version of a particular module increases during
 				// the loader iterations.
 				m.Pkgs = str.StringList(fsDirs[i])
-				for j, pkg := range m.Pkgs {
+				pkgs := m.Pkgs
+				m.Pkgs = m.Pkgs[:0]
+				for _, pkg := range pkgs {
 					dir := pkg
 					if !filepath.IsAbs(dir) {
 						dir = filepath.Join(cwd, pkg)
@@ -108,6 +112,14 @@ func ImportPaths(patterns []string) []*search.Match {
 						if strings.HasPrefix(suffix, "/vendor/") {
 							// TODO getmode vendor check
 							pkg = strings.TrimPrefix(suffix, "/vendor/")
+						} else if Target.Path == "std" {
+							pkg = strings.TrimPrefix(suffix, "/")
+							if pkg == "builtin" {
+								// "builtin" is a pseudo-package with a real source file.
+								// It's not included in "std", so it shouldn't be included in
+								// "./..." within module "std" either.
+								continue
+							}
 						} else {
 							pkg = Target.Path + suffix
 						}
@@ -129,10 +141,10 @@ func ImportPaths(patterns []string) []*search.Match {
 						// After loader is done iterating, we still need to return the
 						// path, so that "go list -e" produces valid output.
 						if iterating {
-							pkg = ""
+							continue
 						}
 					}
-					m.Pkgs[j] = pkg
+					m.Pkgs = append(m.Pkgs, pkg)
 				}
 
 			case strings.Contains(m.Pattern, "..."):
@@ -152,7 +164,24 @@ func ImportPaths(patterns []string) []*search.Match {
 
 			case search.IsMetaPackage(m.Pattern): // std, cmd
 				if len(m.Pkgs) == 0 {
-					m.Pkgs = search.MatchPackages(m.Pattern).Pkgs
+					pkgs := search.MatchPackages(m.Pattern).Pkgs
+					switch Target.Path {
+					case "std":
+						for _, p := range pkgs {
+							if !str.HasPathPrefix(p, "vendor") {
+								m.Pkgs = append(m.Pkgs, p)
+							}
+						}
+					case "cmd":
+						m.Pkgs = make([]string, 0, len(pkgs))
+						for _, p := range pkgs {
+							if !str.HasPathPrefix(p, "cmd/vendor") {
+								m.Pkgs = append(m.Pkgs, p)
+							}
+						}
+					default:
+						m.Pkgs = pkgs
+					}
 				}
 			}
 		}
@@ -163,9 +192,7 @@ func ImportPaths(patterns []string) []*search.Match {
 		updateMatches(true)
 		for _, m := range matches {
 			for _, pkg := range m.Pkgs {
-				if pkg != "" {
-					roots = append(roots, pkg)
-				}
+				roots = append(roots, pkg)
 			}
 		}
 		return roots
@@ -296,7 +323,7 @@ func ReloadBuildList() []module.Version {
 // This set is useful for deciding whether a particular import is needed
 // anywhere in a module.
 func LoadALL() []string {
-	return loadAll(true)
+	return loadAll(false)
 }
 
 // LoadVendor is like LoadALL but only follows test dependencies
@@ -304,18 +331,20 @@ func LoadALL() []string {
 // ignored completely.
 // This set is useful for identifying the which packages to include in a vendor directory.
 func LoadVendor() []string {
-	return loadAll(false)
+	return loadAll(true)
 }
 
-func loadAll(testAll bool) []string {
+func loadAll(isVendor bool) []string {
 	InitMod()
 
 	loaded = newLoader()
 	loaded.isALL = true
 	loaded.tags = anyTags
-	loaded.testAll = testAll
-	if !testAll {
+	if isVendor {
 		loaded.testRoots = true
+		loaded.allowVendor = false
+	} else {
+		loaded.testAll = true
 	}
 	all := TargetPackages()
 	loaded.load(func() []string { return all })
@@ -394,12 +423,16 @@ func ModuleUsedDirectly(path string) bool {
 }
 
 // Lookup returns the source directory, import path, and any loading error for
-// the package at path.
+// the package at path as imported from parent.
 // Lookup requires that one of the Load functions in this package has already
 // been called.
-func Lookup(path string) (dir, realPath string, err error) {
+func Lookup(parent *load.Package, path string) (dir, realPath string, err error) {
 	if path == "" {
 		panic("Lookup called with empty package path")
+	}
+
+	if parent != nil && parent.Standard {
+		path = stdVendor(parent.ImportPath, path)
 	}
 	pkg, ok := loaded.pkgCache.Get(path).(*loadPkg)
 	if !ok {
@@ -434,10 +467,11 @@ func Lookup(path string) (dir, realPath string, err error) {
 // TODO(rsc): It might be nice to make the loader take and return
 // a buildList rather than hard-coding use of the global.
 type loader struct {
-	tags      map[string]bool // tags for scanDir
-	testRoots bool            // include tests for roots
-	isALL     bool            // created with LoadALL
-	testAll   bool            // include tests for all packages
+	tags        map[string]bool // tags for scanDir
+	testRoots   bool            // include tests for roots
+	isALL       bool            // created with LoadALL
+	testAll     bool            // include tests for all packages
+	allowVendor bool            // allow loading from the vendor directory
 
 	// reset on each iteration
 	roots    []*loadPkg
@@ -457,6 +491,7 @@ func newLoader() *loader {
 	ld := new(loader)
 	ld.tags = imports.Tags()
 	ld.testRoots = LoadTests
+	ld.allowVendor = true
 	return ld
 }
 
@@ -615,7 +650,7 @@ func (ld *loader) doPkg(item interface{}) {
 			return
 		}
 
-		pkg.mod, pkg.dir, pkg.err = Import(pkg.path)
+		pkg.mod, pkg.dir, pkg.err = Import(pkg.path, ld.allowVendor)
 		if pkg.dir == "" {
 			return
 		}
@@ -631,7 +666,11 @@ func (ld *loader) doPkg(item interface{}) {
 		}
 	}
 
+	inStd := (search.IsStandardImportPath(pkg.path) && search.InDir(pkg.dir, cfg.GOROOTsrc) != "")
 	for _, path := range imports {
+		if inStd {
+			path = stdVendor(pkg.path, path)
+		}
 		pkg.imports = append(pkg.imports, ld.pkg(path, false))
 	}
 
@@ -825,6 +864,29 @@ func Replacement(mod module.Version) module.Version {
 		return module.Version{}
 	}
 	return found.New
+}
+
+func stdVendor(parent, path string) string {
+	if search.IsStandardImportPath(path) {
+		return path
+	}
+
+	if str.HasPathPrefix(parent, "cmd") && Target.Path != "cmd" {
+		vendorPath := pathpkg.Join("cmd", "vendor", path)
+		if _, err := os.Stat(filepath.Join(cfg.GOROOTsrc, filepath.FromSlash(vendorPath))); err == nil {
+			return vendorPath
+		}
+	}
+
+	if Target.Path != "std" {
+		vendorPath := pathpkg.Join("vendor", path)
+		if _, err := os.Stat(filepath.Join(cfg.GOROOTsrc, filepath.FromSlash(vendorPath))); err == nil {
+			return vendorPath
+		}
+	}
+
+	// Not vendored: resolve from modules.
+	return path
 }
 
 // mvsReqs implements mvs.Reqs for module semantic versions,
