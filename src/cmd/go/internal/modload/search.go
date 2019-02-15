@@ -37,10 +37,6 @@ func matchPackages(pattern string, tags map[string]bool, useStd bool, modules []
 
 	walkPkgs := func(root, importPathRoot string) {
 		root = filepath.Clean(root)
-		var cmd string
-		if root == cfg.GOROOTsrc {
-			cmd = filepath.Join(root, "cmd")
-		}
 		filepath.Walk(root, func(path string, fi os.FileInfo, err error) error {
 			if err != nil {
 				return nil
@@ -49,14 +45,6 @@ func matchPackages(pattern string, tags map[string]bool, useStd bool, modules []
 			// Don't use GOROOT/src but do walk down into it.
 			if path == root && importPathRoot == "" {
 				return nil
-			}
-
-			// GOROOT/src/cmd makes use of GOROOT/src/cmd/vendor,
-			// which module mode can't deal with. Eventually we'll stop using
-			// that vendor directory, and then we can remove this exclusion.
-			// golang.org/issue/26924.
-			if path == cmd {
-				return filepath.SkipDir
 			}
 
 			want := true
@@ -86,6 +74,7 @@ func matchPackages(pattern string, tags map[string]bool, useStd bool, modules []
 			if !want {
 				return filepath.SkipDir
 			}
+			// Stop at module boundaries.
 			if path != root {
 				if _, err := os.Stat(filepath.Join(path, "go.mod")); err == nil {
 					return filepath.SkipDir
@@ -110,6 +99,9 @@ func matchPackages(pattern string, tags map[string]bool, useStd bool, modules []
 
 	if useStd {
 		walkPkgs(cfg.GOROOTsrc, "")
+		if treeCanMatch("cmd") {
+			walkPkgs(filepath.Join(cfg.GOROOTsrc, "cmd"), "cmd")
+		}
 	}
 
 	if cfg.BuildMod == "vendor" {
