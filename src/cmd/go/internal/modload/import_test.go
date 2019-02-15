@@ -46,8 +46,9 @@ func TestImport(t *testing.T) {
 
 	for _, tt := range importTests {
 		t.Run(strings.ReplaceAll(tt.path, "/", "_"), func(t *testing.T) {
-			// Note that there is no build list, so Import should always fail.
-			m, dir, err := Import(tt.path)
+			// Note that there is no build list or vendor directory, so Import should always fail.
+			const allowVendor = true
+			m, dir, err := Import(tt.path, allowVendor)
 			if err == nil {
 				t.Fatalf("Import(%q) = %v, %v, nil; expected error", tt.path, m, dir)
 			}
