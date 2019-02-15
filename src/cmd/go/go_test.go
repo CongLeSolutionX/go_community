@@ -4754,8 +4754,16 @@ func TestExecutableGOROOT(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		cmd := exec.Command(newGoTool, "run", "testdata/print_goroot.go")
+		cmd := exec.Command(newGoTool, "run", "src/cmd/go/testdata/print_goroot.go")
 		cmd.Env = env
+		// The current working directory (cmd/go/testdata) is located within the
+		// 'cmd' package, and we don't want to load its (vendored) requirements over
+		// the network, so execute the 'go run' command elsewhere. testGOROOT seems
+		// as good a choice as any.
+		//
+		// TODO(golang.org/issue/30240): if we can load the go.mod files from the
+		// vendor directory, we can remove this workaround.
+		cmd.Dir = testGOROOT
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("%s run testdata/print_goroot.go: %v, %s", newGoTool, err, out)
