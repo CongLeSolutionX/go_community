@@ -32,14 +32,14 @@ var (
 	ModInit func()
 
 	// module hooks; nil if module use is disabled
-	ModBinDir            func() string                                       // return effective bin directory
-	ModLookup            func(path string) (dir, realPath string, err error) // lookup effective meaning of import
-	ModPackageModuleInfo func(path string) *modinfo.ModulePublic             // return module info for Package struct
-	ModImportPaths       func(args []string) []*search.Match                 // expand import paths
-	ModPackageBuildInfo  func(main string, deps []string) string             // return module info to embed in binary
-	ModInfoProg          func(info string) []byte                            // wrap module info in .go code for binary
-	ModImportFromFiles   func([]string)                                      // update go.mod to add modules for imports in these files
-	ModDirImportPath     func(string) string                                 // return effective import path for directory
+	ModBinDir            func() string                                                        // return effective bin directory
+	ModLookup            func(parent *Package, path string) (dir, realPath string, err error) // lookup effective meaning of import
+	ModPackageModuleInfo func(path string) *modinfo.ModulePublic                              // return module info for Package struct
+	ModImportPaths       func(args []string) []*search.Match                                  // expand import paths
+	ModPackageBuildInfo  func(main string, deps []string) string                              // return module info to embed in binary
+	ModInfoProg          func(info string) []byte                                             // wrap module info in .go code for binary
+	ModImportFromFiles   func([]string)                                                       // update go.mod to add modules for imports in these files
+	ModDirImportPath     func(string) string                                                  // return effective import path for directory
 )
 
 var IgnoreImports bool // control whether we ignore imports in packages
@@ -501,7 +501,7 @@ func LoadImport(path, srcDir string, parent *Package, stk *ImportStack, importPo
 		importPath = dirToImportPath(filepath.Join(srcDir, path))
 	} else if cfg.ModulesEnabled {
 		var p string
-		modDir, p, modErr = ModLookup(path)
+		modDir, p, modErr = ModLookup(parent, path)
 		if modErr == nil {
 			importPath = p
 		}
@@ -641,7 +641,7 @@ func isDir(path string) bool {
 // Go 1.11 module legacy conversion (golang.org/issue/25069).
 func ResolveImportPath(parent *Package, path string) (found string) {
 	if cfg.ModulesEnabled {
-		if _, p, e := ModLookup(path); e == nil {
+		if _, p, e := ModLookup(parent, path); e == nil {
 			return p
 		}
 		return path
@@ -1401,16 +1401,6 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 			continue
 		}
 		p1 := LoadImport(path, p.Dir, p, stk, p.Internal.Build.ImportPos[path], ResolveImport)
-		if p.Standard && p.Error == nil && !p1.Standard && p1.Error == nil {
-			p.Error = &PackageError{
-				ImportStack: stk.Copy(),
-				Err:         fmt.Sprintf("non-standard import %q in standard package %q", path, p.ImportPath),
-			}
-			pos := p.Internal.Build.ImportPos[path]
-			if len(pos) > 0 {
-				p.Error.Pos = pos[0].String()
-			}
-		}
 
 		path = p1.ImportPath
 		importPaths[i] = path
