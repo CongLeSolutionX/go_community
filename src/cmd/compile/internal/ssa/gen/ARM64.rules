@@ -335,6 +335,12 @@
 (Geq32U x y) -> (GreaterEqualU (CMPW x y))
 (Geq64U x y) -> (GreaterEqualU (CMP x y))
 
+// Optimize comparision between a floating-point value and 0.0 with "FCMP $(0.0), Fn"
+(FCMPS x (FMOVSconst [0])) -> (FCMPSconst [0] x)
+(FCMPS (FMOVSconst [0]) x) -> (InvertFlags (FCMPSconst [0] x))
+(FCMPD x (FMOVDconst [0])) -> (FCMPDconst [0] x)
+(FCMPD (FMOVDconst [0]) x) -> (InvertFlags (FCMPDconst [0] x))
+
 // CSEL needs a flag-generating argument. Synthesize a CMPW if necessary.
 (CondSelect x y bool) && flagArg(bool) != nil -> (CSEL {bool.Op} x y flagArg(bool))
 (CondSelect x y bool) && flagArg(bool) == nil -> (CSEL {OpARM64NotEqual} x y (CMPWconst [0] bool))

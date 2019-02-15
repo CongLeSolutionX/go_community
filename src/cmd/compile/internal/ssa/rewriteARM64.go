@@ -95,6 +95,10 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpARM64FADDD_0(v)
 	case OpARM64FADDS:
 		return rewriteValueARM64_OpARM64FADDS_0(v)
+	case OpARM64FCMPD:
+		return rewriteValueARM64_OpARM64FCMPD_0(v)
+	case OpARM64FCMPS:
+		return rewriteValueARM64_OpARM64FCMPS_0(v)
 	case OpARM64FMOVDfpgp:
 		return rewriteValueARM64_OpARM64FMOVDfpgp_0(v)
 	case OpARM64FMOVDgpfp:
@@ -5185,6 +5189,92 @@ func rewriteValueARM64_OpARM64FADDS_0(v *Value) bool {
 		v.AddArg(a)
 		v.AddArg(x)
 		v.AddArg(y)
+		return true
+	}
+	return false
+}
+func rewriteValueARM64_OpARM64FCMPD_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (FCMPD x (FMOVDconst [0]))
+	// cond:
+	// result: (FCMPDconst [0] x)
+	for {
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARM64FMOVDconst {
+			break
+		}
+		if v_1.AuxInt != 0 {
+			break
+		}
+		v.reset(OpARM64FCMPDconst)
+		v.AuxInt = 0
+		v.AddArg(x)
+		return true
+	}
+	// match: (FCMPD (FMOVDconst [0]) x)
+	// cond:
+	// result: (InvertFlags (FCMPDconst [0] x))
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARM64FMOVDconst {
+			break
+		}
+		if v_0.AuxInt != 0 {
+			break
+		}
+		x := v.Args[1]
+		v.reset(OpARM64InvertFlags)
+		v0 := b.NewValue0(v.Pos, OpARM64FCMPDconst, types.TypeFlags)
+		v0.AuxInt = 0
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	return false
+}
+func rewriteValueARM64_OpARM64FCMPS_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (FCMPS x (FMOVSconst [0]))
+	// cond:
+	// result: (FCMPSconst [0] x)
+	for {
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARM64FMOVSconst {
+			break
+		}
+		if v_1.AuxInt != 0 {
+			break
+		}
+		v.reset(OpARM64FCMPSconst)
+		v.AuxInt = 0
+		v.AddArg(x)
+		return true
+	}
+	// match: (FCMPS (FMOVSconst [0]) x)
+	// cond:
+	// result: (InvertFlags (FCMPSconst [0] x))
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARM64FMOVSconst {
+			break
+		}
+		if v_0.AuxInt != 0 {
+			break
+		}
+		x := v.Args[1]
+		v.reset(OpARM64InvertFlags)
+		v0 := b.NewValue0(v.Pos, OpARM64FCMPSconst, types.TypeFlags)
+		v0.AuxInt = 0
+		v0.AddArg(x)
+		v.AddArg(v0)
 		return true
 	}
 	return false
