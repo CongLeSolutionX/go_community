@@ -44,11 +44,15 @@ func (e *ImportMissingError) Error() string {
 // Import can return a module with an empty m.Path, for packages in the standard library.
 // Import can return an empty directory string, for fake packages like "C" and "unsafe".
 //
+// If allowVendor is true and the package is found in the module's vendor
+// directory, Import may resolve the package by loading it from there instead of
+// the usual module location.
+//
 // If the package cannot be found in the current build list,
 // Import returns an ImportMissingError as the error.
 // If Import can identify a module that could be added to supply the package,
 // the ImportMissingError records that module.
-func Import(path string) (m module.Version, dir string, err error) {
+func Import(path string, allowVendor bool) (m module.Version, dir string, err error) {
 	if strings.Contains(path, "@") {
 		return module.Version{}, "", fmt.Errorf("import path should not have @version")
 	}
@@ -84,6 +88,24 @@ func Import(path string) (m module.Version, dir string, err error) {
 		}
 		readVendorList()
 		return vendorMap[path], vendorDir, nil
+	}
+
+	if allowVendor {
+		// If the main module is "std" or "cmd" and we have the package in the vendor
+		// directory, use it.
+		//
+		// TODO(golang.org/issue/30240): open up this behavior to all modules.
+		switch Target.Path {
+		case "std", "cmd":
+			vendorDir, vendorOK := dirInModule(path, "", filepath.Join(ModRoot(), "vendor"), false)
+			if vendorOK {
+				readVendorList()
+				// TODO(golang.org/issue/30240): Load go.mod files (from vendor or
+				// otherwise) and verify that the module found in vendorMap matches the
+				// required version of that module from buildList.
+				return vendorMap[path], vendorDir, nil
+			}
+		}
 	}
 
 	// Check each module on the build list.
