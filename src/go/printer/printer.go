@@ -706,10 +706,12 @@ func (p *printer) writeCommentSuffix(needsLinebreak bool) (wroteNewline, dropped
 				needsLinebreak = false
 				wroteNewline = true
 			} else {
-				if ch == formfeed {
-					droppedFF = true
+				if p.indent > 0 {
+					if ch == formfeed {
+						droppedFF = true
+					}
+					p.wsbuf[i] = ignore
 				}
-				p.wsbuf[i] = ignore
 			}
 		}
 	}

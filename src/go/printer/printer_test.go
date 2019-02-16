@@ -768,3 +768,38 @@ func TestParenthesizedDecl(t *testing.T) {
 		t.Errorf("got %q, want %q", noparen, original)
 	}
 }
+
+func TestIssue22631(t *testing.T) {
+	const (
+		input = `package main // comment
+type foo int // comment2
+type bar int	// comment3
+func baz() {} // comment4
+`
+
+		expect = `package main	// comment
+
+type foo int	// comment2
+type bar int	// comment3
+
+func baz()	{}	// comment4
+`
+	)
+
+	fset := token.NewFileSet()
+	f, err := parser.ParseFile(fset, "input.go", input, parser.ParseComments)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var buf bytes.Buffer
+
+	err = Fprint(&buf, fset, f)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if buf.String() != expect {
+		t.Errorf("got %q, want %q", buf.String(), expect)
+	}
+}
