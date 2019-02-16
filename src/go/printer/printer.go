@@ -705,7 +705,9 @@ func (p *printer) writeCommentSuffix(needsLinebreak bool) (wroteNewline, dropped
 			if needsLinebreak {
 				needsLinebreak = false
 				wroteNewline = true
-			} else {
+			} else if p.indent > 0 {
+				// holds formfeeds or newline when has not to
+				// indent (i.e. end of line comment), otherwise dropped formfeeds.
 				if ch == formfeed {
 					droppedFF = true
 				}
