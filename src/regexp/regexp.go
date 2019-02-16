@@ -709,10 +709,13 @@ func (re *Regexp) pad(a []int) []int {
 // The input text is b if non-nil, otherwise s.
 func (re *Regexp) allMatches(s string, b []byte, n int, deliver func([]int)) {
 	var end int
+	var in input
 	if b == nil {
 		end = len(s)
+		in = &inputString{str: s}
 	} else {
 		end = len(b)
+		in = &inputBytes{str: b}
 	}
 
 	for pos, i, prevMatchEnd := 0, 0, -1; i < n && pos <= end; {
@@ -730,12 +733,7 @@ func (re *Regexp) allMatches(s string, b []byte, n int, deliver func([]int)) {
 				accept = false
 			}
 			var width int
-			// TODO: use step()
-			if b == nil {
-				_, width = utf8.DecodeRuneInString(s[pos:end])
-			} else {
-				_, width = utf8.DecodeRune(b[pos:end])
-			}
+			_, width = in.step(pos)
 			if width > 0 {
 				pos += width
 			} else {
