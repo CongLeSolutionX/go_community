@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45bfde41_9249515e",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-16T20:55:47Z",
+      "side": 1,
+      "message": "I\u0027d put these both on one line each",
+      "range": {
+        "startLine": 715,
+        "startChar": 2,
+        "endLine": 717,
+        "endChar": 3
+      },
+      "revId": "852e89e0ac812ec90a290eec5cf880c4abf20212",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
