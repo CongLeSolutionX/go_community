@@ -1071,6 +1071,9 @@ func (s *state) stmt(n *Node) {
 		bIncr := s.f.NewBlock(ssa.BlockPlain)
 		bEnd := s.f.NewBlock(ssa.BlockPlain)
 
+		// ensure empty for loops have correct position; issue #30167
+		bBody.Pos = n.Pos
+
 		// first, jump to condition test (OFOR) or body (OFORUNTIL)
 		b := s.endBlock()
 		if n.Op == OFOR {
