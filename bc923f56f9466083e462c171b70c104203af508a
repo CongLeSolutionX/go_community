@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f362e0c9_11ca1d9d",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2019-02-18T08:12:06Z",
+      "side": 1,
+      "message": "Why 128?",
+      "range": {
+        "startLine": 172,
+        "startChar": 1,
+        "endLine": 172,
+        "endChar": 12
+      },
+      "revId": "bc923f56f9466083e462c171b70c104203af508a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
