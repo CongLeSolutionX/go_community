@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef7a4b1b_b2370c38",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2019-02-18T05:06:09Z",
+      "side": 1,
+      "message": "this line is unrelated to the change itself, but I suspect it should have been there from the start - as otherwise the comment in poolCleanup about not retaining elements alive makes no sense",
+      "revId": "4bf3e25e7f14302b710a2ea1b56036f699eb2895",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
