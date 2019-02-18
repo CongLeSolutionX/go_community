@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0afd478_728cd16f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 29736
+      },
+      "writtenOn": "2019-02-18T08:18:11Z",
+      "side": 1,
+      "message": "testing: fix typo\n\nsee https://github.com/golang/go/wiki/CommitMessage",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "1d98ca3d594b58c3385b57b2f4e762d37bad855c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
