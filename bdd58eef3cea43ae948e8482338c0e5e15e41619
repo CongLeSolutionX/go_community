@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f739b15a_ea42710c",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-19T23:21:39Z",
+      "side": 1,
+      "message": "s/0555/0444/",
+      "range": {
+        "startLine": 451,
+        "startChar": 99,
+        "endLine": 451,
+        "endChar": 103
+      },
+      "revId": "bdd58eef3cea43ae948e8482338c0e5e15e41619",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
