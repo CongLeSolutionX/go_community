@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09827cab_62f9e8a3",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-19T18:38:02Z",
+      "side": 1,
+      "message": "This is the only reference to 29852 here; perhaps \"module testunresolved\" would be better?",
+      "revId": "2ab2bd124da92631edf784a56c27b3ba1f22bc8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
