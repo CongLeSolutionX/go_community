@@ -126,14 +126,14 @@ func envWithGoPathSet(gp string) []string {
 	return env
 }
 
-// Similar to gobuild() above, but runs off a separate GOPATH environment
+// Similar to gobuild() above, but uses a main package instead of a test.go file.
 
-func gobuildTestdata(t *testing.T, tdir string, gopathdir string, packtobuild string, gcflags string) *builtFile {
+func gobuildTestdata(t *testing.T, tdir string, pkgDir string, gcflags string) *builtFile {
 	dst := filepath.Join(tdir, "out.exe")
 
 	// Run a build with an updated GOPATH
-	cmd := exec.Command(testenv.GoToolPath(t), "build", gcflags, "-o", dst, packtobuild)
-	cmd.Env = envWithGoPathSet(gopathdir)
+	cmd := exec.Command(testenv.GoToolPath(t), "build", gcflags, "-o", dst)
+	cmd.Dir = pkgDir
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Logf("build: %s\n", b)
 		t.Fatalf("build error: %v", err)
@@ -727,7 +727,7 @@ func main() {
 	}
 }
 
-func abstractOriginSanity(t *testing.T, gopathdir string, flags string) {
+func abstractOriginSanity(t *testing.T, pkgDir string, flags string) {
 	t.Parallel()
 
 	dir, err := ioutil.TempDir("", "TestAbstractOriginSanity")
@@ -737,7 +737,7 @@ func abstractOriginSanity(t *testing.T, gopathdir string, flags string) {
 	defer os.RemoveAll(dir)
 
 	// Build with inlining, to exercise DWARF inlining support.
-	f := gobuildTestdata(t, dir, gopathdir, "main", flags)
+	f := gobuildTestdata(t, dir, filepath.Join(pkgDir, "main"), flags)
 
 	d, err := f.DWARF()
 	if err != nil {
