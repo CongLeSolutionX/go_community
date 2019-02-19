@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40abb31e_335da6ec",
+        "filename": "test/fixedbugs/issue30243.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-19T21:06:44Z",
+      "side": 1,
+      "message": "I would panic rather than fmt.Printf.  That\u0027s what most of the tests do.",
+      "revId": "edadde51b25b47ee5a4459b091e6158c996f2156",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
