@@ -22,6 +22,30 @@
       "revId": "6f5dc2f6baca7d494c031caee36a05ce730f3ecb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a768cf84_6ebff453",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2111,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-19T15:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aaa046d_46759b23",
+      "range": {
+        "startLine": 2111,
+        "startChar": 5,
+        "endLine": 2111,
+        "endChar": 7
+      },
+      "revId": "6f5dc2f6baca7d494c031caee36a05ce730f3ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
