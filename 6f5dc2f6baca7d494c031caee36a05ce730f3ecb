@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aaa046d_46759b23",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2111,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-02-19T15:15:24Z",
+      "side": 1,
+      "message": "Is it appropriate to include a mention of the bug number here?\nIn theory all this code will be replaced soon, but just in case it isn\u0027t....",
+      "range": {
+        "startLine": 2111,
+        "startChar": 5,
+        "endLine": 2111,
+        "endChar": 7
+      },
+      "revId": "6f5dc2f6baca7d494c031caee36a05ce730f3ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
