@@ -585,7 +585,8 @@ func xcoffUpdateOuterSize(ctxt *Link, size int64, stype sym.SymKind) {
 		fallthrough
 	case sym.STYPE:
 		if !ctxt.DynlinkingGo() {
-			outerSymSize["type.*"] = size
+			// runtime.types size must be removed.
+			outerSymSize["type.*"] = size - 8
 		}
 	case sym.SGOSTRING:
 		outerSymSize["go.string.*"] = size
@@ -1560,7 +1561,6 @@ func (f *xcoffFile) emitRelocations(ctxt *Link, fileoff int64) {
 
 				r := &s.R[ri]
 
-				// ctxt.Logf("%s reloc %d(%s)/%d to %s\n", s, r.Type, r.Type.String(), r.Siz, r.Sym.Name)
 				if r.Done {
 					continue
 				}
