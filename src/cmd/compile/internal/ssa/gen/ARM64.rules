@@ -292,8 +292,16 @@
 (Less16 x y) -> (LessThan (CMPW (SignExt16to32 x) (SignExt16to32 y)))
 (Less32 x y) -> (LessThan (CMPW x y))
 (Less64 x y) -> (LessThan (CMP x y))
-(Less32F x y) -> (GreaterThan (FCMPS y x)) // reverse operands to work around NaN
-(Less64F x y) -> (GreaterThan (FCMPD y x)) // reverse operands to work around NaN
+
+// Set condition flags for floating-point comparisons "x < y"
+// and "x <= y". Because if either or both of the operands are
+// NaNs, all three of (x < y), (x == y) and (x > y) are false.
+// And ARM Manual says FCMP instruction sets PSTATE.<N,Z,C,V>
+// of this case to (0, 0, 1, 1).
+(Less32F x y) -> (LessThanZero (FCMPS x y))
+(Less64F x y) -> (LessThanZero (FCMPD x y))
+(Leq32F x y) -> (LessEqualU (FCMPS x y))
+(Leq64F x y) -> (LessEqualU (FCMPD x y))
 
 (Less8U x y)  -> (LessThanU (CMPW (ZeroExt8to32 x) (ZeroExt8to32 y)))
 (Less16U x y) -> (LessThanU (CMPW (ZeroExt16to32 x) (ZeroExt16to32 y)))
@@ -304,8 +312,6 @@
 (Leq16 x y) -> (LessEqual (CMPW (SignExt16to32 x) (SignExt16to32 y)))
 (Leq32 x y) -> (LessEqual (CMPW x y))
 (Leq64 x y) -> (LessEqual (CMP x y))
-(Leq32F x y) -> (GreaterEqual (FCMPS y x)) // reverse operands to work around NaN
-(Leq64F x y) -> (GreaterEqual (FCMPD y x)) // reverse operands to work around NaN
 
 (Leq8U x y)  -> (LessEqualU (CMPW (ZeroExt8to32 x) (ZeroExt8to32 y)))
 (Leq16U x y) -> (LessEqualU (CMPW (ZeroExt16to32 x) (ZeroExt16to32 y)))
@@ -1591,6 +1597,8 @@
 (LessEqualU (InvertFlags x)) -> (GreaterEqualU x)
 (GreaterEqual (InvertFlags x)) -> (LessEqual x)
 (GreaterEqualU (InvertFlags x)) -> (LessEqualU x)
+(LessThanZero (InvertFlags x)) -> (GreaterEqualZero x)
+(GreaterEqualZero (InvertFlags x)) -> (LessThanZero x)
 
 // Boolean-generating instructions always
 // zero upper bit of the register; no need to zero-extend
