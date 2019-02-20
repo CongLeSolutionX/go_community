@@ -1,6 +1,7 @@
 package ssa_test
 
 import (
+	"bytes"
 	"debug/dwarf"
 	"debug/elf"
 	"debug/macho"
@@ -9,7 +10,10 @@ import (
 	"internal/testenv"
 	"internal/xcoff"
 	"io"
+	"os/exec"
 	"runtime"
+	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -47,6 +51,38 @@ type Line struct {
 func TestStmtLines(t *testing.T) {
 	if runtime.GOOS == "plan9" {
 		t.Skip("skipping on plan9; no DWARF symbol table in executables")
+	}
+
+	if runtime.GOOS == "aix" {
+		// DWARF isn't generated in Go command if ld has a version
+		// prior to 7.2.2 (cf cmd/link/internal/dwarf.go).
+		mustBeSkipped := func() bool {
+			out, err := exec.Command("ld", "-V").CombinedOutput()
+			if err != nil {
+				t.Fatalf("ld -V failed: %v\nstdout: %s\n", err, out)
+			}
+			// ld -V output is: "ld: LD X.X.X(date)"
+			out = bytes.TrimPrefix(out, []byte("ld: LD "))
+			vers := string(bytes.Split(out, []byte("("))[0])
+			subvers := strings.Split(vers, ".")
+			if len(subvers) != 3 {
+				t.Fatalf("cannot parse ld subversion in: %s", out)
+			}
+			if v, err := strconv.Atoi(subvers[0]); err != nil || v < 7 {
+				return true
+			}
+			if v, err := strconv.Atoi(subvers[1]); err != nil || v < 2 {
+				return true
+			}
+			if v, err := strconv.Atoi(subvers[2]); err != nil || v < 2 {
+				return true
+			}
+			return false
+		}
+
+		if mustBeSkipped() {
+			t.Skip("skipping on aix; no DWARF with ld version < 7.2.2 ")
+		}
 	}
 
 	lines := map[Line]bool{}
