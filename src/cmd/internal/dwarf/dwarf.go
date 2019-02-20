@@ -8,10 +8,13 @@
 package dwarf
 
 import (
+	"bytes"
 	"cmd/internal/objabi"
 	"errors"
 	"fmt"
+	"os/exec"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -1526,3 +1529,32 @@ type byChildIndex []*Var
 func (s byChildIndex) Len() int           { return len(s) }
 func (s byChildIndex) Less(i, j int) bool { return s[i].ChildIndex < s[j].ChildIndex }
 func (s byChildIndex) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+
+// IsDWARFEnableOnAIX returns true if DWARF is possible on the
+// current AIX ld version.
+// AIX ld doesn't support DWARF with -bnoobjreorder with version
+// prior to 7.2.2.
+func IsDWARFEnableOnAIXLd() (bool, error) {
+	out, err := exec.Command("ld", "-V").CombinedOutput()
+	if err != nil {
+		return false, fmt.Errorf("ld -V failed: %v\n%s", err, out)
+	}
+	// ld -V output is: "ld: LD X.X.X(date)"
+	out = bytes.TrimPrefix(out, []byte("ld: LD "))
+	vers := string(bytes.Split(out, []byte("("))[0])
+	subvers := strings.Split(vers, ".")
+	if len(subvers) != 3 {
+		return false, fmt.Errorf("cannot parse ld -V (%s): %v\n", out, err)
+	}
+	if v, err := strconv.Atoi(subvers[0]); err != nil || v < 7 {
+		return false, nil
+	}
+	if v, err := strconv.Atoi(subvers[1]); err != nil || v < 2 {
+		return false, nil
+	}
+	if v, err := strconv.Atoi(subvers[2]); err != nil || v < 2 {
+		return false, nil
+	}
+	return true, nil
+
+}
