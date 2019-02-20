@@ -78,9 +78,12 @@ set GOROOT=%GOROOT_BOOTSTRAP%
 set GOOS=
 set GOARCH=
 set GOBIN=
-"%GOROOT_BOOTSTRAP%\bin\go.exe" build -o cmd\dist\dist.exe .\cmd\dist
+cd .\cmd\dist
+"%GOROOT_BOOTSTRAP%\bin\go.exe" build -o dist.exe .
 endlocal
-if errorlevel 1 goto fail
+if errorlevel 1 (
+	goto fail
+)
 .\cmd\dist\dist.exe env -w -p >env.bat
 if errorlevel 1 goto fail
 call env.bat
