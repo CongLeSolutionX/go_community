@@ -109,3 +109,8 @@ var _cgo_yield unsafe.Pointer
 
 //go:cgo_export_static _cgo_topofstack
 //go:cgo_export_dynamic _cgo_topofstack
+
+// This is specific to AIX (see gcc_aix_ppc64.c).
+// It will be removed for others OSes.
+//go:cgo_export_static __cgo_topofstack
+//go:cgo_export_static runtime.rt0_go
