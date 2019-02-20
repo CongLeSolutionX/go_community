@@ -821,13 +821,13 @@ func countMutex() int {
 	return n
 }
 
-// writeBlock writes the current blocking profile to w.
-func writeBlock(w io.Writer, debug int) error {
+// write writes profile to w.
+func write(w io.Writer, debug int, profiler func(p []runtime.BlockProfileRecord) (n int, ok bool), scaler func(int64, float64) (int64, float64), printer func(w io.Writer)) error {
 	var p []runtime.BlockProfileRecord
-	n, ok := runtime.BlockProfile(nil)
+	n, ok := profiler(nil)
 	for {
 		p = make([]runtime.BlockProfileRecord, n+50)
-		n, ok = runtime.BlockProfile(p)
+		n, ok = profiler(p)
 		if ok {
 			p = p[:n]
 			break
@@ -837,15 +837,14 @@ func writeBlock(w io.Writer, debug int) error {
 	sort.Slice(p, func(i, j int) bool { return p[i].Cycles > p[j].Cycles })
 
 	if debug <= 0 {
-		return printCountCycleProfile(w, "contentions", "delay", scaleBlockProfile, p)
+		return printCountCycleProfile(w, "contentions", "delay", scaler, p)
 	}
 
 	b := bufio.NewWriter(w)
-	tw := tabwriter.NewWriter(w, 1, 8, 1, '\t', 0)
+	tw := tabwriter.NewWriter(b, 1, 8, 1, '\t', 0)
 	w = tw
 
-	fmt.Fprintf(w, "--- contention:\n")
-	fmt.Fprintf(w, "cycles/second=%v\n", runtime_cyclesPerSecond())
+	printer(w)
 	for i := range p {
 		r := &p[i]
 		fmt.Fprintf(w, "%v %v @", r.Cycles, r.Count)
@@ -862,6 +861,14 @@ func writeBlock(w io.Writer, debug int) error {
 		tw.Flush()
 	}
 	return b.Flush()
+}
+
+// writeBlock writes the current blocking profile to w.
+func writeBlock(w io.Writer, debug int) error {
+	return write(w, debug, runtime.BlockProfile, scaleBlockProfile, func(w io.Writer) {
+		fmt.Fprintf(w, "--- contention:\n")
+		fmt.Fprintf(w, "cycles/second=%v\n", runtime_cyclesPerSecond())
+	})
 }
 
 func scaleBlockProfile(cnt int64, ns float64) (int64, float64) {
@@ -874,47 +881,11 @@ func scaleBlockProfile(cnt int64, ns float64) (int64, float64) {
 
 // writeMutex writes the current mutex profile to w.
 func writeMutex(w io.Writer, debug int) error {
-	// TODO(pjw): too much common code with writeBlock. FIX!
-	var p []runtime.BlockProfileRecord
-	n, ok := runtime.MutexProfile(nil)
-	for {
-		p = make([]runtime.BlockProfileRecord, n+50)
-		n, ok = runtime.MutexProfile(p)
-		if ok {
-			p = p[:n]
-			break
-		}
-	}
-
-	sort.Slice(p, func(i, j int) bool { return p[i].Cycles > p[j].Cycles })
-
-	if debug <= 0 {
-		return printCountCycleProfile(w, "contentions", "delay", scaleMutexProfile, p)
-	}
-
-	b := bufio.NewWriter(w)
-	tw := tabwriter.NewWriter(w, 1, 8, 1, '\t', 0)
-	w = tw
-
-	fmt.Fprintf(w, "--- mutex:\n")
-	fmt.Fprintf(w, "cycles/second=%v\n", runtime_cyclesPerSecond())
-	fmt.Fprintf(w, "sampling period=%d\n", runtime.SetMutexProfileFraction(-1))
-	for i := range p {
-		r := &p[i]
-		fmt.Fprintf(w, "%v %v @", r.Cycles, r.Count)
-		for _, pc := range r.Stack() {
-			fmt.Fprintf(w, " %#x", pc)
-		}
-		fmt.Fprint(w, "\n")
-		if debug > 0 {
-			printStackRecord(w, r.Stack(), true)
-		}
-	}
-
-	if tw != nil {
-		tw.Flush()
-	}
-	return b.Flush()
+	return write(w, debug, runtime.MutexProfile, scaleMutexProfile, func(w io.Writer) {
+		fmt.Fprintf(w, "--- mutex:\n")
+		fmt.Fprintf(w, "cycles/second=%v\n", runtime_cyclesPerSecond())
+		fmt.Fprintf(w, "sampling period=%d\n", runtime.SetMutexProfileFraction(-1))
+	})
 }
 
 func scaleMutexProfile(cnt int64, ns float64) (int64, float64) {
