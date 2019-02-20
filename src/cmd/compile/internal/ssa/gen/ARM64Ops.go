@@ -456,16 +456,18 @@ func init() {
 		// pseudo-ops
 		{name: "LoweredNilCheck", argLength: 2, reg: regInfo{inputs: []regMask{gpg}}, nilCheck: true, faultOnNilArg0: true}, // panic if arg0 is nil.  arg1=mem.
 
-		{name: "Equal", argLength: 1, reg: readflags},         // bool, true flags encode x==y false otherwise.
-		{name: "NotEqual", argLength: 1, reg: readflags},      // bool, true flags encode x!=y false otherwise.
-		{name: "LessThan", argLength: 1, reg: readflags},      // bool, true flags encode signed x<y false otherwise.
-		{name: "LessEqual", argLength: 1, reg: readflags},     // bool, true flags encode signed x<=y false otherwise.
-		{name: "GreaterThan", argLength: 1, reg: readflags},   // bool, true flags encode signed x>y false otherwise.
-		{name: "GreaterEqual", argLength: 1, reg: readflags},  // bool, true flags encode signed x>=y false otherwise.
-		{name: "LessThanU", argLength: 1, reg: readflags},     // bool, true flags encode unsigned x<y false otherwise.
-		{name: "LessEqualU", argLength: 1, reg: readflags},    // bool, true flags encode unsigned x<=y false otherwise.
-		{name: "GreaterThanU", argLength: 1, reg: readflags},  // bool, true flags encode unsigned x>y false otherwise.
-		{name: "GreaterEqualU", argLength: 1, reg: readflags}, // bool, true flags encode unsigned x>=y false otherwise.
+		{name: "Equal", argLength: 1, reg: readflags},            // bool, true flags encode x==y false otherwise.
+		{name: "NotEqual", argLength: 1, reg: readflags},         // bool, true flags encode x!=y false otherwise.
+		{name: "LessThan", argLength: 1, reg: readflags},         // bool, true flags encode signed x<y false otherwise.
+		{name: "LessEqual", argLength: 1, reg: readflags},        // bool, true flags encode signed x<=y false otherwise.
+		{name: "GreaterThan", argLength: 1, reg: readflags},      // bool, true flags encode signed x>y false otherwise.
+		{name: "GreaterEqual", argLength: 1, reg: readflags},     // bool, true flags encode signed x>=y false otherwise.
+		{name: "LessThanU", argLength: 1, reg: readflags},        // bool, true flags encode unsigned x<y false otherwise.
+		{name: "LessEqualU", argLength: 1, reg: readflags},       // bool, true flags encode unsigned x<=y false otherwise.
+		{name: "GreaterThanU", argLength: 1, reg: readflags},     // bool, true flags encode unsigned x>y false otherwise.
+		{name: "GreaterEqualU", argLength: 1, reg: readflags},    // bool, true flags encode unsigned x>=y false otherwise.
+		{name: "LessThanZero", argLength: 1, reg: readflags},     // bool, true flags encode x < 0 false otherwise.
+		{name: "GreaterEqualZero", argLength: 1, reg: readflags}, // bool, true flags encode x >= 0 false otherwise.
 
 		// duffzero
 		// arg0 = address of memory to zero
