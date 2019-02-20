@@ -16,6 +16,29 @@
       "revId": "4bf3e25e7f14302b710a2ea1b56036f699eb2895",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7218ab0_3b84841c",
+        "filename": "src/sync/pool_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2019-02-20T16:31:29Z",
+      "side": 1,
+      "message": "What does this do that runtime.GC() does not do?\nAlso finalizers do not have a promptness guarantee so doesn\u0027t this block until the finalizer runs which may never happen?\n\n\"GC runs a garbage collection and blocks the caller until the garbage collection is complete. It may also block the entire program.\"",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 1
+      },
+      "revId": "4bf3e25e7f14302b710a2ea1b56036f699eb2895",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
