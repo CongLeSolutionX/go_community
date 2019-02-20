@@ -33849,12 +33849,12 @@ func rewriteValueARM64_OpGeq32F_0(v *Value) bool {
 	_ = b
 	// match: (Geq32F x y)
 	// cond:
-	// result: (GreaterEqual (FCMPS x y))
+	// result: (GreaterEqualF (FCMPS x y))
 	for {
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
-		v.reset(OpARM64GreaterEqual)
+		v.reset(OpARM64GreaterEqualF)
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPS, types.TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -33903,12 +33903,12 @@ func rewriteValueARM64_OpGeq64F_0(v *Value) bool {
 	_ = b
 	// match: (Geq64F x y)
 	// cond:
-	// result: (GreaterEqual (FCMPD x y))
+	// result: (GreaterEqualF (FCMPD x y))
 	for {
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
-		v.reset(OpARM64GreaterEqual)
+		v.reset(OpARM64GreaterEqualF)
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPD, types.TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -34080,12 +34080,12 @@ func rewriteValueARM64_OpGreater32F_0(v *Value) bool {
 	_ = b
 	// match: (Greater32F x y)
 	// cond:
-	// result: (GreaterThan (FCMPS x y))
+	// result: (GreaterThanF (FCMPS x y))
 	for {
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
-		v.reset(OpARM64GreaterThan)
+		v.reset(OpARM64GreaterThanF)
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPS, types.TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -34134,12 +34134,12 @@ func rewriteValueARM64_OpGreater64F_0(v *Value) bool {
 	_ = b
 	// match: (Greater64F x y)
 	// cond:
-	// result: (GreaterThan (FCMPD x y))
+	// result: (GreaterThanF (FCMPD x y))
 	for {
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
-		v.reset(OpARM64GreaterThan)
+		v.reset(OpARM64GreaterThanF)
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPD, types.TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
@@ -34422,15 +34422,15 @@ func rewriteValueARM64_OpLeq32F_0(v *Value) bool {
 	_ = b
 	// match: (Leq32F x y)
 	// cond:
-	// result: (GreaterEqual (FCMPS y x))
+	// result: (LessEqualF (FCMPS x y))
 	for {
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
-		v.reset(OpARM64GreaterEqual)
+		v.reset(OpARM64LessEqualF)
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPS, types.TypeFlags)
-		v0.AddArg(y)
 		v0.AddArg(x)
+		v0.AddArg(y)
 		v.AddArg(v0)
 		return true
 	}
@@ -34476,15 +34476,15 @@ func rewriteValueARM64_OpLeq64F_0(v *Value) bool {
 	_ = b
 	// match: (Leq64F x y)
 	// cond:
-	// result: (GreaterEqual (FCMPD y x))
+	// result: (LessEqualF (FCMPD x y))
 	for {
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
-		v.reset(OpARM64GreaterEqual)
+		v.reset(OpARM64LessEqualF)
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPD, types.TypeFlags)
-		v0.AddArg(y)
 		v0.AddArg(x)
+		v0.AddArg(y)
 		v.AddArg(v0)
 		return true
 	}
@@ -34626,15 +34626,15 @@ func rewriteValueARM64_OpLess32F_0(v *Value) bool {
 	_ = b
 	// match: (Less32F x y)
 	// cond:
-	// result: (GreaterThan (FCMPS y x))
+	// result: (LessThanF (FCMPS x y))
 	for {
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
-		v.reset(OpARM64GreaterThan)
+		v.reset(OpARM64LessThanF)
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPS, types.TypeFlags)
-		v0.AddArg(y)
 		v0.AddArg(x)
+		v0.AddArg(y)
 		v.AddArg(v0)
 		return true
 	}
@@ -34680,15 +34680,15 @@ func rewriteValueARM64_OpLess64F_0(v *Value) bool {
 	_ = b
 	// match: (Less64F x y)
 	// cond:
-	// result: (GreaterThan (FCMPD y x))
+	// result: (LessThanF (FCMPD x y))
 	for {
 		_ = v.Args[1]
 		x := v.Args[0]
 		y := v.Args[1]
-		v.reset(OpARM64GreaterThan)
+		v.reset(OpARM64LessThanF)
 		v0 := b.NewValue0(v.Pos, OpARM64FCMPD, types.TypeFlags)
-		v0.AddArg(y)
 		v0.AddArg(x)
+		v0.AddArg(y)
 		v.AddArg(v0)
 		return true
 	}

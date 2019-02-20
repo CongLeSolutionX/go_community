@@ -292,8 +292,14 @@
 (Less16 x y) -> (LessThan (CMPW (SignExt16to32 x) (SignExt16to32 y)))
 (Less32 x y) -> (LessThan (CMPW x y))
 (Less64 x y) -> (LessThan (CMP x y))
-(Less32F x y) -> (GreaterThan (FCMPS y x)) // reverse operands to work around NaN
-(Less64F x y) -> (GreaterThan (FCMPD y x)) // reverse operands to work around NaN
+
+// Set condition flags for floating-point comparisons "x < y"
+// and "x <= y". Because if either or both of the operands are
+// NaNs, all three of (x < y), (x == y) and (x > y) are false,
+// and ARM Manual says FCMP instruction sets PSTATE.<N,Z,C,V>
+// of this case to (0, 0, 1, 1).
+(Less32F x y) -> (LessThanF (FCMPS x y))
+(Less64F x y) -> (LessThanF (FCMPD x y))
 
 (Less8U x y)  -> (LessThanU (CMPW (ZeroExt8to32 x) (ZeroExt8to32 y)))
 (Less16U x y) -> (LessThanU (CMPW (ZeroExt16to32 x) (ZeroExt16to32 y)))
@@ -304,8 +310,10 @@
 (Leq16 x y) -> (LessEqual (CMPW (SignExt16to32 x) (SignExt16to32 y)))
 (Leq32 x y) -> (LessEqual (CMPW x y))
 (Leq64 x y) -> (LessEqual (CMP x y))
-(Leq32F x y) -> (GreaterEqual (FCMPS y x)) // reverse operands to work around NaN
-(Leq64F x y) -> (GreaterEqual (FCMPD y x)) // reverse operands to work around NaN
+
+// Refer to the comments for op Less64F above.
+(Leq32F x y) -> (LessEqualF (FCMPS x y))
+(Leq64F x y) -> (LessEqualF (FCMPD x y))
 
 (Leq8U x y)  -> (LessEqualU (CMPW (ZeroExt8to32 x) (ZeroExt8to32 y)))
 (Leq16U x y) -> (LessEqualU (CMPW (ZeroExt16to32 x) (ZeroExt16to32 y)))
@@ -316,8 +324,8 @@
 (Greater16 x y) -> (GreaterThan (CMPW (SignExt16to32 x) (SignExt16to32 y)))
 (Greater32 x y) -> (GreaterThan (CMPW x y))
 (Greater64 x y) -> (GreaterThan (CMP x y))
-(Greater32F x y) -> (GreaterThan (FCMPS x y))
-(Greater64F x y) -> (GreaterThan (FCMPD x y))
+(Greater32F x y) -> (GreaterThanF (FCMPS x y))
+(Greater64F x y) -> (GreaterThanF (FCMPD x y))
 
 (Greater8U x y)  -> (GreaterThanU (CMPW (ZeroExt8to32 x) (ZeroExt8to32 y)))
 (Greater16U x y) -> (GreaterThanU (CMPW (ZeroExt16to32 x) (ZeroExt16to32 y)))
@@ -328,8 +336,8 @@
 (Geq16 x y) -> (GreaterEqual (CMPW (SignExt16to32 x) (SignExt16to32 y)))
 (Geq32 x y) -> (GreaterEqual (CMPW x y))
 (Geq64 x y) -> (GreaterEqual (CMP x y))
-(Geq32F x y) -> (GreaterEqual (FCMPS x y))
-(Geq64F x y) -> (GreaterEqual (FCMPD x y))
+(Geq32F x y) -> (GreaterEqualF (FCMPS x y))
+(Geq64F x y) -> (GreaterEqualF (FCMPD x y))
 
 (Geq8U x y)  -> (GreaterEqualU (CMPW (ZeroExt8to32 x) (ZeroExt8to32 y)))
 (Geq16U x y) -> (GreaterEqualU (CMPW (ZeroExt16to32 x) (ZeroExt16to32 y)))
