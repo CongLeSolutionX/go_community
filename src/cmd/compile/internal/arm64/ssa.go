@@ -860,7 +860,9 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64LessThanU,
 		ssa.OpARM64LessEqualU,
 		ssa.OpARM64GreaterThanU,
-		ssa.OpARM64GreaterEqualU:
+		ssa.OpARM64GreaterEqualU,
+		ssa.OpARM64LessThanZero,
+		ssa.OpARM64GreaterEqualZero:
 		// generate boolean values using CSET
 		p := s.Prog(arm64.ACSET)
 		p.From.Type = obj.TYPE_REG // assembler encodes conditional bits in Reg
@@ -898,16 +900,18 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 }
 
 var condBits = map[ssa.Op]int16{
-	ssa.OpARM64Equal:         arm64.COND_EQ,
-	ssa.OpARM64NotEqual:      arm64.COND_NE,
-	ssa.OpARM64LessThan:      arm64.COND_LT,
-	ssa.OpARM64LessThanU:     arm64.COND_LO,
-	ssa.OpARM64LessEqual:     arm64.COND_LE,
-	ssa.OpARM64LessEqualU:    arm64.COND_LS,
-	ssa.OpARM64GreaterThan:   arm64.COND_GT,
-	ssa.OpARM64GreaterThanU:  arm64.COND_HI,
-	ssa.OpARM64GreaterEqual:  arm64.COND_GE,
-	ssa.OpARM64GreaterEqualU: arm64.COND_HS,
+	ssa.OpARM64Equal:            arm64.COND_EQ,
+	ssa.OpARM64NotEqual:         arm64.COND_NE,
+	ssa.OpARM64LessThan:         arm64.COND_LT,
+	ssa.OpARM64LessThanU:        arm64.COND_LO,
+	ssa.OpARM64LessEqual:        arm64.COND_LE,
+	ssa.OpARM64LessEqualU:       arm64.COND_LS,
+	ssa.OpARM64GreaterThan:      arm64.COND_GT,
+	ssa.OpARM64GreaterThanU:     arm64.COND_HI,
+	ssa.OpARM64GreaterEqual:     arm64.COND_GE,
+	ssa.OpARM64GreaterEqualU:    arm64.COND_HS,
+	ssa.OpARM64LessThanZero:     arm64.COND_MI,
+	ssa.OpARM64GreaterEqualZero: arm64.COND_PL,
 }
 
 var blockJump = map[ssa.BlockKind]struct {
