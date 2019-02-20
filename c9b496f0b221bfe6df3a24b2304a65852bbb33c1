@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afc75e59_ab2dd457",
+        "filename": "src/encoding/asn1/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-20T15:46:51Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "c9b496f0b221bfe6df3a24b2304a65852bbb33c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eca7d3ce_43fb2706",
+        "filename": "src/encoding/asn1/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-20T15:46:51Z",
+      "side": 1,
+      "message": "This suffix doesn\u0027t match a symbol in the package so it won\u0027t be attached to the right place.\n\nMaybe it should be two examples instead?",
+      "range": {
+        "startLine": 8,
+        "startChar": 12,
+        "endLine": 8,
+        "endChar": 28
+      },
+      "revId": "c9b496f0b221bfe6df3a24b2304a65852bbb33c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7069db2_8f542fae",
+        "filename": "src/encoding/asn1/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-20T15:46:51Z",
+      "side": 1,
+      "message": "can you add something ASN.1-specific in here? This could be a JSON or XML example, really, so maybe it doesn\u0027t need an example?",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 25,
+        "endChar": 2
+      },
+      "revId": "c9b496f0b221bfe6df3a24b2304a65852bbb33c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afec26d2_0c9b4239",
+        "filename": "src/encoding/asn1/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-20T15:46:51Z",
+      "side": 1,
+      "message": "spaces after //",
+      "revId": "c9b496f0b221bfe6df3a24b2304a65852bbb33c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
