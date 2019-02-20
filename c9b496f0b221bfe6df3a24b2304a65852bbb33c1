@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4f28b747_1048193d",
+        "filename": "src/encoding/asn1/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 16068
+      },
+      "writtenOn": "2019-02-20T17:34:21Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "afc75e59_ab2dd457",
+      "revId": "c9b496f0b221bfe6df3a24b2304a65852bbb33c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eca7d3ce_43fb2706",
         "filename": "src/encoding/asn1/example_test.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2019-02-20T15:46:51Z",
       "side": 1,
       "message": "This suffix doesn\u0027t match a symbol in the package so it won\u0027t be attached to the right place.\n\nMaybe it should be two examples instead?",
+      "range": {
+        "startLine": 8,
+        "startChar": 12,
+        "endLine": 8,
+        "endChar": 28
+      },
+      "revId": "c9b496f0b221bfe6df3a24b2304a65852bbb33c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1504a46_eb01ae55",
+        "filename": "src/encoding/asn1/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 16068
+      },
+      "writtenOn": "2019-02-20T17:34:21Z",
+      "side": 1,
+      "message": "change the function name to ExampleMarshal and ExampleUnmarshal. I don\u0027t know what should be the right name to attach an example at the right place. I need your help.",
+      "parentUuid": "eca7d3ce_43fb2706",
       "range": {
         "startLine": 8,
         "startChar": 12,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ff103343_238eead7",
+        "filename": "src/encoding/asn1/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 16068
+      },
+      "writtenOn": "2019-02-20T17:34:21Z",
+      "side": 1,
+      "message": "I have also added one more example for PublicKey unmarshal.",
+      "parentUuid": "d7069db2_8f542fae",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 25,
+        "endChar": 2
+      },
+      "revId": "c9b496f0b221bfe6df3a24b2304a65852bbb33c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "afec26d2_0c9b4239",
         "filename": "src/encoding/asn1/example_test.go",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2019-02-20T15:46:51Z",
       "side": 1,
       "message": "spaces after //",
+      "revId": "c9b496f0b221bfe6df3a24b2304a65852bbb33c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24856708_9399a7b9",
+        "filename": "src/encoding/asn1/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 16068
+      },
+      "writtenOn": "2019-02-20T17:34:21Z",
+      "side": 1,
+      "message": "Thank you for highlight. I have put space after //",
+      "parentUuid": "afec26d2_0c9b4239",
       "revId": "c9b496f0b221bfe6df3a24b2304a65852bbb33c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
