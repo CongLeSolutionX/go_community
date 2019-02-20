@@ -5,6 +5,7 @@
 package main
 
 import (
+	"bytes"
 	"cmd/internal/objfile"
 	"debug/dwarf"
 	"internal/testenv"
@@ -14,6 +15,7 @@ import (
 	"path"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -45,6 +47,29 @@ func testDWARF(t *testing.T, buildmode string, expectDWARF bool, env ...string) 
 
 	for _, prog := range []string{"testprog", "testprogcgo"} {
 		prog := prog
+		expectDWARF := expectDWARF
+		if runtime.GOOS == "aix" && prog == "testprogcgo" {
+			// DWARF isn't generated if cgo is enabled and ld has a
+			// version prior to 7.2.2 (cf cmd/link/internal/dwarf.go).
+			out, err := exec.Command("ld", "-V").CombinedOutput()
+			if err != nil {
+				t.Fatalf("ld -V failed: %v", err)
+			}
+			// ld -V output is: "ld: LD X.X.X(date)"
+			out = bytes.TrimPrefix(out, []byte("ld: LD "))
+			vers := string(bytes.Split(out, []byte("("))[0])
+			subvers := strings.Split(vers, ".")
+			if v, err := strconv.Atoi(subvers[0]); err != nil || v < 7 {
+				expectDWARF = false
+			}
+			if v, err := strconv.Atoi(subvers[1]); err != nil || v < 2 {
+				expectDWARF = false
+			}
+			if v, err := strconv.Atoi(subvers[2]); err != nil || v < 2 {
+				expectDWARF = false
+			}
+
+		}
 		t.Run(prog, func(t *testing.T) {
 			t.Parallel()
 

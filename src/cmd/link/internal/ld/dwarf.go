@@ -14,6 +14,7 @@
 package ld
 
 import (
+	"bytes"
 	"cmd/internal/dwarf"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
@@ -21,7 +22,9 @@ import (
 	"cmd/link/internal/sym"
 	"fmt"
 	"log"
+	"os/exec"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -1685,6 +1688,25 @@ func dwarfEnabled(ctxt *Link) bool {
 		case ctxt.HeadType == objabi.Hdarwin:
 		case ctxt.HeadType == objabi.Hwindows:
 		case ctxt.HeadType == objabi.Haix:
+			// ld doesn't support DWARF with -bnoobjreorder with version
+			// prior to 7.2.2.
+			out, err := exec.Command("ld", "-V").CombinedOutput()
+			if err != nil {
+				Exitf("ld -V failed: %v", err)
+			}
+			// ld -V output is: "ld: LD X.X.X(date)"
+			out = bytes.TrimPrefix(out, []byte("ld: LD "))
+			vers := string(bytes.Split(out, []byte("("))[0])
+			subvers := strings.Split(vers, ".")
+			if v, err := strconv.Atoi(subvers[0]); err != nil || v < 7 {
+				return false
+			}
+			if v, err := strconv.Atoi(subvers[1]); err != nil || v < 2 {
+				return false
+			}
+			if v, err := strconv.Atoi(subvers[2]); err != nil || v < 2 {
+				return false
+			}
 		default:
 			return false
 		}
