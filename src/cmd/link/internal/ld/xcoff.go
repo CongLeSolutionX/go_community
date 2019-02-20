@@ -9,6 +9,8 @@ import (
 	"cmd/internal/objabi"
 	"cmd/link/internal/sym"
 	"encoding/binary"
+	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 )
@@ -777,7 +779,7 @@ func (f *xcoffFile) writeSymbolFunc(ctxt *Link, x *sym.Symbol) []xcoffSym {
 
 	s := &XcoffSymEnt64{
 		Nsclass: C_EXT,
-		Noffset: uint32(xfile.stringTable.add(x.Name)),
+		Noffset: uint32(xfile.stringTable.add(x.Extname())),
 		Nvalue:  uint64(x.Value),
 		Nscnum:  f.getXCOFFscnum(x.Sect),
 		Ntype:   SYM_TYPE_FUNC,
@@ -1188,6 +1190,26 @@ func (ctxt *Link) doxcoff() {
 		// Change main name to match __start code.
 		main := ctxt.Syms.ROLookup("_main", 0)
 		main.Name = ".main"
+
+		for _, s := range ctxt.Syms.Allsym {
+			if !s.Attr.CgoExport() {
+				continue
+			}
+
+			name := s.Extname()
+			if s.Type == sym.STEXT {
+				// On AIX, a exported function must have two symbols:
+				// - a .text symbol which must start with a ".".
+				// - a .data symbol which is a function descriptor.
+				ctxt.Syms.Rename(s.Name, "."+name, 0, ctxt.Reachparent)
+
+				desc := ctxt.Syms.Lookup(name, 0)
+				desc.Type = sym.SNOPTRDATA
+				desc.AddAddr(ctxt.Arch, s)
+				desc.AddAddr(ctxt.Arch, toc)
+				desc.AddUint64(ctxt.Arch, 0)
+			}
+		}
 	}
 }
 
@@ -1608,4 +1630,34 @@ func (f *xcoffFile) emitRelocations(ctxt *Link, fileoff int64) {
 	}
 
 	// TODO(aix): DWARF relocations
+}
+
+// xcoffCreateExportFile creates a file with exported symbols for
+// -Wl,-bE option.
+// ld won't export symbols unless they are listed in an export file.
+// As there is no way to tell gcc to create this export file for the exported
+// C symbols, we need to retrieve them here.
+// These symbols can be retrieved with Go symbol named _cgoexp_hashcode_Csymname.
+func xcoffCreateExportFile(ctxt *Link) (fname string) {
+	fname = filepath.Join(*flagTmpdir, "export_file.exp")
+	f, err := os.OpenFile(fname, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
+	if err != nil {
+		Exitf("cannot create export_file: %v", err)
+	}
+
+	for _, s := range ctxt.Syms.Allsym {
+		if !s.Attr.CgoExport() {
+			continue
+		}
+		if !strings.HasPrefix(s.String(), "_cgoexp_") {
+			continue
+		}
+
+		name := strings.SplitN(s.Extname(), "_", 4)[3]
+
+		f.Write([]byte(name + "\n"))
+	}
+
+	return fname
+
 }
