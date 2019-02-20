@@ -992,6 +992,8 @@ func symalign(s *sym.Symbol) int32 {
 	for int64(align) > s.Size && align > min {
 		align >>= 1
 	}
+	// Save align because it will be reused for XCOFF symbol table.
+	s.Align = align
 	return align
 }
 
