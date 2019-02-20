@@ -1150,3 +1150,39 @@ func TestBuildNameToCertificate_doesntModifyCertificates(t *testing.T) {
 		t.Fatalf("Certificates were mutated by BuildNameToCertificate\nGot: %#v\nWant: %#v\n", got, want)
 	}
 }
+
+func TestCipherSuiteParsing(t *testing.T) {
+	// Happy case: Parse a valid cipher suite and return the result
+	rsaCiphersString := "TLS_RSA_WITH_RC4_128_SHA:TLS_RSA_WITH_3DES_EDE_CBC_SHA:TLS_RSA_WITH_AES_128_CBC_SHA:TLS_RSA_WITH_AES_256_CBC_SHA:TLS_RSA_WITH_AES_128_CBC_SHA256:TLS_RSA_WITH_AES_128_GCM_SHA256:TLS_RSA_WITH_AES_256_GCM_SHA384"
+	rsaCiphers := []uint16{
+		tls.TLS_RSA_WITH_RC4_128_SHA,
+		tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+		tls.TLS_RSA_WITH_AES_128_CBC_SHA,
+		tls.TLS_RSA_WITH_AES_256_CBC_SHA,
+		tls.TLS_RSA_WITH_AES_128_CBC_SHA256,
+		tls.TLS_RSA_WITH_AES_128_GCM_SHA256,
+		tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
+	}
+	if ciphers, err := tls.CipherSuitesStringToSlice(rsaCiphersString); err != nil {
+		t.Error("Error analyzing cipher suites: %s. Got error: %s", rsaCiphers, err)
+	} else {
+		if len(ciphers) != len(rsaCiphers) {
+			t.Error("Cipher suites: %s. Didn't yield expected output.", rsaCiphersString)
+		}
+		for rsaCipher := range rsaCiphers {
+			if _, ok := ciphers[rsaCipher]; !ok {
+				t.Error("Cipher suites: %s. Didn't yield expected output.", rsaCiphersString)
+			}
+		}
+	}
+
+	// Error case: Parse an empty string and return an error
+	if _, err := tls.CipherSuitesStringToSlice(""); err == nil {
+		t.Error("Parsing an empty cipher suite should have returned an error")
+	}
+
+	// Error case: Parse a list with an invalid cipher suite
+	if _, err := tls.CipherSuitesStringToSlice("TLS_RSA_WITH_RC4_128_SHA:THIS_IS_NOT_A_VALID_SUITE:TLS_RSA_WITH_AES_256_CBC_SHA"); err == nil {
+		t.Error("Parsing an invalid suite should have returned an error")
+	}
+}

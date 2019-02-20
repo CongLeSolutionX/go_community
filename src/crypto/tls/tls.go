@@ -304,3 +304,33 @@ func parsePrivateKey(der []byte) (crypto.PrivateKey, error) {
 
 	return nil, errors.New("tls: failed to parse private key")
 }
+
+// CipherSuitesStringToList takes a string containing the wanted cipher suites
+// in string form, and transforms them into a slice of uint16 values. The
+// cipher suite names are added to the string and are separated by colons.
+// For instance, an input of:
+//
+//    "TLS_RSA_WITH_AES_128_CBC_SHA:TLS_RSA_WITH_AES_256_CBC_SHA"
+//
+// Would yield as output:
+//
+//    []uint16{TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_256_CBC_SHA}
+//
+// This is quite useful for configuring HTTP(s) servers from command line
+// arguments or configuration files.
+func CipherSuitesStringToSlice(ciphersString string) ([]uint16, error) {
+	var result []uint16
+	ciphers := strings.Split(":", ciphersString)
+	for cipher := range ciphers {
+		if cipherConst, ok := cipherStringMapping[cipher]; ok {
+			result := append(result, cipherConst)
+		} else {
+			return nil, fmt.Errorf("tls: failed to parse cipher suites string '%s'. Unkown cipher: '%s'", ciphersString, cipher)
+		}
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("tls: cipher suites string '%s' didn't yield any results", ciphersString)
+	}
+
+	return result, nil
+}
