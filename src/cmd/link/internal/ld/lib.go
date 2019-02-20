@@ -1286,6 +1286,34 @@ func (ctxt *Link) hostlink() {
 
 	argv = append(argv, filepath.Join(*flagTmpdir, "go.o"))
 	argv = append(argv, hostobjCopy()...)
+	if ctxt.HeadType == objabi.Haix {
+		// We want to have C files after Go files to remove
+		// trampolines csects made by ld.
+		argv = append(argv, "-nostartfiles")
+		argv = append(argv, "/lib/crt0_64.o")
+
+		// Get gcc starting files.
+		var target, version string
+		out, err := exec.Command("gcc", "-v").CombinedOutput()
+		if err != nil {
+			Exitf("running gcc failed: %v\n%s", err, out)
+		}
+
+		for _, line := range bytes.SplitAfter(out, []byte("\n")) {
+			if bytes.Contains(line, []byte("Target:")) {
+				targetbyte := bytes.Split(line, []byte(" "))[1]
+				target = string(bytes.Trim(targetbyte, "\n"))
+			}
+			if bytes.Contains(line, []byte("gcc version")) {
+				version = string(bytes.Split(line, []byte(" "))[2])
+			}
+		}
+
+		dir := "/opt/freeware/lib/gcc/" + target + "/" + version
+
+		argv = append(argv, dir+"/pthread/ppc64/crtcxa.o")
+		argv = append(argv, dir+"/pthread/ppc64/crtdbase.o")
+	}
 
 	if ctxt.linkShared {
 		seenDirs := make(map[string]bool)
