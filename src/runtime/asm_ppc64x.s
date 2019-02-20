@@ -46,14 +46,20 @@ TEXT runtime·rt0_go(SB),NOSPLIT,$0
 	MOVD	R13, R5			// arg 2: TLS base pointer
 	MOVD	$setg_gcc<>(SB), R4 	// arg 1: setg
 	MOVD	g, R3			// arg 0: G
-	// C functions expect 32 bytes of space on caller stack frame
-	// and a 16-byte aligned R1
+	// C functions expect 32 (48 for AIX) bytes of space on caller
+	// stack frame and a 16-byte aligned R1
 	MOVD	R1, R14			// save current stack
+#ifdef GOOS_aix
+	SUB	$48, R1			// reserve 48 bytes
+#else
 	SUB	$32, R1			// reserve 32 bytes
+#endif
 	RLDCR	$0, R1, $~15, R1	// 16-byte align
 	BL	(CTR)			// may clobber R0, R3-R12
 	MOVD	R14, R1			// restore stack
+#ifndef GOOS_aix
 	MOVD	24(R1), R2
+#endif
 	XOR	R0, R0			// fix R0
 
 nocgo:
@@ -583,22 +589,31 @@ TEXT ·asmcgocall(SB),NOSPLIT,$0-20
 
 	// Now on a scheduling stack (a pthread-created stack).
 g0:
-	// Save room for two of our pointers, plus 32 bytes of callee
-	// save area that lives on the caller stack.
 #ifdef GOOS_aix
 	// Create a fake LR to improve backtrace.
 	MOVD	$runtime·asmcgocall(SB), R6
 	MOVD	R6, 16(R1)
-#endif
+	// Save room for 48 bytes of callee save area that lives on the caller stack,
+	// one argument save by the called and two of our pointers.
+	SUB	$72, R1
+#else
+	// Save room for two of our pointers, plus 32 bytes of callee
+	// save area that lives on the caller stack.
 	SUB	$48, R1
+#endif
 	RLDCR	$0, R1, $~15, R1	// 16-byte alignment for gcc ABI
+#ifdef GOOS_aix
+	MOVD	R5, 64(R1)	// save old g on stack
+#else
 	MOVD	R5, 40(R1)	// save old g on stack
+#endif
 	MOVD	(g_stack+stack_hi)(R5), R5
 	SUB	R7, R5
-	MOVD	R5, 32(R1)	// save depth in old g stack (can't just save SP, as stack might be copied during a callback)
 #ifdef GOOS_aix
+	MOVD	R5, 56(R1)	// save depth in old g stack (can't just save SP, as stack might be copied during a callback)
 	MOVD	R7, 0(R1)	// Save frame pointer to allow manual backtrace with gdb
 #else
+	MOVD	R5, 32(R1)	// save depth in old g stack (can't just save SP, as stack might be copied during a callback)
 	MOVD	R0, 0(R1)	// clear back chain pointer (TODO can we give it real back trace information?)
 #endif
 	// This is a "global call", so put the global entry point in r12
@@ -607,24 +622,29 @@ g0:
 #ifdef GOARCH_ppc64
 	// ppc64 use elf ABI v1. we must get the real entry address from
 	// first slot of the function descriptor before call.
-#ifndef GOOS_aix
-	// aix just passes the function pointer for the moment, see golang.org/cl/146898 for details.
+	// Same for AIX.
 	MOVD	8(R12), R2
 	MOVD	(R12), R12
-#endif
 #endif
 	MOVD	R12, CTR
 	MOVD	R4, R3		// arg in r3
 	BL	(CTR)
-
-	// C code can clobber R0, so set it back to 0.  F27-F31 are
+	// C code can clobber R0, so set it back to 0. F27-F31 are
 	// callee save, so we don't need to recover those.
 	XOR	R0, R0
 	// Restore g, stack pointer, toc pointer.
 	// R3 is errno, so don't touch it
+#ifdef GOOS_aix
+	MOVD	64(R1), g
+#else
 	MOVD	40(R1), g
+#endif
 	MOVD	(g_stack+stack_hi)(g), R5
+#ifdef GOOS_aix
+	MOVD	56(R1), R6
+#else
 	MOVD	32(R1), R6
+#endif
 	SUB	R6, R5
 #ifndef GOOS_aix
 	MOVD	24(R5), R2
