@@ -76,7 +76,9 @@ if(~ $GOROOT_BOOTSTRAP $GOROOT){
 echo 'Building Go cmd/dist using '^$GOROOT_BOOTSTRAP
 if(~ $#vflag 1)
 	echo cmd/dist
-GOROOT=$GOROOT_BOOTSTRAP GOOS='' GOARCH='' $GOROOT_BOOTSTRAP/bin/go build -o cmd/dist/dist ./cmd/dist
+cd cmd/dist
+GOROOT=$GOROOT_BOOTSTRAP GOOS='' GOARCH='' GOFLAGS='-mod=vendor' $GOROOT_BOOTSTRAP/bin/go build -o dist .
+cd ../..
 
 eval `{./cmd/dist/dist env -9}
 if(~ $#vflag 1)
