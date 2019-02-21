@@ -878,7 +878,8 @@ func (t *tester) out(v string) {
 func (t *tester) extLink() bool {
 	pair := gohostos + "-" + goarch
 	switch pair {
-	case "android-arm",
+	case "aix-ppc64",
+		"android-arm",
 		"darwin-386", "darwin-amd64", "darwin-arm", "darwin-arm64",
 		"dragonfly-amd64",
 		"freebsd-386", "freebsd-amd64", "freebsd-arm",
@@ -911,6 +912,10 @@ func (t *tester) internalLink() bool {
 	// https://golang.org/issue/10373
 	// https://golang.org/issue/14449
 	if goarch == "arm64" || goarch == "mips64" || goarch == "mips64le" || goarch == "mips" || goarch == "mipsle" {
+		return false
+	}
+	if goos == "aix" {
+		// linkmode=internal isn't supported.
 		return false
 	}
 	if isAlpineLinux() {
@@ -1018,7 +1023,8 @@ func (t *tester) cgoTest(dt *distTest) error {
 		}
 		t.addCmd(dt, "misc/cgo/test", t.goTest(), "-ldflags", "-linkmode=external")
 		t.addCmd(dt, "misc/cgo/test", t.goTest(), "-ldflags", "-linkmode=external -s")
-	case "android-arm",
+	case "aix-ppc64",
+		"android-arm",
 		"dragonfly-amd64",
 		"freebsd-386", "freebsd-amd64", "freebsd-arm",
 		"linux-386", "linux-amd64", "linux-arm", "linux-ppc64le", "linux-s390x",
@@ -1032,7 +1038,7 @@ func (t *tester) cgoTest(dt *distTest) error {
 		t.addCmd(dt, "misc/cgo/testtls", t.goTest(), "-ldflags", "-linkmode=external")
 
 		switch pair {
-		case "netbsd-386", "netbsd-amd64":
+		case "aix-ppc64", "netbsd-386", "netbsd-amd64":
 			// no static linking
 		case "freebsd-arm":
 			// -fPIC compiled tls code will use __tls_get_addr instead
