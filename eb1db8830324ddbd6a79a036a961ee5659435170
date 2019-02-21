@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce1f6840_6549f80c",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-02-21T01:31:15Z",
+      "side": 1,
+      "message": "make this\n\n} else if p.indent \u003e 0 {\n   // add a comment here!\n\nAlso, this needs a comment explaining what is happening here.",
+      "revId": "eb1db8830324ddbd6a79a036a961ee5659435170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c44ab522_fd981873",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-02-21T01:31:15Z",
+      "side": 1,
+      "message": "s/expect/want/\n\n(expect is fine, but the custom in tests such as these is to stick to \u0027got\u0027, \u0027want\u0027 - thanks!)",
+      "range": {
+        "startLine": 780,
+        "startChar": 2,
+        "endLine": 780,
+        "endChar": 8
+      },
+      "revId": "eb1db8830324ddbd6a79a036a961ee5659435170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87a430e3_dfefe767",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-02-21T01:31:15Z",
+      "side": 1,
+      "message": "Slightly nicer to use \u0027got\u0027, \u0027want\u0027 in tests like these. So:\n\ngot :\u003d buf.String()\nif got !\u003d want {\n   t.Errorf(\"got %q; want %q\", got, want)\n}\n\nand rename expect to want",
+      "range": {
+        "startLine": 802,
+        "startChar": 4,
+        "endLine": 802,
+        "endChar": 7
+      },
+      "revId": "eb1db8830324ddbd6a79a036a961ee5659435170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
