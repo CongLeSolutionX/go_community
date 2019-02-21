@@ -124,7 +124,17 @@ func testGoExec(t *testing.T, iscgo, isexternallinker bool) {
 		if len(f) != 2 {
 			t.Fatalf("unexpected output line: %q", line)
 		}
-		names["main."+f[0]] = f[1]
+		addr := f[1]
+		if runtime.GOOS == "aix" && iscgo {
+			// ld will move .text symbols to 0x1000xxxx while cmd/link
+			// creates symbols at 0x10000xxxx.
+			// Instead of skipping these symbols, we remove the first 0.
+			if len(f[1]) < 4 {
+				t.Fatalf("unexpected address size at line: %q", line)
+			}
+			addr = f[1][:3] + f[1][4:]
+		}
+		names["main."+f[0]] = addr
 	}
 
 	runtimeSyms := map[string]string{
@@ -134,6 +144,11 @@ func testGoExec(t *testing.T, iscgo, isexternallinker bool) {
 		"runtime.erodata":   "R",
 		"runtime.epclntab":  "R",
 		"runtime.noptrdata": "D",
+	}
+
+	if runtime.GOOS == "aix" && iscgo {
+		// pclntab is moved to .data section on AIX.
+		runtimeSyms["runtime.epclntab"] = "D"
 	}
 
 	out, err = exec.Command(testnmpath, exe).CombinedOutput()
@@ -267,6 +282,9 @@ func testGoLib(t *testing.T, iscgo bool) {
 		if runtime.GOOS == "darwin" || (runtime.GOOS == "windows" && runtime.GOARCH == "386") {
 			syms = append(syms, symType{"D", "_cgodata", true, false})
 			syms = append(syms, symType{"T", "_cgofunc", true, false})
+		} else if runtime.GOOS == "aix" {
+			syms = append(syms, symType{"D", "cgodata", true, false})
+			syms = append(syms, symType{"T", ".cgofunc", true, false})
 		} else {
 			syms = append(syms, symType{"D", "cgodata", true, false})
 			syms = append(syms, symType{"T", "cgofunc", true, false})
