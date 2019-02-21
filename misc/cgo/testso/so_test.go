@@ -25,7 +25,12 @@ func requireTestSOSupported(t *testing.T) {
 			t.Skip("No exec facility on iOS.")
 		}
 	case "ppc64":
-		t.Skip("External linking not implemented on ppc64 (issue #8912).")
+		if runtime.GOOS == "linux" {
+			t.Skip("External linking not implemented on aix/ppc64 (issue #8912).")
+		}
+		if runtime.GOOS == "aix" {
+			t.Skip("Using shared object isn't yet available on aix/ppc64 (issue #30565)")
+		}
 	case "mips64le", "mips64":
 		t.Skip("External linking not implemented on mips64.")
 	}
@@ -93,7 +98,7 @@ func TestSO(t *testing.T) {
 	}
 	t.Logf("%s:\n%s", strings.Join(cmd.Args, " "), out)
 
-	cmd = exec.Command("go", "build", "-o", "main.exe", "main.go")
+	cmd = exec.Command("go", "build", "-work", "-o", "main.exe", "main.go")
 	cmd.Dir = modRoot
 	cmd.Env = append(os.Environ(), "GOPATH="+GOPATH)
 	out, err = cmd.CombinedOutput()
