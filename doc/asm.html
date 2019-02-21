@@ -76,7 +76,7 @@ $ GOOS=linux GOARCH=amd64 go tool compile -S x.go        # or: go build -gcflags
 <p>
 The <code>FUNCDATA</code> and <code>PCDATA</code> directives contain information
 for use by the garbage collector; they are introduced by the compiler.
-</p> 
+</p>
 
 <!-- Commenting out because the feature is gone but it's popular and may come back.
 
@@ -266,7 +266,7 @@ that assembly programming is a fraught endeavor.
 </p>
 
 <p>
-In Go object files and binaries, the full name of a symbol is the 
+In Go object files and binaries, the full name of a symbol is the
 package path followed by a period and the symbol name:
 <code>fmt.Printf</code> or <code>math/rand.Int</code>.
 Because the assembler's parser treats period and slash as punctuation,
@@ -485,7 +485,7 @@ even for assembly functions not called directly from Go.
 At the start of the function, the arguments are assumed
 to be initialized but the results are assumed uninitialized.
 If the results will hold live pointers during a call instruction,
-the function should start by zeroing the results and then 
+the function should start by zeroing the results and then
 executing the pseudo-instruction <code>GO_RESULTS_INITIALIZED</code>.
 This instruction records that the results are now initialized
 and should be scanned during stack movement and garbage collection.
@@ -503,7 +503,7 @@ on the <code>TEXT</code> instruction.
 The pointer information can also be omitted if the
 function contains no call instructions.
 Otherwise, the local stack frame must not contain pointers,
-and the assembly must confirm this fact by executing the 
+and the assembly must confirm this fact by executing the
 pseudo-instruction <code>NO_LOCAL_POINTERS</code>.
 Because stack resizing is implemented by moving the stack,
 the stack pointer may change during any function call:

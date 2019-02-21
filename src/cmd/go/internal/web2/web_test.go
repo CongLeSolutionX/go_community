@@ -16,7 +16,7 @@ machine api.github.com
 
 machine incomlete.host
   login justlogin
-  
+
 machine test.host
 login user2
 password pwd2

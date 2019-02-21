@@ -108,7 +108,7 @@ This will create two files, `d3.js` and `d3.min.js`, the custom D3.js bundle and
 
 ## D3 Custom Bundle
 
-A demonstration of building a custom D3 4.0 bundle using ES2015 modules and Rollup. 
+A demonstration of building a custom D3 4.0 bundle using ES2015 modules and Rollup.
 
 [bl.ocks.org/mbostock/bb09af4c39c79cffcde4](https://bl.ocks.org/mbostock/bb09af4c39c79cffcde4)
 

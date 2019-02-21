@@ -1983,7 +1983,7 @@ static int
 getmem(Map *m, uvlong addr, uchar *dst, int ndst)
 {
 	uchar *p;
-	
+
 	p = m->startp + (addr - m->startpc);
 	if(p < m->p || p >= m->ep || m->ep - p < ndst) {
 		werrstr("out of bounds");
@@ -1997,7 +1997,7 @@ int
 x86disasm(uchar *p, uchar *end, uvlong pc, int is64, char *buf, int n)
 {
 	Map m;
-	
+
 	m.p = p;
 	m.ep = end;
 	m.startp = p;
@@ -2034,14 +2034,14 @@ main(int argc, char **argv)
 	default:
 		usage();
 	}ARGEND
-	
+
 	if(argc != 1)
 		usage();
-	
+
 	fd = open(argv[0], OREAD);
 	if(fd < 0)
 		sysfatal("open %s: %r", argv[0]);
-	
+
 	Binit(&bstdout, 1, OWRITE);
 	p = data;
 	ep = data;

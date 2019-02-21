@@ -337,7 +337,7 @@ var d3Tip = createCommonjsModule(function (module) {
 
       return bbox
     }
-    
+
     // Private - replace D3JS 3.X d3.functor() function
     function functor(v) {
     	return typeof v === "function" ? v : function() {

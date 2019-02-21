@@ -3,7 +3,7 @@ Active filters:
 Showing nodes accounting for 62.50MB, 98.46% of 63.48MB total
 Dropped 2 nodes (cum <= 3.17MB)
 ----------------------------------------------------------+-------------
-      flat  flat%   sum%        cum   cum%   calls calls% + context 	 	 
+      flat  flat%   sum%        cum   cum%   calls calls% + context
 ----------------------------------------------------------+-------------
                                            63.48MB   100% |   line3002
          0     0%     0%    63.48MB   100%                | line2000

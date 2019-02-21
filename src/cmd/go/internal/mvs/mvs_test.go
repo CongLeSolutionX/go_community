@@ -53,7 +53,7 @@ build A: A B C D2 E2
 
 name: cross1V
 A: B2 C D2 E1
-B1: 
+B1:
 B2: D1
 C: D2
 D1: E2
@@ -62,7 +62,7 @@ build A: A B2 C D2 E2
 
 name: cross1U
 A: B1 C
-B1: 
+B1:
 B2: D1
 C: D2
 D1: E2
@@ -71,7 +71,7 @@ build A: A B1 C D2 E1
 upgrade A B2: A B2 C D2 E2
 
 name: cross1R
-A: B C 
+A: B C
 B: D2
 C: D1
 D1: E2
@@ -218,27 +218,27 @@ F1:
 downgrade A F1: A B1 E1
 
 name: down3
-A: 
+A:
 
 # golang.org/issue/25542.
 name: noprev1
 A: B4 C2
-B2.hidden: 
-C2: 
+B2.hidden:
+C2:
 downgrade A B2.hidden: A B2.hidden C2
 
 name: noprev2
 A: B4 C2
-B2.hidden: 
-B1: 
-C2: 
+B2.hidden:
+B1:
+C2:
 downgrade A B2.hidden: A B2.hidden C2
 
 name: noprev3
 A: B4 C2
-B3: 
-B2.hidden: 
-C2: 
+B3:
+B2.hidden:
+C2:
 downgrade A B2.hidden: A B2.hidden C2
 
 # Cycles involving the target.

@@ -2,7 +2,7 @@ Active filters:
    show_from=line2
 Showing nodes accounting for 1.01s, 90.18% of 1.12s total
 ----------------------------------------------------------+-------------
-      flat  flat%   sum%        cum   cum%   calls calls% + context 	 	 
+      flat  flat%   sum%        cum   cum%   calls calls% + context
 ----------------------------------------------------------+-------------
          0     0%     0%      1.01s 90.18%                | line2000 testdata/file2000.src:4
                                              1.01s   100% |   line2001 testdata/file2000.src:9 (inline)

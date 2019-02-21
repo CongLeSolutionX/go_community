@@ -4,5 +4,5 @@
 
 
  # mime package test
-.t1		application	test		-		y # Simple test	
-.t2		text		test		-		y # Text test	
+.t1		application	test		-		y # Simple test
+.t2		text		test		-		y # Text test

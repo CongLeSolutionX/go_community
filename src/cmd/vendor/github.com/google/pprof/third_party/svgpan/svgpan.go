@@ -199,7 +199,7 @@ function handleMouseWheel(evt) {
 	var z = Math.pow(1 + zoomScale, delta);
 
 	var g = getRoot(svgDoc);
-	
+
 	var p = getEventPoint(evt);
 
 	p = p.matrixTransform(g.getCTM().inverse());

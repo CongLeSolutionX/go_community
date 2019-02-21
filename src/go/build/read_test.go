@@ -37,15 +37,15 @@ var readImportsTests = []readTest{
 	},
 	{
 		`package p
-		
+
 		// comment
-		
+
 		import "x"
 		import _ "x"
 		import a "x"
-		
+
 		/* comment */
-		
+
 		import (
 			"x" /* comment */
 			_ "x"
@@ -59,7 +59,7 @@ var readImportsTests = []readTest{
 		import ()
 		import()import()import()
 		import();import();import()
-		
+
 		ℙvar x = 1
 		`,
 		"",
@@ -85,7 +85,7 @@ var readCommentsTests = []readTest{
 		/* bar */
 
 		/* quux */ // baz
-		
+
 		/*/ zot */
 
 		// asdf

@@ -22,7 +22,7 @@ func _() {
 
 	t.f(t)
 	t.f(u)
-	
+
 	u.f(t)
 	u.f(u)
 }

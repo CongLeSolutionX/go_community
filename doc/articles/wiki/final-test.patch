@@ -11,7 +11,7 @@
 @@ -86,5 +87,15 @@
  	http.HandleFunc("/edit/", makeHandler(editHandler))
  	http.HandleFunc("/save/", makeHandler(saveHandler))
- 
+
 -	log.Fatal(http.ListenAndServe(":8080", nil))
 +	l, err := net.Listen("tcp", "127.0.0.1:0")
 +	if err != nil {
