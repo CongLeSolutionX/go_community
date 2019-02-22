@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd1e0337_039ce96c",
+        "filename": "misc/cgo/testso/noso_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-22T23:25:53Z",
+      "side": 1,
+      "message": "There is no standard \"ios\" build tag.  Is something going to set it somewhere?  If not you should probably add\n\n// +build !darwin,arm\n// +build !darwin,arm64",
+      "range": {
+        "startLine": 5,
+        "startChar": 15,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "f9882b688b4d9479c917161794c132b4ba0bc332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90184cd9_a1d5cd84",
+        "filename": "misc/cgo/testso/so_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-22T23:25:53Z",
+      "side": 1,
+      "message": "Corresponding ios change here.",
+      "revId": "f9882b688b4d9479c917161794c132b4ba0bc332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffc3b014_0c52aeda",
+        "filename": "misc/cgo/testso/so_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-22T23:25:53Z",
+      "side": 1,
+      "message": "It\u0027s OK to just use runtime.GOOS and runtime.GOARCH.",
+      "revId": "f9882b688b4d9479c917161794c132b4ba0bc332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
