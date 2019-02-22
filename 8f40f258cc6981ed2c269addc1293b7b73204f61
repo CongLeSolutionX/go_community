@@ -34,6 +34,24 @@
       "revId": "8f40f258cc6981ed2c269addc1293b7b73204f61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "327de222_53d48d6a",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-02-22T19:29:20Z",
+      "side": 1,
+      "message": "Done, but skipped the error (log.Panicf is fine for setup, and does a better job of preserving line numbers).",
+      "parentUuid": "0a724afd_35876c7f",
+      "revId": "8f40f258cc6981ed2c269addc1293b7b73204f61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
