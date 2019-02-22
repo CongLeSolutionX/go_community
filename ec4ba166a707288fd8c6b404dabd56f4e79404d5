@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60c8eacb_7bf275df",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-22T23:28:07Z",
+      "side": 1,
+      "message": "Add a t.timeout argument.",
+      "range": {
+        "startLine": 613,
+        "startChar": 35,
+        "endLine": 613,
+        "endChar": 46
+      },
+      "revId": "ec4ba166a707288fd8c6b404dabd56f4e79404d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
