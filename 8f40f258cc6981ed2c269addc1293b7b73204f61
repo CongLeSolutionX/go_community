@@ -16,6 +16,24 @@
       "revId": "8f40f258cc6981ed2c269addc1293b7b73204f61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a724afd_35876c7f",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-02-22T17:12:54Z",
+      "side": 1,
+      "message": "testshared has a good pattern for handling this: there\u0027s a testMain function that returns (int, error) and uses defer.",
+      "parentUuid": "69e799ef_50114bc1",
+      "revId": "8f40f258cc6981ed2c269addc1293b7b73204f61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
