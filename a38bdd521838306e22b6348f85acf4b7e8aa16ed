@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3939e88b_af95562f",
+        "filename": "misc/cgo/testcshared/cshared_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-02-22T17:21:03Z",
+      "side": 1,
+      "message": "Same commend as CL 163210. This won\u0027t be called because of os.Exit and log.Fatal.",
+      "revId": "a38bdd521838306e22b6348f85acf4b7e8aa16ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
