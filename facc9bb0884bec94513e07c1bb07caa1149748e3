@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e7adb35_f3a39e2b",
+        "filename": "misc/cgo/testplugin/plugin_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-22T23:15:26Z",
+      "side": 1,
+      "message": "You already called t.Helper above.",
+      "revId": "facc9bb0884bec94513e07c1bb07caa1149748e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1db097a4_c4d078d9",
+        "filename": "misc/cgo/testplugin/plugin_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-22T23:15:26Z",
+      "side": 1,
+      "message": "You can just use runtime.GOOS here.  You don\u0027t need to ask the go tool.  The go tool will be used to run this program, so runtime.GOOS will be whatever \"go env GOOS\" prints.",
+      "revId": "facc9bb0884bec94513e07c1bb07caa1149748e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1439490c_1c457a61",
+        "filename": "misc/cgo/testplugin/plugin_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-22T23:15:26Z",
+      "side": 1,
+      "message": "s|//|/|",
+      "range": {
+        "startLine": 115,
+        "startChar": 19,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "facc9bb0884bec94513e07c1bb07caa1149748e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8584395_7eaf1258",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-22T23:15:26Z",
+      "side": 1,
+      "message": "You should take the opportunity to add a t.timeout(600) line like the other cases.",
+      "revId": "facc9bb0884bec94513e07c1bb07caa1149748e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
