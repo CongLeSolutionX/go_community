@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2255aaeb_251334a9",
+        "filename": "misc/cgo/testcarchive/overlaydir_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-22T20:59:37Z",
+      "side": 1,
+      "message": "1) This is not a case that ever happens here.\n2) Shouldn\u0027t this line be perm \u003d info.Mode() \u0026 os.ModePerm?  The permission bits of a symlink are ignored.",
+      "revId": "8added8c3d6639b944657731d6acf81006e74d81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08a68c6c_8f745dc1",
+        "filename": "misc/cgo/testcarchive/overlaydir_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-22T20:59:37Z",
+      "side": 1,
+      "message": "You don\u0027t need err here, you can just write\n    if os.Symlink(...) \u003d\u003d nil {",
+      "revId": "8added8c3d6639b944657731d6acf81006e74d81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
