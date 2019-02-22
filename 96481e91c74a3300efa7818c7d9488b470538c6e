@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09b481ec_797a7304",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-02-22T22:41:11Z",
+      "side": 1,
+      "message": "Consistent with what?",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "96481e91c74a3300efa7818c7d9488b470538c6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51fb3936_abfd1027",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-02-22T22:41:11Z",
+      "side": 1,
+      "message": "What makes image.Image a proper type, and draw.Image not a proper type?",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "96481e91c74a3300efa7818c7d9488b470538c6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daa035a5_bec4f21c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-02-22T22:41:11Z",
+      "side": 1,
+      "message": "The current commit message of this change doesn\u0027t make it clear why the change is being made.\n\nThe subject should be limited in scope to describe what\u0027s being changed, e.g., \"use image.Image type for src in processBackwards\", and the body should elaborate on the rationale for making the change.\n\nSee https://golang.org/doc/contribute.html#commit_messages for more information about this.",
+      "revId": "96481e91c74a3300efa7818c7d9488b470538c6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d27069ee_b715ab80",
+        "filename": "src/image/draw/draw.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-02-22T22:41:11Z",
+      "side": 1,
+      "message": "If dst type has been changed to image.Image, then this comparison can be simplified to:\n\n    dst \u003d\u003d src",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 31
+      },
+      "revId": "96481e91c74a3300efa7818c7d9488b470538c6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
