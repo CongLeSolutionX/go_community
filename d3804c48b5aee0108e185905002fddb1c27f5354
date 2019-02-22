@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95b40be4_36b4dda3",
+        "filename": "src/encoding/ascii85/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-02-22T19:08:40Z",
+      "side": 1,
+      "message": "There needs to be a blank line between the copyright comment and the package clause. Otherwise, it will be interpreted by godoc as the package comment.\n\nSee https://golang.org/s/style#package-comments for more information.",
+      "revId": "d3804c48b5aee0108e185905002fddb1c27f5354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "885be222_f69372db",
+        "filename": "src/encoding/ascii85/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-02-22T19:08:40Z",
+      "side": 1,
+      "message": "This seems like a very long text for the example. Perhaps a shorter text should be used.\n\nFor example, see the length of text at https://godoc.org/encoding/base64#example-Encoding-DecodeString.",
+      "revId": "d3804c48b5aee0108e185905002fddb1c27f5354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
