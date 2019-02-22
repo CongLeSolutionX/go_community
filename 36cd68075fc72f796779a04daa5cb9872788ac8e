@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c13f1d39_e9a9b574",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-22T16:44:17Z",
+      "side": 1,
+      "message": "mention d?",
+      "revId": "36cd68075fc72f796779a04daa5cb9872788ac8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d241cfa_93709453",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-22T16:44:17Z",
+      "side": 1,
+      "message": "\"for reading\"? What else could it be? https://golang.org/pkg/net/http/#File",
+      "range": {
+        "startLine": 67,
+        "startChar": 59,
+        "endLine": 67,
+        "endChar": 71
+      },
+      "revId": "36cd68075fc72f796779a04daa5cb9872788ac8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d525fa10_f9cd68e7",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-22T16:44:17Z",
+      "side": 1,
+      "message": "Mentioning O_RDONLY is a little nerdy and unnecessary. \"Open\" means O_RDONLY in Go. No need to say it every time.",
+      "range": {
+        "startLine": 68,
+        "startChar": 43,
+        "endLine": 68,
+        "endChar": 52
+      },
+      "revId": "36cd68075fc72f796779a04daa5cb9872788ac8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "951b9bb3_3e34ee07",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-22T16:44:17Z",
+      "side": 1,
+      "message": "\"over the\". But I\u0027d just work this into the earlier text. And mention FileSystem, like:\n\n    // Open implements FileSystem using os.Open, opening files rooted and relative to the directory d.\n\nI think that says everything?",
+      "revId": "36cd68075fc72f796779a04daa5cb9872788ac8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
