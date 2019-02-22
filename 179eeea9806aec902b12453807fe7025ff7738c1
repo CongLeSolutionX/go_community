@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0795d69_c549e0bd",
+        "filename": "misc/cgo/testplugin/plugin_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-02-22T18:54:55Z",
+      "side": 1,
+      "message": "Same comment as 163210 about log.Fatal / os.Exit.",
+      "revId": "179eeea9806aec902b12453807fe7025ff7738c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
