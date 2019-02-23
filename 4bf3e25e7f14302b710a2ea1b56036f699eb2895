@@ -39,6 +39,30 @@
       "revId": "4bf3e25e7f14302b710a2ea1b56036f699eb2895",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c693bb9_d492b557",
+        "filename": "src/sync/pool_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2019-02-23T02:30:51Z",
+      "side": 1,
+      "message": "Uh right, I just removed waitGC(). This was a leftover from a previous iteration of the tests, that were depending on knowing when finalizers were being called. Those tests were occasionally flaky so they were rewritten; in the process, that requirement was removed. (The current tests are not flaky, at least on my laptop, where I tested them by letting `while true; do bin/go test sync -run\u003dPool -count\u003d10 -cpu\u003d1,2,3,4,6,8,12,16; done` run for a couple of hours: no failures were observed).\n\nTo answer your question, waitGC would actually wait until finalizers are being called. runtime.GC() does not do that (as finalizers are not part of \"GC\")\n\nAlso, while it\u0027s true there\u0027s no promptness guarantee (that\u0027s what waitGC was for; waiting until they are called) finalizers are always called after every GC, so as long as GC happens (the case here) then finalizers will be called.\n\nAlso, note that many of the existing Pool tests rely on finalizers being called in a somewhat timely fashion.",
+      "parentUuid": "c7218ab0_3b84841c",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 1
+      },
+      "revId": "4bf3e25e7f14302b710a2ea1b56036f699eb2895",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
