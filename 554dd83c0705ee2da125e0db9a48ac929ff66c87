@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7bafa924_e63ac1ce",
+        "filename": "src/androidtest.bash",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-02-24T22:12:36Z",
+      "side": 1,
+      "message": "Done. The cleaner and this comment is going away in the next CL anyway.",
+      "parentUuid": "c6c7e3b4_d5567aea",
+      "range": {
+        "startLine": 34,
+        "startChar": 38,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "554dd83c0705ee2da125e0db9a48ac929ff66c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1fefe0b_f99bccf5",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "554dd83c0705ee2da125e0db9a48ac929ff66c87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82369f7a_7abc0c53",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-02-24T22:12:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1fefe0b_f99bccf5",
+      "revId": "554dd83c0705ee2da125e0db9a48ac929ff66c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
