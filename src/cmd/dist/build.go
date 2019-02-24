@@ -1370,6 +1370,8 @@ func cmdbootstrap() {
 	var wrapperPath string
 	switch {
 	case goos == "android":
+		// Make sure the wrapper will sync a fresh $GOROOT to the device.
+		xremove(pathf("%s/go_android_exec-adb-sync-status", os.TempDir()))
 		wrapperPath = pathf("%s/misc/android/go_android_exec.go", goroot)
 	case goos == "darwin" && (goarch == "arm" || goarch == "arm64"):
 		wrapperPath = pathf("%s/misc/ios/go_darwin_arm_exec.go", goroot)
