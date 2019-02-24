@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6c7e3b4_d5567aea",
+        "filename": "src/androidtest.bash",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-24T21:54:13Z",
+      "side": 1,
+      "message": "can you reword this to say, like \"we can build the \u0027cleaner\u0027 binary\".\n\nThis is the first I\u0027d heard of the cleaner. Looks like you push it to the device \u0026 then it cleans this up?\n\nWe won\u0027t need this in the emulators-on-GCE case, as we always start fresh \u0026 nuke VMs after.\n\nSo I guess it\u0027s fine to keep as-is just for use in this script. We won\u0027t use it in the make.bash+dist test sharded world.",
+      "range": {
+        "startLine": 34,
+        "startChar": 38,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "554dd83c0705ee2da125e0db9a48ac929ff66c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1fefe0b_f99bccf5",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-24T21:54:13Z",
+      "side": 1,
+      "message": "oh, gross. This is just restoring the env because goCmd doesn\u0027t accept env to run for the child?\n\nAdd a \"// restore environment\" command? And maybe a TODO for making goCmd take env vars?",
+      "revId": "554dd83c0705ee2da125e0db9a48ac929ff66c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
