@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60e532ef_e2e839ea",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-24T22:03:05Z",
+      "side": 1,
+      "message": "IndexByte?",
+      "range": {
+        "startLine": 239,
+        "startChar": 28,
+        "endLine": 239,
+        "endChar": 33
+      },
+      "revId": "2a03e7a35d4bd091cefab64b1ff2a233510d694e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "603b8fcc_dbbfb6bf",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-24T22:03:05Z",
+      "side": 1,
+      "message": "no need to spell out \"index\" for a variable with 1 line of scope. Especially when that variable is used 4 times. \u0027i\u0027 works. or \"semi\" if you want to call out that it\u0027s the semicolon.",
+      "range": {
+        "startLine": 239,
+        "startChar": 6,
+        "endLine": 239,
+        "endChar": 16
+      },
+      "revId": "2a03e7a35d4bd091cefab64b1ff2a233510d694e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
