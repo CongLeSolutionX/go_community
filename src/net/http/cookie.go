@@ -225,26 +225,28 @@ func (c *Cookie) String() string {
 // returns the successfully parsed Cookies.
 //
 // if filter isn't empty, only cookies of that name are returned
-func readCookies(h Header, filter string) []*Cookie {
+func readCookies(h Header, filter string) (cookies []*Cookie) {
 	lines, ok := h["Cookie"]
 	if !ok {
-		return []*Cookie{}
+		return
 	}
 
-	cookies := []*Cookie{}
 	for _, line := range lines {
-		parts := strings.Split(strings.TrimSpace(line), ";")
-		if len(parts) == 1 && parts[0] == "" {
-			continue
-		}
-		// Per-line attributes
-		for i := 0; i < len(parts); i++ {
-			parts[i] = strings.TrimSpace(parts[i])
-			if len(parts[i]) == 0 {
+		line = strings.TrimSpace(line)
+
+		var part string
+		for len(line) > 0 { // continue since we have rest
+			if splitIndex := strings.Index(line, ";"); splitIndex > 0 {
+				part, line = line[:splitIndex], line[splitIndex+1:]
+			} else {
+				part, line = line, ""
+			}
+			part = strings.TrimSpace(part)
+			if len(part) == 0 {
 				continue
 			}
-			name, val := parts[i], ""
-			if j := strings.Index(name, "="); j >= 0 {
+			name, val := part, ""
+			if j := strings.Index(part, "="); j >= 0 {
 				name, val = name[:j], name[j+1:]
 			}
 			if !isCookieNameValid(name) {
