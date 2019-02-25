@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f230496a_3f2850a7",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-25T16:10:50Z",
+      "side": 1,
+      "message": "TempDir is okay I guess, but maybe $GOROOT/pkg is better? But we do plan to remove pkg soon-ish, so that\u0027s a vote in favor of /tmp",
+      "range": {
+        "startLine": 1374,
+        "startChar": 54,
+        "endLine": 1374,
+        "endChar": 66
+      },
+      "revId": "e1ddd3a1ef3a56f07f5abe2ef9d2b59c0493a98b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
