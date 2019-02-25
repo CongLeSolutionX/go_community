@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce3a4a7d_850c47e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-02-25T11:16:41Z",
+      "side": 1,
+      "message": "One small nit: Only x/sys/unix is updated in this CL, so this should say cmd/vendor/golang.org/x/sys/unix or update x/sys/windows as well.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "2f9031ed1289ebf7cee49dc888ed4dfd3f1ac344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
