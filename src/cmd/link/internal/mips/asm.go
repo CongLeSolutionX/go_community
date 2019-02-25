@@ -113,7 +113,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 
 			if rs.Type != sym.SHOSTOBJ && rs.Type != sym.SDYNIMPORT && rs.Sect == nil {
-				ctxt.Errorf(s, "missing section for %s", rs.Name)
+				ctxt.Errorf(s, "missing section for %s", ctxt.Syms.SymName(rs))
 			}
 			r.Xsym = rs
 			return applyrel(ctxt.Arch, r, s, val, r.Xadd), true
@@ -137,12 +137,12 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		t := ctxt.Symaddr(r.Sym) + r.Add
 
 		if t&3 != 0 {
-			ctxt.Errorf(s, "direct call is not aligned: %s %x", r.Sym.Name, t)
+			ctxt.Errorf(s, "direct call is not aligned: %s %x", ctxt.Syms.SymName(r.Sym), t)
 		}
 
 		// check if target address is in the same 256 MB region as the next instruction
 		if (s.Value+int64(r.Off)+4)&0xf0000000 != (t & 0xf0000000) {
-			ctxt.Errorf(s, "direct call too far: %s %x", r.Sym.Name, t)
+			ctxt.Errorf(s, "direct call too far: %s %x", ctxt.Syms.SymName(r.Sym), t)
 		}
 
 		return applyrel(ctxt.Arch, r, s, val, t), true

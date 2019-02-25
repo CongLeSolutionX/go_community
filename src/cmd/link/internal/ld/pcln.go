@@ -95,8 +95,10 @@ func numberfile(ctxt *Link, file *sym.Symbol) {
 		ctxt.Filesyms = append(ctxt.Filesyms, file)
 		file.Value = int64(len(ctxt.Filesyms))
 		file.Type = sym.SFILEPATH
-		path := file.Name[len(src.FileSymPrefix):]
-		file.Name = expandGoroot(path)
+		fn := ctxt.Syms.SymName(file)
+		path := fn[len(src.FileSymPrefix):]
+		expanded := expandGoroot(path)
+		ctxt.SetSymName(file, expanded)
 	}
 }
 
@@ -145,12 +147,13 @@ func renumberfiles(ctxt *Link, files []*sym.Symbol, d *sym.Pcdata) {
 }
 
 // onlycsymbol reports whether this is a symbol that is referenced by C code.
-func onlycsymbol(s *sym.Symbol) bool {
-	switch s.Name {
+func onlycsymbol(ctxt *Link, s *sym.Symbol) bool {
+	sn := ctxt.Syms.SymName(s)
+	switch sn {
 	case "_cgo_topofstack", "__cgo_topofstack", "_cgo_panic", "crosscall2":
 		return true
 	}
-	if strings.HasPrefix(s.Name, "_cgoexp_") {
+	if strings.HasPrefix(sn, "_cgoexp_") {
 		return true
 	}
 	return false
@@ -160,7 +163,7 @@ func emitPcln(ctxt *Link, s *sym.Symbol) bool {
 	if s == nil {
 		return true
 	}
-	if ctxt.BuildMode == BuildModePlugin && ctxt.HeadType == objabi.Hdarwin && onlycsymbol(s) {
+	if ctxt.BuildMode == BuildModePlugin && ctxt.HeadType == objabi.Hdarwin && onlycsymbol(ctxt, s) {
 		return false
 	}
 	// We want to generate func table entries only for the "lowest level" symbols,
@@ -295,7 +298,8 @@ func (ctxt *Link) pclntab() {
 		off = int32(ftab.SetAddr(ctxt.Arch, int64(off), s))
 
 		// name int32
-		nameoff := nameToOffset(s.Name)
+		sn := ctxt.Syms.SymName(s)
+		nameoff := nameToOffset(sn)
 		off = int32(ftab.SetUint32(ctxt.Arch, int64(off), uint32(nameoff)))
 
 		// args int32
@@ -318,7 +322,7 @@ func (ctxt *Link) pclntab() {
 				// set the resumption point to PC_B.
 				lastWasmAddr = uint32(r.Add)
 			}
-			if r.Sym != nil && r.Sym.Name == "runtime.deferreturn" && r.Add == 0 {
+			if r.Sym != nil && ctxt.Syms.SymName(r.Sym) == "runtime.deferreturn" && r.Add == 0 {
 				if ctxt.Arch.Family == sys.Wasm {
 					deferreturn = lastWasmAddr
 				} else {
@@ -348,7 +352,7 @@ func (ctxt *Link) pclntab() {
 		}
 
 		if len(pcln.InlTree) > 0 {
-			inlTreeSym := ctxt.Syms.Lookup("inltree."+s.Name, 0)
+			inlTreeSym := ctxt.Syms.Lookup("inltree."+sn, 0)
 			inlTreeSym.Type = sym.SRODATA
 			inlTreeSym.Attr |= sym.AttrReachable | sym.AttrDuplicateOK
 
@@ -359,10 +363,11 @@ func (ctxt *Link) pclntab() {
 				// appears in the Pcfile table. In that case, this assigns
 				// the outer file a number.
 				numberfile(ctxt, call.File)
-				nameoff := nameToOffset(call.Func.Name)
+				cfn := ctxt.Syms.SymName(call.Func)
+				nameoff := nameToOffset(cfn)
 
 				inlTreeSym.SetUint16(ctxt.Arch, int64(i*20+0), uint16(call.Parent))
-				inlTreeSym.SetUint8(ctxt.Arch, int64(i*20+2), uint8(objabi.GetFuncID(call.Func.Name, call.Func.File)))
+				inlTreeSym.SetUint8(ctxt.Arch, int64(i*20+2), uint8(objabi.GetFuncID(cfn, call.Func.File)))
 				// byte 3 is unused
 				inlTreeSym.SetUint32(ctxt.Arch, int64(i*20+4), uint32(call.File.Value))
 				inlTreeSym.SetUint32(ctxt.Arch, int64(i*20+8), uint32(call.Line))
@@ -383,9 +388,9 @@ func (ctxt *Link) pclntab() {
 		// funcID uint8
 		var file string
 		if s.FuncInfo != nil && len(s.FuncInfo.File) > 0 {
-			file = s.FuncInfo.File[0].Name
+			file = ctxt.Syms.SymName(s.FuncInfo.File[0])
 		}
-		funcID := objabi.GetFuncID(s.Name, file)
+		funcID := objabi.GetFuncID(sn, file)
 
 		off = int32(ftab.SetUint8(ctxt.Arch, int64(off), uint8(funcID)))
 
@@ -441,7 +446,8 @@ func (ctxt *Link) pclntab() {
 	ftab.SetUint32(ctxt.Arch, int64(start), uint32(len(ctxt.Filesyms)+1))
 	for i := len(ctxt.Filesyms) - 1; i >= 0; i-- {
 		s := ctxt.Filesyms[i]
-		ftab.SetUint32(ctxt.Arch, int64(start)+s.Value*4, uint32(ftabaddstring(ftab, s.Name)))
+		sn := ctxt.Syms.SymName(s)
+		ftab.SetUint32(ctxt.Arch, int64(start)+s.Value*4, uint32(ftabaddstring(ftab, sn)))
 	}
 
 	ftab.Size = int64(len(ftab.P))

@@ -645,7 +645,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 			if s.Attr.DuplicateOK() {
 				continue
 			}
-			return errorf("duplicate symbol reference: %s in both %s and %s", s.Name, s.Outer.Name, sect.sym.Name)
+			return errorf("duplicate symbol reference: %s in both %s and %s", syms.SymName(s), syms.SymName(s.Outer), syms.SymName(sect.sym))
 		}
 
 		s.Type = outer.Type
@@ -690,13 +690,13 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 
 		if s.Type == sym.STEXT {
 			if s.Attr.OnList() {
-				return errorf("symbol %s listed multiple times", s.Name)
+				return errorf("symbol %s listed multiple times", syms.SymName(s))
 			}
 			s.Attr |= sym.AttrOnList
 			textp = append(textp, s)
 			for s1 := s.Sub; s1 != nil; s1 = s1.Sub {
 				if s1.Attr.OnList() {
-					return errorf("symbol %s listed multiple times", s1.Name)
+					return errorf("symbol %s listed multiple times", syms.SymName(s1))
 				}
 				s1.Attr |= sym.AttrOnList
 				textp = append(textp, s1)

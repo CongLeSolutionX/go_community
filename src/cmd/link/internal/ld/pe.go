@@ -552,10 +552,10 @@ func (f *peFile) emitRelocations(ctxt *Link) {
 					continue
 				}
 				if r.Xsym.Dynid < 0 {
-					ctxt.Errorf(sym, "reloc %d to non-coff symbol %s (outer=%s) %d", r.Type, r.Sym.Name, r.Xsym.Name, r.Sym.Type)
+					ctxt.Errorf(sym, "reloc %d to non-coff symbol %s (outer=%s) %d", r.Type, ctxt.Syms.SymName(r.Sym), ctxt.Syms.SymName(r.Xsym), r.Sym.Type)
 				}
 				if !thearch.PEreloc1(ctxt, ctxt.Out, sym, r, int64(uint64(sym.Value+int64(r.Off))-base)) {
-					ctxt.Errorf(sym, "unsupported obj reloc %d/%d to %s", r.Type, r.Siz, r.Sym.Name)
+					ctxt.Errorf(sym, "unsupported obj reloc %d/%d to %s", r.Type, r.Siz, ctxt.Syms.SymName(r.Sym))
 				}
 				relocs++
 			}
@@ -616,12 +616,14 @@ dwarfLoop:
 
 // writeSymbol appends symbol s to file f symbol table.
 // It also sets s.Dynid to written symbol number.
-func (f *peFile) writeSymbol(out *OutBuf, s *sym.Symbol, value int64, sectidx int, typ uint16, class uint8) {
-	if len(s.Name) > 8 {
+func (f *peFile) writeSymbol(ctxt *Link, s *sym.Symbol, value int64, sectidx int, typ uint16, class uint8) {
+	out := ctxt.Out
+	sn := ctxt.Syms.SymName(s)
+	if len(sn) > 8 {
 		out.Write32(0)
-		out.Write32(uint32(f.stringTable.add(s.Name)))
+		out.Write32(uint32(f.stringTable.add(sn)))
 	} else {
-		out.WriteStringN(s.Name, 8)
+		out.WriteStringN(sn, 8)
 	}
 	out.Write32(uint32(value))
 	out.Write16(uint16(sectidx))
@@ -636,9 +638,9 @@ func (f *peFile) writeSymbol(out *OutBuf, s *sym.Symbol, value int64, sectidx in
 
 // mapToPESection searches peFile f for s symbol's location.
 // It returns PE section index, and offset within that section.
-func (f *peFile) mapToPESection(s *sym.Symbol, linkmode LinkMode) (pesectidx int, offset int64, err error) {
+func (f *peFile) mapToPESection(ctxt *Link, s *sym.Symbol, linkmode LinkMode) (pesectidx int, offset int64, err error) {
 	if s.Sect == nil {
-		return 0, 0, fmt.Errorf("could not map %s symbol with no section", s.Name)
+		return 0, 0, fmt.Errorf("could not map %s symbol with no section", ctxt.Syms.SymName(s))
 	}
 	if s.Sect.Seg == &Segtext {
 		return f.textSect.index, int64(uint64(s.Value) - Segtext.Vaddr), nil
@@ -647,7 +649,7 @@ func (f *peFile) mapToPESection(s *sym.Symbol, linkmode LinkMode) (pesectidx int
 		return f.rdataSect.index, int64(uint64(s.Value) - Segrodata.Vaddr), nil
 	}
 	if s.Sect.Seg != &Segdata {
-		return 0, 0, fmt.Errorf("could not map %s symbol with non .text or .rdata or .data section", s.Name)
+		return 0, 0, fmt.Errorf("could not map %s symbol with non .text or .rdata or .data section", ctxt.Syms.SymName(s))
 	}
 	v := uint64(s.Value) - Segdata.Vaddr
 	if linkmode != LinkExternal {
@@ -684,7 +686,7 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 		if ctxt.Arch.Family == sys.I386 &&
 			ctxt.LinkMode == LinkExternal &&
 			(s.Type == sym.SHOSTOBJ || s.Attr.CgoExport()) {
-			s.Name = "_" + s.Name
+			ctxt.SetSymName(s, "_"+ctxt.Syms.SymName(s))
 		}
 
 		var typ uint16
@@ -695,7 +697,7 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 			typ = IMAGE_SYM_DTYPE_ARRAY<<8 + IMAGE_SYM_TYPE_STRUCT
 			typ = 0x0308 // "array of structs"
 		}
-		sect, value, err := f.mapToPESection(s, ctxt.LinkMode)
+		sect, value, err := f.mapToPESection(ctxt, s, ctxt.LinkMode)
 		if err != nil {
 			if type_ == UndefinedSym {
 				typ = IMAGE_SYM_DTYPE_FUNCTION
@@ -707,7 +709,7 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 		if s.IsFileLocal() || s.Attr.VisibilityHidden() || s.Attr.Local() {
 			class = IMAGE_SYM_CLASS_STATIC
 		}
-		f.writeSymbol(ctxt.Out, s, value, sect, typ, uint8(class))
+		f.writeSymbol(ctxt, s, value, sect, typ, uint8(class))
 	}
 
 	if ctxt.LinkMode == LinkExternal {
@@ -715,7 +717,7 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 		// .ctors and .debug_* section relocations refer to it.
 		for _, pesect := range f.sections {
 			sym := ctxt.Syms.Lookup(pesect.name, 0)
-			f.writeSymbol(ctxt.Out, sym, 0, pesect.index, IMAGE_SYM_TYPE_NULL, IMAGE_SYM_CLASS_STATIC)
+			f.writeSymbol(ctxt, sym, 0, pesect.index, IMAGE_SYM_TYPE_NULL, IMAGE_SYM_CLASS_STATIC)
 		}
 	}
 

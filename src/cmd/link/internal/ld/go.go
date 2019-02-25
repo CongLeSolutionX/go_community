@@ -225,7 +225,7 @@ func loadcgo(ctxt *Link, file string, pkg string, p string) {
 				s.SetExtname(remote)
 				dynexp = append(dynexp, s)
 			} else if s.Extname() != remote {
-				fmt.Fprintf(os.Stderr, "%s: conflicting cgo_export directives: %s as %s and %s\n", os.Args[0], s.Name, s.Extname(), remote)
+				fmt.Fprintf(os.Stderr, "%s: conflicting cgo_export directives: %s as %s and %s\n", os.Args[0], ctxt.Syms.SymName(s), s.Extname(), remote)
 				nerrors++
 				return
 			}
@@ -305,14 +305,15 @@ func fieldtrack(ctxt *Link) {
 	// record field tracking references
 	var buf bytes.Buffer
 	for _, s := range ctxt.Syms.Allsym {
-		if strings.HasPrefix(s.Name, "go.track.") {
+		sn := ctxt.Syms.SymName(s)
+		if strings.HasPrefix(sn, "go.track.") {
 			s.Attr |= sym.AttrSpecial // do not lay out in data segment
 			s.Attr |= sym.AttrNotInSymbolTable
 			if s.Attr.Reachable() {
-				buf.WriteString(s.Name[9:])
+				buf.WriteString(sn[9:])
 				for p := ctxt.Reachparent[s]; p != nil; p = ctxt.Reachparent[p] {
 					buf.WriteString("\t")
-					buf.WriteString(p.Name)
+					buf.WriteString(ctxt.Syms.SymName(p))
 				}
 				buf.WriteString("\n")
 			}

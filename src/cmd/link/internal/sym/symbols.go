@@ -30,6 +30,8 @@
 
 package sym
 
+import "strings"
+
 type Symbols struct {
 	symbolBatch []Symbol
 
@@ -60,7 +62,7 @@ func (syms *Symbols) Newsym(name string, v int) *Symbol {
 	syms.symbolBatch = batch[1:]
 
 	s.Dynid = -1
-	s.Name = name
+	s.SetName(name)
 	s.Version = int16(v)
 	syms.Allsym = append(syms.Allsym, s)
 
@@ -96,7 +98,7 @@ func (syms *Symbols) IncVersion() int {
 func (syms *Symbols) Rename(old, new string, v int, reachparent map[*Symbol]*Symbol) {
 	s := syms.hash[v][old]
 	oldExtName := s.Extname()
-	s.Name = new
+	s.SetName(new)
 	if oldExtName == old {
 		s.SetExtname(new)
 	}
@@ -121,4 +123,20 @@ func (syms *Symbols) Rename(old, new string, v int, reachparent map[*Symbol]*Sym
 			syms.hash[v][new] = s
 		}
 	}
+}
+
+func (syms *Symbols) SymName(s *Symbol) string {
+	return s.Name()
+}
+
+func (syms *Symbols) SetSymName(s *Symbol, newname string) {
+	s.SetName(newname)
+}
+
+func (syms *Symbols) SymNameHasPrefix(s *Symbol, pref string) bool {
+	return strings.HasPrefix(s.Name(), pref)
+}
+
+func (syms *Symbols) SymNameHasSuffix(s *Symbol, pref string) bool {
+	return strings.HasSuffix(s.Name(), pref)
 }

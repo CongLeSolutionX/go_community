@@ -153,7 +153,8 @@ func putelfsym(ctxt *Link, x *sym.Symbol, s string, t SymbolType, addr int64, go
 		// externally linking, I don't think this makes a lot of sense.
 		other = STV_HIDDEN
 	}
-	if ctxt.Arch.Family == sys.PPC64 && typ == STT_FUNC && x.Attr.Shared() && x.Name != "runtime.duffzero" && x.Name != "runtime.duffcopy" {
+	xn := ctxt.Syms.SymName(x)
+	if ctxt.Arch.Family == sys.PPC64 && typ == STT_FUNC && x.Attr.Shared() && xn != "runtime.duffzero" && xn != "runtime.duffcopy" {
 		// On ppc64 the top three bits of the st_other field indicate how
 		// many instructions separate the global and local entry points. In
 		// our case it is two instructions, indicated by the value 3.
@@ -331,7 +332,7 @@ func (ctxt *Link) symtab() {
 		for _, s := range ctxt.Syms.Allsym {
 			// Create a new entry in the .init_array section that points to the
 			// library initializer function.
-			if s.Name == *flagEntrySymbol && ctxt.HeadType != objabi.Haix {
+			if ctxt.Syms.SymName(s) == *flagEntrySymbol && ctxt.HeadType != objabi.Haix {
 				addinitarrdata(ctxt, s)
 			}
 		}
@@ -441,7 +442,8 @@ func (ctxt *Link) symtab() {
 	// just defined above will be first.
 	// hide the specific symbols.
 	for _, s := range ctxt.Syms.Allsym {
-		if ctxt.LinkMode != LinkExternal && isStaticTemp(s.Name) {
+		sn := ctxt.Syms.SymName(s)
+		if ctxt.LinkMode != LinkExternal && isStaticTemp(sn) {
 			s.Attr |= sym.AttrNotInSymbolTable
 		}
 
@@ -450,7 +452,7 @@ func (ctxt *Link) symtab() {
 		}
 
 		switch {
-		case strings.HasPrefix(s.Name, "type."):
+		case strings.HasPrefix(sn, "type."):
 			if !ctxt.DynlinkingGo() {
 				s.Attr |= sym.AttrNotInSymbolTable
 			}
@@ -462,28 +464,28 @@ func (ctxt *Link) symtab() {
 				s.Outer = symtype
 			}
 
-		case strings.HasPrefix(s.Name, "go.importpath.") && ctxt.UseRelro():
+		case strings.HasPrefix(sn, "go.importpath.") && ctxt.UseRelro():
 			// Keep go.importpath symbols in the same section as types and
 			// names, as they can be referred to by a section offset.
 			s.Type = sym.STYPERELRO
 
-		case strings.HasPrefix(s.Name, "go.itablink."):
+		case strings.HasPrefix(sn, "go.itablink."):
 			nitablinks++
 			s.Type = sym.SITABLINK
 			s.Attr |= sym.AttrNotInSymbolTable
 			s.Outer = symitablink
 
-		case strings.HasPrefix(s.Name, "go.string."):
+		case strings.HasPrefix(sn, "go.string."):
 			s.Type = sym.SGOSTRING
 			s.Attr |= sym.AttrNotInSymbolTable
 			s.Outer = symgostring
 
-		case strings.HasPrefix(s.Name, "runtime.gcbits."):
+		case strings.HasPrefix(sn, "runtime.gcbits."):
 			s.Type = sym.SGCBITS
 			s.Attr |= sym.AttrNotInSymbolTable
 			s.Outer = symgcbits
 
-		case strings.HasSuffix(s.Name, "·f"):
+		case strings.HasSuffix(sn, "·f"):
 			if !ctxt.DynlinkingGo() {
 				s.Attr |= sym.AttrNotInSymbolTable
 			}
@@ -495,10 +497,10 @@ func (ctxt *Link) symtab() {
 				s.Outer = symgofunc
 			}
 
-		case strings.HasPrefix(s.Name, "gcargs."),
-			strings.HasPrefix(s.Name, "gclocals."),
-			strings.HasPrefix(s.Name, "gclocals·"),
-			strings.HasPrefix(s.Name, "inltree."):
+		case strings.HasPrefix(sn, "gcargs."),
+			strings.HasPrefix(sn, "gclocals."),
+			strings.HasPrefix(sn, "gclocals·"),
+			strings.HasPrefix(sn, "inltree."):
 			s.Type = sym.SGOFUNC
 			s.Attr |= sym.AttrNotInSymbolTable
 			s.Outer = symgofunc

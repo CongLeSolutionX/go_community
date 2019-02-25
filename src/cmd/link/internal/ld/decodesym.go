@@ -117,7 +117,7 @@ func decodetypeGcprog(ctxt *Link, s *sym.Symbol) []byte {
 			sect.ReadAt(progbytes, int64(addr-sect.Addr+4))
 			return append(progsize, progbytes...)
 		}
-		Exitf("cannot find gcprog for %s", s.Name)
+		Exitf("cannot find gcprog for %s", ctxt.Syms.SymName(s))
 		return nil
 	}
 	return decodeRelocSym(s, 2*int32(ctxt.Arch.PtrSize)+8+1*int32(ctxt.Arch.PtrSize)).P
@@ -145,7 +145,7 @@ func decodetypeGcmask(ctxt *Link, s *sym.Symbol) []byte {
 			sect.ReadAt(r, int64(addr-sect.Addr))
 			return r
 		}
-		Exitf("cannot find gcmask for %s", s.Name)
+		Exitf("cannot find gcmask for %s", ctxt.Syms.SymName(s))
 		return nil
 	}
 	mask := decodeRelocSym(s, 2*int32(ctxt.Arch.PtrSize)+8+1*int32(ctxt.Arch.PtrSize))
@@ -291,7 +291,8 @@ const (
 // the function type.
 //
 // Conveniently this is the layout of both runtime.method and runtime.imethod.
-func decodeMethodSig(arch *sys.Arch, s *sym.Symbol, off, size, count int) []methodsig {
+func decodeMethodSig(ctxt *Link, s *sym.Symbol, off, size, count int) []methodsig {
+	arch := ctxt.Arch
 	var buf bytes.Buffer
 	var methods []methodsig
 	for i := 0; i < count; i++ {
@@ -304,7 +305,8 @@ func decodeMethodSig(arch *sys.Arch, s *sym.Symbol, off, size, count int) []meth
 			if i > 0 {
 				buf.WriteString(", ")
 			}
-			buf.WriteString(decodetypeFuncInType(arch, mtypSym, i).Name)
+			fits := decodetypeFuncInType(arch, mtypSym, i)
+			buf.WriteString(ctxt.Syms.SymName(fits))
 		}
 		buf.WriteString(") (")
 		outCount := decodetypeFuncOutCount(arch, mtypSym)
@@ -312,7 +314,8 @@ func decodeMethodSig(arch *sys.Arch, s *sym.Symbol, off, size, count int) []meth
 			if i > 0 {
 				buf.WriteString(", ")
 			}
-			buf.WriteString(decodetypeFuncOutType(arch, mtypSym, i).Name)
+			fots := decodetypeFuncOutType(arch, mtypSym, i)
+			buf.WriteString(ctxt.Syms.SymName(fots))
 		}
 		buf.WriteRune(')')
 
@@ -323,26 +326,28 @@ func decodeMethodSig(arch *sys.Arch, s *sym.Symbol, off, size, count int) []meth
 	return methods
 }
 
-func decodeIfaceMethods(arch *sys.Arch, s *sym.Symbol) []methodsig {
+func decodeIfaceMethods(ctxt *Link, s *sym.Symbol) []methodsig {
+	arch := ctxt.Arch
 	if decodetypeKind(arch, s)&kindMask != kindInterface {
-		panic(fmt.Sprintf("symbol %q is not an interface", s.Name))
+		panic(fmt.Sprintf("symbol %q is not an interface", ctxt.Syms.SymName(s)))
 	}
 	r := decodeReloc(s, int32(commonsize(arch)+arch.PtrSize))
 	if r == nil {
 		return nil
 	}
 	if r.Sym != s {
-		panic(fmt.Sprintf("imethod slice pointer in %q leads to a different symbol", s.Name))
+		panic(fmt.Sprintf("imethod slice pointer in %q leads to a different symbol", ctxt.Syms.SymName(s)))
 	}
 	off := int(r.Add) // array of reflect.imethod values
 	numMethods := int(decodetypeIfaceMethodCount(arch, s))
 	sizeofIMethod := 4 + 4
-	return decodeMethodSig(arch, s, off, sizeofIMethod, numMethods)
+	return decodeMethodSig(ctxt, s, off, sizeofIMethod, numMethods)
 }
 
-func decodetypeMethods(arch *sys.Arch, s *sym.Symbol) []methodsig {
+func decodetypeMethods(ctxt *Link, s *sym.Symbol) []methodsig {
+	arch := ctxt.Arch
 	if !decodetypeHasUncommon(arch, s) {
-		panic(fmt.Sprintf("no methods on %q", s.Name))
+		panic(fmt.Sprintf("no methods on %q", ctxt.Syms.SymName(s)))
 	}
 	off := commonsize(arch) // reflect.rtype
 	switch decodetypeKind(arch, s) & kindMask {
@@ -370,5 +375,5 @@ func decodetypeMethods(arch *sys.Arch, s *sym.Symbol) []methodsig {
 	moff := int(decodeInuxi(arch, s.P[off+4+2+2:], 4))
 	off += moff                // offset to array of reflect.method values
 	const sizeofMethod = 4 * 4 // sizeof reflect.method in program
-	return decodeMethodSig(arch, s, off, sizeofMethod, mcount)
+	return decodeMethodSig(ctxt, s, off, sizeofMethod, mcount)
 }

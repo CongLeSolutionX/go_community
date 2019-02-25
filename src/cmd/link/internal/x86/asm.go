@@ -179,12 +179,12 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 		// Handle relocations found in ELF object files.
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_386_PC32):
 		if targ.Type == sym.SDYNIMPORT {
-			ctxt.Errorf(s, "unexpected R_386_PC32 relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_386_PC32 relocation for dynamic symbol %s", ctxt.Syms.SymName(targ))
 		}
 		// TODO(mwhudson): the test of VisibilityHidden here probably doesn't make
 		// sense and should be removed when someone has thought about it properly.
 		if (targ.Type == 0 || targ.Type == sym.SXREF) && !targ.Attr.VisibilityHidden() {
-			ctxt.Errorf(s, "unknown symbol %s in pcrel", targ.Name)
+			ctxt.Errorf(s, "unknown symbol %s in pcrel", ctxt.Syms.SymName(targ))
 		}
 		r.Type = objabi.R_PCREL
 		r.Add += 4
@@ -223,7 +223,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 				return true
 			}
 
-			ctxt.Errorf(s, "unexpected GOT reloc for non-dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected GOT reloc for non-dynamic symbol %s", ctxt.Syms.SymName(targ))
 			return false
 		}
 
@@ -245,7 +245,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_386_32):
 		if targ.Type == sym.SDYNIMPORT {
-			ctxt.Errorf(s, "unexpected R_386_32 relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_386_32 relocation for dynamic symbol %s", ctxt.Syms.SymName(targ))
 		}
 		r.Type = objabi.R_ADDR
 		return true
@@ -253,7 +253,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 	case objabi.MachoRelocOffset + ld.MACHO_GENERIC_RELOC_VANILLA*2 + 0:
 		r.Type = objabi.R_ADDR
 		if targ.Type == sym.SDYNIMPORT {
-			ctxt.Errorf(s, "unexpected reloc for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected reloc for dynamic symbol %s", ctxt.Syms.SymName(targ))
 		}
 		return true
 
@@ -274,7 +274,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 			// have symbol
 			// turn MOVL of GOT entry into LEAL of symbol itself
 			if r.Off < 2 || s.P[r.Off-2] != 0x8b {
-				ctxt.Errorf(s, "unexpected GOT reloc for non-dynamic symbol %s", targ.Name)
+				ctxt.Errorf(s, "unexpected GOT reloc for non-dynamic symbol %s", ctxt.Syms.SymName(targ))
 				return false
 			}
 
@@ -366,7 +366,7 @@ func elfreloc1(ctxt *ld.Link, r *sym.Reloc, sectoff int64) bool {
 	case objabi.R_GOTPCREL:
 		if r.Siz == 4 {
 			ctxt.Out.Write32(uint32(elf.R_386_GOTPC))
-			if r.Xsym.Name != "_GLOBAL_OFFSET_TABLE_" {
+			if ctxt.Syms.SymName(r.Xsym) != "_GLOBAL_OFFSET_TABLE_" {
 				ctxt.Out.Write32(uint32(sectoff))
 				ctxt.Out.Write32(uint32(elf.R_386_GOT32) | uint32(elfsym)<<8)
 			}
@@ -416,7 +416,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 	arch := ctxt.Arch
 	if rs.Type == sym.SHOSTOBJ || r.Type == objabi.R_CALL {
 		if rs.Dynid < 0 {
-			ctxt.Errorf(s, "reloc %d (%s) to non-macho symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
+			ctxt.Errorf(s, "reloc %d (%s) to non-macho symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), ctxt.Syms.SymName(rs), rs.Type, rs.Type)
 			return false
 		}
 
@@ -425,7 +425,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 	} else {
 		v = uint32(rs.Sect.Extnum)
 		if v == 0 {
-			ctxt.Errorf(s, "reloc %d (%s) to symbol %s in non-macho section %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Sect.Name, rs.Type, rs.Type)
+			ctxt.Errorf(s, "reloc %d (%s) to symbol %s in non-macho section %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), ctxt.Syms.SymName(rs), rs.Sect.Name, rs.Type, rs.Type)
 			return false
 		}
 	}
@@ -466,7 +466,7 @@ func pereloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sectof
 
 	arch := ctxt.Arch
 	if rs.Dynid < 0 {
-		ctxt.Errorf(s, "reloc %d (%s) to non-coff symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
+		ctxt.Errorf(s, "reloc %d (%s) to non-coff symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), ctxt.Syms.SymName(rs), rs.Type, rs.Type)
 		return false
 	}
 
