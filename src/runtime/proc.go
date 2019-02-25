@@ -1013,7 +1013,7 @@ func stopTheWorldWithSema() {
 	}
 
 	lock(&sched.lock)
-	sched.stopwait = gomaxprocs
+	sched.stopwait = uint32(gomaxprocs)
 	atomic.Store(&sched.gcwaiting, 1)
 	preemptall()
 	// stop current P
@@ -1058,7 +1058,13 @@ func stopTheWorldWithSema() {
 	// sanity checks
 	bad := ""
 	if sched.stopwait != 0 {
-		bad = "stopTheWorld: not stopped (stopwait != 0)"
+		// On AIX, reload sched.stopwait with an atomic.Load
+		// to make sure it's up to date.
+		// TODO(aix): remove once the reason why sched.stopwait
+		// isn't always up to date has been found and fixed.
+		if GOOS != "aix" || atomic.Load(&sched.stopwait) != 0 {
+			bad = "stopTheWorld: not stopped (stopwait != 0)"
+		}
 	} else {
 		for _, p := range allp {
 			if p.status != _Pgcstop {
@@ -1342,7 +1348,7 @@ func forEachP(fn func(*p)) {
 	if sched.safePointWait != 0 {
 		throw("forEachP: sched.safePointWait != 0")
 	}
-	sched.safePointWait = gomaxprocs - 1
+	sched.safePointWait = uint32(gomaxprocs) - 1
 	sched.safePointFn = fn
 
 	// Ask all Ps to run the safe point function.
@@ -1401,7 +1407,13 @@ func forEachP(fn func(*p)) {
 		}
 	}
 	if sched.safePointWait != 0 {
-		throw("forEachP: not done")
+		// On AIX, reload sched.safePointWait with an atomic.Load
+		// to make sure it's up to date.
+		// TODO(aix): remove once the reason why sched.safePointWait
+		// isn't always up to date has been found and fixed.
+		if GOOS != "aix" || atomic.Load(&sched.safePointWait) != 0 {
+			throw("forEachP: not done")
+		}
 	}
 	for _, p := range allp {
 		if p.runSafePointFn != 0 {
