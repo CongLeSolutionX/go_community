@@ -60,6 +60,21 @@ func main() {
 	log.SetFlags(0)
 	log.SetPrefix("go_android_exec: ")
 
+	if goarch := os.Getenv("GOARCH"); goarch == "386" || goarch == "amd64" {
+		// Concurrent use of adb is flaky on emulators, so serialize adb commands.
+		// See https://github.com/golang/go/issues/23795 or
+		// https://issuetracker.google.com/issues/73230216.
+		lockPath := filepath.Join(os.TempDir(), "go_android_exec-adb-lock")
+		lock, err := os.OpenFile(lockPath, os.O_CREATE|os.O_RDWR, 0666)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer lock.Close()
+		if err := syscall.Flock(int(lock.Fd()), syscall.LOCK_EX); err != nil {
+			log.Fatal(err)
+		}
+	}
+
 	// In case we're booting a device or emulator alongside androidtest.bash
 	// wait for it to be ready. adb wait-for-device is not enough, we have to
 	// wait for sys.boot_completed.
