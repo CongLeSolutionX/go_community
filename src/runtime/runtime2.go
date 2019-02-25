@@ -613,7 +613,7 @@ type schedt struct {
 	freem *m
 
 	gcwaiting  uint32 // gc is waiting to run
-	stopwait   int32
+	stopwait   uint32
 	stopnote   note
 	sysmonwait uint32
 	sysmonnote note
@@ -621,7 +621,7 @@ type schedt struct {
 	// safepointFn should be called on each P at the next GC
 	// safepoint if p.runSafePointFn is set.
 	safePointFn   func(*p)
-	safePointWait int32
+	safePointWait uint32
 	safePointNote note
 
 	profilehz int32 // cpu profiling rate
