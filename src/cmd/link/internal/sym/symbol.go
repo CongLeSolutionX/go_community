@@ -15,7 +15,7 @@ import (
 
 // Symbol is an entry in the symbol table.
 type Symbol struct {
-	Name        string
+	name        string
 	Type        SymKind
 	Version     int16
 	Attr        Attribute
@@ -80,13 +80,21 @@ func VersionToABI(v int) (obj.ABI, bool) {
 
 func (s *Symbol) String() string {
 	if s.Version == 0 {
-		return s.Name
+		return s.name
 	}
-	return fmt.Sprintf("%s<%d>", s.Name, s.Version)
+	return fmt.Sprintf("%s<%d>", s.name, s.Version)
 }
 
 func (s *Symbol) IsFileLocal() bool {
 	return s.Version >= SymVerStatic
+}
+
+func (s *Symbol) Name() string {
+	return s.name
+}
+
+func (s *Symbol) SetName(newname string) {
+	s.name = newname
 }
 
 func (s *Symbol) ElfsymForReloc() int32 {
@@ -314,20 +322,20 @@ func (s *Symbol) setUintXX(arch *sys.Arch, off int64, v uint64, wid int64) int64
 
 func (s *Symbol) makeAuxInfo() {
 	if s.auxinfo == nil {
-		s.auxinfo = &AuxSymbol{extname: s.Name, plt: -1, got: -1}
+		s.auxinfo = &AuxSymbol{extname: s.name, plt: -1, got: -1}
 	}
 }
 
 func (s *Symbol) Extname() string {
 	if s.auxinfo == nil {
-		return s.Name
+		return s.name
 	}
 	return s.auxinfo.extname
 }
 
 func (s *Symbol) SetExtname(n string) {
 	if s.auxinfo == nil {
-		if s.Name == n {
+		if s.name == n {
 			return
 		}
 		s.makeAuxInfo()

@@ -552,7 +552,7 @@ func (ctxt *Link) loadlib() {
 		for _, s := range ctxt.Syms.Allsym {
 			for i := range s.R {
 				r := &s.R[i] // Copying sym.Reloc has measurable impact on performance
-				if r.Sym != nil && r.Sym.Type == sym.SXREF && r.Sym.Name != ".got" {
+				if r.Sym != nil && r.Sym.Type == sym.SXREF && ctxt.Syms.SymName(r.Sym) != ".got" {
 					any = true
 					break
 				}
@@ -702,9 +702,10 @@ func (ctxt *Link) mangleTypeSym() {
 	}
 
 	for _, s := range ctxt.Syms.Allsym {
-		newName := typeSymbolMangle(s.Name)
-		if newName != s.Name {
-			ctxt.Syms.Rename(s.Name, newName, int(s.Version), ctxt.Reachparent)
+		sn := ctxt.Syms.SymName(s)
+		newName := typeSymbolMangle(sn)
+		if newName != sn {
+			ctxt.Syms.Rename(sn, newName, int(s.Version), ctxt.Reachparent)
 		}
 	}
 }
@@ -1922,7 +1923,8 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			lsym.File = libpath
 			// The decodetype_* functions in decodetype.go need access to
 			// the type data.
-			if strings.HasPrefix(lsym.Name, "type.") && !strings.HasPrefix(lsym.Name, "type..") {
+			lsn := ctxt.Syms.SymName(lsym)
+			if strings.HasPrefix(lsn, "type.") && !strings.HasPrefix(lsn, "type..") {
 				lsym.P = readelfsymboldata(ctxt, f, &elfsym)
 				gcdataLocations[elfsym.Value+2*uint64(ctxt.Arch.PtrSize)+8+1*uint64(ctxt.Arch.PtrSize)] = lsym
 			}
@@ -2030,7 +2032,8 @@ func (ctxt *Link) dostkcheck() {
 		// runtime.racesymbolizethunk is called from gcc-compiled C
 		// code running on the operating system thread stack.
 		// It uses more than the usual amount of stack but that's okay.
-		if s.Name == "runtime.racesymbolizethunk" {
+		sn := ctxt.Syms.SymName(s)
+		if sn == "runtime.racesymbolizethunk" {
 			continue
 		}
 
@@ -2172,7 +2175,7 @@ func stkprint(ctxt *Link, ch *chain, limit int) {
 	var name string
 
 	if ch.sym != nil {
-		name = ch.sym.Name
+		name = ctxt.Syms.SymName(ch.sym)
 		if ch.sym.Attr.NoSplit() {
 			name += " (nosplit)"
 		}
@@ -2232,7 +2235,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 		// on AIX with external linker.
 		// See data.go:/textaddress
 		if !(ctxt.DynlinkingGo() && ctxt.HeadType == objabi.Hdarwin) && !(ctxt.HeadType == objabi.Haix && ctxt.LinkMode == LinkExternal) {
-			put(ctxt, s, s.Name, TextSym, s.Value, nil)
+			put(ctxt, s, ctxt.Syms.SymName(s), TextSym, s.Value, nil)
 		}
 	}
 
@@ -2253,7 +2256,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 			break
 		}
 		if s.Type == sym.STEXT {
-			put(ctxt, s, s.Name, TextSym, s.Value, nil)
+			put(ctxt, s, ctxt.Syms.SymName(s), TextSym, s.Value, nil)
 		}
 		n++
 	}
@@ -2265,7 +2268,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 		// on AIX with external linker.
 		// See data.go:/textaddress
 		if !(ctxt.DynlinkingGo() && ctxt.HeadType == objabi.Hdarwin) && !(ctxt.HeadType == objabi.Haix && ctxt.LinkMode == LinkExternal) {
-			put(ctxt, s, s.Name, TextSym, s.Value, nil)
+			put(ctxt, s, ctxt.Syms.SymName(s), TextSym, s.Value, nil)
 		}
 	}
 
@@ -2273,7 +2276,8 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 		if s.Attr.NotInSymbolTable() {
 			continue
 		}
-		if (s.Name == "" || s.Name[0] == '.') && !s.IsFileLocal() && s.Name != ".rathole" && s.Name != ".TOC." {
+		sn := ctxt.Syms.SymName(s)
+		if (sn == "" || sn[0] == '.') && !s.IsFileLocal() && sn != ".rathole" && sn != ".TOC." {
 			continue
 		}
 		switch s.Type {
@@ -2303,7 +2307,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 			if !s.Attr.Reachable() {
 				continue
 			}
-			put(ctxt, s, s.Name, DataSym, ctxt.Symaddr(s), s.Gotype)
+			put(ctxt, s, sn, DataSym, ctxt.Symaddr(s), s.Gotype)
 
 		case sym.SBSS, sym.SNOPTRBSS:
 			if !s.Attr.Reachable() {
@@ -2312,11 +2316,11 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 			if len(s.P) > 0 {
 				ctxt.Errorf(s, "should not be bss (size=%d type=%v special=%v)", len(s.P), s.Type, s.Attr.Special())
 			}
-			put(ctxt, s, s.Name, BSSSym, ctxt.Symaddr(s), s.Gotype)
+			put(ctxt, s, sn, BSSSym, ctxt.Symaddr(s), s.Gotype)
 
 		case sym.SHOSTOBJ:
 			if ctxt.HeadType == objabi.Hwindows || ctxt.IsELF {
-				put(ctxt, s, s.Name, UndefinedSym, s.Value, nil)
+				put(ctxt, s, sn, UndefinedSym, s.Value, nil)
 			}
 
 		case sym.SDYNIMPORT:
@@ -2327,14 +2331,15 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 
 		case sym.STLSBSS:
 			if ctxt.LinkMode == LinkExternal {
-				put(ctxt, s, s.Name, TLSSym, ctxt.Symaddr(s), s.Gotype)
+				put(ctxt, s, sn, TLSSym, ctxt.Symaddr(s), s.Gotype)
 			}
 		}
 	}
 
 	var off int32
 	for _, s := range ctxt.Textp {
-		put(ctxt, s, s.Name, TextSym, s.Value, s.Gotype)
+		sn := ctxt.Syms.SymName(s)
+		put(ctxt, s, sn, TextSym, s.Value, s.Gotype)
 
 		locals := int32(0)
 		if s.FuncInfo != nil {
@@ -2367,13 +2372,13 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 
 			// FP
 			if off >= 0 {
-				put(ctxt, nil, a.Asym.Name, ParamSym, int64(off), a.Gotype)
+				put(ctxt, nil, ctxt.Syms.SymName(a.Asym), ParamSym, int64(off), a.Gotype)
 				continue
 			}
 
 			// SP
 			if off <= int32(-ctxt.Arch.PtrSize) {
-				put(ctxt, nil, a.Asym.Name, AutoSym, -(int64(off) + int64(ctxt.Arch.PtrSize)), a.Gotype)
+				put(ctxt, nil, ctxt.Syms.SymName(a.Asym), AutoSym, -(int64(off) + int64(ctxt.Arch.PtrSize)), a.Gotype)
 				continue
 			}
 			// Otherwise, off is addressing the saved program counter.
@@ -2439,10 +2444,10 @@ func undefsym(ctxt *Link, s *sym.Symbol) {
 		// TODO(mwhudson): the test of VisibilityHidden here probably doesn't make
 		// sense and should be removed when someone has thought about it properly.
 		if (r.Sym.Type == sym.Sxxx || r.Sym.Type == sym.SXREF) && !r.Sym.Attr.VisibilityHidden() {
-			ctxt.Errorf(s, "undefined: %q", r.Sym.Name)
+			ctxt.Errorf(s, "undefined: %q", ctxt.Syms.SymName(r.Sym))
 		}
 		if !r.Sym.Attr.Reachable() && r.Type != objabi.R_WEAKADDROFF {
-			ctxt.Errorf(s, "relocation target %q", r.Sym.Name)
+			ctxt.Errorf(s, "relocation target %q", ctxt.Syms.SymName(r.Sym))
 		}
 	}
 }
@@ -2485,7 +2490,7 @@ func (ctxt *Link) callgraph() {
 				continue
 			}
 			if (r.Type == objabi.R_CALL || r.Type == objabi.R_CALLARM || r.Type == objabi.R_CALLPOWER || r.Type == objabi.R_CALLMIPS) && r.Sym.Type == sym.STEXT {
-				ctxt.Logf("%s calls %s\n", s.Name, r.Sym.Name)
+				ctxt.Logf("%s calls %s\n", ctxt.Syms.SymName(s), ctxt.Syms.SymName(r.Sym))
 			}
 		}
 	}

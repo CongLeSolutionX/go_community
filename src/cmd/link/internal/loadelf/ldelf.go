@@ -805,7 +805,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 			if s.Attr.DuplicateOK() {
 				continue
 			}
-			return errorf("duplicate symbol reference: %s in both %s and %s", s.Name, s.Outer.Name, sect.sym.Name)
+			return errorf("duplicate symbol reference: %s in both %s and %s", syms.SymName(s), syms.SymName(s.Outer), syms.SymName(sect.sym))
 		}
 
 		s.Sub = sect.sym.Sub
@@ -847,7 +847,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 		}
 		if s.Type == sym.STEXT {
 			if s.Attr.OnList() {
-				return errorf("symbol %s listed multiple times", s.Name)
+				return errorf("symbol %s listed multiple times", syms.SymName(s))
 			}
 			s.Attr |= sym.AttrOnList
 			textp = append(textp, s)
@@ -925,7 +925,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 				}
 				elfsym.sym = symbols[info>>32]
 				if elfsym.sym == nil {
-					return errorf("malformed elf file: %s#%d: reloc of invalid sym #%d %s shndx=%d type=%d", sect.sym.Name, j, int(info>>32), elfsym.name, elfsym.shndx, elfsym.type_)
+					return errorf("malformed elf file: %s#%d: reloc of invalid sym #%d %s shndx=%d type=%d", syms.SymName(sect.sym), j, int(info>>32), elfsym.name, elfsym.shndx, elfsym.type_)
 				}
 
 				rp.Sym = elfsym.sym

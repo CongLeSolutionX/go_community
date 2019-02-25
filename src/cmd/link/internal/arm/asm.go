@@ -195,7 +195,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_ARM_ABS32):
 		if targ.Type == sym.SDYNIMPORT {
-			ctxt.Errorf(s, "unexpected R_ARM_ABS32 relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_ARM_ABS32 relocation for dynamic symbol %s", ctxt.Syms.SymName(targ))
 		}
 		r.Type = objabi.R_ADDR
 		return true
@@ -365,7 +365,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 
 	if rs.Type == sym.SHOSTOBJ || r.Type == objabi.R_CALLARM {
 		if rs.Dynid < 0 {
-			ctxt.Errorf(s, "reloc %d (%s) to non-macho symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
+			ctxt.Errorf(s, "reloc %d (%s) to non-macho symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), ctxt.Syms.SymName(rs), rs.Type, rs.Type)
 			return false
 		}
 
@@ -374,7 +374,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 	} else {
 		v = uint32(rs.Sect.Extnum)
 		if v == 0 {
-			ctxt.Errorf(s, "reloc %d (%s) to symbol %s in non-macho section %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Sect.Name, rs.Type, rs.Type)
+			ctxt.Errorf(s, "reloc %d (%s) to symbol %s in non-macho section %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), ctxt.Syms.SymName(rs), rs.Sect.Name, rs.Type, rs.Type)
 			return false
 		}
 	}
@@ -417,7 +417,7 @@ func pereloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sectof
 
 	arch := ctxt.Arch
 	if rs.Dynid < 0 {
-		ctxt.Errorf(s, "reloc %d (%s) to non-coff symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
+		ctxt.Errorf(s, "reloc %d (%s) to non-coff symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), ctxt.Syms.SymName(rs), rs.Type, rs.Type)
 		return false
 	}
 
@@ -472,7 +472,7 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 			offset := (signext24(r.Add&0xffffff) + 2) * 4
 			var tramp *sym.Symbol
 			for i := 0; ; i++ {
-				name := r.Sym.Name + fmt.Sprintf("%+d-tramp%d", offset, i)
+				name := ctxt.Syms.SymName(r.Sym) + fmt.Sprintf("%+d-tramp%d", offset, i)
 				tramp = ctxt.Syms.Lookup(name, int(r.Sym.Version))
 				if tramp.Type == sym.SDYNIMPORT {
 					// don't reuse trampoline defined in other module
@@ -616,7 +616,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 
 			if rs.Type != sym.SHOSTOBJ && rs.Type != sym.SDYNIMPORT && rs.Sect == nil {
-				ctxt.Errorf(s, "missing section for %s", rs.Name)
+				ctxt.Errorf(s, "missing section for %s", ctxt.Syms.SymName(rs))
 			}
 			r.Xsym = rs
 
@@ -661,7 +661,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		// low 24-bit encodes the target address
 		t := (ctxt.Symaddr(r.Sym) + int64(signext24(r.Add&0xffffff)*4) - (s.Value + int64(r.Off))) / 4
 		if t > 0x7fffff || t < -0x800000 {
-			ctxt.Errorf(s, "direct call too far: %s %x", r.Sym.Name, t)
+			ctxt.Errorf(s, "direct call too far: %s %x", ctxt.Syms.SymName(r.Sym), t)
 		}
 		return int64(braddoff(int32(0xff000000&uint32(r.Add)), int32(0xffffff&t))), true
 	}

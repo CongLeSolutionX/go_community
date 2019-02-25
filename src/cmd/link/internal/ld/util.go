@@ -48,7 +48,7 @@ func Exitf(format string, a ...interface{}) {
 
 func (ctxt *Link) Errorf(s *sym.Symbol, format string, args ...interface{}) {
 	if s != nil {
-		format = s.Name + ": " + format
+		format = ctxt.Syms.SymName(s) + ": " + format
 	}
 	Errorf(format, args...)
 }

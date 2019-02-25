@@ -108,7 +108,9 @@ func hostArchive(ctxt *Link, name string) {
 			for i := range s.R {
 				r := &s.R[i] // Copying sym.Reloc has measurable impact on performance
 				if r.Sym != nil && r.Sym.Type == sym.SXREF {
-					if off := armap[r.Sym.Name]; off != 0 && !loaded[off] {
+					// TODO: index armap by encoded symbol name?
+					sn := ctxt.Syms.SymName(r.Sym)
+					if off := armap[sn]; off != 0 && !loaded[off] {
 						load = append(load, off)
 						loaded[off] = true
 					}

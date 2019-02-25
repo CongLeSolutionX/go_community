@@ -121,7 +121,7 @@ func asmb2(ctxt *ld.Link) {
 			if r.Type == objabi.R_WASMIMPORT {
 				hostImportMap[r.Sym] = int64(len(hostImports))
 				hostImports = append(hostImports, &wasmFunc{
-					Name: r.Sym.Name,
+					Name: ctxt.Syms.SymName(r.Sym),
 					Type: lookupType(&wasmFuncType{Params: []byte{I32}}, &types),
 				})
 			}
@@ -133,7 +133,7 @@ func asmb2(ctxt *ld.Link) {
 	fns := make([]*wasmFunc, len(ctxt.Textp))
 	for i, fn := range ctxt.Textp {
 		wfn := new(bytes.Buffer)
-		if fn.Name == "go.buildid" {
+		if ctxt.Syms.SymName(fn) == "go.buildid" {
 			writeUleb128(wfn, 0) // number of sets of locals
 			writeI32Const(wfn, 0)
 			wfn.WriteByte(0x0b) // end
@@ -160,11 +160,12 @@ func asmb2(ctxt *ld.Link) {
 		}
 
 		typ := uint32(0)
-		if sig, ok := wasmFuncTypes[fn.Name]; ok {
+		fname := ctxt.Syms.SymName(fn)
+		if sig, ok := wasmFuncTypes[fname]; ok {
 			typ = lookupType(sig, &types)
 		}
 
-		name := nameRegexp.ReplaceAllString(fn.Name, "_")
+		name := nameRegexp.ReplaceAllString(fname, "_")
 		fns[i] = &wasmFunc{Name: name, Type: typ, Code: wfn.Bytes()}
 	}
 

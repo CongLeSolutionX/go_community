@@ -383,7 +383,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, input *bio.Reader, pkg string, leng
 			if s.Attr.DuplicateOK() {
 				continue
 			}
-			return nil, nil, fmt.Errorf("%s: duplicate symbol reference: %s in both %s and %s", pn, s.Name, s.Outer.Name, sectsyms[sect].Name)
+			return nil, nil, fmt.Errorf("%s: duplicate symbol reference: %s in both %s and %s", pn, syms.SymName(s), syms.SymName(s.Outer), syms.SymName(sectsyms[sect]))
 		}
 
 		sectsym := sectsyms[sect]
@@ -396,7 +396,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, input *bio.Reader, pkg string, leng
 		s.Outer = sectsym
 		if sectsym.Type == sym.STEXT {
 			if s.Attr.External() && !s.Attr.DuplicateOK() {
-				return nil, nil, fmt.Errorf("%s: duplicate symbol definition", s.Name)
+				return nil, nil, fmt.Errorf("%s: duplicate symbol definition", syms.SymName(s))
 			}
 			s.Attr |= sym.AttrExternal
 		}
@@ -414,13 +414,13 @@ func Load(arch *sys.Arch, syms *sym.Symbols, input *bio.Reader, pkg string, leng
 		}
 		if s.Type == sym.STEXT {
 			if s.Attr.OnList() {
-				return nil, nil, fmt.Errorf("symbol %s listed multiple times", s.Name)
+				return nil, nil, fmt.Errorf("symbol %s listed multiple times", syms.SymName(s))
 			}
 			s.Attr |= sym.AttrOnList
 			textp = append(textp, s)
 			for s = s.Sub; s != nil; s = s.Sub {
 				if s.Attr.OnList() {
-					return nil, nil, fmt.Errorf("symbol %s listed multiple times", s.Name)
+					return nil, nil, fmt.Errorf("symbol %s listed multiple times", syms.SymName(s))
 				}
 				s.Attr |= sym.AttrOnList
 				textp = append(textp, s)
@@ -442,7 +442,7 @@ func readpesym(arch *sys.Arch, syms *sym.Symbols, f *pe.File, pesym *pe.COFFSymb
 	}
 	var name string
 	if issect(pesym) {
-		name = sectsyms[f.Sections[pesym.SectionNumber-1]].Name
+		name = syms.SymName(sectsyms[f.Sections[pesym.SectionNumber-1]])
 	} else {
 		name = symname
 		name = strings.TrimPrefix(name, "__imp_") // __imp_Name => Name

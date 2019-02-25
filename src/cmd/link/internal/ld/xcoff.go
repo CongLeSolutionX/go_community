@@ -475,7 +475,7 @@ func (f *xcoffFile) addSection(name string, addr uint64, size uint64, fileoff ui
 // addDwarfSection adds a dwarf section to the XCOFF file f.
 // This function is similar to addSection, but Dwarf section names
 // must be modified to conventional names and they are various subtypes.
-func (f *xcoffFile) addDwarfSection(s *sym.Section) *XcoffScnHdr64 {
+func (f *xcoffFile) addDwarfSection(ctxt *Link, s *sym.Section) *XcoffScnHdr64 {
 	newName, subtype := xcoffGetDwarfSubtype(s.Name)
 	return f.addSection(newName, 0, s.Length, s.Seg.Fileoff+s.Vaddr-s.Seg.Vaddr, STYP_DWARF|subtype)
 }
@@ -614,13 +614,13 @@ func (f *xcoffFile) addSymbol(sym xcoffSym) {
 }
 
 // xcoffAlign returns the log base 2 of the symbol's alignment.
-func xcoffAlign(x *sym.Symbol, t SymbolType) uint8 {
+func xcoffAlign(ctxt *Link, x *sym.Symbol, t SymbolType) uint8 {
 	align := x.Align
 	if align == 0 {
 		if t == TextSym {
 			align = int32(Funcalign)
 		} else {
-			align = symalign(x)
+			align = symalign(ctxt, x)
 		}
 	}
 	return logBase2(int(align))
@@ -777,7 +777,8 @@ func (f *xcoffFile) writeSymbolFunc(ctxt *Link, x *sym.Symbol) []xcoffSym {
 	syms := []xcoffSym{}
 
 	// Check if a new file is detected.
-	if strings.Contains(x.Name, "-tramp") || strings.HasPrefix(x.Name, "runtime.text.") {
+	xn := ctxt.Syms.SymName(x)
+	if strings.Contains(xn, "-tramp") || strings.HasPrefix(xn, "runtime.text.") {
 		// Trampoline don't have a FILE so there are considered
 		// in the current file.
 		// Same goes for runtime.text.X symbols.
@@ -846,7 +847,7 @@ func (f *xcoffFile) writeSymbolFunc(ctxt *Link, x *sym.Symbol) []xcoffSym {
 		Xsmtyp:    XTY_LD, // label definition (based on C)
 		Xauxtype:  _AUX_CSECT,
 	}
-	a4.Xsmtyp |= uint8(xcoffAlign(x, TextSym) << 3)
+	a4.Xsmtyp |= uint8(xcoffAlign(ctxt, x, TextSym) << 3)
 
 	syms = append(syms, a4)
 	return syms
@@ -859,18 +860,19 @@ func putaixsym(ctxt *Link, x *sym.Symbol, str string, t SymbolType, addr int64, 
 	// Can be a symbol entry or a auxiliary entry
 	syms := []xcoffSym{}
 
+	xn := ctxt.Syms.SymName(x)
 	switch t {
 	default:
 		return
 
 	case TextSym:
-		if x.FuncInfo != nil || strings.Contains(x.Name, "-tramp") || strings.HasPrefix(x.Name, "runtime.text.") {
+		if x.FuncInfo != nil || strings.Contains(xn, "-tramp") || strings.HasPrefix(xn, "runtime.text.") {
 			// Function within a file
 			syms = xfile.writeSymbolFunc(ctxt, x)
 		} else {
 			// Only runtime.text and runtime.etext come through this way
-			if x.Name != "runtime.text" && x.Name != "runtime.etext" && x.Name != "go.buildid" {
-				Exitf("putaixsym: unknown text symbol %s", x.Name)
+			if xn != "runtime.text" && xn != "runtime.etext" && xn != "go.buildid" {
+				Exitf("putaixsym: unknown text symbol %s", xn)
 			}
 			s := &XcoffSymEnt64{
 				Nsclass: C_HIDEXT,
@@ -891,7 +893,7 @@ func putaixsym(ctxt *Link, x *sym.Symbol, str string, t SymbolType, addr int64, 
 				Xsmclas:   XMC_PR,
 				Xsmtyp:    XTY_SD,
 			}
-			a4.Xsmtyp |= uint8(xcoffAlign(x, TextSym) << 3)
+			a4.Xsmtyp |= uint8(xcoffAlign(ctxt, x, TextSym) << 3)
 			syms = append(syms, a4)
 
 		}
@@ -932,7 +934,7 @@ func putaixsym(ctxt *Link, x *sym.Symbol, str string, t SymbolType, addr int64, 
 		}
 
 		if x.Type >= sym.STYPE && x.Type <= sym.SPCLNTAB {
-			if ctxt.LinkMode == LinkExternal && strings.HasPrefix(x.Sect.Name, ".data.rel.ro") {
+			if ctxt.LinkMode == LinkExternal && strings.HasPrefix(xn, ".data.rel.ro") {
 				// During external linking, read-only datas with relocation
 				// must be in .data.
 				a4.Xsmclas = XMC_RW
@@ -940,9 +942,9 @@ func putaixsym(ctxt *Link, x *sym.Symbol, str string, t SymbolType, addr int64, 
 				// Read only data
 				a4.Xsmclas = XMC_RO
 			}
-		} else if x.Type == sym.SDATA && strings.HasPrefix(x.Name, "TOC.") && ctxt.LinkMode == LinkExternal {
+		} else if x.Type == sym.SDATA && strings.HasPrefix(xn, "TOC.") && ctxt.LinkMode == LinkExternal {
 			a4.Xsmclas = XMC_TC
-		} else if x.Name == "TOC" {
+		} else if xn == "TOC" {
 			a4.Xsmclas = XMC_TC0
 		} else {
 			a4.Xsmclas = XMC_RW
@@ -953,7 +955,7 @@ func putaixsym(ctxt *Link, x *sym.Symbol, str string, t SymbolType, addr int64, 
 			a4.Xsmtyp |= XTY_CM
 		}
 
-		a4.Xsmtyp |= uint8(xcoffAlign(x, t) << 3)
+		a4.Xsmtyp |= uint8(xcoffAlign(ctxt, x, t) << 3)
 
 		syms = append(syms, a4)
 
@@ -975,7 +977,8 @@ func putaixsym(ctxt *Link, x *sym.Symbol, str string, t SymbolType, addr int64, 
 			Xsmtyp:   XTY_ER | XTY_IMP,
 		}
 
-		if x.Name == "__n_pthreads" {
+		xn := ctxt.Syms.SymName(x)
+		if xn == "__n_pthreads" {
 			// Currently, all imported symbols made by cgo_import_dynamic are
 			// syscall functions, except __n_pthreads which is a variable.
 			// TODO(aix): Find a way to detect variables imported by cgo.
@@ -1082,7 +1085,7 @@ func (f *xcoffFile) adddynimpsym(ctxt *Link, s *sym.Symbol) {
 		smtype: XTY_IMP,
 		smclas: XMC_DS,
 	}
-	if s.Name == "__n_pthreads" {
+	if ctxt.Syms.SymName(s) == "__n_pthreads" {
 		// Currently, all imported symbols made by cgo_import_dynamic are
 		// syscall functions, except __n_pthreads which is a variable.
 		// TODO(aix): Find a way to detect variables imported by cgo.
@@ -1103,7 +1106,7 @@ func Xcoffadddynrel(ctxt *Link, s *sym.Symbol, r *sym.Reloc) bool {
 		return true
 	}
 	if s.Type <= sym.SPCLNTAB {
-		ctxt.Errorf(s, "cannot have a relocation to %s in a text section symbol", r.Sym.Name)
+		ctxt.Errorf(s, "cannot have a relocation to %s in a text section symbol", ctxt.Syms.SymName(r.Sym))
 		return false
 	}
 
@@ -1112,15 +1115,16 @@ func Xcoffadddynrel(ctxt *Link, s *sym.Symbol, r *sym.Reloc) bool {
 		rel: r,
 	}
 
+	rsn := ctxt.Syms.SymName(r.Sym)
 	switch r.Type {
 	default:
-		ctxt.Errorf(s, "unexpected .loader relocation to symbol: %s (type: %s)", r.Sym.Name, r.Type.String())
+		ctxt.Errorf(s, "unexpected .loader relocation to symbol: %s (type: %s)", rsn, r.Type.String())
 		return false
 	case objabi.R_ADDR:
 		if s.Type == sym.SXCOFFTOC && r.Sym.Type == sym.SDYNIMPORT {
 			// Imported symbol relocation
 			for i, dynsym := range xfile.loaderSymbols {
-				if dynsym.sym.Name == r.Sym.Name {
+				if ctxt.Syms.SymName(dynsym.sym) == rsn {
 					ldr.symndx = int32(i + 3) // +3 because of 3 section symbols
 					break
 				}
@@ -1128,7 +1132,7 @@ func Xcoffadddynrel(ctxt *Link, s *sym.Symbol, r *sym.Reloc) bool {
 		} else if s.Type == sym.SDATA {
 			switch r.Sym.Sect.Seg {
 			default:
-				ctxt.Errorf(s, "unknown segment for .loader relocation with symbol %s", r.Sym.Name)
+				ctxt.Errorf(s, "unknown segment for .loader relocation with symbol %s", rsn)
 			case &Segtext:
 			case &Segrodata:
 				ldr.symndx = 0 // .text
@@ -1142,7 +1146,7 @@ func Xcoffadddynrel(ctxt *Link, s *sym.Symbol, r *sym.Reloc) bool {
 			}
 
 		} else {
-			ctxt.Errorf(s, "unexpected type for .loader relocation R_ADDR for symbol %s: %s to %s", r.Sym.Name, s.Type, r.Sym.Type)
+			ctxt.Errorf(s, "unexpected type for .loader relocation R_ADDR for symbol %s: %s to %s", rsn, s.Type, r.Sym.Type)
 			return false
 		}
 
@@ -1212,7 +1216,8 @@ func (ctxt *Link) doxcoff() {
 	xfile.genDynSym(ctxt)
 
 	for _, s := range ctxt.Syms.Allsym {
-		if strings.HasPrefix(s.Name, "TOC.") {
+		sn := ctxt.Syms.SymName(s)
+		if strings.HasPrefix(sn, "TOC.") {
 			s.Type = sym.SXCOFFTOC
 		}
 	}
@@ -1220,7 +1225,7 @@ func (ctxt *Link) doxcoff() {
 	if ctxt.LinkMode == LinkExternal {
 		// Change rt0_go name to match name in runtime/cgo:main().
 		rt0 := ctxt.Syms.ROLookup("runtime.rt0_go", 0)
-		ctxt.Syms.Rename(rt0.Name, "runtime_rt0_go", 0, ctxt.Reachparent)
+		ctxt.Syms.Rename(ctxt.Syms.SymName(rt0), "runtime_rt0_go", 0, ctxt.Reachparent)
 
 		for _, s := range ctxt.Syms.Allsym {
 			if !s.Attr.CgoExport() {
@@ -1228,11 +1233,13 @@ func (ctxt *Link) doxcoff() {
 			}
 
 			name := s.Extname()
+			sn := ctxt.Syms.SymName(s)
 			if s.Type == sym.STEXT {
 				// On AIX, a exported function must have two symbols:
 				// - a .text symbol which must start with a ".".
 				// - a .data symbol which is a function descriptor.
-				ctxt.Syms.Rename(s.Name, "."+name, 0, ctxt.Reachparent)
+
+				ctxt.Syms.Rename(sn, "."+name, 0, ctxt.Reachparent)
 
 				desc := ctxt.Syms.Lookup(name, 0)
 				desc.Type = sym.SNOPTRDATA
@@ -1286,9 +1293,10 @@ func (f *xcoffFile) writeLdrScn(ctxt *Link, globalOff uint64) {
 		case XTY_IMP:
 			lds.Lifile = int32(f.dynLibraries[s.sym.Dynimplib()] + 1)
 		}
+		ssn := ctxt.Syms.SymName(s.sym)
 		ldstr := &XcoffLdStr64{
-			size: uint16(len(s.sym.Name) + 1), // + null terminator
-			name: s.sym.Name,
+			size: uint16(len(ssn) + 1), // + null terminator
+			name: ssn,
 		}
 		stlen += uint32(2 + ldstr.size) // 2 = sizeof ldstr.size
 		symtab = append(symtab, lds)
@@ -1540,7 +1548,7 @@ func Asmbxcoff(ctxt *Link, fileoff int64) {
 
 	// add dwarf sections
 	for _, sect := range Segdwarf.Sections {
-		xfile.addDwarfSection(sect)
+		xfile.addDwarfSection(ctxt, sect)
 	}
 
 	// add and write remaining sections
