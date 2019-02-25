@@ -46,6 +46,30 @@
       "revId": "bc923f56f9466083e462c171b70c104203af508a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cce7b952_e5fc716c",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 30924
+      },
+      "writtenOn": "2019-02-25T19:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffc7fa7f_330e8cdf",
+      "range": {
+        "startLine": 172,
+        "startChar": 1,
+        "endLine": 172,
+        "endChar": 12
+      },
+      "revId": "bc923f56f9466083e462c171b70c104203af508a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
