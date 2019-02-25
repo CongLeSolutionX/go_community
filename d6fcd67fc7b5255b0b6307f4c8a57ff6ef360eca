@@ -22,6 +22,30 @@
       "revId": "d6fcd67fc7b5255b0b6307f4c8a57ff6ef360eca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "969a8c5d_19ff5765",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-02-25T09:41:47Z",
+      "side": 1,
+      "message": "I don\u0027t know. It does work like this. I think the lock around it is enough. \nMy first version (not submitted) was with a lock instead of an atomic.Load but I think only the SYNC instruction is needed in order to wait remaining updates on these values. Therefore, I don\u0027t think atomic.Store is needed (at least not on ppc64, but maybe other OSes need it).",
+      "parentUuid": "b2342216_c4dbc8b7",
+      "range": {
+        "startLine": 1016,
+        "startChar": 1,
+        "endLine": 1016,
+        "endChar": 15
+      },
+      "revId": "d6fcd67fc7b5255b0b6307f4c8a57ff6ef360eca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
