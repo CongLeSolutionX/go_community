@@ -82,6 +82,30 @@
     },
     {
       "key": {
+        "uuid": "570c190e_5f79c1f0",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 30924
+      },
+      "writtenOn": "2019-02-25T19:04:45Z",
+      "side": 1,
+      "message": "It is ok idea to use IndexByte.\nBut we have Commit (move all IndexByte to just Index)\nhttps://github.com/golang/go/commit/90d71fe99e21b68e292327c966946f1706d66514#diff-44567335da7512324c74b50e5fcb3def\nAnd tiket https://github.com/golang/go/issues/22148\nSo I have no power to back from index to IndexByte.",
+      "parentUuid": "60e532ef_e2e839ea",
+      "range": {
+        "startLine": 239,
+        "startChar": 28,
+        "endLine": 239,
+        "endChar": 33
+      },
+      "revId": "2a03e7a35d4bd091cefab64b1ff2a233510d694e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b9e6383_b5ca71c4",
         "filename": "src/net/http/cookie.go",
         "patchSetId": 4
@@ -96,6 +120,24 @@
       "revId": "2a03e7a35d4bd091cefab64b1ff2a233510d694e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42ea4250_dbd4086f",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 30924
+      },
+      "writtenOn": "2019-02-25T19:04:45Z",
+      "side": 1,
+      "message": "It is ok idea to use IndexByte.\nBut we have Commit (move all IndexByte to just Index)\nhttps://github.com/golang/go/commit/90d71fe99e21b68e292327c966946f1706d66514#diff-44567335da7512324c74b50e5fcb3def\nAnd tiket https://github.com/golang/go/issues/22148\nSo I have no power to back from index to IndexByte.",
+      "parentUuid": "7b9e6383_b5ca71c4",
+      "revId": "2a03e7a35d4bd091cefab64b1ff2a233510d694e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
