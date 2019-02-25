@@ -198,7 +198,8 @@ func walktypedef(die *dwarf.DWDie) *dwarf.DWDie {
 }
 
 func walksymtypedef(ctxt *Link, s *sym.Symbol) *sym.Symbol {
-	if t := ctxt.Syms.ROLookup(s.Name+"..def", int(s.Version)); t != nil {
+	sn := ctxt.SymName(s)
+	if t := ctxt.Syms.ROLookup(sn+"..def", int(s.Version)); t != nil {
 		return t
 	}
 	return s
@@ -277,7 +278,7 @@ func putdie(linkctxt *Link, ctxt dwarf.Context, syms []*sym.Symbol, die *dwarf.D
 		s = syms[len(syms)-1]
 	} else {
 		if s.Attr.OnList() {
-			log.Fatalf("symbol %s listed multiple times", s.Name)
+			log.Fatalf("symbol %s listed multiple times", linkctxt.SymName(s))
 		}
 		s.Attr |= sym.AttrOnList
 		syms = append(syms, s)
@@ -350,10 +351,11 @@ func dwarfFuncSym(ctxt *Link, s *sym.Symbol, meta string, create bool) *sym.Symb
 	if s.IsFileLocal() {
 		ver = int(s.Version)
 	}
+	sn := ctxt.SymName(s)
 	if create {
-		return ctxt.Syms.Lookup(meta+s.Name, ver)
+		return ctxt.Syms.Lookup(meta+sn, ver)
 	}
-	return ctxt.Syms.ROLookup(meta+s.Name, ver)
+	return ctxt.Syms.ROLookup(meta+sn, ver)
 }
 
 func dotypedef(ctxt *Link, parent *dwarf.DWDie, name string, def *dwarf.DWDie) *dwarf.DWDie {
@@ -374,7 +376,8 @@ func dotypedef(ctxt *Link, parent *dwarf.DWDie, name string, def *dwarf.DWDie) *
 		Errorf("dwarf: bad def in dotypedef")
 	}
 
-	s := ctxt.Syms.Lookup(dtolsym(def.Sym).Name+"..def", 0)
+	dname := ctxt.SymName(dtolsym(def.Sym))
+	s := ctxt.Syms.Lookup(dname+"..def", 0)
 	s.Attr |= sym.AttrNotInSymbolTable
 	s.Type = sym.SDWARFINFO
 	def.Sym = s
@@ -396,12 +399,13 @@ func defgotype(ctxt *Link, gotype *sym.Symbol) *sym.Symbol {
 		return mustFind(ctxt, "<unspecified>")
 	}
 
-	if !strings.HasPrefix(gotype.Name, "type.") {
+	gtn := ctxt.SymName(gotype)
+	if !strings.HasPrefix(gtn, "type.") {
 		ctxt.Errorf(gotype, "dwarf: type name doesn't start with \"type.\"")
 		return mustFind(ctxt, "<unspecified>")
 	}
 
-	name := gotype.Name[5:] // could also decode from Type.string
+	name := gtn[5:] // could also decode from Type.string
 
 	sdie := find(ctxt, name)
 
@@ -413,7 +417,8 @@ func defgotype(ctxt *Link, gotype *sym.Symbol) *sym.Symbol {
 }
 
 func newtype(ctxt *Link, gotype *sym.Symbol) *dwarf.DWDie {
-	name := gotype.Name[5:] // could also decode from Type.string
+	gtn := ctxt.SymName(gotype)
+	name := gtn[5:] // could also decode from Type.string
 	kind := decodetypeKind(ctxt.Arch, gotype)
 	bytesize := decodetypeSize(ctxt.Arch, gotype)
 
@@ -483,7 +488,8 @@ func newtype(ctxt *Link, gotype *sym.Symbol) *dwarf.DWDie {
 		nfields := decodetypeFuncInCount(ctxt.Arch, gotype)
 		for i := 0; i < nfields; i++ {
 			s := decodetypeFuncInType(ctxt.Arch, gotype, i)
-			fld := newdie(ctxt, die, dwarf.DW_ABRV_FUNCTYPEPARAM, s.Name[5:], 0)
+			sn := ctxt.SymName(s)
+			fld := newdie(ctxt, die, dwarf.DW_ABRV_FUNCTYPEPARAM, sn[5:], 0)
 			newrefattr(fld, dwarf.DW_AT_type, defgotype(ctxt, s))
 		}
 
@@ -493,7 +499,8 @@ func newtype(ctxt *Link, gotype *sym.Symbol) *dwarf.DWDie {
 		nfields = decodetypeFuncOutCount(ctxt.Arch, gotype)
 		for i := 0; i < nfields; i++ {
 			s := decodetypeFuncOutType(ctxt.Arch, gotype, i)
-			fld := newdie(ctxt, die, dwarf.DW_ABRV_FUNCTYPEPARAM, s.Name[5:], 0)
+			sn := ctxt.SymName(s)
+			fld := newdie(ctxt, die, dwarf.DW_ABRV_FUNCTYPEPARAM, sn[5:], 0)
 			newrefattr(fld, dwarf.DW_AT_type, defptrto(ctxt, defgotype(ctxt, s)))
 		}
 
@@ -546,7 +553,8 @@ func newtype(ctxt *Link, gotype *sym.Symbol) *dwarf.DWDie {
 			f := decodetypeStructFieldName(ctxt.Arch, gotype, i)
 			s := decodetypeStructFieldType(ctxt.Arch, gotype, i)
 			if f == "" {
-				f = s.Name[5:] // skip "type."
+				sn := ctxt.SymName(s)
+				f = sn[5:] // skip "type."
 			}
 			fld := newdie(ctxt, die, dwarf.DW_ABRV_STRUCTFIELD, f, 0)
 			newrefattr(fld, dwarf.DW_AT_type, defgotype(ctxt, s))
@@ -571,8 +579,8 @@ func newtype(ctxt *Link, gotype *sym.Symbol) *dwarf.DWDie {
 		newattr(die, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, gotype)
 	}
 
-	if _, ok := prototypedies[gotype.Name]; ok {
-		prototypedies[gotype.Name] = die
+	if _, ok := prototypedies[gtn]; ok {
+		prototypedies[gtn] = die
 	}
 
 	if typedefdie != nil {
@@ -581,13 +589,14 @@ func newtype(ctxt *Link, gotype *sym.Symbol) *dwarf.DWDie {
 	return die
 }
 
-func nameFromDIESym(dwtype *sym.Symbol) string {
-	return strings.TrimSuffix(dwtype.Name[len(dwarf.InfoPrefix):], "..def")
+func nameFromDIESym(ctxt *Link, dwtype *sym.Symbol) string {
+	dtn := ctxt.SymName(dwtype)
+	return strings.TrimSuffix(dtn[len(dwarf.InfoPrefix):], "..def")
 }
 
 // Find or construct *T given T.
 func defptrto(ctxt *Link, dwtype *sym.Symbol) *sym.Symbol {
-	ptrname := "*" + nameFromDIESym(dwtype)
+	ptrname := "*" + nameFromDIESym(ctxt, dwtype)
 	if die := find(ctxt, ptrname); die != nil {
 		return die
 	}
@@ -740,7 +749,7 @@ func synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 		}
 
 		// Construct type to represent an array of BucketSize keys
-		keyname := nameFromDIESym(keytype)
+		keyname := nameFromDIESym(ctxt, keytype)
 		dwhks := mkinternaltype(ctxt, dwarf.DW_ABRV_ARRAYTYPE, "[]key", keyname, "", func(dwhk *dwarf.DWDie) {
 			newattr(dwhk, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, BucketSize*keysize, 0)
 			t := keytype
@@ -754,7 +763,7 @@ func synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 		})
 
 		// Construct type to represent an array of BucketSize values
-		valname := nameFromDIESym(valtype)
+		valname := nameFromDIESym(ctxt, valtype)
 		dwhvs := mkinternaltype(ctxt, dwarf.DW_ABRV_ARRAYTYPE, "[]val", valname, "", func(dwhv *dwarf.DWDie) {
 			newattr(dwhv, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, BucketSize*valsize, 0)
 			t := valtype
@@ -819,7 +828,8 @@ func synthesizechantypes(ctxt *Link, die *dwarf.DWDie) {
 			continue
 		}
 		elemgotype := getattr(die, dwarf.DW_AT_type).Data.(*sym.Symbol)
-		elemname := elemgotype.Name[5:]
+		sn := ctxt.SymName(elemgotype)
+		elemname := sn[5:]
 		elemtype := walksymtypedef(ctxt, defgotype(ctxt, elemgotype))
 
 		// sudog<T>
@@ -886,7 +896,8 @@ func defdwsymb(ctxt *Link, s *sym.Symbol, str string, t SymbolType, v int64, got
 		default:
 			return
 		}
-		if ctxt.LinkMode != LinkExternal && isStaticTemp(s.Name) {
+		sn := ctxt.SymName(s)
+		if ctxt.LinkMode != LinkExternal && isStaticTemp(sn) {
 			return
 		}
 		dwarfDefineGlobal(ctxt, s, str, v, gotype)
@@ -973,7 +984,7 @@ func movetomodule(ctxt *Link, parent *dwarf.DWDie) {
 }
 
 // If the pcln table contains runtime/proc.go, use that to set gdbscript path.
-func finddebugruntimepath(s *sym.Symbol) {
+func finddebugruntimepath(ctxt *Link, s *sym.Symbol) {
 	if gdbscript != "" {
 		return
 	}
@@ -983,8 +994,9 @@ func finddebugruntimepath(s *sym.Symbol) {
 		// We can't use something that may be dead-code
 		// eliminated from a binary here. proc.go contains
 		// main and the scheduler, so it's not going anywhere.
-		if i := strings.Index(f.Name, "runtime/proc.go"); i >= 0 {
-			gdbscript = f.Name[:i] + "runtime/runtime-gdb.py"
+		fn := ctxt.SymName(f)
+		if i := strings.Index(fn, "runtime/proc.go"); i >= 0 {
+			gdbscript = fn[:i] + "runtime/runtime-gdb.py"
 			break
 		}
 	}
@@ -1111,7 +1123,7 @@ func importInfoSymbol(ctxt *Link, dsym *sym.Symbol) {
 	for i := range dsym.R {
 		r := &dsym.R[i] // Copying sym.Reloc has measurable impact on performance
 		if r.Type == objabi.R_DWARFSECREF && r.Sym.Size == 0 {
-			n := nameFromDIESym(r.Sym)
+			n := nameFromDIESym(ctxt, r.Sym)
 			defgotype(ctxt, ctxt.Syms.Lookup("type."+n, 0))
 		}
 	}
@@ -1167,7 +1179,7 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 			}
 			// File indexes are 1-based.
 			fileNums[int(f.Value)] = len(fileNums) + 1
-			Addstring(ls, f.Name)
+			Addstring(ls, ctxt.SymName(f))
 			ls.AddUint8(0)
 			ls.AddUint8(0)
 			ls.AddUint8(0)
@@ -1183,7 +1195,7 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 				continue
 			}
 			fileNums[int(r.Sym.Value)] = len(fileNums) + 1
-			Addstring(ls, r.Sym.Name)
+			Addstring(ls, ctxt.SymName(r.Sym))
 			ls.AddUint8(0)
 			ls.AddUint8(0)
 			ls.AddUint8(0)
@@ -1209,7 +1221,7 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 	var pcline Pciter
 	var pcstmt Pciter
 	for i, s := range unit.lib.Textp {
-		finddebugruntimepath(s)
+		finddebugruntimepath(ctxt, s)
 
 		pciterinit(ctxt, &pcfile, &s.FuncInfo.Pcfile)
 		pciterinit(ctxt, &pcline, &s.FuncInfo.Pcline)
@@ -1589,7 +1601,7 @@ func writeinfo(ctxt *Link, syms []*sym.Symbol, units []*compilationUnit, abbrevs
 
 		// Save size for AIX symbol table.
 		if ctxt.HeadType == objabi.Haix {
-			saveDwsectCUSize(".debug_info", getPkgFromCUSym(s), uint64(cusize))
+			saveDwsectCUSize(".debug_info", getPkgFromCUSym(ctxt, s), uint64(cusize))
 		}
 		if isDwarf64(ctxt) {
 			cusize -= 12                            // exclude the length field.
@@ -1665,7 +1677,7 @@ func (pw *pubWriter) endCompUnit(compunit *dwarf.DWDie, culength uint32) {
 
 	// On AIX, save the current size of this compilation unit.
 	if pw.ctxt.HeadType == objabi.Haix {
-		saveDwsectCUSize(pw.sname, getPkgFromCUSym(dtolsym(compunit.Sym)), uint64(pw.s.Size-pw.sectionstart))
+		saveDwsectCUSize(pw.sname, getPkgFromCUSym(pw.ctxt, dtolsym(compunit.Sym)), uint64(pw.s.Size-pw.sectionstart))
 	}
 	if isDwarf64(pw.ctxt) {
 		pw.s.SetUint(pw.ctxt.Arch, pw.sectionstart+4, uint64(pw.s.Size-pw.sectionstart)-12) // exclude the length field.
@@ -1872,14 +1884,15 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 				r := &dsym.R[ri]
 				if r.Type == objabi.R_DWARFSECREF {
 					rsym := r.Sym
-					if strings.HasPrefix(rsym.Name, dwarf.InfoPrefix) && strings.HasSuffix(rsym.Name, dwarf.AbstractFuncSuffix) && !rsym.Attr.OnList() {
+					rsn := ctxt.SymName(rsym)
+					if strings.HasPrefix(rsn, dwarf.InfoPrefix) && strings.HasSuffix(rsn, dwarf.AbstractFuncSuffix) && !rsym.Attr.OnList() {
 						// abstract function
 						rsym.Attr |= sym.AttrOnList
 						unit.absFnDIEs = append(unit.absFnDIEs, rsym)
 						importInfoSymbol(ctxt, rsym)
 					} else if rsym.Size == 0 {
 						// a type we do not have a DIE for
-						n := nameFromDIESym(rsym)
+						n := nameFromDIESym(ctxt, rsym)
 						defgotype(ctxt, ctxt.Syms.Lookup("type."+n, 0))
 					}
 				}
@@ -1969,7 +1982,8 @@ func collectlocs(ctxt *Link, syms []*sym.Symbol, units []*compilationUnit) []*sy
 		for _, fn := range u.funcDIEs {
 			for i := range fn.R {
 				reloc := &fn.R[i] // Copying sym.Reloc has measurable impact on performance
-				if reloc.Type == objabi.R_DWARFSECREF && strings.HasPrefix(reloc.Sym.Name, dwarf.LocPrefix) {
+				rsn := ctxt.SymName(reloc.Sym)
+				if reloc.Type == objabi.R_DWARFSECREF && strings.HasPrefix(rsn, dwarf.LocPrefix) {
 					reloc.Sym.Attr |= sym.AttrReachable | sym.AttrNotInSymbolTable
 					syms = append(syms, reloc.Sym)
 					empty = false
@@ -2074,11 +2088,11 @@ func dwarfaddshstrings(ctxt *Link, shstrtab *sym.Symbol) {
 
 	secs := []string{"abbrev", "frame", "info", "loc", "line", "pubnames", "pubtypes", "gdb_scripts", "ranges"}
 	for _, sec := range secs {
-		Addstring(shstrtab, ".debug_"+sec)
+		AddShstrtabString(shstrtab, ".debug_"+sec)
 		if ctxt.LinkMode == LinkExternal {
-			Addstring(shstrtab, elfRelType+".debug_"+sec)
+			AddShstrtabString(shstrtab, elfRelType+".debug_"+sec)
 		} else {
-			Addstring(shstrtab, ".zdebug_"+sec)
+			AddShstrtabString(shstrtab, ".zdebug_"+sec)
 		}
 	}
 }
@@ -2213,6 +2227,6 @@ func addDwsectCUSize(sname string, pkgname string, size uint64) {
 // represented by s.
 // The prefix dwarf.InfoPrefix+".pkg." needs to be removed in order to get
 // the package name.
-func getPkgFromCUSym(s *sym.Symbol) string {
-	return strings.TrimPrefix(s.Name, dwarf.InfoPrefix+".pkg.")
+func getPkgFromCUSym(ctxt *Link, s *sym.Symbol) string {
+	return strings.TrimPrefix(ctxt.SymName(s), dwarf.InfoPrefix+".pkg.")
 }

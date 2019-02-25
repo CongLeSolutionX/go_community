@@ -81,10 +81,11 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *sym.Library, le
 		arch:            arch,
 		syms:            syms,
 		pn:              pn,
-		dupSym:          &sym.Symbol{Name: ".dup"},
+		dupSym:          &sym.Symbol{},
 		localSymVersion: syms.IncVersion(),
 		flags:           flags,
 	}
+	syms.SetSymName(r.dupSym, ".dup")
 	r.loadObjFile()
 	if f.Offset() != start+length {
 		log.Fatalf("%s: unexpected end at %d, want %d", pn, f.Offset(), start+length)
@@ -212,7 +213,7 @@ func (r *objReader) readSym() {
 			goto overwrite
 		}
 		if s.Type != sym.SBSS && s.Type != sym.SNOPTRBSS && !dupok && !s.Attr.DuplicateOK() {
-			log.Fatalf("duplicate symbol %s (types %d and %d) in %s and %s", s.Name, s.Type, t, s.File, r.pn)
+			log.Fatalf("duplicate symbol %s (types %d and %d) in %s and %s", r.syms.SymName(s), s.Type, t, s.File, r.pn)
 		}
 		if len(s.P) > 0 {
 			dup = s
@@ -231,7 +232,7 @@ overwrite:
 		log.Fatalf("bad sxref")
 	}
 	if t == 0 {
-		log.Fatalf("missing type for %s in %s", s.Name, r.pn)
+		log.Fatalf("missing type for %s in %s", r.syms.SymName(s), r.pn)
 	}
 	if t == sym.SBSS && (s.Type == sym.SRODATA || s.Type == sym.SNOPTRBSS) {
 		t = s.Type
@@ -342,7 +343,7 @@ overwrite:
 
 		if !dupok {
 			if s.Attr.OnList() {
-				log.Fatalf("symbol %s listed multiple times", s.Name)
+				log.Fatalf("symbol %s listed multiple times", r.syms.SymName(s))
 			}
 			s.Attr |= sym.AttrOnList
 			r.lib.Textp = append(r.lib.Textp, s)
@@ -377,7 +378,7 @@ overwrite:
 			// here is that we get different line numbers on formal
 			// params; I am guessing that the pos is being inherited
 			// from the spot where the wrapper is needed.
-			whitelist := strings.HasPrefix(dup.Name, "go.info.go.interface")
+			whitelist := strings.HasPrefix(r.syms.SymName(s), "go.info.go.interface")
 			if !whitelist {
 				r.strictDupMsgs++
 			}
@@ -441,27 +442,28 @@ func (r *objReader) readRef() {
 	if s == nil || v == r.localSymVersion {
 		return
 	}
-	if s.Name[0] == '$' && len(s.Name) > 5 && s.Type == 0 && len(s.P) == 0 {
-		x, err := strconv.ParseUint(s.Name[5:], 16, 64)
+	sn := r.syms.SymName(s)
+	if sn[0] == '$' && len(sn) > 5 && s.Type == 0 && len(s.P) == 0 {
+		x, err := strconv.ParseUint(sn[5:], 16, 64)
 		if err != nil {
-			log.Panicf("failed to parse $-symbol %s: %v", s.Name, err)
+			log.Panicf("failed to parse $-symbol %s: %v", r.syms.SymName(s), err)
 		}
 		s.Type = sym.SRODATA
 		s.Attr |= sym.AttrLocal
-		switch s.Name[:5] {
+		switch sn[:5] {
 		case "$f32.":
 			if uint64(uint32(x)) != x {
-				log.Panicf("$-symbol %s too large: %d", s.Name, x)
+				log.Panicf("$-symbol %s too large: %d", r.syms.SymName(s), x)
 			}
 			s.AddUint32(r.arch, uint32(x))
 		case "$f64.", "$i64.":
 			s.AddUint64(r.arch, x)
 		default:
-			log.Panicf("unrecognized $-symbol: %s", s.Name)
+			log.Panicf("unrecognized $-symbol: %s", r.syms.SymName(s))
 		}
 		s.Attr.Set(sym.AttrReachable, false)
 	}
-	if strings.HasPrefix(s.Name, "runtime.gcbits.") {
+	if r.syms.SymNameHasPrefix(s, "runtime.gcbits.") {
 		s.Attr |= sym.AttrLocal
 	}
 }

@@ -112,7 +112,8 @@ func deadcode(ctxt *Link) {
 		// Keep a itablink if the symbol it points at is being kept.
 		// (When BuildModeShared, always keep itablinks.)
 		for _, s := range ctxt.Syms.Allsym {
-			if strings.HasPrefix(s.Name, "go.itablink.") {
+			sn := ctxt.SymName(s)
+			if strings.HasPrefix(sn, "go.itablink.") {
 				s.Attr.Set(sym.AttrReachable, len(s.R) == 1 && s.R[0].Sym.Attr.Reachable())
 			}
 		}
@@ -167,7 +168,7 @@ func (d *deadcodepass) cleanupReloc(r *sym.Reloc) {
 		r.Type = objabi.R_ADDROFF
 	} else {
 		if d.ctxt.Debugvlog > 1 {
-			d.ctxt.Logf("removing method %s\n", r.Sym.Name)
+			d.ctxt.Logf("removing method %s\n", d.ctxt.SymName(r.Sym))
 		}
 		r.Sym = nil
 		r.Siz = 0
@@ -185,9 +186,9 @@ func (d *deadcodepass) mark(s, parent *sym.Symbol) {
 	if *flagDumpDep {
 		p := "_"
 		if parent != nil {
-			p = parent.Name
+			p = d.ctxt.SymName(parent)
 		}
-		fmt.Printf("%s -> %s\n", p, s.Name)
+		fmt.Printf("%s -> %s\n", p, d.ctxt.SymName(s))
 	}
 	s.Attr |= sym.AttrReachable
 	if d.ctxt.Reachparent != nil {
@@ -267,7 +268,7 @@ func (d *deadcodepass) flood() {
 		d.markQueue = d.markQueue[1:]
 		if s.Type == sym.STEXT {
 			if d.ctxt.Debugvlog > 1 {
-				d.ctxt.Logf("marktext %s\n", s.Name)
+				d.ctxt.Logf("marktext %s\n", d.ctxt.SymName(s))
 			}
 			if s.FuncInfo != nil {
 				for _, a := range s.FuncInfo.Autom {
@@ -277,14 +278,15 @@ func (d *deadcodepass) flood() {
 
 		}
 
-		if strings.HasPrefix(s.Name, "type.") && s.Name[5] != '.' {
+		sn := d.ctxt.SymName(s)
+		if strings.HasPrefix(sn, "type.") && sn[5] != '.' {
 			if len(s.P) == 0 {
 				// Probably a bug. The undefined symbol check
 				// later will give a better error than deadcode.
 				continue
 			}
 			if decodetypeKind(d.ctxt.Arch, s)&kindMask == kindInterface {
-				for _, sig := range decodeIfaceMethods(d.ctxt.Arch, s) {
+				for _, sig := range decodeIfaceMethods(d.ctxt, s) {
 					if d.ctxt.Debugvlog > 1 {
 						d.ctxt.Logf("reached iface method: %s\n", sig)
 					}
@@ -333,15 +335,16 @@ func (d *deadcodepass) flood() {
 			// Decode runtime type information for type methods
 			// to help work out which methods can be called
 			// dynamically via interfaces.
-			methodsigs := decodetypeMethods(d.ctxt.Arch, s)
+			methodsigs := decodetypeMethods(d.ctxt, s)
 			if len(methods) != len(methodsigs) {
-				panic(fmt.Sprintf("%q has %d method relocations for %d methods", s.Name, len(methods), len(methodsigs)))
+				panic(fmt.Sprintf("%q has %d method relocations for %d methods", d.ctxt.SymName(s), len(methods), len(methodsigs)))
 			}
 			for i, m := range methodsigs {
 				name := string(m)
 				name = name[:strings.Index(name, "(")]
-				if !strings.HasSuffix(methods[i].ifn().Name, name) {
-					panic(fmt.Sprintf("%q relocation for %q does not match method %q", s.Name, methods[i].ifn().Name, name))
+				iname := d.ctxt.SymName(methods[i].ifn())
+				if !strings.HasSuffix(iname, name) {
+					panic(fmt.Sprintf("%q relocation for %q does not match method %q", d.ctxt.SymName(s), iname, name))
 				}
 				methods[i].m = m
 			}

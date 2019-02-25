@@ -1353,17 +1353,17 @@ func elfrelocsect(ctxt *Link, sect *sym.Section, syms []*sym.Symbol) {
 				continue
 			}
 			if r.Xsym == nil {
-				ctxt.Errorf(s, "missing xsym in relocation %#v %#v", r.Sym.Name, s)
+				ctxt.Errorf(s, "missing xsym in relocation %#v %#v", ctxt.SymName(r.Sym), s)
 				continue
 			}
 			if r.Xsym.ElfsymForReloc() == 0 {
-				ctxt.Errorf(s, "reloc %d (%s) to non-elf symbol %s (outer=%s) %d (%s)", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Sym.Name, r.Xsym.Name, r.Sym.Type, r.Sym.Type)
+				ctxt.Errorf(s, "reloc %d (%s) to non-elf symbol %s (outer=%s) %d (%s)", r.Type, sym.RelocName(ctxt.Arch, r.Type), ctxt.SymName(r.Sym), ctxt.SymName(r.Xsym), r.Sym.Type, r.Sym.Type)
 			}
 			if !r.Xsym.Attr.Reachable() {
-				ctxt.Errorf(s, "unreachable reloc %d (%s) target %v", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Xsym.Name)
+				ctxt.Errorf(s, "unreachable reloc %d (%s) target %v", r.Type, sym.RelocName(ctxt.Arch, r.Type), ctxt.SymName(r.Xsym))
 			}
 			if !thearch.Elfreloc1(ctxt, r, int64(uint64(s.Value+int64(r.Off))-sect.Vaddr)) {
-				ctxt.Errorf(s, "unsupported obj reloc %d (%s)/%d to %s", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Siz, r.Sym.Name)
+				ctxt.Errorf(s, "unsupported obj reloc %d (%s)/%d to %s", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Siz, ctxt.SymName(r.Sym))
 			}
 		}
 	}
@@ -1433,66 +1433,66 @@ func (ctxt *Link) doelf() {
 	shstrtab.Type = sym.SELFROSECT
 	shstrtab.Attr |= sym.AttrReachable
 
-	Addstring(shstrtab, "")
-	Addstring(shstrtab, ".text")
-	Addstring(shstrtab, ".noptrdata")
-	Addstring(shstrtab, ".data")
-	Addstring(shstrtab, ".bss")
-	Addstring(shstrtab, ".noptrbss")
+	AddShstrtabString(shstrtab, "")
+	AddShstrtabString(shstrtab, ".text")
+	AddShstrtabString(shstrtab, ".noptrdata")
+	AddShstrtabString(shstrtab, ".data")
+	AddShstrtabString(shstrtab, ".bss")
+	AddShstrtabString(shstrtab, ".noptrbss")
 
 	// generate .tbss section for dynamic internal linker or external
 	// linking, so that various binutils could correctly calculate
 	// PT_TLS size. See https://golang.org/issue/5200.
 	if !*FlagD || ctxt.LinkMode == LinkExternal {
-		Addstring(shstrtab, ".tbss")
+		AddShstrtabString(shstrtab, ".tbss")
 	}
 	if ctxt.HeadType == objabi.Hnetbsd {
-		Addstring(shstrtab, ".note.netbsd.ident")
+		AddShstrtabString(shstrtab, ".note.netbsd.ident")
 	}
 	if ctxt.HeadType == objabi.Hopenbsd {
-		Addstring(shstrtab, ".note.openbsd.ident")
+		AddShstrtabString(shstrtab, ".note.openbsd.ident")
 	}
 	if len(buildinfo) > 0 {
-		Addstring(shstrtab, ".note.gnu.build-id")
+		AddShstrtabString(shstrtab, ".note.gnu.build-id")
 	}
 	if *flagBuildid != "" {
-		Addstring(shstrtab, ".note.go.buildid")
+		AddShstrtabString(shstrtab, ".note.go.buildid")
 	}
-	Addstring(shstrtab, ".elfdata")
-	Addstring(shstrtab, ".rodata")
+	AddShstrtabString(shstrtab, ".elfdata")
+	AddShstrtabString(shstrtab, ".rodata")
 	// See the comment about data.rel.ro.FOO section names in data.go.
 	relro_prefix := ""
 	if ctxt.UseRelro() {
-		Addstring(shstrtab, ".data.rel.ro")
+		AddShstrtabString(shstrtab, ".data.rel.ro")
 		relro_prefix = ".data.rel.ro"
 	}
-	Addstring(shstrtab, relro_prefix+".typelink")
-	Addstring(shstrtab, relro_prefix+".itablink")
-	Addstring(shstrtab, relro_prefix+".gosymtab")
-	Addstring(shstrtab, relro_prefix+".gopclntab")
+	AddShstrtabString(shstrtab, relro_prefix+".typelink")
+	AddShstrtabString(shstrtab, relro_prefix+".itablink")
+	AddShstrtabString(shstrtab, relro_prefix+".gosymtab")
+	AddShstrtabString(shstrtab, relro_prefix+".gopclntab")
 
 	if ctxt.LinkMode == LinkExternal {
 		*FlagD = true
 
-		Addstring(shstrtab, elfRelType+".text")
-		Addstring(shstrtab, elfRelType+".rodata")
-		Addstring(shstrtab, elfRelType+relro_prefix+".typelink")
-		Addstring(shstrtab, elfRelType+relro_prefix+".itablink")
-		Addstring(shstrtab, elfRelType+relro_prefix+".gosymtab")
-		Addstring(shstrtab, elfRelType+relro_prefix+".gopclntab")
-		Addstring(shstrtab, elfRelType+".noptrdata")
-		Addstring(shstrtab, elfRelType+".data")
+		AddShstrtabString(shstrtab, elfRelType+".text")
+		AddShstrtabString(shstrtab, elfRelType+".rodata")
+		AddShstrtabString(shstrtab, elfRelType+relro_prefix+".typelink")
+		AddShstrtabString(shstrtab, elfRelType+relro_prefix+".itablink")
+		AddShstrtabString(shstrtab, elfRelType+relro_prefix+".gosymtab")
+		AddShstrtabString(shstrtab, elfRelType+relro_prefix+".gopclntab")
+		AddShstrtabString(shstrtab, elfRelType+".noptrdata")
+		AddShstrtabString(shstrtab, elfRelType+".data")
 		if ctxt.UseRelro() {
-			Addstring(shstrtab, elfRelType+".data.rel.ro")
+			AddShstrtabString(shstrtab, elfRelType+".data.rel.ro")
 		}
 
 		// add a .note.GNU-stack section to mark the stack as non-executable
-		Addstring(shstrtab, ".note.GNU-stack")
+		AddShstrtabString(shstrtab, ".note.GNU-stack")
 
 		if ctxt.BuildMode == BuildModeShared {
-			Addstring(shstrtab, ".note.go.abihash")
-			Addstring(shstrtab, ".note.go.pkg-list")
-			Addstring(shstrtab, ".note.go.deps")
+			AddShstrtabString(shstrtab, ".note.go.abihash")
+			AddShstrtabString(shstrtab, ".note.go.pkg-list")
+			AddShstrtabString(shstrtab, ".note.go.deps")
 		}
 	}
 
@@ -1505,35 +1505,35 @@ func (ctxt *Link) doelf() {
 	}
 
 	if hasinitarr {
-		Addstring(shstrtab, ".init_array")
-		Addstring(shstrtab, elfRelType+".init_array")
+		AddShstrtabString(shstrtab, ".init_array")
+		AddShstrtabString(shstrtab, elfRelType+".init_array")
 	}
 
 	if !*FlagS {
-		Addstring(shstrtab, ".symtab")
-		Addstring(shstrtab, ".strtab")
+		AddShstrtabString(shstrtab, ".symtab")
+		AddShstrtabString(shstrtab, ".strtab")
 		dwarfaddshstrings(ctxt, shstrtab)
 	}
 
-	Addstring(shstrtab, ".shstrtab")
+	AddShstrtabString(shstrtab, ".shstrtab")
 
 	if !*FlagD { /* -d suppresses dynamic loader format */
-		Addstring(shstrtab, ".interp")
-		Addstring(shstrtab, ".hash")
-		Addstring(shstrtab, ".got")
+		AddShstrtabString(shstrtab, ".interp")
+		AddShstrtabString(shstrtab, ".hash")
+		AddShstrtabString(shstrtab, ".got")
 		if ctxt.Arch.Family == sys.PPC64 {
-			Addstring(shstrtab, ".glink")
+			AddShstrtabString(shstrtab, ".glink")
 		}
-		Addstring(shstrtab, ".got.plt")
-		Addstring(shstrtab, ".dynamic")
-		Addstring(shstrtab, ".dynsym")
-		Addstring(shstrtab, ".dynstr")
-		Addstring(shstrtab, elfRelType)
-		Addstring(shstrtab, elfRelType+".plt")
+		AddShstrtabString(shstrtab, ".got.plt")
+		AddShstrtabString(shstrtab, ".dynamic")
+		AddShstrtabString(shstrtab, ".dynsym")
+		AddShstrtabString(shstrtab, ".dynstr")
+		AddShstrtabString(shstrtab, elfRelType)
+		AddShstrtabString(shstrtab, elfRelType+".plt")
 
-		Addstring(shstrtab, ".plt")
-		Addstring(shstrtab, ".gnu.version")
-		Addstring(shstrtab, ".gnu.version_r")
+		AddShstrtabString(shstrtab, ".plt")
+		AddShstrtabString(shstrtab, ".gnu.version")
+		AddShstrtabString(shstrtab, ".gnu.version_r")
 
 		/* dynamic symbol table - first entry all zeros */
 		s := ctxt.Syms.Lookup(".dynsym", 0)

@@ -122,7 +122,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 		256 + objabi.RelocType(elf.R_390_32),
 		256 + objabi.RelocType(elf.R_390_64):
 		if targ.Type == sym.SDYNIMPORT {
-			ctxt.Errorf(s, "unexpected R_390_nn relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_390_nn relocation for dynamic symbol %s", ctxt.SymName(targ))
 		}
 		r.Type = objabi.R_ADDR
 		return true
@@ -131,12 +131,12 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 		256 + objabi.RelocType(elf.R_390_PC32),
 		256 + objabi.RelocType(elf.R_390_PC64):
 		if targ.Type == sym.SDYNIMPORT {
-			ctxt.Errorf(s, "unexpected R_390_PCnn relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_390_PCnn relocation for dynamic symbol %s", ctxt.SymName(targ))
 		}
 		// TODO(mwhudson): the test of VisibilityHidden here probably doesn't make
 		// sense and should be removed when someone has thought about it properly.
 		if (targ.Type == 0 || targ.Type == sym.SXREF) && !targ.Attr.VisibilityHidden() {
-			ctxt.Errorf(s, "unknown symbol %s in pcrel", targ.Name)
+			ctxt.Errorf(s, "unknown symbol %s in pcrel", ctxt.SymName(targ))
 		}
 		r.Type = objabi.R_PCREL
 		r.Add += int64(r.Siz)
@@ -189,7 +189,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 
 	case 256 + objabi.RelocType(elf.R_390_GOTOFF):
 		if targ.Type == sym.SDYNIMPORT {
-			ctxt.Errorf(s, "unexpected R_390_GOTOFF relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_390_GOTOFF relocation for dynamic symbol %s", ctxt.SymName(targ))
 		}
 		r.Type = objabi.R_GOTOFF
 		return true
@@ -206,7 +206,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 		r.Variant = sym.RV_390_DBL
 		r.Add += int64(r.Siz)
 		if targ.Type == sym.SDYNIMPORT {
-			ctxt.Errorf(s, "unexpected R_390_PCnnDBL relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_390_PCnnDBL relocation for dynamic symbol %s", ctxt.SymName(targ))
 		}
 		return true
 
@@ -409,7 +409,7 @@ func archrelocvariant(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, t int64) int64
 
 	case sym.RV_390_DBL:
 		if (t & 1) != 0 {
-			ctxt.Errorf(s, "%s+%v is not 2-byte aligned", r.Sym.Name, r.Sym.Value)
+			ctxt.Errorf(s, "%s+%v is not 2-byte aligned", ctxt.SymName(r.Sym), r.Sym.Value)
 		}
 		return t >> 1
 	}

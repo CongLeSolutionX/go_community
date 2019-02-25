@@ -117,7 +117,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 
 			if rs.Type != sym.SHOSTOBJ && rs.Type != sym.SDYNIMPORT && rs.Sect == nil {
-				ctxt.Errorf(s, "missing section for %s", rs.Name)
+				ctxt.Errorf(s, "missing section for %s", ctxt.SymName(rs))
 			}
 			r.Xsym = rs
 

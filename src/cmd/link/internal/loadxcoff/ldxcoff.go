@@ -105,7 +105,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, input *bio.Reader, pkg string, leng
 		// Text symbol
 		if s.Type == sym.STEXT {
 			if s.Attr.OnList() {
-				return errorf("symbol %s listed multiple times", s.Name)
+				return errorf("symbol %s listed multiple times", sx.Name)
 			}
 			s.Attr |= sym.AttrOnList
 			textp = append(textp, s)

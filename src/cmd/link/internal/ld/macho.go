@@ -820,16 +820,17 @@ func machoShouldExport(ctxt *Link, s *sym.Symbol) bool {
 	if ctxt.BuildMode == BuildModePlugin && strings.HasPrefix(s.Extname(), objabi.PathToPrefix(*flagPluginPath)) {
 		return true
 	}
-	if strings.HasPrefix(s.Name, "go.itab.") {
+	sn := ctxt.SymName(s)
+	if strings.HasPrefix(sn, "go.itab.") {
 		return true
 	}
-	if strings.HasPrefix(s.Name, "type.") && !strings.HasPrefix(s.Name, "type..") {
+	if strings.HasPrefix(sn, "type.") && !strings.HasPrefix(sn, "type..") {
 		// reduce runtime typemap pressure, but do not
 		// export alg functions (type..*), as these
 		// appear in pclntable.
 		return true
 	}
-	if strings.HasPrefix(s.Name, "go.link.pkghash") {
+	if strings.HasPrefix(sn, "go.link.pkghash") {
 		return true
 	}
 	return s.Type >= sym.SELFSECT // only writable sections
@@ -852,7 +853,7 @@ func machosymtab(ctxt *Link) {
 		// symbols like crosscall2 are in pclntab and end up
 		// pointing at the host binary, breaking unwinding.
 		// See Issue #18190.
-		cexport := !strings.Contains(s.Extname(), ".") && (ctxt.BuildMode != BuildModePlugin || onlycsymbol(s))
+		cexport := !strings.Contains(s.Extname(), ".") && (ctxt.BuildMode != BuildModePlugin || onlycsymbol(ctxt, s))
 		if cexport || export {
 			symstr.AddUint8('_')
 		}
@@ -1004,10 +1005,10 @@ func machorelocsect(ctxt *Link, sect *sym.Section, syms []*sym.Symbol) {
 				continue
 			}
 			if !r.Xsym.Attr.Reachable() {
-				ctxt.Errorf(s, "unreachable reloc %d (%s) target %v", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Xsym.Name)
+				ctxt.Errorf(s, "unreachable reloc %d (%s) target %v", r.Type, sym.RelocName(ctxt.Arch, r.Type), ctxt.SymName(r.Xsym))
 			}
 			if !thearch.Machoreloc1(ctxt, ctxt.Out, s, r, int64(uint64(s.Value+int64(r.Off))-sect.Vaddr)) {
-				ctxt.Errorf(s, "unsupported obj reloc %d (%s)/%d to %s", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Siz, r.Sym.Name)
+				ctxt.Errorf(s, "unsupported obj reloc %d (%s)/%d to %s", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Siz, ctxt.SymName(r.Sym))
 			}
 		}
 	}

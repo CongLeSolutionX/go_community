@@ -103,7 +103,7 @@ func genplt(ctxt *ld.Link) {
 			addpltsym(ctxt, r.Sym)
 
 			// Generate call stub
-			n := fmt.Sprintf("%s.%s", s.Name, r.Sym.Name)
+			n := fmt.Sprintf("%s.%s", ctxt.SymName(s), ctxt.SymName(r.Sym))
 
 			stub := ctxt.Syms.Lookup(n, 0)
 			if s.Attr.Reachable() {
@@ -536,7 +536,7 @@ func symtoc(ctxt *ld.Link, s *sym.Symbol) int64 {
 // This code is for AIX only.
 func archreloctoc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 	if ctxt.HeadType == objabi.Hlinux {
-		ctxt.Errorf(s, "archrelocaddr called for %s relocation\n", r.Sym.Name)
+		ctxt.Errorf(s, "archrelocaddr called for %s relocation\n", ctxt.SymName(r.Sym))
 	}
 	var o1, o2 uint32
 
@@ -547,8 +547,9 @@ func archreloctoc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 	useAddi := false
 	const prefix = "TOC."
 	var tarSym *sym.Symbol
-	if strings.HasPrefix(r.Sym.Name, prefix) {
-		tarSym = ctxt.Syms.ROLookup(strings.TrimPrefix(r.Sym.Name, prefix), 0)
+	rsn := ctxt.SymName(r.Sym)
+	if strings.HasPrefix(rsn, prefix) {
+		tarSym = ctxt.Syms.ROLookup(strings.TrimPrefix(rsn, prefix), 0)
 	} else {
 		ctxt.Errorf(s, "archreloctoc called for a symbol without TOC anchor")
 	}
@@ -563,7 +564,7 @@ func archreloctoc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 	}
 
 	if t != int64(int32(t)) {
-		ctxt.Errorf(s, "TOC relocation for %s is too big to relocate %s: 0x%x", s.Name, r.Sym, t)
+		ctxt.Errorf(s, "TOC relocation for %s is too big to relocate %s: 0x%x", ctxt.SymName(s), ctxt.SymName(r.Sym), t)
 	}
 
 	if t&0x8000 != 0 {
@@ -578,7 +579,7 @@ func archreloctoc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 			o2 |= uint32(t) & 0xFFFF
 		} else {
 			if t&3 != 0 {
-				ctxt.Errorf(s, "bad DS reloc for %s: %d", s.Name, ctxt.Symaddr(r.Sym))
+				ctxt.Errorf(s, "bad DS reloc for %s: %d", ctxt.SymName(s), ctxt.Symaddr(r.Sym))
 			}
 			o2 |= uint32(t) & 0xFFFC
 		}
@@ -593,7 +594,7 @@ func archreloctoc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 // This code is for AIX only.
 func archrelocaddr(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 	if ctxt.HeadType == objabi.Haix {
-		ctxt.Errorf(s, "archrelocaddr called for %s relocation\n", r.Sym.Name)
+		ctxt.Errorf(s, "archrelocaddr called for %s relocation\n", ctxt.SymName(r.Sym))
 	}
 	var o1, o2 uint32
 	if ctxt.Arch.ByteOrder == binary.BigEndian {
@@ -613,7 +614,7 @@ func archrelocaddr(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 
 
 	t := ctxt.Symaddr(r.Sym) + r.Add
 	if t < 0 || t >= 1<<31 {
-		ctxt.Errorf(s, "relocation for %s is too big (>=2G): 0x%x", s.Name, ctxt.Symaddr(r.Sym))
+		ctxt.Errorf(s, "relocation for %s is too big (>=2G): 0x%x", ctxt.SymName(s), ctxt.Symaddr(r.Sym))
 	}
 	if t&0x8000 != 0 {
 		t += 0x10000
@@ -626,7 +627,7 @@ func archrelocaddr(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 
 	case objabi.R_ADDRPOWER_DS:
 		o1 |= (uint32(t) >> 16) & 0xffff
 		if t&3 != 0 {
-			ctxt.Errorf(s, "bad DS reloc for %s: %d", s.Name, ctxt.Symaddr(r.Sym))
+			ctxt.Errorf(s, "bad DS reloc for %s: %d", ctxt.SymName(s), ctxt.Symaddr(r.Sym))
 		}
 		o2 |= uint32(t) & 0xfffc
 	default:
@@ -665,7 +666,7 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 				// target is at some offset within the function.  Calls to duff+8 and duff+256 must appear as
 				// distinct trampolines.
 
-				name := r.Sym.Name
+				name := ctxt.SymName(r.Sym)
 				if r.Add == 0 {
 					name = name + fmt.Sprintf("-tramp%d", i)
 				} else {
@@ -720,7 +721,7 @@ func gentramp(ctxt *ld.Link, tramp, target *sym.Symbol, offset int64) {
 		o1 = uint32(0x3fe20000) // lis r2, toctargetaddr hi
 		o2 = uint32(0xebff0000) // ld r31, toctargetaddr lo
 
-		toctramp := ctxt.Syms.Lookup("TOC."+tramp.Name, 0)
+		toctramp := ctxt.Syms.Lookup("TOC."+ctxt.SymName(tramp), 0)
 		toctramp.Type = sym.SXCOFFTOC
 		toctramp.Attr |= sym.AttrReachable
 		toctramp.AddAddr(ctxt.Arch, target)
@@ -800,7 +801,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 
 			if rs.Type != sym.SHOSTOBJ && rs.Type != sym.SDYNIMPORT && rs.Sect == nil {
-				ctxt.Errorf(s, "missing section for %s", rs.Name)
+				ctxt.Errorf(s, "missing section for %s", ctxt.SymName(rs))
 			}
 			r.Xsym = rs
 
@@ -832,12 +833,12 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		t := ctxt.Symaddr(r.Sym) + r.Add - (s.Value + int64(r.Off))
 
 		if t&3 != 0 {
-			ctxt.Errorf(s, "relocation for %s+%d is not aligned: %d", r.Sym.Name, r.Off, t)
+			ctxt.Errorf(s, "relocation for %s+%d is not aligned: %d", ctxt.SymName(r.Sym), r.Off, t)
 		}
 		// If branch offset is too far then create a trampoline.
 
 		if int64(int32(t<<6)>>6) != t {
-			ctxt.Errorf(s, "direct call too far: %s %x", r.Sym.Name, t)
+			ctxt.Errorf(s, "direct call too far: %s %x", ctxt.SymName(r.Sym), t)
 		}
 		return val | int64(uint32(t)&^0xfc000003), true
 	case objabi.R_POWER_TOC: // S + A - .TOC.
@@ -941,7 +942,7 @@ func archrelocvariant(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, t int64) int64
 			o1 = uint32(binary.LittleEndian.Uint16(s.P[r.Off:]))
 		}
 		if t&3 != 0 {
-			ctxt.Errorf(s, "relocation for %s+%d is not aligned: %d", r.Sym.Name, r.Off, t)
+			ctxt.Errorf(s, "relocation for %s+%d is not aligned: %d", ctxt.SymName(r.Sym), r.Off, t)
 		}
 		if (r.Variant&sym.RV_CHECK_OVERFLOW != 0) && int64(int16(t)) != t {
 			goto overflow
@@ -950,7 +951,7 @@ func archrelocvariant(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, t int64) int64
 	}
 
 overflow:
-	ctxt.Errorf(s, "relocation for %s+%d is too big: %d", r.Sym.Name, r.Off, t)
+	ctxt.Errorf(s, "relocation for %s+%d is too big: %d", ctxt.SymName(r.Sym), r.Off, t)
 	return t
 }
 

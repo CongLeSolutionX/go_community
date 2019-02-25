@@ -113,6 +113,7 @@ func (ctxt *Link) ErrorUnresolved(s *sym.Symbol, r *sym.Reloc) {
 		// Try to find symbol under another ABI.
 		var reqABI, haveABI obj.ABI
 		haveABI = ^obj.ABI(0)
+		rsn := ctxt.SymName(r.Sym)
 		reqABI, ok := sym.VersionToABI(int(r.Sym.Version))
 		if ok {
 			for abi := obj.ABI(0); abi < obj.ABICount; abi++ {
@@ -120,19 +121,19 @@ func (ctxt *Link) ErrorUnresolved(s *sym.Symbol, r *sym.Reloc) {
 				if v == -1 {
 					continue
 				}
-				if rs := ctxt.Syms.ROLookup(r.Sym.Name, v); rs != nil && rs.Type != sym.Sxxx {
+				if rs := ctxt.Syms.ROLookup(rsn, v); rs != nil && rs.Type != sym.Sxxx {
 					haveABI = abi
 				}
 			}
 		}
 
 		// Give a special error message for main symbol (see #24809).
-		if r.Sym.Name == "main.main" {
+		if rsn == "main.main" {
 			ctxt.Errorf(s, "function main is undeclared in the main package")
 		} else if haveABI != ^obj.ABI(0) {
-			ctxt.Errorf(s, "relocation target %s not defined for %s (but is defined for %s)", r.Sym.Name, reqABI, haveABI)
+			ctxt.Errorf(s, "relocation target %s not defined for %s (but is defined for %s)", rsn, reqABI, haveABI)
 		} else {
-			ctxt.Errorf(s, "relocation target %s not defined", r.Sym.Name)
+			ctxt.Errorf(s, "relocation target %s not defined", rsn)
 		}
 	}
 }
@@ -157,6 +158,14 @@ func (ctxt *Link) FixedFrameSize() int64 {
 func (ctxt *Link) Logf(format string, args ...interface{}) {
 	fmt.Fprintf(ctxt.Bso, format, args...)
 	ctxt.Bso.Flush()
+}
+
+func (ctxt *Link) SymName(s *sym.Symbol) string {
+	return ctxt.Syms.SymName(s)
+}
+
+func (ctxt *Link) SetSymName(s *sym.Symbol, newname string) {
+	ctxt.Syms.SetSymName(s, newname)
 }
 
 func addImports(ctxt *Link, l *sym.Library, pn string) {
