@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2342216_c4dbc8b7",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-02-25T09:10:03Z",
+      "side": 1,
+      "message": "Is an atomic.Store here needed to accompany the atomic.Load?",
+      "range": {
+        "startLine": 1016,
+        "startChar": 1,
+        "endLine": 1016,
+        "endChar": 15
+      },
+      "revId": "d6fcd67fc7b5255b0b6307f4c8a57ff6ef360eca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
