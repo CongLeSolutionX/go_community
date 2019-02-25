@@ -97,6 +97,7 @@ func main() {
 	} else {
 		adbSyncGoroot()
 	}
+	run("shell", "mkdir", "-p", deviceCwd)
 
 	// Binary names can conflict.
 	// E.g. template.test from the {html,text}/template packages.
@@ -109,6 +110,9 @@ func main() {
 	// avoid a "text file busy" error on execution.
 	// https://code.google.com/p/android/issues/detail?id=65857
 	run("push", os.Args[1], deviceBin+"-tmp")
+	if _, err := os.Stat("testdata"); err == nil {
+		run("push", "testdata", deviceCwd)
+	}
 	run("shell", "cp '"+deviceBin+"-tmp' '"+deviceBin+"'")
 	run("shell", "rm '"+deviceBin+"-tmp'")
 
