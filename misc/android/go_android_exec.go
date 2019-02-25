@@ -95,6 +95,7 @@ func main() {
 	} else {
 		adbSyncGoroot()
 	}
+	run("shell", "mkdir", "-p", deviceCwd)
 
 	// Binary names can conflict.
 	// E.g. template.test from the {html,text}/template packages.
@@ -109,6 +110,10 @@ func main() {
 	run("push", os.Args[1], deviceBin+"-tmp")
 	run("shell", "cp '"+deviceBin+"-tmp' '"+deviceBin+"'")
 	run("shell", "rm '"+deviceBin+"-tmp'")
+
+	if _, err := os.Stat("testdata"); err == nil {
+		run("push", "testdata", deviceCwd)
+	}
 
 	// Forward SIGQUIT from the go command to show backtraces from
 	// the binary instead of from this wrapper.
