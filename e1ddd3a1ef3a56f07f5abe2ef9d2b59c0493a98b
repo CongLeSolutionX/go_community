@@ -22,6 +22,30 @@
       "revId": "e1ddd3a1ef3a56f07f5abe2ef9d2b59c0493a98b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36d714c0_03008e95",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-02-25T21:31:16Z",
+      "side": 1,
+      "message": "Even if it isn\u0027t going away, can we rely on $GOROOT/pkg being writable when the exec wrapper runs? The wrapper is not just for standard library tests.",
+      "parentUuid": "f230496a_3f2850a7",
+      "range": {
+        "startLine": 1374,
+        "startChar": 54,
+        "endLine": 1374,
+        "endChar": 66
+      },
+      "revId": "e1ddd3a1ef3a56f07f5abe2ef9d2b59c0493a98b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
