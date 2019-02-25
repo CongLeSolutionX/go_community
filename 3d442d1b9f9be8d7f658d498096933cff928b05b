@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "427d00f6_67ab0ac1",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-02-25T19:11:59Z",
+      "side": 1,
+      "message": "Just wanted to note that I could not easily see a way to test this in the \"external\" http_test package, which still seemed like the best place for the tests. I was thinking of maybe writing helper in the internal package to expose the idle persistConn after the request was made to check that, but that seemed a little complicated and non-deterministic. If we need this tested and anyone has a good suggestion, I\u0027ll add it :)",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
