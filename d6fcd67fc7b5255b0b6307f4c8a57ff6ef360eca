@@ -46,6 +46,30 @@
       "revId": "d6fcd67fc7b5255b0b6307f4c8a57ff6ef360eca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70dde14d_1f2dc86d",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-02-25T10:34:39Z",
+      "side": 1,
+      "message": "There are more knowledgeable developers here for memory ordering so I would be happy if they can clarify for the final version of the CL:\nI think inside the lock there is no guarantee in which order the normal memory updates will be seen from outside where an atomic.Load happens. e.g. do we need stopwait to be updated before sched.gcwaiting with atomic.Store below this line? If so it seems safer to also do a atomic.Store here. With concurrency should be better to err on the side of caution.",
+      "parentUuid": "969a8c5d_19ff5765",
+      "range": {
+        "startLine": 1016,
+        "startChar": 1,
+        "endLine": 1016,
+        "endChar": 15
+      },
+      "revId": "d6fcd67fc7b5255b0b6307f4c8a57ff6ef360eca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
