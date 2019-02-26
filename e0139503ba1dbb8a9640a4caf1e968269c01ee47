@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "abb02cae_855f5e6f",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3498,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-26T20:08:23Z",
+      "side": 1,
+      "message": "I meant, the Add32\u0027s will be inlined as uint64 operations, which should generate good code. If not, we probably should make that happen.\n\nWe could do Add64 only in this CL.",
+      "parentUuid": "ed9c9868_370dd154",
+      "range": {
+        "startLine": 3494,
+        "startChar": 0,
+        "endLine": 3498,
+        "endChar": 12
+      },
+      "revId": "e0139503ba1dbb8a9640a4caf1e968269c01ee47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "745732c8_ed65f0ed",
         "filename": "src/math/bits/bits_test.go",
         "patchSetId": 3
