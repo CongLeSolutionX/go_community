@@ -16,6 +16,46 @@
       "revId": "9f204ad8b5a430d2ac485986530b669484764e2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27853257_d9126521",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-26T20:54:06Z",
+      "side": 1,
+      "message": "Why is this only validating a single byte in the scheme? I guess I don\u0027t understand what problem this code is trying to solve.",
+      "range": {
+        "startLine": 435,
+        "startChar": 64,
+        "endLine": 443,
+        "endChar": 3
+      },
+      "revId": "9f204ad8b5a430d2ac485986530b669484764e2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a48a4c97_a543e450",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-26T20:54:06Z",
+      "side": 1,
+      "message": "s/url/URL/",
+      "revId": "9f204ad8b5a430d2ac485986530b669484764e2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
