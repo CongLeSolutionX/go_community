@@ -16,6 +16,24 @@
       "revId": "01be6ad6d379b138b388278ab068cd3712de8130",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69afe222_dea37d86",
+        "filename": "misc/cgo/test/pkg_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-02-26T13:28:47Z",
+      "side": 1,
+      "message": "Seems likely, but I\u0027m away from my workstation today and the Android builders don\u0027t seem to be getting to this point at the moment. Will submit as-is and follow up tomorrow.",
+      "parentUuid": "629b3d7d_3955815c",
+      "revId": "01be6ad6d379b138b388278ab068cd3712de8130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
