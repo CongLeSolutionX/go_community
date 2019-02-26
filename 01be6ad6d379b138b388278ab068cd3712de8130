@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "629b3d7d_3955815c",
+        "filename": "misc/cgo/test/pkg_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-02-26T08:00:04Z",
+      "side": 1,
+      "message": "I suppose the same applies to GOOS\u003dandroid?",
+      "revId": "01be6ad6d379b138b388278ab068cd3712de8130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
