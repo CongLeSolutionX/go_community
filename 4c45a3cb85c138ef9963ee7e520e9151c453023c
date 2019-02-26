@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83a71935_47dcec08",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-26T20:26:47Z",
+      "side": 1,
+      "message": "Can you move this down to line ~1217 so it stays with other rotation generations?",
+      "revId": "4c45a3cb85c138ef9963ee7e520e9151c453023c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
