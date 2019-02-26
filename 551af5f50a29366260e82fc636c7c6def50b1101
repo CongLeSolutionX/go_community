@@ -16,6 +16,24 @@
       "revId": "551af5f50a29366260e82fc636c7c6def50b1101",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c332d702_141f3359",
+        "filename": "misc/cgo/test/pkg_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-02-26T03:12:22Z",
+      "side": 1,
+      "message": "Yep. I\u0027ll send a fix.",
+      "parentUuid": "17f9b873_0ff4de5b",
+      "revId": "551af5f50a29366260e82fc636c7c6def50b1101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
