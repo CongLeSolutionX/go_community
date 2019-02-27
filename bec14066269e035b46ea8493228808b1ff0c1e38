@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "22c93316_56112741",
+        "filename": "src/runtime/cgo/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-27T16:01:15Z",
+      "side": 1,
+      "message": "OK, thanks.",
+      "parentUuid": "2c9c5ee9_0d56f2b8",
+      "revId": "bec14066269e035b46ea8493228808b1ff0c1e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64d03126_3439ca07",
         "filename": "src/runtime/cgo/gcc_aix_ppc64.S",
         "patchSetId": 1
