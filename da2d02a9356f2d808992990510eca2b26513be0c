@@ -22,6 +22,30 @@
       "revId": "da2d02a9356f2d808992990510eca2b26513be0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "464a8bbc_6fb29de9",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-02-27T17:54:52Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/go/+/164042",
+      "parentUuid": "15256f17_2e23f6e8",
+      "range": {
+        "startLine": 1404,
+        "startChar": 1,
+        "endLine": 1404,
+        "endChar": 11
+      },
+      "revId": "da2d02a9356f2d808992990510eca2b26513be0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
