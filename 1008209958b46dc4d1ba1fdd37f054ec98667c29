@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0d56ce_45f0d6dd",
+        "filename": "src/cmd/cgo/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-02-27T06:05:58Z",
+      "side": 1,
+      "message": "I wonder if there is a better name than \"printError\". Looking at other functions in the file, except isName, none of them have a verb+noun format. Following the example of \"creat\", how about just \"err\" ?",
+      "range": {
+        "startLine": 98,
+        "startChar": 5,
+        "endLine": 98,
+        "endChar": 15
+      },
+      "revId": "1008209958b46dc4d1ba1fdd37f054ec98667c29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
