@@ -128,11 +128,11 @@ func (ctxt *Link) ErrorUnresolved(s *sym.Symbol, r *sym.Reloc) {
 
 		// Give a special error message for main symbol (see #24809).
 		if r.Sym.Name == "main.main" {
-			Errorf(s, "function main is undeclared in the main package")
+			ctxt.Errorf(s, "function main is undeclared in the main package")
 		} else if haveABI != ^obj.ABI(0) {
-			Errorf(s, "relocation target %s not defined for %s (but is defined for %s)", r.Sym.Name, reqABI, haveABI)
+			ctxt.Errorf(s, "relocation target %s not defined for %s (but is defined for %s)", r.Sym.Name, reqABI, haveABI)
 		} else {
-			Errorf(s, "relocation target %s not defined", r.Sym.Name)
+			ctxt.Errorf(s, "relocation target %s not defined", r.Sym.Name)
 		}
 	}
 }

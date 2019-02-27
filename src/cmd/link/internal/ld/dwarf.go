@@ -55,7 +55,7 @@ func (c dwctxt) AddSectionOffset(s dwarf.Sym, size int, t interface{}, ofs int64
 	ls := s.(*sym.Symbol)
 	switch size {
 	default:
-		Errorf(ls, "invalid size %d in adddwarfref\n", size)
+		c.linkctxt.Errorf(ls, "invalid size %d in adddwarfref\n", size)
 		fallthrough
 	case c.linkctxt.Arch.PtrSize:
 		ls.AddAddr(c.linkctxt.Arch, t.(*sym.Symbol))
@@ -245,7 +245,7 @@ func adddwarfref(ctxt *Link, s *sym.Symbol, t *sym.Symbol, size int) int64 {
 	var result int64
 	switch size {
 	default:
-		Errorf(s, "invalid size %d in adddwarfref\n", size)
+		ctxt.Errorf(s, "invalid size %d in adddwarfref\n", size)
 		fallthrough
 	case ctxt.Arch.PtrSize:
 		result = s.AddAddr(ctxt.Arch, t)
@@ -371,7 +371,7 @@ func dotypedef(ctxt *Link, parent *dwarf.DWDie, name string, def *dwarf.DWDie) *
 		return nil
 	}
 	if def == nil {
-		Errorf(nil, "dwarf: bad def in dotypedef")
+		Errorf("dwarf: bad def in dotypedef")
 	}
 
 	s := ctxt.Syms.Lookup(dtolsym(def.Sym).Name+"..def", 0)
@@ -397,7 +397,7 @@ func defgotype(ctxt *Link, gotype *sym.Symbol) *sym.Symbol {
 	}
 
 	if !strings.HasPrefix(gotype.Name, "type.") {
-		Errorf(gotype, "dwarf: type name doesn't start with \"type.\"")
+		ctxt.Errorf(gotype, "dwarf: type name doesn't start with \"type.\"")
 		return mustFind(ctxt, "<unspecified>")
 	}
 
@@ -561,7 +561,7 @@ func newtype(ctxt *Link, gotype *sym.Symbol) *dwarf.DWDie {
 		die = newdie(ctxt, &dwtypes, dwarf.DW_ABRV_BARE_PTRTYPE, name, 0)
 
 	default:
-		Errorf(gotype, "dwarf: definition of unknown kind %d", kind)
+		ctxt.Errorf(gotype, "dwarf: definition of unknown kind %d", kind)
 		die = newdie(ctxt, &dwtypes, dwarf.DW_ABRV_TYPEDECL, name, 0)
 		newrefattr(die, dwarf.DW_AT_type, mustFind(ctxt, "<unspecified>"))
 	}
@@ -1320,20 +1320,20 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 			idx, ok := fileNums[int(r.Sym.Value)]
 			if ok {
 				if int(int32(idx)) != idx {
-					Errorf(f, "bad R_DWARFFILEREF relocation: file index overflow")
+					ctxt.Errorf(f, "bad R_DWARFFILEREF relocation: file index overflow")
 				}
 				if r.Siz != 4 {
-					Errorf(f, "bad R_DWARFFILEREF relocation: has size %d, expected 4", r.Siz)
+					ctxt.Errorf(f, "bad R_DWARFFILEREF relocation: has size %d, expected 4", r.Siz)
 				}
 				if r.Off < 0 || r.Off+4 > int32(len(f.P)) {
-					Errorf(f, "bad R_DWARFFILEREF relocation offset %d + 4 would write past length %d", r.Off, len(s.P))
+					ctxt.Errorf(f, "bad R_DWARFFILEREF relocation offset %d + 4 would write past length %d", r.Off, len(s.P))
 					continue
 				}
 				ctxt.Arch.ByteOrder.PutUint32(f.P[r.Off:r.Off+4], uint32(idx))
 			} else {
 				_, found := missing[int(r.Sym.Value)]
 				if !found {
-					Errorf(f, "R_DWARFFILEREF relocation file missing: %v idx %d", r.Sym, r.Sym.Value)
+					ctxt.Errorf(f, "R_DWARFFILEREF relocation file missing: %v idx %d", r.Sym, r.Sym.Value)
 					missing[int(r.Sym.Value)] = nil
 				}
 			}
