@@ -327,11 +327,12 @@ func elfsetupplt(ctxt *ld.Link) {
 	}
 }
 
-func machoreloc1(arch *sys.Arch, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sectoff int64) bool {
+func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sectoff int64) bool {
 	var v uint32
 
 	rs := r.Xsym
 
+	arch := ctxt.Arch
 	if r.Type == objabi.R_PCREL {
 		if rs.Type == sym.SHOSTOBJ {
 			ld.Errorf(s, "pc-relative relocation of external symbol is not supported")
@@ -411,9 +412,10 @@ func machoreloc1(arch *sys.Arch, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, se
 	return true
 }
 
-func pereloc1(arch *sys.Arch, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sectoff int64) bool {
+func pereloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sectoff int64) bool {
 	rs := r.Xsym
 
+	arch := ctxt.Arch
 	if rs.Dynid < 0 {
 		ld.Errorf(s, "reloc %d (%s) to non-coff symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
 		return false
