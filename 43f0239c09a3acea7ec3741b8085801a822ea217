@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41a20e72_01994478",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-27T16:08:38Z",
+      "side": 1,
+      "message": "_, ok :\u003d atomicInstructions[as]\nreturn ok",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 13
+      },
+      "revId": "43f0239c09a3acea7ec3741b8085801a822ea217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21e28c45_30ff70c0",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2307,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-27T16:08:38Z",
+      "side": 1,
+      "message": "for i :\u003d range atomicInstructions { ... }\n\nThe _ is not needed.",
+      "range": {
+        "startLine": 2307,
+        "startChar": 7,
+        "endLine": 2307,
+        "endChar": 11
+      },
+      "revId": "43f0239c09a3acea7ec3741b8085801a822ea217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4359f932_5889a976",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3735,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-27T16:08:38Z",
+      "side": 1,
+      "message": "rt *can* be RSP if the A bit is 1? Reading the ISA manual, this is not obvious to me. If so, add a test for this case.\n\nAlso comment that the A bit is the 23rd bit.",
+      "revId": "43f0239c09a3acea7ec3741b8085801a822ea217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72a5722d_baf58aac",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3736,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-02-27T16:08:38Z",
+      "side": 1,
+      "message": "I think you mean \"fields \u0026 (1 \u003c\u003c 23)\"?",
+      "range": {
+        "startLine": 3736,
+        "startChar": 43,
+        "endLine": 3736,
+        "endChar": 59
+      },
+      "revId": "43f0239c09a3acea7ec3741b8085801a822ea217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
