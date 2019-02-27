@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fc3f57_ccf8340b",
+        "filename": "src/runtime/os2_aix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-27T14:57:19Z",
+      "side": 1,
+      "message": "This looks backward to me.  In sys_darwin.go, we have\n    if mp.libcallsp \u003d\u003d 0 {\n        ...\n    } else {\n        mp \u003d nil\n    }\n    ...\n    if mp !\u003d nil {\n        mp.libcallsp \u003d 0\n    }\n\nIn other words, if mp.libcallsp \u003d\u003d 0 when we enter this function, then when we leave the function we set mp.libcallsp \u003d 0.  You are doing the reverse of that: when mp.libcallsp !\u003d 0 then you set mp.libcallsp \u003d 0.",
+      "revId": "49debbc0d0067274534a3a3364fa01c274aa8e09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
