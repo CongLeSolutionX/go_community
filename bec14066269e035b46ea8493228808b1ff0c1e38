@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2c9c5ee9_0d56f2b8",
+        "filename": "src/runtime/cgo/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-02-27T15:45:48Z",
+      "side": 1,
+      "message": "No, because MOVD will R5 in the wrong order in big-endian.\nWith MOVD: \nFIXED_FRAME+8: 00000000\nFIXED_FRAME+12: R5 value on 32 bits\nWith MOVW:  \nFIXED_FRAME+8: R5 value\nFIXED_FRAME+12: xxxxxxxx \n\nTherefore, when the C code fetches FIXED_FRAME+8, it won\u0027t find the correct value.",
+      "parentUuid": "5f0bd714_08470830",
+      "revId": "bec14066269e035b46ea8493228808b1ff0c1e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64d03126_3439ca07",
         "filename": "src/runtime/cgo/gcc_aix_ppc64.S",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "bec14066269e035b46ea8493228808b1ff0c1e38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b334e9e_182d331e",
+        "filename": "src/runtime/cgo/gcc_aix_ppc64.S",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-02-27T15:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d03126_3439ca07",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "bec14066269e035b46ea8493228808b1ff0c1e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
