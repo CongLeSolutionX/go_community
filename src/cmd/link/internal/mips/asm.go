@@ -113,7 +113,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 
 			if rs.Type != sym.SHOSTOBJ && rs.Type != sym.SDYNIMPORT && rs.Sect == nil {
-				ld.Errorf(s, "missing section for %s", rs.Name)
+				ctxt.Errorf(s, "missing section for %s", rs.Name)
 			}
 			r.Xsym = rs
 			return applyrel(ctxt.Arch, r, s, val, r.Xadd), true
@@ -137,12 +137,12 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		t := ld.Symaddr(r.Sym) + r.Add
 
 		if t&3 != 0 {
-			ld.Errorf(s, "direct call is not aligned: %s %x", r.Sym.Name, t)
+			ctxt.Errorf(s, "direct call is not aligned: %s %x", r.Sym.Name, t)
 		}
 
 		// check if target address is in the same 256 MB region as the next instruction
 		if (s.Value+int64(r.Off)+4)&0xf0000000 != (t & 0xf0000000) {
-			ld.Errorf(s, "direct call too far: %s %x", r.Sym.Name, t)
+			ctxt.Errorf(s, "direct call too far: %s %x", r.Sym.Name, t)
 		}
 
 		return applyrel(ctxt.Arch, r, s, val, t), true
@@ -150,7 +150,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		// thread pointer is at 0x7000 offset from the start of TLS data area
 		t := ld.Symaddr(r.Sym) + r.Add - 0x7000
 		if t < -32768 || t >= 32678 {
-			ld.Errorf(s, "TLS offset out of range %d", t)
+			ctxt.Errorf(s, "TLS offset out of range %d", t)
 		}
 		return applyrel(ctxt.Arch, r, s, val, t), true
 	}
@@ -207,7 +207,7 @@ func asmb2(ctxt *ld.Link) {
 	symo := uint32(0)
 	if !*ld.FlagS {
 		if !ctxt.IsELF {
-			ld.Errorf(nil, "unsupported executable format")
+			ctxt.Errorf(nil, "unsupported executable format")
 		}
 		if ctxt.Debugvlog != 0 {
 			ctxt.Logf("%5.2f sym\n", ld.Cputime())
@@ -239,7 +239,7 @@ func asmb2(ctxt *ld.Link) {
 	ctxt.Out.SeekSet(0)
 	switch ctxt.HeadType {
 	default:
-		ld.Errorf(nil, "unsupported operating system")
+		ctxt.Errorf(nil, "unsupported operating system")
 	case objabi.Hlinux:
 		ld.Asmbelf(ctxt, int64(symo))
 	}

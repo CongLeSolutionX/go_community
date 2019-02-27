@@ -121,7 +121,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 	switch r.Type {
 	default:
 		if r.Type >= objabi.ElfRelocOffset {
-			ld.Errorf(s, "unexpected relocation type %d (%s)", r.Type, sym.RelocName(ctxt.Arch, r.Type))
+			ctxt.Errorf(s, "unexpected relocation type %d (%s)", r.Type, sym.RelocName(ctxt.Arch, r.Type))
 			return false
 		}
 
@@ -195,7 +195,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_ARM_ABS32):
 		if targ.Type == sym.SDYNIMPORT {
-			ld.Errorf(s, "unexpected R_ARM_ABS32 relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_ARM_ABS32 relocation for dynamic symbol %s", targ.Name)
 		}
 		r.Type = objabi.R_ADDR
 		return true
@@ -335,7 +335,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 	arch := ctxt.Arch
 	if r.Type == objabi.R_PCREL {
 		if rs.Type == sym.SHOSTOBJ {
-			ld.Errorf(s, "pc-relative relocation of external symbol is not supported")
+			ctxt.Errorf(s, "pc-relative relocation of external symbol is not supported")
 			return false
 		}
 		if r.Siz != 4 {
@@ -365,7 +365,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 
 	if rs.Type == sym.SHOSTOBJ || r.Type == objabi.R_CALLARM {
 		if rs.Dynid < 0 {
-			ld.Errorf(s, "reloc %d (%s) to non-macho symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
+			ctxt.Errorf(s, "reloc %d (%s) to non-macho symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
 			return false
 		}
 
@@ -374,7 +374,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 	} else {
 		v = uint32(rs.Sect.Extnum)
 		if v == 0 {
-			ld.Errorf(s, "reloc %d (%s) to symbol %s in non-macho section %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Sect.Name, rs.Type, rs.Type)
+			ctxt.Errorf(s, "reloc %d (%s) to symbol %s in non-macho section %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Sect.Name, rs.Type, rs.Type)
 			return false
 		}
 	}
@@ -417,7 +417,7 @@ func pereloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sectof
 
 	arch := ctxt.Arch
 	if rs.Dynid < 0 {
-		ld.Errorf(s, "reloc %d (%s) to non-coff symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
+		ctxt.Errorf(s, "reloc %d (%s) to non-coff symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
 		return false
 	}
 
@@ -497,7 +497,7 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 				ctxt.AddTramp(tramp)
 				if ctxt.DynlinkingGo() {
 					if immrot(uint32(offset)) == 0 {
-						ld.Errorf(s, "odd offset in dynlink direct call: %v+%d", r.Sym, offset)
+						ctxt.Errorf(s, "odd offset in dynlink direct call: %v+%d", r.Sym, offset)
 					}
 					gentrampdyn(ctxt.Arch, tramp, r.Sym, int64(offset))
 				} else if ctxt.BuildMode == ld.BuildModeCArchive || ctxt.BuildMode == ld.BuildModeCShared || ctxt.BuildMode == ld.BuildModePIE {
@@ -512,7 +512,7 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 			r.Done = false
 		}
 	default:
-		ld.Errorf(s, "trampoline called with non-jump reloc: %d (%s)", r.Type, sym.RelocName(ctxt.Arch, r.Type))
+		ctxt.Errorf(s, "trampoline called with non-jump reloc: %d (%s)", r.Type, sym.RelocName(ctxt.Arch, r.Type))
 	}
 }
 
@@ -616,7 +616,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 
 			if rs.Type != sym.SHOSTOBJ && rs.Type != sym.SDYNIMPORT && rs.Sect == nil {
-				ld.Errorf(s, "missing section for %s", rs.Name)
+				ctxt.Errorf(s, "missing section for %s", rs.Name)
 			}
 			r.Xsym = rs
 
@@ -630,7 +630,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 
 			if r.Xadd/4 > 0x7fffff || r.Xadd/4 < -0x800000 {
-				ld.Errorf(s, "direct call too far %d", r.Xadd/4)
+				ctxt.Errorf(s, "direct call too far %d", r.Xadd/4)
 			}
 
 			return int64(braddoff(int32(0xff000000&uint32(r.Add)), int32(0xffffff&uint32(r.Xadd/4)))), true
@@ -649,7 +649,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	// Linux/ARM ELF's PLT entry (3 assembler instruction)
 	case objabi.R_PLT0: // add ip, pc, #0xXX00000
 		if ld.Symaddr(ctxt.Syms.Lookup(".got.plt", 0)) < ld.Symaddr(ctxt.Syms.Lookup(".plt", 0)) {
-			ld.Errorf(s, ".got.plt should be placed after .plt section.")
+			ctxt.Errorf(s, ".got.plt should be placed after .plt section.")
 		}
 		return 0xe28fc600 + (0xff & (int64(uint32(ld.Symaddr(r.Sym)-(ld.Symaddr(ctxt.Syms.Lookup(".plt", 0))+int64(r.Off))+r.Add)) >> 20)), true
 	case objabi.R_PLT1: // add ip, ip, #0xYY000
@@ -661,7 +661,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		// low 24-bit encodes the target address
 		t := (ld.Symaddr(r.Sym) + int64(signext24(r.Add&0xffffff)*4) - (s.Value + int64(r.Off))) / 4
 		if t > 0x7fffff || t < -0x800000 {
-			ld.Errorf(s, "direct call too far: %s %x", r.Sym.Name, t)
+			ctxt.Errorf(s, "direct call too far: %s %x", r.Sym.Name, t)
 		}
 		return int64(braddoff(int32(0xff000000&uint32(r.Add)), int32(0xffffff&t))), true
 	}
@@ -722,7 +722,7 @@ func addpltsym(ctxt *ld.Link, s *sym.Symbol) {
 
 		rel.AddUint32(ctxt.Arch, ld.ELF32_R_INFO(uint32(s.Dynid), uint32(elf.R_ARM_JUMP_SLOT)))
 	} else {
-		ld.Errorf(s, "addpltsym: unsupported binary format")
+		ctxt.Errorf(s, "addpltsym: unsupported binary format")
 	}
 }
 
@@ -738,7 +738,7 @@ func addgotsyminternal(ctxt *ld.Link, s *sym.Symbol) {
 
 	if ctxt.IsELF {
 	} else {
-		ld.Errorf(s, "addgotsyminternal: unsupported binary format")
+		ctxt.Errorf(s, "addgotsyminternal: unsupported binary format")
 	}
 }
 
@@ -757,7 +757,7 @@ func addgotsym(ctxt *ld.Link, s *sym.Symbol) {
 		rel.AddAddrPlus(ctxt.Arch, got, int64(s.Got()))
 		rel.AddUint32(ctxt.Arch, ld.ELF32_R_INFO(uint32(s.Dynid), uint32(elf.R_ARM_GLOB_DAT)))
 	} else {
-		ld.Errorf(s, "addgotsym: unsupported binary format")
+		ctxt.Errorf(s, "addgotsym: unsupported binary format")
 	}
 }
 

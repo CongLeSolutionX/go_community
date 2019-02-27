@@ -172,7 +172,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 	arch := ctxt.Arch
 	if rs.Type == sym.SHOSTOBJ || r.Type == objabi.R_CALLARM64 || r.Type == objabi.R_ADDRARM64 {
 		if rs.Dynid < 0 {
-			ld.Errorf(s, "reloc %d (%s) to non-macho symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
+			ctxt.Errorf(s, "reloc %d (%s) to non-macho symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
 			return false
 		}
 
@@ -181,7 +181,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 	} else {
 		v = uint32(rs.Sect.Extnum)
 		if v == 0 {
-			ld.Errorf(s, "reloc %d (%s) to symbol %s in non-macho section %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Sect.Name, rs.Type, rs.Type)
+			ctxt.Errorf(s, "reloc %d (%s) to symbol %s in non-macho section %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Sect.Name, rs.Type, rs.Type)
 			return false
 		}
 	}
@@ -193,7 +193,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 		v |= ld.MACHO_ARM64_RELOC_UNSIGNED << 28
 	case objabi.R_CALLARM64:
 		if r.Xadd != 0 {
-			ld.Errorf(s, "ld64 doesn't allow BR26 reloc with non-zero addend: %s+%d", rs.Name, r.Xadd)
+			ctxt.Errorf(s, "ld64 doesn't allow BR26 reloc with non-zero addend: %s+%d", rs.Name, r.Xadd)
 		}
 
 		v |= 1 << 24 // pc-relative bit
@@ -258,7 +258,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			// add + R_ADDRARM64.
 			if !(r.Sym.IsFileLocal() || r.Sym.Attr.VisibilityHidden() || r.Sym.Attr.Local()) && r.Sym.Type == sym.STEXT && ctxt.DynlinkingGo() {
 				if o2&0xffc00000 != 0xf9400000 {
-					ld.Errorf(s, "R_ARM64_GOTPCREL against unexpected instruction %x", o2)
+					ctxt.Errorf(s, "R_ARM64_GOTPCREL against unexpected instruction %x", o2)
 				}
 				o2 = 0x91000000 | (o2 & 0x000003ff)
 				r.Type = objabi.R_ADDRARM64
@@ -281,7 +281,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 
 			if rs.Type != sym.SHOSTOBJ && rs.Type != sym.SDYNIMPORT && rs.Sect == nil {
-				ld.Errorf(s, "missing section for %s", rs.Name)
+				ctxt.Errorf(s, "missing section for %s", rs.Name)
 			}
 			r.Xsym = rs
 
@@ -336,7 +336,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_ADDRARM64:
 		t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 		if t >= 1<<32 || t < -1<<32 {
-			ld.Errorf(s, "program too large, address relocation distance = %d", t)
+			ctxt.Errorf(s, "program too large, address relocation distance = %d", t)
 		}
 
 		var o0, o1 uint32
@@ -360,19 +360,19 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_ARM64_TLS_LE:
 		r.Done = false
 		if ctxt.HeadType == objabi.Hdarwin {
-			ld.Errorf(s, "TLS reloc on unsupported OS %v", ctxt.HeadType)
+			ctxt.Errorf(s, "TLS reloc on unsupported OS %v", ctxt.HeadType)
 		}
 		// The TCB is two pointers. This is not documented anywhere, but is
 		// de facto part of the ABI.
 		v := r.Sym.Value + int64(2*ctxt.Arch.PtrSize)
 		if v < 0 || v >= 32678 {
-			ld.Errorf(s, "TLS offset out of range %d", v)
+			ctxt.Errorf(s, "TLS offset out of range %d", v)
 		}
 		return val | (v << 5), true
 	case objabi.R_CALLARM64:
 		t := (ld.Symaddr(r.Sym) + r.Add) - (s.Value + int64(r.Off))
 		if t >= 1<<27 || t < -1<<27 {
-			ld.Errorf(s, "program too large, call relocation distance = %d", t)
+			ctxt.Errorf(s, "program too large, call relocation distance = %d", t)
 		}
 		return val | ((t >> 2) & 0x03ffffff), true
 	}

@@ -522,14 +522,14 @@ func (f *xcoffFile) getXCOFFscnum(sect *sym.Section) int16 {
 		if sect.Name == ".tbss" {
 			return f.sectNameToScnum[".tbss"]
 		}
-		Errorf(nil, "unknown XCOFF segment data section: %s", sect.Name)
+		Errorf("unknown XCOFF segment data section: %s", sect.Name)
 	case &Segdwarf:
 		name, _ := xcoffGetDwarfSubtype(sect.Name)
 		return f.sectNameToScnum[name]
 	case &Segrelrodata:
 		return f.sectNameToScnum[".data"]
 	}
-	Errorf(nil, "getXCOFFscnum not implemented for section %s", sect.Name)
+	Errorf("getXCOFFscnum not implemented for section %s", sect.Name)
 	return -1
 }
 
@@ -540,11 +540,11 @@ func Xcoffinit(ctxt *Link) {
 
 	HEADR = int32(Rnd(XCOFFHDRRESERVE, XCOFFSECTALIGN))
 	if *FlagTextAddr != -1 {
-		Errorf(nil, "-T not available on AIX")
+		Errorf("-T not available on AIX")
 	}
 	*FlagTextAddr = XCOFFTEXTBASE + int64(HEADR)
 	if *FlagRound != -1 {
-		Errorf(nil, "-R not available on AIX")
+		Errorf("-R not available on AIX")
 	}
 	*FlagRound = int(XCOFFSECTALIGN)
 
@@ -576,7 +576,7 @@ func xcoffUpdateOuterSize(ctxt *Link, size int64, stype sym.SymKind) {
 
 	switch stype {
 	default:
-		Errorf(nil, "unknown XCOFF outer symbol for type %s", stype.String())
+		Errorf("unknown XCOFF outer symbol for type %s", stype.String())
 	case sym.SRODATA, sym.SRODATARELRO, sym.SFUNCTAB, sym.SSTRING:
 		// Nothing to do
 	case sym.STYPERELRO:
@@ -1022,7 +1022,7 @@ func (f *xcoffFile) asmaixsym(ctxt *Link) {
 	for name, size := range outerSymSize {
 		sym := ctxt.Syms.ROLookup(name, 0)
 		if sym == nil {
-			Errorf(nil, "unknown outer symbol with name %s", name)
+			Errorf("unknown outer symbol with name %s", name)
 		} else {
 			sym.Size = size
 		}
@@ -1063,7 +1063,7 @@ func (f *xcoffFile) adddynimpsym(ctxt *Link, s *sym.Symbol) {
 	// Check that library name is given.
 	// Pattern is already checked when compiling.
 	if ctxt.LinkMode == LinkInternal && s.Dynimplib() == "" {
-		Errorf(s, "imported symbol must have a given library")
+		ctxt.Errorf(s, "imported symbol must have a given library")
 	}
 
 	s.Type = sym.SXCOFFTOC
@@ -1103,7 +1103,7 @@ func Xcoffadddynrel(ctxt *Link, s *sym.Symbol, r *sym.Reloc) bool {
 		return true
 	}
 	if s.Type <= sym.SPCLNTAB {
-		Errorf(s, "cannot have a relocation to %s in a text section symbol", r.Sym.Name)
+		ctxt.Errorf(s, "cannot have a relocation to %s in a text section symbol", r.Sym.Name)
 		return false
 	}
 
@@ -1114,7 +1114,7 @@ func Xcoffadddynrel(ctxt *Link, s *sym.Symbol, r *sym.Reloc) bool {
 
 	switch r.Type {
 	default:
-		Errorf(s, "unexpected .loader relocation to symbol: %s (type: %s)", r.Sym.Name, r.Type.String())
+		ctxt.Errorf(s, "unexpected .loader relocation to symbol: %s (type: %s)", r.Sym.Name, r.Type.String())
 		return false
 	case objabi.R_ADDR:
 		if s.Type == sym.SXCOFFTOC && r.Sym.Type == sym.SDYNIMPORT {
@@ -1128,7 +1128,7 @@ func Xcoffadddynrel(ctxt *Link, s *sym.Symbol, r *sym.Reloc) bool {
 		} else if s.Type == sym.SDATA {
 			switch r.Sym.Sect.Seg {
 			default:
-				Errorf(s, "unknown segment for .loader relocation with symbol %s", r.Sym.Name)
+				ctxt.Errorf(s, "unknown segment for .loader relocation with symbol %s", r.Sym.Name)
 			case &Segtext:
 			case &Segrodata:
 				ldr.symndx = 0 // .text
@@ -1142,7 +1142,7 @@ func Xcoffadddynrel(ctxt *Link, s *sym.Symbol, r *sym.Reloc) bool {
 			}
 
 		} else {
-			Errorf(s, "unexpected type for .loader relocation R_ADDR for symbol %s: %s to %s", r.Sym.Name, s.Type, r.Sym.Type)
+			ctxt.Errorf(s, "unexpected type for .loader relocation R_ADDR for symbol %s: %s to %s", r.Sym.Name, s.Type, r.Sym.Type)
 			return false
 		}
 
@@ -1279,7 +1279,7 @@ func (f *xcoffFile) writeLdrScn(ctxt *Link, globalOff uint64) {
 		}
 		switch s.smtype {
 		default:
-			Errorf(s.sym, "unexpected loader symbol type: 0x%x", s.smtype)
+			ctxt.Errorf(s.sym, "unexpected loader symbol type: 0x%x", s.smtype)
 		case XTY_ENT | XTY_SD:
 			lds.Lvalue = uint64(s.sym.Value)
 			lds.Lscnum = f.getXCOFFscnum(s.sym.Sect)
@@ -1635,14 +1635,14 @@ func (f *xcoffFile) emitRelocations(ctxt *Link, fileoff int64) {
 					continue
 				}
 				if r.Xsym == nil {
-					Errorf(s, "missing xsym in relocation")
+					ctxt.Errorf(s, "missing xsym in relocation")
 					continue
 				}
 				if r.Xsym.Dynid < 0 {
-					Errorf(s, "reloc %s to non-coff symbol %s (outer=%s) %d %d", r.Type.String(), r.Sym.Name, r.Xsym.Name, r.Sym.Type, r.Xsym.Dynid)
+					ctxt.Errorf(s, "reloc %s to non-coff symbol %s (outer=%s) %d %d", r.Type.String(), r.Sym.Name, r.Xsym.Name, r.Sym.Type, r.Xsym.Dynid)
 				}
 				if !thearch.Xcoffreloc1(ctxt, ctxt.Out, s, r, int64(uint64(s.Value+int64(r.Off))-base)) {
-					Errorf(s, "unsupported obj reloc %d(%s)/%d to %s", r.Type, r.Type.String(), r.Siz, r.Sym.Name)
+					ctxt.Errorf(s, "unsupported obj reloc %d(%s)/%d to %s", r.Type, r.Type.String(), r.Siz, r.Sym.Name)
 				}
 			}
 		}
@@ -1681,7 +1681,7 @@ dwarfLoop:
 				continue dwarfLoop
 			}
 		}
-		Errorf(nil, "emitRelocations: could not find %q section", sect.Name)
+		Errorf("emitRelocations: could not find %q section", sect.Name)
 	}
 }
 
@@ -1711,7 +1711,7 @@ func xcoffCreateExportFile(ctxt *Link) (fname string) {
 
 	err := ioutil.WriteFile(fname, buf.Bytes(), 0666)
 	if err != nil {
-		Errorf(nil, "WriteFile %s failed: %v", fname, err)
+		Errorf("WriteFile %s failed: %v", fname, err)
 	}
 
 	return fname

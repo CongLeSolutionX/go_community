@@ -43,16 +43,23 @@ func Exitf(format string, a ...interface{}) {
 	Exit(2)
 }
 
+// The Link method Errorf is a wrapper around the Errorf function that
+// prefixes the error with the specified symbol name (if s != nil).
+
+func (ctxt *Link) Errorf(s *sym.Symbol, format string, args ...interface{}) {
+	if s != nil {
+		format = s.Name + ": " + format
+	}
+	Errorf(format, args...)
+}
+
 // Errorf logs an error message.
 //
 // If more than 20 errors have been printed, exit with an error.
 //
 // Logging an error means that on exit cmd/link will delete any
 // output file and return a non-zero error code.
-func Errorf(s *sym.Symbol, format string, args ...interface{}) {
-	if s != nil {
-		format = s.Name + ": " + format
-	}
+func Errorf(format string, args ...interface{}) {
 	format += "\n"
 	fmt.Fprintf(os.Stderr, format, args...)
 	nerrors++

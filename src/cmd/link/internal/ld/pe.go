@@ -333,22 +333,22 @@ type peSection struct {
 }
 
 // checkOffset verifies COFF section sect offset in the file.
-func (sect *peSection) checkOffset(off int64) {
+func (sect *peSection) checkOffset(ctxt *Link, off int64) {
 	if off != int64(sect.pointerToRawData) {
-		Errorf(nil, "%s.PointerToRawData = %#x, want %#x", sect.name, uint64(int64(sect.pointerToRawData)), uint64(off))
+		ctxt.Errorf(nil, "%s.PointerToRawData = %#x, want %#x", sect.name, uint64(int64(sect.pointerToRawData)), uint64(off))
 		errorexit()
 	}
 }
 
 // checkSegment verifies COFF section sect matches address
 // and file offset provided in segment seg.
-func (sect *peSection) checkSegment(seg *sym.Segment) {
+func (sect *peSection) checkSegment(ctxt *Link, seg *sym.Segment) {
 	if seg.Vaddr-PEBASE != uint64(sect.virtualAddress) {
-		Errorf(nil, "%s.VirtualAddress = %#x, want %#x", sect.name, uint64(int64(sect.virtualAddress)), uint64(int64(seg.Vaddr-PEBASE)))
+		ctxt.Errorf(nil, "%s.VirtualAddress = %#x, want %#x", sect.name, uint64(int64(sect.virtualAddress)), uint64(int64(seg.Vaddr-PEBASE)))
 		errorexit()
 	}
 	if seg.Fileoff != uint64(sect.pointerToRawData) {
-		Errorf(nil, "%s.PointerToRawData = %#x, want %#x", sect.name, uint64(int64(sect.pointerToRawData)), uint64(int64(seg.Fileoff)))
+		ctxt.Errorf(nil, "%s.PointerToRawData = %#x, want %#x", sect.name, uint64(int64(sect.pointerToRawData)), uint64(int64(seg.Fileoff)))
 		errorexit()
 	}
 }
@@ -497,7 +497,7 @@ func (f *peFile) addInitArray(ctxt *Link) *peSection {
 	sect.characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ
 	sect.sizeOfRawData = uint32(size)
 	ctxt.Out.SeekSet(int64(sect.pointerToRawData))
-	sect.checkOffset(ctxt.Out.Offset())
+	sect.checkOffset(ctxt, ctxt.Out.Offset())
 
 	init_entry := ctxt.Syms.Lookup(*flagEntrySymbol, 0)
 	addr := uint64(init_entry.Value) - init_entry.Sect.Vaddr
@@ -548,14 +548,14 @@ func (f *peFile) emitRelocations(ctxt *Link) {
 					continue
 				}
 				if r.Xsym == nil {
-					Errorf(sym, "missing xsym in relocation")
+					ctxt.Errorf(sym, "missing xsym in relocation")
 					continue
 				}
 				if r.Xsym.Dynid < 0 {
-					Errorf(sym, "reloc %d to non-coff symbol %s (outer=%s) %d", r.Type, r.Sym.Name, r.Xsym.Name, r.Sym.Type)
+					ctxt.Errorf(sym, "reloc %d to non-coff symbol %s (outer=%s) %d", r.Type, r.Sym.Name, r.Xsym.Name, r.Sym.Type)
 				}
 				if !thearch.PEreloc1(ctxt, ctxt.Out, sym, r, int64(uint64(sym.Value+int64(r.Off))-base)) {
-					Errorf(sym, "unsupported obj reloc %d/%d to %s", r.Type, r.Siz, r.Sym.Name)
+					ctxt.Errorf(sym, "unsupported obj reloc %d/%d to %s", r.Type, r.Siz, r.Sym.Name)
 				}
 				relocs++
 			}
@@ -593,7 +593,7 @@ dwarfLoop:
 				continue dwarfLoop
 			}
 		}
-		Errorf(nil, "emitRelocations: could not find %q section", sect.Name)
+		ctxt.Errorf(nil, "emitRelocations: could not find %q section", sect.Name)
 	}
 
 	f.ctorsSect.emitRelocations(ctxt.Out, func() int {
@@ -602,7 +602,7 @@ dwarfLoop:
 		ctxt.Out.Write32(uint32(dottext.Dynid))
 		switch objabi.GOARCH {
 		default:
-			Errorf(dottext, "unknown architecture for PE: %q\n", objabi.GOARCH)
+			ctxt.Errorf(dottext, "unknown architecture for PE: %q\n", objabi.GOARCH)
 		case "386":
 			ctxt.Out.Write16(IMAGE_REL_I386_DIR32)
 		case "amd64":
@@ -700,7 +700,7 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 			if type_ == UndefinedSym {
 				typ = IMAGE_SYM_DTYPE_FUNCTION
 			} else {
-				Errorf(s, "addpesym: %v", err)
+				ctxt.Errorf(s, "addpesym: %v", err)
 			}
 		}
 		class := IMAGE_SYM_CLASS_EXTERNAL
@@ -739,7 +739,7 @@ func (f *peFile) writeSymbolTableAndStringTable(ctxt *Link) {
 		// will also include it in the exe, and that will confuse windows.
 		h = f.addSection(".symtab", size, size)
 		h.characteristics = IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_DISCARDABLE
-		h.checkOffset(f.symtabOffset)
+		h.checkOffset(ctxt, f.symtabOffset)
 	}
 
 	// write COFF string table
@@ -1039,7 +1039,7 @@ func initdynimport(ctxt *Link) *Dll {
 			var err error
 			m.argsize, err = strconv.Atoi(extName[i+1:])
 			if err != nil {
-				Errorf(s, "failed to parse stdcall decoration: %v", err)
+				ctxt.Errorf(s, "failed to parse stdcall decoration: %v", err)
 			}
 			m.argsize *= ctxt.Arch.PtrSize
 			s.SetExtname(extName[:i])
@@ -1157,7 +1157,7 @@ func addimports(ctxt *Link, datsect *peSection) {
 
 	isect := pefile.addSection(".idata", int(n), int(n))
 	isect.characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE
-	isect.checkOffset(startoff)
+	isect.checkOffset(ctxt, startoff)
 	isect.pad(ctxt.Out, uint32(n))
 	endoff := ctxt.Out.Offset()
 
@@ -1221,7 +1221,7 @@ func initdynexport(ctxt *Link) {
 			continue
 		}
 		if nexport+1 > len(dexport) {
-			Errorf(s, "pe dynexport table is full")
+			ctxt.Errorf(s, "pe dynexport table is full")
 			errorexit()
 		}
 
@@ -1246,7 +1246,7 @@ func addexports(ctxt *Link) {
 
 	sect := pefile.addSection(".edata", size, size)
 	sect.characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ
-	sect.checkOffset(ctxt.Out.Offset())
+	sect.checkOffset(ctxt, ctxt.Out.Offset())
 	va := int(sect.virtualAddress)
 	pefile.dataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress = uint32(va)
 	pefile.dataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].Size = sect.virtualSize
@@ -1447,7 +1447,7 @@ func addPEBaseReloc(ctxt *Link) {
 	// Add a PE section and pad it at the end
 	rsect := pefile.addSection(".reloc", int(size), int(size))
 	rsect.characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_DISCARDABLE
-	rsect.checkOffset(startoff)
+	rsect.checkOffset(ctxt, startoff)
 	rsect.pad(ctxt.Out, uint32(size))
 
 	pefile.dataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].VirtualAddress = rsect.virtualAddress
@@ -1461,7 +1461,7 @@ func (ctxt *Link) dope() {
 
 func setpersrc(ctxt *Link, sym *sym.Symbol) {
 	if rsrcsym != nil {
-		Errorf(sym, "too many .rsrc sections")
+		ctxt.Errorf(sym, "too many .rsrc sections")
 	}
 
 	rsrcsym = sym
@@ -1474,7 +1474,7 @@ func addpersrc(ctxt *Link) {
 
 	h := pefile.addSection(".rsrc", int(rsrcsym.Size), int(rsrcsym.Size))
 	h.characteristics = IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE | IMAGE_SCN_CNT_INITIALIZED_DATA
-	h.checkOffset(ctxt.Out.Offset())
+	h.checkOffset(ctxt, ctxt.Out.Offset())
 
 	// relocation
 	for ri := range rsrcsym.R {
@@ -1513,7 +1513,7 @@ func Asmbpe(ctxt *Link) {
 		// expect larger alignment requirement than the default text section alignment.
 		t.characteristics |= IMAGE_SCN_ALIGN_32BYTES
 	}
-	t.checkSegment(&Segtext)
+	t.checkSegment(ctxt, &Segtext)
 	pefile.textSect = t
 
 	ro := pefile.addSection(".rdata", int(Segrodata.Length), int(Segrodata.Length))
@@ -1523,19 +1523,19 @@ func Asmbpe(ctxt *Link) {
 		// expect larger alignment requirement than the default text section alignment.
 		ro.characteristics |= IMAGE_SCN_ALIGN_32BYTES
 	}
-	ro.checkSegment(&Segrodata)
+	ro.checkSegment(ctxt, &Segrodata)
 	pefile.rdataSect = ro
 
 	var d *peSection
 	if ctxt.LinkMode != LinkExternal {
 		d = pefile.addSection(".data", int(Segdata.Length), int(Segdata.Filelen))
 		d.characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE
-		d.checkSegment(&Segdata)
+		d.checkSegment(ctxt, &Segdata)
 		pefile.dataSect = d
 	} else {
 		d = pefile.addSection(".data", int(Segdata.Filelen), int(Segdata.Filelen))
 		d.characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE | IMAGE_SCN_ALIGN_32BYTES
-		d.checkSegment(&Segdata)
+		d.checkSegment(ctxt, &Segdata)
 		pefile.dataSect = d
 
 		b := pefile.addSection(".bss", int(Segdata.Length-Segdata.Filelen), 0)

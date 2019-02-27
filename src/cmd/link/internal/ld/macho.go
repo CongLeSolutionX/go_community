@@ -478,7 +478,7 @@ func machoshbits(ctxt *Link, mseg *MachoSeg, sect *sym.Section, segname string) 
 	if sect.Vaddr < sect.Seg.Vaddr+sect.Seg.Filelen {
 		// data in file
 		if sect.Length > sect.Seg.Vaddr+sect.Seg.Filelen-sect.Vaddr {
-			Errorf(nil, "macho cannot represent section %s crossing data and bss", sect.Name)
+			Errorf("macho cannot represent section %s crossing data and bss", sect.Name)
 		}
 		msect.off = uint32(sect.Seg.Fileoff + sect.Vaddr - sect.Seg.Vaddr)
 	} else {
@@ -872,7 +872,7 @@ func machosymtab(ctxt *Link) {
 				o = o.Outer
 			}
 			if o.Sect == nil {
-				Errorf(s, "missing section for symbol")
+				ctxt.Errorf(s, "missing section for symbol")
 				symtab.AddUint8(0)
 			} else {
 				symtab.AddUint8(uint8(o.Sect.Extnum))
@@ -996,14 +996,14 @@ func machorelocsect(ctxt *Link, sect *sym.Section, syms []*sym.Symbol) {
 				continue
 			}
 			if r.Xsym == nil {
-				Errorf(s, "missing xsym in relocation")
+				ctxt.Errorf(s, "missing xsym in relocation")
 				continue
 			}
 			if !r.Xsym.Attr.Reachable() {
-				Errorf(s, "unreachable reloc %d (%s) target %v", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Xsym.Name)
+				ctxt.Errorf(s, "unreachable reloc %d (%s) target %v", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Xsym.Name)
 			}
 			if !thearch.Machoreloc1(ctxt, ctxt.Out, s, r, int64(uint64(s.Value+int64(r.Off))-sect.Vaddr)) {
-				Errorf(s, "unsupported obj reloc %d (%s)/%d to %s", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Siz, r.Sym.Name)
+				ctxt.Errorf(s, "unsupported obj reloc %d (%s)/%d to %s", r.Type, sym.RelocName(ctxt.Arch, r.Type), r.Siz, r.Sym.Name)
 			}
 		}
 	}

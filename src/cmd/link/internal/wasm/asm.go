@@ -152,7 +152,7 @@ func asmb2(ctxt *ld.Link) {
 				case objabi.R_WASMIMPORT:
 					writeSleb128(wfn, hostImportMap[r.Sym])
 				default:
-					ld.Errorf(fn, "bad reloc type %d (%s)", r.Type, sym.RelocName(ctxt.Arch, r.Type))
+					ctxt.Errorf(fn, "bad reloc type %d (%s)", r.Type, sym.RelocName(ctxt.Arch, r.Type))
 					continue
 				}
 			}
