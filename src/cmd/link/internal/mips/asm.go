@@ -108,7 +108,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			rs := r.Sym
 			r.Xadd = r.Add
 			for rs.Outer != nil {
-				r.Xadd += ld.Symaddr(rs) - ld.Symaddr(rs.Outer)
+				r.Xadd += ctxt.Symaddr(rs) - ctxt.Symaddr(rs.Outer)
 				rs = rs.Outer
 			}
 
@@ -129,12 +129,12 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_CONST:
 		return r.Add, true
 	case objabi.R_GOTOFF:
-		return ld.Symaddr(r.Sym) + r.Add - ld.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
+		return ctxt.Symaddr(r.Sym) + r.Add - ctxt.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
 	case objabi.R_ADDRMIPS, objabi.R_ADDRMIPSU:
-		t := ld.Symaddr(r.Sym) + r.Add
+		t := ctxt.Symaddr(r.Sym) + r.Add
 		return applyrel(ctxt.Arch, r, s, val, t), true
 	case objabi.R_CALLMIPS, objabi.R_JMPMIPS:
-		t := ld.Symaddr(r.Sym) + r.Add
+		t := ctxt.Symaddr(r.Sym) + r.Add
 
 		if t&3 != 0 {
 			ctxt.Errorf(s, "direct call is not aligned: %s %x", r.Sym.Name, t)
@@ -148,7 +148,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		return applyrel(ctxt.Arch, r, s, val, t), true
 	case objabi.R_ADDRMIPSTLS:
 		// thread pointer is at 0x7000 offset from the start of TLS data area
-		t := ld.Symaddr(r.Sym) + r.Add - 0x7000
+		t := ctxt.Symaddr(r.Sym) + r.Add - 0x7000
 		if t < -32768 || t >= 32678 {
 			ctxt.Errorf(s, "TLS offset out of range %d", t)
 		}

@@ -112,7 +112,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			rs := r.Sym
 			r.Xadd = r.Add
 			for rs.Outer != nil {
-				r.Xadd += ld.Symaddr(rs) - ld.Symaddr(rs.Outer)
+				r.Xadd += ctxt.Symaddr(rs) - ctxt.Symaddr(rs.Outer)
 				rs = rs.Outer
 			}
 
@@ -136,10 +136,10 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_CONST:
 		return r.Add, true
 	case objabi.R_GOTOFF:
-		return ld.Symaddr(r.Sym) + r.Add - ld.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
+		return ctxt.Symaddr(r.Sym) + r.Add - ctxt.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
 	case objabi.R_ADDRMIPS,
 		objabi.R_ADDRMIPSU:
-		t := ld.Symaddr(r.Sym) + r.Add
+		t := ctxt.Symaddr(r.Sym) + r.Add
 		o1 := ctxt.Arch.ByteOrder.Uint32(s.P[r.Off:])
 		if r.Type == objabi.R_ADDRMIPS {
 			return int64(o1&0xffff0000 | uint32(t)&0xffff), true
@@ -147,7 +147,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		return int64(o1&0xffff0000 | uint32((t+1<<15)>>16)&0xffff), true
 	case objabi.R_ADDRMIPSTLS:
 		// thread pointer is at 0x7000 offset from the start of TLS data area
-		t := ld.Symaddr(r.Sym) + r.Add - 0x7000
+		t := ctxt.Symaddr(r.Sym) + r.Add - 0x7000
 		if t < -32768 || t >= 32678 {
 			ctxt.Errorf(s, "TLS offset out of range %d", t)
 		}
@@ -156,7 +156,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_CALLMIPS,
 		objabi.R_JMPMIPS:
 		// Low 26 bits = (S + A) >> 2
-		t := ld.Symaddr(r.Sym) + r.Add
+		t := ctxt.Symaddr(r.Sym) + r.Add
 		o1 := ctxt.Arch.ByteOrder.Uint32(s.P[r.Off:])
 		return int64(o1&0xfc000000 | uint32(t>>2)&^0xfc000000), true
 	}

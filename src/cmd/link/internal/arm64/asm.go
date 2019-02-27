@@ -447,7 +447,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			rs := r.Sym
 			r.Xadd = r.Add
 			for rs.Outer != nil {
-				r.Xadd += ld.Symaddr(rs) - ld.Symaddr(rs.Outer)
+				r.Xadd += ctxt.Symaddr(rs) - ctxt.Symaddr(rs.Outer)
 				rs = rs.Outer
 			}
 
@@ -504,10 +504,9 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		return r.Add, true
 
 	case objabi.R_GOTOFF:
-		return ld.Symaddr(r.Sym) + r.Add - ld.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
-
+		return ctxt.Symaddr(r.Sym) + r.Add - ctxt.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
 	case objabi.R_ADDRARM64:
-		t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
+		t := ctxt.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 		if t >= 1<<32 || t < -1<<32 {
 			ctxt.Errorf(s, "program too large, address relocation distance = %d", t)
 		}
@@ -555,7 +554,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 
 			// The TCB is two pointers. This is not documented anywhere, but is
 			// de facto part of the ABI.
-			v := ld.Symaddr(r.Sym) + int64(2*ctxt.Arch.PtrSize) + r.Add
+			v := ctxt.Symaddr(r.Sym) + int64(2*ctxt.Arch.PtrSize) + r.Add
 			if v < 0 || v >= 32678 {
 				ctxt.Errorf(s, "TLS offset out of range %d", v)
 			}
@@ -591,9 +590,9 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_CALLARM64:
 		var t int64
 		if r.Sym.Type == sym.SDYNIMPORT {
-			t = (ld.Symaddr(ctxt.Syms.Lookup(".plt", 0)) + r.Add) - (s.Value + int64(r.Off))
+			t = (ctxt.Symaddr(ctxt.Syms.Lookup(".plt", 0)) + r.Add) - (s.Value + int64(r.Off))
 		} else {
-			t = (ld.Symaddr(r.Sym) + r.Add) - (s.Value + int64(r.Off))
+			t = (ctxt.Symaddr(r.Sym) + r.Add) - (s.Value + int64(r.Off))
 		}
 		if t >= 1<<27 || t < -1<<27 {
 			ctxt.Errorf(s, "program too large, call relocation distance = %d", t)
@@ -604,7 +603,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		if s.P[r.Off+3]&0x9f == 0x90 {
 			// R_AARCH64_ADR_GOT_PAGE
 			// patch instruction: adrp
-			t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
+			t := ctxt.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 			if t >= 1<<32 || t < -1<<32 {
 				ctxt.Errorf(s, "program too large, address relocation distance = %d", t)
 			}
@@ -614,7 +613,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		} else if s.P[r.Off+3] == 0xf9 {
 			// R_AARCH64_LD64_GOT_LO12_NC
 			// patch instruction: ldr
-			t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
+			t := ctxt.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 			if t&7 != 0 {
 				ctxt.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_LD64_GOT_LO12_NC", t)
 			}
@@ -629,7 +628,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		if s.P[r.Off+3]&0x9f == 0x90 {
 			// R_AARCH64_ADR_PREL_PG_HI21
 			// patch instruction: adrp
-			t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
+			t := ctxt.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 			if t >= 1<<32 || t < -1<<32 {
 				ctxt.Errorf(s, "program too large, address relocation distance = %d", t)
 			}
@@ -638,7 +637,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		} else if s.P[r.Off+3]&0x91 == 0x91 {
 			// R_AARCH64_ADD_ABS_LO12_NC
 			// patch instruction: add
-			t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
+			t := ctxt.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 			o1 := uint32(t&0xfff) << 10
 			return val | int64(o1), true
 		} else {
@@ -646,12 +645,12 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		}
 
 	case objabi.R_ARM64_LDST8:
-		t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
+		t := ctxt.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 		o0 := uint32(t&0xfff) << 10
 		return val | int64(o0), true
 
 	case objabi.R_ARM64_LDST32:
-		t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
+		t := ctxt.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 		if t&3 != 0 {
 			ctxt.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_LDST32_ABS_LO12_NC", t)
 		}
@@ -659,7 +658,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		return val | int64(o0), true
 
 	case objabi.R_ARM64_LDST64:
-		t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
+		t := ctxt.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 		if t&7 != 0 {
 			ctxt.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_LDST64_ABS_LO12_NC", t)
 		}
