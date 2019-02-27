@@ -392,7 +392,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_CONST:
 		return r.Add, true
 	case objabi.R_GOTOFF:
-		return ld.Symaddr(r.Sym) + r.Add - ld.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
+		return ctxt.Symaddr(r.Sym) + r.Add - ctxt.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
 	}
 
 	return val, false

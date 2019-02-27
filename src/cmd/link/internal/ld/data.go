@@ -96,7 +96,7 @@ func trampoline(ctxt *Link, s *sym.Symbol) {
 		if !r.Type.IsDirectJump() {
 			continue
 		}
-		if Symaddr(r.Sym) == 0 && r.Sym.Type != sym.SDYNIMPORT {
+		if ctxt.Symaddr(r.Sym) == 0 && r.Sym.Type != sym.SDYNIMPORT {
 			if r.Sym.File != s.File {
 				if !isRuntimeDepPkg(s.File) || !isRuntimeDepPkg(r.Sym.File) {
 					ctxt.ErrorUnresolved(s, r)
@@ -288,7 +288,7 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 
 				r.Xadd = r.Add
 				for rs.Outer != nil {
-					r.Xadd += Symaddr(rs) - Symaddr(rs.Outer)
+					r.Xadd += ctxt.Symaddr(rs) - ctxt.Symaddr(rs.Outer)
 					rs = rs.Outer
 				}
 
@@ -304,12 +304,12 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 					}
 				} else if ctxt.HeadType == objabi.Hdarwin {
 					if rs.Type != sym.SHOSTOBJ {
-						o += Symaddr(rs)
+						o += ctxt.Symaddr(rs)
 					}
 				} else if ctxt.HeadType == objabi.Hwindows {
 					// nothing to do
 				} else if ctxt.HeadType == objabi.Haix {
-					o = Symaddr(r.Sym) + r.Add
+					o = ctxt.Symaddr(r.Sym) + r.Add
 				} else {
 					ctxt.Errorf(s, "unhandled pcrel relocation to %s on %v", rs.Name, ctxt.HeadType)
 				}
@@ -332,7 +332,7 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 				}
 			}
 
-			o = Symaddr(r.Sym) + r.Add
+			o = ctxt.Symaddr(r.Sym) + r.Add
 
 			// On amd64, 4-byte offsets will be sign-extended, so it is impossible to
 			// access more than 2GB of static data; fail at link time is better than
@@ -340,7 +340,7 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 			// Instead of special casing only amd64, we treat this as an error on all
 			// 64-bit architectures so as to be future-proof.
 			if int32(o) < 0 && ctxt.Arch.PtrSize > 4 && siz == 4 {
-				ctxt.Errorf(s, "non-pc-relative relocation address for %s is too big: %#x (%#x + %#x)", r.Sym.Name, uint64(o), Symaddr(r.Sym), r.Add)
+				ctxt.Errorf(s, "non-pc-relative relocation address for %s is too big: %#x (%#x + %#x)", r.Sym.Name, uint64(o), ctxt.Symaddr(r.Sym), r.Add)
 				errorexit()
 			}
 		case objabi.R_DWARFSECREF:
@@ -370,7 +370,7 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 				}
 
 				r.Xsym = ctxt.Syms.ROLookup(r.Sym.Sect.Name, 0)
-				r.Xadd = r.Add + Symaddr(r.Sym) - int64(r.Sym.Sect.Vaddr)
+				r.Xadd = r.Add + ctxt.Symaddr(r.Sym) - int64(r.Sym.Sect.Vaddr)
 
 				o = r.Xadd
 				if ctxt.IsELF && ctxt.Arch.Family == sys.AMD64 {
@@ -378,7 +378,7 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 				}
 				break
 			}
-			o = Symaddr(r.Sym) + r.Add - int64(r.Sym.Sect.Vaddr)
+			o = ctxt.Symaddr(r.Sym) + r.Add - int64(r.Sym.Sect.Vaddr)
 		case objabi.R_WEAKADDROFF:
 			if !r.Sym.Attr.Reachable() {
 				continue
@@ -388,15 +388,15 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 			// The method offset tables using this relocation expect the offset to be relative
 			// to the start of the first text section, even if there are multiple.
 			if r.Sym.Sect.Name == ".text" {
-				o = Symaddr(r.Sym) - int64(Segtext.Sections[0].Vaddr) + r.Add
+				o = ctxt.Symaddr(r.Sym) - int64(Segtext.Sections[0].Vaddr) + r.Add
 			} else {
-				o = Symaddr(r.Sym) - int64(r.Sym.Sect.Vaddr) + r.Add
+				o = ctxt.Symaddr(r.Sym) - int64(r.Sym.Sect.Vaddr) + r.Add
 			}
 
 		case objabi.R_ADDRCUOFF:
 			// debug_range and debug_loc elements use this relocation type to get an
 			// offset from the start of the compile unit.
-			o = Symaddr(r.Sym) + r.Add - Symaddr(r.Sym.Lib.Textp[0])
+			o = ctxt.Symaddr(r.Sym) + r.Add - ctxt.Symaddr(r.Sym.Lib.Textp[0])
 
 			// r->sym can be null when CALL $(constant) is transformed from absolute PC to relative PC call.
 		case objabi.R_GOTPCREL:
@@ -420,7 +420,7 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 
 				r.Xadd = r.Add
 				for rs.Outer != nil {
-					r.Xadd += Symaddr(rs) - Symaddr(rs.Outer)
+					r.Xadd += ctxt.Symaddr(rs) - ctxt.Symaddr(rs.Outer)
 					rs = rs.Outer
 				}
 
@@ -449,13 +449,13 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 							}
 						} else {
 							if rs.Type != sym.SHOSTOBJ {
-								o += int64(uint64(Symaddr(rs)) - rs.Sect.Vaddr)
+								o += int64(uint64(ctxt.Symaddr(rs)) - rs.Sect.Vaddr)
 							}
 							o -= int64(r.Off) // relative to section offset, not symbol
 						}
 					} else if ctxt.Arch.Family == sys.ARM {
 						// see ../arm/asm.go:/machoreloc1
-						o += Symaddr(rs) - s.Value - int64(r.Off)
+						o += ctxt.Symaddr(rs) - s.Value - int64(r.Off)
 					} else {
 						o += int64(r.Siz)
 					}
@@ -472,7 +472,7 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 
 			o = 0
 			if r.Sym != nil {
-				o += Symaddr(r.Sym)
+				o += ctxt.Symaddr(r.Sym)
 			}
 
 			o += r.Add - (s.Value + int64(r.Off) + int64(r.Siz))
@@ -508,7 +508,7 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 			var addr int64
 			if r.Sym != nil {
 				nam = r.Sym.Name
-				addr = Symaddr(r.Sym)
+				addr = ctxt.Symaddr(r.Sym)
 			}
 			xnam := "<nil>"
 			if r.Xsym != nil {
@@ -2301,12 +2301,12 @@ func (ctxt *Link) address() []*sym.Segment {
 
 	s := ctxt.Syms.Lookup("runtime.gcdata", 0)
 	s.Attr |= sym.AttrLocal
-	ctxt.xdefine("runtime.egcdata", sym.SRODATA, Symaddr(s)+s.Size)
+	ctxt.xdefine("runtime.egcdata", sym.SRODATA, ctxt.Symaddr(s)+s.Size)
 	ctxt.Syms.Lookup("runtime.egcdata", 0).Sect = s.Sect
 
 	s = ctxt.Syms.Lookup("runtime.gcbss", 0)
 	s.Attr |= sym.AttrLocal
-	ctxt.xdefine("runtime.egcbss", sym.SRODATA, Symaddr(s)+s.Size)
+	ctxt.xdefine("runtime.egcbss", sym.SRODATA, ctxt.Symaddr(s)+s.Size)
 	ctxt.Syms.Lookup("runtime.egcbss", 0).Sect = s.Sect
 
 	ctxt.xdefine("runtime.symtab", sym.SRODATA, int64(symtab.Vaddr))

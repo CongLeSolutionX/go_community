@@ -357,7 +357,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 		o2 |= 2 << 28 // size = 4
 
 		out.Write32(o1)
-		out.Write32(uint32(ld.Symaddr(rs)))
+		out.Write32(uint32(ctxt.Symaddr(rs)))
 		out.Write32(o2)
 		out.Write32(uint32(s.Value + int64(r.Off)))
 		return true
@@ -464,7 +464,7 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 	case objabi.R_CALLARM:
 		// r.Add is the instruction
 		// low 24-bit encodes the target address
-		t := (ld.Symaddr(r.Sym) + int64(signext24(r.Add&0xffffff)*4) - (s.Value + int64(r.Off))) / 4
+		t := (ctxt.Symaddr(r.Sym) + int64(signext24(r.Add&0xffffff)*4) - (s.Value + int64(r.Off))) / 4
 		if t > 0x7fffff || t < -0x800000 || (*ld.FlagDebugTramp > 1 && s.File != r.Sym.File) {
 			// direct call too far, need to insert trampoline.
 			// look up existing trampolines first. if we found one within the range
@@ -485,7 +485,7 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 					break
 				}
 
-				t = (ld.Symaddr(tramp) - 8 - (s.Value + int64(r.Off))) / 4
+				t = (ctxt.Symaddr(tramp) - 8 - (s.Value + int64(r.Off))) / 4
 				if t >= -0x800000 && t < 0x7fffff {
 					// found an existing trampoline that is not too far
 					// we can just use it
@@ -503,7 +503,7 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 				} else if ctxt.BuildMode == ld.BuildModeCArchive || ctxt.BuildMode == ld.BuildModeCShared || ctxt.BuildMode == ld.BuildModePIE {
 					gentramppic(ctxt.Arch, tramp, r.Sym, int64(offset))
 				} else {
-					gentramp(ctxt.Arch, ctxt.LinkMode, tramp, r.Sym, int64(offset))
+					gentramp(ctxt, ctxt.Arch, ctxt.LinkMode, tramp, r.Sym, int64(offset))
 				}
 			}
 			// modify reloc to point to tramp, which will be resolved later
@@ -517,10 +517,10 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 }
 
 // generate a trampoline to target+offset
-func gentramp(arch *sys.Arch, linkmode ld.LinkMode, tramp, target *sym.Symbol, offset int64) {
+func gentramp(ctxt *ld.Link, arch *sys.Arch, linkmode ld.LinkMode, tramp, target *sym.Symbol, offset int64) {
 	tramp.Size = 12 // 3 instructions
 	tramp.P = make([]byte, tramp.Size)
-	t := ld.Symaddr(target) + offset
+	t := ctxt.Symaddr(target) + offset
 	o1 := uint32(0xe5900000 | 11<<12 | 15<<16) // MOVW (R15), R11 // R15 is actual pc + 8
 	o2 := uint32(0xe12fff10 | 11)              // JMP  (R11)
 	o3 := uint32(t)                            // WORD $target
@@ -611,7 +611,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			r.Xadd = int64(signext24(r.Add & 0xffffff))
 			r.Xadd *= 4
 			for rs.Outer != nil {
-				r.Xadd += ld.Symaddr(rs) - ld.Symaddr(rs.Outer)
+				r.Xadd += ctxt.Symaddr(rs) - ctxt.Symaddr(rs.Outer)
 				rs = rs.Outer
 			}
 
@@ -626,7 +626,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			// we need to compensate that by removing the instruction's address
 			// from addend.
 			if ctxt.HeadType == objabi.Hdarwin {
-				r.Xadd -= ld.Symaddr(s) + int64(r.Off)
+				r.Xadd -= ctxt.Symaddr(s) + int64(r.Off)
 			}
 
 			if r.Xadd/4 > 0x7fffff || r.Xadd/4 < -0x800000 {
@@ -643,23 +643,23 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_CONST:
 		return r.Add, true
 	case objabi.R_GOTOFF:
-		return ld.Symaddr(r.Sym) + r.Add - ld.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
+		return ctxt.Symaddr(r.Sym) + r.Add - ctxt.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
 
 	// The following three arch specific relocations are only for generation of
 	// Linux/ARM ELF's PLT entry (3 assembler instruction)
 	case objabi.R_PLT0: // add ip, pc, #0xXX00000
-		if ld.Symaddr(ctxt.Syms.Lookup(".got.plt", 0)) < ld.Symaddr(ctxt.Syms.Lookup(".plt", 0)) {
+		if ctxt.Symaddr(ctxt.Syms.Lookup(".got.plt", 0)) < ctxt.Symaddr(ctxt.Syms.Lookup(".plt", 0)) {
 			ctxt.Errorf(s, ".got.plt should be placed after .plt section.")
 		}
-		return 0xe28fc600 + (0xff & (int64(uint32(ld.Symaddr(r.Sym)-(ld.Symaddr(ctxt.Syms.Lookup(".plt", 0))+int64(r.Off))+r.Add)) >> 20)), true
+		return 0xe28fc600 + (0xff & (int64(uint32(ctxt.Symaddr(r.Sym)-(ctxt.Symaddr(ctxt.Syms.Lookup(".plt", 0))+int64(r.Off))+r.Add)) >> 20)), true
 	case objabi.R_PLT1: // add ip, ip, #0xYY000
-		return 0xe28cca00 + (0xff & (int64(uint32(ld.Symaddr(r.Sym)-(ld.Symaddr(ctxt.Syms.Lookup(".plt", 0))+int64(r.Off))+r.Add+4)) >> 12)), true
+		return 0xe28cca00 + (0xff & (int64(uint32(ctxt.Symaddr(r.Sym)-(ctxt.Symaddr(ctxt.Syms.Lookup(".plt", 0))+int64(r.Off))+r.Add+4)) >> 12)), true
 	case objabi.R_PLT2: // ldr pc, [ip, #0xZZZ]!
-		return 0xe5bcf000 + (0xfff & int64(uint32(ld.Symaddr(r.Sym)-(ld.Symaddr(ctxt.Syms.Lookup(".plt", 0))+int64(r.Off))+r.Add+8))), true
+		return 0xe5bcf000 + (0xfff & int64(uint32(ctxt.Symaddr(r.Sym)-(ctxt.Symaddr(ctxt.Syms.Lookup(".plt", 0))+int64(r.Off))+r.Add+8))), true
 	case objabi.R_CALLARM: // bl XXXXXX or b YYYYYY
 		// r.Add is the instruction
 		// low 24-bit encodes the target address
-		t := (ld.Symaddr(r.Sym) + int64(signext24(r.Add&0xffffff)*4) - (s.Value + int64(r.Off))) / 4
+		t := (ctxt.Symaddr(r.Sym) + int64(signext24(r.Add&0xffffff)*4) - (s.Value + int64(r.Off))) / 4
 		if t > 0x7fffff || t < -0x800000 {
 			ctxt.Errorf(s, "direct call too far: %s %x", r.Sym.Name, t)
 		}

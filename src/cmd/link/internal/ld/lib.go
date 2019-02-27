@@ -2303,7 +2303,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 			if !s.Attr.Reachable() {
 				continue
 			}
-			put(ctxt, s, s.Name, DataSym, Symaddr(s), s.Gotype)
+			put(ctxt, s, s.Name, DataSym, ctxt.Symaddr(s), s.Gotype)
 
 		case sym.SBSS, sym.SNOPTRBSS:
 			if !s.Attr.Reachable() {
@@ -2312,7 +2312,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 			if len(s.P) > 0 {
 				ctxt.Errorf(s, "should not be bss (size=%d type=%v special=%v)", len(s.P), s.Type, s.Attr.Special())
 			}
-			put(ctxt, s, s.Name, BSSSym, Symaddr(s), s.Gotype)
+			put(ctxt, s, s.Name, BSSSym, ctxt.Symaddr(s), s.Gotype)
 
 		case sym.SHOSTOBJ:
 			if ctxt.HeadType == objabi.Hwindows || ctxt.IsELF {
@@ -2327,7 +2327,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 
 		case sym.STLSBSS:
 			if ctxt.LinkMode == LinkExternal {
-				put(ctxt, s, s.Name, TLSSym, Symaddr(s), s.Gotype)
+				put(ctxt, s, s.Name, TLSSym, ctxt.Symaddr(s), s.Gotype)
 			}
 		}
 	}
@@ -2386,11 +2386,9 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 	}
 }
 
-func Symaddr(s *sym.Symbol) int64 {
+func (ctxt *Link) Symaddr(s *sym.Symbol) int64 {
 	if !s.Attr.Reachable() {
-		// FIXME
-		Errorf("unreachable symbol in symaddr")
-		// ctxt.Errorf(s, "unreachable symbol in symaddr")
+		ctxt.Errorf(s, "unreachable symbol in symaddr")
 	}
 	return s.Value
 }
