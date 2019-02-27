@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "335fb394_7e3dd9ae",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-27T23:26:28Z",
+      "side": 1,
+      "message": "We should use macros for stack offsets down here too, to avoid the #ifdef/#else/#endif.",
+      "revId": "54897ba7809501fb054c744ce542888fbb0808c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
