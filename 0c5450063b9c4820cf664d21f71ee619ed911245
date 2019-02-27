@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed0e6a3e_b7aeab0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-27T14:51:50Z",
+      "side": 1,
+      "message": "You\u0027re changing asmcgocall, which affects all cgo code.  This doesn\u0027t seem to have much to do with asmsyscall6.  This seems more like\n\nruntime: use AIX C ABI in asmcgocall",
+      "revId": "0c5450063b9c4820cf664d21f71ee619ed911245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae5c0a44_ec18fb2d",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-27T14:51:50Z",
+      "side": 1,
+      "message": "This is getting fairly hard to read.  Could we instead do something like, above this function,\n\n#ifdef GOOS_aix\n#define asmcgocallSaveGOffset 64\n#else\n#define asmcgocallSaveGOffset 40\n#endif\n\nand then in this function\n\n    MOVD R5, asmcgocallSaveGOffset(R1) // save old g on stack\n\nIn general a #ifdef GOOS_aix without a #else is not too bad.  But once we are using #else with instruction sequences it\u0027s pretty hard to understand either sequence.",
+      "revId": "0c5450063b9c4820cf664d21f71ee619ed911245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
