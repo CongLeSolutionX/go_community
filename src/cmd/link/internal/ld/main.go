@@ -140,7 +140,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 		windowsgui = true
 	default:
 		if err := ctxt.HeadType.Set(*flagHeadType); err != nil {
-			Errorf(nil, "%v", err)
+			Errorf("%v", err)
 			usage()
 		}
 	}

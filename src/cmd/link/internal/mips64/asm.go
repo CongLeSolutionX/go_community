@@ -117,7 +117,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 
 			if rs.Type != sym.SHOSTOBJ && rs.Type != sym.SDYNIMPORT && rs.Sect == nil {
-				ld.Errorf(s, "missing section for %s", rs.Name)
+				ctxt.Errorf(s, "missing section for %s", rs.Name)
 			}
 			r.Xsym = rs
 
@@ -149,7 +149,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		// thread pointer is at 0x7000 offset from the start of TLS data area
 		t := ld.Symaddr(r.Sym) + r.Add - 0x7000
 		if t < -32768 || t >= 32678 {
-			ld.Errorf(s, "TLS offset out of range %d", t)
+			ctxt.Errorf(s, "TLS offset out of range %d", t)
 		}
 		o1 := ctxt.Arch.ByteOrder.Uint32(s.P[r.Off:])
 		return int64(o1&0xffff0000 | uint32(t)&0xffff), true

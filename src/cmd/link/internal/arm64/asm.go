@@ -97,19 +97,19 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 	switch r.Type {
 	default:
 		if r.Type >= objabi.ElfRelocOffset {
-			ld.Errorf(s, "unexpected relocation type %d (%s)", r.Type, sym.RelocName(ctxt.Arch, r.Type))
+			ctxt.Errorf(s, "unexpected relocation type %d (%s)", r.Type, sym.RelocName(ctxt.Arch, r.Type))
 			return false
 		}
 
 	// Handle relocations found in ELF object files.
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_AARCH64_PREL32):
 		if targ.Type == sym.SDYNIMPORT {
-			ld.Errorf(s, "unexpected R_AARCH64_PREL32 relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_AARCH64_PREL32 relocation for dynamic symbol %s", targ.Name)
 		}
 		// TODO(mwhudson): the test of VisibilityHidden here probably doesn't make
 		// sense and should be removed when someone has thought about it properly.
 		if (targ.Type == 0 || targ.Type == sym.SXREF) && !targ.Attr.VisibilityHidden() {
-			ld.Errorf(s, "unknown symbol %s in pcrel", targ.Name)
+			ctxt.Errorf(s, "unknown symbol %s in pcrel", targ.Name)
 		}
 		r.Type = objabi.R_PCREL
 		r.Add += 4
@@ -117,10 +117,10 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_AARCH64_PREL64):
 		if targ.Type == sym.SDYNIMPORT {
-			ld.Errorf(s, "unexpected R_AARCH64_PREL64 relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_AARCH64_PREL64 relocation for dynamic symbol %s", targ.Name)
 		}
 		if targ.Type == 0 || targ.Type == sym.SXREF {
-			ld.Errorf(s, "unknown symbol %s in pcrel", targ.Name)
+			ctxt.Errorf(s, "unknown symbol %s in pcrel", targ.Name)
 		}
 		r.Type = objabi.R_PCREL
 		r.Add += 8
@@ -134,7 +134,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 			r.Add += int64(targ.Plt())
 		}
 		if (targ.Type == 0 || targ.Type == sym.SXREF) && !targ.Attr.VisibilityHidden() {
-			ld.Errorf(s, "unknown symbol %s in callarm64", targ.Name)
+			ctxt.Errorf(s, "unknown symbol %s in callarm64", targ.Name)
 		}
 		r.Type = objabi.R_CALLARM64
 		return true
@@ -158,38 +158,38 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_AARCH64_ADR_PREL_PG_HI21),
 		objabi.ElfRelocOffset + objabi.RelocType(elf.R_AARCH64_ADD_ABS_LO12_NC):
 		if targ.Type == sym.SDYNIMPORT {
-			ld.Errorf(s, "unexpected relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected relocation for dynamic symbol %s", targ.Name)
 		}
 		if targ.Type == 0 || targ.Type == sym.SXREF {
-			ld.Errorf(s, "unknown symbol %s", targ.Name)
+			ctxt.Errorf(s, "unknown symbol %s", targ.Name)
 		}
 		r.Type = objabi.R_ARM64_PCREL
 		return true
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_AARCH64_ABS64):
 		if targ.Type == sym.SDYNIMPORT {
-			ld.Errorf(s, "unexpected R_AARCH64_ABS64 relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected R_AARCH64_ABS64 relocation for dynamic symbol %s", targ.Name)
 		}
 		r.Type = objabi.R_ADDR
 		return true
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_AARCH64_LDST8_ABS_LO12_NC):
 		if targ.Type == sym.SDYNIMPORT {
-			ld.Errorf(s, "unexpected relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected relocation for dynamic symbol %s", targ.Name)
 		}
 		r.Type = objabi.R_ARM64_LDST8
 		return true
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_AARCH64_LDST32_ABS_LO12_NC):
 		if targ.Type == sym.SDYNIMPORT {
-			ld.Errorf(s, "unexpected relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected relocation for dynamic symbol %s", targ.Name)
 		}
 		r.Type = objabi.R_ARM64_LDST32
 		return true
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_AARCH64_LDST64_ABS_LO12_NC):
 		if targ.Type == sym.SDYNIMPORT {
-			ld.Errorf(s, "unexpected relocation for dynamic symbol %s", targ.Name)
+			ctxt.Errorf(s, "unexpected relocation for dynamic symbol %s", targ.Name)
 		}
 		r.Type = objabi.R_ARM64_LDST64
 		return true
@@ -279,7 +279,7 @@ func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
 			if r.Siz == 8 {
 				rela.AddUint64(ctxt.Arch, ld.ELF64_R_INFO(uint32(targ.Dynid), uint32(elf.R_AARCH64_ABS64)))
 			} else {
-				ld.Errorf(s, "unexpected relocation for dynamic symbol %s", targ.Name)
+				ctxt.Errorf(s, "unexpected relocation for dynamic symbol %s", targ.Name)
 			}
 			rela.AddUint64(ctxt.Arch, uint64(r.Add))
 			r.Type = objabi.ElfRelocOffset // ignore during relocsym
@@ -343,7 +343,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 	arch := ctxt.Arch
 	if rs.Type == sym.SHOSTOBJ || r.Type == objabi.R_CALLARM64 || r.Type == objabi.R_ADDRARM64 {
 		if rs.Dynid < 0 {
-			ld.Errorf(s, "reloc %d (%s) to non-macho symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
+			ctxt.Errorf(s, "reloc %d (%s) to non-macho symbol %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Type, rs.Type)
 			return false
 		}
 
@@ -352,7 +352,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 	} else {
 		v = uint32(rs.Sect.Extnum)
 		if v == 0 {
-			ld.Errorf(s, "reloc %d (%s) to symbol %s in non-macho section %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Sect.Name, rs.Type, rs.Type)
+			ctxt.Errorf(s, "reloc %d (%s) to symbol %s in non-macho section %s type=%d (%s)", r.Type, sym.RelocName(arch, r.Type), rs.Name, rs.Sect.Name, rs.Type, rs.Type)
 			return false
 		}
 	}
@@ -364,7 +364,7 @@ func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sec
 		v |= ld.MACHO_ARM64_RELOC_UNSIGNED << 28
 	case objabi.R_CALLARM64:
 		if r.Xadd != 0 {
-			ld.Errorf(s, "ld64 doesn't allow BR26 reloc with non-zero addend: %s+%d", rs.Name, r.Xadd)
+			ctxt.Errorf(s, "ld64 doesn't allow BR26 reloc with non-zero addend: %s+%d", rs.Name, r.Xadd)
 		}
 
 		v |= 1 << 24 // pc-relative bit
@@ -429,7 +429,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			// add + R_ADDRARM64.
 			if !(r.Sym.IsFileLocal() || r.Sym.Attr.VisibilityHidden() || r.Sym.Attr.Local()) && r.Sym.Type == sym.STEXT && ctxt.DynlinkingGo() {
 				if o2&0xffc00000 != 0xf9400000 {
-					ld.Errorf(s, "R_ARM64_GOTPCREL against unexpected instruction %x", o2)
+					ctxt.Errorf(s, "R_ARM64_GOTPCREL against unexpected instruction %x", o2)
 				}
 				o2 = 0x91000000 | (o2 & 0x000003ff)
 				r.Type = objabi.R_ADDRARM64
@@ -452,7 +452,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 
 			if rs.Type != sym.SHOSTOBJ && rs.Type != sym.SDYNIMPORT && rs.Sect == nil {
-				ld.Errorf(s, "missing section for %s", rs.Name)
+				ctxt.Errorf(s, "missing section for %s", rs.Name)
 			}
 			r.Xsym = rs
 
@@ -509,7 +509,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_ADDRARM64:
 		t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 		if t >= 1<<32 || t < -1<<32 {
-			ld.Errorf(s, "program too large, address relocation distance = %d", t)
+			ctxt.Errorf(s, "program too large, address relocation distance = %d", t)
 		}
 
 		var o0, o1 uint32
@@ -534,13 +534,13 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_ARM64_TLS_LE:
 		r.Done = false
 		if ctxt.HeadType == objabi.Hdarwin {
-			ld.Errorf(s, "TLS reloc on unsupported OS %v", ctxt.HeadType)
+			ctxt.Errorf(s, "TLS reloc on unsupported OS %v", ctxt.HeadType)
 		}
 		// The TCB is two pointers. This is not documented anywhere, but is
 		// de facto part of the ABI.
 		v := r.Sym.Value + int64(2*ctxt.Arch.PtrSize)
 		if v < 0 || v >= 32678 {
-			ld.Errorf(s, "TLS offset out of range %d", v)
+			ctxt.Errorf(s, "TLS offset out of range %d", v)
 		}
 		return val | (v << 5), true
 
@@ -550,14 +550,14 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			// can optimize any TLS IE relocation to LE.
 			r.Done = false
 			if ctxt.HeadType != objabi.Hlinux {
-				ld.Errorf(s, "TLS reloc on unsupported OS %v", ctxt.HeadType)
+				ctxt.Errorf(s, "TLS reloc on unsupported OS %v", ctxt.HeadType)
 			}
 
 			// The TCB is two pointers. This is not documented anywhere, but is
 			// de facto part of the ABI.
 			v := ld.Symaddr(r.Sym) + int64(2*ctxt.Arch.PtrSize) + r.Add
 			if v < 0 || v >= 32678 {
-				ld.Errorf(s, "TLS offset out of range %d", v)
+				ctxt.Errorf(s, "TLS offset out of range %d", v)
 			}
 
 			var o0, o1 uint32
@@ -575,7 +575,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			// R_AARCH64_TLSIE_LD64_GOTTPREL_LO12_NC
 			// turn LD64 to MOVK
 			if v&3 != 0 {
-				ld.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_TLSIE_LD64_GOTTPREL_LO12_NC", v)
+				ctxt.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_TLSIE_LD64_GOTTPREL_LO12_NC", v)
 			}
 			o1 = 0xf2800000 | uint32(o1&0x1f) | (uint32(v&0xffff) << 5)
 
@@ -596,7 +596,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			t = (ld.Symaddr(r.Sym) + r.Add) - (s.Value + int64(r.Off))
 		}
 		if t >= 1<<27 || t < -1<<27 {
-			ld.Errorf(s, "program too large, call relocation distance = %d", t)
+			ctxt.Errorf(s, "program too large, call relocation distance = %d", t)
 		}
 		return val | ((t >> 2) & 0x03ffffff), true
 
@@ -606,7 +606,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			// patch instruction: adrp
 			t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 			if t >= 1<<32 || t < -1<<32 {
-				ld.Errorf(s, "program too large, address relocation distance = %d", t)
+				ctxt.Errorf(s, "program too large, address relocation distance = %d", t)
 			}
 			var o0 uint32
 			o0 |= (uint32((t>>12)&3) << 29) | (uint32((t>>12>>2)&0x7ffff) << 5)
@@ -616,13 +616,13 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			// patch instruction: ldr
 			t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 			if t&7 != 0 {
-				ld.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_LD64_GOT_LO12_NC", t)
+				ctxt.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_LD64_GOT_LO12_NC", t)
 			}
 			var o1 uint32
 			o1 |= uint32(t&0xfff) << (10 - 3)
 			return val | int64(uint64(o1)), true
 		} else {
-			ld.Errorf(s, "unsupported instruction for %v R_GOTARM64", s.P[r.Off:r.Off+4])
+			ctxt.Errorf(s, "unsupported instruction for %v R_GOTARM64", s.P[r.Off:r.Off+4])
 		}
 
 	case objabi.R_ARM64_PCREL:
@@ -631,7 +631,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			// patch instruction: adrp
 			t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 			if t >= 1<<32 || t < -1<<32 {
-				ld.Errorf(s, "program too large, address relocation distance = %d", t)
+				ctxt.Errorf(s, "program too large, address relocation distance = %d", t)
 			}
 			o0 := (uint32((t>>12)&3) << 29) | (uint32((t>>12>>2)&0x7ffff) << 5)
 			return val | int64(o0), true
@@ -642,7 +642,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			o1 := uint32(t&0xfff) << 10
 			return val | int64(o1), true
 		} else {
-			ld.Errorf(s, "unsupported instruction for %v R_PCRELARM64", s.P[r.Off:r.Off+4])
+			ctxt.Errorf(s, "unsupported instruction for %v R_PCRELARM64", s.P[r.Off:r.Off+4])
 		}
 
 	case objabi.R_ARM64_LDST8:
@@ -653,7 +653,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_ARM64_LDST32:
 		t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 		if t&3 != 0 {
-			ld.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_LDST32_ABS_LO12_NC", t)
+			ctxt.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_LDST32_ABS_LO12_NC", t)
 		}
 		o0 := (uint32(t&0xfff) >> 2) << 10
 		return val | int64(o0), true
@@ -661,7 +661,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_ARM64_LDST64:
 		t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 		if t&7 != 0 {
-			ld.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_LDST64_ABS_LO12_NC", t)
+			ctxt.Errorf(s, "invalid address: %x for relocation type: R_AARCH64_LDST64_ABS_LO12_NC", t)
 		}
 		o0 := (uint32(t&0xfff) >> 3) << 10
 		return val | int64(o0), true
@@ -710,7 +710,7 @@ func elfsetupplt(ctxt *ld.Link) {
 
 		// check gotplt.size == 0
 		if gotplt.Size != 0 {
-			ld.Errorf(gotplt, "got.plt is not empty at the very beginning")
+			ctxt.Errorf(gotplt, "got.plt is not empty at the very beginning")
 		}
 		gotplt.AddAddrPlus(ctxt.Arch, ctxt.Syms.Lookup(".dynamic", 0), 0)
 
@@ -763,7 +763,7 @@ func addpltsym(ctxt *ld.Link, s *sym.Symbol) {
 
 		s.SetPlt(int32(plt.Size - 16))
 	} else {
-		ld.Errorf(s, "addpltsym: unsupported binary format")
+		ctxt.Errorf(s, "addpltsym: unsupported binary format")
 	}
 }
 
@@ -783,7 +783,7 @@ func addgotsym(ctxt *ld.Link, s *sym.Symbol) {
 		rela.AddUint64(ctxt.Arch, ld.ELF64_R_INFO(uint32(s.Dynid), uint32(elf.R_AARCH64_GLOB_DAT)))
 		rela.AddUint64(ctxt.Arch, 0)
 	} else {
-		ld.Errorf(s, "addgotsym: unsupported binary format")
+		ctxt.Errorf(s, "addgotsym: unsupported binary format")
 	}
 }
 

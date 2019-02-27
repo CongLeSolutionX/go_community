@@ -202,7 +202,7 @@ func addlibpath(ctxt *Link, srcref string, objref string, file string, pkg strin
 		if strings.HasSuffix(shlib, ".shlibname") {
 			data, err := ioutil.ReadFile(shlib)
 			if err != nil {
-				Errorf(nil, "cannot read %s: %v", shlib, err)
+				Errorf("cannot read %s: %v", shlib, err)
 			}
 			shlib = strings.TrimSpace(string(data))
 		}

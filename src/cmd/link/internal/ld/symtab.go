@@ -114,11 +114,11 @@ func putelfsym(ctxt *Link, x *sym.Symbol, s string, t SymbolType, addr int64, go
 		elfshnum = SHN_UNDEF
 	} else {
 		if xo.Sect == nil {
-			Errorf(x, "missing section in putelfsym")
+			ctxt.Errorf(x, "missing section in putelfsym")
 			return
 		}
 		if xo.Sect.Elfsect == nil {
-			Errorf(x, "missing ELF section in putelfsym")
+			ctxt.Errorf(x, "missing ELF section in putelfsym")
 			return
 		}
 		elfshnum = xo.Sect.Elfsect.(*ElfShdr).shnum
@@ -309,14 +309,14 @@ func textsectionmap(ctxt *Link) uint32 {
 		if n == 0 {
 			s := ctxt.Syms.ROLookup("runtime.text", 0)
 			if s == nil {
-				Errorf(nil, "Unable to find symbol runtime.text\n")
+				Errorf("Unable to find symbol runtime.text\n")
 			}
 			off = t.SetAddr(ctxt.Arch, off, s)
 
 		} else {
 			s := ctxt.Syms.Lookup(fmt.Sprintf("runtime.text.%d", n), 0)
 			if s == nil {
-				Errorf(nil, "Unable to find symbol runtime.text.%d\n", n)
+				Errorf("Unable to find symbol runtime.text.%d\n", n)
 			}
 			off = t.SetAddr(ctxt.Arch, off, s)
 		}
