@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50612ea9_d7a056ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-27T15:05:57Z",
+      "side": 1,
+      "message": "cmd/internal/goobj: add XCOFF support to TestParseCGOArchive\n\nThen you don\u0027t need the next line.",
+      "revId": "b4c76443633d7daec9e774554ec25e598805d06a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
