@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f0bd714_08470830",
+        "filename": "src/runtime/cgo/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-27T15:03:16Z",
+      "side": 1,
+      "message": "Any reason to make this change?  Seems simpler to keep the MOVD and not leave uninitialized bytes on the stack.",
+      "revId": "bec14066269e035b46ea8493228808b1ff0c1e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64d03126_3439ca07",
+        "filename": "src/runtime/cgo/gcc_aix_ppc64.S",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-02-27T15:03:16Z",
+      "side": 1,
+      "message": "s/2014/2019/",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "bec14066269e035b46ea8493228808b1ff0c1e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
