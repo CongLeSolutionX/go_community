@@ -1641,7 +1641,7 @@ func (f *xcoffFile) emitRelocations(ctxt *Link, fileoff int64) {
 				if r.Xsym.Dynid < 0 {
 					Errorf(s, "reloc %s to non-coff symbol %s (outer=%s) %d %d", r.Type.String(), r.Sym.Name, r.Xsym.Name, r.Sym.Type, r.Xsym.Dynid)
 				}
-				if !thearch.Xcoffreloc1(ctxt.Arch, ctxt.Out, s, r, int64(uint64(s.Value+int64(r.Off))-base)) {
+				if !thearch.Xcoffreloc1(ctxt, ctxt.Out, s, r, int64(uint64(s.Value+int64(r.Off))-base)) {
 					Errorf(s, "unsupported obj reloc %d(%s)/%d to %s", r.Type, r.Type.String(), r.Siz, r.Sym.Name)
 				}
 			}

@@ -132,9 +132,9 @@ type Arch struct {
 	Elfreloc1   func(*Link, *sym.Reloc, int64) bool
 	Elfsetupplt func(*Link)
 	Gentext     func(*Link)
-	Machoreloc1 func(*sys.Arch, *OutBuf, *sym.Symbol, *sym.Reloc, int64) bool
-	PEreloc1    func(*sys.Arch, *OutBuf, *sym.Symbol, *sym.Reloc, int64) bool
-	Xcoffreloc1 func(*sys.Arch, *OutBuf, *sym.Symbol, *sym.Reloc, int64) bool
+	Machoreloc1 func(*Link, *OutBuf, *sym.Symbol, *sym.Reloc, int64) bool
+	PEreloc1    func(*Link, *OutBuf, *sym.Symbol, *sym.Reloc, int64) bool
+	Xcoffreloc1 func(*Link, *OutBuf, *sym.Symbol, *sym.Reloc, int64) bool
 
 	// TLSIEtoLE converts a TLS Initial Executable relocation to
 	// a TLS Local Executable relocation.

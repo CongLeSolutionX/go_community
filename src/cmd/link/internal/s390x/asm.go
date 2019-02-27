@@ -32,7 +32,6 @@ package s390x
 
 import (
 	"cmd/internal/objabi"
-	"cmd/internal/sys"
 	"cmd/link/internal/ld"
 	"cmd/link/internal/sym"
 	"debug/elf"
@@ -380,7 +379,7 @@ func elfsetupplt(ctxt *ld.Link) {
 	}
 }
 
-func machoreloc1(arch *sys.Arch, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sectoff int64) bool {
+func machoreloc1(ctxt *ld.Link, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, sectoff int64) bool {
 	return false
 }
 
