@@ -463,7 +463,11 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 		}
 		if c.vers >= VersionTLS12 {
 			certReq.hasSignatureAlgorithm = true
+<<<<<<< HEAD   (4ed8ad [dev.boringcrypto] all: merge master into dev.boringcrypto)
 			certReq.supportedSignatureAlgorithms = supportedSignatureAlgorithms(c.vers)
+=======
+			certReq.supportedSignatureAlgorithms = supportedSignatureAlgorithms
+>>>>>>> BRANCH (883435 Revert "crypto/tls: disable RSA-PSS in TLS 1.2")
 		}
 
 		// An empty list of certificateAuthorities signals to
@@ -559,7 +563,11 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 		}
 
 		// Determine the signature type.
+<<<<<<< HEAD   (4ed8ad [dev.boringcrypto] all: merge master into dev.boringcrypto)
 		_, sigType, hashFunc, err := pickSignatureAlgorithm(pub, []SignatureScheme{certVerify.signatureAlgorithm}, supportedSignatureAlgorithms(c.vers), c.vers)
+=======
+		_, sigType, hashFunc, err := pickSignatureAlgorithm(pub, []SignatureScheme{certVerify.signatureAlgorithm}, supportedSignatureAlgorithms, c.vers)
+>>>>>>> BRANCH (883435 Revert "crypto/tls: disable RSA-PSS in TLS 1.2")
 		if err != nil {
 			c.sendAlert(alertIllegalParameter)
 			return err

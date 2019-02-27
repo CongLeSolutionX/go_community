@@ -23,15 +23,20 @@ import (
 	"time"
 )
 
+<<<<<<< HEAD   (4ed8ad [dev.boringcrypto] all: merge master into dev.boringcrypto)
 var savedSupportedSignatureAlgorithmsTLS12 = defaultSupportedSignatureAlgorithmsTLS12
 
+=======
+>>>>>>> BRANCH (883435 Revert "crypto/tls: disable RSA-PSS in TLS 1.2")
 func init() {
-	// TLS 1.3 is opt-in for Go 1.12, and RSA-PSS is disabled in TLS 1.2, but we
-	// want to run most tests with both enabled. TestTLS13Switch below and the
-	// "PSS-Disabled" recordings test the disabled behavior. See Issue 30055.
+	// TLS 1.3 is opt-in for Go 1.12, but we want to run most tests with it enabled.
+	// TestTLS13Switch below tests the disabled behavior. See Issue 30055.
 	tls13Support.Do(func() {}) // defuse the sync.Once
 	tls13Support.cached = true
+<<<<<<< HEAD   (4ed8ad [dev.boringcrypto] all: merge master into dev.boringcrypto)
 	defaultSupportedSignatureAlgorithmsTLS12 = defaultSupportedSignatureAlgorithms
+=======
+>>>>>>> BRANCH (883435 Revert "crypto/tls: disable RSA-PSS in TLS 1.2")
 }
 
 var rsaCertPEM = `-----BEGIN CERTIFICATE-----

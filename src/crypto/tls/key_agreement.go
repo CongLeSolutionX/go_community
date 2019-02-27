@@ -177,7 +177,11 @@ NextCandidate:
 		return nil, errors.New("tls: certificate private key does not implement crypto.Signer")
 	}
 
+<<<<<<< HEAD   (4ed8ad [dev.boringcrypto] all: merge master into dev.boringcrypto)
 	signatureAlgorithm, sigType, hashFunc, err := pickSignatureAlgorithm(priv.Public(), clientHello.supportedSignatureAlgorithms, supportedSignatureAlgorithms(ka.version), ka.version)
+=======
+	signatureAlgorithm, sigType, hashFunc, err := pickSignatureAlgorithm(priv.Public(), clientHello.supportedSignatureAlgorithms, supportedSignatureAlgorithms, ka.version)
+>>>>>>> BRANCH (883435 Revert "crypto/tls: disable RSA-PSS in TLS 1.2")
 	if err != nil {
 		return nil, err
 	}

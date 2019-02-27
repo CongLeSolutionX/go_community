@@ -1211,6 +1211,7 @@ func TestHandshakeServerRSAPSS(t *testing.T) {
 	runServerTestTLS13(t, test)
 }
 
+<<<<<<< HEAD   (4ed8ad [dev.boringcrypto] all: merge master into dev.boringcrypto)
 func TestHandshakeServerPSSDisabled(t *testing.T) {
 	test := &serverTest{
 		name:    "RSA-PSS-Disabled",
@@ -1238,6 +1239,8 @@ func TestHandshakeServerPSSDisabled(t *testing.T) {
 	runServerTestTLS12(t, test)
 }
 
+=======
+>>>>>>> BRANCH (883435 Revert "crypto/tls: disable RSA-PSS in TLS 1.2")
 func benchmarkHandshakeServer(b *testing.B, version uint16, cipherSuite uint16, curve CurveID, cert []byte, key crypto.PrivateKey) {
 	config := testConfig.Clone()
 	config.CipherSuites = []uint16{cipherSuite}
@@ -1417,32 +1420,42 @@ func TestClientAuth(t *testing.T) {
 		defer os.Remove(ecdsaCertPath)
 		ecdsaKeyPath = tempFile(clientECDSAKeyPEM)
 		defer os.Remove(ecdsaKeyPath)
+	} else {
+		t.Parallel()
 	}
 
-	t.Run("Normal", func(t *testing.T) {
-		config := testConfig.Clone()
-		config.ClientAuth = RequestClientCert
+	config := testConfig.Clone()
+	config.ClientAuth = RequestClientCert
 
-		test := &serverTest{
-			name:    "ClientAuthRequestedNotGiven",
-			command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "AES128-SHA"},
-			config:  config,
-		}
-		runServerTestTLS12(t, test)
-		runServerTestTLS13(t, test)
+	test := &serverTest{
+		name:    "ClientAuthRequestedNotGiven",
+		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "AES128-SHA"},
+		config:  config,
+	}
+	runServerTestTLS12(t, test)
+	runServerTestTLS13(t, test)
 
-		config.ClientAuth = RequireAnyClientCert
+	test = &serverTest{
+		name: "ClientAuthRequestedAndGiven",
+		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "AES128-SHA",
+			"-cert", certPath, "-key", keyPath, "-sigalgs", "rsa_pss_rsae_sha256"},
+		config:            config,
+		expectedPeerCerts: []string{clientCertificatePEM},
+	}
+	runServerTestTLS12(t, test)
+	runServerTestTLS13(t, test)
 
-		test = &serverTest{
-			name: "ClientAuthRequestedAndGiven",
-			command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "AES128-SHA",
-				"-cert", certPath, "-key", keyPath, "-sigalgs", "rsa_pss_rsae_sha256"},
-			config:            config,
-			expectedPeerCerts: []string{clientCertificatePEM},
-		}
-		runServerTestTLS12(t, test)
-		runServerTestTLS13(t, test)
+	test = &serverTest{
+		name: "ClientAuthRequestedAndECDSAGiven",
+		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "AES128-SHA",
+			"-cert", ecdsaCertPath, "-key", ecdsaKeyPath},
+		config:            config,
+		expectedPeerCerts: []string{clientECDSACertificatePEM},
+	}
+	runServerTestTLS12(t, test)
+	runServerTestTLS13(t, test)
 
+<<<<<<< HEAD   (4ed8ad [dev.boringcrypto] all: merge master into dev.boringcrypto)
 		test = &serverTest{
 			name: "ClientAuthRequestedAndECDSAGiven",
 			command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "AES128-SHA",
@@ -1493,6 +1506,16 @@ func TestClientAuth(t *testing.T) {
 		}
 		runServerTestTLS12(t, test)
 	})
+=======
+	test = &serverTest{
+		name: "ClientAuthRequestedAndPKCS1v15Given",
+		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "AES128-SHA",
+			"-cert", certPath, "-key", keyPath, "-sigalgs", "rsa_pkcs1_sha256"},
+		config:            config,
+		expectedPeerCerts: []string{clientCertificatePEM},
+	}
+	runServerTestTLS12(t, test)
+>>>>>>> BRANCH (883435 Revert "crypto/tls: disable RSA-PSS in TLS 1.2")
 }
 
 func TestSNIGivenOnFailure(t *testing.T) {
@@ -1782,7 +1805,6 @@ T+E0J8wlH24pgwQHzy7Ko2qLwn1b5PW8ecrlvP1g
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	done := make(chan struct{})
 	go func() {
 		config := testConfig.Clone()
@@ -1800,6 +1822,7 @@ T+E0J8wlH24pgwQHzy7Ko2qLwn1b5PW8ecrlvP1g
 		t.Errorf(`expected "handshake failure", got %q`, err)
 	}
 	<-done
+<<<<<<< HEAD   (4ed8ad [dev.boringcrypto] all: merge master into dev.boringcrypto)
 
 	// With RSA-PSS disabled and TLS 1.2, this should work.
 
@@ -1811,4 +1834,6 @@ T+E0J8wlH24pgwQHzy7Ko2qLwn1b5PW8ecrlvP1g
 	serverConfig.Certificates = []Certificate{cert}
 	serverConfig.MaxVersion = VersionTLS12
 	testHandshake(t, testConfig, serverConfig)
+=======
+>>>>>>> BRANCH (883435 Revert "crypto/tls: disable RSA-PSS in TLS 1.2")
 }

@@ -28,7 +28,7 @@ import (
 
 func init() {
 	// TLS 1.3 cipher suites preferences are not configurable and change based
-	// on the architecture. Force them to the version with AES accelleration for
+	// on the architecture. Force them to the version with AES acceleration for
 	// test consistency.
 	once.Do(initDefaultCipherSuites)
 	varDefaultCipherSuitesTLS13 = []uint16{
@@ -855,6 +855,7 @@ func TestHandshakeClientCertRSAPKCS1v15(t *testing.T) {
 	runClientTestTLS12(t, test)
 }
 
+<<<<<<< HEAD   (4ed8ad [dev.boringcrypto] all: merge master into dev.boringcrypto)
 func TestHandshakeClientCertPSSDisabled(t *testing.T) {
 	config := testConfig.Clone()
 	cert, _ := X509KeyPair([]byte(clientCertificatePEM), []byte(clientKeyPEM))
@@ -879,6 +880,8 @@ func TestHandshakeClientCertPSSDisabled(t *testing.T) {
 	})
 }
 
+=======
+>>>>>>> BRANCH (883435 Revert "crypto/tls: disable RSA-PSS in TLS 1.2")
 func TestClientKeyUpdate(t *testing.T) {
 	test := &clientTest{
 		name:          "KeyUpdate",
