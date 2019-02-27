@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5342b7eb_03de335e",
+        "filename": "src/internal/lazytemplate/lazytemplate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-27T22:19:39Z",
+      "side": 1,
+      "message": "Package doc please.",
+      "revId": "c9bbb8d92f7818abed0398791dbe47c26b926a93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ba5dde1_49249e1f",
+        "filename": "src/internal/lazytemplate/lazytemplate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-27T22:19:39Z",
+      "side": 1,
+      "message": "likewise, docs like it were a normal public package",
+      "revId": "c9bbb8d92f7818abed0398791dbe47c26b926a93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
