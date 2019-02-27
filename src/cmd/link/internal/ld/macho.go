@@ -882,7 +882,7 @@ func machosymtab(ctxt *Link) {
 				symtab.AddUint8(uint8(o.Sect.Extnum))
 			}
 			symtab.AddUint16(ctxt.Arch, 0) // desc
-			symtab.AddUintXX(ctxt.Arch, uint64(Symaddr(s)), ctxt.Arch.PtrSize)
+			symtab.AddUintXX(ctxt.Arch, uint64(ctxt.Symaddr(s)), ctxt.Arch.PtrSize)
 		}
 	}
 }

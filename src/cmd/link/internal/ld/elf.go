@@ -1692,7 +1692,7 @@ func (ctxt *Link) doelf() {
 
 // Do not write DT_NULL.  elfdynhash will finish it.
 func shsym(ctxt *Link, sh *ElfShdr, s *sym.Symbol) {
-	addr := Symaddr(s)
+	addr := ctxt.Symaddr(s)
 	if sh.flags&SHF_ALLOC != 0 {
 		sh.addr = uint64(addr)
 	}

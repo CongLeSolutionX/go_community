@@ -554,12 +554,12 @@ func archreloctoc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 	}
 
 	if ctxt.LinkMode == ld.LinkInternal && tarSym != nil && tarSym.Attr.Reachable() && (tarSym.Sect.Seg == &ld.Segdata) {
-		t = ld.Symaddr(tarSym) + r.Add - ctxt.Syms.ROLookup("TOC", 0).Value
+		t = ctxt.Symaddr(tarSym) + r.Add - ctxt.Syms.ROLookup("TOC", 0).Value
 		// change ld to addi in the second instruction
 		o2 = (o2 & 0x03FF0000) | 0xE<<26
 		useAddi = true
 	} else {
-		t = ld.Symaddr(r.Sym) + r.Add - ctxt.Syms.ROLookup("TOC", 0).Value
+		t = ctxt.Symaddr(r.Sym) + r.Add - ctxt.Syms.ROLookup("TOC", 0).Value
 	}
 
 	if t != int64(int32(t)) {
@@ -578,7 +578,7 @@ func archreloctoc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 {
 			o2 |= uint32(t) & 0xFFFF
 		} else {
 			if t&3 != 0 {
-				ctxt.Errorf(s, "bad DS reloc for %s: %d", s.Name, ld.Symaddr(r.Sym))
+				ctxt.Errorf(s, "bad DS reloc for %s: %d", s.Name, ctxt.Symaddr(r.Sym))
 			}
 			o2 |= uint32(t) & 0xFFFC
 		}
@@ -611,9 +611,9 @@ func archrelocaddr(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 
 	// instruction (it is an error in this case if the low 2 bits of the address
 	// are non-zero).
 
-	t := ld.Symaddr(r.Sym) + r.Add
+	t := ctxt.Symaddr(r.Sym) + r.Add
 	if t < 0 || t >= 1<<31 {
-		ctxt.Errorf(s, "relocation for %s is too big (>=2G): 0x%x", s.Name, ld.Symaddr(r.Sym))
+		ctxt.Errorf(s, "relocation for %s is too big (>=2G): 0x%x", s.Name, ctxt.Symaddr(r.Sym))
 	}
 	if t&0x8000 != 0 {
 		t += 0x10000
@@ -626,7 +626,7 @@ func archrelocaddr(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) int64 
 	case objabi.R_ADDRPOWER_DS:
 		o1 |= (uint32(t) >> 16) & 0xffff
 		if t&3 != 0 {
-			ctxt.Errorf(s, "bad DS reloc for %s: %d", s.Name, ld.Symaddr(r.Sym))
+			ctxt.Errorf(s, "bad DS reloc for %s: %d", s.Name, ctxt.Symaddr(r.Sym))
 		}
 		o2 |= uint32(t) & 0xfffc
 	default:
@@ -651,7 +651,7 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 		return
 	}
 
-	t := ld.Symaddr(r.Sym) + r.Add - (s.Value + int64(r.Off))
+	t := ctxt.Symaddr(r.Sym) + r.Add - (s.Value + int64(r.Off))
 	switch r.Type {
 	case objabi.R_CALLPOWER:
 
@@ -679,7 +679,7 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 					break
 				}
 
-				t = ld.Symaddr(tramp) + r.Add - (s.Value + int64(r.Off))
+				t = ctxt.Symaddr(tramp) + r.Add - (s.Value + int64(r.Off))
 
 				// With internal linking, the trampoline can be used if it is not too far.
 				// With external linking, the trampoline must be in this section for it to be reused.
@@ -708,7 +708,7 @@ func trampoline(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol) {
 func gentramp(ctxt *ld.Link, tramp, target *sym.Symbol, offset int64) {
 	tramp.Size = 16 // 4 instructions
 	tramp.P = make([]byte, tramp.Size)
-	t := ld.Symaddr(target) + offset
+	t := ctxt.Symaddr(target) + offset
 	var o1, o2 uint32
 
 	if ctxt.HeadType == objabi.Haix {
@@ -795,7 +795,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			rs := r.Sym
 			r.Xadd = r.Add
 			for rs.Outer != nil {
-				r.Xadd += ld.Symaddr(rs) - ld.Symaddr(rs.Outer)
+				r.Xadd += ctxt.Symaddr(rs) - ctxt.Symaddr(rs.Outer)
 				rs = rs.Outer
 			}
 
@@ -821,7 +821,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_CONST:
 		return r.Add, true
 	case objabi.R_GOTOFF:
-		return ld.Symaddr(r.Sym) + r.Add - ld.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
+		return ctxt.Symaddr(r.Sym) + r.Add - ctxt.Symaddr(ctxt.Syms.Lookup(".got", 0)), true
 	case objabi.R_ADDRPOWER_TOCREL, objabi.R_ADDRPOWER_TOCREL_DS:
 		return archreloctoc(ctxt, r, s, val), true
 	case objabi.R_ADDRPOWER, objabi.R_ADDRPOWER_DS:
@@ -829,7 +829,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 	case objabi.R_CALLPOWER:
 		// Bits 6 through 29 = (S + A - P) >> 2
 
-		t := ld.Symaddr(r.Sym) + r.Add - (s.Value + int64(r.Off))
+		t := ctxt.Symaddr(r.Sym) + r.Add - (s.Value + int64(r.Off))
 
 		if t&3 != 0 {
 			ctxt.Errorf(s, "relocation for %s+%d is not aligned: %d", r.Sym.Name, r.Off, t)
@@ -841,7 +841,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		}
 		return val | int64(uint32(t)&^0xfc000003), true
 	case objabi.R_POWER_TOC: // S + A - .TOC.
-		return ld.Symaddr(r.Sym) + r.Add - symtoc(ctxt, s), true
+		return ctxt.Symaddr(r.Sym) + r.Add - symtoc(ctxt, s), true
 
 	case objabi.R_POWER_TLS_LE:
 		// The thread pointer points 0x7000 bytes after the start of the
