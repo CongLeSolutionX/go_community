@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1336a210_492f43a6",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-02-27T02:28:19Z",
+      "side": 1,
+      "message": "This seems like a fine place to add a pair of µs and us lines and their output.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 1
+      },
+      "revId": "9426d8c63311c17483d93a20efc26e6dbb759772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
