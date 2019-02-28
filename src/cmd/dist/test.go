@@ -421,7 +421,11 @@ func (t *tester) registerTests() {
 		}
 		all, err := cmd.Output()
 		if err != nil {
-			log.Fatalf("Error running go list std cmd: %v, %s", err, all)
+			msg := all
+			if ee, ok := err.(*exec.ExitError); ok && len(ee.Stderr) > 0 {
+				msg = ee.Stderr
+			}
+			log.Fatalf("Error running go list std cmd: %v:\n%s", err, msg)
 		}
 		pkgs := strings.Fields(string(all))
 		for _, pkg := range pkgs {
