@@ -14,12 +14,8 @@ import (
 // This form typically matches the syntax defined in the Power ISA Reference Manual.
 func GNUSyntax(inst Inst) string {
 	var buf bytes.Buffer
-	// When there are all 0s, identify them as the disassembler
-	// in binutils would.
-	if inst.Enc == 0 {
-		return ".long 0x0"
-	} else if inst.Op == 0 {
-		return "error: unknown instruction"
+	if inst.Op == 0 {
+		return "error: unkown instruction"
 	}
 	buf.WriteString(inst.Op.String())
 	sep := " "
