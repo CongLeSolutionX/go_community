@@ -123,6 +123,9 @@ type Logger interface {
 	// Warnl writes compiler messages in the form expected by "errorcheck" tests
 	Warnl(pos src.XPos, fmt_ string, args ...interface{})
 
+	// LogStat reports statistics in a more structured form (tabs or csv or maybe json)
+	LogStat(pos src.XPos, key, pass, fname string, args ...interface{})
+
 	// Forwards the Debug flags from gc
 	Debug_checknil() bool
 }
