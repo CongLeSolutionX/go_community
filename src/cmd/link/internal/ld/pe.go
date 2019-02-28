@@ -285,7 +285,7 @@ var (
 	PEFILEHEADR int32
 	pe64        int
 	dr          *Dll
-	dexport     [1024]*sym.Symbol
+	dexport     [1024]extnameSym
 	nexport     int
 )
 
@@ -1036,7 +1036,7 @@ func initdynimport(ctxt *Link) *Dll {
 		// of uinptrs this function consumes. Store the argsize and discard
 		// the %n suffix if any.
 		m.argsize = -1
-		extName := s.Extname()
+		extName := ctxt.Syms.SymExtname(s)
 		if i := strings.IndexByte(extName, '%'); i >= 0 {
 			var err error
 			m.argsize, err = strconv.Atoi(extName[i+1:])
@@ -1044,7 +1044,7 @@ func initdynimport(ctxt *Link) *Dll {
 				ctxt.Errorf(s, "failed to parse stdcall decoration: %v", err)
 			}
 			m.argsize *= ctxt.Arch.PtrSize
-			s.SetExtname(extName[:i])
+			ctxt.Syms.SetSymExtname(s, extName[:i])
 		}
 
 		m.s = s
@@ -1058,7 +1058,7 @@ func initdynimport(ctxt *Link) *Dll {
 			for m = d.ms; m != nil; m = m.next {
 				m.s.Type = sym.SDATA
 				m.s.Grow(int64(ctxt.Arch.PtrSize))
-				dynName := m.s.Extname()
+				dynName := ctxt.Syms.SymExtname(m.s)
 				// only windows/386 requires stdcall decoration
 				if ctxt.Arch.Family == sys.I386 && m.argsize >= 0 {
 					dynName += fmt.Sprintf("@%d", m.argsize)
@@ -1129,7 +1129,7 @@ func addimports(ctxt *Link, datsect *peSection) {
 		for m := d.ms; m != nil; m = m.next {
 			m.off = uint64(pefile.nextSectOffset) + uint64(ctxt.Out.Offset()) - uint64(startoff)
 			ctxt.Out.Write16(0) // hint
-			strput(ctxt.Out, m.s.Extname())
+			strput(ctxt.Out, ctxt.Syms.SymExtname(m.s))
 		}
 	}
 
@@ -1210,11 +1210,11 @@ func addimports(ctxt *Link, datsect *peSection) {
 	out.SeekSet(endoff)
 }
 
-type byExtname []*sym.Symbol
+type byExtname []extnameSym
 
 func (s byExtname) Len() int           { return len(s) }
 func (s byExtname) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
-func (s byExtname) Less(i, j int) bool { return s[i].Extname() < s[j].Extname() }
+func (s byExtname) Less(i, j int) bool { return s[i].extname < s[j].extname }
 
 func initdynexport(ctxt *Link) {
 	nexport = 0
@@ -1226,11 +1226,10 @@ func initdynexport(ctxt *Link) {
 			ctxt.Errorf(s, "pe dynexport table is full")
 			errorexit()
 		}
-
-		dexport[nexport] = s
+		ename := ctxt.Syms.SymExtname(s)
+		dexport[nexport] = extnameSym{extname: ename, sym: s}
 		nexport++
 	}
-
 	sort.Sort(byExtname(dexport[:nexport]))
 }
 
@@ -1239,7 +1238,7 @@ func addexports(ctxt *Link) {
 
 	size := binary.Size(&e) + 10*nexport + len(*flagOutfile) + 1
 	for i := 0; i < nexport; i++ {
-		size += len(dexport[i].Extname()) + 1
+		size += len(dexport[i].extname) + 1
 	}
 
 	if nexport == 0 {
@@ -1275,7 +1274,7 @@ func addexports(ctxt *Link) {
 
 	// put EXPORT Address Table
 	for i := 0; i < nexport; i++ {
-		out.Write32(uint32(dexport[i].Value - PEBASE))
+		out.Write32(uint32(dexport[i].sym.Value - PEBASE))
 	}
 
 	// put EXPORT Name Pointer Table
@@ -1283,7 +1282,7 @@ func addexports(ctxt *Link) {
 
 	for i := 0; i < nexport; i++ {
 		out.Write32(uint32(v))
-		v += len(dexport[i].Extname()) + 1
+		v += len(dexport[i].extname) + 1
 	}
 
 	// put EXPORT Ordinal Table
@@ -1295,7 +1294,7 @@ func addexports(ctxt *Link) {
 	out.WriteStringN(*flagOutfile, len(*flagOutfile)+1)
 
 	for i := 0; i < nexport; i++ {
-		out.WriteStringN(dexport[i].Extname(), len(dexport[i].Extname())+1)
+		out.WriteStringN(dexport[i].extname, len(dexport[i].extname)+1)
 	}
 	sect.pad(out, uint32(size))
 }
