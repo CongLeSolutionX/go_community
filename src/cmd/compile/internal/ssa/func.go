@@ -237,22 +237,18 @@ func (f *Func) newValueNoBlock(op Op, t *types.Type, pos src.XPos) *Value {
 	return v
 }
 
-// logPassStat writes a string key and int value as a warning in a
+// logStat writes a string key and int value as a warning in a
 // tab-separated format easily handled by spreadsheets or awk.
 // file names, lines, and function names are included to provide enough (?)
 // context to allow item-by-item comparisons across runs.
 // For example:
 // awk 'BEGIN {FS="\t"} $3~/TIME/{sum+=$4} END{print "t(ns)=",sum}' t.log
 func (f *Func) LogStat(key string, args ...interface{}) {
-	value := ""
-	for _, a := range args {
-		value += fmt.Sprintf("\t%v", a)
-	}
 	n := "missing_pass"
 	if f.pass != nil {
-		n = strings.Replace(f.pass.name, " ", "_", -1)
+		n = f.pass.name
 	}
-	f.Warnl(f.Entry.Pos, "\t%s\t%s%s\t%s", n, key, value, f.Name)
+	f.fe.LogStat(f.Entry.Pos, key, n, f.Name, args...)
 }
 
 // freeValue frees a value. It must no longer be referenced or have any args.
@@ -716,6 +712,69 @@ func (f *Func) DebugHashMatch(evname, name string) bool {
 	return false
 }
 
+// Singlethreaded version of above
+func DebugHashMatch(evname, name string) bool {
+	evhash := os.Getenv(evname)
+	logMatch := LogHashMatch
+	switch evhash {
+	case "":
+		return true // default behavior with no EV is "on"
+	case "y", "Y":
+		logMatch(evname, name)
+		return true
+	case "n", "N":
+		return false
+	}
+	// Check the hash of the name against a partial input hash.
+	// We use this feature to do a binary search to
+	// find a function that is incorrectly compiled.
+	hstr := ""
+	for _, b := range sha1.Sum([]byte(name)) {
+		hstr += fmt.Sprintf("%08b", b)
+	}
+
+	if strings.HasSuffix(hstr, evhash) {
+		logMatch(evname, name)
+		return true
+	}
+
+	// Iteratively try additional hashes to allow tests for multi-point
+	// failure.
+	for i := 0; true; i++ {
+		ev := fmt.Sprintf("%s%d", evname, i)
+		evv := os.Getenv(ev)
+		if evv == "" {
+			break
+		}
+		if strings.HasSuffix(hstr, evv) {
+			logMatch(ev, name)
+			return true
+		}
+	}
+	return false
+}
+
+var threadUnsafeHashLogFile writeSyncer
+
+func LogHashMatch(evname, name string) {
+	file := threadUnsafeHashLogFile
+	if file == nil {
+		file = os.Stdout
+		if tmpfile := os.Getenv("GSHS_LOGFILE"); tmpfile != "" {
+			var err error
+			file, err = os.OpenFile(tmpfile, os.O_WRONLY|os.O_APPEND, os.ModePerm)
+			if err != nil {
+				panic(fmt.Sprintf("could not open hash-testing logfile %s", tmpfile))
+			} else {
+				fmt.Printf("Opened hash log file %s\n", tmpfile)
+			}
+		}
+		threadUnsafeHashLogFile = file
+	}
+	fmt.Fprintf(file, "%s triggered %s\n", evname, name)
+	file.Sync()
+}
+
 func (f *Func) logDebugHashMatch(evname, name string) {
 	if f.logfiles == nil {
 		f.logfiles = make(map[string]writeSyncer)
@@ -734,8 +793,4 @@ func (f *Func) logDebugHashMatch(evname, name string) {
 	}
 	fmt.Fprintf(file, "%s triggered %s\n", evname, name)
 	file.Sync()
-}
-
-func DebugNameMatch(evname, name string) bool {
-	return os.Getenv(evname) == name
 }

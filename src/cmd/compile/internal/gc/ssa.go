@@ -12,6 +12,8 @@ import (
 	"html"
 	"os"
 	"sort"
+	"strings"
+	"sync"
 
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
@@ -6085,6 +6087,49 @@ func (e *ssafn) Fatalf(pos src.XPos, msg string, args ...interface{}) {
 // logging output for the benefit of tests.
 func (e *ssafn) Warnl(pos src.XPos, fmt_ string, args ...interface{}) {
 	Warnl(pos, fmt_, args...)
+}
+
+func (e *ssafn) LogStat(pos src.XPos, key, pass, fname string, args ...interface{}) {
+	LogStat(pos, key, pass, fname, args...)
+}
+
+var mu = sync.Mutex{}
+
+type logFormat uint8
+
+const (
+	TabSeparated logFormat = iota
+	CommaSeparated
+)
+
+// TODO There needs to be a flag? What if we wanted to do JSON instead?
+var LogFormat = CommaSeparated
+
+func LogStat(pos src.XPos, key, pass, fname string, args ...interface{}) {
+	pass = strings.Replace(pass, " ", "_", -1)
+	value := ""
+	if LogFormat == TabSeparated {
+		for _, a := range args {
+			value += fmt.Sprintf("\t%v", a)
+		}
+		mu.Lock()
+		defer mu.Unlock()
+		Warnl(pos, "\t%s\t%s%s\t%s", pass, key, value, fname)
+	} else if LogFormat == CommaSeparated {
+		for _, a := range args {
+			if s, ok := a.(string); ok && (strings.Contains(s, ",") || len(s) > 0 && s[0] == '"') {
+				// Quoting is required.
+				if strings.ContainsAny(s, "\"") {
+					s = strings.Replace(s, "\"", "\"\"", -1)
+				}
+				a = "\"" + s + "\""
+			}
+			value += fmt.Sprintf(",%v", a)
+		}
+		mu.Lock()
+		defer mu.Unlock()
+		Warnl(pos, ",%s,%s,%s%s", pass, key, fname, value)
+	}
 }
 
 func (e *ssafn) Debug_checknil() bool {
