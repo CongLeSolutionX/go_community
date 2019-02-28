@@ -146,6 +146,10 @@ func (d DummyFrontend) Fatalf(_ src.XPos, msg string, args ...interface{}) { d.t
 func (d DummyFrontend) Warnl(_ src.XPos, msg string, args ...interface{})  { d.t.Logf(msg, args...) }
 func (d DummyFrontend) Debug_checknil() bool                               { return false }
 
+func (d DummyFrontend) LogStat(pos src.XPos, key, pass, fname string, args ...interface{}) {
+	d.Logf(key, pass, "dummy logstat")
+}
+
 var dummyTypes Types
 
 func init() {

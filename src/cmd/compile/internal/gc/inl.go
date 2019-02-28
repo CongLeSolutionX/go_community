@@ -30,22 +30,104 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/src"
+	"encoding/csv"
 	"fmt"
+	"io"
+	"os"
+	"strconv"
 	"strings"
 )
 
 // Inlining budget parameters, gathered in one place
 const (
-	inlineMaxBudget       = 80
-	inlineExtraAppendCost = 0
-	// default is to inline if there's at most one call. -l=4 overrides this by using 1 instead.
-	inlineExtraCallCost  = 57              // 57 was benchmarked to provided most benefit with no bad surprises; see https://github.com/golang/go/issues/19348#issuecomment-439370742
-	inlineExtraPanicCost = 1               // do not penalize inlining panics.
-	inlineExtraThrowCost = inlineMaxBudget // with current (2018-05/1.11) code, inlining runtime.throw does not help.
+//inlineMaxBudget       = 80
+//inlineExtraAppendCost = 0
+//// default is to inline if there's at most one call. -l=4 overrides this by using 1 instead.
+//inlineExtraCallCost  = 57              // 57 was benchmarked to provided most benefit with no bad surprises; see https://github.com/golang/go/issues/19348#issuecomment-439370742
+//inlineExtraPanicCost = 1               // do not penalize inlining panics.
+//inlineExtraThrowCost = inlineMaxBudget // with current (2018-05/1.11) code, inlining runtime.throw does not help.
 
-	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
-	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
+//inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
+//inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
 )
+
+// Inlining budget parameters
+var inlineMaxBudget = getEnvInt("GO_INLMAXBUDGET", 80)
+var inlineExtraCallCost = getEnvInt("GO_INLCALLEXTRA", 57) // default is not to do this.
+var inlineExtraAppendCost = getEnvInt("GO_INLAPPENDEXTRA", 0)
+var inlineExtraThrowCost = getEnvInt("GO_INLTHROWEXTRA", 0)
+var inlineExtraPanicCost = getEnvInt("GO_INLPANICEXTRA", 1)
+var inlineBigFunctionNodes = int(getEnvInt("GO_INLBIGFUNCTION", 5000))
+var inlineBigFunctionMaxCost = getEnvInt("GO_INLBIGMAXBUDGET", 20)
+
+func getEnvInt(env string, def int32) int32 {
+	s := os.Getenv(env)
+	if s == "" {
+		return def
+	}
+	val, err := strconv.Atoi(s)
+	if err != nil {
+		panic("Non-numeric value " + s + " for environment variable " + env)
+	}
+	return int32(val)
+}
+
+type inlineRecord struct {
+	callerPackage  string
+	callerFunction string
+	callerLine     int32
+	callerColumn   int32
+	inlinePackage  string
+	inlineFunction string
+}
+
+var inlineRecords = os.Getenv("GO_INLRECORDS")           // A file of inline records in CSV
+var inlineRecordSize = getEnvInt("GO_INLRECORDSIZE", 20) // Upper limit for inlining w/o okay from file.
+
+var doInlineSet map[inlineRecord]bool
+
+func init() {
+	if inlineRecords == "" {
+		return
+	}
+
+	if inlineRecords == "_" {
+		return
+	}
+
+	doInlineSet = make(map[inlineRecord]bool)
+
+	f, err := os.Open(inlineRecords)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	r := csv.NewReader(f)
+	r.Comment = '#'
+
+	for {
+		line, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			panic(err)
+		}
+		// Add inlining record
+		//                            0                                1         2           3            4          5   6    7              8             9
+		// goroots/TEST/src/internal/reflectlite/value.go:440:25: ,front_end,INLINE_SITE,reflectlite,Value.assignTo,440,25,reflectlite,directlyAssignable,217
+		callerLine, err := strconv.Atoi(line[5])
+		if err != nil {
+			panic(err)
+		}
+		callerColumn, err := strconv.Atoi(line[6])
+		if err != nil {
+			panic(err)
+		}
+		rec := inlineRecord{callerPackage: line[3], callerFunction: line[4], callerLine: int32(callerLine), callerColumn: int32(callerColumn), inlinePackage: line[7], inlineFunction: line[8]}
+		doInlineSet[rec] = true
+	}
+}
 
 // Get the function's package. For ordinary functions it's on the ->sym, but for imported methods
 // the ->sym can be re-used in the local package, so peel it off the receiver's type.
@@ -157,6 +239,21 @@ func caninl(fn *Node) {
 		reason = "marked go:yeswritebarrierrec"
 		return
 	}
+
+	// Inlining could swallow a pragma and disable this check.
+	//if fn.Func.Pragma&Nowritebarrier != 0 {
+	//	reason = "marked go:nowritebarrier"
+	//	return
+	//}
+
+	// Inlining could swallow a pragma and disable this check.
+	//if fn.Func.Pragma&Nowritebarrierrec != 0 {
+	//	reason = "marked go:nowritebarrierrec"
+	//	return
+	//}
+
+	// If go:noescape is ever allowed on a function with a body, that might
+	// be an issue here because swallowing the pragma might create an escape
 
 	// If fn has no body (is defined outside of Go), cannot inline it.
 	if fn.Nbody.Len() == 0 {
@@ -818,11 +915,6 @@ func mkinlcall(n, fn *Node, maxCost int32) *Node {
 		// No inlinable body.
 		return n
 	}
-	if fn.Func.Inl.Cost > maxCost {
-		// The inlined function body is too big. Typically we use this check to restrict
-		// inlining into very big functions.  See issue 26546 and 17566.
-		return n
-	}
 
 	if fn == Curfn || fn.Name.Defn == Curfn {
 		// Can't recursively inline a function into itself.
@@ -836,6 +928,36 @@ func mkinlcall(n, fn *Node, maxCost int32) *Node {
 		// we disable inlining of runtime functions when instrumenting.
 		// The example that we observed is inlining of LockOSThread,
 		// which lead to false race reports on m contents.
+		return n
+	}
+
+	// This threshold is much smaller than usual
+	tooBig := fn.Func.Inl.Cost > inlineRecordSize
+	// Either record or conditionally inline all functions between inlineRecordSize and maxCost
+	if tooBig && inlineRecords != "" {
+		if doInlineSet != nil {
+			// To make records as easy as possible to manipulate and ingest, separate packages from functions.
+			rec := inlineRecord{callerPackage: Curfn.pkgname(), callerFunction: Curfn.funcname(),
+				callerLine: int32(n.Pos.Line()), callerColumn: int32(n.Pos.Col()), inlinePackage: fn.Sym.Pkg.Name, inlineFunction: fn.Sym.Name}
+			if doInlineSet[rec] {
+				tooBig = false
+			}
+			// Allow the file of lines to identify call sites by function alone if line and column are zero.
+			rec.callerColumn = 0
+			rec.callerLine = 0
+			if doInlineSet[rec] {
+				tooBig = false
+			}
+			if tooBig {
+				return n
+			}
+		} else {
+			LogStat(n.Pos, "INLINE_SITE", "front_end", Curfn.pkgname(), Curfn.funcname(),
+				n.Pos.Line(), n.Pos.Col(), fn.Sym.Pkg.Name, fn.Sym.Name, fn.Func.Inl.Cost)
+		}
+	}
+
+	if fn.Func.Inl.Cost > maxCost {
 		return n
 	}
 

@@ -4,7 +4,7 @@
 
 package objabi
 
-// For the linkers. Must match Go definitions.
+// For the linkers. Must match Go definitions in runtime/stack.go
 
 const (
 	STACKSYSTEM = 0
@@ -18,7 +18,7 @@ const (
 )
 
 // Initialize StackGuard and StackLimit according to target system.
-var StackGuard = 880*stackGuardMultiplier() + StackSystem
+var StackGuard = 1280*stackGuardMultiplier() + StackSystem
 var StackLimit = StackGuard - StackSystem - StackSmall
 
 // stackGuardMultiplier returns a multiplier to apply to the default
