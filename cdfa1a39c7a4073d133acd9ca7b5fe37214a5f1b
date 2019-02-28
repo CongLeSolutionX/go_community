@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3003ab3_92777072",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-02-28T02:26:19Z",
+      "side": 1,
+      "message": "Is it intentional that you\u0027re not deleting the VERSION file this time, despite this being a dev branch?\n\nhttps://go.googlesource.com/go/+/refs/changes/37/164237/1/VERSION",
+      "revId": "cdfa1a39c7a4073d133acd9ca7b5fe37214a5f1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
