@@ -1703,7 +1703,7 @@ func xcoffCreateExportFile(ctxt *Link) (fname string) {
 		if !s.Attr.CgoExport() {
 			continue
 		}
-		if !strings.HasPrefix(s.String(), "_cgoexp_") {
+		if !strings.HasPrefix(ctxt.Syms.SymName(s), "_cgoexp_") {
 			continue
 		}
 

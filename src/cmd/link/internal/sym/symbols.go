@@ -30,30 +30,43 @@
 
 package sym
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 type Symbols struct {
 	symbolBatch []Symbol
 
 	// Symbol lookup based on name and indexed by version.
-	hash []map[string]*Symbol
+	hash []map[SymName]*Symbol
+
+	// interned symbol strings
+	names SymNameTable
 
 	Allsym []*Symbol
 }
 
 func NewSymbols() *Symbols {
-	hash := make([]map[string]*Symbol, SymVerStatic)
+	hash := make([]map[SymName]*Symbol, SymVerStatic)
 	// Preallocate about 2mb for hash of non static symbols
-	hash[0] = make(map[string]*Symbol, 100000)
+	hash[0] = make(map[SymName]*Symbol, 100000)
 	// And another 1mb for internal ABI text symbols.
-	hash[SymVerABIInternal] = make(map[string]*Symbol, 50000)
+	hash[SymVerABIInternal] = make(map[SymName]*Symbol, 50000)
+	nametable := NewSymNameTable(50000)
 	return &Symbols{
 		hash:   hash,
+		names:  nametable,
 		Allsym: make([]*Symbol, 0, 100000),
 	}
 }
 
 func (syms *Symbols) Newsym(name string, v int) *Symbol {
+	encoded := syms.names.Lookup(name)
+	return syms.NewsymEncoded(encoded, v)
+}
+
+func (syms *Symbols) NewsymEncoded(encoded SymName, v int) *Symbol {
 	batch := syms.symbolBatch
 	if len(batch) == 0 {
 		batch = make([]Symbol, 1000)
@@ -62,7 +75,7 @@ func (syms *Symbols) Newsym(name string, v int) *Symbol {
 	syms.symbolBatch = batch[1:]
 
 	s.Dynid = -1
-	s.SetName(name)
+	s.SetName(encoded)
 	s.Version = int16(v)
 	syms.Allsym = append(syms.Allsym, s)
 
@@ -72,30 +85,46 @@ func (syms *Symbols) Newsym(name string, v int) *Symbol {
 // Look up the symbol with the given name and version, creating the
 // symbol if it is not found.
 func (syms *Symbols) Lookup(name string, v int) *Symbol {
+	encoded := syms.names.Lookup(name)
+	return syms.LookupEncoded(encoded, v)
+}
+
+func (syms *Symbols) LookupEncoded(encoded SymName, v int) *Symbol {
 	m := syms.hash[v]
-	s := m[name]
+	s := m[encoded]
 	if s != nil {
 		return s
 	}
-	s = syms.Newsym(name, v)
-	m[name] = s
+	s = syms.NewsymEncoded(encoded, v)
+	m[encoded] = s
 	return s
 }
 
 // Look up the symbol with the given name and version, returning nil
 // if it is not found.
 func (syms *Symbols) ROLookup(name string, v int) *Symbol {
-	return syms.hash[v][name]
+	encoded := syms.names.Lookup(name)
+	return syms.ROLookupEncoded(encoded, v)
+}
+
+func (syms *Symbols) ROLookupEncoded(encoded SymName, v int) *Symbol {
+	return syms.hash[v][encoded]
 }
 
 // Allocate a new version (i.e. symbol namespace).
 func (syms *Symbols) IncVersion() int {
-	syms.hash = append(syms.hash, make(map[string]*Symbol))
+	syms.hash = append(syms.hash, make(map[SymName]*Symbol))
 	return len(syms.hash) - 1
 }
 
 // Rename renames a symbol.
 func (syms *Symbols) Rename(old, new string, v int, reachparent map[*Symbol]*Symbol) {
+	eold := syms.names.Lookup(old)
+	enew := syms.names.Lookup(new)
+	syms.RenameEncoded(eold, enew, v, reachparent)
+}
+
+func (syms *Symbols) RenameEncoded(old, new SymName, v int, reachparent map[*Symbol]*Symbol) {
 	s := syms.hash[v][old]
 	oldExtName := s.extname()
 	s.SetName(new)
@@ -126,27 +155,37 @@ func (syms *Symbols) Rename(old, new string, v int, reachparent map[*Symbol]*Sym
 }
 
 func (syms *Symbols) SymName(s *Symbol) string {
-	return s.Name()
+	return syms.names.String(s.name)
 }
 
 func (syms *Symbols) SetSymName(s *Symbol, newname string) {
-	s.SetName(newname)
+	encoded := syms.names.Lookup(newname)
+	s.SetName(encoded)
 }
 
 func (syms *Symbols) SymNameHasPrefix(s *Symbol, pref string) bool {
-	return strings.HasPrefix(s.Name(), pref)
+	return strings.HasPrefix(syms.names.String(s.name), pref)
 }
 
 func (syms *Symbols) SymNameHasSuffix(s *Symbol, pref string) bool {
-	return strings.HasSuffix(s.Name(), pref)
+	return strings.HasSuffix(syms.names.String(s.name), pref)
 }
 
 func (syms *Symbols) SymExtname(s *Symbol) string {
-	return s.extname()
+	return syms.names.String(s.extname())
 }
 
 func (syms *Symbols) SetSymExtname(s *Symbol, newname string) {
-	s.setExtname(newname)
+	encoded := syms.names.Lookup(newname)
+	s.setExtname(encoded)
+}
+
+func (syms *Symbols) SymString(s *Symbol) string {
+	sn := syms.names.String(s.name)
+	if s.Version == 0 {
+		return sn
+	}
+	return fmt.Sprintf("%v<%d>", sn, s.Version)
 }
 
 func (syms *Symbols) Lock() {
