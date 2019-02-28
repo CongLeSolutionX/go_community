@@ -167,7 +167,7 @@ func loadcgo(ctxt *Link, file string, pkg string, p string) {
 			s := ctxt.Syms.Lookup(local, 0)
 			if s.Type == 0 || s.Type == sym.SXREF || s.Type == sym.SHOSTOBJ {
 				s.SetDynimplib(lib)
-				s.SetExtname(remote)
+				ctxt.Syms.SetSymExtname(s, remote)
 				s.SetDynimpvers(q)
 				if s.Type != sym.SHOSTOBJ {
 					s.Type = sym.SDYNIMPORT
@@ -217,15 +217,15 @@ func loadcgo(ctxt *Link, file string, pkg string, p string) {
 			// see issue 4878.
 			if s.Dynimplib() != "" {
 				s.ResetDyninfo()
-				s.SetExtname("")
+				ctxt.Syms.SetSymExtname(s, "")
 				s.Type = 0
 			}
 
 			if !s.Attr.CgoExport() {
-				s.SetExtname(remote)
+				ctxt.Syms.SetSymExtname(s, remote)
 				dynexp = append(dynexp, s)
-			} else if s.Extname() != remote {
-				fmt.Fprintf(os.Stderr, "%s: conflicting cgo_export directives: %s as %s and %s\n", os.Args[0], ctxt.SymName(s), s.Extname(), remote)
+			} else if ctxt.Syms.SymExtname(s) != remote {
+				fmt.Fprintf(os.Stderr, "%s: conflicting cgo_export directives: %s as %s and %s\n", os.Args[0], ctxt.SymName(s), ctxt.Syms.SymExtname(s), remote)
 				nerrors++
 				return
 			}
@@ -293,7 +293,7 @@ func Adddynsym(ctxt *Link, s *sym.Symbol) {
 	if ctxt.IsELF {
 		elfadddynsym(ctxt, s)
 	} else if ctxt.HeadType == objabi.Hdarwin {
-		ctxt.Errorf(s, "adddynsym: missed symbol (Extname=%s)", s.Extname())
+		ctxt.Errorf(s, "adddynsym: missed symbol (Extname=%s)", ctxt.Syms.SymExtname(s))
 	} else if ctxt.HeadType == objabi.Hwindows {
 		// already taken care of
 	} else {

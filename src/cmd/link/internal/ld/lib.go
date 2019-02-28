@@ -451,7 +451,7 @@ func (ctxt *Link) loadlib() {
 				// cgo_import_static and cgo_import_dynamic,
 				// then we want to make it cgo_import_dynamic
 				// now.
-				if s.Extname() != "" && s.Dynimplib() != "" && !s.Attr.CgoExport() {
+				if ctxt.Syms.SymExtname(s) != "" && s.Dynimplib() != "" && !s.Attr.CgoExport() {
 					s.Type = sym.SDYNIMPORT
 				} else {
 					s.Type = 0
@@ -671,7 +671,7 @@ func (ctxt *Link) loadlib() {
 		}
 		t := resolveABIAlias(s)
 		t.Attr |= s.Attr
-		t.SetExtname(s.Extname())
+		ctxt.Syms.SetSymExtname(t, ctxt.Syms.SymExtname(s))
 		dynexp[i] = t
 	}
 }
@@ -2320,7 +2320,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 			if !s.Attr.Reachable() {
 				continue
 			}
-			put(ctxt, s, s.Extname(), UndefinedSym, 0, nil)
+			put(ctxt, s, ctxt.Syms.SymExtname(s), UndefinedSym, 0, nil)
 
 		case sym.STLSBSS:
 			if ctxt.LinkMode == LinkExternal {

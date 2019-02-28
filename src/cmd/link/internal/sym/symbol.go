@@ -318,14 +318,14 @@ func (s *Symbol) makeAuxInfo() {
 	}
 }
 
-func (s *Symbol) Extname() string {
+func (s *Symbol) extname() string {
 	if s.auxinfo == nil {
 		return s.name
 	}
 	return s.auxinfo.extname
 }
 
-func (s *Symbol) SetExtname(n string) {
+func (s *Symbol) setExtname(n string) {
 	if s.auxinfo == nil {
 		if s.name == n {
 			return

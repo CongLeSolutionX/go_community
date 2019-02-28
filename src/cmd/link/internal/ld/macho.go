@@ -214,7 +214,12 @@ const (
 
 var nkind [NumSymKind]int
 
-var sortsym []*sym.Symbol
+type extnameSym struct {
+	extname string
+	sym     *sym.Symbol
+}
+
+var sortsym []extnameSym
 
 var nsortsym int
 
@@ -751,14 +756,14 @@ func addsym(ctxt *Link, s *sym.Symbol, name string, type_ SymbolType, addr int64
 	}
 
 	if sortsym != nil {
-		sortsym[nsortsym] = s
+		sortsym[nsortsym] = extnameSym{sym: s, extname: ctxt.Syms.SymExtname(s)}
 		nkind[symkind(s)]++
 	}
 
 	nsortsym++
 }
 
-type machoscmp []*sym.Symbol
+type machoscmp []extnameSym
 
 func (x machoscmp) Len() int {
 	return len(x)
@@ -772,13 +777,13 @@ func (x machoscmp) Less(i, j int) bool {
 	s1 := x[i]
 	s2 := x[j]
 
-	k1 := symkind(s1)
-	k2 := symkind(s2)
+	k1 := symkind(s1.sym)
+	k2 := symkind(s2.sym)
 	if k1 != k2 {
 		return k1 < k2
 	}
 
-	return s1.Extname() < s2.Extname()
+	return s1.extname < s2.extname
 }
 
 func machogenasmsym(ctxt *Link) {
@@ -800,12 +805,12 @@ func machosymorder(ctxt *Link) {
 		dynexp[i].Attr |= sym.AttrReachable
 	}
 	machogenasmsym(ctxt)
-	sortsym = make([]*sym.Symbol, nsortsym)
+	sortsym = make([]extnameSym, nsortsym)
 	nsortsym = 0
 	machogenasmsym(ctxt)
 	sort.Sort(machoscmp(sortsym[:nsortsym]))
 	for i := 0; i < nsortsym; i++ {
-		sortsym[i].Dynid = int32(i)
+		sortsym[i].sym.Dynid = int32(i)
 	}
 }
 
@@ -817,7 +822,7 @@ func machoShouldExport(ctxt *Link, s *sym.Symbol) bool {
 	if !ctxt.DynlinkingGo() || s.Attr.Local() {
 		return false
 	}
-	if ctxt.BuildMode == BuildModePlugin && strings.HasPrefix(s.Extname(), objabi.PathToPrefix(*flagPluginPath)) {
+	if ctxt.BuildMode == BuildModePlugin && strings.HasPrefix(ctxt.Syms.SymExtname(s), objabi.PathToPrefix(*flagPluginPath)) {
 		return true
 	}
 	sn := ctxt.SymName(s)
@@ -841,7 +846,7 @@ func machosymtab(ctxt *Link) {
 	symstr := ctxt.Syms.Lookup(".machosymstr", 0)
 
 	for i := 0; i < nsortsym; i++ {
-		s := sortsym[i]
+		s := sortsym[i].sym
 		symtab.AddUint32(ctxt.Arch, uint32(symstr.Size))
 
 		export := machoShouldExport(ctxt, s)
@@ -853,13 +858,13 @@ func machosymtab(ctxt *Link) {
 		// symbols like crosscall2 are in pclntab and end up
 		// pointing at the host binary, breaking unwinding.
 		// See Issue #18190.
-		cexport := !strings.Contains(s.Extname(), ".") && (ctxt.BuildMode != BuildModePlugin || onlycsymbol(ctxt, s))
+		cexport := !strings.Contains(ctxt.Syms.SymExtname(s), ".") && (ctxt.BuildMode != BuildModePlugin || onlycsymbol(ctxt, s))
 		if cexport || export {
 			symstr.AddUint8('_')
 		}
 
 		// replace "·" as ".", because DTrace cannot handle it.
-		Addstring(symstr, strings.Replace(s.Extname(), "·", ".", -1))
+		Addstring(symstr, strings.Replace(ctxt.Syms.SymExtname(s), "·", ".", -1))
 
 		if s.Type == sym.SDYNIMPORT || s.Type == sym.SHOSTOBJ {
 			symtab.AddUint8(0x01)                             // type N_EXT, external symbol

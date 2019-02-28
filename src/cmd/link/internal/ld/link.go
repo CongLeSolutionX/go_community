@@ -168,6 +168,14 @@ func (ctxt *Link) SetSymName(s *sym.Symbol, newname string) {
 	ctxt.Syms.SetSymName(s, newname)
 }
 
+func (ctxt *Link) SymExtname(s *sym.Symbol) string {
+	return ctxt.Syms.SymExtname(s)
+}
+
+func (ctxt *Link) SetSymExtname(s *sym.Symbol, newname string) {
+	ctxt.Syms.SetSymExtname(s, newname)
+}
+
 func addImports(ctxt *Link, l *sym.Library, pn string) {
 	pkg := objabi.PathToPrefix(l.Pkg)
 	for _, importStr := range l.ImportStrings {
