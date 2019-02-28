@@ -248,6 +248,14 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 		return nil
 	}
 
+	var arArgs []string
+	if cfg.Goos == "aix" && cfg.Goarch == "ppc64" {
+		// AIX puts both 32-bit and 64-bit objects in the same archive.
+		// Tell the AIX "ar" command to only care about 64-bit objects.
+		// AIX "ar" command does not know D option.
+		arArgs = []string{"-X64"}
+	}
+
 	newID := 0
 	readAndRemoveCgoFlags := func(archive string) (string, error) {
 		newID++
@@ -265,11 +273,11 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 				return "", nil
 			}
 		}
-		err := b.run(root, root.Objdir, desc, nil, tools.ar(), "x", newArchive, "_cgo_flags")
+		err := b.run(root, root.Objdir, desc, nil, tools.ar(), arArgs, "x", newArchive, "_cgo_flags")
 		if err != nil {
 			return "", err
 		}
-		err = b.run(root, ".", desc, nil, tools.ar(), "d", newArchive, "_cgo_flags")
+		err = b.run(root, ".", desc, nil, tools.ar(), arArgs, "d", newArchive, "_cgo_flags")
 		if err != nil {
 			return "", err
 		}
@@ -486,7 +494,7 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
 
 	switch buildmode {
 	case "c-archive":
-		if err := b.run(root, ".", desc, nil, tools.ar(), "rc", realOut, out); err != nil {
+		if err := b.run(root, ".", desc, nil, tools.ar(), arArgs, "rc", realOut, out); err != nil {
 			return err
 		}
 	}
