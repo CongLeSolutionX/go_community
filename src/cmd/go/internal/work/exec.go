@@ -258,6 +258,16 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 			"GOSSAFUNC",
 			"GO_SSA_PHI_LOC_CUTOFF",
 			"GOSSAHASH",
+			// For inlining experiments
+			"GO_INLMAXBUDGET",
+			"GO_INLBIGFUNCTION",
+			"GO_INLBIGMAXBUDGET",
+			"GO_INLRECORDS",
+			"GO_INLRECORDSIZE",
+			"GO_INLCALLEXTRA",
+			"GO_INLAPPENDEXTRA",
+			"GO_INLTHROWEXTRA",
+			"GO_INLPANICEXTRA",
 		}
 		for _, env := range magic {
 			if x := os.Getenv(env); x != "" {
