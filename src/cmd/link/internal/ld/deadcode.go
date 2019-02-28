@@ -311,7 +311,7 @@ func (d *deadcodepass) flood() {
 			if r.Sym.Type == sym.SABIALIAS {
 				// Patch this relocation through the
 				// ABI alias before marking.
-				r.Sym = resolveABIAlias(r.Sym)
+				r.Sym = resolveABIAlias(d.ctxt, r.Sym)
 			}
 			if r.Type != objabi.R_METHODOFF {
 				d.mark(r.Sym, s)
