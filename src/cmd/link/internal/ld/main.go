@@ -276,6 +276,15 @@ func Main(arch *sys.Arch, theArch Arch) {
 		ctxt.Logf("%5.2f cpu time\n", Cputime())
 		ctxt.Logf("%d symbols\n", len(ctxt.Syms.Allsym))
 		ctxt.Logf("%d liveness data\n", liveness)
+		nst := ctxt.Syms.NameStats()
+		totnamelen := 0
+		for _, s := range ctxt.Syms.Allsym {
+			totnamelen += len(ctxt.Syms.SymName(s))
+		}
+		ctxt.Logf("symbol stats: %d total, %d interned, ",
+			totnamelen, nst.TotalStringLen)
+		ctxt.Logf("%d fragments, %d collisions\n",
+			nst.Entries, nst.Collisions)
 	}
 
 	ctxt.Bso.Flush()
