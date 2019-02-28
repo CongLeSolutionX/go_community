@@ -31,21 +31,44 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
+	"os"
+	"strconv"
 	"strings"
 )
 
 // Inlining budget parameters, gathered in one place
 const (
-	inlineMaxBudget       = 80
-	inlineExtraAppendCost = 0
-	// default is to inline if there's at most one call. -l=4 overrides this by using 1 instead.
-	inlineExtraCallCost  = 57              // 57 was benchmarked to provided most benefit with no bad surprises; see https://github.com/golang/go/issues/19348#issuecomment-439370742
-	inlineExtraPanicCost = 1               // do not penalize inlining panics.
-	inlineExtraThrowCost = inlineMaxBudget // with current (2018-05/1.11) code, inlining runtime.throw does not help.
+//inlineMaxBudget       = 80
+//inlineExtraAppendCost = 0
+//// default is to inline if there's at most one call. -l=4 overrides this by using 1 instead.
+//inlineExtraCallCost  = 57              // 57 was benchmarked to provided most benefit with no bad surprises; see https://github.com/golang/go/issues/19348#issuecomment-439370742
+//inlineExtraPanicCost = 1               // do not penalize inlining panics.
+//inlineExtraThrowCost = inlineMaxBudget // with current (2018-05/1.11) code, inlining runtime.throw does not help.
 
-	inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
-	inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
+//inlineBigFunctionNodes   = 5000 // Functions with this many nodes are considered "big".
+//inlineBigFunctionMaxCost = 20   // Max cost of inlinee when inlining into a "big" function.
 )
+
+// Inlining budget parameters
+var inlineMaxBudget = getEnvInt("GO_INLMAXBUDGET", 80)
+var inlineExtraCallCost = getEnvInt("GO_INLCALLEXTRA", 57) // default is not to do this.
+var inlineExtraAppendCost = getEnvInt("GO_INLAPPENDEXTRA", 0)
+var inlineExtraThrowCost = getEnvInt("GO_INLTHROWEXTRA", 0)
+var inlineExtraPanicCost = getEnvInt("GO_INLPANICEXTRA", 1)
+var inlineBigFunctionNodes = int(getEnvInt("GO_INLBIGFUNCTION", 5000))
+var inlineBigFunctionMaxCost = getEnvInt("GO_INLBIGMAXBUDGET", 20)
+
+func getEnvInt(env string, def int32) int32 {
+	s := os.Getenv(env)
+	if s == "" {
+		return def
+	}
+	val, err := strconv.Atoi(s)
+	if err != nil {
+		panic("Non-numeric value " + s + " for environment variable " + env)
+	}
+	return int32(val)
+}
 
 // Get the function's package. For ordinary functions it's on the ->sym, but for imported methods
 // the ->sym can be re-used in the local package, so peel it off the receiver's type.
