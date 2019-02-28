@@ -814,7 +814,7 @@ func (f *xcoffFile) writeSymbolFunc(ctxt *Link, x *sym.Symbol) []xcoffSym {
 
 	s := &XcoffSymEnt64{
 		Nsclass: C_EXT,
-		Noffset: uint32(xfile.stringTable.add(x.Extname())),
+		Noffset: uint32(xfile.stringTable.add(ctxt.Syms.SymExtname(x))),
 		Nvalue:  uint64(x.Value),
 		Nscnum:  f.getXCOFFscnum(x.Sect),
 		Ntype:   SYM_TYPE_FUNC,
@@ -1055,13 +1055,13 @@ func (f *xcoffFile) genDynSym(ctxt *Link) {
 
 }
 
-// (*xcoffFile)adddynimpsym adds the dynamic symbol "s" to a XCOFF file.
-// A new symbol named s.Extname() is created to be the actual dynamic symbol
-// in the .loader section and in the symbol table as an External Reference.
-// The symbol "s" is transformed to SXCOFFTOC to end up in .data section.
-// However, there is no writing protection on those symbols and
-// it might need to be added.
-// TODO(aix): Handles dynamic symbols without library.
+// (*xcoffFile)adddynimpsym adds the dynamic symbol "s" to a XCOFF
+// file. A new symbol named with the external name from "s" is created
+// to be the actual dynamic symbol in the .loader section and in the
+// symbol table as an External Reference. The symbol "s" is
+// transformed to SXCOFFTOC to end up in .data section. However, there
+// is no writing protection on those symbols and it might need to be
+// added. TODO(aix): Handles dynamic symbols without library.
 func (f *xcoffFile) adddynimpsym(ctxt *Link, s *sym.Symbol) {
 	// Check that library name is given.
 	// Pattern is already checked when compiling.
@@ -1072,11 +1072,11 @@ func (f *xcoffFile) adddynimpsym(ctxt *Link, s *sym.Symbol) {
 	s.Type = sym.SXCOFFTOC
 
 	// Create new dynamic symbol
-	extsym := ctxt.Syms.Lookup(s.Extname(), 0)
+	extsym := ctxt.Syms.Lookup(ctxt.Syms.SymExtname(s), 0)
 	extsym.Type = sym.SDYNIMPORT
 	extsym.Attr |= sym.AttrReachable
 	extsym.SetDynimplib(s.Dynimplib())
-	extsym.SetExtname(s.Extname())
+	ctxt.Syms.SetSymExtname(extsym, ctxt.Syms.SymExtname(s))
 	extsym.SetDynimpvers(s.Dynimpvers())
 
 	// Add loader symbol
@@ -1232,7 +1232,7 @@ func (ctxt *Link) doxcoff() {
 				continue
 			}
 
-			name := s.Extname()
+			name := ctxt.Syms.SymExtname(s)
 			sn := ctxt.Syms.SymName(s)
 			if s.Type == sym.STEXT {
 				// On AIX, a exported function must have two symbols:
@@ -1712,7 +1712,7 @@ func xcoffCreateExportFile(ctxt *Link) (fname string) {
 		// exported by cgo.
 		// The corresponding Go symbol is:
 		// _cgoexp_hashcode_symname.
-		name := strings.SplitN(s.Extname(), "_", 4)[3]
+		name := strings.SplitN(ctxt.Syms.SymExtname(s), "_", 4)[3]
 
 		buf.Write([]byte(name + "\n"))
 	}

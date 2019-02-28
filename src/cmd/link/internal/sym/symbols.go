@@ -97,10 +97,10 @@ func (syms *Symbols) IncVersion() int {
 // Rename renames a symbol.
 func (syms *Symbols) Rename(old, new string, v int, reachparent map[*Symbol]*Symbol) {
 	s := syms.hash[v][old]
-	oldExtName := s.Extname()
+	oldExtName := s.extname()
 	s.SetName(new)
 	if oldExtName == old {
-		s.SetExtname(new)
+		s.setExtname(new)
 	}
 	delete(syms.hash[v], old)
 
@@ -139,4 +139,12 @@ func (syms *Symbols) SymNameHasPrefix(s *Symbol, pref string) bool {
 
 func (syms *Symbols) SymNameHasSuffix(s *Symbol, pref string) bool {
 	return strings.HasSuffix(s.Name(), pref)
+}
+
+func (syms *Symbols) SymExtname(s *Symbol) string {
+	return s.extname()
+}
+
+func (syms *Symbols) SetSymExtname(s *Symbol, newname string) {
+	s.setExtname(newname)
 }
