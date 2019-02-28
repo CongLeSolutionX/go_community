@@ -1286,6 +1286,7 @@ func (ctxt *Link) dodata() {
 	}
 
 	// Sort symbols.
+	ctxt.Syms.Lock() // NB: is this needed?
 	var dataMaxAlign [sym.SXREF]int32
 	var wg sync.WaitGroup
 	for symn := range data {
@@ -1297,6 +1298,7 @@ func (ctxt *Link) dodata() {
 		}()
 	}
 	wg.Wait()
+	ctxt.Syms.Unlock()
 
 	if ctxt.HeadType == objabi.Haix && ctxt.LinkMode == LinkExternal {
 		// These symbols must have the same alignment as their section.
@@ -2388,7 +2390,7 @@ func (ctxt *Link) AddTramp(s *sym.Symbol) {
 	s.Attr |= sym.AttrOnList
 	ctxt.tramps = append(ctxt.tramps, s)
 	if *FlagDebugTramp > 0 && ctxt.Debugvlog > 0 {
-		ctxt.Logf("trampoline %s inserted\n", s)
+		ctxt.Logf("trampoline %s inserted\n", ctxt.Syms.SymString(s))
 	}
 }
 

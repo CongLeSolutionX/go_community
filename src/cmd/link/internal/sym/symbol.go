@@ -15,7 +15,7 @@ import (
 
 // Symbol is an entry in the symbol table.
 type Symbol struct {
-	name        string
+	name        SymName
 	Type        SymKind
 	Version     int16
 	Attr        Attribute
@@ -40,7 +40,7 @@ type Symbol struct {
 
 // AuxSymbol contains less-frequently used sym.Symbol fields.
 type AuxSymbol struct {
-	extname    string
+	extname    SymName
 	dynimplib  string
 	dynimpvers string
 	localentry uint8
@@ -78,22 +78,24 @@ func VersionToABI(v int) (obj.ABI, bool) {
 	return ^obj.ABI(0), false
 }
 
-func (s *Symbol) String() string {
+func (s *Symbol) XXXString() string {
 	if s.Version == 0 {
-		return s.name
+		//return s.name
+		return ""
 	}
-	return fmt.Sprintf("%s<%d>", s.name, s.Version)
+	//return fmt.Sprintf("%s<%d>", s.name, s.Version)
+	return fmt.Sprintf("%v<%d>", s.name, s.Version)
 }
 
 func (s *Symbol) IsFileLocal() bool {
 	return s.Version >= SymVerStatic
 }
 
-func (s *Symbol) Name() string {
+func (s *Symbol) Name() SymName {
 	return s.name
 }
 
-func (s *Symbol) SetName(newname string) {
+func (s *Symbol) SetName(newname SymName) {
 	s.name = newname
 }
 
@@ -318,14 +320,14 @@ func (s *Symbol) makeAuxInfo() {
 	}
 }
 
-func (s *Symbol) extname() string {
+func (s *Symbol) extname() SymName {
 	if s.auxinfo == nil {
 		return s.name
 	}
 	return s.auxinfo.extname
 }
 
-func (s *Symbol) setExtname(n string) {
+func (s *Symbol) setExtname(n SymName) {
 	if s.auxinfo == nil {
 		if s.name == n {
 			return

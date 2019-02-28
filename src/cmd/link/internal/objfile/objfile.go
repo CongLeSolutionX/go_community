@@ -371,14 +371,15 @@ overwrite:
 				reason = fmt.Sprintf("new length %d != old length %d",
 					len(data), len(dup.P))
 			}
-			fmt.Fprintf(os.Stderr, "cmd/link: while reading object for '%v': duplicate symbol '%s', previous def at '%v', with mismatched payload: %s\n", r.lib, dup, dup.Lib, reason)
+			dupname := r.syms.SymName(dup)
+			fmt.Fprintf(os.Stderr, "cmd/link: while reading object for '%v': duplicate symbol '%s', previous def at '%v', with mismatched payload: %s\n", r.lib, dupname, dup.Lib, reason)
 
 			// For the moment, whitelist DWARF subprogram DIEs for
 			// auto-generated wrapper functions. What seems to happen
 			// here is that we get different line numbers on formal
 			// params; I am guessing that the pos is being inherited
 			// from the spot where the wrapper is needed.
-			whitelist := strings.HasPrefix(r.syms.SymName(s), "go.info.go.interface")
+			whitelist := strings.HasPrefix(dupname, "go.info.go.interface")
 			if !whitelist {
 				r.strictDupMsgs++
 			}

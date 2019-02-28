@@ -814,7 +814,7 @@ func (f *xcoffFile) writeSymbolFunc(ctxt *Link, x *sym.Symbol) []xcoffSym {
 
 	s := &XcoffSymEnt64{
 		Nsclass: C_EXT,
-		Noffset: uint32(xfile.stringTable.add(x.Extname())),
+		Noffset: uint32(xfile.stringTable.add(ctxt.Syms.SymExtname(x))),
 		Nvalue:  uint64(x.Value),
 		Nscnum:  f.getXCOFFscnum(x.Sect),
 		Ntype:   SYM_TYPE_FUNC,
@@ -1232,7 +1232,7 @@ func (ctxt *Link) doxcoff() {
 				continue
 			}
 
-			name := s.Extname()
+			name := ctxt.Syms.SymExtname(s)
 			sn := ctxt.Syms.SymName(s)
 			if s.Type == sym.STEXT {
 				// On AIX, a exported function must have two symbols:
@@ -1704,7 +1704,7 @@ func xcoffCreateExportFile(ctxt *Link) (fname string) {
 		if !s.Attr.CgoExport() {
 			continue
 		}
-		if !strings.HasPrefix(s.String(), "_cgoexp_") {
+		if !strings.HasPrefix(ctxt.Syms.SymName(s), "_cgoexp_") {
 			continue
 		}
 
@@ -1712,7 +1712,8 @@ func xcoffCreateExportFile(ctxt *Link) (fname string) {
 		// exported by cgo.
 		// The corresponding Go symbol is:
 		// _cgoexp_hashcode_symname.
-		name := strings.SplitN(s.Extname(), "_", 4)[3]
+		ctxt.Syms.SymExtname(s)
+		name := strings.SplitN(ctxt.Syms.SymExtname(s), "_", 4)[3]
 
 		buf.Write([]byte(name + "\n"))
 	}

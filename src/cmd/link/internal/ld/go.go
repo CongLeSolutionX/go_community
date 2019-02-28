@@ -25,13 +25,13 @@ func expandpkg(t0 string, pkg string) string {
 	return strings.Replace(t0, `"".`, pkg+".", -1)
 }
 
-func resolveABIAlias(s *sym.Symbol) *sym.Symbol {
+func resolveABIAlias(ctxt *Link, s *sym.Symbol) *sym.Symbol {
 	if s.Type != sym.SABIALIAS {
 		return s
 	}
 	target := s.R[0].Sym
 	if target.Type == sym.SABIALIAS {
-		panic(fmt.Sprintf("ABI alias %s references another ABI alias %s", s, target))
+		panic(fmt.Sprintf("ABI alias %s references another ABI alias %s", ctxt.Syms.SymString(s), ctxt.Syms.SymString(target)))
 	}
 	return target
 }

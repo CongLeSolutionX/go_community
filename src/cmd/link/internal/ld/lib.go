@@ -669,7 +669,7 @@ func (ctxt *Link) loadlib() {
 		if s.Type != sym.SABIALIAS {
 			continue
 		}
-		t := resolveABIAlias(s)
+		t := resolveABIAlias(ctxt, s)
 		t.Attr |= s.Attr
 		ctxt.Syms.SetSymExtname(t, ctxt.Syms.SymExtname(s))
 		dynexp[i] = t

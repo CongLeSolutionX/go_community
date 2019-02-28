@@ -278,7 +278,7 @@ func putdie(linkctxt *Link, ctxt dwarf.Context, syms []*sym.Symbol, die *dwarf.D
 		s = syms[len(syms)-1]
 	} else {
 		if s.Attr.OnList() {
-			log.Fatalf("symbol %s listed multiple times", linkctxt.SymName(s))
+			log.Fatalf("symbol %s listed multiple times", linkctxt.Syms.SymString(s))
 		}
 		s.Attr |= sym.AttrOnList
 		syms = append(syms, s)
@@ -2174,7 +2174,7 @@ func dwarfcompress(ctxt *Link) {
 			prevSect = s.Sect
 		}
 		if s.Sub != nil {
-			log.Fatalf("%s: unexpected sub-symbols", s)
+			log.Fatalf("%s: unexpected sub-symbols", ctxt.Syms.SymString(s))
 		}
 		pos += uint64(s.Size)
 		if ctxt.HeadType == objabi.Hwindows {
