@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "018b9617_e1a5baab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-01T16:15:44Z",
+      "side": 1,
+      "message": "lowercase \"optimize\"\n\nand mention arm64 somewhere. maybe drop the word \"the\":\n\n   cmd/compile: optimize arm64 comparison of ...",
+      "revId": "02c28885f7d24090eaf7355015c798a6aeb1d364",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
