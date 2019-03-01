@@ -46,10 +46,10 @@ func removeAll(path string) error {
 	}
 	defer parent.Close()
 
-	return removeAllFrom(parent, base)
+	return removeAllFrom(parent, base, path)
 }
 
-func removeAllFrom(parent *File, path string) error {
+func removeAllFrom(parent *File, path string, absPath string) error {
 	parentFd := int(parent.Fd())
 	// Simple case: if Unlink (aka remove) works, we're done.
 	err := unix.Unlinkat(parentFd, path, 0)
@@ -64,7 +64,7 @@ func removeAllFrom(parent *File, path string) error {
 	// whose contents need to be removed.
 	// Otherwise just return the error.
 	if err != syscall.EISDIR && err != syscall.EPERM && err != syscall.EACCES {
-		return err
+		return &PathError{"unlinkat", absPath, err}
 	}
 
 	// Is this a directory we need to recurse into?
@@ -74,11 +74,11 @@ func removeAllFrom(parent *File, path string) error {
 		if IsNotExist(statErr) {
 			return nil
 		}
-		return statErr
+		return &PathError{"fstatat", absPath, statErr}
 	}
 	if statInfo.Mode&syscall.S_IFMT != syscall.S_IFDIR {
-		// Not a directory; return the error from the Remove.
-		return err
+		// Not a directory; return the error from the unix.Unlinkat.
+		return &PathError{"unlinkat", absPath, err}
 	}
 
 	// Remove the directory's entries.
@@ -92,7 +92,7 @@ func removeAllFrom(parent *File, path string) error {
 			if IsNotExist(err) {
 				return nil
 			}
-			return err
+			return &PathError{"openfdat", absPath, err}
 		}
 
 		names, readErr := file.Readdirnames(request)
@@ -102,11 +102,11 @@ func removeAllFrom(parent *File, path string) error {
 			if IsNotExist(readErr) {
 				return nil
 			}
-			return readErr
+			return &PathError{"readdirnames", absPath, readErr}
 		}
 
 		for _, name := range names {
-			err := removeAllFrom(file, name)
+			err := removeAllFrom(file, name, absPath+string(PathSeparator)+name)
 			if err != nil {
 				recurseErr = err
 			}
@@ -134,7 +134,7 @@ func removeAllFrom(parent *File, path string) error {
 	if recurseErr != nil {
 		return recurseErr
 	}
-	return unlinkError
+	return &PathError{"unlinkat", absPath, unlinkError}
 }
 
 // openFdAt opens path relative to the directory in fd.
@@ -156,7 +156,7 @@ func openFdAt(dirfd int, name string) (*File, error) {
 			continue
 		}
 
-		return nil, &PathError{"openat", name, e}
+		return nil, e
 	}
 
 	if !supportsCloseOnExec {
