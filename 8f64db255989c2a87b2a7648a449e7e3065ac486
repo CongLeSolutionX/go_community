@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fc8604b_3252adfe",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-01T15:21:39Z",
+      "side": 1,
+      "message": "This is going to do something odd if the file name in the grep command uses a shell variable.  Do we care?",
+      "revId": "8f64db255989c2a87b2a7648a449e7e3065ac486",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
