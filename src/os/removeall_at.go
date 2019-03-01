@@ -46,13 +46,13 @@ func removeAll(path string) error {
 	}
 	defer parent.Close()
 
-	return removeAllFrom(parent, base)
+	return removeAllFrom(parent, base, path)
 }
 
-func removeAllFrom(parent *File, path string) error {
+func removeAllFrom(parent *File, base string, path string) error {
 	parentFd := int(parent.Fd())
 	// Simple case: if Unlink (aka remove) works, we're done.
-	err := unix.Unlinkat(parentFd, path, 0)
+	err := unix.Unlinkat(parentFd, base, 0)
 	if err == nil || IsNotExist(err) {
 		return nil
 	}
@@ -64,21 +64,21 @@ func removeAllFrom(parent *File, path string) error {
 	// whose contents need to be removed.
 	// Otherwise just return the error.
 	if err != syscall.EISDIR && err != syscall.EPERM && err != syscall.EACCES {
-		return err
+		return &PathError{"unlinkat", path, err}
 	}
 
 	// Is this a directory we need to recurse into?
 	var statInfo syscall.Stat_t
-	statErr := unix.Fstatat(parentFd, path, &statInfo, unix.AT_SYMLINK_NOFOLLOW)
+	statErr := unix.Fstatat(parentFd, base, &statInfo, unix.AT_SYMLINK_NOFOLLOW)
 	if statErr != nil {
 		if IsNotExist(statErr) {
 			return nil
 		}
-		return statErr
+		return &PathError{"fstatat", path, statErr}
 	}
 	if statInfo.Mode&syscall.S_IFMT != syscall.S_IFDIR {
-		// Not a directory; return the error from the Remove.
-		return err
+		// Not a directory; return the error from the unix.Unlinkat.
+		return &PathError{"unlinkat", path, err}
 	}
 
 	// Remove the directory's entries.
@@ -87,12 +87,12 @@ func removeAllFrom(parent *File, path string) error {
 		const request = 1024
 
 		// Open the directory to recurse into
-		file, err := openFdAt(parentFd, path)
+		file, err := openFdAt(parentFd, base)
 		if err != nil {
 			if IsNotExist(err) {
 				return nil
 			}
-			return err
+			return &PathError{"openfdat", path, err}
 		}
 
 		names, readErr := file.Readdirnames(request)
@@ -102,11 +102,11 @@ func removeAllFrom(parent *File, path string) error {
 			if IsNotExist(readErr) {
 				return nil
 			}
-			return readErr
+			return &PathError{"readdirnames", path, readErr}
 		}
 
 		for _, name := range names {
-			err := removeAllFrom(file, name)
+			err := removeAllFrom(file, name, path+string(PathSeparator)+name)
 			if err != nil {
 				recurseErr = err
 			}
@@ -126,7 +126,7 @@ func removeAllFrom(parent *File, path string) error {
 	}
 
 	// Remove the directory itself.
-	unlinkError := unix.Unlinkat(parentFd, path, unix.AT_REMOVEDIR)
+	unlinkError := unix.Unlinkat(parentFd, base, unix.AT_REMOVEDIR)
 	if unlinkError == nil || IsNotExist(unlinkError) {
 		return nil
 	}
@@ -134,7 +134,7 @@ func removeAllFrom(parent *File, path string) error {
 	if recurseErr != nil {
 		return recurseErr
 	}
-	return unlinkError
+	return &PathError{"unlinkat", path, unlinkError}
 }
 
 // openFdAt opens path relative to the directory in fd.
@@ -156,7 +156,7 @@ func openFdAt(dirfd int, name string) (*File, error) {
 			continue
 		}
 
-		return nil, &PathError{"openat", name, e}
+		return nil, e
 	}
 
 	if !supportsCloseOnExec {

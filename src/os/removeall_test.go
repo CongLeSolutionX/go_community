@@ -294,7 +294,7 @@ func TestRemoveReadOnlyDir(t *testing.T) {
 }
 
 // Issue #29983.
-func TestRemoveAllButReadOnly(t *testing.T) {
+func TestRemoveAllButReadOnlyAndPathError(t *testing.T) {
 	switch runtime.GOOS {
 	case "nacl", "js", "windows":
 		t.Skipf("skipping test on %s", runtime.GOOS)
@@ -355,8 +355,17 @@ func TestRemoveAllButReadOnly(t *testing.T) {
 		defer Chmod(d, 0777)
 	}
 
-	if err := RemoveAll(tempDir); err == nil {
+	err = RemoveAll(tempDir)
+	if err == nil {
 		t.Fatal("RemoveAll succeeded unexpectedly")
+	}
+
+	if pathErr, ok := err.(*PathError); ok {
+		if pathErr.Path != filepath.Join(tempDir, "b", "y") {
+			t.Errorf("expected pathErr.Path %q, was %q", filepath.Join(tempDir, "b", "y"), pathErr.Path)
+		}
+	} else {
+		t.Errorf("expected *os.PathError, got %T", err)
 	}
 
 	for _, dir := range dirs {
