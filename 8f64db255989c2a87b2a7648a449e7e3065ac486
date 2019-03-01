@@ -16,6 +16,24 @@
       "revId": "8f64db255989c2a87b2a7648a449e7e3065ac486",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31d2ee62_91c15f28",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-01T15:27:39Z",
+      "side": 1,
+      "message": "Hmm. Maybe, since we might want to grep a file within $GOPATH.\n\nI can think of two alternatives:\n\n1. I can make regexpCmd store the offset of the regexp arguments relative to the non-flag arguments (so \u0027grep\u0027 would be 1 and \u0027stdout\u0027 and \u0027stderr\u0027 would be 0).\n\n2. I can move the expansion into the individual commands (so they can expand regexp arguments after stripping out other arguments and flags).\n\nI somewhat prefer (1). Do you have a preference, or an alternative suggestion?",
+      "parentUuid": "2fc8604b_3252adfe",
+      "revId": "8f64db255989c2a87b2a7648a449e7e3065ac486",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
