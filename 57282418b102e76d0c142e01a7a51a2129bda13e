@@ -16,6 +16,24 @@
       "revId": "57282418b102e76d0c142e01a7a51a2129bda13e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39eaa4b8_d44d146c",
+        "filename": "src/cmd/go/internal/work/gccgo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-01T04:25:01Z",
+      "side": 1,
+      "message": "Hmmm, somewhere we have lost the rcD that we used to pass to ar.",
+      "parentUuid": "c68f841b_c8f9c640",
+      "revId": "57282418b102e76d0c142e01a7a51a2129bda13e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
