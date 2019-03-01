@@ -64,7 +64,7 @@ func removeAllFrom(parent *File, path string) error {
 	// whose contents need to be removed.
 	// Otherwise just return the error.
 	if err != syscall.EISDIR && err != syscall.EPERM && err != syscall.EACCES {
-		return err
+		return &PathError{"unlinkat", path, err}
 	}
 
 	// Is this a directory we need to recurse into?
@@ -74,11 +74,11 @@ func removeAllFrom(parent *File, path string) error {
 		if IsNotExist(statErr) {
 			return nil
 		}
-		return statErr
+		return &PathError{"fstatat", path, statErr}
 	}
 	if statInfo.Mode&syscall.S_IFMT != syscall.S_IFDIR {
 		// Not a directory; return the error from the Remove.
-		return err
+		return &PathError{"remove", path, err}
 	}
 
 	// Remove the directory's entries.
@@ -102,7 +102,7 @@ func removeAllFrom(parent *File, path string) error {
 			if IsNotExist(readErr) {
 				return nil
 			}
-			return readErr
+			return &PathError{"readdirnames", path, readErr}
 		}
 
 		for _, name := range names {
@@ -134,7 +134,7 @@ func removeAllFrom(parent *File, path string) error {
 	if recurseErr != nil {
 		return recurseErr
 	}
-	return unlinkError
+	return &PathError{"unlinkat", path, unlinkError}
 }
 
 // openFdAt opens path relative to the directory in fd.
