@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4be1aff_ded1a06a",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-01T15:31:14Z",
+      "side": 1,
+      "message": "It is a little weird that we call an arm64 function in ARM32 rules. If the encoding is the same on ARM32 and ARM64, we should probably rename the function to armBFAuxInt.",
+      "range": {
+        "startLine": 1222,
+        "startChar": 72,
+        "endLine": 1222,
+        "endChar": 85
+      },
+      "revId": "2400798a0d65f13ed99564e013043fc5a4c08855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3653f6c0_a3968dad",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-01T15:31:14Z",
+      "side": 1,
+      "message": "Why this is uint32? I think we don\u0027t need to write the type here.",
+      "range": {
+        "startLine": 1223,
+        "startChar": 90,
+        "endLine": 1223,
+        "endChar": 102
+      },
+      "revId": "2400798a0d65f13ed99564e013043fc5a4c08855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ca603e_af21d10c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARMOps.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-01T15:31:14Z",
+      "side": 1,
+      "message": "It seems this is not properly formatted. Make sure to run gofmt.",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 76
+      },
+      "revId": "2400798a0d65f13ed99564e013043fc5a4c08855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
