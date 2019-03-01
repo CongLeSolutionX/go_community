@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "62e5faac_7519f424",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3498,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-03-01T08:06:27Z",
+      "side": 1,
+      "message": "Thanks for your explanation. It seems currently Add32\u0027s won\u0027t be inlined as uint64 operations. But yes we can do it in a another CL. I have removed Add32 related stuff from this CL, except for two benchmarks.",
+      "parentUuid": "abb02cae_855f5e6f",
+      "range": {
+        "startLine": 3494,
+        "startChar": 0,
+        "endLine": 3498,
+        "endChar": 12
+      },
+      "revId": "e0139503ba1dbb8a9640a4caf1e968269c01ee47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "745732c8_ed65f0ed",
         "filename": "src/math/bits/bits_test.go",
         "patchSetId": 3
