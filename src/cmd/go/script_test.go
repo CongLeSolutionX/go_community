@@ -192,7 +192,7 @@ func (ts *testScript) run() {
 	a, err := txtar.ParseFile(ts.file)
 	ts.check(err)
 	for _, f := range a.Files {
-		name := ts.mkabs(ts.expand(f.Name))
+		name := ts.mkabs(ts.expand(f.Name, false))
 		ts.check(os.MkdirAll(filepath.Dir(name), 0777))
 		ts.check(ioutil.WriteFile(name, f.Data, 0666))
 	}
@@ -376,6 +376,16 @@ var scriptCmds = map[string]func(*testScript, bool, []string){
 	"wait":    (*testScript).cmdWait,
 }
 
+// regexpCmds are the commands whose arguments are regular expressions.
+//
+// When expanding shell variables for these commands, we apply regexp quoting to
+// the expanded strings.
+var regexpCmd = map[string]bool{
+	"grep":   true,
+	"stderr": true,
+	"stdout": true,
+}
+
 // addcrlf adds CRLF line endings to the named files.
 func (ts *testScript) cmdAddcrlf(neg bool, args []string) {
 	if len(args) == 0 {
@@ -485,8 +495,8 @@ func (ts *testScript) doCmdCmp(args []string, env bool) {
 	text2 = string(data)
 
 	if env {
-		text1 = ts.expand(text1)
-		text2 = ts.expand(text2)
+		text1 = ts.expand(text1, false)
+		text2 = ts.expand(text2, false)
 	}
 
 	if text1 == text2 {
@@ -955,8 +965,20 @@ func interruptProcess(p *os.Process) {
 }
 
 // expand applies environment variable expansion to the string s.
-func (ts *testScript) expand(s string) string {
-	return os.Expand(s, func(key string) string { return ts.envMap[key] })
+func (ts *testScript) expand(s string, inRegexp bool) string {
+	return os.Expand(s, func(key string) string {
+		e := ts.envMap[key]
+		if inRegexp {
+			// Replace workdir with $WORK, since we have done the same substitution in
+			// the text we're about to compare against.
+			e = strings.ReplaceAll(e, ts.workdir, "$WORK")
+
+			// Quote to literal strings: we want paths like C:\work\go1.4 to remain
+			// paths rather than regular expressions.
+			e = regexp.QuoteMeta(e)
+		}
+		return e
+	})
 }
 
 // fatalf aborts the test with the given failure message.
@@ -982,16 +1004,20 @@ func (ts *testScript) parse(line string) []string {
 	ts.line = line
 
 	var (
-		args   []string
-		arg    string  // text of current arg so far (need to add line[start:i])
-		start  = -1    // if >= 0, position where current arg text chunk starts
-		quoted = false // currently processing quoted text
+		args     []string
+		arg      string  // text of current arg so far (need to add line[start:i])
+		start    = -1    // if >= 0, position where current arg text chunk starts
+		quoted   = false // currently processing quoted text
+		isRegexp = false
 	)
 	for i := 0; ; i++ {
 		if !quoted && (i >= len(line) || line[i] == ' ' || line[i] == '\t' || line[i] == '\r' || line[i] == '#') {
 			// Found arg-separating space.
 			if start >= 0 {
-				arg += ts.expand(line[start:i])
+				arg += ts.expand(line[start:i], isRegexp)
+				if len(args) == 0 {
+					isRegexp = regexpCmd[arg]
+				}
 				args = append(args, arg)
 				start = -1
 				arg = ""
@@ -1008,7 +1034,7 @@ func (ts *testScript) parse(line string) []string {
 			if !quoted {
 				// starting a quoted chunk
 				if start >= 0 {
-					arg += ts.expand(line[start:i])
+					arg += ts.expand(line[start:i], isRegexp)
 				}
 				start = i + 1
 				quoted = true
