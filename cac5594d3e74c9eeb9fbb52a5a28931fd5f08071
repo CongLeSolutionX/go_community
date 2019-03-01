@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffc5d6fc_0ea5c3f2",
+        "filename": "src/cmd/go/internal/work/gccgo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-01T22:15:23Z",
+      "side": 1,
+      "message": "We should drop the \"does not D option\" line.  It\u0027s out of place now.",
+      "revId": "cac5594d3e74c9eeb9fbb52a5a28931fd5f08071",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
