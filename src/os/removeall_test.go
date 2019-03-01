@@ -294,7 +294,7 @@ func TestRemoveReadOnlyDir(t *testing.T) {
 }
 
 // Issue #29983.
-func TestRemoveAllButReadOnly(t *testing.T) {
+func TestRemoveAllButReadOnlyAndPathError(t *testing.T) {
 	switch runtime.GOOS {
 	case "nacl", "js", "windows":
 		t.Skipf("skipping test on %s", runtime.GOOS)
@@ -340,7 +340,7 @@ func TestRemoveAllButReadOnly(t *testing.T) {
 	}
 
 	for _, dir := range dirs {
-		if err := Mkdir(filepath.Join(tempDir, dir), 0777); err != nil {
+		if err := Mkdir(tempDir+string(PathSeparator)+dir, 0777); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -355,12 +355,24 @@ func TestRemoveAllButReadOnly(t *testing.T) {
 		defer Chmod(d, 0777)
 	}
 
-	if err := RemoveAll(tempDir); err == nil {
+	err = RemoveAll(tempDir)
+	if err == nil {
 		t.Fatal("RemoveAll succeeded unexpectedly")
 	}
 
+	// The error should be of type *PathError.
+	// see issue 30491 for details.
+	if pathErr, ok := err.(*PathError); ok {
+		target := tempDir + string(PathSeparator) + "b" + string(PathSeparator) + "y"
+		if pathErr.Path != target {
+			t.Errorf("expected pathErr.Path %q, was %q", target, pathErr.Path)
+		}
+	} else {
+		t.Errorf("expected *os.PathError, got %T", err)
+	}
+
 	for _, dir := range dirs {
-		_, err := Stat(filepath.Join(tempDir, dir))
+		_, err := Stat(tempDir + string(PathSeparator) + dir)
 		if inReadonly(dir) {
 			if err != nil {
 				t.Errorf("file %q was deleted but should still exist", dir)
@@ -391,14 +403,14 @@ func TestRemoveUnreadableDir(t *testing.T) {
 	}
 	defer RemoveAll(tempDir)
 
-	target := filepath.Join(tempDir, "d0", "d1", "d2")
+	target := tempDir + string(PathSeparator) + "d0" + string(PathSeparator) + "d1"
 	if err := MkdirAll(target, 0755); err != nil {
 		t.Fatal(err)
 	}
 	if err := Chmod(target, 0300); err != nil {
 		t.Fatal(err)
 	}
-	if err := RemoveAll(filepath.Join(tempDir, "d0")); err != nil {
+	if err := RemoveAll(tempDir + string(PathSeparator) + "d0"); err != nil {
 		t.Fatal(err)
 	}
 }
