@@ -355,8 +355,13 @@ func TestRemoveAllButReadOnly(t *testing.T) {
 		defer Chmod(d, 0777)
 	}
 
-	if err := RemoveAll(tempDir); err == nil {
+	err = RemoveAll(tempDir)
+	if err == nil {
 		t.Fatal("RemoveAll succeeded unexpectedly")
+	}
+
+	if _, ok := err.(*PathError); !ok {
+		t.Errorf("expected *os.PathError, got %T", err)
 	}
 
 	for _, dir := range dirs {
