@@ -34,6 +34,24 @@
       "revId": "8f64db255989c2a87b2a7648a449e7e3065ac486",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8067334_de16ac51",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-01T15:32:17Z",
+      "side": 1,
+      "message": "Actually, for option (1), the commands all take exactly one regexp argument anyway. The fix seems clear.",
+      "parentUuid": "31d2ee62_91c15f28",
+      "revId": "8f64db255989c2a87b2a7648a449e7e3065ac486",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
