@@ -46,7 +46,10 @@ func removeAll(path string) error {
 	}
 	defer parent.Close()
 
-	return removeAllFrom(parent, base)
+	if err := removeAllFrom(parent, base); err != nil {
+		return &PathError{"RemoveAll", path, err}
+	}
+	return nil
 }
 
 func removeAllFrom(parent *File, path string) error {
@@ -156,7 +159,7 @@ func openFdAt(dirfd int, name string) (*File, error) {
 			continue
 		}
 
-		return nil, &PathError{"openat", name, e}
+		return nil, e
 	}
 
 	if !supportsCloseOnExec {

@@ -372,3 +372,35 @@ func TestRemoveAllButReadOnly(t *testing.T) {
 		}
 	}
 }
+
+func TestRemoveAllPathError(t *testing.T) {
+	if Getuid() == 0 {
+		t.Skip("skipping test when running as root")
+	}
+	t.Parallel()
+
+	tmpDir, err := ioutil.TempDir("", "TestRemoveAllPathError-")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer RemoveAll(tmpDir)
+
+	a := filepath.Join(tmpDir, "a")
+	b := filepath.Join(a, "b")
+
+	if err := Mkdir(a, 0755); err != nil {
+		t.Fatal(err)
+	}
+	if err := Mkdir(b, 0755); err != nil {
+		t.Fatal(err)
+	}
+	if err := Chmod(a, 0555); err != nil {
+		t.Fatal(err)
+	}
+	defer Chmod(a, 0755)
+
+	err = RemoveAll(a)
+	if _, ok := err.(*PathError); !ok {
+		t.Errorf("expected *os.PathError, got %T", err)
+	}
+}
