@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c68f841b_c8f9c640",
+        "filename": "src/cmd/go/internal/work/gccgo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-01T02:25:43Z",
+      "side": 1,
+      "message": "I\u0027m a little confused by this sentence: what does the D option have to do with -X64?",
+      "revId": "57282418b102e76d0c142e01a7a51a2129bda13e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
