@@ -1,31 +1,35 @@
 env GO111MODULE=on
+env GOFLAGS=-mod=vendor
 
+[!gc] skip
+
+# 'go list' should report imports from _test.go in the TestImports field.
 go list -f '{{.TestImports}}'
 stdout net/http # from .TestImports
 
 # 'go list' should find standard-vendored packages.
-go list -f '{{.Dir}}' internal/x/net/http2/hpack
-stdout $GOROOT[/\\]src[/\\]internal
+go list -f '{{.Dir}}' vendor/golang.org/x/net/http2/hpack
+stdout $GOROOT[/\\]src[/\\]vendor
 
 # 'go list -test' should report vendored transitive dependencies of _test.go
 # imports in the Deps field.
 go list -test -f '{{.Deps}}'
-stdout internal/x/crypto # dep of .TestImports
-
-# oops
-cd broken
-! go build -mod=readonly
-stderr 'updates to go.mod needed'
-! go build -mod=vendor
-stderr 'cannot find package'
-stderr 'httpproxy'
+stdout vendor/golang.org/x/crypto # dep of .TestImports
 
 # When run within the 'std' module, 'go list -test' should report vendored
 # transitive dependencies at their original module paths.
 cd $GOROOT/src
 go list -test -f '{{.Deps}}' net/http
 ! stdout vendor
-stdout internal/x/crypto
+stdout golang.org/x/crypto
+
+# Modules outside the standard library should not be able to import its vendored packages.
+cd $GOPATH/src/broken
+! go build -mod=readonly
+stderr 'updates to go.mod needed'
+! go build -mod=vendor
+stderr 'cannot find package'
+stderr 'httpproxy'
 
 -- go.mod --
 module m
