@@ -33,6 +33,24 @@
       "revId": "62f37b8d8d3eddd675b525d821c48094c4a4249c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46c65c6e_ed2e4e7d",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3736,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-01T16:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1282d755_2e090936",
+      "revId": "62f37b8d8d3eddd675b525d821c48094c4a4249c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
