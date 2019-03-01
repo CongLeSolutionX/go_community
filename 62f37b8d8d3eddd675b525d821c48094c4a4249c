@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "cab28168_11171841",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-01T16:02:10Z",
+      "side": 1,
+      "message": "Or:\n\n    cmd/internal/obj/x86: unexport movtab",
+      "revId": "62f37b8d8d3eddd675b525d821c48094c4a4249c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1282d755_2e090936",
         "filename": "src/cmd/internal/obj/x86/asm6.go",
         "patchSetId": 4
