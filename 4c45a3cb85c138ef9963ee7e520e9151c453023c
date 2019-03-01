@@ -16,6 +16,24 @@
       "revId": "4c45a3cb85c138ef9963ee7e520e9151c453023c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bea7540_6c61002c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-03-01T07:39:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83a71935_47dcec08",
+      "revId": "4c45a3cb85c138ef9963ee7e520e9151c453023c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
