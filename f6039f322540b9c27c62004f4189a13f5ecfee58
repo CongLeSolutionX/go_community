@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbd7f9ad_4975aa9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-01T14:58:21Z",
+      "side": 1,
+      "message": "This sentence is convoluted in English.\n\nos: consistently return PathError from RemoveAll\n\nThen remove the sentence below, as it is not necessary.",
+      "revId": "f6039f322540b9c27c62004f4189a13f5ecfee58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2b905cc_9ff0aa4e",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-01T14:58:21Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the best fix.  While it does mean that RemoveAll will always return a PathError, the path is not the most useful path we could return.  I think we should instead change the returns from removeAllFrom to report the path that causes the problem.",
+      "revId": "f6039f322540b9c27c62004f4189a13f5ecfee58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dfd843f_3b4f2768",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-01T14:58:21Z",
+      "side": 1,
+      "message": "This is a lot like TestRemoveAllButReadOnly.  Suppose we just change that test to check the error return from RemoveAll, rather than adding a new similar test.",
+      "revId": "f6039f322540b9c27c62004f4189a13f5ecfee58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
