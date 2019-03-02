@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a9f8ef6_a6151bbf",
+        "filename": "src/cmd/compile/internal/ssa/stmtlines_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T03:57:33Z",
+      "side": 1,
+      "message": "Probably want to log `out` in this message too, using the %s verb. (%v for an exec error is often just the exit code.)",
+      "revId": "47c40dce72aec9b98ca393f73d4c4bce8203ada7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06714356_b07dc291",
+        "filename": "src/cmd/compile/internal/ssa/stmtlines_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T03:57:33Z",
+      "side": 1,
+      "message": "Validate len(subvers) before indexing into it?",
+      "revId": "47c40dce72aec9b98ca393f73d4c4bce8203ada7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea545909_fda4246b",
+        "filename": "src/cmd/compile/internal/ssa/stmtlines_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T03:57:33Z",
+      "side": 1,
+      "message": "extraneous newline?",
+      "revId": "47c40dce72aec9b98ca393f73d4c4bce8203ada7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a794bd90_5d1a3588",
+        "filename": "src/cmd/link/dwarf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T03:57:33Z",
+      "side": 1,
+      "message": "move the blank line to after the closing brace",
+      "revId": "47c40dce72aec9b98ca393f73d4c4bce8203ada7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "052733df_d354f675",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1709,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T03:57:33Z",
+      "side": 1,
+      "message": "Third time\u0027s the charm. Perhaps factor this out into a helper-function somewhere in cmd/internal?",
+      "range": {
+        "startLine": 1691,
+        "startChar": 0,
+        "endLine": 1709,
+        "endChar": 4
+      },
+      "revId": "47c40dce72aec9b98ca393f73d4c4bce8203ada7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
