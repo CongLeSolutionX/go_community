@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2e4a427_d4dfdba3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-02T06:48:10Z",
+      "side": 1,
+      "message": "crypto/x509: remove redundant end index in domainToReverseLabels",
+      "revId": "6ca29873d2f5ed2f494e1bebab2facd363ea8ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
