@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96994517_70127e8b",
+        "filename": "src/encoding/gob/decgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T04:26:19Z",
+      "side": 1,
+      "message": "There should probably be an error-check and log.Fatal for the result of os.Create. A nil-panic on fd.Write would not be very user-friendly.",
+      "revId": "bc226db24711a157ea21b2879f8a9550c97d13a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
