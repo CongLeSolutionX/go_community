@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea398a13_41fa2ff2",
+        "filename": "src/os/path.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-02T18:55:56Z",
+      "side": 1,
+      "message": "This is a new strong guarantee, are we sure we want to keep this documented?\n\nI mean we could keep it in tests but otherwise documenting this now puts\na hex on this method for life and it could never be changed yet some cases in\nthe future could not necessarily all be of *PathError. Ian what do you think?",
+      "revId": "04d106451536147d91b87535d7b61068727f349d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76f524ae_ff9a37ad",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-02T18:55:56Z",
+      "side": 1,
+      "message": "These new arguments are a little confusing to read, they threw me off for a second\nuntil I opened the man page for unlinkat and re-read this CL.\n\nPerhaps please make this signature:\n\nfunc removeAllFrom(parent *File, fullPath, base string)\n\nor\n\nfunc removeAllFrom(parent *File, fullPath, relToParent string)\n\nand also please note the interchange from (base, path) to (fullPath, base) or (fullPath, relToParent)",
+      "revId": "04d106451536147d91b87535d7b61068727f349d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
