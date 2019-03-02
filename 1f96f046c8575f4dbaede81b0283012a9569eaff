@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e65f638_0db45cf9",
+        "filename": "src/debug/gosym/pclntab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T04:38:00Z",
+      "side": 1,
+      "message": "The Deprecated line should go after the topic sentence, not before.",
+      "revId": "1f96f046c8575f4dbaede81b0283012a9569eaff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
