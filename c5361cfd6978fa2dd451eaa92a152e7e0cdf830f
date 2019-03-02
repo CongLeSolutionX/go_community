@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ff4261_4405e7dd",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-02T23:54:12Z",
+      "side": 1,
+      "message": "Nit: inlMarkProg please. We already spell inlMark in this shortened form other places; keeping it consistent will help grep find all relevant code.",
+      "revId": "c5361cfd6978fa2dd451eaa92a152e7e0cdf830f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81fd0b81_630f5475",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-02T23:54:12Z",
+      "side": 1,
+      "message": "It strikes me as weird to have this after ScoreControl and Score Flags. If it doesn\u0027t matter, let\u0027s place it above them.",
+      "revId": "c5361cfd6978fa2dd451eaa92a152e7e0cdf830f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
