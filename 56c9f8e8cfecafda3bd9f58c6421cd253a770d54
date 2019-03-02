@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d406a3a_b3c67838",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T04:24:48Z",
+      "side": 0,
+      "message": "I wonder how these got here in the first place. This should probably have a review from an expert — or a bit of archaeology (and a description of how this came to be in the commit message) — to make sure this change isn\u0027t masking a more subtle existing bug.",
+      "revId": "56c9f8e8cfecafda3bd9f58c6421cd253a770d54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
