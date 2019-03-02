@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16bd3296_91b71ed6",
+        "filename": "src/cmd/nm/nm_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T03:42:36Z",
+      "side": 1,
+      "message": "Verify that len(f[1]) \u003e\u003d 4? (If it isn\u0027t, we\u0027d rather have a t.Fatalf than an out-of-bounds panic.)\n\nA link to more detail on the linker behavior would probably be helpful too.",
+      "revId": "c0af553c4221a481d19596854f3557115a9d710c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
