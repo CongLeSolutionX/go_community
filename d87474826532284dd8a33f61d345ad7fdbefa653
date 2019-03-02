@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d7f3989_e41648e2",
+        "filename": "src/runtime/crash_cgo_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T03:31:18Z",
+      "side": 1,
+      "message": "Please mention the associated issue in the commit message:\n\nUpdates #28555",
+      "range": {
+        "startLine": 233,
+        "startChar": 63,
+        "endLine": 233,
+        "endChar": 68
+      },
+      "revId": "d87474826532284dd8a33f61d345ad7fdbefa653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
