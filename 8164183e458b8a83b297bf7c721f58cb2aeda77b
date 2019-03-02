@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf43422d_66f6d515",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-02T04:44:03Z",
+      "side": 1,
+      "message": "remove redundant line from commit message",
+      "revId": "8164183e458b8a83b297bf7c721f58cb2aeda77b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
