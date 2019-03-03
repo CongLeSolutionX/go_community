@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "4f6f5a57_fa36a627",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 30788
+      },
+      "writtenOn": "2019-03-03T15:42:51Z",
+      "side": 1,
+      "message": "The purpose of this code is to ultimately check if the first character of a web url scheme is a letter (according to the spec), and if not, raise an error.\nTo validate a url scheme, it first checks whether it\u0027s a web url, since there can be other types of url (file, etc). To check if its a proper url, it checks if there\u0027s a colon in the string. Also there sometimes is an \"\u003d\" character in the web url, so it checks for that.\nOnce thats checked, it extracts the first character and checks if it\u0027s a letter.\nI can add more comments, but I would like the logic reviewed first to see if I am headed in the right direction.",
+      "parentUuid": "27853257_d9126521",
+      "range": {
+        "startLine": 435,
+        "startChar": 64,
+        "endLine": 443,
+        "endChar": 3
+      },
+      "revId": "9f204ad8b5a430d2ac485986530b669484764e2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a48a4c97_a543e450",
         "filename": "src/net/url/url.go",
         "patchSetId": 8
