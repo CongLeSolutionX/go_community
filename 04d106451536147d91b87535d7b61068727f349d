@@ -33,6 +33,23 @@
       "revId": "04d106451536147d91b87535d7b61068727f349d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cde1ea86_3d5905d5",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 10940
+      },
+      "writtenOn": "2019-03-03T05:45:10Z",
+      "side": 1,
+      "message": "This constructs the full path string in every recursion, but the value is only used to report errors.  Would it be worth it to construct the full path in the error case, by returning a partial path in the error from each call to removeAllFrom and prepend base before passing on the error?",
+      "revId": "04d106451536147d91b87535d7b61068727f349d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
