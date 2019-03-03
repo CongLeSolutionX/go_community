@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c9e9dc6e_a1836c30",
+        "filename": "src/cmd/go/internal/modfetch/pseudo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-03T18:43:40Z",
+      "side": 1,
+      "message": "For now. You could clean it up in a separate CL.",
+      "parentUuid": "3ff73e2e_75922148",
+      "revId": "1e1f3ecbc12c492ccd5c459f674daf4b4908e47e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "daef3508_4937b707",
         "filename": "src/cmd/go/internal/test/test.go",
         "patchSetId": 1
