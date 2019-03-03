@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af47bfed_b361c318",
+        "filename": "src/cmd/go/internal/base/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-03T18:20:37Z",
+      "side": 0,
+      "message": "I\u0027m not sure deleting this is worth it if it means deleting the comment context. You\u0027re now duplicating this PWD\u003d append in a bunch of places.",
+      "revId": "fc42cf8b8ccf6753c01e063ac090b2a60e70f077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "453ddfba_f028254e",
+        "filename": "src/cmd/go/internal/get/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-03T18:20:37Z",
+      "side": 1,
+      "message": "explain why PWD, stealing comment from deleted code?",
+      "revId": "1e1f3ecbc12c492ccd5c459f674daf4b4908e47e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83b382d9_7becafdb",
+        "filename": "src/cmd/go/internal/modfetch/pseudo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-03T18:20:37Z",
+      "side": 1,
+      "message": "This line was weird before and is now even more weird.",
+      "revId": "1e1f3ecbc12c492ccd5c459f674daf4b4908e47e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daef3508_4937b707",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-03T18:20:37Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "1e1f3ecbc12c492ccd5c459f674daf4b4908e47e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd4d3d5c_a6bf533c",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-03T18:20:37Z",
+      "side": 1,
+      "message": "or maybe it\u0027s worth moving this to a func just so there\u0027s one place to put the comment about why PWD matters, rather than a dozen places",
+      "revId": "1e1f3ecbc12c492ccd5c459f674daf4b4908e47e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
