@@ -50,6 +50,24 @@
       "revId": "04d106451536147d91b87535d7b61068727f349d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97ad765e_f6b893a9",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2019-03-03T06:58:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cde1ea86_3d5905d5",
+      "revId": "04d106451536147d91b87535d7b61068727f349d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
