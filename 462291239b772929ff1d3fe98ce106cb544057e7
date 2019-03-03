@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b9850a6_4c5a3228",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-03T22:59:08Z",
+      "side": 1,
+      "message": "crypto/cipher: fix duplicated arguments to bytes.Equal in test",
+      "revId": "462291239b772929ff1d3fe98ce106cb544057e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
