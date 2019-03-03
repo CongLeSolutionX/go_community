@@ -1124,7 +1124,7 @@ func (c *runCache) builderRunTest(b *work.Builder, a *work.Action) error {
 
 	cmd := exec.Command(args[0], args[1:]...)
 	cmd.Dir = a.Package.Dir
-	cmd.Env = base.EnvForDir(cmd.Dir, cfg.OrigEnv)
+	cmd.Env = append(cfg.OrigEnv, "PWD="+cmd.Dir)
 	cmd.Stdout = stdout
 	cmd.Stderr = stdout
 

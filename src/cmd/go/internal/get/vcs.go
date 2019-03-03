@@ -19,7 +19,6 @@ import (
 	"strings"
 	"sync"
 
-	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/web"
 )
@@ -423,7 +422,7 @@ func (v *vcsCmd) run1(dir string, cmdline string, keyval []string, verbose bool)
 
 	cmd := exec.Command(v.cmd, args...)
 	cmd.Dir = dir
-	cmd.Env = base.EnvForDir(cmd.Dir, os.Environ())
+	cmd.Env = append(os.Environ(), "PWD="+cmd.Dir)
 	if cfg.BuildX {
 		fmt.Printf("cd %s\n", dir)
 		fmt.Printf("%s %s\n", v.cmd, strings.Join(args, " "))
