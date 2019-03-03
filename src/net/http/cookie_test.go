@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"reflect"
 	"strings"
@@ -384,6 +385,19 @@ var readCookiesTests = []struct {
 			{Name: "Cookie-1", Value: "v$1"},
 			{Name: "c2", Value: "v2"},
 		},
+	},
+	{
+		http.Header{"Cookie": {`Cookie-1="v$1"; c2=v2;`}},
+		"",
+		[]*Cookie{
+			{Name: "Cookie-1", Value: "v$1"},
+			{Name: "c2", Value: "v2"},
+		},
+	},
+	{
+		http.Header{"Cookie": {``}},
+		"",
+		[]*Cookie{},
 	},
 }
 
