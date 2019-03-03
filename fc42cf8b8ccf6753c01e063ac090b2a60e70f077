@@ -16,6 +16,24 @@
       "revId": "fc42cf8b8ccf6753c01e063ac090b2a60e70f077",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e430d8ca_8c1180b9",
+        "filename": "src/cmd/go/internal/base/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-03T18:39:29Z",
+      "side": 0,
+      "message": "Sure, I\u0027ll revert this bit.",
+      "parentUuid": "af47bfed_b361c318",
+      "revId": "fc42cf8b8ccf6753c01e063ac090b2a60e70f077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

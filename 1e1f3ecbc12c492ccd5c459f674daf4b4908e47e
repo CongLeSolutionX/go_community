@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "3ff73e2e_75922148",
+        "filename": "src/cmd/go/internal/modfetch/pseudo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-03T18:39:29Z",
+      "side": 1,
+      "message": "This was just gofmt -s; should I undo it?",
+      "parentUuid": "83b382d9_7becafdb",
+      "revId": "1e1f3ecbc12c492ccd5c459f674daf4b4908e47e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "daef3508_4937b707",
         "filename": "src/cmd/go/internal/test/test.go",
         "patchSetId": 1
