@@ -112,6 +112,11 @@ func (mu *fdMutex) decref() bool {
 	}
 }
 
+// closed reports whether mu is closed.
+func (mu *fdMutex) closed() bool {
+	return atomic.LoadUint64(&mu.state)&mutexClosed != 0
+}
+
 // lock adds a reference to mu and locks mu.
 // It reports whether mu is available for reading or writing.
 func (mu *fdMutex) rwlock(read bool) bool {
