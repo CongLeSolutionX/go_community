@@ -70,6 +70,24 @@
       "revId": "02e804758d0e49d43ddeff09bba2438fd7724f40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11f86edc_b5165f04",
+        "filename": "src/runtime/testdata/testprogcgo/sigstack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-04T14:16:50Z",
+      "side": 1,
+      "message": "\u003e The problem is that I cannot really have a workaround inside Go runtime. If the default SIGSTKSZ value is used the signal handler crashes with: \n\u003e          fatal error: non-Go code set up signal handler without SA_ONSTACK flag\n\nWhat I meant was, if you need a stack larger than SIGSTKSZ here, then the threads created by the Go runtime probably also need a stack larger than SIGSTKSZ. Presumably the stack size that the Go runtime uses ought to be large enough for simple C handlers as well, so if you link to that code here we can more easily verify that the two estimates of “reasonable signal stack size” match.",
+      "parentUuid": "9ebff2c5_90485828",
+      "revId": "02e804758d0e49d43ddeff09bba2438fd7724f40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
