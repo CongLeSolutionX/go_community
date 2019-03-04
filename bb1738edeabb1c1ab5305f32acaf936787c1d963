@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdf3f76b_d1f93131",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-04T17:03:56Z",
+      "side": 1,
+      "message": "I feel this is hard to follow. We are not comparing anything with zero, yet we generate a LessThanZero. \"LessThanZero\" doesn\u0027t seem a right name here. Maybe \"LessThanF\"? That is, the semantic is \"less than\", the encoding is specific to floating points.",
+      "range": {
+        "startLine": 301,
+        "startChar": 18,
+        "endLine": 301,
+        "endChar": 30
+      },
+      "revId": "bb1738edeabb1c1ab5305f32acaf936787c1d963",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcd31397_d33b4098",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-04T17:03:56Z",
+      "side": 1,
+      "message": "LessEqualU handles NaN just right?\n\nDon\u0027t move this two lines. It looks weird to have Leq rules interleaved with others. You could add comment referencing the comment above, if necessary.",
+      "range": {
+        "startLine": 303,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 0
+      },
+      "revId": "bb1738edeabb1c1ab5305f32acaf936787c1d963",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
