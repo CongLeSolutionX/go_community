@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93aea0be_de197199",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-04T15:40:22Z",
+      "side": 1,
+      "message": "Why not \"ADC ZR, Rout1, Rout1\"? Does it make any difference? Or this is faster?",
+      "revId": "27da217635720de29715dc9aca33ca54a705f6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c17e1696_c02c8e01",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-04T15:40:22Z",
+      "side": 1,
+      "message": "ADD is never at the end of the line, as there are operands, so \"ADD$\" won\u0027t match even the test fails. I think you want \"ADD\\t\".",
+      "range": {
+        "startLine": 334,
+        "startChar": 40,
+        "endLine": 334,
+        "endChar": 44
+      },
+      "revId": "27da217635720de29715dc9aca33ca54a705f6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
