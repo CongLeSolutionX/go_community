@@ -114,6 +114,30 @@
       "revId": "47c40dce72aec9b98ca393f73d4c4bce8203ada7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df90eba7_20fe8aba",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1709,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-04T13:51:51Z",
+      "side": 1,
+      "message": "Perhaps in `cmd/internal/dwarf`, or a new package underneath it?",
+      "parentUuid": "b6a726cf_3ab344dd",
+      "range": {
+        "startLine": 1691,
+        "startChar": 0,
+        "endLine": 1709,
+        "endChar": 4
+      },
+      "revId": "47c40dce72aec9b98ca393f73d4c4bce8203ada7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
