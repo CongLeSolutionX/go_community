@@ -88,6 +88,24 @@
       "revId": "02e804758d0e49d43ddeff09bba2438fd7724f40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00a048a6_5c32bd99",
+        "filename": "src/runtime/testdata/testprogcgo/sigstack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-04T14:30:11Z",
+      "side": 1,
+      "message": "Well, Go-allocated signal stack is 32K because it\u0027s the same of all OSes (looking at mpreinit code). SIGSTKSZ isn\u0027t used in Go runtime. So, it seems a bit strange to me to say \"SIGSTKSZ must not be used but you can put 32K as on Go runtime\". But if you think it\u0027s clearer, I\u0027ll do it.",
+      "parentUuid": "11f86edc_b5165f04",
+      "revId": "02e804758d0e49d43ddeff09bba2438fd7724f40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
