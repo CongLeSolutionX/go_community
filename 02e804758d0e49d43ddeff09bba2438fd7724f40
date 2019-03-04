@@ -52,6 +52,24 @@
       "revId": "02e804758d0e49d43ddeff09bba2438fd7724f40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ebff2c5_90485828",
+        "filename": "src/runtime/testdata/testprogcgo/sigstack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-04T14:03:02Z",
+      "side": 1,
+      "message": "The problem is that I cannot really have a workaround inside Go runtime. If the default SIGSTKSZ value is used the signal handler crashes with: \n         fatal error: non-Go code set up signal handler without SA_ONSTACK flag\n\nMaybe I can improve the error message to explain the problem ? But, I don\u0027t think a workaround is the stack is already corrupted.",
+      "parentUuid": "4f4ad8c8_fa3450ce",
+      "revId": "02e804758d0e49d43ddeff09bba2438fd7724f40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
