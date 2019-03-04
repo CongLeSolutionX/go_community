@@ -16,6 +16,24 @@
       "revId": "02e804758d0e49d43ddeff09bba2438fd7724f40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "074af7b4_ec173786",
+        "filename": "src/runtime/testdata/testprogcgo/sigstack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-04T08:39:53Z",
+      "side": 1,
+      "message": "Yes, on AIX, SIGSTKSZ is too small when the VMX is used (which is the case on Go)... \nI think this is a bug in AIX kernel, because the stack is corrupted even before entering runtime.sigtramp.",
+      "parentUuid": "98234e23_67489297",
+      "revId": "02e804758d0e49d43ddeff09bba2438fd7724f40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
