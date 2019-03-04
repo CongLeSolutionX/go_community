@@ -22,6 +22,30 @@
       "revId": "594bc578852d6e684b06d40b6b4f133a722f2ad1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b515deae_7113842c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-03-04T17:36:03Z",
+      "side": 1,
+      "message": "Thanks. In the future, you should mark this thread as “Resolved”. Not a big deal in this case, though.",
+      "parentUuid": "4c7f8c33_ea5e8228",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "594bc578852d6e684b06d40b6b4f133a722f2ad1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
