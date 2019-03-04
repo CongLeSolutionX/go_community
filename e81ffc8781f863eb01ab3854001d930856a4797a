@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c9e4d70_2158d36d",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-04T14:13:01Z",
+      "side": 1,
+      "message": "Are these new parens needed?",
+      "range": {
+        "startLine": 687,
+        "startChar": 58,
+        "endLine": 687,
+        "endChar": 61
+      },
+      "revId": "e81ffc8781f863eb01ab3854001d930856a4797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
