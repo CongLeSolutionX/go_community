@@ -333,6 +333,9 @@ type FD struct {
 
 	// Whether this is a directory.
 	isDir bool
+
+	// Whether this is a pipe.
+	isPipe bool
 }
 
 // logInitFD is set by tests to enable file descriptor initialization logging.
@@ -355,6 +358,8 @@ func (fd *FD) Init(net string, pollable bool) (string, error) {
 		fd.isConsole = true
 	case "dir":
 		fd.isDir = true
+	case "pipe":
+		fd.isPipe = true
 	case "tcp", "tcp4", "tcp6":
 	case "udp", "udp4", "udp6":
 	case "ip", "ip4", "ip6":
@@ -430,7 +435,7 @@ func (fd *FD) destroy() error {
 	// so this must be executed before fd.CloseFunc.
 	fd.pd.close()
 	var err error
-	if fd.isFile || fd.isConsole {
+	if fd.isFile || fd.isConsole || fd.isPipe {
 		err = syscall.CloseHandle(fd.Sysfd)
 	} else if fd.isDir {
 		err = syscall.FindClose(fd.Sysfd)
@@ -448,6 +453,9 @@ func (fd *FD) destroy() error {
 func (fd *FD) Close() error {
 	if !fd.fdmu.increfAndClose() {
 		return errClosing(fd.isFile)
+	}
+	if fd.isPipe {
+		syscall.CancelIoEx(fd.Sysfd, nil)
 	}
 	// unblock pending reader and writer
 	fd.pd.evict()
@@ -485,13 +493,21 @@ func (fd *FD) Read(buf []byte) (int, error) {
 
 	var n int
 	var err error
-	if fd.isFile || fd.isDir || fd.isConsole {
+	if fd.isFile || fd.isDir || fd.isConsole || fd.isPipe {
 		fd.l.Lock()
 		defer fd.l.Unlock()
 		if fd.isConsole {
 			n, err = fd.readConsole(buf)
 		} else {
 			n, err = syscall.Read(fd.Sysfd, buf)
+			if fd.isPipe && err == syscall.ERROR_OPERATION_ABORTED && fd.fdmu.closed() {
+				// Close uses CancelIoEx to interrupt concurrent I/O for pipes.
+				// If all the three conditions(pipe, CancelIoEx and closed) hold,
+				// we assume the Read is interrupted by Close.
+				// Because the file is closed, it is OK to return ErrFileClosing
+				// even if the Read is not interrupted by Close.
+				err = ErrFileClosing
+			}
 		}
 		if err != nil {
 			n = 0
@@ -669,13 +685,21 @@ func (fd *FD) Write(buf []byte) (int, error) {
 		}
 		var n int
 		var err error
-		if fd.isFile || fd.isDir || fd.isConsole {
+		if fd.isFile || fd.isDir || fd.isConsole || fd.isPipe {
 			fd.l.Lock()
 			defer fd.l.Unlock()
 			if fd.isConsole {
 				n, err = fd.writeConsole(b)
 			} else {
 				n, err = syscall.Write(fd.Sysfd, b)
+				if fd.isPipe && err == syscall.ERROR_OPERATION_ABORTED && fd.fdmu.closed() {
+					// Close uses CancelIoEx to interrupt concurrent I/O for pipes.
+					// If all the three conditions(pipe, CancelIoEx and closed) hold,
+					// we assume the Write is interrupted by Close.
+					// Because the file is closed, it is OK to return ErrFileClosing
+					// even if the Write is not interrupted by Close.
+					err = ErrFileClosing
+				}
 			}
 			if err != nil {
 				n = 0
