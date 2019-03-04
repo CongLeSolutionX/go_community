@@ -34,6 +34,24 @@
       "revId": "02e804758d0e49d43ddeff09bba2438fd7724f40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f4ad8c8_fa3450ce",
+        "filename": "src/runtime/testdata/testprogcgo/sigstack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-04T13:45:02Z",
+      "side": 1,
+      "message": "In that case, perhaps add a comment referring to an upstream tracking issue?\n(It would be nice to have some means to figure out when, if ever, we can remove this workaround from the Go side.)\n\nIf there is a corresponding workaround within the Go runtime, it might also be helpful to cross-reference that here.",
+      "parentUuid": "074af7b4_ec173786",
+      "revId": "02e804758d0e49d43ddeff09bba2438fd7724f40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
