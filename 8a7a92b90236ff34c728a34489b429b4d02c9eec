@@ -22,6 +22,30 @@
       "revId": "8a7a92b90236ff34c728a34489b429b4d02c9eec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "580f3c09_e13c14c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-04T09:39:20Z",
+      "side": 1,
+      "message": "Well cgo_export wasn\u0027t working at all, so it\u0027s a general fix.",
+      "parentUuid": "507a0cf1_bcc214b1",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "8a7a92b90236ff34c728a34489b429b4d02c9eec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
