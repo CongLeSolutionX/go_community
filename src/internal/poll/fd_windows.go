@@ -449,6 +449,11 @@ func (fd *FD) Close() error {
 	if !fd.fdmu.increfAndClose() {
 		return errClosing(fd.isFile)
 	}
+	if fd.isFile {
+		if t, err := syscall.GetFileType(fd.Sysfd); err == nil && t == syscall.FILE_TYPE_PIPE {
+			syscall.CancelIoEx(fd.Sysfd, nil)
+		}
+	}
 	// unblock pending reader and writer
 	fd.pd.evict()
 	err := fd.decref()
@@ -492,6 +497,10 @@ func (fd *FD) Read(buf []byte) (int, error) {
 			n, err = fd.readConsole(buf)
 		} else {
 			n, err = syscall.Read(fd.Sysfd, buf)
+			if err == syscall.ERROR_OPERATION_ABORTED && fd.fdmu.closed() {
+				// The Read is cancelled in Close
+				err = ErrFileClosing
+			}
 		}
 		if err != nil {
 			n = 0
@@ -676,6 +685,10 @@ func (fd *FD) Write(buf []byte) (int, error) {
 				n, err = fd.writeConsole(b)
 			} else {
 				n, err = syscall.Write(fd.Sysfd, b)
+				if err == syscall.ERROR_OPERATION_ABORTED && fd.fdmu.closed() {
+					// the Write is cancelled in Close
+					err = ErrFileClosing
+				}
 			}
 			if err != nil {
 				n = 0
