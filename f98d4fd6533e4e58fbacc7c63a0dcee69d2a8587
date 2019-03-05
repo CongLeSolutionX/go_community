@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "21c84294_6d8110cf",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-05T09:50:44Z",
+      "side": 1,
+      "message": "CL 165257 was also submitted by me via GitHub Pull Request.\nI think it\u0027s bad to have many isSomething or `isOne||isTwo||isThree`\nAnd isFile is not correct in this file.\n\nIf a new field is needed in this case, I think it\u0027s better to clean up these problems first.\nPlease review CL 165257 before this one, thanks.",
+      "parentUuid": "71903c34_e3aea938",
+      "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6adf08e9_de173c21",
         "filename": "src/internal/poll/fd_windows.go",
         "patchSetId": 2
