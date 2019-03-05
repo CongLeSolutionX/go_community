@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aaa90dd_614632e1",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2019-03-05T18:35:26Z",
+      "side": 1,
+      "message": "Could inline this now.",
+      "revId": "2da8c282e8e077167f1a68104c3e64489ee21c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e2d5ea9_be8c381e",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1561,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2019-03-05T18:35:26Z",
+      "side": 1,
+      "message": "Bleh.",
+      "revId": "2da8c282e8e077167f1a68104c3e64489ee21c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9585393c_385b3b08",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1562,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2019-03-05T18:35:26Z",
+      "side": 1,
+      "message": "combine these two?",
+      "revId": "2da8c282e8e077167f1a68104c3e64489ee21c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
