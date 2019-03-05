@@ -19,6 +19,104 @@
     },
     {
       "key": {
+        "uuid": "71903c34_e3aea938",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-05T08:18:03Z",
+      "side": 1,
+      "message": "I suggest we add\n\n// Whether this is a pipe.\nisPipe bool\n\nthat is set in Init\n\nft, err :\u003d fd.GetFileType()\nfd.isPipe \u003d err \u003d\u003d nil \u0026\u0026 ft \u003d\u003d syscall.FILE_TYPE_PIPE\n\nand then we could use it everywhere we need it.",
+      "parentUuid": "9950993f_42259ba8",
+      "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6adf08e9_de173c21",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-05T08:18:03Z",
+      "side": 1,
+      "message": "Why do you need to call fd.pd.evict after syscall.CancelIoEx call? IS that safe to call fd.pd.evict after syscall.CancelIoEx call?",
+      "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bffeecb1_856d6ef8",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-05T08:18:03Z",
+      "side": 1,
+      "message": "Why do you need to call fd.fdmu.closed here? You should document it in the code.",
+      "range": {
+        "startLine": 500,
+        "startChar": 48,
+        "endLine": 500,
+        "endChar": 64
+      },
+      "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23dc49eb_bfa52a35",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-05T08:18:03Z",
+      "side": 1,
+      "message": "I am not sure, it is safe to convert ERROR_OPERATION_ABORTED into ErrFileClosing. Perhaps it is OK to do it for pipes, but not for files / sockets in general.",
+      "range": {
+        "startLine": 500,
+        "startChar": 13,
+        "endLine": 500,
+        "endChar": 44
+      },
+      "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4a529f3_9418cb03",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-05T08:18:03Z",
+      "side": 1,
+      "message": "Same as on line 500.",
+      "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc289ba7_b441d2b3",
         "filename": "src/os/pipe_unix_test.go",
         "patchSetId": 2

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76577455_79c714a9",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-05T08:18:03Z",
+      "side": 0,
+      "message": "And why you are not running this test on Windows?",
+      "revId": "d1887676d96daf969d886a4ec13cbad4908d51af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c88561fd_e8fbf4f1",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-05T08:18:03Z",
+      "side": 0,
+      "message": "Why did you remove that check for io.EOF?",
+      "revId": "d1887676d96daf969d886a4ec13cbad4908d51af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d8128d8_b14ad7eb",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-05T08:18:03Z",
+      "side": 0,
+      "message": "And why you are not running this test on Windows?",
+      "revId": "d1887676d96daf969d886a4ec13cbad4908d51af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b67f25f_ba5beb38",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-05T08:18:03Z",
+      "side": 0,
+      "message": "And why you are not running this test on Windows?",
+      "revId": "d1887676d96daf969d886a4ec13cbad4908d51af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
