@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9950993f_42259ba8",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-05T01:39:15Z",
+      "side": 1,
+      "message": "In fd_unix.go we have an isBlocking field set in the Init method.  I think I would prefer that to calling GetFileType.",
+      "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc289ba7_b441d2b3",
+        "filename": "src/os/pipe_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-05T01:39:15Z",
+      "side": 1,
+      "message": "Instead of splitting up pipe_test.go, can we just add t.Skip calls for the tests that don\u0027t run on Windows?",
+      "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
