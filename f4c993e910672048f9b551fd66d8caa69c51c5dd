@@ -22,6 +22,30 @@
       "revId": "f4c993e910672048f9b551fd66d8caa69c51c5dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ab321d9_fecf230f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 30924
+      },
+      "writtenOn": "2019-03-05T19:06:47Z",
+      "side": 1,
+      "message": "Thank you for help with commit message.",
+      "parentUuid": "6c8b434f_e9e915d6",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "f4c993e910672048f9b551fd66d8caa69c51c5dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
