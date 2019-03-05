@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f164a57c_fb6c4dd2",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-05T08:52:34Z",
+      "side": 0,
+      "message": "Fd() on Windows doesn\u0027t have the side effect.\nSo I think it\u0027s not useful on Windows.",
+      "parentUuid": "76577455_79c714a9",
+      "revId": "d1887676d96daf969d886a4ec13cbad4908d51af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c88561fd_e8fbf4f1",
         "filename": "src/os/pipe_test.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-05T08:18:03Z",
       "side": 0,
       "message": "Why did you remove that check for io.EOF?",
+      "revId": "d1887676d96daf969d886a4ec13cbad4908d51af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6268a7cc_2e294e27",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-05T08:52:34Z",
+      "side": 0,
+      "message": "The test was added for another situation.\n\nClose should wait for a concurrent Read to return.\nBut the Read can be blocked indefinitely if the fd is a pipe.\nAnd the pipe is in blocking mode so runtime poller can\u0027t help.\n\nThe fix was just not to wait in Close.\nThe Read returns finally because the writer is closed and the error returned by Read is EOF.\n\nIn this change, the Read returns because of CancelIoEx so this error isn\u0027t EOF.",
+      "parentUuid": "c88561fd_e8fbf4f1",
       "revId": "d1887676d96daf969d886a4ec13cbad4908d51af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c7b4fa53_bb3d1ae7",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-05T08:52:34Z",
+      "side": 0,
+      "message": "Similar to TestCloseWithBlockingReadByFd.\nFd doesn\u0027t write memory on Windows so it can\u0027t race.",
+      "parentUuid": "5d8128d8_b14ad7eb",
+      "revId": "d1887676d96daf969d886a4ec13cbad4908d51af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b67f25f_ba5beb38",
         "filename": "src/os/pipe_test.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2019-03-05T08:18:03Z",
       "side": 0,
       "message": "And why you are not running this test on Windows?",
+      "revId": "d1887676d96daf969d886a4ec13cbad4908d51af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10e8a346_168a9d88",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-05T08:52:34Z",
+      "side": 0,
+      "message": "Same with the previous one.",
+      "parentUuid": "8b67f25f_ba5beb38",
       "revId": "d1887676d96daf969d886a4ec13cbad4908d51af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
