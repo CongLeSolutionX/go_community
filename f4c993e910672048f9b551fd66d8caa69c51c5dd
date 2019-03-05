@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c8b434f_e9e915d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2019-03-05T07:34:48Z",
+      "side": 1,
+      "message": "These two lines seem a bit contradictory: Is is just a\nperformance improvement (\"boost\") or a different way to\nread cookies (\"change of logic\")? I think the new code does\nlogically still the same as the old one but is faster.\n\nHow about?\n\nnet/http: speed up parsing of Cookie and SetCookie headers\n\nParse the headers without splitting them upfront to reduce\nmemory allocations.\n\nFor non-pathological Cookie and SetCookie headers we can make\na good estimate of the number of cookies in there and preallocate\nthe slice of cookies.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "f4c993e910672048f9b551fd66d8caa69c51c5dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
