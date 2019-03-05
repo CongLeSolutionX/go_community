@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2551a74f_9837ee30",
+        "filename": "src/os/path.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-05T01:22:33Z",
+      "side": 1,
+      "message": "I think it\u0027s OK.  We make similar guarantees on other functions in this package.",
+      "parentUuid": "ea398a13_41fa2ff2",
+      "revId": "04d106451536147d91b87535d7b61068727f349d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76f524ae_ff9a37ad",
         "filename": "src/os/removeall_at.go",
         "patchSetId": 12
@@ -33,6 +51,24 @@
       "revId": "04d106451536147d91b87535d7b61068727f349d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f756723_0ecca3ac",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-05T01:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76f524ae_ff9a37ad",
+      "revId": "04d106451536147d91b87535d7b61068727f349d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
