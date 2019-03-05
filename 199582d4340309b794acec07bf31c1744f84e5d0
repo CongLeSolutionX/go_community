@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa91310e_a710e34f",
+        "filename": "src/cmd/gofmt/testdata/import.input",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-05T23:57:54Z",
+      "side": 1,
+      "message": "There\u0027s no sorting going on here.\n\nShould have some imports with comments (/* and //) that also need to be sorted in order.",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 6
+      },
+      "revId": "199582d4340309b794acec07bf31c1744f84e5d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
