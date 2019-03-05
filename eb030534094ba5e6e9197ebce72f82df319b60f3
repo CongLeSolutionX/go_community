@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38d1f36a_e7ed4050",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2019-03-05T08:16:39Z",
+      "side": 1,
+      "message": "Why 100? Why not 80 or 128?\n\nIt should be large enough that let\u0027s say 95% of the cookies\nneed no extra allocation.\n\nThis value 100 should be large enough so that a \"typical\" set\nof cookie-avs will fit in (plus the \"\u003d\" in name\u003dvalue, the\n\";\" separators, optional spaces, etc.)\n\nThe length of\n\n    \"\u003d; Path\u003d/; Max-Age\u003d60000; Expires\u003dTue, 12 Mar 2019 08:49:37 MST; Domain\u003d.en.wikipedia.org; HttpOnly; Secure\"\n\nis 107. Which is a bit longer than the 100. Using just Max-Age\nor just Expires brings it below 100. But here the Path is the\nshortest possible one. It\u0027s complicated...\n\nI think that an unset Path or Path\u003d/ are the most common\nvalues followed by short Paths. Domains are \"short\" (if set\nat all). These assumptions give a \"typical max length\" for the \nadditional stuff of ~130 characters. But this number is just\na gut feeling.\n\nI would suggest to increase this number to 140 and to justify this\nvalue in the commit message. Something along:\n140 extra characters allows to write all extra cookie attributes\nwith nontrivial values.",
+      "range": {
+        "startLine": 172,
+        "startChar": 37,
+        "endLine": 172,
+        "endChar": 40
+      },
+      "revId": "eb030534094ba5e6e9197ebce72f82df319b60f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
