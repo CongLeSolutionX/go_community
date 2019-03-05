@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5ddad13a_f3cebf3f",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-05T10:18:22Z",
+      "side": 1,
+      "message": "I disagree. Lets fix this code first. With minimal changes possible.\n\nWe can make code pretty later, once it is working. And once we have plenty of tests.\n\nAlex",
+      "parentUuid": "21c84294_6d8110cf",
+      "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6adf08e9_de173c21",
         "filename": "src/internal/poll/fd_windows.go",
         "patchSetId": 2
