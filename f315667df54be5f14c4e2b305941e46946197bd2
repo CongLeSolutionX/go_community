@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e5a528d_8efbe3ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2019-03-05T06:26:46Z",
+      "side": 1,
+      "message": "Lets be really precise here:\n\nThe following corner cases for readCookiesTests are tested now:\n - An extra cookie delimiter \";\" at the end of a Cookie header\n - An empty Cookie header\n\n(The ; is not part of the cookie-value and empty cookie-values\nare already covered y the tests, the whole Cookie header is empty,\nnot just the value. No special ordering, so just bullet points.)",
+      "parentUuid": "e5b5c009_96c3255c",
+      "revId": "f315667df54be5f14c4e2b305941e46946197bd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "49686f55_e2895517",
         "filename": "src/net/http/cookie_test.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-05T02:34:06Z",
       "side": 1,
       "message": "Let\u0027s also add no value(not just \"\") set:\n\n{\n   Header{\"Cookie\": {}},\n   \"\",\n   []*Cookie{},\n}",
+      "revId": "f315667df54be5f14c4e2b305941e46946197bd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "108e1da9_e3f88245",
+        "filename": "src/net/http/cookie_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2019-03-05T06:26:46Z",
+      "side": 1,
+      "message": "Both produce the same Cookie header so lets just keep one.\nI prefer Sergey\u0027s for consistency.",
+      "parentUuid": "49686f55_e2895517",
       "revId": "f315667df54be5f14c4e2b305941e46946197bd2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
