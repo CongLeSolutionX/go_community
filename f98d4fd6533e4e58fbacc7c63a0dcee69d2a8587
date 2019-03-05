@@ -33,6 +33,24 @@
       "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d485abd6_f9376c5b",
+        "filename": "src/os/pipe_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-05T03:16:48Z",
+      "side": 1,
+      "message": "The type of fd is syscall.Handle on Windows, but it is int on Unix.\n\nSo these lines can\u0027t compile on both.\n\n    syscall.SetNonblock(fd, true)\n    syscall.Pipe(p[:])",
+      "parentUuid": "dc289ba7_b441d2b3",
+      "revId": "f98d4fd6533e4e58fbacc7c63a0dcee69d2a8587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
