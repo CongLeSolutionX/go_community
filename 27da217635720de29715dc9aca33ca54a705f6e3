@@ -57,6 +57,30 @@
       "revId": "27da217635720de29715dc9aca33ca54a705f6e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77326395_f380f526",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-03-05T09:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c17e1696_c02c8e01",
+      "range": {
+        "startLine": 334,
+        "startChar": 40,
+        "endLine": 334,
+        "endChar": 44
+      },
+      "revId": "27da217635720de29715dc9aca33ca54a705f6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
