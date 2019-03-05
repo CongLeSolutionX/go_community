@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bcbcb265_2eeb5534",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-03-05T04:17:54Z",
+      "side": 1,
+      "message": "Yes, if Rout1 is not initialized to 0, they are different.  This instruction \"ADC ZR, ZR, Rout1\"\nis just used to save the carry value of the previous instruction.",
+      "parentUuid": "93aea0be_de197199",
+      "revId": "27da217635720de29715dc9aca33ca54a705f6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c17e1696_c02c8e01",
         "filename": "test/codegen/mathbits.go",
         "patchSetId": 6
