@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55f2cb9b_347b8019",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-06T15:45:26Z",
+      "side": 1,
+      "message": "In general \"fix\" doesn\u0027t mean anything in a topic line.  Every change fixes something.  How about:\n\ncmd/link: on AIX generate export file for host linker\n\nThen I think you can delete the second paragraph.",
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "299f01eb_17d2a6fd",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1270,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-06T15:45:26Z",
+      "side": 1,
+      "message": "fileName, not file_name.",
+      "range": {
+        "startLine": 1270,
+        "startChar": 2,
+        "endLine": 1270,
+        "endChar": 11
+      },
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d18dfa5d_a99244b6",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1643,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-06T15:45:26Z",
+      "side": 1,
+      "message": "Just use os.Create.\n\nBut I don\u0027t think there will be many symbols to export, so I suggest that you instead write all the data to a bytes.Buffer, and then write the file with ioutil.WriteFile.  The current code calls f.Write with no buffering, which will be slower than necessary here.",
+      "range": {
+        "startLine": 1643,
+        "startChar": 11,
+        "endLine": 1643,
+        "endChar": 23
+      },
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f26eb148_06bafe4d",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1652,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-06T15:45:26Z",
+      "side": 1,
+      "message": "Seems like you should call onlycsymbol rather than testing for _cgoexp_.",
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a76af11b_223982b0",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1656,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-06T15:45:26Z",
+      "side": 1,
+      "message": "This line needs a comment, ideally with a sample of s.Extname is expected to look like.",
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "839c05e9_1aed83b9",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1661,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-06T15:45:26Z",
+      "side": 1,
+      "message": "You need to close the file.",
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
