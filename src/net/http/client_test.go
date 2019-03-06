@@ -17,6 +17,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net"
+	"net/http"
 	. "net/http"
 	"net/http/cookiejar"
 	"net/http/httptest"
@@ -29,6 +30,14 @@ import (
 	"testing"
 	"time"
 )
+
+func ShouldFail(t *testing.T) {
+	res, err := http.Get("https://www.google.com/robots.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+	res.Body.Close()
+}
 
 var robotsTxtHandler = HandlerFunc(func(w ResponseWriter, r *Request) {
 	w.Header().Set("Last-Modified", "sometime")
