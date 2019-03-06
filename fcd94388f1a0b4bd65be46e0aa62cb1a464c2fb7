@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6703120d_2d434839",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-06T05:35:36Z",
+      "side": 1,
+      "message": "If this is only to avoid linker garbage collection, then why not do this in (*deadcodepass).init rather than creating a special relocation.  (*deadcodepass).init can call d.mark for any symbols it likes.",
+      "revId": "fcd94388f1a0b4bd65be46e0aa62cb1a464c2fb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
