@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26e88707_40e69a98",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-06T18:55:53Z",
+      "side": 1,
+      "message": "It\u0027s necessary to keep the short circuit optimization triggering.\nWe now generate code like if ... {} else { ... }, and the short circuit optimization can only handle triangles, not diamonds. By not allocating a block for the Then part if it is empty, we keep the triangle pattern. (I could fix short circuit to handle diamonds instead, but that\u0027s harder, and we might as well not allocate a useless block regardless.)",
+      "parentUuid": "739beda2_0511b99c",
+      "range": {
+        "startLine": 1002,
+        "startChar": 2,
+        "endLine": 1002,
+        "endChar": 22
+      },
+      "revId": "4eb81262cc79f28d947bffae5abb91a1d31a8592",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfe13c91_4349c18f",
         "filename": "test/checkbce.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-03-06T18:38:20Z",
       "side": 1,
       "message": "This is a little unfortunate.",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "4eb81262cc79f28d947bffae5abb91a1d31a8592",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4a2aced_e3469b43",
+        "filename": "test/checkbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-06T18:55:53Z",
+      "side": 1,
+      "message": "This is actually good, we removed one more bounds check.",
+      "parentUuid": "dfe13c91_4349c18f",
       "range": {
         "startLine": 36,
         "startChar": 2,
