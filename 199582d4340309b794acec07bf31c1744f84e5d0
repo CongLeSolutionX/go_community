@@ -46,6 +46,30 @@
       "revId": "199582d4340309b794acec07bf31c1744f84e5d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cb71e66_08e4b4a0",
+        "filename": "src/cmd/gofmt/testdata/import.input",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-06T19:03:24Z",
+      "side": 1,
+      "message": "Got it. I don\u0027t know whether it is intentional or not, but basically any line comments before the package statement will not get added to the line no. of the import spec. The numbering starts from the package statement.\n\nAll good now. Amended the test cases to do some more deduping and sorting. Also one more with block comments on both right and left side. And finally added 2 line comments before the package statement so that any unforeseen bugs are prevented later.",
+      "parentUuid": "e3052ab4_1a4e9ed0",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 6
+      },
+      "revId": "199582d4340309b794acec07bf31c1744f84e5d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
