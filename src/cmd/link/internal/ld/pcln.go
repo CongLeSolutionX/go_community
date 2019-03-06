@@ -183,7 +183,7 @@ func emitPcln(ctxt *Link, s *sym.Symbol) bool {
 	// We want to generate func table entries only for the "lowest level" symbols,
 	// not containers of subsymbols.
 	if s.Attr.Container() {
-		return true
+		return false
 	}
 	return true
 }
