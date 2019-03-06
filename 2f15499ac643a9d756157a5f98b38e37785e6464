@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5235a576_cf2f6c6a",
+        "filename": "src/fmt/scan.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2019-03-06T10:38:48Z",
+      "side": 1,
+      "message": "please remove the unused named return parameters.",
+      "revId": "2f15499ac643a9d756157a5f98b38e37785e6464",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb47691d_738e67b0",
+        "filename": "src/fmt/scan.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2019-03-06T10:38:48Z",
+      "side": 1,
+      "message": "then it will be clear that found is set but never updated and is always true, so you can remove the parameter and just return true directly.",
+      "revId": "2f15499ac643a9d756157a5f98b38e37785e6464",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
