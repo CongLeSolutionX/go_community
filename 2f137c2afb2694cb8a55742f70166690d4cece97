@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e0d2ee0_17b09ddb",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-06T15:59:55Z",
+      "side": 1,
+      "message": "It looks to me that these lines are not formatted correctly.",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 135
+      },
+      "revId": "2f137c2afb2694cb8a55742f70166690d4cece97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
