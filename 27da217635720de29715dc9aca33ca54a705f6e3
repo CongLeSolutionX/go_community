@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9409e8fb_15b5b11d",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-06T17:12:57Z",
+      "side": 1,
+      "message": "Rout is initialized, to 0 or 1, two lines above.\n\nAnyway, I think both are correct, so it doesn\u0027t really matter.",
+      "parentUuid": "bcbcb265_2eeb5534",
+      "revId": "27da217635720de29715dc9aca33ca54a705f6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c17e1696_c02c8e01",
         "filename": "test/codegen/mathbits.go",
         "patchSetId": 6
