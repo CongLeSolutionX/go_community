@@ -22,6 +22,30 @@
       "revId": "199582d4340309b794acec07bf31c1744f84e5d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3052ab4_1a4e9ed0",
+        "filename": "src/cmd/gofmt/testdata/import.input",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-06T12:09:15Z",
+      "side": 1,
+      "message": "Oh yeah, great point. That also caught a minor bug where we were not considering comments which appeared before an import spec starts.\n\nFixed that by changing to \"if fset.Position(g.Pos()).Line \u003c fset.Position(pos[0].Start).Line {\" instead of \"if g.Pos() \u003c pos[0].Start {\" on L118 in sortSpecs(). But that seems to break TestAll where it tests idempotency of gofmt. Specifically, comments above the import group are being considered. Somehow the line nos. are being reported incorrectly. Looking into it.",
+      "parentUuid": "fa91310e_a710e34f",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 6
+      },
+      "revId": "199582d4340309b794acec07bf31c1744f84e5d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
