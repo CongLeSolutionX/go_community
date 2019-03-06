@@ -619,18 +619,19 @@ func (s *ss) scanBasePrefix() (base int, digits string, found bool) {
 	s.accept("0")
 	found = true // We've put a digit into the token buffer.
 	// Special cases for 0, 0b, 0o, 0x.
-	base, digits = 0, octalDigits+"_"
-	if s.peek("bB") {
+	switch {
+	case s.peek("bB"):
 		s.consume("bB", true)
-		base, digits = 0, binaryDigits+"_"
-	} else if s.peek("oO") {
+		return 0, binaryDigits + "_", found
+	case s.peek("oO"):
 		s.consume("oO", true)
-		base, digits = 0, octalDigits+"_"
-	} else if s.peek("xX") {
+		return 0, octalDigits + "_", found
+	case s.peek("xX"):
 		s.consume("xX", true)
-		base, digits = 0, hexadecimalDigits+"_"
+		return 0, hexadecimalDigits + "_", found
+	default:
+		return 0, octalDigits + "_", found
 	}
-	return
 }
 
 // scanInt returns the value of the integer represented by the next
