@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77fd2a35_26fac757",
+        "filename": "src/fmt/scan.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2019-03-06T08:38:51Z",
+      "side": 1,
+      "message": "Thank you for this change, I’d like to see this rewritten without the names return arguments, instead return the values directly from each case statement without indirecting through the return arguments.",
+      "revId": "4503487378d9ab96b2f9a38ce0f06d76dda04eaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
