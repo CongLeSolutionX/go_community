@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f1940a5_8bee3643",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-06T05:36:46Z",
+      "side": 1,
+      "message": "I think the trybot failure is real.  Go 1.4 doesn\u0027t have sort.Slice, so you can\u0027t use it here, because it breaks bootstrapping with 1.4.",
+      "revId": "9195623d5fe70368c001a3596da8e68e278de384",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
