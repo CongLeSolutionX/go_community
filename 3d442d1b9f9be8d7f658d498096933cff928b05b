@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "182e227b_9e64a978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "net/http: unfurl persistConnWriter\u0027s underlying writer to use io.ReadFrom",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7458a9_2aa31e59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "Make persistConnWriter implement io.ReaderFrom which allows\nio.Copy on the underlying net.Conn to check if io.ReaderFrom\nis implemented. This in turn enables it to use OS level\noptimizations such as sendfile.",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fc08bcc_31203497",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "Let\u0027s add a doc here:\n\n// ReadFrom exposes persistConnWriter\u0027s underlying Conn to io.Copy and if\n// the Conn implements io.ReaderFrom, it can take advantage of optimizations\n// such as sendfile.",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "695fb7ab_c1aa542b",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "Let\u0027s also make a compile time assertion right above here to lock this behavior in for good\nand make it obvious too:\n\nvar _ io.ReaderFrom \u003d (*persistConnWriter)(nil)",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "427d00f6_67ab0ac1",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -13,6 +81,193 @@
       "writtenOn": "2019-02-25T19:11:59Z",
       "side": 1,
       "message": "Just wanted to note that I could not easily see a way to test this in the \"external\" http_test package, which still seemed like the best place for the tests. I was thinking of maybe writing helper in the internal package to expose the idle persistConn after the request was made to check that, but that seemed a little complicated and non-deterministic. If we need this tested and anyone has a good suggestion, I\u0027ll add it :)",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "899acfe1_bc4397f9",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5064,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "namely to test that ReadFrom is invoked during request body reads.",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2e20663_3f22bea1",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5078,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "Let\u0027s make these two helper functions:\n\n        nBytes :\u003d int64(1 \u003c\u003c 10)\n        newFileFunc :\u003d func() (r io.Reader, done func(), err error) {\n                f, err :\u003d ioutil.TempFile(\"\", \"net-http-newfilefunc\")\n                if err !\u003d nil {\n                        return nil, nil, err\n                }\n\n                // Write some bytes to the file to enable reading.\n                if _, err :\u003d io.CopyN(f, rand.Reader, nBytes); err !\u003d nil {\n                        return nil, nil, fmt.Errorf(\"failed to write data to file: %v\", err)\n                }\n                if _, err :\u003d f.Seek(0, 0); err !\u003d nil {\n                        return nil, nil, fmt.Errorf(\"failed to seek to front: %v\", err)\n                }\n\n                done \u003d func() {\n                        f.Close()\n                        os.Remove(f.Name())\n                }\n\n                return f, done, nil\n        }\n\n        newBufferFunc :\u003d func() (io.Reader, func(), error) {\n                return bytes.NewBuffer(make([]byte, nBytes)), func() {}, nil\n        }",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25c094e6_71f4f82d",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5107,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "Please keep these lower case and also a little renaming:\n\nstruct {\n   name string\n   createReader func() (r io.Reader, done func(), err error)\n   contentLength int64\n   wantReadFrom bool\n}",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed6ea2f9_412edceb",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5149,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "Please remove this new line and let\u0027s keep this defer right after the brace related to cleanup.",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e4862d0_5b3ef05f",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5163,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "return nil, fmt.Errorf(\"%s/%s does not provide a *net.TCPConn\", network, addr)",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4671f94_3b2eb745",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5187,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "Please remove this newline.",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "715e5858_df344f26",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5189,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "Please remove this newline.",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5c95a30_702d41d3",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5191,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "Please remove this newline.",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f65d857f_763d7144",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5196,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "Please remove this newline.",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31c7e179_f94016cd",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5203,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "t.Fatal(\"did not call ReadFrom\")",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6edcb11b_9d7ea06b",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5207,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-06T06:32:35Z",
+      "side": 1,
+      "message": "t.Fatal(\"ReadFrom was unexpectedly invoked\")",
       "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
