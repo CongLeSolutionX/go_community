@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "202bcaaf_2b29d646",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-03-07T21:04:53Z",
+      "side": 1,
+      "message": "Could you just pass in the fields needed from *load.Package here? For the purpose of parallel package loading, we need to call Lookup before creating load.Package values. We should know ImportPath and Standard though.",
+      "revId": "bd38c0aefc1dc39066d6e79187b8cb83ba84c8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc8efb74_e20fed20",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-03-07T21:04:53Z",
+      "side": 1,
+      "message": "A doc comment here would be very helpful.",
+      "revId": "bd38c0aefc1dc39066d6e79187b8cb83ba84c8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
