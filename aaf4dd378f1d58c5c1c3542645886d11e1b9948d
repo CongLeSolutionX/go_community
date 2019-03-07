@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f61a87a4_b966d7ed",
+        "filename": "src/cmd/go/testdata/script/gopath_std_vendor.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-03-07T20:36:59Z",
+      "side": 1,
+      "message": "Do we get internal/x instead of vendor just for now until the import in net/http is changed? Just want to confirm.",
+      "revId": "aaf4dd378f1d58c5c1c3542645886d11e1b9948d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b03756fb_01444596",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-03-07T20:36:59Z",
+      "side": 1,
+      "message": "Why would path start with \"vendor/\" here? I think this is because of a rewriting rule in a later CL, but it would be good to add a comment about that here.\n\nAlso, is there anything that prevents users from actually writing `import \"vendor/something\"` and getting these semantics?",
+      "range": {
+        "startLine": 654,
+        "startChar": 0,
+        "endLine": 654,
+        "endChar": 69
+      },
+      "revId": "aaf4dd378f1d58c5c1c3542645886d11e1b9948d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eb2725c_dc28040f",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-03-07T20:36:59Z",
+      "side": 1,
+      "message": "Consider extracting this code into a \"searchVendor\" closure instead of duplicating.",
+      "revId": "aaf4dd378f1d58c5c1c3542645886d11e1b9948d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
