@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10f4cde3_6e77e39c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-07T09:06:47Z",
+      "side": 1,
+      "message": "I am not sure this line will work properly. Split this into 2 separate lines, like\n\nFixes #28477\nFixes #25835",
+      "revId": "930154562670fbbeba75c231a765a183dc729382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0aecb33_46dd804c",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-07T09:06:47Z",
+      "side": 1,
+      "message": "Now that we have kindPipe, please, use it in sendfile_windows.go to replace syscall.GetFileType too.",
+      "revId": "930154562670fbbeba75c231a765a183dc729382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d5a1f2e_8ed47d55",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-07T09:06:47Z",
+      "side": 1,
+      "message": "I don\u0027t see why you need to call fd.fdmu.closed here.\n\nThe only way you will see ERROR_OPERATION_ABORTED here, is after CancelIoEx was called. CancelIoEx is called after fd.fdmu.increfAndClose in FD.Close. So fd.fdmu must be close by now.\n\nAm I wrong?",
+      "range": {
+        "startLine": 514,
+        "startChar": 71,
+        "endLine": 514,
+        "endChar": 85
+      },
+      "revId": "930154562670fbbeba75c231a765a183dc729382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "001d0bb9_29d46abf",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-07T09:06:47Z",
+      "side": 1,
+      "message": "This message is still confusing for me. You want to explain why we are substituting ERROR_OPERATION_ABORTED for ErrFileClosing. Maybe say something like\n\nERROR_OPERATION_ABORTED indicates that pipe is already closed (CancelIoEx was called from FD.Close), therefor return ErrFileClosing.\n\nSame for similar comment below",
+      "revId": "930154562670fbbeba75c231a765a183dc729382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32bc939d_0bf7f513",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-07T09:06:47Z",
+      "side": 1,
+      "message": "Same for fd.fdmu.closed.",
+      "range": {
+        "startLine": 709,
+        "startChar": 72,
+        "endLine": 709,
+        "endChar": 88
+      },
+      "revId": "930154562670fbbeba75c231a765a183dc729382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
