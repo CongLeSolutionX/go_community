@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab05270b_5ca596f9",
+        "filename": "doc/effective_go.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1691,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-07T04:13:59Z",
+      "side": 1,
+      "message": "swap these lines. Close the paragraph first and then open a new one.",
+      "range": {
+        "startLine": 1690,
+        "startChar": 0,
+        "endLine": 1691,
+        "endChar": 4
+      },
+      "revId": "be6c4e5443dd6ae9f3be8f2e78bc69d72b75cb49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
