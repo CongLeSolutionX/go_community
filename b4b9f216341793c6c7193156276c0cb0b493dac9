@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "2e94c812_e259d9da",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1652,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-07T18:04:58Z",
+      "side": 1,
+      "message": "Well, I don\u0027t know.  If the code works as is then I guess it\u0027s fine.",
+      "parentUuid": "aa56da33_40f2613f",
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a76af11b_223982b0",
         "filename": "src/cmd/link/internal/ld/xcoff.go",
         "patchSetId": 1
