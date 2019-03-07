@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a3a43b7_5cfc8a86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-07T06:51:29Z",
+      "side": 1,
+      "message": "misc: fix typos in various docs",
+      "revId": "20e9ec213aa366c8d0c146ed8cfba2e03f93db31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
