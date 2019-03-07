@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "463504dc_10862596",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1643,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-07T13:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d18dfa5d_a99244b6",
+      "range": {
+        "startLine": 1643,
+        "startChar": 11,
+        "endLine": 1643,
+        "endChar": 23
+      },
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f26eb148_06bafe4d",
         "filename": "src/cmd/link/internal/ld/xcoff.go",
         "patchSetId": 1
@@ -76,6 +100,24 @@
       "writtenOn": "2019-03-06T15:45:26Z",
       "side": 1,
       "message": "Seems like you should call onlycsymbol rather than testing for _cgoexp_.",
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa56da33_40f2613f",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1652,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-07T13:51:25Z",
+      "side": 1,
+      "message": "No, I\u0027ve made a mistake in my comments.  \nCurrently, I\u0027m only exporting in this file Go symbols with \"//export nameOfSymbol\". That\u0027s why I only get the ones from _cgoexp_. \nThis is needed in order to \"dlsym\" working with Go symbols (for issue4029).\n\nHowever, it won\u0027t work with C symbols unless there are listed in this same export_file.exp. Should it be the case ? Should all the C symbols created by cgo be exposed ? \nNote that others C symbols created by C code won\u0027t be exported unless the user creates its own export_file (maybe there is a gcc option for that though).",
+      "parentUuid": "f26eb148_06bafe4d",
       "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -99,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "7b7ba811_4fe0e037",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1656,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-07T13:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a76af11b_223982b0",
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "839c05e9_1aed83b9",
         "filename": "src/cmd/link/internal/ld/xcoff.go",
         "patchSetId": 1
@@ -113,6 +173,24 @@
       "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6281461_1744c2b0",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1661,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-07T13:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "839c05e9_1aed83b9",
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
