@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aed24842_72730518",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "This is not 100% true, in that there are some scenarios such as TLS that won\u0027t be using ReaderFrom. Maybe we can just change this to \"unfurl persistConnWriter\u0027s underlying writer\" and drop the rest? I\u0027ll make the changes.",
+      "parentUuid": "182e227b_9e64a978",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7458a9_2aa31e59",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2d7e401_5dfc04d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Going to do a bit of a riff on this as well to indicate some observations that have been made that imply that this is giving performance gains even *without* sendfile availability.",
+      "parentUuid": "ee7458a9_2aa31e59",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "279cede5_c1b5d134",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fc08bcc_31203497",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "695fb7ab_c1aa542b",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2457eb8_60e1fba3",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "695fb7ab_c1aa542b",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0e8e0bea_27638f01",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "427d00f6_67ab0ac1",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "899acfe1_bc4397f9",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "c39f1382_3a2d66ca",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5064,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Updated this to something a little more condensed and also communicating that the client is sending the request body, not reading it.",
+      "parentUuid": "899acfe1_bc4397f9",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2e20663_3f22bea1",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
@@ -118,6 +226,24 @@
       "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a161342a_43d3aeb3",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5078,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2e20663_3f22bea1",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "ff372c1d_938073c8",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5149,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed6ea2f9_412edceb",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e4862d0_5b3ef05f",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
@@ -169,6 +313,24 @@
       "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d8980cf_9e320051",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5163,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e4862d0_5b3ef05f",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "2425fc24_38b48bbd",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5187,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4671f94_3b2eb745",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "715e5858_df344f26",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
@@ -203,6 +383,24 @@
       "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3722853f_9030625b",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5189,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "715e5858_df344f26",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -223,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "92403241_bf195baf",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5191,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c95a30_702d41d3",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f65d857f_763d7144",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
@@ -237,6 +453,24 @@
       "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48ef1b13_ccba2279",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5196,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f65d857f_763d7144",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -257,6 +491,24 @@
     },
     {
       "key": {
+        "uuid": "67a13337_56e72820",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5203,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31c7e179_f94016cd",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6edcb11b_9d7ea06b",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
@@ -271,6 +523,24 @@
       "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b45c81a_fb92b560",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5207,
+      "author": {
+        "id": 31146
+      },
+      "writtenOn": "2019-03-07T06:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6edcb11b_9d7ea06b",
+      "revId": "3d442d1b9f9be8d7f658d498096933cff928b05b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
