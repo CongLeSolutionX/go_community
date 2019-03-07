@@ -16,6 +16,24 @@
       "revId": "fe954ea1e28f8ece95ce00d51312ac095071b2d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93a6ea02_7b60f3b9",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-07T10:26:51Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "77ee4659_d333cf1a",
+      "revId": "fe954ea1e28f8ece95ce00d51312ac095071b2d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "74476890_7ca17232",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-07T10:26:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10f4cde3_6e77e39c",
+      "revId": "930154562670fbbeba75c231a765a183dc729382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0aecb33_46dd804c",
         "filename": "src/internal/poll/fd_windows.go",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c37a01e5_f20d304f",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-07T10:26:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0aecb33_46dd804c",
+      "revId": "930154562670fbbeba75c231a765a183dc729382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d5a1f2e_8ed47d55",
         "filename": "src/internal/poll/fd_windows.go",
         "patchSetId": 6
@@ -47,6 +83,30 @@
       "writtenOn": "2019-03-07T09:06:47Z",
       "side": 1,
       "message": "I don\u0027t see why you need to call fd.fdmu.closed here.\n\nThe only way you will see ERROR_OPERATION_ABORTED here, is after CancelIoEx was called. CancelIoEx is called after fd.fdmu.increfAndClose in FD.Close. So fd.fdmu must be close by now.\n\nAm I wrong?",
+      "range": {
+        "startLine": 514,
+        "startChar": 71,
+        "endLine": 514,
+        "endChar": 85
+      },
+      "revId": "930154562670fbbeba75c231a765a183dc729382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f02df1a_f5d9a0b3",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-07T10:26:51Z",
+      "side": 1,
+      "message": "If some other code calls CancelIoEx, the file may still open.\nWe shouldn\u0027t return ErrFileClosing in this case.",
+      "parentUuid": "6d5a1f2e_8ed47d55",
       "range": {
         "startLine": 514,
         "startChar": 71,
