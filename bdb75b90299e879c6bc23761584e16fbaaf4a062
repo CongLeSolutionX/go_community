@@ -22,6 +22,30 @@
       "revId": "bdb75b90299e879c6bc23761584e16fbaaf4a062",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32fc50d1_2bce44bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-03-07T11:19:29Z",
+      "side": 1,
+      "message": "The test results in Go\u0027s test framework show that there is indeed no performance change. But I have tested these instructions separately with gcc. On arm7, the performance of the rev16 instruction is almost the same with that of ubfx and orr. On arm6, the performance of the rev16 instruction is about 10% to 20% better than that of instruction sequence lsl, lsr, orr. I guess as BenchmarkReverseBytes16\u0027s main hotspots are not these instructions, but ldr instruction used to load the parameter, and the Actual performance improvement is small, so the benchmark result change becomes invisible. But I\u0027m not very sure, I\u0027m not familiar with 32-bit arm architecture.",
+      "parentUuid": "491088bd_e11f1746",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 63
+      },
+      "revId": "bdb75b90299e879c6bc23761584e16fbaaf4a062",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
