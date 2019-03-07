@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4bdab1_be2f83c3",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-03-07T14:48:30Z",
+      "side": 1,
+      "message": "So perhaps return !s.Attr.Container() ?",
+      "revId": "819d9f01a89a53572b41a2cae9fe78f47505b2da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
