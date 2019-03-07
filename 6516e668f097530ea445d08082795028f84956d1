@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6890542_bcc78c07",
+        "filename": "src/cmd/link/dwarf_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-07T17:39:16Z",
+      "side": 1,
+      "message": "This code is duplicated down here and below in cmd/link.\nPerhaps let\u0027s extract it to a simple helper such as:\n\n// ldVersion performs an exec for \"ld -V\" and returns\n// the version in hex of the form:\n//      0x\u003cMajor\u003e\u003cMinor\u003e\u003cPoint\u003e\u003cPoint\u003e\n//  for example:\n//     7.2.2 will be 0x00070202\n// If the lookup and version parsing was successful, ok will be set.\n// An error will be returned if the exec failed.\nfunc ldVersion() (hexVersion uint64, ok bool, err error) {\n        // ld doesn\u0027t support DWARF with -bnoobjreorder with version\n        // prior to 7.2.2.\n        out, err :\u003d exec.Command(\"ld\", \"-V\").CombinedOutput()\n        if err !\u003d nil {\n\t       return 0, false, fmt.Errorf(\"ld -V failed: %v\", err)\n        }\n\n        // ld -V output is: \"ld: LD X.X.X(date)\"\n        out \u003d bytes.TrimPrefix(out, []byte(\"ld: LD \"))\n        vers :\u003d string(bytes.Split(out, []byte(\"(\"))[0])\n\tsubvers :\u003d strings.Split(vers, \".\")\n\tmajor, err :\u003d strconv.Atoi(subvers[0])\n        if err !\u003d nil {\n\t\treturn 0, false, nil\n\t}\n\tminor, err :\u003d strconv.Atoi(subvers[1])\n        if err !\u003d nil {\n\t\treturn 0, false, nil\n\t}\n\tpoint, err :\u003d strconv.Atoi(subvers[2])\n        if err !\u003d nil {\n\t\treturn 0, false, nil\n\t}\n        hexVersion \u003d (major\u00260xFF) \u003c\u003c16 ||\n                     (minor\u00260xFF) \u003c\u003c8 ||\n                     (point\u00260xFF) \u003c\u003c0\n        return hexVersion, true, nil\n}\n\nand then use it as:\n\n        ldHexVersion, ok, err :\u003d ldVersion()\n        if err !\u003d nil {\n               Exitf(err) // or t.Fatal(err)\n        }\n        expectDWARF \u003d ok \u0026\u0026 ldHexVersion \u003e\u003d 0x070202 // Expecting a minimum of 7.2.2",
+      "revId": "6516e668f097530ea445d08082795028f84956d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "951e56bb_d488a048",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1729,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-07T17:39:16Z",
+      "side": 1,
+      "message": "Please see my suggestion about not duplication this.",
+      "revId": "6516e668f097530ea445d08082795028f84956d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
