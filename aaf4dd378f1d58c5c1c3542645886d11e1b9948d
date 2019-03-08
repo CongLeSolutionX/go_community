@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d2077f9e_ff0ce9d5",
+        "filename": "src/cmd/go/testdata/script/gopath_std_vendor.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-08T18:02:07Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "f61a87a4_b966d7ed",
+      "revId": "aaf4dd378f1d58c5c1c3542645886d11e1b9948d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03756fb_01444596",
         "filename": "src/go/build/build.go",
         "patchSetId": 15
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "950200f2_4ca1b8d5",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-08T18:02:07Z",
+      "side": 1,
+      "message": "\u003e Why would path start with \"vendor/\" here? I think this is because of a rewriting rule in a later CL, but it would be good to add a comment about that here.\n\nThere isn\u0027t any rewriting rule necessary to hit this condition: only that we check in a package with a path starting with \"vendor\" (which we temporarily do not do today).\n\n\u003e Also, is there anything that prevents users from actually writing `import \"vendor/something\"` and getting these semantics?\n\nA user can specify one of these paths explicitly on the command line.\n\nIf they try to import one of these packages, we detect (and reject) that within the package loader.\n(See the `disallowVendor` function in `cmd/go/internal/load/pkg.go`.)",
+      "parentUuid": "b03756fb_01444596",
+      "range": {
+        "startLine": 654,
+        "startChar": 0,
+        "endLine": 654,
+        "endChar": 69
+      },
+      "revId": "aaf4dd378f1d58c5c1c3542645886d11e1b9948d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2eb2725c_dc28040f",
         "filename": "src/go/build/build.go",
         "patchSetId": 15
@@ -53,6 +95,24 @@
       "writtenOn": "2019-03-07T20:36:59Z",
       "side": 1,
       "message": "Consider extracting this code into a \"searchVendor\" closure instead of duplicating.",
+      "revId": "aaf4dd378f1d58c5c1c3542645886d11e1b9948d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "233a199d_d9a44cb9",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-08T18:02:07Z",
+      "side": 1,
+      "message": "Unfortunately, that isn\u0027t possible due to the `goto Found` in the middle.\n\nOn the bright side, we may be able to get rid of the binaryOnly condition now. 🙂",
+      "parentUuid": "2eb2725c_dc28040f",
       "revId": "aaf4dd378f1d58c5c1c3542645886d11e1b9948d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
