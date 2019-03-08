@@ -70,6 +70,24 @@
       "revId": "899023bdd5b03e45d9a39fd37f0e7e5418d95637",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49d19b90_5a158c5f",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-08T21:49:29Z",
+      "side": 1,
+      "message": "OK.  Rather than not test for io.EOF, let\u0027s test that we get either io.EOF or os.ErrClosed, as in\n    if pe, ok :\u003d err.(*os.PathError); ok {\n        err \u003d pe.Err\n    }\n    if err !\u003d io.EOF \u0026\u0026 err !\u003d os.ErrClosed {\n        t.Errorf(\"got %v, expected EOF or closed\", err)\n    }",
+      "parentUuid": "02beb3eb_dbdacc1c",
+      "revId": "899023bdd5b03e45d9a39fd37f0e7e5418d95637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
