@@ -22,6 +22,30 @@
       "revId": "fd7698cad82f8574c7c85b601f6c382a074e65ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aee549d_ec5b73dd",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1661,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-08T12:56:40Z",
+      "side": 1,
+      "message": "I\u0027ve taken that from pe.go which is doing the same. \nBut len(Segdwarf.Sections) is less than 10 (almost 8 every time) and len(f.sections) is up to 14/15 (with 10 sections for DWARF) at this moment. \nI don\u0027t know a lot about Go performances. But is iterations over a map as quick as iterations others a slice ? Because f.sections is used several times during the program.",
+      "parentUuid": "2e6ead03_8afa9284",
+      "range": {
+        "startLine": 1660,
+        "startChar": 0,
+        "endLine": 1661,
+        "endChar": 40
+      },
+      "revId": "fd7698cad82f8574c7c85b601f6c382a074e65ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
