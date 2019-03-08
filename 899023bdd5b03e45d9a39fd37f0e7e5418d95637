@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fcb9abf_f6479dec",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-03-08T07:33:12Z",
+      "side": 1,
+      "message": "You changed test code.\n\nI am not familiar with this code, so I am not sure, if it is OK to change this code.\n\nLeaving for Ian to decide.",
+      "revId": "899023bdd5b03e45d9a39fd37f0e7e5418d95637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
