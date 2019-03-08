@@ -70,6 +70,24 @@
       "revId": "0f9506e69427b2225f7e747828414cf8aa9a0714",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1e70758_4eff6686",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1537,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-08T14:50:50Z",
+      "side": 1,
+      "message": "It fails. You have this kind of errors: \nld: 0711-759 INTERNAL ERROR: Source file code_save.c, line 1688.\n        Depending on where this product was acquired, contact your service\n        representative or the approved supplier.\ncollect2: error: ld returned 16 exit status",
+      "parentUuid": "8a7fb61a_1013a2dd",
+      "revId": "0f9506e69427b2225f7e747828414cf8aa9a0714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
