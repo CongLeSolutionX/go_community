@@ -55,7 +55,7 @@ func (z *Float) scan(r io.ByteScanner, base int) (f *Float, b int, err error) {
 	// exponent
 	var exp int64
 	var ebase int
-	exp, ebase, err = scanExponent(r, true)
+	exp, ebase, err = scanExponent(r, true, base == 0)
 	if err != nil {
 		return
 	}
@@ -216,20 +216,25 @@ func (z *Float) pow5(n uint64) *Float {
 // point number with a mantissa in the given conversion base (the exponent
 // is always a decimal number), or a string representing an infinite value.
 //
+// An underscore character ``_'' may appear between a base prefix and
+// an adjacent digit, and between successive digits; such underscores
+// do not change the value of the number.
+//
 // It sets z to the (possibly rounded) value of the corresponding floating-
 // point value, and returns z, the actual base b, and an error err, if any.
 // The entire string (not just a prefix) must be consumed for success.
 // If z's precision is 0, it is changed to 64 before rounding takes effect.
 // The number must be of the form:
 //
-//	number   = [ sign ] [ prefix ] mantissa [ exponent ] | infinity .
-//	sign     = "+" | "-" .
-//	prefix   = "0" ( "b" | "B" | "o" | "O" | "x" | "X" ) .
-//	mantissa = digits | digits "." [ digits ] | "." digits .
-//	exponent = ( "e" | "E" | "p" | "P" ) [ sign ] digits .
-//	digits   = digit { digit } .
-//	digit    = "0" ... "9" | "a" ... "z" | "A" ... "Z" .
-//	infinity = [ sign ] ( "inf" | "Inf" ) .
+//     number    = [ sign ] ( float | "inf" | "Inf" ) .
+//     sign      = "+" | "-" .
+//     float     = ( mantissa | prefix pmantissa ) [ exponent ] .
+//     prefix    = "0" [ "b" | "B" | "o" | "O" | "x" | "X" ] .
+//     mantissa  = digits "." [ digits ] | digits | "." digits .
+//     pmantissa = [ "_" ] digits "." [ digits ] | [ "_" ] digits | "." digits .
+//     exponent  = ( "e" | "E" | "p" | "P" ) [ sign ] digits .
+//     digits    = digit { [ "_" ] digit } .
+//     digit     = "0" ... "9" | "a" ... "z" | "A" ... "Z" .
 //
 // The base argument must be 0, 2, 8, 10, or 16. Providing an invalid base
 // argument will lead to a run-time panic.

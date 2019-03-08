@@ -7,11 +7,76 @@ package big
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"math"
 	"strconv"
 	"strings"
 	"testing"
 )
+
+var exponentTests = []struct {
+	s       string // string to be scanned
+	base2ok bool
+	sepOk   bool
+	x       int64 // expected exponent
+	b       int   // expected exponent base
+	err     error // expected error
+	next    rune  // next character (or 0, if at EOF)
+}{
+	// valid
+	{"", false, false, 0, 10, nil, 0},
+	{"1", false, false, 0, 10, nil, '1'},
+	{"e0", false, false, 0, 10, nil, 0},
+	{"E1", false, false, 1, 10, nil, 0},
+	{"e+10", false, false, 10, 10, nil, 0},
+	{"e-10", false, false, -10, 10, nil, 0},
+	{"e123456789a", false, false, 123456789, 10, nil, 'a'},
+	{"p", false, false, 0, 10, nil, 'p'},
+	{"P+100", false, false, 0, 10, nil, 'P'},
+	{"p0", true, false, 0, 2, nil, 0},
+	{"P-123", true, false, -123, 2, nil, 0},
+	{"p+0a", true, false, 0, 2, nil, 'a'},
+	{"p+123__", true, false, 123, 2, nil, '_'},
+
+	// invalid: no digits
+	{"e", false, false, 0, 10, errNoDigits, 0},
+	{"ef", false, false, 0, 10, errNoDigits, 'f'},
+	{"e+", false, false, 0, 10, errNoDigits, 0},
+	{"E-x", false, false, 0, 10, errNoDigits, 'x'},
+	{"p", true, false, 0, 2, errNoDigits, 0},
+	{"P-", true, false, 0, 2, errNoDigits, 0},
+	{"p+e", true, false, 0, 2, errNoDigits, 'e'},
+	{"e+_x", false, true, 0, 10, errNoDigits, 'x'},
+
+	// invalid: incorrect use of separator
+	{"e0_", false, true, 0, 10, errInvalSep, 0},
+	{"e_0", false, true, 0, 10, errInvalSep, 0},
+	{"e-1_2__3", false, true, -123, 10, errInvalSep, 0},
+}
+
+func TestScanExponent(t *testing.T) {
+	for _, a := range exponentTests {
+		r := strings.NewReader(a.s)
+		x, b, err := scanExponent(r, a.base2ok, a.sepOk)
+		if err != a.err {
+			t.Errorf("scanExponent%+v\n\tgot error = %v; want %v", a, err, a.err)
+		}
+		if x != a.x {
+			t.Errorf("scanExponent%+v\n\tgot z = %v; want %v", a, x, a.x)
+		}
+		if b != a.b {
+			t.Errorf("scanExponent%+v\n\tgot b = %d; want %d", a, b, a.b)
+		}
+		next, _, err := r.ReadRune()
+		if err == io.EOF {
+			next = 0
+			err = nil
+		}
+		if err == nil && next != a.next {
+			t.Errorf("scanExponent%+v\n\tgot next = %q; want %q", a, next, a.next)
+		}
+	}
+}
 
 type StringTest struct {
 	in, out string
@@ -66,6 +131,7 @@ var setStringTests2 = []StringTest{
 	{"0x10/1", "16", true},
 	{"0x10/0x20", "1/2", true},
 	{in: "4/3x"},
+	{in: "0x0_/1"},
 	// TODO(gri) add more tests
 }
 
