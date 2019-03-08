@@ -34,6 +34,24 @@
       "revId": "0f9506e69427b2225f7e747828414cf8aa9a0714",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbc0a10a_a406360b",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1537,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-08T14:36:15Z",
+      "side": 1,
+      "message": "Yes it makes sense.\nHowever, what to do if extld isn\u0027t gcc or \"extld\" -Wl,-V doesn\u0027t work/return what I want ? Do I still return an error or I assume that the user knows what he\u0027s doing ?",
+      "parentUuid": "44b74cbc_39c20921",
+      "revId": "0f9506e69427b2225f7e747828414cf8aa9a0714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
