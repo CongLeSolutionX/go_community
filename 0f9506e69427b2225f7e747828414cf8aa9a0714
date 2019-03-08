@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "f25fbca2_341055f8",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1537,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-08T21:36:20Z",
+      "side": 1,
+      "message": "Ah, a nice old school IBM error message.\n\nIn that case we could simply run the external linker as usual and, if it fails, check for that error and then contact our service representative, or, even better, just retry the link without the offending option.",
+      "parentUuid": "c1e70758_4eff6686",
+      "revId": "0f9506e69427b2225f7e747828414cf8aa9a0714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e3114917_40ccd05f",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 7
