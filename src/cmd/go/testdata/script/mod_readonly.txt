@@ -31,7 +31,7 @@ go list
 go mod edit -require rsc.io/sampler@v1.2.0
 cp go.mod go.mod.inconsistent
 ! go list
-stderr 'go: updates to go.mod needed, disabled by -mod=readonly'
+stderr 'go: updates to go.sum needed, disabled by -mod=readonly'
 cmp go.mod go.mod.inconsistent
 
 -- go.mod --
