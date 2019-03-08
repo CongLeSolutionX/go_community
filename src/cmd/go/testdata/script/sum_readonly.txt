@@ -1,0 +1,25 @@
+# Test that go.sum does not get updated when -mod=readonly flag is set
+env GO111MODULE=on
+
+go get rsc.io/quote
+
+go build
+
+rm go.sum
+
+! go build -mod=readonly
+
+stderr 'go: updates to go.sum needed, disabled by -mod=readonly'
+
+-- go.mod --
+module m
+
+-- main.go --
+
+package main
+
+import "rsc.io/quote"
+
+func main() {
+    println(quote.Hello())
+}
