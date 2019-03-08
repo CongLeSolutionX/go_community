@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "fc560eda_0a9fd89c",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-08T10:16:23Z",
+      "side": 1,
+      "message": "Maybe there is code outside stdlib like this.\n    r, w, err :\u003d os.Pipe()\n    ......\n    go func() {\n        n, err :\u003d r.Read(buf)\n        // do something with buf and err\n    }()\n    time.Sleep(time.Second)\n    syscall.CancelIoEx(r.Fd(), nil)\n\nI think this works and doesn\u0027t break other things.",
+      "parentUuid": "6269c4f2_569ebb0f",
+      "range": {
+        "startLine": 514,
+        "startChar": 71,
+        "endLine": 514,
+        "endChar": 85
+      },
+      "revId": "930154562670fbbeba75c231a765a183dc729382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "001d0bb9_29d46abf",
         "filename": "src/internal/poll/fd_windows.go",
         "patchSetId": 6

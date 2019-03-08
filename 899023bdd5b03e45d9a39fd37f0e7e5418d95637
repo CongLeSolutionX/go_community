@@ -16,6 +16,24 @@
       "revId": "899023bdd5b03e45d9a39fd37f0e7e5418d95637",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cb1f895_c2809a99",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2019-03-08T10:16:23Z",
+      "side": 1,
+      "message": "I changed that because it won\u0027t pass otherwise.\nOn Windows, Read is unblocked by r.Close in line 277.\nOn Unix, Read is unblocked by w.Close in line 317.\nSo it returns different errors.",
+      "parentUuid": "2fcb9abf_f6479dec",
+      "revId": "899023bdd5b03e45d9a39fd37f0e7e5418d95637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
