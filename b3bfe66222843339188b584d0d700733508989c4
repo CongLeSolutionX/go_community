@@ -16,6 +16,24 @@
       "revId": "b3bfe66222843339188b584d0d700733508989c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8059f78e_8f2982fc",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-08T17:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57384b7f_a195b2cb",
+      "revId": "b3bfe66222843339188b584d0d700733508989c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
