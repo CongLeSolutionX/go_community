@@ -478,7 +478,7 @@ func Sum(mod module.Version) string {
 }
 
 // WriteGoSum writes the go.sum file if it needs to be updated.
-func WriteGoSum() {
+func WriteGoSum(readOnly bool) {
 	goSum.mu.Lock()
 	defer goSum.mu.Unlock()
 
@@ -491,6 +491,9 @@ func WriteGoSum() {
 	if !goSum.dirty {
 		// Don't bother opening the go.sum file if we don't have anything to add.
 		return
+	}
+	if cfg.BuildMod == "readonly" {
+		base.Fatalf("go: updates to go.sum needed, disabled by -mod=readonly")
 	}
 
 	// We want to avoid races between creating the lockfile and deleting it, but
