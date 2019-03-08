@@ -16,6 +16,24 @@
       "revId": "0f9506e69427b2225f7e747828414cf8aa9a0714",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44b74cbc_39c20921",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1537,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-08T13:34:16Z",
+      "side": 1,
+      "message": "In general it\u0027s possible to use -linkmode\u003dexternal when cross-compiling.  It requires installing a cross-compiler and setting the CC environment variable to point to it.\n\nIn general you should not run \"ld\" directly here, because we never do that.  Note how hostlink in cmd/link/internal/ld/lib.go doesn\u0027t run \"ld\", it runs *flagExtLd, which defaults to gcc (in findLibPathCmd).   In normal use cmd/link is always invoked with the -extld option by cmd/go, which sets it to either $CC or $CXX (in gcToolchain.ld in cmd/go/internal/work/gc.go) or if they are not set then to a default that was determined when the Go toolchain was built.\n\nSo here you need to invoke the appropriate compiler, not \"ld\" directly.  Perhaps you can use \"extld -Wl,-V x.c\", with extld being passed in.",
+      "parentUuid": "1cc828ee_e6e0ee54",
+      "revId": "0f9506e69427b2225f7e747828414cf8aa9a0714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
