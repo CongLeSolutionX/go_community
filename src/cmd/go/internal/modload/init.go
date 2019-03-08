@@ -656,16 +656,17 @@ func WriteGoMod() {
 		base.Fatalf("go: %v", err)
 	}
 
+	readOnly := cfg.BuildMod == "readonly"
 	// Always update go.sum, even if we didn't change go.mod: we may have
 	// downloaded modules that we didn't have before.
-	modfetch.WriteGoSum()
+	modfetch.WriteGoSum(readOnly)
 
 	if bytes.Equal(new, modFileData) {
 		// We don't need to modify go.mod from what we read previously.
 		// Ignore any intervening edits.
 		return
 	}
-	if cfg.BuildMod == "readonly" {
+	if readOnly {
 		base.Fatalf("go: updates to go.mod needed, disabled by -mod=readonly")
 	}
 

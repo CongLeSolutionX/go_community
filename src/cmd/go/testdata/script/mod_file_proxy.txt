@@ -1,3 +1,7 @@
+# This test now fails.
+# Should this file be removed or updated?
+# If updated, how's the logic going to be now that we can't add go.sum entries?
+
 # Allow (cached) downloads for -mod=readonly.
 env GO111MODULE=on
 env GOPATH=$WORK/gopath1
