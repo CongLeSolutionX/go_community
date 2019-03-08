@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "86aa1e4b_8c4c1107",
+        "filename": "src/cmd/link/internal/ld/xcoff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1652,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-08T08:53:49Z",
+      "side": 1,
+      "message": "That\u0027s my opinion too. Moreover, other C symbols are internal symbols like _cgo_topofstack, _cgo_panic and crosscall2 which won\u0027t never be called by dlsym. \nI might update that in a future CL for buildmodes like c-shared or c-archive. But for executable with cgo, it seems ok. \nAnyway, we later find out it\u0027s a problem I can still submit another CL to update that.",
+      "parentUuid": "2e94c812_e259d9da",
+      "revId": "b4b9f216341793c6c7193156276c0cb0b493dac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a76af11b_223982b0",
         "filename": "src/cmd/link/internal/ld/xcoff.go",
         "patchSetId": 1
