@@ -140,3 +140,10 @@ func ExampleShuffle_slicesInUnison() {
 	// E: 5
 	// B: 2
 }
+
+func ExampleIntn() {
+	rand.Seed(35)
+	fmt.Println(rand.Intn(100))
+
+	// Output: 50
+}
