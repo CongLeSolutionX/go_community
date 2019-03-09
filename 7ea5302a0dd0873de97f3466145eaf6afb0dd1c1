@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15073ee6_ac7bcaa5",
+        "filename": "src/syscall/syscall_freebsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-09T18:39:41Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the signature of the other implementations of PtraceDetach.  They don\u0027t have a signal argument.",
+      "revId": "7ea5302a0dd0873de97f3466145eaf6afb0dd1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c82fff27_3d3e636c",
+        "filename": "src/syscall/syscall_freebsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-09T18:39:41Z",
+      "side": 1,
+      "message": "What about PtracePeekText, PtracePeekData, PtracePokeText, PtracePokeData?",
+      "revId": "7ea5302a0dd0873de97f3466145eaf6afb0dd1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f503c8_5cc408ed",
+        "filename": "src/syscall/types_freebsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-09T18:39:41Z",
+      "side": 1,
+      "message": "You need to regenerate the three ztypes_freebsd_CPU.go files.",
+      "revId": "7ea5302a0dd0873de97f3466145eaf6afb0dd1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
