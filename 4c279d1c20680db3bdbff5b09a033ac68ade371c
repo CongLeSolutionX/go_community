@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e30d267_a407c7bd",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2019-03-09T11:18:33Z",
+      "side": 1,
+      "message": "I\u0027d like to see the magic number 130 pulled out into a constant with an appropriate comment explaining how it was derived, ie\n\nconst extraCookieLength \u003d 130 // derived from the maximum length of all cookie attributes, see RFC NNNN Sec QQQ",
+      "revId": "4c279d1c20680db3bdbff5b09a033ac68ade371c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
