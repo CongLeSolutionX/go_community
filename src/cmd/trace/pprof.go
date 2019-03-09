@@ -357,12 +357,10 @@ func buildProfile(prof map[uint64]Record) *profile.Profile {
 				loc = &profile.Location{
 					ID:      uint64(len(p.Location) + 1),
 					Address: frame.PC,
-					Line: []profile.Line{
-						profile.Line{
-							Function: fn,
-							Line:     int64(frame.Line),
-						},
-					},
+					Line: []profile.Line{{
+						Function: fn,
+						Line:     int64(frame.Line),
+					}},
 				}
 				p.Location = append(p.Location, loc)
 				locs[frame.PC] = loc
