@@ -438,48 +438,38 @@ func TestDriverArgs(t *testing.T) {
 	}{
 		0: {
 			args: []interface{}{Valuer_V("foo")},
-			want: []driver.NamedValue{
-				driver.NamedValue{
-					Ordinal: 1,
-					Value:   "FOO",
-				},
-			},
+			want: []driver.NamedValue{{
+				Ordinal: 1,
+				Value:   "FOO",
+			}},
 		},
 		1: {
 			args: []interface{}{nilValuerVPtr},
-			want: []driver.NamedValue{
-				driver.NamedValue{
-					Ordinal: 1,
-					Value:   nil,
-				},
-			},
+			want: []driver.NamedValue{{
+				Ordinal: 1,
+				Value:   nil,
+			}},
 		},
 		2: {
 			args: []interface{}{nilValuerPPtr},
-			want: []driver.NamedValue{
-				driver.NamedValue{
-					Ordinal: 1,
-					Value:   "nil-to-str",
-				},
-			},
+			want: []driver.NamedValue{{
+				Ordinal: 1,
+				Value:   "nil-to-str",
+			}},
 		},
 		3: {
 			args: []interface{}{"plain-str"},
-			want: []driver.NamedValue{
-				driver.NamedValue{
-					Ordinal: 1,
-					Value:   "plain-str",
-				},
-			},
+			want: []driver.NamedValue{{
+				Ordinal: 1,
+				Value:   "plain-str",
+			}},
 		},
 		4: {
 			args: []interface{}{nilStrPtr},
-			want: []driver.NamedValue{
-				driver.NamedValue{
-					Ordinal: 1,
-					Value:   nil,
-				},
-			},
+			want: []driver.NamedValue{{
+				Ordinal: 1,
+				Value:   nil,
+			}},
 		},
 	}
 	for i, tt := range tests {
