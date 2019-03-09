@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d02d8c9_b99b4017",
+        "filename": "src/cmd/go/internal/modfetch/pseudo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2019-03-09T08:30:44Z",
+      "side": 1,
+      "message": "this doesn\u0027t do anything now, would it be clearer to sa\n\ndot :\u003d strings.LastIndex(older, \".\") + 1\nv, patch :\u003d v[:dot], v[dot:]\n\nMaybe strings.SplitN would be more appropriate",
+      "revId": "d2d91f473b5bb6c21bbc4a439f505632f698aae2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b4f7728_a3f5163f",
+        "filename": "src/cmd/internal/obj/s390x/asmz.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2019-03-09T08:30:44Z",
+      "side": 1,
+      "message": "I think this is only valid because s390x is compiled with a later bootstrap compiler. I\u0027ll let IanT make the call on this.",
+      "revId": "d2d91f473b5bb6c21bbc4a439f505632f698aae2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79e47bcd_65301dac",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2019-03-09T08:30:44Z",
+      "side": 1,
+      "message": "nit: please try\n\nLine: []profile.Line{{\n    ...\n}},\n\nSo its clearer to the reader we\u0027re using the slice literal struct format.",
+      "revId": "d2d91f473b5bb6c21bbc4a439f505632f698aae2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f74b3029_1a672b34",
+        "filename": "src/crypto/x509/name_constraints_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2019-03-09T08:30:44Z",
+      "side": 1,
+      "message": "I don\u0027t think this is improving the readability, I think\n\nroot: make([]constraintsSpec, 1)\n\nmight be clearer",
+      "revId": "d2d91f473b5bb6c21bbc4a439f505632f698aae2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2bbaeba_633e2317",
+        "filename": "src/database/sql/convert_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2019-03-09T08:30:44Z",
+      "side": 1,
+      "message": "see previous comment about {{ slice literals",
+      "revId": "d2d91f473b5bb6c21bbc4a439f505632f698aae2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
