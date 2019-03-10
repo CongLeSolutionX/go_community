@@ -59,7 +59,7 @@ const (
 //       if the field value is empty. The empty values are false, 0, any
 //       nil pointer or interface value, and any array, slice, map, or
 //       string of length zero.
-//     - an anonymous struct field is handled as if the fields of its
+//     - an embedded struct field is handled as if the fields of its
 //       value were part of the outer struct.
 //     - a field implementing Marshaler is written by calling its MarshalXML
 //       method.
