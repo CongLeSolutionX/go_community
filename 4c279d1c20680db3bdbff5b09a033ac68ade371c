@@ -16,6 +16,24 @@
       "revId": "4c279d1c20680db3bdbff5b09a033ac68ade371c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "958b4dba_d8e53f4c",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 30924
+      },
+      "writtenOn": "2019-03-10T08:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e30d267_a407c7bd",
+      "revId": "4c279d1c20680db3bdbff5b09a033ac68ade371c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
