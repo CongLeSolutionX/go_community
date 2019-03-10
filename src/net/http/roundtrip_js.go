@@ -41,10 +41,12 @@ const jsFetchCreds = "js.fetch:credentials"
 // Reference: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch#Parameters
 const jsFetchRedirect = "js.fetch:redirect"
 
+type jsTransport struct{}
+
 // RoundTrip implements the RoundTripper interface using the WHATWG Fetch API.
-func (t *Transport) RoundTrip(req *Request) (*Response, error) {
+func (_ *jsTransport) RoundTrip(req *Request) (*Response, error) {
 	if useFakeNetwork() {
-		return t.roundTrip(req)
+		return defaultTransport.roundTrip(req)
 	}
 
 	ac := js.Global().Get("AbortController")
