@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7e878ddc_6a264611",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 31016
+      },
+      "writtenOn": "2019-03-10T16:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce1f6840_6549f80c",
+      "revId": "eb1db8830324ddbd6a79a036a961ee5659435170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c44ab522_fd981873",
         "filename": "src/go/printer/printer_test.go",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "0ed6ee66_53d80c06",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 31016
+      },
+      "writtenOn": "2019-03-10T16:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c44ab522_fd981873",
+      "range": {
+        "startLine": 780,
+        "startChar": 2,
+        "endLine": 780,
+        "endChar": 8
+      },
+      "revId": "eb1db8830324ddbd6a79a036a961ee5659435170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87a430e3_dfefe767",
         "filename": "src/go/printer/printer_test.go",
         "patchSetId": 1
@@ -62,6 +104,30 @@
       "revId": "eb1db8830324ddbd6a79a036a961ee5659435170",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6a3fe35_84a9fd76",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 31016
+      },
+      "writtenOn": "2019-03-10T16:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87a430e3_dfefe767",
+      "range": {
+        "startLine": 802,
+        "startChar": 4,
+        "endLine": 802,
+        "endChar": 7
+      },
+      "revId": "eb1db8830324ddbd6a79a036a961ee5659435170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
