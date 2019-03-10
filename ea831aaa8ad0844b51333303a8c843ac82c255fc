@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc6d8007_36422e02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-10T03:24:49Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 2
+      },
+      "revId": "ea831aaa8ad0844b51333303a8c843ac82c255fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82d5b8a5_68dcfaa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-10T03:24:49Z",
+      "side": 1,
+      "message": "Let us remove this. It does not add much to what is already there in the title.",
+      "revId": "ea831aaa8ad0844b51333303a8c843ac82c255fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
