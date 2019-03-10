@@ -7,6 +7,7 @@ package http
 import (
 	"bufio"
 	"bytes"
+	"compress/gzip"
 	"errors"
 	"fmt"
 	"io"
@@ -466,6 +467,42 @@ func suppressedHeaders(status int) []string {
 	return nil
 }
 
+// proxyingReadCloser is a composite type that accepts and proxies
+// io.Read and io.Close calls to its underlying constituents.
+//
+// It is composed of:
+// a) a top-level reader e.g. the result of decompression
+// b) a symbolic Closer e.g. the result of decompression, the
+//    original body and the connection itself.
+type proxyingReadCloser struct {
+	io.Reader
+	io.Closer
+}
+
+var _ io.ReadCloser = (*proxyingReadCloser)(nil)
+
+// multiCloser implements io.Closer and allows a bunch of io.Closer values
+// to all be closed once.
+// Example usage is with proxyingReadCloser if we are decompressing a response
+// body on the fly and would like to close both *gzip.Reader and underlying body.
+type multiCloser []io.Closer
+
+var _ io.Closer = (*multiCloser)(nil)
+
+func (mc multiCloser) Close() error {
+	if len(mc) == 0 {
+		return nil
+	}
+
+	err := mc[0].Close()
+	for i := 1; i < len(mc); i++ {
+		if ierr := mc[i].Close(); ierr != nil && err == nil {
+			err = ierr
+		}
+	}
+	return err
+}
+
 // msg is *Request or *Response.
 func readTransfer(msg interface{}, r *bufio.Reader) (err error) {
 	t := &transferReader{RequestMethod: "GET"}
@@ -543,7 +580,7 @@ func readTransfer(msg interface{}, r *bufio.Reader) (err error) {
 	// Prepare body reader. ContentLength < 0 means chunked encoding
 	// or close connection when finished, since multipart is not supported yet
 	switch {
-	case chunked(t.TransferEncoding):
+	case chunked(t.TransferEncoding) || implicitlyChunked(t.TransferEncoding):
 		if noResponseBodyExpected(t.RequestMethod) || !bodyAllowedForStatus(t.StatusCode) {
 			t.Body = NoBody
 		} else {
@@ -561,6 +598,21 @@ func readTransfer(msg interface{}, r *bufio.Reader) (err error) {
 		} else {
 			// Persistent connection (i.e. HTTP/1.1)
 			t.Body = NoBody
+		}
+	}
+
+	// Finally if "gzip" was one of the requested transfer-encodings,
+	// we'll unzip the concatenated body/payload of the request.
+	// TODO: As we support more transfer-encodings, extract
+	// this code and apply the un-codings in reverse.
+	if t.Body != NoBody && gzipped(t.TransferEncoding) {
+		zr, err := gzip.NewReader(t.Body)
+		if err != nil {
+			return fmt.Errorf("http: failed to gunzip body: %v", err)
+		}
+		t.Body = &proxyingReadCloser{
+			Reader: zr,
+			Closer: multiCloser{zr, t.Body},
 		}
 	}
 
@@ -583,8 +635,43 @@ func readTransfer(msg interface{}, r *bufio.Reader) (err error) {
 	return nil
 }
 
-// Checks whether chunked is part of the encodings stack
-func chunked(te []string) bool { return len(te) > 0 && te[0] == "chunked" }
+// Checks whether chunked is the last part of the encodings stack
+func chunked(te []string) bool { return len(te) > 0 && te[len(te)-1] == "chunked" }
+
+// implicitlyChunked is a helper to check for implicity of chunked, because
+// RFC 7230 Section 3.3.1 says that the send MUST apply chunked as the final
+// payload body to ensure that the message is framed for both the request
+// and the body.
+func implicitlyChunked(te []string) bool {
+	if len(te) == 0 {
+		return false
+	}
+	for _, tei := range te {
+		if tei == "identity" {
+			return false
+		}
+	}
+	return true
+}
+
+func isGzipTransferEncoding(tei string) bool {
+	// RFC 7230 4.2.3 requests that "x-gzip" SHOULD be considered the same as "gzip".
+	return tei == "gzip" || tei == "x-gzip"
+}
+
+// Checks where either of "gzip" or "x-gzip" are contained in transfer encodings.
+func gzipped(te []string) bool {
+	if len(te) == 0 {
+		return false
+	}
+
+	for _, tei := range te {
+		if isGzipTransferEncoding(tei) {
+			return true
+		}
+	}
+	return false
+}
 
 // Checks whether the encoding is explicitly "identity".
 func isIdentity(te []string) bool { return len(te) == 1 && te[0] == "identity" }
@@ -602,27 +689,69 @@ func (t *transferReader) fixTransferEncoding() error {
 		return nil
 	}
 
+	chunkedTECount := 0
 	encodings := strings.Split(raw[0], ",")
 	te := make([]string, 0, len(encodings))
 	// TODO: Even though we only support "identity" and "chunked"
 	// encodings, the loop below is designed with foresight. One
 	// invariant that must be maintained is that, if present,
-	// chunked encoding must always come first.
+	// chunked encoding must always come last.
 	for _, encoding := range encodings {
 		encoding = strings.ToLower(strings.TrimSpace(encoding))
 		// "identity" encoding is not recorded
 		if encoding == "identity" {
 			break
 		}
-		if encoding != "chunked" {
+
+		switch {
+		case encoding == "chunked":
+			// Supported
+			chunkedTECount++
+		case isGzipTransferEncoding(encoding):
+			// Supported
+		default:
 			return &badStringError{"unsupported transfer encoding", encoding}
 		}
 		te = te[0 : len(te)+1]
 		te[len(te)-1] = encoding
 	}
-	if len(te) > 1 {
-		return &badStringError{"too many transfer encodings", strings.Join(te, ",")}
+
+	if chunkedTECount > 0 {
+		// If chunked encoding exists in any of the transferEncodings,
+		// it must exist once and must be the last encoding encountered,
+		// as per RFC 7230 Section 3.3.1 Transfer-Encoding which says:
+		//
+		//   A recipient MUST be able to parse the chunked transfer coding
+		//   (Section 4.1) because it plays a crucial role in framing messages
+		//   when the payload body size is not known in advance.  A sender MUST
+		//   NOT apply chunked more than once to a message body (i.e., chunking an
+		//   already chunked message is not allowed).  If any transfer coding
+		//   other than chunked is applied to a request payload body, the sender
+		//   MUST apply chunked as the final transfer coding to ensure that the
+		//   message is properly framed.  If any transfer coding other than
+		//   chunked is applied to a response payload body, the sender MUST either
+		//   apply chunked as the final transfer coding or terminate the message
+		//   by closing the connection.
+		//
+		switch chunkedTECount {
+		default:
+			return fmt.Errorf("http: chunked encoding should only be applied once; got %d", chunkedTECount)
+		case 1:
+			// In this case "chunked" MUST be the last transfer encoding applied.
+			// That is:
+			//     Invalid: [chunked, gzip]
+			//     Valid:   [gzip, chunked]
+			//
+			// TODO: (@odeke-em) discuss with @bradfitz whether perhaps we should permissibly
+			// accept [chunked, gzip] since that means anyways that chunked is the LAST encoding
+			// that was applied hence will be the first to be applied and then the "concatentation"
+			// of those chunks will be un-gzipped.
+			if te[len(te)-1] != "chunked" {
+				return fmt.Errorf("http: chunked must be the last applied encoding; got %v", te)
+			}
+		}
 	}
+
 	if len(te) > 0 {
 		// RFC 7230 3.3.2 says "A sender MUST NOT send a
 		// Content-Length header field in any message that
