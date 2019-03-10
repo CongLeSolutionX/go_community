@@ -81,6 +81,12 @@
 (FCEIL (FMOVDconst [x])) -> (FMOVDconst [auxFrom64F(math.Ceil(auxTo64F(x)))])
 (FTRUNC (FMOVDconst [x])) -> (FMOVDconst [auxFrom64F(math.Trunc(auxTo64F(x)))])
 
+// Rotates
+(RotateLeft8 <t> x (MOVDconst [c])) -> (Or8 (Lsh8x64 <t> x (MOVDconst [c])) (Rsh8Ux64 <t> x (MOVDconst [8-c])))
+(RotateLeft16 <t> x (MOVDconst [c])) -> (Or16 (Lsh16x64 <t> x (MOVDconst [c])) (Rsh16Ux64 <t> x (MOVDconst [16-c])))
+(RotateLeft32 x (MOVDconst [c])) -> (ROTLWconst [c] x)
+(RotateLeft64 x (MOVDconst [c])) -> (ROTLconst [c] x)
+
 // Rotate generation with const shift
 (ADD (SLDconst x [c]) (SRDconst x [d])) && d == 64-c -> (ROTLconst [c] x)
 ( OR (SLDconst x [c]) (SRDconst x [d])) && d == 64-c -> (ROTLconst [c] x)

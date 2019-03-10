@@ -162,6 +162,11 @@
 (Rsh8x16 x y)  -> (Rsh64x64 (SignExt8to64 x) (ZeroExt16to64 y))
 (Rsh8x8  x y)  -> (Rsh64x64 (SignExt8to64 x) (ZeroExt8to64  y))
 
+// Lowering rotates
+(RotateLeft8 <t> x (I64Const [c])) -> (Or8 (Lsh8x64 <t> x (I64Const [c])) (Rsh8Ux64 <t> x (I64Const [8-c])))
+(RotateLeft16 <t> x (I64Const [c])) -> (Or16 (Lsh16x64 <t> x (I64Const [c])) (Rsh16Ux64 <t> x (I64Const [16-c])))
+(RotateLeft32 <t> x (I64Const [c])) -> (Or32 (Lsh32x64 <t> x (I64Const [c])) (Rsh32Ux64 <t> x (I64Const [32-c])))
+
 // Lowering comparisons
 (Less64  x y) -> (I64LtS x y)
 (Less32  x y) -> (I64LtS (SignExt32to64 x) (SignExt32to64 y))

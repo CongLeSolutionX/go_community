@@ -719,6 +719,12 @@ func rewriteValueARM(v *Value) bool {
 		return rewriteValueARM_OpOr8_0(v)
 	case OpOrB:
 		return rewriteValueARM_OpOrB_0(v)
+	case OpRotateLeft16:
+		return rewriteValueARM_OpRotateLeft16_0(v)
+	case OpRotateLeft32:
+		return rewriteValueARM_OpRotateLeft32_0(v)
+	case OpRotateLeft8:
+		return rewriteValueARM_OpRotateLeft8_0(v)
 	case OpRound32F:
 		return rewriteValueARM_OpRound32F_0(v)
 	case OpRound64F:
@@ -20074,6 +20080,89 @@ func rewriteValueARM_OpOrB_0(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
+}
+func rewriteValueARM_OpRotateLeft16_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (RotateLeft16 <t> x (MOVWconst [c]))
+	// cond:
+	// result: (Or16 (Lsh16x32 <t> x (MOVWconst [c])) (Rsh16Ux32 <t> x (MOVWconst [16-c])))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		v.reset(OpOr16)
+		v0 := b.NewValue0(v.Pos, OpLsh16x32, t)
+		v0.AddArg(x)
+		v1 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
+		v1.AuxInt = c
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v2 := b.NewValue0(v.Pos, OpRsh16Ux32, t)
+		v2.AddArg(x)
+		v3 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
+		v3.AuxInt = 16 - c
+		v2.AddArg(v3)
+		v.AddArg(v2)
+		return true
+	}
+	return false
+}
+func rewriteValueARM_OpRotateLeft32_0(v *Value) bool {
+	// match: (RotateLeft32 x (MOVWconst [c]))
+	// cond:
+	// result: (SRRconst [32-c] x)
+	for {
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		v.reset(OpARMSRRconst)
+		v.AuxInt = 32 - c
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValueARM_OpRotateLeft8_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (RotateLeft8 <t> x (MOVWconst [c]))
+	// cond:
+	// result: (Or8 (Lsh8x32 <t> x (MOVWconst [c])) (Rsh8Ux32 <t> x (MOVWconst [8-c])))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		v.reset(OpOr8)
+		v0 := b.NewValue0(v.Pos, OpLsh8x32, t)
+		v0.AddArg(x)
+		v1 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
+		v1.AuxInt = c
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v2 := b.NewValue0(v.Pos, OpRsh8Ux32, t)
+		v2.AddArg(x)
+		v3 := b.NewValue0(v.Pos, OpARMMOVWconst, typ.UInt32)
+		v3.AuxInt = 8 - c
+		v2.AddArg(v3)
+		v.AddArg(v2)
+		return true
+	}
+	return false
 }
 func rewriteValueARM_OpRound32F_0(v *Value) bool {
 	// match: (Round32F x)

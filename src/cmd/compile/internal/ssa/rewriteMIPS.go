@@ -405,6 +405,14 @@ func rewriteValueMIPS(v *Value) bool {
 		return rewriteValueMIPS_OpOr8_0(v)
 	case OpOrB:
 		return rewriteValueMIPS_OpOrB_0(v)
+	case OpRotateLeft16:
+		return rewriteValueMIPS_OpRotateLeft16_0(v)
+	case OpRotateLeft32:
+		return rewriteValueMIPS_OpRotateLeft32_0(v)
+	case OpRotateLeft64:
+		return rewriteValueMIPS_OpRotateLeft64_0(v)
+	case OpRotateLeft8:
+		return rewriteValueMIPS_OpRotateLeft8_0(v)
 	case OpRound32F:
 		return rewriteValueMIPS_OpRound32F_0(v)
 	case OpRound64F:
@@ -6974,6 +6982,134 @@ func rewriteValueMIPS_OpOrB_0(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
+}
+func rewriteValueMIPS_OpRotateLeft16_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (RotateLeft16 <t> x (MOVWconst [c]))
+	// cond:
+	// result: (Or16 (Lsh16x32 <t> x (MOVWconst [c])) (Rsh16Ux32 <t> x (MOVWconst [16-c])))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMIPSMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		v.reset(OpOr16)
+		v0 := b.NewValue0(v.Pos, OpLsh16x32, t)
+		v0.AddArg(x)
+		v1 := b.NewValue0(v.Pos, OpMIPSMOVWconst, typ.UInt32)
+		v1.AuxInt = c
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v2 := b.NewValue0(v.Pos, OpRsh16Ux32, t)
+		v2.AddArg(x)
+		v3 := b.NewValue0(v.Pos, OpMIPSMOVWconst, typ.UInt32)
+		v3.AuxInt = 16 - c
+		v2.AddArg(v3)
+		v.AddArg(v2)
+		return true
+	}
+	return false
+}
+func rewriteValueMIPS_OpRotateLeft32_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (RotateLeft32 <t> x (MOVWconst [c]))
+	// cond:
+	// result: (Or32 (Lsh32x32 <t> x (MOVWconst [c])) (Rsh32Ux32 <t> x (MOVWconst [32-c])))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMIPSMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		v.reset(OpOr32)
+		v0 := b.NewValue0(v.Pos, OpLsh32x32, t)
+		v0.AddArg(x)
+		v1 := b.NewValue0(v.Pos, OpMIPSMOVWconst, typ.UInt32)
+		v1.AuxInt = c
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v2 := b.NewValue0(v.Pos, OpRsh32Ux32, t)
+		v2.AddArg(x)
+		v3 := b.NewValue0(v.Pos, OpMIPSMOVWconst, typ.UInt32)
+		v3.AuxInt = 32 - c
+		v2.AddArg(v3)
+		v.AddArg(v2)
+		return true
+	}
+	return false
+}
+func rewriteValueMIPS_OpRotateLeft64_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (RotateLeft64 <t> x (MOVWconst [c]))
+	// cond:
+	// result: (Or64 (Lsh64x32 <t> x (MOVWconst [c])) (Rsh64Ux32 <t> x (MOVWconst [64-c])))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMIPSMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		v.reset(OpOr64)
+		v0 := b.NewValue0(v.Pos, OpLsh64x32, t)
+		v0.AddArg(x)
+		v1 := b.NewValue0(v.Pos, OpMIPSMOVWconst, typ.UInt32)
+		v1.AuxInt = c
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v2 := b.NewValue0(v.Pos, OpRsh64Ux32, t)
+		v2.AddArg(x)
+		v3 := b.NewValue0(v.Pos, OpMIPSMOVWconst, typ.UInt32)
+		v3.AuxInt = 64 - c
+		v2.AddArg(v3)
+		v.AddArg(v2)
+		return true
+	}
+	return false
+}
+func rewriteValueMIPS_OpRotateLeft8_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (RotateLeft8 <t> x (MOVWconst [c]))
+	// cond:
+	// result: (Or8 (Lsh8x32 <t> x (MOVWconst [c])) (Rsh8Ux32 <t> x (MOVWconst [8-c])))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpMIPSMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		v.reset(OpOr8)
+		v0 := b.NewValue0(v.Pos, OpLsh8x32, t)
+		v0.AddArg(x)
+		v1 := b.NewValue0(v.Pos, OpMIPSMOVWconst, typ.UInt32)
+		v1.AuxInt = c
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v2 := b.NewValue0(v.Pos, OpRsh8Ux32, t)
+		v2.AddArg(x)
+		v3 := b.NewValue0(v.Pos, OpMIPSMOVWconst, typ.UInt32)
+		v3.AuxInt = 8 - c
+		v2.AddArg(v3)
+		v.AddArg(v2)
+		return true
+	}
+	return false
 }
 func rewriteValueMIPS_OpRound32F_0(v *Value) bool {
 	// match: (Round32F x)

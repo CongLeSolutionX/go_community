@@ -393,10 +393,14 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpPopCount64_0(v)
 	case OpPopCount8:
 		return rewriteValueS390X_OpPopCount8_0(v)
+	case OpRotateLeft16:
+		return rewriteValueS390X_OpRotateLeft16_0(v)
 	case OpRotateLeft32:
 		return rewriteValueS390X_OpRotateLeft32_0(v)
 	case OpRotateLeft64:
 		return rewriteValueS390X_OpRotateLeft64_0(v)
+	case OpRotateLeft8:
+		return rewriteValueS390X_OpRotateLeft8_0(v)
 	case OpRound:
 		return rewriteValueS390X_OpRound_0(v)
 	case OpRound32F:
@@ -5031,6 +5035,38 @@ func rewriteValueS390X_OpPopCount8_0(v *Value) bool {
 		return true
 	}
 }
+func rewriteValueS390X_OpRotateLeft16_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (RotateLeft16 <t> x (MOVDconst [c]))
+	// cond:
+	// result: (Or16 (Lsh16x64 <t> x (MOVDconst [c])) (Rsh16Ux64 <t> x (MOVDconst [16-c])))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVDconst {
+			break
+		}
+		c := v_1.AuxInt
+		v.reset(OpOr16)
+		v0 := b.NewValue0(v.Pos, OpLsh16x64, t)
+		v0.AddArg(x)
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = c
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v2 := b.NewValue0(v.Pos, OpRsh16Ux64, t)
+		v2.AddArg(x)
+		v3 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v3.AuxInt = 16 - c
+		v2.AddArg(v3)
+		v.AddArg(v2)
+		return true
+	}
+	return false
+}
 func rewriteValueS390X_OpRotateLeft32_0(v *Value) bool {
 	// match: (RotateLeft32 x y)
 	// cond:
@@ -5056,6 +5092,38 @@ func rewriteValueS390X_OpRotateLeft64_0(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
+}
+func rewriteValueS390X_OpRotateLeft8_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (RotateLeft8 <t> x (MOVDconst [c]))
+	// cond:
+	// result: (Or8 (Lsh8x64 <t> x (MOVDconst [c])) (Rsh8Ux64 <t> x (MOVDconst [8-c])))
+	for {
+		t := v.Type
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVDconst {
+			break
+		}
+		c := v_1.AuxInt
+		v.reset(OpOr8)
+		v0 := b.NewValue0(v.Pos, OpLsh8x64, t)
+		v0.AddArg(x)
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = c
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v2 := b.NewValue0(v.Pos, OpRsh8Ux64, t)
+		v2.AddArg(x)
+		v3 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v3.AuxInt = 8 - c
+		v2.AddArg(v3)
+		v.AddArg(v2)
+		return true
+	}
+	return false
 }
 func rewriteValueS390X_OpRound_0(v *Value) bool {
 	// match: (Round x)

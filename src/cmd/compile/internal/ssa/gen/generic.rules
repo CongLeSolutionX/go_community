@@ -332,6 +332,13 @@
 (Rsh(64|32|16|8)x64  x (Const64 [0])) -> x
 (Rsh(64|32|16|8)Ux64 x (Const64 [0])) -> x
 
+// rotates by zero or register width
+(RotateLeft(64|32|16|8) x (Const(64|32|16|8) [0])) -> x
+(RotateLeft64 x (Const64 [64])) -> x
+(RotateLeft32 x (Const32 [32])) -> x
+(RotateLeft16 x (Const16 [16])) -> x
+(RotateLeft8 x (Const8 [8])) -> x
+
 // zero shifted
 (Lsh64x(64|32|16|8)  (Const64 [0]) _) -> (Const64 [0])
 (Rsh64x(64|32|16|8)  (Const64 [0]) _) -> (Const64 [0])
@@ -1141,6 +1148,48 @@
 (Mod32 <t> n (Const32 [c])) && c < 0 && c != -1<<31 -> (Mod32 <t> n (Const32 <t> [-c]))
 (Mod64 <t> n (Const64 [c])) && c < 0 && c != -1<<63 -> (Mod64 <t> n (Const64 <t> [-c]))
 
+// Divisibility checks x%c == 0
+(Eq8 (Mod8u  <t> x (Const8  [c])) (Const8 [0])) && x.Op != OpConst8 && c > 0 && udivisibleOK(8 ,c) ->
+	(Leq8U
+		(RotateLeft8 <t>
+			(Mul8 <t>
+				(Const8 <typ.UInt8> [int64(udivisible(8,c).m)])
+				x)
+			(Const8 <typ.UInt8> [int64(8-udivisible(8,c).k)])
+			)
+		(Const8 <typ.UInt8> [int64(udivisible(8,c).max)])
+	)
+(Eq16 (Mod16u <t> x (Const16 [c])) (Const16 [0])) && x.Op != OpConst16 && c > 0 && udivisibleOK(16 ,c) ->
+	(Leq16U
+		(RotateLeft16 <t>
+			(Mul16 <t>
+				(Const16 <typ.UInt16> [int64(udivisible(16,c).m)])
+				x)
+			(Const16 <typ.UInt16> [int64(16-udivisible(16,c).k)])
+			)
+		(Const16 <typ.UInt16> [int64(udivisible(16,c).max)])
+	)
+(Eq32 (Mod32u <t> x (Const32 [c])) (Const32 [0])) && x.Op != OpConst32 && c > 0 && udivisibleOK(32 ,c) ->
+	(Leq32U
+		(RotateLeft32 <t>
+			(Mul32 <t>
+				(Const32 <typ.UInt32> [int64(udivisible(32,c).m)])
+				x)
+			(Const32 <typ.UInt32> [int64(32-udivisible(32,c).k)])
+			)
+		(Const32 <typ.UInt32> [int64(udivisible(32,c).max)])
+	)
+(Eq64 (Mod64u <t> x (Const64 [c])) (Const64 [0])) && x.Op != OpConst64 && c > 0&& udivisibleOK(64 ,c) ->
+	(Leq64U
+		(RotateLeft64 <t>
+			(Mul64 <t>
+				(Const64 <typ.UInt64> [int64(udivisible(64,c).m)])
+				x)
+			(Const64 <typ.UInt64> [int64(64-udivisible(64,c).k)])
+			)
+		(Const64 <typ.UInt64> [int64(udivisible(64,c).max)])
+	)
+
 // All other mods by constants, do A%B = A-(A/B*B).
 // This implements % with two * and a bunch of ancillary ops.
 // One of the * is free if the user's code also computes A/B.
@@ -1152,13 +1201,13 @@
   -> (Sub32 x (Mul32 <t> (Div32  <t> x (Const32 <t> [c])) (Const32 <t> [c])))
 (Mod64  <t> x (Const64 [c])) && x.Op != OpConst64 && (c > 0 || c == -1<<63)
   -> (Sub64 x (Mul64 <t> (Div64  <t> x (Const64 <t> [c])) (Const64 <t> [c])))
-(Mod8u  <t> x (Const8  [c])) && x.Op != OpConst8  && c > 0 && umagicOK(8 ,c)
+(Mod8u  <t> x (Const8  [c])) && x.Op != OpConst8  && c > 0 && v.Block.Func.pass.name != "opt" && umagicOK(8 ,c)
   -> (Sub8  x (Mul8  <t> (Div8u  <t> x (Const8  <t> [c])) (Const8  <t> [c])))
-(Mod16u <t> x (Const16 [c])) && x.Op != OpConst16 && c > 0 && umagicOK(16,c)
+(Mod16u <t> x (Const16 [c])) && x.Op != OpConst16 && c > 0 && v.Block.Func.pass.name != "opt" && umagicOK(16,c)
   -> (Sub16 x (Mul16 <t> (Div16u <t> x (Const16 <t> [c])) (Const16 <t> [c])))
-(Mod32u <t> x (Const32 [c])) && x.Op != OpConst32 && c > 0 && umagicOK(32,c)
+(Mod32u <t> x (Const32 [c])) && x.Op != OpConst32 && c > 0 && v.Block.Func.pass.name != "opt" && umagicOK(32,c)
   -> (Sub32 x (Mul32 <t> (Div32u <t> x (Const32 <t> [c])) (Const32 <t> [c])))
-(Mod64u <t> x (Const64 [c])) && x.Op != OpConst64 && c > 0 && umagicOK(64,c)
+(Mod64u <t> x (Const64 [c])) && x.Op != OpConst64 && c > 0 && v.Block.Func.pass.name != "opt" && umagicOK(64,c)
   -> (Sub64 x (Mul64 <t> (Div64u <t> x (Const64 <t> [c])) (Const64 <t> [c])))
 
 (Eq(8|16|32|64)  s:(Sub(8|16|32|64) x y) (Const(8|16|32|64) [0])) && s.Uses == 1 -> (Eq(8|16|32|64)  x y)
