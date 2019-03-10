@@ -11,7 +11,9 @@ import (
 // findlive returns the reachable blocks and live values in f.
 func findlive(f *Func) (reachable []bool, live []bool) {
 	reachable = ReachableBlocks(f)
-	live, _ = liveValues(f, reachable)
+	var order []*Value
+	live, order = liveValues(f, reachable)
+	f.retDeadcodeLiveOrderStmts(order)
 	return
 }
 
@@ -48,8 +50,21 @@ func ReachableBlocks(f *Func) []bool {
 // to be statements in reversed data flow order.
 // The second result is used to help conserve statement boundaries for debugging.
 // reachable is a map from block ID to whether the block is reachable.
+// The caller should call f.retDeadcodeLive(live) and f.retDeadcodeLiveOrderStmts(liveOrderStmts)
+// when they are done with the return values.
 func liveValues(f *Func, reachable []bool) (live []bool, liveOrderStmts []*Value) {
-	live = make([]bool, f.NumValues())
+	live = f.newDeadcodeLive()
+	if cap(live) < f.NumValues() {
+		live = make([]bool, f.NumValues())
+	} else {
+		live = live[:f.NumValues()]
+		for i := range live {
+			live[i] = false
+		}
+	}
+
+	liveOrderStmts = f.newDeadcodeLiveOrderStmts()
+	liveOrderStmts = liveOrderStmts[:0]
 
 	// After regalloc, consider all values to be live.
 	// See the comment at the top of regalloc.go and in deadcode for details.
@@ -61,7 +76,8 @@ func liveValues(f *Func, reachable []bool) (live []bool, liveOrderStmts []*Value
 	}
 
 	// Find all live values
-	q := make([]*Value, 0, 64) // stack-like worklist of unscanned values
+	q := f.Cache.deadcode.q[:0]
+	defer func() { f.Cache.deadcode.q = q }()
 
 	// Starting set: all control values of reachable blocks are live.
 	// Calls are live (because callee can observe the memory state).
@@ -163,6 +179,8 @@ func deadcode(f *Func) {
 
 	// Find live values.
 	live, order := liveValues(f, reachable)
+	defer f.retDeadcodeLive(live)
+	defer f.retDeadcodeLiveOrderStmts(order)
 
 	// Remove dead & duplicate entries from namedValues map.
 	s := f.newSparseSet(f.NumValues())
