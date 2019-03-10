@@ -283,14 +283,16 @@ func (a *Mpint) SetInt64(c int64) {
 func (a *Mpint) SetString(as string) {
 	_, ok := a.Val.SetString(as, 0)
 	if !ok {
-		// required syntax is [+-][0[x]]d*
-		// At the moment we lose precise error cause;
-		// the old code distinguished between:
-		// - malformed hex constant
-		// - malformed octal constant
-		// - malformed decimal constant
-		// TODO(gri) use different conversion function
-		yyerror("malformed integer constant: %s", as)
+		// The lexer checks for correct syntax of the literal
+		// and reports detailed errors. Thus SetString should
+		// never fail (in theory it might run out of memory,
+		// but that wouldn't be reported as an error here).
+		// Be conservative and report an error only if there
+		// wasn't any other error yet (e.g., due to a discrepancy
+		// between the lexer's and SetString's accepted syntax).
+		if nsavederrors+nerrors == 0 {
+			yyerror("malformed integer constant: %s", as)
+		}
 		a.Val.SetUint64(0)
 		return
 	}
