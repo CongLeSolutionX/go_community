@@ -794,6 +794,27 @@ var optab = []Optab{
 	{AVST1, C_ELEM, C_NONE, C_NONE, C_ROFF, 96, 4, 0, 0, C_XPOST},
 	{AVST1, C_ELEM, C_NONE, C_NONE, C_LOREG, 96, 4, 0, 0, 0},
 
+	/* VLD[2-4]/VST[2-4] */
+	{AVLD2, C_ZOREG, C_NONE, C_NONE, C_LIST, 101, 4, 8, 0, 0},
+	{AVLD2, C_LOREG, C_NONE, C_NONE, C_LIST, 101, 4, 8, 0, C_XPOST},
+	{AVLD2, C_ROFF, C_NONE, C_NONE, C_LIST, 101, 4, 8, 0, C_XPOST},
+	{AVST2, C_LIST, C_NONE, C_NONE, C_ZOREG, 102, 4, 8, 0, 0},
+	{AVST2, C_LIST, C_NONE, C_NONE, C_LOREG, 102, 4, 8, 0, C_XPOST},
+	{AVST2, C_LIST, C_NONE, C_NONE, C_ROFF, 102, 4, 8, 0, C_XPOST},
+
+	{AVLD3, C_ZOREG, C_NONE, C_NONE, C_LIST, 101, 4, 4, 0, 0},
+	{AVLD3, C_LOREG, C_NONE, C_NONE, C_LIST, 101, 4, 4, 0, C_XPOST},
+	{AVLD3, C_ROFF, C_NONE, C_NONE, C_LIST, 101, 4, 4, 0, C_XPOST},
+	{AVST3, C_LIST, C_NONE, C_NONE, C_ZOREG, 102, 4, 4, 0, 0},
+	{AVST3, C_LIST, C_NONE, C_NONE, C_LOREG, 102, 4, 4, 0, C_XPOST},
+	{AVST3, C_LIST, C_NONE, C_NONE, C_ROFF, 102, 4, 4, 0, C_XPOST},
+	{AVLD4, C_ZOREG, C_NONE, C_NONE, C_LIST, 101, 4, 0, 0, 0},
+	{AVLD4, C_LOREG, C_NONE, C_NONE, C_LIST, 101, 4, 0, 0, C_XPOST},
+	{AVLD4, C_ROFF, C_NONE, C_NONE, C_LIST, 101, 4, 0, 0, C_XPOST},
+	{AVST4, C_LIST, C_NONE, C_NONE, C_ZOREG, 102, 4, 0, 0, 0},
+	{AVST4, C_LIST, C_NONE, C_NONE, C_LOREG, 102, 4, 0, 0, C_XPOST},
+	{AVST4, C_LIST, C_NONE, C_NONE, C_ROFF, 102, 4, 0, 0, C_XPOST},
+
 	/* special */
 	{AMOVD, C_SPR, C_NONE, C_NONE, C_REG, 35, 4, 0, 0, 0},
 	{AMRS, C_SPR, C_NONE, C_NONE, C_REG, 35, 4, 0, 0, 0},
@@ -2704,7 +2725,13 @@ func buildop(ctxt *obj.Link) {
 			AVCNT,
 			AVMOV,
 			AVLD1,
+			AVLD2,
+			AVLD3,
+			AVLD4,
 			AVST1,
+			AVST2,
+			AVST3,
+			AVST4,
 			AVTBL,
 			AVDUP,
 			AVMOVI,
@@ -4958,7 +4985,55 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 		o1 = q<<30 | 0xe<<24 | len<<13
 		o1 |= (uint32(rf&31) << 16) | uint32(offset&31)<<5 | uint32(rt&31)
+	case 101: /*  vld[2-4] (Rn), [Vt1.<T>, Vt2.<T>, ...] */
+		r := int(p.From.Reg)
+		o1 = 3<<26 | 1<<22
+		if o.scond == C_XPOST {
+			o1 |= 1 << 23
+			if p.From.Index == 0 {
+				// immediate offset variant
+				opcode := (p.To.Offset >> 12) & 15
+				if opcode-int64(o.param) != 2 {
+					c.ctxt.Diag("invalid list numbers in ARM64 register list: %v", p)
+				}
+				o1 |= 0x1f << 16
+			} else {
+				// register offset variant
+				if isRegShiftOrExt(&p.From) {
+					c.ctxt.Diag("invalid extended register op: %v\n", p)
+				}
+				o1 |= uint32(p.From.Index&31) << 16
+			}
+		}
+		o1 |= uint32(p.To.Offset)
+		o1 &= 0xffff0fff
+		o1 |= uint32(o.param) << 12
+		o1 |= uint32(r&31) << 5
 
+	case 102: /* vst[2-4] [Vt1.<T>, Vt2.<T>, ...], (Rn) */
+		r := int(p.To.Reg)
+		o1 = 3 << 26
+		if o.scond == C_XPOST {
+			o1 |= 1 << 23
+			if p.To.Index == 0 {
+				// immediate offset variant
+				opcode := (p.From.Offset >> 12) & 15
+				if opcode-int64(o.param) != 2 {
+					c.ctxt.Diag("invalid list numbers in ARM64 register list: %v", p)
+				}
+				o1 |= 0x1f << 16
+			} else {
+				// register offset variant
+				if isRegShiftOrExt(&p.To) {
+					c.ctxt.Diag("invalid extended register: %v\n", p)
+				}
+				o1 |= uint32(p.To.Index&31) << 16
+			}
+		}
+		o1 |= uint32(p.From.Offset)
+		o1 &= 0xffff0fff
+		o1 |= uint32(o.param) << 12
+		o1 |= uint32(r&31) << 5
 	}
 	out[0] = o1
 	out[1] = o2
