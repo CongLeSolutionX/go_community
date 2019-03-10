@@ -48,8 +48,22 @@ func ReachableBlocks(f *Func) []bool {
 // to be statements in reversed data flow order.
 // The second result is used to help conserve statement boundaries for debugging.
 // reachable is a map from block ID to whether the block is reachable.
+// The returned slices may be re-used during future calls to liveValues;
+// they should be used promptly by the caller and then discarded.
 func liveValues(f *Func, reachable []bool) (live []bool, liveOrderStmts []*Value) {
-	live = make([]bool, f.NumValues())
+	live = f.Cache.deadcode.live
+	if cap(live) < f.NumValues() {
+		live = make([]bool, f.NumValues())
+	} else {
+		live = live[:f.NumValues()]
+		for i := range live {
+			live[i] = false
+		}
+	}
+	defer func() { f.Cache.deadcode.live = live }()
+
+	liveOrderStmts = f.Cache.deadcode.liveOrderStmts[:0]
+	defer func() { f.Cache.deadcode.liveOrderStmts = liveOrderStmts }()
 
 	// After regalloc, consider all values to be live.
 	// See the comment at the top of regalloc.go and in deadcode for details.
@@ -61,7 +75,8 @@ func liveValues(f *Func, reachable []bool) (live []bool, liveOrderStmts []*Value
 	}
 
 	// Find all live values
-	q := make([]*Value, 0, 64) // stack-like worklist of unscanned values
+	q := f.Cache.deadcode.q[:0]
+	defer func() { f.Cache.deadcode.q = q }()
 
 	// Starting set: all control values of reachable blocks are live.
 	// Calls are live (because callee can observe the memory state).
