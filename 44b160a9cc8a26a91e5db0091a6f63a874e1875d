@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "838c92de_d8ebc029",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-03-11T18:18:49Z",
+      "side": 1,
+      "message": "That could work, though I think I\u0027d rather see it documented on ReportMetric. In a sense, users don\u0027t know that String() is used to actually print the benchmark results, they just know they\u0027re calling ReportMetric.\n\nI don\u0027t mind saying that all custom metrics are printed. My main concern is that we can\u0027t just say \"0 values for built-in metrics hide them\" because of \"allocs/op\" and \"B/op\". We could change that so if those disappear if you *override* them with a 0 value, but if the benchmark framework measured them as 0 we still show them.",
+      "parentUuid": "2c5bfc04_21b5abf7",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9505000_a6b02774",
         "filename": "src/testing/benchmark_test.go",
         "patchSetId": 1
