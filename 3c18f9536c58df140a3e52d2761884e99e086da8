@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "648c67d1_d09b174d",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-11T20:34:38Z",
+      "side": 1,
+      "message": "Do we need this new parameter? `modfetch` already imports `cfg`.",
+      "range": {
+        "startLine": 481,
+        "startChar": 16,
+        "endLine": 481,
+        "endChar": 29
+      },
+      "revId": "3c18f9536c58df140a3e52d2761884e99e086da8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
