@@ -16,6 +16,24 @@
       "revId": "90f0efb0a7d3c41fe489b3210cd45df6e3549906",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bcd5a06_188ab3d3",
+        "filename": "src/cmd/compile/internal/ssa/gen/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T17:25:34Z",
+      "side": 1,
+      "message": "Done. I now have the Op Scale method convert to int16 to reduce conversions elsewhere, since int16 is the Addr field type.",
+      "parentUuid": "7c54eb5a_0275f954",
+      "revId": "90f0efb0a7d3c41fe489b3210cd45df6e3549906",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
