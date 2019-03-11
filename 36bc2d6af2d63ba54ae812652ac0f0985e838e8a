@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e3feb11_aae7862c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-11T18:40:58Z",
+      "side": 1,
+      "message": "Move to bottom.",
+      "revId": "36bc2d6af2d63ba54ae812652ac0f0985e838e8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90a16b96_f424cdd8",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-11T18:40:58Z",
+      "side": 1,
+      "message": "group them in var ( ... ) and add comment(s)?",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 31
+      },
+      "revId": "36bc2d6af2d63ba54ae812652ac0f0985e838e8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1c6acae_dd1f92fe",
+        "filename": "src/os/signal/signal_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-11T18:40:58Z",
+      "side": 1,
+      "message": "Maybe just:\n\nwatchSignalLoop \u003d loop\n\nAnd move the \"go\" to the caller? If there are only two of these definitions and both involve the callee doing the goroutine creation?",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 2
+      },
+      "revId": "36bc2d6af2d63ba54ae812652ac0f0985e838e8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e32c5da9_baa52fef",
+        "filename": "src/os/signal/signal_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-11T18:40:58Z",
+      "side": 1,
+      "message": "From this code alone it\u0027s not obvious what is \"lazy\" about this. I\u0027d move these docs to the variable declarations.",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "36bc2d6af2d63ba54ae812652ac0f0985e838e8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
