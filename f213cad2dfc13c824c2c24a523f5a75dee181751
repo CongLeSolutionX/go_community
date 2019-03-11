@@ -16,6 +16,24 @@
       "revId": "f213cad2dfc13c824c2c24a523f5a75dee181751",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705a276c_5de01ecd",
+        "filename": "src/cmd/compile/internal/gc/mpint.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-11T20:20:14Z",
+      "side": 1,
+      "message": "I was trying to be conservative, but I think you\u0027re right. Changed.",
+      "parentUuid": "90df50e0_ca65b84e",
+      "revId": "f213cad2dfc13c824c2c24a523f5a75dee181751",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
