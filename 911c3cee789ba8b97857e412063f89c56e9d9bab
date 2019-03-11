@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "365ea452_52524ca3",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-03-11T19:57:22Z",
+      "side": 1,
+      "message": "I think that URLs in docs typically include the https://.\n\nSeparately, shouldn\u0027t we at some point move the description of that convention from the design doc into the testing package documentation?",
+      "range": {
+        "startLine": 430,
+        "startChar": 3,
+        "endLine": 430,
+        "endChar": 43
+      },
+      "revId": "911c3cee789ba8b97857e412063f89c56e9d9bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f07685e_bdf657c4",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 4
@@ -36,6 +59,29 @@
     },
     {
       "key": {
+        "uuid": "157c2ae4_043a6121",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-03-11T19:57:22Z",
+      "side": 1,
+      "message": "Extremely minor nits:\n\ns/with/of/ makes it a tiny bit less ambiguous (\"with\" could modify \"override\", somehow).\nConsider deleting \"always\".",
+      "range": {
+        "startLine": 434,
+        "startChar": 50,
+        "endLine": 434,
+        "endChar": 54
+      },
+      "revId": "911c3cee789ba8b97857e412063f89c56e9d9bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0070a96_37ec29f1",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 4
@@ -47,6 +93,75 @@
       "writtenOn": "2019-03-11T19:55:50Z",
       "side": 1,
       "message": "s/It/String/ to avoid unclear antecedent",
+      "revId": "911c3cee789ba8b97857e412063f89c56e9d9bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5882772_2c316c44",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-03-11T19:57:22Z",
+      "side": 1,
+      "message": "Maybe s/It/The summary/ since at this point we\u0027re getting a bit far away from where \"it\" was mentioned.",
+      "range": {
+        "startLine": 435,
+        "startChar": 3,
+        "endLine": 435,
+        "endChar": 5
+      },
+      "revId": "911c3cee789ba8b97857e412063f89c56e9d9bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a513a6a2_d82e42ce",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-03-11T19:57:22Z",
+      "side": 1,
+      "message": "Why not a strings.Builder? (I saw it mentioned in a previous resolved comment from Josh, but I couldn\u0027t find any other discussion.)",
+      "range": {
+        "startLine": 438,
+        "startChar": 12,
+        "endLine": 438,
+        "endChar": 24
+      },
+      "revId": "911c3cee789ba8b97857e412063f89c56e9d9bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16bbe3b1_31620aaf",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-03-11T19:57:22Z",
+      "side": 1,
+      "message": "Here and below, you could use buf.WriteByte (same for strings.Builder).",
+      "range": {
+        "startLine": 442,
+        "startChar": 2,
+        "endLine": 442,
+        "endChar": 23
+      },
       "revId": "911c3cee789ba8b97857e412063f89c56e9d9bab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
