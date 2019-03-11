@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb7fa637_f56eb955",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-11T20:02:35Z",
+      "side": 1,
+      "message": "Nice, thanks! However, let\u0027s meet in the middle as\n   \"it is run in a goroutine lazily, once a signal arrives.\"\nmight be a little misleading because the goroutine is\nlazily started if Notify is invoked and no signal need have\narrived at invocation time.\nAlso it might be useful to mention the reason why we are\ndoing that, but the issue reference can solve that.\n\nI\u0027ll make a hybrid comment.",
+      "parentUuid": "aced2177_c183eeb8",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 98,
+        "endChar": 49
+      },
+      "revId": "342bb2182daec0cdd8d2b8ff958d586c1043923b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7bcc8007_98eb5f00",
         "filename": "src/os/signal/signal.go",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2019-03-11T19:47:40Z",
       "side": 1,
       "message": "Can probably drop this now. It\u0027s obvious from the code and documented just above too.",
+      "range": {
+        "startLine": 124,
+        "startChar": 1,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "342bb2182daec0cdd8d2b8ff958d586c1043923b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c00d62d_2eb97213",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-11T20:02:35Z",
+      "side": 1,
+      "message": "Roger that, ack!",
+      "parentUuid": "7bcc8007_98eb5f00",
       "range": {
         "startLine": 124,
         "startChar": 1,
