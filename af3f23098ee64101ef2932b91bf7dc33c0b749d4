@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9481217_52ae1d60",
+        "filename": "src/cmd/go.mod",
+        "patchSetId": 21
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-11T19:24:13Z",
+      "side": 1,
+      "message": "There\u0027s a newer version of x/tools module by now, and yet another is in progress (CL 166877), that will have fewer external dependencies. Should this wait and update that before being submitted, or is it okay to use this version for now, and update later?",
+      "revId": "af3f23098ee64101ef2932b91bf7dc33c0b749d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
