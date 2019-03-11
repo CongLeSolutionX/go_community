@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5237cfaf_43ec14ec",
+        "filename": "src/cmd/compile/internal/ssa/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T16:32:33Z",
+      "side": 1,
+      "message": "Reset occurs between functions. Deadcode gets run multiple times per function; each time it may end up with a different length. Reslicing it to the cap ensures that we find the high water mark in the search below.",
+      "parentUuid": "ed2fb791_422c9cdd",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1cfaf524_8064ffa5",
         "filename": "src/cmd/compile/internal/ssa/deadcode.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-11T16:24:32Z",
       "side": 1,
       "message": "This worries me. It\u0027s asking for a use-after-free error. I think the abstraction level here isn\u0027t right.\nWhat about providing the caller with a function that they can defer to return the results after the caller is done? Ala retSparseSet for sparse sets.\n\nThey can do\n\nlive, order :\u003d liveValues(...)\ndefer recycleLiveValues(live, order)\n\nor something.",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a34d56a_5775fe7f",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T16:32:33Z",
+      "side": 1,
+      "message": "I wrote that originally, but you have the same potential use-after-free problems: the caller has to remember to return the results, and they still could keep ahold of it inappropriately anyway. And it added a bunch of layers and indirection.\n\nI can go back to that if you prefer, but given that these are really just for deadcode, I prefer the simplicity.",
+      "parentUuid": "1cfaf524_8064ffa5",
       "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "847a6ae2_5cbacd29",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T16:32:33Z",
+      "side": 1,
+      "message": "Zeroing here does a bunch of work unnecessarily. During the compilation of a given function, most Values get kept alive one way or another, and all the values that get written into q are live.",
+      "parentUuid": "cc22cad7_7a76b225",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26eee32d_89075e74",
         "filename": "src/cmd/compile/internal/ssa/deadcode.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2019-03-11T16:24:32Z",
       "side": 1,
       "message": "Or even do here:\n  q[len(q)-1] \u003d nil // zero for GC\nThen you don\u0027t need to reset q at all.",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70c2a726_84333953",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T16:32:33Z",
+      "side": 1,
+      "message": "Ditto; a bulk clear at the end of the function is far cheaper and sufficiently effective.",
+      "parentUuid": "26eee32d_89075e74",
       "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
