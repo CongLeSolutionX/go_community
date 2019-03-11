@@ -22,6 +22,30 @@
       "revId": "3c18f9536c58df140a3e52d2761884e99e086da8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2808f738_701c9258",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 28030
+      },
+      "writtenOn": "2019-03-11T21:03:10Z",
+      "side": 1,
+      "message": "I noticed that after I submitted the CL, will use the cfg package directly.",
+      "parentUuid": "648c67d1_d09b174d",
+      "range": {
+        "startLine": 481,
+        "startChar": 16,
+        "endLine": 481,
+        "endChar": 29
+      },
+      "revId": "3c18f9536c58df140a3e52d2761884e99e086da8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
