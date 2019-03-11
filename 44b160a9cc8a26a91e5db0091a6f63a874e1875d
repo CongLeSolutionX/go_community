@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e50b210_450e2cf2",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T15:40:40Z",
+      "side": 1,
+      "message": "Do we also need to check for tabs, etc?",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65b34558_b7ec346c",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T15:40:40Z",
+      "side": 1,
+      "message": "\u0027buf :\u003d new(strings.Builder)\u0027 and remove \u0027\u0026\u0027 everywhere below. More readable and harder to accidentally copy the value when refactoring.",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b1063e0_9957e40b",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T15:40:40Z",
+      "side": 1,
+      "message": "Suppress when 0. This will require moving the \\t from the previous line to this one. (Should printing the tab go into prettyPrint?)",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9505000_a6b02774",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T15:40:40Z",
+      "side": 1,
+      "message": "Same nit: \u0027buf :\u003d new(strings.Builder)\u0027",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b33635_d182832c",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T15:40:40Z",
+      "side": 1,
+      "message": "s/is/it/",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
