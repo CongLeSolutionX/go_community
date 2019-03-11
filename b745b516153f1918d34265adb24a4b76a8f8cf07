@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8239a88_b582a6ad",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-11T23:20:17Z",
+      "side": 1,
+      "message": "Won\u0027t the atomic.Store on the next line ensure that this store is pushed out to all processors?  Or, for that matter, the unlock(\u0026sched.lock) below?\n\nI can see the use of the atomic.Load below, since it is called when sched.lock is not held.  Similarly I can see the use of an atomic.Load in exitsyscallfast, though this CL doesn\u0027t have that.  But I can\u0027t see the use of an atomic.Store here.",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93158980_f7ac01c2",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1345,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-11T23:20:17Z",
+      "side": 1,
+      "message": "I don\u0027t see the use of this atomic.Store either, since sched.lock is held.  The atomic.Load below makes sense.",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
