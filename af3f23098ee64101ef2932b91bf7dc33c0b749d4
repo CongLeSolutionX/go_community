@@ -16,6 +16,24 @@
       "revId": "af3f23098ee64101ef2932b91bf7dc33c0b749d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19b8e081_8b820358",
+        "filename": "src/cmd/go.mod",
+        "patchSetId": 21
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-11T19:34:23Z",
+      "side": 1,
+      "message": "This is the x/tools commit that shrinks the x/tools dependencies, and the version of x/net that it requires predates the go.mod file (so its transitive dependencies have no effect).\n\nPlus, we don\u0027t bother loading the go.mod files for \u0027cmd\u0027 and \u0027std\u0027 unless the command explicitly uses module mode (\u0027go get\u0027 or \u0027go mod\u0027), so the transitive dependencies have no effect most of the time anyway (note that there are no x/net dependencies in cmd/vendor).\n\nSo I think this is fine for now.",
+      "parentUuid": "f9481217_52ae1d60",
+      "revId": "af3f23098ee64101ef2932b91bf7dc33c0b749d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
