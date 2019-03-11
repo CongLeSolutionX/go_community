@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c86b0dc_94b891ef",
+        "filename": "src/runtime/cgo/callbacks_aix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-11T16:03:47Z",
+      "side": 1,
+      "message": "I don\u0027t know why. But if these are added to callback.go, it seems to trigger a problem with plugin buildmode (cf https://storage.googleapis.com/go-build-log/b0975b77/linux-amd64_371a905c.log).",
+      "revId": "7db06a7fa328adda32f681feca4153a514c88ce8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
