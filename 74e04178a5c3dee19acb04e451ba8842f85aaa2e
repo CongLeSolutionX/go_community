@@ -247,6 +247,24 @@
       "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d4d992b_f44c5dfb",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-11T19:26:01Z",
+      "side": 1,
+      "message": "Hadn\u0027t thought about that. But still, 3 instructions.",
+      "parentUuid": "ceba4f3a_187c1047",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36ea370f_7cb170a7",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-11T19:26:01Z",
+      "side": 1,
+      "message": "Add a comment that the caller should call f.retDeadcodeLive(live)",
+      "revId": "1989dd0b2aa7f86488192ca6cf97f3918fafdd3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
