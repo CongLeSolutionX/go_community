@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "f542d476_3490317b",
+        "filename": "src/cmd/compile/internal/ssa/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T17:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "861150a5_7d0fe5c2",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cfaf524_8064ffa5",
         "filename": "src/cmd/compile/internal/ssa/deadcode.go",
         "patchSetId": 1
@@ -105,6 +123,24 @@
       "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6059b564_f253bbee",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T17:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bc214bb_04494047",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -190,6 +226,24 @@
       "side": 1,
       "message": "This would be literally a single instruction, a write to something already in L1 cache. It\u0027s hard to imagine anything faster (even if we do it more times than necessary).",
       "parentUuid": "70c2a726_84333953",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceba4f3a_187c1047",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T17:15:29Z",
+      "side": 1,
+      "message": "It has a write barrier.",
+      "parentUuid": "2c2be104_6a2629b1",
       "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
