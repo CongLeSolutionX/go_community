@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "2c5bfc04_21b5abf7",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T17:39:45Z",
+      "side": 1,
+      "message": "For custom metrics, the programmer can decide not to add them if they are zero.\n\nFor our metrics, we can do the right thing.\n\nAs for how to document that you can suppress ns/op by setting it to zero, we could add some docs to this String method. Here\u0027s a draft, for you to edit as you see fit:\n\n// String returns a summary of the benchmark results.\n// It is formatted in accordance with https://github.com/golang/proposal/blob/master/design/14313-benchmark-format.md. (Is there a shorter URL we can use?)\n// It includes ns/op and MB/s if they are non-zero\n// and all metrics from Extra.\n// Note that Extra metrics always override built-in metrics with the same name.\n// It does not include allocs/op or B/op\n// (unless those are present in Extra).",
+      "parentUuid": "ac5f7920_1db55812",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9505000_a6b02774",
         "filename": "src/testing/benchmark_test.go",
         "patchSetId": 1
