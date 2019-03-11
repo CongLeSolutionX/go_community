@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed2fb791_422c9cdd",
+        "filename": "src/cmd/compile/internal/ssa/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-11T16:24:32Z",
+      "side": 1,
+      "message": "Why reslice this to its cap? There shouldn\u0027t be any non-nil data past the length anyway, right?\n(Unlike q below.)",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cfaf524_8064ffa5",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-11T16:24:32Z",
+      "side": 1,
+      "message": "This worries me. It\u0027s asking for a use-after-free error. I think the abstraction level here isn\u0027t right.\nWhat about providing the caller with a function that they can defer to return the results after the caller is done? Ala retSparseSet for sparse sets.\n\nThey can do\n\nlive, order :\u003d liveValues(...)\ndefer recycleLiveValues(live, order)\n\nor something.",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc22cad7_7a76b225",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-11T16:24:32Z",
+      "side": 1,
+      "message": "This one is fine because it is local.\n\nIt might be worth zeroing q here instead of in Reset.",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26eee32d_89075e74",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-11T16:24:32Z",
+      "side": 1,
+      "message": "Or even do here:\n  q[len(q)-1] \u003d nil // zero for GC\nThen you don\u0027t need to reset q at all.",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
