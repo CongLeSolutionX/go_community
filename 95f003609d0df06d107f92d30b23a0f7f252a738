@@ -54,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "2708f2ff_1abc8d15",
+        "filename": "src/net/http/default_transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-11T19:53:03Z",
+      "side": 1,
+      "message": "I don\u0027t want to change the docs here:\n\nhttps://golang.org/pkg/net/http/#DefaultTransport\n\nThat is useful information (the type, the values, etc).",
+      "revId": "95f003609d0df06d107f92d30b23a0f7f252a738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0fe886c1_c4781d5f",
         "filename": "src/net/http/default_transport_js.go",
         "patchSetId": 1
@@ -83,6 +100,29 @@
       "side": 1,
       "message": "I looked and couldn\u0027t easily find any precedent other than the (different) pattern of assigning to the blank identifier to assert interface compatibility at compile time. I guess my idea was to make it clear that only the type matters and the value isn\u0027t used. I admit it really is less clear. I\u0027ll change it to \u0026jsTransport{} .",
       "parentUuid": "0fe886c1_c4781d5f",
+      "revId": "95f003609d0df06d107f92d30b23a0f7f252a738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0461b3a9_c514dd53",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-11T19:53:03Z",
+      "side": 1,
+      "message": "No need for the _ or the *\n\nYou can write:\n\n   func (jsTransport) RoundTrip(...\n\n... if the receiver is an empty struct.",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 12
+      },
       "revId": "95f003609d0df06d107f92d30b23a0f7f252a738",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
