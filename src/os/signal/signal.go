@@ -92,6 +92,14 @@ func Ignored(sig os.Signal) bool {
 	return sn >= 0 && signalIgnored(sn)
 }
 
+var (
+	// watchSignalLoopOnce ensures that we only watch
+	// signals if Notify is invoked. This is to allow
+	// proper deadlock detection as per issue 21576.
+	watchSignalLoopOnce sync.Once
+	watchSignalLoop     func()
+)
+
 // Notify causes package signal to relay incoming signals to c.
 // If no signals are provided, all incoming signals will be relayed to c.
 // Otherwise, just the provided signals will.
@@ -112,6 +120,15 @@ func Notify(c chan<- os.Signal, sig ...os.Signal) {
 	if c == nil {
 		panic("os/signal: Notify using nil channel")
 	}
+
+	// Lazily start the watchSignalLoop the
+	// first time that Notify is invoked.
+	// See issue 21576.
+	watchSignalLoopOnce.Do(func() {
+		if watchSignalLoop != nil {
+			go watchSignalLoop()
+		}
+	})
 
 	handlers.Lock()
 	defer handlers.Unlock()
