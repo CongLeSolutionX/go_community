@@ -26,7 +26,13 @@ func loop() {
 
 func init() {
 	signal_enable(0) // first call - initialize
-	go loop()
+
+	// Lazily create the routine that watches for signals to
+	// be triggered only once after Notify has been invoked.
+	// See Issue 21576.
+	triggerSignalWatcher = func() {
+		go loop()
+	}
 }
 
 const (

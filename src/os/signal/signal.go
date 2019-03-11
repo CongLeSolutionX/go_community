@@ -92,6 +92,9 @@ func Ignored(sig os.Signal) bool {
 	return sn >= 0 && signalIgnored(sn)
 }
 
+var signalsWatcherOnce sync.Once
+var triggerSignalWatcher func()
+
 // Notify causes package signal to relay incoming signals to c.
 // If no signals are provided, all incoming signals will be relayed to c.
 // Otherwise, just the provided signals will.
@@ -112,6 +115,15 @@ func Notify(c chan<- os.Signal, sig ...os.Signal) {
 	if c == nil {
 		panic("os/signal: Notify using nil channel")
 	}
+
+	// Lazily trigger the signals watcher only
+	// once, when Notify has been invoked.
+	// See Issue 21576.
+	signalsWatcherOnce.Do(func() {
+		if triggerSignalWatcher != nil {
+			triggerSignalWatcher()
+		}
+	})
 
 	handlers.Lock()
 	defer handlers.Unlock()
