@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90df50e0_ca65b84e",
+        "filename": "src/cmd/compile/internal/gc/mpint.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-03-11T20:09:33Z",
+      "side": 1,
+      "message": "Sounds like if this happens, it\u0027s a compiler error, not a user error. Maybe Fatalf is more appropriate then?",
+      "revId": "f213cad2dfc13c824c2c24a523f5a75dee181751",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
