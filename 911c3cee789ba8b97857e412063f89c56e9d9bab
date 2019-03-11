@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71fb57b8_68cb0dcb",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T19:55:50Z",
+      "side": 1,
+      "message": "s|ns/op|allocs/op| so that it is clearer that the \"ns/op\" in the next sentence is not generic too.",
+      "revId": "911c3cee789ba8b97857e412063f89c56e9d9bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f07685e_bdf657c4",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T19:55:50Z",
+      "side": 1,
+      "message": "I think we should now delete this sentence.",
+      "revId": "911c3cee789ba8b97857e412063f89c56e9d9bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0070a96_37ec29f1",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T19:55:50Z",
+      "side": 1,
+      "message": "s/It/String/ to avoid unclear antecedent",
+      "revId": "911c3cee789ba8b97857e412063f89c56e9d9bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
