@@ -70,6 +70,30 @@
       "revId": "d6fcd67fc7b5255b0b6307f4c8a57ff6ef360eca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22c298ab_a05d541e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-11T16:39:07Z",
+      "side": 1,
+      "message": "I have tried with atomic.Store and everything seems alright too.\nAre the other stores needed to be atomic too ? (all sched.stopwait-- for example ) ? \nIt seems to work without but it can be safer if you think so.",
+      "parentUuid": "70dde14d_1f2dc86d",
+      "range": {
+        "startLine": 1016,
+        "startChar": 1,
+        "endLine": 1016,
+        "endChar": 15
+      },
+      "revId": "d6fcd67fc7b5255b0b6307f4c8a57ff6ef360eca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
