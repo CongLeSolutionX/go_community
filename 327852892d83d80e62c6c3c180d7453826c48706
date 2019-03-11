@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4ec43b4_8ed1b3cf",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4995,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2019-03-11T10:42:09Z",
+      "side": 1,
+      "message": "Opcode is encoded into Offset according to the nstruction \"ld1 (Rn), C_List\", ld2-ld4 instructions have different opcode value from ld1. I have two suggestions: one is encoding opcode in asm7.go not in parsing time, another one is considering the register number and opcode of ld2-ld4 is constant, we can reuse checkoffset() to check register number. Maybe last one is easy to do. \nAnd I think it is unreasonable to use o.param to check register number.\nIf we reuse checkoffset(), we can also reuse case 81.",
+      "revId": "327852892d83d80e62c6c3c180d7453826c48706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
