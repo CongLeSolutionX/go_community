@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "6acdce7f_2a7e18e1",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-11T21:27:43Z",
+      "side": 1,
+      "message": "I am not convinced by your line of arguments:\n\n1) Regarding the block comment that is ignored: It is only ignored if you use as start position the position of the first spec. If you use the position of the beginning of the line, it will work. It will require a bit more work to find that,\nbut in turn you can avoid computing the line for each comment: Given a position pos, and a token.File f, one can get the start of the line position via f.LineStart(fset.Position(pos).Line); and one can get the file via fset.File(pos). Thus, in this code is should be something like:\n\nbeg :\u003d fset.File(pos[0].Start).LineStart(firstLine)\nend :\u003d fset.File(pos[len(pos)-1].End).LineStart(lastLine+1) // beginning of next line\n\nand then one can just compare against beg and end (see below). (It probably makes sense to factor out begSpecs \u003d pos[0].Start and endSpecs \u003d pos[len(pos)-1 rather than firstLine and lastLine, and use those to compute beg and end. It may make a difference because there can be quite a few comments in a program file.\n\n2) Regarding the lines being reset after the package statement: That seems very odd. Does this happen in this code somewhere? The AST\u0027s line numbers shouldn\u0027t magically be reset after a package statement. That would be a bug. Can you write a simple reproducible test case that shows that this is indeed the case? I think this needs to be traced down, we shouldn\u0027t add spurious work-arounds for something that shouldn\u0027t happen in the first place.\n\nI\u0027m sorry for harping on this small piece of code, but this loop should in principle look like this:\n\ncstart :\u003d len(f.Comments)\ncend :\u003d 0\nfor i, g :\u003d range f.Comments {\n   if beg \u003c\u003d g.Pos() \u0026\u0026 g.End() \u003c end {\n      // comment is within the range [beg, end[ of import declarations\n      if i \u003c cstart {\n         cstart \u003d i\n      }\n      if i \u003e cend {\n         cend \u003d i\n   }\n}\n\nThe algorithm is clear:\nfor all comments do\n   check if they are in bounds\n   if they are in bounds then\n      lower the lower comment index if needed\n      increase the upper comment index if needed\n\nAnything beyond this needs to justified somehow. What we have at the moment appears to work, but it\u0027s not clear to me why it\u0027s more complicated than this. Admittedly, the difference is small: instead of positions, the code compares lines, and then there\u0027s some additional work-arounds which seem odd. But we should really get to the bottom of this because the next time somebody is looking at this code, maybe 1/2 year from now, they will scratch their heads trying to reason exactly why things are as they are.",
+      "parentUuid": "b9e374ef_3bc73c81",
+      "range": {
+        "startLine": 118,
+        "startChar": 17,
+        "endLine": 118,
+        "endChar": 24
+      },
+      "revId": "bf06aa7e4abe31f09a13a4fe99cbc3b8c7a9c138",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91959c9a_eb6efedc",
         "filename": "src/go/ast/import.go",
         "patchSetId": 3
