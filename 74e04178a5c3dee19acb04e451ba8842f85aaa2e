@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "861150a5_7d0fe5c2",
+        "filename": "src/cmd/compile/internal/ssa/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-11T16:40:53Z",
+      "side": 1,
+      "message": "That makes sense. Perhaps a comment?",
+      "parentUuid": "5237cfaf_43ec14ec",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1cfaf524_8064ffa5",
         "filename": "src/cmd/compile/internal/ssa/deadcode.go",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I wrote that originally, but you have the same potential use-after-free problems: the caller has to remember to return the results, and they still could keep ahold of it inappropriately anyway. And it added a bunch of layers and indirection.\n\nI can go back to that if you prefer, but given that these are really just for deadcode, I prefer the simplicity.",
       "parentUuid": "1cfaf524_8064ffa5",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bc214bb_04494047",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-11T16:40:53Z",
+      "side": 1,
+      "message": "\u003e the caller has to remember to return the results\n\nMake it so if the caller forgets to return the results, you allocate a new slices the next time. So if they forget it will be slower, but not wrong.",
+      "parentUuid": "8a34d56a_5775fe7f",
       "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -136,6 +172,24 @@
       "side": 1,
       "message": "Ditto; a bulk clear at the end of the function is far cheaper and sufficiently effective.",
       "parentUuid": "26eee32d_89075e74",
+      "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c2be104_6a2629b1",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-11T16:40:53Z",
+      "side": 1,
+      "message": "This would be literally a single instruction, a write to something already in L1 cache. It\u0027s hard to imagine anything faster (even if we do it more times than necessary).",
+      "parentUuid": "70c2a726_84333953",
       "revId": "74e04178a5c3dee19acb04e451ba8842f85aaa2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
