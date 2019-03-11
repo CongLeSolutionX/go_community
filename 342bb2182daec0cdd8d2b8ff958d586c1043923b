@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aced2177_c183eeb8",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-11T19:47:40Z",
+      "side": 1,
+      "message": "How about:\n\n// watchSignalLoopOnce guards calling the conditionally\n// initialized watchSignalLoop. If watchSignalLoop is non-nil,\n// it is run in a goroutine lazily, once a signal arrives.\n// See Issue 21576.",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 98,
+        "endChar": 49
+      },
+      "revId": "342bb2182daec0cdd8d2b8ff958d586c1043923b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bcc8007_98eb5f00",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-11T19:47:40Z",
+      "side": 1,
+      "message": "Can probably drop this now. It\u0027s obvious from the code and documented just above too.",
+      "range": {
+        "startLine": 124,
+        "startChar": 1,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "342bb2182daec0cdd8d2b8ff958d586c1043923b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
