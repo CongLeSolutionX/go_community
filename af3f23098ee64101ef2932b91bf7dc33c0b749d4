@@ -34,6 +34,24 @@
       "revId": "af3f23098ee64101ef2932b91bf7dc33c0b749d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a52dbb7_9c581689",
+        "filename": "src/cmd/go.mod",
+        "patchSetId": 21
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-11T19:46:15Z",
+      "side": 1,
+      "message": "Ah, that makes sense. Thanks.",
+      "parentUuid": "19b8e081_8b820358",
+      "revId": "af3f23098ee64101ef2932b91bf7dc33c0b749d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
