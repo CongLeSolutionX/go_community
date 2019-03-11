@@ -979,10 +979,16 @@ func calcHasCall(n *Node) bool {
 			return true
 		}
 	case OINDEX, OSLICE, OSLICEARR, OSLICE3, OSLICE3ARR, OSLICESTR,
-		ODEREF, ODOTPTR, ODOTTYPE, ODIV, OMOD:
+		ODEREF, ODOTPTR, ODOTTYPE, OMOD:
 		// These ops might panic, make sure they are done
 		// before we start marshaling args for a call. See issue 16760.
 		return true
+
+	// When using non-soft-float, these ops will not panic on floats
+	case ODIV:
+		if thearch.SoftFloat || !isFloat[n.Type.Etype] {
+			return true
+		}
 
 	// When using soft-float, these ops might be rewritten to function calls
 	// so we ensure they are evaluated first.
