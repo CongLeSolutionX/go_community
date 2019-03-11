@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6c61a558_557e059f",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-03-11T17:21:04Z",
+      "side": 1,
+      "message": "Ah, yes. According to https://github.com/golang/proposal/blob/master/design/14313-benchmark-format.md fields are separated by unicode.IsSpace, so we can\u0027t allow anything that matches that.\n\nFixed.",
+      "parentUuid": "2e50b210_450e2cf2",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65b34558_b7ec346c",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "4a6448b9_fa38a007",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-03-11T17:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65b34558_b7ec346c",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b1063e0_9957e40b",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2019-03-11T15:40:40Z",
       "side": 1,
       "message": "Suppress when 0. This will require moving the \\t from the previous line to this one. (Should printing the tab go into prettyPrint?)",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac5f7920_1db55812",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-03-11T17:21:04Z",
+      "side": 1,
+      "message": "Done, though I\u0027m not sure how to document this. Presumably we want to print other metrics that are zero. Certainly this is true of, say, allocs/op, and probably true of other custom metrics.",
+      "parentUuid": "4b1063e0_9957e40b",
       "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "9afed436_65faf756",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-03-11T17:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9505000_a6b02774",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4b33635_d182832c",
         "filename": "src/testing/benchmark_test.go",
         "patchSetId": 1
@@ -84,6 +156,24 @@
       "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f40e6a84_ac88e7bd",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-03-11T17:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4b33635_d182832c",
+      "revId": "44b160a9cc8a26a91e5db0091a6f63a874e1875d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
