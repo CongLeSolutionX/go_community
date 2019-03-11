@@ -22,6 +22,30 @@
       "revId": "a8f815ba6ec5776aeee0a704bc685ee88f3e0859",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aaeb188_d5720c2d",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-11T17:27:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29f63d0e_205cd7bb",
+      "range": {
+        "startLine": 841,
+        "startChar": 19,
+        "endLine": 841,
+        "endChar": 20
+      },
+      "revId": "a8f815ba6ec5776aeee0a704bc685ee88f3e0859",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
