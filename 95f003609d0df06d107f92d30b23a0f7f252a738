@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "f7d1ab04_8d71e683",
+        "filename": "src/net/http/default_transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 29404
+      },
+      "writtenOn": "2019-03-11T19:38:26Z",
+      "side": 1,
+      "message": "Not entirely unintentionally, in the sense that I actually thought about it a bit, but remained quite unconvinced about what to put here. I guessed that perhaps it could be more likely that some other WASM platform would have net.Dial than the browser Fetch API. I admit I have no idea.",
+      "parentUuid": "dd2e48a8_1358d852",
+      "revId": "95f003609d0df06d107f92d30b23a0f7f252a738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0fe886c1_c4781d5f",
         "filename": "src/net/http/default_transport_js.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2019-03-11T14:00:52Z",
       "side": 1,
       "message": "I\u0027m not sure this is common practice in the standard library, can you find a precedent for this?",
+      "revId": "95f003609d0df06d107f92d30b23a0f7f252a738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7cbc80c_f317ac79",
+        "filename": "src/net/http/default_transport_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 29404
+      },
+      "writtenOn": "2019-03-11T19:38:26Z",
+      "side": 1,
+      "message": "I looked and couldn\u0027t easily find any precedent other than the (different) pattern of assigning to the blank identifier to assert interface compatibility at compile time. I guess my idea was to make it clear that only the type matters and the value isn\u0027t used. I admit it really is less clear. I\u0027ll change it to \u0026jsTransport{} .",
+      "parentUuid": "0fe886c1_c4781d5f",
       "revId": "95f003609d0df06d107f92d30b23a0f7f252a738",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
