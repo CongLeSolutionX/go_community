@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fec7a69_c902f9be",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6069,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-12T01:59:40Z",
+      "side": 1,
+      "message": "I worry about XSS here. Do we really need to echo their transfer-encoding back?\n\nMaybe if it\u0027s only ASCII with no control chars it\u0027s fine. But just about anything else I worry about.",
+      "range": {
+        "startLine": 6069,
+        "startChar": 29,
+        "endLine": 6069,
+        "endChar": 62
+      },
+      "revId": "05f48263a6fccbf3b38126bf5679faa2f631607f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "256982f6_18f93405",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6077,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-12T01:59:40Z",
+      "side": 1,
+      "message": "dialing in US English",
+      "range": {
+        "startLine": 6077,
+        "startChar": 37,
+        "endLine": 6077,
+        "endChar": 45
+      },
+      "revId": "05f48263a6fccbf3b38126bf5679faa2f631607f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a11cc1fd_ea952c82",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-12T01:59:40Z",
+      "side": 1,
+      "message": "This is a little overkill.",
+      "revId": "05f48263a6fccbf3b38126bf5679faa2f631607f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
