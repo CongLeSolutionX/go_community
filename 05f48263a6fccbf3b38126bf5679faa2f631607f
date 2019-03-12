@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d44a813_ce1d2de7",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6069,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-12T05:58:39Z",
+      "side": 1,
+      "message": "Good concern! Before we returned badStringError at the return site but obviously coupled with a 400 response we didn\u0027t log that. However, with exposing this error now, I see the concern about sending quoted values so I shall drop it and just return a 501 Unimplemented response.\n\nThanks!",
+      "parentUuid": "2fec7a69_c902f9be",
+      "range": {
+        "startLine": 6069,
+        "startChar": 29,
+        "endLine": 6069,
+        "endChar": 62
+      },
+      "revId": "05f48263a6fccbf3b38126bf5679faa2f631607f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "256982f6_18f93405",
         "filename": "src/net/http/serve_test.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4220b790_9615d15b",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6077,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-12T05:58:39Z",
+      "side": 1,
+      "message": "Roger that, my mind switching between US and British English a lot.",
+      "parentUuid": "256982f6_18f93405",
+      "range": {
+        "startLine": 6077,
+        "startChar": 37,
+        "endLine": 6077,
+        "endChar": 45
+      },
+      "revId": "05f48263a6fccbf3b38126bf5679faa2f631607f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a11cc1fd_ea952c82",
         "filename": "src/net/http/transfer.go",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2019-03-12T01:59:40Z",
       "side": 1,
       "message": "This is a little overkill.",
+      "revId": "05f48263a6fccbf3b38126bf5679faa2f631607f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bad1d024_534b287e",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-12T05:58:39Z",
+      "side": 1,
+      "message": "Lol, sure I\u0027ll remove it.",
+      "parentUuid": "a11cc1fd_ea952c82",
       "revId": "05f48263a6fccbf3b38126bf5679faa2f631607f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
