@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "ca8bb34b_47dbb420",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-12T05:56:27Z",
+      "side": 1,
+      "message": "Oh nice ! I did not know about the LineStart API.\n\nYour new logic did not work exactly. In some cases, both Pos() and End() were not satisfying at the same time, so cstart and cend was coming out incorrect. The old logic with the new pos values work fine, but the TestAll failed again. Possibly due to the line nos. getting reset. I updated the code with this, so you can see where it\u0027s going wrong.\n\n\u003e That would be a bug. Can you write a simple reproducible test case that shows that this is indeed the case?\n\nYep of course. Filed https://github.com/golang/go/issues/30761",
+      "parentUuid": "6acdce7f_2a7e18e1",
+      "range": {
+        "startLine": 118,
+        "startChar": 17,
+        "endLine": 118,
+        "endChar": 24
+      },
+      "revId": "bf06aa7e4abe31f09a13a4fe99cbc3b8c7a9c138",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91959c9a_eb6efedc",
         "filename": "src/go/ast/import.go",
         "patchSetId": 3
