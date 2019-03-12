@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aeb71190_b2d430a2",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-12T13:01:03Z",
+      "side": 1,
+      "message": "I thought that it could be an error linked with how gcc is calling collect2 which calls ld afterwards. (ld -V doesn\u0027t return any errors). \nBut as you say it should be the same if another extld is one day available on AIX (which isn\u0027t the case currently).",
+      "parentUuid": "13e93f06_a0d37688",
+      "revId": "713840cdd9896735c022c6b9d679a49eb1ef1032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25029857_6297fe6d",
         "filename": "src/cmd/internal/dwarf/dwarf.go",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "713840cdd9896735c022c6b9d679a49eb1ef1032",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd8b4b17_5671283e",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-12T13:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25029857_6297fe6d",
+      "revId": "713840cdd9896735c022c6b9d679a49eb1ef1032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "87e84aa0_ec55b6e1",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-12T13:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3dc0e30_e2cf9ffb",
+      "revId": "713840cdd9896735c022c6b9d679a49eb1ef1032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f60d017_489c6ab2",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
@@ -67,6 +121,24 @@
       "revId": "713840cdd9896735c022c6b9d679a49eb1ef1032",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f435b00c_3a70c6b4",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1724,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-12T13:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f60d017_489c6ab2",
+      "revId": "713840cdd9896735c022c6b9d679a49eb1ef1032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
