@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "906baca8_fee82161",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2019-03-12T06:55:29Z",
+      "side": 1,
+      "message": "Technically this is _false_. RFC 6265 does not impose\nany length restriction on the attribute values (here\nDomain and Path); all it does is determine _which_ extra\nattributes are to be handled.\n\nIf all attributes allowed by RFC 6265 are present and all\ncontain their \"minimal value\" (e.g. Path\u003d/ ; Domain\u003da.bc ;\nMax-Age\u003d1 ; etc) you can derive a _minimal_ length but not\na maximal length.\n\nThis is a heuristic, and it should be derived from \"typical\"\nor \"representative\" values. Why not decide on 10 \"big\" websites\nand _measure_ the extraCookieLength for each of the cookies\nthey set. Set the constant to the 95th percentil and describe this\nin the comment.\nOr justify your 110 with an \"typical\" example.\n\nIt does not matter much how you come up with the value as long\nas you give a sound and correct justification.",
+      "range": {
+        "startLine": 171,
+        "startChar": 39,
+        "endLine": 171,
+        "endChar": 78
+      },
+      "revId": "c10a5e44e08b7c72be025864bff1ce8153d32ea6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
