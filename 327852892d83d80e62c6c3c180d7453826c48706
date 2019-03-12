@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "0f605ddd_3065cf6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2019-03-12T02:11:39Z",
+      "side": 1,
+      "message": "use lowercase here. see https://github.com/golang/go/wiki/CommitMessage.",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "327852892d83d80e62c6c3c180d7453826c48706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50ee7539_b631cd5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2019-03-12T02:11:39Z",
+      "side": 1,
+      "message": "adds",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "327852892d83d80e62c6c3c180d7453826c48706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "455aae74_ba544388",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2019-03-12T02:11:39Z",
+      "side": 1,
+      "message": "These codes can be merged into line 784. Refer to the implementation of AAESD/AAESE.  Also below AVLD3, AVLD4",
+      "range": {
+        "startLine": 798,
+        "startChar": 1,
+        "endLine": 800,
+        "endChar": 64
+      },
+      "revId": "327852892d83d80e62c6c3c180d7453826c48706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc549866_5caa9e21",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2019-03-12T02:11:39Z",
+      "side": 1,
+      "message": "They can be merged into line 790. The same with AVST3, AVST4.",
+      "range": {
+        "startLine": 801,
+        "startChar": 1,
+        "endLine": 803,
+        "endChar": 64
+      },
+      "revId": "327852892d83d80e62c6c3c180d7453826c48706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4ec43b4_8ed1b3cf",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
