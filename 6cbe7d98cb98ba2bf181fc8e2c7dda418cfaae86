@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "318e6d1e_789300c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-12T19:55:48Z",
+      "side": 1,
+      "message": "crypto/x509: allow nil Certificates to be compared in Equal",
+      "revId": "6cbe7d98cb98ba2bf181fc8e2c7dda418cfaae86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ca84149_21f794a1",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-12T19:55:48Z",
+      "side": 1,
+      "message": "Please change this to:\n\nfunc TestCertificateEqualOnNil\n\nand the reason I say that is because calling it TestCertificateEqual is a blanket\nstatement that assumes that we are comprehensively testing (*Certificate).Equal\n\nReally I think we can make this minimal and concise, such as:\n\nfunc TestCertificateEqualOnNil(t *testing.T) {\n    cNonNil :\u003d new(Certificate)\n    var cNil1, cNil2 *Certificate\n\n    if !cNil1.Equal(cNil2) {\n        t.Error(\"Nil certificates: cNil1 is not equal to cNil2\")\n    }\n    if !cNil2.Equal(cNil1) {\n        t.Error(\"Nil certificates: cNil2 is not equal to cNil1\")\n    }\n    if cNil1.Equal(cNonNil) {\n        t.Error(\"Unexpectedly cNil1 is equal to cNonNil\")\n    }\n    if cNonNil.Equal(cNil1) {\n        t.Error(\"Unexpectedly cNonNil is equal to cNil1\")\n    }\n}",
+      "revId": "6cbe7d98cb98ba2bf181fc8e2c7dda418cfaae86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
