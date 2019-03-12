@@ -430,6 +430,38 @@ func TestCertificateParse(t *testing.T) {
 	}
 }
 
+func TestCertificateEqual(t *testing.T) {
+	s, _ := hex.DecodeString(certBytes)
+	certs, err := ParseCertificates(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(certs) != 2 {
+		t.Fatalf("Wrong number of certs: got %d want 2", len(certs))
+	}
+
+	var (
+		nil1, nil2 *Certificate = nil, nil
+		crt1, crt2              = certs[0], certs[1]
+		crt1clone               = &Certificate{}
+	)
+	*crt1clone = *crt1
+
+	if !nil1.Equal(nil2) {
+		t.Errorf("Two nil certs are not equal")
+	}
+	if crt1.Equal(nil1) {
+		t.Errorf("Non nil cert equals nil cert")
+	}
+	if !crt1clone.Equal(crt1) {
+		t.Errorf("Identical certificates do not equal")
+	}
+	if crt1.Equal(crt2) {
+		t.Errorf("Different non-nil certificates equal")
+	}
+
+}
+
 func TestMismatchedSignatureAlgorithm(t *testing.T) {
 	der, _ := pem.Decode([]byte(rsaPSSSelfSignedPEM))
 	if der == nil {
