@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13e93f06_a0d37688",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-12T00:27:58Z",
+      "side": 1,
+      "message": "I don\u0027t see a reason to check for exactly \"gcc\" here.  It should be enough to look for 0711-317.  In particular if clang works on AIX then it will also invoke the system linker and produce the same error message.",
+      "revId": "713840cdd9896735c022c6b9d679a49eb1ef1032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25029857_6297fe6d",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-12T00:27:58Z",
+      "side": 1,
+      "message": "} else if v \u003e 7 {\n    return true, nil\n}",
+      "revId": "713840cdd9896735c022c6b9d679a49eb1ef1032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3dc0e30_e2cf9ffb",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-12T00:27:58Z",
+      "side": 1,
+      "message": "} else if v \u003e 2 {\n    return true, nil\n}",
+      "revId": "713840cdd9896735c022c6b9d679a49eb1ef1032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f60d017_489c6ab2",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1724,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-12T00:27:58Z",
+      "side": 1,
+      "message": "I think you should add a Link.extld method that does\n    if *flagExtld \u003d\u003d \"\" {\n        *flagExtld \u003d \"gcc\"\n    }\n    return *flagExtld\nand call it here and also from Link.findLibPathCmd.",
+      "revId": "713840cdd9896735c022c6b9d679a49eb1ef1032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
