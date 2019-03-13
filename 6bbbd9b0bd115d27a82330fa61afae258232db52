@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e30d64be_367dff80",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-13T04:28:41Z",
+      "side": 1,
+      "message": "Yes, we can\u0027t use filepath.Join, because the os package can\u0027t import the path/filepath package.",
+      "parentUuid": "1d1d97dd_05825e84",
+      "revId": "6bbbd9b0bd115d27a82330fa61afae258232db52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e32c1a32_a6ffccdf",
         "filename": "src/os/removeall_at.go",
         "patchSetId": 16
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "e32c1a32_a6ffccdf",
+      "revId": "6bbbd9b0bd115d27a82330fa61afae258232db52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cb430bd_8a0da0e7",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-13T04:28:41Z",
+      "side": 1,
+      "message": "I think that in the first call to this function, base will end with a slash, in which case this code will have two slashes in the middle.  But in future calls I think base will not end with a slash, and this code will be right.  We should be consistent in how we call removeAllFrom in whether base has a trailing slash or not.",
+      "parentUuid": "70928a63_50b7e8d4",
       "revId": "6bbbd9b0bd115d27a82330fa61afae258232db52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
