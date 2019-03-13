@@ -140,3 +140,17 @@ func ExampleShuffle_slicesInUnison() {
 	// E: 5
 	// B: 2
 }
+
+func ExampleIntn() {
+	// 86 - arbitrary value just for sake of example,
+	// so people don't blindly hard-code this value into program use meaningful one.
+	rand.Seed(86)
+	fmt.Println(rand.Intn(100))
+	fmt.Println(rand.Intn(100))
+	fmt.Println(rand.Intn(100))
+
+	// Output:
+	// 42
+	// 76
+	// 30
+}
