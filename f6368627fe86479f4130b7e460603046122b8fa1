@@ -34,6 +34,24 @@
       "revId": "f6368627fe86479f4130b7e460603046122b8fa1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13c35ba3_106bca2e",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2019-03-13T02:54:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "581863c6_f46b1c10",
+      "revId": "f6368627fe86479f4130b7e460603046122b8fa1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
