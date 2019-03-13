@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6ef383dc_935be3d3",
+        "filename": "src/syscall/syscall_freebsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-13T04:09:13Z",
+      "side": 1,
+      "message": "In general it\u0027s going to be much simpler for people to call these functions if they have the same signature on every OS.  And I think it would be an unusual case to want to pass a signal number with PtraceDetach.  So I think the PtraceDetach signature should be the same as on other systems.  It\u0027s OK if you want to add PtraceDetachAndSignal.",
+      "parentUuid": "18d0b5d0_c1ce7a41",
+      "revId": "7ea5302a0dd0873de97f3466145eaf6afb0dd1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c82fff27_3d3e636c",
         "filename": "src/syscall/syscall_freebsd.go",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "9172af08_0bb51264",
+        "filename": "src/syscall/syscall_freebsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-13T04:09:13Z",
+      "side": 1,
+      "message": "Yes, similarly, I think we should provide the same functions as other operating systems.",
+      "parentUuid": "5cbfe62f_0f27ad70",
+      "revId": "7ea5302a0dd0873de97f3466145eaf6afb0dd1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3f503c8_5cc408ed",
         "filename": "src/syscall/types_freebsd.go",
         "patchSetId": 1
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "If I use latest FreeBSD 12, wouldn\u0027t it break compatibility for users on older releases?",
       "parentUuid": "d3f503c8_5cc408ed",
+      "revId": "7ea5302a0dd0873de97f3466145eaf6afb0dd1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17a0bcb7_ba70f8ca",
+        "filename": "src/syscall/types_freebsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-13T04:09:13Z",
+      "side": 1,
+      "message": "I don\u0027t know.  It\u0027s probably best to revert any changes other than the new names.",
+      "parentUuid": "5ed813c0_48556876",
       "revId": "7ea5302a0dd0873de97f3466145eaf6afb0dd1c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
