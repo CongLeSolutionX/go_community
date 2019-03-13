@@ -9,8 +9,22 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"strings"
 	"testing"
 )
+
+func TestFrame(t *testing.T) {
+
+	// Extra line
+	got := fmt.Sprintf("%+v", errors.New("Test"))
+	got = got[strings.Index(got, "Test"):]
+	const want = "Test:" +
+		"\n    errors_test.TestFrame" +
+		"\n        /Users/mpvl/dev/go/gohead/src/errors/frame_test.go:19"
+	if got != want {
+		t.Errorf("\n got %v;\nwant %v", got, want)
+	}
+}
 
 type myType struct{}
 
@@ -18,10 +32,14 @@ func (myType) Format(s fmt.State, v rune) {
 	s.Write(bytes.Repeat([]byte("Hi! "), 10))
 }
 
+func BenchmarkNew(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = errors.New("new error")
+	}
+}
+
 func BenchmarkErrorf(b *testing.B) {
 	err := errors.New("foo")
-	// pi := big.NewFloat(3.14) // Something expensive.
-	num := big.NewInt(5)
 	args := func(a ...interface{}) []interface{} { return a }
 	benchCases := []struct {
 		name   string
@@ -30,8 +48,8 @@ func BenchmarkErrorf(b *testing.B) {
 	}{
 		{"no_format", "msg: %v", args(err)},
 		{"with_format", "failed %d times: %v", args(5, err)},
-		{"method: mytype", "pi: %v", args("myfile.go", myType{}, err)},
-		{"method: number", "pi: %v", args("myfile.go", num, err)},
+		{"method: mytype", "pi %s %v: %v", args("myfile.go", myType{}, err)},
+		{"method: number", "pi %s %d: %v", args("myfile.go", big.NewInt(5), err)},
 	}
 	for _, bc := range benchCases {
 		b.Run(bc.name, func(b *testing.B) {
