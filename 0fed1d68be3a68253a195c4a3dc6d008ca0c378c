@@ -16,6 +16,24 @@
       "revId": "0fed1d68be3a68253a195c4a3dc6d008ca0c378c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14a6dad5_ad95701a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2019-03-13T17:05:54Z",
+      "side": 1,
+      "message": "errors.New while saving the frame information, ceteris paribus, takes about 40ns.\n\nI reckon it is possible to have an alternative for runtime.Callers optimized to this case to improve performance.",
+      "parentUuid": "41ea8160_9ec44558",
+      "revId": "0fed1d68be3a68253a195c4a3dc6d008ca0c378c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
