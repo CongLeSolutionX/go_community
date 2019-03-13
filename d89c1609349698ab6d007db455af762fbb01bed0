@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64d8dda7_5b7b3963",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T03:02:26Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right to just concatenate parentDir + pathErr.Path. Please make it:\n\npathErr.Path \u003d filepath.Join(parentDir, pathErr.Path0",
+      "revId": "d89c1609349698ab6d007db455af762fbb01bed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bb5cfc4_056ebf73",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T03:02:26Z",
+      "side": 1,
+      "message": "Am not too comfortable doing this concatenation, how about using filepath.Join?",
+      "revId": "d89c1609349698ab6d007db455af762fbb01bed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24b6a390_d48e57ea",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T03:02:26Z",
+      "side": 1,
+      "message": "Why has this changed?",
+      "revId": "d89c1609349698ab6d007db455af762fbb01bed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b44abcc_a4c5a515",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T03:02:26Z",
+      "side": 1,
+      "message": "Not really, I had suggested got, want as below:\n\nif g, w :\u003d pathErr.Path, filepath.Join(tempDir, \"b\", \"y\"); g !\u003d w {\n   t.Errorf(\"got %q expected pathErr.path %q\", g, w)\n}\n\nand mentioned that in Go we do \"got %.... want\"",
+      "revId": "d89c1609349698ab6d007db455af762fbb01bed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d8d7f5d_6eac7792",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T03:02:26Z",
+      "side": 1,
+      "message": "Why has this changed to using + string(PathSeparator)?",
+      "revId": "d89c1609349698ab6d007db455af762fbb01bed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15331570_0cdaf989",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T03:02:26Z",
+      "side": 1,
+      "message": "filepath.Join(tempDir, dir)\n\nas it was before?",
+      "revId": "d89c1609349698ab6d007db455af762fbb01bed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "494d31bc_ad6f51f6",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T03:02:26Z",
+      "side": 1,
+      "message": "Please keep these as filepath.Join",
+      "revId": "d89c1609349698ab6d007db455af762fbb01bed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f4e0271_fceb5137",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T03:02:26Z",
+      "side": 1,
+      "message": "Ditto about filepath.Join",
+      "revId": "d89c1609349698ab6d007db455af762fbb01bed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
