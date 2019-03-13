@@ -16,6 +16,24 @@
       "revId": "e6b00329e894d7cf565630bcb2f46ead11534401",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "738ac47c_6289a392",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-13T23:23:54Z",
+      "side": 1,
+      "message": "They don\u0027t trigger anywhere that I could find. This one triggers because of code like this:\n\nmantissa \u003e\u003e\u003d 1\nx :\u003d float64(mantissa)\n\nand converting from a uint64 to a float64 requires testing whether the uint64 has the top bit set.\n\nI don\u0027t imagine such code happening with other value sizes; I think it is peculiar to uint64/float64.",
+      "parentUuid": "d09f0c00_232022b2",
+      "revId": "e6b00329e894d7cf565630bcb2f46ead11534401",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
