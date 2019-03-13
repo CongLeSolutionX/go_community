@@ -780,16 +780,35 @@ var optab = []Optab{
 	{ASTLXR, C_REG, C_NONE, C_NONE, C_ZOREG, 59, 4, 0, 0, 0}, // RegTo2=C_REG
 	{ASTXP, C_PAIR, C_NONE, C_NONE, C_ZOREG, 59, 4, 0, 0, 0},
 
-	/* VLD1/VST1 */
+	/* VLD[1-4]/VST[1-4] */
 	{AVLD1, C_ZOREG, C_NONE, C_NONE, C_LIST, 81, 4, 0, 0, 0},
 	{AVLD1, C_LOREG, C_NONE, C_NONE, C_LIST, 81, 4, 0, 0, C_XPOST},
 	{AVLD1, C_ROFF, C_NONE, C_NONE, C_LIST, 81, 4, 0, 0, C_XPOST},
+	{AVLD2, C_ZOREG, C_NONE, C_NONE, C_LIST, 81, 4, 8, 0, 0},
+	{AVLD2, C_LOREG, C_NONE, C_NONE, C_LIST, 81, 4, 8, 0, C_XPOST},
+	{AVLD2, C_ROFF, C_NONE, C_NONE, C_LIST, 81, 4, 8, 0, C_XPOST},
+	{AVLD3, C_ZOREG, C_NONE, C_NONE, C_LIST, 81, 4, 4, 0, 0},
+	{AVLD3, C_LOREG, C_NONE, C_NONE, C_LIST, 81, 4, 4, 0, C_XPOST},
+	{AVLD3, C_ROFF, C_NONE, C_NONE, C_LIST, 81, 4, 4, 0, C_XPOST},
+	{AVLD4, C_ZOREG, C_NONE, C_NONE, C_LIST, 81, 4, 0, 0, 0},
+	{AVLD4, C_LOREG, C_NONE, C_NONE, C_LIST, 81, 4, 0, 0, C_XPOST},
+	{AVLD4, C_ROFF, C_NONE, C_NONE, C_LIST, 81, 4, 0, 0, C_XPOST},
 	{AVLD1, C_LOREG, C_NONE, C_NONE, C_ELEM, 97, 4, 0, 0, C_XPOST},
 	{AVLD1, C_ROFF, C_NONE, C_NONE, C_ELEM, 97, 4, 0, 0, C_XPOST},
 	{AVLD1, C_LOREG, C_NONE, C_NONE, C_ELEM, 97, 4, 0, 0, 0},
+
 	{AVST1, C_LIST, C_NONE, C_NONE, C_ZOREG, 84, 4, 0, 0, 0},
 	{AVST1, C_LIST, C_NONE, C_NONE, C_LOREG, 84, 4, 0, 0, C_XPOST},
 	{AVST1, C_LIST, C_NONE, C_NONE, C_ROFF, 84, 4, 0, 0, C_XPOST},
+	{AVST2, C_LIST, C_NONE, C_NONE, C_ZOREG, 84, 4, 8, 0, 0},
+	{AVST2, C_LIST, C_NONE, C_NONE, C_LOREG, 84, 4, 8, 0, C_XPOST},
+	{AVST2, C_LIST, C_NONE, C_NONE, C_ROFF, 84, 4, 8, 0, C_XPOST},
+	{AVST3, C_LIST, C_NONE, C_NONE, C_ZOREG, 84, 4, 4, 0, 0},
+	{AVST3, C_LIST, C_NONE, C_NONE, C_LOREG, 84, 4, 4, 0, C_XPOST},
+	{AVST3, C_LIST, C_NONE, C_NONE, C_ROFF, 84, 4, 4, 0, C_XPOST},
+	{AVST4, C_LIST, C_NONE, C_NONE, C_ZOREG, 84, 4, 0, 0, 0},
+	{AVST4, C_LIST, C_NONE, C_NONE, C_LOREG, 84, 4, 0, 0, C_XPOST},
+	{AVST4, C_LIST, C_NONE, C_NONE, C_ROFF, 84, 4, 0, 0, C_XPOST},
 	{AVST1, C_ELEM, C_NONE, C_NONE, C_LOREG, 96, 4, 0, 0, C_XPOST},
 	{AVST1, C_ELEM, C_NONE, C_NONE, C_ROFF, 96, 4, 0, 0, C_XPOST},
 	{AVST1, C_ELEM, C_NONE, C_NONE, C_LOREG, 96, 4, 0, 0, 0},
@@ -2704,7 +2723,13 @@ func buildop(ctxt *obj.Link) {
 			AVCNT,
 			AVMOV,
 			AVLD1,
+			AVLD2,
+			AVLD3,
+			AVLD4,
 			AVST1,
+			AVST2,
+			AVST3,
+			AVST4,
 			AVTBL,
 			AVDUP,
 			AVMOVI,
@@ -2786,12 +2811,12 @@ func (c *ctxt7) checkindex(p *obj.Prog, index, maxindex int) {
 
 /* checkoffset checks whether the immediate offset is valid for VLD1.P and VST1.P */
 func (c *ctxt7) checkoffset(p *obj.Prog, as obj.As) {
-	var offset, list, n int64
+	var offset, list, n, expect int64
 	switch as {
-	case AVLD1:
+	case AVLD1, AVLD2, AVLD3, AVLD4:
 		offset = p.From.Offset
 		list = p.To.Offset
-	case AVST1:
+	case AVST1, AVST2, AVST3, AVST4:
 		offset = p.To.Offset
 		list = p.From.Offset
 	default:
@@ -2813,6 +2838,20 @@ func (c *ctxt7) checkoffset(p *obj.Prog, as obj.As) {
 		n = 4 // four registers
 	default:
 		c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
+	}
+
+	switch as {
+	case AVLD1, AVST1:
+		expect = n
+	case AVLD2, AVST2:
+		expect = 2
+	case AVLD3, AVST3:
+		expect = 3
+	case AVLD4, AVST4:
+		expect = 4
+	}
+	if expect != n {
+		c.ctxt.Diag("expecting list register numbers:%d, but got:%d register list: %v", expect, n, p)
 	}
 	if !(q == 0 && offset == n*8) && !(q == 1 && offset == n*16) {
 		c.ctxt.Diag("invalid post-increment offset: %v", p)
@@ -4340,6 +4379,15 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			}
 		}
 		o1 |= uint32(p.To.Offset)
+		if p.As != AVLD1 {
+			o1 &= 0xffff0fff
+			switch p.As {
+			case AVLD2:
+				o1 |= 8 << 12
+			case AVLD3:
+				o1 |= 4 << 12
+			}
+		}
 		o1 |= uint32(r&31) << 5
 
 	case 82: /* vmov Rn, Vd.<T> */
@@ -4445,6 +4493,15 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			}
 		}
 		o1 |= uint32(p.From.Offset)
+		if p.As != AVST1 {
+			o1 &= 0xffff0fff
+			switch p.As {
+			case AVST2:
+				o1 |= 8 << 12
+			case AVST3:
+				o1 |= 4 << 12
+			}
+		}
 		o1 |= uint32(r&31) << 5
 
 	case 85: /* vaddv/vuaddlv Vn.<T>, Vd*/
