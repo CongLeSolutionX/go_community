@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "315e75d0_3559ec0b",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-13T04:23:29Z",
+      "side": 1,
+      "message": "There should probably be a trailing period here: \"runtime.text.\"  Otherwise this could match a symbol named \"text\" in the runtime package.",
+      "revId": "e6a9ea34031a3f02c65c4d62426ee87e041e0ec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abcdae5c_0399c1f3",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2086,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-13T04:23:29Z",
+      "side": 1,
+      "message": "Why did you move this little loop?",
+      "revId": "e6a9ea34031a3f02c65c4d62426ee87e041e0ec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
