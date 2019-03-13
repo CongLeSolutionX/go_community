@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fde1e283_6fa9be3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2019-03-13T15:16:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f605ddd_3065cf6b",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "327852892d83d80e62c6c3c180d7453826c48706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ee7539_b631cd5a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "327852892d83d80e62c6c3c180d7453826c48706",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f098337d_deb70ee6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2019-03-13T15:16:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ee7539_b631cd5a",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "327852892d83d80e62c6c3c180d7453826c48706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5bdb1ec2_882cdc2c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2019-03-13T15:16:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "455aae74_ba544388",
+      "range": {
+        "startLine": 798,
+        "startChar": 1,
+        "endLine": 800,
+        "endChar": 64
+      },
+      "revId": "327852892d83d80e62c6c3c180d7453826c48706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc549866_5caa9e21",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "fcf63699_3a55830f",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2019-03-13T15:16:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc549866_5caa9e21",
+      "range": {
+        "startLine": 801,
+        "startChar": 1,
+        "endLine": 803,
+        "endChar": 64
+      },
+      "revId": "327852892d83d80e62c6c3c180d7453826c48706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4ec43b4_8ed1b3cf",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
@@ -108,6 +204,24 @@
       "revId": "327852892d83d80e62c6c3c180d7453826c48706",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78c6ce2_e6468f85",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4995,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2019-03-13T15:16:02Z",
+      "side": 1,
+      "message": "I\u0027ve move this unmask opcode logic to checkoffset as asked.",
+      "parentUuid": "f4ec43b4_8ed1b3cf",
+      "revId": "327852892d83d80e62c6c3c180d7453826c48706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
