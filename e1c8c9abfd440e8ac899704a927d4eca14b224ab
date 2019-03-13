@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e83ff8e_6711fc96",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-03-13T15:24:10Z",
+      "side": 1,
+      "message": "Usually there is a comma between the \"got\" and \"expected\" parts. Add one here too?",
+      "range": {
+        "startLine": 367,
+        "startChar": 13,
+        "endLine": 367,
+        "endChar": 44
+      },
+      "revId": "e1c8c9abfd440e8ac899704a927d4eca14b224ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e09b77a4_b160ddda",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-03-13T15:24:10Z",
+      "side": 1,
+      "message": "This message still uses the reverse order. I think it should be\n\n  t.Errorf(\"got %T, expected *os.PathError\", err)\n\nas per Emmanuel\u0027s earlier review.",
+      "range": {
+        "startLine": 370,
+        "startChar": 12,
+        "endLine": 370,
+        "endChar": 43
+      },
+      "revId": "e1c8c9abfd440e8ac899704a927d4eca14b224ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
