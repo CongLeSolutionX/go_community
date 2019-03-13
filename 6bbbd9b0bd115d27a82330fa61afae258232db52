@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2db14718_c2bacee9",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T04:06:57Z",
+      "side": 1,
+      "message": "I think you missed this one in your last update:\npathErr.Path \u003d filepath.Join(parentDir, pathErr.Path)",
+      "revId": "6bbbd9b0bd115d27a82330fa61afae258232db52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e32c1a32_a6ffccdf",
+        "filename": "src/os/removeall_at.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T04:06:57Z",
+      "side": 1,
+      "message": "I think you missed this in your last update:\npathErr.Path \u003d filepath.Join(base, pathErr.Path)",
+      "revId": "6bbbd9b0bd115d27a82330fa61afae258232db52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b6f1c09_9315ed7b",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-13T04:06:57Z",
+      "side": 1,
+      "message": "t.Errorf(\"got %T expected *os.PathError\", err)",
+      "revId": "6bbbd9b0bd115d27a82330fa61afae258232db52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
