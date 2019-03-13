@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "08be1fcc_f2a0e1e0",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-13T08:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "315e75d0_3559ec0b",
+      "revId": "e6a9ea34031a3f02c65c4d62426ee87e041e0ec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abcdae5c_0399c1f3",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-13T04:23:29Z",
       "side": 1,
       "message": "Why did you move this little loop?",
+      "revId": "e6a9ea34031a3f02c65c4d62426ee87e041e0ec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42f12e0b_7dee2ccb",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2086,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-13T08:19:14Z",
+      "side": 1,
+      "message": "runtime.text.X must be the first symbol of each new text sections. Therefore, we assign its value as soon as it\u0027s created (and not by using assignAddress). As it as a non-nil size, \"va\" is modified and sub.Value will be false if updated before runtime.text.X is created.",
+      "parentUuid": "abcdae5c_0399c1f3",
       "revId": "e6a9ea34031a3f02c65c4d62426ee87e041e0ec6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
