@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecaa472f_f97b936b",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-14T16:00:41Z",
+      "side": 1,
+      "message": "This seems to be invariantly equal to cfg.ModulesEnabled — why change it to an explicit parameter?",
+      "range": {
+        "startLine": 1198,
+        "startChar": 38,
+        "endLine": 1198,
+        "endChar": 59
+      },
+      "revId": "3030da88f47c734c0c31b3fc8e29554a9a8e6caf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
