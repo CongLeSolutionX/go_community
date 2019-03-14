@@ -2774,6 +2774,7 @@ func goexit0(gp *g) {
 		print("invalid m->lockedInt = ", _g_.m.lockedInt, "\n")
 		throw("internal lockOSThread error")
 	}
+	_g_.m.lockedExt = 0
 	gfput(_g_.m.p.ptr(), gp)
 	if locked {
 		// The goroutine may have locked this thread because
@@ -2784,10 +2785,6 @@ func goexit0(gp *g) {
 		// the thread.
 		if GOOS != "plan9" { // See golang.org/issue/22227.
 			gogo(&_g_.m.g0.sched)
-		} else {
-			// Clear lockedExt on plan9 since we may end up re-using
-			// this thread.
-			_g_.m.lockedExt = 0
 		}
 	}
 	schedule()
