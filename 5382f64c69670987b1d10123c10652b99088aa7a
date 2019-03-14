@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9338e03c_96dae5a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-14T16:36:37Z",
+      "side": 1,
+      "message": "Updates #27283\nUpdates #30266",
+      "revId": "5382f64c69670987b1d10123c10652b99088aa7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
