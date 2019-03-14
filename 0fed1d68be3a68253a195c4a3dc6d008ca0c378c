@@ -34,6 +34,24 @@
       "revId": "0fed1d68be3a68253a195c4a3dc6d008ca0c378c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab8471d_00359b18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2019-03-14T09:32:03Z",
+      "side": 1,
+      "message": "But if you look at runtime.Callers, it doesn\u0027t look trivial.",
+      "parentUuid": "14a6dad5_ad95701a",
+      "revId": "0fed1d68be3a68253a195c4a3dc6d008ca0c378c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
