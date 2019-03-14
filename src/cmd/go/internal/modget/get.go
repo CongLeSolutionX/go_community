@@ -23,6 +23,7 @@ import (
 	"os"
 	pathpkg "path"
 	"path/filepath"
+	"reflect"
 	"strings"
 )
 
@@ -407,19 +408,8 @@ func runGet(cmd *base.Command, args []string) {
 	// chase down the full list of upgraded dependencies.
 	// This turns required from a not-yet-upgraded (3) to the final (3).
 	// (See list above.)
-	var required []module.Version
 	if getU != "" {
-		upgraded, err := mvs.UpgradeAll(upgradeTarget, &upgrader{
-			Reqs:    modload.Reqs(),
-			targets: named,
-			patch:   getU == "patch",
-			tasks:   byPath,
-		})
-		if err != nil {
-			base.Fatalf("go get: %v", err)
-		}
-		required = upgraded[1:] // slice off upgradeTarget
-		base.ExitIfErrors()
+		upgradeToFixedPoint(len(args) == 0, named, byPath)
 	}
 
 	// Put together the final build list as described above (1) (2) (3).
@@ -576,15 +566,74 @@ func getQuery(path, vers string, forceModulePath bool) (module.Version, error) {
 	return m, err
 }
 
+// upgradeToFixedPoint repeatedly upgrades the modules in the build list,
+// keeping the named modules at their given versions,
+//
+func upgradeToFixedPoint(all bool, named []module.Version, byPath map[string]*task) {
+	for {
+		listBefore := modload.BuildList()
+
+		upgradeMods := map[string]bool{} // set of module paths
+		if all {
+			for _, pkg := range modload.LoadALL() {
+				if mod := modload.PackageModule(pkg); mod.Path != "" {
+					upgradeMods[mod.Path] = true
+				}
+			}
+		} else if getM {
+		} else {
+			pkgPaths := make([]string, len(byPath))
+			for _, t := range byPath {
+				switch t.vers {
+				case "", "latest":
+					if t.forceModulePath {
+						upgradeMods[t.path] = true
+					} else {
+						pkgPaths = append(pkgPaths, t.path)
+					}
+				}
+			}
+			for _, match := range modload.ImportPaths(path) {
+				for _, pkg := range match.Pkgs {
+					if mod := modload.PackageModule(pkg); mod.Path != "" {
+						upgradeMods[mod.Path] = true
+					}
+				}
+			}
+		}
+
+		upgraded, err := mvs.UpgradeAll(upgradeTarget, &upgrader{
+			Reqs:    modload.Reqs(),
+			targets: named,
+			patch:   getU == "patch",
+			tasks:   byPath,
+		})
+		if err != nil {
+			base.Fatalf("go get: %v", err)
+		}
+		base.ExitIfErrors()
+
+		modload.SetBuildList(upgraded[1:]) // slice off upgradeTarget
+		modload.ReloadBuildList()
+		base.ExitIfErrors()
+
+		listAfter := modload.BuildList()
+		if reflect.DeepEqual(listBefore, listAfter) {
+			return
+		}
+	}
+}
+
 // An upgrader adapts an underlying mvs.Reqs to apply an
 // upgrade policy to a list of targets and their dependencies.
 // If patch=false, the upgrader implements "get -u".
 // If patch=true, the upgrader implements "get -u=patch".
 type upgrader struct {
 	mvs.Reqs
-	targets []module.Version
-	patch   bool
-	tasks   map[string]*task
+	targets     []module.Version
+	patch       bool
+	tasks       map[string]*task
+	inBuildList map[string]bool
 }
 
 // upgradeTarget is a fake "target" requiring all the modules to be upgraded.
