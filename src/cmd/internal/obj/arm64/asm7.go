@@ -780,7 +780,7 @@ var optab = []Optab{
 	{ASTLXR, C_REG, C_NONE, C_NONE, C_ZOREG, 59, 4, 0, 0, 0}, // RegTo2=C_REG
 	{ASTXP, C_PAIR, C_NONE, C_NONE, C_ZOREG, 59, 4, 0, 0, 0},
 
-	/* VLD1/VST1 */
+	/* VLD[1-4]/VST[1-4] */
 	{AVLD1, C_ZOREG, C_NONE, C_NONE, C_LIST, 81, 4, 0, 0, 0},
 	{AVLD1, C_LOREG, C_NONE, C_NONE, C_LIST, 81, 4, 0, 0, C_XPOST},
 	{AVLD1, C_ROFF, C_NONE, C_NONE, C_LIST, 81, 4, 0, 0, C_XPOST},
@@ -2700,11 +2700,19 @@ func buildop(ctxt *obj.Link) {
 		case AVZIP1:
 			oprangeset(AVZIP2, t)
 
+		case AVLD1:
+			oprangeset(AVLD2, t)
+			oprangeset(AVLD3, t)
+			oprangeset(AVLD4, t)
+
+		case AVST1:
+			oprangeset(AVST2, t)
+			oprangeset(AVST3, t)
+			oprangeset(AVST4, t)
+
 		case ASHA1H,
 			AVCNT,
 			AVMOV,
-			AVLD1,
-			AVST1,
 			AVTBL,
 			AVDUP,
 			AVMOVI,
@@ -2786,12 +2794,12 @@ func (c *ctxt7) checkindex(p *obj.Prog, index, maxindex int) {
 
 /* checkoffset checks whether the immediate offset is valid for VLD1.P and VST1.P */
 func (c *ctxt7) checkoffset(p *obj.Prog, as obj.As) {
-	var offset, list, n int64
+	var offset, list, n, expect int64
 	switch as {
-	case AVLD1:
+	case AVLD1, AVLD2, AVLD3, AVLD4:
 		offset = p.From.Offset
 		list = p.To.Offset
-	case AVST1:
+	case AVST1, AVST2, AVST3, AVST4:
 		offset = p.To.Offset
 		list = p.From.Offset
 	default:
@@ -2814,8 +2822,24 @@ func (c *ctxt7) checkoffset(p *obj.Prog, as obj.As) {
 	default:
 		c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
 	}
+
 	if !(q == 0 && offset == n*8) && !(q == 1 && offset == n*16) {
 		c.ctxt.Diag("invalid post-increment offset: %v", p)
+	}
+
+	switch as {
+	case AVLD1, AVST1:
+		return
+	case AVLD2, AVST2:
+		expect = 2
+	case AVLD3, AVST3:
+		expect = 3
+	case AVLD4, AVST4:
+		expect = 4
+	}
+
+	if expect != n {
+		c.ctxt.Diag("expecting list register numbers:%d, but got:%d register list: %v", expect, n, p)
 	}
 }
 
@@ -4322,7 +4346,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 		o1 |= (uint32(imm5&0x1f) << 16) | (uint32(rf&31) << 5) | uint32(rt&31)
 
-	case 81: /* vld1 (Rn), [Vt1.<T>, Vt2.<T>, ...] */
+	case 81: /* vld[1-4] (Rn), [Vt1.<T>, Vt2.<T>, ...] */
 		r := int(p.From.Reg)
 		o1 = 3<<26 | 1<<22
 		if o.scond == C_XPOST {
@@ -4340,6 +4364,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			}
 		}
 		o1 |= uint32(p.To.Offset)
+		o1 = c.maskOpvldvst(p, o1)
 		o1 |= uint32(r&31) << 5
 
 	case 82: /* vmov Rn, Vd.<T> */
@@ -4427,7 +4452,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 		o1 |= (Q&1)<<30 | (size&3)<<22 | uint32(rf&31)<<5 | uint32(rt&31)
 
-	case 84: /* vst1 [Vt1.<T>, Vt2.<T>, ...], (Rn) */
+	case 84: /* vst[1-4] [Vt1.<T>, Vt2.<T>, ...], (Rn) */
 		r := int(p.To.Reg)
 		o1 = 3 << 26
 		if o.scond == C_XPOST {
@@ -4445,6 +4470,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			}
 		}
 		o1 |= uint32(p.From.Offset)
+		o1 = c.maskOpvldvst(p, o1)
 		o1 |= uint32(r&31) << 5
 
 	case 85: /* vaddv/vuaddlv Vn.<T>, Vd*/
@@ -6742,6 +6768,25 @@ func (c *ctxt7) opldpstp(p *obj.Prog, o *Optab, vo int32, rbase, rl, rh, ldp uin
 	}
 	ret |= 5<<27 | (ldp&1)<<22 | uint32(vo&0x7f)<<15 | (rh&31)<<10 | (rbase&31)<<5 | (rl & 31)
 	return ret
+}
+
+func (c *ctxt7) maskOpvldvst(p *obj.Prog, o1 uint32) (ret uint32) {
+	ret = o1
+	if p.As == AVLD1 || p.As == AVST1 {
+		return
+	}
+
+	ret &= 0xffff0fff
+	switch p.As {
+	case AVLD2, AVST2:
+		ret |= 8 << 12
+	case AVLD3, AVST3:
+		ret |= 4 << 12
+	case AVLD4, AVST4:
+	default:
+		c.ctxt.Diag("unsupported instruction:%v\n", p.As)
+	}
+	return
 }
 
 /*
