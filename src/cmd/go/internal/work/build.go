@@ -284,7 +284,7 @@ func runBuild(cmd *base.Command, args []string) {
 	pkgs := load.PackagesForBuild(args)
 
 	if len(pkgs) == 1 && pkgs[0].Name == "main" && cfg.BuildO == "" {
-		cfg.BuildO = load.DefaultExecName(pkgs[0])
+		cfg.BuildO = load.DefaultExecName(pkgs[0].ImportPath, cfg.ModulesEnabled)
 		cfg.BuildO += cfg.ExeSuffix
 	}
 
