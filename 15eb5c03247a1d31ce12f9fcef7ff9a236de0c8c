@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "884b6978_a8119925",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-03-14T14:15:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a22ebcca_e907fe73",
+      "revId": "15eb5c03247a1d31ce12f9fcef7ff9a236de0c8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6e6d848_8f48c05e",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-14T12:43:14Z",
       "side": 1,
       "message": "Comment that this one is power9+.",
+      "revId": "15eb5c03247a1d31ce12f9fcef7ff9a236de0c8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b7c05fd_3ae2ffd2",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-03-14T14:15:59Z",
+      "side": 1,
+      "message": "It\u0027s marked as ISA 3.0 below.",
+      "parentUuid": "b6e6d848_8f48c05e",
       "revId": "15eb5c03247a1d31ce12f9fcef7ff9a236de0c8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
