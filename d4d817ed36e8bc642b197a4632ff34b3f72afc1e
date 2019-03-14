@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a4e5cb4_09b8286c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4473,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2019-03-14T09:27:53Z",
+      "side": 1,
+      "message": "o1 |\u003d c.maskOpvldvst(p)?",
+      "range": {
+        "startLine": 4473,
+        "startChar": 2,
+        "endLine": 4473,
+        "endChar": 28
+      },
+      "revId": "d4d817ed36e8bc642b197a4632ff34b3f72afc1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
