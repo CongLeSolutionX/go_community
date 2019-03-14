@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7f3bc322_29a24e27",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2795,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-14T16:33:40Z",
+      "side": 1,
+      "message": "Update this comment.",
+      "range": {
+        "startLine": 2795,
+        "startChar": 64,
+        "endLine": 2795,
+        "endChar": 81
+      },
+      "revId": "d4d817ed36e8bc642b197a4632ff34b3f72afc1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "914e23d0_85ad6517",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2842,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-14T16:33:40Z",
+      "side": 1,
+      "message": "Let\u0027s drop the \":\" before the numbers. Maybe \"expected %d registers, got %d: %v\".",
+      "range": {
+        "startLine": 2842,
+        "startChar": 15,
+        "endLine": 2842,
+        "endChar": 79
+      },
+      "revId": "d4d817ed36e8bc642b197a4632ff34b3f72afc1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a4e5cb4_09b8286c",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 3
@@ -42,6 +88,46 @@
         "startChar": 2,
         "endLine": 4473,
         "endChar": 28
+      },
+      "revId": "d4d817ed36e8bc642b197a4632ff34b3f72afc1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec0117de_1560764d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4473,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-14T16:33:40Z",
+      "side": 1,
+      "message": "I spent quite a while to understand this code. I think this is not easy to follow if we don\u0027t remember that the \"opcode\" bits (bit 12-15) are included in p.From.Offset. I think this needs some comment, explaining that where those bits are set, and they are what we want for VLD1/VST1 but need to be changed for others.",
+      "revId": "d4d817ed36e8bc642b197a4632ff34b3f72afc1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "794cf81f_a8811d41",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6773,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-14T16:33:40Z",
+      "side": 1,
+      "message": "I don\u0027t see a good reason to use named result. Maybe just use unnamed result, and\n\n\tif p.As \u003d\u003d AVLD1 || p.As \u003d\u003d AVST1 {\n\t\treturn o1\n\t}\n\n\tret :\u003d o1 \u0026^ 0xf000 // mask out \"opcode\" field (bit 12-15)\n\t...\n\treturn ret",
+      "range": {
+        "startLine": 6773,
+        "startChar": 53,
+        "endLine": 6773,
+        "endChar": 65
       },
       "revId": "d4d817ed36e8bc642b197a4632ff34b3f72afc1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
