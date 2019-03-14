@@ -14,6 +14,7 @@ import (
 	"os"
 	pathpkg "path"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
@@ -1178,10 +1179,34 @@ var cgoSyscallExclude = map[string]bool{
 
 var foldPath = make(map[string]string)
 
+// filepathSplit is a copy of filepath.Split that uses a different
+// implementation of os.IsPathSeparator for testing purposes.
+func filepathSplit(path string) (dir, file string) {
+	vol := filepath.VolumeName(path)
+	i := len(path) - 1
+	for i >= len(vol) && !osIsPathSeparator(path[i]) {
+		i--
+	}
+	return path[:i+1], path[i+1:]
+}
+
+// osIsPathSeparator is a copy of os.IsPathSeparator that is modified
+// to not accept '/' as a path separator on Windows, for testing purposes.
+// (The real os.IsPathSeparator on Windows does accept '/' as a path separator.)
+func osIsPathSeparator(c uint8) bool {
+	switch runtime.GOOS {
+	case "windows":
+		const PathSeparator = '\\'
+		return PathSeparator == c
+	default:
+		return os.IsPathSeparator(c)
+	}
+}
+
 // DefaultExecName returns the default executable name of the given
 // package.
 func DefaultExecName(p *Package) string {
-	_, elem := filepath.Split(p.ImportPath)
+	_, elem := filepathSplit(p.ImportPath) // use filepathSplit for testing purposes
 	if cfg.ModulesEnabled {
 		// NOTE(rsc): Using p.ImportPath instead of p.Dir
 		// makes sure we install a package in the root of a
