@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85d0a376_5f16c073",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2019-03-14T02:12:10Z",
+      "side": 1,
+      "message": "We can use oprangeset(AVLD2, t) and oprangeset(AVLD3, t) for case AVLD1, we do not need add new items for VLD2and VLD3. And VST2 and VST3 are same.",
+      "range": {
+        "startLine": 786,
+        "startChar": 0,
+        "endLine": 795,
+        "endChar": 62
+      },
+      "revId": "4d584690a771b3957bb6a5aa1c8ab34ea2b443ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d205736a_fcebab9c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2845,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2019-03-14T02:12:10Z",
+      "side": 1,
+      "message": "Checking vld1 and vst1 here is unnecessary, because line 2830 switch-case has guaranteed the correctness.",
+      "range": {
+        "startLine": 2844,
+        "startChar": 1,
+        "endLine": 2845,
+        "endChar": 12
+      },
+      "revId": "4d584690a771b3957bb6a5aa1c8ab34ea2b443ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feb98c01_bfe4080c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4385,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2019-03-14T02:12:10Z",
+      "side": 1,
+      "message": "The same here, default case.",
+      "range": {
+        "startLine": 4384,
+        "startChar": 3,
+        "endLine": 4385,
+        "endChar": 7
+      },
+      "revId": "4d584690a771b3957bb6a5aa1c8ab34ea2b443ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b5c83ff_84b80e65",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4503,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2019-03-14T02:12:10Z",
+      "side": 1,
+      "message": "Adding default case to make code more strong.",
+      "range": {
+        "startLine": 4498,
+        "startChar": 3,
+        "endLine": 4503,
+        "endChar": 4
+      },
+      "revId": "4d584690a771b3957bb6a5aa1c8ab34ea2b443ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
