@@ -13,15 +13,3 @@ func gettid() int {
 func tidExists(tid int) (exists, supported bool) {
 	return false, false
 }
-
-func getcwd() (string, error) {
-	return "", nil
-}
-
-func unshareFs() error {
-	return nil
-}
-
-func chdir(path string) error {
-	return nil
-}
