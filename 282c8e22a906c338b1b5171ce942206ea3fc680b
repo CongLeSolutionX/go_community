@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3b59c9f_d2afc415",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 4357,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2019-03-15T06:32:39Z",
+      "side": 1,
+      "message": "This check shouldn\u0027t be only for \"if p.From.Index \u003d\u003d 0\". I would suggest to move this check outside \"if o.scond \u003d\u003d C_XPOST\". Likewise, below same check in case 84.",
+      "range": {
+        "startLine": 4357,
+        "startChar": 4,
+        "endLine": 4357,
+        "endChar": 26
+      },
+      "revId": "282c8e22a906c338b1b5171ce942206ea3fc680b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
