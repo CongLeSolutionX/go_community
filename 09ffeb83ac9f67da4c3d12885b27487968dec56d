@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9b639c55_4224cdbd",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-15T13:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56016325_6daaff12",
+      "revId": "09ffeb83ac9f67da4c3d12885b27487968dec56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb4a8973_f07229c1",
         "filename": "src/runtime/cgo/callbacks.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "09ffeb83ac9f67da4c3d12885b27487968dec56d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9502bd30_6cfe87ca",
+        "filename": "src/runtime/cgo/callbacks.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-15T13:05:32Z",
+      "side": 1,
+      "message": "Already done in the last patchset.",
+      "parentUuid": "eb4a8973_f07229c1",
+      "revId": "09ffeb83ac9f67da4c3d12885b27487968dec56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0d6ceea4_0c73d7d6",
+        "filename": "src/runtime/cgo/gcc_aix_ppc64.S",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-15T13:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ee1964d_2c300e10",
+      "revId": "09ffeb83ac9f67da4c3d12885b27487968dec56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc0885f6_f91d9b5c",
         "filename": "src/runtime/cgo/gcc_aix_ppc64.c",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "09ffeb83ac9f67da4c3d12885b27487968dec56d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c10b9cc_b6cf7378",
+        "filename": "src/runtime/cgo/gcc_aix_ppc64.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-15T13:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc0885f6_f91d9b5c",
+      "revId": "09ffeb83ac9f67da4c3d12885b27487968dec56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
