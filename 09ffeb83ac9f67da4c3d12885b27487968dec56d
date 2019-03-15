@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56016325_6daaff12",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-15T04:10:28Z",
+      "side": 1,
+      "message": "I\u0027m sure that not everybody installs GCC in /opt/freeware/lib/gcc.  In any case a better approach is to run\n    gcc --print-file-name\u003dcrtcxa.o\n    gcc --print-file-name\u003dcrtdbase.o",
+      "revId": "09ffeb83ac9f67da4c3d12885b27487968dec56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb4a8973_f07229c1",
+        "filename": "src/runtime/cgo/callbacks.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-15T04:10:28Z",
+      "side": 1,
+      "message": "Why not put these lines in callbacks_aix.go?",
+      "revId": "09ffeb83ac9f67da4c3d12885b27487968dec56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ee1964d_2c300e10",
+        "filename": "src/runtime/cgo/gcc_aix_ppc64.S",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-15T04:10:28Z",
+      "side": 1,
+      "message": "You should add a comment to runtime/asm_ppc64x.s saying that changes there need to be reflected here.",
+      "revId": "09ffeb83ac9f67da4c3d12885b27487968dec56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc0885f6_f91d9b5c",
+        "filename": "src/runtime/cgo/gcc_aix_ppc64.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-15T04:10:28Z",
+      "side": 1,
+      "message": "Space between \u0027)\u0027 and \u0027{\u0027.",
+      "revId": "09ffeb83ac9f67da4c3d12885b27487968dec56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
