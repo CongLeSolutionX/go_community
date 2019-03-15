@@ -16,6 +16,24 @@
       "revId": "a46f80e32ad71804e6724f21fd102851bd60ce54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2feb1304_daef37ec",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-15T16:29:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "610c1aad_1a62fea4",
+      "revId": "a46f80e32ad71804e6724f21fd102851bd60ce54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
