@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "610c1aad_1a62fea4",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-15T15:48:03Z",
+      "side": 1,
+      "message": "I don\u0027t see a reason to check with exactly \"gcc\".  This same code should work with clang if clang works on AIX.  And it should work if the user uses the -extld option or sets the CC environment variable to point to some specific version of gcc.  Just run these unconditionally.  If you want to handle some other compiler, then run the program and handle the error.",
+      "revId": "a46f80e32ad71804e6724f21fd102851bd60ce54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
