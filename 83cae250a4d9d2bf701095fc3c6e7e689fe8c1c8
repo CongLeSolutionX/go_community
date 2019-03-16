@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "144ddf29_51332838",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-16T20:22:29Z",
+      "side": 1,
+      "message": "builtin: document that a terminal panic causes a non-zero exit code\n\nDocument that a panic that is unrecovered/terminal causes the program\nto exit with a non-zero exit code.\n\nUpdates #24284",
+      "revId": "83cae250a4d9d2bf701095fc3c6e7e689fe8c1c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0463a332_354d1973",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-16T20:22:29Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to get rid of the important message about the value of the argument.\nBut also I believe we only report the exit code on unhandled/unrecovered panics, since invoking recover\nand handling the panic won\u0027t cause it to return a non-zero exit code.\n\nPlease revert to how it was before and then augment it, perhaps with this hybrid:\n// that point, the program is terminated and the error condition is reported,\n// including the value of the argument to panic. This termination sequence\n// is called panicking and can be controlled by the built-in function\n// recover.\n// A unrecovered panic will report a non-zero exit code.",
+      "revId": "83cae250a4d9d2bf701095fc3c6e7e689fe8c1c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
