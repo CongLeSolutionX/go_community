@@ -130,8 +130,6 @@
 (ZeroExt16to64 x) -> (MOVWQZX x)
 (ZeroExt32to64 x) -> (MOVLQZX x)
 
-(Slicemask <t> x) -> (SARQconst (NEGQ <t> x) [63])
-
 // Lowering truncation
 // Because we ignore high parts of registers, truncates are just copies.
 (Trunc16to8  x) -> x
@@ -1440,7 +1438,7 @@
 //  (ANDLconst <t> [c] x) && t.Size()==1 && int8(x)==0 -> (MOVLconst [0])
 
 // Remove redundant ops
-// Not in generic rules, because they may appear after lowering e. g. Slicemask
+// Not in generic rules, because they may appear after lowering
 (NEG(Q|L) (NEG(Q|L) x)) -> x
 
 // Convert constant subtracts to constant adds

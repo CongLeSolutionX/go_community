@@ -553,8 +553,6 @@ func rewriteValueMIPS64(v *Value) bool {
 		return rewriteValueMIPS64_OpSignExt8to32_0(v)
 	case OpSignExt8to64:
 		return rewriteValueMIPS64_OpSignExt8to64_0(v)
-	case OpSlicemask:
-		return rewriteValueMIPS64_OpSlicemask_0(v)
 	case OpSqrt:
 		return rewriteValueMIPS64_OpSqrt_0(v)
 	case OpStaticCall:
@@ -9051,22 +9049,6 @@ func rewriteValueMIPS64_OpSignExt8to64_0(v *Value) bool {
 		x := v.Args[0]
 		v.reset(OpMIPS64MOVBreg)
 		v.AddArg(x)
-		return true
-	}
-}
-func rewriteValueMIPS64_OpSlicemask_0(v *Value) bool {
-	b := v.Block
-	// match: (Slicemask <t> x)
-	// cond:
-	// result: (SRAVconst (NEGV <t> x) [63])
-	for {
-		t := v.Type
-		x := v.Args[0]
-		v.reset(OpMIPS64SRAVconst)
-		v.AuxInt = 63
-		v0 := b.NewValue0(v.Pos, OpMIPS64NEGV, t)
-		v0.AddArg(x)
-		v.AddArg(v0)
 		return true
 	}
 }

@@ -420,6 +420,7 @@ var (
 	capVar    = Node{Op: ONAME, Sym: &types.Sym{Name: "cap"}}
 	typVar    = Node{Op: ONAME, Sym: &types.Sym{Name: "typ"}}
 	okVar     = Node{Op: ONAME, Sym: &types.Sym{Name: "ok"}}
+	offVar    = Node{Op: ONAME, Sym: &types.Sym{Name: "off"}}
 )
 
 // startBlock sets the current block we're generating code in to b.
@@ -4272,7 +4273,7 @@ func (s *state) slice(t *types.Type, v, i, j, k *ssa.Value, bounded bool) (p, l,
 	var ptr *ssa.Value
 	var len *ssa.Value
 	var cap *ssa.Value
-	zero := s.constInt(types.Types[TINT], 0)
+	zero := s.zeroVal(types.Types[TINT])
 	switch {
 	case t.IsSlice():
 		elemtype = t.Elem()
@@ -4325,17 +4326,20 @@ func (s *state) slice(t *types.Type, v, i, j, k *ssa.Value, bounded bool) (p, l,
 	}
 
 	// Generate the following code assuming that indexes are in bounds.
-	// The masking is to make sure that we don't generate a slice
-	// that points to the next object in memory.
+	// Setting delta to 0 ensures that we don't generate a pointer that
+	// points to the next object in memory. We don't set rptr to 0
+	// because then we would have a nil slice.
+	//
 	// rlen = j - i
 	// rcap = k - i
 	// delta = i * elemsize
-	// rptr = p + delta&mask(rcap)
+	// if rcap == 0 {
+	//     delta = 0
+	// }
+	// rptr = p + delta
 	// result = (SliceMake rptr rlen rcap)
-	// where mask(x) is 0 if x==0 and -1 if x>0.
 	subOp := s.ssaOp(OSUB, types.Types[TINT])
 	mulOp := s.ssaOp(OMUL, types.Types[TINT])
-	andOp := s.ssaOp(OAND, types.Types[TINT])
 	rlen := s.newValue2(subOp, types.Types[TINT], j, i)
 	var rcap *ssa.Value
 	switch {
@@ -4350,20 +4354,36 @@ func (s *state) slice(t *types.Type, v, i, j, k *ssa.Value, bounded bool) (p, l,
 		rcap = s.newValue2(subOp, types.Types[TINT], k, i)
 	}
 
-	var rptr *ssa.Value
 	if (i.Op == ssa.OpConst64 || i.Op == ssa.OpConst32) && i.AuxInt == 0 {
 		// No pointer arithmetic necessary.
-		rptr = ptr
-	} else {
-		// delta = # of bytes to offset pointer by.
-		delta := s.newValue2(mulOp, types.Types[TINT], i, s.constInt(types.Types[TINT], elemtype.Width))
-		// If we're slicing to the point where the capacity is zero,
-		// zero out the delta.
-		mask := s.newValue1(ssa.OpSlicemask, types.Types[TINT], rcap)
-		delta = s.newValue2(andOp, types.Types[TINT], delta, mask)
-		// Compute rptr = ptr + delta
-		rptr = s.newValue2(ssa.OpAddPtr, ptrtype, ptr, delta)
+		return ptr, rlen, rcap
 	}
+
+	// delta = # of bytes to offset pointer by.
+	delta := s.newValue2(mulOp, types.Types[TINT], i, s.constInt(types.Types[TINT], elemtype.Width))
+	s.vars[&offVar] = delta
+
+	// if unlikely(rcap == 0) { delta = 0 }
+	cmp := s.newValue2(s.ssaOp(OEQ, types.Types[TINT]), types.Types[TBOOL], rcap, zero)
+	b := s.endBlock()
+	b.Kind = ssa.BlockIf
+	b.SetControl(cmp)
+	b.Likely = ssa.BranchUnlikely
+
+	bThen := s.f.NewBlock(ssa.BlockPlain)
+	bElse := s.f.NewBlock(ssa.BlockPlain)
+
+	b.AddEdgeTo(bThen)
+	s.startBlock(bThen)
+	s.vars[&offVar] = s.zeroVal(types.Types[TINT])
+	s.endBlock()
+	bThen.AddEdgeTo(bElse)
+
+	b.AddEdgeTo(bElse)
+	s.startBlock(bElse)
+	delta = s.variable(&offVar, types.Types[TINT])
+	rptr := s.newValue2(ssa.OpAddPtr, ptrtype, ptr, delta)
+	delete(s.vars, &offVar)
 
 	return rptr, rlen, rcap
 }

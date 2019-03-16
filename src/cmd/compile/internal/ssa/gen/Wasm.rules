@@ -63,8 +63,6 @@
 (ZeroExt16to(64|32)   x) -> (I64And x (I64Const [0xffff]))
 (ZeroExt8to(64|32|16) x) -> (I64And x (I64Const [0xff]))
 
-(Slicemask x) -> (I64ShrS (I64Sub (I64Const [0]) x) (I64Const [63]))
-
 // Lowering truncation
 // Because we ignore the high parts, truncates are just copies.
 (Trunc64to(32|16|8) x) -> x

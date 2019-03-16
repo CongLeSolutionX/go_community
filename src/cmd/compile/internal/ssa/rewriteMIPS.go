@@ -469,8 +469,6 @@ func rewriteValueMIPS(v *Value) bool {
 		return rewriteValueMIPS_OpSignExt8to32_0(v)
 	case OpSignmask:
 		return rewriteValueMIPS_OpSignmask_0(v)
-	case OpSlicemask:
-		return rewriteValueMIPS_OpSlicemask_0(v)
 	case OpSqrt:
 		return rewriteValueMIPS_OpSqrt_0(v)
 	case OpStaticCall:
@@ -8445,22 +8443,6 @@ func rewriteValueMIPS_OpSignmask_0(v *Value) bool {
 		v.reset(OpMIPSSRAconst)
 		v.AuxInt = 31
 		v.AddArg(x)
-		return true
-	}
-}
-func rewriteValueMIPS_OpSlicemask_0(v *Value) bool {
-	b := v.Block
-	// match: (Slicemask <t> x)
-	// cond:
-	// result: (SRAconst (NEG <t> x) [31])
-	for {
-		t := v.Type
-		x := v.Args[0]
-		v.reset(OpMIPSSRAconst)
-		v.AuxInt = 31
-		v0 := b.NewValue0(v.Pos, OpMIPSNEG, t)
-		v0.AddArg(x)
-		v.AddArg(v0)
 		return true
 	}
 }

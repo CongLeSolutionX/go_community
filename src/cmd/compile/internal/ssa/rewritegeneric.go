@@ -407,8 +407,6 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpSliceLen_0(v)
 	case OpSlicePtr:
 		return rewriteValuegeneric_OpSlicePtr_0(v)
-	case OpSlicemask:
-		return rewriteValuegeneric_OpSlicemask_0(v)
 	case OpSqrt:
 		return rewriteValuegeneric_OpSqrt_0(v)
 	case OpStaticCall:
@@ -26996,71 +26994,6 @@ func rewriteValuegeneric_OpSlicePtr_0(v *Value) bool {
 		x := v_0_0.Args[0]
 		v.reset(OpSlicePtr)
 		v.AddArg(x)
-		return true
-	}
-	return false
-}
-func rewriteValuegeneric_OpSlicemask_0(v *Value) bool {
-	// match: (Slicemask (Const32 [x]))
-	// cond: x > 0
-	// result: (Const32 [-1])
-	for {
-		v_0 := v.Args[0]
-		if v_0.Op != OpConst32 {
-			break
-		}
-		x := v_0.AuxInt
-		if !(x > 0) {
-			break
-		}
-		v.reset(OpConst32)
-		v.AuxInt = -1
-		return true
-	}
-	// match: (Slicemask (Const32 [0]))
-	// cond:
-	// result: (Const32 [0])
-	for {
-		v_0 := v.Args[0]
-		if v_0.Op != OpConst32 {
-			break
-		}
-		if v_0.AuxInt != 0 {
-			break
-		}
-		v.reset(OpConst32)
-		v.AuxInt = 0
-		return true
-	}
-	// match: (Slicemask (Const64 [x]))
-	// cond: x > 0
-	// result: (Const64 [-1])
-	for {
-		v_0 := v.Args[0]
-		if v_0.Op != OpConst64 {
-			break
-		}
-		x := v_0.AuxInt
-		if !(x > 0) {
-			break
-		}
-		v.reset(OpConst64)
-		v.AuxInt = -1
-		return true
-	}
-	// match: (Slicemask (Const64 [0]))
-	// cond:
-	// result: (Const64 [0])
-	for {
-		v_0 := v.Args[0]
-		if v_0.Op != OpConst64 {
-			break
-		}
-		if v_0.AuxInt != 0 {
-			break
-		}
-		v.reset(OpConst64)
-		v.AuxInt = 0
 		return true
 	}
 	return false

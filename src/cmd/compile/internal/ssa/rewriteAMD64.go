@@ -1093,8 +1093,6 @@ func rewriteValueAMD64(v *Value) bool {
 		return rewriteValueAMD64_OpSignExt8to32_0(v)
 	case OpSignExt8to64:
 		return rewriteValueAMD64_OpSignExt8to64_0(v)
-	case OpSlicemask:
-		return rewriteValueAMD64_OpSlicemask_0(v)
 	case OpSqrt:
 		return rewriteValueAMD64_OpSqrt_0(v)
 	case OpStaticCall:
@@ -63548,22 +63546,6 @@ func rewriteValueAMD64_OpSignExt8to64_0(v *Value) bool {
 		x := v.Args[0]
 		v.reset(OpAMD64MOVBQSX)
 		v.AddArg(x)
-		return true
-	}
-}
-func rewriteValueAMD64_OpSlicemask_0(v *Value) bool {
-	b := v.Block
-	// match: (Slicemask <t> x)
-	// cond:
-	// result: (SARQconst (NEGQ <t> x) [63])
-	for {
-		t := v.Type
-		x := v.Args[0]
-		v.reset(OpAMD64SARQconst)
-		v.AuxInt = 63
-		v0 := b.NewValue0(v.Pos, OpAMD64NEGQ, t)
-		v0.AddArg(x)
-		v.AddArg(v0)
 		return true
 	}
 }

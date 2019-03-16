@@ -641,8 +641,6 @@ func rewriteValuePPC64(v *Value) bool {
 		return rewriteValuePPC64_OpSignExt8to32_0(v)
 	case OpSignExt8to64:
 		return rewriteValuePPC64_OpSignExt8to64_0(v)
-	case OpSlicemask:
-		return rewriteValuePPC64_OpSlicemask_0(v)
 	case OpSqrt:
 		return rewriteValuePPC64_OpSqrt_0(v)
 	case OpStaticCall:
@@ -29246,22 +29244,6 @@ func rewriteValuePPC64_OpSignExt8to64_0(v *Value) bool {
 		x := v.Args[0]
 		v.reset(OpPPC64MOVBreg)
 		v.AddArg(x)
-		return true
-	}
-}
-func rewriteValuePPC64_OpSlicemask_0(v *Value) bool {
-	b := v.Block
-	// match: (Slicemask <t> x)
-	// cond:
-	// result: (SRADconst (NEG <t> x) [63])
-	for {
-		t := v.Type
-		x := v.Args[0]
-		v.reset(OpPPC64SRADconst)
-		v.AuxInt = 63
-		v0 := b.NewValue0(v.Pos, OpPPC64NEG, t)
-		v0.AddArg(x)
-		v.AddArg(v0)
 		return true
 	}
 }

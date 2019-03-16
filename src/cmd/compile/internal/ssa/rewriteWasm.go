@@ -465,8 +465,6 @@ func rewriteValueWasm(v *Value) bool {
 		return rewriteValueWasm_OpSignExt8to32_0(v)
 	case OpSignExt8to64:
 		return rewriteValueWasm_OpSignExt8to64_0(v)
-	case OpSlicemask:
-		return rewriteValueWasm_OpSlicemask_0(v)
 	case OpSqrt:
 		return rewriteValueWasm_OpSqrt_0(v)
 	case OpStaticCall:
@@ -4614,27 +4612,6 @@ func rewriteValueWasm_OpSignExt8to64_0(v *Value) bool {
 		v.AddArg(v0)
 		v2 := b.NewValue0(v.Pos, OpWasmI64Const, typ.Int64)
 		v2.AuxInt = 56
-		v.AddArg(v2)
-		return true
-	}
-}
-func rewriteValueWasm_OpSlicemask_0(v *Value) bool {
-	b := v.Block
-	typ := &b.Func.Config.Types
-	// match: (Slicemask x)
-	// cond:
-	// result: (I64ShrS (I64Sub (I64Const [0]) x) (I64Const [63]))
-	for {
-		x := v.Args[0]
-		v.reset(OpWasmI64ShrS)
-		v0 := b.NewValue0(v.Pos, OpWasmI64Sub, typ.Int64)
-		v1 := b.NewValue0(v.Pos, OpWasmI64Const, typ.Int64)
-		v1.AuxInt = 0
-		v0.AddArg(v1)
-		v0.AddArg(x)
-		v.AddArg(v0)
-		v2 := b.NewValue0(v.Pos, OpWasmI64Const, typ.Int64)
-		v2.AuxInt = 63
 		v.AddArg(v2)
 		return true
 	}

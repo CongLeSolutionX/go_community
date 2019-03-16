@@ -156,7 +156,6 @@
 
 (Signmask x) -> (SRAconst x [31])
 (Zeromask x) -> (NEG (SGTU x (MOVWconst [0])))
-(Slicemask <t> x) -> (SRAconst (NEG <t> x) [31])
 
 // float <-> int conversion
 (Cvt32to(32|64)F x) -> (MOVW(F|D) x)

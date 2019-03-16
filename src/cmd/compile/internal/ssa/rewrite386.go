@@ -651,8 +651,6 @@ func rewriteValue386(v *Value) bool {
 		return rewriteValue386_OpSignExt8to32_0(v)
 	case OpSignmask:
 		return rewriteValue386_OpSignmask_0(v)
-	case OpSlicemask:
-		return rewriteValue386_OpSlicemask_0(v)
 	case OpSqrt:
 		return rewriteValue386_OpSqrt_0(v)
 	case OpStaticCall:
@@ -23691,22 +23689,6 @@ func rewriteValue386_OpSignmask_0(v *Value) bool {
 		v.reset(Op386SARLconst)
 		v.AuxInt = 31
 		v.AddArg(x)
-		return true
-	}
-}
-func rewriteValue386_OpSlicemask_0(v *Value) bool {
-	b := v.Block
-	// match: (Slicemask <t> x)
-	// cond:
-	// result: (SARLconst (NEGL <t> x) [31])
-	for {
-		t := v.Type
-		x := v.Args[0]
-		v.reset(Op386SARLconst)
-		v.AuxInt = 31
-		v0 := b.NewValue0(v.Pos, Op386NEGL, t)
-		v0.AddArg(x)
-		v.AddArg(v0)
 		return true
 	}
 }

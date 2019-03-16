@@ -1100,29 +1100,6 @@ var mostNegativeDividend = map[Op]int64{
 func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 	for _, v := range b.Values {
 		switch v.Op {
-		case OpSlicemask:
-			// Replace OpSlicemask operations in b with constants where possible.
-			x, delta := isConstDelta(v.Args[0])
-			if x == nil {
-				continue
-			}
-			// slicemask(x + y)
-			// if x is larger than -y (y is negative), then slicemask is -1.
-			lim, ok := ft.limits[x.ID]
-			if !ok {
-				continue
-			}
-			if lim.umin > uint64(-delta) {
-				if v.Args[0].Op == OpAdd64 {
-					v.reset(OpConst64)
-				} else {
-					v.reset(OpConst32)
-				}
-				if b.Func.pass.debug > 0 {
-					b.Func.Warnl(v.Pos, "Proved slicemask not needed")
-				}
-				v.AuxInt = -1
-			}
 		case OpCtz8, OpCtz16, OpCtz32, OpCtz64:
 			// On some architectures, notably amd64, we can generate much better
 			// code for CtzNN if we know that the argument is non-zero.

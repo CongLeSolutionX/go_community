@@ -193,7 +193,6 @@
 
 (Signmask x) -> (SRAconst x [31])
 (Zeromask x) -> (SRAconst (RSBshiftRL <typ.Int32> x x [1]) [31]) // sign bit of uint32(x)>>1 - x
-(Slicemask <t> x) -> (SRAconst (RSBconst <t> [0] x) [31])
 
 // float <-> int conversion
 (Cvt32to32F x) -> (MOVWF x)

@@ -77,7 +77,6 @@
 
 (Signmask x) -> (SARLconst x [31])
 (Zeromask <t> x) -> (XORLconst [-1] (SBBLcarrymask <t> (CMPLconst x [1])))
-(Slicemask <t> x) -> (SARLconst (NEGL <t> x) [31])
 
 // Lowering truncation
 // Because we ignore high parts of registers, truncates are just copies.
