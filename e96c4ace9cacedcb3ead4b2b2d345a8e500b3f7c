@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "18a22316_8fbc7b58",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-18T19:28:06Z",
+      "side": 1,
+      "message": "There\u0027s absolutely no problem with going a different way then my suggestion, but we really need to understand why one way works and another one doesn\u0027t (btw., I think it should have been: beg \u003c\u003d g.Pos() \u0026\u0026 g.End() \u003c\u003d end, my fault).\n\nIn other words, if there is way that we believe is correct but doesn\u0027t work, we need to fully understand why (and document it so that the next person understands the thinking behind it). Trying a different approach that happens to work w/o full understanding why is very problematic because then we\u0027re entering a trial and error approach; that\u0027s not good enough.",
+      "parentUuid": "1e06bb2a_d6137b92",
+      "range": {
+        "startLine": 126,
+        "startChar": 13,
+        "endLine": 126,
+        "endChar": 14
+      },
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4e168307_2c87ef2c",
         "filename": "src/go/ast/import.go",
         "patchSetId": 6
