@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "111df3df_ff17327d",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-03-18T10:54:50Z",
+      "side": 1,
+      "message": "While the other atomic stores/locks might impose an ordering/visibility sufficient for shed.stopwait it looks to be only implicit. Future additions of code or refactoring might miss that sched.stopwait needs to be atomically stored as its otherwise not explicitly stated locally if the atomic.Store is simply removed. If the unlock(\u0026sched.lock) is sufficient to provide all memory guarantees it might be good to document that and also why it is not sufficient for sched.gcwaiting.",
+      "parentUuid": "b81b88a0_5810e337",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
