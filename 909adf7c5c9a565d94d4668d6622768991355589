@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02938c16_f706eda0",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 31400
+      },
+      "writtenOn": "2019-03-18T10:27:51Z",
+      "side": 1,
+      "message": "s/the send/the sender/ ?",
+      "revId": "909adf7c5c9a565d94d4668d6622768991355589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b4139eb_fbf3e2aa",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 31400
+      },
+      "writtenOn": "2019-03-18T10:27:51Z",
+      "side": 1,
+      "message": "\"identity\" _transfer_ coding no longer exists in RFC 7230;\nit was mentioned in RFC 2616 but not explained, was withdrawn in https://www.rfc-editor.org/errata/eid408.\nNo objection to recognizing it.\nBut imho worth poiting to that errata in a comment somewhere to help readers know what it is.  Or to IANA Transfer Coding Registry.\n\nA contrived question on the logic here:\nwhat if it\u0027s not alone?  As it was never explained, it\u0027s unclear what are the rules :)\nhypothetical `Transfer-Encoding: identity, chunked` is explicitly chunked.\nhypothetical `Transfer-Encoding: identity, x-gzip, identity` is implicitly chunked but this would return false.\nPerhaps:\n\nfunc implicitlyChunked(te []string) bool {\n        for _, tei :\u003d range te {\n\t\tif tei !\u003d \"identity\" { // \n                        return true\n                }\n        }\n        return false\n}\n\nOr better yet, put similar \"contains any non-identity?\" logic in existing isIdentity() function, and use `case chunked(t.TransferEncoding) || !isIdentity(t.TransferEncoding)` logic.",
+      "revId": "909adf7c5c9a565d94d4668d6622768991355589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95866fb0_fffb81ee",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 31400
+      },
+      "writtenOn": "2019-03-18T10:27:51Z",
+      "side": 1,
+      "message": "No longer true, will now support [x-]gzip",
+      "revId": "909adf7c5c9a565d94d4668d6622768991355589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "044b3ee4_2c0a08f2",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 31400
+      },
+      "writtenOn": "2019-03-18T10:27:51Z",
+      "side": 1,
+      "message": "similar comment to implicitlyChunked() and isIdentity(): if \"foo, identity, bar\" is conceivable, this should `continue` not `break`",
+      "revId": "909adf7c5c9a565d94d4668d6622768991355589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
