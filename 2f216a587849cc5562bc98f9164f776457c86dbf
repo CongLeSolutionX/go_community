@@ -34,6 +34,24 @@
       "revId": "2f216a587849cc5562bc98f9164f776457c86dbf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10babcc2_871f130d",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2019-03-18T09:26:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dea9835_348735b2",
+      "revId": "2f216a587849cc5562bc98f9164f776457c86dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
