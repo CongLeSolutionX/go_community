@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8255d539_0111e52e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-03-18T23:26:52Z",
+      "side": 1,
+      "message": ":)",
+      "parentUuid": "c8fc73df_e91c4462",
+      "revId": "bb0d62fbc17286f1afe68c6ae0f96267eff9f427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1deb0e49_e1378787",
         "filename": "src/cmd/link/internal/wasm/asm.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "739c1437_4c18edbc",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-03-18T23:26:52Z",
+      "side": 1,
+      "message": "I have expanded the comment.",
+      "parentUuid": "1deb0e49_e1378787",
+      "revId": "bb0d62fbc17286f1afe68c6ae0f96267eff9f427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24f4532e_70822f1f",
         "filename": "src/cmd/link/internal/wasm/asm.go",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2019-03-18T16:07:54Z",
       "side": 1,
       "message": "How long does this code take? I think we don\u0027t want to slow down linking too much for large input.\n\nConsider doing this with bytes.TrimLeft (for skipping over zeros) and bytes.Index (searching for 8 zeros).",
+      "range": {
+        "startLine": 432,
+        "startChar": 0,
+        "endLine": 464,
+        "endChar": 3
+      },
+      "revId": "bb0d62fbc17286f1afe68c6ae0f96267eff9f427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e2d0f02_6ecc51f9",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-03-18T23:26:52Z",
+      "side": 1,
+      "message": "On my machine it takes about 4ms for 1.2 MB of data. Are there any specific measurements you would like me to make?\n\nI tried using bytes.IndexByte for finding the first zero because it has native implementations, but even that turned out to be slower. I guess this is because comparison with a static zero is really efficient. I don\u0027t see any chance in the other functions being faster.",
+      "parentUuid": "24f4532e_70822f1f",
       "range": {
         "startLine": 432,
         "startChar": 0,
