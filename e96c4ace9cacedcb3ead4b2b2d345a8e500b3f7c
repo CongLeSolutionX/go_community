@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f54afa_91891cf0",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-18T18:33:43Z",
+      "side": 1,
+      "message": "this should also use unadjusted lines (and if not, why not)?\n\nDouble-check entire file.\n\n(As an aside, getting unadjusted lines is faster, too)",
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1012e00c_cc37947e",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-18T18:33:43Z",
+      "side": 1,
+      "message": "This is now common, so please factor:\n\nfunc lineAt(fset *token.FileSet, pos token.Pos) int {\n   return fset.PositionFor(pos, false).Line\n}\n\nand use it throughout",
+      "range": {
+        "startLine": 45,
+        "startChar": 20,
+        "endLine": 45,
+        "endChar": 31
+      },
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f33245b_bf567e01",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-18T18:33:43Z",
+      "side": 1,
+      "message": "This should be\n\nif g.End() \u003c\u003d beg\n\nIn a correct AST it doesn\u0027t matter, but as is, it just looks wrong when thinking about intervals of text extensions in the source: We want the end of the comment text to be before or at beg for it to be outside the [beg, end) interval.",
+      "range": {
+        "startLine": 120,
+        "startChar": 7,
+        "endLine": 120,
+        "endChar": 10
+      },
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebdc0372_f8f259ec",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-18T18:33:43Z",
+      "side": 1,
+      "message": "Same here: This should be\n\nif g.Pos() \u003e\u003d end\n\nor, nicer, while more symmetric:\n\nif end \u003c\u003d g.Pos()\n\nAgain, we stop as soon as we see the first comment group starting at/after the [beg, end) interval.\n\nNote that in the code I originally wrote:\n\nfor i, g :\u003d range f.Comments {\n   if beg \u003c\u003d g.Pos() \u0026\u0026 g.End() \u003c end {\n      // comment is within the range [beg, end[ of import declarations\n      ...\n   }\n}\n\nI suggested testing whether a comment interval [g.Pos(), g.End()) is entirely within the imports interval [beg, end). You inverted the code (which is fine), but then we want to exclude comments whose text interval ends before/at the [beg, end); hence g.End() \u003c\u003d beg. And also comments whose text interval starts after the [beg, end) interval; hence end \u003c\u003d g.Pos().\n\nBecause it\u0027s not possible (in a correct AST) for a comment interval to overlap with the import section, what you have will work, but again, it\u0027s yet another implicit assumption. Better sticking to the basic interval math.\n\nNote that your code also relies on the fact that all comments are in sorted order (which they usually are), but it\u0027s another assumption. Should probably add a comment to that effect:\n\n// Note that f.Comments are sorted in source order.",
+      "range": {
+        "startLine": 126,
+        "startChar": 13,
+        "endLine": 126,
+        "endChar": 14
+      },
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e168307_2c87ef2c",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-18T18:33:43Z",
+      "side": 1,
+      "message": "use lineAt\n\ncheck entire file",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 16
+      },
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
