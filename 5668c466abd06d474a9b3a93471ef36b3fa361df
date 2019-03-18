@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "538f6f62_f9bd6959",
+        "filename": "src/cmd/compile/internal/gc/init.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-18T20:00:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9078c4b1_a2cd75fc",
+      "revId": "5668c466abd06d474a9b3a93471ef36b3fa361df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d84ed543_2eac7133",
         "filename": "src/plugin/plugin_dlopen.go",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "5668c466abd06d474a9b3a93471ef36b3fa361df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cd63b0d_6b03d031",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-18T20:00:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d84ed543_2eac7133",
+      "revId": "5668c466abd06d474a9b3a93471ef36b3fa361df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
