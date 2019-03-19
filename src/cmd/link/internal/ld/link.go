@@ -93,6 +93,10 @@ type Link struct {
 
 	compUnits         []*compilationUnit // DWARF compilation units
 	compUnitByPackage map[*sym.Library]*compilationUnit
+
+	// machoVersionCmd contains the LC_VERSION_MIN_* or LC_BUILD_VERSION
+	// load command to use for go.o, if any.
+	machoVersionCmd *MachoLoad
 }
 
 type unresolvedSymKey struct {

@@ -995,6 +995,10 @@ func hostlinksetup(ctxt *Link) {
 		})
 	}
 
+	if ctxt.HeadType == objabi.Hdarwin {
+		ctxt.machoVersionCmd = peekMachoPlatform(hostobj)
+	}
+
 	// change our output to temporary object file
 	ctxt.Out.f.Close()
 	mayberemoveoutfile()

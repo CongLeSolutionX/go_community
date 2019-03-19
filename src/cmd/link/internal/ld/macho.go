@@ -5,11 +5,17 @@
 package ld
 
 import (
+	"bytes"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/sym"
+	"debug/macho"
+	"encoding/binary"
+	"io"
+	"os"
 	"sort"
 	"strings"
+	"unsafe"
 )
 
 type MachoHdr struct {
@@ -673,7 +679,10 @@ func Asmbmacho(ctxt *Link) {
 		}
 	}
 
-	if ctxt.LinkMode == LinkInternal {
+	if load := ctxt.machoVersionCmd; load != nil {
+		ml := newMachoLoad(ctxt.Arch, load.type_, uint32(len(load.data)))
+		copy(ml.data, load.data)
+	} else if ctxt.LinkMode == LinkInternal {
 		// For lldb, must say LC_VERSION_MIN_MACOSX or else
 		// it won't know that this Mach-O binary is from OS X
 		// (could be iOS or WatchOS instead).
@@ -996,4 +1005,47 @@ func Machoemitreloc(ctxt *Link) {
 	for _, sect := range Segdwarf.Sections {
 		machorelocsect(ctxt, sect, dwarfp)
 	}
+}
+
+// peekMachoPlatform looks for LC_VERSION_MIN_* load commands
+// in the host objects. It returns the first one found.
+func peekMachoPlatform(hostobj []Hostobj) *MachoLoad {
+	for i := 0; i < len(hostobj); i++ {
+		h := &hostobj[i]
+		f, err := os.Open(h.file)
+		if err != nil {
+			continue
+		}
+		defer f.Close()
+		sr := io.NewSectionReader(f, h.off, h.length)
+		m, err := macho.NewFile(sr)
+		if err != nil {
+			continue
+		}
+		cmdOffset := unsafe.Sizeof(m.FileHeader)
+		is64bit := m.Magic == macho.Magic64
+		if is64bit {
+			// mach_header_64 has one extra uint32.
+			cmdOffset += unsafe.Sizeof(m.Magic)
+		}
+		for _, cmd := range m.Loads {
+			raw := cmd.Raw()
+			typ := m.ByteOrder.Uint32(raw)
+			switch typ {
+			case LC_VERSION_MIN_IPHONEOS, LC_VERSION_MIN_MACOSX,
+				LC_VERSION_MIN_WATCHOS, LC_VERSION_MIN_TVOS, LC_BUILD_VERSION:
+				data := raw[4:]
+				ml := &MachoLoad{
+					type_: typ,
+					data:  make([]uint32, len(data)/4),
+				}
+				r := bytes.NewBuffer(data)
+				if err := binary.Read(r, m.ByteOrder, &ml.data); err != nil {
+					Exitf("%s: failed to read macho load command: %v", h.file, err)
+				}
+				return ml
+			}
+		}
+	}
+	return nil
 }
