@@ -34,6 +34,24 @@
       "revId": "d7d4a87ce7cf757d7d824dbc1f01a59a83858229",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa13a619_5fb41ab6",
+        "filename": "src/internal/bytealg/count_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-19T16:21:25Z",
+      "side": 1,
+      "message": "Good point. This time we\u0027re returning an int, so it is happy with MOVW. Thanks.",
+      "parentUuid": "4f601861_17cd5978",
+      "revId": "d7d4a87ce7cf757d7d824dbc1f01a59a83858229",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
