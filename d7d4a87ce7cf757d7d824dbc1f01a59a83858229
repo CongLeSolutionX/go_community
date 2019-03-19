@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ca383d7_27bc8c96",
+        "filename": "src/internal/bytealg/count_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-19T16:12:46Z",
+      "side": 1,
+      "message": "This time we don\u0027t need the vet whitelisting? Trybot is happy, so maybe not? (But I don\u0027t know why...)",
+      "revId": "d7d4a87ce7cf757d7d824dbc1f01a59a83858229",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
