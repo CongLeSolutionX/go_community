@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0dcc5734_4b90ee08",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-19T16:55:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecd7435c_60597289",
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1012e00c_cc37947e",
         "filename": "src/go/ast/import.go",
         "patchSetId": 6
@@ -84,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "a456879b_407a89b0",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-19T16:55:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d976287e_f53711b8",
+      "range": {
+        "startLine": 45,
+        "startChar": 20,
+        "endLine": 45,
+        "endChar": 31
+      },
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f33245b_bf567e01",
         "filename": "src/go/ast/import.go",
         "patchSetId": 6
@@ -104,6 +146,30 @@
       "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c170443_d8a11474",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-19T16:55:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f33245b_bf567e01",
+      "range": {
+        "startLine": 120,
+        "startChar": 7,
+        "endLine": 120,
+        "endChar": 10
+      },
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -178,6 +244,30 @@
     },
     {
       "key": {
+        "uuid": "ec40f440_4ba1661a",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-19T16:55:39Z",
+      "side": 1,
+      "message": "Robert, I looked into your approach. It works, but it has some special cases that need extra handling.\n\n1. For cases when there are no comments in between the specs, cend remains 0. So `f.Comments[cstart:cend]` fails. I added a special case for that.\n\n2. Your approach ends with the last index of the comment within the range. But while slicing, the end index is always exclusive. So `f.Comments[cstart:cend]` fails to take the last comment. Again we need a special case for that. Compare this with the previous approach, where cend was being updated till `g.End()` exceeded `end`. So we got the right `cend`.\n\nI fixed these and updated the CL. You can take a look and let me know if we can make this more elegant.\n\nbtw beg \u003c\u003d g.Pos() \u0026\u0026 g.End() \u003c end was fine actually.",
+      "parentUuid": "18a22316_8fbc7b58",
+      "range": {
+        "startLine": 126,
+        "startChar": 13,
+        "endLine": 126,
+        "endChar": 14
+      },
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e168307_2c87ef2c",
         "filename": "src/go/ast/import.go",
         "patchSetId": 6
@@ -222,6 +312,30 @@
       "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd890c85_39ac1a79",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-19T16:55:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3818085_390c4eb8",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 16
+      },
+      "revId": "e96c4ace9cacedcb3ead4b2b2d345a8e500b3f7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
