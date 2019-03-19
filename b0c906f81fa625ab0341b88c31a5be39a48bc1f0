@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1564383_4ac9342a",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 20002
+      },
+      "writtenOn": "2019-03-19T20:30:23Z",
+      "side": 1,
+      "message": "Technically `.llvmasm` is not a section but rather an arbitrarily defined symbol that represents the 0 value stored in the `__LLVM, __asm` section. For instance, k/n uses `konan_llvm_asm` instead: https://github.com/JetBrains/kotlin-native/pull/2186/files#diff-f4144135337f0791ef2d2961a014c8a2R32",
+      "revId": "b0c906f81fa625ab0341b88c31a5be39a48bc1f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2db9a19_7b83e2ea",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 20002
+      },
+      "writtenOn": "2019-03-19T20:30:23Z",
+      "side": 1,
+      "message": "I should have worded the comment here better. Maybe \"will become __LLVM, __asm\"?",
+      "revId": "b0c906f81fa625ab0341b88c31a5be39a48bc1f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
