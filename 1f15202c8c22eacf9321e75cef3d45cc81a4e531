@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bc9e7ef_d75517fb",
+        "filename": "src/cmd/nm/nm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-19T14:22:08Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t understand this.  It sounds like nm is printing the wrong values.  If that is the case, we should fix nm, not adjust the test.",
+      "revId": "1f15202c8c22eacf9321e75cef3d45cc81a4e531",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
