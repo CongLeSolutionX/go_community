@@ -16,6 +16,24 @@
       "revId": "1f15202c8c22eacf9321e75cef3d45cc81a4e531",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a010960f_da78723c",
+        "filename": "src/cmd/nm/nm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-19T14:40:41Z",
+      "side": 1,
+      "message": "No, nm is printing the right values. The problem is that these addresses will be changed during the program loading. \nBefore loading, text addresses are in range 0x1000xxxx but after loading they are at 0x10000xxxx. All executable created by ld are PIE. \nHowever, as addresses are really similar instead of skipping it (like .data which aren\u0027t similar at all), I can still kind of check if nm is working correctly. \n\nActually, my comment is wrong.. There is nothing linked with cmd/link there... I\u0027ll update it.",
+      "parentUuid": "3bc9e7ef_d75517fb",
+      "revId": "1f15202c8c22eacf9321e75cef3d45cc81a4e531",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
