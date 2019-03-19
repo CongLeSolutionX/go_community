@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a5debc66_25f5c519",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-03-19T20:42:43Z",
+      "side": 1,
+      "message": "the prefix should probably be \"cmd/link/internal/ld\", same as https://go-review.googlesource.com/c/go/+/168321/",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "b0c906f81fa625ab0341b88c31a5be39a48bc1f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1564383_4ac9342a",
         "filename": "src/cmd/link/internal/ld/macho.go",
         "patchSetId": 1
@@ -30,6 +53,29 @@
       "writtenOn": "2019-03-19T20:30:23Z",
       "side": 1,
       "message": "I should have worded the comment here better. Maybe \"will become __LLVM, __asm\"?",
+      "revId": "b0c906f81fa625ab0341b88c31a5be39a48bc1f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d50000ec_f1ffa8c4",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-03-19T20:42:43Z",
+      "side": 1,
+      "message": "has",
+      "range": {
+        "startLine": 496,
+        "startChar": 60,
+        "endLine": 496,
+        "endChar": 64
+      },
       "revId": "b0c906f81fa625ab0341b88c31a5be39a48bc1f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
