@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12dac3d7_1e4700b5",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-19T23:06:24Z",
+      "side": 1,
+      "message": "This 2nd sentence is not correct anymore. It\u0027s unclear what \"final line\" means, here (final of what? the range, or the file?) Just leave it away. The first comment says it all.",
+      "range": {
+        "startLine": 116,
+        "startChar": 32,
+        "endLine": 116,
+        "endChar": 33
+      },
+      "revId": "3752662a2cb2b1b1c3174fb0c2763cee82022ed2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "865d3a5d_dc871748",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-19T23:06:24Z",
+      "side": 1,
+      "message": "renaming suggestion: cstart and cend don\u0027t define a range the same way [beg, end[ and [begSpecs, endSpecs[ do, because the cend is not exclusive. It\u0027s just the last comment group index. I\u0027d call these cfirst, clast; or maybe even first, last, which are better names for indices.",
+      "range": {
+        "startLine": 121,
+        "startChar": 1,
+        "endLine": 121,
+        "endChar": 7
+      },
+      "revId": "3752662a2cb2b1b1c3174fb0c2763cee82022ed2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b3ab4c7_35d47b71",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-19T23:06:24Z",
+      "side": 1,
+      "message": "Start with -1, i.e., an invalid index value. That way, it is guaranteed to be set when we find a comment.\n\n(The choice of 0 makes everything unnecessarily complicated. See comments below.)",
+      "range": {
+        "startLine": 122,
+        "startChar": 9,
+        "endLine": 122,
+        "endChar": 10
+      },
+      "revId": "3752662a2cb2b1b1c3174fb0c2763cee82022ed2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "285d4d4b_8b30b34f",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-19T23:06:24Z",
+      "side": 1,
+      "message": "remove this empty line - the code before is initialization code for this loop and belongs together",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 0
+      },
+      "revId": "3752662a2cb2b1b1c3174fb0c2763cee82022ed2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2cbdf6b_19acafbf",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-19T23:06:24Z",
+      "side": 1,
+      "message": "Move this to the beginning of the loop so you don\u0027t need to check twice. After the if we know the negated condition is true, and so we don\u0027t need to test that if the next if.\n\nif g.End() \u003e\u003d end {\n   break\n}\n// g.End() \u003c end\nif beg \u003c\u003d g.Pos() {\n   // comment is within the range ...\n   ...",
+      "range": {
+        "startLine": 134,
+        "startChar": 10,
+        "endLine": 134,
+        "endChar": 11
+      },
+      "revId": "3752662a2cb2b1b1c3174fb0c2763cee82022ed2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8e2093e_a6c0d664",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-19T23:06:24Z",
+      "side": 1,
+      "message": "Get rid of this \u0027if\u0027 statement; it\u0027s not needed anymore.\n\nAt this point, we either have some comments or we don\u0027t. If there are comments, we are know that both cstart and cend are set to valid indices, because they were initialized with invalid indices guaranteed to be set as soon as we have a comment. If there are no comments, both cbeg and cend are still invalid.\n\n(This invariant was not true with cend being initialized to 0.)",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 139,
+        "endChar": 13
+      },
+      "revId": "3752662a2cb2b1b1c3174fb0c2763cee82022ed2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fe8c9d3_4ed137c2",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-19T23:06:24Z",
+      "side": 1,
+      "message": "Remove this \u0027if\u0027, it\u0027s not necessary anymore.\n(It was necessary with your code because there may have been no comments at all and then cend, which would still be 0, is not \u003c 0.)\n\nWe know that cend is either \u003c 0 (it was never set), or it was set, and then it must be a valid index. Thus there is not need to check that it\u0027s \u003c len(f.Comments). It can\u0027t possibly be greater.",
+      "range": {
+        "startLine": 143,
+        "startChar": 16,
+        "endLine": 143,
+        "endChar": 17
+      },
+      "revId": "3752662a2cb2b1b1c3174fb0c2763cee82022ed2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87479760_cb33d16c",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-19T23:06:24Z",
+      "side": 1,
+      "message": "No need to do this here. cend is used exactly in one place below. Just add +1 there.",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 6
+      },
+      "revId": "3752662a2cb2b1b1c3174fb0c2763cee82022ed2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7b9bdb2_32b1d5ea",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-19T23:06:24Z",
+      "side": 1,
+      "message": "The only thing that needs to be guarded is this assignment. Either we have comments, and then we have a valid cstart and cend, or we don\u0027t. It\u0027s cheapest to check for a valid cend. This leads to:\n\nvar comments []*CommentGroup\nif cend \u003e\u003d 0 {\n   comments \u003d f.Comments[cstart : cend+1]\n}",
+      "range": {
+        "startLine": 147,
+        "startChar": 15,
+        "endLine": 147,
+        "endChar": 23
+      },
+      "revId": "3752662a2cb2b1b1c3174fb0c2763cee82022ed2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
