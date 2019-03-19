@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6abc03ae_5aef9332",
+        "filename": "src/cmd/nm/nm_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-19T16:50:25Z",
+      "side": 1,
+      "message": "Thanks for the explanation, but this just seems too fragile to me.  If all binaries on AIX are PIE, then if the system loader starts picking a different load address then this test will fail inexplicably.  I think the relocated function below should just always return true on AIX.\n\nIf we want a proper test on AIX, then we should use a different approach in which we check that the entry in the symbol table and the actual runtime value both have the same offset from, e.g., runtime.text.",
+      "revId": "e51520c93a444e562fc85895b46df2a59d4c1f3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
