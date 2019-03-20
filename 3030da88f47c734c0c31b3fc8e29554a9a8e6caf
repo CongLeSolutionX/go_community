@@ -22,6 +22,30 @@
       "revId": "3030da88f47c734c0c31b3fc8e29554a9a8e6caf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a39ba42c_ac92f7d3",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-20T18:08:36Z",
+      "side": 1,
+      "message": "Thanks for commenting on this.\n\nIt is invariantly equal. I tried to answer the question of \"why\" in the commit message:\n\n\u003e Refactor DefaultExecName to be a pure function that takes two inputs\nthat it needs. This makes it clear that it doesn\u0027t need most other\nfields from the Package struct.\n\nIf DefaultExecName were to use cfg.ModulesEnabled implicitly, it would be less clear to the caller that the behavior of DefaultExecName depends on the value of cfg.ModulesEnabled. Do you think that\u0027s a good idea, or is it not an improvement to make this a pure function?\n\nI realize this is not consistent with the rest of the cmd/go codebase, and my intention was to try to move it towards better practices and more readable code. Your feedback on whether this is helpful would be very welcome. If it\u0027s not helpful, I am happy to just use cfg.ModulesEnabled inside cfg.ModulesEnabled.",
+      "parentUuid": "ecaa472f_f97b936b",
+      "range": {
+        "startLine": 1198,
+        "startChar": 38,
+        "endLine": 1198,
+        "endChar": 59
+      },
+      "revId": "3030da88f47c734c0c31b3fc8e29554a9a8e6caf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
