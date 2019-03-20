@@ -87,6 +87,24 @@
       "revId": "15eb5c03247a1d31ce12f9fcef7ff9a236de0c8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7701824_d321f717",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-03-20T19:01:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3f6b86c9_7d26f8af",
+      "revId": "15eb5c03247a1d31ce12f9fcef7ff9a236de0c8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
