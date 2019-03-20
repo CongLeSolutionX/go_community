@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "321dda42_d4e90cf7",
+        "filename": "src/encoding/binary/binary.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-20T12:49:38Z",
+      "side": 1,
+      "message": "If we\u0027re going to use this fast path, may as well do it even before we call intDataSize.",
+      "revId": "11e2da7ba1c3ed6ed2f883582dd52040a66da2f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
