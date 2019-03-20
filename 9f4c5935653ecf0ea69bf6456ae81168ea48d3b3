@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f90eb59_8f208732",
+        "filename": "misc/cgo/testso/so_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-20T13:52:40Z",
+      "side": 1,
+      "message": "Don\u0027t add a -work option here; I\u0027m guessing this was for debugging.",
+      "revId": "9f4c5935653ecf0ea69bf6456ae81168ea48d3b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
