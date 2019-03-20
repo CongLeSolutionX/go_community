@@ -16,6 +16,24 @@
       "revId": "e51520c93a444e562fc85895b46df2a59d4c1f3a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de476e58_da5bc3ac",
+        "filename": "src/cmd/nm/nm_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-03-20T09:33:51Z",
+      "side": 1,
+      "message": "I do agree with you. I\u0027ll remove this part for this CL and will submit another CL with an AIX test later. \nHowever, I still want to keep the non-cgo test for the moment. With internal linker, .text symbols are at the right address and my programs aren\u0027t PIE (because of read-only relocations). That way I can still check that nm is acting as wanted.",
+      "parentUuid": "6abc03ae_5aef9332",
+      "revId": "e51520c93a444e562fc85895b46df2a59d4c1f3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
