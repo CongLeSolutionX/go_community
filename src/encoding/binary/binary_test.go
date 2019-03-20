@@ -542,3 +542,16 @@ func BenchmarkLittleEndianPutUint64(b *testing.B) {
 		LittleEndian.PutUint64(putbuf[:], uint64(i))
 	}
 }
+
+func BenchmarkWriteSliceUint8(b *testing.B) {
+	slice := make([]uint8, 1000)
+	buf := new(bytes.Buffer)
+	var w io.Writer = buf
+	b.SetBytes(4 * 1000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		buf.Reset()
+		Write(w, BigEndian, slice)
+	}
+	b.StopTimer()
+}
