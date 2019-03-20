@@ -254,6 +254,10 @@ func Read(r io.Reader, order ByteOrder, data interface{}) error {
 func Write(w io.Writer, order ByteOrder, data interface{}) error {
 	// Fast path for basic types and slices.
 	if n := intDataSize(data); n != 0 {
+		if v, ok := data.([]uint8); ok {
+			_, err := w.Write(v)
+			return err
+		}
 		bs := make([]byte, n)
 		switch v := data.(type) {
 		case *bool:
@@ -288,8 +292,6 @@ func Write(w io.Writer, order ByteOrder, data interface{}) error {
 			bs[0] = *v
 		case uint8:
 			bs[0] = v
-		case []uint8:
-			bs = v // TODO(josharian): avoid allocating bs in this case?
 		case *int16:
 			order.PutUint16(bs, uint16(*v))
 		case int16:
