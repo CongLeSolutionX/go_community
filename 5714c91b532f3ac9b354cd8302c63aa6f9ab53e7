@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2450040_6d6fc830",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-20T13:19:32Z",
+      "side": 1,
+      "message": "This is an optimization rule, not a lowering rule. This should move later, with other optimizations.\n\nMaybe this can be simply (Select1 (ADDSconstflags [-1] (ADCzerocarry c))) -\u003e c, i.e. without the outer ADCSflags? (I didn\u0027t write down the types for simplicity).",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 116
+      },
+      "revId": "5714c91b532f3ac9b354cd8302c63aa6f9ab53e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c37257c5_5000a17a",
+        "filename": "src/math/bits/bits_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-20T13:19:32Z",
+      "side": 1,
+      "message": "Sub64",
+      "range": {
+        "startLine": 805,
+        "startChar": 8,
+        "endLine": 805,
+        "endChar": 13
+      },
+      "revId": "5714c91b532f3ac9b354cd8302c63aa6f9ab53e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0803fbd2_11e557d5",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-20T13:19:32Z",
+      "side": 1,
+      "message": "For future optimization, we could probably recognize ADDSconstflags with constant 0 results a constant non-carry flags, and eliminates the first ADDS instruction in this case.",
+      "revId": "5714c91b532f3ac9b354cd8302c63aa6f9ab53e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
