@@ -46,6 +46,30 @@
       "revId": "3030da88f47c734c0c31b3fc8e29554a9a8e6caf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5535f572_0095906c",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-20T18:38:36Z",
+      "side": 1,
+      "message": "\u003e to just use cfg.ModulesEnabled inside cfg.ModulesEnabled.\n\nInside DefaultExecName, rather.",
+      "parentUuid": "a39ba42c_ac92f7d3",
+      "range": {
+        "startLine": 1198,
+        "startChar": 38,
+        "endLine": 1198,
+        "endChar": 59
+      },
+      "revId": "3030da88f47c734c0c31b3fc8e29554a9a8e6caf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
