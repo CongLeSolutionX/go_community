@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "62a1350b_7dfe9a49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 20002
+      },
+      "writtenOn": "2019-03-20T19:42:59Z",
+      "side": 1,
+      "message": "The list represents the default platforms which are assumed when no load command is present. When building for a platform not in the list (i.e. non-default platform), a load command is required.",
+      "parentUuid": "1f418511_7dd03601",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "6fdf7e113e50ad6f62953a8667d5d895aa8ce547",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98e15d12_3b863e6d",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
@@ -53,6 +77,24 @@
       "writtenOn": "2019-03-19T20:52:49Z",
       "side": 1,
       "message": "It seems this has some similarities with machoCombineDwarf, in particular, the loadCmdReader stuff. Can we reuse or refactor some of the common code?",
+      "revId": "6fdf7e113e50ad6f62953a8667d5d895aa8ce547",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9374f87_9d81d35a",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1012,
+      "author": {
+        "id": 20002
+      },
+      "writtenOn": "2019-03-20T19:42:59Z",
+      "side": 1,
+      "message": "Speaking of machoCombineDwarf, there is a special case in that function for LC_VERSION_MIN_IPHONEOS which should be expanded to include tvOS/watchOS as well.",
+      "parentUuid": "6a37fe2a_7e5ac756",
       "revId": "6fdf7e113e50ad6f62953a8667d5d895aa8ce547",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
