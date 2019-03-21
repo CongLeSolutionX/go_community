@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1600279e_c209f79c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-21T19:12:40Z",
+      "side": 1,
+      "message": "The VLD2-4 part can be combined, just not with VLD1. Same for stores. Sorry if I didn\u0027t say it clearly.\n\nThis is also fine for this CL. We can submit as is. Let me know. Thanks.",
+      "range": {
+        "startLine": 787,
+        "startChar": 0,
+        "endLine": 795,
+        "endChar": 63
+      },
+      "revId": "23bd8390bb079e25176c3e4a21c35b378c89f66b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
