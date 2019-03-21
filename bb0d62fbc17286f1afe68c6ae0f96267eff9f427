@@ -140,6 +140,30 @@
       "revId": "bb0d62fbc17286f1afe68c6ae0f96267eff9f427",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c92b04a_fb61dd2c",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-03-21T23:49:32Z",
+      "side": 1,
+      "message": "This is really hard to measure properly, because it is not a benchmark and the result fluctuates a lot. For one of my projects I would say that it adds about 20ms to a total link time of about 300ms.",
+      "parentUuid": "512cb40f_39aa0b78",
+      "range": {
+        "startLine": 432,
+        "startChar": 0,
+        "endLine": 464,
+        "endChar": 3
+      },
+      "revId": "bb0d62fbc17286f1afe68c6ae0f96267eff9f427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
