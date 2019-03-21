@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90414fa0_1a5772e5",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-03-21T23:11:34Z",
+      "side": 1,
+      "message": "Nit: delete the modulesEnabled parameter and check cfg.ModulesEnabled instead.",
+      "revId": "cea29b4924d18dff9875a308c10d0237153758b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "153bf174_40f470f7",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-03-21T23:11:34Z",
+      "side": 1,
+      "message": "Let\u0027s remove some redundant code and use findVersionElement instead.",
+      "revId": "cea29b4924d18dff9875a308c10d0237153758b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
