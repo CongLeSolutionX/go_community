@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8ba4da5b_811a3768",
+        "filename": "src/cmd/compile/internal/ssa/gen/386.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2019-03-21T06:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2116f94f_0ee70181",
+      "revId": "493f1d85d84ec5b10c48a2df105981e9f9b645fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e1a1aaf_b3bc7c16",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "493f1d85d84ec5b10c48a2df105981e9f9b645fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3057e43_ee7cf60a",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2019-03-21T06:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e1a1aaf_b3bc7c16",
+      "range": {
+        "startLine": 1228,
+        "startChar": 47,
+        "endLine": 1228,
+        "endChar": 51
+      },
+      "revId": "493f1d85d84ec5b10c48a2df105981e9f9b645fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "7df5aa55_d957067e",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2019-03-21T06:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31f48348_18443342",
+      "range": {
+        "startLine": 337,
+        "startChar": 0,
+        "endLine": 340,
+        "endChar": 1
+      },
+      "revId": "493f1d85d84ec5b10c48a2df105981e9f9b645fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41545a72_43c2b6a8",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2019-03-18T10:56:47Z",
       "side": 1,
       "message": "On platforms (all except 386 and amd64?) that don\u0027t have 8/16-bit rotates/multiplications do you think it would make sense to promote these to 32-bit operations?\n\nMaybe something as simple as:\n\n(Eq8 (Mod8u  \u003ct\u003e x (Const8  [c])) (Const8 [0]))\n  \u0026\u0026 x.Op !\u003d OpConst8\n  \u0026\u0026 udivisibleOK(8 ,c)\n  \u0026\u0026 !hasRotateLeft8(config)\n  -\u003e (Eq32 (Mod32u \u003ctyp.UInt32\u003e (ZeroExt8to32 \u003ctyp.UInt32\u003e x) (Const32 \u003ctyp.UInt32\u003e [c\u00260xff])) (Const32 \u003ctyp.UInt32\u003e [0]))",
+      "range": {
+        "startLine": 1151,
+        "startChar": 0,
+        "endLine": 1171,
+        "endChar": 2
+      },
+      "revId": "493f1d85d84ec5b10c48a2df105981e9f9b645fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04fc645c_64118bbb",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2019-03-21T06:48:34Z",
+      "side": 1,
+      "message": "Yes, that results in less instructions since the shifts can be replaced with a single rotate.  I added these rules and will see about benchmarking it at least on arm/arm64 to confirm that it is faster for these small types.",
+      "parentUuid": "41545a72_43c2b6a8",
       "range": {
         "startLine": 1151,
         "startChar": 0,
@@ -116,6 +206,24 @@
       "writtenOn": "2019-03-18T18:21:11Z",
       "side": 1,
       "message": "When k\u003e0, then really m is such that m*(c\u003e\u003ek) mod 2^(n-k) \u003d\u003d 1.\nOr equivalently, m*c mod 2^n \u003d\u003d 2^k?",
+      "revId": "493f1d85d84ec5b10c48a2df105981e9f9b645fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b166e6e_7566a592",
+        "filename": "src/cmd/compile/internal/ssa/magic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2019-03-21T06:48:34Z",
+      "side": 1,
+      "message": "Yes, that is correct, though we actually calculate the inverse to n-bits (even though only n-k are needed as you note). So, m * (c\u003e\u003ek) mod 2^n \u003d\u003d 1, where c\u003e\u003ek is referred to as d0 in the comment and the code above.  I updated this comment accordingly.",
+      "parentUuid": "02827dd1_9b03aba8",
       "revId": "493f1d85d84ec5b10c48a2df105981e9f9b645fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
