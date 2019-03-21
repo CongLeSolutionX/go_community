@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "360778af_f63af29e",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2019-03-21T14:47:31Z",
+      "side": 1,
+      "message": "This keeps the file open until the function returns instead of until the next loop iteration as you probably intend to. \n\nI don\u0027t know how large this hostobj slice is, but in the worst case you keep len(hostobj) filedescriptors open when only one of them needs to be open.",
+      "revId": "277609f844ed9254d25e975f7cf202d042beecc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
