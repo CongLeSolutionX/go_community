@@ -17,8 +17,10 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/sym"
+	"fmt"
 	"io"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -39,6 +41,7 @@ type objReader struct {
 	pn              string
 	dupSym          *sym.Symbol
 	localSymVersion int
+	flags           int
 
 	// rdBuf is used by readString and readSymName as scratch for reading strings.
 	rdBuf []byte
@@ -54,9 +57,18 @@ type objReader struct {
 	file        []*sym.Symbol
 }
 
+// Flags to enable optional behavior during object loading/reading.
+
+const (
+	NoFlag int = iota
+
+	// Apply sanity checks while reading DWARF symbols.
+	StrictDwarfFlag
+)
+
 // Load loads an object file f into library lib.
 // The symbols loaded are added to syms.
-func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *sym.Library, length int64, pn string) {
+func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *sym.Library, length int64, pn string, flags int) {
 	start := f.Offset()
 	r := &objReader{
 		rd:              f.Reader,
@@ -66,6 +78,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *sym.Library, le
 		pn:              pn,
 		dupSym:          &sym.Symbol{Name: ".dup"},
 		localSymVersion: syms.IncVersion(),
+		flags:           flags,
 	}
 	r.loadObjFile()
 	if f.Offset() != start+length {
@@ -338,6 +351,19 @@ overwrite:
 		}
 	}
 	if s.Type == sym.SDWARFINFO {
+		if r.flags&StrictDwarfFlag != 0 {
+			// If this DWARF symbol is a duplicate of a previously
+			// read symbol, verify that they have the same payload,
+			// and issue a diagnostic if not.
+			if isdup && !bytes.Equal(data, dup.P) {
+				reason := "same length but different contents"
+				if len(data) != len(dup.P) {
+					reason = fmt.Sprintf("new length %d != old length %d",
+						len(data), len(dup.P))
+				}
+				fmt.Fprintf(os.Stderr, "cmd/link: while reading object for '%v': duplicate DWARF symbol '%s', previous def at '%v', with mismatched payload: %s", r.lib, dup, dup.Lib, reason)
+			}
+		}
 		r.patchDWARFName(s)
 	}
 }
