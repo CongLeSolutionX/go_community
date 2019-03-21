@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "339430c4_c1e3dc05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-21T19:16:46Z",
+      "side": 1,
+      "message": "s/upgraded/upgrade/\n\nAnd reference an issue.",
+      "revId": "c3f05e41742fba1d73a99c12fe20ee7eae7509f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
