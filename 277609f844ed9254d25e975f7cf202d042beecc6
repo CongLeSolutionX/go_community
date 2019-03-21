@@ -16,6 +16,24 @@
       "revId": "277609f844ed9254d25e975f7cf202d042beecc6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64e7225e_64b7f483",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-03-21T15:47:39Z",
+      "side": 1,
+      "message": "Thanks. https://go-review.googlesource.com/c/go/+/168560",
+      "parentUuid": "360778af_f63af29e",
+      "revId": "277609f844ed9254d25e975f7cf202d042beecc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
