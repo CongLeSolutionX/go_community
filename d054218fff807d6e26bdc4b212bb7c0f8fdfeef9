@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "955bb683_4bf41b4c",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-22T15:36:20Z",
+      "side": 1,
+      "message": "Maybe add some comment that we record the branches targeting the entry loop and the unwind exit, and their targets with be filled in later.",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 345,
+        "endChar": 35
+      },
+      "revId": "d054218fff807d6e26bdc4b212bb7c0f8fdfeef9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9449e3b_0e197d2e",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-22T15:36:20Z",
+      "side": 1,
+      "message": "A Return instruction is not needed as this is the end of the function?",
+      "revId": "d054218fff807d6e26bdc4b212bb7c0f8fdfeef9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
