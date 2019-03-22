@@ -595,6 +595,14 @@ func createDwarfVars(fnsym *obj.LSym, fn *Func, automDecls []*Node) ([]*Node, []
 		abbrev := dwarf.DW_ABRV_AUTO_LOCLIST
 		if n.Class() == PPARAM || n.Class() == PPARAMOUT {
 			abbrev = dwarf.DW_ABRV_PARAM_LOCLIST
+		} else if n.Class() == PAUTOHEAP {
+			// If dcl in question has been promoted to heap, do a bit
+			// of extra work to recover original class (auto or param).
+			// See issue 30908.
+			heapaddr := n.Name.Param.Heapaddr
+			if heapaddr.IsOutputParamHeapAddr() {
+				abbrev = dwarf.DW_ABRV_PARAM_LOCLIST
+			}
 		}
 		inlIndex := 0
 		if genDwarfInline > 1 {
