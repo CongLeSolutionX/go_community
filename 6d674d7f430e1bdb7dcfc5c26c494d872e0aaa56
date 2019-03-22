@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6055ebab_76360766",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-22T20:45:27Z",
+      "side": 1,
+      "message": "I think GitHub won\u0027t do the right thing with these. To autoclose:\n\nFixes #30997. Fixes #31005.\n\nOr just close manually. :)",
+      "revId": "6d674d7f430e1bdb7dcfc5c26c494d872e0aaa56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
