@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "de14afd8_eed73500",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-03-22T17:49:53Z",
+      "side": 1,
+      "message": "OK, new version uses Cherry\u0027s scheme. Also looks like setting for IsReturnValue needs to be similarly gated (fixed).",
+      "parentUuid": "6cbfaed9_70693b94",
+      "revId": "940263637dea47a443102ef0ea8b0127fd637a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bbfe711b_1480f8e7",
         "filename": "src/cmd/compile/internal/gc/pgen.go",
         "patchSetId": 1
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Ok. Leave a TODO in here or open an issue.",
       "parentUuid": "d8b3b54e_8b5e2025",
+      "revId": "940263637dea47a443102ef0ea8b0127fd637a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6db63315_8866d8e6",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-03-22T17:49:53Z",
+      "side": 1,
+      "message": "Todo added.",
+      "parentUuid": "93e96601_dfefdbf8",
       "revId": "940263637dea47a443102ef0ea8b0127fd637a9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
