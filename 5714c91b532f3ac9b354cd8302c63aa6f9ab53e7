@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9e643508_eafd97ab",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-22T14:59:44Z",
+      "side": 1,
+      "message": "Ok, this makes sense. Thanks.",
+      "parentUuid": "5c883fda_db7832b7",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 116
+      },
+      "revId": "5714c91b532f3ac9b354cd8302c63aa6f9ab53e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c37257c5_5000a17a",
         "filename": "src/math/bits/bits_test.go",
         "patchSetId": 9
