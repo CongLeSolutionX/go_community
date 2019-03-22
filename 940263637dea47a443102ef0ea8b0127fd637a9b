@@ -16,6 +16,23 @@
       "revId": "940263637dea47a443102ef0ea8b0127fd637a9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbfe711b_1480f8e7",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-03-22T15:51:51Z",
+      "side": 1,
+      "message": "I suspect this will tell the user that the variable is on the stack in the param location, when in fact we\u0027ve moved it to the heap. So the stack location will be out of date (or for output params, not set yet).\nIs there any way to encode \"this variable is stored out of the stack frame - the pointer to it is stored in the stack frame here\"?\n\nNevertheless, this CL is no worse than the status quo, so it\u0027s an improvement.",
+      "revId": "940263637dea47a443102ef0ea8b0127fd637a9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
