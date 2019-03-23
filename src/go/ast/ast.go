@@ -10,8 +10,6 @@ package ast
 import (
 	"go/token"
 	"strings"
-	"unicode"
-	"unicode/utf8"
 )
 
 // ----------------------------------------------------------------------------
@@ -526,15 +524,12 @@ func NewIdent(name string) *Ident { return &Ident{token.NoPos, name, nil} }
 // IsExported reports whether name is an exported Go symbol
 // (that is, whether it begins with an upper-case letter).
 //
-func IsExported(name string) bool {
-	ch, _ := utf8.DecodeRuneInString(name)
-	return unicode.IsUpper(ch)
-}
+func IsExported(name string) bool { return token.IsExported(name) }
 
 // IsExported reports whether id is an exported Go symbol
 // (that is, whether it begins with an uppercase letter).
 //
-func (id *Ident) IsExported() bool { return IsExported(id.Name) }
+func (id *Ident) IsExported() bool { return token.IsExported(id.Name) }
 
 func (id *Ident) String() string {
 	if id != nil {
