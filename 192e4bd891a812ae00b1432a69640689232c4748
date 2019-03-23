@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4cc8f1eb_a88a0764",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-23T22:48:39Z",
+      "side": 1,
+      "message": "Why not now?\n\nThe current API is confusing because there are two packages that provide a function with the same name and functionality. How can a user know which of the two to use (other than to look at the source code and git commit history)?\n\nDeprecating right away should be safe. It can\u0027t be removed from Go 1 due to the compatibility promise, so it makes the above decision simple. If you\u0027re using Go 1.12 or older, you can only use \"ast.IsExported\". If you\u0027re using Go 1.13+, you should prefer \"token.IsExported\" but \"ast.IsExported\" is fine too. There\u0027s no rush in updating old code, it can keep using the old function for a while (e.g., as long as 1.12 or older are supported).",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 46
+      },
+      "revId": "192e4bd891a812ae00b1432a69640689232c4748",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f094c13b_5355db4f",
         "filename": "src/go/token/token.go",
         "patchSetId": 3
