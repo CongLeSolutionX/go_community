@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5b72dff_b32bddc9",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2019-03-23T16:45:57Z",
+      "side": 1,
+      "message": "This case is now redundant wrt IsIdentifier(\"\"): the error message is more specific, but \u0027invalid identifier \"\"\u0027 is abundantly clear. If you remove it, the whole function can be replaced.",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5832c28f_e5babe99",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2019-03-23T16:45:57Z",
+      "side": 1,
+      "message": "How about just \"Exported\", like in go/types.Object?  It\u0027s unambiguously an adjective.",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f14ee58d_ef2c3d82",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2019-03-23T16:45:57Z",
+      "side": 1,
+      "message": "s/IsExported/IsKeyword/",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a055e914_2205c7ca",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2019-03-23T16:45:57Z",
+      "side": 1,
+      "message": "\"TODO: opt:\" since it\u0027s only an optimization.",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "063710c7_a8579fbf",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2019-03-23T16:45:57Z",
+      "side": 1,
+      "message": "\"identifier, that is, ...\"",
+      "range": {
+        "startLine": 328,
+        "startChar": 45,
+        "endLine": 328,
+        "endChar": 65
+      },
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7623843_f7d9bfbc",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2019-03-23T16:45:57Z",
+      "side": 1,
+      "message": "s/cannot be/is not/",
+      "range": {
+        "startLine": 330,
+        "startChar": 3,
+        "endLine": 330,
+        "endChar": 12
+      },
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2024c9d_b8765011",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2019-03-23T16:45:57Z",
+      "side": 1,
+      "message": "name\u003d\u003d\"\"",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca2f9302_b035b2e8",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2019-03-23T16:45:57Z",
+      "side": 1,
+      "message": "return !IsKeyword(name)",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
