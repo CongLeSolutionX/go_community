@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f094c13b_5355db4f",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-23T19:56:32Z",
+      "side": 1,
+      "message": "do you want to elaborate that it doesn\u0027t check that name is valid? You say that it\u0027s a Go symbol, but actually it might not pass the IsIdentifier check.",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 58
+      },
+      "revId": "192e4bd891a812ae00b1432a69640689232c4748",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
