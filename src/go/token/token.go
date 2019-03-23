@@ -7,7 +7,11 @@
 //
 package token
 
-import "strconv"
+import (
+	"strconv"
+	"unicode"
+	"unicode/utf8"
+)
 
 // Token is the set of lexical tokens of the Go programming language.
 type Token int
@@ -306,3 +310,36 @@ func (tok Token) IsOperator() bool { return operator_beg < tok && tok < operator
 // it returns false otherwise.
 //
 func (tok Token) IsKeyword() bool { return keyword_beg < tok && tok < keyword_end }
+
+// IsExported reports whether name is an exported Go symbol
+// (that is, whether it begins with an upper-case letter).
+func IsExported(name string) bool {
+	ch, _ := utf8.DecodeRuneInString(name)
+	return unicode.IsUpper(ch)
+}
+
+// IsExported reports whether name is a Go keyword, such as "func" or "return".
+func IsKeyword(name string) bool {
+	// TODO: use a perfect hash function instead of a global map.
+	_, ok := keywords[name]
+	return ok
+}
+
+// IsIdentifier reports whether name is a Go identifier. That is, a non-empty
+// string made up of letters, digits, and underscores, where the first character
+// cannot be a digit. In addition, keywords are not valid identifiers.
+func IsIdentifier(name string) bool {
+	if len(name) == 0 {
+		return false
+	}
+	for i, c := range name {
+		if unicode.IsLetter(c) || c == '_' || (i > 0 && unicode.IsDigit(c)) {
+			continue
+		}
+		return false
+	}
+	if IsKeyword(name) {
+		return false
+	}
+	return true
+}

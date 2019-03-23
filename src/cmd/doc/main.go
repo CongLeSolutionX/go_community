@@ -349,10 +349,7 @@ func isIdentifier(name string) {
 	if len(name) == 0 {
 		log.Fatal("empty symbol")
 	}
-	for i, ch := range name {
-		if unicode.IsLetter(ch) || ch == '_' || i > 0 && unicode.IsDigit(ch) {
-			continue
-		}
+	if !token.IsIdentifier(name) {
 		log.Fatalf("invalid identifier %q", name)
 	}
 }
