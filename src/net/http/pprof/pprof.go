@@ -7,7 +7,7 @@
 //
 // The package is typically only imported for the side effect of
 // registering its HTTP handlers.
-// The handled paths all begin with /debug/pprof/.
+// The handled paths all begin with /debug/pprof/
 //
 // To use pprof, link this package into your program:
 //	import _ "net/http/pprof"
@@ -19,6 +19,9 @@
 // 	go func() {
 // 		log.Println(http.ListenAndServe("localhost:6060", nil))
 // 	}()
+//
+// If you are not using DefaultServeMux, you will have to register handlers
+// with the mux you are using.
 //
 // Then use the pprof tool to look at the heap profile:
 //
