@@ -36,6 +36,42 @@
     },
     {
       "key": {
+        "uuid": "39b4441b_c173f155",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Hmm, I\u0027d perhaps confuse that with \"return this identifier as if it were exported\", such as transforming fooBar into FooBar - since export is also a verb.\n\nI also think it\u0027s nice this way, for consistency. After all, people will be used to ast.IsExported at this point.",
+      "parentUuid": "5832c28f_e5babe99",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c516a0c8_1baa8fd6",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Hmm, I\u0027d perhaps confuse that with \"return this identifier as if it were exported\", such as transforming fooBar into FooBar - since export is also a verb.\n\nI also think it\u0027s nice this way, for consistency. After all, people will be used to ast.IsExported at this point.",
+      "parentUuid": "5832c28f_e5babe99",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f14ee58d_ef2c3d82",
         "filename": "src/go/token/token.go",
         "patchSetId": 1
@@ -53,6 +89,42 @@
     },
     {
       "key": {
+        "uuid": "32f27b23_00ec1810",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f14ee58d_ef2c3d82",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ebf066c_84bc1311",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f14ee58d_ef2c3d82",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a055e914_2205c7ca",
         "filename": "src/go/token/token.go",
         "patchSetId": 1
@@ -67,6 +139,42 @@
       "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc76bd50_5ee929a5",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a055e914_2205c7ca",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57d94c43_72855564",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a055e914_2205c7ca",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +201,54 @@
     },
     {
       "key": {
+        "uuid": "2379f7b6_1ef416ba",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "063710c7_a8579fbf",
+      "range": {
+        "startLine": 328,
+        "startChar": 45,
+        "endLine": 328,
+        "endChar": 65
+      },
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6921ed6_2d5f89bc",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "063710c7_a8579fbf",
+      "range": {
+        "startLine": 328,
+        "startChar": 45,
+        "endLine": 328,
+        "endChar": 65
+      },
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7623843_f7d9bfbc",
         "filename": "src/go/token/token.go",
         "patchSetId": 1
@@ -113,6 +269,54 @@
       "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "785d1a90_140cf82e",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7623843_f7d9bfbc",
+      "range": {
+        "startLine": 330,
+        "startChar": 3,
+        "endLine": 330,
+        "endChar": 12
+      },
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "febbcb0a_663299e3",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7623843_f7d9bfbc",
+      "range": {
+        "startLine": 330,
+        "startChar": 3,
+        "endLine": 330,
+        "endChar": 12
+      },
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -168,6 +372,24 @@
     },
     {
       "key": {
+        "uuid": "c83f26f3_9dc09330",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "I don\u0027t know. I don\u0027t think it\u0027s worth optimizing this before anyone has run benchmarks over a large corpus of Go code.",
+      "parentUuid": "ce9f62a5_6ab47ddd",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca2f9302_b035b2e8",
         "filename": "src/go/token/token.go",
         "patchSetId": 1
@@ -182,6 +404,24 @@
       "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be8d3fbf_3f267a37",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-23T16:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca2f9302_b035b2e8",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
