@@ -390,6 +390,24 @@
     },
     {
       "key": {
+        "uuid": "fe6549ee_32318ce6",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-03-24T09:47:17Z",
+      "side": 1,
+      "message": "Fair enough.  Though I was mainly going for simplifying the control flow by inverting the test.",
+      "parentUuid": "c83f26f3_9dc09330",
+      "revId": "c8b20f0a6ddd3fa6af701ea1a51b4d1e946aec14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca2f9302_b035b2e8",
         "filename": "src/go/token/token.go",
         "patchSetId": 1
