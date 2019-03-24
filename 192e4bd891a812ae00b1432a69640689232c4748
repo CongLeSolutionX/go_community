@@ -45,6 +45,30 @@
       "revId": "192e4bd891a812ae00b1432a69640689232c4748",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb21534d_766b0078",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-24T08:12:00Z",
+      "side": 1,
+      "message": "This is just copied directly from go/ast.IsExported. I agree that the relationship with IsIdentifier is unclear.\n\nI don\u0027t think we want to add an IsIdentifier check here; that makes the function much more expensive, it breaks compatibility with go/ast.IsExported, and it\u0027s always easy to do:\n\n    if token.IsIdentifier(str) \u0026\u0026 token.IsExported(str) { ...",
+      "parentUuid": "f094c13b_5355db4f",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 58
+      },
+      "revId": "192e4bd891a812ae00b1432a69640689232c4748",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
