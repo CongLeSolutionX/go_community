@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f5b7b10_8a7299da",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-24T10:50:44Z",
+      "side": 1,
+      "message": "Perhaps switch 0b, 0, 0o, 0x to 0b, 0o, 0, 0x as below we say\n\"to denote a binary, octal, decimal or hexadecimal integer, respectively\"",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ebd684f_245bfe77",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-24T10:50:44Z",
+      "side": 1,
+      "message": "We forgot to \"decimal\" :)\n\nSo as I had suggested above\n\"to denote a binary, octal, decimal or hexadecimal integer, respectively\"\nafter switching the order.",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fcdcb53_7acc235e",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-24T10:50:44Z",
+      "side": 1,
+      "message": "I think just\n\"The radix point amounts to a multiplication by base**fcount\" will suffice.\nThat is because fcount is already negative (\u003c0) and by definition as you mention too:\nbase**-negative \u003d 1/(base**negative)",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e620cab5_f5f98b49",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-24T10:50:44Z",
+      "side": 1,
+      "message": "Clever!",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c23ce69_b973dc2f",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-24T10:50:44Z",
+      "side": 1,
+      "message": "Perhaps let\u0027s also add the comment here to help a skimmer realize why we did the fallthrough.\nJust like we did above:\n    fallthrough // 10 \u003d\u003d 5 * 2",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cbbfae1_8333c63f",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-24T10:50:44Z",
+      "side": 1,
+      "message": "Let\u0027s also add the odd case of mistakenly using \"e\" in a hexadecimal float:\n\n      {\"0x1.2e5\", \"4837/4096\", true}, // Mistaken use of \u0027e\u0027 for hexadecimal floats",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31d2156b_38965bae",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-03-24T10:50:44Z",
+      "side": 1,
+      "message": "This is for your debugging I know, but let\u0027s remember to\nclean it up before we submit the CL :)",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
