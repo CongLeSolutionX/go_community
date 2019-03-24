@@ -16,6 +16,24 @@
       "revId": "f052a148973dfd84288b5086439a8ebb1dff13a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21a37582_bb552dcb",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 30788
+      },
+      "writtenOn": "2019-03-24T18:42:30Z",
+      "side": 1,
+      "message": "So what do you propose we add to the code in this case? The current flow is that it returns a \"\" in the invalid character case, and as a result it falls through to line 564 which shows a message which is misleading. https://github.com/golang/go/blob/master/src/net/url/url.go#L564\nThis is what we are trying to fix. If there\u0027s an invalid character in the scheme, we want to show an \"Invalid character in scheme\" message.",
+      "parentUuid": "5f7623fa_a5fbf126",
+      "revId": "f052a148973dfd84288b5086439a8ebb1dff13a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
