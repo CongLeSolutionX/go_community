@@ -262,6 +262,9 @@ func (p platform) vet() {
 		// The coordinator places a copy of golang.org/x/tools in GOPATH.
 		// If we can find it there, use that specific version.
 		for _, gp := range filepath.SplitList(os.Getenv("GOPATH")) {
+			// Test to see if we even need the coordinator to give this to us:
+			os.RemoveAll(filepath.Join(gp, "src", "golang.org", "x", "tools"))
+
 			gopathDir := filepath.Join(gp, "src", "golang.org", "x", "tools", "go", "analysis", "cmd", "vet")
 			if _, err := os.Stat(gopathDir); err == nil {
 				cmd.Dir = gopathDir
