@@ -4,6 +4,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !nacl,!js
+// +build !nacl,!js,!gcflags_noopt
 
 package ignored
