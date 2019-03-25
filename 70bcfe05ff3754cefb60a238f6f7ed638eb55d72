@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "77cf5bb6_a92cbf3a",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T21:55:35Z",
+      "side": 1,
+      "message": "What is here is correct: 0 doesn\u0027t mean decimal here; it means octal (old-style).",
+      "parentUuid": "1f5b7b10_8a7299da",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ebd684f_245bfe77",
         "filename": "src/math/big/ratconv.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "70799ba5_407ad33e",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T21:55:35Z",
+      "side": 1,
+      "message": "This is correct as is. See above.\n\nThe sentence says \"...may be a decimal integer OR ...\"",
+      "parentUuid": "5ebd684f_245bfe77",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0fcdcb53_7acc235e",
         "filename": "src/math/big/ratconv.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2019-03-24T10:50:44Z",
       "side": 1,
       "message": "I think just\n\"The radix point amounts to a multiplication by base**fcount\" will suffice.\nThat is because fcount is already negative (\u003c0) and by definition as you mention too:\nbase**-negative \u003d 1/(base**negative)",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6c3cf5e_426e6b56",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T21:55:35Z",
+      "side": 1,
+      "message": "Yes, but I prefer to spell it out to make it explicit.",
+      "parentUuid": "0fcdcb53_7acc235e",
       "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "048faaba_2ebad616",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T21:55:35Z",
+      "side": 1,
+      "message": "I added\n\n// see fallthrough above",
+      "parentUuid": "2c23ce69_b973dc2f",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6cbbfae1_8333c63f",
         "filename": "src/math/big/ratconv_test.go",
         "patchSetId": 2
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "2ab46c2e_9b161fab",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T21:55:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cbbfae1_8333c63f",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31d2156b_38965bae",
         "filename": "src/math/big/ratconv_test.go",
         "patchSetId": 2
@@ -118,6 +208,24 @@
       "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5ddf05d_b7f27b5e",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T21:55:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31d2156b_38965bae",
+      "revId": "70bcfe05ff3754cefb60a238f6f7ed638eb55d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
