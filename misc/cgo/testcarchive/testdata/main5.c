@@ -39,7 +39,8 @@ int main(int argc, char** argv) {
 				printf("attempting segfault\n");
 			}
 
-			volatile int crash = *(int *) 0;
+			volatile int *p;
+			*p = 0;
 			break;
 		}
 
