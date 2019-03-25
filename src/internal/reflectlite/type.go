@@ -35,6 +35,10 @@ type Type interface {
 	// will be the empty string.
 	PkgPath() string
 
+	// Size returns the number of bytes needed to store
+	// a value of the given type; it is analogous to unsafe.Sizeof.
+	Size() uintptr
+
 	// Kind returns the specific kind of this type.
 	Kind() Kind
 
@@ -483,7 +487,11 @@ func (t *rtype) String() string {
 	return s
 }
 
+func (t *rtype) Size() uintptr { return t.size }
+
 func (t *rtype) Kind() Kind { return Kind(t.kind & kindMask) }
+
+func (t *rtype) pointers() bool { return t.kind&kindNoPointers == 0 }
 
 func (t *rtype) common() *rtype { return t }
 
