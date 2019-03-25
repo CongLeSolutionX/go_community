@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34f9e112_eb81310a",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T21:20:38Z",
+      "side": 1,
+      "message": "you don\u0027t need the \u0026\u0026-part anymore, per the comment above (this was the point of moving the previous if from the end to here in the first place)",
+      "range": {
+        "startLine": 127,
+        "startChar": 25,
+        "endLine": 127,
+        "endChar": 28
+      },
+      "revId": "10d0501fff501ced6e3462dafb076d63869dc322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
