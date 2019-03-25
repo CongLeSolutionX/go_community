@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bd74f58_e54cfc3e",
+        "filename": "src/net/http/pprof/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-25T15:00:43Z",
+      "side": 0,
+      "message": "I think this is still accurate, even if other muxes. See lines 265/266 below in func Index.\n\nI wouldn\u0027t remove this.",
+      "revId": "a189467cdae5421c863cf940778d681ecb1d3d2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
