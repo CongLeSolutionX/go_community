@@ -2094,7 +2094,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			addop := ssa.OpAdd64F
 			subop := ssa.OpSub64F
 			pt := floatForComplex(n.Type) // Could be Float32 or Float64
-			wt := types.Types[TFLOAT64]   // Compute in Float64 to minimize cancelation error
+			wt := types.Types[TFLOAT64]   // Compute in Float64 to minimize cancellation error
 
 			areal := s.newValue1(ssa.OpComplexReal, pt, a)
 			breal := s.newValue1(ssa.OpComplexReal, pt, b)
@@ -4695,7 +4695,7 @@ var f32_u64 = f2uCvtTab{
 	or:         ssa.OpOr64,
 	floatValue: (*state).constFloat32,
 	intValue:   (*state).constInt64,
-	cutoff:     9223372036854775808,
+	cutoff:     1 << 63,
 }
 
 var f64_u64 = f2uCvtTab{
@@ -4705,7 +4705,7 @@ var f64_u64 = f2uCvtTab{
 	or:         ssa.OpOr64,
 	floatValue: (*state).constFloat64,
 	intValue:   (*state).constInt64,
-	cutoff:     9223372036854775808,
+	cutoff:     1 << 63,
 }
 
 var f32_u32 = f2uCvtTab{
@@ -4715,7 +4715,7 @@ var f32_u32 = f2uCvtTab{
 	or:         ssa.OpOr32,
 	floatValue: (*state).constFloat32,
 	intValue:   func(s *state, t *types.Type, v int64) *ssa.Value { return s.constInt32(t, int32(v)) },
-	cutoff:     2147483648,
+	cutoff:     1 << 31,
 }
 
 var f64_u32 = f2uCvtTab{
@@ -4725,7 +4725,7 @@ var f64_u32 = f2uCvtTab{
 	or:         ssa.OpOr32,
 	floatValue: (*state).constFloat64,
 	intValue:   func(s *state, t *types.Type, v int64) *ssa.Value { return s.constInt32(t, int32(v)) },
-	cutoff:     2147483648,
+	cutoff:     1 << 31,
 }
 
 func (s *state) float32ToUint64(n *Node, x *ssa.Value, ft, tt *types.Type) *ssa.Value {
