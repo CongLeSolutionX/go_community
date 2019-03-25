@@ -2,6 +2,121 @@
   "comments": [
     {
       "key": {
+        "uuid": "4b3754ec_7468c9c4",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T17:37:57Z",
+      "side": 1,
+      "message": "isValidIdentifier didn\u0027t exclude keywords, while this new code does - presumably this fixes a bug?",
+      "range": {
+        "startLine": 119,
+        "startChar": 28,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ca45d5d_7e91d0ec",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T17:37:57Z",
+      "side": 1,
+      "message": "s/symbol/identifier/\n\nWe don\u0027t talk about \"symbols\" in this file (or the spec, for that matter).",
+      "range": {
+        "startLine": 314,
+        "startChar": 53,
+        "endLine": 314,
+        "endChar": 59
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1aa7798_e8d75388",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T17:37:57Z",
+      "side": 1,
+      "message": "s/the name/name/\n\nsince you\u0027re referring to the parameter name",
+      "range": {
+        "startLine": 317,
+        "startChar": 47,
+        "endLine": 317,
+        "endChar": 50
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a41ab6d_f5e103f0",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T17:37:57Z",
+      "side": 1,
+      "message": "Please follow the comment style in this file. Use an\n\n//\n\ncomment line before the function. Apply everywhere.",
+      "range": {
+        "startLine": 318,
+        "startChar": 3,
+        "endLine": 318,
+        "endChar": 6
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25cbb429_63a9c674",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T17:37:57Z",
+      "side": 1,
+      "message": "I am not totally convinced that IsIdentifier should exclude keywords: The reason being is that it\u0027s easy to get this effect by doing: IsIdentifier(name) \u0026\u0026 !IsKeyword(name) (with an IsIdentifier that doesn\u0027t exclude keywords). On the other hand, if you just want identifiers (incl. keywords) you\u0027d have to write now: IsIdentifier(name) || IsKeyword(name), which is fine, but which would do the keyword-test twice, internally. That is, I\u0027d expose the more fundamental tests, rather than a combined test.\n\nBut maybe this latter test doesn\u0027t occur in practice. Commments?",
+      "range": {
+        "startLine": 331,
+        "startChar": 24,
+        "endLine": 331,
+        "endChar": 31
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c056537e_7d4ce7bf",
         "filename": "src/go/token/token.go",
         "patchSetId": 4
@@ -13,6 +128,98 @@
       "writtenOn": "2019-03-25T17:24:29Z",
       "side": 1,
       "message": "Nit: s/In addition, k/K/ and s/valid //.",
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55ec71f8_e9bf0c01",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T17:37:57Z",
+      "side": 1,
+      "message": "remove this \u0027if\u0027 - it\u0027s rare that we see a \"\"; no need to put it first (see below)",
+      "range": {
+        "startLine": 335,
+        "startChar": 4,
+        "endLine": 335,
+        "endChar": 8
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f160fce_748958e6",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T17:37:57Z",
+      "side": 1,
+      "message": "please no continue here and a return later - this code can written nicely with an inverted condition (or a ! around the same condition)",
+      "range": {
+        "startLine": 340,
+        "startChar": 3,
+        "endLine": 340,
+        "endChar": 11
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ba1eedc_7bcb8fa5",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T17:37:57Z",
+      "side": 1,
+      "message": "return name !\u003d \"\" \u0026\u0026 !IsKeyword(name)",
+      "range": {
+        "startLine": 344,
+        "startChar": 9,
+        "endLine": 344,
+        "endChar": 18
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81dc917f_5439cf43",
+        "filename": "src/go/token/token_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-03-25T17:37:57Z",
+      "side": 1,
+      "message": "put some blanks around the \u003d for nicer output:\n\ns/\u003d/ \u003d /\n\nAlso: s/wanted/want/ (that\u0027s what we usually write)",
+      "range": {
+        "startLine": 29,
+        "startChar": 30,
+        "endLine": 29,
+        "endChar": 31
+      },
       "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
