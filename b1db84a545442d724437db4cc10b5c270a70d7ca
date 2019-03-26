@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5c98e22_2f1afc96",
+        "filename": ".github/ISSUE_TEMPLATE/gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 9711
+      },
+      "writtenOn": "2019-03-26T19:48:08Z",
+      "side": 1,
+      "message": "we need `gopls version` so we can tell them to use it.\nIn fact, ideally we should have a gopls verb that reports all the information we need, including go env and go version so that the instructions are much simpler\nwould you like to bikeshed about the exact command line and then I can implement it?",
+      "revId": "b1db84a545442d724437db4cc10b5c270a70d7ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "301c2e24_9a865cc2",
+        "filename": ".github/ISSUE_TEMPLATE/gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 9711
+      },
+      "writtenOn": "2019-03-26T19:48:08Z",
+      "side": 1,
+      "message": "if they did go env correctly above, we already know this?",
+      "revId": "b1db84a545442d724437db4cc10b5c270a70d7ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
