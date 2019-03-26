@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d91d4ea9_e8ab125d",
+        "filename": "misc/cgo/testso/testdata/cgoso.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-26T16:48:07Z",
+      "side": 1,
+      "message": "Please use parentheses here.\n\n#if defined(WIN32) || defined(_AIX)",
+      "revId": "e1d94ec6623e4d6a9f33bfbcb7bf02fa3a3e3d5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "115f1e02_4d324335",
+        "filename": "misc/cgo/testso/testdata/cgoso_c.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-26T16:48:07Z",
+      "side": 1,
+      "message": "s/considere/consider/",
+      "range": {
+        "startLine": 22,
+        "startChar": 29,
+        "endLine": 22,
+        "endChar": 38
+      },
+      "revId": "e1d94ec6623e4d6a9f33bfbcb7bf02fa3a3e3d5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
