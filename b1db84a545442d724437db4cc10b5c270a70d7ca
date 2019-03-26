@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "01125cd7_b358e929",
+        "filename": ".github/ISSUE_TEMPLATE/gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 16140
+      },
+      "writtenOn": "2019-03-26T20:02:03Z",
+      "side": 1,
+      "message": "ok i guess we have decide on `gopls bug`",
+      "parentUuid": "f5c98e22_2f1afc96",
+      "revId": "b1db84a545442d724437db4cc10b5c270a70d7ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301c2e24_9a865cc2",
         "filename": ".github/ISSUE_TEMPLATE/gopls.md",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "b1db84a545442d724437db4cc10b5c270a70d7ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e716605_78a87584",
+        "filename": ".github/ISSUE_TEMPLATE/gopls.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 16140
+      },
+      "writtenOn": "2019-03-26T20:02:03Z",
+      "side": 1,
+      "message": "oh good point, whoops",
+      "parentUuid": "301c2e24_9a865cc2",
+      "revId": "b1db84a545442d724437db4cc10b5c270a70d7ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
