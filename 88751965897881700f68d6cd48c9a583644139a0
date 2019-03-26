@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e403ed3_c07179ce",
+        "filename": "src/runtime/cgo/gcc_aix_ppc64.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-26T20:09:19Z",
+      "side": 1,
+      "message": "I don\u0027t understand this.  This makes it seem that any Go program that uses cgo will call _rt0_ppc64_aix_lib.  But _rt0_ppc64_aix_lib is for Go code built with -buildmode\u003dc-archive or c-shared, not for an ordinary Go program.  It doesn\u0027t look right to call it for all programs that use cgo.",
+      "revId": "88751965897881700f68d6cd48c9a583644139a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
