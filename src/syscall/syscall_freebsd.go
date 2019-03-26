@@ -396,6 +396,70 @@ func convertFromDirents11(buf []byte, old []byte) int {
 	return dstPos
 }
 
+//sys	ptrace(request int, pid int, addr uintptr, data int) (err error)
+
+func PtraceAttach(pid int) (err error) {
+	return ptrace(PTRACE_ATTACH, pid, 0, 0)
+}
+
+func PtraceCont(pid int, signal int) (err error) {
+	return ptrace(PTRACE_CONT, pid, 1, signal)
+}
+
+func PtraceDetach(pid int) (err error) {
+	return ptrace(PTRACE_DETACH, pid, 1, 0)
+}
+
+func PtraceGetFpRegs(pid int, fpregsout *FpReg) (err error) {
+	return ptrace(PTRACE_GETFPREGS, pid, uintptr(unsafe.Pointer(fpregsout)), 0)
+}
+
+func PtraceGetFsBase(pid int, fsbase *int64) (err error) {
+	return ptrace(PTRACE_GETFSBASE, pid, uintptr(unsafe.Pointer(fsbase)), 0)
+}
+
+func PtraceGetRegs(pid int, regsout *Reg) (err error) {
+	return ptrace(PTRACE_GETREGS, pid, uintptr(unsafe.Pointer(regsout)), 0)
+}
+
+func PtraceIo(req int, pid int, addr uintptr, out []byte, count_in int) (count int, err error) {
+	io_desc := PtraceIoDesc{Op: int32(req), Offs: (*byte)(unsafe.Pointer(addr)), Addr: (*byte)(unsafe.Pointer(&out[0])), Len: uint64(count_in)}
+	err = ptrace(PTRACE_IO, pid, uintptr(unsafe.Pointer(&io_desc)), 0)
+	return int(io_desc.Len), err
+}
+
+func PtraceLwpEvents(pid int, enable int) (err error) {
+	return ptrace(PTRACE_LWPEVENTS, pid, 0, enable)
+}
+
+func PtraceLwpInfo(pid int, info uintptr) (err error) {
+	return ptrace(PTRACE_LWPINFO, pid, info, int(unsafe.Sizeof(PtraceLwpInfoStruct{})))
+}
+
+func PtracePeekData(pid int, addr uintptr, out []byte) (count int, err error) {
+	return PtraceIo(PIOD_READ_D, pid, addr, out, sizeofLong)
+}
+
+func PtracePeekText(pid int, addr uintptr, out []byte) (count int, err error) {
+	return PtraceIo(PIOD_READ_I, pid, addr, out, sizeofLong)
+}
+
+func PtracePokeData(pid int, addr uintptr, data []byte) (count int, err error) {
+	return PtraceIo(PIOD_WRITE_D, pid, addr, data, sizeofLong)
+}
+
+func PtracePokeText(pid int, addr uintptr, data []byte) (count int, err error) {
+	return PtraceIo(PIOD_WRITE_I, pid, addr, data, sizeofLong)
+}
+
+func PtraceSetRegs(pid int, regs *Reg) (err error) {
+	return ptrace(PTRACE_SETREGS, pid, uintptr(unsafe.Pointer(regs)), 0)
+}
+
+func PtraceSingleStep(pid int) (err error) {
+	return ptrace(PTRACE_SINGLESTEP, pid, 1, 0)
+}
+
 /*
  * Exposed directly
  */
