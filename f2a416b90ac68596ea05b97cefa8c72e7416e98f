@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c88a7f6_39724f35",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5145,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2019-03-26T07:41:25Z",
+      "side": 0,
+      "message": "Agree, errors are frustrating right now. This is why https://github.com/golang/go/issues/21860 exists. Maybe I need to give it a second try.",
+      "parentUuid": "01975af8_52d855c2",
+      "revId": "f2a416b90ac68596ea05b97cefa8c72e7416e98f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd769d69_7260d2ca",
         "filename": "src/runtime/symtab.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-26T05:20:53Z",
       "side": 0,
       "message": "This at least looks it has clear output. Maybe leave it?",
+      "revId": "f2a416b90ac68596ea05b97cefa8c72e7416e98f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ee9ff3e_e4843544",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2019-03-26T07:41:25Z",
+      "side": 0,
+      "message": "Ok, I will send next patch set with this line returned as soon as I\u0027ll get to appropriate device.",
+      "parentUuid": "dd769d69_7260d2ca",
       "revId": "f2a416b90ac68596ea05b97cefa8c72e7416e98f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
