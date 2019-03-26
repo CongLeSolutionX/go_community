@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f075407d_152d8895",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-26T14:32:36Z",
+      "side": 1,
+      "message": "Remove this line. Setting GO111MODULE\u003don and being in the right directory should be sufficient to guarantee that module mode is used.\n\nA GOPATH needs to be set to a valid directory even in module mode, since the module cache, etc., are placed there.\n\nSetting GOPATH to empty string just makes go use the default GOPATH\u003d\"$HOME/go\" directory, which can lead to unexpected surprises.\n\nA workaround could be to set it to a new temporary directory, but I don\u0027t think we need to touch it at all.",
+      "revId": "075d24cdb8833e0ec8ca916cc6513e8199b13bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6b18229_69b86f01",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-26T14:32:36Z",
+      "side": 1,
+      "message": "Set this to the directory of cmd/vet/all:\n\n    cmd.Dir \u003d filepath.Join(runtime.GOROOT(), \"src\", \"cmd\", \"vet\", \"all\") // use module that cmd/vet/all is a part of\n\nRight now, cmd/vet/all is in cmd module, so there\u0027s no difference in behavior:\n\n\u003e The \"main module\" is the module containing the directory where the go\n\u003e command is run. The go command finds the module root by looking for a\n\u003e go.mod in the current directory, or else the current directory\u0027s parent\n\u003e directory, or else the parent\u0027s parent directory, and so on.\n\n(Source: https://golang.org/cmd/go/#hdr-The_main_module_and_the_build_list)\n\nBut it communicates intention better (to use whatever x/tools version is required by whatever module that cmd/vet/all command is in). And it\u0027ll continue to work if cmd/vet/all happens to get carved out into a separate module from cmd.",
+      "revId": "075d24cdb8833e0ec8ca916cc6513e8199b13bea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
