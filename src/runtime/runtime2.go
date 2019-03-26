@@ -413,6 +413,10 @@ type m struct {
 	morebuf gobuf  // gobuf arg to morestack
 	divmod  uint32 // div/mod denominator for arm - known to liblink
 
+	// When setting any fields below that block preemption to the
+	// zero value, and it's possible that all preemption-blocking
+	// fields are zero, the code must check the preempt flag.
+
 	// Fields not known to debuggers.
 	procid        uint64       // for debuggers, but offset not hard-coded
 	gsignal       *g           // signal-handling g
@@ -426,10 +430,10 @@ type m struct {
 	nextp         puintptr
 	oldp          puintptr // the p that was attached before executing a syscall
 	id            int64
-	mallocing     int32
+	mallocing     int32 // malloc disallowed, > 0 blocks preemption
 	throwing      int32
-	preemptoff    string // if != "", keep curg running on this m
-	locks         int32
+	preemptoff    string // if != "", blocks preemption
+	locks         int32  // lock count, > 0 blocks preemption
 	dying         int32
 	profilehz     int32
 	spinning      bool // m is out of work and is actively looking for work

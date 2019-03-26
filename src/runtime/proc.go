@@ -964,7 +964,14 @@ func startTheWorld() {
 	// worldsema must be held over startTheWorldWithSema to ensure
 	// gomaxprocs cannot change while worldsema is held.
 	semrelease(&worldsema)
-	getg().m.preemptoff = ""
+
+	gp := getg()
+	mp := gp.m
+	mp.preemptoff = ""
+	if gp.preempt {
+		// restore the preemption request in case we've cleared it in newstack
+		gp.stackguard0 = stackPreempt
+	}
 }
 
 // Holding worldsema grants an M the right to try to stop the world

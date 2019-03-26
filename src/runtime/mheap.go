@@ -1421,11 +1421,11 @@ func (h *mheap) scavenge(k int32, now, limit uint64) {
 	// this here because this is an non-mallocgc entry-point to
 	// the mheap API.
 	gp := getg()
-	gp.m.mallocing++
 	lock(&h.lock)
+	gp.m.mallocing++
 	released := h.scavengeAll(now, limit)
-	unlock(&h.lock)
 	gp.m.mallocing--
+	unlock(&h.lock)
 
 	if debug.gctrace > 0 {
 		if released > 0 {

@@ -1805,12 +1805,11 @@ func gcBgMarkWorker(_p_ *p) {
 	}
 	// We pass park to a gopark unlock function, so it can't be on
 	// the stack (see gopark). Prevent deadlock from recursively
-	// starting GC by disabling preemption.
-	gp.m.preemptoff = "GC worker init"
+	// starting GC by disabling preemption before allocating.
+	mp := acquirem()
 	park := new(parkInfo)
-	gp.m.preemptoff = ""
 
-	park.m.set(acquirem())
+	park.m.set(mp)
 	park.attach.set(_p_)
 	// Inform gcBgMarkStartWorkers that this worker is ready.
 	// After this point, the background mark worker is scheduled

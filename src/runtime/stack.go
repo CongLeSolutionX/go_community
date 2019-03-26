@@ -970,7 +970,10 @@ func newstack() {
 	if preempt {
 		if thisg.m.locks != 0 || thisg.m.mallocing != 0 || thisg.m.preemptoff != "" || thisg.m.p.ptr().status != _Prunning {
 			// Let the goroutine keep running for now.
-			// gp->preempt is set, so it will be preempted next time.
+			//
+			// gp.preempt is set, so whatever clears the
+			// preemption block will re-poison the stack
+			// guard.
 			gp.stackguard0 = gp.stack.lo + _StackGuard
 			gogo(&gp.sched) // never return
 		}
