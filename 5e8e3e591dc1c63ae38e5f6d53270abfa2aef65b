@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0f4b353_71e15371",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-27T16:06:56Z",
+      "side": 1,
+      "message": "only one space after the colon",
+      "revId": "5e8e3e591dc1c63ae38e5f6d53270abfa2aef65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "096d7387_5456c095",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-27T16:06:56Z",
+      "side": 1,
+      "message": "nnn is a placeholder for the bug number. It\u0027s not supposed to be literal.",
+      "revId": "5e8e3e591dc1c63ae38e5f6d53270abfa2aef65b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
