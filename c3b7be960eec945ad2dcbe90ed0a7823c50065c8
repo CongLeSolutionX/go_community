@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "16ee8de9_2a52220f",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "nit done\n\nrefactor pending",
+      "parentUuid": "f733c36f_5eb8ddd7",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "276ed439_81b478e0",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 2
@@ -99,6 +117,30 @@
     },
     {
       "key": {
+        "uuid": "12668693_eb35ed63",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "There is a `func (d *Deps) remove` function just below, which calls this one.",
+      "parentUuid": "276ed439_81b478e0",
+      "range": {
+        "startLine": 300,
+        "startChar": 15,
+        "endLine": 300,
+        "endChar": 22
+      },
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7489b374_0e096f7b",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 2
@@ -113,6 +155,24 @@
       "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6a32371_e69bf220",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7489b374_0e096f7b",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -150,6 +210,24 @@
     },
     {
       "key": {
+        "uuid": "e178de31_1408c279",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c09ddbd_cbd6c01d",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12d2130e_0e001db3",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 2
@@ -164,6 +242,24 @@
       "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45fa93ee_04524033",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12d2130e_0e001db3",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -184,6 +280,24 @@
     },
     {
       "key": {
+        "uuid": "2d66621d_08559ed0",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "aedc0d0e_01c48ded",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d92b231f_225acb50",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 2
@@ -198,6 +312,24 @@
       "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ad803af_8b470ac5",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d92b231f_225acb50",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -224,6 +356,30 @@
     },
     {
       "key": {
+        "uuid": "178a0af6_88e8ef53",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3fa3d9f_cae8ce74",
+      "range": {
+        "startLine": 411,
+        "startChar": 48,
+        "endLine": 412,
+        "endChar": 40
+      },
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "841920c5_c2842f83",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 2
@@ -238,6 +394,24 @@
       "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56dc9342_627630fa",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "841920c5_c2842f83",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -264,6 +438,30 @@
     },
     {
       "key": {
+        "uuid": "bcdb5615_397f3186",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9374a45e_2721dadb",
+      "range": {
+        "startLine": 422,
+        "startChar": 17,
+        "endLine": 422,
+        "endChar": 21
+      },
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65476d9a_8baa8b3d",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 2
@@ -281,6 +479,24 @@
     },
     {
       "key": {
+        "uuid": "19fe87f1_b05848f4",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65476d9a_8baa8b3d",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6777876_d5563190",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 2
@@ -295,6 +511,24 @@
       "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22bcab85_a77f334d",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 25242
+      },
+      "writtenOn": "2019-03-27T02:07:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b6777876_d5563190",
+      "revId": "c3b7be960eec945ad2dcbe90ed0a7823c50065c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
