@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0dcb596_4800a5a4",
+        "filename": ".github/ISSUE_TEMPLATE/gopls.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-27T21:09:37Z",
+      "side": 1,
+      "message": "You could remove one of the two blank lines, leaving one. People can expand this section when they\u0027re writing multi-line output.",
+      "revId": "b2699f1789a2b4354b067099ef8c84f0bd64d997",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b18ca4a_9d0a4773",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-27T21:09:37Z",
+      "side": 1,
+      "message": "s/Github/GitHub/ per https://github.com/about and https://github.com/logos.",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "b2699f1789a2b4354b067099ef8c84f0bd64d997",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
