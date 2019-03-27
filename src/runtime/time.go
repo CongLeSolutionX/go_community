@@ -8,6 +8,7 @@ package runtime
 
 import (
 	"internal/cpu"
+	"runtime/internal/atomic"
 	"unsafe"
 )
 
@@ -475,4 +476,29 @@ func siftdownTimer(t []*timer, i int) bool {
 // See issue #25686.
 func badTimer() {
 	panic(errorString("racy use of timers"))
+}
+
+// Since we can currently have non-preemptible P's, we need a mechanism
+// to take timers away from those P's so that we can run them.
+// To support that we use a lock to acquire access to the timers.
+// Code not running on the current P is only permitted to hold the
+// lock very briefly, so that the current P can loop to get access.
+
+// acquireTimers tries to get a lock on the timers for pp.
+// It reports whether the lock was acquired.
+func acquireTimers(pp *p) bool {
+	return atomic.Cas(&pp.timersLock, 0, 1)
+}
+
+// mustAcquireTimers loops until it gets a lock on the timers for pp.
+// This should only be called with the currently running P.
+func mustAcquireTimers(pp *p) {
+	for !acquireTimers(pp) {
+		procyield(10)
+	}
+}
+
+// releaseTimers releases a lock on the timers for pp.
+func releaseTimers(pp *p) {
+	atomic.Store(&pp.timersLock, 0)
 }

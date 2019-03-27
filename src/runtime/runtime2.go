@@ -90,11 +90,27 @@ const (
 )
 
 const (
-	// P status
-	_Pidle    = iota
-	_Prunning // Only this P is allowed to change from _Prunning.
+	// Values that can appear in a P's status field.
+
+	// P not in use
+	_Pidle = iota
+
+	// P running some goroutine. Only this P is allowed to change
+	// the status from _Prunning.
+	_Prunning
+
+	// P has entered a system call. The sysmon thread may steal the P
+	// to do something else.
 	_Psyscall
+
+	// P is sleeping until some timer is ready. The sysmon thread
+	// may wake the P early to do something else.
+	_Ptimer
+
+	// P is stopped while stopping the world.
 	_Pgcstop
+
+	// P is no longer used because GOMAXPROCS got smaller.
 	_Pdead
 )
 
@@ -548,6 +564,18 @@ type p struct {
 	wbBuf wbBuf
 
 	runSafePointFn uint32 // if 1, run sched.safePointFn at next safe point
+
+	// Actions to take at some time. This is used to implement the
+	// standard library's time package.
+	timers []*timer
+
+	timerNote note
+
+	// Lock for timers.  Normally 0, set to 1 to get access to timers field.
+	// When not running on this P, can set to 1 only very briefly.
+	// This is used to steal timers from non-preemptible P's,
+	// and can be removed if we make all P's preemptible.
+	timersLock uint32
 
 	pad cpu.CacheLinePad
 }

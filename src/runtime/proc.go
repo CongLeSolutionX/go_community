@@ -1020,6 +1020,7 @@ func stopTheWorldWithSema() {
 	_g_.m.p.ptr().status = _Pgcstop // Pgcstop is only diagnostic.
 	sched.stopwait--
 	// try to retake all P's in Psyscall status
+	// wake up all P's in Ptimer status
 	for _, p := range allp {
 		s := p.status
 		if s == _Psyscall && atomic.Cas(&p.status, s, _Pgcstop) {
@@ -1029,6 +1030,9 @@ func stopTheWorldWithSema() {
 			}
 			p.syscalltick++
 			sched.stopwait--
+		}
+		if s == _Ptimer && atomic.Cas(&p.status, s, _Prunning) {
+			notewakeup(&p.timerNote)
 		}
 	}
 	// stop idle P's
@@ -1353,9 +1357,9 @@ func forEachP(fn func(*p)) {
 	}
 	preemptall()
 
-	// Any P entering _Pidle or _Psyscall from now on will observe
+	// Any P entering _Pidle or _Psyscall or _Ptimer from now on will observe
 	// p.runSafePointFn == 1 and will call runSafePointFn when
-	// changing its status to _Pidle/_Psyscall.
+	// changing its status to _Pidle/_Psyscall/_Ptimer.
 
 	// Run safe point function for all idle Ps. sched.pidle will
 	// not change because we hold sched.lock.
@@ -1374,6 +1378,7 @@ func forEachP(fn func(*p)) {
 
 	// Force Ps currently in _Psyscall into _Pidle and hand them
 	// off to induce safe point function execution.
+	// Wake up Ps in _Ptimer status if necessary.
 	for _, p := range allp {
 		s := p.status
 		if s == _Psyscall && p.runSafePointFn == 1 && atomic.Cas(&p.status, s, _Pidle) {
@@ -1383,6 +1388,9 @@ func forEachP(fn func(*p)) {
 			}
 			p.syscalltick++
 			handoffp(p)
+		}
+		if s == _Ptimer && p.runSafePointFn == 1 && atomic.Cas(&p.status, s, _Prunning) {
+			notewakeup(&p.timerNote)
 		}
 	}
 
@@ -1423,8 +1431,8 @@ func forEachP(fn func(*p)) {
 //     }
 //
 // runSafePointFn must be checked on any transition in to _Pidle or
-// _Psyscall to avoid a race where forEachP sees that the P is running
-// just before the P goes into _Pidle/_Psyscall and neither forEachP
+// _Psyscall or _Ptimer to avoid a race where forEachP sees that the P is running
+// just before the P goes into _Pidle/_Psyscall/_Ptimer and neither forEachP
 // nor the P run the safe-point function.
 func runSafePointFn() {
 	p := getg().m.p.ptr()
@@ -2004,6 +2012,13 @@ func handoffp(_p_ *p) {
 		startm(_p_, false)
 		return
 	}
+	mustAcquireTimers(_p_)
+	hasTimers := len(_p_.timers) > 0
+	releaseTimers(_p_)
+	if hasTimers {
+		startm(_p_, false)
+		return
+	}
 	// if it has GC work, start it straight away
 	if gcBlackenEnabled != 0 && gcMarkWorkAvailable(_p_) {
 		startm(_p_, false)
@@ -2191,6 +2206,9 @@ top:
 	if _p_.runSafePointFn != 0 {
 		runSafePointFn()
 	}
+
+	delta := checkTimers()
+
 	if fingwait && fingwake {
 		if gp := wakefing(); gp != nil {
 			ready(gp, 0, true)
@@ -2236,7 +2254,7 @@ top:
 
 	// Steal work from other P's.
 	procs := uint32(gomaxprocs)
-	if atomic.Load(&sched.npidle) == procs-1 {
+	if delta <= 0 && atomic.Load(&sched.npidle) == procs-1 {
 		// Either GOMAXPROCS=1 or everybody, except for us, is idle already.
 		// New work can appear from returning syscall/cgocall, network or timers.
 		// Neither of that submits to local run queues, so no point in stealing.
@@ -2245,10 +2263,10 @@ top:
 	// If number of spinning M's >= number of busy P's, block.
 	// This is necessary to prevent excessive CPU consumption
 	// when GOMAXPROCS>>1 but the program parallelism is low.
-	if !_g_.m.spinning && 2*atomic.Load(&sched.nmspinning) >= procs-atomic.Load(&sched.npidle) {
+	if delta <= 0 && !_g_.m.spinning && 2*atomic.Load(&sched.nmspinning) >= procs-atomic.Load(&sched.npidle) {
 		goto stop
 	}
-	if !_g_.m.spinning {
+	if delta <= 0 && !_g_.m.spinning {
 		_g_.m.spinning = true
 		atomic.Xadd(&sched.nmspinning, 1)
 	}
@@ -2277,6 +2295,24 @@ stop:
 			traceGoUnpark(gp, 0)
 		}
 		return gp, false
+	}
+
+	// If there is a timer waiting, sleep on it and try again.
+	// If faketime is set, don't sleep here, let timejump handle things.
+	if delta > 0 && faketime == 0 {
+
+		// If we were spinning, we need to stop spinning,
+		// and go back and check again for work again.
+		// Otherwise if a new goroutine shows up nothing
+		// will start up a P for it.
+		if _g_.m.spinning {
+			_g_.m.spinning = false
+			atomic.Xadd(&sched.nmspinning, -1)
+			goto top
+		}
+
+		waitTimer(delta)
+		goto top
 	}
 
 	// wasm only:
@@ -2493,6 +2529,8 @@ top:
 		runSafePointFn()
 	}
 
+	checkTimers()
+
 	var gp *g
 	var inheritTime bool
 	if trace.enabled || trace.shutdown {
@@ -2571,6 +2609,49 @@ func dropg() {
 
 	setMNoWB(&_g_.m.curg.m, nil)
 	setGNoWB(&_g_.m.curg, nil)
+}
+
+// checkTimers runs any timers for the current P that are ready.
+// It returns the number of nanoseconds to sleep until the next is ready,
+// or -1 if there are no timers left.
+//go:yeswritebarrierrec
+func checkTimers() int64 {
+	// TODO: Implement.
+	return -1
+}
+
+// waitTimer sleeps for up to delta nanoseconds.
+// This is called when there is a timer event pending and
+// there is nothing else to do.
+func waitTimer(delta int64) {
+	// TODO: add a trace event here?
+
+	pp := getg().m.p.ptr()
+
+	// Hold the schedule lock while setting the status to _Ptimer
+	// to avoid a race with stopTheWorldWithSema.
+	lock(&sched.lock)
+
+	if sched.gcwaiting != 0 || pp.runSafePointFn != 0 {
+		unlock(&sched.lock)
+		return
+	}
+
+	// We are going to sleep, and we want to let the sysmon thread
+	// wake us if necessary, so make sure that sysmon is awake.
+	if atomic.Load(&sched.sysmonwait) != 0 {
+		atomic.Store(&sched.sysmonwait, 0)
+		notewakeup(&sched.sysmonnote)
+	}
+
+	noteclear(&pp.timerNote)
+	pp.status = _Ptimer
+
+	unlock(&sched.lock)
+
+	notetsleep(&pp.timerNote, delta)
+
+	atomic.Store(&pp.status, _Prunning)
 }
 
 func parkunlock_c(gp *g, lock unsafe.Pointer) bool {
@@ -4061,7 +4142,7 @@ func procresize(nprocs int32) *p {
 			continue
 		}
 		p.status = _Pidle
-		if runqempty(p) {
+		if runqempty(p) && len(p.timers) == 0 {
 			pidleput(p)
 		} else {
 			p.m.set(mget())
@@ -4234,6 +4315,13 @@ func checkdead() {
 		return
 	}
 
+	// There are no goroutines running, so we can look at the P's.
+	for _, _p_ := range allp {
+		if len(_p_.timers) > 0 {
+			return
+		}
+	}
+
 	getg().m.throwing = -1 // do not dump full stacks
 	throw("all goroutines are asleep - deadlock!")
 }
@@ -4393,8 +4481,8 @@ func retake(now int64) uint32 {
 			continue
 		}
 		pd := &_p_.sysmontick
-		s := _p_.status
-		if s == _Psyscall {
+		switch s := _p_.status; s {
+		case _Psyscall:
 			// Retake P from syscall if it's there for more than 1 sysmon tick (at least 20us).
 			t := int64(_p_.syscalltick)
 			if int64(pd.syscalltick) != t {
@@ -4426,7 +4514,7 @@ func retake(now int64) uint32 {
 			}
 			incidlelocked(1)
 			lock(&allpLock)
-		} else if s == _Prunning {
+		case _Prunning:
 			// Preempt G if it's running for too long.
 			t := int64(_p_.schedtick)
 			if int64(pd.schedtick) != t {
@@ -4438,6 +4526,16 @@ func retake(now int64) uint32 {
 				continue
 			}
 			preemptone(_p_)
+		case _Ptimer:
+			// Wake a P sleeping on a timer if there is
+			// something for it to do.
+			if runqempty(_p_) && (n > 0 || atomic.Load(&sched.nmspinning)+atomic.Load(&sched.npidle) > 0) {
+				continue
+			}
+			if atomic.Cas(&_p_.status, _Ptimer, _Prunning) {
+				notewakeup(&_p_.timerNote)
+				n++
+			}
 		}
 	}
 	unlock(&allpLock)
@@ -4696,6 +4794,12 @@ func globrunqget(_p_ *p, max int32) *g {
 func pidleput(_p_ *p) {
 	if !runqempty(_p_) {
 		throw("pidleput: P has non-empty run queue")
+	}
+	if acquireTimers(_p_) {
+		if len(_p_.timers) > 0 {
+			throw("pidleput: P has timers")
+		}
+		releaseTimers(_p_)
 	}
 	_p_.link = sched.pidle
 	sched.pidle.set(_p_)
