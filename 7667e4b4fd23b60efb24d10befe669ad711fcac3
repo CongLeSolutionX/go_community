@@ -16,6 +16,24 @@
       "revId": "7667e4b4fd23b60efb24d10befe669ad711fcac3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "320888cb_d2a445e3",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 30765
+      },
+      "writtenOn": "2019-03-27T10:44:58Z",
+      "side": 1,
+      "message": "Good point. There are also some gymnastics doing a similar thing in the range block starting at line 746. In both cases, I\u0027ll replace them all with a pre-existing method in ssa/func.go that takes care of reuse and creation of constants (pointed out by @josharian). That can be done just once when the factsTable is created in newFactsTable(). \n\nI was intending to add that as its own CL, but maybe I should move the creation of ft.zero out of this CL and into that one. That\u0027ll keep these CLs small and focused.",
+      "parentUuid": "bd6a7251_6f0555e5",
+      "revId": "7667e4b4fd23b60efb24d10befe669ad711fcac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
