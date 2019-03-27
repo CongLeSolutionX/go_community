@@ -13,24 +13,38 @@ type linepair struct {
 }
 
 type xposmap struct {
-	maps map[int32]*biasedSparseMap
-	// The next two fields provide a single-item cache for common case of repeated lines from same file.
+	maps      []*biasedSparseMap
+	densemaps []int
 	lastIndex int32            // -1 means no entry in cache
 	lastMap   *biasedSparseMap // map found at maps[lastIndex]
 }
 
 func newXposmap(x map[int]linepair) *xposmap {
-	maps := make(map[int32]*biasedSparseMap)
+	maxfile := int(0)
+	for k, _ := range x {
+		if maxfile < k {
+			maxfile = k
+		}
+	}
+
+	maps := make([]*biasedSparseMap, maxfile+2) //
+	densemaps := make([]int, 0, len(x))
 	for i, p := range x {
 		maps[int32(i)] = newBiasedSparseMap(int(p.first), int(p.last))
 	}
-	return &xposmap{maps: maps, lastIndex: -1} // zero for the rest is okay
+	for i, m := range maps {
+		if m != nil {
+			densemaps = append(densemaps, i)
+		}
+	}
+	return &xposmap{maps: maps, densemaps: densemaps, lastIndex: -1}
 }
 
 func (m *xposmap) clear() {
-	for _, l := range m.maps {
-		if l != nil {
-			l.clear()
+	for _, i := range m.densemaps {
+		sm := m.maps[i]
+		if sm != nil {
+			sm.clear()
 		}
 	}
 	m.lastIndex = -1
@@ -38,12 +52,12 @@ func (m *xposmap) clear() {
 }
 
 func (m *xposmap) mapFor(p src.XPos) *biasedSparseMap {
-	if p == src.NoXPos {
-		return nil
-	}
 	index := p.FileIndex()
 	if index == m.lastIndex {
 		return m.lastMap
+	}
+	if p == src.NoXPos {
+		return nil
 	}
 	mf := m.maps[index]
 	m.lastIndex = index
@@ -88,11 +102,12 @@ func (m *xposmap) remove(p src.XPos) {
 }
 
 func (m *xposmap) foreachEntry(f func(j int32, l uint, v int32)) {
-	for j, mm := range m.maps {
+	for _, j := range m.densemaps {
+		mm := m.maps[j]
 		s := mm.size()
 		for i := 0; i < s; i++ {
 			l, v := mm.getEntry(i)
-			f(j, l, v)
+			f(int32(j), l, v)
 		}
 	}
 }
