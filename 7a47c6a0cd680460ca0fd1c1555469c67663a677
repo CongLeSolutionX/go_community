@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "abd03015_4ec6b649",
+        "filename": "src/cmd/gofmt/testdata/import.input",
+        "patchSetId": 9
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-27T04:55:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a54bceda_d3565a21",
+      "range": {
+        "startLine": 2,
+        "startChar": 6,
+        "endLine": 2,
+        "endChar": 7
+      },
+      "revId": "7a47c6a0cd680460ca0fd1c1555469c67663a677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1f4bc12_16261db5",
         "filename": "src/go/ast/import.go",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2019-03-26T19:59:30Z",
       "side": 1,
       "message": "I don\u0027t understand why this is needed. When I patch this CL into my repo and remove this if (only leaving the if in the else branch), the tests still pass. Either this is not necessary or the tests are not sufficient.\n\nGenerally, this code seems also overly complicated. At this point we have identified all comments and all specs. It should be pretty straight-forward to assign comments to specs, by iterating through the specs (not the comments) and then associating the comments that are on the same line. For the comments on the same line, we just need to know if they are on the left or the right, which we can now by looking at their start position.",
+      "range": {
+        "startLine": 152,
+        "startChar": 5,
+        "endLine": 152,
+        "endChar": 14
+      },
+      "revId": "7a47c6a0cd680460ca0fd1c1555469c67663a677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2becbc8_5d2ade35",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-03-27T04:55:40Z",
+      "side": 1,
+      "message": "\u003e When I patch this CL into my repo and remove this if (only leaving the if in the else branch), the tests still pass. Either this is not necessary or the tests are not sufficient.\n\nThe tests actually fail. We can remove the \"specIndex \u003d\u003d 0\" part (I wanted it as a safety for bounds check) but \"pos[specIndex].Start \u003e g.Pos()\" is required.\n\nThis is required because the \"else if\" condition checks whether the comment is in the next line compared to the current spec at specIndex. So this fails, if the comment is before first spec.\n\nDo you want me to rework this logic by iterating on specs rather than comments ?",
+      "parentUuid": "e1f4bc12_16261db5",
       "range": {
         "startLine": 152,
         "startChar": 5,
