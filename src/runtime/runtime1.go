@@ -449,7 +449,7 @@ func acquirem() *m {
 func releasem(mp *m) {
 	_g_ := getg()
 	mp.locks--
-	if mp.locks == 0 && _g_.preempt {
+	if mp.locks == 0 && _g_.preempt != 0 {
 		// restore the preemption request in case we've cleared it in newstack
 		_g_.stackguard0 = stackPreempt
 	}

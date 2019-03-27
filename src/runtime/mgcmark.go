@@ -441,7 +441,7 @@ retry:
 		//
 		// If this is because we were preempted, reschedule
 		// and try some more.
-		if gp.preempt {
+		if gp.preempt != 0 {
 			Gosched()
 			goto retry
 		}
@@ -893,7 +893,7 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 
 	// Drain root marking jobs.
 	if work.markrootNext < work.markrootJobs {
-		for !(preemptible && gp.preempt) {
+		for !(preemptible && gp.preempt != 0) {
 			job := atomic.Xadd(&work.markrootNext, +1) - 1
 			if job >= work.markrootJobs {
 				break
@@ -906,7 +906,7 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 	}
 
 	// Drain heap marking jobs.
-	for !(preemptible && gp.preempt) {
+	for !(preemptible && gp.preempt != 0) {
 		// Try to keep work available on the global queue. We used to
 		// check if there were waiting workers, but it's better to
 		// just keep work available than to make workers wait. In the
@@ -988,7 +988,7 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 	workFlushed := -gcw.scanWork
 
 	gp := getg().m.curg
-	for !gp.preempt && workFlushed+gcw.scanWork < scanWork {
+	for gp.preempt == 0 && workFlushed+gcw.scanWork < scanWork {
 		// See gcDrain comment.
 		if work.full == 0 {
 			gcw.balance()

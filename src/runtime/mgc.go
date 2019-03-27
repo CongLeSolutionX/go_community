@@ -1892,7 +1892,7 @@ func gcBgMarkWorker(_p_ *p) {
 				throw("gcBgMarkWorker: unexpected gcMarkWorkerMode")
 			case gcMarkWorkerDedicatedMode:
 				gcDrain(&_p_.gcw, gcDrainUntilPreempt|gcDrainFlushBgCredit)
-				if gp.preempt {
+				if gp.preempt != 0 {
 					// We were preempted. This is
 					// a useful signal to kick
 					// everything out of the run

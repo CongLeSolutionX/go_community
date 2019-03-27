@@ -533,7 +533,7 @@ func freeSomeWbufs(preemptible bool) bool {
 	}
 	systemstack(func() {
 		gp := getg().m.curg
-		for i := 0; i < batchSize && !(preemptible && gp.preempt); i++ {
+		for i := 0; i < batchSize && !(preemptible && gp.preempt != 0); i++ {
 			span := work.wbufSpans.free.first
 			if span == nil {
 				break

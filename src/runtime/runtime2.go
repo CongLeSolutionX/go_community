@@ -367,19 +367,18 @@ type g struct {
 	stackLock      uint32 // sigprof/scang lock; TODO: fold in to atomicstatus
 	goid           int64
 	schedlink      guintptr
-	waitsince      int64      // approx time when the g become blocked
-	waitreason     waitReason // if status==Gwaiting
-	preempt        bool       // preemption signal, duplicates stackguard0 = stackpreempt
-	paniconfault   bool       // panic (instead of crash) on unexpected fault address
-	preemptscan    bool       // preempted g does scan for gc
-	gcscandone     bool       // g has scanned stack; protected by _Gscan bit in status
-	gcscanvalid    bool       // false at start of gc cycle, true if G has not run since last scan; TODO: remove?
-	throwsplit     bool       // must not split stack
-	raceignore     int8       // ignore race detection events
-	sysblocktraced bool       // StartTrace has emitted EvGoInSyscall about this goroutine
-	sysexitticks   int64      // cputicks when syscall has returned (for tracing)
-	traceseq       uint64     // trace event sequencer
-	tracelastp     puintptr   // last P emitted an event for this goroutine
+	waitsince      int64        // approx time when the g become blocked
+	waitreason     waitReason   // if status==Gwaiting
+	preempt        preemptFlags // reasons for pending preemption; written atomically
+	paniconfault   bool         // panic (instead of crash) on unexpected fault address
+	gcscandone     bool         // g has scanned stack; protected by _Gscan bit in status
+	gcscanvalid    bool         // false at start of gc cycle, true if G has not run since last scan; TODO: remove?
+	throwsplit     bool         // must not split stack
+	raceignore     int8         // ignore race detection events
+	sysblocktraced bool         // StartTrace has emitted EvGoInSyscall about this goroutine
+	sysexitticks   int64        // cputicks when syscall has returned (for tracing)
+	traceseq       uint64       // trace event sequencer
+	tracelastp     puintptr     // last P emitted an event for this goroutine
 	lockedm        muintptr
 	sig            uint32
 	writebuf       []byte

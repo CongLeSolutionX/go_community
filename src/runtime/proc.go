@@ -891,15 +891,14 @@ loop:
 
 			// Optimization: if there is already a pending preemption request
 			// (from the previous loop iteration), don't bother with the atomics.
-			if gp.preemptscan && gp.preempt && gp.stackguard0 == stackPreempt {
+			if gp.preempt&preemptScan != 0 && gp.stackguard0 == stackPreempt {
 				break
 			}
 
 			// Ask for preemption and self scan.
 			if castogscanstatus(gp, _Grunning, _Gscanrunning) {
 				if !gp.gcscandone {
-					gp.preemptscan = true
-					gp.preempt = true
+					gp.preempt.set(preemptScan)
 					gp.stackguard0 = stackPreempt
 				}
 				casfrom_Gscanstatus(gp, _Gscanrunning, _Grunning)
@@ -917,7 +916,7 @@ loop:
 		}
 	}
 
-	gp.preemptscan = false // cancel scan request if no longer needed
+	gp.preempt.clear(preemptScan) // cancel scan request if no longer needed
 }
 
 // The GC requests that this routine be moved from a scanmumble state to a mumble state.
@@ -968,7 +967,7 @@ func startTheWorld() {
 	gp := getg()
 	mp := gp.m
 	mp.preemptoff = ""
-	if gp.preempt {
+	if gp.preempt != 0 {
 		// restore the preemption request in case we've cleared it in newstack
 		gp.stackguard0 = stackPreempt
 	}
@@ -2136,7 +2135,9 @@ func execute(gp *g, inheritTime bool) {
 
 	casgstatus(gp, _Grunnable, _Grunning)
 	gp.waitsince = 0
-	gp.preempt = false
+	if gp.preempt != 0 {
+		gp.preempt.clear(preemptSched)
+	}
 	gp.stackguard0 = gp.stack.lo + _StackGuard
 	if !inheritTime {
 		_g_.m.p.ptr().schedtick++
@@ -2955,7 +2956,7 @@ func exitsyscall() {
 		// so okay to clear syscallsp.
 		_g_.syscallsp = 0
 		_g_.m.locks--
-		if _g_.preempt {
+		if _g_.preempt != 0 {
 			// restore the preemption request in case we've cleared it in newstack
 			_g_.stackguard0 = stackPreempt
 		} else {
@@ -4484,7 +4485,7 @@ func preemptone(_p_ *p) bool {
 		return false
 	}
 
-	gp.preempt = true
+	gp.preempt.set(preemptSched)
 
 	// Every call in a go routine checks for stack overflow by
 	// comparing the current stack pointer to gp->stackguard0.

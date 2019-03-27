@@ -1005,9 +1005,11 @@ func newstack() {
 		if thisg.m.p == 0 && thisg.m.locks == 0 {
 			throw("runtime: g is running but p is not")
 		}
+
 		// Synchronize with scang.
 		casgstatus(gp, _Grunning, _Gwaiting)
-		if gp.preemptscan {
+		if gp.preempt&preemptScan != 0 {
+			gp.preempt.clear(preemptScan)
 			for !castogscanstatus(gp, _Gwaiting, _Gscanwaiting) {
 				// Likely to be racing with the GC as
 				// it sees a _Gwaiting and does the
@@ -1022,18 +1024,20 @@ func newstack() {
 				scanstack(gp, gcw)
 				gp.gcscandone = true
 			}
-			gp.preemptscan = false
-			gp.preempt = false
 			casfrom_Gscanstatus(gp, _Gscanwaiting, _Gwaiting)
-			// This clears gcscanvalid.
-			casgstatus(gp, _Gwaiting, _Grunning)
-			gp.stackguard0 = gp.stack.lo + _StackGuard
-			gogo(&gp.sched) // never return
 		}
 
-		// Act like goroutine called runtime.Gosched.
 		casgstatus(gp, _Gwaiting, _Grunning)
-		gopreempt_m(gp) // never return
+		if gp.preempt&preemptSched == 0 {
+			// Non-scheduler preemption. Keep running.
+			gp.stackguard0 = gp.stack.lo + _StackGuard
+			gogo(&gp.sched) // never return
+		} else {
+			// Scheduler preemption.
+			// Act like goroutine called runtime.Gosched.
+			// This will clear preemptSched.
+			gopreempt_m(gp) // never return
+		}
 	}
 
 	// Allocate a bigger segment and move the stack.
