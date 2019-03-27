@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac2e5582_2c874517",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-27T17:45:48Z",
+      "side": 1,
+      "message": "If we\u0027re going to call fixsigcode here, then we need to mark all implementations of fixsigcode as nosplit.  I think this is working for you because the method is inlined, but we shouldn\u0027t count on that.  The call to fixsigcode below does not require go:nosplit, because at that point we know that g !\u003d nil.",
+      "revId": "2499de87957a158a2318a04b3fddb4eafbfbab97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
