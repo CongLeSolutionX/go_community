@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8a4f18_5a70627e",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-27T13:56:01Z",
+      "side": 1,
+      "message": "Would you mind indulging me and checking whether there’s any benchmark difference between this form and this form:\n\nvar ret []byte\nif start \u003c stop {\n  ret \u003d s[start:stop]\n}\nreturn ret \n\nThe compiler in my brain says this will probably generate better code, but I am not sure whether it is observable. :)",
+      "revId": "1c3e1fffc1d583cda06e06f04b834abe9924ea28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25206048_52cf3c57",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-27T13:56:01Z",
+      "side": 1,
+      "message": "Reference the issue number in this comment.",
+      "revId": "1c3e1fffc1d583cda06e06f04b834abe9924ea28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

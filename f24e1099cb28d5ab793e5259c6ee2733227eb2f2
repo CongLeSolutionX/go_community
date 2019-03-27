@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6d14c86_a9a8ea8b",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-27T13:56:01Z",
+      "side": 1,
+      "message": "It’d probably be easier and more readable to leave this test alone and add a new test that just checks one instance for nil. Then you also have somewhere to drop a comment referencing the issue.",
+      "revId": "f24e1099cb28d5ab793e5259c6ee2733227eb2f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
