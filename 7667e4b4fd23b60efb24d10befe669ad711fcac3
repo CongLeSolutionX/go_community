@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd6a7251_6f0555e5",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2019-03-27T10:08:02Z",
+      "side": 1,
+      "message": "I think we may want to create a zero value here. I\u0027ve been told that creating constant value is very very fast anyway, so we shouldn\u0027t probably make prove optimize better if the function happens to have a zero constant somewhere.",
+      "revId": "7667e4b4fd23b60efb24d10befe669ad711fcac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
