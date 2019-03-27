@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc16691a_950400a8",
+        "filename": "misc/cgo/testso/testdata/cgoso_c.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-27T13:54:19Z",
+      "side": 1,
+      "message": "Sorry I didn\u0027t notice before, but it seems that this line should be\n\n#elif defined(_AIX)",
+      "revId": "a1ab154521f9425aaed4d33be5a0e37c4f70c794",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
