@@ -548,7 +548,11 @@ func (ld *loader) load(roots func() []string) {
 		for _, pkg := range ld.pkgs {
 			if err, ok := pkg.err.(*ImportMissingError); ok && err.Module.Path != "" {
 				if added[pkg.path] {
-					base.Fatalf("go: %s: looping trying to add package", pkg.stackText())
+					// This error typically happens when a package is present in the
+					// "@latest" version (e.g., v1.0.0), but something requires a
+					// newer version (e.g., v1.0.1-beta), and the package is not
+					// present there. We can't automatically upgrade any further.
+					base.Fatalf("go: %s: package removed after %s@%s", pkg.stackText(), err.Module.Path, err.Module.Version)
 				}
 				added[pkg.path] = true
 				numAdded++

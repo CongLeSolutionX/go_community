@@ -1,0 +1,12 @@
+env GO111MODULE=on
+
+! go list use.go
+stderr 'package removed after example.com/missingpkg@v1.0.0'
+
+-- use.go --
+package use
+
+import (
+	_ "example.com/missingpkg/deprecated"
+	_ "example.com/usemissingpre"
+)
