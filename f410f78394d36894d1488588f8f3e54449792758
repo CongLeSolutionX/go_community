@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c708777_0221eb4a",
+        "filename": ".github/ISSUE_TEMPLATE/gopls.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-27T21:10:44Z",
+      "side": 1,
+      "message": "This blank line can be removed.",
+      "revId": "f410f78394d36894d1488588f8f3e54449792758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
