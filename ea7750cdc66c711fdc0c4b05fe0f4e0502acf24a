@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08d90860_8aa0a91f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-27T21:55:06Z",
+      "side": 1,
+      "message": "Does this also update or fix #27102?",
+      "revId": "ea7750cdc66c711fdc0c4b05fe0f4e0502acf24a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d127f45_63a16848",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-27T21:55:06Z",
+      "side": 1,
+      "message": "I\u0027m concerned that we might introduce some other bug that also triggers this path, in which case the error message may end up confusing everyone involved (especially me).\n\nCould we verify explicitly that this version misordering is the case?\n\nFor example, could we scan the build list to find the existing requirement on err.Module.Path, and only emit the new error message if it really is higher than err.Module.Version? That would also let us name *both* versions explicitly in the error message, which would clarify why the removed package poses a problem.",
+      "range": {
+        "startLine": 551,
+        "startChar": 19,
+        "endLine": 554,
+        "endChar": 66
+      },
+      "revId": "ea7750cdc66c711fdc0c4b05fe0f4e0502acf24a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
