@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d63007b_20232abd",
+        "filename": "misc/cgo/testcarchive/testdata/main5.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-28T19:42:15Z",
+      "side": 1,
+      "message": "This change is breaking TestSignalForwarding on FreeBSD and GNU/Linux.\nIt\u0027s because you aren\u0027t initializing p; volatile variables are not static, and are not default-zero-initialized.\nBut it would be better to write this using a global variable, defined outside the function.  That makes it less likely that the compiler will optimize away the undefined behavior.",
+      "revId": "6ec112a9fee7b76820f5da84c2a2715f271be4a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
