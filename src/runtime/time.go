@@ -120,6 +120,10 @@ type timersBucket struct {
 // Active timers live in heaps attached to P, in the timers field.
 // Inactive timers live there too temporarily, until they are removed.
 // We can only manipulate the heap of the currently running P.
+//
+// addtimer:
+//   timerNoStatus   -> timerWaiting
+//   anything else   -> panic: invalid value
 
 // Values for the timer status field.
 const (
@@ -239,12 +243,49 @@ func goroutineReady(arg interface{}, seq uintptr) {
 	goready(arg.(*g), 0)
 }
 
+// addtimer adds a timer to the current P.
+// This should only be called with a newly created timer.
+// That avoids the risk of changing the when field of a timer in some P's heap,
+// which could cause the heap to become unsorted.
 func addtimer(t *timer) {
 	if oldTimers {
 		addtimerOld(t)
 		return
 	}
-	throw("new addtimer not yet implemented")
+
+	// when must never be negative; otherwise runtimer will overflow
+	// during its delta calculation and never expire other runtime timers.
+	if t.when < 0 {
+		t.when = 1<<63 - 1
+	}
+	if t.status != timerNoStatus {
+		badTimer()
+	}
+	t.status = timerWaiting
+
+	// Lock to current P while adding the timer.
+	mp := acquirem()
+	pp := mp.p.ptr()
+	mustAcquireTimers(pp)
+	ok := cleantimers(pp) && doaddtimer(pp, t)
+	releaseTimers(pp)
+	releasem(mp)
+	if !ok {
+		badTimer()
+	}
+}
+
+// doaddtimer adds t to the current P's heap.
+// It reports whether it saw no problems due to races.
+// The caller must have acquired the timers for pp.
+func doaddtimer(pp *p, t *timer) bool {
+	if t.pp != 0 {
+		throw("doaddtimer: P already set in timer")
+	}
+	t.pp.set(pp)
+	i := len(pp.timers)
+	pp.timers = append(pp.timers, t)
+	return siftupTimer(pp.timers, i)
 }
 
 func addtimerOld(t *timer) {
@@ -462,6 +503,16 @@ func timerproc(tb *timersBucket) {
 		unlock(&tb.lock)
 		notetsleepg(&tb.waitnote, delta)
 	}
+}
+
+// cleantimers cleans up the head of the timer queue. This speeds up
+// programs that create and delete timers; leaving them in the heap
+// slows down addtimer. Reports whether no timer problems were found.
+// The caller must have acquired the timers for pp.
+func cleantimers(pp *p) bool {
+	// TODO: write this.
+	throw("cleantimers")
+	return true
 }
 
 // moveTimers moves a slice of timers to pp. The slice has been taken
