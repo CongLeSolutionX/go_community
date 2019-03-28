@@ -656,6 +656,8 @@ func ready(gp *g, traceskip int, next bool) {
 	runqput(_g_.m.p.ptr(), gp, next)
 	if atomic.Load(&sched.npidle) != 0 && atomic.Load(&sched.nmspinning) == 0 {
 		wakep()
+	} else if atomic.Load(&sched.nPTimerSleep) > 0 {
+		wakePFromTimerSleep()
 	}
 	_g_.m.locks--
 	if _g_.m.locks == 0 && _g_.preempt { // restore the preemption request in Case we've cleared it in newstack
@@ -2054,7 +2056,7 @@ func handoffp(_p_ *p) {
 	}
 	// If this is the last running P and nobody is polling network,
 	// need to wakeup another M to poll network.
-	if sched.npidle == uint32(gomaxprocs-1) && atomic.Load64(&sched.lastpoll) != 0 {
+	if sched.npidle+sched.nPTimerSleep == uint32(gomaxprocs-1) && atomic.Load64(&sched.lastpoll) != 0 {
 		unlock(&sched.lock)
 		startm(_p_, false)
 		return
@@ -2071,6 +2073,22 @@ func wakep() {
 		return
 	}
 	startm(nil, true)
+}
+
+// wakePFromTimerSleep tries to find and wake one P sleeping on a timer.
+// It reports whether it found a P to wake up.
+func wakePFromTimerSleep() bool {
+	lock(&sched.lock)
+	ret := false
+	for _, p := range allp {
+		if p.status == _Ptimer && atomic.Cas(&p.status, _Ptimer, _Prunning) {
+			notewakeup(&p.timerNote)
+			ret = true
+			break
+		}
+	}
+	unlock(&sched.lock)
+	return ret
 }
 
 // Stops execution of the current m that is locked to a g until the g is runnable again.
@@ -2470,8 +2488,12 @@ func resetspinning() {
 	// M wakeup policy is deliberately somewhat conservative, so check if we
 	// need to wakeup another P here. See "Worker thread parking/unparking"
 	// comment at the top of the file for details.
-	if nmspinning == 0 && atomic.Load(&sched.npidle) > 0 {
-		wakep()
+	if nmspinning == 0 {
+		if atomic.Load(&sched.npidle) > 0 {
+			wakep()
+		} else if atomic.Load(&sched.nPTimerSleep) > 0 {
+			wakePFromTimerSleep()
+		}
 	}
 }
 
@@ -2496,6 +2518,11 @@ func injectglist(glist *gList) {
 	unlock(&sched.lock)
 	for ; n != 0 && sched.npidle != 0; n-- {
 		startm(nil, false)
+	}
+	for ; n != 0 && sched.nPTimerSleep != 0; n-- {
+		if !wakePFromTimerSleep() {
+			break
+		}
 	}
 	*glist = gList{}
 }
@@ -2649,7 +2676,9 @@ func waitTimer(delta int64) {
 
 	unlock(&sched.lock)
 
+	atomic.Xadd(&sched.nPTimerSleep, 1)
 	notetsleep(&pp.timerNote, delta)
+	atomic.Xadd(&sched.nPTimerSleep, -1)
 
 	atomic.Store(&pp.status, _Prunning)
 }
@@ -3428,8 +3457,12 @@ func newproc1(fn *funcval, argp *uint8, narg int32, callergp *g, callerpc uintpt
 	}
 	runqput(_p_, newg, true)
 
-	if atomic.Load(&sched.npidle) != 0 && atomic.Load(&sched.nmspinning) == 0 && mainStarted {
-		wakep()
+	if atomic.Load(&sched.nmspinning) == 0 && mainStarted {
+		if atomic.Load(&sched.npidle) != 0 {
+			wakep()
+		} else if atomic.Load(&sched.nPTimerSleep) != 0 {
+			wakePFromTimerSleep()
+		}
 	}
 	_g_.m.locks--
 	if _g_.m.locks == 0 && _g_.preempt { // restore the preemption request in case we've cleared it in newstack
@@ -4599,7 +4632,7 @@ func schedtrace(detailed bool) {
 	}
 
 	lock(&sched.lock)
-	print("SCHED ", (now-starttime)/1e6, "ms: gomaxprocs=", gomaxprocs, " idleprocs=", sched.npidle, " threads=", mcount(), " spinningthreads=", sched.nmspinning, " idlethreads=", sched.nmidle, " runqueue=", sched.runqsize)
+	print("SCHED ", (now-starttime)/1e6, "ms: gomaxprocs=", gomaxprocs, " idleprocs=", sched.npidle, " timersleep=", sched.nPTimerSleep, " threads=", mcount(), " spinningthreads=", sched.nmspinning, " idlethreads=", sched.nmidle, " runqueue=", sched.runqsize)
 	if detailed {
 		print(" gcwaiting=", sched.gcwaiting, " nmidlelocked=", sched.nmidlelocked, " stopwait=", sched.stopwait, " sysmonwait=", sched.sysmonwait, "\n")
 	}
