@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb431c1e_90c5ee97",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2097,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-28T02:03:30Z",
+      "side": 1,
+      "message": "Go choice of the two valid spellings in one \u0027l\u0027 for all forms of cancel where there are two options",
+      "revId": "b1c41b497d09268e1072ee6e35afb121c36591d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
