@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "21c43140_7ffae239",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-03-28T18:20:36Z",
+      "side": 1,
+      "message": "It\u0027s very likely that if sig.StandardCrypto appears sig.BoringCrypto disappears, which we are checking. I think it\u0027s enough for a safety check.",
+      "parentUuid": "7fcbb3a2_8e35fa48",
+      "revId": "ebe46371ea995d9bc1bc00c24e5d2ee401a6fdd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e31b2847_e31929a4",
         "filename": "misc/boring/build.release",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "820ee7fc_87fb2440",
+        "filename": "misc/boring/build.release",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-03-28T18:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e31b2847_e31929a4",
+      "range": {
+        "startLine": 59,
+        "startChar": 40,
+        "endLine": 59,
+        "endChar": 46
+      },
+      "revId": "ebe46371ea995d9bc1bc00c24e5d2ee401a6fdd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef743585_f653a6fa",
         "filename": "misc/boring/build.release",
         "patchSetId": 2
@@ -62,6 +104,30 @@
       "revId": "ebe46371ea995d9bc1bc00c24e5d2ee401a6fdd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee9175f2_22243fc0",
+        "filename": "misc/boring/build.release",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-03-28T18:20:36Z",
+      "side": 1,
+      "message": "If someone put a go.mod in their /tmp, I can\u0027t help them. No one can help them.\n\n(Mostly joking, but this script is just for us, I think it\u0027s fine.)",
+      "parentUuid": "ef743585_f653a6fa",
+      "range": {
+        "startLine": 64,
+        "startChar": 11,
+        "endLine": 64,
+        "endChar": 12
+      },
+      "revId": "ebe46371ea995d9bc1bc00c24e5d2ee401a6fdd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
