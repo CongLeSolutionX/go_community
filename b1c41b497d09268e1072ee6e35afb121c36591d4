@@ -34,6 +34,24 @@
       "revId": "b1c41b497d09268e1072ee6e35afb121c36591d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec2551d5_66125540",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2097,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-03-28T15:08:30Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "05b196d3_0bbadec6",
+      "revId": "b1c41b497d09268e1072ee6e35afb121c36591d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
