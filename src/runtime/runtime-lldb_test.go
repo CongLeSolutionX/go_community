@@ -164,6 +164,13 @@ func TestLldbPython(t *testing.T) {
 	// disable it for this test.
 	cmd := exec.Command(testenv.GoToolPath(t), "build", "-gcflags=all=-N -l", "-ldflags=-compressdwarf=false", "-o", "a.exe")
 	cmd.Dir = dir
+	cmd.Env = os.Environ()
+	// Eliminate GOPATH environment variable; see issue 31100.
+	for i, e := range cmd.Env {
+		if strings.HasPrefix(e, "GOPATH=") {
+			cmd.Env[i] = ""
+		}
+	}
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("building source %v\n%s", err, out)
