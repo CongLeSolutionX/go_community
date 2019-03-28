@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3adc0f48_23211735",
+        "filename": "src/internal/oserror/errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-28T23:07:29Z",
+      "side": 1,
+      "message": "IsTimeout reports whether err indicates a timeout.",
+      "revId": "b26d7078051882b64677ddba3571970969b1e405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55c1e56b_361661b8",
+        "filename": "src/internal/oserror/errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-03-28T23:07:29Z",
+      "side": 1,
+      "message": "IsTemporary reports whether err indicates a temporary condition.",
+      "revId": "b26d7078051882b64677ddba3571970969b1e405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
