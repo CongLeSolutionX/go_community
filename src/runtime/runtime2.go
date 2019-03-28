@@ -577,6 +577,9 @@ type p struct {
 	// and can be removed if we make all P's preemptible.
 	timersLock uint32
 
+	// Number of timerModifiedEarlier timers on P's heap.
+	adjustTimers uint32
+
 	pad cpu.CacheLinePad
 }
 

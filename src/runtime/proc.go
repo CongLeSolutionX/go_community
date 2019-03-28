@@ -2739,6 +2739,7 @@ func stealTimers(pp, p2 *p) bool {
 	}
 	timers := p2.timers
 	p2.timers = nil
+	atomic.Store(&p2.adjustTimers, 0)
 	releaseTimers(p2)
 
 	if len(timers) == 0 {

@@ -134,6 +134,16 @@ type timersBucket struct {
 //   timerRunning    -> wait until status changes
 //   timerMoving     -> wait until status changes
 //   timerModifying  -> panic: concurrent deltimer/modtimer calls
+// modtimer:
+//   timerWaiting    -> timerModifying -> timerModifiedXX
+//   timerModifiedXX -> timerModifying -> timerModifiedXX
+//   timerNoStatus   -> timerWaiting
+//   timerRemoved    -> timerWaiting
+//   timerRunning    -> wait until status changes
+//   timerMoving     -> wait until status changes
+//   timerRemoving   -> wait until status changes
+//   timerDeleted    -> panic: concurrent modtimer/deltimer calls
+//   timerModifying  -> panic: concurrent modtimer calls
 
 // Values for the timer status field.
 const (
@@ -354,8 +364,12 @@ func deltimer(t *timer) bool {
 	for {
 		switch s := atomic.Load(&t.status); s {
 		case timerWaiting, timerModifiedEarlier, timerModifiedLater:
+			tpp := t.pp.ptr()
 			if atomic.Cas(&t.status, s, timerDeleted) {
 				// Timer was not yet run.
+				if s == timerModifiedEarlier {
+					atomic.Xadd(&tpp.adjustTimers, -1)
+				}
 				return true
 			}
 		case timerDeleted, timerRemoving, timerRemoved:
@@ -426,12 +440,93 @@ func (tb *timersBucket) deltimerLocked(t *timer) (removed, ok bool) {
 	return true, ok
 }
 
+// modtimer modifies an existing timer.
+// This is called by the netpoll code.
 func modtimer(t *timer, when, period int64, f func(interface{}, uintptr), arg interface{}, seq uintptr) {
 	if oldTimers {
 		modtimerOld(t, when, period, f, arg, seq)
 		return
 	}
-	throw("new modtimer not yet implemented")
+
+	if when < 0 {
+		when = 1<<63 - 1
+	}
+
+	earlier := false
+	wasRemoved := false
+loop:
+	for {
+		switch s := atomic.Load(&t.status); s {
+		case timerWaiting, timerModifiedEarlier, timerModifiedLater:
+			if atomic.Cas(&t.status, s, timerModifying) {
+				earlier = when < t.when
+				break loop
+			}
+		case timerNoStatus, timerRemoved:
+			// Timer was already run and t is no longer in a heap.
+			// Act like addtimer.
+			wasRemoved = true
+			atomic.Store(&t.status, timerWaiting)
+			break loop
+		case timerRunning, timerRemoving, timerMoving:
+			// The timer is being run or moved, by a different P.
+			// Wait for it to complete.
+			osyield()
+		case timerDeleted:
+			// Simultaneous calls to modtimer and deltimer.
+			badTimer()
+		case timerModifying:
+			// Multiple simultaneous calls to modtimer.
+			badTimer()
+		default:
+			badTimer()
+		}
+	}
+
+	t.period = period
+	t.f = f
+	t.arg = arg
+	t.seq = seq
+
+	if wasRemoved {
+		t.when = when
+		// Lock to current P while adding the timer.
+		mp := acquirem()
+		pp := mp.p.ptr()
+		mustAcquireTimers(pp)
+		ok := cleantimers(pp) && doaddtimer(pp, t)
+		releaseTimers(pp)
+		releasem(mp)
+		if !ok {
+			badTimer()
+		}
+	} else {
+		// The timer is in some other P's heap, so we can't change
+		// the when field. If we did, the other P's heap would
+		// be out of order. So we put the new when value in the
+		// nextwhen field, and let the other P set the when field
+		// when it is prepared to resort the heap.
+		t.nextwhen = when
+
+		tpp := t.pp.ptr()
+		newStatus := uint32(timerModifiedEarlier)
+		if !earlier {
+			newStatus = timerModifiedLater
+		}
+		if !atomic.Cas(&t.status, timerModifying, newStatus) {
+			badTimer()
+		}
+
+		// If the new deadline is earlier, tell the other P
+		// that it needs to resort its timers.
+		if earlier {
+			atomic.Xadd(&tpp.adjustTimers, 1)
+			// Wake the P if it is sleeping.
+			if atomic.Cas(&tpp.status, _Ptimer, _Prunning) {
+				notewakeup(&tpp.timerNote)
+			}
+		}
+	}
 }
 
 func modtimerOld(t *timer, when, period int64, f func(interface{}, uintptr), arg interface{}, seq uintptr) {
