@@ -883,9 +883,11 @@ loop:
 					scanstack(gp, gcw)
 					gp.gcscandone = true
 				}
+				shrinkstack(gp)
+
 				// Clear preempt request in case we
 				// set it earlier in _Grunning.
-				gp.clearPreempt(preemptScan)
+				gp.clearPreempt(preemptScan | preemptShrink)
 				restartg(gp)
 				break loop
 			}
@@ -903,10 +905,10 @@ loop:
 				break
 			}
 
-			// Ask for preemption and self scan.
+			// Ask for preemption and self scan and shrink.
 			if castogscanstatus(gp, _Grunning, _Gscanrunning) {
 				if !gp.gcscandone {
-					gp.setPreempt(preemptScan)
+					gp.setPreempt(preemptScan | preemptShrink)
 				}
 				casfrom_Gscanstatus(gp, _Gscanrunning, _Grunning)
 			}

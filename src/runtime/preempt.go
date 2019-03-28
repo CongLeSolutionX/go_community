@@ -57,6 +57,10 @@ const (
 	// scanned at the next preemption point.
 	preemptScan preemptFlags = 1 << iota
 
+	// preemptShrink indicates that a goroutine's stack should be
+	// shrunk at the next preemption point.
+	preemptShrink
+
 	// preemptSched indicates that a goroutine switch should
 	// happen at the next preemption point.
 	preemptSched
@@ -112,7 +116,7 @@ func (gp *g) resetStackGuard() {
 //
 // gp must be in status _Grunnable, _Gwaiting, or _Gsyscall.
 func drainPreempt(gp *g) {
-	if gp.preempt&preemptScan == 0 {
+	if gp.preempt&(preemptScan|preemptShrink) == 0 {
 		return
 	}
 
@@ -152,5 +156,9 @@ func drainPreemptLocked(gp *g) {
 			scanstack(gp, gcw)
 			gp.gcscandone = true
 		}
+	}
+	if gp.preempt&preemptShrink != 0 {
+		gp.clearPreempt(preemptShrink)
+		shrinkstack(gp)
 	}
 }

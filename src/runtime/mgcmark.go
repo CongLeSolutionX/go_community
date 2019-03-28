@@ -691,9 +691,6 @@ func scanstack(gp *g, gcw *gcWork) {
 		throw("can't scan our own stack")
 	}
 
-	// Shrink the stack if not much of it is being used.
-	shrinkstack(gp)
-
 	var state stackScanState
 	state.stack = gp.stack
 

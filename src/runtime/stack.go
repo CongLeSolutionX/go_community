@@ -1041,10 +1041,13 @@ func gostartcallfn(gobuf *gobuf, fv *funcval) {
 }
 
 // Maybe shrink the stack being used by gp.
-// Called at garbage collection time.
 // gp must be stopped, but the world need not be.
 func shrinkstack(gp *g) {
 	gstatus := readgstatus(gp)
+	if gstatus&^_Gscan == _Gdead {
+		// Nothing to shrink.
+		return
+	}
 	if gp.stack.lo == 0 {
 		throw("missing stack in shrinkstack")
 	}
