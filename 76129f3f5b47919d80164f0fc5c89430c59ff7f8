@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0fd62e1_f2d4eacb",
+        "filename": "src/math/cmplx/abs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2019-03-28T21:04:46Z",
+      "side": 1,
+      "message": "Single spaces after period is the convention.",
+      "range": {
+        "startLine": 6,
+        "startChar": 19,
+        "endLine": 6,
+        "endChar": 21
+      },
+      "revId": "76129f3f5b47919d80164f0fc5c89430c59ff7f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
