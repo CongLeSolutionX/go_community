@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4e20673_4517940a",
+        "filename": "src/runtime/runtime-lldb_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-03-28T19:58:11Z",
+      "side": 1,
+      "message": "Is there a reason it needs to be unset rather than set to the empty string?\n\nIf the difference is not important, you could write this more concisely as:\ncmd.Env \u003d append(os.Environ(), \"GOPATH\u003d\")\n\n(And if the difference is important, noting that in a comment would be helpful.)",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 2
+      },
+      "revId": "e267be07f1eabe1761eb98ab4eb0cb1d374e9b74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
