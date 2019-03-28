@@ -878,6 +878,9 @@ loop:
 					scanstack(gp, gcw)
 					gp.gcscandone = true
 				}
+				// Clear preempt request in case we
+				// set it earlier in _Grunning.
+				gp.clearPreempt(preemptScan)
 				restartg(gp)
 				break loop
 			}
@@ -898,8 +901,7 @@ loop:
 			// Ask for preemption and self scan.
 			if castogscanstatus(gp, _Grunning, _Gscanrunning) {
 				if !gp.gcscandone {
-					gp.preempt.set(preemptScan)
-					gp.stackguard0 = stackPreempt
+					gp.setPreempt(preemptScan)
 				}
 				casfrom_Gscanstatus(gp, _Gscanrunning, _Grunning)
 			}
@@ -915,8 +917,6 @@ loop:
 			nextYield = nanotime() + yieldDelay/2
 		}
 	}
-
-	gp.preempt.clear(preemptScan) // cancel scan request if no longer needed
 }
 
 // The GC requests that this routine be moved from a scanmumble state to a mumble state.
@@ -2136,9 +2136,8 @@ func execute(gp *g, inheritTime bool) {
 	casgstatus(gp, _Grunnable, _Grunning)
 	gp.waitsince = 0
 	if gp.preempt != 0 {
-		gp.preempt.clear(preemptSched)
+		gp.clearPreempt(preemptSched)
 	}
-	gp.stackguard0 = gp.stack.lo + _StackGuard
 	if !inheritTime {
 		_g_.m.p.ptr().schedtick++
 	}
@@ -2612,7 +2611,6 @@ func goschedImpl(gp *g) {
 		if trace.enabled {
 			traceGoStart()
 		}
-		gp.stackguard0 = gp.stack.lo + _StackGuard
 		gogo(&gp.sched) // never return
 	}
 
@@ -2634,7 +2632,7 @@ func gosched_m(gp *g) {
 	}
 	// Make sure a scheduler preemption occurs even if there are
 	// other pending preemption reasons.
-	gp.preempt.set(preemptSched)
+	gp.setPreempt(preemptSched)
 	goschedImpl(gp)
 }
 
@@ -2975,15 +2973,13 @@ func exitsyscall() {
 		// Garbage collector isn't running (since we are),
 		// so okay to clear syscallsp.
 		_g_.syscallsp = 0
+
 		_g_.m.locks--
-		if _g_.preempt != 0 {
-			// restore the preemption request in case we've cleared it in newstack
-			_g_.stackguard0 = stackPreempt
-		} else {
-			// otherwise restore the real _StackGuard, we've spoiled it in entersyscall/entersyscallblock
-			_g_.stackguard0 = _g_.stack.lo + _StackGuard
-		}
+
+		// We poisoned the stack in entersyscall/entersyscallblock.
+		// Undo that.
 		_g_.throwsplit = false
+		_g_.resetStackGuard()
 
 		if sched.disable.user && !schedEnabled(_g_) {
 			// Scheduling of this goroutine is disabled.
@@ -3167,7 +3163,7 @@ func afterfork() {
 	gp := getg().m.curg
 
 	// See the comments in beforefork.
-	gp.stackguard0 = gp.stack.lo + _StackGuard
+	gp.resetStackGuard()
 
 	msigrestore(gp.m.sigmask)
 
@@ -4505,13 +4501,8 @@ func preemptone(_p_ *p) bool {
 		return false
 	}
 
-	gp.preempt.set(preemptSched)
+	gp.setPreempt(preemptSched)
 
-	// Every call in a go routine checks for stack overflow by
-	// comparing the current stack pointer to gp->stackguard0.
-	// Setting gp->stackguard0 to StackPreempt folds
-	// preemption into the normal stack overflow check.
-	gp.stackguard0 = stackPreempt
 	return true
 }
 

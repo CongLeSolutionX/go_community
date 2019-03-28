@@ -369,7 +369,7 @@ type g struct {
 	schedlink      guintptr
 	waitsince      int64        // approx time when the g become blocked
 	waitreason     waitReason   // if status==Gwaiting
-	preempt        preemptFlags // reasons for pending preemption; written atomically
+	preempt        preemptFlags // reasons for pending preemption; see {set,clear}Preempt
 	paniconfault   bool         // panic (instead of crash) on unexpected fault address
 	gcscandone     bool         // g has scanned stack; protected by _Gscan bit in status
 	gcscanvalid    bool         // false at start of gc cycle, true if G has not run since last scan; TODO: remove?
