@@ -331,6 +331,14 @@ func timerproc(tb *timersBucket) {
 	}
 }
 
+// moveTimers moves a slice of timers to pp. The slice has been taken
+// from a different P.
+// The caller must have acquired the timers for pp.
+func moveTimers(pp *p, timers []*timer) {
+	// TODO: Write this.
+	throw("moveTimers")
+}
+
 func timejump() *g {
 	if faketime == 0 {
 		return nil

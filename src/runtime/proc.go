@@ -557,8 +557,9 @@ func schedinit() {
 	if n, ok := atoi32(gogetenv("GOMAXPROCS")); ok && n > 0 {
 		procs = n
 	}
-	if procresize(procs) != nil {
-		throw("unknown runnable goroutine during bootstrap")
+	runnable, withTimers := procresize(procs)
+	if runnable != nil || withTimers != nil {
+		throw("unknown runnable goroutine or timers during bootstrap")
 	}
 
 	// For cgocheck > 1, we turn on the write barrier at all times
@@ -1100,7 +1101,7 @@ func startTheWorldWithSema(emitTraceEvent bool) int64 {
 		procs = newprocs
 		newprocs = 0
 	}
-	p1 := procresize(procs)
+	p1, ptimers := procresize(procs)
 	sched.gcwaiting = 0
 	if sched.sysmonwait != 0 {
 		sched.sysmonwait = 0
@@ -1124,6 +1125,16 @@ func startTheWorldWithSema(emitTraceEvent bool) int64 {
 			newm(nil, p)
 		}
 	}
+
+	plocal := _g_.m.p.ptr()
+	mustAcquireTimers(plocal)
+	for ptimers != nil {
+		p := ptimers
+		ptimers = ptimers.link.ptr()
+		moveTimers(plocal, p.timers)
+		p.timers = nil
+	}
+	releaseTimers(plocal)
 
 	// Capture start-the-world time before doing clean-up tasks.
 	startTime := nanotime()
@@ -4012,8 +4023,9 @@ func setcpuprofilerate(hz int32) {
 // Change number of processors. The world is stopped, sched is locked.
 // gcworkbufs are not being modified by either the GC or
 // the write barrier code.
-// Returns list of Ps with local work, they need to be scheduled by the caller.
-func procresize(nprocs int32) *p {
+// Returns list of Ps with local work, which need to be scheduled by the caller,
+// and a list of Ps with timers that need to be added to some active P.
+func procresize(nprocs int32) (*p, *p) {
 	old := gomaxprocs
 	if old < 0 || nprocs <= 0 {
 		throw("procresize: invalid arg")
@@ -4081,6 +4093,7 @@ func procresize(nprocs int32) *p {
 	}
 
 	// free unused P's
+	var timerPs *p
 	for i := nprocs; i < old; i++ {
 		p := allp[i]
 		if trace.enabled && p == getg().m.p.ptr() {
@@ -4100,6 +4113,10 @@ func procresize(nprocs int32) *p {
 		if p.runnext != 0 {
 			globrunqputhead(p.runnext.ptr())
 			p.runnext = 0
+		}
+		if len(p.timers) > 0 {
+			p.link.set(timerPs)
+			timerPs = p
 		}
 		// if there's a background worker, make it runnable and put
 		// it on the global queue so it can clean itself up
@@ -4186,7 +4203,7 @@ func procresize(nprocs int32) *p {
 	stealOrder.reset(uint32(nprocs))
 	var int32p *int32 = &gomaxprocs // make compiler check that gomaxprocs is an int32
 	atomic.Store((*uint32)(unsafe.Pointer(int32p)), uint32(nprocs))
-	return runnablePs
+	return runnablePs, timerPs
 }
 
 // Associate p and the current m.
