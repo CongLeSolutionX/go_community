@@ -429,6 +429,8 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpAtomicLoad32_0(v)
 	case OpAtomicLoad64:
 		return rewriteValueARM64_OpAtomicLoad64_0(v)
+	case OpAtomicLoad8:
+		return rewriteValueARM64_OpAtomicLoad8_0(v)
 	case OpAtomicLoadPtr:
 		return rewriteValueARM64_OpAtomicLoadPtr_0(v)
 	case OpAtomicOr8:
@@ -32230,6 +32232,19 @@ func rewriteValueARM64_OpAtomicLoad64_0(v *Value) bool {
 		mem := v.Args[1]
 		ptr := v.Args[0]
 		v.reset(OpARM64LDAR)
+		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueARM64_OpAtomicLoad8_0(v *Value) bool {
+	// match: (AtomicLoad8 ptr mem)
+	// cond:
+	// result: (LDARB ptr mem)
+	for {
+		mem := v.Args[1]
+		ptr := v.Args[0]
+		v.reset(OpARM64LDARB)
 		v.AddArg(ptr)
 		v.AddArg(mem)
 		return true
