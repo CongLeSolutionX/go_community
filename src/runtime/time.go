@@ -12,13 +12,21 @@ import (
 	"unsafe"
 )
 
+// Temporary scaffolding while the new timer code is added.
+const oldTimers = true
+
 // Package time knows the layout of this structure.
 // If this struct changes, adjust ../time/sleep.go:/runtimeTimer.
 // For GOOS=nacl, package syscall knows the layout of this structure.
 // If this struct changes, adjust ../syscall/net_nacl.go:/runtimeTimer.
 type timer struct {
-	tb *timersBucket // the bucket the timer lives in
-	i  int           // heap index
+	tb *timersBucket // the bucket the timer lives in (oldTimers)
+	i  int           // heap index (oldTimers)
+
+	// If this timer is on a heap, which P's heap it is on.
+	// puintptr rather than *p to match uintptr in the versions
+	// of this struct defined in other packages. (!oldTimers)
+	pp puintptr
 
 	// Timer wakes up at when, and then at when+period, ... (period > 0 only)
 	// each time calling f(arg, now) in the timer goroutine, so f must be
@@ -28,6 +36,12 @@ type timer struct {
 	f      func(interface{}, uintptr)
 	arg    interface{}
 	seq    uintptr
+
+	// What to set the when field to in timerModifiedXX status. (!oldTimers)
+	nextwhen int64
+
+	// The status field holds one of the values below. (!oldTimers)
+	status uint32
 }
 
 // timersLen is the length of timers array.
@@ -72,6 +86,85 @@ type timersBucket struct {
 	t            []*timer
 }
 
+// Code outside this file has to be careful in using a timer value.
+//
+// The pp, status, and nextwhen fields may only be used by code in this file.
+//
+// Code that creates a new timer value can set the when, period, f,
+// arg, and seq fields.
+// A new timer value may be passed to addtimer (called by time.startTimer).
+// After doing that no fields may be touched.
+//
+// An active timer (one that has been passed to addtimer) may be
+// passed to deltimer (time.stopTimer), after which it is no longer an
+// active timer. It is an inactive timer.
+// In an inactive timer the period, f, arg, and seq fields may be modified,
+// but not the when field.
+// It's OK to just drop an inactive timer and let the GC collect it.
+// It's not OK to pass an inactive timer to addtimer.
+// Only newly allocated timer values may be passed to addtimer.
+//
+// An active timer may be passed to modtimer. No fields may be touched.
+// It remains an active timer.
+//
+// An inactive timer may be passed to resettimer to turn into an
+// active timer with an updated when field.
+// It's OK to pass a newly allocated timer value to resettimer.
+//
+// Timer operations are addtimer, deltimer, modtimer, resettimer,
+// cleantimers, adjusttimers, and runtimer.
+//
+// We don't permit calling addtimer/deltimer/modtimer/resettimer simultaneously,
+// but adjusttimers and runtimer can be called at the same time as any of those.
+//
+// Active timers live in heaps attached to P, in the timers field.
+// Inactive timers live there too temporarily, until they are removed.
+// We can only manipulate the heap of the currently running P.
+
+// Values for the timer status field.
+const (
+	// Timer has no status set yet.
+	timerNoStatus = iota
+
+	// Waiting for timer to fire.
+	// The timer is in some P's heap.
+	timerWaiting
+
+	// Running the timer function.
+	// A timer will only have this status briefly.
+	timerRunning
+
+	// The timer is deleted and should be removed.
+	// It should not be run, but it is still in some P's heap.
+	timerDeleted
+
+	// The timer is being removed.
+	// The timer will only have this status briefly.
+	timerRemoving
+
+	// The timer has been stopped.
+	// It is not in any P's heap.
+	timerRemoved
+
+	// The timer is being modified.
+	// The timer will only have this status briefly.
+	timerModifying
+
+	// The timer has been modified to an earlier time.
+	// The new when value is in the nextwhen field.
+	// The timer is in some P's heap, possibly in the wrong place.
+	timerModifiedEarlier
+
+	// The timer has been modified to the same or a later time.
+	// The new when value is in the nextwhen field.
+	// The timer is in some P's heap, possibly in the wrong place.
+	timerModifiedLater
+
+	// The timer has been modified and is being moved.
+	// The timer will only have this status briefly.
+	timerMoving
+)
+
 // nacl fake time support - time in nanoseconds since 1970
 var faketime int64
 
@@ -83,6 +176,14 @@ var faketime int64
 // timeSleep puts the current goroutine to sleep for at least ns nanoseconds.
 //go:linkname timeSleep time.Sleep
 func timeSleep(ns int64) {
+	if oldTimers {
+		timeSleepOld(ns)
+		return
+	}
+	throw("new timeSleep not yet implemented")
+}
+
+func timeSleepOld(ns int64) {
 	if ns <= 0 {
 		return
 	}
@@ -103,7 +204,7 @@ func timeSleep(ns int64) {
 		unlock(&tb.lock)
 		badTimer()
 	}
-	goparkunlock(&tb.lock, waitReasonSleep, traceEvGoSleep, 2)
+	goparkunlock(&tb.lock, waitReasonSleep, traceEvGoSleep, 3)
 }
 
 // startTimer adds t to the timer heap.
@@ -139,6 +240,14 @@ func goroutineReady(arg interface{}, seq uintptr) {
 }
 
 func addtimer(t *timer) {
+	if oldTimers {
+		addtimerOld(t)
+		return
+	}
+	throw("new addtimer not yet implemented")
+}
+
+func addtimerOld(t *timer) {
 	tb := t.assignBucket()
 	lock(&tb.lock)
 	ok := tb.addtimerLocked(t)
@@ -185,6 +294,14 @@ func (tb *timersBucket) addtimerLocked(t *timer) bool {
 // Delete timer t from the heap.
 // Do not need to update the timerproc: if it wakes up early, no big deal.
 func deltimer(t *timer) bool {
+	if oldTimers {
+		return deltimerOld(t)
+	}
+	throw("no deltimer not yet implemented")
+	return false
+}
+
+func deltimerOld(t *timer) bool {
 	if t.tb == nil {
 		// t.tb can be nil if the user created a timer
 		// directly, without invoking startTimer e.g
@@ -233,6 +350,14 @@ func (tb *timersBucket) deltimerLocked(t *timer) (removed, ok bool) {
 }
 
 func modtimer(t *timer, when, period int64, f func(interface{}, uintptr), arg interface{}, seq uintptr) {
+	if oldTimers {
+		modtimerOld(t, when, period, f, arg, seq)
+		return
+	}
+	throw("new modtimer not yet implemented")
+}
+
+func modtimerOld(t *timer, when, period int64, f func(interface{}, uintptr), arg interface{}, seq uintptr) {
 	tb := t.tb
 
 	lock(&tb.lock)
@@ -256,6 +381,14 @@ func modtimer(t *timer, when, period int64, f func(interface{}, uintptr), arg in
 // This should be called instead of addtimer if the timer value has been,
 // or may have been, used previously.
 func resettimer(t *timer, when int64) {
+	if oldTimers {
+		resettimerOld(t, when)
+		return
+	}
+	throw("new resettimer not yet implemented")
+}
+
+func resettimerOld(t *timer, when int64) {
 	t.when = when
 	addtimer(t)
 }
