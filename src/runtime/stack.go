@@ -1006,38 +1006,7 @@ func newstack() {
 			throw("runtime: g is running but p is not")
 		}
 
-		// Synchronize with scang.
-		casgstatus(gp, _Grunning, _Gwaiting)
-		if gp.preempt&preemptScan != 0 {
-			gp.preempt.clear(preemptScan)
-			for !castogscanstatus(gp, _Gwaiting, _Gscanwaiting) {
-				// Likely to be racing with the GC as
-				// it sees a _Gwaiting and does the
-				// stack scan. If so, gcworkdone will
-				// be set and gcphasework will simply
-				// return.
-			}
-			if !gp.gcscandone {
-				// gcw is safe because we're on the
-				// system stack.
-				gcw := &gp.m.p.ptr().gcw
-				scanstack(gp, gcw)
-				gp.gcscandone = true
-			}
-			casfrom_Gscanstatus(gp, _Gscanwaiting, _Gwaiting)
-		}
-
-		casgstatus(gp, _Gwaiting, _Grunning)
-		if gp.preempt&preemptSched == 0 {
-			// Non-scheduler preemption. Keep running.
-			gp.stackguard0 = gp.stack.lo + _StackGuard
-			gogo(&gp.sched) // never return
-		} else {
-			// Scheduler preemption.
-			// Act like goroutine called runtime.Gosched.
-			// This will clear preemptSched.
-			gopreempt_m(gp) // never return
-		}
+		gopreempt_m(gp) // never return
 	}
 
 	// Allocate a bigger segment and move the stack.

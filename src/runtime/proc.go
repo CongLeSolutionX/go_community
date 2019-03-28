@@ -2602,6 +2602,23 @@ func goschedImpl(gp *g) {
 		throw("bad g status")
 	}
 	casgstatus(gp, _Grunning, _Grunnable)
+
+	// Handle pending preemption tasks.
+	drainPreempt(gp)
+
+	if gp.preempt == 0 {
+		// Non-scheduler preemption. Keep running.
+		casgstatus(gp, _Grunnable, _Grunning)
+		if trace.enabled {
+			traceGoStart()
+		}
+		gp.stackguard0 = gp.stack.lo + _StackGuard
+		gogo(&gp.sched) // never return
+	}
+
+	// Otherwise, this is a scheduler preemption, so switch to a
+	// different goroutine and put this one at the bottom of the
+	// pile. execute will clear preemptSched later.
 	dropg()
 	lock(&sched.lock)
 	globrunqput(gp)
@@ -2615,6 +2632,9 @@ func gosched_m(gp *g) {
 	if trace.enabled {
 		traceGoSched()
 	}
+	// Make sure a scheduler preemption occurs even if there are
+	// other pending preemption reasons.
+	gp.preempt.set(preemptSched)
 	goschedImpl(gp)
 }
 
