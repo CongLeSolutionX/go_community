@@ -34,6 +34,24 @@
       "revId": "7667e4b4fd23b60efb24d10befe669ad711fcac3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bca285d6_9453744f",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2019-03-28T13:02:40Z",
+      "side": 1,
+      "message": "Let\u0027s do here what it\u0027s being done down around line 746. Then next CL will clean it up as you are suggesting.",
+      "parentUuid": "320888cb_d2a445e3",
+      "revId": "7667e4b4fd23b60efb24d10befe669ad711fcac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
