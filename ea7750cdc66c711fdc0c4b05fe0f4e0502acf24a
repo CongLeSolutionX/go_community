@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e6e27fe9_add5bfb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-03-28T00:00:16Z",
+      "side": 1,
+      "message": "I\u0027m working on a separate CL for that. It\u0027s related, but we need to gather information from a different place.",
+      "parentUuid": "08d90860_8aa0a91f",
+      "revId": "ea7750cdc66c711fdc0c4b05fe0f4e0502acf24a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d127f45_63a16848",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "ea7750cdc66c711fdc0c4b05fe0f4e0502acf24a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6af06bd7_f84bce3d",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-03-28T00:00:16Z",
+      "side": 1,
+      "message": "Good idea. I\u0027ve modified Import to store the new version in ImportMissingError if less than the existing version. We could potentially check that here, too, but ImportMissingError will need to carry more information for #27102 anyway, so I think it makes sense to store it there.",
+      "parentUuid": "0d127f45_63a16848",
+      "range": {
+        "startLine": 551,
+        "startChar": 19,
+        "endLine": 554,
+        "endChar": 66
+      },
+      "revId": "ea7750cdc66c711fdc0c4b05fe0f4e0502acf24a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
