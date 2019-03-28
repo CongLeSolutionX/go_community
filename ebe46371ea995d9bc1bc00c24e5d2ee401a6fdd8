@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fcbb3a2_8e35fa48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-28T18:09:49Z",
+      "side": 1,
+      "message": "Would it be safer to use both mechanisms (and consider it a failure if either mechanism reports that standard crypto is used)?\n\nI\u0027m okay with the current approach, but see you think it\u0027s worthwhile to have both.",
+      "revId": "ebe46371ea995d9bc1bc00c24e5d2ee401a6fdd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e31b2847_e31929a4",
+        "filename": "misc/boring/build.release",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-28T18:09:49Z",
+      "side": 1,
+      "message": "In a temporary directory? GOPATH is no longer being set here.\n\nOr, if you make the change below, then in a temporary module.",
+      "range": {
+        "startLine": 59,
+        "startChar": 40,
+        "endLine": 59,
+        "endChar": 46
+      },
+      "revId": "ebe46371ea995d9bc1bc00c24e5d2ee401a6fdd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef743585_f653a6fa",
+        "filename": "misc/boring/build.release",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-03-28T18:09:49Z",
+      "side": 1,
+      "message": "Being in $dir, which is the result of `mktemp -d`, should mean that you\u0027re not inside any module. I understand that\u0027s why you did `cd \"$dir\"`. However, if any parent directory happens to contain a go.mod file, it would be used.\n\nIf that\u0027s not a risk you\u0027re willing to accept, consider creating a temporary empty module here:\n\n    (cd \"$dir\"; go mod init m; go get ...)",
+      "range": {
+        "startLine": 64,
+        "startChar": 11,
+        "endLine": 64,
+        "endChar": 12
+      },
+      "revId": "ebe46371ea995d9bc1bc00c24e5d2ee401a6fdd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
