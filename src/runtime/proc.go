@@ -2305,8 +2305,16 @@ top:
 				goto top
 			}
 			stealRunNextG := i > 2 // first look for ready queues with more than 1 g
-			if gp := runqsteal(_p_, allp[enum.position()], stealRunNextG); gp != nil {
+			p2 := allp[enum.position()]
+			if gp := runqsteal(_p_, p2, stealRunNextG); gp != nil {
 				return gp, false
+			}
+
+			if i > 2 {
+				// Try to steal timers from other P's.
+				if stealTimers(_p_, p2) {
+					goto top
+				}
 			}
 		}
 	}
@@ -2692,6 +2700,55 @@ func waitTimer(delta int64) {
 	atomic.Xadd(&sched.nPTimerSleep, -1)
 
 	atomic.Store(&pp.status, _Prunning)
+}
+
+// stealTimers checks whether p2 seems to be spinning, and, if it does,
+// tries to steal any pending timers and add them to pp.
+// It reports whether any timers were moved.
+//go:yeswritebarrierrec
+func stealTimers(pp, p2 *p) bool {
+	if p2.status != _Prunning {
+		return false
+	}
+
+	// See if p2 seems to have been running for a while.
+	t := int64(p2.schedtick)
+	if int64(p2.sysmontick.schedtick) != t {
+		return false
+	}
+	if p2.sysmontick.schedwhen+2*forcePreemptNS > nanotime() {
+		return false
+	}
+
+	// See if p2 has a g that has been asked to preempt itself.
+	mp2 := p2.m.ptr()
+	if mp2 == nil {
+		return false
+	}
+	g2 := mp2.curg
+	if g2 == nil || g2 == mp2.g0 {
+		return false
+	}
+	if !g2.preempt {
+		return false
+	}
+
+	// Steal the timers if there are any.
+	if !acquireTimers(p2) {
+		return false
+	}
+	timers := p2.timers
+	p2.timers = nil
+	releaseTimers(p2)
+
+	if len(timers) == 0 {
+		return false
+	}
+
+	mustAcquireTimers(pp)
+	moveTimers(pp, timers)
+	releaseTimers(pp)
+	return true
 }
 
 func parkunlock_c(gp *g, lock unsafe.Pointer) bool {
@@ -4575,7 +4632,19 @@ func retake(now int64) uint32 {
 			if pd.schedwhen+forcePreemptNS > now {
 				continue
 			}
-			preemptone(_p_)
+
+			if preemptone(_p_) {
+				// If this g has been running for a while,
+				// it may be unpreemptible. If it has timers,
+				// make sure there is a P awake to steal them.
+				if pd.schedwhen+2*forcePreemptNS < now && acquireTimers(_p_) {
+					hasTimers := len(_p_.timers) > 0
+					releaseTimers(_p_)
+					if hasTimers && n == 0 && atomic.Load(&sched.nmspinning) == 0 && atomic.Load(&sched.npidle) > 0 {
+						wakep()
+					}
+				}
+			}
 		case _Ptimer:
 			// Wake a P sleeping on a timer if there is
 			// something for it to do.
