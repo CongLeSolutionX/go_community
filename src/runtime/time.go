@@ -1038,7 +1038,63 @@ func runOneTimer(pp *p, t *timer, delta int64) {
 	f(arg, seq)
 }
 
-func timejump() *g {
+func timejump() *p {
+	if faketime == 0 {
+		return nil
+	}
+
+	// Nothing is running, so we can look at all the P's.
+	// Determine a timer bucket with minimum when.
+	var (
+		minT    *timer
+		minWhen int64
+		minP    *p
+	)
+	for _, pp := range allp {
+		if pp.status != _Pidle && pp.status != _Pdead {
+			throw("non-idle P in timejump")
+		}
+		if len(pp.timers) == 0 {
+			continue
+		}
+		c := pp.adjustTimers
+		for _, t := range pp.timers {
+			switch s := atomic.Load(&t.status); s {
+			case timerWaiting:
+				if minT == nil || t.when < minWhen {
+					minT = t
+					minWhen = t.when
+					minP = pp
+				}
+			case timerModifiedEarlier, timerModifiedLater:
+				if minT == nil || t.nextwhen < minWhen {
+					minT = t
+					minWhen = t.nextwhen
+					minP = pp
+				}
+				if s == timerModifiedEarlier {
+					c--
+				}
+			}
+			// The timers are sorted, so we only have to check
+			// the first timer for each P, unless there are
+			// some timerModifiedEarlier timers. The number
+			// of timerModifiedEarlier timers is in the adjustTimers
+			// field, used to initialize c, above.
+			if c == 0 {
+				break
+			}
+		}
+	}
+
+	if minT == nil || minWhen <= faketime {
+		return nil
+	}
+
+	faketime = minT.when
+	return minP
+}
+func timejumpOld() *g {
 	if faketime == 0 {
 		return nil
 	}
