@@ -20,10 +20,7 @@ import (
 // Really for use by package time, but we cannot import time here.
 
 type runtimeTimer struct {
-	tb uintptr
-	i  int
-	pp uintptr
-
+	pp       uintptr
 	when     int64
 	period   int64
 	f        func(interface{}, uintptr) // NOTE: must not be closure
