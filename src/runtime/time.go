@@ -144,6 +144,16 @@ type timersBucket struct {
 //   timerRemoving   -> wait until status changes
 //   timerDeleted    -> panic: concurrent modtimer/deltimer calls
 //   timerModifying  -> panic: concurrent modtimer calls
+// resettimer:
+//   timerNoStatus   -> timerWaiting
+//   timerRemoved    -> timerWaiting
+//   timerDeleted    -> timerModifying -> timerModifiedXX
+//   timerRemoving   -> wait until status changes
+//   timerRunning    -> wait until status changes
+//   timerWaiting    -> panic: resettimer called on active timer
+//   timerMoving     -> panic: resettimer called on active timer
+//   timerModifiedXX -> panic: resettimer called on active timer
+//   timerModifying  -> panic: resettimer called on active timer
 
 // Values for the timer status field.
 const (
@@ -557,7 +567,68 @@ func resettimer(t *timer, when int64) {
 		resettimerOld(t, when)
 		return
 	}
-	throw("new resettimer not yet implemented")
+
+	if when < 0 {
+		when = 1<<63 - 1
+	}
+
+	for {
+		switch s := atomic.Load(&t.status); s {
+		case timerNoStatus, timerRemoved:
+			atomic.Store(&t.status, timerWaiting)
+			t.when = when
+			// Lock to current P while adding the timer.
+			mp := acquirem()
+			pp := mp.p.ptr()
+			mustAcquireTimers(pp)
+			ok := cleantimers(pp) && doaddtimer(pp, t)
+			releaseTimers(pp)
+			releasem(mp)
+			if !ok {
+				badTimer()
+			}
+			return
+		case timerDeleted:
+			// No preemption while in timerModifying state.
+			mp := acquirem()
+			if atomic.Cas(&t.status, s, timerModifying) {
+				earlier := when < t.when
+				t.nextwhen = when
+				tpp := t.pp.ptr()
+				newStatus := uint32(timerModifiedEarlier)
+				if !earlier {
+					newStatus = timerModifiedLater
+				}
+				ok := atomic.Cas(&t.status, timerModifying, newStatus)
+				releasem(mp)
+				if !ok {
+					badTimer()
+				}
+				if earlier {
+					atomic.Xadd(&tpp.adjustTimers, 1)
+					if atomic.Cas(&tpp.status, _Ptimer, _Prunning) {
+						notewakeup(&tpp.timerNote)
+					}
+				}
+				return
+			}
+			releasem(mp)
+		case timerRemoving:
+			// Wait for the removal to complete.
+			osyield()
+		case timerRunning:
+			// Even though the timer should not be active,
+			// we can see timerRunning if the timer function
+			// permits some other goroutine to call resettimer.
+			// Wait until the run is complete.
+			osyield()
+		case timerWaiting, timerModifying, timerModifiedEarlier, timerModifiedLater, timerMoving:
+			// Called resettimer on active timer.
+			badTimer()
+		default:
+			badTimer()
+		}
+	}
 }
 
 func resettimerOld(t *timer, when int64) {
