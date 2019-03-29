@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8467ea67_a36f3a55",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-29T15:28:47Z",
+      "side": 1,
+      "message": "On Android, we will do external linking, so it will go here, right? On 386/AMD64 I think we don\u0027t do R_TLS relocations any more so it doesn\u0027t matter, right?",
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a1b5728_14e4f2d4",
+        "filename": "src/cmd/link/internal/ld/sym.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-29T15:28:47Z",
+      "side": 1,
+      "message": "Should this be 0 on Android? Or we just don\u0027t care?",
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf81ed46_57da7e78",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-29T15:28:47Z",
+      "side": 1,
+      "message": "Nit: too many tabs. (Also below)",
+      "range": {
+        "startLine": 176,
+        "startChar": 16,
+        "endLine": 176,
+        "endChar": 21
+      },
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e46fcf5_48464eb0",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-29T15:28:47Z",
+      "side": 1,
+      "message": "Why we didn\u0027t adjust the second parameter (SI to DX) before? Ok, on Windoes _cgo_init just takes one argument, so it doesn\u0027t matter...",
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3ed5d7_89af3dab",
+        "filename": "src/runtime/cgo/gcc_android.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-29T15:28:47Z",
+      "side": 1,
+      "message": "Should we use a 32-bit value on 32-bit platforms? Or maybe we do (void*)(uintptr_t)magic1 below?",
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "054b4ed3_ea968b04",
+        "filename": "src/runtime/cgo/gcc_linux_386.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-03-29T15:28:47Z",
+      "side": 1,
+      "message": "Now gcc_android.c",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
