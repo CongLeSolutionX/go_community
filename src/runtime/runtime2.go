@@ -580,6 +580,9 @@ type p struct {
 	// Number of timerModifiedEarlier timers on P's heap.
 	adjustTimers uint32
 
+	// If this P is sleeping in _Ptimer mode, when it is expected to wake.
+	sleepUntil int64
+
 	pad cpu.CacheLinePad
 }
 

@@ -2601,9 +2601,8 @@ top:
 	}
 	if gp == nil {
 		gp, inheritTime = runqget(_g_.m.p.ptr())
-		if gp != nil && _g_.m.spinning {
-			throw("schedule: spinning with local work")
-		}
+		// We can see gp != nil here even if the M is spinning,
+		// if checkTimers added a local goroutine via goready.
 	}
 	if gp == nil {
 		gp, inheritTime = findrunnable() // blocks until work is available
@@ -2712,6 +2711,10 @@ func waitTimer(delta int64) {
 	pp.status = _Ptimer
 
 	unlock(&sched.lock)
+
+	if osRelaxMinNS > 0 {
+		pp.sleepUntil = nanotime() + delta
+	}
 
 	atomic.Xadd(&sched.nPTimerSleep, 1)
 	notetsleep(&pp.timerNote, delta)
@@ -4528,8 +4531,18 @@ func sysmon() {
 				}
 				shouldRelax := true
 				if osRelaxMinNS > 0 {
-					next := timeSleepUntil()
 					now := nanotime()
+					var next int64
+					if oldTimers {
+						next = timeSleepUntil()
+					} else {
+						next = int64(1<<63 - 1)
+						for _, pp := range allp {
+							if pp.sleepUntil > now && pp.sleepUntil < next {
+								next = pp.sleepUntil
+							}
+						}
+					}
 					if next-now < osRelaxMinNS {
 						shouldRelax = false
 					}
