@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "11473502_4a1f720a",
+        "filename": "src/cmd/go/testdata/script/mod_file_proxy.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 28030
+      },
+      "writtenOn": "2019-03-29T02:06:27Z",
+      "side": 1,
+      "message": "I just did. However, I used go1.12 to produce the go.sum which was mismatched with the version that this branch expected. Does that mean there will be another breaking change in the next Go release? Or does it just mean that the \"stored\" version in \"rsc.io_quote_v1.5.1.txt\" is not the same as the one in the upstream? \n\nTo reproduce (make sure $GOPATH/pkg/mod is clean): \n\n```\n~ mkdir tmp\n~ cd tmp \u0026\u0026 go mod init tmp\n~ GO111MODULE\u003don GOPROXY\u003ddirect go get rsc.io/quote@v1.5.1\n# notice the go.sum is different from the one in this CL.\n```",
+      "parentUuid": "362b3048_2a83936f",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 0
+      },
+      "revId": "039c3c363020e3f474c2481de1cbf024ecd22725",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2321202a_ed8d734b",
         "filename": "src/cmd/go/testdata/script/mod_readonly.txt",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2019-03-28T22:14:12Z",
       "side": 1,
       "message": "We should arguably prefer to report changes to go.mod over go.sum.\n\n(If the go.mod file is complete but the go.sum file is not, then knowing that a requirement was changed seems strictly more useful than knowing that an already-present requirement was missing a checksum entry.)",
+      "range": {
+        "startLine": 34,
+        "startChar": 23,
+        "endLine": 34,
+        "endChar": 30
+      },
+      "revId": "039c3c363020e3f474c2481de1cbf024ecd22725",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e29403ef_71d05e57",
+        "filename": "src/cmd/go/testdata/script/mod_readonly.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 28030
+      },
+      "writtenOn": "2019-03-29T02:06:27Z",
+      "side": 1,
+      "message": "Sounds good, so the current logic that I will upload in a sec is: \n\n1. If go.mod has not changed, write go.sum which will internally check if -mod\u003dreadonly\n2. If go.mod has changed, check -mod\u003dreadonly _then_ write go.sum, which checks -mod\u003dreadonly as well. \n\nThis will ensure that if go.mod changed, regardless of whether go.sum changed or not, we will tell the user that go.mod has changed in -mod\u003dreadonly mode.\n\nIf this should be done in any other way, let me know!",
+      "parentUuid": "2321202a_ed8d734b",
       "range": {
         "startLine": 34,
         "startChar": 23,
