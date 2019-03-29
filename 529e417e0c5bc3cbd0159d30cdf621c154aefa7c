@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67f0ab0d_e44f6e01",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-03-29T15:52:39Z",
+      "side": 1,
+      "message": "Right. If anything, the Android Q linker adds support for ELF TLS, so I don\u0027t want any confusing special cases here.",
+      "parentUuid": "8467ea67_a36f3a55",
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a1b5728_14e4f2d4",
         "filename": "src/cmd/link/internal/ld/sym.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-29T15:28:47Z",
       "side": 1,
       "message": "Should this be 0 on Android? Or we just don\u0027t care?",
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e05c9ca_6710154e",
+        "filename": "src/cmd/link/internal/ld/sym.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-03-29T15:52:39Z",
+      "side": 1,
+      "message": "Don\u0027t care; 0 is also wrong because the offset is dynamic on Android. I\u0027d say this function is undefined for Android.",
+      "parentUuid": "0a1b5728_14e4f2d4",
       "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "ba69a3d0_05a83ff8",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-03-29T15:52:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf81ed46_57da7e78",
+      "range": {
+        "startLine": 176,
+        "startChar": 16,
+        "endLine": 176,
+        "endChar": 21
+      },
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e46fcf5_48464eb0",
         "filename": "src/runtime/asm_amd64.s",
         "patchSetId": 3
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "1ec77932_1a043111",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-03-29T15:52:39Z",
+      "side": 1,
+      "message": "It doesn\u0027t matter, but I wanted it clear and correct if Windows ever began to take the extra parameters.",
+      "parentUuid": "9e46fcf5_48464eb0",
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef3ed5d7_89af3dab",
         "filename": "src/runtime/cgo/gcc_android.c",
         "patchSetId": 3
@@ -87,6 +165,24 @@
       "writtenOn": "2019-03-29T15:28:47Z",
       "side": 1,
       "message": "Should we use a 32-bit value on 32-bit platforms? Or maybe we do (void*)(uintptr_t)magic1 below?",
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d02777b_2c984337",
+        "filename": "src/runtime/cgo/gcc_android.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-03-29T15:52:39Z",
+      "side": 1,
+      "message": "It works, so I assume the (void *) cast takes care of it. Added a comment.",
+      "parentUuid": "ef3ed5d7_89af3dab",
       "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -113,6 +209,30 @@
       "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78486628_e398e6af",
+        "filename": "src/runtime/cgo/gcc_linux_386.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-03-29T15:52:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "054b4ed3_ea968b04",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
