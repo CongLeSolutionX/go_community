@@ -2662,8 +2662,26 @@ func dropg() {
 // or -1 if there are no timers left.
 //go:yeswritebarrierrec
 func checkTimers() int64 {
-	// TODO: Implement.
-	return -1
+	pp := getg().m.p.ptr()
+
+	mustAcquireTimers(pp)
+
+	adjusttimers(pp)
+
+	ret := int64(-1)
+	if len(pp.timers) > 0 {
+		now := nanotime()
+		for len(pp.timers) > 0 {
+			if delta := runtimer(pp, now); delta != 0 {
+				ret = delta
+				break
+			}
+		}
+	}
+
+	releaseTimers(pp)
+
+	return ret
 }
 
 // waitTimer sleeps for up to delta nanoseconds.

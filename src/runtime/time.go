@@ -157,6 +157,9 @@ type timersBucket struct {
 // cleantimers (looks in P's timer heap):
 //   timerDeleted    -> timerRemoving -> timerRemoved
 //   timerModifiedXX -> timerMoving -> timerWaiting
+// adjusttimers (looks in P's timer heap):
+//   timerDeleted    -> timerRemoving -> timerRemoved
+//   timerModifiedXX -> timerMoving -> timerWaiting
 
 // Values for the timer status field.
 const (
@@ -857,6 +860,74 @@ func moveTimers(pp *p, timers []*timer) {
 			}
 		}
 	}
+}
+
+// adjusttimers looks through the timers in the current P's heap for
+// any timers that have been modified to run earlier, and puts them in
+// the correct place in the heap. This is called on the system stack.
+// The caller must have acquired the timers for pp.
+func adjusttimers(pp *p) {
+	if len(pp.timers) == 0 {
+		return
+	}
+	if atomic.Load(&pp.adjustTimers) == 0 {
+		return
+	}
+	for i := 0; i < len(pp.timers); i++ {
+		t := pp.timers[i]
+		if t.pp.ptr() != pp {
+			throw("adjusttimers: bad p")
+		}
+		switch s := atomic.Load(&t.status); s {
+		case timerDeleted:
+			if atomic.Cas(&t.status, s, timerRemoving) {
+				dodeltimer(pp, i)
+				if !atomic.Cas(&t.status, timerRemoving, timerRemoved) {
+					badTimer()
+				}
+				// Look at this heap position again.
+				i--
+			}
+		case timerModifiedEarlier, timerModifiedLater:
+			if atomic.Cas(&t.status, s, timerMoving) {
+				// Now we can change the when field.
+				t.when = t.nextwhen
+				// Move t to the right position.
+				dodeltimer(pp, i)
+				if !doaddtimer(pp, t) {
+					badTimer()
+				}
+				if !atomic.Cas(&t.status, timerMoving, timerWaiting) {
+					badTimer()
+				}
+				if s == timerModifiedEarlier {
+					if atomic.Xadd(&pp.adjustTimers, -1) <= 0 {
+						return
+					}
+				}
+				// That may have changed entries we already passed,
+				// so restart the loop.
+				i = -1
+			}
+		case timerNoStatus, timerRunning, timerRemoving, timerRemoved, timerMoving:
+			badTimer()
+		case timerWaiting, timerModifying:
+			// OK, nothing to do.
+		default:
+			badTimer()
+		}
+	}
+}
+
+// runtimer examines the first timer in timers. If it is ready based on now,
+// it runs the timer and removes or updates it.
+// Returns 0 if it ran a timer, -1 if there is nothing to do, or a positive
+// delta that is the number of nanoseconds to sleep until the next timer is ready.
+// This is called on the system stack.
+// The caller must have acquired the timers for pp.
+func runtimer(pp *p, now int64) int64 {
+	throw("runtimer not yet implemented")
+	return -1
 }
 
 func timejump() *g {
