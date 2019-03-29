@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <android/log.h>
 #include <pthread.h>
+#include <dlfcn.h>
 #include "libcgo.h"
 
 void
@@ -32,6 +33,7 @@ fatalf(const char* format, ...)
 }
 
 #define magic1 (0x23581321345589ULL)
+#define TLS_SLOT_APP 2
 
 // inittls allocates a thread-local storage slot for g.
 //
@@ -42,6 +44,22 @@ inittls(void **tlsg, void **tlsbase)
 {
 	pthread_key_t k;
 	int i, err;
+	void *handle, *get_ver;
+
+	// Check for Android Q where we can use the free TLS_SLOT_APP slot.
+	handle = dlopen(NULL, RTLD_LAZY);
+	if (handle == NULL) {
+		fatalf("inittls: failed to dlopen main program");
+		return;
+	}
+	// android_get_device_api_level is introduced in Android Q, so its mere presence
+	// is enough.
+	get_ver = dlsym(handle, "android_get_device_api_level");
+	dlclose(handle);
+	if (get_ver != NULL) {
+		*tlsg = (void *)(TLS_SLOT_APP*sizeof(void *));
+		return;
+	}
 
 	err = pthread_key_create(&k, nil);
 	if(err != 0) {
@@ -59,7 +77,7 @@ inittls(void **tlsg, void **tlsbase)
 			return;
 		}
 	}
-	fatalf("could not find pthread key");
+	fatalf("inittls: could not find pthread key");
 }
 
 void (*x_cgo_inittls)(void **tlsg, void **tlsbase) = inittls;
