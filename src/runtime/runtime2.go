@@ -583,6 +583,9 @@ type p struct {
 	// If this P is sleeping in _Ptimer mode, when it is expected to wake.
 	sleepUntil int64
 
+	// Race context used while executing timer functions.
+	timerRaceCtx uintptr
+
 	pad cpu.CacheLinePad
 }
 

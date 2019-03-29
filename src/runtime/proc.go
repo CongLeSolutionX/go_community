@@ -4229,6 +4229,10 @@ func procresize(nprocs int32) (*p, *p) {
 		gfpurge(p)
 		traceProcFree(p)
 		if raceenabled {
+			if p.timerRaceCtx != 0 {
+				racectxend(p.timerRaceCtx)
+				p.timerRaceCtx = 0
+			}
 			raceprocdestroy(p.raceprocctx)
 			p.raceprocctx = 0
 		}
