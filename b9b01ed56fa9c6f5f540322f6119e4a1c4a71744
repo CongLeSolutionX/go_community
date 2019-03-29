@@ -16,6 +16,24 @@
       "revId": "b9b01ed56fa9c6f5f540322f6119e4a1c4a71744",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5a827dd_59a66a9d",
+        "filename": "src/runtime/cgo/gcc_android.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-03-29T14:05:21Z",
+      "side": 1,
+      "message": "Oops, done.",
+      "parentUuid": "d33af393_a5295a48",
+      "revId": "b9b01ed56fa9c6f5f540322f6119e4a1c4a71744",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
