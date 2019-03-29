@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "ccb9be00_f5bc1b60",
+        "filename": "src/cmd/link/internal/ld/sym.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-03-29T17:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78aad7d4_b1deb6ad",
+      "revId": "529e417e0c5bc3cbd0159d30cdf621c154aefa7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf81ed46_57da7e78",
         "filename": "src/runtime/asm_386.s",
         "patchSetId": 3
