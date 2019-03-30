@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "4a1d556a_30dbd608",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T18:01:26Z",
+      "side": 1,
+      "message": "To add a data point - cmd/cover was getting this wrong, in not refusing keywords as valid identifiers.\n\n\u003e But maybe this latter test doesn\u0027t occur in practice. Commments?\n\nI personally have never had the need for \"is this string a valid identifier or keyword\". I struggle to imagine what kind of use that would have. In Go code, the two sets of strings can never be mixed or interchanged.\n\nAnd for the niche use cases that do need that, I think IsIdentifier||IsKeyword is easy to read. If they want something faster, they can always keep a modified copy of IsIdentifier, like IsIdentifierOrKeyword, which avoids the double-test. But given that IsKeyword will become a perfect hash test sometime soon, I don\u0027t think it will make that much of a difference.",
+      "parentUuid": "ff61a0ca_e7e7d868",
+      "range": {
+        "startLine": 331,
+        "startChar": 24,
+        "endLine": 331,
+        "endChar": 31
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c056537e_7d4ce7bf",
         "filename": "src/go/token/token.go",
         "patchSetId": 4
