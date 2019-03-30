@@ -53,9 +53,12 @@
     (Store {typ.BytePtr} dst ptr mem))
 
 // slice ops
-(SlicePtr (SliceMake ptr _ _ )) -> ptr
-(SliceLen (SliceMake _ len _)) -> len
-(SliceCap (SliceMake _ _ cap)) -> cap
+(SliceMake ptr len cap) && config.PtrSize == 4 -> (SliceMakeExt ptr len (Sub32 <typ.Int> cap len))
+(SliceMake ptr len cap) && config.PtrSize == 8 -> (SliceMakeExt ptr len (Sub64 <typ.Int> cap len))
+
+(SlicePtr (SliceMakeExt ptr _ _ )) -> ptr
+(SliceLen (SliceMakeExt _ len _)) -> len
+(SliceExt (SliceMakeExt _ _ ext)) -> ext
 
 (Load <t> ptr mem) && t.IsSlice() ->
   (SliceMake
@@ -66,10 +69,18 @@
     (Load <typ.Int>
       (OffPtr <typ.IntPtr> [2*config.PtrSize] ptr)
       mem))
-(Store dst (SliceMake ptr len cap) mem) ->
+(Store dst (SliceMakeExt ptr len ext) mem) && config.PtrSize == 4 ->
   (Store {typ.Int}
     (OffPtr <typ.IntPtr> [2*config.PtrSize] dst)
-    cap
+    (Add32 <typ.Int> len ext)
+    (Store {typ.Int}
+      (OffPtr <typ.IntPtr> [config.PtrSize] dst)
+      len
+      (Store {typ.BytePtr} dst ptr mem)))
+(Store dst (SliceMakeExt ptr len ext) mem) && config.PtrSize == 8 ->
+  (Store {typ.Int}
+    (OffPtr <typ.IntPtr> [2*config.PtrSize] dst)
+    (Add64 <typ.Int> len ext)
     (Store {typ.Int}
       (OffPtr <typ.IntPtr> [config.PtrSize] dst)
       len

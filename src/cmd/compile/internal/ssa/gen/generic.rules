@@ -230,7 +230,6 @@
 (IsSliceInBounds (Const64 [0]) _) -> (ConstBool [1])
 (IsSliceInBounds (Const32 [c]) (Const32 [d])) -> (ConstBool [b2i(0 <= c && c <= d)])
 (IsSliceInBounds (Const64 [c]) (Const64 [d])) -> (ConstBool [b2i(0 <= c && c <= d)])
-(IsSliceInBounds (SliceLen x) (SliceCap x)) -> (ConstBool [1])
 
 (Eq(64|32|16|8) x x) -> (ConstBool [1])
 (EqB (ConstBool [c]) (ConstBool [d])) -> (ConstBool [b2i(c == d)])
@@ -845,21 +844,25 @@
 // slice ops
 // Only a few slice rules are provided here.  See dec.rules for
 // a more comprehensive set.
-(SliceLen (SliceMake _ (Const64 <t> [c]) _)) -> (Const64 <t> [c])
-(SliceCap (SliceMake _ _ (Const64 <t> [c]))) -> (Const64 <t> [c])
-(SliceLen (SliceMake _ (Const32 <t> [c]) _)) -> (Const32 <t> [c])
-(SliceCap (SliceMake _ _ (Const32 <t> [c]))) -> (Const32 <t> [c])
-(SlicePtr (SliceMake (SlicePtr x) _ _)) -> (SlicePtr x)
-(SliceLen (SliceMake _ (SliceLen x) _)) -> (SliceLen x)
-(SliceCap (SliceMake _ _ (SliceCap x))) -> (SliceCap x)
-(SliceCap (SliceMake _ _ (SliceLen x))) -> (SliceLen x)
+(SliceMake ptr len cap) && config.PtrSize == 4 -> (SliceMakeExt ptr len (Sub32 <typ.Int> cap len))
+(SliceMake ptr len cap) && config.PtrSize == 8 -> (SliceMakeExt ptr len (Sub64 <typ.Int> cap len))
+
+(SliceLen (SliceMakeExt _ (Const64 <t> [c]) _)) -> (Const64 <t> [c])
+(SliceExt (SliceMakeExt _ _ (Const64 <t> [c]))) -> (Const64 <t> [c])
+
+(SliceLen (SliceMakeExt _ (Const32 <t> [c]) _)) -> (Const32 <t> [c])
+(SliceExt (SliceMakeExt _ _ (Const32 <t> [c]))) -> (Const32 <t> [c])
+
+(SlicePtr (SliceMakeExt (SlicePtr x) _ _)) -> (SlicePtr x)
+(SliceLen (SliceMakeExt _ (SliceLen x) _)) -> (SliceLen x)
+(SliceExt (SliceMakeExt _ _ (SliceExt x))) -> (SliceExt x)
 (ConstSlice) && config.PtrSize == 4 ->
-  (SliceMake
+  (SliceMakeExt
     (ConstNil <v.Type.Elem().PtrTo()>)
     (Const32 <typ.Int> [0])
     (Const32 <typ.Int> [0]))
 (ConstSlice) && config.PtrSize == 8 ->
-  (SliceMake
+  (SliceMakeExt
     (ConstNil <v.Type.Elem().PtrTo()>)
     (Const64 <typ.Int> [0])
     (Const64 <typ.Int> [0]))

@@ -402,15 +402,15 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 		// same, length on the RHS.
 		ft.update(parent, v, ft.caps[w.Args[0].ID], d, r|lt)
 	}
-	if v.Op == OpSliceCap && r&gt == 0 && ft.lens[v.Args[0].ID] != nil {
+	if s, ok := sliceCap(v); ok && r&gt == 0 && ft.lens[s.ID] != nil {
 		// cap(s) < w implies len(s) < w
 		// cap(s) <= w implies len(s) <= w
 		// cap(s) == w implies len(s) <= w
-		ft.update(parent, ft.lens[v.Args[0].ID], w, d, r|lt)
+		ft.update(parent, ft.lens[s.ID], w, d, r|lt)
 	}
-	if w.Op == OpSliceCap && r&lt == 0 && ft.lens[w.Args[0].ID] != nil {
+	if s, ok := sliceCap(w); ok && r&lt == 0 && ft.lens[s.ID] != nil {
 		// same, capacity on the RHS.
-		ft.update(parent, v, ft.lens[w.Args[0].ID], d, r|gt)
+		ft.update(parent, v, ft.lens[s.ID], d, r|gt)
 	}
 
 	// Process fence-post implications.
@@ -755,11 +755,12 @@ func prove(f *Func) {
 				}
 				ft.lens[v.Args[0].ID] = v
 				ft.update(b, v, ft.zero, signed, gt|eq)
-			case OpSliceCap:
+			}
+			if s, ok := sliceCap(v); ok {
 				if ft.caps == nil {
 					ft.caps = map[ID]*Value{}
 				}
-				ft.caps[v.Args[0].ID] = v
+				ft.caps[s.ID] = v
 				ft.update(b, v, ft.zero, signed, gt|eq)
 			}
 		}
@@ -1246,7 +1247,7 @@ func isNonNegative(v *Value) bool {
 	case OpConst32:
 		return int32(v.AuxInt) >= 0
 
-	case OpStringLen, OpSliceLen, OpSliceCap,
+	case OpStringLen, OpSliceLen, OpSliceExt,
 		OpZeroExt8to64, OpZeroExt16to64, OpZeroExt32to64:
 		return true
 
@@ -1284,4 +1285,26 @@ func isConstDelta(v *Value) (w *Value, delta int64) {
 		}
 	}
 	return nil, 0
+}
+
+// sliceCap returns a slice s if the value v is equivalent to cap(s).
+func sliceCap(v *Value) (*Value, bool) {
+	// Check if v is equal to (len + ext).
+	switch v.Op {
+	case OpAdd32, OpAdd64:
+	default:
+		return nil, false
+	}
+	// Loop twice. Swap argument order in second iteration.
+	for i := 0; i <= 1; i++ {
+		x, y := v.Args[0^i], v.Args[1^i]
+		if x.Op != OpSliceLen || y.Op != OpSliceExt {
+			continue
+		}
+		if x.Args[0] != y.Args[0] {
+			return nil, false
+		}
+		return x.Args[0], true
+	}
+	return nil, false
 }

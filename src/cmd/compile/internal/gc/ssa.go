@@ -474,6 +474,7 @@ var (
 	capVar    = Node{Op: ONAME, Sym: &types.Sym{Name: "cap"}}
 	typVar    = Node{Op: ONAME, Sym: &types.Sym{Name: "typ"}}
 	okVar     = Node{Op: ONAME, Sym: &types.Sym{Name: "ok"}}
+	deltaVar  = Node{Op: ONAME, Sym: &types.Sym{Name: "delta"}}
 )
 
 // startBlock sets the current block we're generating code in to b.
@@ -2362,11 +2363,14 @@ func (s *state) expr(n *Node) *ssa.Value {
 	case OLEN, OCAP:
 		switch {
 		case n.Left.Type.IsSlice():
-			op := ssa.OpSliceLen
-			if n.Op == OCAP {
-				op = ssa.OpSliceCap
+			slice := s.expr(n.Left)
+			len := s.newValue1(ssa.OpSliceLen, types.Types[TINT], slice)
+			if n.Op == OLEN {
+				return len
 			}
-			return s.newValue1(op, types.Types[TINT], s.expr(n.Left))
+			// cap = len + ext
+			ext := s.newValue1(ssa.OpSliceExt, types.Types[TINT], slice)
+			return s.newValue2(s.ssaOp(OADD, types.Types[TINT]), types.Types[TINT], len, ext)
 		case n.Left.Type.IsString(): // string; not reachable for OCAP
 			return s.newValue1(ssa.OpStringLen, types.Types[TINT], s.expr(n.Left))
 		case n.Left.Type.IsMap(), n.Left.Type.IsChan():
@@ -2415,8 +2419,8 @@ func (s *state) expr(n *Node) *ssa.Value {
 		if max != nil {
 			k = s.expr(max)
 		}
-		p, l, c := s.slice(v, i, j, k, n.Bounded())
-		return s.newValue3(ssa.OpSliceMake, n.Type, p, l, c)
+		p, l, e := s.slice(v, i, j, k, n.Bounded())
+		return s.newValue3(ssa.OpSliceMakeExt, n.Type, p, l, e)
 
 	case OSLICESTR:
 		v := s.expr(n.Left)
@@ -2532,7 +2536,8 @@ func (s *state) append(n *Node, inplace bool) *ssa.Value {
 	nargs := int64(n.List.Len() - 1)
 	p := s.newValue1(ssa.OpSlicePtr, pt, slice)
 	l := s.newValue1(ssa.OpSliceLen, types.Types[TINT], slice)
-	c := s.newValue1(ssa.OpSliceCap, types.Types[TINT], slice)
+	e := s.newValue1(ssa.OpSliceExt, types.Types[TINT], slice)
+	c := s.newValue2(s.ssaOp(OADD, types.Types[TINT]), types.Types[TINT], l, e)
 	nl := s.newValue2(s.ssaOp(OADD, types.Types[TINT]), types.Types[TINT], l, s.constInt(types.Types[TINT], nargs))
 
 	cmp := s.newValue2(s.ssaOp(OGT, types.Types[TUINT]), types.Types[TBOOL], nl, c)
@@ -4274,13 +4279,17 @@ func (s *state) storeTypeScalars(t *types.Type, left, right *ssa.Value, skip ski
 		lenAddr := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.IntPtr, s.config.PtrSize, left)
 		s.store(types.Types[TINT], lenAddr, len)
 	case t.IsSlice():
+		var len *ssa.Value
+		if skip&skipLen == 0 || skip&skipCap == 0 {
+			len = s.newValue1(ssa.OpSliceLen, types.Types[TINT], right)
+		}
 		if skip&skipLen == 0 {
-			len := s.newValue1(ssa.OpSliceLen, types.Types[TINT], right)
 			lenAddr := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.IntPtr, s.config.PtrSize, left)
 			s.store(types.Types[TINT], lenAddr, len)
 		}
 		if skip&skipCap == 0 {
-			cap := s.newValue1(ssa.OpSliceCap, types.Types[TINT], right)
+			ext := s.newValue1(ssa.OpSliceExt, types.Types[TINT], right)
+			cap := s.newValue2(s.ssaOp(OADD, types.Types[TINT]), types.Types[TINT], len, ext)
 			capAddr := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.IntPtr, 2*s.config.PtrSize, left)
 			s.store(types.Types[TINT], capAddr, cap)
 		}
@@ -4361,15 +4370,19 @@ func (s *state) storeArg(n *Node, t *types.Type, off int64) {
 // v may be a slice, string or pointer to an array.
 func (s *state) slice(v, i, j, k *ssa.Value, bounded bool) (p, l, c *ssa.Value) {
 	t := v.Type
-	var ptr, len, cap *ssa.Value
+	zero := s.constInt(types.Types[TINT], 0)
+	var ptr, len, cap, ext *ssa.Value
 	switch {
 	case t.IsSlice():
+		addOp := s.ssaOp(OADD, types.Types[TINT])
 		ptr = s.newValue1(ssa.OpSlicePtr, types.NewPtr(t.Elem()), v)
 		len = s.newValue1(ssa.OpSliceLen, types.Types[TINT], v)
-		cap = s.newValue1(ssa.OpSliceCap, types.Types[TINT], v)
+		ext = s.newValue1(ssa.OpSliceExt, types.Types[TINT], v)
+		cap = s.newValue2(addOp, types.Types[TINT], len, ext)
 	case t.IsString():
 		ptr = s.newValue1(ssa.OpStringPtr, types.NewPtr(types.Types[TUINT8]), v)
 		len = s.newValue1(ssa.OpStringLen, types.Types[TINT], v)
+		ext = zero
 		cap = len
 	case t.IsPtr():
 		if !t.Elem().IsArray() {
@@ -4378,6 +4391,7 @@ func (s *state) slice(v, i, j, k *ssa.Value, bounded bool) (p, l, c *ssa.Value) 
 		s.nilCheck(v)
 		ptr = s.newValue1(ssa.OpCopy, types.NewPtr(t.Elem().Elem()), v)
 		len = s.constInt(types.Types[TINT], t.Elem().NumElem())
+		ext = zero
 		cap = len
 	default:
 		s.Fatalf("bad type in slice %v\n", t)
@@ -4385,7 +4399,7 @@ func (s *state) slice(v, i, j, k *ssa.Value, bounded bool) (p, l, c *ssa.Value) 
 
 	// Set default values
 	if i == nil {
-		i = s.constInt(types.Types[TINT], 0)
+		i = zero
 	}
 	if j == nil {
 		j = len
@@ -4431,15 +4445,22 @@ func (s *state) slice(v, i, j, k *ssa.Value, bounded bool) (p, l, c *ssa.Value) 
 	// For strings the capacity of the result is unimportant. However,
 	// we use rcap to test if we've generated a zero-length slice.
 	// Use length of strings for that.
+	//
+	// rlen = j - i
 	rlen := s.newValue2(subOp, types.Types[TINT], j, i)
-	rcap := rlen
-	if j != k && !t.IsString() {
-		rcap = s.newValue2(subOp, types.Types[TINT], k, i)
+	rext := ext
+	if (j != len || k != cap) && !t.IsString() {
+		// rext = k - j
+		if j == k {
+			rext = zero
+		} else {
+			rext = s.newValue2(subOp, types.Types[TINT], k, j)
+		}
 	}
 
 	if (i.Op == ssa.OpConst64 || i.Op == ssa.OpConst32) && i.AuxInt == 0 {
 		// No pointer arithmetic necessary.
-		return ptr, rlen, rcap
+		return ptr, rlen, rext
 	}
 
 	// Calculate the base pointer (rptr) for the new slice.
@@ -4450,26 +4471,49 @@ func (s *state) slice(v, i, j, k *ssa.Value, bounded bool) (p, l, c *ssa.Value) 
 	// the pointer to nil because then we would create a nil slice or
 	// string.
 	//
-	//     rcap = k - i
+	//     rext = k - j
 	//     rlen = j - i
-	//     rptr = ptr + (mask(rcap) & (i * stride))
+	//     delta = i * stride
+	//     if unlikely(rlen == 0) {
+	//         delta &= mask(ext)
+	//     }
+	//     rptr = ptr + delta
 	//
-	// Where mask(x) is 0 if x==0 and -1 if x>0 and stride is the width
-	// of the element type.
+	// Where mask(x) is 0 if x==0 and -1 if x>0, stride is the width
+	// of the element type and delta is the number of bytes to offset
+	// ptr by.
 	stride := s.constInt(types.Types[TINT], ptr.Type.Elem().Width)
-
-	// The delta is the number of bytes to offset ptr by.
 	delta := s.newValue2(mulOp, types.Types[TINT], i, stride)
+	s.vars[&deltaVar] = delta
 
 	// If we're slicing to the point where the capacity is zero,
 	// zero out the delta.
-	mask := s.newValue1(ssa.OpSlicemask, types.Types[TINT], rcap)
-	delta = s.newValue2(andOp, types.Types[TINT], delta, mask)
+	//
+	//     if unlikely(rlen == 0) {
+	//         delta &= mask(ext)
+	//     }
+	cmp := s.newValue2(s.ssaOp(OEQ, types.Types[TINT]), types.Types[TBOOL], rlen, zero)
+	b := s.endBlock()
+	b.Kind = ssa.BlockIf
+	b.SetControl(cmp)
+	b.Likely = ssa.BranchUnlikely
+	bThen := s.f.NewBlock(ssa.BlockPlain)
+	bElse := s.f.NewBlock(ssa.BlockPlain)
+	b.AddEdgeTo(bThen)
+	s.startBlock(bThen)
+	mask := s.newValue1(ssa.OpSlicemask, types.Types[TINT], rext)
+	s.vars[&deltaVar] = s.newValue2(andOp, types.Types[TINT], delta, mask)
+	s.endBlock()
+	bThen.AddEdgeTo(bElse)
+	b.AddEdgeTo(bElse)
+	s.startBlock(bElse)
+	delta = s.variable(&deltaVar, types.Types[TINT])
+	delete(s.vars, &deltaVar)
 
 	// Compute rptr = ptr + delta.
 	rptr := s.newValue2(ssa.OpAddPtr, ptr.Type, ptr, delta)
 
-	return rptr, rlen, rcap
+	return rptr, rlen, rext
 }
 
 type u642fcvtTab struct {

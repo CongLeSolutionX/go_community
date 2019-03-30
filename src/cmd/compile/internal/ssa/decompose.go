@@ -144,16 +144,16 @@ func decomposeSlicePhi(v *Value) {
 
 	ptr := v.Block.NewValue0(v.Pos, OpPhi, ptrType)
 	len := v.Block.NewValue0(v.Pos, OpPhi, lenType)
-	cap := v.Block.NewValue0(v.Pos, OpPhi, lenType)
+	ext := v.Block.NewValue0(v.Pos, OpPhi, lenType)
 	for _, a := range v.Args {
 		ptr.AddArg(a.Block.NewValue1(v.Pos, OpSlicePtr, ptrType, a))
 		len.AddArg(a.Block.NewValue1(v.Pos, OpSliceLen, lenType, a))
-		cap.AddArg(a.Block.NewValue1(v.Pos, OpSliceCap, lenType, a))
+		ext.AddArg(a.Block.NewValue1(v.Pos, OpSliceExt, lenType, a))
 	}
-	v.reset(OpSliceMake)
+	v.reset(OpSliceMakeExt)
 	v.AddArg(ptr)
 	v.AddArg(len)
-	v.AddArg(cap)
+	v.AddArg(ext)
 }
 
 func decomposeInt64Phi(v *Value) {

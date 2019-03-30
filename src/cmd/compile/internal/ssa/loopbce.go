@@ -208,9 +208,9 @@ func findIndVar(f *Func) []indVar {
 			// To match in SSA:
 			// if  (a) min.Op == OpConst64(k0)
 			// and (b) k0 >= MININT + step
-			// and (c) max.Op == OpSubtract(Op{StringLen,SliceLen,SliceCap}, k)
-			// or  (c) max.Op == OpAdd(Op{StringLen,SliceLen,SliceCap}, -k)
-			// or  (c) max.Op == Op{StringLen,SliceLen,SliceCap}
+			// and (c) max.Op == OpSubtract(Op{StringLen,SliceLen}, k)
+			// or  (c) max.Op == OpAdd(Op{StringLen,SliceLen}, -k)
+			// or  (c) max.Op == Op{StringLen,SliceLen}
 			// and (d) if upto loop, require indVarMaxInc && step <= k or !indVarMaxInc && step-1 <= k
 
 			if min.Op == OpConst64 && min.AuxInt >= step+math.MinInt64 {
@@ -231,7 +231,7 @@ func findIndVar(f *Func) []indVar {
 					}
 				}
 				switch knn.Op {
-				case OpSliceLen, OpStringLen, OpSliceCap:
+				case OpSliceLen, OpStringLen:
 				default:
 					knn = nil
 				}

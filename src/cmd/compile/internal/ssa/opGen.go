@@ -2442,9 +2442,10 @@ const (
 	OpPtrIndex
 	OpOffPtr
 	OpSliceMake
+	OpSliceMakeExt
 	OpSlicePtr
 	OpSliceLen
-	OpSliceCap
+	OpSliceExt
 	OpComplexMake
 	OpComplexReal
 	OpComplexImag
@@ -30512,6 +30513,11 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
+		name:    "SliceMakeExt",
+		argLen:  3,
+		generic: true,
+	},
+	{
 		name:    "SlicePtr",
 		argLen:  1,
 		generic: true,
@@ -30522,7 +30528,7 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
-		name:    "SliceCap",
+		name:    "SliceExt",
 		argLen:  1,
 		generic: true,
 	},
