@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0c0d366d_ad0e3866",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T17:56:33Z",
+      "side": 1,
+      "message": "Presumably :) This was the name for a generated global variable, so I don\u0027t think a keyword can be valid. The old cover would have failed with a somewhat confusing error when building, while the new cover will error immediately here.",
+      "parentUuid": "4b3754ec_7468c9c4",
+      "range": {
+        "startLine": 119,
+        "startChar": 28,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ca45d5d_7e91d0ec",
         "filename": "src/go/token/token.go",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0835524b_9adbe25e",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T17:56:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ca45d5d_7e91d0ec",
+      "range": {
+        "startLine": 314,
+        "startChar": 53,
+        "endLine": 314,
+        "endChar": 59
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0bf3ac38_6e6f52e3",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T17:56:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1aa7798_e8d75388",
+      "range": {
+        "startLine": 317,
+        "startChar": 47,
+        "endLine": 317,
+        "endChar": 50
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a41ab6d_f5e103f0",
         "filename": "src/go/token/token.go",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "221ddf55_e1b426c2",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T17:56:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a41ab6d_f5e103f0",
+      "range": {
+        "startLine": 318,
+        "startChar": 3,
+        "endLine": 318,
+        "endChar": 6
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25cbb429_63a9c674",
         "filename": "src/go/token/token.go",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2019-03-25T17:37:57Z",
       "side": 1,
       "message": "I am not totally convinced that IsIdentifier should exclude keywords: The reason being is that it\u0027s easy to get this effect by doing: IsIdentifier(name) \u0026\u0026 !IsKeyword(name) (with an IsIdentifier that doesn\u0027t exclude keywords). On the other hand, if you just want identifiers (incl. keywords) you\u0027d have to write now: IsIdentifier(name) || IsKeyword(name), which is fine, but which would do the keyword-test twice, internally. That is, I\u0027d expose the more fundamental tests, rather than a combined test.\n\nBut maybe this latter test doesn\u0027t occur in practice. Commments?",
+      "range": {
+        "startLine": 331,
+        "startChar": 24,
+        "endLine": 331,
+        "endChar": 31
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff61a0ca_e7e7d868",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T17:56:33Z",
+      "side": 1,
+      "message": "That\u0027s a good point. I agree that your method would be cleaner, but part of me worries that users would simply use IsIdentifier without remembering about !IsKeyword. We could solve that with proper docs, perhaps.\n\nThe reason I ended up with these semantics is that I understand keywords *not* to be valid identifiers. The spec says:\n\n\u003e The following keywords are reserved and may not be used as identifiers.\n\nSo my reading of that is that keywords aren\u0027t identifiers. Unless they are, they just cannot be used as identifiers?\n\nThe technicalities confuse me a little. I think, in practice, users will want to know if they can use a string as an identifier - and a keyword shouldn\u0027t pass that test.",
+      "parentUuid": "25cbb429_63a9c674",
       "range": {
         "startLine": 331,
         "startChar": 24,
@@ -134,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "c3319de7_0619de2c",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T17:56:33Z",
+      "side": 1,
+      "message": "Done. Also done the \"valid\" bit in IsExported.",
+      "parentUuid": "c056537e_7d4ce7bf",
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55ec71f8_e9bf0c01",
         "filename": "src/go/token/token.go",
         "patchSetId": 4
@@ -154,6 +292,30 @@
       "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed1a7071_d54b74a4",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T17:56:33Z",
+      "side": 1,
+      "message": "Hmm, I was putting this edge case here for clarity, not as a premature optimization. I\u0027ll move it down.",
+      "parentUuid": "55ec71f8_e9bf0c01",
+      "range": {
+        "startLine": 335,
+        "startChar": 4,
+        "endLine": 335,
+        "endChar": 8
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "c97ffceb_b5d208d6",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T17:56:33Z",
+      "side": 1,
+      "message": "I personally think the older patchset is easier to read, as its logic follows exactly what the spec says. The recursively-negated expression is harder to follow for me, but at least we won\u0027t have to touch it often.\n\nDone.",
+      "parentUuid": "6f160fce_748958e6",
+      "range": {
+        "startLine": 340,
+        "startChar": 3,
+        "endLine": 340,
+        "endChar": 11
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ba1eedc_7bcb8fa5",
         "filename": "src/go/token/token.go",
         "patchSetId": 4
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "338a3119_e6b0735d",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T17:56:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ba1eedc_7bcb8fa5",
+      "range": {
+        "startLine": 344,
+        "startChar": 9,
+        "endLine": 344,
+        "endChar": 18
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81dc917f_5439cf43",
         "filename": "src/go/token/token_test.go",
         "patchSetId": 4
@@ -223,6 +433,30 @@
       "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40ec9079_03673274",
+        "filename": "src/go/token/token_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T17:56:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81dc917f_5439cf43",
+      "range": {
+        "startLine": 29,
+        "startChar": 30,
+        "endLine": 29,
+        "endChar": 31
+      },
+      "revId": "6f31aecd760686197a0251ecf4124555cb68f158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
