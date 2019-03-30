@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b38d64ec_ff98b3da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T23:00:59Z",
+      "side": 1,
+      "message": "nit: when referring to functions, don\u0027t include () as if it was a call; you can just refer to the name. You\u0027re even saying \"a call to foo()\", which seems to imply foo()().",
+      "revId": "4b14f2125114f13e7e73c51df59434ac596e764f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e00e0dd_ba4e513d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-03-30T23:00:59Z",
+      "side": 1,
+      "message": "compilecmp is the name of a tool, don\u0027t capitalize it. Also, I\u0027d probably make this line a proper sentence; otherwise it reads like a note that shouldn\u0027t be in the commit message.",
+      "revId": "4b14f2125114f13e7e73c51df59434ac596e764f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
