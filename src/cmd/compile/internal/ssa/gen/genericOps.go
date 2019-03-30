@@ -437,9 +437,11 @@ var genericOps = []opData{
 
 	// Slices
 	{name: "SliceMake", argLength: 3},                // arg0=ptr, arg1=len, arg2=cap
+	{name: "SliceMakeExt", argLength: 3},             // arg0=ptr, arg1=len, arg2=cap-len
 	{name: "SlicePtr", argLength: 1, typ: "BytePtr"}, // ptr(arg0)
 	{name: "SliceLen", argLength: 1},                 // len(arg0)
 	{name: "SliceCap", argLength: 1},                 // cap(arg0)
+	{name: "SliceExt", argLength: 1},                 // cap(arg0) - len(arg0)
 
 	// Complex (part/whole)
 	{name: "ComplexMake", argLength: 2}, // arg0=real, arg1=imag

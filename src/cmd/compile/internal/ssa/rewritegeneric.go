@@ -403,8 +403,12 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpSignExt8to64_0(v)
 	case OpSliceCap:
 		return rewriteValuegeneric_OpSliceCap_0(v)
+	case OpSliceExt:
+		return rewriteValuegeneric_OpSliceExt_0(v)
 	case OpSliceLen:
 		return rewriteValuegeneric_OpSliceLen_0(v)
+	case OpSliceMake:
+		return rewriteValuegeneric_OpSliceMake_0(v)
 	case OpSlicePtr:
 		return rewriteValuegeneric_OpSlicePtr_0(v)
 	case OpSlicemask:
@@ -6799,12 +6803,12 @@ func rewriteValuegeneric_OpConstSlice_0(v *Value) bool {
 	typ := &b.Func.Config.Types
 	// match: (ConstSlice)
 	// cond: config.PtrSize == 4
-	// result: (SliceMake (ConstNil <v.Type.Elem().PtrTo()>) (Const32 <typ.Int> [0]) (Const32 <typ.Int> [0]))
+	// result: (SliceMakeExt (ConstNil <v.Type.Elem().PtrTo()>) (Const32 <typ.Int> [0]) (Const32 <typ.Int> [0]))
 	for {
 		if !(config.PtrSize == 4) {
 			break
 		}
-		v.reset(OpSliceMake)
+		v.reset(OpSliceMakeExt)
 		v0 := b.NewValue0(v.Pos, OpConstNil, v.Type.Elem().PtrTo())
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpConst32, typ.Int)
@@ -6817,12 +6821,12 @@ func rewriteValuegeneric_OpConstSlice_0(v *Value) bool {
 	}
 	// match: (ConstSlice)
 	// cond: config.PtrSize == 8
-	// result: (SliceMake (ConstNil <v.Type.Elem().PtrTo()>) (Const64 <typ.Int> [0]) (Const64 <typ.Int> [0]))
+	// result: (SliceMakeExt (ConstNil <v.Type.Elem().PtrTo()>) (Const64 <typ.Int> [0]) (Const64 <typ.Int> [0]))
 	for {
 		if !(config.PtrSize == 8) {
 			break
 		}
-		v.reset(OpSliceMake)
+		v.reset(OpSliceMakeExt)
 		v0 := b.NewValue0(v.Pos, OpConstNil, v.Type.Elem().PtrTo())
 		v.AddArg(v0)
 		v1 := b.NewValue0(v.Pos, OpConst64, typ.Int)
@@ -26840,12 +26844,71 @@ func rewriteValuegeneric_OpSignExt8to64_0(v *Value) bool {
 	return false
 }
 func rewriteValuegeneric_OpSliceCap_0(v *Value) bool {
-	// match: (SliceCap (SliceMake _ _ (Const64 <t> [c])))
+	// match: (SliceCap (SliceMakeExt _ (Const64 <t> [c]) (Const64 <t> [d])))
+	// cond:
+	// result: (Const64 <t> [c+d])
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpSliceMakeExt {
+			break
+		}
+		_ = v_0.Args[2]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpConst64 {
+			break
+		}
+		t := v_0_1.Type
+		c := v_0_1.AuxInt
+		v_0_2 := v_0.Args[2]
+		if v_0_2.Op != OpConst64 {
+			break
+		}
+		if v_0_2.Type != t {
+			break
+		}
+		d := v_0_2.AuxInt
+		v.reset(OpConst64)
+		v.Type = t
+		v.AuxInt = c + d
+		return true
+	}
+	// match: (SliceCap (SliceMakeExt _ (Const32 <t> [c]) (Const32 <t> [d])))
+	// cond:
+	// result: (Const32 <t> [c+d])
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpSliceMakeExt {
+			break
+		}
+		_ = v_0.Args[2]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpConst32 {
+			break
+		}
+		t := v_0_1.Type
+		c := v_0_1.AuxInt
+		v_0_2 := v_0.Args[2]
+		if v_0_2.Op != OpConst32 {
+			break
+		}
+		if v_0_2.Type != t {
+			break
+		}
+		d := v_0_2.AuxInt
+		v.reset(OpConst32)
+		v.Type = t
+		v.AuxInt = c + d
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpSliceExt_0(v *Value) bool {
+	// match: (SliceExt (SliceMakeExt _ _ (Const64 <t> [c])))
 	// cond:
 	// result: (Const64 <t> [c])
 	for {
 		v_0 := v.Args[0]
-		if v_0.Op != OpSliceMake {
+		if v_0.Op != OpSliceMakeExt {
 			break
 		}
 		_ = v_0.Args[2]
@@ -26860,12 +26923,12 @@ func rewriteValuegeneric_OpSliceCap_0(v *Value) bool {
 		v.AuxInt = c
 		return true
 	}
-	// match: (SliceCap (SliceMake _ _ (Const32 <t> [c])))
+	// match: (SliceExt (SliceMakeExt _ _ (Const32 <t> [c])))
 	// cond:
 	// result: (Const32 <t> [c])
 	for {
 		v_0 := v.Args[0]
-		if v_0.Op != OpSliceMake {
+		if v_0.Op != OpSliceMakeExt {
 			break
 		}
 		_ = v_0.Args[2]
@@ -26880,51 +26943,33 @@ func rewriteValuegeneric_OpSliceCap_0(v *Value) bool {
 		v.AuxInt = c
 		return true
 	}
-	// match: (SliceCap (SliceMake _ _ (SliceCap x)))
+	// match: (SliceExt (SliceMakeExt _ _ (SliceExt x)))
 	// cond:
-	// result: (SliceCap x)
+	// result: (SliceExt x)
 	for {
 		v_0 := v.Args[0]
-		if v_0.Op != OpSliceMake {
+		if v_0.Op != OpSliceMakeExt {
 			break
 		}
 		_ = v_0.Args[2]
 		v_0_2 := v_0.Args[2]
-		if v_0_2.Op != OpSliceCap {
+		if v_0_2.Op != OpSliceExt {
 			break
 		}
 		x := v_0_2.Args[0]
-		v.reset(OpSliceCap)
-		v.AddArg(x)
-		return true
-	}
-	// match: (SliceCap (SliceMake _ _ (SliceLen x)))
-	// cond:
-	// result: (SliceLen x)
-	for {
-		v_0 := v.Args[0]
-		if v_0.Op != OpSliceMake {
-			break
-		}
-		_ = v_0.Args[2]
-		v_0_2 := v_0.Args[2]
-		if v_0_2.Op != OpSliceLen {
-			break
-		}
-		x := v_0_2.Args[0]
-		v.reset(OpSliceLen)
+		v.reset(OpSliceExt)
 		v.AddArg(x)
 		return true
 	}
 	return false
 }
 func rewriteValuegeneric_OpSliceLen_0(v *Value) bool {
-	// match: (SliceLen (SliceMake _ (Const64 <t> [c]) _))
+	// match: (SliceLen (SliceMakeExt _ (Const64 <t> [c]) _))
 	// cond:
 	// result: (Const64 <t> [c])
 	for {
 		v_0 := v.Args[0]
-		if v_0.Op != OpSliceMake {
+		if v_0.Op != OpSliceMakeExt {
 			break
 		}
 		_ = v_0.Args[2]
@@ -26939,12 +26984,12 @@ func rewriteValuegeneric_OpSliceLen_0(v *Value) bool {
 		v.AuxInt = c
 		return true
 	}
-	// match: (SliceLen (SliceMake _ (Const32 <t> [c]) _))
+	// match: (SliceLen (SliceMakeExt _ (Const32 <t> [c]) _))
 	// cond:
 	// result: (Const32 <t> [c])
 	for {
 		v_0 := v.Args[0]
-		if v_0.Op != OpSliceMake {
+		if v_0.Op != OpSliceMakeExt {
 			break
 		}
 		_ = v_0.Args[2]
@@ -26959,12 +27004,12 @@ func rewriteValuegeneric_OpSliceLen_0(v *Value) bool {
 		v.AuxInt = c
 		return true
 	}
-	// match: (SliceLen (SliceMake _ (SliceLen x) _))
+	// match: (SliceLen (SliceMakeExt _ (SliceLen x) _))
 	// cond:
 	// result: (SliceLen x)
 	for {
 		v_0 := v.Args[0]
-		if v_0.Op != OpSliceMake {
+		if v_0.Op != OpSliceMakeExt {
 			break
 		}
 		_ = v_0.Args[2]
@@ -26979,13 +27024,57 @@ func rewriteValuegeneric_OpSliceLen_0(v *Value) bool {
 	}
 	return false
 }
+func rewriteValuegeneric_OpSliceMake_0(v *Value) bool {
+	b := v.Block
+	config := b.Func.Config
+	typ := &b.Func.Config.Types
+	// match: (SliceMake ptr len cap)
+	// cond: config.PtrSize == 4
+	// result: (SliceMakeExt ptr len (Sub32 <typ.Int> cap len))
+	for {
+		cap := v.Args[2]
+		ptr := v.Args[0]
+		len := v.Args[1]
+		if !(config.PtrSize == 4) {
+			break
+		}
+		v.reset(OpSliceMakeExt)
+		v.AddArg(ptr)
+		v.AddArg(len)
+		v0 := b.NewValue0(v.Pos, OpSub32, typ.Int)
+		v0.AddArg(cap)
+		v0.AddArg(len)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SliceMake ptr len cap)
+	// cond: config.PtrSize == 8
+	// result: (SliceMakeExt ptr len (Sub64 <typ.Int> cap len))
+	for {
+		cap := v.Args[2]
+		ptr := v.Args[0]
+		len := v.Args[1]
+		if !(config.PtrSize == 8) {
+			break
+		}
+		v.reset(OpSliceMakeExt)
+		v.AddArg(ptr)
+		v.AddArg(len)
+		v0 := b.NewValue0(v.Pos, OpSub64, typ.Int)
+		v0.AddArg(cap)
+		v0.AddArg(len)
+		v.AddArg(v0)
+		return true
+	}
+	return false
+}
 func rewriteValuegeneric_OpSlicePtr_0(v *Value) bool {
-	// match: (SlicePtr (SliceMake (SlicePtr x) _ _))
+	// match: (SlicePtr (SliceMakeExt (SlicePtr x) _ _))
 	// cond:
 	// result: (SlicePtr x)
 	for {
 		v_0 := v.Args[0]
-		if v_0.Op != OpSliceMake {
+		if v_0.Op != OpSliceMakeExt {
 			break
 		}
 		_ = v_0.Args[2]
