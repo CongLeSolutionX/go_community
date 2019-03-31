@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c800bb3_a9ffb204",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4388,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-31T23:53:08Z",
+      "side": 1,
+      "message": "Why not keep s.constInt(types.Types[TINT], 0) here? Seems clearer to me; I had to go check what else zeroVal does in order to review this CL.",
+      "revId": "57cd96e978e4fe1ad517b7823a2ee15e776b1cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8fc2aa6_8bfbf9cc",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4430,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-31T23:53:08Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t make much sense in context. I don\u0027t see anything about strings in the immediately following code. Perhaps something like:\n\n// For strings, we want rcap\u003d\u003drlen, for use in masking, even though rcap is otherwise unused.\n\nAnd then explain why the following code does that. I don\u0027t see why j\u003d\u003dk for all strings. Maybe I\u0027m missing something, or maybe this is supposed to be\n\nrcap :\u003d rlen\nif t.IsString() || j !\u003d k {\n  rcap \u003d ...\n}",
+      "revId": "57cd96e978e4fe1ad517b7823a2ee15e776b1cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f71ba3f_c787b059",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4465,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-03-31T23:53:08Z",
+      "side": 1,
+      "message": "Break this apart into two lines:\n\nrptr :\u003d s.newValue2(...)\nreturn rptr, rlen, rcap\n\nIt then matches the \"rptr \u003d\" line in the comment above, and the structure of the returned values is much easier to see.",
+      "revId": "57cd96e978e4fe1ad517b7823a2ee15e776b1cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
