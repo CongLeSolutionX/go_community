@@ -41,6 +41,11 @@ const (
 	// _Grunning means this goroutine may execute user code. The
 	// stack is owned by this goroutine. It is not on a run queue.
 	// It is assigned an M and a P.
+	//
+	// After a goroutine is switched out of _Grunning for
+	// de-scheduling purposes but before making it available for
+	// scheduling, the runtime must call drainPreempt. This
+	// doesn't apply to temporary transitions out of _Grunning.
 	_Grunning // 2
 
 	// _Gsyscall means this goroutine is executing a system call.

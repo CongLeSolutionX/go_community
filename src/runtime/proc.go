@@ -859,6 +859,9 @@ loop:
 	for i := 0; !gp.gcscandone; i++ {
 		switch s := readgstatus(gp); s {
 		default:
+			if s&_Gscan != 0 {
+				continue
+			}
 			dumpgstatus(gp)
 			throw("stopg: invalid status")
 
@@ -2575,6 +2578,7 @@ func park_m(gp *g) {
 	}
 
 	casgstatus(gp, _Grunning, _Gwaiting)
+	drainPreempt(gp)
 	dropg()
 
 	if _g_.m.waitunlockf != nil {
@@ -2673,6 +2677,17 @@ func goexit0(gp *g) {
 	casgstatus(gp, _Grunning, _Gdead)
 	if isSystemGoroutine(gp, false) {
 		atomic.Xadd(&sched.ngsys, -1)
+	}
+	if gp.preempt != 0 {
+		// Set _Gscan to serialize preemption draining.
+		for !castogscanstatus(gp, _Gdead, _Gdead|_Gscan) {
+		}
+		drainPreemptLocked(gp)
+		gp.clearPreempt(preemptSched)
+		casfrom_Gscanstatus(gp, _Gdead|_Gscan, _Gdead)
+		// Note that gp.preempt may still get set concurrently
+		// at this point, but then it's the setter's
+		// responsibility to drain it.
 	}
 	gp.m = nil
 	locked := gp.lockedm != 0
@@ -2816,6 +2831,29 @@ func reentersyscall(pc, sp uintptr) {
 		})
 	}
 
+	if _g_.preempt != 0 {
+		systemstack(func() {
+			// This is unfortunate. We can't call
+			// drainPreempt directly here. We need to hide
+			// it from the compiler or it will think most
+			// of stack scanning and much of the scheduler
+			// is recursive, which will disable inlining
+			// and a lot of escape analysis. The cycle is
+			// (roughly) drainPreempt -> scanstack ->
+			// gentraceback -> tracebackCgoContext ->
+			// cgocall -> entersyscall -> drainPreempt.
+			//
+			// TODO(austin): Undo this hack. One solution
+			// would be to make traceback more modular so
+			// it's statically obvious that scanstack
+			// doesn't use the cgo symbolizer.
+			var f func(*g)
+			f = drainPreempt
+			f(_g_)
+		})
+		save(pc, sp)
+	}
+
 	if trace.enabled {
 		systemstack(traceGoSysCall)
 		// systemstack itself clobbers g.sched.{pc,sp} and we might
@@ -2917,6 +2955,11 @@ func entersyscallblock() {
 			print("entersyscallblock inconsistent ", hex(sp), " ", hex(_g_.sched.sp), " ", hex(_g_.syscallsp), " [", hex(_g_.stack.lo), ",", hex(_g_.stack.hi), "]\n")
 			throw("entersyscallblock")
 		})
+	}
+
+	if _g_.preempt != 0 {
+		systemstack(func() { drainPreempt(_g_) })
+		save(pc, sp)
 	}
 
 	systemstack(entersyscallblock_handoff)

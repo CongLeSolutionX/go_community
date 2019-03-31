@@ -2,6 +2,49 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// Goroutine preemption
+//
+// A goroutine can be preempted at any safe-point. Currently, there
+// are a few categories of safe-points:
+//
+// 1. A blocked safe-point occurs for the duration that a goroutine is
+//    descheduled, blocked on synchronization, or in a system call.
+//
+// 2. Synchronous safe-points occur when a running goroutine checks
+//    for a preemption request.
+//
+// At both blocked and synchronous safe-points, a goroutine's CPU
+// state is minimal and the garbage collector has complete information
+// about its entire stack. This makes it possible to deschedule a
+// goroutine with minimal space, and to precisely scan a goroutine's
+// stack.
+//
+// Synchronous safe-points are implemented by overloading the stack
+// bound check in function prologues. To preempt a goroutine at the
+// next synchronous safe-point, the runtime poisons the goroutine's
+// stack bound to a value that will cause the next stack bound check
+// to fail and enter the stack growth implementation, which will
+// detect that it was actually a preemption and redirect to preemption
+// handling.
+//
+// A preemption task is injected into a goroutine by setting the
+// appropriate bit of the g.preempt field. These tasks may be drained
+// by the goroutine itself or by another goroutine on its behalf
+// (e.g., if the goroutine is at a blocked safe-point). In all cases,
+// draining is protected by locking the goroutine's _Gscan bit.
+//
+// Because transitions between kinds of safe-points can happen
+// concurrently and asynchronously, multiple mechanisms compete to
+// perform preemption tasks promptly. The injecting goroutine will
+// drain the tasks if the target goroutine is at a blocked safe-point,
+// or else poison the stack if the target is running so it drains its
+// own tasks at the next synchronous safe-point. But since a goroutine
+// may transition from running to blocked without a synchronous
+// safe-point, a goroutine will also drain its own preemption tasks
+// after any transition to a blocked safe-point. This ensures that at
+// least one of the injecting goroutine or the target goroutine will
+// attempt to drain preemption tasks.
+
 package runtime
 
 import "runtime/internal/atomic"
@@ -67,20 +110,40 @@ func (gp *g) resetStackGuard() {
 
 // drainPreempt processes and clears preemption tasks for gp.
 //
-// gp must be in status _Grunnable.
-//
-//go:systemstack
+// gp must be in status _Grunnable, _Gwaiting, or _Gsyscall.
 func drainPreempt(gp *g) {
-	// Synchronize with scang.
-	casgstatus(gp, _Grunnable, _Gwaiting)
-	if gp.preempt&preemptScan != 0 {
-		for !castogscanstatus(gp, _Gwaiting, _Gscanwaiting) {
-			// Likely to be racing with the GC as
-			// it sees a _Gwaiting and does the
-			// stack scan. If so, gcworkdone will
-			// be set and gcphasework will simply
-			// return.
+	if gp.preempt&preemptScan == 0 {
+		return
+	}
+
+	// Make fast-path inlinable.
+	drainPreempt1(gp)
+}
+
+func drainPreempt1(gp *g) {
+	// Take ownership of the G's stack and serialize preemption
+	// request handling by acquiring the _Gscan lock (which is
+	// effectively a spin-lock).
+	s := readgstatus(gp) &^ _Gscan // Mask out the lock bit
+	switch s {
+	case _Grunnable, _Gwaiting, _Gsyscall:
+		// Spin to set _Gscan.
+		for !castogscanstatus(gp, s, s|_Gscan) {
 		}
+
+	default:
+		dumpgstatus(gp)
+		throw("invalid G status")
+	}
+
+	drainPreemptLocked(gp)
+
+	casfrom_Gscanstatus(gp, s|_Gscan, s)
+}
+
+//go:systemstack
+func drainPreemptLocked(gp *g) {
+	if gp.preempt&preemptScan != 0 {
 		gp.clearPreempt(preemptScan)
 		if !gp.gcscandone {
 			// gcw is safe because we're on the
@@ -89,7 +152,5 @@ func drainPreempt(gp *g) {
 			scanstack(gp, gcw)
 			gp.gcscandone = true
 		}
-		casfrom_Gscanstatus(gp, _Gscanwaiting, _Gwaiting)
 	}
-	casgstatus(gp, _Gwaiting, _Grunnable)
 }

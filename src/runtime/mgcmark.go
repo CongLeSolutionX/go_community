@@ -666,16 +666,19 @@ func scanstack(gp *g, gcw *gcWork) {
 		return
 	}
 
-	if readgstatus(gp)&_Gscan == 0 {
+	s := readgstatus(gp)
+	if s&_Gscan == 0 && s != _Gdead {
 		print("runtime:scanstack: gp=", gp, ", goid=", gp.goid, ", gp->atomicstatus=", hex(readgstatus(gp)), "\n")
 		throw("scanstack - bad status")
 	}
 
-	switch readgstatus(gp) &^ _Gscan {
+	switch s &^ _Gscan {
 	default:
 		print("runtime: gp=", gp, ", goid=", gp.goid, ", gp->atomicstatus=", readgstatus(gp), "\n")
 		throw("mark - bad status")
 	case _Gdead:
+		// Whether or not the _Gscan bit is set, we don't care
+		// about scanning a dead stack.
 		return
 	case _Grunning:
 		print("runtime: gp=", gp, ", goid=", gp.goid, ", gp->atomicstatus=", readgstatus(gp), "\n")
