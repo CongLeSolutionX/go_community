@@ -16,6 +16,24 @@
       "revId": "2d41444ad0c1540f064695a9a4678dda6c0d2a51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07a3e1a8_b203794b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 30765
+      },
+      "writtenOn": "2019-03-31T21:24:19Z",
+      "side": 1,
+      "message": "This is cpu deltas. Given that this is already merged, should I update the msg here? Should I also add alloc deltas and object stats?",
+      "parentUuid": "9e61fa93_7aed19f9",
+      "revId": "2d41444ad0c1540f064695a9a4678dda6c0d2a51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
