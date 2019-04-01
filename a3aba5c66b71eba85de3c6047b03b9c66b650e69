@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b753169c_b001f532",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-01T14:52:02Z",
+      "side": 1,
+      "message": "why is this punctuation different than the other package\u0027s IsExported? It\u0027s the same wording. I\u0027d make them the same. This one looks wrong to me at least.",
+      "range": {
+        "startLine": 314,
+        "startChar": 63,
+        "endLine": 315,
+        "endChar": 36
+      },
+      "revId": "a3aba5c66b71eba85de3c6047b03b9c66b650e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
