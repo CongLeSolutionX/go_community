@@ -16,6 +16,24 @@
       "revId": "6ec112a9fee7b76820f5da84c2a2715f271be4a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1144483_958dd439",
+        "filename": "misc/cgo/testcarchive/testdata/main5.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-04-01T07:12:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d63007b_20232abd",
+      "revId": "6ec112a9fee7b76820f5da84c2a2715f271be4a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
