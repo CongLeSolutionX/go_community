@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d1d071a7_5f24c2e6",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4388,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-04-01T08:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c800bb3_a9ffb204",
+      "revId": "57cd96e978e4fe1ad517b7823a2ee15e776b1cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8fc2aa6_8bfbf9cc",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-31T23:53:08Z",
       "side": 1,
       "message": "This comment doesn\u0027t make much sense in context. I don\u0027t see anything about strings in the immediately following code. Perhaps something like:\n\n// For strings, we want rcap\u003d\u003drlen, for use in masking, even though rcap is otherwise unused.\n\nAnd then explain why the following code does that. I don\u0027t see why j\u003d\u003dk for all strings. Maybe I\u0027m missing something, or maybe this is supposed to be\n\nrcap :\u003d rlen\nif t.IsString() || j !\u003d k {\n  rcap \u003d ...\n}",
+      "revId": "57cd96e978e4fe1ad517b7823a2ee15e776b1cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0536c0da_a5ccd66c",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4430,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-04-01T08:43:37Z",
+      "side": 1,
+      "message": "Hmm, I think you\u0027re right. j and k should have the same value for strings, but the extensions in the bounds check could obscure that fact.\n\nI\u0027ve re-added the original comment and the t.IsSlice() check. I think that makes this a bit clearer.",
+      "parentUuid": "d8fc2aa6_8bfbf9cc",
       "revId": "57cd96e978e4fe1ad517b7823a2ee15e776b1cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "57cd96e978e4fe1ad517b7823a2ee15e776b1cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e05ca425_59969a87",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4465,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-04-01T08:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f71ba3f_c787b059",
+      "revId": "57cd96e978e4fe1ad517b7823a2ee15e776b1cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
