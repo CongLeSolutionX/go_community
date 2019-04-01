@@ -11,7 +11,6 @@ import (
 	"io/ioutil"
 	"strconv"
 	"strings"
-	"sync"
 )
 
 // A Reader implements convenience methods for reading requests
@@ -28,7 +27,6 @@ type Reader struct {
 // should be reading from an io.LimitReader or similar Reader to bound
 // the size of responses.
 func NewReader(r *bufio.Reader) *Reader {
-	commonHeaderOnce.Do(initCommonHeader)
 	return &Reader{R: r}
 }
 
@@ -573,8 +571,6 @@ func (r *Reader) upcomingHeaderNewlines() (n int) {
 // If s contains a space or invalid header field bytes, it is
 // returned without modifications.
 func CanonicalMIMEHeaderKey(s string) string {
-	commonHeaderOnce.Do(initCommonHeader)
-
 	// Quick check for canonical encoding.
 	upper := true
 	for i := 0; i < len(s); i++ {
@@ -646,55 +642,46 @@ func canonicalMIMEHeaderKey(a []byte) string {
 }
 
 // commonHeader interns common header strings.
-var commonHeader map[string]string
-
-var commonHeaderOnce sync.Once
-
-func initCommonHeader() {
-	commonHeader = make(map[string]string)
-	for _, v := range []string{
-		"Accept",
-		"Accept-Charset",
-		"Accept-Encoding",
-		"Accept-Language",
-		"Accept-Ranges",
-		"Cache-Control",
-		"Cc",
-		"Connection",
-		"Content-Id",
-		"Content-Language",
-		"Content-Length",
-		"Content-Transfer-Encoding",
-		"Content-Type",
-		"Cookie",
-		"Date",
-		"Dkim-Signature",
-		"Etag",
-		"Expires",
-		"From",
-		"Host",
-		"If-Modified-Since",
-		"If-None-Match",
-		"In-Reply-To",
-		"Last-Modified",
-		"Location",
-		"Message-Id",
-		"Mime-Version",
-		"Pragma",
-		"Received",
-		"Return-Path",
-		"Server",
-		"Set-Cookie",
-		"Subject",
-		"To",
-		"User-Agent",
-		"Via",
-		"X-Forwarded-For",
-		"X-Imforwards",
-		"X-Powered-By",
-	} {
-		commonHeader[v] = v
-	}
+var commonHeader = map[string]string{
+	"Accept":                    "Accept",
+	"Accept-Charset":            "Accept-Charset",
+	"Accept-Encoding":           "Accept-Encoding",
+	"Accept-Language":           "Accept-Language",
+	"Accept-Ranges":             "Accept-Ranges",
+	"Cache-Control":             "Cache-Control",
+	"Cc":                        "Cc",
+	"Connection":                "Connection",
+	"Content-Id":                "Content-Id",
+	"Content-Language":          "Content-Language",
+	"Content-Length":            "Content-Length",
+	"Content-Transfer-Encoding": "Content-Transfer-Encoding",
+	"Content-Type":              "Content-Type",
+	"Cookie":                    "Cookie",
+	"Date":                      "Date",
+	"Dkim-Signature":            "Dkim-Signature",
+	"Etag":                      "Etag",
+	"Expires":                   "Expires",
+	"From":                      "From",
+	"Host":                      "Host",
+	"If-Modified-Since":         "If-Modified-Since",
+	"If-None-Match":             "If-None-Match",
+	"In-Reply-To":               "In-Reply-To",
+	"Last-Modified":             "Last-Modified",
+	"Location":                  "Location",
+	"Message-Id":                "Message-Id",
+	"Mime-Version":              "Mime-Version",
+	"Pragma":                    "Pragma",
+	"Received":                  "Received",
+	"Return-Path":               "Return-Path",
+	"Server":                    "Server",
+	"Set-Cookie":                "Set-Cookie",
+	"Subject":                   "Subject",
+	"To":                        "To",
+	"User-Agent":                "User-Agent",
+	"Via":                       "Via",
+	"X-Forwarded-For":           "X-Forwarded-For",
+	"X-Imforwards":              "X-Imforwards",
+	"X-Powered-By":              "X-Powered-By",
 }
 
 // isTokenTable is a copy of net/http/lex.go's isTokenTable.
