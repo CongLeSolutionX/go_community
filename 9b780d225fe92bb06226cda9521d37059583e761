@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b90eba6f_75b47752",
+        "filename": "misc/cgo/testcarchive/testdata/main5.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-02T01:48:54Z",
+      "side": 1,
+      "message": "Don\u0027t make this static.  There\u0027s no need to, and it removes another way that the compiler optimizations can mess up the test.",
+      "revId": "9b780d225fe92bb06226cda9521d37059583e761",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
