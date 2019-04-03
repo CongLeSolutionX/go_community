@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2cc99d59_c701815d",
+        "filename": "src/syscall/syscall_aix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-04-03T14:18:01Z",
+      "side": 1,
+      "message": "s/used/use/",
+      "range": {
+        "startLine": 229,
+        "startChar": 15,
+        "endLine": 229,
+        "endChar": 19
+      },
+      "revId": "d41e1fb8fdf2d4f8532147e110948f1420ffa5ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0902a646_5759df1b",
+        "filename": "src/syscall/syscall_aix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-04-03T14:18:01Z",
+      "side": 1,
+      "message": "I\u0027d replace this by \"nrecvmsg and nsendmsg must be used\"",
+      "range": {
+        "startLine": 230,
+        "startChar": 3,
+        "endLine": 230,
+        "endChar": 48
+      },
+      "revId": "d41e1fb8fdf2d4f8532147e110948f1420ffa5ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
