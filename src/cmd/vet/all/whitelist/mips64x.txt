@@ -1,5 +1,7 @@
 // mips64-specific vet whitelist. See readme.txt for details.
 
 runtime/duff_mips64x.s: [GOARCH] duffzero: function duffzero missing Go declaration
+runtime/sys_linux_mips64x.s: [GOARCH] pipe: invalid MOVV of r+0(FP); int32 is 4-byte value
+runtime/sys_linux_mips64x.s: [GOARCH] pipe2: invalid MOVV of r+8(FP); int32 is 4-byte value
 runtime/tls_mips64x.s: [GOARCH] save_g: function save_g missing Go declaration
 runtime/tls_mips64x.s: [GOARCH] load_g: function load_g missing Go declaration
