@@ -1,6 +1,8 @@
 runtime/asm_s390x.s: [s390x] addmoduledata: function addmoduledata missing Go declaration
 runtime/memclr_s390x.s: [s390x] memclr_s390x_exrl_xc: function memclr_s390x_exrl_xc missing Go declaration
 runtime/memmove_s390x.s: [s390x] memmove_s390x_exrl_mvc: function memmove_s390x_exrl_mvc missing Go declaration
+runtime/sys_linux_s390x.s: [s390x] pipe: invalid MOVD of r+0(FP); int32 is 4-byte value
+runtime/sys_linux_s390x.s: [s390x] pipe2: invalid MOVD of r+8(FP); int32 is 4-byte value
 runtime/tls_s390x.s: [s390x] save_g: function save_g missing Go declaration
 runtime/tls_s390x.s: [s390x] load_g: function load_g missing Go declaration
 internal/cpu/cpu_s390x.s: [s390x] stfle: invalid MOVD of ret+0(FP); internal/cpu.facilityList is 32-byte value
