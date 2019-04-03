@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "40cd096c_f431609b",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-04-03T21:27:58Z",
+      "side": 1,
+      "message": "Should adjust this comment to match the one of the new original implementation.",
+      "range": {
+        "startLine": 524,
+        "startChar": 22,
+        "endLine": 524,
+        "endChar": 29
+      },
+      "revId": "a3aba5c66b71eba85de3c6047b03b9c66b650e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a32bddb4_e4804e55",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-04-03T21:27:58Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 529,
+        "startChar": 3,
+        "endLine": 529,
+        "endChar": 13
+      },
+      "revId": "a3aba5c66b71eba85de3c6047b03b9c66b650e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b753169c_b001f532",
         "filename": "src/go/token/token.go",
         "patchSetId": 5
@@ -37,6 +83,30 @@
       "side": 1,
       "message": "It was like that, before Alan suggested otherwise: https://go-review.googlesource.com/c/go/+/169018/1/src/go/token/token.go#328\n\nTo be honest I don\u0027t care enough. If you can agree amongst yourselves which one you prefer, I\u0027m happy to apply the change before submitting :)",
       "parentUuid": "b753169c_b001f532",
+      "range": {
+        "startLine": 314,
+        "startChar": 63,
+        "endLine": 315,
+        "endChar": 36
+      },
+      "revId": "a3aba5c66b71eba85de3c6047b03b9c66b650e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55445a96_d6490a1e",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-04-03T21:27:58Z",
+      "side": 1,
+      "message": "It may be clearer to just say:\n\n// IsExported reports whether name starts with an upper-case letter.\n//\n\nand leave everything else away.",
+      "parentUuid": "e67d57b8_22b1ffc6",
       "range": {
         "startLine": 314,
         "startChar": 63,
