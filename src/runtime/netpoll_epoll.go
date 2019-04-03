@@ -56,15 +56,28 @@ func netpollarm(pd *pollDesc, mode int) {
 	throw("runtime: unused")
 }
 
-// polls for ready network connections
-// returns list of goroutines that become runnable
-func netpoll(block bool) gList {
+// netpoll checks for ready network connections.
+// Returns list of goroutines that become runnable.
+// delay < 0: blocks indefinitely
+// delay == 0: does not block, just polls
+// delay > 0: block for up to that many nanoseconds
+func netpoll(delay int64) gList {
 	if epfd == -1 {
 		return gList{}
 	}
-	waitms := int32(-1)
-	if !block {
+	var waitms int32
+	if delay < 0 {
+		waitms = -1
+	} else if delay == 0 {
 		waitms = 0
+	} else if delay < 1e6 {
+		waitms = 1
+	} else if delay < 1e15 {
+		waitms = int32(delay / 1e6)
+	} else {
+		// An arbitrary cap on how long to wait for a timer.
+		// 1e9 ms == ~11.5 days.
+		waitms = 1e9
 	}
 	var events [128]epollevent
 retry:
@@ -73,6 +86,12 @@ retry:
 		if n != -_EINTR {
 			println("runtime: epollwait on fd", epfd, "failed with", -n)
 			throw("runtime: netpoll failed")
+		}
+		// If a timed sleep was interrupted, drop back to doing
+		// a nonblocking poll, and then return to recalculate
+		// the time we should sleep next time.
+		if waitms > 0 {
+			waitms = 0
 		}
 		goto retry
 	}
@@ -97,9 +116,6 @@ retry:
 			}
 			netpollready(&toRun, pd, mode)
 		}
-	}
-	if block && toRun.empty() {
-		goto retry
 	}
 	return toRun
 }

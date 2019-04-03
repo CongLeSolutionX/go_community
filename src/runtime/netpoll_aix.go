@@ -168,12 +168,27 @@ func netpollarm(pd *pollDesc, mode int) {
 	unlock(&mtxset)
 }
 
+// netpoll checks for ready network connections.
+// Returns list of goroutines that become runnable.
+// delay < 0: blocks indefinitely
+// delay == 0: does not block, just polls
+// delay > 0: block for up to that many nanoseconds
 //go:nowritebarrierrec
-func netpoll(block bool) gList {
-	timeout := ^uintptr(0)
-	if !block {
-		timeout = 0
+func netpoll(delay int64) gList {
+	var timeout uintptr
+	if delay < 0 {
+		timeout = ^uintptr(0)
+	} else if delay == 0 {
+		// TODO: call poll with timeout == 0
 		return gList{}
+	} else if delay < 1e6 {
+		timeout = 1
+	} else if delay < 1e15 {
+		timeout = uintptr(delay / 1e6)
+	} else {
+		// An arbitrary cap on how long to wait for a timer.
+		// 1e9 ms == ~11.5 days.
+		timeout = 1e9
 	}
 	if pollVerbose {
 		println("*** netpoll", block)
@@ -200,6 +215,12 @@ retry:
 			println("*** poll failed")
 		}
 		unlock(&mtxset)
+		// If a timed sleep was interrupted, drop back to doing
+		// a nonblocking poll, and then return to recalculate
+		// the time we should sleep next time.
+		if timeout > 0 {
+			timeout = 0
+		}
 		goto retry
 	}
 	// Check if some descriptors need to be changed
@@ -241,9 +262,6 @@ retry:
 		}
 	}
 	unlock(&mtxset)
-	if block && toRun.empty() {
-		goto retry
-	}
 	if pollVerbose {
 		println("*** netpoll returning end")
 	}

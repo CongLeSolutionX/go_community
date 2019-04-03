@@ -57,15 +57,27 @@ func netpollarm(pd *pollDesc, mode int) {
 	throw("runtime: unused")
 }
 
-// Polls for ready network connections.
+// netpoll checks for ready network connections.
 // Returns list of goroutines that become runnable.
-func netpoll(block bool) gList {
+// delay < 0: blocks indefinitely
+// delay == 0: does not block, just polls
+// delay > 0: block for up to that many nanoseconds
+func netpoll(delay int64) gList {
 	if kq == -1 {
 		return gList{}
 	}
 	var tp *timespec
 	var ts timespec
-	if !block {
+	if delay < 0 {
+		tp = nil
+	} else if delay == 0 {
+		tp = &ts
+	} else {
+		ts.setNsec(delay)
+		if ts.tv_sec > 1e6 {
+			// Darwin returns EINVAL if the sleep time is too long.
+			ts.tv_sec = 1e6
+		}
 		tp = &ts
 	}
 	var events [64]keventt
@@ -75,6 +87,12 @@ retry:
 		if n != -_EINTR {
 			println("runtime: kevent on fd", kq, "failed with", -n)
 			throw("runtime: netpoll failed")
+		}
+		// If a timed sleep was interrupted, drop back to doing
+		// a nonblocking poll, and then return to recalculate
+		// the time we should sleep next time.
+		if delay > 0 {
+			ts = timespec{}
 		}
 		goto retry
 	}
@@ -109,9 +127,6 @@ retry:
 			}
 			netpollready(&toRun, pd, mode)
 		}
-	}
-	if block && toRun.empty() {
-		goto retry
 	}
 	return toRun
 }
