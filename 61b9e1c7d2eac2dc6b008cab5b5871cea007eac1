@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58a5b8a0_012e0c18",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-04-03T22:20:29Z",
+      "side": 1,
+      "message": "s/receives/retrieves/\n\nBut I suggest you leave this 2nd part of the sentence away completely, as it was before. There is no need to repeat what the documentation for recover already says (if it\u0027s not repeated exactly right, we only get inconsistencies in the documentation).",
+      "range": {
+        "startLine": 231,
+        "startChar": 36,
+        "endLine": 231,
+        "endChar": 44
+      },
+      "revId": "61b9e1c7d2eac2dc6b008cab5b5871cea007eac1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
