@@ -96,6 +96,21 @@ TEXT runtime·read(SB),NOSPLIT|NOFRAME,$0
 	MOVW	R0, ret+12(FP)
 	RET
 
+// func pipe() (r, w int32, errno int32)
+TEXT runtime·pipe(SB),NOSPLIT,$0-12
+	MOVW $r+0(FP), R0
+	SWI $0xa0002a
+	MOVW R0, errno+8(FP)
+	RET
+
+// func pipe2(flags int32) (r, w int32, errno int32)
+TEXT runtime·pipe2(SB),NOSPLIT,$0-16
+	MOVW $r+4(FP), R0
+	MOVW flags+0(FP), R1
+	SWI $0xa001c5
+	MOVW R0, errno+12(FP)
+	RET
+
 TEXT runtime·write(SB),NOSPLIT|NOFRAME,$0
 	MOVW	fd+0(FP), R0	// arg 1 - fd
 	MOVW	p+4(FP), R1	// arg 2 - buf
@@ -383,6 +398,18 @@ TEXT runtime·closeonexec(SB),NOSPLIT,$0
 	MOVW $F_SETFD, R1	// F_SETFD
 	MOVW $FD_CLOEXEC, R2	// FD_CLOEXEC
 	SWI $SYS_fcntl
+	RET
+
+// func runtime·setNonblock(fd int32)
+TEXT runtime·setNonblock(SB),NOSPLIT,$0-4
+	MOVW fd+0(FP), R0	// fd
+	MOVW $3, R1	// F_GETFL
+	MOVW $0, R2
+	SWI $0xa0005c	// sys_fcntl
+	ORR $0x4, R0, R2	// O_NONBLOCK
+	MOVW fd+0(FP), R0	// fd
+	MOVW $4, R1	// F_SETFL
+	SWI $0xa0005c	// sys_fcntl
 	RET
 
 // TODO: this is only valid for ARMv7+
