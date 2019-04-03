@@ -22,6 +22,30 @@
       "revId": "a3aba5c66b71eba85de3c6047b03b9c66b650e69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e67d57b8_22b1ffc6",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-04-03T19:26:15Z",
+      "side": 1,
+      "message": "It was like that, before Alan suggested otherwise: https://go-review.googlesource.com/c/go/+/169018/1/src/go/token/token.go#328\n\nTo be honest I don\u0027t care enough. If you can agree amongst yourselves which one you prefer, I\u0027m happy to apply the change before submitting :)",
+      "parentUuid": "b753169c_b001f532",
+      "range": {
+        "startLine": 314,
+        "startChar": 63,
+        "endLine": 315,
+        "endChar": 36
+      },
+      "revId": "a3aba5c66b71eba85de3c6047b03b9c66b650e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
