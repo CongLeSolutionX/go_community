@@ -16,6 +16,24 @@
       "revId": "adfdb63d4a6d311c426c24938175eddda9ec2782",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a8a1c6b_581047d7",
+        "filename": "src/math/bits/bits_errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-04-04T17:38:27Z",
+      "side": 1,
+      "message": "Now removed. I switched to using \u0027import _ \"unsafe\"\u0027 instead of \u0027import \"unsafe\"\u0027.",
+      "parentUuid": "0cfe859f_55007e5f",
+      "revId": "adfdb63d4a6d311c426c24938175eddda9ec2782",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
