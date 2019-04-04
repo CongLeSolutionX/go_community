@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1269ed9_d7ceadf2",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-04T16:46:06Z",
+      "side": 1,
+      "message": "You might\u0027ve started this in 2018, but when was it first published publicly? 2019 or 2018?",
+      "revId": "23752ea8ee09c176711aef1f9c12bedba3910aa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
