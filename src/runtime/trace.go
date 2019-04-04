@@ -215,6 +215,7 @@ func StartTrace() error {
 
 	for _, gp := range allgs {
 		status := readgstatus(gp)
+		// The world is stopped, so gp cannot be in a _Gscan state.
 		if status != _Gdead {
 			gp.traceseq = 0
 			gp.tracelastp = getg().m.p

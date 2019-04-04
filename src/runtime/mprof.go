@@ -723,6 +723,8 @@ func GoroutineProfile(p []StackRecord) (n int, ok bool) {
 	isOK := func(gp1 *g) bool {
 		// Checking isSystemGoroutine here makes GoroutineProfile
 		// consistent with both NumGoroutine and Stack.
+		//
+		// The world is stopped, so gp cannot be in a _Gscan state.
 		return gp1 != gp && readgstatus(gp1) != _Gdead && !isSystemGoroutine(gp1, false)
 	}
 

@@ -727,7 +727,8 @@ func casfrom_Gscanstatus(gp *g, oldval, newval uint32) {
 	case _Gscanrunnable,
 		_Gscanwaiting,
 		_Gscanrunning,
-		_Gscansyscall:
+		_Gscansyscall,
+		_Gscandead:
 		if newval == oldval&^_Gscan {
 			success = atomic.Cas(&gp.atomicstatus, oldval, newval)
 		}
@@ -746,7 +747,8 @@ func castogscanstatus(gp *g, oldval, newval uint32) bool {
 	case _Grunnable,
 		_Grunning,
 		_Gwaiting,
-		_Gsyscall:
+		_Gsyscall,
+		_Gdead:
 		if newval == oldval|_Gscan {
 			return atomic.Cas(&gp.atomicstatus, oldval, newval)
 		}
@@ -926,9 +928,6 @@ func restartg(gp *g) {
 	default:
 		dumpgstatus(gp)
 		throw("restartg: unexpected status")
-
-	case _Gdead:
-	// ok
 
 	case _Gscanrunnable,
 		_Gscanwaiting,
@@ -3284,7 +3283,7 @@ func newproc1(fn *funcval, argp *uint8, narg int32, callergp *g, callerpc uintpt
 		throw("newproc1: newg missing stack")
 	}
 
-	if readgstatus(newg) != _Gdead {
+	if readgstatus(newg)&^_Gscan != _Gdead {
 		throw("newproc1: new g is not Gdead")
 	}
 
@@ -3396,7 +3395,7 @@ func saveAncestors(callergp *g) *[]ancestorInfo {
 // Put on gfree list.
 // If local list is too long, transfer a batch to the global list.
 func gfput(_p_ *p, gp *g) {
-	if readgstatus(gp) != _Gdead {
+	if readgstatus(gp)&^_Gscan != _Gdead {
 		throw("gfput: bad status (not Gdead)")
 	}
 

@@ -78,22 +78,30 @@ const (
 	// stack is owned by the goroutine that put it in _Gcopystack.
 	_Gcopystack // 8
 
-	// _Gscan combined with one of the above states other than
-	// _Grunning indicates that GC is scanning the stack. The
-	// goroutine is not executing user code and the stack is owned
-	// by the goroutine that set the _Gscan bit.
+	// _Gscan combined with one of the above states prevents
+	// changes in stack ownership.
 	//
-	// _Gscanrunning is different: it is used to briefly block
-	// state transitions while GC signals the G to scan its own
-	// stack. This is otherwise like _Grunning.
+	// Combined with _Grunnable or _Gwaiting, it means the
+	// goroutine that set _Gscan owns the stack. Combined with
+	// _Gsyscall, it means the goroutine that set _Gscan can read
+	// the stack (but not copy it, as syscalls may have pointers
+	// into the stack). In all three cases, the goroutine cannot
+	// transition back to running user code.
 	//
-	// atomicstatus&~Gscan gives the state the goroutine will
+	// Combined with _Grunning or _Gdead, it simply blocks
+	// transitions to other states and does not affect stack
+	// ownership. For example, _Gscanrunning is used to briefly
+	// block state transitions while GC signals the G to scan its
+	// own stack.
+	//
+	// atomicstatus&^Gscan gives the state the goroutine will
 	// return to when the scan completes.
 	_Gscan         = 0x1000
 	_Gscanrunnable = _Gscan + _Grunnable // 0x1001
 	_Gscanrunning  = _Gscan + _Grunning  // 0x1002
 	_Gscansyscall  = _Gscan + _Gsyscall  // 0x1003
 	_Gscanwaiting  = _Gscan + _Gwaiting  // 0x1004
+	_Gscandead     = _Gscan + _Gdead     // 0x1006
 )
 
 const (
