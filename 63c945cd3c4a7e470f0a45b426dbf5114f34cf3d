@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ecab26a8_47b9acb4",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-04T17:27:14Z",
+      "side": 1,
+      "message": "Thanks for the feedback. I\u0027ll think about how to revise the comments to make this clearer. To answer your questions:\n\nYeah, I think it\u0027s serving the same purpose that value/suffixValue did, and yeah, it\u0027s similarly a little tricky to understand.\n\nYes, \"shortest path\" here refers to lowest distance value, not least number of steps.\n\n\"dist(p, q) \u003d 0\" can be obtained a few ways. The trivial way is:\n\n    p \u003d q  // 0\n\nbut it can also be\n\n    p \u003d *a  // 1\n    a \u003d \u0026q  // -1\n\nor\n\n    p \u003d **a  // 2\n    a \u003d \u0026b   // -1\n    b \u003d \u0026q   // -1\n\netc.\n\nIn your example, dist(o, r) is 0. By \"intermediate distance\", I meant distances from the root to vertices along the path. For example,\n\n    p \u003d \u0026q  // -1\n    q \u003d *r  // 1\n\ndist(p, r) \u003d 1, because the intermediate distance dist(p, q) is bounded at 0.",
+      "parentUuid": "403f5da8_97a43ca8",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 70
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56566fb2_3523a66e",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6563c4f1_e6e21c71",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-04T17:27:14Z",
+      "side": 1,
+      "message": "Yeah, I called the variables \"k\" because of continuations (at least that\u0027s what I remember continuations commonly being called in Scheme), but \"EscContinuation\" was too tedious to type everywhere, so I went with EscHole.\n\nEscContext probably is a better name. I\u0027ll try to remember if there was a reason I didn\u0027t pick that instead, and rename otherwise.\n\n\"Sink\" and \"recipient\" seem okay too. I\u0027d probably avoid \"receiver\" to avoid confusion with receiver parameters.",
+      "parentUuid": "56566fb2_3523a66e",
+      "range": {
+        "startLine": 900,
+        "startChar": 5,
+        "endLine": 900,
+        "endChar": 12
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e99b071_047ee88e",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -59,6 +107,30 @@
       "writtenOn": "2019-04-04T17:07:00Z",
       "side": 1,
       "message": "If \"holes\" are \"contexts\", maybe this verb becomes \"join\" (which has lattice-y meaning, and I think it is probably the right one).",
+      "range": {
+        "startLine": 929,
+        "startChar": 23,
+        "endLine": 929,
+        "endChar": 26
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a003f80_6169f1d2",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-04T17:27:14Z",
+      "side": 1,
+      "message": "I think I\u0027d lean towards \"multi\" or \"tee\" still to avoid math-y jargon, but \"join\" is probably reasonably intuitive too. I think \"meet\" would be confusing though, if that turned out to be the right lattice term.",
+      "parentUuid": "8e99b071_047ee88e",
       "range": {
         "startLine": 929,
         "startChar": 23,
