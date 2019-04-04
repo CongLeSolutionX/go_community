@@ -524,9 +524,3 @@ func Div64(hi, lo, y uint64) (quo, rem uint64) {
 
 	return q1*two32 + q0, (un21*two32 + un0 - q0*y) >> s
 }
-
-//go:linkname overflowError runtime.overflowError
-var overflowError error
-
-//go:linkname divideError runtime.divideError
-var divideError error
