@@ -16,6 +16,24 @@
       "revId": "23752ea8ee09c176711aef1f9c12bedba3910aa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eb4946d_eabc9a94",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-04T17:07:28Z",
+      "side": 1,
+      "message": "I uploaded my WIP branch to github.com/mdempsky/go and mentioned it on the issue tracker back in 2018: https://github.com/golang/go/issues/23109#issuecomment-447530529\n\nI didn\u0027t flatten into Gerrit-suitable CLs until 2019 though.\n\nWDYT?",
+      "parentUuid": "f1269ed9_d7ceadf2",
+      "revId": "23752ea8ee09c176711aef1f9c12bedba3910aa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
