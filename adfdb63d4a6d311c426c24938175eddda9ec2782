@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cfe859f_55007e5f",
+        "filename": "src/math/bits/bits_errors.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-04T16:57:32Z",
+      "side": 1,
+      "message": "What is this variable for?",
+      "revId": "adfdb63d4a6d311c426c24938175eddda9ec2782",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
