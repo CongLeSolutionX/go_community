@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "403f5da8_97a43ca8",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-04-04T17:07:00Z",
+      "side": 1,
+      "message": "I think this is capturing the same thing as the value/suffixValue distinction in the old escape analysis, and is similarly difficult to explain/understand.\n\nDoes \"shortest path\" refer to the lowest distance value?\n\nIn \"intuitively, if dist(p, q) \u003d\u003d 0\" below, can dist(p,q)\u003d\u003d0 ever be obtained except by an equality chain?\n\nSuppose\n\n//     o \u003d *q     //  1\n//     q \u003d \u0026r     // -1\n//     r \u003d *s     //  1\n\nWhat is dist(o, r)? (I.e., is the trailing dist(q,r)\u003d-1 an intermediate value and thus actually 0?)",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 70
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56566fb2_3523a66e",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-04-04T17:07:00Z",
+      "side": 1,
+      "message": "Would it be better to call this EscContext? It\u0027s also sort of a continuation, but I don\u0027t know if calling it that helps most people understand.  Other choices are \"sink\", \"receiver\", \"recipient\".",
+      "range": {
+        "startLine": 900,
+        "startChar": 5,
+        "endLine": 900,
+        "endChar": 12
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e99b071_047ee88e",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-04-04T17:07:00Z",
+      "side": 1,
+      "message": "If \"holes\" are \"contexts\", maybe this verb becomes \"join\" (which has lattice-y meaning, and I think it is probably the right one).",
+      "range": {
+        "startLine": 929,
+        "startChar": 23,
+        "endLine": 929,
+        "endChar": 26
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
