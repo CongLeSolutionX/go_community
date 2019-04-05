@@ -330,6 +330,13 @@ func timerproc(tb *timersBucket) {
 	}
 }
 
+// moveTimers moves a slice of timers to pp. The slice has been taken
+// from a different P.
+// The caller must have locked the timers for pp.
+func moveTimers(pp *p, timers []*timer) {
+	throw("movetimers: not yet implemented")
+}
+
 // adjusttimers looks through the timers in the current P's heap for
 // any timers that have been modified to run earlier, and puts them in
 // the correct place in the heap. This is called on the system stack.
