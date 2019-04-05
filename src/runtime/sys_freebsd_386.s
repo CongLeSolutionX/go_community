@@ -91,7 +91,7 @@ TEXT runtime·read(SB),NOSPLIT,$-4
 	MOVL	$3, AX
 	INT	$0x80
 	JAE	2(PC)
-	MOVL	$-1, AX
+	NEGL	AX			// caller expects negative errno
 	MOVL	AX, ret+12(FP)
 	RET
 
@@ -125,7 +125,7 @@ TEXT runtime·write(SB),NOSPLIT,$-4
 	MOVL	$4, AX
 	INT	$0x80
 	JAE	2(PC)
-	MOVL	$-1, AX
+	NEGL	AX			// caller expects negative errno
 	MOVL	AX, ret+12(FP)
 	RET
 

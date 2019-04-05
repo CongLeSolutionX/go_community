@@ -94,8 +94,6 @@ TEXT runtime·write(SB),NOSPLIT,$0-16
 	MOVW	n+8(FP), R6
 	MOVW	$SYS_write, R2
 	SYSCALL
-	BEQ	R7, 2(PC)
-	MOVW	$-1, R2
 	MOVW	R2, ret+12(FP)
 	RET
 
@@ -105,8 +103,6 @@ TEXT runtime·read(SB),NOSPLIT,$0-16
 	MOVW	n+8(FP), R6
 	MOVW	$SYS_read, R2
 	SYSCALL
-	BEQ	R7, 2(PC)
-	MOVW	$-1, R2
 	MOVW	R2, ret+12(FP)
 	RET
 
