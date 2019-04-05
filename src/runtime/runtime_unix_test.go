@@ -16,7 +16,31 @@ import (
 	"sync/atomic"
 	"syscall"
 	"testing"
+	"unsafe"
 )
+
+func TestBadOpen(t *testing.T) {
+	// make sure we get the correct error code if open fails. Same for
+	// read/write/close on the resulting -1 fd. See issue 10052.
+	nonfile := []byte("/notreallyafile")
+	fd := runtime.Open(&nonfile[0], 0, 0)
+	if fd != -1 {
+		t.Errorf("open(\"%s\")=%d, want -1", string(nonfile), fd)
+	}
+	var buf [32]byte
+	r := runtime.Read(-1, unsafe.Pointer(&buf[0]), int32(len(buf)))
+	if r != -int32(syscall.EBADF) {
+		t.Errorf("read()=%d, want %d", r, -int32(syscall.EBADF))
+	}
+	w := runtime.Write(^uintptr(0), unsafe.Pointer(&buf[0]), int32(len(buf)))
+	if w != -int32(syscall.EBADF) {
+		t.Errorf("write()=%d, want %d", w, -int32(syscall.EBADF))
+	}
+	c := runtime.Close(-1)
+	if c != -1 {
+		t.Errorf("close()=%d, want -1", c)
+	}
+}
 
 func TestGoroutineProfile(t *testing.T) {
 	// GoroutineProfile used to use the wrong starting sp for
