@@ -71,12 +71,8 @@ func netpollinit() {
 	pds[0] = nil
 }
 
-func netpolldescriptor() uintptr {
-	// Both fd must be returned
-	if rdwake > 0xFFFF || wrwake > 0xFFFF {
-		throw("netpolldescriptor: invalid fd number")
-	}
-	return uintptr(rdwake<<16 | wrwake)
+func netpollIsPollDescriptor(fd uintptr) bool {
+	return fd == uintptr(rdwake) || fd == uintptr(wrwake)
 }
 
 // netpollwakeup writes on wrwake to wakeup poll before any changes.
@@ -152,6 +148,14 @@ func netpollarm(pd *pollDesc, mode int) {
 	unlock(&mtxset)
 }
 
+// netpollBreak interrupts an epollwait.
+func netpollBreak() {
+	netpollwakeup()
+}
+
+func netpollReset() {
+}
+
 // netpoll checks for ready network connections.
 // Returns list of goroutines that become runnable.
 // delay < 0: blocks indefinitely
@@ -209,10 +213,15 @@ retry:
 	}
 	// Check if some descriptors need to be changed
 	if n != 0 && pfds[0].revents&(_POLLIN|_POLLHUP|_POLLERR) != 0 {
-		var b [1]byte
-		for read(rdwake, unsafe.Pointer(&b[0]), 1) == 1 {
-			if pollVerbose {
-				println("*** read 1 byte from pipe")
+		if delay != 0 {
+			// A netpollwakeup could be picked up by a
+			// non-blocking poll. Only clear the wakeup
+			// if blocking.
+			var b [1]byte
+			for read(rdwake, unsafe.Pointer(&b[0]), 1) == 1 {
+				if pollVerbose {
+					println("*** read 1 byte from pipe")
+				}
 			}
 		}
 		// Do not look at the other fds in this case as the mode may have changed
