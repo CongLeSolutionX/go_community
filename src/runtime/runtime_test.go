@@ -10,6 +10,7 @@ import (
 	. "runtime"
 	"runtime/debug"
 	"strings"
+	"syscall"
 	"testing"
 	"unsafe"
 )
@@ -291,12 +292,12 @@ func TestBadOpen(t *testing.T) {
 	}
 	var buf [32]byte
 	r := Read(-1, unsafe.Pointer(&buf[0]), int32(len(buf)))
-	if r != -1 {
-		t.Errorf("read()=%d, want -1", r)
+	if r != -int32(syscall.EBADF) {
+		t.Errorf("read()=%d, want %d", r, -int32(syscall.EBADF))
 	}
 	w := Write(^uintptr(0), unsafe.Pointer(&buf[0]), int32(len(buf)))
-	if w != -1 {
-		t.Errorf("write()=%d, want -1", w)
+	if w != -int32(syscall.EBADF) {
+		t.Errorf("write()=%d, want %d", w, -int32(syscall.EBADF))
 	}
 	c := Close(-1)
 	if c != -1 {
