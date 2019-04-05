@@ -147,7 +147,7 @@ TEXT runtime·read(SB),NOSPLIT|NOFRAME,$0
 	MOVW	n+16(FP), R2		// arg 3 - count
 	SVC	$SYS_read
 	BCC	ok
-	MOVW	$-1, R0
+	NEG	R0, R0
 ok:
 	MOVW	R0, ret+24(FP)
 	RET
@@ -178,7 +178,7 @@ TEXT runtime·write(SB),NOSPLIT,$-8
 	MOVW	n+16(FP), R2		// arg 3 - nbyte
 	SVC	$SYS_write
 	BCC	ok
-	MOVW	$-1, R0
+	NEG	R0, R0
 ok:
 	MOVW	R1, ret+24(FP)
 	RET
