@@ -4138,6 +4138,7 @@ func procresize(nprocs int32) *p {
 	}
 
 	// release resources from unused P's
+	var timerPs *p
 	for i := nprocs; i < old; i++ {
 		p := allp[i]
 		if trace.enabled && p == getg().m.p.ptr() {
@@ -4145,6 +4146,10 @@ func procresize(nprocs int32) *p {
 			// and then scheduled again to keep the trace sane.
 			traceGoSched()
 			traceProcStop(p)
+		}
+		if len(p.timers) > 0 {
+			p.link.set(timerPs)
+			timerPs = p
 		}
 		p.destroy()
 		// can't free P itself because it can be referenced by an M in syscall
@@ -4177,6 +4182,19 @@ func procresize(nprocs int32) *p {
 			traceGoStart()
 		}
 	}
+
+	// Move the timers to the P on which we are going to run.
+	// We can't do this earlier because moveTimers may allocate memory.
+	plocal := _g_.m.p.ptr()
+	lock(&plocal.timersLock)
+	for timerPs != nil {
+		pp := timerPs
+		timerPs = pp.link.ptr()
+		moveTimers(plocal, pp.timers)
+		pp.timers = nil
+	}
+	unlock(&plocal.timersLock)
+
 	var runnablePs *p
 	for i := nprocs - 1; i >= 0; i-- {
 		p := allp[i]
