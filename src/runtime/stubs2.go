@@ -14,12 +14,17 @@ package runtime
 
 import "unsafe"
 
+// write calls the write system call.
+// It returns a non-negative number of bytes written or a negative errno value.
 func read(fd int32, p unsafe.Pointer, n int32) int32
+
 func closefd(fd int32) int32
 
 func exit(code int32)
 func usleep(usec uint32)
 
+// write calls the write system call.
+// It returns a non-negative number of bytes written or a negative errno value.
 //go:noescape
 func write(fd uintptr, p unsafe.Pointer, n int32) int32
 
