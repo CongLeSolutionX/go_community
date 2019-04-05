@@ -154,7 +154,7 @@ TEXT runtime·read(SB),NOSPLIT,$-8
 	MOVL	$SYS_read, AX
 	SYSCALL
 	JCC	2(PC)
-	MOVL	$-1, AX
+	NEGQ	AX			// caller expects negative errno
 	MOVL	AX, ret+24(FP)
 	RET
 
@@ -182,7 +182,7 @@ TEXT runtime·write(SB),NOSPLIT,$-8
 	MOVL	$SYS_write, AX
 	SYSCALL
 	JCC	2(PC)
-	MOVL	$-1, AX
+	NEGQ	AX			// caller expects negative errno
 	MOVL	AX, ret+24(FP)
 	RET
 
