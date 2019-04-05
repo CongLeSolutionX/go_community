@@ -55,7 +55,6 @@ TEXT runtime·read(SB),NOSPLIT|NOFRAME,$0
 	MOVW	n+8(FP), R2		// arg 3 - nbyte
 	MOVW	$3, R12			// sys_read
 	SWI	$0
-	MOVW.CS	$-1, R0
 	MOVW	R0, ret+12(FP)
 	RET
 
@@ -82,7 +81,6 @@ TEXT runtime·write(SB),NOSPLIT|NOFRAME,$0
 	MOVW	n+8(FP), R2		// arg 3 - nbyte
 	MOVW	$4, R12			// sys_write
 	SWI	$0
-	MOVW.CS	$-1, R0
 	MOVW	R0, ret+12(FP)
 	RET
 

@@ -117,8 +117,6 @@ TEXT runtime·read(SB),NOSPLIT,$-8
 	MOVL	n+16(FP), DX		// arg 3 count
 	MOVL	$3, AX
 	SYSCALL
-	JCC	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+24(FP)
 	RET
 
@@ -145,8 +143,6 @@ TEXT runtime·write(SB),NOSPLIT,$-8
 	MOVL	n+16(FP), DX		// arg 3 - nbyte
 	MOVL	$4, AX			// sys_write
 	SYSCALL
-	JCC	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+24(FP)
 	RET
 

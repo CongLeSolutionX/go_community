@@ -90,8 +90,6 @@ TEXT runtime·closefd(SB),NOSPLIT,$-4
 TEXT runtime·read(SB),NOSPLIT,$-4
 	MOVL	$3, AX
 	INT	$0x80
-	JAE	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+12(FP)
 	RET
 
@@ -118,8 +116,6 @@ TEXT runtime·pipe2(SB),NOSPLIT,$12-16
 TEXT runtime·write(SB),NOSPLIT,$-4
 	MOVL	$4, AX
 	INT	$0x80
-	JAE	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+12(FP)
 	RET
 
