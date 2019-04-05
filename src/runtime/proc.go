@@ -4054,6 +4054,15 @@ func (pp *p) destroy() {
 		globrunqputhead(pp.runnext.ptr())
 		pp.runnext = 0
 	}
+	if len(pp.timers) > 0 {
+		plocal := getg().m.p.ptr()
+		lock(&plocal.timersLock)
+		lock(&pp.timersLock)
+		moveTimers(plocal, pp.timers)
+		pp.timers = nil
+		unlock(&pp.timersLock)
+		unlock(&plocal.timersLock)
+	}
 	// If there's a background worker, make it runnable and put
 	// it on the global queue so it can clean itself up.
 	if gp := pp.gcBgMarkWorker.ptr(); gp != nil {
