@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eda63180_2de8ffe8",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-04-08T00:25:02Z",
+      "side": 1,
+      "message": "this is potentially an allocation per rune. use utf8.RuneLen(re.Rune)",
+      "revId": "26f946357a6766c38cbabd4d90aa073db06b7259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
