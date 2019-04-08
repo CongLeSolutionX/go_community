@@ -82,7 +82,7 @@ type gowasmFeatures struct {
 	SatConv bool
 }
 
-func (f *gowasmFeatures) String() string {
+func (f gowasmFeatures) String() string {
 	var flags []string
 	if f.SatConv {
 		flags = append(flags, "satconv")
