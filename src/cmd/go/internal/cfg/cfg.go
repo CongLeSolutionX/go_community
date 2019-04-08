@@ -7,11 +7,14 @@
 package cfg
 
 import (
+	"bytes"
 	"fmt"
 	"go/build"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
+	"sync"
 
 	"cmd/internal/objabi"
 )
@@ -46,6 +49,39 @@ var (
 func defaultContext() build.Context {
 	ctxt := build.Default
 	ctxt.JoinPath = filepath.Join // back door to say "do not use go command"
+
+	ctxt.GOROOT = findGOROOT()
+	if runtime.Compiler != "gccgo" {
+		// Note that we must use runtime.GOOS and runtime.GOARCH here,
+		// as the tool directory does not move based on environment
+		// variables. This matches the initialization of ToolDir in
+		// go/build, except for using ctxt.GOROOT rather than
+		// runtime.GOROOT.
+		build.ToolDir = filepath.Join(ctxt.GOROOT, "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+	}
+
+	ctxt.GOPATH = envOr("GOPATH", ctxt.GOPATH)
+
+	// Override defaults computed in go/build with defaults
+	// from go environment configuration file, if known.
+	oldGOOS := ctxt.GOOS
+	oldGOARCH := ctxt.GOARCH
+	ctxt.GOOS = envOr("GOOS", ctxt.GOOS)
+	ctxt.GOARCH = envOr("GOARCH", ctxt.GOARCH)
+	if v := Getenv("CGO_ENABLED"); v == "0" || v == "1" {
+		ctxt.CgoEnabled = v[0] == '1'
+	} else if ctxt.GOOS != oldGOOS || ctxt.GOARCH != oldGOARCH {
+		// ctxt.CgoEnabled is the default for oldGOOS/oldGOARCH.
+		// The new, different GOOS/GOARCH must be derived from the
+		// config file, and the environment variables must not be set
+		// (or else go/build would agree with us), so the old setting
+		// was the default (not-cross-compiling) build, and so the new
+		// setting must be a cross-compiling build. For cross compiles,
+		// cgo must be explicitly enabled, and it's not (Getenv said so),
+		// so disable it unconditionally here.
+		ctxt.CgoEnabled = false
+	}
+
 	return ctxt
 }
 
@@ -70,9 +106,10 @@ var CmdEnv []EnvVar
 
 // Global build parameters (used during package load)
 var (
-	Goarch    = BuildContext.GOARCH
-	Goos      = BuildContext.GOOS
-	ExeSuffix string
+	Goarch = BuildContext.GOARCH
+	Goos   = BuildContext.GOOS
+
+	ExeSuffix = exeSuffix()
 
 	// ModulesEnabled specifies whether the go command is running
 	// in module-aware mode (as opposed to GOPATH mode).
@@ -85,40 +122,121 @@ var (
 	GoModInGOPATH string
 )
 
-func init() {
+func exeSuffix() string {
 	if Goos == "windows" {
-		ExeSuffix = ".exe"
+		return ".exe"
+	}
+	return ""
+}
+
+var envCache struct {
+	once sync.Once
+	m    map[string]string
+}
+
+// EnvFile returns the name of the Go environment configuration file.
+func EnvFile() (string, error) {
+	if file := os.Getenv("GOENV"); file != "" {
+		return file, nil
+	}
+	dir, err := os.UserConfigDir()
+	if err != nil {
+		return "", err
+	}
+	if dir == "" {
+		return "", fmt.Errorf("missing user-config dir")
+	}
+	return filepath.Join(dir, "go/env"), nil
+}
+
+func initEnvCache() {
+	envCache.m = make(map[string]string)
+	file, _ := EnvFile()
+	if file == "" {
+		return
+	}
+	data, err := ioutil.ReadFile(file)
+	if err != nil {
+		return
+	}
+
+	for len(data) > 0 {
+		// Get next line.
+		line := data
+		i := bytes.IndexByte(data, '\n')
+		if i >= 0 {
+			line, data = line[:i], data[i+1:]
+		} else {
+			data = nil
+		}
+
+		i = bytes.IndexByte(line, '=')
+		if i < 0 || line[0] < 'A' || 'Z' < line[0] {
+			// Line is missing = (or empty) or a comment or not a valid env name. Ignore.
+			continue
+		}
+		key, val := line[:i], line[i+1:]
+		if len(bytes.TrimSpace(key)) != len(key) {
+			// Key has leading or trailing spaces; ignore.
+			continue
+		}
+		envCache.m[string(key)] = string(val)
 	}
 }
 
+func Getenv(key string) string {
+	val := os.Getenv(key)
+	if val != "" {
+		return val
+	}
+	envCache.once.Do(initEnvCache)
+	return envCache.m[key]
+}
+
 var (
-	GOROOT       = findGOROOT()
-	GOBIN        = os.Getenv("GOBIN")
+	GOROOT       = BuildContext.GOROOT
+	GOBIN        = Getenv("GOBIN")
 	GOROOTbin    = filepath.Join(GOROOT, "bin")
 	GOROOTpkg    = filepath.Join(GOROOT, "pkg")
 	GOROOTsrc    = filepath.Join(GOROOT, "src")
 	GOROOT_FINAL = findGOROOT_FINAL()
 
 	// Used in envcmd.MkEnv and build ID computations.
-	GOARM    = fmt.Sprint(objabi.GOARM)
-	GO386    = objabi.GO386
-	GOMIPS   = objabi.GOMIPS
-	GOMIPS64 = objabi.GOMIPS64
-	GOPPC64  = fmt.Sprintf("%s%d", "power", objabi.GOPPC64)
-	GOWASM   = objabi.GOWASM
+	GOARM    = envOr("GOARM", fmt.Sprint(objabi.GOARM))
+	GO386    = envOr("GO386", objabi.GO386)
+	GOMIPS   = envOr("GOMIPS", objabi.GOMIPS)
+	GOMIPS64 = envOr("GOMIPS64", objabi.GOMIPS64)
+	GOPPC64  = envOr("GOPPC64", fmt.Sprintf("%s%d", "power", objabi.GOPPC64))
+	GOWASM   = envOr("GOWASM", fmt.Sprint(objabi.GOWASM))
 )
 
-// Update build context to use our computed GOROOT.
-func init() {
-	BuildContext.GOROOT = GOROOT
-	if runtime.Compiler != "gccgo" {
-		// Note that we must use runtime.GOOS and runtime.GOARCH here,
-		// as the tool directory does not move based on environment
-		// variables. This matches the initialization of ToolDir in
-		// go/build, except for using GOROOT rather than
-		// runtime.GOROOT.
-		build.ToolDir = filepath.Join(GOROOT, "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+// GetArchEnv returns the name and setting of the
+// GOARCH-specific architecture environment variable.
+func GetArchEnv() (key, val string) {
+	switch Goarch {
+	case "arm":
+		return "GOARM", GOARM
+	case "386":
+		return "GO386", GO386
+	case "mips", "mipsle":
+		return "GOMIPS", GOMIPS
+	case "mips64", "mips64le":
+		return "GOMIPS64", GOMIPS64
+	case "ppc64", "ppc64le":
+		return "GOPPC64", GOPPC64
+	case "wasm":
+		return "GOWASM", GOWASM
 	}
+	return "", ""
+}
+
+// envOr returns Getenv(key) if set, or else def.
+func envOr(key, def string) string {
+	val := Getenv(key)
+	if val == "" {
+		val = def
+	}
+	return val
 }
 
 // There is a copy of findGOROOT, isSameDir, and isGOROOT in
@@ -132,7 +250,7 @@ func init() {
 //
 // There is a copy of this code in x/tools/cmd/godoc/goroot.go.
 func findGOROOT() string {
-	if env := os.Getenv("GOROOT"); env != "" {
+	if env := Getenv("GOROOT"); env != "" {
 		return filepath.Clean(env)
 	}
 	def := filepath.Clean(runtime.GOROOT())
@@ -169,7 +287,7 @@ func findGOROOT() string {
 
 func findGOROOT_FINAL() string {
 	def := GOROOT
-	if env := os.Getenv("GOROOT_FINAL"); env != "" {
+	if env := Getenv("GOROOT_FINAL"); env != "" {
 		def = filepath.Clean(env)
 	}
 	return def

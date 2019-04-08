@@ -19,6 +19,7 @@ import (
 	"strings"
 	"time"
 
+	"cmd/go/internal/cfg"
 	"cmd/go/internal/renameio"
 )
 
@@ -101,7 +102,7 @@ func init() { initEnv() }
 func initEnv() {
 	verify = false
 	debugHash = false
-	debug := strings.Split(os.Getenv("GODEBUG"), ",")
+	debug := strings.Split(cfg.Getenv("GODEBUG"), ",")
 	for _, f := range debug {
 		if f == "gocacheverify=1" {
 			verify = true
