@@ -100,6 +100,24 @@
     },
     {
       "key": {
+        "uuid": "7c590689_db8d40b7",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-08T19:40:15Z",
+      "side": 1,
+      "message": "Yeah. In the Node AST, we don\u0027t have an Op to represent ExpressionStmt (https://golang.org/ref/spec#Expression_statements), so those expression Ops can appear in both Stmt or Expr context, and so it\u0027s necessary to have some redundancy to handle that.\n\nI opted to handle ORECV here by falling through to e.value (but using the SkipInit part, since e.stmt already visited Ninit), and to handle the function calls by directly calling e.call.\n\nAt least OCALLFUNC/OCALLINTER/OCALLMETH need to be specially handled at top-level, because they might evaluate to multiple values (where e.value only handles a single-value).\n\nThe builtins that are okay for statement context (close/copy/delete/panic/print/println/recover) can be handled either like ORECV or like OCALL*. I somewhat arbitrarily decided to group them with the latter.",
+      "parentUuid": "0a0c7e5a_85c35c51",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fa34ae_e1352661",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -123,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "8ebca659_a457e915",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-08T19:40:15Z",
+      "side": 1,
+      "message": "Yeah, the Go spec disallows certain builtin functions to be called in statement context: https://golang.org/ref/spec#Expression_statements\n\nBasically, only builtins with side-effects are allowed in statement context.",
+      "parentUuid": "44fa34ae_e1352661",
+      "range": {
+        "startLine": 340,
+        "startChar": 40,
+        "endLine": 340,
+        "endChar": 97
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2826072c_4354297c",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -134,6 +176,30 @@
       "writtenOn": "2019-04-08T19:13:35Z",
       "side": 1,
       "message": "Maybe expr is slightly better?",
+      "range": {
+        "startLine": 359,
+        "startChar": 17,
+        "endLine": 359,
+        "endChar": 22
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd0e5091_91eff0f0",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-08T19:40:15Z",
+      "side": 1,
+      "message": "I was thinking about that. I was concerned about ambiguity because \"lvalues\" are also expressions, but they should be visited with e.addr instead of e.value.\n\nMaybe valueExpr and addrExpr?",
+      "parentUuid": "2826072c_4354297c",
       "range": {
         "startLine": 359,
         "startChar": 17,
@@ -163,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "9ecbf171_224cef76",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-08T19:40:15Z",
+      "side": 1,
+      "message": "Thanks! Yeah, I think this was a cause for a handful of \"BAD\" results in the regress tests.",
+      "parentUuid": "94842797_e40643a3",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f82a14d5_fd7c27f1",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -177,6 +261,24 @@
       "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ec5a775_5a1a2401",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-08T19:40:15Z",
+      "side": 1,
+      "message": "Ack.\n\nFWIW, I tried replacing this with just\n\n    e.value(e.spill(k, n), n.Left)\n\nand it seemed to work fine, and improved some more regress tests.\n\nBut I figured I\u0027d wait for a followup CL for that improvement, since there are already enough behavior changes here. :)",
+      "parentUuid": "f82a14d5_fd7c27f1",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
