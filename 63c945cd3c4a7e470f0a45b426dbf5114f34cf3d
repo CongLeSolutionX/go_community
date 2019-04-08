@@ -118,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "87ccec8c_0fbde280",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T20:08:02Z",
+      "side": 1,
+      "message": "Ok, thank you! This makes sense.",
+      "parentUuid": "7c590689_db8d40b7",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fa34ae_e1352661",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -200,6 +218,30 @@
       "side": 1,
       "message": "I was thinking about that. I was concerned about ambiguity because \"lvalues\" are also expressions, but they should be visited with e.addr instead of e.value.\n\nMaybe valueExpr and addrExpr?",
       "parentUuid": "2826072c_4354297c",
+      "range": {
+        "startLine": 359,
+        "startChar": 17,
+        "endLine": 359,
+        "endChar": 22
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67d36ecb_629418b8",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T20:08:02Z",
+      "side": 1,
+      "message": "Thanks. I don\u0027t have a strong preference, value \u0026 addr is ok. cmd/compile/internal/gc/ssa.go uses expr \u0026 addr. I think the situation is similar there.",
+      "parentUuid": "dd0e5091_91eff0f0",
       "range": {
         "startLine": 359,
         "startChar": 17,
