@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5beec834_ca11351e",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "Maybe mention early that we build a weighted directed graph. It took me a long time to realize that \"distance\" can be negative (and had a hard time to understand \"distance is bounded at 0\"), until I saw Bellman-Ford algorithm.",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "403f5da8_97a43ca8",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -42,6 +59,143 @@
         "startChar": 0,
         "endLine": 59,
         "endChar": 70
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8500dcc8_9c76f5f8",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "If the intent is to remove the old escape analysis code, maybe move the comment about loopDepth (or rewrite).",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a0c7e5a_85c35c51",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "ORECV is an expression, not a statement. Does it need to be here?",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44fa34ae_e1352661",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "Is there a reason that these builtins are statements whereas OLEN, OREAL, etc. are expressions? I think they are all expressions, right? Because they don\u0027t return values? But OCOPY does return a value.",
+      "range": {
+        "startLine": 340,
+        "startChar": 40,
+        "endLine": 340,
+        "endChar": 97
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2826072c_4354297c",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "Maybe expr is slightly better?",
+      "range": {
+        "startLine": 359,
+        "startChar": 17,
+        "endLine": 359,
+        "endChar": 22
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94842797_e40643a3",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "Yeah, one part I would like to improve esc.go is the implicit allocation/dereference for converting to/from interfaces. This causes unnecessary escapes occasionally. I tried ob this very briefly but didn\u0027t make it work. It is nice you get this work!",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f82a14d5_fd7c27f1",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "Yes, this is another place I wish to improve. I think in theory we can just treat method values as closures. But the internal representation in the AST is probably different enough that makes this hard.",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb742b0b_06f13c10",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "Would be good to have comments on these fields.",
+      "range": {
+        "startLine": 881,
+        "startChar": 0,
+        "endLine": 885,
+        "endChar": 17
       },
       "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
@@ -96,6 +250,47 @@
     },
     {
       "key": {
+        "uuid": "9c028c7f_f593676d",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "I feel that if we call it \"hole\", it is probably better that other function comments also use \"hole\" and \"flow\" terminology, like, \"this function models XXX flows into the hole k\".",
+      "parentUuid": "6563c4f1_e6e21c71",
+      "range": {
+        "startLine": 900,
+        "startChar": 5,
+        "endLine": 900,
+        "endChar": 12
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dea7c4b_0bc7da01",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "Maybe add comment on the range of derefs.",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e99b071_047ee88e",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -137,6 +332,46 @@
         "endLine": 929,
         "endChar": 26
       },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "408cedde_0b6c19e6",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "This is called oldLoc so it is the opposite of newLoc? I think just calling it \"loc\" is probably fine.",
+      "range": {
+        "startLine": 1021,
+        "startChar": 17,
+        "endLine": 1021,
+        "endChar": 23
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e98b6bf_4784f514",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-08T19:13:35Z",
+      "side": 1,
+      "message": "Move this comment to line 1096?",
       "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
