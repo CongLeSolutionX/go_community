@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23e81e3f_426dc0f3",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-09T13:00:33Z",
+      "side": 1,
+      "message": "It took me a while to understand this clause.\n\n(Perhaps something along the lines of “if the environment variables were set, then the old values would match the new ones”?)",
+      "range": {
+        "startLine": 76,
+        "startChar": 22,
+        "endLine": 77,
+        "endChar": 43
+      },
+      "revId": "430df239c5a8590f95f78312d19f9f23dfd75a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86553d9b_220a8799",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-09T13:00:33Z",
+      "side": 1,
+      "message": "Perhaps mention https://golang.org/issue/30216 here?",
+      "range": {
+        "startLine": 79,
+        "startChar": 46,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "430df239c5a8590f95f78312d19f9f23dfd75a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "411045d3_64a41a0c",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-09T13:00:33Z",
+      "side": 1,
+      "message": "Does this imply that the final line from a file missing a trailing newline will be silently ignored?",
+      "revId": "430df239c5a8590f95f78312d19f9f23dfd75a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cba4bba_582c3a1b",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-09T13:00:33Z",
+      "side": 1,
+      "message": "Should we emit some kind of diagnostic for lines that are ignored but not obviously intended as comments?\n\nFor example, a leading byte-order mark (“ZERO WIDTH NO-BREAK SPACE”) would fail both of these checks, but may be invisible in the user\u0027s editor: a stray BOM would produce subtle, unexpected behavior and be relatively difficult to track down.",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 3
+      },
+      "revId": "430df239c5a8590f95f78312d19f9f23dfd75a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72f09f2b_5728a991",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-09T13:00:33Z",
+      "side": 1,
+      "message": "Just making sure I understand: if FOO is set in both the GOENV file and the system environment, then the system environment wins, right?\n\nIn that case, `go env -u FOO` and `go env -w FOO\u003dBAR` will edit the file but will not affect the behavior of the `go` tool.\n\nWe should probably allow those to succeed, but perhaps we should also write something to stderr to let the user know that they will not take effect.",
+      "revId": "430df239c5a8590f95f78312d19f9f23dfd75a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea8b7497_7be8fc47",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-09T13:00:33Z",
+      "side": 1,
+      "message": "How will we ensure that envRE remains in sync with the actual set of supported variables?\n\n(Would it make sense to have the Getenv function panic if the variable is not known to checkEnvWrite?)",
+      "revId": "430df239c5a8590f95f78312d19f9f23dfd75a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c689a135_d12ce94c",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-09T13:00:33Z",
+      "side": 1,
+      "message": "Perhaps add a link to https://golang.org/issue/20209 or https://golang.org/issue/20115 somewhere in here?\n\nI can imagine that some folks will use GOENV to configure their CI systems, and while a homograph attack via GOENV seems unlikely, it also wouldn\u0027t be caught by potential improvements to `go vet` (since it\u0027s not part of the Go source code).",
+      "revId": "430df239c5a8590f95f78312d19f9f23dfd75a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28ddea0c_12b235f3",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-09T13:00:33Z",
+      "side": 1,
+      "message": "(nit) trailing blank line",
+      "revId": "430df239c5a8590f95f78312d19f9f23dfd75a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5df24ff9_be0610f9",
+        "filename": "src/cmd/go/testdata/script/env_write.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-09T13:00:33Z",
+      "side": 1,
+      "message": "Please add cases demonstrating the behavior of `go env -u` and `go env -w` if the variable is also set explicitly in the environment.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 0
+      },
+      "revId": "430df239c5a8590f95f78312d19f9f23dfd75a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
