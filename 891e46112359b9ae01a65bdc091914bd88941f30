@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44862c50_986dffd5",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-09T18:58:00Z",
+      "side": 1,
+      "message": "Maybe // See Erase about locking.",
+      "revId": "891e46112359b9ae01a65bdc091914bd88941f30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a078587_95be0521",
+        "filename": "src/runtime/treap_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-09T18:58:00Z",
+      "side": 1,
+      "message": "Check against len(spans) instead? Otherwise I worry that a common bug could mask an issue in both sides of this check.",
+      "revId": "891e46112359b9ae01a65bdc091914bd88941f30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fab681f_8b4da5b1",
+        "filename": "src/runtime/treap_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-09T18:58:00Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "891e46112359b9ae01a65bdc091914bd88941f30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
