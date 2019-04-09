@@ -530,6 +530,34 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 		}
 	}
 
+	// Value-preserving extensions can be treated as transparent,
+	// so repeat this update with the pre-extension value.
+	switch v.Op {
+	case OpSignExt8to16, OpSignExt8to32, OpSignExt8to64,
+		OpSignExt16to32, OpSignExt16to64, OpSignExt32to64:
+		if v.Args[0].Type.IsSigned() && v.Type.IsSigned() {
+			ft.update(parent, v.Args[0], w, d, r)
+		}
+	case OpZeroExt8to16, OpZeroExt8to32, OpZeroExt8to64,
+		OpZeroExt16to32, OpZeroExt16to64, OpZeroExt32to64:
+		if !v.Args[0].Type.IsSigned() {
+			ft.update(parent, v.Args[0], w, d, r)
+		}
+	}
+	// Same as above, for w.
+	switch w.Op {
+	case OpSignExt8to16, OpSignExt8to32, OpSignExt8to64,
+		OpSignExt16to32, OpSignExt16to64, OpSignExt32to64:
+		if w.Args[0].Type.IsSigned() && w.Type.IsSigned() {
+			ft.update(parent, v, w.Args[0], d, r)
+		}
+	case OpZeroExt8to16, OpZeroExt8to32, OpZeroExt8to64,
+		OpZeroExt16to32, OpZeroExt16to64, OpZeroExt32to64:
+		if !w.Args[0].Type.IsSigned() {
+			ft.update(parent, v, w.Args[0], d, r)
+		}
+	}
+
 }
 
 var opMin = map[Op]int64{
