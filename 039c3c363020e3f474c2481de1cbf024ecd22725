@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f3836dfb_308ab2d5",
+        "filename": "src/cmd/go/testdata/script/mod_file_proxy.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-09T18:56:04Z",
+      "side": 1,
+      "message": "\u003e I just did. However, I used go1.12 to produce the go.sum which was mismatched with the version that this branch expected. Does that mean there will be another breaking change in the next Go release? Or does it just mean that the \"stored\" version in \"rsc.io_quote_v1.5.1.txt\" is not the same as the one in the upstream?\n\nThe modules stored in cmd/go/testdata are redacted versions, so the sum probably just isn\u0027t what\u0027s upstream.",
+      "parentUuid": "11473502_4a1f720a",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 0
+      },
+      "revId": "039c3c363020e3f474c2481de1cbf024ecd22725",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2321202a_ed8d734b",
         "filename": "src/cmd/go/testdata/script/mod_readonly.txt",
         "patchSetId": 4
