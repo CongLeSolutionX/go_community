@@ -93,6 +93,7 @@ type Regexp struct {
 	matchcap       int            // size of recorded match lengths
 	prefixComplete bool           // prefix is the entire regexp
 	cond           syntax.EmptyOp // empty-width conditions required at start of match
+	backwards      *Regexp        // backwards version of this Regexp
 
 	// This field can be modified by the Longest method,
 	// but it is otherwise read-only.
@@ -169,6 +170,7 @@ func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	maxCap := re.MaxCap()
 	capNames := re.CapNames()
 
@@ -211,7 +213,72 @@ func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
 	}
 	regexp.mpool = i
 
+	// If the pattern is anchored at the end only and we have no prefix, prefer scanning backwards
+	if regexp.prefix == "" && re.Op == syntax.OpConcat && len(re.Sub) > 0 && re.Sub[len(re.Sub)-1].Op == syntax.OpEndText && re.Sub[0].Op != syntax.OpBeginText {
+		reverseRegexp(re)
+		re = re.Simplify()
+		progBackwards, err := syntax.Compile(re)
+		if err != nil {
+			return nil, err
+		}
+		regexp.backwards = &Regexp{
+			expr:        re.String(),
+			prog:        progBackwards,
+			onepass:     compileOnePass(progBackwards),
+			numSubexp:   maxCap,
+			subexpNames: capNames,
+			cond:        progBackwards.StartCond(),
+			longest:     true,
+			matchcap:    matchcap,
+			mpool:       regexp.mpool,
+		}
+	}
+
 	return regexp, nil
+}
+
+// reverseRegexp modifies the regexp in place so that it can match a reversed input
+func reverseRegexp(re *syntax.Regexp) bool {
+	switch re.Op {
+	case syntax.OpLiteral:
+		for left, right := 0, len(re.Rune)-1; left < right; left, right = left+1, right-1 {
+			re.Rune[left], re.Rune[right] = re.Rune[right], re.Rune[left]
+		}
+	case syntax.OpConcat:
+		for left, right := 0, len(re.Sub)-1; left < right; left, right = left+1, right-1 {
+			re.Sub[left], re.Sub[right] = re.Sub[right], re.Sub[left]
+		}
+	case syntax.OpEndText:
+		re.Op = syntax.OpBeginText
+	case syntax.OpBeginText:
+		re.Op = syntax.OpEndText
+	case syntax.OpEndLine:
+		re.Op = syntax.OpBeginLine
+	case syntax.OpBeginLine:
+		re.Op = syntax.OpEndLine
+	default:
+	}
+	for _, r := range re.Sub {
+		reverseRegexp(r)
+	}
+	return true
+}
+
+// reverseCap returns a reversed list of captured positions when backwards scanning the input
+func reverseCap(cap []int, matchcap int, length int) []int {
+	if len(cap) == 0 {
+		return cap
+	}
+	newCap := make([]int, matchcap)
+	newCap[1], newCap[0] = length-cap[0], length-cap[1]
+	for n := 2; n < len(cap); n += 2 {
+		if cap[n] == -1 {
+			newCap[matchcap-n], newCap[matchcap-n+1] = -1, -1
+		} else {
+			newCap[matchcap-n], newCap[matchcap-n+1] = length-cap[n+1], length-cap[n]
+		}
+	}
+	return newCap
 }
 
 // Pools of *machine for use during (*Regexp).doExecute,
@@ -320,16 +387,26 @@ type input interface {
 
 // inputString scans a string.
 type inputString struct {
-	str string
+	str           string
+	scanBackwards bool
 }
 
 func (i *inputString) step(pos int) (rune, int) {
 	if pos < len(i.str) {
-		c := i.str[pos]
-		if c < utf8.RuneSelf {
-			return rune(c), 1
+		if i.scanBackwards {
+			c := i.str[len(i.str)-pos-1]
+			if c < utf8.RuneSelf {
+				return rune(c), 1
+			}
+			return utf8.DecodeLastRuneInString(i.str[:len(i.str)-pos])
+		} else {
+			c := i.str[pos]
+			if c < utf8.RuneSelf {
+				return rune(c), 1
+			}
+			return utf8.DecodeRuneInString(i.str[pos:])
 		}
-		return utf8.DecodeRuneInString(i.str[pos:])
+
 	}
 	return endOfText, 0
 }
@@ -350,16 +427,30 @@ func (i *inputString) context(pos int) lazyFlag {
 	r1, r2 := endOfText, endOfText
 	// 0 < pos && pos <= len(i.str)
 	if uint(pos-1) < uint(len(i.str)) {
-		r1 = rune(i.str[pos-1])
-		if r1 >= utf8.RuneSelf {
-			r1, _ = utf8.DecodeLastRuneInString(i.str[:pos])
+		if i.scanBackwards {
+			r1 = rune(i.str[len(i.str)-pos])
+			if r1 >= utf8.RuneSelf {
+				r1, _ = utf8.DecodeRuneInString(i.str[len(i.str)-pos:])
+			}
+		} else {
+			r1 = rune(i.str[pos-1])
+			if r1 >= utf8.RuneSelf {
+				r1, _ = utf8.DecodeLastRuneInString(i.str[:pos])
+			}
 		}
 	}
 	// 0 <= pos && pos < len(i.str)
 	if uint(pos) < uint(len(i.str)) {
-		r2 = rune(i.str[pos])
-		if r2 >= utf8.RuneSelf {
-			r2, _ = utf8.DecodeRuneInString(i.str[pos:])
+		if i.scanBackwards {
+			r2 = rune(i.str[len(i.str)-pos-1])
+			if r2 >= utf8.RuneSelf {
+				r2, _ = utf8.DecodeLastRuneInString(i.str[:len(i.str)-pos])
+			}
+		} else {
+			r2 = rune(i.str[pos])
+			if r2 >= utf8.RuneSelf {
+				r2, _ = utf8.DecodeRuneInString(i.str[pos:])
+			}
 		}
 	}
 	return newLazyFlag(r1, r2)
@@ -367,16 +458,25 @@ func (i *inputString) context(pos int) lazyFlag {
 
 // inputBytes scans a byte slice.
 type inputBytes struct {
-	str []byte
+	str           []byte
+	scanBackwards bool
 }
 
 func (i *inputBytes) step(pos int) (rune, int) {
 	if pos < len(i.str) {
-		c := i.str[pos]
-		if c < utf8.RuneSelf {
-			return rune(c), 1
+		if i.scanBackwards {
+			c := i.str[len(i.str)-pos-1]
+			if c < utf8.RuneSelf {
+				return rune(c), 1
+			}
+			return utf8.DecodeLastRune(i.str[:len(i.str)-pos])
+		} else {
+			c := i.str[pos]
+			if c < utf8.RuneSelf {
+				return rune(c), 1
+			}
+			return utf8.DecodeRune(i.str[pos:])
 		}
-		return utf8.DecodeRune(i.str[pos:])
 	}
 	return endOfText, 0
 }

@@ -36,12 +36,13 @@ type thread struct {
 
 // A machine holds all the state during an NFA simulation for p.
 type machine struct {
-	re       *Regexp      // corresponding Regexp
-	p        *syntax.Prog // compiled program
-	q0, q1   queue        // two queues for runq, nextq
-	pool     []*thread    // pool of available threads
-	matched  bool         // whether a match was found
-	matchcap []int        // capture information for the match
+	re            *Regexp      // corresponding Regexp
+	p             *syntax.Prog // compiled program
+	q0, q1        queue        // two queues for runq, nextq
+	pool          []*thread    // pool of available threads
+	matched       bool         // whether a match was found
+	matchcap      []int        // capture information for the match
+	scanBackwards bool         // whether we are scanning backwards
 
 	inputs inputs
 }
@@ -53,13 +54,15 @@ type inputs struct {
 	reader inputReader
 }
 
-func (i *inputs) newBytes(b []byte) input {
+func (i *inputs) newBytes(b []byte, scanBackwards bool) input {
 	i.bytes.str = b
+	i.bytes.scanBackwards = scanBackwards
 	return &i.bytes
 }
 
-func (i *inputs) newString(s string) input {
+func (i *inputs) newString(s string, scanBackwards bool) input {
 	i.string.str = s
+	i.string.scanBackwards = scanBackwards
 	return &i.string
 }
 
@@ -82,14 +85,14 @@ func (i *inputs) clear() {
 	}
 }
 
-func (i *inputs) init(r io.RuneReader, b []byte, s string) (input, int) {
+func (i *inputs) init(r io.RuneReader, b []byte, s string, scanBackwards bool) (input, int) {
 	if r != nil {
 		return i.newReader(r), 0
 	}
 	if b != nil {
-		return i.newBytes(b), len(b)
+		return i.newBytes(b, scanBackwards), len(b)
 	}
-	return i.newString(s), len(s)
+	return i.newString(s, scanBackwards), len(s)
 }
 
 func (m *machine) init(ncap int) {
@@ -349,7 +352,7 @@ Again:
 		pc = i.Out
 		goto Again
 	case syntax.InstCapture:
-		if int(i.Arg) < len(cap) {
+		if int(i.Arg) < len(cap) && !(m.scanBackwards && cap[i.Arg] >= 0) {
 			opos := cap[i.Arg]
 			cap[i.Arg] = pos
 			m.add(q, i.Out, pos, cap, cond, nil)
@@ -394,7 +397,7 @@ func freeOnePassMachine(m *onePassMachine) {
 }
 
 // doOnePass implements r.doExecute using the one-pass execution engine.
-func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap int, dstCap []int) []int {
+func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap int, dstCap []int, scanBackwards bool) []int {
 	startCond := re.cond
 	if startCond == ^syntax.EmptyOp(0) { // impossible
 		return nil
@@ -412,7 +415,7 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 		m.matchcap[i] = -1
 	}
 
-	i, _ := m.inputs.init(ir, ib, is)
+	i, _ := m.inputs.init(ir, ib, is, scanBackwards)
 
 	r, r1 := endOfText, endOfText
 	width, width1 := 0, 0
@@ -482,7 +485,7 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 			}
 			continue
 		case syntax.InstCapture:
-			if int(inst.Arg) < len(m.matchcap) {
+			if int(inst.Arg) < len(m.matchcap) && !(scanBackwards && m.matchcap[inst.Arg] >= 0) {
 				m.matchcap[inst.Arg] = pos
 			}
 			continue
@@ -506,6 +509,9 @@ Return:
 
 	dstCap = append(dstCap, m.matchcap...)
 	freeOnePassMachine(m)
+	if scanBackwards {
+		return reverseCap(dstCap, re.matchcap, len(is)+len(ib))
+	}
 	return dstCap
 }
 
@@ -524,15 +530,24 @@ func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap i
 		dstCap = arrayNoInts[:0:0]
 	}
 
+	scanBackwards := false
+	if r == nil && re.backwards != nil {
+		re = re.backwards
+		scanBackwards = true
+	}
+
 	if re.onepass != nil {
-		return re.doOnePass(r, b, s, pos, ncap, dstCap)
+		return re.doOnePass(r, b, s, pos, ncap, dstCap, scanBackwards)
 	}
 	if r == nil && len(b)+len(s) < re.maxBitStateLen {
-		return re.backtrack(b, s, pos, ncap, dstCap)
+		return re.backtrack(b, s, pos, ncap, dstCap, scanBackwards)
 	}
 
 	m := re.get()
-	i, _ := m.inputs.init(r, b, s)
+
+	m.scanBackwards = scanBackwards
+
+	i, _ := m.inputs.init(r, b, s, scanBackwards)
 
 	m.init(ncap)
 	if !m.match(i, pos) {
@@ -542,6 +557,9 @@ func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap i
 
 	dstCap = append(dstCap, m.matchcap...)
 	re.put(m)
+	if scanBackwards {
+		return reverseCap(dstCap, re.matchcap, len(b)+len(s))
+	}
 	return dstCap
 }
 

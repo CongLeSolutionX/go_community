@@ -137,7 +137,7 @@ func (b *bitState) push(re *Regexp, pc uint32, pos int, arg bool) {
 }
 
 // tryBacktrack runs a backtracking search starting at pos.
-func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
+func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int, scanBackwards bool) bool {
 	longest := re.longest
 
 	b.push(re, pc, pos, false)
@@ -247,7 +247,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 				b.cap[inst.Arg] = pos
 				continue
 			} else {
-				if 0 <= inst.Arg && inst.Arg < uint32(len(b.cap)) {
+				if 0 <= inst.Arg && inst.Arg < uint32(len(b.cap)) && !(scanBackwards && b.cap[inst.Arg] >= 0) {
 					// Capture pos to register, but save old value.
 					b.push(re, pc, b.cap[inst.Arg], true) // come back when we're done.
 					b.cap[inst.Arg] = pos
@@ -304,7 +304,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 }
 
 // backtrack runs a backtracking search of prog on the input starting at pos.
-func (re *Regexp) backtrack(ib []byte, is string, pos int, ncap int, dstCap []int) []int {
+func (re *Regexp) backtrack(ib []byte, is string, pos int, ncap int, dstCap []int, scanBackwards bool) []int {
 	startCond := re.cond
 	if startCond == ^syntax.EmptyOp(0) { // impossible
 		return nil
@@ -315,7 +315,7 @@ func (re *Regexp) backtrack(ib []byte, is string, pos int, ncap int, dstCap []in
 	}
 
 	b := newBitState()
-	i, end := b.inputs.init(nil, ib, is)
+	i, end := b.inputs.init(nil, ib, is, scanBackwards)
 	b.reset(re.prog, end, ncap)
 
 	// Anchored search must start at the beginning of the input
@@ -323,7 +323,7 @@ func (re *Regexp) backtrack(ib []byte, is string, pos int, ncap int, dstCap []in
 		if len(b.cap) > 0 {
 			b.cap[0] = pos
 		}
-		if !re.tryBacktrack(b, i, uint32(re.prog.Start), pos) {
+		if !re.tryBacktrack(b, i, uint32(re.prog.Start), pos, scanBackwards) {
 			freeBitState(b)
 			return nil
 		}
@@ -350,7 +350,7 @@ func (re *Regexp) backtrack(ib []byte, is string, pos int, ncap int, dstCap []in
 			if len(b.cap) > 0 {
 				b.cap[0] = pos
 			}
-			if re.tryBacktrack(b, i, uint32(re.prog.Start), pos) {
+			if re.tryBacktrack(b, i, uint32(re.prog.Start), pos, scanBackwards) {
 				// Match must be leftmost; done.
 				goto Match
 			}
@@ -363,5 +363,8 @@ func (re *Regexp) backtrack(ib []byte, is string, pos int, ncap int, dstCap []in
 Match:
 	dstCap = append(dstCap, b.matchcap...)
 	freeBitState(b)
+	if scanBackwards {
+		return reverseCap(dstCap, re.matchcap, len(is)+len(ib))
+	}
 	return dstCap
 }
