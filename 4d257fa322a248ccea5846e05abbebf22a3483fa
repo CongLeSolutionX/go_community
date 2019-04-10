@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "633c16f7_d5fc694d",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-10T19:15:22Z",
+      "side": 1,
+      "message": "This describes what the instruction is doing in low level, but not the semantics, which I think is more helpful in this context. Maybe: -1 if borrowing, 0 otherwise.",
+      "range": {
+        "startLine": 232,
+        "startChar": 92,
+        "endLine": 232,
+        "endChar": 109
+      },
+      "revId": "4d257fa322a248ccea5846e05abbebf22a3483fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
