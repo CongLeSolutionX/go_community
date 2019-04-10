@@ -1061,6 +1061,108 @@ func TestIsNil(t *testing.T) {
 	NotNil(fi, t)
 }
 
+func TestIsZero(t *testing.T) {
+	for i, c := range []struct {
+		x interface{}
+		b bool
+	}{
+		// Booleans
+		{true, false},
+		{false, true},
+
+		// Numeric types
+		{int(0), true},
+		{int(1), false},
+		{int8(0), true},
+		{int8(1), false},
+		{int16(0), true},
+		{int16(1), false},
+		{int32(0), true},
+		{int32(1), false},
+		{int64(0), true},
+		{int64(1), false},
+		{uint(0), true},
+		{uint(1), false},
+		{uint8(0), true},
+		{uint8(1), false},
+		{uint16(0), true},
+		{uint16(1), false},
+		{uint32(0), true},
+		{uint32(1), false},
+		{uint64(0), true},
+		{uint64(1), false},
+		{float32(0), true},
+		{float32(1.2), false},
+		{float64(0), true},
+		{float64(1.2), false},
+		{complex64(0), true},
+		{complex64(1.2), false},
+		{complex128(0), true},
+		{complex128(1.2), false},
+		{uintptr(0), true},
+		{uintptr(128), false},
+
+		// Array
+		{Zero(TypeOf([5]string{})).Interface(), true},
+		{[5]string{"", "", "", "", ""}, true},
+		{[5]string{}, true},
+		{[5]string{"", "", "", "a", ""}, false},
+
+		// Chan
+		{(chan string)(nil), true},
+		{make(chan string), false},
+		{time.After(1), false},
+
+		// Func
+		{(func())(nil), true},
+		{New, false},
+
+		// Interface
+		{(io.Reader)(strings.NewReader("")), false},
+
+		// Map
+		{(map[string]string)(nil), true},
+		{map[string]string{}, false},
+		{make(map[string]string), false},
+
+		// Ptr
+		{(*func())(nil), true},
+		{(*int)(nil), true},
+		{new(int), false},
+
+		// Slice
+		{[]string{}, false},
+		{([]string)(nil), true},
+		{make([]string, 0), false},
+
+		// Strings
+		{"", true},
+		{"not-zero", false},
+
+		// Structs
+		{T{}, true},
+		{T{123, 456.75, "hello", &_i}, false},
+
+		// UnsafePointer
+		{(unsafe.Pointer)(nil), true},
+		{(unsafe.Pointer)(new(int)), false},
+	} {
+		b := ValueOf(c.x).IsZero()
+		if b != c.b {
+			t.Errorf("#%d IsZero((%s)(%+v)) = %t, want %t", i, ValueOf(c.x).Kind(), c.x, b, c.b)
+		}
+	}
+
+	func() {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Error("should panic for invalid value")
+			}
+		}()
+		(Value{}).IsZero()
+	}()
+}
+
 func TestInterfaceExtraction(t *testing.T) {
 	var s struct {
 		W io.Writer
