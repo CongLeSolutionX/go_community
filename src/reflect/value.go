@@ -1071,6 +1071,47 @@ func (v Value) IsValid() bool {
 	return v.flag != 0
 }
 
+// IsZero reports whether v is a zero value for its type.
+// It panics if the argument is invalid.
+func (v Value) IsZero() bool {
+	switch v.kind() {
+	case Bool:
+		return !v.Bool()
+	case Int, Int8, Int16, Int32, Int64:
+		return v.Int() == 0
+	case Uint, Uint8, Uint16, Uint32, Uint64, Uintptr:
+		return v.Uint() == 0
+	case Float32, Float64:
+		f := v.Float()
+		return f == 0 && !math.Signbit(f)
+	case Complex64, Complex128:
+		c := v.Complex()
+		return c == 0 && !math.Signbit(real(c)) && !math.Signbit(imag(c))
+	case Array:
+		for i := 0; i < v.Len(); i++ {
+			if !v.Index(i).IsZero() {
+				return false
+			}
+		}
+		return true
+	case Chan, Func, Interface, Map, Ptr, Slice, UnsafePointer:
+		return v.IsNil()
+	case String:
+		return v.Len() == 0
+	case Struct:
+		for i := 0; i < v.NumField(); i++ {
+			if !v.Field(i).IsZero() {
+				return false
+			}
+		}
+		return true
+	// This should never happens, but will act as a safeguard for later, as
+	// a default value doesn't makes sense here.
+	default:
+		panic(&ValueError{"reflect.Value.IsZero", v.Kind()})
+	}
+}
+
 // Kind returns v's Kind.
 // If v is the zero Value (IsValid returns false), Kind returns Invalid.
 func (v Value) Kind() Kind {
