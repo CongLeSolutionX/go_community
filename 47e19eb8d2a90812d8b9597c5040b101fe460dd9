@@ -105,6 +105,29 @@
     },
     {
       "key": {
+        "uuid": "b337c9dd_708afdd5",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2019-04-10T21:38:27Z",
+      "side": 1,
+      "message": "What consideration has been given to whether this should be a method on Value instead?",
+      "range": {
+        "startLine": 1075,
+        "startChar": 0,
+        "endLine": 1075,
+        "endChar": 25
+      },
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f8428a1_9f7a8b50",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
