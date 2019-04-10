@@ -139,6 +139,29 @@
     },
     {
       "key": {
+        "uuid": "9cacd3cc_1c09df4f",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2019-04-10T21:36:41Z",
+      "side": 1,
+      "message": "An interesting question arises whether -0.0 is the \"zero value\".\n\nI personally believe no, since I mentally consider the \"zero value\" as what is equivalent to zero\u0027d out memory for the given Go type.",
+      "range": {
+        "startLine": 1087,
+        "startChar": 2,
+        "endLine": 1088,
+        "endChar": 0
+      },
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "beccaa5b_cdad4d0f",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
