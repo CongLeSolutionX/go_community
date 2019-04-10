@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f75fa7e4_529e2d03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2019-04-10T01:18:34Z",
+      "side": 1,
+      "message": "make the line shorter, do not exceed 80 chars/line. And I thought it was better like:\n\ncmd/asm/internal/arch: improve the comment of function IsMIPSMUL\n\nThe check of MADD\u0026MSUB was added to the function IsMIPSMUL in a\nprevious commit, and the comments should also be updated.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 143
+      },
+      "revId": "beaef7c8431f3b297da4939b90f3706119a2580c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
