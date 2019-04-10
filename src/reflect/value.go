@@ -1071,6 +1071,56 @@ func (v Value) IsValid() bool {
 	return v.flag != 0
 }
 
+// IsZero reports whether its argument v is a zero-value.
+func IsZero(v Value) bool {
+	switch v.kind() {
+	// Zero-value for bool is "false".
+	case Bool:
+		return !v.Bool()
+
+	// Zero-value for all numeric types is 0.
+	case Int, Int8, Int16, Int32, Int64:
+		return v.Int() == 0
+	case Uint, Uint8, Uint16, Uint32, Uint64, Uintptr:
+		return v.Uint() == 0
+	case Float32, Float64:
+		return v.Float() == 0
+
+	// Zero-value for strings is "".
+	case String:
+		return v.Len() == 0
+
+	// Zero-value for nillable types is nil.
+	case Interface, Ptr, Slice, Map, Chan, Func:
+		return v.IsNil()
+
+	// Zero-value for an array is an array whose elements are zero-values
+	// themselves.
+	case Array:
+		for i := 0; i < v.Len(); i++ {
+			if !IsZero(v.Index(i)) {
+				return false
+			}
+		}
+		return true
+
+	// Zero-value for a struct is a struct whose fields are zero-values
+	// themselves.
+	case Struct:
+		for i := 0; i < v.NumField(); i++ {
+			if !IsZero(v.Field(i)) {
+				return false
+			}
+		}
+		return true
+
+	// This should never happens, but as a panic will act as a safeguard
+	// for later, as a default value doesn't makes sense here.
+	default:
+		panic("unhandled kind " + v.Kind().String())
+	}
+}
+
 // Kind returns v's Kind.
 // If v is the zero Value (IsValid returns false), Kind returns Invalid.
 func (v Value) Kind() Kind {

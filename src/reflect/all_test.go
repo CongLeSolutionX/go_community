@@ -1061,6 +1061,57 @@ func TestIsNil(t *testing.T) {
 	NotNil(fi, t)
 }
 
+func TestIsZero(t *testing.T) {
+	for i, c := range []struct {
+		x interface{}
+		b bool
+	}{
+		// Numeric types
+		{int(0), true},
+		{int(1), false},
+		{int64(0), true},
+		{int64(1), false},
+		{float64(0), true},
+		{float64(1.2), false},
+
+		// Booleans
+		{true, false},
+		{false, true},
+
+		// Strings
+		{"", true},
+		{"not-zero", false},
+
+		// Structs
+		{T{}, true},
+		{T{123, 456.75, "hello", &_i}, false},
+
+		// Funcs
+		{(*func())(nil), true},
+		{(func())(nil), true},
+		{IsZero, false},
+
+		// Array, Slice, Maps
+		{Zero(TypeOf([5]string{})).Interface(), true},
+		{[5]string{"", "", "", "", ""}, true},
+		{[5]string{}, true},
+		{[5]string{"", "", "", "a", ""}, false},
+
+		{[]string{}, false},
+		{([]string)(nil), true},
+		{make([]string, 0), false},
+
+		{(map[string]string)(nil), true},
+		{map[string]string{}, false},
+		{make(map[string]string), false},
+	} {
+		b := IsZero(ValueOf(c.x))
+		if b != c.b {
+			t.Errorf("invalid result for #%d IsZero(%+v): wanted %t, got %t", i, c.x, c.b, b)
+		}
+	}
+}
+
 func TestInterfaceExtraction(t *testing.T) {
 	var s struct {
 		W io.Writer
