@@ -69,6 +69,41 @@
       "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b9d4e0d_4dc0a7a4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1345,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-11T19:12:46Z",
+      "side": 1,
+      "message": "I agree. All sched.safePointWait reads and writes except the one below are protected by sched.lock.",
+      "parentUuid": "93158980_f7ac01c2",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "738dc459_58cad53c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1403,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-11T19:12:46Z",
+      "side": 1,
+      "message": "Add a comment saying why this one is an atomic load.\n\nOr move it into the block that holds sched.lock a few lines down.",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
