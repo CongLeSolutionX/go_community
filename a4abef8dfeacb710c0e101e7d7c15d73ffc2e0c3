@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7454b830_095f9750",
+        "filename": "src/net/platform_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:06:42Z",
+      "side": 1,
+      "message": "this will still crash if len(out) is too small, which was why I suggested removing the err check above and doing something like:\n\n   out, _ :\u003d exec.Command(\"oslevel\", \"-s\").Output()\n   if len(out) \u003e\u003d len(\"7200-XX-ZZ-YYMM\") { // AIX 7.2, Tech Level XX, Service Pack ZZ, date YYMM\n       aixVer :\u003d string(out[:4])\n       tl, _ :\u003d strconv.Atoi(string(out[5:7]))\n       unixEnabledOnAIX \u003d aixVer \u003e \"7200\" || (aixVer \u003d\u003d \"7200\" \u0026\u0026 tl \u003e\u003d 2)\n   }\n\nI assume AIX 7.3 TL 1 will still contain the fix, no?",
+      "range": {
+        "startLine": 31,
+        "startChar": 29,
+        "endLine": 31,
+        "endChar": 45
+      },
+      "revId": "a4abef8dfeacb710c0e101e7d7c15d73ffc2e0c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
