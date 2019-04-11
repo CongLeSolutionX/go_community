@@ -409,6 +409,54 @@ func deltimer(t *timer) bool {
 	}
 }
 
+// dodeltimer removes timer i from the current P's heap.
+// We are locked on the P when this is called.
+// The caller must have locked the timers for pp.
+func dodeltimer(pp *p, i int) {
+	if t := pp.timers[i]; t.pp.ptr() != pp {
+		throw("dodeltimer: wrong P")
+	} else {
+		t.pp = 0
+	}
+	last := len(pp.timers) - 1
+	if i != last {
+		pp.timers[i] = pp.timers[last]
+	}
+	pp.timers[last] = nil
+	pp.timers = pp.timers[:last]
+	if i != last {
+		if !siftupTimer(pp.timers, i) {
+			badTimer()
+		}
+		if !siftdownTimer(pp.timers, i) {
+			badTimer()
+		}
+	}
+}
+
+// dodeltimer0 removes timer 0 from the current P's heap.
+// We are locked on the P when this is called.
+// It reports whether it saw no problems due to races.
+// The caller must have locked the timers for pp.
+func dodeltimer0(pp *p) bool {
+	if t := pp.timers[0]; t.pp.ptr() != pp {
+		throw("dodeltimer0: wrong P")
+	} else {
+		t.pp = 0
+	}
+	last := len(pp.timers) - 1
+	if last > 0 {
+		pp.timers[0] = pp.timers[last]
+	}
+	pp.timers[last] = nil
+	pp.timers = pp.timers[:last]
+	ok := true
+	if last > 0 {
+		ok = siftdownTimer(pp.timers, 0)
+	}
+	return ok
+}
+
 func deltimerOld(t *timer) bool {
 	if t.tb == nil {
 		// t.tb can be nil if the user created a timer
