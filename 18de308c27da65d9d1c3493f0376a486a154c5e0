@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4912347f_7648e8f9",
+        "filename": "src/syscall/dirent_bsd_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-11T21:31:05Z",
+      "side": 1,
+      "message": "Might need to skip `netbsd` too:\nhttps://build.golang.org/log/627de1a73660642f86297198c34d602fd6d67879",
+      "revId": "18de308c27da65d9d1c3493f0376a486a154c5e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
