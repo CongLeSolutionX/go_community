@@ -567,6 +567,9 @@ type p struct {
 	// Must hold timersLock to access.
 	timers []*timer
 
+	// Number of timerModifiedEarlier timers on P's heap.
+	adjustTimers uint32
+
 	pad cpu.CacheLinePad
 }
 
