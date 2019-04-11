@@ -181,6 +181,21 @@ func caninl(fn *Node) {
 		return
 	}
 
+	// Inlining could swallow a pragma and disable this check.
+	if fn.Func.Pragma&Nowritebarrier != 0 {
+		reason = "marked go:nowritebarrier"
+		return
+	}
+
+	// Inlining could swallow a pragma and disable this check.
+	if fn.Func.Pragma&Nowritebarrierrec != 0 {
+		reason = "marked go:nowritebarrierrec"
+		return
+	}
+
+	// If go:noescape is ever allowed on a function with a body, that might
+	// be an issue here because swallowing the pragma might create an escape
+
 	// If fn has no body (is defined outside of Go), cannot inline it.
 	if fn.Nbody.Len() == 0 {
 		reason = "no function body"
