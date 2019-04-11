@@ -83,12 +83,11 @@ func TestDirentRepeat(t *testing.T) {
 	// Note: the size of the buffer is small enough that the loop
 	// below will need to execute multiple times. See issue #31368.
 	size := N * unsafe.Offsetof(syscall.Dirent{}.Name) / 4
-	if runtime.GOOS == "freebsd" || runtime.GOOS == "netbsd" {
-		if size < 1024 {
-			size = 1024 // DIRBLKSIZ, see issue 31403.
-		}
+	if size < 1024 {
+		size = 1024 // DIRBLKSIZ, see issue 31403.
+
 		if runtime.GOOS == "freebsd" {
-			t.Skip("need to fix issue 31416 first")
+			size *= 4 // to fit larger Dirent entries when dirent_freebsd11 is the native size, see issue 31416.
 		}
 	}
 
