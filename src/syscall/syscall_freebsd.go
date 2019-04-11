@@ -273,9 +273,22 @@ func Getdirentries(fd int, buf []byte, basep *uintptr) (n int, err error) {
 	// The old syscall entries are smaller than the new. Use 1/4 of the original
 	// buffer size rounded up to DIRBLKSIZ (see /usr/src/lib/libc/sys/getdirentries.c).
 	oldBufLen := roundup(len(buf)/4, _dirblksiz)
+	println("oldBufLen:", oldBufLen)
+	var startOffset int64
+	if oldBufLen*4 > len(buf) {
+		println("buffer might not suffice")
+		if startOffset, err = Seek(fd, 0, 1 /* SEEK_CUR */); err != nil {
+			return 0, err
+		}
+	}
 	oldBuf := make([]byte, oldBufLen)
 	n, err = getdirentries(fd, oldBuf, basep)
+	println("getdirentries n:", n)
 	if err == nil && n > 0 {
+		if n*4 > len(buf) {
+			Seek(fd, startOffset, 0 /* SEEK_SET */)
+			return 0, EINVAL
+		}
 		n = convertFromDirents11(buf, oldBuf[:n])
 	}
 	return
