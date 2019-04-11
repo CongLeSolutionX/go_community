@@ -14,6 +14,27 @@ import (
 	"testing"
 )
 
+var unixEnabledOnAIX bool
+
+func init() {
+	if runtime.GOOS == "aix" {
+		// Unix network isn't properly working on AIX 7.2 with
+		// Technical Level < 2.
+		// The information is retrieved only once in this init()
+		// instead of everytime testableNetwork is called.
+		out, err := exec.Command("oslevel", "-s").Output()
+		if err != nil {
+			return
+		}
+		// out should be something like 7200-XX-ZZ-DATE, which means
+		// AIX 7.2, TL XX, service pack ZZ released on DATE(YYMM).
+		if tl, err := strconv.Atoi(string(out[5:7])); err != nil || tl < 2 {
+			return
+		}
+		unixEnabledOnAIX = true
+	}
+}
+
 // testableNetwork reports whether network is testable on the current
 // platform configuration.
 func testableNetwork(network string) bool {
@@ -38,15 +59,7 @@ func testableNetwork(network string) bool {
 		case "android", "nacl", "plan9", "windows":
 			return false
 		case "aix":
-			// Unix network isn't properly working on AIX 7.2 with Technical Level < 2
-			out, err := exec.Command("oslevel", "-s").Output()
-			if err != nil {
-				return false
-			}
-			if tl, err := strconv.Atoi(string(out[5:7])); err != nil || tl < 2 {
-				return false
-			}
-			return true
+			return unixEnabledOnAIX
 		}
 		// iOS does not support unix, unixgram.
 		if runtime.GOOS == "darwin" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
