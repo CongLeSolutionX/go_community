@@ -56,7 +56,7 @@ func (dec *Decoder) Decode(v interface{}) error {
 	}
 
 	if !dec.tokenValueAllowed() {
-		return &SyntaxError{msg: "not at beginning of value", Offset: dec.offset()}
+		return &SyntaxError{msg: "json: not at beginning of value", Offset: dec.offset()}
 	}
 
 	// Read whole value into buffer.
@@ -308,7 +308,7 @@ func (dec *Decoder) tokenPrepareForDecode() error {
 			return err
 		}
 		if c != ',' {
-			return &SyntaxError{"expected comma after array element", dec.offset()}
+			return &SyntaxError{"json: expected comma after array element", dec.offset()}
 		}
 		dec.scanp++
 		dec.tokenState = tokenArrayValue
@@ -318,7 +318,7 @@ func (dec *Decoder) tokenPrepareForDecode() error {
 			return err
 		}
 		if c != ':' {
-			return &SyntaxError{"expected colon after object key", dec.offset()}
+			return &SyntaxError{"json: expected colon after object key", dec.offset()}
 		}
 		dec.scanp++
 		dec.tokenState = tokenObjectValue
@@ -471,7 +471,7 @@ func (dec *Decoder) tokenError(c byte) (Token, error) {
 	case tokenObjectComma:
 		context = " after object key:value pair"
 	}
-	return nil, &SyntaxError{"invalid character " + quoteChar(c) + context, dec.offset()}
+	return nil, &SyntaxError{"json: invalid character " + quoteChar(c) + context, dec.offset()}
 }
 
 // More reports whether there is another element in the
