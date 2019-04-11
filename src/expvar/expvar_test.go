@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net"
 	"net/http/httptest"
 	"reflect"
@@ -330,6 +331,32 @@ func BenchmarkMapAddDifferent(b *testing.B) {
 		keys := make([]string, 4)
 		for j := range keys {
 			keys[j] = fmt.Sprint(i, j)
+		}
+		procKeys[i] = keys
+	}
+
+	b.ResetTimer()
+
+	var n int32
+	b.RunParallel(func(pb *testing.PB) {
+		i := int(atomic.AddInt32(&n, 1)-1) % len(procKeys)
+		keys := procKeys[i]
+
+		for pb.Next() {
+			m := new(Map).Init()
+			for _, k := range keys {
+				m.Add(k, 1)
+			}
+		}
+	})
+}
+
+func BenchmarkMapAddDifferentRandom(b *testing.B) {
+	procKeys := make([][]string, runtime.GOMAXPROCS(0))
+	for i := range procKeys {
+		keys := make([]string, 100)
+		for j := range keys {
+			keys[j] = fmt.Sprint(i, rand.Int())
 		}
 		procKeys[i] = keys
 	}
