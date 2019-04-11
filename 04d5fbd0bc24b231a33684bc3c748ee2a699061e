@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f29c8272_0cef0eae",
+        "filename": "src/cmd/link/dwarf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-11T23:28:00Z",
+      "side": 1,
+      "message": "Don\u0027t say /usr/bin/symbols here; we don\u0027t know that for sure.  Better to use the result of exec.LookPath, and pass that result to exec.Command.",
+      "revId": "04d5fbd0bc24b231a33684bc3c748ee2a699061e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
