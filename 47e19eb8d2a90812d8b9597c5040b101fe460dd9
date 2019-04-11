@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d4a9b0e1_115fa9f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-11T08:54:34Z",
+      "side": 1,
+      "message": "Removed.\n\nI\u0027ve been taking example on commit 2bd767b102 (the tip of master at the time of my branch), that use the parentheses.",
+      "parentUuid": "f10da289_d9fc7b9b",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a143772_77ba2f16",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 1
@@ -105,6 +129,30 @@
     },
     {
       "key": {
+        "uuid": "9e3f1650_70fe8bb6",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-11T08:54:34Z",
+      "side": 1,
+      "message": "I had this at the start but removed it because it seemed obvious (what the value would be zero-value for other than it\u0027s type?). Added it back.",
+      "parentUuid": "30937f8a_881f9b01",
+      "range": {
+        "startLine": 1074,
+        "startChar": 44,
+        "endLine": 1074,
+        "endChar": 56
+      },
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b337c9dd_708afdd5",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
@@ -128,6 +176,30 @@
     },
     {
       "key": {
+        "uuid": "0638b3f3_02a842e5",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-11T08:54:34Z",
+      "side": 1,
+      "message": "None, and in fact it should probably, as it will be easier to write and there is already other IsXXX methods on Value. I just happened to start the implementation with a generic function to ease the process.\n\nIt\u0027s done.",
+      "parentUuid": "b337c9dd_708afdd5",
+      "range": {
+        "startLine": 1075,
+        "startChar": 0,
+        "endLine": 1075,
+        "endChar": 25
+      },
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f8428a1_9f7a8b50",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
@@ -145,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "f6b6e7c3_132065b0",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-11T08:54:34Z",
+      "side": 1,
+      "message": "Agreed, although I\u0027ve seen many developers being surprised at the fact that an empty slice isn\u0027t the slice zero-value, or plainly not knowing what the zero-value for an array is.",
+      "parentUuid": "5f8428a1_9f7a8b50",
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04812d23_b88c6cb5",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
@@ -159,6 +249,24 @@
       "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef1b173f_f52ba106",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-11T08:54:34Z",
+      "side": 1,
+      "message": "Yep. THB, I wanted to see it the implement method was acceptable before going overboard with tests and checking all the kinds (I did those I could recall from the top of my head). I\u0027ve added it.",
+      "parentUuid": "04812d23_b88c6cb5",
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -185,6 +293,30 @@
     },
     {
       "key": {
+        "uuid": "52d84542_d064132e",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-11T08:54:34Z",
+      "side": 1,
+      "message": "As it stands, yes. Because `-0.0` is equal to `0` for a float, which is the zero-value. See here: https://play.golang.org/p/YvY80EWX-jT",
+      "parentUuid": "9cacd3cc_1c09df4f",
+      "range": {
+        "startLine": 1087,
+        "startChar": 2,
+        "endLine": 1088,
+        "endChar": 0
+      },
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "beccaa5b_cdad4d0f",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
@@ -202,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "c22865be_453c50fc",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-11T08:54:34Z",
+      "side": 1,
+      "message": "Same reason than Complex, I\u0027ve added it.",
+      "parentUuid": "beccaa5b_cdad4d0f",
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8d6e7ea_831f1d7f",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
@@ -216,6 +366,24 @@
       "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95aa4936_7d52c542",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-11T08:54:34Z",
+      "side": 1,
+      "message": "Hum… I really don\u0027t think we should return either true or false for invalid. Because, by definition, an invalid value can\u0027t be compared, so this method doesn\u0027t makes sense and shouldn\u0027t be used. As the doc for IsValid says, all methods except String will panic, so we\u0027re consistent here.\n\nI\u0027ve use the ValueError thing.",
+      "parentUuid": "d8d6e7ea_831f1d7f",
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
