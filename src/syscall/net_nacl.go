@@ -32,6 +32,7 @@ type runtimeTimer struct {
 
 func startTimer(*runtimeTimer)
 func stopTimer(*runtimeTimer) bool
+func resetTimer(*runtimeTimer, int64)
 
 type timer struct {
 	expired bool
@@ -44,10 +45,9 @@ func (t *timer) start(q *queue, deadline int64) {
 		return
 	}
 	t.q = q
-	t.r.when = deadline
 	t.r.f = timerExpired
 	t.r.arg = t
-	startTimer(&t.r)
+	resetTimer(&t.r, deadline)
 }
 
 func (t *timer) stop() {
