@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7131a83f_43125997",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:41:51Z",
+      "side": 1,
+      "message": "its, not it\u0027s (\"it is\")",
+      "range": {
+        "startLine": 1074,
+        "startChar": 61,
+        "endLine": 1074,
+        "endChar": 65
+      },
+      "revId": "6d8f5463538b77490f8b8351c2f143b2125b07aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d079f2a_48c2e279",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:41:51Z",
+      "side": 1,
+      "message": "Not argument. Just \"whether v\"",
+      "range": {
+        "startLine": 1074,
+        "startChar": 18,
+        "endLine": 1074,
+        "endChar": 40
+      },
+      "revId": "6d8f5463538b77490f8b8351c2f143b2125b07aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fc6ccba_1fc4a780",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:41:51Z",
+      "side": 1,
+      "message": "Move \"It\" to its own line.",
+      "revId": "6d8f5463538b77490f8b8351c2f143b2125b07aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad824dbc_d9b2d67b",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:41:51Z",
+      "side": 1,
+      "message": "zero value without hyphen",
+      "range": {
+        "startLine": 1074,
+        "startChar": 46,
+        "endLine": 1074,
+        "endChar": 56
+      },
+      "revId": "6d8f5463538b77490f8b8351c2f143b2125b07aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec08dbcf_a14bb3ea",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:41:51Z",
+      "side": 1,
+      "message": "Make these blank lines consistent. Remove this one? Or all of them?",
+      "revId": "6d8f5463538b77490f8b8351c2f143b2125b07aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1718e1b_36350b52",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:41:51Z",
+      "side": 1,
+      "message": "What about negative zero? https://play.golang.org/p/GeTlUBiHf1V",
+      "range": {
+        "startLine": 1085,
+        "startChar": 7,
+        "endLine": 1086,
+        "endChar": 23
+      },
+      "revId": "6d8f5463538b77490f8b8351c2f143b2125b07aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd38ecea_8061f1ff",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:41:51Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "6d8f5463538b77490f8b8351c2f143b2125b07aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
