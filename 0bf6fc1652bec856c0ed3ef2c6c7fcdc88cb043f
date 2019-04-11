@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0b61688_fc26b8e2",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-04-11T21:17:20Z",
+      "side": 1,
+      "message": "It doesn\u0027t really make sense to mention s this way. How about\n\"... returns a string which is equal to s with ...\"",
+      "range": {
+        "startLine": 818,
+        "startChar": 29,
+        "endLine": 818,
+        "endChar": 33
+      },
+      "revId": "0bf6fc1652bec856c0ed3ef2c6c7fcdc88cb043f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
