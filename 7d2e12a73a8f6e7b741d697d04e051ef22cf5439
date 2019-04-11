@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bd39959a_8cec3e38",
+        "filename": "src/net/platform_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-04-11T15:03:32Z",
+      "side": 1,
+      "message": "I still need to know if oslevel -s returned correctly, otherwise out[5:7] might panic.",
+      "parentUuid": "e5922ad4_f430474f",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "7d2e12a73a8f6e7b741d697d04e051ef22cf5439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4ada2b3c_5317e997",
         "filename": "src/net/platform_test.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "30f41592_927f03f5",
+        "filename": "src/net/platform_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-04-11T15:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ada2b3c_5317e997",
+      "range": {
+        "startLine": 30,
+        "startChar": 40,
+        "endLine": 30,
+        "endChar": 43
+      },
+      "revId": "7d2e12a73a8f6e7b741d697d04e051ef22cf5439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e649a2c0_e5b6c839",
         "filename": "src/net/platform_test.go",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "7d2e12a73a8f6e7b741d697d04e051ef22cf5439",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7390816d_5b8c9dd8",
+        "filename": "src/net/platform_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-04-11T15:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e649a2c0_e5b6c839",
+      "revId": "7d2e12a73a8f6e7b741d697d04e051ef22cf5439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
