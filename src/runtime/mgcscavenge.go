@@ -221,8 +221,7 @@ func scavengeSleep(gen uint32, ns int64) bool {
 
 	// Set the timer.
 	now := nanotime()
-	scavenge.timer.when = now + ns
-	startTimer(scavenge.timer)
+	resetTimer(scavenge.timer, now+ns)
 
 	// Park the goroutine. It's fine that we don't publish the
 	// fact that the timer was set; even if the timer wakes up
