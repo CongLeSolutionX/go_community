@@ -9,3 +9,6 @@ TEXT ·startTimer(SB),NOSPLIT,$0
 
 TEXT ·stopTimer(SB),NOSPLIT,$0
 	B time·stopTimer(SB)
+
+TEXT ·resetTimer(SB),NOSPLIT,$0
+	B time·resetTimer(SB)
