@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4bec975_1a5717a0",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2019-04-11T20:38:13Z",
+      "side": 1,
+      "message": "missing comma",
+      "range": {
+        "startLine": 207,
+        "startChar": 62,
+        "endLine": 207,
+        "endChar": 64
+      },
+      "revId": "d887e431dc0d388026d11b430b759833e114fd80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03a50d6c_554c273e",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2019-04-11T20:38:13Z",
+      "side": 1,
+      "message": "missing comma",
+      "range": {
+        "startLine": 208,
+        "startChar": 45,
+        "endLine": 208,
+        "endChar": 47
+      },
+      "revId": "d887e431dc0d388026d11b430b759833e114fd80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afb06ac8_fc85f796",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2019-04-11T20:38:13Z",
+      "side": 1,
+      "message": "missing comma",
+      "range": {
+        "startLine": 215,
+        "startChar": 56,
+        "endLine": 215,
+        "endChar": 58
+      },
+      "revId": "d887e431dc0d388026d11b430b759833e114fd80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "789dbc59_6956410a",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2019-04-11T20:38:13Z",
+      "side": 1,
+      "message": "missing comma",
+      "range": {
+        "startLine": 216,
+        "startChar": 37,
+        "endLine": 216,
+        "endChar": 39
+      },
+      "revId": "d887e431dc0d388026d11b430b759833e114fd80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f38c97c_6bdb9add",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2019-04-11T20:38:13Z",
+      "side": 1,
+      "message": "missing comma",
+      "range": {
+        "startLine": 218,
+        "startChar": 32,
+        "endLine": 218,
+        "endChar": 34
+      },
+      "revId": "d887e431dc0d388026d11b430b759833e114fd80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
