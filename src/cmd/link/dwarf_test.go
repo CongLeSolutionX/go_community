@@ -93,7 +93,7 @@ func testDWARF(t *testing.T, buildmode string, expectDWARF bool, env ...string) 
 					// Ensure Apple's tooling can parse our object for symbols.
 					out, err = exec.Command("symbols", exe).CombinedOutput()
 					if err != nil {
-						t.Fatal(err)
+						t.Fatalf("/usr/bin/symbols: %v: %v", err, out)
 					} else {
 						if bytes.HasPrefix(out, []byte("Unable to find file")) {
 							// This failure will cause the App Store to reject our binaries.
