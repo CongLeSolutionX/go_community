@@ -306,6 +306,7 @@ func runfinq() {
 // A single goroutine runs all finalizers for a program, sequentially.
 // If a finalizer must run for a long time, it should do so by starting
 // a new goroutine.
+//go:noinline
 func SetFinalizer(obj interface{}, finalizer interface{}) {
 	if debug.sbrk != 0 {
 		// debug.sbrk never frees memory, so no finalizers run
