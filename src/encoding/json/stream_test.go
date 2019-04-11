@@ -352,18 +352,18 @@ var tokenStreamCases = []tokenStreamCase{
 	{json: ` [{"a": 1} {"a": 2}] `, expTokens: []interface{}{
 		Delim('['),
 		decodeThis{map[string]interface{}{"a": float64(1)}},
-		decodeThis{&SyntaxError{"expected comma after array element", 11}},
+		decodeThis{&SyntaxError{"json: expected comma after array element", 11}},
 	}},
 	{json: `{ "` + strings.Repeat("a", 513) + `" 1 }`, expTokens: []interface{}{
 		Delim('{'), strings.Repeat("a", 513),
-		decodeThis{&SyntaxError{"expected colon after object key", 518}},
+		decodeThis{&SyntaxError{"json: expected colon after object key", 518}},
 	}},
 	{json: `{ "\a" }`, expTokens: []interface{}{
 		Delim('{'),
-		&SyntaxError{"invalid character 'a' in string escape code", 3},
+		&SyntaxError{"json: invalid character 'a' in string escape code", 3},
 	}},
 	{json: ` \a`, expTokens: []interface{}{
-		&SyntaxError{"invalid character '\\\\' looking for beginning of value", 1},
+		&SyntaxError{"json: invalid character '\\\\' looking for beginning of value", 1},
 	}},
 }
 

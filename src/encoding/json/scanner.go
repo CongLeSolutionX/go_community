@@ -134,7 +134,7 @@ func (s *scanner) eof() int {
 		return scanEnd
 	}
 	if s.err == nil {
-		s.err = &SyntaxError{"unexpected end of JSON input", s.bytes}
+		s.err = &SyntaxError{"json: unexpected end of input", s.bytes}
 	}
 	return scanError
 }
@@ -553,7 +553,7 @@ func stateError(s *scanner, c byte) int {
 // error records an error and switches to the error state.
 func (s *scanner) error(c byte, context string) int {
 	s.step = stateError
-	s.err = &SyntaxError{"invalid character " + quoteChar(c) + " " + context, s.bytes}
+	s.err = &SyntaxError{"json: invalid character " + quoteChar(c) + " " + context, s.bytes}
 	return scanError
 }
 

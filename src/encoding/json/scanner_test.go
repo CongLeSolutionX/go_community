@@ -183,8 +183,8 @@ type indentErrorTest struct {
 }
 
 var indentErrorTests = []indentErrorTest{
-	{`{"X": "foo", "Y"}`, &SyntaxError{"invalid character '}' after object key", 17}},
-	{`{"X": "foo" "Y": "bar"}`, &SyntaxError{"invalid character '\"' after object key:value pair", 13}},
+	{`{"X": "foo", "Y"}`, &SyntaxError{"json: invalid character '}' after object key", 17}},
+	{`{"X": "foo" "Y": "bar"}`, &SyntaxError{"json: invalid character '\"' after object key:value pair", 13}},
 }
 
 func TestIndentErrors(t *testing.T) {
