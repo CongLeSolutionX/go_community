@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "1ab881ed_cabf07fe",
+        "filename": "src/expvar/expvar.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:01:32Z",
+      "side": 1,
+      "message": "Honestly this seems pretty straightforward. If anything, I\u0027d just add a short comment like:\n\n  // Using insertion sort to place key into the already-sorted v.keys.",
+      "parentUuid": "f36ffc8e_6c3311f1",
+      "revId": "58137f0cb0a7e14d3eec8c887b238cf1a481d3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f2e0fb0_989ca788",
         "filename": "src/expvar/expvar_test.go",
         "patchSetId": 4
@@ -47,6 +65,47 @@
       "writtenOn": "2019-04-11T18:28:48Z",
       "side": 1,
       "message": "We try to make Go benchmarks representative of real-world usage, so that we\u0027re optimizing the properties that people actually care about and not just synthetic benchmarks.\n\nIf the randomness in this benchmark accurately represents a real-world scenario, the benchmark should have a comment describing that scenario.",
+      "revId": "58137f0cb0a7e14d3eec8c887b238cf1a481d3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35649e28_d98fd2f8",
+        "filename": "src/expvar/expvar_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:01:32Z",
+      "side": 1,
+      "message": "I hadn\u0027t looked at this closely before.\n\nBut I see little reason to use b.RunParallel here or look at GOMAXPROCS.\n\nWe can just make this benchmark about the speed of inserting 100 map keys.",
+      "parentUuid": "2f2e0fb0_989ca788",
+      "revId": "58137f0cb0a7e14d3eec8c887b238cf1a481d3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4234851_9cca3dc1",
+        "filename": "src/expvar/expvar_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-11T19:01:32Z",
+      "side": 1,
+      "message": "How about instead:\n\n  keys[j] \u003d fmt.Sprintf(\"%x\", sha1.Sum([]byte(fmt.Sprint(i))))\n\nThen it\u0027s more deterministic too, without needing to seed the math/rand package.",
+      "range": {
+        "startLine": 359,
+        "startChar": 13,
+        "endLine": 359,
+        "endChar": 38
+      },
       "revId": "58137f0cb0a7e14d3eec8c887b238cf1a481d3f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
