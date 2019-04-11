@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e2c521c_b997fd20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-11T18:28:48Z",
+      "side": 1,
+      "message": "Please include a before-and-after comparison of both the new benchmarks and any more realistic benchmarks you can find, including multiple values of GOMAXPROCS (generally from 1 up to twice the number of cores on the biggest CPU you have access to).\n\nhttps://godoc.org/golang.org/x/perf/cmd/benchstat is a good tool for such comparisons.",
+      "revId": "58137f0cb0a7e14d3eec8c887b238cf1a481d3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f36ffc8e_6c3311f1",
+        "filename": "src/expvar/expvar.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-11T18:28:48Z",
+      "side": 1,
+      "message": "Please add some comments describing the reasoning behind these optimizations.",
+      "revId": "58137f0cb0a7e14d3eec8c887b238cf1a481d3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f2e0fb0_989ca788",
+        "filename": "src/expvar/expvar_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-11T18:28:48Z",
+      "side": 1,
+      "message": "We try to make Go benchmarks representative of real-world usage, so that we\u0027re optimizing the properties that people actually care about and not just synthetic benchmarks.\n\nIf the randomness in this benchmark accurately represents a real-world scenario, the benchmark should have a comment describing that scenario.",
+      "revId": "58137f0cb0a7e14d3eec8c887b238cf1a481d3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
