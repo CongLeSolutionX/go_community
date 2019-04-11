@@ -4073,6 +4073,7 @@ func (pp *p) destroy() {
 		lock(&pp.timersLock)
 		moveTimers(plocal, pp.timers)
 		pp.timers = nil
+		pp.adjustTimers = 0
 		unlock(&pp.timersLock)
 		unlock(&plocal.timersLock)
 	}
