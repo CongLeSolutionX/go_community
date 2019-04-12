@@ -182,6 +182,30 @@
     },
     {
       "key": {
+        "uuid": "17da0a45_5a185a40",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-12T20:01:21Z",
+      "side": 1,
+      "message": "\u003e People are fixating far too much on the file format. This file should only really be updated by \u0027go env -w\u0027.\n\nIf the file should only be updated by `go env -w`, then I can understand the benefit to allowing invalid names (for future expansion).\n\nBut I still don\u0027t understand the intent behind ignoring lines with leading or trailing whitespace: such lines can never get into the file in the first place without hand-editing, and ignoring misleading hand-edits (such as those with trailing whitespace) seems much more surprising than either trimming them (and using the trimmed value) or rejecting them outright.\n\nAt the very least, more detail in the comment here explaining the rationale would be helpful.",
+      "parentUuid": "13032ca5_bb7543b8",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 3
+      },
+      "revId": "430df239c5a8590f95f78312d19f9f23dfd75a13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72f09f2b_5728a991",
         "filename": "src/cmd/go/internal/envcmd/env.go",
         "patchSetId": 1
