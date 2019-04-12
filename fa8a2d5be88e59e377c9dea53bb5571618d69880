@@ -16,6 +16,24 @@
       "revId": "fa8a2d5be88e59e377c9dea53bb5571618d69880",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c777edf6_cb932433",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-12T17:21:29Z",
+      "side": 1,
+      "message": "It\u0027s true, it is complex.\n\nI used this approach because my goal for the patch series is to remove contention for adding new timers.  Deleting a timer can often occur while running on a different P.  If we have to lock the timers for that P in order to delete a time, then the G that is actually running on that P will be delayed while adding a new timer.  Right now I think there is only one place in the code where we lock the timers of a P other than the one on which we are running.",
+      "parentUuid": "7ebd6d3b_ccb490d6",
+      "revId": "fa8a2d5be88e59e377c9dea53bb5571618d69880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
