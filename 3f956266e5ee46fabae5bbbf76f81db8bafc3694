@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "20cfe845_38bf3a8c",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1065,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-12T16:39:43Z",
+      "side": 1,
+      "message": "the idiomatic name for test case variables is either \"tt\" or (less common) \"tc\". This file uses \"tt\" so rename \"c\" to \"tt\".",
+      "range": {
+        "startLine": 1065,
+        "startChar": 8,
+        "endLine": 1065,
+        "endChar": 9
+      },
+      "revId": "3f956266e5ee46fabae5bbbf76f81db8bafc3694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f8c6cd6_e89464a4",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-12T16:39:43Z",
+      "side": 1,
+      "message": "change \"b\" to \"want\"",
+      "revId": "3f956266e5ee46fabae5bbbf76f81db8bafc3694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "112829f7_c6320afc",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 4
