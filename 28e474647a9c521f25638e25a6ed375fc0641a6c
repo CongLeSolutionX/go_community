@@ -16,6 +16,24 @@
       "revId": "28e474647a9c521f25638e25a6ed375fc0641a6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa6c20ba_af85b177",
+        "filename": "src/runtime/stubs2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-12T17:26:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "042aa88d_98da4beb",
+      "revId": "28e474647a9c521f25638e25a6ed375fc0641a6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
