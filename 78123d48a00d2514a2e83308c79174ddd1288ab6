@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df4639c1_536d12da",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T07:06:01Z",
+      "side": 1,
+      "message": "Why do we need another epoll_wait in this case? It seems more reasonable to return immediately to get the right timeout. Otherwise we just execute a most likely unsuccessful epoll_wait with 0 wait time.",
+      "revId": "78123d48a00d2514a2e83308c79174ddd1288ab6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

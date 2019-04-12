@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae9b12ce_31d4f9d4",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T07:06:01Z",
+      "side": 0,
+      "message": "This part used to be critical for correctness: if the rest of Ps are idle and we waiting for just new network work, then returning with empty list would leave no threads waiting in netpoll and total deadlock.\nI see that you also changed handling of empty list on the caller side. So it may be fine in the end.\nBut why these 2 changes? If we reacquire P on empty list, then check for work globally, and then block in netpoll again, it looks like a very expensive way to do this \"goto retry\".",
+      "revId": "4e2b4d7fb2343ea5a05fcb9da821b6912ca86893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41e6c47a_b6847536",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2371,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T07:06:01Z",
+      "side": 0,
+      "message": "What was wrong here? Checking if the list is empty looks like a reasonable first thing to do. If it\u0027s empty, we don\u0027t need to grab a P, injectglist, etc.",
+      "revId": "4e2b4d7fb2343ea5a05fcb9da821b6912ca86893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
