@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c61cb0d_d434ad80",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2184,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T07:51:42Z",
+      "side": 1,
+      "message": "Note to myself: need to take a closer look at this part.",
+      "revId": "834be79bbaea9b863f3b4180f473434d4eb95d7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
