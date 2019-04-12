@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "575f3b82_62e6497c",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-12T22:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5beec834_ca11351e",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "403f5da8_97a43ca8",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -66,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "0622a178_97839dfa",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-12T22:39:23Z",
+      "side": 1,
+      "message": "Trimmed this down somewhat and moved the explanations directly into walkOne.",
+      "parentUuid": "ecab26a8_47b9acb4",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 70
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8500dcc8_9c76f5f8",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -80,6 +122,24 @@
       "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be78ae86_15470d23",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-12T22:39:23Z",
+      "side": 1,
+      "message": "Done\n\nNote also: loopDepth here is somewhat simpler than loopdepth was in esc.go. In particular, there\u0027s not the special handling of globals or return parameters.",
+      "parentUuid": "8500dcc8_9c76f5f8",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -254,6 +314,30 @@
     },
     {
       "key": {
+        "uuid": "10511559_28827f67",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-12T22:39:23Z",
+      "side": 1,
+      "message": "Decided to go with expr \u0026 addr for consistency with ssa.go.",
+      "parentUuid": "67d36ecb_629418b8",
+      "range": {
+        "startLine": 359,
+        "startChar": 17,
+        "endLine": 359,
+        "endChar": 22
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94842797_e40643a3",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -347,6 +431,30 @@
     },
     {
       "key": {
+        "uuid": "41427bf3_52f46f43",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-12T22:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb742b0b_06f13c10",
+      "range": {
+        "startLine": 881,
+        "startChar": 0,
+        "endLine": 885,
+        "endChar": 17
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56566fb2_3523a66e",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -418,6 +526,30 @@
     },
     {
       "key": {
+        "uuid": "a295606c_4dd820d4",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-12T22:39:23Z",
+      "side": 1,
+      "message": "I\u0027ve left as EscHole for now, but updated the comments as Cherry suggested.\n\nI\u0027ll continue thinking about better terminology.",
+      "parentUuid": "9c028c7f_f593676d",
+      "range": {
+        "startLine": 900,
+        "startChar": 5,
+        "endLine": 900,
+        "endChar": 12
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dea7c4b_0bc7da01",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -432,6 +564,24 @@
       "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e0cb8c4_a3c7786f",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-12T22:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dea7c4b_0bc7da01",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -482,6 +632,30 @@
     },
     {
       "key": {
+        "uuid": "82040efb_c7338b6d",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-12T22:39:23Z",
+      "side": 1,
+      "message": "Leaving teeHole for now. Will continue thinking about alongside renaming EscHole.",
+      "parentUuid": "6a003f80_6169f1d2",
+      "range": {
+        "startLine": 929,
+        "startChar": 23,
+        "endLine": 929,
+        "endChar": 26
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "408cedde_0b6c19e6",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -505,6 +679,30 @@
     },
     {
       "key": {
+        "uuid": "6c14c19f_be221d23",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-12T22:39:23Z",
+      "side": 1,
+      "message": "Ack. I think it\u0027s worth the slightly longer name here for increased clarity.",
+      "parentUuid": "408cedde_0b6c19e6",
+      "range": {
+        "startLine": 1021,
+        "startChar": 17,
+        "endLine": 1021,
+        "endChar": 23
+      },
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e98b6bf_4784f514",
         "filename": "src/cmd/compile/internal/gc/escape.go",
         "patchSetId": 7
@@ -519,6 +717,24 @@
       "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aff3cc29_1de98268",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-12T22:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e98b6bf_4784f514",
+      "revId": "63c945cd3c4a7e470f0a45b426dbf5114f34cf3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
