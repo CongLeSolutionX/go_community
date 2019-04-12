@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ebd6d3b_ccb490d6",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T09:08:13Z",
+      "side": 1,
+      "message": "Why did you decide to go with this state machine rather then locking remove timers and doing any modifications directly as we do now? Is it required for the new per-P timers, or it\u0027s a separate change?\n\nThe resulting state machine looks very complex to me. It has lots of new intermediate, inconsistent states which frequently leads to bugs.",
+      "revId": "fa8a2d5be88e59e377c9dea53bb5571618d69880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
