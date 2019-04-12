@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "112829f7_c6320afc",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1120,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-12T16:37:58Z",
+      "side": 1,
+      "message": "This test is fine but we should also have a test that start with *io.Reader or *error and then checks whether the dereferenced pointer is zero.  That lets us properly test whether an interface value is considered to be zero or not.",
+      "revId": "3f956266e5ee46fabae5bbbf76f81db8bafc3694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
