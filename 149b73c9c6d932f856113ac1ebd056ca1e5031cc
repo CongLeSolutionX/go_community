@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f672b0a4_bbf584d4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1120,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-12T18:20:36Z",
+      "side": 1,
+      "message": "The problem is that moving the timers to a different P can in general require growing the slice of timers, but we can\u0027t necessarily allocate memory in p.destroy, because we aren\u0027t set up on the P we are finally going to run on.\n\nBut I can move this loop into procresize.  I\u0027m not sure why I didn\u0027t do that originally.",
+      "parentUuid": "3d8bd272_544eb971",
+      "revId": "149b73c9c6d932f856113ac1ebd056ca1e5031cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b3df188_4d9890d7",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-12T07:50:29Z",
       "side": 1,
       "message": "Why do we need to schedule Ps that have timers? The timers may not be runnable, so len(p.timers) !\u003d 0 does not mean that the P has work to do.",
+      "revId": "149b73c9c6d932f856113ac1ebd056ca1e5031cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1aaa440_40507f59",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4205,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-12T18:20:36Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "4b3df188_4d9890d7",
       "revId": "149b73c9c6d932f856113ac1ebd056ca1e5031cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
