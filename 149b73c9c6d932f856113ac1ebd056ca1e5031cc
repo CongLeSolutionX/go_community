@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d8bd272_544eb971",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1120,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T07:50:29Z",
+      "side": 1,
+      "message": "It feels more natural to do this in p.destroy (or in procresize around the p.destroy call) where we handle non-empty runq of excessive Ps. Timers are effectively the same as Gs on runq.",
+      "revId": "149b73c9c6d932f856113ac1ebd056ca1e5031cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b3df188_4d9890d7",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4205,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T07:50:29Z",
+      "side": 1,
+      "message": "Why do we need to schedule Ps that have timers? The timers may not be runnable, so len(p.timers) !\u003d 0 does not mean that the P has work to do.",
+      "revId": "149b73c9c6d932f856113ac1ebd056ca1e5031cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
