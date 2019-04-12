@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bd39468_a12bcaa1",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T07:19:39Z",
+      "side": 1,
+      "message": "Does b escape here? Do we want noescape?",
+      "revId": "eb34d8a8a917181c956c1ef5dd8ba4bcb2b9d430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
