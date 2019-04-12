@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "15e48de6_8c8ba886",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-12T16:34:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a143772_77ba2f16",
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3adf50c9_f8b442d3",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 1
@@ -89,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "1c2e0ca0_98ae8559",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-12T16:34:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3adf50c9_f8b442d3",
+      "range": {
+        "startLine": 1110,
+        "startChar": 13,
+        "endLine": 1110,
+        "endChar": 66
+      },
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b0a2ac5_2bf6c8ac",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 1
@@ -103,6 +145,24 @@
       "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e799c4_2a4fa06a",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-12T16:34:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8b0a2ac5_2bf6c8ac",
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -305,6 +365,30 @@
       "side": 1,
       "message": "As it stands, yes. Because `-0.0` is equal to `0` for a float, which is the zero-value. See here: https://play.golang.org/p/YvY80EWX-jT",
       "parentUuid": "9cacd3cc_1c09df4f",
+      "range": {
+        "startLine": 1087,
+        "startChar": 2,
+        "endLine": 1088,
+        "endChar": 0
+      },
+      "revId": "47e19eb8d2a90812d8b9597c5040b101fe460dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84ff4dd4_b581627b",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 31637
+      },
+      "writtenOn": "2019-04-12T16:34:40Z",
+      "side": 1,
+      "message": "In the end, seems like there is actually a way to have a variable with value 0 and the bit sign set, so a real -0.0 (which is not possible as a literal).\n\nI\u0027ve added the test, see Brad comment.",
+      "parentUuid": "52d84542_d064132e",
       "range": {
         "startLine": 1087,
         "startChar": 2,
