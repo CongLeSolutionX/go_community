@@ -116,6 +116,24 @@
       "revId": "3f956266e5ee46fabae5bbbf76f81db8bafc3694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e30dfab9_2fa198ce",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1120,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-12T19:10:33Z",
+      "side": 1,
+      "message": "That\u0027s because you\u0027re literally sending a nil interface to the reflect package, so the type information is lost.\n\nYou need to do something like: https://play.golang.org/p/6BNkV_0bkwR",
+      "parentUuid": "891d520c_25c37b98",
+      "revId": "3f956266e5ee46fabae5bbbf76f81db8bafc3694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
