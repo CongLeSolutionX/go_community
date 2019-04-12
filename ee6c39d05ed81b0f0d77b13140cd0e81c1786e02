@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34992761_19b40397",
+        "filename": "src/runtime/nbpipe_pipe2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-04-12T06:59:13Z",
+      "side": 1,
+      "message": "s/r/w\nPresumably, pretending errno is -_ENOSYS here would have the test spot\nthe problem.",
+      "revId": "ee6c39d05ed81b0f0d77b13140cd0e81c1786e02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7164405c_4be17396",
+        "filename": "src/runtime/nbpipe_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-04-12T06:59:13Z",
+      "side": 1,
+      "message": "s/42/bw",
+      "revId": "ee6c39d05ed81b0f0d77b13140cd0e81c1786e02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce50ea31_3193d642",
+        "filename": "src/runtime/nbpipe_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-04-12T06:59:13Z",
+      "side": 1,
+      "message": "s/%d/%#x/?",
+      "revId": "ee6c39d05ed81b0f0d77b13140cd0e81c1786e02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d870c638_680bacf9",
+        "filename": "src/runtime/nbpipe_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-04-12T06:59:13Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "ee6c39d05ed81b0f0d77b13140cd0e81c1786e02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e01a6b27_0cba4b23",
+        "filename": "src/runtime/os2_aix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-04-12T06:59:13Z",
+      "side": 1,
+      "message": "s/err0/err/?",
+      "revId": "ee6c39d05ed81b0f0d77b13140cd0e81c1786e02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
