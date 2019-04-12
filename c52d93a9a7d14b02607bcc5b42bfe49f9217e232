@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d683bcf0_238eb994",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-12T20:07:23Z",
+      "side": 1,
+      "message": "I\u0027d change \"implement\" to \"add\" or \"add method\"\n\nSaying \"implement\" makes it sound like it existed before but the implementation was a panic or other stub.",
+      "revId": "c52d93a9a7d14b02607bcc5b42bfe49f9217e232",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
