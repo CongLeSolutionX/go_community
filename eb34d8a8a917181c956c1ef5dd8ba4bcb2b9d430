@@ -16,6 +16,40 @@
       "revId": "eb34d8a8a917181c956c1ef5dd8ba4bcb2b9d430",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11eced62_128922b9",
+        "filename": "src/runtime/netpoll_stub.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T08:03:47Z",
+      "side": 1,
+      "message": "netpollReset is only implemented in this stub code and netpollReset seems to be called only from a blocking netpoll. So can we move this stub netpollReset code directly into stub netpoll function, and then remove netpollReset?\nI would say it would also make relation between netpoll and netpollBreak be easier to follow in this stub implementation, as it all will be local to this file.",
+      "revId": "eb34d8a8a917181c956c1ef5dd8ba4bcb2b9d430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e5a08e7_2de268d0",
+        "filename": "src/runtime/netpoll_stub.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T08:03:47Z",
+      "side": 1,
+      "message": "Why don\u0027t we sleep if delay\u003c0?\nReturning empty list from blocking netpoll used to mean \"this netpoll is dis-functional and will never return anything, so don\u0027t bother wasting a thread here\".\nBut now will we need this stub netpoll for timers?\nReturning empty list on delay\u003c0 looks wrong now. Now it means \"I was woken by break, so recalculate the timeout and call me again\". So if delay\u003c0, it will just continue be called with delay\u003c0 and returning an empty list (busy loop).\nAm I missing something here?",
+      "revId": "eb34d8a8a917181c956c1ef5dd8ba4bcb2b9d430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
