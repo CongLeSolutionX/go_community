@@ -33,6 +33,24 @@
       "revId": "4e2b4d7fb2343ea5a05fcb9da821b6912ca86893",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "116a336e_fc8ffeca",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2371,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2019-04-12T07:25:18Z",
+      "side": 0,
+      "message": "Reading the later changes, this is because of the break functionality, right?\n\nBut still I don\u0027t understand why we are changing it this way.\nAfter a break we want to recalculate the timeout, right?\nIf we have an empty list and there are idle Ps, most likely it does not make sense to acquirep. Because otherwise somebody else should have been wake another thread which would acquire that P.",
+      "parentUuid": "41e6c47a_b6847536",
+      "revId": "4e2b4d7fb2343ea5a05fcb9da821b6912ca86893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
