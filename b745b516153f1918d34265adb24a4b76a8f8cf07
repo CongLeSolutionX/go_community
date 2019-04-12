@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "adbd0124_d8b5d729",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-04-12T08:01:56Z",
+      "side": 1,
+      "message": "Austin, should this atomic.Store be removed to ? If yes, why is it needed for sched.gcwaiting then ?",
+      "parentUuid": "111df3df_ff17327d",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
