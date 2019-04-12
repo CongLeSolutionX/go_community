@@ -71,17 +71,20 @@ import "unsafe"
 //go:cgo_import_dynamic libc_port_associate port_associate "libc.so"
 //go:cgo_import_dynamic libc_port_dissociate port_dissociate "libc.so"
 //go:cgo_import_dynamic libc_port_getn port_getn "libc.so"
+//go:cgo_import_dynamic libc_port_alert port_alert "libc.so"
 
 //go:linkname libc_port_create libc_port_create
 //go:linkname libc_port_associate libc_port_associate
 //go:linkname libc_port_dissociate libc_port_dissociate
 //go:linkname libc_port_getn libc_port_getn
+//go:linkname libc_port_alert libc_port_alert
 
 var (
 	libc_port_create,
 	libc_port_associate,
 	libc_port_dissociate,
-	libc_port_getn libcFunc
+	libc_port_getn,
+	libc_port_alert libcFunc
 )
 
 func errno() int32 {
@@ -108,6 +111,10 @@ func port_getn(port int32, evs *portevent, max uint32, nget *uint32, timeout *ti
 	return int32(sysvicall5(&libc_port_getn, uintptr(port), uintptr(unsafe.Pointer(evs)), uintptr(max), uintptr(unsafe.Pointer(nget)), uintptr(unsafe.Pointer(timeout))))
 }
 
+func port_alert(port int32, flags, events uint32, user uintptr) int32 {
+	return int32(sysvicall4(&libc_port_alert, uintptr(port), uintptr(flags), uintptr(events), user))
+}
+
 var portfd int32 = -1
 
 func netpollinit() {
@@ -121,8 +128,8 @@ func netpollinit() {
 	throw("runtime: netpollinit failed")
 }
 
-func netpolldescriptor() uintptr {
-	return uintptr(portfd)
+func netpollIsPollDescriptor(fd uintptr) bool {
+	return fd == uintptr(portfd)
 }
 
 func netpollopen(fd uintptr, pd *pollDesc) int32 {
@@ -178,17 +185,43 @@ func netpollarm(pd *pollDesc, mode int) {
 	unlock(&pd.lock)
 }
 
-// polls for ready network connections
-// returns list of goroutines that become runnable
-func netpoll(block bool) gList {
+// netpollBreak interrupts a port_getn wait.
+func netpollBreak() {
+	if port_alert(portfd, _PORT_ALERT_UPDATE, _POLLHUP, uintptr(unsafe.Pointer(&portfd))) < 0 {
+		if e := errno(); e != _EBUSY {
+			println("runtime: port_alert failed with", e)
+			throw("runtime: netpoll: port_alert failed")
+		}
+	}
+}
+
+func netpollReset() {
+}
+
+// netpoll checks for ready network connections.
+// Returns list of goroutines that become runnable.
+// delay < 0: blocks indefinitely
+// delay == 0: does not block, just polls
+// delay > 0: block for up to that many nanoseconds
+func netpoll(delay int64) gList {
 	if portfd == -1 {
 		return gList{}
 	}
 
 	var wait *timespec
-	var zero timespec
-	if !block {
-		wait = &zero
+	var ts timespec
+	if delay < 0 {
+		wait = nil
+	} else if delay == 0 {
+		wait = &ts
+	} else {
+		ts.setNsec(delay)
+		if ts.tv_sec > 1e6 {
+			// An arbitrary cap on how long to wait for a timer.
+			// 1e6 s == ~11.5 days.
+			ts.tv_sec = 1e6
+		}
+		wait = &ts
 	}
 
 	var events [128]portevent
@@ -199,12 +232,32 @@ retry:
 			print("runtime: port_getn on fd ", portfd, " failed (errno=", e, ")\n")
 			throw("runtime: netpoll failed")
 		}
+		// If a timed sleep was interrupted, drop back to doing
+		// a nonblocking poll, and then return to recalculate
+		// the time we should sleep next time.
+		if delay > 0 {
+			ts = timespec{}
+		}
 		goto retry
 	}
 
 	var toRun gList
 	for i := 0; i < int(n); i++ {
 		ev := &events[i]
+
+		if ev.portev_source == _PORT_SOURCE_ALERT {
+			if ev.portev_events != _POLLHUP || unsafe.Pointer(ev.portev_user) != unsafe.Pointer(&portfd) {
+				throw("runtime: netpoll: bad port_alert wakeup")
+			}
+			if delay != 0 {
+				if port_alert(portfd, 0, 0, 0) < 0 {
+					e := errno()
+					println("runtime: port_alert failed with", e)
+					throw("runtime: netpoll: port_alert failed")
+				}
+			}
+			continue
+		}
 
 		if ev.portev_events == 0 {
 			continue
@@ -242,8 +295,5 @@ retry:
 		}
 	}
 
-	if block && toRun.empty() {
-		goto retry
-	}
 	return toRun
 }

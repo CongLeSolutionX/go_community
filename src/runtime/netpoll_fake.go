@@ -12,8 +12,8 @@ package runtime
 func netpollinit() {
 }
 
-func netpolldescriptor() uintptr {
-	return ^uintptr(0)
+func netpollIsPollDescriptor(fd uintptr) bool {
+	return false
 }
 
 func netpollopen(fd uintptr, pd *pollDesc) int32 {
@@ -27,6 +27,12 @@ func netpollclose(fd uintptr) int32 {
 func netpollarm(pd *pollDesc, mode int) {
 }
 
-func netpoll(block bool) gList {
+func netpollBreak() {
+}
+
+func netpollReset() {
+}
+
+func netpoll(delay int64) gList {
 	return gList{}
 }

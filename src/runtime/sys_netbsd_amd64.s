@@ -117,9 +117,24 @@ TEXT runtime·read(SB),NOSPLIT,$-8
 	MOVL	n+16(FP), DX		// arg 3 count
 	MOVL	$3, AX
 	SYSCALL
-	JCC	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+24(FP)
+	RET
+
+// func pipe() (r, w int32, errno int32)
+TEXT runtime·pipe(SB),NOSPLIT,$0-12
+	LEAQ	r+0(FP), DI
+	MOVL	$42, AX
+	SYSCALL
+	MOVL	AX, errno+8(FP)
+	RET
+
+// func pipe2(flags int32) (r, w int32, errno int32)
+TEXT runtime·pipe2(SB),NOSPLIT,$0-20
+	LEAQ	r+8(FP), DI
+	MOVL	flags+0(FP), SI
+	MOVL	$453, AX
+	SYSCALL
+	MOVL	AX, errno+16(FP)
 	RET
 
 TEXT runtime·write(SB),NOSPLIT,$-8
@@ -128,8 +143,6 @@ TEXT runtime·write(SB),NOSPLIT,$-8
 	MOVL	n+16(FP), DX		// arg 3 - nbyte
 	MOVL	$4, AX			// sys_write
 	SYSCALL
-	JCC	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+24(FP)
 	RET
 
@@ -391,5 +404,20 @@ TEXT runtime·closeonexec(SB),NOSPLIT,$0
 	MOVQ	$2, SI		// F_SETFD
 	MOVQ	$1, DX		// FD_CLOEXEC
 	MOVL	$92, AX		// fcntl
+	SYSCALL
+	RET
+
+// func runtime·setNonblock(int32 fd)
+TEXT runtime·setNonblock(SB),NOSPLIT,$0-4
+	MOVL    fd+0(FP), DI  // fd
+	MOVQ    $3, SI  // F_GETFL
+	MOVQ    $0, DX
+	MOVL	$92, AX // fcntl
+	SYSCALL
+	MOVL	fd+0(FP), DI // fd
+	MOVQ	$4, SI // F_SETFL
+	MOVQ	$4, DX // O_NONBLOCK
+	ORL	AX, DX
+	MOVL	$92, AX // fcntl
 	SYSCALL
 	RET

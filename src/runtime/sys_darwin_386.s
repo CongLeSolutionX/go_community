@@ -64,6 +64,12 @@ TEXT runtime·read_trampoline(SB),NOSPLIT,$0
 	MOVL	8(CX), AX		// arg 3 count
 	MOVL	AX, 8(SP)
 	CALL	libc_read(SB)
+	TESTL	AX, AX
+	JGE	noerr
+	CALL	libc_error(SB)
+	MOVL	(AX), AX
+	NEGL	AX			// caller expects negative errno value
+noerr:
 	MOVL	BP, SP
 	POPL	BP
 	RET
@@ -80,6 +86,28 @@ TEXT runtime·write_trampoline(SB),NOSPLIT,$0
 	MOVL	8(CX), AX		// arg 3 count
 	MOVL	AX, 8(SP)
 	CALL	libc_write(SB)
+	TESTL	AX, AX
+	JGE	noerr
+	CALL	libc_error(SB)
+	MOVL	(AX), AX
+	NEGL	AX			// caller expects negative errno value
+noerr:
+	MOVL	BP, SP
+	POPL	BP
+	RET
+
+TEXT runtime·pipe_trampoline(SB),NOSPLIT,$0
+	PUSHL	BP
+	MOVL	SP, BP
+	SUBL	$8, SP
+	MOVL	16(SP), CX
+	MOVL	0(CX), AX		// arg 1 pipefd
+	MOVL	AX, 0(SP)
+	CALL	libc_pipe(SB)
+	TESTL	AX, AX
+	JEQ	3(PC)
+	CALL	libc_error(SB)		// return negative errno value
+	NEGL	AX
 	MOVL	BP, SP
 	POPL	BP
 	RET

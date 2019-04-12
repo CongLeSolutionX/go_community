@@ -35,6 +35,10 @@ var Atoi = atoi
 var Atoi32 = atoi32
 
 var Nanotime = nanotime
+var Netpoll = netpoll
+var NetpollBreak = netpollBreak
+var NetpollReset = netpollReset
+var Usleep = usleep
 
 type LFNode struct {
 	Next    uint64

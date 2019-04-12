@@ -442,7 +442,38 @@ func raiseproc(sig uint32) /* int32 */ {
 
 //go:nosplit
 func read(fd int32, buf unsafe.Pointer, nbyte int32) int32 {
-	return int32(sysvicall3(&libc_read, uintptr(fd), uintptr(buf), uintptr(nbyte)))
+	return doRead(uintptr(fd), buf, uintptr(nbyte))
+}
+
+//go:nosplit
+//go:cgo_unsafe_args
+func doRead(fd uintptr, buf unsafe.Pointer, nbyte uintptr) int32 {
+	// Leave caller's PC/SP around, as in sysvicall3.
+	gp := getg()
+	var mp *m
+	if gp != nil {
+		mp = gp.m
+	}
+	if mp != nil && mp.libcallsp == 0 {
+		mp.libcallg.set(gp)
+		mp.libcallpc = getcallerpc()
+		mp.libcallsp = getcallersp()
+	} else {
+		mp = nil
+	}
+
+	var libcall libcall
+	libcall.fn = uintptr(unsafe.Pointer(&libc_read))
+	libcall.n = 3
+	libcall.args = uintptr(noescape(unsafe.Pointer(&fd)))
+	asmcgocall(unsafe.Pointer(&asmsysvicall6), unsafe.Pointer(&libcall))
+	if mp != nil {
+		mp.libcallsp = 0
+	}
+	if libcall.r1 >= 0 {
+		return int32(libcall.r1)
+	}
+	return -int32(libcall.err)
 }
 
 //go:nosplit
@@ -500,7 +531,38 @@ func usleep(µs uint32) {
 
 //go:nosplit
 func write(fd uintptr, buf unsafe.Pointer, nbyte int32) int32 {
-	return int32(sysvicall3(&libc_write, uintptr(fd), uintptr(buf), uintptr(nbyte)))
+	return doWrite(fd, buf, uintptr(nbyte))
+}
+
+//go:nosplit
+//go:cgo_unsafe_args
+func doWrite(fd uintptr, buf unsafe.Pointer, nbyte uintptr) int32 {
+	// Leave caller's PC/SP around, as in sysvicall3.
+	gp := getg()
+	var mp *m
+	if gp != nil {
+		mp = gp.m
+	}
+	if mp != nil && mp.libcallsp == 0 {
+		mp.libcallg.set(gp)
+		mp.libcallpc = getcallerpc()
+		mp.libcallsp = getcallersp()
+	} else {
+		mp = nil
+	}
+
+	var libcall libcall
+	libcall.fn = uintptr(unsafe.Pointer(&libc_write))
+	libcall.n = 3
+	libcall.args = uintptr(noescape(unsafe.Pointer(&fd)))
+	asmcgocall(unsafe.Pointer(&asmsysvicall6), unsafe.Pointer(&libcall))
+	if mp != nil {
+		mp.libcallsp = 0
+	}
+	if libcall.r1 >= 0 {
+		return int32(libcall.r1)
+	}
+	return -int32(libcall.err)
 }
 
 func osyield1()

@@ -506,20 +506,29 @@ rest:
 	FMOVD   F30, 312(R1)
 	FMOVD   F31, 320(R1)
 
+	MOVD	R3, cmd+0(FP) // can't use R1 here ?? use input args and assumer caller expects those?
+	MOVD	R4, ctx+8(FP) // can't use R1 here ??
+
 	MOVD    runtime·tls_g(SB), R10
 	MOVD    0(R13)(R10*1), g
 
 	MOVD	g_m(g), R7
-	MOVD	m_g0(R7), g // set g = m-> g0
-	MOVD	R3, cmd+0(FP) // can't use R1 here ?? use input args and assumer caller expects those?
-	MOVD	R4, ctx+8(FP) // can't use R1 here ??
+	MOVD	m_g0(R7), R8
+	CMP	R7, R8
+	BEQ	noswitch
+
+	MOVD	R8, g // set g = m-> g0
+
 	BL	runtime·racecallback(SB)
+
 	// All registers are clobbered after Go code, reload.
 	MOVD    runtime·tls_g(SB), R10
         MOVD    0(R13)(R10*1), g
 
 	MOVD	g_m(g), R7
 	MOVD	m_curg(R7), g // restore g = m->curg
+
+ret:
 	MOVD    40(R1), R14
 	MOVD    48(R1), R15
 	MOVD    56(R1), R16
@@ -563,6 +572,10 @@ rest:
 	MOVD    16(R1), R10	// needed?
 	MOVD    R10, LR
 	RET
+
+noswitch:
+	BL	runtime·racecallback(SB)
+	JMP	ret
 
 // tls_g, g value for each thread in TLS
 GLOBL runtime·tls_g+0(SB), TLSBSS+DUPOK, $8
