@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f1eef02_e8fe86c3",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-04-13T21:35:19Z",
+      "side": 1,
+      "message": "This switch statement is unnecessary. And also not present in the other implementation. How did it get added? I\u0027d assume you would just copy/paste from the other spot.",
+      "revId": "4eb10fa126336d38af55ca999ae1362886239115",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
