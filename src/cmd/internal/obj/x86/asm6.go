@@ -4009,6 +4009,49 @@ func avx512gatherValid(ctxt *obj.Link, p *obj.Prog) bool {
 }
 
 func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
+	switch p.As {
+	case ACMOVL:
+		switch opSuffix(p.Scond).String() {
+		case "CC":
+			p.As = ACMOVLCC
+		case "CS":
+			p.As = ACMOVLCS
+		case "EQ":
+			p.As = ACMOVLEQ
+		case "GE":
+			p.As = ACMOVLGE
+		case "GT":
+			p.As = ACMOVLGT
+		case "HI":
+			p.As = ACMOVLHI
+		case "LE":
+			p.As = ACMOVLLE
+		case "LS":
+			p.As = ACMOVLLS
+		case "LT":
+			p.As = ACMOVLLT
+		case "MI":
+			p.As = ACMOVLMI
+		case "NE":
+			p.As = ACMOVLNE
+		case "OC":
+			p.As = ACMOVLOC
+		case "OS":
+			p.As = ACMOVLOS
+		case "PC":
+			p.As = ACMOVLPC
+		case "PL":
+			p.As = ACMOVLPL
+		case "PS":
+			p.As = ACMOVLPS
+		default:
+			ctxt.Diag("illegal suffix: %s for %s", opSuffix(p.Scond), p.As)
+			return
+		}
+
+		p.Scond = 0
+	}
+
 	o := opindex[p.As&obj.AMask]
 
 	if o == nil {
