@@ -1911,10 +1911,6 @@ func dwarfGenerateDebugSyms(ctxt *Link) {
 		return
 	}
 
-	if ctxt.Debugvlog != 0 {
-		ctxt.Logf("%5.2f dwarf\n", Cputime())
-	}
-
 	abbrev := writeabbrev(ctxt)
 	syms := []*sym.Symbol{abbrev}
 
