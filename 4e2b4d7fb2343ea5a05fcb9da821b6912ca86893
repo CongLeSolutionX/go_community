@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "113ca3f3_36644d21",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-13T01:41:23Z",
+      "side": 0,
+      "message": "In the case where block is true, which is now expressed as delay !\u003d 0, we\u0027ve blocked for some period of time.  We want to return so that we can check whether there are any timers ready to run.  In particular when epoll_wait times out with no descriptors ready, it just returns 0, and in that case we have to return.",
+      "parentUuid": "ae9b12ce_31d4f9d4",
+      "revId": "4e2b4d7fb2343ea5a05fcb9da821b6912ca86893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41e6c47a_b6847536",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -69,6 +87,24 @@
       "revId": "4e2b4d7fb2343ea5a05fcb9da821b6912ca86893",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e26fb0be_d3b60eea",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2371,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-13T01:41:23Z",
+      "side": 0,
+      "message": "This is setting up for later changes, yes.  We want to acquire a P, and use that to recalculate the timeout for another call to netpoll.",
+      "parentUuid": "7edb491b_134c70ea",
+      "revId": "4e2b4d7fb2343ea5a05fcb9da821b6912ca86893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
