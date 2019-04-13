@@ -4,6 +4,10 @@
 
 package sha1
 
+import (
+	"math/bits"
+)
+
 const (
 	_K0 = 0x5A827999
 	_K1 = 0x6ED9EBA1
@@ -33,8 +37,8 @@ func blockGeneric(dig *digest, p []byte) {
 		i := 0
 		for ; i < 16; i++ {
 			f := b&c | (^b)&d
-			a5 := a<<5 | a>>(32-5)
-			b30 := b<<30 | b>>(32-30)
+			a5 := bits.RotateLeft32(a, 5)
+			b30 := bits.RotateLeft32(b, 30)
 			t := a5 + f + e + w[i&0xf] + _K0
 			a, b, c, d, e = t, a, b30, c, d
 		}
@@ -43,8 +47,8 @@ func blockGeneric(dig *digest, p []byte) {
 			w[i&0xf] = tmp<<1 | tmp>>(32-1)
 
 			f := b&c | (^b)&d
-			a5 := a<<5 | a>>(32-5)
-			b30 := b<<30 | b>>(32-30)
+			a5 := bits.RotateLeft32(a, 5)
+			b30 := bits.RotateLeft32(b, 30)
 			t := a5 + f + e + w[i&0xf] + _K0
 			a, b, c, d, e = t, a, b30, c, d
 		}
@@ -52,8 +56,8 @@ func blockGeneric(dig *digest, p []byte) {
 			tmp := w[(i-3)&0xf] ^ w[(i-8)&0xf] ^ w[(i-14)&0xf] ^ w[(i)&0xf]
 			w[i&0xf] = tmp<<1 | tmp>>(32-1)
 			f := b ^ c ^ d
-			a5 := a<<5 | a>>(32-5)
-			b30 := b<<30 | b>>(32-30)
+			a5 := bits.RotateLeft32(a, 5)
+			b30 := bits.RotateLeft32(b, 30)
 			t := a5 + f + e + w[i&0xf] + _K1
 			a, b, c, d, e = t, a, b30, c, d
 		}
@@ -62,8 +66,8 @@ func blockGeneric(dig *digest, p []byte) {
 			w[i&0xf] = tmp<<1 | tmp>>(32-1)
 			f := ((b | c) & d) | (b & c)
 
-			a5 := a<<5 | a>>(32-5)
-			b30 := b<<30 | b>>(32-30)
+			a5 := bits.RotateLeft32(a, 5)
+			b30 := bits.RotateLeft32(b, 30)
 			t := a5 + f + e + w[i&0xf] + _K2
 			a, b, c, d, e = t, a, b30, c, d
 		}
@@ -71,8 +75,8 @@ func blockGeneric(dig *digest, p []byte) {
 			tmp := w[(i-3)&0xf] ^ w[(i-8)&0xf] ^ w[(i-14)&0xf] ^ w[(i)&0xf]
 			w[i&0xf] = tmp<<1 | tmp>>(32-1)
 			f := b ^ c ^ d
-			a5 := a<<5 | a>>(32-5)
-			b30 := b<<30 | b>>(32-30)
+			a5 := bits.RotateLeft32(a, 5)
+			b30 := bits.RotateLeft32(b, 30)
 			t := a5 + f + e + w[i&0xf] + _K3
 			a, b, c, d, e = t, a, b30, c, d
 		}
