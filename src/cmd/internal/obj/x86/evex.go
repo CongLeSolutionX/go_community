@@ -341,6 +341,23 @@ var opSuffixTable = [...]string{
 	"BCST",
 	"BCST.Z",
 
+	"CC",
+	"CS",
+	"EQ",
+	"GE",
+	"GT",
+	"HI",
+	"LE",
+	"LS",
+	"LT",
+	"MI",
+	"NE",
+	"OC",
+	"OS",
+	"PC",
+	"PL",
+	"PS",
+
 	"<bad suffix>",
 }
 

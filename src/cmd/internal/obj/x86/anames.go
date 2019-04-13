@@ -94,6 +94,7 @@ var Anames = []string{
 	"CLI",
 	"CLTS",
 	"CMC",
+	"CMOVL",
 	"CMOVLCC",
 	"CMOVLCS",
 	"CMOVLEQ",

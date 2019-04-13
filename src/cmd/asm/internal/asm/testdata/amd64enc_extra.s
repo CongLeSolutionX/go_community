@@ -1049,5 +1049,22 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	VADDPD Z2, Z9, Z21 // 62e1b54858ea
 	VADDPD Z21, Z2, Z9 // 6231ed4858cd
 	VADDPD Z9, Z21, Z2 // 62d1d54058d1
+	// Issue #20173 support CMOVL suffixes.
+	CMOVL.CS AX, AX    // 0f42c0
+	CMOVL.CC AX, AX    // 0f43c0
+	CMOVL.EQ AX, AX    // 0f44c0
+	CMOVL.GE AX, AX    // 0f4dc0
+	CMOVL.GT AX, AX    // 0f4fc0
+	CMOVL.HI AX, AX    // 0f47c0
+	CMOVL.LE AX, AX    // 0f4ec0
+	CMOVL.LS AX, AX    // 0f46c0
+	CMOVL.LT AX, AX    // 0f4cc0
+	CMOVL.MI AX, AX    // 0f48c0
+	CMOVL.NE AX, AX    // 0f45c0
+	CMOVL.OC AX, AX    // 0f41c0
+	CMOVL.OS AX, AX    // 0f40c0
+	CMOVL.PC AX, AX    // 0f4bc0
+	CMOVL.PL AX, AX    // 0f49c0
+	CMOVL.PS AX, AX    // 0f4ac0
 	// End of tests.
 	RET
