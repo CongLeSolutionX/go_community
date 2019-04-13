@@ -326,7 +326,20 @@ func textsectionmap(ctxt *Link) uint32 {
 }
 
 func (ctxt *Link) symtab() {
-	dosymtype(ctxt)
+	switch ctxt.BuildMode {
+	case BuildModeCArchive, BuildModeCShared:
+		for _, s := range ctxt.Syms.Allsym {
+			// Create a new entry in the .init_array section that points to the
+			// library initializer function.
+			switch ctxt.BuildMode {
+			case BuildModeCArchive, BuildModeCShared:
+				if s.Name == *flagEntrySymbol {
+					addinitarrdata(ctxt, s)
+				}
+			}
+		}
+
+	}
 
 	// Define these so that they'll get put into the symbol table.
 	// data.c:/^address will provide the actual values.
