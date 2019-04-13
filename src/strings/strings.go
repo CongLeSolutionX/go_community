@@ -551,6 +551,7 @@ func Repeat(s string, count int) string {
 }
 
 // ToUpper returns a copy of the string s with all Unicode letters mapped to their upper case.
+// Original string is returned if letters are only in upper case.
 func ToUpper(s string) string {
 	isASCII, hasLower := true, false
 	for i := 0; i < len(s); i++ {
@@ -581,6 +582,7 @@ func ToUpper(s string) string {
 }
 
 // ToLower returns a copy of the string s with all Unicode letters mapped to their lower case.
+// Original string is returned if letters are only in lower case.
 func ToLower(s string) string {
 	isASCII, hasUpper := true, false
 	for i := 0; i < len(s); i++ {
