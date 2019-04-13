@@ -341,6 +341,8 @@ var opSuffixTable = [...]string{
 	"BCST",
 	"BCST.Z",
 
+	"EQ",
+
 	"<bad suffix>",
 }
 

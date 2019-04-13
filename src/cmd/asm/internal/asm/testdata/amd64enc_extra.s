@@ -1049,5 +1049,7 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	VADDPD Z2, Z9, Z21 // 62e1b54858ea
 	VADDPD Z21, Z2, Z9 // 6231ed4858cd
 	VADDPD Z9, Z21, Z2 // 62d1d54058d1
+	// Issue #20173 support CMOVL suffixes.
+	CMOVL.EQ AX, AX    // 0f44c0
 	// End of tests.
 	RET

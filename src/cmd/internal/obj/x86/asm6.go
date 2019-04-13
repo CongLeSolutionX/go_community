@@ -4009,6 +4009,17 @@ func avx512gatherValid(ctxt *obj.Link, p *obj.Prog) bool {
 }
 
 func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
+	switch p.As {
+	case ACMOVL:
+		if p.Scond == uint8(newOpSuffix("EQ")) {
+			p.As = ACMOVLEQ
+			p.Scond = 0
+		} else {
+			ctxt.Diag("illegal suffix: %s for %s", opSuffix(p.Scond), p.As)
+			return
+		}
+	}
+
 	o := opindex[p.As&obj.AMask]
 
 	if o == nil {
