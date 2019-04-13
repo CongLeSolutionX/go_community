@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fae1e1b7_c887374b",
+        "filename": "src/crypto/sha1/sha1block.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 29647
+      },
+      "writtenOn": "2019-04-13T13:29:06Z",
+      "side": 1,
+      "message": "I think now we can remove a5 and just use bits.rotate in computation of t",
+      "revId": "e887187c134653df5b7d40d62f731606835d30d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
