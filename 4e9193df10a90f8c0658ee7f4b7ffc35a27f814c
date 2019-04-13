@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "656b6763_69bf113f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-13T18:03:59Z",
+      "side": 1,
+      "message": "Lowercase eliminate",
+      "revId": "4e9193df10a90f8c0658ee7f4b7ffc35a27f814c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d80dce_08642358",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-13T18:03:59Z",
+      "side": 1,
+      "message": "typo: its",
+      "revId": "4e9193df10a90f8c0658ee7f4b7ffc35a27f814c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
