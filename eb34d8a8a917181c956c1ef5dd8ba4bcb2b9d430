@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a8246e0c_5386f9e0",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-13T01:01:44Z",
+      "side": 1,
+      "message": "write is implemented in assembly and declared go:noescape, so \u0026b does not escape.",
+      "parentUuid": "1bd39468_a12bcaa1",
+      "revId": "eb34d8a8a917181c956c1ef5dd8ba4bcb2b9d430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "11eced62_128922b9",
         "filename": "src/runtime/netpoll_stub.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a7462371_633e81a1",
+        "filename": "src/runtime/netpoll_stub.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-13T01:01:44Z",
+      "side": 1,
+      "message": "I think we can do that.  There is an unlikely case in which we call netpollBreak after the scheduler decides that it will call netpoll but before it actually calls netpoll.  But I don\u0027t think that is fatal, as some other P should eventually come along and call netpollBreak again.  So, done.",
+      "parentUuid": "11eced62_128922b9",
+      "revId": "eb34d8a8a917181c956c1ef5dd8ba4bcb2b9d430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e5a08e7_2de268d0",
         "filename": "src/runtime/netpoll_stub.go",
         "patchSetId": 1
@@ -50,6 +86,24 @@
       "revId": "eb34d8a8a917181c956c1ef5dd8ba4bcb2b9d430",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bf7ea6b_fa2d1564",
+        "filename": "src/runtime/netpoll_stub.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-13T01:01:44Z",
+      "side": 1,
+      "message": "I don\u0027t think we will ever be called with delay \u003c 0.  But it\u0027s easy and harmless to handle, so handled.",
+      "parentUuid": "3e5a08e7_2de268d0",
+      "revId": "eb34d8a8a917181c956c1ef5dd8ba4bcb2b9d430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
