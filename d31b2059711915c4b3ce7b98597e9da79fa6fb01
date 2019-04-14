@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7242d3d6_bba7cee0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-04-14T18:54:46Z",
+      "side": 1,
+      "message": "The link in that issue also suggests a simplification of the code. I think you should either change this to just \"Updates #202025\", or go ahead and do (and test) the simplification too.",
+      "revId": "d31b2059711915c4b3ce7b98597e9da79fa6fb01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
