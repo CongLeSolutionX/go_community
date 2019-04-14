@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7cc5bfc_822397fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-14T23:30:30Z",
+      "side": 1,
+      "message": "No dot at the end of the title.",
+      "range": {
+        "startLine": 7,
+        "startChar": 74,
+        "endLine": 7,
+        "endChar": 75
+      },
+      "revId": "54aff1ba1e130e067ff054988640dfc56536c6a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21147393_c33ee410",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-14T23:30:30Z",
+      "side": 1,
+      "message": "No colon for the GitHub magic to happen.",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "54aff1ba1e130e067ff054988640dfc56536c6a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6da3f613_2e78bfbb",
+        "filename": "src/crypto/sha512/sha512block.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-14T23:30:30Z",
+      "side": 1,
+      "message": "This comment does not seem necessary.",
+      "range": {
+        "startLine": 109,
+        "startChar": 75,
+        "endLine": 109,
+        "endChar": 83
+      },
+      "revId": "54aff1ba1e130e067ff054988640dfc56536c6a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
