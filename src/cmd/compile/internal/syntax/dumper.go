@@ -8,10 +8,9 @@ package syntax
 
 import (
 	"fmt"
+	gotoken "go/token"
 	"io"
 	"reflect"
-	"unicode"
-	"unicode/utf8"
 )
 
 // Fdump dumps the structure of the syntax tree rooted at n to w.
@@ -181,7 +180,7 @@ func (p *dumper) dump(x reflect.Value, n Node) {
 		for i, n := 0, typ.NumField(); i < n; i++ {
 			// Exclude non-exported fields because their
 			// values cannot be accessed via reflection.
-			if name := typ.Field(i).Name; isExported(name) {
+			if name := typ.Field(i).Name; gotoken.IsExported(name) {
 				if first {
 					p.printf("\n")
 					first = false
@@ -204,9 +203,4 @@ func (p *dumper) dump(x reflect.Value, n Node) {
 			p.printf("%v", x)
 		}
 	}
-}
-
-func isExported(name string) bool {
-	ch, _ := utf8.DecodeRuneInString(name)
-	return unicode.IsUpper(ch)
 }

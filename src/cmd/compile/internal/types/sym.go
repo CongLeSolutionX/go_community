@@ -7,8 +7,7 @@ package types
 import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
-	"unicode"
-	"unicode/utf8"
+	"go/token"
 )
 
 // Sym represents an object name. Most commonly, this is a Go identifier naming
@@ -101,8 +100,8 @@ func (a *Sym) Less(b *Sym) bool {
 	}
 
 	// Exported symbols before non-exported.
-	ea := IsExported(a.Name)
-	eb := IsExported(b.Name)
+	ea := token.IsExported(a.Name)
+	eb := token.IsExported(b.Name)
 	if ea != eb {
 		return ea
 	}
@@ -119,14 +118,4 @@ func (a *Sym) Less(b *Sym) bool {
 		return a.Pkg.Path < b.Pkg.Path
 	}
 	return false
-}
-
-// IsExported reports whether name is an exported Go symbol (that is,
-// whether it begins with an upper-case letter).
-func IsExported(name string) bool {
-	if r := name[0]; r < utf8.RuneSelf {
-		return 'A' <= r && r <= 'Z'
-	}
-	r, _ := utf8.DecodeRuneInString(name)
-	return unicode.IsUpper(r)
 }

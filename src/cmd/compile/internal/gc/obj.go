@@ -13,6 +13,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"go/token"
 	"io"
 	"strconv"
 )
@@ -179,7 +180,7 @@ func addptabs() {
 		if n.Op != ONAME {
 			continue
 		}
-		if !types.IsExported(s.Name) {
+		if !token.IsExported(s.Name) {
 			continue
 		}
 		if s.Pkg.Name != "main" {

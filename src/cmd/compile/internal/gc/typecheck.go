@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/objabi"
 	"fmt"
+	"go/token"
 	"strings"
 )
 
@@ -2943,7 +2944,7 @@ func typecheckcomplit(n *Node) (res *Node) {
 
 				f := t.Field(i)
 				s := f.Sym
-				if s != nil && !types.IsExported(s.Name) && s.Pkg != localpkg {
+				if s != nil && !token.IsExported(s.Name) && s.Pkg != localpkg {
 					yyerror("implicit assignment of unexported field '%s' in %v literal", s.Name, t)
 				}
 				// No pushtype allowed here. Must name fields for that.
@@ -2984,7 +2985,7 @@ func typecheckcomplit(n *Node) (res *Node) {
 					// package, because of import dot. Redirect to correct sym
 					// before we do the lookup.
 					s := key.Sym
-					if s.Pkg != localpkg && types.IsExported(s.Name) {
+					if s.Pkg != localpkg && token.IsExported(s.Name) {
 						s1 := lookup(s.Name)
 						if s1.Origpkg == s.Pkg {
 							s = s1
@@ -3059,7 +3060,7 @@ func typecheckcomplit(n *Node) (res *Node) {
 
 // visible reports whether sym is exported or locally defined.
 func visible(sym *types.Sym) bool {
-	return sym != nil && (types.IsExported(sym.Name) || sym.Pkg == localpkg)
+	return sym != nil && (token.IsExported(sym.Name) || sym.Pkg == localpkg)
 }
 
 // lvalue etc

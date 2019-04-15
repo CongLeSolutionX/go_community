@@ -11,6 +11,7 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 	"fmt"
+	"go/token"
 	"os"
 	"runtime/debug"
 	"sort"
@@ -256,7 +257,7 @@ func autolabel(prefix string) *types.Sym {
 }
 
 func restrictlookup(name string, pkg *types.Pkg) *types.Sym {
-	if !types.IsExported(name) && pkg != localpkg {
+	if !token.IsExported(name) && pkg != localpkg {
 		yyerror("cannot refer to unexported name %s.%s", pkg.Name, name)
 	}
 	return pkg.Lookup(name)
@@ -270,7 +271,7 @@ func importdot(opkg *types.Pkg, pack *Node) {
 		if s.Def == nil {
 			continue
 		}
-		if !types.IsExported(s.Name) || strings.ContainsRune(s.Name, 0xb7) { // 0xb7 = center dot
+		if !token.IsExported(s.Name) || strings.ContainsRune(s.Name, 0xb7) { // 0xb7 = center dot
 			continue
 		}
 		s1 := lookup(s.Name)

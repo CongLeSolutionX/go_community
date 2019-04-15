@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/compile/internal/types"
+	"go/token"
 )
 
 type exporter struct {
@@ -27,7 +28,7 @@ func (p *exporter) markType(t *types.Type) {
 	// handles their full method set.
 	if t.Sym != nil && t.Etype != TINTER {
 		for _, m := range t.Methods().Slice() {
-			if types.IsExported(m.Sym.Name) {
+			if token.IsExported(m.Sym.Name) {
 				p.markType(m.Type)
 			}
 		}
@@ -54,7 +55,7 @@ func (p *exporter) markType(t *types.Type) {
 
 	case TSTRUCT:
 		for _, f := range t.FieldSlice() {
-			if types.IsExported(f.Sym.Name) || f.Embedded != 0 {
+			if token.IsExported(f.Sym.Name) || f.Embedded != 0 {
 				p.markType(f.Type)
 			}
 		}
@@ -71,7 +72,7 @@ func (p *exporter) markType(t *types.Type) {
 
 	case TINTER:
 		for _, f := range t.FieldSlice() {
-			if types.IsExported(f.Sym.Name) {
+			if token.IsExported(f.Sym.Name) {
 				p.markType(f.Type)
 			}
 		}

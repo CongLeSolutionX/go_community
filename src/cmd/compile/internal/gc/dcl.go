@@ -10,6 +10,7 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
+	"go/token"
 	"strings"
 )
 
@@ -850,7 +851,7 @@ func methodSymSuffix(recv *types.Type, msym *types.Sym, suffix string) *types.Sy
 	// methods with the same name. To disambiguate them, include a
 	// package qualifier for names that came from a different
 	// package than the receiver type.
-	if !types.IsExported(msym.Name) && msym.Pkg != rpkg {
+	if !token.IsExported(msym.Name) && msym.Pkg != rpkg {
 		b.WriteString(".")
 		b.WriteString(msym.Pkg.Prefix)
 	}

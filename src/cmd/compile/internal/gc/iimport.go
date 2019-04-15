@@ -13,6 +13,7 @@ import (
 	"cmd/internal/src"
 	"encoding/binary"
 	"fmt"
+	"go/token"
 	"math/big"
 	"os"
 	"strings"
@@ -445,7 +446,7 @@ func (r *importReader) ident() *types.Sym {
 		return nil
 	}
 	pkg := r.currPkg
-	if types.IsExported(name) {
+	if token.IsExported(name) {
 		pkg = localpkg
 	}
 	return pkg.Lookup(name)

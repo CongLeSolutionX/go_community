@@ -9,6 +9,7 @@ import (
 	"cmd/internal/bio"
 	"cmd/internal/src"
 	"fmt"
+	"go/token"
 )
 
 var (
@@ -53,7 +54,7 @@ func autoexport(n *Node, ctxt Class) {
 		return
 	}
 
-	if types.IsExported(n.Sym.Name) || initname(n.Sym.Name) {
+	if token.IsExported(n.Sym.Name) || initname(n.Sym.Name) {
 		exportsym(n)
 	}
 	if asmhdr != "" && !n.Sym.Asm() {

@@ -10,6 +10,7 @@ import (
 	"cmd/internal/sys"
 	"encoding/binary"
 	"fmt"
+	"go/token"
 	"strings"
 )
 
@@ -3745,7 +3746,7 @@ func usefield(n *Node) {
 	if outer.Sym == nil {
 		yyerror("tracked field must be in named struct type")
 	}
-	if !types.IsExported(field.Sym.Name) {
+	if !token.IsExported(field.Sym.Name) {
 		yyerror("tracked field must be exported (upper case)")
 	}
 

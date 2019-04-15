@@ -6,6 +6,7 @@ package gob
 
 import (
 	"errors"
+	"go/token"
 	"io"
 	"reflect"
 	"sync"
@@ -118,7 +119,7 @@ func (enc *Encoder) sendActualType(w io.Writer, state *encoderState, ut *userTyp
 	switch st := actual; st.Kind() {
 	case reflect.Struct:
 		for i := 0; i < st.NumField(); i++ {
-			if isExported(st.Field(i).Name) {
+			if token.IsExported(st.Field(i).Name) {
 				enc.sendType(w, state, st.Field(i).Type)
 			}
 		}

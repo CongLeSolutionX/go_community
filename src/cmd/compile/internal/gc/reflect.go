@@ -11,6 +11,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"fmt"
+	"go/token"
 	"os"
 	"sort"
 	"strings"
@@ -529,10 +530,10 @@ func dgopkgpathOff(s *obj.LSym, ot int, pkg *types.Pkg) int {
 
 // dnameField dumps a reflect.name for a struct field.
 func dnameField(lsym *obj.LSym, ot int, spkg *types.Pkg, ft *types.Field) int {
-	if !types.IsExported(ft.Sym.Name) && ft.Sym.Pkg != spkg {
+	if !token.IsExported(ft.Sym.Name) && ft.Sym.Pkg != spkg {
 		Fatalf("package mismatch for %v", ft.Sym)
 	}
-	nsym := dname(ft.Sym.Name, ft.Note, nil, types.IsExported(ft.Sym.Name))
+	nsym := dname(ft.Sym.Name, ft.Note, nil, token.IsExported(ft.Sym.Name))
 	return dsymptr(lsym, ot, nsym, 0)
 }
 
@@ -640,7 +641,7 @@ func dextratype(lsym *obj.LSym, ot int, t *types.Type, dataAdd int) int {
 	if mcount != int(uint16(mcount)) {
 		Fatalf("too many methods on %v: %d", t, mcount)
 	}
-	xcount := sort.Search(mcount, func(i int) bool { return !types.IsExported(m[i].name.Name) })
+	xcount := sort.Search(mcount, func(i int) bool { return !token.IsExported(m[i].name.Name) })
 	if dataAdd != int(uint32(dataAdd)) {
 		Fatalf("methods are too far away on %v: %d", t, dataAdd)
 	}
@@ -673,7 +674,7 @@ func typePkg(t *types.Type) *types.Pkg {
 func dextratypeData(lsym *obj.LSym, ot int, t *types.Type) int {
 	for _, a := range methods(t) {
 		// ../../../../runtime/type.go:/method
-		exported := types.IsExported(a.name.Name)
+		exported := token.IsExported(a.name.Name)
 		var pkg *types.Pkg
 		if !exported && a.name.Pkg != typePkg(t) {
 			pkg = a.name.Pkg
@@ -859,11 +860,11 @@ func dcommontype(lsym *obj.LSym, t *types.Type) int {
 		p = "*" + p
 		tflag |= tflagExtraStar
 		if t.Sym != nil {
-			exported = types.IsExported(t.Sym.Name)
+			exported = token.IsExported(t.Sym.Name)
 		}
 	} else {
 		if t.Elem() != nil && t.Elem().Sym != nil {
-			exported = types.IsExported(t.Elem().Sym.Name)
+			exported = token.IsExported(t.Elem().Sym.Name)
 		}
 	}
 
@@ -1254,7 +1255,7 @@ func dtypesym(t *types.Type) *obj.LSym {
 
 		for _, a := range m {
 			// ../../../../runtime/type.go:/imethod
-			exported := types.IsExported(a.name.Name)
+			exported := token.IsExported(a.name.Name)
 			var pkg *types.Pkg
 			if !exported && a.name.Pkg != tpkg {
 				pkg = a.name.Pkg
@@ -1334,7 +1335,7 @@ func dtypesym(t *types.Type) *obj.LSym {
 		// information from the field descriptors.
 		var spkg *types.Pkg
 		for _, f := range fields {
-			if !types.IsExported(f.Sym.Name) {
+			if !token.IsExported(f.Sym.Name) {
 				spkg = f.Sym.Pkg
 				break
 			}
