@@ -32,7 +32,6 @@ package sym
 
 import (
 	"fmt"
-	"strings"
 )
 
 type Symbols struct {
@@ -163,12 +162,16 @@ func (syms *Symbols) SetSymName(s *Symbol, newname string) {
 	s.SetName(encoded)
 }
 
+func (syms *Symbols) SymNameEquals(s *Symbol, str string) bool {
+	return syms.names.NameEqString(s.name, str)
+}
+
 func (syms *Symbols) SymNameHasPrefix(s *Symbol, pref string) bool {
-	return strings.HasPrefix(syms.names.String(s.name), pref)
+	return syms.names.HasPrefix(s.name, pref)
 }
 
 func (syms *Symbols) SymNameHasSuffix(s *Symbol, pref string) bool {
-	return strings.HasSuffix(syms.names.String(s.name), pref)
+	return syms.names.HasSuffix(s.name, pref)
 }
 
 func (syms *Symbols) SymExtname(s *Symbol) string {
@@ -186,6 +189,10 @@ func (syms *Symbols) SymString(s *Symbol) string {
 		return sn
 	}
 	return fmt.Sprintf("%v<%d>", sn, s.Version)
+}
+
+func (syms *Symbols) EncodedName(name string) SymName {
+	return syms.names.Lookup(name)
 }
 
 func (syms *Symbols) Lock() {

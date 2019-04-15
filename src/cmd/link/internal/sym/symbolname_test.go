@@ -452,3 +452,23 @@ func TestSymTableHasSuffix(t *testing.T) {
 		}
 	}
 }
+func TestSymTableNameEqString(t *testing.T) {
+	snt := NewSymNameTable(3)
+	sns, items := populateSNT(&snt)
+	for idx := 0; idx < len(items); idx++ {
+		item := items[idx]
+		sn := sns[idx]
+		if !snt.NameEqString(sn, item) {
+			t.Errorf("snt.NameEqual(%v,%s) returned false expected true",
+				sn, item)
+		}
+		if snt.NameEqString(sn, item+"~") {
+			t.Errorf("snt.NameEqual(%v,%s) returned true expected false",
+				sn, item+"~")
+		}
+		if snt.NameEqString(sn, "~"+item) {
+			t.Errorf("snt.NameEqual(%v,%s) returned true expected false",
+				sn, "~"+item)
+		}
+	}
+}
