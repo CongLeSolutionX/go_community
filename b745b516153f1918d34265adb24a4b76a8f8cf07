@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "7a5150eb_c5dc0e97",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-04-15T11:29:20Z",
+      "side": 1,
+      "message": "Indeed, it should. We (I and a colleague) have looked at the assembly generated but nothing seems to be the root of this problem. We\u0027ve a doubt about the lwsync instruction in the atomic.Casuninptr of notetsleep_internal. It\u0027s a lighter version of the hwsync (which is created by atomic.Load) and should block the reordering of load/store. However, is the cache syncs between all CPUs ? We don\u0027t know yet... \nIt might also be a problem with our semasleep/semawakeup implementation..  \n\nAnyway, if even the root cause isn\u0027t yet known on AIX, the code without atomic.Load seems to make some assumptions about notetsleep/noteclear which have a different implementation on almost each OSes. \nMoreover, what is preventing the compiler to used a value previously stored in a register during the \"wait\" creation instead of reloading it. That\u0027s not the case on aix/ppc64 but it might happen one day (expect if the unlock is preventing such a thing). \nThis might be the best possible implementation, but isn\u0027t it safer to keep this atomic.Load anyway ? \n\nI will continue to search what is wrong with aix/ppc64 as it maybe a wider bug (one maybe also triggers all the acquirep bugs). But, this patch is still important as it will prevent half of the crash in the AIX builder. And if the root cause is found, it might be removed if you wish to.",
+      "parentUuid": "f19c0709_d97eedc7",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
