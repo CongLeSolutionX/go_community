@@ -549,10 +549,11 @@ func (ctxt *Link) loadlib() {
 		// If we have any undefined symbols in external
 		// objects, try to read them from the libgcc file.
 		any := false
+		gotn := ctxt.Syms.EncodedName(".got")
 		for _, s := range ctxt.Syms.Allsym {
 			for i := range s.R {
 				r := &s.R[i] // Copying sym.Reloc has measurable impact on performance
-				if r.Sym != nil && r.Sym.Type == sym.SXREF && ctxt.Syms.SymName(r.Sym) != ".got" {
+				if r.Sym != nil && r.Sym.Type == sym.SXREF && r.Sym.Name() != gotn {
 					any = true
 					break
 				}
@@ -702,6 +703,14 @@ func (ctxt *Link) mangleTypeSym() {
 	}
 
 	for _, s := range ctxt.Syms.Allsym {
+		if !ctxt.Syms.SymNameHasPrefix(s, "type.") {
+			continue
+		}
+		// Leave type.runtime. symbols alone, because other parts of
+		// the linker manipulates them.
+		if ctxt.Syms.SymNameHasPrefix(s, "type.runtime.") {
+			continue
+		}
 		sn := ctxt.Syms.SymName(s)
 		newName := typeSymbolMangle(sn)
 		if newName != sn {
@@ -714,15 +723,7 @@ func (ctxt *Link) mangleTypeSym() {
 //
 // Keep the type.. prefix, which parts of the linker (like the
 // DWARF generator) know means the symbol is not decodable.
-// Leave type.runtime. symbols alone, because other parts of
-// the linker manipulates them.
 func typeSymbolMangle(name string) string {
-	if !strings.HasPrefix(name, "type.") {
-		return name
-	}
-	if strings.HasPrefix(name, "type.runtime.") {
-		return name
-	}
 	if len(name) <= 14 && !strings.Contains(name, "@") { // Issue 19529
 		return name
 	}
@@ -2272,12 +2273,14 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, SymbolType, int64, *sym.
 		}
 	}
 
+	ratn := ctxt.Syms.EncodedName(".rathole")
+	tocn := ctxt.Syms.EncodedName(".TOC.")
+	emptyn := ctxt.Syms.EncodedName("")
 	for _, s := range ctxt.Syms.Allsym {
 		if s.Attr.NotInSymbolTable() {
 			continue
 		}
-		sn := ctxt.Syms.SymName(s)
-		if (sn == "" || sn[0] == '.') && !s.IsFileLocal() && sn != ".rathole" && sn != ".TOC." {
+		if (s.Name() == emptyn || ctxt.Syms.SymNameHasPrefix(s, ".")) && !s.IsFileLocal() && s.Name() != ratn && s.Name() != tocn {
 			continue
 		}
 		switch s.Type {
