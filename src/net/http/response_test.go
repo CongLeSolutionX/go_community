@@ -736,7 +736,7 @@ func diff(t *testing.T, prefix string, have, want interface{}) {
 	}
 	for i := 0; i < hv.NumField(); i++ {
 		name := hv.Type().Field(i).Name
-		if !ast.IsExported(name) {
+		if !token.IsExported(name) {
 			continue
 		}
 		hf := hv.Field(i).Interface()

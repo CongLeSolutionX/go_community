@@ -9,6 +9,7 @@ package gob
 import (
 	"encoding"
 	"errors"
+	"go/token"
 	"io"
 	"math"
 	"math/bits"
@@ -1117,7 +1118,7 @@ func (dec *Decoder) compileDec(remoteId typeId, ut *userTypeInfo) (engine *decEn
 		// Find the field of the local type with the same name.
 		localField, present := srt.FieldByName(wireField.Name)
 		// TODO(r): anonymous names
-		if !present || !isExported(wireField.Name) {
+		if !present || !token.IsExported(wireField.Name) {
 			op := dec.decIgnoreOpFor(wireField.Id, make(map[typeId]*decOp))
 			engine.instr[fieldnum] = decInstr{*op, fieldnum, nil, ovfl}
 			continue

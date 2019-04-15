@@ -8,12 +8,11 @@ import (
 	"encoding"
 	"errors"
 	"fmt"
+	"go/token"
 	"os"
 	"reflect"
 	"sync"
 	"sync/atomic"
-	"unicode"
-	"unicode/utf8"
 )
 
 // userTypeInfo stores the information associated with a type the user has handed
@@ -553,17 +552,11 @@ func newTypeObject(name string, ut *userTypeInfo, rt reflect.Type) (gobType, err
 	}
 }
 
-// isExported reports whether this is an exported - upper case - name.
-func isExported(name string) bool {
-	rune, _ := utf8.DecodeRuneInString(name)
-	return unicode.IsUpper(rune)
-}
-
 // isSent reports whether this struct field is to be transmitted.
 // It will be transmitted only if it is exported and not a chan or func field
 // or pointer to chan or func.
 func isSent(field *reflect.StructField) bool {
-	if !isExported(field.Name) {
+	if !token.IsExported(field.Name) {
 		return false
 	}
 	// If the field is a chan or func or pointer thereto, don't send it.

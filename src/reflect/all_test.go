@@ -4671,20 +4671,12 @@ func TestStructOfExportRules(t *testing.T) {
 			if n == "" {
 				panic("field.Name must not be empty")
 			}
-			exported := isExported(n)
+			exported := token.IsExported(n)
 			if exported != test.exported {
 				t.Errorf("test-%d: got exported=%v want exported=%v", i, exported, test.exported)
 			}
 		})
 	}
-}
-
-// isExported reports whether name is an exported Go symbol
-// (that is, whether it begins with an upper-case letter).
-//
-func isExported(name string) bool {
-	ch, _ := utf8.DecodeRuneInString(name)
-	return unicode.IsUpper(ch)
 }
 
 func TestStructOfGC(t *testing.T) {
@@ -6463,7 +6455,7 @@ func TestExported(t *testing.T) {
 
 	for i, test := range exportTests {
 		typ := TypeOf(test.v)
-		if got := IsExported(typ); got != test.want {
+		if got := token.IsExported(typ); got != test.want {
 			t.Errorf("%d: %s exported=%v, want %v", i, typ.Name(), got, test.want)
 		}
 	}
