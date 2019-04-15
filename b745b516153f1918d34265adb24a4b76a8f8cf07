@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "b3976039_cb45f064",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-15T18:15:58Z",
+      "side": 1,
+      "message": "\u003e the code without atomic.Load seems to make some assumptions about notetsleep/noteclear which have a different implementation on almost each OSes.\n\nIt requires that notetsleep creates a happens-before edge, but that\u0027s not an assumption, that\u0027s a guarantee of notetsleep. Are you thinking of another assumption it\u0027s making?\n\n\u003e Moreover, what is preventing the compiler to used a value previously stored in a register during the \"wait\" creation instead of reloading it.\n\nIf wait is false, it could in principle use a cached version of sched.stopwait, but that would be fine (since wait \u003d\u003d false \u003d\u003d\u003e sched.stopwait \u003d 0). If wait is true, then we call notetsleep and since that\u0027s a synchronization operation, the compiler would not be allowed to cache sched.stopwait in that path, no matter how aggressive the optimizer was.\n\nWe can go ahead and do the atomic load here, but there should be a comment explaining that this shouldn\u0027t be necessary and is working around an unknown bug on AIX.",
+      "parentUuid": "7a5150eb_c5dc0e97",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
