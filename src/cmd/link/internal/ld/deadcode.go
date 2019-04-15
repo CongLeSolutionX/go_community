@@ -112,8 +112,7 @@ func deadcode(ctxt *Link) {
 		// Keep a itablink if the symbol it points at is being kept.
 		// (When BuildModeShared, always keep itablinks.)
 		for _, s := range ctxt.Syms.Allsym {
-			sn := ctxt.Syms.SymName(s)
-			if strings.HasPrefix(sn, "go.itablink.") {
+			if ctxt.Syms.SymNameHasPrefix(s, "go.itablink.") {
 				s.Attr.Set(sym.AttrReachable, len(s.R) == 1 && s.R[0].Sym.Attr.Reachable())
 			}
 		}
@@ -278,8 +277,7 @@ func (d *deadcodepass) flood() {
 
 		}
 
-		sn := d.ctxt.Syms.SymName(s)
-		if strings.HasPrefix(sn, "type.") && sn[5] != '.' {
+		if d.ctxt.Syms.SymNameHasPrefix(s, "type.") && !d.ctxt.Syms.SymNameHasPrefix(s, "type..") {
 			if len(s.P) == 0 {
 				// Probably a bug. The undefined symbol check
 				// later will give a better error than deadcode.

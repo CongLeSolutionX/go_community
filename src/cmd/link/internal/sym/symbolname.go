@@ -233,6 +233,15 @@ func (snt *SymNameTable) HasSuffix(sn SymName, suf string) bool {
 	return strings.HasSuffix(snp, suf[:sl-snsl])
 }
 
+func (snt *SymNameTable) NameEqString(sn SymName, s string) bool {
+	snp := snt.allnames[sn.pref]
+	sns := snt.allnames[sn.suf]
+	if len(s) != len(snp)+len(sns) {
+		return false
+	}
+	return s[0:len(snp)] == snp && s[len(snp):len(snp)+len(sns)] == sns
+}
+
 type blob struct {
 	hc  uint64
 	val uint64

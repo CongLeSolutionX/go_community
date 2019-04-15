@@ -476,24 +476,23 @@ func (r *objReader) readRef() {
 	if s == nil || v == r.localSymVersion {
 		return
 	}
-	sn := r.syms.SymName(s)
-	if sn[0] == '$' && len(sn) > 5 && s.Type == 0 && len(s.P) == 0 {
-		x, err := strconv.ParseUint(sn[5:], 16, 64)
+	if name[0] == '$' && len(name) > 5 && s.Type == 0 && len(s.P) == 0 {
+		x, err := strconv.ParseUint(name[5:], 16, 64)
 		if err != nil {
-			log.Panicf("failed to parse $-symbol %s: %v", r.syms.SymName(s), err)
+			log.Panicf("failed to parse $-symbol %s: %v", name, err)
 		}
 		s.Type = sym.SRODATA
 		s.Attr |= sym.AttrLocal
-		switch sn[:5] {
+		switch name[:5] {
 		case "$f32.":
 			if uint64(uint32(x)) != x {
-				log.Panicf("$-symbol %s too large: %d", r.syms.SymName(s), x)
+				log.Panicf("$-symbol %s too large: %d", name, x)
 			}
 			s.AddUint32(r.arch, uint32(x))
 		case "$f64.", "$i64.":
 			s.AddUint64(r.arch, x)
 		default:
-			log.Panicf("unrecognized $-symbol: %s", r.syms.SymName(s))
+			log.Panicf("unrecognized $-symbol: %s", name)
 		}
 		s.Attr.Set(sym.AttrReachable, false)
 	}
