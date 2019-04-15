@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "b8d9e813_8c0579a6",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-15T18:19:03Z",
+      "side": 1,
+      "message": "If we do that, I\u0027d prefer to only do so on GOOS \u003d\u003d \"aix\" which will not only make that super obvious, but will also prevent new bugs from slipping in on other GOOSes that accidentally start relying on an atomic Load here.",
+      "parentUuid": "b3976039_cb45f064",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
