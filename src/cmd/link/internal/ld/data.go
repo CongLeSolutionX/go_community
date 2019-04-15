@@ -158,10 +158,10 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 			// When putting the runtime but not main into a shared library
 			// these symbols are undefined and that's OK.
 			if ctxt.BuildMode == BuildModeShared {
-				rsn := ctxt.Syms.SymName(r.Sym)
-				if rsn == "main.main" || rsn == "main..inittask" {
+				if ctxt.Syms.SymNameEquals(r.Sym, "main.main") ||
+					ctxt.Syms.SymNameEquals(r.Sym, "main..inittask") {
 					r.Sym.Type = sym.SDYNIMPORT
-				} else if strings.HasPrefix(rsn, "go.info.") {
+				} else if ctxt.Syms.SymNameHasPrefix(r.Sym, "go.info.") {
 					// Skip go.info symbols. They are only needed to communicate
 					// DWARF info between the compiler and linker.
 					continue
@@ -182,8 +182,8 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 		// We need to be able to reference dynimport symbols when linking against
 		// shared libraries, and Solaris, Darwin and AIX need it always
 		if ctxt.HeadType != objabi.Hsolaris && ctxt.HeadType != objabi.Hdarwin && ctxt.HeadType != objabi.Haix && r.Sym != nil && r.Sym.Type == sym.SDYNIMPORT && !ctxt.DynlinkingGo() && !r.Sym.Attr.SubSymbol() {
-			rsn := ctxt.Syms.SymName(r.Sym)
-			if !(ctxt.Arch.Family == sys.PPC64 && ctxt.LinkMode == LinkExternal && rsn == ".TOC.") {
+			if !(ctxt.Arch.Family == sys.PPC64 && ctxt.LinkMode == LinkExternal && ctxt.Syms.SymNameEquals(r.Sym, ".TOC.")) {
+				rsn := ctxt.Syms.SymName(r.Sym)
 				ctxt.Errorf(s, "unhandled relocation for %s (type %d (%s) rtype %d (%s))", rsn, r.Sym.Type, r.Sym.Type, r.Type, sym.RelocName(ctxt.Arch, r.Type))
 			}
 		}
@@ -926,8 +926,8 @@ func addstrdata(ctxt *Link, name, value string) {
 		// Not defined in the loaded packages.
 		return
 	}
-	gtsn := ctxt.Syms.SymName(s.Gotype)
-	if gtsn != "type.string" {
+	if !ctxt.Syms.SymNameEquals(s.Gotype, "type.string") {
+		gtsn := ctxt.Syms.SymName(s.Gotype)
 		ctxt.Errorf(s, "cannot set with -X: not a var of type string (%s)", gtsn)
 		return
 	}
@@ -2019,7 +2019,7 @@ func (ctxt *Link) textaddress() {
 		// lay down trampolines after each function
 		for ; ntramps < len(ctxt.tramps); ntramps++ {
 			tramp := ctxt.tramps[ntramps]
-			if ctxt.HeadType == objabi.Haix && strings.HasPrefix(ctxt.Syms.SymName(tramp), "runtime.text.") {
+			if ctxt.HeadType == objabi.Haix && ctxt.Syms.SymNameHasPrefix(tramp, "runtime.text.") {
 				// Already set in assignAddress
 				continue
 			}
