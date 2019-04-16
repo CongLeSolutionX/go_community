@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7ff26bb_03c4019c",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-16T23:47:17Z",
+      "side": 1,
+      "message": "Drop this, it\u0027s not on an exposed type, and it\u0027s not documented, so we are not committed to it.",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 1
+      },
+      "revId": "813bece279437e44a0a1a81014d7566d7eb21fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83e2714f_22483e7e",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-16T23:47:17Z",
+      "side": 1,
+      "message": "encoding/binary.LittleEndian.PutUint64",
+      "range": {
+        "startLine": 246,
+        "startChar": 1,
+        "endLine": 248,
+        "endChar": 2
+      },
+      "revId": "813bece279437e44a0a1a81014d7566d7eb21fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8ba2809_2f4e1a81",
+        "filename": "src/crypto/sha1/sha1_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-16T23:47:17Z",
+      "side": 1,
+      "message": "i | 42\n\nSo none of the bytes are zero?",
+      "range": {
+        "startLine": 99,
+        "startChar": 25,
+        "endLine": 99,
+        "endChar": 32
+      },
+      "revId": "813bece279437e44a0a1a81014d7566d7eb21fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
