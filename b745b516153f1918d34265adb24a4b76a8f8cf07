@@ -180,6 +180,24 @@
     },
     {
       "key": {
+        "uuid": "dff5cad0_1f77b016",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-16T14:45:15Z",
+      "side": 1,
+      "message": "As I understand it, in C++ memory model terms, the Casuintptr in notewakeup should be a release and the Casuintptr in notetsleep_internal should be an acquire (https://en.cppreference.com/w/cpp/atomic/memory_order#Release-Acquire_ordering).  That is, Casuintptr should be an acquire-release operation.  Or, the semawakeup in notewakeup should be a release and the semasleep in notetsleep_internal should be an acquire.\n\nRight now Casuintptr on PPC64 uses an LWSYNC instruction after what cmd/asm calls the STDCCC instruction.  It\u0027s interesting to note that for the corresponding function in GCC, when using __ATOMIC_ACQ_REL, GCC generates an ISYNC instruction rather than LWSYNC after STDCCC.  The Go implementation was changed to use LWSYNC rather than ISYNC in CL 95175 for issue #21348.\n\nI don\u0027t know what is correct.  It would be interesting to know whether the problems you see are fixed by using ISYNC rather than LWSYNC for the second synchronization instruction in Casuintptr.",
+      "parentUuid": "9e585e3d_7b35eb50",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
