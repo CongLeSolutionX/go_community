@@ -22,6 +22,30 @@
       "revId": "5ff4bf0c9381dedea32e6c0402cc50bc1aad6527",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b236f03c_69c2a031",
+        "filename": "src/expvar/expvar.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 31803
+      },
+      "writtenOn": "2019-04-16T16:12:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e240350d_0c7ed8b4",
+      "range": {
+        "startLine": 149,
+        "startChar": 30,
+        "endLine": 149,
+        "endChar": 44
+      },
+      "revId": "5ff4bf0c9381dedea32e6c0402cc50bc1aad6527",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
