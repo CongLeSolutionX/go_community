@@ -945,14 +945,45 @@ func addBranchRestrictions(ft *factsTable, b *Block, br branch) {
 			// But in the signed domain, we can't express the ||
 			// condition, so check if a0 is non-negative instead,
 			// to be able to learn something.
+			//
+			// If the index Value (a0) is a value-preserving
+			// sign or zero extension, we can look through the
+			// extension and add the same facts using
+			// both the pre- and post-extension values.
+			var ext *Value
+			switch c.Args[0].Op {
+			case OpSignExt8to16, OpSignExt8to32, OpSignExt8to64,
+				OpSignExt16to32, OpSignExt16to64, OpSignExt32to64:
+				// signed -> signed is the only value-preserving sign extension
+				if c.Args[0].Args[0].Type.IsSigned() && c.Args[0].Type.IsSigned() {
+					ext = c.Args[0]
+				}
+			case OpZeroExt8to16, OpZeroExt8to32, OpZeroExt8to64,
+				OpZeroExt16to32, OpZeroExt16to64, OpZeroExt32to64:
+				// unsigned -> signed/unsigned are value-preserving zero extensions
+				if !c.Args[0].Args[0].Type.IsSigned() {
+					ext = c.Args[0]
+				}
+			}
+
 			switch br {
 			case negative:
 				d = unsigned
 				if ft.isNonNegative(c.Args[0]) {
 					d |= signed
 				}
+				if ext != nil {
+					if ft.isNonNegative(ext.Args[0]) {
+						d |= signed
+					}
+					addRestrictions(b, ft, d, ext.Args[0], c.Args[1], tr.r^(lt|gt|eq))
+				}
 				addRestrictions(b, ft, d, c.Args[0], c.Args[1], tr.r^(lt|gt|eq))
 			case positive:
+				if ext != nil {
+					addRestrictions(b, ft, signed, ft.zero, ext.Args[0], lt|eq)
+					addRestrictions(b, ft, d, ext.Args[0], c.Args[1], tr.r)
+				}
 				addRestrictions(b, ft, signed, ft.zero, c.Args[0], lt|eq)
 				addRestrictions(b, ft, d, c.Args[0], c.Args[1], tr.r)
 			}
