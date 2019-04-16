@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "9e585e3d_7b35eb50",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-04-16T14:15:08Z",
+      "side": 1,
+      "message": "\u003e It requires that notetsleep creates a happens-before edge, but that\u0027s not an assumption, that\u0027s a guarantee of notetsleep. Are you thinking of another assumption it\u0027s making?\n\nWhich parts in lock_sema.go is making such guarantee ? The atomic.Loaduintptr in notewakeup and the first atomic.Casuinptr in notetsleep_internal ? If yes, the bug might be related to atomic.Casuinptr which isn\u0027t using the \"strongest\" sync instruction of PPC. But I need to make some experimentation to be sure. \n\nAnyway, I\u0027ve updated this patch to impact only AIX. And If I ever find the root cause I\u0027ll submit another CL.",
+      "parentUuid": "b8d9e813_8c0579a6",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
