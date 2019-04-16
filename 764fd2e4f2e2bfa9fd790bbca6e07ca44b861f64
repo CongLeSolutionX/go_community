@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a292867_dc87bd13",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2019-04-16T16:14:05Z",
+      "side": 1,
+      "message": "t needs to be zeroed here since it is coming from the sync.Pool",
+      "revId": "764fd2e4f2e2bfa9fd790bbca6e07ca44b861f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
