@@ -18,6 +18,7 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"time"
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cache"
@@ -243,8 +244,17 @@ func (b *Builder) Init() {
 		if !cfg.BuildWork {
 			workdir := b.WorkDir
 			base.AtExit(func() {
-				if err := os.RemoveAll(workdir); err != nil {
-					fmt.Fprintf(os.Stderr, "go: failed to remove work dir: %s\n", err)
+				start := time.Now()
+				for {
+					err := os.RemoveAll(workdir)
+					if err == nil {
+						return
+					}
+					if time.Since(start) >= 500*time.Millisecond {
+						fmt.Fprintf(os.Stderr, "go: failed to remove work dir: %s\n", err)
+						return
+					}
+					time.Sleep(5 * time.Millisecond)
 				}
 			})
 		}
