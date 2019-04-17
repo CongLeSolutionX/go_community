@@ -17,7 +17,6 @@ import (
 	"sync"
 
 	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
 	"cmd/go/internal/dirhash"
 	"cmd/go/internal/module"
 	"cmd/go/internal/par"
@@ -69,10 +68,6 @@ func download(mod module.Version, dir string) (err error) {
 		return err
 	}
 
-	if cfg.CmdName != "mod download" {
-		fmt.Fprintf(os.Stderr, "go: extracting %s %s\n", mod.Path, mod.Version)
-	}
-
 	unlock, err := lockVersion(mod)
 	if err != nil {
 		return err
@@ -116,7 +111,6 @@ func download(mod module.Version, dir string) (err error) {
 
 	modpath := mod.Path + "@" + mod.Version
 	if err := Unzip(tmpDir, zipfile, modpath, 0); err != nil {
-		fmt.Fprintf(os.Stderr, "-> %s\n", err)
 		return err
 	}
 
@@ -152,9 +146,6 @@ func DownloadZip(mod module.Version) (zipfile string, err error) {
 		}
 
 		// The zip file does not exist. Acquire the lock and create it.
-		if cfg.CmdName != "mod download" {
-			fmt.Fprintf(os.Stderr, "go: downloading %s %s\n", mod.Path, mod.Version)
-		}
 		unlock, err := lockVersion(mod)
 		if err != nil {
 			return cached{"", err}

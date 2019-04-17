@@ -23,8 +23,6 @@ import (
 	"cmd/go/internal/semver"
 )
 
-var QuietLookup bool // do not print about lookups
-
 var PkgMod string // $GOPATH/pkg/mod; set by package modload
 
 func cacheDir(path string) (string, error) {
@@ -160,9 +158,6 @@ func (r *cachingRepo) Stat(rev string) (*RevInfo, error) {
 			return cachedInfo{info, nil}
 		}
 
-		if !QuietLookup {
-			fmt.Fprintf(os.Stderr, "go: finding %s %s\n", r.path, rev)
-		}
 		info, err = r.r.Stat(rev)
 		if err == nil {
 			// If we resolved, say, 1234abcde to v0.0.0-20180604122334-1234abcdef78,
@@ -190,9 +185,6 @@ func (r *cachingRepo) Stat(rev string) (*RevInfo, error) {
 
 func (r *cachingRepo) Latest() (*RevInfo, error) {
 	c := r.cache.Do("latest:", func() interface{} {
-		if !QuietLookup {
-			fmt.Fprintf(os.Stderr, "go: finding %s latest\n", r.path)
-		}
 		info, err := r.r.Latest()
 
 		// Save info for likely future Stat call.
