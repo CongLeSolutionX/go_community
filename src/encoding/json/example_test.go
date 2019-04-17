@@ -16,14 +16,16 @@ import (
 
 func ExampleMarshal() {
 	type ColorGroup struct {
-		ID     int
-		Name   string
-		Colors []string
+		ID           int
+		Name         string `json:"ColorName"` // field's tag specifies key name
+		Colors       []string
+		unusedColors []string // unexported, discarded on Marshal
 	}
 	group := ColorGroup{
-		ID:     1,
-		Name:   "Reds",
-		Colors: []string{"Crimson", "Red", "Ruby", "Maroon"},
+		ID:           1,
+		Name:         "Reds",
+		Colors:       []string{"Crimson", "Red", "Ruby", "Maroon"},
+		unusedColors: []string{"Rust", "Rose"},
 	}
 	b, err := json.Marshal(group)
 	if err != nil {
@@ -31,26 +33,30 @@ func ExampleMarshal() {
 	}
 	os.Stdout.Write(b)
 	// Output:
-	// {"ID":1,"Name":"Reds","Colors":["Crimson","Red","Ruby","Maroon"]}
+	// {"ID":1,"ColorName":"Reds","Colors":["Crimson","Red","Ruby","Maroon"]}
 }
 
 func ExampleUnmarshal() {
 	var jsonBlob = []byte(`[
-	{"Name": "Platypus", "Order": "Monotremata"},
-	{"Name": "Quoll",    "Order": "Dasyuromorphia"}
+	{"Name": "Platypus", "order": "Monotremata",    "attributes": "nocturnal", "threatened": false},
+	{"Name": "Quoll",    "order": "Dasyuromorphia", "attributes": null,        "threatened": true}
 ]`)
 	type Animal struct {
-		Name  string
-		Order string
+		Name       string // matches key "Name"
+		Order      string // matches key "order" (case ignored)
+		Attrs      string `json:"attributes"` // associated with JSON key "attributes"
+		threatened bool   // unexported; unchanged on Unmarshal
 	}
 	var animals []Animal
 	err := json.Unmarshal(jsonBlob, &animals)
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-	fmt.Printf("%+v", animals)
+	fmt.Printf("%+v\n", animals[0])
+	fmt.Printf("%+v\n", animals[1])
 	// Output:
-	// [{Name:Platypus Order:Monotremata} {Name:Quoll Order:Dasyuromorphia}]
+	// {Name:Platypus Order:Monotremata Attrs:nocturnal threatened:false}
+	// {Name:Quoll Order:Dasyuromorphia Attrs: threatened:false}
 }
 
 // This example uses a Decoder to decode a stream of distinct JSON values.
