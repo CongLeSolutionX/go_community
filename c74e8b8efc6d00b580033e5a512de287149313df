@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7786247d_f97e622d",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-17T14:39:31Z",
+      "side": 1,
+      "message": "testenv.SkipFlaky(t, 31263)",
+      "range": {
+        "startLine": 169,
+        "startChar": 6,
+        "endLine": 169,
+        "endChar": 7
+      },
+      "revId": "c74e8b8efc6d00b580033e5a512de287149313df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
