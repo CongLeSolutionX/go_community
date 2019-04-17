@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "91f153bd_33918d33",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T21:45:33Z",
+      "side": 1,
+      "message": "Eh, it was brittle to begin with, no need to squash them. I like that the next CL enforces it in the types.",
+      "parentUuid": "5707edbd_8a82db56",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 1
+      },
+      "revId": "813bece279437e44a0a1a81014d7566d7eb21fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83e2714f_22483e7e",
         "filename": "src/crypto/sha1/sha1.go",
         "patchSetId": 2
