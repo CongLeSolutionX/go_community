@@ -252,6 +252,24 @@
     },
     {
       "key": {
+        "uuid": "4ce700a6_608d3232",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-04-17T19:24:47Z",
+      "side": 1,
+      "message": "I just tested your latest patch set (6) on Linux and it doesn\u0027t fail. So, it must be something AIX-related. I\u0027ll talk to an AIX expert and see if there\u0027s anything different there.",
+      "parentUuid": "1e36286a_a97d8002",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
