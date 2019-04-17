@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "63d49d06_8e911b35",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T00:17:11Z",
+      "side": 1,
+      "message": "Yep, undocumented interface upgrades are not covered by the manufacturer warranty.",
+      "parentUuid": "8f7662d8_e1ec95e4",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 1
+      },
+      "revId": "813bece279437e44a0a1a81014d7566d7eb21fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83e2714f_22483e7e",
         "filename": "src/crypto/sha1/sha1.go",
         "patchSetId": 2
