@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "143c62b1_d854b09e",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-17T19:31:16Z",
+      "side": 1,
+      "message": "While we\u0027re here, s/_mheap/mheap_/",
+      "revId": "efc3591f216353b08587d682d2fa5008e67a6928",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d8a6aa7_61cc0e48",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-17T19:31:16Z",
+      "side": 1,
+      "message": "Nit: Previously, both npages and span were part of the key, which is why both have a \"Key\" suffix, but now it\u0027s just the base. Maybe these two fields should just be \"key\" and \"span\"?",
+      "revId": "efc3591f216353b08587d682d2fa5008e67a6928",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b46bae47_7cc784f7",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-17T19:31:16Z",
+      "side": 1,
+      "message": "While we\u0027re here, make this exactly match the message from removeNode.",
+      "revId": "efc3591f216353b08587d682d2fa5008e67a6928",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8562ad7a_29eec8f9",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-17T19:31:16Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 356,
+        "startChar": 33,
+        "endLine": 356,
+        "endChar": 37
+      },
+      "revId": "efc3591f216353b08587d682d2fa5008e67a6928",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cc72612_9c052316",
+        "filename": "src/runtime/treap_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-17T19:31:16Z",
+      "side": 1,
+      "message": "first?",
+      "range": {
+        "startLine": 62,
+        "startChar": 34,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "efc3591f216353b08587d682d2fa5008e67a6928",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
