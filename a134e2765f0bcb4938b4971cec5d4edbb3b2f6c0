@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f26a677f_08314dda",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T00:15:32Z",
+      "side": 1,
+      "message": "Not all implementations of macFunction treat n as secret.",
+      "range": {
+        "startLine": 167,
+        "startChar": 26,
+        "endLine": 167,
+        "endChar": 48
+      },
+      "revId": "a134e2765f0bcb4938b4971cec5d4edbb3b2f6c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47db54b2_873bfa65",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T00:15:32Z",
+      "side": 1,
+      "message": "Document that minN must be \u003e\u003d 0.",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 8
+      },
+      "revId": "a134e2765f0bcb4938b4971cec5d4edbb3b2f6c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4741818c_985fdc93",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T00:15:32Z",
+      "side": 1,
+      "message": "Can we hardcode this to len(data) - 256?",
+      "range": {
+        "startLine": 169,
+        "startChar": 31,
+        "endLine": 169,
+        "endChar": 35
+      },
+      "revId": "a134e2765f0bcb4938b4971cec5d4edbb3b2f6c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed04713d_561de6fa",
+        "filename": "src/crypto/tls/tls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T00:15:32Z",
+      "side": 1,
+      "message": "Let\u0027s move this comment to the CBC+SHA-256 cipher suite constants.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "a134e2765f0bcb4938b4971cec5d4edbb3b2f6c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
