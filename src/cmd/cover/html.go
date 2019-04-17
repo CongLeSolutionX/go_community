@@ -53,9 +53,10 @@ func htmlOutput(profile, outfile string) error {
 			return err
 		}
 		d.Files = append(d.Files, &templateFile{
-			Name:     fn,
-			Body:     template.HTML(buf.String()),
-			Coverage: percentCovered(profile),
+			Name:      fn,
+			Body:      template.HTML(buf.String()),
+			Coverage:  percentCovered(profile),
+			Uncovered: uncoveredLines(profile),
 		})
 	}
 
@@ -105,6 +106,18 @@ func percentCovered(p *Profile) float64 {
 		return 0
 	}
 	return float64(covered) / float64(total) * 100
+}
+
+// uncoveredLines returns the number of uncovered lines in the profile covered
+// by the test run.
+func uncoveredLines(p *Profile) int64 {
+	var uncovered int64
+	for _, b := range p.Blocks {
+		if b.Count == 0 {
+			uncovered += int64(b.NumStmt)
+		}
+	}
+	return uncovered
 }
 
 // htmlGen generates an HTML coverage report with the provided filename,
@@ -173,9 +186,10 @@ type templateData struct {
 }
 
 type templateFile struct {
-	Name     string
-	Body     template.HTML
-	Coverage float64
+	Name      string
+	Body      template.HTML
+	Coverage  float64
+	Uncovered int64
 }
 
 const tmplHTML = `
@@ -223,10 +237,16 @@ const tmplHTML = `
 			<div id="nav">
 				<select id="files">
 				{{range $i, $f := .Files}}
-				<option value="file{{$i}}">{{$f.Name}} ({{printf "%.1f" $f.Coverage}}%)</option>
+				<option coverage="{{printf "%.1f" $f.Coverage}}" uncovered="{{$f.Uncovered}}" value="file{{$i}}">{{$f.Name}} (coverage={{printf "%.1f" $f.Coverage}}% uncovered lines={{$f.Uncovered}})</option>
 				{{end}}
 				</select>
+				<select id="sort">
+					<option value="package">Sort by package name</option>
+					<option value="coverage">Sort by coverage</option>
+					<option value="uncovered">Sort by uncovered lines</option>
+				</select>
 			</div>
+
 			<div id="legend">
 				<span>not tracked</span>
 			{{if .Set}}
@@ -254,6 +274,26 @@ const tmplHTML = `
 		</div>
 	</body>
 	<script>
+	(function() {
+		var sort = document.getElementById('sort');
+		var files = document.getElementById('files');
+		sort.addEventListener('change', onChange, false);
+		function onChange() {
+			var sorted = Array.prototype.slice.call(files.options).sort(function(a, b) {
+				var sort_value = sort.value;
+				if (sort_value == "package") {
+					return (a.text > b.text )? 1: -1;
+				}
+				else {
+					return parseFloat(b.getAttribute(sort_value)) - parseFloat(a.getAttribute(sort_value));
+				}
+			});
+			for(var i = 0; i < sorted.length; i++) {
+				files.add(sorted[i]);
+			}
+		}
+		sort.value = "package";
+	})();
 	(function() {
 		var files = document.getElementById('files');
 		var visible;
