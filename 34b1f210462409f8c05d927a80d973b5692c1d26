@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04f4fe5c_1372bebe",
+        "filename": "src/cmd/go/internal/renameio/renameio.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-04-17T09:03:50Z",
+      "side": 1,
+      "message": "I am pretty sure this will not work on @mattn computer. He has Japanese version of Windows, and I suspect his error messages will be all in Japanese. Same with German Windows, and so on.\n\nYou should crack this err into syscall.Errno and compare it with syscall.ERROR_ACCESS_DENIED instead.",
+      "revId": "34b1f210462409f8c05d927a80d973b5692c1d26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
