@@ -5,7 +5,6 @@
 package modload
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -65,7 +64,7 @@ func matchPackages(pattern string, tags map[string]bool, useStd bool, modules []
 			if !fi.IsDir() {
 				if fi.Mode()&os.ModeSymlink != 0 && want {
 					if target, err := os.Stat(path); err == nil && target.IsDir() {
-						fmt.Fprintf(os.Stderr, "warning: ignoring symlink %s\n", path)
+						base.Logf("warning: ignoring symlink %s\n", path)
 					}
 				}
 				return nil

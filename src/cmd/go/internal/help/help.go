@@ -65,7 +65,7 @@ Args:
 		if i > 0 {
 			helpSuccess = " " + strings.Join(args[:i], " ")
 		}
-		fmt.Fprintf(os.Stderr, "go help %s: unknown help topic. Run '%s'.\n", strings.Join(args, " "), helpSuccess)
+		base.Logf("go help %s: unknown help topic. Run '%s'.\n", strings.Join(args, " "), helpSuccess)
 		base.SetExitStatus(2) // failed at 'go help cmd'
 		base.Exit()
 	}

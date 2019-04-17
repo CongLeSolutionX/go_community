@@ -176,7 +176,7 @@ func Init() {
 			// It's a bit of a peculiar thing to disallow but quite mysterious
 			// when it happens. See golang.org/issue/26708.
 			modRoot = ""
-			fmt.Fprintf(os.Stderr, "go: warning: ignoring go.mod in system temp root %v\n", os.TempDir())
+			base.Logf("go: warning: ignoring go.mod in system temp root %v\n", os.TempDir())
 		}
 	}
 
@@ -405,7 +405,7 @@ func legacyModInit() {
 		if err != nil {
 			base.Fatalf("go: %v", err)
 		}
-		fmt.Fprintf(os.Stderr, "go: creating new go.mod: module %s\n", path)
+		base.Logf("go: creating new go.mod: module %s\n", path)
 		modFile = new(modfile.File)
 		modFile.AddModuleStmt(path)
 	}
@@ -420,7 +420,7 @@ func legacyModInit() {
 			if convert == nil {
 				return
 			}
-			fmt.Fprintf(os.Stderr, "go: copying requirements from %s\n", base.ShortPath(cfg))
+			base.Logf("go: copying requirements from %s\n", base.ShortPath(cfg))
 			cfg = filepath.ToSlash(cfg)
 			if err := modconv.ConvertLegacyConfig(modFile, cfg, data); err != nil {
 				base.Fatalf("go: %v", err)

@@ -36,7 +36,7 @@ type Builder struct {
 	actionCache map[cacheKey]*Action // a cache of already-constructed actions
 	mkdirCache  map[string]bool      // a cache of created directories
 	flagCache   map[[2]string]bool   // a cache of supported compiler flags
-	Print       func(args ...interface{}) (int, error)
+	Print       func(string)
 
 	IsCmdList           bool // running as part of go list; set p.Stale and additional fields below
 	NeedError           bool // list needs p.Error
@@ -198,7 +198,7 @@ func actionGraphJSON(a *Action) string {
 
 	js, err := json.MarshalIndent(list, "", "\t")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "go: writing debug action graph: %v\n", err)
+		base.Logf("go: writing debug action graph: %v\n", err)
 		return ""
 	}
 	return string(js)
@@ -215,8 +215,12 @@ const (
 )
 
 func (b *Builder) Init() {
-	b.Print = func(a ...interface{}) (int, error) {
-		return fmt.Fprint(os.Stderr, a...)
+	b.Print = func(s string) {
+		if len(s) > 0 {
+			resume := base.PauseLogging()
+			os.Stderr.WriteString(s)
+			resume()
+		}
 	}
 	b.actionCache = make(map[cacheKey]*Action)
 	b.mkdirCache = make(map[string]bool)
@@ -240,7 +244,7 @@ func (b *Builder) Init() {
 		}
 		b.WorkDir = tmp
 		if cfg.BuildX || cfg.BuildWork {
-			fmt.Fprintf(os.Stderr, "WORK=%s\n", b.WorkDir)
+			base.Logf("WORK=%s\n", b.WorkDir)
 		}
 		if !cfg.BuildWork {
 			workdir := b.WorkDir
@@ -258,7 +262,7 @@ func (b *Builder) Init() {
 					// on exit to avoid filling up the user's temporary directory with leaked
 					// files. (See golang.org/issue/30789.)
 					if runtime.GOOS != "windows" || time.Since(start) >= 500*time.Millisecond {
-						fmt.Fprintf(os.Stderr, "go: failed to remove work dir: %s\n", err)
+						base.Logf("go: failed to remove work dir: %s\n", err)
 						return
 					}
 					time.Sleep(5 * time.Millisecond)
@@ -268,13 +272,13 @@ func (b *Builder) Init() {
 	}
 
 	if _, ok := cfg.OSArchSupportsCgo[cfg.Goos+"/"+cfg.Goarch]; !ok && cfg.BuildContext.Compiler == "gc" {
-		fmt.Fprintf(os.Stderr, "cmd/go: unsupported GOOS/GOARCH pair %s/%s\n", cfg.Goos, cfg.Goarch)
+		base.Logf("cmd/go: unsupported GOOS/GOARCH pair %s/%s\n", cfg.Goos, cfg.Goarch)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
 	for _, tag := range cfg.BuildContext.BuildTags {
 		if strings.Contains(tag, ",") {
-			fmt.Fprintf(os.Stderr, "cmd/go: -tags space-separated list contains comma\n")
+			base.Logf("cmd/go: -tags space-separated list contains comma\n")
 			base.SetExitStatus(2)
 			base.Exit()
 		}

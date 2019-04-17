@@ -242,7 +242,7 @@ func pathInModuleCache(dir string) string {
 // the pattern not matching any packages.
 func warnPattern(pattern string, list []string) []string {
 	if len(list) == 0 {
-		fmt.Fprintf(os.Stderr, "warning: %q matched no packages\n", pattern)
+		base.Logf("warning: %q matched no packages\n", pattern)
 	}
 	return list
 }

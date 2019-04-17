@@ -7,8 +7,6 @@ package cmdflag
 
 import (
 	"flag"
-	"fmt"
-	"os"
 	"strconv"
 	"strings"
 
@@ -60,11 +58,11 @@ func SetInt(cmd string, flag *int, value string) {
 
 // SyntaxError reports an argument syntax error and exits the program.
 func SyntaxError(cmd, msg string) {
-	fmt.Fprintf(os.Stderr, "go %s: %s\n", cmd, msg)
+	base.Logf("go %s: %s\n", cmd, msg)
 	if cmd == "test" {
-		fmt.Fprintf(os.Stderr, `run "go help %s" or "go help testflag" for more information`+"\n", cmd)
+		base.Logf(`run "go help %s" or "go help testflag" for more information`+"\n", cmd)
 	} else {
-		fmt.Fprintf(os.Stderr, `run "go help %s" for more information`+"\n", cmd)
+		base.Logf(`run "go help %s" for more information`+"\n", cmd)
 	}
 	base.SetExitStatus(2)
 	base.Exit()

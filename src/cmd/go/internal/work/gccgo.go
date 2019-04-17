@@ -55,7 +55,7 @@ func checkGccgoBin() {
 	if gccgoErr == nil {
 		return
 	}
-	fmt.Fprintf(os.Stderr, "cmd/go: gccgo: %s\n", gccgoErr)
+	base.Logf("cmd/go: gccgo: %s\n", gccgoErr)
 	base.SetExitStatus(2)
 	base.Exit()
 }

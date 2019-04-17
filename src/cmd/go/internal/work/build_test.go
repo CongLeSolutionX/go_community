@@ -6,7 +6,6 @@ package work
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -237,8 +236,8 @@ func TestRespectSetgidDir(t *testing.T) {
 	// of `(*Builder).ShowCmd` afterwards as a sanity check.
 	cfg.BuildX = true
 	var cmdBuf bytes.Buffer
-	b.Print = func(a ...interface{}) (int, error) {
-		return cmdBuf.WriteString(fmt.Sprint(a...))
+	b.Print = func(s string) {
+		cmdBuf.WriteString(s)
 	}
 
 	setgiddir, err := ioutil.TempDir("", "SetGroupID")

@@ -7,9 +7,6 @@
 package modcmd
 
 import (
-	"fmt"
-	"os"
-
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/modfetch"
@@ -60,7 +57,7 @@ func runTidy(cmd *base.Command, args []string) {
 		if used[m] {
 			keep = append(keep, m)
 		} else if cfg.BuildV && inGoMod[m.Path] {
-			fmt.Fprintf(os.Stderr, "unused %s\n", m.Path)
+			base.Logf("unused %s\n", m.Path)
 		}
 	}
 	modload.SetBuildList(keep)

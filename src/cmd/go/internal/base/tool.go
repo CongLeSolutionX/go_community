@@ -5,7 +5,6 @@
 package base
 
 import (
-	"fmt"
 	"go/build"
 	"os"
 	"path/filepath"
@@ -36,7 +35,7 @@ func Tool(toolName string) string {
 	}
 	// Give a nice message if there is no tool with that name.
 	if _, err := os.Stat(toolPath); err != nil {
-		fmt.Fprintf(os.Stderr, "go tool: no such tool %q\n", toolName)
+		Logf("go tool: no such tool %q\n", toolName)
 		SetExitStatus(2)
 		Exit()
 	}

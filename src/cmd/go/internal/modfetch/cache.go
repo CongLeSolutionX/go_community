@@ -170,7 +170,7 @@ func (r *cachingRepo) Stat(rev string) (*RevInfo, error) {
 			}
 
 			if err := writeDiskStat(file, info); err != nil {
-				fmt.Fprintf(os.Stderr, "go: writing stat cache: %v\n", err)
+				base.Logf("go: writing stat cache: %v\n", err)
 			}
 		}
 		return cachedInfo{info, err}
@@ -231,7 +231,7 @@ func (r *cachingRepo) GoMod(rev string) ([]byte, error) {
 		if err == nil {
 			checkGoMod(r.path, rev, text)
 			if err := writeDiskGoMod(file, text); err != nil {
-				fmt.Fprintf(os.Stderr, "go: writing go.mod cache: %v\n", err)
+				base.Logf("go: writing go.mod cache: %v\n", err)
 			}
 		}
 		return cached{text, err}

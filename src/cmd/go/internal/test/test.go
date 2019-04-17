@@ -516,8 +516,8 @@ var testVetFlags = []string{
 }
 
 func testCmdUsage() {
-	fmt.Fprintf(os.Stderr, "usage: %s\n", CmdTest.UsageLine)
-	fmt.Fprintf(os.Stderr, "Run 'go help %s' and 'go help %s' for details.\n", CmdTest.LongName(), HelpTestflag.LongName())
+	base.Logf("usage: %s\n", CmdTest.UsageLine)
+	base.Logf("Run 'go help %s' and 'go help %s' for details.\n", CmdTest.LongName(), HelpTestflag.LongName())
 	os.Exit(2)
 }
 
@@ -688,7 +688,7 @@ func runTest(cmd *base.Command, args []string) {
 		// Warn about -coverpkg arguments that are not actually used.
 		for i := range testCoverPaths {
 			if !matched[i] {
-				fmt.Fprintf(os.Stderr, "warning: no packages being tested depend on matches for pattern %s\n", testCoverPaths[i])
+				base.Logf("warning: no packages being tested depend on matches for pattern %s\n", testCoverPaths[i])
 			}
 		}
 
@@ -1236,7 +1236,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 		// Caching does not apply to "go test",
 		// only to "go test foo" (including "go test .").
 		if cache.DebugTest {
-			fmt.Fprintf(os.Stderr, "testcache: caching disabled in local directory mode\n")
+			base.Logf("testcache: caching disabled in local directory mode\n")
 		}
 		c.disableCache = true
 		return false
@@ -1247,7 +1247,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 		i := strings.Index(arg, "=")
 		if i < 0 || !strings.HasPrefix(arg, "-test.") {
 			if cache.DebugTest {
-				fmt.Fprintf(os.Stderr, "testcache: caching disabled for test argument: %s\n", arg)
+				base.Logf("testcache: caching disabled for test argument: %s\n", arg)
 			}
 			c.disableCache = true
 			return false
@@ -1271,7 +1271,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 		default:
 			// nothing else is cacheable
 			if cache.DebugTest {
-				fmt.Fprintf(os.Stderr, "testcache: caching disabled for test argument: %s\n", arg)
+				base.Logf("testcache: caching disabled for test argument: %s\n", arg)
 			}
 			c.disableCache = true
 			return false
@@ -1280,7 +1280,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 
 	if cache.Default() == nil {
 		if cache.DebugTest {
-			fmt.Fprintf(os.Stderr, "testcache: GOCACHE=off\n")
+			base.Logf("testcache: GOCACHE=off\n")
 		}
 		c.disableCache = true
 		return false
@@ -1320,7 +1320,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 		c.id2 = testID
 	}
 	if cache.DebugTest {
-		fmt.Fprintf(os.Stderr, "testcache: %s: test ID %x => %x\n", a.Package.ImportPath, id, testID)
+		base.Logf("testcache: %s: test ID %x => %x\n", a.Package.ImportPath, id, testID)
 	}
 
 	// Load list of referenced environment variables and files
@@ -1329,9 +1329,9 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 	if !bytes.HasPrefix(data, testlogMagic) || data[len(data)-1] != '\n' {
 		if cache.DebugTest {
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "testcache: %s: input list not found: %v\n", a.Package.ImportPath, err)
+				base.Logf("testcache: %s: input list not found: %v\n", a.Package.ImportPath, err)
 			} else {
-				fmt.Fprintf(os.Stderr, "testcache: %s: input list malformed\n", a.Package.ImportPath)
+				base.Logf("testcache: %s: input list malformed\n", a.Package.ImportPath)
 			}
 		}
 		return false
@@ -1341,7 +1341,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 		return false
 	}
 	if cache.DebugTest {
-		fmt.Fprintf(os.Stderr, "testcache: %s: test ID %x => input ID %x => %x\n", a.Package.ImportPath, testID, testInputsID, testAndInputKey(testID, testInputsID))
+		base.Logf("testcache: %s: test ID %x => input ID %x => %x\n", a.Package.ImportPath, testID, testInputsID, testAndInputKey(testID, testInputsID))
 	}
 
 	// Parse cached result in preparation for changing run time to "(cached)".
@@ -1350,30 +1350,30 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 	if len(data) == 0 || data[len(data)-1] != '\n' {
 		if cache.DebugTest {
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "testcache: %s: test output not found: %v\n", a.Package.ImportPath, err)
+				base.Logf("testcache: %s: test output not found: %v\n", a.Package.ImportPath, err)
 			} else {
-				fmt.Fprintf(os.Stderr, "testcache: %s: test output malformed\n", a.Package.ImportPath)
+				base.Logf("testcache: %s: test output malformed\n", a.Package.ImportPath)
 			}
 		}
 		return false
 	}
 	if entry.Time.Before(testCacheExpire) {
 		if cache.DebugTest {
-			fmt.Fprintf(os.Stderr, "testcache: %s: test output expired due to go clean -testcache\n", a.Package.ImportPath)
+			base.Logf("testcache: %s: test output expired due to go clean -testcache\n", a.Package.ImportPath)
 		}
 		return false
 	}
 	i := bytes.LastIndexByte(data[:len(data)-1], '\n') + 1
 	if !bytes.HasPrefix(data[i:], []byte("ok  \t")) {
 		if cache.DebugTest {
-			fmt.Fprintf(os.Stderr, "testcache: %s: test output malformed\n", a.Package.ImportPath)
+			base.Logf("testcache: %s: test output malformed\n", a.Package.ImportPath)
 		}
 		return false
 	}
 	j := bytes.IndexByte(data[i+len("ok  \t"):], '\t')
 	if j < 0 {
 		if cache.DebugTest {
-			fmt.Fprintf(os.Stderr, "testcache: %s: test output malformed\n", a.Package.ImportPath)
+			base.Logf("testcache: %s: test output malformed\n", a.Package.ImportPath)
 		}
 		return false
 	}
@@ -1408,7 +1408,7 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 		i := strings.Index(s, " ")
 		if i < 0 {
 			if cache.DebugTest {
-				fmt.Fprintf(os.Stderr, "testcache: %s: input list malformed (%q)\n", a.Package.ImportPath, line)
+				base.Logf("testcache: %s: input list malformed (%q)\n", a.Package.ImportPath, line)
 			}
 			return cache.ActionID{}, errBadTestInputs
 		}
@@ -1417,7 +1417,7 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 		switch op {
 		default:
 			if cache.DebugTest {
-				fmt.Fprintf(os.Stderr, "testcache: %s: input list malformed (%q)\n", a.Package.ImportPath, line)
+				base.Logf("testcache: %s: input list malformed (%q)\n", a.Package.ImportPath, line)
 			}
 			return cache.ActionID{}, errBadTestInputs
 		case "getenv":
@@ -1445,7 +1445,7 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 			fh, err := hashOpen(name)
 			if err != nil {
 				if cache.DebugTest {
-					fmt.Fprintf(os.Stderr, "testcache: %s: input file %s: %s\n", a.Package.ImportPath, name, err)
+					base.Logf("testcache: %s: input file %s: %s\n", a.Package.ImportPath, name, err)
 				}
 				return cache.ActionID{}, err
 			}
@@ -1552,9 +1552,9 @@ func (c *runCache) saveOutput(a *work.Action) {
 	if err != nil || !bytes.HasPrefix(testlog, testlogMagic) || testlog[len(testlog)-1] != '\n' {
 		if cache.DebugTest {
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "testcache: %s: reading testlog: %v\n", a.Package.ImportPath, err)
+				base.Logf("testcache: %s: reading testlog: %v\n", a.Package.ImportPath, err)
 			} else {
-				fmt.Fprintf(os.Stderr, "testcache: %s: reading testlog: malformed\n", a.Package.ImportPath)
+				base.Logf("testcache: %s: reading testlog: malformed\n", a.Package.ImportPath)
 			}
 		}
 		return
@@ -1565,14 +1565,14 @@ func (c *runCache) saveOutput(a *work.Action) {
 	}
 	if c.id1 != (cache.ActionID{}) {
 		if cache.DebugTest {
-			fmt.Fprintf(os.Stderr, "testcache: %s: save test ID %x => input ID %x => %x\n", a.Package.ImportPath, c.id1, testInputsID, testAndInputKey(c.id1, testInputsID))
+			base.Logf("testcache: %s: save test ID %x => input ID %x => %x\n", a.Package.ImportPath, c.id1, testInputsID, testAndInputKey(c.id1, testInputsID))
 		}
 		cache.Default().PutNoVerify(c.id1, bytes.NewReader(testlog))
 		cache.Default().PutNoVerify(testAndInputKey(c.id1, testInputsID), bytes.NewReader(a.TestOutput.Bytes()))
 	}
 	if c.id2 != (cache.ActionID{}) {
 		if cache.DebugTest {
-			fmt.Fprintf(os.Stderr, "testcache: %s: save test ID %x => input ID %x => %x\n", a.Package.ImportPath, c.id2, testInputsID, testAndInputKey(c.id2, testInputsID))
+			base.Logf("testcache: %s: save test ID %x => input ID %x => %x\n", a.Package.ImportPath, c.id2, testInputsID, testAndInputKey(c.id2, testInputsID))
 		}
 		cache.Default().PutNoVerify(c.id2, bytes.NewReader(testlog))
 		cache.Default().PutNoVerify(testAndInputKey(c.id2, testInputsID), bytes.NewReader(a.TestOutput.Bytes()))

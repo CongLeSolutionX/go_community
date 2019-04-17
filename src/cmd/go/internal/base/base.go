@@ -106,13 +106,32 @@ func Exit() {
 }
 
 func Fatalf(format string, args ...interface{}) {
-	Errorf(format, args...)
+	logMu.Lock() // Ensure that we don't exit in the middle of a user interaction.
+
+	log.Printf(format, args...)
+	SetExitStatus(1)
 	Exit()
 }
 
 func Errorf(format string, args ...interface{}) {
-	log.Printf(format, args...)
+	Logf(format, args...)
 	SetExitStatus(1)
+}
+
+var (
+	logMu         sync.Mutex
+	loggingPaused bool
+)
+
+func Logf(format string, args ...interface{}) {
+	logMu.Lock()
+	defer logMu.Unlock()
+	log.Printf(format, args...)
+}
+
+func PauseLogging() (unpause func()) {
+	logMu.Lock()
+	return logMu.Unlock
 }
 
 func ExitIfErrors() {
@@ -147,7 +166,10 @@ func Run(cmdargs ...interface{}) {
 	cmd := exec.Command(cmdline[0], cmdline[1:]...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
+	resume := PauseLogging()
+	err := cmd.Run()
+	resume()
+	if err != nil {
 		Errorf("%v", err)
 	}
 }
@@ -160,7 +182,10 @@ func RunStdin(cmdline []string) {
 	cmd.Stderr = os.Stderr
 	cmd.Env = cfg.OrigEnv
 	StartSigHandlers()
-	if err := cmd.Run(); err != nil {
+	resume := PauseLogging()
+	err := cmd.Run()
+	resume()
+	if err != nil {
 		Errorf("%v", err)
 	}
 }

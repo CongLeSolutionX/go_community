@@ -415,7 +415,7 @@ func (v *vcsCmd) run1(dir string, cmdline string, keyval []string, verbose bool)
 
 	_, err := exec.LookPath(v.cmd)
 	if err != nil {
-		fmt.Fprintf(os.Stderr,
+		base.Logf(
 			"go: missing %s command. See https://golang.org/s/gogetcmd\n",
 			v.name)
 		return nil, err
@@ -431,11 +431,11 @@ func (v *vcsCmd) run1(dir string, cmdline string, keyval []string, verbose bool)
 	out, err := cmd.Output()
 	if err != nil {
 		if verbose || cfg.BuildV {
-			fmt.Fprintf(os.Stderr, "# cd %s; %s %s\n", dir, v.cmd, strings.Join(args, " "))
+			base.Logf("# cd %s; %s %s\n", dir, v.cmd, strings.Join(args, " "))
 			if ee, ok := err.(*exec.ExitError); ok && len(ee.Stderr) > 0 {
-				os.Stderr.Write(ee.Stderr)
+				base.Logf("%s", ee.Stderr)
 			} else {
-				fmt.Fprintf(os.Stderr, err.Error())
+				base.Logf("%s", err.Error())
 			}
 		}
 	}

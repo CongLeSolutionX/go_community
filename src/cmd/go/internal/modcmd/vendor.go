@@ -69,19 +69,19 @@ func runVendor(cmd *base.Command, args []string) {
 			}
 			fmt.Fprintf(&buf, "# %s %s%s\n", m.Path, m.Version, repl)
 			if cfg.BuildV {
-				fmt.Fprintf(os.Stderr, "# %s %s%s\n", m.Path, m.Version, repl)
+				base.Logf("# %s %s%s\n", m.Path, m.Version, repl)
 			}
 			for _, pkg := range pkgs {
 				fmt.Fprintf(&buf, "%s\n", pkg)
 				if cfg.BuildV {
-					fmt.Fprintf(os.Stderr, "%s\n", pkg)
+					base.Logf("%s\n", pkg)
 				}
 				vendorPkg(vdir, pkg)
 			}
 		}
 	}
 	if buf.Len() == 0 {
-		fmt.Fprintf(os.Stderr, "go: no dependencies to vendor\n")
+		base.Logf("go: no dependencies to vendor\n")
 		return
 	}
 	if err := ioutil.WriteFile(filepath.Join(vdir, "modules.txt"), buf.Bytes(), 0666); err != nil {
@@ -92,13 +92,13 @@ func runVendor(cmd *base.Command, args []string) {
 func vendorPkg(vdir, pkg string) {
 	realPath := modload.ImportMap(pkg)
 	if realPath != pkg && modload.ImportMap(realPath) != "" {
-		fmt.Fprintf(os.Stderr, "warning: %s imported as both %s and %s; making two copies.\n", realPath, realPath, pkg)
+		base.Logf("warning: %s imported as both %s and %s; making two copies.\n", realPath, realPath, pkg)
 	}
 
 	dst := filepath.Join(vdir, pkg)
 	src := modload.PackageDir(realPath)
 	if src == "" {
-		fmt.Fprintf(os.Stderr, "internal error: no pkg for %s -> %s\n", pkg, realPath)
+		base.Logf("internal error: no pkg for %s -> %s\n", pkg, realPath)
 	}
 	copyDir(dst, src, matchNonTest)
 	if m := modload.PackageModule(realPath); m.Path != "" {

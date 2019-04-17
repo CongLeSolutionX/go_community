@@ -13,6 +13,8 @@ import (
 	"os"
 	"runtime"
 	"sync"
+
+	"cmd/go/internal/base"
 )
 
 var debugHash = false // set when GODEBUG=gocachehash=1
@@ -48,7 +50,7 @@ func Subkey(parent ActionID, desc string) ActionID {
 	var out ActionID
 	h.Sum(out[:0])
 	if debugHash {
-		fmt.Fprintf(os.Stderr, "HASH subkey %x %q = %x\n", parent, desc, out)
+		base.Logf("HASH subkey %x %q = %x\n", parent, desc, out)
 	}
 	if verify {
 		hashDebug.Lock()
@@ -63,7 +65,7 @@ func Subkey(parent ActionID, desc string) ActionID {
 func NewHash(name string) *Hash {
 	h := &Hash{h: sha256.New(), name: name}
 	if debugHash {
-		fmt.Fprintf(os.Stderr, "HASH[%s]\n", h.name)
+		base.Logf("HASH[%s]\n", h.name)
 	}
 	h.Write(hashSalt)
 	if verify {
@@ -75,7 +77,7 @@ func NewHash(name string) *Hash {
 // Write writes data to the running hash.
 func (h *Hash) Write(b []byte) (int, error) {
 	if debugHash {
-		fmt.Fprintf(os.Stderr, "HASH[%s]: %q\n", h.name, b)
+		base.Logf("HASH[%s]: %q\n", h.name, b)
 	}
 	if h.buf != nil {
 		h.buf.Write(b)
@@ -88,7 +90,7 @@ func (h *Hash) Sum() [HashSize]byte {
 	var out [HashSize]byte
 	h.h.Sum(out[:0])
 	if debugHash {
-		fmt.Fprintf(os.Stderr, "HASH[%s]: %x\n", h.name, out)
+		base.Logf("HASH[%s]: %x\n", h.name, out)
 	}
 	if h.buf != nil {
 		hashDebug.Lock()
@@ -142,7 +144,7 @@ func FileHash(file string) ([HashSize]byte, error) {
 	f, err := os.Open(file)
 	if err != nil {
 		if debugHash {
-			fmt.Fprintf(os.Stderr, "HASH %s: %v\n", file, err)
+			base.Logf("HASH %s: %v\n", file, err)
 		}
 		return [HashSize]byte{}, err
 	}
@@ -150,13 +152,13 @@ func FileHash(file string) ([HashSize]byte, error) {
 	f.Close()
 	if err != nil {
 		if debugHash {
-			fmt.Fprintf(os.Stderr, "HASH %s: %v\n", file, err)
+			base.Logf("HASH %s: %v\n", file, err)
 		}
 		return [HashSize]byte{}, err
 	}
 	h.Sum(out[:0])
 	if debugHash {
-		fmt.Fprintf(os.Stderr, "HASH %s: %x\n", file, out)
+		base.Logf("HASH %s: %x\n", file, out)
 	}
 
 	SetFileHash(file, out)

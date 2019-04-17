@@ -7,11 +7,11 @@ package modfetch
 import (
 	"fmt"
 	"io"
-	"os"
 	"sort"
 	"strconv"
 	"time"
 
+	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/get"
 	"cmd/go/internal/modfetch/codehost"
@@ -320,9 +320,9 @@ func newLoggingRepo(r Repo) *loggingRepo {
 // Note the final ().
 func logCall(format string, args ...interface{}) func() {
 	start := time.Now()
-	fmt.Fprintf(os.Stderr, "+++ %s\n", fmt.Sprintf(format, args...))
+	base.Logf("+++ %s\n", fmt.Sprintf(format, args...))
 	return func() {
-		fmt.Fprintf(os.Stderr, "%.3fs %s\n", time.Since(start).Seconds(), fmt.Sprintf(format, args...))
+		base.Logf("%.3fs %s\n", time.Since(start).Seconds(), fmt.Sprintf(format, args...))
 	}
 }
 

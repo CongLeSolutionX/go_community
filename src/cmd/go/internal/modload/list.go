@@ -6,7 +6,6 @@ package modload
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"cmd/go/internal/base"
@@ -114,7 +113,7 @@ func listModules(args []string, listVersions bool) []*modinfo.ModulePublic {
 					},
 				})
 			} else {
-				fmt.Fprintf(os.Stderr, "warning: pattern %q matched no module dependencies\n", arg)
+				base.Logf("warning: pattern %q matched no module dependencies\n", arg)
 			}
 		}
 	}

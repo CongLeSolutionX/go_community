@@ -12,8 +12,6 @@ import (
 	"cmd/go/internal/load"
 	"cmd/internal/sys"
 	"flag"
-	"fmt"
-	"os"
 	"path/filepath"
 	"strings"
 )
@@ -28,7 +26,7 @@ func BuildInit() {
 	if cfg.BuildPkgdir != "" && !filepath.IsAbs(cfg.BuildPkgdir) {
 		p, err := filepath.Abs(cfg.BuildPkgdir)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "go %s: evaluating -pkgdir: %v\n", flag.Args()[0], err)
+			base.Logf("go %s: evaluating -pkgdir: %v\n", flag.Args()[0], err)
 			base.SetExitStatus(2)
 			base.Exit()
 		}
@@ -41,18 +39,18 @@ func instrumentInit() {
 		return
 	}
 	if cfg.BuildRace && cfg.BuildMSan {
-		fmt.Fprintf(os.Stderr, "go %s: may not use -race and -msan simultaneously\n", flag.Args()[0])
+		base.Logf("go %s: may not use -race and -msan simultaneously\n", flag.Args()[0])
 		base.SetExitStatus(2)
 		base.Exit()
 	}
 	if cfg.BuildMSan && !sys.MSanSupported(cfg.Goos, cfg.Goarch) {
-		fmt.Fprintf(os.Stderr, "-msan is not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
+		base.Logf("-msan is not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
 	if cfg.BuildRace {
 		if !sys.RaceDetectorSupported(cfg.Goos, cfg.Goarch) {
-			fmt.Fprintf(os.Stderr, "go %s: -race is only supported on linux/amd64, linux/ppc64le, linux/arm64, freebsd/amd64, netbsd/amd64, darwin/amd64 and windows/amd64\n", flag.Args()[0])
+			base.Logf("go %s: -race is only supported on linux/amd64, linux/ppc64le, linux/arm64, freebsd/amd64, netbsd/amd64, darwin/amd64 and windows/amd64\n", flag.Args()[0])
 			base.SetExitStatus(2)
 			base.Exit()
 		}
@@ -64,7 +62,7 @@ func instrumentInit() {
 	modeFlag := "-" + mode
 
 	if !cfg.BuildContext.CgoEnabled {
-		fmt.Fprintf(os.Stderr, "go %s: %s requires cgo; enable cgo by setting CGO_ENABLED=1\n", flag.Args()[0], modeFlag)
+		base.Logf("go %s: %s requires cgo; enable cgo by setting CGO_ENABLED=1\n", flag.Args()[0], modeFlag)
 		base.SetExitStatus(2)
 		base.Exit()
 	}

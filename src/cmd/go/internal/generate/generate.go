@@ -166,7 +166,7 @@ func runGenerate(cmd *base.Command, args []string) {
 	for _, pkg := range load.Packages(args) {
 		if modload.Enabled() && pkg.Module != nil && !pkg.Module.Main {
 			if !printed {
-				fmt.Fprintf(os.Stderr, "go: not generating in packages in dependency modules\n")
+				base.Logf("go: not generating in packages in dependency modules\n")
 				printed = true
 			}
 			continue
@@ -236,7 +236,7 @@ func (g *Generator) run() (ok bool) {
 	g.dir, g.file = filepath.Split(g.path)
 	g.dir = filepath.Clean(g.dir) // No final separator please.
 	if cfg.BuildV {
-		fmt.Fprintf(os.Stderr, "%s\n", base.ShortPath(g.path))
+		base.Logf("%s\n", base.ShortPath(g.path))
 	}
 
 	// Scan for lines that start "//go:generate".
@@ -291,7 +291,7 @@ func (g *Generator) run() (ok bool) {
 		}
 		// Run the command line.
 		if cfg.BuildN || cfg.BuildX {
-			fmt.Fprintf(os.Stderr, "%s\n", strings.Join(words, " "))
+			base.Logf("%s\n", strings.Join(words, " "))
 		}
 		if cfg.BuildN {
 			continue
@@ -389,7 +389,7 @@ var stop = fmt.Errorf("error in generation")
 // It then exits the program (with exit status 1) because generation stops
 // at the first error.
 func (g *Generator) errorf(format string, args ...interface{}) {
-	fmt.Fprintf(os.Stderr, "%s:%d: %s\n", base.ShortPath(g.path), g.lineNum,
+	base.Logf("%s:%d: %s\n", base.ShortPath(g.path), g.lineNum,
 		fmt.Sprintf(format, args...))
 	panic(stop)
 }
@@ -429,7 +429,9 @@ func (g *Generator) exec(words []string) {
 	// Run the command in the package directory.
 	cmd.Dir = g.dir
 	cmd.Env = append(cfg.OrigEnv, g.env...)
+	resume := base.PauseLogging()
 	err := cmd.Run()
+	resume()
 	if err != nil {
 		g.errorf("running %q: %s", words[0], err)
 	}

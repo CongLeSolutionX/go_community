@@ -122,7 +122,14 @@ func runClean(cmd *base.Command, args []string) {
 	}
 
 	var b work.Builder
-	b.Print = fmt.Print
+	// TODO(bcmills): Why do 'clean' actions print to stdout instead of stderr?
+	b.Print = func(s string) {
+		if len(s) > 0 {
+			resume := base.PauseLogging()
+			os.Stdout.WriteString(s)
+			resume()
+		}
+	}
 
 	if cleanCache {
 		dir := cache.DefaultDir()
@@ -240,7 +247,13 @@ func clean(p *load.Package) {
 	}
 
 	var b work.Builder
-	b.Print = fmt.Print
+	b.Print = func(s string) {
+		if len(s) > 0 {
+			resume := base.PauseLogging()
+			os.Stdout.WriteString(s)
+			resume()
+		}
+	}
 
 	packageFile := map[string]bool{}
 	if p.Name != "main" {

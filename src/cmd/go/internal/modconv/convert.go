@@ -6,7 +6,6 @@ package modconv
 
 import (
 	"fmt"
-	"os"
 	"sort"
 	"strings"
 	"sync"
@@ -58,7 +57,7 @@ func ConvertLegacyConfig(f *modfile.File, file string, data []byte) error {
 		r := item.(module.Version)
 		repo, info, err := modfetch.ImportRepoRev(r.Path, r.Version)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "go: converting %s: stat %s@%s: %v\n", base.ShortPath(file), r.Path, r.Version, err)
+			base.Logf("go: converting %s: stat %s@%s: %v\n", base.ShortPath(file), r.Path, r.Version, err)
 			return
 		}
 		mu.Lock()

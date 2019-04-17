@@ -8,7 +8,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -106,7 +105,7 @@ func main() {
 	// This setting is equivalent to not setting GOPATH at all,
 	// which is not what most people want when they do it.
 	if gopath := cfg.BuildContext.GOPATH; filepath.Clean(gopath) == filepath.Clean(runtime.GOROOT()) {
-		fmt.Fprintf(os.Stderr, "warning: GOPATH set to GOROOT (%s) has no effect\n", gopath)
+		base.Logf("warning: GOPATH set to GOROOT (%s) has no effect\n", gopath)
 	} else {
 		for _, p := range filepath.SplitList(gopath) {
 			// Some GOPATHs have empty directory elements - ignore them.
@@ -118,19 +117,22 @@ func main() {
 			// in the middle of directory elements, such as /tmp/git-1.8.2~rc3
 			// or C:\PROGRA~1. Only ~ as a path prefix has meaning to the shell.
 			if strings.HasPrefix(p, "~") {
-				fmt.Fprintf(os.Stderr, "go: GOPATH entry cannot start with shell metacharacter '~': %q\n", p)
-				os.Exit(2)
+				base.Logf("go: GOPATH entry cannot start with shell metacharacter '~': %q\n", p)
+				base.SetExitStatus(2)
+				base.Exit()
 			}
 			if !filepath.IsAbs(p) {
-				fmt.Fprintf(os.Stderr, "go: GOPATH entry is relative; must be absolute path: %q.\nFor more details see: 'go help gopath'\n", p)
-				os.Exit(2)
+				base.Logf("go: GOPATH entry is relative; must be absolute path: %q.\nFor more details see: 'go help gopath'\n", p)
+				base.SetExitStatus(2)
+				base.Exit()
 			}
 		}
 	}
 
 	if fi, err := os.Stat(cfg.GOROOT); err != nil || !fi.IsDir() {
-		fmt.Fprintf(os.Stderr, "go: cannot find GOROOT directory: %v\n", cfg.GOROOT)
-		os.Exit(2)
+		base.Logf("go: cannot find GOROOT directory: %v\n", cfg.GOROOT)
+		base.SetExitStatus(2)
+		base.Exit()
 	}
 
 	// Set environment (GOOS, GOARCH, etc) explicitly.
@@ -187,7 +189,7 @@ BigCmdLoop:
 		if i := strings.LastIndex(cfg.CmdName, " "); i >= 0 {
 			helpArg = " " + cfg.CmdName[:i]
 		}
-		fmt.Fprintf(os.Stderr, "go %s: unknown command\nRun 'go help%s' for usage.\n", cfg.CmdName, helpArg)
+		base.Logf("go %s: unknown command\nRun 'go help%s' for usage.\n", cfg.CmdName, helpArg)
 		base.SetExitStatus(2)
 		base.Exit()
 	}

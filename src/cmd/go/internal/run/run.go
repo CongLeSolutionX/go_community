@@ -6,7 +6,6 @@
 package run
 
 import (
-	"fmt"
 	"os"
 	"strings"
 
@@ -52,8 +51,12 @@ func init() {
 	CmdRun.Flag.Var((*base.StringsFlag)(&work.ExecCmd), "exec", "")
 }
 
-func printStderr(args ...interface{}) (int, error) {
-	return fmt.Fprint(os.Stderr, args...)
+func printStderr(s string) {
+	if len(s) > 0 {
+		resume := base.PauseLogging()
+		os.Stderr.WriteString(s)
+		resume()
+	}
 }
 
 func runRun(cmd *base.Command, args []string) {

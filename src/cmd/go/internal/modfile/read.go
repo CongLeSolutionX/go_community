@@ -10,11 +10,12 @@ package modfile
 import (
 	"bytes"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 	"unicode"
 	"unicode/utf8"
+
+	"cmd/go/internal/base"
 )
 
 // A Position describes the position between two bytes of input.
@@ -620,7 +621,7 @@ func (in *input) assignComments() {
 
 	if debug {
 		for _, c := range line {
-			fmt.Fprintf(os.Stderr, "LINE %q :%d:%d #%d\n", c.Token, c.Start.Line, c.Start.LineRune, c.Start.Byte)
+			base.Logf("LINE %q :%d:%d #%d\n", c.Token, c.Start.Line, c.Start.LineRune, c.Start.Byte)
 		}
 	}
 
@@ -633,7 +634,7 @@ func (in *input) assignComments() {
 		xcom := x.Comment()
 		for len(line) > 0 && start.Byte >= line[0].Start.Byte {
 			if debug {
-				fmt.Fprintf(os.Stderr, "ASSIGN LINE %q #%d\n", line[0].Token, line[0].Start.Byte)
+				base.Logf("ASSIGN LINE %q #%d\n", line[0].Token, line[0].Start.Byte)
 			}
 			xcom.Before = append(xcom.Before, line[0])
 			line = line[1:]
@@ -645,7 +646,7 @@ func (in *input) assignComments() {
 
 	if debug {
 		for _, c := range suffix {
-			fmt.Fprintf(os.Stderr, "SUFFIX %q :%d:%d #%d\n", c.Token, c.Start.Line, c.Start.LineRune, c.Start.Byte)
+			base.Logf("SUFFIX %q :%d:%d #%d\n", c.Token, c.Start.Line, c.Start.LineRune, c.Start.Byte)
 		}
 	}
 
@@ -678,7 +679,7 @@ func (in *input) assignComments() {
 		xcom := x.Comment()
 		for len(suffix) > 0 && end.Byte <= suffix[len(suffix)-1].Start.Byte {
 			if debug {
-				fmt.Fprintf(os.Stderr, "ASSIGN SUFFIX %q #%d\n", suffix[len(suffix)-1].Token, suffix[len(suffix)-1].Start.Byte)
+				base.Logf("ASSIGN SUFFIX %q #%d\n", suffix[len(suffix)-1].Token, suffix[len(suffix)-1].Start.Byte)
 			}
 			xcom.Suffix = append(xcom.Suffix, suffix[len(suffix)-1])
 			suffix = suffix[:len(suffix)-1]

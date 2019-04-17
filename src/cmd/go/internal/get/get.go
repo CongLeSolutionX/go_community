@@ -121,7 +121,7 @@ func runGet(cmd *base.Command, args []string) {
 	if cfg.GoModInGOPATH != "" {
 		// Warn about not using modules with GO111MODULE=auto when go.mod exists.
 		// To silence the warning, users can set GO111MODULE=off.
-		fmt.Fprintf(os.Stderr, "go get: warning: modules disabled by GO111MODULE=auto in GOPATH/src;\n\tignoring %s;\n\tsee 'go help modules'\n", base.ShortPath(cfg.GoModInGOPATH))
+		base.Logf("go get: warning: modules disabled by GO111MODULE=auto in GOPATH/src;\n\tignoring %s;\n\tsee 'go help modules'\n", base.ShortPath(cfg.GoModInGOPATH))
 	}
 
 	work.BuildInit()
@@ -490,7 +490,7 @@ func downloadPackage(p *load.Package) error {
 	downloadRootCache[root] = true
 
 	if cfg.BuildV {
-		fmt.Fprintf(os.Stderr, "%s (download)\n", rootPath)
+		base.Logf("%s (download)\n", rootPath)
 	}
 
 	// Check that this is an appropriate place for the repo to be checked out.
@@ -513,7 +513,7 @@ func downloadPackage(p *load.Package) error {
 			return err
 		}
 		if cfg.BuildV && !gopathExisted && p.Internal.Build.Root == cfg.BuildContext.GOPATH {
-			fmt.Fprintf(os.Stderr, "created GOPATH=%s; see 'go help gopath'\n", p.Internal.Build.Root)
+			base.Logf("created GOPATH=%s; see 'go help gopath'\n", p.Internal.Build.Root)
 		}
 
 		if err = vcs.create(root, repo); err != nil {
@@ -530,7 +530,7 @@ func downloadPackage(p *load.Package) error {
 		// Do not show tag sync in -n; it's noise more than anything,
 		// and since we're not running commands, no tag will be found.
 		// But avoid printing nothing.
-		fmt.Fprintf(os.Stderr, "# cd %s; %s sync/update\n", root, vcs.cmd)
+		base.Logf("# cd %s; %s sync/update\n", root, vcs.cmd)
 		return nil
 	}
 

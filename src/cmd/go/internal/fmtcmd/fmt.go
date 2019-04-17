@@ -6,7 +6,6 @@
 package fmtcmd
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -62,7 +61,7 @@ func runFmt(cmd *base.Command, args []string) {
 	for _, pkg := range load.PackagesAndErrors(args) {
 		if modload.Enabled() && pkg.Module != nil && !pkg.Module.Main {
 			if !printed {
-				fmt.Fprintf(os.Stderr, "go: not formatting packages in dependency modules\n")
+				base.Logf("go: not formatting packages in dependency modules\n")
 				printed = true
 			}
 			continue

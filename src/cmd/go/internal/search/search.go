@@ -7,7 +7,6 @@ package search
 import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
-	"fmt"
 	"go/build"
 	"log"
 	"os"
@@ -81,7 +80,7 @@ func MatchPackages(pattern string) *Match {
 			if !fi.IsDir() {
 				if fi.Mode()&os.ModeSymlink != 0 && want {
 					if target, err := os.Stat(path); err == nil && target.IsDir() {
-						fmt.Fprintf(os.Stderr, "warning: ignoring symlink %s\n", path)
+						base.Logf("go: warning: ignoring symlink %s\n", path)
 					}
 				}
 				return nil
@@ -306,7 +305,7 @@ func replaceVendor(x, repl string) string {
 func WarnUnmatched(matches []*Match) {
 	for _, m := range matches {
 		if len(m.Pkgs) == 0 {
-			fmt.Fprintf(os.Stderr, "go: warning: %q matched no packages\n", m.Pattern)
+			base.Logf("go: warning: %q matched no packages\n", m.Pattern)
 		}
 	}
 }

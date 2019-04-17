@@ -20,7 +20,6 @@ import (
 	"cmd/go/internal/str"
 	"cmd/go/internal/work"
 	"fmt"
-	"os"
 	"path/filepath"
 	"strings"
 )
@@ -211,13 +210,13 @@ func runGet(cmd *base.Command, args []string) {
 		base.Fatalf("go get: unknown upgrade flag -u=%s", getU)
 	}
 	if *getF {
-		fmt.Fprintf(os.Stderr, "go get: -f flag is a no-op when using modules\n")
+		base.Logf("go get: -f flag is a no-op when using modules\n")
 	}
 	if *getFix {
-		fmt.Fprintf(os.Stderr, "go get: -fix flag is a no-op when using modules\n")
+		base.Logf("go get: -fix flag is a no-op when using modules\n")
 	}
 	if *getT {
-		fmt.Fprintf(os.Stderr, "go get: -t flag is a no-op when using modules\n")
+		base.Logf("go get: -t flag is a no-op when using modules\n")
 	}
 
 	if cfg.BuildMod == "vendor" {
@@ -303,7 +302,7 @@ func runGet(cmd *base.Command, args []string) {
 				pkgPath := modload.DirImportPath(filepath.FromSlash(path))
 				if pkgs := modload.TargetPackages(pkgPath); len(pkgs) == 0 {
 					if strings.Contains(path, "...") {
-						fmt.Fprintf(os.Stderr, "go get %s: warning: pattern patched no packages", arg)
+						base.Logf("go get %s: warning: pattern patched no packages", arg)
 					} else {
 						abs, err := filepath.Abs(path)
 						if err != nil {

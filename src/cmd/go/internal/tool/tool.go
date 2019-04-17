@@ -59,7 +59,7 @@ func runTool(cmd *base.Command, args []string) {
 		switch {
 		case 'a' <= c && c <= 'z', '0' <= c && c <= '9', c == '_':
 		default:
-			fmt.Fprintf(os.Stderr, "go tool: bad tool name %q\n", toolName)
+			base.Logf("go tool: bad tool name %q\n", toolName)
 			base.SetExitStatus(2)
 			return
 		}
@@ -84,7 +84,9 @@ func runTool(cmd *base.Command, args []string) {
 		Stdout: os.Stdout,
 		Stderr: os.Stderr,
 	}
+	resume := base.PauseLogging()
 	err := toolCmd.Run()
+	resume()
 	if err != nil {
 		// Only print about the exit status if the command
 		// didn't even run (not an ExitError) or it didn't exit cleanly
@@ -92,7 +94,7 @@ func runTool(cmd *base.Command, args []string) {
 		// Assume if command exited cleanly (even with non-zero status)
 		// it printed any messages it wanted to print.
 		if e, ok := err.(*exec.ExitError); !ok || !e.Exited() || cfg.BuildX {
-			fmt.Fprintf(os.Stderr, "go tool %s: %s\n", toolName, err)
+			base.Logf("go tool %s: %s\n", toolName, err)
 		}
 		base.SetExitStatus(1)
 		return
@@ -103,14 +105,14 @@ func runTool(cmd *base.Command, args []string) {
 func listTools() {
 	f, err := os.Open(base.ToolDir)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "go tool: no tool directory: %s\n", err)
+		base.Logf("go tool: no tool directory: %s\n", err)
 		base.SetExitStatus(2)
 		return
 	}
 	defer f.Close()
 	names, err := f.Readdirnames(-1)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "go tool: can't read directory: %s\n", err)
+		base.Logf("go tool: can't read directory: %s\n", err)
 		base.SetExitStatus(2)
 		return
 	}

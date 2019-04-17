@@ -79,8 +79,7 @@ func (b *Builder) Do(root *Action) {
 	if cfg.DebugActiongraph != "" {
 		js := actionGraphJSON(root)
 		if err := ioutil.WriteFile(cfg.DebugActiongraph, []byte(js), 0666); err != nil {
-			fmt.Fprintf(os.Stderr, "go: writing action graph: %v\n", err)
-			base.SetExitStatus(1)
+			base.Errorf("go: writing action graph: %v\n", err)
 		}
 	}
 
@@ -1816,7 +1815,7 @@ func (b *Builder) showOutput(a *Action, dir, desc, out string) {
 
 	b.output.Lock()
 	defer b.output.Unlock()
-	b.Print(prefix, suffix)
+	b.Print(prefix + suffix)
 }
 
 // errPrintedOutput is a special error indicating that a command failed

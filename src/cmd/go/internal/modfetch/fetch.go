@@ -429,7 +429,7 @@ func checkOneSumLocked(mod module.Version, h string) {
 	}
 
 	if len(goSum.m[mod]) > 0 {
-		fmt.Fprintf(os.Stderr, "warning: verifying %s@%s: unknown hashes in go.sum: %v; adding %v"+hashVersionMismatch, mod.Path, mod.Version, strings.Join(goSum.m[mod], ", "), h)
+		base.Logf("warning: verifying %s@%s: unknown hashes in go.sum: %v; adding %v"+hashVersionMismatch, mod.Path, mod.Version, strings.Join(goSum.m[mod], ", "), h)
 	}
 	goSum.m[mod] = append(goSum.m[mod], h)
 	goSum.dirty = true

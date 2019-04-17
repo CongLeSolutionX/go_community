@@ -19,6 +19,7 @@ import (
 	"sync"
 	"time"
 
+	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/str"
@@ -149,7 +150,7 @@ func WorkDir(typ, name string) (dir, lockfile string, err error) {
 	dir = filepath.Join(WorkRoot, fmt.Sprintf("%x", sha256.Sum256([]byte(key))))
 
 	if cfg.BuildX {
-		fmt.Fprintf(os.Stderr, "mkdir -p %s # %s %s\n", filepath.Dir(dir), typ, name)
+		base.Logf("mkdir -p %s # %s %s\n", filepath.Dir(dir), typ, name)
 	}
 	if err := os.MkdirAll(filepath.Dir(dir), 0777); err != nil {
 		return "", "", err
@@ -157,7 +158,7 @@ func WorkDir(typ, name string) (dir, lockfile string, err error) {
 
 	lockfile = dir + ".lock"
 	if cfg.BuildX {
-		fmt.Fprintf(os.Stderr, "# lock %s", lockfile)
+		base.Logf("# lock %s", lockfile)
 	}
 
 	unlock, err := lockedfile.MutexAt(lockfile).Lock()
@@ -175,14 +176,14 @@ func WorkDir(typ, name string) (dir, lockfile string, err error) {
 			return "", "", fmt.Errorf("%s exists with wrong content (have %q want %q)", dir+".info", have, key)
 		}
 		if cfg.BuildX {
-			fmt.Fprintf(os.Stderr, "# %s for %s %s\n", dir, typ, name)
+			base.Logf("# %s for %s %s\n", dir, typ, name)
 		}
 		return dir, lockfile, nil
 	}
 
 	// Info file or directory missing. Start from scratch.
 	if cfg.BuildX {
-		fmt.Fprintf(os.Stderr, "mkdir -p %s # %s %s\n", dir, typ, name)
+		base.Logf("mkdir -p %s # %s %s\n", dir, typ, name)
 	}
 	os.RemoveAll(dir)
 	if err := os.MkdirAll(dir, 0777); err != nil {
@@ -267,10 +268,10 @@ func RunWithStdin(dir string, stdin io.Reader, cmdline ...interface{}) ([]byte, 
 				text.WriteString(arg)
 			}
 		}
-		fmt.Fprintf(os.Stderr, "%s\n", text)
+		base.Logf("%s\n", text)
 		start := time.Now()
 		defer func() {
-			fmt.Fprintf(os.Stderr, "%.3fs # %s\n", time.Since(start).Seconds(), text)
+			base.Logf("%.3fs # %s\n", time.Since(start).Seconds(), text)
 		}()
 	}
 	// TODO: Impose limits on command output size.
