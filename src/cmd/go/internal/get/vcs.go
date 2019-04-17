@@ -424,6 +424,17 @@ func (v *vcsCmd) run1(dir string, cmdline string, keyval []string, verbose bool)
 	cmd := exec.Command(v.cmd, args...)
 	cmd.Dir = dir
 	cmd.Env = base.EnvForDir(cmd.Dir, os.Environ())
+
+	if v.cmd == "git" && os.Getenv("GIT_TERMINAL_PROMPT") == "" {
+		// Disable any prompting for passwords by Git.
+		// Only has an effect for 2.3.0 or later, but avoiding
+		// the prompt in earlier versions is just too hard.
+		// If user has explicitly set GIT_TERMINAL_PROMPT=1, keep
+		// prompting.
+		// See golang.org/issue/9341 and golang.org/issue/12706.
+		cmd.Env = append(cmd.Env, "GIT_TERMINAL_PROMPT=0")
+	}
+
 	if cfg.BuildX {
 		fmt.Printf("cd %s\n", dir)
 		fmt.Printf("%s %s\n", v.cmd, strings.Join(args, " "))

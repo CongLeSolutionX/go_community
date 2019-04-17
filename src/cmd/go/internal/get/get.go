@@ -130,16 +130,6 @@ func runGet(cmd *base.Command, args []string) {
 		base.Fatalf("go get: cannot use -f flag without -u")
 	}
 
-	// Disable any prompting for passwords by Git.
-	// Only has an effect for 2.3.0 or later, but avoiding
-	// the prompt in earlier versions is just too hard.
-	// If user has explicitly set GIT_TERMINAL_PROMPT=1, keep
-	// prompting.
-	// See golang.org/issue/9341 and golang.org/issue/12706.
-	if os.Getenv("GIT_TERMINAL_PROMPT") == "" {
-		os.Setenv("GIT_TERMINAL_PROMPT", "0")
-	}
-
 	// Disable any ssh connection pooling by Git.
 	// If a Git subprocess forks a child into the background to cache a new connection,
 	// that child keeps stdout/stderr open. After the Git subprocess exits,

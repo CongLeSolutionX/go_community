@@ -280,9 +280,20 @@ func RunWithStdin(dir string, stdin io.Reader, cmdline ...interface{}) ([]byte, 
 	var stdout bytes.Buffer
 	c := exec.Command(cmd[0], cmd[1:]...)
 	c.Dir = dir
+	c.Env = base.EnvForDir(c.Dir, os.Environ())
 	c.Stdin = stdin
 	c.Stderr = &stderr
 	c.Stdout = &stdout
+	if cmd[0] == "git" && os.Getenv("GIT_TERMINAL_PROMPT") == "" {
+		// Disable any prompting for passwords by Git.
+		// Only has an effect for 2.3.0 or later, but avoiding
+		// the prompt in earlier versions is just too hard.
+		// If user has explicitly set GIT_TERMINAL_PROMPT=1, keep
+		// prompting.
+		// See golang.org/issue/9341 and golang.org/issue/12706.
+		c.Env = append(c.Env, "GIT_TERMINAL_PROMPT=0")
+	}
+
 	err := c.Run()
 	if err != nil {
 		err = &RunError{Cmd: strings.Join(cmd, " ") + " in " + dir, Stderr: stderr.Bytes(), Err: err}
