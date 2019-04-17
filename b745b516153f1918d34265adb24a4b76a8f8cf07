@@ -270,6 +270,24 @@
     },
     {
       "key": {
+        "uuid": "a38148cb_85dd2d23",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-04-17T19:27:15Z",
+      "side": 1,
+      "message": "Btw, did you try your change with this one applied? 9dce58d30\n\nBefore that, there were multiple regressions on ppc64 atomics caused by a previous change.",
+      "parentUuid": "4ce700a6_608d3232",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
