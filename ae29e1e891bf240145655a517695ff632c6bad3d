@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07e1fbbf_cc0bb6e6",
+        "filename": "src/crypto/tls/cbc_mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T00:06:38Z",
+      "side": 1,
+      "message": "This ends up used with SHA-256 as well, so let\u0027s test 32, too.",
+      "revId": "ae29e1e891bf240145655a517695ff632c6bad3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "943a08ca_fecb11bb",
+        "filename": "src/crypto/tls/cbc_mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T00:06:38Z",
+      "side": 1,
+      "message": "I think b can get as short as l+1, let\u0027s test that too.",
+      "revId": "ae29e1e891bf240145655a517695ff632c6bad3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d159ce1_8d9ad407",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T00:06:38Z",
+      "side": 1,
+      "message": "No need for this condition, the only two modes with a MAC are CBC and RC4, and RC4 has zero complexity budget for performance.",
+      "revId": "ae29e1e891bf240145655a517695ff632c6bad3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
