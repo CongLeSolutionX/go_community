@@ -20,6 +20,10 @@ import (
 // sys.PhysPageSize is an upper-bound on the physical page size.
 const minPhysPageSize = 4096
 
+var logSample uint64 = 0
+
+const logSampleRate uint64 = 1024
+
 // Main malloc heap.
 // The heap itself is the "free" and "scav" treaps,
 // but all the other global data is here too.
@@ -953,7 +957,9 @@ func (h *mheap) alloc_m(npage uintptr, spanclass spanClass, large bool) *mspan {
 		h.reclaim(npage)
 	}
 
+	start := nanotime()
 	lock(&h.lock)
+	aq := nanotime()
 	// transfer stats from cache to global
 	memstats.heap_scan += uint64(_g_.m.mcache.local_scan)
 	_g_.m.mcache.local_scan = 0
@@ -1005,6 +1011,11 @@ func (h *mheap) alloc_m(npage uintptr, spanclass spanClass, large bool) *mspan {
 	if trace.enabled {
 		traceHeapAlloc()
 	}
+	in := nanotime()
+	if logSample%logSampleRate == 0 {
+		dlog().s("alloc_span").uptr(npage).u8(uint8(spanclass)).i64(aq - start).i64(in - aq).end()
+	}
+	logSample++
 
 	// h.spans is accessed concurrently without synchronization
 	// from other threads. Hence, there must be a store/store
@@ -1187,6 +1198,7 @@ HaveSpan:
 	}
 	// "Unscavenge" s only AFTER splitting so that
 	// we only sysUsed whatever we actually need.
+	var scavTime int64
 	if s.scavenged {
 		// sysUsed all the pages that are actually available
 		// in the span. Note that we don't need to decrement
@@ -1200,9 +1212,11 @@ HaveSpan:
 		//
 		// Also, scavengeLargest may cause coalescing, so prevent
 		// coalescing with s by temporarily changing its state.
+		start := nanotime()
 		s.state = mSpanManual
 		h.scavengeLargest(s.npages * pageSize)
 		s.state = mSpanFree
+		scavTime = nanotime() - start
 	}
 	s.unusedsince = 0
 
@@ -1210,6 +1224,10 @@ HaveSpan:
 
 	*stat += uint64(npage << _PageShift)
 	memstats.heap_idle -= uint64(npage << _PageShift)
+
+	if logSample%logSampleRate == 0 {
+		dlog().s("scav_latency").i64(scavTime).end()
+	}
 
 	//println("spanalloc", hex(s.start<<_PageShift))
 	if s.inList() {
@@ -1356,11 +1374,14 @@ func (h *mheap) scavengeLargest(nbytes uintptr) {
 		h.scavengeCredit -= nbytes
 		return
 	}
+	start := nanotime()
+	scavTime := int64(0)
 	// Iterate over the treap backwards (from largest to smallest) scavenging spans
 	// until we've reached our quota of nbytes.
 	released := uintptr(0)
 	for t := h.free.end(); released < nbytes && t.valid(); {
 		s := t.span()
+		sstart := nanotime()
 		r := s.scavenge()
 		if r == 0 {
 			// Since we're going in order of largest-to-smallest span, this
@@ -1374,6 +1395,7 @@ func (h *mheap) scavengeLargest(nbytes uintptr) {
 			// those which have it unset are only in the `free` treap.
 			break
 		}
+		scavTime += nanotime() - sstart
 		n := t.prev()
 		h.free.erase(t)
 		// Now that s is scavenged, we must eagerly coalesce it
@@ -1383,6 +1405,10 @@ func (h *mheap) scavengeLargest(nbytes uintptr) {
 		t = n
 		h.scav.insert(s)
 		released += r
+	}
+	fullTime := nanotime() - start
+	if logSample%logSampleRate == 0 {
+		dlog().s("full_scav_breakdown").i64(fullTime).i64(scavTime).end()
 	}
 	// If we over-scavenged, turn that extra amount into credit.
 	if released > nbytes {

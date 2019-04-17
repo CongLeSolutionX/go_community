@@ -23,7 +23,7 @@ import (
 // debugLogBytes is the size of each per-M ring buffer. This is
 // allocated off-heap to avoid blowing up the M and hence the GC'd
 // heap size.
-const debugLogBytes = 16 << 10
+const debugLogBytes = 4 << 20
 
 // debugLogStringLimit is the maximum number of bytes in a string.
 // Above this, the string will be truncated with "..(n more bytes).."
@@ -676,6 +676,10 @@ func (r *debugLogReader) printVal() bool {
 	}
 
 	return true
+}
+
+func PrintDebugLog() {
+	printDebugLog()
 }
 
 // printDebugLog prints the debug log.
