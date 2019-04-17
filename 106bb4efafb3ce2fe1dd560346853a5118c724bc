@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b558d23f_6e53f964",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T22:11:57Z",
+      "side": 1,
+      "message": "nit: typo",
+      "range": {
+        "startLine": 429,
+        "startChar": 58,
+        "endLine": 429,
+        "endChar": 63
+      },
+      "revId": "106bb4efafb3ce2fe1dd560346853a5118c724bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
