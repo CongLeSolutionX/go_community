@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9efb3654_7f64e2f8",
+        "filename": "src/crypto/tls/cbc_mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-17T21:22:54Z",
+      "side": 1,
+      "message": "Oh, good point. Improved both tests.",
+      "parentUuid": "07e1fbbf_cc0bb6e6",
+      "revId": "ae29e1e891bf240145655a517695ff632c6bad3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "943a08ca_fecb11bb",
         "filename": "src/crypto/tls/cbc_mac_test.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-17T00:06:38Z",
       "side": 1,
       "message": "I think b can get as short as l+1, let\u0027s test that too.",
+      "revId": "ae29e1e891bf240145655a517695ff632c6bad3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28cfe0f2_a5675c46",
+        "filename": "src/crypto/tls/cbc_mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-17T21:22:54Z",
+      "side": 1,
+      "message": "Hrm. Actually I think it can only get down to 64.\n\nWe know publicly that the padded plaintext is a non-zero multiple of the blocksize, which is 64 for both hashes.\n\nIf it is 64, 128, 192, or 256 bytes long, then start can be as low as 0, so we\u0027ll pass the entire input into copySecretSlice.\n\nIf it is 256+64 \u003d 320 bytes long, the maximum padding is 256, so start can only be as low as 320-256-l, meaning we\u0027d pass a 256+l slice to copySecretSlice. Thus, we care about 64, 128, 192, 256, and 256+l.\n\nThat said, we actually know that at least one byte of padding is removed, so we could exclude the final byte from each of those inputs. If we were to do that optimization (my CL currently doesn\u0027t), that would suggest testing len(b) \u003d 63, 127, 191, 255, and 255+l.\n\nThen again extractPaddingSSL30 doesn\u0027t do this in its error case, so there\u0027s a little weirdness there. It should be fine since this function won\u0027t exhibit UB when its preconditions fail, it just won\u0027t promise a particular output, so paddingGood should do the trick...\n\nAll this, however, does assume we *don\u0027t* send RC4 down the same codepath (per conn.go comment). We can\u0027t exclude the final byte in RC4 (in fact we know the MAC includes that byte), and RC4 no longer limits things to a block size multiples, which means all inputs from l to 256+l are fair game (unless we special-case RC4\u0027s minN computation).\n\nIt\u0027s probably not a big deal though. copySecretSlice is not really sensitive to len(in). I\u0027ve tested the input sizes that matter for CBC (without the -1 optimization) and added l and l+1 to capture boundary cases for RC4.",
+      "parentUuid": "943a08ca_fecb11bb",
       "revId": "ae29e1e891bf240145655a517695ff632c6bad3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "ae29e1e891bf240145655a517695ff632c6bad3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7d36c12_16ede635",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-17T21:22:54Z",
+      "side": 1,
+      "message": "Done. (Though it\u0027s trading off different kinds of complexity budget. Fewer codepaths, but RC4 exposes copySecretSlice to a wider range of values, which is relevant to the analysis for cbc_mac_test.go.)",
+      "parentUuid": "0d159ce1_8d9ad407",
+      "revId": "ae29e1e891bf240145655a517695ff632c6bad3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
