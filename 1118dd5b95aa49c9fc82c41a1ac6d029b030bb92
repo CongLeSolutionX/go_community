@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "744d9f90_20fb4720",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T22:24:33Z",
+      "side": 1,
+      "message": "I meant to move this on the TLS_RSA_WITH_AES_128_CBC_SHA256 constants, as a warning against enabling them, and mentioning they are off by default. Also, without the BUG annotation. (We have no bugs!)",
+      "revId": "1118dd5b95aa49c9fc82c41a1ac6d029b030bb92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec8f0e15_52019a88",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-04-17T22:24:33Z",
+      "side": 1,
+      "message": "Continuing from https://go-review.googlesource.com/c/go/+/170704/3/src/crypto/tls/cipher_suites.go#169\n\nI agree it makes the computation less local, but I especially dislike consecutive int arguments. Let\u0027s document the hardcoded bounds of n in terms of len(data), and panic if they are violated.",
+      "range": {
+        "startLine": 176,
+        "startChar": 31,
+        "endLine": 176,
+        "endChar": 35
+      },
+      "revId": "1118dd5b95aa49c9fc82c41a1ac6d029b030bb92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
