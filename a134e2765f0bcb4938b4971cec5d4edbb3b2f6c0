@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "44f85d8d_e47d6d59",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-17T21:25:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f26a677f_08314dda",
+      "range": {
+        "startLine": 167,
+        "startChar": 26,
+        "endLine": 167,
+        "endChar": 48
+      },
+      "revId": "a134e2765f0bcb4938b4971cec5d4edbb3b2f6c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47db54b2_873bfa65",
         "filename": "src/crypto/tls/cipher_suites.go",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3f409e43_9dab4549",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-17T21:25:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47db54b2_873bfa65",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 8
+      },
+      "revId": "a134e2765f0bcb4938b4971cec5d4edbb3b2f6c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4741818c_985fdc93",
         "filename": "src/crypto/tls/cipher_suites.go",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2019-04-17T00:15:32Z",
       "side": 1,
       "message": "Can we hardcode this to len(data) - 256?",
+      "range": {
+        "startLine": 169,
+        "startChar": 31,
+        "endLine": 169,
+        "endChar": 35
+      },
+      "revId": "a134e2765f0bcb4938b4971cec5d4edbb3b2f6c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a56aa1cf_370cf54f",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-17T21:25:00Z",
+      "side": 1,
+      "message": "We could, but it\u0027s also needed for copySecretSlice. macFunction is also further from where n is computed, so it\u0027s less locally obvious what n\u0027s lower bound is. Whereas, in conn.go, we have:\n\n    n :\u003d len(payload) - macSize - paddingLen\n    n \u003d subtle.ConstantTimeSelect(int(uint32(n)\u003e\u003e31), 0, n) // if n \u003c 0 { n \u003d 0 }\n    [...]\n    minN :\u003d len(payload) - macSize - 256\n    if minN \u003c 0 {\n        minN \u003d 0\n    }\n\nThose two computations mirror each other nicely. For instance, if we were to implement the len(payload)-1 optimization mentioned a couple commits above, the relationship between minN and len(data) would change because len(data) would be one shorter.\n\nThoughts? (Happy to move it inside the macFunction implementation if you still prefer it.)",
+      "parentUuid": "4741818c_985fdc93",
       "range": {
         "startLine": 169,
         "startChar": 31,
@@ -91,6 +163,30 @@
       "revId": "a134e2765f0bcb4938b4971cec5d4edbb3b2f6c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4111772b_5d35dd5e",
+        "filename": "src/crypto/tls/tls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-17T21:25:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed04713d_561de6fa",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "a134e2765f0bcb4938b4971cec5d4edbb3b2f6c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
