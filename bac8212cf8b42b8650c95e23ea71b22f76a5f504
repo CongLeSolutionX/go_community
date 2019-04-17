@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab86b21f_fc93b2d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-17T01:01:49Z",
+      "side": 1,
+      "message": "nit: Capitalize this as \"Fixes\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "bac8212cf8b42b8650c95e23ea71b22f76a5f504",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f57b9ace_6a0f9bd9",
+        "filename": "test/escape_variadic_func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-17T01:01:49Z",
+      "side": 1,
+      "message": "nit: I\u0027d name this file test/fixedbugs/issue30898.go instead.",
+      "revId": "bac8212cf8b42b8650c95e23ea71b22f76a5f504",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30ac9653_63ee92a4",
+        "filename": "test/escape_variadic_func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-04-17T01:01:49Z",
+      "side": 1,
+      "message": "nit: get rid of -l. It looks like the issue only used to reproduce without it.\n\n(If you add -newescape\u003dfalse here, \"go run run.go -- thistest.go\" should fail.)",
+      "range": {
+        "startLine": 1,
+        "startChar": 19,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "bac8212cf8b42b8650c95e23ea71b22f76a5f504",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
