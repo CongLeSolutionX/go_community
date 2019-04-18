@@ -248,7 +248,10 @@ func (p *parser) parseField(pkg *types.Package) (field *types.Var, tag string) {
 		case *types.Named:
 			name = typ.Obj().Name()
 		default:
-			p.error("anonymous field expected")
+			// Issue 31540: if the field type is an alias, it may
+			// point to some arbitrary type that is not
+			// straightforward to name. Leave name blank in such
+			// cases.
 		}
 	}
 	field = types.NewField(token.NoPos, pkg, name, typ, anon)
