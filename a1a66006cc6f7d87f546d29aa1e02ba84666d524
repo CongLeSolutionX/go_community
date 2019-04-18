@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fbf7310_8853d464",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-04-18T15:26:07Z",
+      "side": 1,
+      "message": "What if sched.stopwait !\u003d 0 but atomic.Load(stopwait) \u003d\u003d 0, wouldn\u0027t you want to do the else block?",
+      "revId": "a1a66006cc6f7d87f546d29aa1e02ba84666d524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
