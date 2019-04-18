@@ -306,6 +306,24 @@
     },
     {
       "key": {
+        "uuid": "4b5a41df_ceb2c232",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-04-18T07:03:12Z",
+      "side": 1,
+      "message": "The solution replacing LWSYNC by ISYNC is not enough. It has happened once out of 250 all.bash... \nI\u0027ll try by replacing the first LWSYNC by SYNC and let it run. If it\u0027s also occuring I\u0027ll try with the version before CL 95175 and will see after that.",
+      "parentUuid": "5b3a53dd_4ec6792b",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
