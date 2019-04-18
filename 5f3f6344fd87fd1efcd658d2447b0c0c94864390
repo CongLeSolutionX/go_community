@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57b4641b_849f0b3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-18T14:21:47Z",
+      "side": 1,
+      "message": "This should only be the package name, so \"sync: update comment\"",
+      "revId": "5f3f6344fd87fd1efcd658d2447b0c0c94864390",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c95c9781_dfb9df76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-18T14:21:47Z",
+      "side": 1,
+      "message": "Please delete the instructions below here.",
+      "revId": "5f3f6344fd87fd1efcd658d2447b0c0c94864390",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
