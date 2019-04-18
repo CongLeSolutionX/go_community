@@ -19,6 +19,7 @@ import (
 	"cmd/go/internal/semver"
 	"cmd/go/internal/str"
 	"cmd/go/internal/work"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -650,29 +651,25 @@ func getQuery(path, vers string, prevM module.Version, forceModulePath bool) (mo
 		}
 	}
 
-	// If the path has a wildcard, search for a module that matches the pattern.
-	if strings.Contains(path, "...") {
-		if forceModulePath {
-			panic("forceModulePath is true for path with wildcard " + path)
+	if forceModulePath || *getM || !strings.Contains(path, "...") {
+		// If the path doesn't contain a wildcard, try interpreting it as a module path.
+		info, err := modload.Query(path, vers, modload.Allowed)
+		if err == nil {
+			return module.Version{Path: path, Version: info.Version}, nil
 		}
-		_, m, _, err := modload.QueryPattern(path, vers, modload.Allowed)
-		return m, err
+
+		// If the query fails, and the path must be a real module, report the query error.
+		if forceModulePath || *getM {
+			return module.Version{}, err
+		}
 	}
 
-	// Try interpreting the path as a module path.
-	info, err := modload.Query(path, vers, modload.Allowed)
-	if err == nil {
-		return module.Version{Path: path, Version: info.Version}, nil
-	}
-
-	// If the query fails, and the path must be a real module, report the query error.
-	if forceModulePath || *getM {
+	// Otherwise, try a package path or pattern.
+	results, err := modload.QueryPattern(path, vers, modload.Allowed)
+	if err != nil {
 		return module.Version{}, err
 	}
-
-	// Otherwise, try a package path.
-	m, _, err := modload.QueryPackage(path, vers, modload.Allowed)
-	return m, err
+	return results[0].Mod, nil
 }
 
 // An upgrader adapts an underlying mvs.Reqs to apply an
@@ -736,7 +733,8 @@ func (u *upgrader) Upgrade(m module.Version) (module.Version, error) {
 		// even report the error. Because Query does not consider pseudo-versions,
 		// it may happen that we have a pseudo-version but during -u=patch
 		// the query v0.0 matches no versions (not even the one we're using).
-		if !strings.Contains(err.Error(), "no matching versions") {
+		var noMatch *modload.NoMatchingVersionError
+		if !errors.As(err, &noMatch) {
 			base.Errorf("go get: upgrading %s@%s: %v", m.Path, m.Version, err)
 		}
 		return m, nil
