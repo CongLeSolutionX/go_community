@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b52466cd_6ec5f664",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-19T19:43:27Z",
+      "side": 1,
+      "message": "This isn\u0027t quite right. The \"can\u0027t query specific version\" and \"package %s is in the main module\" errors are useful, but packageNotInModuleError is not.",
+      "revId": "9c059554377964b1a8b7095dcb115109d60eb7cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
