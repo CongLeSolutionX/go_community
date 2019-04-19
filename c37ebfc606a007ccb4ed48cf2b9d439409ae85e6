@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e79f509_99f4d73c",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-19T23:31:07Z",
+      "side": 1,
+      "message": "Nit: s/olang/golang/\n\nThis is a really good case to point out.",
+      "revId": "c37ebfc606a007ccb4ed48cf2b9d439409ae85e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdeaf6ec_9b880753",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-19T23:31:07Z",
+      "side": 1,
+      "message": "Import and and getQuery would be better places for these checks; ideally it would be a precondition that these kinds of imports aren\u0027t allowed. I\u0027m not sure we\u0027re strict enough to make this a panic though.",
+      "revId": "c37ebfc606a007ccb4ed48cf2b9d439409ae85e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12bc8dac_6e005a85",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-19T23:31:07Z",
+      "side": 1,
+      "message": "Just to confirm: there\u0027s not really any point in rate limiting queries, right? I guess if there were, we would do so in Query itself.\n\nCallers to this are limited to 10 workers, but I guess that\u0027s just to avoid excessive contention when loading the build list.",
+      "revId": "c37ebfc606a007ccb4ed48cf2b9d439409ae85e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "957768f1_8374a170",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-19T23:31:07Z",
+      "side": 1,
+      "message": "I think this is redundant with the first case below.",
+      "range": {
+        "startLine": 357,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 28
+      },
+      "revId": "c37ebfc606a007ccb4ed48cf2b9d439409ae85e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
