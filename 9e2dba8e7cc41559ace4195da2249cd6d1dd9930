@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3eb5fbb6_40b60dff",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-04-19T20:28:15Z",
+      "side": 1,
+      "message": "The name callStmt sounds like it is handling a call statement. Maybe just call it \"augmentParamHole\" or \"adjustParamHole\"?",
+      "range": {
+        "startLine": 875,
+        "startChar": 17,
+        "endLine": 875,
+        "endChar": 25
+      },
+      "revId": "9e2dba8e7cc41559ace4195da2249cd6d1dd9930",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
