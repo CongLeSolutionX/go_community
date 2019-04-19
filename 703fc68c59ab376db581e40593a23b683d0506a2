@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e86a0fb_d06b4f44",
+        "filename": "src/cmd/go/internal/modload/search.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-19T16:16:50Z",
+      "side": 0,
+      "message": "I should factor this part of the change into a separate CL.",
+      "revId": "703fc68c59ab376db581e40593a23b683d0506a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
