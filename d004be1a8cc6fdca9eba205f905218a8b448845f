@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d375a92d_bb0334c1",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 28030
+      },
+      "writtenOn": "2019-04-19T22:27:13Z",
+      "side": 1,
+      "message": "It does not, if I understand you correctly. The way this CL is right now is basically this: if mod\u003dreadonly neither go.mod nor go.sum are allowed to be changed. If go.mod is clean, and go.sum is not clean, then we error out. If go.mod is dirty, then we error out on go.mod being dirty and not even check go.sum yet.",
+      "parentUuid": "7b9fe759_931eda2f",
+      "revId": "d004be1a8cc6fdca9eba205f905218a8b448845f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "45548e34_f9e29f88",
         "filename": "src/cmd/go/testdata/script/sum_readonly.txt",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-09T18:59:10Z",
       "side": 1,
       "message": "Add:\n\ngo build -mod\u003dreadonly\n\n(Otherwise, the “experiment” case at line 10 lacks a “control” case.)",
+      "revId": "d004be1a8cc6fdca9eba205f905218a8b448845f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d260d44e_49b73615",
+        "filename": "src/cmd/go/testdata/script/sum_readonly.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 28030
+      },
+      "writtenOn": "2019-04-19T22:27:13Z",
+      "side": 1,
+      "message": "1. Not sure what you mean by \"control\" case :) \n2. I can\u0027t pass -mod\u003dreadonly, because Go adds a \"// indirect\" when I first run \"go get\" on line 4 even though I\u0027m using it in the main.go file on line 24. It\u0027s only when I run \"go build\" does go remove the \"// indirect\" from go.mod -- therefore, if I pass -mod\u003dreadonly then it will error out since go.mod becomes dirty.",
+      "parentUuid": "45548e34_f9e29f88",
       "revId": "d004be1a8cc6fdca9eba205f905218a8b448845f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
