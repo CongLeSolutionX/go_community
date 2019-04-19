@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2f11bad6_c2e5ab32",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-19T23:11:04Z",
+      "side": 1,
+      "message": "Done, I think. Is this what you meant?",
+      "parentUuid": "744d9f90_20fb4720",
+      "revId": "1118dd5b95aa49c9fc82c41a1ac6d029b030bb92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec8f0e15_52019a88",
         "filename": "src/crypto/tls/cipher_suites.go",
         "patchSetId": 5
@@ -54,6 +72,30 @@
       "side": 1,
       "message": "I started doing this, but ran into one more detail: the halfConn.encrypt call passes in n \u003d minN \u003d len(payload), which saves us from paying the ConstantTimeSum costs on the encrypt side, only the decrypt side. Having minN implicit would make us pay it on both sides. Does that matter to you?\n\nAnother option if it\u0027s the consecutive int arguments, we could do:\n\n  MAC(seq, header, data, extra []byte, numExtra int)\n\nAnd then conn.go would call\n\n  MAC(seq, header, payload[:minN], payload[minN:len(payload)-macSize], n - minN)\n\n(len(payload)-macSize is maxN)\n\nThat does avoid the consecutive ints, but it\u0027s adding to the existing consecutive []bytes, so I dunno if that\u0027s better or worse. :-)",
       "parentUuid": "ec8f0e15_52019a88",
+      "range": {
+        "startLine": 176,
+        "startChar": 31,
+        "endLine": 176,
+        "endChar": 35
+      },
+      "revId": "1118dd5b95aa49c9fc82c41a1ac6d029b030bb92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c240f94_8663fded",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-19T23:11:04Z",
+      "side": 1,
+      "message": "I\u0027ve done this (the version that makes halfConn.encrypt pay the constant-time cost too). Happy to go back to the minN argument or try the extra/numExtra thing if encrypt changes your preference.",
+      "parentUuid": "ad40c8c3_c7d40e95",
       "range": {
         "startLine": 176,
         "startChar": 31,

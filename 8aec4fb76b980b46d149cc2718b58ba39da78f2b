@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44d176e5_685d8775",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-19T23:11:04Z",
+      "side": 1,
+      "message": "I feel mildly weird adding some comparisons on secret data like this. Although it should always be false, so it\u0027s presumably fine? *shrug*\n\n(This probably gets the lack of strong language and processor promises around this stuff, so it\u0027s all handwaivey anyway.)",
+      "revId": "8aec4fb76b980b46d149cc2718b58ba39da78f2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
