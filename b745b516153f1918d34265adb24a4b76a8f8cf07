@@ -342,6 +342,24 @@
     },
     {
       "key": {
+        "uuid": "4051d58f_eea8b986",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 27994
+      },
+      "writtenOn": "2019-04-19T07:25:25Z",
+      "side": 1,
+      "message": "The second solution doesn\u0027t work either.. \nCarlos, the master builder has failed since CL 172578 (cf https://build.golang.org/log/d750bb7834ea5ca3c8cb0045484f6c30ae73c086). Therefore, I don\u0027t think this is related to that too. \nI\u0027ll try the old version. I\u0027d rather have a slower but safer runtime, for the moment at least. \n\nNote that I think the second kind of runtime crash on AIX (like https://build.golang.org/log/80a3de58493b6658e16fb9206141bd4b86e29448) may be related. There is also a notetsleep/notewakeup barrier and g.m.nextp seems to not be up to date in stopm.",
+      "parentUuid": "f218856c_28a85b66",
+      "revId": "b745b516153f1918d34265adb24a4b76a8f8cf07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93158980_f7ac01c2",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
