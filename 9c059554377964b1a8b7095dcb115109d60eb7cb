@@ -16,6 +16,24 @@
       "revId": "9c059554377964b1a8b7095dcb115109d60eb7cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "299c4188_ddc47356",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-19T20:54:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b52466cd_6ec5f664",
+      "revId": "9c059554377964b1a8b7095dcb115109d60eb7cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
