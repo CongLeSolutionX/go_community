@@ -22,6 +22,30 @@
       "revId": "106bb4efafb3ce2fe1dd560346853a5118c724bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13c58d0d_f65250a3",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2019-04-19T23:09:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b558d23f_6e53f964",
+      "range": {
+        "startLine": 429,
+        "startChar": 58,
+        "endLine": 429,
+        "endChar": 63
+      },
+      "revId": "106bb4efafb3ce2fe1dd560346853a5118c724bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
