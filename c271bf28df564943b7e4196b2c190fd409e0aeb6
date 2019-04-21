@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92cd8f22_c877617d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-04-21T18:19:56Z",
+      "side": 1,
+      "message": "s/Fix/Fixes/ per https://golang.org/wiki/CommitMessage.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "c271bf28df564943b7e4196b2c190fd409e0aeb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "966afb67_ffa81a4f",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-04-21T18:19:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure if the local variable pkgMod is helping with readability. I would suggest making it just:\n\n    modfetch.PkgMod \u003d filepath.Join(list[0], \"pkg/mod\")\n    codehost.WorkRoot \u003d filepath.Join(list[0], \"pkg/mod/cache/vcs\")",
+      "revId": "c271bf28df564943b7e4196b2c190fd409e0aeb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
