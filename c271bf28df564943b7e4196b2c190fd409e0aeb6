@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "53219c10_04c10ad0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-04-21T18:20:55Z",
+      "side": 1,
+      "message": "Also, you can drop the \"golang/go\" prefix, since this CL is in the main repository. Just:\n\n    Fixes #29522",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "c271bf28df564943b7e4196b2c190fd409e0aeb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "966afb67_ffa81a4f",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 5
