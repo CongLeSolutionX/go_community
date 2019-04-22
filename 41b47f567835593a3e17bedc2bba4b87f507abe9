@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bf3d37a_e23f2148",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-22T19:18:26Z",
+      "side": 1,
+      "message": "+1 to Heschi\u0027s suggestion out of band: mention that we will add more information to \"go mod init\".",
+      "revId": "41b47f567835593a3e17bedc2bba4b87f507abe9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8655fc2b_fba6998a",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-22T19:18:26Z",
+      "side": 1,
+      "message": "Nit: let\u0027s say \"Run\" instead of \"Use\".",
+      "revId": "41b47f567835593a3e17bedc2bba4b87f507abe9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
