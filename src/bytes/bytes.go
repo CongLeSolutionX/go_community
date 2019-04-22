@@ -12,11 +12,11 @@ import (
 	"unicode/utf8"
 )
 
-// Equal returns a boolean reporting whether a and b
+// Equal reports whether a and b
 // are the same length and contain the same bytes.
 // A nil argument is equivalent to an empty slice.
 func Equal(a, b []byte) bool {
-	return bytealg.Equal(a, b)
+	return string(a) == string(b)
 }
 
 func equalPortable(a, b []byte) bool {
