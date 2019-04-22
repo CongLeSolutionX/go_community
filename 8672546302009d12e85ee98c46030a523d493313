@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f915f77b_64d13f13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-04-22T08:24:02Z",
+      "side": 1,
+      "message": "crypto/x509: verify empty policy intermediate CA certificates\n\nOn Darwin, root_cgo_darwin omits intermediate CA certificates\nif they have empty policy settings or an unspecified trust type\nsettings.\n\nThis change now verifies the certificate instead of ignoring it.\nThe verification is implemented by calling the security framework\ninterface.\n\nFixes #30672\nFixes #30471",
+      "revId": "8672546302009d12e85ee98c46030a523d493313",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
