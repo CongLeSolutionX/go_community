@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "78b9267b_b8f2abcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-04-22T19:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bf3d37a_e23f2148",
+      "revId": "41b47f567835593a3e17bedc2bba4b87f507abe9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8655fc2b_fba6998a",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "41b47f567835593a3e17bedc2bba4b87f507abe9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb98b87d_bb7d717c",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-04-22T19:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8655fc2b_fba6998a",
+      "revId": "41b47f567835593a3e17bedc2bba4b87f507abe9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
