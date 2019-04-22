@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9697f57e_2335408c",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-22T16:58:59Z",
+      "side": 1,
+      "message": "does the scope of i need to extend past line 777? merge into one line?",
+      "range": {
+        "startLine": 763,
+        "startChar": 3,
+        "endLine": 764,
+        "endChar": 10
+      },
+      "revId": "dc9630999431dfdbd587d1ccb4aefd520a10bb63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae6afc84_3d0a899d",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-22T16:58:59Z",
+      "side": 1,
+      "message": "Should/could this then also populate nameIndex with this version of the case?",
+      "range": {
+        "startLine": 772,
+        "startChar": 5,
+        "endLine": 773,
+        "endChar": 12
+      },
+      "revId": "dc9630999431dfdbd587d1ccb4aefd520a10bb63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
