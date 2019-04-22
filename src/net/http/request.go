@@ -912,6 +912,8 @@ func parseBasicAuth(auth string) (username, password string, ok bool) {
 //
 // With HTTP Basic Authentication the provided username and password
 // are not encrypted.
+//
+// When used with OAuth2, both arguments must be URL encoded first.
 func (r *Request) SetBasicAuth(username, password string) {
 	r.Header.Set("Authorization", "Basic "+basicAuth(username, password))
 }
