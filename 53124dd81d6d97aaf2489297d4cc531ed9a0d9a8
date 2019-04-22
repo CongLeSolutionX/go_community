@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a32715b_446d104e",
+        "filename": "src/cmd/go/testdata/script/mod_download.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-04-22T23:27:54Z",
+      "side": 1,
+      "message": "I considered suggesting adding\n\n    ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.2.1.zip\n\nhere, but I suspect it\u0027s not worth it. We should feel confident the zip file was removed by the rm command.\n\nSimilar code above relies on rm and doesn\u0027t try to verify that it succeeded.\n\nPosting this for posterity, not requesting any changes.",
+      "revId": "53124dd81d6d97aaf2489297d4cc531ed9a0d9a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
