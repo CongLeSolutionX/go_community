@@ -51,15 +51,21 @@ type BinOpTest struct {
 }
 
 func TestEqual(t *testing.T) {
-	for _, tt := range compareTests {
-		eql := Equal(tt.a, tt.b)
-		if eql != (tt.i == 0) {
-			t.Errorf(`Equal(%q, %q) = %v`, tt.a, tt.b, eql)
+	// Run the tests and check for allocation at the same time.
+	allocs := testing.AllocsPerRun(10, func() {
+		for _, tt := range compareTests {
+			eql := Equal(tt.a, tt.b)
+			if eql != (tt.i == 0) {
+				t.Errorf(`Equal(%q, %q) = %v`, tt.a, tt.b, eql)
+			}
+			eql = EqualPortable(tt.a, tt.b)
+			if eql != (tt.i == 0) {
+				t.Errorf(`EqualPortable(%q, %q) = %v`, tt.a, tt.b, eql)
+			}
 		}
-		eql = EqualPortable(tt.a, tt.b)
-		if eql != (tt.i == 0) {
-			t.Errorf(`EqualPortable(%q, %q) = %v`, tt.a, tt.b, eql)
-		}
+	})
+	if allocs > 0 {
+		t.Errorf("Equal allocated %v times", allocs)
 	}
 }
 
