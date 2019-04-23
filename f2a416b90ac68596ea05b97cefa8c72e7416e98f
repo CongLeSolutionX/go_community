@@ -69,6 +69,24 @@
       "revId": "f2a416b90ac68596ea05b97cefa8c72e7416e98f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59064046_6338d557",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2019-04-23T09:23:08Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "2ee9ff3e_e4843544",
+      "revId": "f2a416b90ac68596ea05b97cefa8c72e7416e98f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
