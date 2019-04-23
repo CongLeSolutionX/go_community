@@ -36,10 +36,12 @@ import (
 	"cmd/internal/sys"
 	"cmd/link/internal/sym"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"runtime"
 	"runtime/pprof"
+	"sort"
 	"strings"
 )
 
@@ -94,6 +96,7 @@ var (
 	cpuprofile     = flag.String("cpuprofile", "", "write cpu profile to `file`")
 	memprofile     = flag.String("memprofile", "", "write memory profile to `file`")
 	memprofilerate = flag.Int64("memprofilerate", 0, "set runtime.MemProfileRate to `rate`")
+	dumpsymsfile   = flag.String("dumpsymsfile", "", "write sym names to `file`")
 )
 
 // Main is the main entry point for the linker code.
@@ -277,6 +280,26 @@ func Main(arch *sys.Arch, theArch Arch) {
 		ctxt.Logf("%5.2f cpu time\n", Cputime())
 		ctxt.Logf("%d symbols\n", len(ctxt.Syms.Allsym))
 		ctxt.Logf("%d liveness data\n", liveness)
+	}
+
+	if *dumpsymsfile != "" {
+		f, err := os.Create(*dumpsymsfile)
+		if err != nil {
+			log.Fatalf("%v", err)
+		}
+		for v, m := range ctxt.Syms.GetHash() {
+			syms := []*sym.Symbol{}
+			for _, s := range m {
+				if s != nil {
+					syms = append(syms, s)
+				}
+			}
+			sort.Sort(bySymName(syms))
+			for _, s := range syms {
+				fmt.Fprintf(f, "%d %14s %s\n", v, sym.SymKindToString[s.Type], s.Name)
+			}
+		}
+		f.Close()
 	}
 
 	ctxt.Bso.Flush()

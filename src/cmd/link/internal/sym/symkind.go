@@ -158,3 +158,58 @@ var RelROMap = map[SymKind]SymKind{
 	SRODATA:   SRODATARELRO,
 	SFUNCTAB:  SFUNCTABRELRO,
 }
+
+var SymKindToString = [...]string{
+	"<InvalidKind>",    /* Sxxx SymKind */
+	"TEXT",             /* STEXT */
+	"SELFRXSECT",       /* SELFRXSECT */
+	"TYPE",             /* STYPE */
+	"STRING",           /* SSTRING */
+	"GOSTRING",         /* SGOSTRING */
+	"GOFUNC",           /* SGOFUNC */
+	"GCBITS",           /* SGCBITS */
+	"RODATA",           /* SRODATA */
+	"FUNCTAB",          /* SFUNCTAB */
+	"ELFROSECT",        /* SELFROSECT */
+	"MACHOPLT",         /* SMACHOPLT */
+	"TYPERELRO",        /* STYPERELRO */
+	"STRINGRELRO",      /* SSTRINGRELRO */
+	"GOSTRINGRELRO",    /* SGOSTRINGRELRO */
+	"GOFUNCRELRO",      /* SGOFUNCRELRO */
+	"GCBITSRELRO",      /* SGCBITSRELRO */
+	"RODATARELRO",      /* SRODATARELRO */
+	"FUNCTABRELRO",     /* SFUNCTABRELRO */
+	"TYPELINK",         /* STYPELINK */
+	"ITABLINK",         /* SITABLINK */
+	"SYMTAB",           /* SSYMTAB */
+	"PCLNTAB",          /* SPCLNTAB */
+	"FirstWritable",    /* SFirstWritable */
+	"BUILDINFO",        /* SBUILDINFO */
+	"ELFSECT",          /* SELFSECT */
+	"MACHO",            /* SMACHO */
+	"MACHOGOT",         /* SMACHOGOT */
+	"WINDOWS",          /* SWINDOWS */
+	"ELFGOT",           /* SELFGOT */
+	"NOPTRDATA",        /* SNOPTRDATA */
+	"INITARR",          /* SINITARR */
+	"DATA",             /* SDATA */
+	"XCOFFTOC",         /* SXCOFFTOC */
+	"BSS",              /* SBSS */
+	"NOPTRBSS",         /* SNOPTRBSS */
+	"TLSBSS",           /* STLSBSS */
+	"XREF",             /* SXREF */
+	"MACHOSYMSTR",      /* SMACHOSYMSTR */
+	"MACHOSYMTAB",      /* SMACHOSYMTAB */
+	"MACHOINDIRECTPLT", /* SMACHOINDIRECTPLT */
+	"MACHOINDIRECTGOT", /* SMACHOINDIRECTGOT */
+	"FILEPATH",         /* SFILEPATH */
+	"CONST",            /* SCONST */
+	"DYNIMPORT",        /* SDYNIMPORT */
+	"HOSTOBJ",          /* SHOSTOBJ */
+	"DWARFSECT",        /* SDWARFSECT */
+	"DWARFINFO",        /* SDWARFINFO */
+	"DWARFRANGE",       /* SDWARFRANGE */
+	"DWARFLOC",         /* SDWARFLOC */
+	"DWARFMISC",        /* SDWARFMISC */
+	"SABIALIAS",        /* SABIALIAS */
+}

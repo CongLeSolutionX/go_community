@@ -51,6 +51,10 @@ func NewSymbols() *Symbols {
 	}
 }
 
+func (syms *Symbols) GetHash() []map[string]*Symbol {
+	return syms.hash
+}
+
 func (syms *Symbols) Newsym(name string, v int) *Symbol {
 	batch := syms.symbolBatch
 	if len(batch) == 0 {

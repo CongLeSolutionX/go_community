@@ -1128,6 +1128,12 @@ func (d bySizeAndName) Less(i, j int) bool {
 	return s1.name < s2.name
 }
 
+type bySymName []*sym.Symbol
+
+func (d bySymName) Len() int           { return len(d) }
+func (d bySymName) Swap(i, j int)      { d[i], d[j] = d[j], d[i] }
+func (d bySymName) Less(i, j int) bool { return d[i].Name < d[j].Name }
+
 // cutoff is the maximum data section size permitted by the linker
 // (see issue #9862).
 const cutoff = 2e9 // 2 GB (or so; looks better in errors than 2^31)
