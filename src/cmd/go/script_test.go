@@ -743,6 +743,11 @@ func scriptMatch(ts *testScript, neg bool, args []string, text, name string) {
 		}
 		args = args[1:]
 	}
+	quiet := false
+	if len(args) >= 1 && args[0] == "-q" {
+		quiet = true
+		args = args[1:]
+	}
 
 	extraUsage := ""
 	want := 1
@@ -773,14 +778,14 @@ func scriptMatch(ts *testScript, neg bool, args []string, text, name string) {
 
 	if neg {
 		if re.MatchString(text) {
-			if isGrep {
+			if isGrep && !quiet {
 				fmt.Fprintf(&ts.log, "[%s]\n%s\n", name, text)
 			}
 			ts.fatalf("unexpected match for %#q found in %s: %s", pattern, name, re.FindString(text))
 		}
 	} else {
 		if !re.MatchString(text) {
-			if isGrep {
+			if isGrep && !quiet {
 				fmt.Fprintf(&ts.log, "[%s]\n%s\n", name, text)
 			}
 			ts.fatalf("no match for %#q found in %s", pattern, name)
@@ -788,7 +793,7 @@ func scriptMatch(ts *testScript, neg bool, args []string, text, name string) {
 		if n > 0 {
 			count := len(re.FindAllString(text, -1))
 			if count != n {
-				if isGrep {
+				if isGrep && !quiet {
 					fmt.Fprintf(&ts.log, "[%s]\n%s\n", name, text)
 				}
 				ts.fatalf("have %d matches for %#q, want %d", count, pattern, n)

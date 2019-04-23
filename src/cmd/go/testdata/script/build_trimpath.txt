@@ -1,0 +1,15 @@
+go build -trimpath -o hello.exe hello.go
+! grep -q $GOROOT hello.exe
+! grep -q $WORK hello.exe
+
+env GO111MODULE=on
+go build -trimpath -o fortune.exe rsc.io/fortune
+! grep -q $GOROOT fortune.exe
+! grep -q $WORK fortune.exe
+
+-- hello.go --
+package main
+func main() { println("hello") }
+
+-- go.mod --
+module m

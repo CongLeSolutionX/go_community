@@ -1110,6 +1110,7 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
 // printLinkerConfig prints the linker config into the hash h,
 // as part of the computation of a linker-related action ID.
 func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
+	// TODO LINKER NEEDS TO HAVE GOROOT_FINAL SET RIGHT.
 	switch cfg.BuildToolchainName {
 	default:
 		base.Fatalf("linkActionID: unknown toolchain %q", cfg.BuildToolchainName)
