@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "621fe865_def27e79",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-04-23T14:49:00Z",
+      "side": 1,
+      "message": "commas formatted incorrectly in a few of these rules.",
+      "range": {
+        "startLine": 1152,
+        "startChar": 80,
+        "endLine": 1152,
+        "endChar": 82
+      },
+      "revId": "cc6ef9ea8d0ce552bb204e77e4d4d5988ba296e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b30b79f_15ad1e1b",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-04-23T14:49:00Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "range": {
+        "startLine": 1161,
+        "startChar": 73,
+        "endLine": 1161,
+        "endChar": 74
+      },
+      "revId": "cc6ef9ea8d0ce552bb204e77e4d4d5988ba296e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7d56d55_41a9c51e",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 1333,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-04-23T14:49:00Z",
+      "side": 1,
+      "message": "trailing spaces in a few places here also.",
+      "range": {
+        "startLine": 1333,
+        "startChar": 44,
+        "endLine": 1333,
+        "endChar": 45
+      },
+      "revId": "cc6ef9ea8d0ce552bb204e77e4d4d5988ba296e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
