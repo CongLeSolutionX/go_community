@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7ab18d62_b322fe85",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-04-23T04:27:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9697f57e_2335408c",
+      "range": {
+        "startLine": 763,
+        "startChar": 3,
+        "endLine": 764,
+        "endChar": 10
+      },
+      "revId": "dc9630999431dfdbd587d1ccb4aefd520a10bb63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae6afc84_3d0a899d",
         "filename": "src/encoding/json/decode.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-04-22T16:58:59Z",
       "side": 1,
       "message": "Should/could this then also populate nameIndex with this version of the case?",
+      "range": {
+        "startLine": 772,
+        "startChar": 5,
+        "endLine": 773,
+        "endChar": 12
+      },
+      "revId": "dc9630999431dfdbd587d1ccb4aefd520a10bb63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e6ec9ad_01f6fc0e",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-04-23T04:27:28Z",
+      "side": 1,
+      "message": "Short answer: no, because many decoders can share this map, so we can only perform reads.\n\nLong answer:\n\nI think we want to keep nameIndex to be for exact case-sensitive matches only. In the long run, it\u0027s still benefitial to know when a match is case sensitive or not. For example, that\u0027s necessary information to fix #14750, which I\u0027d like to take a stab at soon(ish).\n\nAnd in any case, I don\u0027t think case insensitive matches are common when one decodes large amounts of JSON data. If someone disagrees, they can always send another CL with added benchmarks. This CL already makes that case a bit faster, anyway.",
+      "parentUuid": "ae6afc84_3d0a899d",
       "range": {
         "startLine": 772,
         "startChar": 5,
