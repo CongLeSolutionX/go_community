@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e72acb2_2813ceec",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-23T19:35:52Z",
+      "side": 1,
+      "message": "Is this still needed? Its name is at least misleading now.",
+      "revId": "9fe7c03760073cc6e4c1bbb8be0b0f6fd26e02ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
