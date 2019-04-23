@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f815f1a_c0e3fd2a",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-23T14:37:54Z",
+      "side": 1,
+      "message": "can remove this Sprintf, but also harmless. Maybe it did something in earlier patchsets?",
+      "range": {
+        "startLine": 1424,
+        "startChar": 26,
+        "endLine": 1424,
+        "endChar": 62
+      },
+      "revId": "70e97bbadae4bb6a91a5ef131d39039b676e9eb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
