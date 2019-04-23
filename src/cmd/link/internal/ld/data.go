@@ -1959,6 +1959,30 @@ func (ctxt *Link) textbuildid() {
 	ctxt.Textp[0] = s
 }
 
+func (ctxt *Link) textbuildinfo() {
+	s := ctxt.Syms.Lookup("go.buildinfo", 0)
+	s.Attr |= sym.AttrReachable
+	s.Type = sym.STEXT
+	// The \xff is invalid UTF-8, meant to make it less likely
+	// to find one of these accidentally.
+	data := make([]byte, 32)
+	copy(data, []byte("\xff Go buildinf:"))
+	data[14] = byte(ctxt.Arch.PtrSize)
+	data[15] = 0
+	if ctxt.Arch.ByteOrder == binary.BigEndian {
+		data[15] = 1
+	}
+	s.P = data
+	s.Size = int64(len(s.P))
+	s.R = []sym.Reloc{
+		{Off: 16, Siz: uint8(ctxt.Arch.PtrSize), Type: objabi.R_ADDR, Sym: ctxt.Syms.Lookup("runtime.buildVersion", 0)},
+		{Off: 16 + int32(ctxt.Arch.PtrSize), Siz: uint8(ctxt.Arch.PtrSize), Type: objabi.R_ADDR, Sym: ctxt.Syms.Lookup("runtime.modinfo", 0)},
+	}
+	ctxt.Textp = append(ctxt.Textp, nil)
+	copy(ctxt.Textp[1:], ctxt.Textp)
+	ctxt.Textp[0] = s
+}
+
 // assign addresses to text
 func (ctxt *Link) textaddress() {
 	addsection(ctxt.Arch, &Segtext, ".text", 05)
