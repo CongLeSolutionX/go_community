@@ -13,7 +13,9 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"net/url"
 	urlpkg "net/url"
+	"os"
 )
 
 // SecurityMode specifies whether a function should make network
@@ -27,42 +29,56 @@ const (
 	Insecure                            // Allow plain HTTP if not explicitly HTTPS; skip HTTPS validation.
 )
 
+// An HTTPError describes an HTTP error response (non-200 result).
 type HTTPError struct {
-	status     string
+	URL        *urlpkg.URL
+	Status     string
 	StatusCode int
-	url        *urlpkg.URL
 }
 
 func (e *HTTPError) Error() string {
-	return fmt.Sprintf("%s: %s", e.url, e.status)
+	return fmt.Sprintf("reading %s: %v", e.URL, e.Status)
+}
+
+func (e *HTTPError) Is(target error) bool {
+	return target == os.ErrNotExist && (e.StatusCode == 404 || e.StatusCode == 410)
 }
 
 // GetBytes returns the body of the requested resource, or an error if the
-// response status was not http.StatusOk.
+// response status was not http.StatusOK.
 //
-// GetBytes is a convenience wrapper around Get.
+// GetBytes is a convenience wrapper around Get and Response.Err.
 func GetBytes(url *urlpkg.URL) ([]byte, error) {
-	url, resp, err := Get(DefaultSecurity, url)
+	resp, err := Get(DefaultSecurity, url)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode != 200 {
-		err := &HTTPError{status: resp.Status, StatusCode: resp.StatusCode, url: url}
+	if err := resp.Err(); err != nil {
 		return nil, err
 	}
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %v", url, err)
+		return nil, fmt.Errorf("reading %s: %v", url, err)
 	}
 	return b, nil
 }
 
 type Response struct {
+	URL        *url.URL // redacted URL
 	Status     string
 	StatusCode int
 	Header     map[string][]string
 	Body       io.ReadCloser
+}
+
+// Err returns an *HTTPError corresponding to the response r.
+// It returns nil if the response r has StatusCode 200 or 0 (unset).
+func (r *Response) Err() error {
+	if r.StatusCode == 200 || r.StatusCode == 0 {
+		return nil
+	}
+	return &HTTPError{URL: r.URL, Status: r.Status, StatusCode: r.StatusCode}
 }
 
 // Get returns the body of the HTTP or HTTPS resource specified at the given URL.
@@ -70,7 +86,8 @@ type Response struct {
 // If the URL does not include an explicit scheme, Get first tries "https".
 // If the server does not respond under that scheme and the security mode is
 // Insecure, Get then tries "http".
-// The returned URL indicates which scheme was actually used.
+// The URL included in the response indicates which scheme was actually used,
+// and it is a redacted URL suitable for use in error messages.
 //
 // For the "https" scheme only, credentials are attached using the
 // cmd/go/internal/auth package. If the URL itself includes a username and
@@ -79,13 +96,14 @@ type Response struct {
 //
 // Get returns a non-nil error only if the request did not receive a response
 // under any applicable scheme. (A non-2xx response does not cause an error.)
-func Get(security SecurityMode, url *urlpkg.URL) (*urlpkg.URL, *Response, error) {
+func Get(security SecurityMode, url *urlpkg.URL) (*Response, error) {
 	return get(security, url)
 }
 
-// PasswordRedacted returns url directly if it does not encode a password,
+// Redacted redacts URL to be suitable for printing.
+// It returns url directly if the URL does not encode a password,
 // or else a copy of url with the password redacted.
-func PasswordRedacted(url *urlpkg.URL) *urlpkg.URL {
+func Redacted(url *urlpkg.URL) *urlpkg.URL {
 	if url.User != nil {
 		if _, ok := url.User.Password(); ok {
 			redacted := *url
