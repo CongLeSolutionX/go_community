@@ -882,11 +882,16 @@ func dwarfDefineGlobal(ctxt *Link, s *sym.Symbol, str string, v int64, gotype *s
 }
 
 // For use with pass.c::genasmsym
-func defdwsymb(ctxt *Link, s *sym.Symbol, str string, t SymbolType, v int64, gotype *sym.Symbol) {
-	if strings.HasPrefix(str, "go.string.") {
+func defdwsymb(ctxt *Link, s *sym.Symbol, t SymbolType, v int64, gotype *sym.Symbol) {
+	sn := ""
+	if s != nil {
+		sn = ctxt.Syms.SymName(s)
+	}
+
+	if strings.HasPrefix(sn, "go.string.") {
 		return
 	}
-	if strings.HasPrefix(str, "runtime.gcbits.") {
+	if strings.HasPrefix(sn, "runtime.gcbits.") {
 		return
 	}
 
@@ -903,11 +908,10 @@ func defdwsymb(ctxt *Link, s *sym.Symbol, str string, t SymbolType, v int64, got
 		default:
 			return
 		}
-		sn := ctxt.Syms.SymName(s)
 		if ctxt.LinkMode != LinkExternal && isStaticTemp(sn) {
 			return
 		}
-		dwarfDefineGlobal(ctxt, s, str, v, gotype)
+		dwarfDefineGlobal(ctxt, s, sn, v, gotype)
 
 	case AutoSym, ParamSym, DeletedAutoSym:
 		defgotype(ctxt, gotype)

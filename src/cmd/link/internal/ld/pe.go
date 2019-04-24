@@ -669,7 +669,7 @@ func (f *peFile) mapToPESection(ctxt *Link, s *sym.Symbol, linkmode LinkMode) (p
 // writeSymbols writes all COFF symbol table records.
 func (f *peFile) writeSymbols(ctxt *Link) {
 
-	put := func(ctxt *Link, s *sym.Symbol, name string, type_ SymbolType, addr int64, gotype *sym.Symbol) {
+	put := func(ctxt *Link, s *sym.Symbol, type_ SymbolType, addr int64, gotype *sym.Symbol) {
 		if s == nil {
 			return
 		}
