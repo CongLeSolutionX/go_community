@@ -2,6 +2,80 @@
   "comments": [
     {
       "key": {
+        "uuid": "5e455dab_b50aed16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-24T21:41:57Z",
+      "side": 1,
+      "message": "The relnote tool doesn\u0027t respect this here. (Maybe it should?)\n\nCurrently it\u0027s only supported as a comment in Gerrit.",
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa4fb12f_2aed91ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-24T21:41:57Z",
+      "side": 1,
+      "message": "no trailing period (minor, and normally I\u0027d let it slide, but since I already commented on this commit message...)",
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "630d3962_01cc6b8c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-24T21:41:57Z",
+      "side": 1,
+      "message": "move the period outside of the quote?",
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c3cb1dd_374bdd58",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-24T21:41:57Z",
+      "side": 1,
+      "message": "where do you validate that count isn\u0027t negative now?",
+      "range": {
+        "startLine": 282,
+        "startChar": 14,
+        "endLine": 282,
+        "endChar": 15
+      },
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28f4c6f2_75e45979",
         "filename": "src/testing/testing.go",
         "patchSetId": 1
