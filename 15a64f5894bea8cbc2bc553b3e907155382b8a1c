@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a4e9f207_d9d7adee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-04-24T22:20:08Z",
+      "side": 1,
+      "message": "Hah, I spent longer than I wanted to trying to remember how RELNOTE works (eventually I found https://github.com/golang/go/wiki/CodeReview but that doesn\u0027t make it clear what\u0027s supported). Eventually I incorrectly decided that RELNOTE in the commit message must work because I saw lots of other commits that were doing it.\n\nI opened #31665.",
+      "parentUuid": "5e455dab_b50aed16",
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa4fb12f_2aed91ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "46420585_780a5f96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-04-24T22:20:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa4fb12f_2aed91ce",
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "630d3962_01cc6b8c",
         "filename": "src/testing/testing.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2019-04-24T21:41:57Z",
       "side": 1,
       "message": "move the period outside of the quote?",
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "579c3733_e03fb858",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-04-24T22:20:08Z",
+      "side": 1,
+      "message": "It\u0027s my understanding that American style is to always put the period inside the quotation marks, though I agree that it looks kind of strange.\n\nA few existing examples:\n\nhttps://github.com/golang/go/blob/57076b8e6edb6ee19b86ab349b8f7a85819e0085/doc/progs/error.go#L5\nhttps://github.com/golang/go/blob/57076b8e6edb6ee19b86ab349b8f7a85819e0085/test/fixedbugs/issue16130.go#L9\nhttps://github.com/golang/go/blob/57076b8e6edb6ee19b86ab349b8f7a85819e0085/src/cmd/compile/internal/gc/escape.go#L44\nhttps://github.com/golang/go/blob/57076b8e6edb6ee19b86ab349b8f7a85819e0085/src/runtime/proc.go#L1327\n\nPerhaps I should try rewording it to sidestep the issue?",
+      "parentUuid": "630d3962_01cc6b8c",
       "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -73,6 +127,30 @@
       "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02953b57_d91ae5c7",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-04-24T22:20:08Z",
+      "side": 1,
+      "message": "I just made this change because Russ did it in CL 49251, but to be honest it seems better to leave it as a uint so that flag.Parse does the error checking for us.",
+      "parentUuid": "1c3cb1dd_374bdd58",
+      "range": {
+        "startLine": 282,
+        "startChar": 14,
+        "endLine": 282,
+        "endChar": 15
+      },
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
