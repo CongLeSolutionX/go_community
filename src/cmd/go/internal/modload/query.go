@@ -109,7 +109,25 @@ func Query(path, query string, allowed func(module.Version) bool) (*modfetch.Rev
 		if !allowed(module.Version{Path: path, Version: vers}) {
 			return nil, fmt.Errorf("%s@%s excluded", path, vers)
 		}
-		return modfetch.Stat(path, vers)
+		info, err := modfetch.Stat(path, vers)
+		if err != nil {
+			return info, err
+		}
+
+		// Print a warning if we converted a normal semver version to a
+		// pseudo-version.
+		if !modfetch.IsPseudoVersion(query) && modfetch.IsPseudoVersion(info.Version) {
+			pathPrefix, _, ok := module.SplitPathVersion(path)
+			if !ok {
+				// Should never happen given we haven't hit this error up until
+				// this point.
+				return nil, fmt.Errorf("invalid module path %q", path)
+			}
+			expectedMajor := semver.Major(query)
+			expectedModule := fmt.Sprintf("%s/%s", pathPrefix, expectedMajor)
+			return info, fmt.Errorf("go.mod is missing required /%s at end of module path at revision %s (expected %q)", expectedMajor, info.Short, expectedModule)
+		}
+		return info, nil
 
 	default:
 		// Direct lookup of semantic version or commit identifier.
