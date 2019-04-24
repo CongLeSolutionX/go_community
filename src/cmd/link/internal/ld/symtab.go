@@ -77,7 +77,7 @@ var numelfsym = 1 // 0 is reserved
 
 var elfbind int
 
-func putelfsym(ctxt *Link, x *sym.Symbol, s string, t SymbolType, addr int64, go_ *sym.Symbol) {
+func putelfsym(ctxt *Link, x *sym.Symbol, t SymbolType, addr int64, go_ *sym.Symbol) {
 	var typ int
 
 	switch t {
@@ -167,6 +167,7 @@ func putelfsym(ctxt *Link, x *sym.Symbol, s string, t SymbolType, addr int64, go
 	// When dynamically linking, we create Symbols by reading the names from
 	// the symbol tables of the shared libraries and so the names need to
 	// match exactly. Tools like DTrace will have to wait for now.
+	s := ctxt.Syms.SymName(x)
 	if !ctxt.DynlinkingGo() {
 		// Rewrite · to . for ASCII-only tools like DTrace (sigh)
 		s = strings.Replace(s, "·", ".", -1)
@@ -221,7 +222,7 @@ func Asmelfsym(ctxt *Link) {
 	genasmsym(ctxt, putelfsym)
 }
 
-func putplan9sym(ctxt *Link, x *sym.Symbol, s string, typ SymbolType, addr int64, go_ *sym.Symbol) {
+func putplan9sym(ctxt *Link, x *sym.Symbol, typ SymbolType, addr int64, go_ *sym.Symbol) {
 	t := int(typ)
 	switch typ {
 	case TextSym, DataSym, BSSSym:
@@ -232,6 +233,12 @@ func putplan9sym(ctxt *Link, x *sym.Symbol, s string, typ SymbolType, addr int64
 
 	case AutoSym, ParamSym, FrameSym:
 		l := 4
+		xn := ""
+		if typ == FrameSym {
+			xn = ".frame"
+		} else {
+			xn = ctxt.Syms.SymName(x)
+		}
 		if ctxt.HeadType == objabi.Hplan9 && ctxt.Arch.Family == sys.AMD64 && !Flag8 {
 			ctxt.Out.Write32b(uint32(addr >> 32))
 			l = 8
@@ -240,10 +247,10 @@ func putplan9sym(ctxt *Link, x *sym.Symbol, s string, typ SymbolType, addr int64
 		ctxt.Out.Write32b(uint32(addr))
 		ctxt.Out.Write8(uint8(t + 0x80)) /* 0x80 is variable length */
 
-		ctxt.Out.WriteString(s)
+		ctxt.Out.WriteString(xn)
 		ctxt.Out.Write8(0)
 
-		Symsize += int32(l) + 1 + int32(len(s)) + 1
+		Symsize += int32(l) + 1 + int32(len(xn)) + 1
 
 	default:
 		return

@@ -2225,7 +2225,7 @@ const (
 	DeletedAutoSym = 'x'
 )
 
-func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int64, *sym.Symbol)) {
+func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, SymbolType, int64, *sym.Symbol)) {
 	// These symbols won't show up in the first loop below because we
 	// skip sym.STEXT symbols. Normal sym.STEXT symbols are emitted by walking textp.
 	s := ctxt.Syms.Lookup("runtime.text", 0)
@@ -2235,7 +2235,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 		// on AIX with external linker.
 		// See data.go:/textaddress
 		if !(ctxt.DynlinkingGo() && ctxt.HeadType == objabi.Hdarwin) && !(ctxt.HeadType == objabi.Haix && ctxt.LinkMode == LinkExternal) {
-			put(ctxt, s, ctxt.Syms.SymName(s), TextSym, s.Value, nil)
+			put(ctxt, s, TextSym, s.Value, nil)
 		}
 	}
 
@@ -2256,7 +2256,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 			break
 		}
 		if s.Type == sym.STEXT {
-			put(ctxt, s, ctxt.Syms.SymName(s), TextSym, s.Value, nil)
+			put(ctxt, s, TextSym, s.Value, nil)
 		}
 		n++
 	}
@@ -2268,7 +2268,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 		// on AIX with external linker.
 		// See data.go:/textaddress
 		if !(ctxt.DynlinkingGo() && ctxt.HeadType == objabi.Hdarwin) && !(ctxt.HeadType == objabi.Haix && ctxt.LinkMode == LinkExternal) {
-			put(ctxt, s, ctxt.Syms.SymName(s), TextSym, s.Value, nil)
+			put(ctxt, s, TextSym, s.Value, nil)
 		}
 	}
 
@@ -2307,7 +2307,7 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 			if !s.Attr.Reachable() {
 				continue
 			}
-			put(ctxt, s, sn, DataSym, ctxt.Symaddr(s), s.Gotype)
+			put(ctxt, s, DataSym, ctxt.Symaddr(s), s.Gotype)
 
 		case sym.SBSS, sym.SNOPTRBSS:
 			if !s.Attr.Reachable() {
@@ -2316,44 +2316,43 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 			if len(s.P) > 0 {
 				ctxt.Errorf(s, "should not be bss (size=%d type=%v special=%v)", len(s.P), s.Type, s.Attr.Special())
 			}
-			put(ctxt, s, sn, BSSSym, ctxt.Symaddr(s), s.Gotype)
+			put(ctxt, s, BSSSym, ctxt.Symaddr(s), s.Gotype)
 
 		case sym.SHOSTOBJ:
 			if ctxt.HeadType == objabi.Hwindows || ctxt.IsELF {
-				put(ctxt, s, sn, UndefinedSym, s.Value, nil)
+				put(ctxt, s, UndefinedSym, s.Value, nil)
 			}
 
 		case sym.SDYNIMPORT:
 			if !s.Attr.Reachable() {
 				continue
 			}
-			put(ctxt, s, ctxt.Syms.SymExtname(s), UndefinedSym, 0, nil)
+			put(ctxt, s, UndefinedSym, 0, nil)
 
 		case sym.STLSBSS:
 			if ctxt.LinkMode == LinkExternal {
-				put(ctxt, s, sn, TLSSym, ctxt.Symaddr(s), s.Gotype)
+				put(ctxt, s, TLSSym, ctxt.Symaddr(s), s.Gotype)
 			}
 		}
 	}
 
 	var off int32
 	for _, s := range ctxt.Textp {
-		sn := ctxt.Syms.SymName(s)
-		put(ctxt, s, sn, TextSym, s.Value, s.Gotype)
+		put(ctxt, s, TextSym, s.Value, s.Gotype)
 
 		locals := int32(0)
 		if s.FuncInfo != nil {
 			locals = s.FuncInfo.Locals
 		}
 		// NOTE(ality): acid can't produce a stack trace without .frame symbols
-		put(ctxt, nil, ".frame", FrameSym, int64(locals)+int64(ctxt.Arch.PtrSize), nil)
+		put(ctxt, nil, FrameSym, int64(locals)+int64(ctxt.Arch.PtrSize), nil)
 
 		if s.FuncInfo == nil {
 			continue
 		}
 		for _, a := range s.FuncInfo.Autom {
 			if a.Name == objabi.A_DELETED_AUTO {
-				put(ctxt, nil, "", DeletedAutoSym, 0, a.Gotype)
+				put(ctxt, nil, DeletedAutoSym, 0, a.Gotype)
 				continue
 			}
 
@@ -2372,13 +2371,13 @@ func genasmsym(ctxt *Link, put func(*Link, *sym.Symbol, string, SymbolType, int6
 
 			// FP
 			if off >= 0 {
-				put(ctxt, nil, ctxt.Syms.SymName(a.Asym), ParamSym, int64(off), a.Gotype)
+				put(ctxt, a.Asym, ParamSym, int64(off), a.Gotype)
 				continue
 			}
 
 			// SP
 			if off <= int32(-ctxt.Arch.PtrSize) {
-				put(ctxt, nil, ctxt.Syms.SymName(a.Asym), AutoSym, -(int64(off) + int64(ctxt.Arch.PtrSize)), a.Gotype)
+				put(ctxt, a.Asym, AutoSym, -(int64(off) + int64(ctxt.Arch.PtrSize)), a.Gotype)
 				continue
 			}
 			// Otherwise, off is addressing the saved program counter.
