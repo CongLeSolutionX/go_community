@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e58035d2_f3ec5dde",
+        "filename": "test/fixedbugs/issue31637.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-04-24T14:57:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "024ce050_45016bbc",
+      "revId": "435d33ae07c0332cb50c03127c4fbef49dd63ff2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab6e5913_5d98ccda",
         "filename": "test/fixedbugs/issue31637.dir/b.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "435d33ae07c0332cb50c03127c4fbef49dd63ff2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c7476db_1621e9cb",
+        "filename": "test/fixedbugs/issue31637.dir/b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-04-24T14:57:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab6e5913_5d98ccda",
+      "revId": "435d33ae07c0332cb50c03127c4fbef49dd63ff2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
