@@ -84,6 +84,24 @@
       "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b01cc11_95eaf23a",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2019-04-24T21:32:25Z",
+      "side": 1,
+      "message": "My quick two cents is I think that softens the message a fair amount, especially removing the current text of \"go.mod is missing the required /v2\", which seems to be a clear statement of the requirement that is being violated.\n\nPart of the hope is someone will see this message and think something is incorrect. If they see this message and are the author of the triggering module, then hopefully they will realize they have an invalid go.mod. If they are a consumer of a module that triggers this message, hopefully some non-zero percent will file an issue, which then hopefully will cause the author to realize they have an invalid go.mod.\n\nOne thing to note regarding \"using equivalent pseudoversion...\" is if you look at example 3, this warning is followed by a fatal error (so it doesn\u0027t end up \"using\" the pseudoversion, but maybe that is a nit).",
+      "parentUuid": "7a6cd7b1_5e2ea194",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
