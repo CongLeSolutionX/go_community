@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28f4c6f2_75e45979",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-04-24T21:27:41Z",
+      "side": 1,
+      "message": "Here and in Verbose, it\u0027s weird to have two different ways of bailing out on misuse:\n\n- Both Init and flag.Parse need to be called before using these; we have to check for both.\n- A panic seemed fine for detecting when Init hasn\u0027t been called (and that\u0027s what Russ used in CL 49251).\n- But I don\u0027t understand the comment \"this really shouldn\u0027t be a panic\" regarding the case that flag.Parse wasn\u0027t called. Ian?\n\nAs far as I\u0027m concerned, we could consolidate these into a single panic.",
+      "range": {
+        "startLine": 369,
+        "startChar": 2,
+        "endLine": 369,
+        "endChar": 7
+      },
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
