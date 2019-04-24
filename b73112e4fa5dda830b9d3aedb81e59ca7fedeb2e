@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3bbbff71_519bb360",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-04-24T17:49:26Z",
+      "side": 1,
+      "message": "html/template: add support for Javascript modules\n\n\u003cAdd the prose description here and any references\nsuch as the one Mike Samuel provided\u003e\n\nFixes #31327",
+      "revId": "b73112e4fa5dda830b9d3aedb81e59ca7fedeb2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dde457f1_24edddc0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
