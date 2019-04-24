@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54aa3096_efe0b642",
+        "filename": "src/cmd/go/internal/web/api.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-24T14:48:00Z",
+      "side": 1,
+      "message": "Double import now. Okay, but slightly weird. Your call.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 17
+      },
+      "revId": "5be0bd9c51418e1b6d1f11dd8e9a5632fd03cf52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b988492_033ba39e",
+        "filename": "src/cmd/go/internal/web/api.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-24T14:48:00Z",
+      "side": 1,
+      "message": "If you keep net/url above, make this public type be \"url.URL\" instead, for godoc. (even if internal).\n\nAlso, is this pre-redacted like Response\u0027s field?",
+      "revId": "5be0bd9c51418e1b6d1f11dd8e9a5632fd03cf52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be26bf3d_8b1eb677",
+        "filename": "src/cmd/go/internal/web/api.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-24T14:48:00Z",
+      "side": 1,
+      "message": "redacted?",
+      "range": {
+        "startLine": 40,
+        "startChar": 38,
+        "endLine": 40,
+        "endChar": 43
+      },
+      "revId": "5be0bd9c51418e1b6d1f11dd8e9a5632fd03cf52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ad1631a_1e1c9088",
+        "filename": "src/cmd/go/internal/web/api.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-24T14:48:00Z",
+      "side": 1,
+      "message": "... looks like it is redacted. Add comment above?",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 30
+      },
+      "revId": "5be0bd9c51418e1b6d1f11dd8e9a5632fd03cf52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
