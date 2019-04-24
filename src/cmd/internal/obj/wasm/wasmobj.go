@@ -60,6 +60,8 @@ var Register = map[string]int16{
 	"F13": REG_F13,
 	"F14": REG_F14,
 	"F15": REG_F15,
+
+	"SP_L": REG_SP_L,
 }
 
 var registerNames []string
@@ -180,14 +182,14 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		// I64Eqz
 		// Not
 		// If
-		//   Get SP
+		//   Get SP_L
 		//   I64ExtendI32U
 		//   I64Const $framesize+8
 		//   I64Add
 		//   I64Load panic_argp(R0)
 		//   I64Eq
 		//   If
-		//     MOVD SP, panic_argp(R0)
+		//     MOVD SP_L, panic_argp(R0)
 		//   End
 		// End
 
@@ -211,7 +213,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		p = appendp(p, ANot)
 		p = appendp(p, AIf)
 
-		p = appendp(p, AGet, regAddr(REG_SP))
+		p = appendp(p, AGet, regAddr(REG_SP_L))
 		p = appendp(p, AI64ExtendI32U)
 		p = appendp(p, AI64Const, constAddr(framesize+8))
 		p = appendp(p, AI64Add)
@@ -219,7 +221,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 		p = appendp(p, AI64Eq)
 		p = appendp(p, AIf)
-		p = appendp(p, AMOVD, regAddr(REG_SP), panicargp)
+		p = appendp(p, AMOVD, regAddr(REG_SP_L), panicargp)
 		p = appendp(p, AEnd)
 
 		p = appendp(p, AEnd)
@@ -227,9 +229,10 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 	if framesize > 0 {
 		p := s.Func.Text
-		p = appendp(p, AGet, regAddr(REG_SP))
+		p = appendp(p, AGet, regAddr(REG_SP_L))
 		p = appendp(p, AI32Const, constAddr(framesize))
 		p = appendp(p, AI32Sub)
+		p = appendp(p, ATee, regAddr(REG_SP_L))
 		p = appendp(p, ASet, regAddr(REG_SP))
 		p.Spadj = int32(framesize)
 	}
@@ -299,13 +302,13 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 		if framesize <= objabi.StackSmall {
 			// small stack: SP <= stackguard
-			// Get SP
+			// Get SP_L
 			// Get g
 			// I32WrapI64
 			// I32Load $stackguard0
 			// I32GtU
 
-			p = appendp(p, AGet, regAddr(REG_SP))
+			p = appendp(p, AGet, regAddr(REG_SP_L))
 			p = appendp(p, AGet, regAddr(REGG))
 			p = appendp(p, AI32WrapI64)
 			p = appendp(p, AI32Load, constAddr(2*int64(ctxt.Arch.PtrSize))) // G.stackguard0
@@ -313,7 +316,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		} else {
 			// large stack: SP-framesize <= stackguard-StackSmall
 			//              SP <= stackguard+(framesize-StackSmall)
-			// Get SP
+			// Get SP_L
 			// Get g
 			// I32WrapI64
 			// I32Load $stackguard0
@@ -321,7 +324,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			// I32Add
 			// I32GtU
 
-			p = appendp(p, AGet, regAddr(REG_SP))
+			p = appendp(p, AGet, regAddr(REG_SP_L))
 			p = appendp(p, AGet, regAddr(REGG))
 			p = appendp(p, AI32WrapI64)
 			p = appendp(p, AI32Load, constAddr(2*int64(ctxt.Arch.PtrSize))) // G.stackguard0
@@ -403,14 +406,25 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				p = appendp(p, ALoop)
 			}
 
+			if false {
+				// check invariant: local & global SP must be equal
+				p = appendp(p, AGet, regAddr(REG_SP))
+				p = appendp(p, AGet, regAddr(REG_SP_L))
+				p = appendp(p, AI32Ne)
+				p = appendp(p, AIf)
+				p = appendp(p, obj.AUNDEF)
+				p = appendp(p, AEnd)
+			}
+
 			// SP -= 8
-			p = appendp(p, AGet, regAddr(REG_SP))
+			p = appendp(p, AGet, regAddr(REG_SP_L))
 			p = appendp(p, AI32Const, constAddr(8))
 			p = appendp(p, AI32Sub)
+			p = appendp(p, ATee, regAddr(REG_SP_L))
 			p = appendp(p, ASet, regAddr(REG_SP))
 
 			// write return address to Go stack
-			p = appendp(p, AGet, regAddr(REG_SP))
+			p = appendp(p, AGet, regAddr(REG_SP_L))
 			p = appendp(p, AI64Const, obj.Addr{
 				Type:   obj.TYPE_ADDR,
 				Name:   obj.NAME_EXTERN,
@@ -476,11 +490,22 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			ret := *p
 			p.As = obj.ANOP
 
+			if false {
+				// check invariant: local & global SP must be equal
+				p = appendp(p, AGet, regAddr(REG_SP))
+				p = appendp(p, AGet, regAddr(REG_SP_L))
+				p = appendp(p, AI32Ne)
+				p = appendp(p, AIf)
+				p = appendp(p, obj.AUNDEF)
+				p = appendp(p, AEnd)
+			}
+
 			if framesize > 0 {
 				// SP += framesize
-				p = appendp(p, AGet, regAddr(REG_SP))
+				p = appendp(p, AGet, regAddr(REG_SP_L))
 				p = appendp(p, AI32Const, constAddr(framesize))
 				p = appendp(p, AI32Add)
+				p = appendp(p, ATee, regAddr(REG_SP_L))
 				p = appendp(p, ASet, regAddr(REG_SP))
 				// TODO(neelance): This should theoretically set Spadj, but it only works without.
 				// p.Spadj = int32(-framesize)
@@ -498,17 +523,17 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			}
 
 			// read return PC_F from Go stack
-			p = appendp(p, AGet, regAddr(REG_SP))
+			p = appendp(p, AGet, regAddr(REG_SP_L))
 			p = appendp(p, AI32Load16U, constAddr(2))
 			p = appendp(p, ASet, regAddr(REG_PC_F))
 
 			// read return PC_B from Go stack
-			p = appendp(p, AGet, regAddr(REG_SP))
+			p = appendp(p, AGet, regAddr(REG_SP_L))
 			p = appendp(p, AI32Load16U, constAddr(0))
 			p = appendp(p, ASet, regAddr(REG_PC_B))
 
 			// SP += 8
-			p = appendp(p, AGet, regAddr(REG_SP))
+			p = appendp(p, AGet, regAddr(REG_SP_L))
 			p = appendp(p, AI32Const, constAddr(8))
 			p = appendp(p, AI32Add)
 			p = appendp(p, ASet, regAddr(REG_SP))
@@ -531,7 +556,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		case obj.NAME_AUTO:
 			p.From.Offset += int64(framesize)
 		case obj.NAME_PARAM:
-			p.From.Reg = REG_SP
+			p.From.Reg = REG_SP_L
 			p.From.Offset += int64(framesize) + 8 // parameters are after the frame and the 8-byte return address
 		}
 
@@ -539,7 +564,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		case obj.NAME_AUTO:
 			p.To.Offset += int64(framesize)
 		case obj.NAME_PARAM:
-			p.To.Reg = REG_SP
+			p.To.Reg = REG_SP_L
 			p.To.Offset += int64(framesize) + 8 // parameters are after the frame and the 8-byte return address
 		}
 
@@ -554,7 +579,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 					p = appendp(p, AI64Const, get.From)
 				case obj.NAME_AUTO, obj.NAME_PARAM:
 					p = appendp(p, AGet, regAddr(get.From.Reg))
-					if get.From.Reg == REG_SP {
+					if get.From.Reg == REG_SP || get.From.Reg == REG_SP_L {
 						p = appendp(p, AI64ExtendI32U)
 					}
 					if get.From.Offset != 0 {
@@ -574,7 +599,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				p.As = AGet
 				p.From = regAddr(from.Reg)
 
-				if from.Reg != REG_SP {
+				if from.Reg != REG_SP && from.Reg != REG_SP_L {
 					p = appendp(p, AI32WrapI64)
 				}
 
@@ -611,7 +636,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 					switch mov.From.Name {
 					case obj.NAME_NONE, obj.NAME_PARAM, obj.NAME_AUTO:
 						p = appendp(p, AGet, regAddr(mov.From.Reg))
-						if mov.From.Reg == REG_SP {
+						if mov.From.Reg == REG_SP || mov.From.Reg == REG_SP_L {
 							p = appendp(p, AI64ExtendI32U)
 						}
 						p = appendp(p, AI64Const, constAddr(mov.From.Offset))
@@ -624,13 +649,13 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 				case obj.TYPE_REG:
 					p = appendp(p, AGet, mov.From)
-					if mov.From.Reg == REG_SP {
+					if mov.From.Reg == REG_SP || mov.From.Reg == REG_SP_L {
 						p = appendp(p, AI64ExtendI32U)
 					}
 
 				case obj.TYPE_MEM:
 					p = appendp(p, AGet, regAddr(mov.From.Reg))
-					if mov.From.Reg != REG_SP {
+					if mov.From.Reg != REG_SP && mov.From.Reg != REG_SP_L {
 						p = appendp(p, AI32WrapI64)
 					}
 					p = appendp(p, loadAs, constAddr(mov.From.Offset))
@@ -643,7 +668,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			switch mov.To.Type {
 			case obj.TYPE_REG:
 				appendValue()
-				if mov.To.Reg == REG_SP {
+				if mov.To.Reg == REG_SP || mov.To.Reg == REG_SP_L {
 					p = appendp(p, AI32WrapI64)
 				}
 				p = appendp(p, ASet, mov.To)
@@ -652,7 +677,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				switch mov.To.Name {
 				case obj.NAME_NONE, obj.NAME_PARAM:
 					p = appendp(p, AGet, regAddr(mov.To.Reg))
-					if mov.To.Reg != REG_SP {
+					if mov.To.Reg != REG_SP && mov.To.Reg != REG_SP_L {
 						p = appendp(p, AI32WrapI64)
 					}
 				case obj.NAME_EXTERN:
@@ -669,14 +694,25 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 		case ACallImport:
 			p.As = obj.ANOP
-			p = appendp(p, AGet, regAddr(REG_SP))
+			p = appendp(p, AGet, regAddr(REG_SP_L))
 			p = appendp(p, ACall, obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_EXTERN, Sym: s})
 			p.Mark = WasmImport
+			fallthrough
+
+		case ACall, ACallIndirect:
+			// Stack may have been moved, update SP local cache
+			p = appendp(p, AGet, regAddr(REG_SP))
+			p = appendp(p, ASet, regAddr(REG_SP_L))
 		}
 	}
 
 	{
 		p := s.Func.Text
+
+		// cache SP on entry
+		p = appendp(p, AGet, regAddr(REG_SP))
+		p = appendp(p, ASet, regAddr(REG_SP_L))
+
 		if len(unwindExitBranches) > 0 {
 			p = appendp(p, ABlock) // unwindExit, used to return 1 when unwinding the stack
 			for _, b := range unwindExitBranches {
@@ -771,6 +807,23 @@ func countRegisters(s *obj.LSym) (numI, numF int16) {
 	return
 }
 
+// Most of the Go functions has no parameter in Wasm ABI.
+// This is a list of exceptions, mapping from function name
+// to the number of Wasm parameters.
+var funcParams = map[string]int16{
+	"wasm_export_run":        2, // argc, argv
+	"runtime.wasmMove":       3, // dst, src, len
+	"runtime.wasmZero":       2, // ptr, len
+	"runtime.wasmDiv":        2, // x, y -> x/y
+	"runtime.wasmTruncS":     1, // x -> int(x)
+	"runtime.wasmTruncU":     1, // x -> uint(x)
+	"runtime.gcWriteBarrier": 2, // ptr, val
+	"cmpbody":                4, // a, alen, b, blen -> -1/0/1
+	"memeqbody":              3, // a, b, len -> 0/1
+	"memcmp":                 3, // a, b, len -> <0/0/>0
+	"memchr":                 3, // s, c, len -> i
+}
+
 func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 	w := new(bytes.Buffer)
 
@@ -781,30 +834,37 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 	// memchr and memcmp don't use the normal Go calling convention and need i32 variables.
 	case "memchr":
 		writeUleb128(w, 1) // number of sets of locals
-		writeUleb128(w, 3) // number of locals
+		writeUleb128(w, 4) // number of locals
 		w.WriteByte(0x7F)  // i32
 	case "memcmp":
 		writeUleb128(w, 1) // number of sets of locals
-		writeUleb128(w, 2) // number of locals
+		writeUleb128(w, 3) // number of locals
 		w.WriteByte(0x7F)  // i32
 	default:
-		numTypes := 0
-		if numI > 0 {
+		// Parameters and locals share numbering, but parameters
+		// are not included in the decl list.
+		cI := numI - funcParams[s.Name]
+		cF := numF
+
+		numTypes := 1
+		if cI > 0 {
 			numTypes++
 		}
-		if numF > 0 {
+		if cF > 0 {
 			numTypes++
 		}
 
 		writeUleb128(w, uint64(numTypes))
-		if numI > 0 {
-			writeUleb128(w, uint64(numI)) // number of locals
-			w.WriteByte(0x7E)             // i64
+		if cI > 0 {
+			writeUleb128(w, uint64(cI)) // number of locals
+			w.WriteByte(0x7E)           // i64
 		}
-		if numF > 0 {
-			writeUleb128(w, uint64(numF)) // number of locals
-			w.WriteByte(0x7C)             // f64
+		if cF > 0 {
+			writeUleb128(w, uint64(cF)) // number of locals
+			w.WriteByte(0x7C)           // f64
 		}
+		writeUleb128(w, 1) // number of locals (SP_L)
+		w.WriteByte(0x7F)  // i32
 	}
 
 	for p := s.Func.Text; p != nil; p = p.Link {
@@ -824,6 +884,9 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			case reg >= REG_F0 && reg <= REG_F15:
 				w.WriteByte(0x20) // local.get (f64)
 				writeUleb128(w, uint64(numI+(reg-REG_F0)))
+			case reg == REG_SP_L:
+				w.WriteByte(0x20) // local.get (i32)
+				writeUleb128(w, uint64(numI+numF))
 			default:
 				panic("bad Get: invalid register")
 			}
@@ -838,7 +901,7 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			case reg >= REG_PC_F && reg <= REG_PAUSE:
 				w.WriteByte(0x24) // global.set
 				writeUleb128(w, uint64(reg-REG_PC_F))
-			case reg >= REG_R0 && reg <= REG_F15:
+			case reg >= REG_R0 && reg <= REG_SP_L:
 				if p.Link.As == AGet && p.Link.From.Reg == reg {
 					w.WriteByte(0x22) // local.tee
 					p = p.Link
@@ -847,8 +910,10 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				}
 				if reg <= REG_R15 {
 					writeUleb128(w, uint64(reg-REG_R0))
-				} else {
+				} else if reg <= REG_F15 {
 					writeUleb128(w, uint64(numI+(reg-REG_F0)))
+				} else {
+					writeUleb128(w, uint64(numI+numF))
 				}
 			default:
 				panic("bad Set: invalid register")
@@ -867,6 +932,9 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			case reg >= REG_F0 && reg <= REG_F15:
 				w.WriteByte(0x22) // local.tee (f64)
 				writeUleb128(w, uint64(numI+(reg-REG_F0)))
+			case reg == REG_SP_L:
+				w.WriteByte(0x22) // local.tee (i32)
+				writeUleb128(w, uint64(numI+numF))
 			default:
 				panic("bad Tee: invalid register")
 			}

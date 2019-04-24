@@ -279,6 +279,7 @@ const (
 	REG_R13
 	REG_R14
 	REG_R15
+
 	REG_F0
 	REG_F1
 	REG_F2
@@ -296,10 +297,12 @@ const (
 	REG_F14
 	REG_F15
 
+	REG_SP_L // local cache of SP, i32
+
 	MAXREG
 
 	MINREG  = REG_PC_F
-	REGSP   = REG_SP
+	REGSP   = REG_SP_L
 	REGCTXT = REG_CTXT
 	REGG    = REG_g
 )

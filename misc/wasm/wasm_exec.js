@@ -232,7 +232,7 @@
 
 					// func wasmExit(code int32)
 					"runtime.wasmExit": (sp) => {
-						const code = mem().getInt32(sp + 8, true);
+						const code = mem().getInt32(sp + 16, true);
 						this.exited = true;
 						delete this._inst;
 						delete this._values;

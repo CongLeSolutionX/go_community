@@ -15,7 +15,7 @@ import (
 
 func Init(arch *gc.Arch) {
 	arch.LinkArch = &wasm.Linkwasm
-	arch.REGSP = wasm.REG_SP
+	arch.REGSP = wasm.REG_SP_L
 	arch.MAXWIDTH = 1 << 50
 
 	arch.ZeroRange = zeroRange
@@ -37,7 +37,7 @@ func zeroRange(pp *gc.Progs, p *obj.Prog, off, cnt int64, state *uint32) *obj.Pr
 	}
 
 	for i := int64(0); i < cnt; i += 8 {
-		p = pp.Appendpp(p, wasm.AGet, obj.TYPE_REG, wasm.REG_SP, 0, 0, 0, 0)
+		p = pp.Appendpp(p, wasm.AGet, obj.TYPE_REG, wasm.REG_SP_L, 0, 0, 0, 0)
 		p = pp.Appendpp(p, wasm.AI64Const, obj.TYPE_CONST, 0, 0, 0, 0, 0)
 		p = pp.Appendpp(p, wasm.AI64Store, 0, 0, 0, obj.TYPE_CONST, 0, off+i)
 	}
@@ -50,7 +50,7 @@ func zeroAuto(pp *gc.Progs, n *gc.Node) {
 	size := n.Type.Size()
 	for i := int64(0); i < size; i += 8 {
 		p := pp.Prog(wasm.AGet)
-		p.From = obj.Addr{Type: obj.TYPE_REG, Reg: wasm.REG_SP}
+		p.From = obj.Addr{Type: obj.TYPE_REG, Reg: wasm.REG_SP_L}
 
 		p = pp.Prog(wasm.AI64Const)
 		p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: 0}
@@ -183,7 +183,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To = obj.Addr{Type: obj.TYPE_CONST, Offset: v.AuxInt}
 
 	case ssa.OpStoreReg:
-		getReg(s, wasm.REG_SP)
+		getReg(s, wasm.REG_SP_L)
 		getValue64(s, v.Args[0])
 		if v.Type.Etype == types.TFLOAT32 {
 			s.Prog(wasm.AF32DemoteF64)
@@ -229,7 +229,7 @@ func ssaGenValueOnStack(s *gc.SSAGenState, v *ssa.Value) {
 		p.From = obj.Addr{
 			Type:   obj.TYPE_ADDR,
 			Name:   obj.NAME_PARAM,
-			Reg:    wasm.REG_SP,
+			Reg:    wasm.REG_SP_L,
 			Offset: 0,
 		}
 
@@ -358,7 +358,7 @@ func getValue32(s *gc.SSAGenState, v *ssa.Value) {
 
 	reg := v.Reg()
 	getReg(s, reg)
-	if reg != wasm.REG_SP {
+	if reg != wasm.REG_SP && reg != wasm.REG_SP_L {
 		s.Prog(wasm.AI32WrapI64)
 	}
 }
@@ -372,7 +372,7 @@ func getValue64(s *gc.SSAGenState, v *ssa.Value) {
 
 	reg := v.Reg()
 	getReg(s, reg)
-	if reg == wasm.REG_SP {
+	if reg == wasm.REG_SP || reg == wasm.REG_SP_L {
 		s.Prog(wasm.AI64ExtendI32U)
 	}
 }

@@ -35,7 +35,8 @@ TEXT ·checkASM(SB), NOSPLIT, $0-1
 TEXT runtime·gogo(SB), NOSPLIT, $0-8
 	MOVD buf+0(FP), R0
 	MOVD gobuf_g(R0), g
-	MOVD gobuf_sp(R0), SP
+	MOVD gobuf_sp(R0), SP_L
+	MOVD SP_L, SP
 
 	I64Load gobuf_pc(R0)
 	I32WrapI64
@@ -89,6 +90,7 @@ TEXT runtime·mcall(SB), NOSPLIT, $0-8
 	I64Const $8
 	I64Sub
 	I32WrapI64
+	Tee SP_L
 	Set SP
 
 	// set arg to current g
@@ -160,7 +162,8 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	Set R3
 
 	MOVD $runtime·mstart(SB), 0(R3)
-	MOVD R3, SP
+	MOVD R3, SP_L
+	MOVD SP_L, SP
 
 	// call fn
 	MOVD R0, CTXT
@@ -174,7 +177,8 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	MOVD g_m(g), R1
 	MOVD m_curg(R1), R2
 	MOVD R2, g
-	MOVD g_sched+gobuf_sp(R2), SP
+	MOVD g_sched+gobuf_sp(R2), SP_L
+	MOVD SP_L, SP
 	MOVD $0, g_sched+gobuf_sp(R2)
 	RET
 
@@ -199,11 +203,12 @@ TEXT runtime·jmpdefer(SB), NOSPLIT, $0-16
 	I64Const $8
 	I64Sub
 	I32WrapI64
+	Tee SP_L
 	Set SP
 
 	// decrease PC_B by 1 to CALL again
-	Get SP
-	I32Load16U (SP)
+	Get SP_L
+	I32Load16U (SP_L)
 	I32Const $1
 	I32Sub
 	I32Store16 $0
@@ -270,7 +275,8 @@ TEXT runtime·morestack(SB), NOSPLIT, $0-0
 
 	// Call newstack on m->g0's stack.
 	MOVD R2, g
-	MOVD g_sched+gobuf_sp(R2), SP
+	MOVD g_sched+gobuf_sp(R2), SP_L
+	MOVD SP_L, SP
 	CALL runtime·newstack(SB)
 	UNDEF // crash if newstack returns
 

@@ -19,14 +19,15 @@ TEXT _rt0_wasm_js(SB),NOSPLIT,$0
 // R0: argc (i32)
 // R1: argv (i32)
 TEXT wasm_export_run(SB),NOSPLIT,$0
-	MOVD $runtime·wasmStack+m0Stack__size(SB), SP
+	MOVD $runtime·wasmStack+m0Stack__size(SB), SP_L
+	MOVD SP_L, SP
 
-	Get SP
+	Get SP_L
 	Get R0 // argc
 	I64ExtendI32U
 	I64Store $0
 
-	Get SP
+	Get SP_L
 	Get R1 // argv
 	I64ExtendI32U
 	I64Store $8
@@ -85,14 +86,14 @@ TEXT wasm_export_getsp(SB),NOSPLIT,$0
 	Return
 
 TEXT runtime·pause(SB), NOSPLIT, $0-8
-	MOVD newsp+0(FP), SP
+	MOVD newsp+0(FP), SP_L
+	MOVD SP_L, SP
 	I32Const $1
 	Set PAUSE
 	RETUNWIND
 
 TEXT runtime·exit(SB), NOSPLIT, $0-4
-	Call runtime·wasmExit(SB)
-	Drop
+	CALL runtime·wasmExit(SB)
 	I32Const $1
 	Set PAUSE
 	RETUNWIND
