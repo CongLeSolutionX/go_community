@@ -111,15 +111,17 @@ var queryTests = []struct {
 	{path: queryRepo, query: "6cf84eb", vers: "v0.0.2-0.20180704023347-6cf84ebaea54"},
 	{path: queryRepo, query: "start", vers: "v0.0.0-20180704023101-5e9e31667ddf"},
 	{path: queryRepo, query: "7a1b6bf", vers: "v0.1.0"},
+	{path: queryRepo, query: "v2.0.0", err: `go.mod is missing required /v2 at end of module path at revision 9763aa065ae2 (expected "vcs-test.golang.org/git/querytest.git/v2")`},
 
 	{path: queryRepoV2, query: "<v0.0.0", err: `no matching versions for query "<v0.0.0"`},
 	{path: queryRepoV2, query: "<=v0.0.0", err: `no matching versions for query "<=v0.0.0"`},
 	{path: queryRepoV2, query: ">v0.0.0", vers: "v2.0.0"},
 	{path: queryRepoV2, query: ">=v0.0.0", vers: "v2.0.0"},
-	{path: queryRepoV2, query: "v0.0.1+foo", vers: "v2.0.0-20180704023347-179bc86b1be3"},
+	{path: queryRepoV2, query: "v0.0.1+foo", err: `go.mod is missing required /v0 at end of module path at revision 179bc86b1be3 (expected "vcs-test.golang.org/git/querytest.git/v0")`},
 	{path: queryRepoV2, query: "latest", vers: "v2.5.5"},
 
 	{path: queryRepoV3, query: "latest", vers: "v3.0.0-20180704024501-e0cf3de987e6"},
+	{path: queryRepoV3, query: "v2.0.0", err: `go.mod is missing required /v2 at end of module path at revision 9763aa065ae2 (expected "vcs-test.golang.org/git/querytest.git/v2")`},
 
 	{path: emptyRepo, query: "latest", vers: "v0.0.0-20180704023549-7bb914627242"},
 	{path: emptyRepo, query: ">v0.0.0", err: `no matching versions for query ">v0.0.0"`},
