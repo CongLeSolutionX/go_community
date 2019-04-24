@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f121080b_3dd0718e",
+        "filename": "src/cmd/go/internal/modconv/modconv_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-24T18:27:04Z",
+      "side": 1,
+      "message": "Nit: add \"replace\" at the beginning of these lines to distinguish these from requirements.",
+      "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2273a063_28fc576e",
+        "filename": "src/cmd/go/internal/modconv/testdata/traefik.dep",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-24T18:27:04Z",
+      "side": 1,
+      "message": "Could you change one of these to have the form git@github.com:org/repo? It doesn\u0027t look like that\u0027s covered.",
+      "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4548862a_ea666271",
+        "filename": "src/cmd/go/testdata/script/mod_init_dep.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-24T18:27:04Z",
+      "side": 1,
+      "message": "Rather than grepping for a specific line, add a complete file \"go.mod.replace\", and test with \"cmp go.mod go.mod.replace\".\n\nThat should also check that the module name and requirements are corrected.",
+      "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6728e1f_e2783a9f",
+        "filename": "src/cmd/go/testdata/script/mod_init_dep.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-24T18:27:04Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need to mention $WORK in these filenames. They\u0027ll be unpacked there anyway.",
+      "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
