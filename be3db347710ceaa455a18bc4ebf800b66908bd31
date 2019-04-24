@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15b0a364_3acdc2b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-24T21:12:36Z",
+      "side": 1,
+      "message": "At the bottom of the commit message, also mention this fixes #31498. Check if this fixes #30499, too.",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77178e5c_cd4d0d7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-24T21:12:36Z",
+      "side": 1,
+      "message": "Not sure what you mean by valid go.mod. If the go.mod file can\u0027t be parsed or has an unexpected module path, it\u0027s a hard error. If the go.mod file doesn\u0027t exist at v0 or v1 versions, we proceed as if it did exist but has no requirements. If it doesn\u0027t exist at v2+, we treat it as part of the v0 and add a +incompatible suffix.",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6fce5b8_061a165b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-24T21:12:36Z",
+      "side": 1,
+      "message": "Better to convert these to tests! You can add something in the cmd/go/testdata/script directory which runs \"go get\" commands and checks stderr.\n\nYou may need to add modules to testdata/mod. These are served through a test proxy that the tests talk to.",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "162272bc_ea5c209d",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-24T21:12:36Z",
+      "side": 1,
+      "message": "You mentioned that the same thing happens when the proxy is used. That will be the common case in the future, and we should try to report the same diagnostic.\n\nI think the right place for this would be in internal/modload.Query in the case semver.IsValid(query). If the call to modfetch.Stat is successful and returns a pseudoversion, we could print this.",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a6cd7b1_5e2ea194",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-04-24T21:12:36Z",
+      "side": 1,
+      "message": "This still doesn\u0027t quite seem right. The go.mod file matches the module path we asked for, but the version we asked for doesn\u0027t match the module path. Consequently, we are not treating the tag as a version.\n\nSo maybe this should be:\n\n\"warning: %s@%s: module path does not have major version suffix %s; using equivalent pseudoversion %s\"",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
