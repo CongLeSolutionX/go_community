@@ -272,6 +272,14 @@ func (r *codeRepo) convert(info *codehost.RevInfo, statVers string) (*RevInfo, e
 				v = tagToVersion(tag)
 				// TODO: Check that v is OK for r.pseudoMajor or else is OK for incompatible.
 				info2.Version = PseudoVersion(r.pseudoMajor, v, info.Time, info.Short)
+
+				// Print a warning if major doesn't match the path and we're converting a
+				// normal semver version to a pseudo-version.
+				if !module.MatchPathMajor(tag, r.pathMajor) && semver.IsValid(statVers) && !IsPseudoVersion(statVers) {
+					expectedMajor := semver.Major(statVers)
+					expectedModule := fmt.Sprintf("%s/%s", r.pathPrefix, expectedMajor)
+					fmt.Fprintf(os.Stderr, "warning: %s@%s: go.mod is missing required /%s at end of module path at revision %s (expected %q)\n", r.modPath, statVers, expectedMajor, expectedModule, info.Short)
+				}
 			}
 		}
 	}
