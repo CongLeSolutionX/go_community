@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b5c4eafc_cd8d1231",
+        "filename": "src/cmd/go/internal/modconv/modconv_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2019-04-25T09:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f121080b_3dd0718e",
+      "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2273a063_28fc576e",
         "filename": "src/cmd/go/internal/modconv/testdata/traefik.dep",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf7953d4_6dbd5b9c",
+        "filename": "src/cmd/go/internal/modconv/testdata/traefik.dep",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2019-04-25T09:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2273a063_28fc576e",
+      "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dde2759a_1215327b",
+        "filename": "src/cmd/go/testdata/script/mod_init_dep.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2019-04-25T09:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4548862a_ea666271",
+      "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6728e1f_e2783a9f",
         "filename": "src/cmd/go/testdata/script/mod_init_dep.txt",
         "patchSetId": 9
@@ -67,6 +121,24 @@
       "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f960e862_2c0c77d7",
+        "filename": "src/cmd/go/testdata/script/mod_init_dep.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2019-04-25T09:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6728e1f_e2783a9f",
+      "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
