@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "aa5c29a1_1d64d88b",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-25T15:17:33Z",
+      "side": 1,
+      "message": "\u003e It\u0027s my understanding that American style is to always put the period inside the quotation marks, though I agree that it looks kind of strange.\n\nIt is, but when quoting commands to run in technical docs I personally ignore that rule. I don\u0027t know if others care about prescriptive punctuation rules enough to decree to keep it your way. I don\u0027t care strongly either way.\n\nIt\u0027s fine to keep it as-is.",
+      "parentUuid": "579c3733_e03fb858",
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1c3cb1dd_374bdd58",
         "filename": "src/testing/testing.go",
         "patchSetId": 1
@@ -142,6 +160,30 @@
       "side": 1,
       "message": "I just made this change because Russ did it in CL 49251, but to be honest it seems better to leave it as a uint so that flag.Parse does the error checking for us.",
       "parentUuid": "1c3cb1dd_374bdd58",
+      "range": {
+        "startLine": 282,
+        "startChar": 14,
+        "endLine": 282,
+        "endChar": 15
+      },
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fa4c232_8b666fcc",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-25T15:17:33Z",
+      "side": 1,
+      "message": "It\u0027s unrelated to this CL at least, so I\u0027d revert it for now.",
+      "parentUuid": "02953b57_d91ae5c7",
       "range": {
         "startLine": 282,
         "startChar": 14,
