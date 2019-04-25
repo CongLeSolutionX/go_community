@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e62d3cf_cd3e1e23",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-04-25T06:52:41Z",
+      "side": 1,
+      "message": "Drop the GOOS check? If I understand correctly, the check is not OS specific.\n\nAt the very least add a comment explaining why this applies to Windows only.",
+      "range": {
+        "startLine": 1060,
+        "startChar": 4,
+        "endLine": 1060,
+        "endChar": 26
+      },
+      "revId": "92691a604209bc761ae91875b6790011e839c002",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
