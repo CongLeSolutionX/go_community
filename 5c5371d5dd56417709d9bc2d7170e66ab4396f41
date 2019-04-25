@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ff53886_728d9380",
+        "filename": "src/runtime/debugcall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2019-04-25T18:14:37Z",
+      "side": 1,
+      "message": "This is redundant with blame, so I wouldn\u0027t bother.",
+      "revId": "5c5371d5dd56417709d9bc2d7170e66ab4396f41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
