@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "f9d5bd83_1f6a6ad3",
+        "filename": "src/cmd/go/testdata/script/mod_init_dep.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2019-04-25T09:30:06Z",
+      "side": 1,
+      "message": "\u003e Done\n\n`cmp` does not support $goversion now.",
+      "parentUuid": "dde2759a_1215327b",
+      "revId": "2a8c5ddc4f5b4ebc682eba947817e5b17c4f6cce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6728e1f_e2783a9f",
         "filename": "src/cmd/go/testdata/script/mod_init_dep.txt",
         "patchSetId": 9
