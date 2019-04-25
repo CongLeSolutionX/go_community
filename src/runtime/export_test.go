@@ -38,6 +38,8 @@ var Nanotime = nanotime
 
 var PhysHugePageSize = physHugePageSize
 
+const PreemptMSupported = preemptMSupported
+
 type LFNode struct {
 	Next    uint64
 	Pushcnt uintptr
