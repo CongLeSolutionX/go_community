@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a79ebcbd_28b66333",
+        "filename": "src/cmd/link/internal/sym/reloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-25T16:22:48Z",
+      "side": 1,
+      "message": "comments on this field (may be nil) and the new type?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 10
+      },
+      "revId": "22693aabe730caba35f6ca88822a077e9ddc6b0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fce5ab8_e14de8b0",
+        "filename": "src/cmd/link/internal/sym/symbol.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-25T16:22:48Z",
+      "side": 1,
+      "message": "Or move this check into InitExt?",
+      "revId": "22693aabe730caba35f6ca88822a077e9ddc6b0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
