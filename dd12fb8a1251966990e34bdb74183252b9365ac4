@@ -16,6 +16,24 @@
       "revId": "dd12fb8a1251966990e34bdb74183252b9365ac4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d4d48e6_6ef3fba1",
+        "filename": "test/fixedbugs/issue31546.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-04-25T01:30:51Z",
+      "side": 1,
+      "message": "Ack. I’d like to leave it.",
+      "parentUuid": "a2ed6c55_d0c52c14",
+      "revId": "dd12fb8a1251966990e34bdb74183252b9365ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
