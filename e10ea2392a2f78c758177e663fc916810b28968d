@@ -34,6 +34,24 @@
       "revId": "e10ea2392a2f78c758177e663fc916810b28968d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a55f215_e45f037d",
+        "filename": "src/runtime/defs_openbsd_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-04-26T17:24:14Z",
+      "side": 1,
+      "message": "This is based on defs_openbsd_amd64.go and manually updated - I removed the somewhat bogus \u0027created by cgo -cdefs and then converted to Go\u0027 header (as Ian notes, this was how things were done back in the pre-Go 1.4 days when C was still a thing).",
+      "parentUuid": "e8a1fcf5_2d32046a",
+      "revId": "e10ea2392a2f78c758177e663fc916810b28968d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
