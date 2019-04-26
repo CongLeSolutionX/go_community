@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f7162297_013c8c08",
+        "filename": "src/index/suffixarray/gen64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 31971
+      },
+      "writtenOn": "2019-04-26T17:43:33Z",
+      "side": 1,
+      "message": "This comment implies that it just makes a copy of sais.go with bigger types. However, the _8_32 -\u003e _32 conversion is also important, as core functionality of the 32 bit version (func sais_32) is generated in sais64.go, and only called from sais.go.\n\nMaybe you could split out the generated output files for these two operations, to make it clear which bits are used for 32 vs 64 bit modes?\n\nCan you explain somewhere the general meaning of _32 vs _64 vs _8_32?",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bbf0685c_b08fe156",
         "filename": "src/index/suffixarray/gen64.go",
         "patchSetId": 1
@@ -217,6 +234,29 @@
       "writtenOn": "2019-04-26T16:38:46Z",
       "side": 1,
       "message": "I believe this is implicit given that len(text) is in the range of int.\nSo perhaps let\u0027s remove that comment as it only applies to text_32 where\nit seems to have been lifted from.",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43a640d8_4917fe34",
+        "filename": "src/index/suffixarray/suffixarray.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 31971
+      },
+      "writtenOn": "2019-04-26T17:43:33Z",
+      "side": 1,
+      "message": "Update creation time.",
+      "range": {
+        "startLine": 41,
+        "startChar": 26,
+        "endLine": 41,
+        "endChar": 37
+      },
       "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
