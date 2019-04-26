@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81dbab9b_cfd8253a",
+        "filename": "src/runtime/defs_openbsd_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-26T17:09:26Z",
+      "side": 1,
+      "message": "missing copyright header\n\nBut weird... most already are missing it.\n\nWas this auto-generated? Some of the other files have comments saying they are. How\u0027d you make this one?",
+      "revId": "e10ea2392a2f78c758177e663fc916810b28968d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
