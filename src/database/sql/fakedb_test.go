@@ -396,6 +396,13 @@ func (c *fakeConn) ResetSession(ctx context.Context) error {
 	return nil
 }
 
+func (c *fakeConn) DiscardConnection() error {
+	if c.isBad() {
+		return driver.ErrBadConn
+	}
+	return nil
+}
+
 func (c *fakeConn) Close() (err error) {
 	drv := fdriver.(*fakeDriver)
 	defer func() {

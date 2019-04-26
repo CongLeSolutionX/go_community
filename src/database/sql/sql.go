@@ -421,7 +421,6 @@ type DB struct {
 	// It is closed during db.Close(). The close tells the connectionOpener
 	// goroutine to exit.
 	openerCh          chan struct{}
-	resetterCh        chan *driverConn
 	closed            bool
 	dep               map[finalCloser]depSet
 	lastPut           map[*driverConn]string // stacktrace of last conn's put; debug only
@@ -456,12 +455,12 @@ type driverConn struct {
 	db        *DB
 	createdAt time.Time
 
-	sync.Mutex  // guards following
-	ci          driver.Conn
-	closed      bool
-	finalClosed bool // ci.Close has been called
-	openStmt    map[*driverStmt]bool
-	lastErr     error // lastError captures the result of the session resetter.
+	sync.Mutex   // guards following
+	ci           driver.Conn
+	closed       bool
+	finalClosed  bool // ci.Close has been called
+	resetSession bool // The connection session should be reset before use if true.
+	openStmt     map[*driverStmt]bool
 
 	// guarded by db.mu
 	inUse      bool
@@ -509,19 +508,6 @@ func (dc *driverConn) prepareLocked(ctx context.Context, cg stmtConnGrabber, que
 	}
 	dc.openStmt[ds] = true
 	return ds, nil
-}
-
-// resetSession resets the connection session and sets the lastErr
-// that is checked before returning the connection to another query.
-//
-// resetSession assumes that the embedded mutex is locked when the connection
-// was returned to the pool. This unlocks the mutex.
-func (dc *driverConn) resetSession(ctx context.Context) {
-	defer dc.Unlock() // In case of panic.
-	if dc.closed {    // Check if the database has been closed.
-		return
-	}
-	dc.lastErr = dc.ci.(driver.SessionResetter).ResetSession(ctx)
 }
 
 // the dc.db's Mutex is held.
@@ -713,14 +699,12 @@ func OpenDB(c driver.Connector) *DB {
 	db := &DB{
 		connector:    c,
 		openerCh:     make(chan struct{}, connectionRequestQueueSize),
-		resetterCh:   make(chan *driverConn, 50),
 		lastPut:      make(map[*driverConn]string),
 		connRequests: make(map[uint64]chan connRequest),
 		stop:         cancel,
 	}
 
 	go db.connectionOpener(ctx)
-	go db.connectionResetter(ctx)
 
 	return db
 }
@@ -1058,23 +1042,6 @@ func (db *DB) connectionOpener(ctx context.Context) {
 	}
 }
 
-// connectionResetter runs in a separate goroutine to reset connections async
-// to exported API.
-func (db *DB) connectionResetter(ctx context.Context) {
-	for {
-		select {
-		case <-ctx.Done():
-			close(db.resetterCh)
-			for dc := range db.resetterCh {
-				dc.Unlock()
-			}
-			return
-		case dc := <-db.resetterCh:
-			dc.resetSession(ctx)
-		}
-	}
-}
-
 // Open one new connection
 func (db *DB) openNewConnection(ctx context.Context) {
 	// maybeOpenNewConnctions has already executed db.numOpen++ before it sent
@@ -1155,13 +1122,18 @@ func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn
 			conn.Close()
 			return nil, driver.ErrBadConn
 		}
-		// Lock around reading lastErr to ensure the session resetter finished.
-		conn.Lock()
-		err := conn.lastErr
-		conn.Unlock()
-		if err == driver.ErrBadConn {
-			conn.Close()
-			return nil, driver.ErrBadConn
+
+		if conn.resetSession {
+			if cr, ok := conn.ci.(driver.SessionResetter); ok {
+				var err error
+				withLock(conn, func() {
+					err = cr.ResetSession(ctx)
+				})
+				if err != nil {
+					conn.Close()
+					return nil, err
+				}
+			}
 		}
 		return conn, nil
 	}
@@ -1211,13 +1183,17 @@ func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn
 			if ret.conn == nil {
 				return nil, ret.err
 			}
-			// Lock around reading lastErr to ensure the session resetter finished.
-			ret.conn.Lock()
-			err := ret.conn.lastErr
-			ret.conn.Unlock()
-			if err == driver.ErrBadConn {
-				ret.conn.Close()
-				return nil, driver.ErrBadConn
+			if ret.conn.resetSession {
+				if cr, ok := ret.conn.ci.(driver.SessionResetter); ok {
+					var err error
+					withLock(ret.conn, func() {
+						err = cr.ResetSession(ctx)
+					})
+					if err != nil {
+						ret.conn.Close()
+						return nil, err
+					}
+				}
 			}
 			return ret.conn, ret.err
 		}
@@ -1275,6 +1251,16 @@ const debugGetPut = false
 // putConn adds a connection to the db's free pool.
 // err is optionally the last error that occurred on this connection.
 func (db *DB) putConn(dc *driverConn, err error, resetSession bool) {
+	if err != driver.ErrBadConn {
+		if resetSession {
+			dc.resetSession = true
+		}
+		if resetter, ok := dc.ci.(driver.ConnectionDiscarder); ok {
+			withLock(dc, func() {
+				err = resetter.DiscardConnection()
+			})
+		}
+	}
 	db.mu.Lock()
 	if !dc.inUse {
 		if debugGetPut {
@@ -1305,40 +1291,12 @@ func (db *DB) putConn(dc *driverConn, err error, resetSession bool) {
 	if putConnHook != nil {
 		putConnHook(db, dc)
 	}
-	if db.closed {
-		// Connections do not need to be reset if they will be closed.
-		// Prevents writing to resetterCh after the DB has closed.
-		resetSession = false
-	}
-	if resetSession {
-		if _, resetSession = dc.ci.(driver.SessionResetter); resetSession {
-			// Lock the driverConn here so it isn't released until
-			// the connection is reset.
-			// The lock must be taken before the connection is put into
-			// the pool to prevent it from being taken out before it is reset.
-			dc.Lock()
-		}
-	}
 	added := db.putConnDBLocked(dc, nil)
 	db.mu.Unlock()
 
 	if !added {
-		if resetSession {
-			dc.Unlock()
-		}
 		dc.Close()
 		return
-	}
-	if !resetSession {
-		return
-	}
-	select {
-	default:
-		// If the resetterCh is blocking then mark the connection
-		// as bad and continue on.
-		dc.lastErr = driver.ErrBadConn
-		dc.Unlock()
-	case db.resetterCh <- dc:
 	}
 }
 
