@@ -16,6 +16,24 @@
       "revId": "e10ea2392a2f78c758177e663fc916810b28968d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8a1fcf5_2d32046a",
+        "filename": "src/runtime/defs_openbsd_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-26T17:11:50Z",
+      "side": 1,
+      "message": "These files were auto-generated at one time, back when they were written in C.  Since the conversion to Go we\u0027ve just been carrying them forward since the values never change and we rarely need to add new ones.",
+      "parentUuid": "81dbab9b_cfd8253a",
+      "revId": "e10ea2392a2f78c758177e663fc916810b28968d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
