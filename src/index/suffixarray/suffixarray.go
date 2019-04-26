@@ -42,9 +42,11 @@ type Index struct {
 func New(data []byte) *Index {
 	ix := &Index{data: data}
 	if len(data) <= maxData32 {
-		ix.sa32 = qsufsort32(data)
+		ix.sa32 = make([]int32, len(data))
+		text_32(data, ix.sa32)
 	} else {
-		ix.sa64 = qsufsort64(data)
+		ix.sa64 = make([]int64, len(data))
+		text_64(data, ix.sa64)
 	}
 	return ix
 }
