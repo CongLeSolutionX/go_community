@@ -458,6 +458,7 @@ type driverConn struct {
 
 	sync.Mutex  // guards following
 	ci          driver.Conn
+	ctx         context.Context // Context from the most recent query, used in putConn by resetter.
 	closed      bool
 	finalClosed bool // ci.Close has been called
 	openStmt    map[*driverStmt]bool
@@ -1158,6 +1159,7 @@ func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn
 		// Lock around reading lastErr to ensure the session resetter finished.
 		conn.Lock()
 		err := conn.lastErr
+		conn.ctx = ctx
 		conn.Unlock()
 		if err == driver.ErrBadConn {
 			conn.Close()
@@ -1214,6 +1216,7 @@ func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn
 			// Lock around reading lastErr to ensure the session resetter finished.
 			ret.conn.Lock()
 			err := ret.conn.lastErr
+			ret.conn.ctx = ctx
 			ret.conn.Unlock()
 			if err == driver.ErrBadConn {
 				ret.conn.Close()
@@ -1239,6 +1242,7 @@ func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn
 		createdAt: nowFunc(),
 		ci:        ci,
 		inUse:     true,
+		ctx:       ctx,
 	}
 	db.addDepLocked(dc, dc)
 	db.mu.Unlock()
@@ -1334,10 +1338,8 @@ func (db *DB) putConn(dc *driverConn, err error, resetSession bool) {
 	}
 	select {
 	default:
-		// If the resetterCh is blocking then mark the connection
-		// as bad and continue on.
-		dc.lastErr = driver.ErrBadConn
-		dc.Unlock()
+		// If the resetterCh is blocking then execute resetSession right away.
+		dc.resetSession(dc.ctx)
 	case db.resetterCh <- dc:
 	}
 }
