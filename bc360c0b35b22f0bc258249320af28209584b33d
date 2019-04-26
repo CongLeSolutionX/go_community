@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbf0685c_b08fe156",
+        "filename": "src/index/suffixarray/gen64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-04-26T16:38:46Z",
+      "side": 1,
+      "message": "Looks fishy :) did you mean \"\\nconst\"?\n\nIf not, could you please add a comment above to document what these mean?",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e6dc67a_1b1a753c",
+        "filename": "src/index/suffixarray/gen64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-04-26T16:38:46Z",
+      "side": 1,
+      "message": "Did you mean \"\\ntype\"?",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf8842d5_d6d70ea8",
+        "filename": "src/index/suffixarray/gen64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-04-26T16:38:46Z",
+      "side": 1,
+      "message": "Maybe a comment for what we are doing here which is finding\nthe first symbols/non-comments.\n\n// Find the start of the file headers/non-symbols.",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de2005b_58fe32af",
+        "filename": "src/index/suffixarray/gen64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-04-26T16:38:46Z",
+      "side": 1,
+      "message": "Unnecessary since right above we already skipped:\n      if !strings.HasSuffix(name, \"_32\") { continue }",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52affa40_5817649b",
+        "filename": "src/index/suffixarray/sais.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-04-26T16:38:46Z",
+      "side": 1,
+      "message": "What happens if len(tmp) is in the range [2*textMax + 1, inf)?",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da48968c_a3028b3c",
+        "filename": "src/index/suffixarray/sais.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-04-26T16:38:46Z",
+      "side": 1,
+      "message": "Let\u0027s add a comment here that this was already computed\n\nif freq !\u003d nil \u0026\u0026 freq[0] \u003e\u003d 0 { // We\u0027ve already computed the frequences",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e3fb281_6ef28147",
+        "filename": "src/index/suffixarray/sais64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-04-26T16:38:46Z",
+      "side": 1,
+      "message": "Stale comment perhaps? text_64",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "810edbde_da752fad",
+        "filename": "src/index/suffixarray/sais64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-04-26T16:38:46Z",
+      "side": 1,
+      "message": "I believe this is implicit given that len(text) is in the range of int.\nSo perhaps let\u0027s remove that comment as it only applies to text_32 where\nit seems to have been lifted from.",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
