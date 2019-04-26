@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "272c05a2_4f13b375",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-04-26T19:01:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15b0a364_3acdc2b0",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77178e5c_cd4d0d7d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d81d933e_66992678",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-04-26T19:01:33Z",
+      "side": 1,
+      "message": "Expanded a bit to clarify.",
+      "parentUuid": "77178e5c_cd4d0d7d",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1311f1cf_4e3128ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-04-26T19:01:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6fce5b8_061a165b",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "162272bc_ea5c209d",
         "filename": "src/cmd/go/internal/modfetch/coderepo.go",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7698bca0_d2dc348e",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-04-26T19:01:33Z",
+      "side": 1,
+      "message": "From testing with a proxy, this warning is still printed when it\u0027s here. But, I think that spot makes more sense in general. Moved.",
+      "parentUuid": "162272bc_ea5c209d",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -102,6 +174,24 @@
       "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5994865d_ef3ad4df",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-04-26T19:01:33Z",
+      "side": 1,
+      "message": "Keeping as is for now as I switched it to an error and I think it changes things a bit.",
+      "parentUuid": "5b01cc11_95eaf23a",
+      "revId": "be3db347710ceaa455a18bc4ebf800b66908bd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
