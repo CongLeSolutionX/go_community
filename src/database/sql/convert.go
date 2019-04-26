@@ -7,6 +7,7 @@
 package sql
 
 import (
+	"context"
 	"database/sql/driver"
 	"errors"
 	"fmt"
@@ -327,7 +328,7 @@ func convertAssignRows(dest, src interface{}, rows *Rows) error {
 			rows.closemu.Lock()
 			*d = Rows{
 				dc:          rows.dc,
-				releaseConn: func(error) {},
+				releaseConn: func(context.Context, error) {},
 				rowsi:       s,
 			}
 			// Chain the cancel function.

@@ -2079,13 +2079,13 @@ func TestMaxOpenConnsOnBusy(t *testing.T) {
 		t.Errorf("free conns = %d; want %d", g, w)
 	}
 
-	conn0.releaseConn(nil)
-	conn1.releaseConn(nil)
+	conn0.releaseConn(ctx, nil)
+	conn1.releaseConn(ctx, nil)
 	if g, w := db.numOpen, 2; g != w {
 		t.Errorf("free conns = %d; want %d", g, w)
 	}
 
-	conn2.releaseConn(nil)
+	conn2.releaseConn(ctx, nil)
 	if g, w := db.numOpen, 2; g != w {
 		t.Errorf("free conns = %d; want %d", g, w)
 	}
