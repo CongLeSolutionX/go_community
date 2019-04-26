@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "df4bf88b_76e6b36e",
+        "filename": "src/index/suffixarray/gen64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-04-26T16:39:12Z",
+      "side": 1,
+      "message": "Should this and the next one be searching for \"\\nconst\" and \"\\ntype\"?",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e6dc67a_1b1a753c",
         "filename": "src/index/suffixarray/gen64.go",
         "patchSetId": 1
@@ -64,6 +81,40 @@
       "writtenOn": "2019-04-26T16:38:46Z",
       "side": 1,
       "message": "Unnecessary since right above we already skipped:\n      if !strings.HasSuffix(name, \"_32\") { continue }",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06cbd492_5834fc52",
+        "filename": "src/index/suffixarray/gen64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-04-26T16:39:12Z",
+      "side": 1,
+      "message": "Redundant test given preceding test.",
+      "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d01f4378_828047eb",
+        "filename": "src/index/suffixarray/gen64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-04-26T16:39:12Z",
+      "side": 1,
+      "message": "continue is just before natural loop end.",
       "revId": "bc360c0b35b22f0bc258249320af28209584b33d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
