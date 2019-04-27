@@ -791,7 +791,7 @@ func machogenasmsym(ctxt *Link) {
 			// But only on macOS.
 			if machoPlatform == PLATFORM_MACOS && (objabi.GOARCH == "amd64" || objabi.GOARCH == "386") {
 				switch n := s.Extname(); n {
-				case "readdir_r", "fdopendir":
+				case "readdir_r", "fdopendir", "getfsstat":
 					s.SetExtname(n + "$INODE64")
 				}
 			}
