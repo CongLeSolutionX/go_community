@@ -9,6 +9,8 @@ import (
 	"debug/elf"
 	"debug/macho"
 	"debug/pe"
+	"debug/plan9obj"
+	"encoding/binary"
 	"fmt"
 	"io"
 	"os"
@@ -60,6 +62,14 @@ func openExe(file string) (exe, error) {
 			return nil, err
 		}
 		return &machoExe{f, e}, nil
+	}
+	if m := binary.BigEndian.Uint32(data[:4]); m == plan9obj.Magic386 || m == plan9obj.MagicAMD64 || m == plan9obj.MagicARM {
+		e, err := plan9obj.NewFile(f)
+		if err != nil {
+			f.Close()
+			return nil, err
+		}
+		return &plan9Exe{f, e}, nil
 	}
 	return nil, fmt.Errorf("unrecognized executable format")
 }
@@ -205,6 +215,46 @@ func (x *machoExe) DataStart() uint64 {
 		seg, ok := load.(*macho.Segment)
 		if ok && seg.Addr != 0 && seg.Filesz != 0 && seg.Prot == RW && seg.Maxprot == RW {
 			return seg.Addr
+		}
+	}
+	return 0
+}
+
+// plan9Exe is the Plan 9 a.out implementation of the exe interface.
+type plan9Exe struct {
+	os *os.File
+	f  *plan9obj.File
+}
+
+func (x *plan9Exe) Close() error {
+	return x.os.Close()
+}
+
+func (x *plan9Exe) ReadData(addr, size uint64) ([]byte, error) {
+	for _, sect := range x.f.Sections {
+		if sect.SectionHeader.Name != "data" {
+			continue
+		}
+		if uint64(sect.SectionHeader.Offset) <= addr && uint64(sect.SectionHeader.Offset) <= uint64(sect.SectionHeader.Offset)+uint64(sect.SectionHeader.Size)-1 {
+			n := uint64(sect.SectionHeader.Offset) + uint64(sect.SectionHeader.Size) - addr
+			if n > size {
+				n = size
+			}
+			data := make([]byte, n)
+			_, err := sect.ReadAt(data, int64(addr-uint64(sect.SectionHeader.Offset)))
+			if err != nil {
+				return nil, err
+			}
+			return data, nil
+		}
+	}
+	return nil, fmt.Errorf("address not mapped")
+}
+
+func (x *plan9Exe) DataStart() uint64 {
+	for _, sect := range x.f.Sections {
+		if sect.SectionHeader.Name == "data" {
+			return uint64(sect.SectionHeader.Offset)
 		}
 	}
 	return 0
