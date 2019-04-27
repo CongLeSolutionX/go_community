@@ -1,0 +1,22 @@
+env GO111MODULE=off
+
+! go test importdot/...
+stderr 'can not import current directory'
+
+-- importdot/importdot.go --
+package importdot
+
+func p() {}
+
+-- importdot/importdot_test.go --
+package importdot
+
+import (
+	"testing"
+
+	"."
+)
+
+func TestP(t *testing.T) {
+	importdot.p()
+}
