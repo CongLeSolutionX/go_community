@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f208726b_6004c3a0",
+        "filename": "src/index/suffixarray/gen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-04-27T11:19:33Z",
+      "side": 1,
+      "message": "Redundant test given preceding test.  (Still, despite DONE.)",
+      "revId": "0801022487a9b761f7c8b376ad19765b12eef747",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e34b2956_9d5d0658",
+        "filename": "src/index/suffixarray/gen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2019-04-27T11:19:33Z",
+      "side": 1,
+      "message": "Remove continue before end of loop.  (Also marked DONE.)",
+      "revId": "0801022487a9b761f7c8b376ad19765b12eef747",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
