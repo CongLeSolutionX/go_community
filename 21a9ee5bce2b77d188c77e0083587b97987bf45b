@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8d38a99_bcc92e4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5184
+      },
+      "writtenOn": "2019-04-28T18:38:32Z",
+      "side": 1,
+      "message": "add a linebreak after cases and change this to\n\nUpdates #30990\n\nor\n\nFixes #30990",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "21a9ee5bce2b77d188c77e0083587b97987bf45b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
