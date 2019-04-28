@@ -41,13 +41,15 @@ var reserveEnd uintptr
 func sysReserve(v unsafe.Pointer, n uintptr) unsafe.Pointer {
 	// TODO(neelance): maybe unify with mem_plan9.go, depending on how https://github.com/WebAssembly/design/blob/master/FutureFeatures.md#finer-grained-control-over-memory turns out
 
+	if v != nil {
+		throw("sysReserve at a specific address is not supported on wasm")
+	}
+
 	if reserveEnd < lastmoduledatap.end {
 		reserveEnd = lastmoduledatap.end
 	}
-	if uintptr(v) < reserveEnd {
-		v = unsafe.Pointer(reserveEnd)
-	}
-	reserveEnd = uintptr(v) + n
+	v = unsafe.Pointer(reserveEnd)
+	reserveEnd += n
 
 	current := currentMemory()
 	needed := int32(reserveEnd/sys.DefaultPhysPageSize + 1)

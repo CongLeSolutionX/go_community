@@ -543,7 +543,9 @@ func (h *mheap) sysAlloc(n uintptr) (v unsafe.Pointer, size uintptr) {
 	}
 
 	// Try to grow the heap at a hint address.
-	for h.arenaHints != nil {
+	// The address space of Wasm's linear memory is contiguous,
+	// so requesting specific addresses is not supported.
+	for h.arenaHints != nil && GOARCH != "wasm" {
 		hint := h.arenaHints
 		p := hint.addr
 		if hint.down {
