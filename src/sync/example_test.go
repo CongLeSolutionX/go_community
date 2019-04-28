@@ -57,3 +57,24 @@ func ExampleOnce() {
 	// Output:
 	// Only once
 }
+
+func ExampleMutex() {
+	sharedData := new(int)
+	var mutex = &sync.Mutex{}
+	done := make(chan bool, 100)
+	for i := 0; i < 100; i++ {
+		go func() {
+			mutex.Lock()
+			defer mutex.Unlock()
+			*sharedData = *sharedData + 1
+			done <- true
+		}()
+	}
+	for i := 0; i < 100; i++ {
+		<-done
+	}
+	fmt.Println("SharedData value:", *sharedData)
+
+	// Output:
+	// SharedData value: 100
+}
