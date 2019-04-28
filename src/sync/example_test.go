@@ -57,3 +57,21 @@ func ExampleOnce() {
 	// Output:
 	// Only once
 }
+
+func ExampleMutex() {
+	var (
+		mu         sync.Mutex // guards sharedData
+		sharedData int
+	)
+
+	go func() {
+		mu.Lock()
+		defer mu.Unlock()
+		sharedData++
+	}()
+	go func() {
+		mu.Lock()
+		defer mu.Unlock()
+		sharedData++
+	}()
+}
