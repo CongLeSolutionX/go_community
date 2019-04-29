@@ -1,0 +1,25 @@
+env GOPROXY=
+env GO111MODULE=on
+
+# Testing that a pseudo version with schematically higher version than the latest
+# tagged version isn't listed as upgradable when calling 'go list -m -u'.
+
+[!net] skip
+[!exec:git] skip
+
+# For this test repository there are three commits:
+#   * b5426c8 (HEAD -> master)
+#   * a90cfd2 (tag: v0.1.0)
+#   * 30950c0
+
+# When requesting master as specific version, a pseudo version is created with a
+# higher version than the latest tag. Listing upgrades doesn't suggest the lower
+# version as upgrade.
+go get github.com/leitzler/modupgradetest@b5426c8
+go list -m -u all
+stdout '^github.com/leitzler/modupgradetest v0.1.1-0.20190429073117-b5426c86b553$'
+
+-- go.mod --
+module x
+
+go 1.12
