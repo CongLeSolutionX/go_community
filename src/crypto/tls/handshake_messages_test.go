@@ -26,7 +26,6 @@ var tests = []interface{}{
 	},
 	&certificateStatusMsg{},
 	&clientKeyExchangeMsg{},
-	&nextProtoMsg{},
 	&newSessionTicketMsg{},
 	&sessionState{},
 	&sessionStateTLS13{},
@@ -207,13 +206,6 @@ func (*serverHelloMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 	m.compressionMethod = uint8(rand.Intn(256))
 
 	if rand.Intn(10) > 5 {
-		m.nextProtoNeg = true
-		for i := 0; i < rand.Intn(10); i++ {
-			m.nextProtos = append(m.nextProtos, randomString(20, rand))
-		}
-	}
-
-	if rand.Intn(10) > 5 {
 		m.ocspStapling = true
 	}
 	if rand.Intn(10) > 5 {
@@ -305,12 +297,6 @@ func (*clientKeyExchangeMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 func (*finishedMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 	m := &finishedMsg{}
 	m.verifyData = randomBytes(12, rand)
-	return reflect.ValueOf(m)
-}
-
-func (*nextProtoMsg) Generate(rand *rand.Rand, size int) reflect.Value {
-	m := &nextProtoMsg{}
-	m.proto = randomString(rand.Intn(255), rand)
 	return reflect.ValueOf(m)
 }
 
