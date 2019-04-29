@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22c84398_59d50d06",
+        "filename": "src/cmd/go/internal/modload/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-29T14:15:02Z",
+      "side": 1,
+      "message": "This condition seems much more complex than necessary: the call to `semver.Compare` is at least partially redundant with the `info.Version !\u003d m.Version` check, and it\u0027s not at all clear to me why the behavior should depend upon whether `m.Version` is a pseudo-version.\n\nPerhaps instead:\n\nif info, err :\u003d […]; err \u003d\u003d nil \u0026\u0026 semver.Compare(info.Version, m.Version) \u003e 0 {\n\tm.Update \u003d […]\n}",
+      "range": {
+        "startLine": 83,
+        "startChar": 5,
+        "endLine": 83,
+        "endChar": 83
+      },
+      "revId": "0d3e16535a87d0f402ca6cdd1e6ce3397622d739",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e33a2a93_05006d70",
+        "filename": "src/cmd/go/internal/modload/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-29T14:15:02Z",
+      "side": 1,
+      "message": "(nit)\n\n0 is the central value for compare functions, so I find it much easier to read `Compare([…]) \u003c\u003d 0` than `Compare([…]) \u003c 1`.\n\nComparison against 0 makes the operator for the integer comparison the same as the operator logically applied to the versions themselves. (`\u003c\u003d 0` is `info.Version \u003c\u003d m.Version`, `\u003c 0` is `info.Version \u003c m.Version`, etc.)",
+      "range": {
+        "startLine": 83,
+        "startChar": 84,
+        "endLine": 83,
+        "endChar": 87
+      },
+      "revId": "0d3e16535a87d0f402ca6cdd1e6ce3397622d739",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb4b0f07_86bde8c4",
+        "filename": "src/cmd/go/testdata/script/mod_list_upgrade_pseudo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-29T14:15:02Z",
+      "side": 1,
+      "message": "If there are only three commits and the behavior does not depend on a specific VCS tool, please add a minimal module with equivalent structure to cmd/go/testdata/mod and make the test hermetic.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "0d3e16535a87d0f402ca6cdd1e6ce3397622d739",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f937edb_e1b2005f",
+        "filename": "src/cmd/go/testdata/script/mod_list_upgrade_pseudo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-29T14:15:02Z",
+      "side": 1,
+      "message": "Please pass `go get` flags to do the least amount of work necessary to verify the intended behavior.\n\n(In this case, I think `go get -m` would suffice.)",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 49
+      },
+      "revId": "0d3e16535a87d0f402ca6cdd1e6ce3397622d739",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
