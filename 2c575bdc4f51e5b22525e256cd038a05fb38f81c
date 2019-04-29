@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbd4f5ea_e6dc8591",
+        "filename": "src/index/suffixarray/sais.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 31971
+      },
+      "writtenOn": "2019-04-29T17:23:05Z",
+      "side": 1,
+      "message": "I think you mean the last byte.",
+      "revId": "2c575bdc4f51e5b22525e256cd038a05fb38f81c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee1aba18_9ae81f02",
+        "filename": "src/index/suffixarray/sais.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 31971
+      },
+      "writtenOn": "2019-04-29T17:23:05Z",
+      "side": 1,
+      "message": "Fix typo",
+      "range": {
+        "startLine": 570,
+        "startChar": 38,
+        "endLine": 570,
+        "endChar": 43
+      },
+      "revId": "2c575bdc4f51e5b22525e256cd038a05fb38f81c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
