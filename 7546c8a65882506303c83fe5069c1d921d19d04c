@@ -46,6 +46,23 @@
       "revId": "7546c8a65882506303c83fe5069c1d921d19d04c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6811f89b_d8ebc090",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-29T23:05:35Z",
+      "side": 1,
+      "message": "Ah, this is the line I missed in my earlier read. Now I understand.",
+      "revId": "7546c8a65882506303c83fe5069c1d921d19d04c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
