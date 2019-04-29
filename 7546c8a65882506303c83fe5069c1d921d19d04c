@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cf785ae_fe209551",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-29T21:00:26Z",
+      "side": 1,
+      "message": "I assume that something else emits the creation of the map when the len(dynamics) \u003d\u003d 0 case breaks out?",
+      "range": {
+        "startLine": 1281,
+        "startChar": 35,
+        "endLine": 1281,
+        "endChar": 62
+      },
+      "revId": "7546c8a65882506303c83fe5069c1d921d19d04c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
