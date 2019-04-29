@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "8b5e4d1f_b7edfed4",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-04-29T19:55:34Z",
+      "side": 1,
+      "message": "I actually like your way better, so I changed it, and we can see if any prescriptivists care to update it back. There\u0027s already plenty of precedent for putting the period outside the quotes in the codebase already, such as this one from the go tool docs:\n\nhttps://github.com/golang/go/blob/2b8cbc384d092dc63e9dc18ec318d0682185611c/src/cmd/go/alldocs.go#L2186",
+      "parentUuid": "aa5c29a1_1d64d88b",
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c3cb1dd_374bdd58",
         "filename": "src/testing/testing.go",
         "patchSetId": 1
@@ -184,6 +202,30 @@
       "side": 1,
       "message": "It\u0027s unrelated to this CL at least, so I\u0027d revert it for now.",
       "parentUuid": "02953b57_d91ae5c7",
+      "range": {
+        "startLine": 282,
+        "startChar": 14,
+        "endLine": 282,
+        "endChar": 15
+      },
+      "revId": "15a64f5894bea8cbc2bc553b3e907155382b8a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8049749_75b4f343",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-04-29T19:55:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fa4c232_8b666fcc",
       "range": {
         "startLine": 282,
         "startChar": 14,
