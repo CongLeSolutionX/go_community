@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !s390x
-
 // Package ecdsa implements the Elliptic Curve Digital Signature Algorithm, as
 // defined in FIPS 186-3.
 //
@@ -23,14 +21,91 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/elliptic"
+	"crypto/internal/randutil"
 	"crypto/sha512"
 	"encoding/asn1"
 	"errors"
+	"internal/cpu"
 	"io"
 	"math/big"
-
-	"crypto/internal/randutil"
 )
+
+// s390x accelerated signtures
+func kdsaSign(uint64, *byte) (uint64, uint64)
+
+type signverify int
+
+const (
+	signing signverify = iota
+	verifying
+)
+
+type bufferoffsets struct {
+	baseSize       int
+	hashSize       int
+	offsetHash     int
+	offsetKey1     int
+	offsetRNorKey2 int
+	offsetR        int
+	offsetS        int
+	functionCode   uint64
+}
+
+func preconditions(sv signverify, c elliptic.Curve, bo *bufferoffsets) (ret bool) {
+
+	bitSize := c.Params().BitSize
+	if !cpu.S390X.HasECDSA {
+		return false
+	}
+
+	switch bitSize {
+	case 256:
+		bo.baseSize = 32
+		bo.hashSize = 32
+		bo.offsetHash = 64
+		bo.offsetKey1 = 96
+		bo.offsetRNorKey2 = 128
+		bo.offsetR = 0
+		bo.offsetS = 32
+		if sv == signing {
+			bo.functionCode = 9
+		} else {
+			bo.functionCode = 1
+		}
+		ret = true
+	case 384:
+		bo.baseSize = 48
+		bo.hashSize = 48
+		bo.offsetHash = 96
+		bo.offsetKey1 = 144
+		bo.offsetRNorKey2 = 192
+		bo.offsetR = 0
+		bo.offsetS = 48
+		if sv == signing {
+			bo.functionCode = 10
+		} else {
+			bo.functionCode = 2
+		}
+		ret = true
+	case 521:
+		bo.baseSize = 66
+		bo.hashSize = 80
+		bo.offsetHash = 160
+		bo.offsetKey1 = 254
+		bo.offsetRNorKey2 = 334
+		bo.offsetR = 14
+		bo.offsetS = 94
+		if sv == signing {
+			bo.functionCode = 11
+		} else {
+			bo.functionCode = 3
+		}
+		ret = true
+	default:
+		ret = false
+	}
+	return
+}
 
 // A invertible implements fast inverse mod Curve.Params().N
 type invertible interface {
@@ -150,6 +225,11 @@ func fermatInverse(k, N *big.Int) *big.Int {
 
 var errZeroParam = errors.New("zero parameter")
 
+type parameters struct {
+	baseSize, hashSize, offsetHash, offsetKey1, offsetRNorKey2, offsetR, offsetS int
+	functionCode                                                                 uint64
+}
+
 // Sign signs a hash (which should be the result of hashing a larger message)
 // using the private key, priv. If the hash is longer than the bit-length of the
 // private key's curve order, the hash will be truncated to that length.  It
@@ -197,34 +277,67 @@ func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err err
 		return nil, nil, errZeroParam
 	}
 	var k, kInv *big.Int
-	for {
+	e := hashToInt(hash, c)
+	var bo bufferoffsets
+	if preconditions(signing, c, &bo) && e.Sign() != 0 {
+		var buffer [1720]byte
+		var filler [80]byte
 		for {
 			k, err = randFieldElement(c, csprng)
 			if err != nil {
 				r = nil
 				return
 			}
-
-			if in, ok := priv.Curve.(invertible); ok {
-				kInv = in.Inverse(k)
-			} else {
-				kInv = fermatInverse(k, N) // N != 0
+			rsize := bo.hashSize - len(e.Bytes())
+			copy(buffer[bo.offsetHash:], filler[0:rsize])
+			copy(buffer[bo.offsetHash+rsize:], e.Bytes())
+			rsize = bo.baseSize - len(priv.D.Bytes())
+			copy(buffer[bo.offsetKey1:], filler[0:rsize])
+			copy(buffer[bo.offsetKey1+rsize:], priv.D.Bytes())
+			rsize = bo.baseSize - len(k.Bytes())
+			copy(buffer[bo.offsetRNorKey2:], filler[0:rsize])
+			copy(buffer[bo.offsetRNorKey2+rsize:], k.Bytes())
+			success, errn := kdsaSign(bo.functionCode, &buffer[0])
+			if errn == 1 {
+				return nil, nil, errZeroParam
 			}
-
-			r, _ = priv.Curve.ScalarBaseMult(k.Bytes())
-			r.Mod(r, N)
-			if r.Sign() != 0 {
+			if success == 0 { // success == 0 means successful signing
+				r = new(big.Int)
+				r.SetBytes(buffer[bo.offsetR : bo.offsetR+bo.baseSize])
+				s = new(big.Int)
+				s.SetBytes(buffer[bo.offsetS : bo.offsetS+bo.baseSize])
 				break
 			}
+			//at this point, it must be that success == 1 and errn == 2: retry
 		}
+	} else {
+		for {
+			for {
+				k, err = randFieldElement(c, csprng)
+				if err != nil {
+					r = nil
+					return
+				}
 
-		e := hashToInt(hash, c)
-		s = new(big.Int).Mul(priv.D, r)
-		s.Add(s, e)
-		s.Mul(s, kInv)
-		s.Mod(s, N) // N != 0
-		if s.Sign() != 0 {
-			break
+				if in, ok := priv.Curve.(invertible); ok {
+					kInv = in.Inverse(k)
+				} else {
+					kInv = fermatInverse(k, N) // N != 0
+				}
+
+				r, _ = priv.Curve.ScalarBaseMult(k.Bytes())
+				r.Mod(r, N)
+				if r.Sign() != 0 {
+					break
+				}
+			}
+			s = new(big.Int).Mul(priv.D, r)
+			s.Add(s, e)
+			s.Mul(s, kInv)
+			s.Mod(s, N) // N != 0
+			if s.Sign() != 0 {
+				break
+			}
 		}
 	}
 
@@ -244,35 +357,62 @@ func Verify(pub *PublicKey, hash []byte, r, s *big.Int) bool {
 	if r.Cmp(N) >= 0 || s.Cmp(N) >= 0 {
 		return false
 	}
+
 	e := hashToInt(hash, c)
-
-	var w *big.Int
-	if in, ok := c.(invertible); ok {
-		w = in.Inverse(s)
+	var bo bufferoffsets
+	if preconditions(verifying, c, &bo) && e.Sign() != 0 {
+		var buffer [1720]byte
+		var filler [80]byte
+		rsize := bo.baseSize - len(r.Bytes())
+		copy(buffer[bo.offsetR:], filler[0:rsize])
+		copy(buffer[bo.offsetR+rsize:], r.Bytes())
+		rsize = bo.baseSize - len(s.Bytes())
+		copy(buffer[bo.offsetS:], filler[0:rsize])
+		copy(buffer[bo.offsetS+rsize:], s.Bytes())
+		rsize = bo.hashSize - len(e.Bytes())
+		copy(buffer[bo.offsetHash:], filler[0:rsize])
+		copy(buffer[bo.offsetHash+rsize:], e.Bytes())
+		rsize = bo.baseSize - len(pub.X.Bytes())
+		copy(buffer[bo.offsetKey1:], filler[0:rsize])
+		copy(buffer[bo.offsetKey1+rsize:], pub.X.Bytes())
+		rsize = bo.baseSize - len(pub.Y.Bytes())
+		copy(buffer[bo.offsetRNorKey2:], filler[0:rsize])
+		copy(buffer[bo.offsetRNorKey2+rsize:], pub.Y.Bytes())
+		_, errn := kdsaSign(bo.functionCode, &buffer[0])
+		if errn == 1 || errn == 2 {
+			return false
+		}
+		// success == 0 means successful verification
+		return true
 	} else {
-		w = new(big.Int).ModInverse(s, N)
-	}
+		var w *big.Int
+		if in, ok := c.(invertible); ok {
+			w = in.Inverse(s)
+		} else {
+			w = new(big.Int).ModInverse(s, N)
+		}
 
-	u1 := e.Mul(e, w)
-	u1.Mod(u1, N)
-	u2 := w.Mul(r, w)
-	u2.Mod(u2, N)
+		u1 := e.Mul(e, w)
+		u1.Mod(u1, N)
+		u2 := w.Mul(r, w)
+		u2.Mod(u2, N)
 
-	// Check if implements S1*g + S2*p
-	var x, y *big.Int
-	if opt, ok := c.(combinedMult); ok {
-		x, y = opt.CombinedMult(pub.X, pub.Y, u1.Bytes(), u2.Bytes())
-	} else {
-		x1, y1 := c.ScalarBaseMult(u1.Bytes())
-		x2, y2 := c.ScalarMult(pub.X, pub.Y, u2.Bytes())
-		x, y = c.Add(x1, y1, x2, y2)
-	}
+		// Check if implements S1*g + S2*p
+		var x, y *big.Int
+		if opt, ok := c.(combinedMult); ok {
+			x, y = opt.CombinedMult(pub.X, pub.Y, u1.Bytes(), u2.Bytes())
+		} else {
+			x1, y1 := c.ScalarBaseMult(u1.Bytes())
+			x2, y2 := c.ScalarMult(pub.X, pub.Y, u2.Bytes())
+			x, y = c.Add(x1, y1, x2, y2)
+		}
 
-	if x.Sign() == 0 && y.Sign() == 0 {
-		return false
+		if x.Sign() == 0 && y.Sign() == 0 {
+			return false
+		}
+		x.Mod(x, N)
+		return x.Cmp(r) == 0
 	}
-	x.Mod(x, N)
-	return x.Cmp(r) == 0
 }
 
 type zr struct {
