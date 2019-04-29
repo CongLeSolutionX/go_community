@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec0da86_cd661273",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-04-29T16:44:29Z",
+      "side": 1,
+      "message": "s/infinitive/infinite/",
+      "revId": "3390710fca2b5b21422a8811bf1d648428a8f5af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4393aa14_ebc0bf9c",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-04-29T16:44:29Z",
+      "side": 1,
+      "message": "I assume you\u0027ve reasoned that this can only happen with interfaces. If so, please briefly explain that in the comment.",
+      "revId": "3390710fca2b5b21422a8811bf1d648428a8f5af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5fa4436_35260453",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2339,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-04-29T16:44:29Z",
+      "side": 1,
+      "message": "// The decoder used to hang if decoding into an interface pointing to its own address.\n// See golang.org/issues/31740.",
+      "revId": "3390710fca2b5b21422a8811bf1d648428a8f5af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57862c3e_d80ce332",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2340,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-04-29T16:44:29Z",
+      "side": 1,
+      "message": "Name this after the bug, like TestUnmarshalRecursivePointer",
+      "revId": "3390710fca2b5b21422a8811bf1d648428a8f5af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
