@@ -13,7 +13,11 @@
 #ifdef GOOS_aix
 #define cgoCalleeStackSize 48
 #else
+#ifdef GOARCH_ppc64le
 #define cgoCalleeStackSize 32
+#else
+#define cgoCalleeStackSize 48
+#endif
 #endif
 
 TEXT runtime·rt0_go(SB),NOSPLIT,$0
@@ -94,6 +98,11 @@ nocgo:
 	MOVDU	R0, -8(R1)
 	MOVDU	R0, -8(R1)
 	MOVDU	R0, -8(R1)
+#ifdef GOARCH_ppc64
+	// ppc64 requires 48 bytes at least.
+	MOVDU	R0, -8(R1)
+	MOVDU	R0, -8(R1)
+#endif
 	BL	runtime·newproc(SB)
 	ADD	$(16+FIXED_FRAME), R1
 
@@ -199,6 +208,11 @@ TEXT runtime·mcall(SB), NOSPLIT|NOFRAME, $0-8
 	MOVDU	R0, -8(R1)
 	MOVDU	R0, -8(R1)
 	MOVDU	R0, -8(R1)
+#ifdef GOARCH_ppc64
+	// ppc64 requires 48 bytes at least.
+	MOVDU	R0, -8(R1)
+	MOVDU	R0, -8(R1)
+#endif
 	BL	(CTR)
 	MOVD	24(R1), R2
 	BR	runtime·badmcall2(SB)
@@ -565,7 +579,11 @@ TEXT gosave<>(SB),NOSPLIT|NOFRAME,$0
 #ifdef GOOS_aix
 #define asmcgocallSaveOffset cgoCalleeStackSize + 8
 #else
+#ifdef GOARCH_ppc64le
 #define asmcgocallSaveOffset cgoCalleeStackSize
+#else
+#define asmcgocallSaveOffset cgoCalleeStackSize + 8
+#endif
 #endif
 
 // func asmcgocall(fn, arg unsafe.Pointer) int32

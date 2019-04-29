@@ -20,6 +20,9 @@
 //
 // The reason for using a constant is to make supporting PIC easier (although
 // we only support PIC on ppc64le which has a minimum 32 bytes of stack frame,
-// and currently always use that much, PIC on ppc64 would need to use 48).
-
+// PIC on ppc64 would need to use 48).
+#ifdef GOARCH_ppc64le
 #define FIXED_FRAME 32
+#else
+#define FIXED_FRAME 48
+#endif
