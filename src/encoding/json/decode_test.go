@@ -2334,3 +2334,15 @@ func TestUnmarshalPanic(t *testing.T) {
 	Unmarshal([]byte("{}"), &unmarshalPanic{})
 	t.Fatalf("Unmarshal should have panicked")
 }
+
+// test unmarshal hangs if v is a pointer to itself
+// Issue 31740.
+func TestIssue31740(t *testing.T) {
+	var v interface{}
+	v = &v
+	data := []byte(`{"a": "b"}`)
+
+	if err := Unmarshal(data, v); err != nil {
+		t.Fatal(err)
+	}
+}

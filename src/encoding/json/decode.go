@@ -535,6 +535,12 @@ func indirect(v reflect.Value, decodingNull bool) (Unmarshaler, encoding.TextUnm
 		if v.Elem().Kind() != reflect.Ptr && decodingNull && v.CanSet() {
 			break
 		}
+
+		// prevent infinitive loop if v is a pointer to itself
+		if v.Elem().Kind() == reflect.Interface && v.Elem().Elem() == v {
+			v = v.Elem()
+			break
+		}
 		if v.IsNil() {
 			v.Set(reflect.New(v.Type().Elem()))
 		}
