@@ -6,8 +6,9 @@ package tls
 
 import (
 	"fmt"
-	"golang.org/x/crypto/cryptobyte"
 	"strings"
+
+	"golang.org/x/crypto/cryptobyte"
 )
 
 // The marshalingFunction type is an adapter to allow the use of ordinary
@@ -605,7 +606,6 @@ type serverHelloMsg struct {
 	cipherSuite                  uint16
 	compressionMethod            uint8
 	nextProtoNeg                 bool
-	nextProtos                   []string
 	ocspStapling                 bool
 	ticketSupported              bool
 	secureRenegotiationSupported bool
@@ -643,16 +643,6 @@ func (m *serverHelloMsg) marshal() []byte {
 		bWithoutExtensions := *b
 
 		b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
-			if m.nextProtoNeg {
-				b.AddUint16(extensionNextProtoNeg)
-				b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
-					for _, proto := range m.nextProtos {
-						b.AddUint8LengthPrefixed(func(b *cryptobyte.Builder) {
-							b.AddBytes([]byte(proto))
-						})
-					}
-				})
-			}
 			if m.ocspStapling {
 				b.AddUint16(extensionStatusRequest)
 				b.AddUint16(0) // empty extension_data
@@ -771,16 +761,6 @@ func (m *serverHelloMsg) unmarshal(data []byte) bool {
 		}
 
 		switch extension {
-		case extensionNextProtoNeg:
-			m.nextProtoNeg = true
-			for !extData.Empty() {
-				var proto cryptobyte.String
-				if !extData.ReadUint8LengthPrefixed(&proto) ||
-					proto.Empty() {
-					return false
-				}
-				m.nextProtos = append(m.nextProtos, string(proto))
-			}
 		case extensionStatusRequest:
 			m.ocspStapling = true
 		case extensionSessionTicket:
@@ -1577,66 +1557,6 @@ func (m *finishedMsg) unmarshal(data []byte) bool {
 	return s.Skip(1) &&
 		readUint24LengthPrefixed(&s, &m.verifyData) &&
 		s.Empty()
-}
-
-type nextProtoMsg struct {
-	raw   []byte
-	proto string
-}
-
-func (m *nextProtoMsg) marshal() []byte {
-	if m.raw != nil {
-		return m.raw
-	}
-	l := len(m.proto)
-	if l > 255 {
-		l = 255
-	}
-
-	padding := 32 - (l+2)%32
-	length := l + padding + 2
-	x := make([]byte, length+4)
-	x[0] = typeNextProtocol
-	x[1] = uint8(length >> 16)
-	x[2] = uint8(length >> 8)
-	x[3] = uint8(length)
-
-	y := x[4:]
-	y[0] = byte(l)
-	copy(y[1:], []byte(m.proto[0:l]))
-	y = y[1+l:]
-	y[0] = byte(padding)
-
-	m.raw = x
-
-	return x
-}
-
-func (m *nextProtoMsg) unmarshal(data []byte) bool {
-	m.raw = data
-
-	if len(data) < 5 {
-		return false
-	}
-	data = data[4:]
-	protoLen := int(data[0])
-	data = data[1:]
-	if len(data) < protoLen {
-		return false
-	}
-	m.proto = string(data[0:protoLen])
-	data = data[protoLen:]
-
-	if len(data) < 1 {
-		return false
-	}
-	paddingLen := int(data[0])
-	data = data[1:]
-	if len(data) != paddingLen {
-		return false
-	}
-
-	return true
 }
 
 type certificateRequestMsg struct {
