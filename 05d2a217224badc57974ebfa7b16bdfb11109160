@@ -22,6 +22,30 @@
       "revId": "05d2a217224badc57974ebfa7b16bdfb11109160",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ae2c786_d93969da",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-29T19:06:28Z",
+      "side": 1,
+      "message": "Because I forgot about it. The one I\u0027m always wanting is strings.ContainsFold which doesn\u0027t exist (I have a version at https://godoc.org/go4.org/strutil#ContainsFold) so then I forget that EqualsFold _does_ exist.",
+      "parentUuid": "b5ebcbaf_4cc7a69d",
+      "range": {
+        "startLine": 775,
+        "startChar": 26,
+        "endLine": 775,
+        "endChar": 61
+      },
+      "revId": "05d2a217224badc57974ebfa7b16bdfb11109160",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
