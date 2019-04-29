@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "578e820f_44e13aeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5184
+      },
+      "writtenOn": "2019-04-29T07:43:27Z",
+      "side": 1,
+      "message": "Sorry for the nit but:\n\nstrconv: Document ParseFloat\u0027s special cases\n\nUpdates #30990",
+      "revId": "fc24347def39ada3942b38efc1e626fbed7ac1f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
