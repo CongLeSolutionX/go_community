@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae7cca2b_a05809ee",
+        "filename": "src/runtime/os_openbsd_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-29T05:30:07Z",
+      "side": 1,
+      "message": "If you\u0027re saying \"For now\" in a comment, also reference (creating if necessary) a tracking bug.",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "97fbed57bbaa5ebdea17fa99cbc2bf207d8a6e35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
