@@ -662,6 +662,11 @@ func (t *tester) registerTests() {
 		t.registerTest("testgodefs", "../misc/cgo/testgodefs", "./test.bash")
 	}
 
+	if goos != "js" && goos != "nacl" {
+		// This test requires Node.js and os/exec yet ironically os/exec doesn't work on wasm builders.
+		t.registerTest("testwasmmultibyteargv", "../misc/wasm/testmultibyteargv", t.goTest(), t.timeout(600))
+	}
+
 	// Don't run these tests with $GO_GCFLAGS because most of them
 	// assume that they can run "go install" with no -gcflags and not
 	// recompile the entire standard library. If make.bash ran with
