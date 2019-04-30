@@ -21,13 +21,23 @@ type closure func(i, j int) ent
 
 type ent int
 
-func (e ent) String() string {
-	return fmt.Sprintf("%d", int(e)) // ERROR "ent.String ... argument does not escape$" "int\(e\) escapes to heap$"
+//go:noinline
+func fmt_Sprintf(f string, a ...interface{}) string { // ERROR "fmt_Sprintf f does not escape$" "leaking param content: a$"
+	return fmt.Sprintf(f, a...)
 }
 
 //go:noinline
-func foo(ops closure, j int) (err fmt.Stringer) { // ERROR "foo ops does not escape"
-	enqueue := func(i int) fmt.Stringer { // ERROR "foo func literal does not escape"
+func fmt_Printf(f string, a ...interface{}) { // ERROR "fmt_Printf f does not escape$" "leaking param content: a$"
+	fmt.Printf(f, a...)
+}
+
+func (e ent) String() string {
+	return fmt_Sprintf("%d", int(e)) // ERROR "ent.String ... argument does not escape$" "int\(e\) escapes to heap$"
+}
+
+//go:noinline
+func foo(ops closure, j int) (err fmt.Stringer) { // ERROR "foo ops does not escape$"
+	enqueue := func(i int) fmt.Stringer { // ERROR "foo func literal does not escape$"
 		return ops(i, j) // ERROR "ops\(i, j\) escapes to heap$"
 	}
 	err = enqueue(4)
@@ -39,9 +49,9 @@ func foo(ops closure, j int) (err fmt.Stringer) { // ERROR "foo ops does not esc
 
 func main() {
 	// 3 identical functions, to get different escape behavior.
-	f := func(i, j int) ent { // ERROR "main func literal does not escape"
+	f := func(i, j int) ent { // ERROR "main func literal does not escape$"
 		return ent(i + j)
 	}
 	i := foo(f, 3).(ent)
-	fmt.Printf("foo(f,3)=%d\n", int(i)) // ERROR "int\(i\) escapes to heap$" "main ... argument does not escape$"
+	fmt_Printf("foo(f,3)=%d\n", int(i)) // ERROR "int\(i\) escapes to heap$" "main ... argument does not escape$"
 }

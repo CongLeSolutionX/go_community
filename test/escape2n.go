@@ -13,6 +13,7 @@ package foo
 
 import (
 	"fmt"
+	"reflect"
 	"unsafe"
 )
 
@@ -146,13 +147,13 @@ func (b Bar) AlsoLeak() *int { // ERROR "leaking param: b to result ~r0 level=0$
 }
 
 func (b Bar) LeaksToo() *int { // ERROR "leaking param: b to result ~r0 level=0$"
-	v := 0    // ERROR "moved to heap: v$"
+	v := 0 // ERROR "moved to heap: v$"
 	b.ii = &v
 	return b.ii
 }
 
 func (b *Bar) LeaksABit() *int { // ERROR "leaking param: b to result ~r0 level=1$"
-	v := 0    // ERROR "moved to heap: v$"
+	v := 0 // ERROR "moved to heap: v$"
 	b.ii = &v
 	return b.ii
 }
@@ -522,7 +523,7 @@ func foo72a() {
 	var y [10]*int
 	for i := 0; i < 10; i++ {
 		// escapes its scope
-		x := i    // ERROR "moved to heap: x$"
+		x := i // ERROR "moved to heap: x$"
 		y[i] = &x
 	}
 	return
@@ -531,7 +532,7 @@ func foo72a() {
 func foo72b() [10]*int {
 	var y [10]*int
 	for i := 0; i < 10; i++ {
-		x := i    // ERROR "moved to heap: x$"
+		x := i // ERROR "moved to heap: x$"
 		y[i] = &x
 	}
 	return y
@@ -620,15 +621,15 @@ func myprint1(y *int, x ...interface{}) *interface{} { // ERROR "leaking param: 
 }
 
 func foo75(z *int) { // ERROR "foo75 z does not escape$"
-	myprint(z, 1, 2, 3) // ERROR "1 does not escape" "2 does not escape" "3 does not escape" "foo75 ... argument does not escape$"
+	myprint(z, 1, 2, 3) // ERROR "foo75 ... argument does not escape$" "foo75 1 does not escape$" "foo75 2 does not escape$" "foo75 3 does not escape$"
 }
 
 func foo75a(z *int) { // ERROR "foo75a z does not escape$"
-	myprint1(z, 1, 2, 3) // ERROR "1 does not escape" "2 does not escape" "3 does not escape" "foo75a ... argument does not escape$"
+	myprint1(z, 1, 2, 3) // ERROR "foo75a ... argument does not escape$" "foo75a 1 does not escape$" "foo75a 2 does not escape$" "foo75a 3 does not escape$"
 }
 
 func foo75esc(z *int) { // ERROR "leaking param: z$"
-	gxx = myprint(z, 1, 2, 3) // ERROR "1 does not escape" "2 does not escape" "3 does not escape" "foo75esc ... argument does not escape$"
+	gxx = myprint(z, 1, 2, 3) // ERROR "foo75esc ... argument does not escape$" "foo75esc 1 does not escape$" "foo75esc 2 does not escape$" "foo75esc 3 does not escape$"
 }
 
 func foo75aesc(z *int) { // ERROR "foo75aesc z does not escape$"
@@ -640,28 +641,28 @@ func foo75aesc1(z *int) { // ERROR "foo75aesc1 z does not escape$"
 	sink = myprint1(z, 1, 2, 3) // ERROR "... argument escapes to heap$" "1 escapes to heap$" "2 escapes to heap$" "3 escapes to heap$" "myprint1\(z, 1, 2, 3\) escapes to heap$"
 }
 
-func foo76(z *int) { // ERROR "z does not escape"
-	myprint(nil, z) // ERROR "foo76 ... argument does not escape$" "z does not escape"
+func foo76(z *int) { // ERROR "foo76 z does not escape$"
+	myprint(nil, z) // ERROR "foo76 ... argument does not escape$" "foo76 z does not escape$"
 }
 
-func foo76a(z *int) { // ERROR "z does not escape"
-	myprint1(nil, z) // ERROR "foo76a ... argument does not escape$" "z does not escape"
+func foo76a(z *int) { // ERROR "foo76a z does not escape$"
+	myprint1(nil, z) // ERROR "foo76a ... argument does not escape$" "foo76a z does not escape$"
 }
 
 func foo76b() {
-	myprint(nil, 1, 2, 3) // ERROR "1 does not escape" "2 does not escape" "3 does not escape" "foo76b ... argument does not escape$"
+	myprint(nil, 1, 2, 3) // ERROR "foo76b ... argument does not escape$" "foo76b 1 does not escape$" "foo76b 2 does not escape$" "foo76b 3 does not escape$"
 }
 
 func foo76c() {
-	myprint1(nil, 1, 2, 3) // ERROR "1 does not escape" "2 does not escape" "3 does not escape" "foo76c ... argument does not escape$"
+	myprint1(nil, 1, 2, 3) // ERROR "foo76c ... argument does not escape$" "foo76c 1 does not escape$" "foo76c 2 does not escape$" "foo76c 3 does not escape$"
 }
 
 func foo76d() {
-	defer myprint(nil, 1, 2, 3) // ERROR "1 does not escape" "2 does not escape" "3 does not escape" "foo76d ... argument does not escape$"
+	defer myprint(nil, 1, 2, 3) // ERROR "foo76d ... argument does not escape$" "foo76d 1 does not escape$" "foo76d 2 does not escape$" "foo76d 3 does not escape$"
 }
 
 func foo76e() {
-	defer myprint1(nil, 1, 2, 3) // ERROR "1 does not escape" "2 does not escape" "3 does not escape" "foo76e ... argument does not escape$"
+	defer myprint1(nil, 1, 2, 3) // ERROR "foo76e ... argument does not escape$" "foo76e 1 does not escape$" "foo76e 2 does not escape$" "foo76e 3 does not escape$"
 }
 
 func foo76f() {
@@ -696,10 +697,10 @@ func foo77c(z []interface{}) { // ERROR "leaking param: z$"
 
 func dotdotdot() {
 	i := 0
-	myprint(nil, &i) // ERROR "&i does not escape" "dotdotdot ... argument does not escape$"
+	myprint(nil, &i) // ERROR "dotdotdot &i does not escape$" "dotdotdot ... argument does not escape$"
 
 	j := 0
-	myprint1(nil, &j) // ERROR "&j does not escape" "dotdotdot ... argument does not escape$"
+	myprint1(nil, &j) // ERROR "dotdotdot &j does not escape$" "dotdotdot ... argument does not escape$"
 }
 
 func foo78(z int) *int { // ERROR "moved to heap: z$"
@@ -739,11 +740,11 @@ func tee(p *int) (x, y *int) { return p, p } // ERROR "leaking param: p to resul
 func noop(x, y *int) {} // ERROR "noop x does not escape$" "noop y does not escape$"
 
 func foo82() {
-	var x, y, z int  // ERROR "moved to heap: x$" "moved to heap: y$" "moved to heap: z$"
+	var x, y, z int // ERROR "moved to heap: x$" "moved to heap: y$" "moved to heap: z$"
 	go noop(tee(&z))
 	go noop(&x, &y)
 	for {
-		var u, v, w int     // ERROR "moved to heap: u$" "moved to heap: v$" "moved to heap: w$"
+		var u, v, w int // ERROR "moved to heap: u$" "moved to heap: v$" "moved to heap: w$"
 		defer noop(tee(&u))
 		defer noop(&v, &w)
 	}
@@ -783,7 +784,7 @@ func foo93(c chan *int) *int { // ERROR "foo93 c does not escape$"
 }
 
 // does not leak m
-func foo94(m map[*int]*int, b bool) *int { // ERROR "leaking param: m to result ~r2 level=1"
+func foo94(m map[*int]*int, b bool) *int { // ERROR "leaking param: m to result ~r2 level=1$"
 	for k, v := range m {
 		if b {
 			return k
@@ -799,7 +800,7 @@ func foo95(m map[*int]*int, x *int) { // ERROR "foo95 m does not escape$" "leaki
 }
 
 // does not leak m but does leak content
-func foo96(m []*int) *int { // ERROR "leaking param: m to result ~r1 level=1"
+func foo96(m []*int) *int { // ERROR "leaking param: m to result ~r1 level=1$"
 	return m[0]
 }
 
@@ -819,7 +820,7 @@ func foo99(m *[1]*int) []*int { // ERROR "leaking param: m to result ~r1 level=0
 }
 
 // does not leak m
-func foo100(m []*int) *int { // ERROR "leaking param: m to result ~r1 level=1"
+func foo100(m []*int) *int { // ERROR "leaking param: m to result ~r1 level=1$"
 	for _, v := range m {
 		return v
 	}
@@ -855,12 +856,12 @@ func foo103(m [1]*int, x *int) { // ERROR "foo103 m does not escape$" "foo103 x 
 var y []*int
 
 // does not leak x but does leak content
-func foo104(x []*int) { // ERROR "leaking param content: x"
+func foo104(x []*int) { // ERROR "leaking param content: x$"
 	copy(y, x)
 }
 
 // does not leak x but does leak content
-func foo105(x []*int) { // ERROR "leaking param content: x"
+func foo105(x []*int) { // ERROR "leaking param content: x$"
 	_ = append(y, x...)
 }
 
@@ -890,7 +891,7 @@ func foo110(x *int) *int { // ERROR "leaking param: x$"
 	return m[nil]
 }
 
-func foo111(x *int) *int { // ERROR "leaking param: x to result ~r1 level=0"
+func foo111(x *int) *int { // ERROR "leaking param: x to result ~r1 level=0$"
 	m := []*int{x} // ERROR "foo111 \[\]\*int literal does not escape$"
 	return m[0]
 }
@@ -916,10 +917,10 @@ func foo115(x *int) *int { // ERROR "leaking param: x to result ~r1 level=0$"
 
 func foo116(b bool) *int {
 	if b {
-		x := 1    // ERROR "moved to heap: x$"
+		x := 1 // ERROR "moved to heap: x$"
 		return &x
 	} else {
-		y := 1    // ERROR "moved to heap: y$"
+		y := 1 // ERROR "moved to heap: y$"
 		return &y
 	}
 	return nil
@@ -931,7 +932,7 @@ func foo117(unknown func(interface{})) { // ERROR "foo117 unknown does not escap
 }
 
 func foo118(unknown func(*int)) { // ERROR "foo118 unknown does not escape$"
-	x := 1      // ERROR "moved to heap: x$"
+	x := 1 // ERROR "moved to heap: x$"
 	unknown(&x)
 }
 
@@ -1156,8 +1157,8 @@ func foo121() {
 // same as foo121 but check across import
 func foo121b() {
 	for i := 0; i < 10; i++ {
-		defer fmt.Printf("%d", i) // ERROR "... argument escapes to heap$" "i escapes to heap$"
-		go fmt.Printf("%d", i)    // ERROR "... argument escapes to heap$" "i escapes to heap$"
+		defer fmt.Printf("%v", reflect.ValueOf(i)) // ERROR "... argument escapes to heap$" "i escapes to heap$" "reflect.ValueOf\(i\) escapes to heap$"
+		go fmt.Printf("%v", reflect.ValueOf(i))    // ERROR "... argument escapes to heap$" "i escapes to heap$" "reflect.ValueOf\(i\) escapes to heap$"
 	}
 }
 
@@ -1185,7 +1186,7 @@ L1:
 func foo124(x **int) { // ERROR "foo124 x does not escape$"
 	var i int // ERROR "moved to heap: i$"
 	p := &i
-	func() {  // ERROR "foo124 func literal does not escape$"
+	func() { // ERROR "foo124 func literal does not escape$"
 		*x = p
 	}()
 }
@@ -1193,7 +1194,7 @@ func foo124(x **int) { // ERROR "foo124 x does not escape$"
 func foo125(ch chan *int) { // ERROR "foo125 ch does not escape$"
 	var i int // ERROR "moved to heap: i$"
 	p := &i
-	func() {  // ERROR "foo125 func literal does not escape$"
+	func() { // ERROR "foo125 func literal does not escape$"
 		ch <- p
 	}()
 }
@@ -1229,7 +1230,7 @@ func foo128() {
 func foo129() {
 	var i int // ERROR "moved to heap: i$"
 	p := &i
-	func() {  // ERROR "foo129 func literal does not escape$"
+	func() { // ERROR "foo129 func literal does not escape$"
 		q := p
 		func() { // ERROR "foo129.func1 func literal does not escape$"
 			r := q
@@ -1281,7 +1282,7 @@ func foo134() {
 }
 
 func foo135() {
-	var i int   // ERROR "moved to heap: i$"
+	var i int // ERROR "moved to heap: i$"
 	p := &i
 	go func() { // ERROR "func literal escapes to heap$"
 		q := p
@@ -1293,7 +1294,7 @@ func foo135() {
 }
 
 func foo136() {
-	var i int   // ERROR "moved to heap: i$"
+	var i int // ERROR "moved to heap: i$"
 	p := &i
 	go func() { // ERROR "func literal escapes to heap$"
 		q := p
@@ -1307,7 +1308,7 @@ func foo136() {
 func foo137() {
 	var i int // ERROR "moved to heap: i$"
 	p := &i
-	func() {  // ERROR "foo137 func literal does not escape$"
+	func() { // ERROR "foo137 func literal does not escape$"
 		q := p
 		go func() { // ERROR "func literal escapes to heap$"
 			r := q
@@ -1320,7 +1321,7 @@ func foo138() *byte {
 	type T struct {
 		x [1]byte
 	}
-	t := new(T)    // ERROR "new\(T\) escapes to heap$"
+	t := new(T) // ERROR "new\(T\) escapes to heap$"
 	return &t.x[0]
 }
 
@@ -1330,7 +1331,7 @@ func foo139() *byte {
 			y byte
 		}
 	}
-	t := new(T)   // ERROR "new\(T\) escapes to heap$"
+	t := new(T) // ERROR "new\(T\) escapes to heap$"
 	return &t.x.y
 }
 
@@ -1498,7 +1499,7 @@ func bar151() {
 }
 
 func bar151b() {
-	var a [10]int      // ERROR "moved to heap: a$"
+	var a [10]int // ERROR "moved to heap: a$"
 	b := a[:]
 	foo151(&b[4:8][0])
 }
@@ -1510,7 +1511,7 @@ func bar151c() {
 }
 
 func bar151d() {
-	var a [10]int        // ERROR "moved to heap: a$"
+	var a [10]int // ERROR "moved to heap: a$"
 	b := a[:]
 	foo151(&b[4:8:8][0])
 }
@@ -1534,7 +1535,7 @@ func NewV(u U) *V { // ERROR "leaking param: u$"
 }
 
 func foo152() {
-	a := "a"   // ERROR "moved to heap: a$"
+	a := "a" // ERROR "moved to heap: a$"
 	u := U{&a}
 	v := NewV(u)
 	println(v)
@@ -1542,7 +1543,7 @@ func foo152() {
 
 // issue 8176 - &x in type switch body not marked as escaping
 
-func foo153(v interface{}) *int { // ERROR "foo153 v does not escape"
+func foo153(v interface{}) *int { // ERROR "foo153 v does not escape$"
 	switch x := v.(type) {
 	case int: // ERROR "moved to heap: x$"
 		return &x
@@ -1611,7 +1612,7 @@ func (b *Buffer) bar() { // ERROR "leaking param: b$"
 	b.buf1 = b.arr[1:2]
 }
 
-func (b *Buffer) arrayPtr() { // ERROR "\(\*Buffer\).arrayPtr b does not escape"
+func (b *Buffer) arrayPtr() { // ERROR "\(\*Buffer\).arrayPtr b does not escape$"
 	b.buf1 = b.arrPtr[1:2]   // ERROR "\(\*Buffer\).arrayPtr ignoring self-assignment in b.buf1 = b.arrPtr\[1:2\]$"
 	b.buf1 = b.arrPtr[1:2:3] // ERROR "\(\*Buffer\).arrayPtr ignoring self-assignment in b.buf1 = b.arrPtr\[1:2:3\]$"
 }
@@ -1642,7 +1643,7 @@ type StructWithString struct {
 // to just x, and thus &i looks escaping.
 func fieldFlowTracking() {
 	var x StructWithString
-	i := 0     // ERROR "moved to heap: i$"
+	i := 0 // ERROR "moved to heap: i$"
 	x.p = &i
 	sink = x.s // ERROR "x.s escapes to heap$"
 }
@@ -1823,9 +1824,9 @@ func issue10353b() {
 }
 
 func issue11387(x int) func() int {
-	f := func() int { return x }    // ERROR "func literal escapes to heap"
-	slice1 := []func() int{f}       // ERROR "\[\].* does not escape"
-	slice2 := make([]func() int, 1) // ERROR "make\(.*\) does not escape"
+	f := func() int { return x }    // ERROR "func literal escapes to heap$"
+	slice1 := []func() int{f}       // ERROR "issue11387 \[\]func\(\) int literal does not escape$"
+	slice2 := make([]func() int, 1) // ERROR "issue11387 make\(\[\]func\(\) int, 1\) does not escape$"
 	copy(slice2, slice1)
 	return slice2[0]
 }

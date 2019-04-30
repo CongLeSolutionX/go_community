@@ -13,6 +13,16 @@ package main
 
 import "fmt"
 
+//go:noinline
+func fmt_Sprintf(f string, a ...interface{}) string { // ERROR "fmt_Sprintf f does not escape$" "leaking param content: a$"
+	return fmt.Sprintf(f, a...)
+}
+
+//go:noinline
+func fmt_Println(a ...interface{}) { // ERROR "leaking param content: a$"
+	fmt.Println(a...)
+}
+
 func main() {
 	// Just run test over and over again. This main func is just for
 	// convenience; if test were the main func, we could also trigger
@@ -20,7 +30,7 @@ func main() {
 	// (sometimes it takes 1 time, sometimes it takes ~4,000+).
 	for iter := 0; ; iter++ {
 		if iter%50 == 0 {
-			fmt.Println(iter) // ERROR "iter escapes to heap$" "main ... argument does not escape$"
+			fmt_Println(iter) // ERROR "iter escapes to heap$" "main ... argument does not escape$"
 		}
 		test1(iter)
 		test2(iter)
@@ -60,7 +70,7 @@ func test1(iter int) {
 	}
 
 	if len(m) != maxI {
-		panic(fmt.Sprintf("iter %d: maxI = %d, len(m) = %d", iter, maxI, len(m))) // ERROR "iter escapes to heap$" "len\(m\) escapes to heap$" "maxI escapes to heap$" "test1 ... argument does not escape$"
+		panic(fmt_Sprintf("iter %d: maxI = %d, len(m) = %d", iter, maxI, len(m))) // ERROR "iter escapes to heap$" "len\(m\) escapes to heap$" "maxI escapes to heap$" "test1 ... argument does not escape$"
 	}
 }
 
@@ -84,7 +94,7 @@ func test2(iter int) {
 	}
 
 	if len(m) != maxI {
-		panic(fmt.Sprintf("iter %d: maxI = %d, len(m) = %d", iter, maxI, len(m))) // ERROR "iter escapes to heap$" "len\(m\) escapes to heap$" "maxI escapes to heap$" "test2 ... argument does not escape$"
+		panic(fmt_Sprintf("iter %d: maxI = %d, len(m) = %d", iter, maxI, len(m))) // ERROR "iter escapes to heap$" "len\(m\) escapes to heap$" "maxI escapes to heap$" "test2 ... argument does not escape$"
 	}
 }
 
@@ -110,7 +120,7 @@ func test3(iter int) {
 	}
 
 	if *m != maxI {
-		panic(fmt.Sprintf("iter %d: maxI = %d, *m = %d", iter, maxI, *m)) // ERROR "\*m escapes to heap$" "iter escapes to heap$" "maxI escapes to heap$" "test3 ... argument does not escape$"
+		panic(fmt_Sprintf("iter %d: maxI = %d, *m = %d", iter, maxI, *m)) // ERROR "\*m escapes to heap$" "iter escapes to heap$" "maxI escapes to heap$" "test3 ... argument does not escape$"
 	}
 }
 
@@ -136,7 +146,7 @@ func test4(iter int) {
 	}
 
 	if *m != maxI {
-		panic(fmt.Sprintf("iter %d: maxI = %d, *m = %d", iter, maxI, *m)) // ERROR "\*m escapes to heap$" "iter escapes to heap$" "maxI escapes to heap$" "test4 ... argument does not escape$"
+		panic(fmt_Sprintf("iter %d: maxI = %d, *m = %d", iter, maxI, *m)) // ERROR "\*m escapes to heap$" "iter escapes to heap$" "maxI escapes to heap$" "test4 ... argument does not escape$"
 	}
 }
 
@@ -144,7 +154,7 @@ type str struct {
 	m *int
 }
 
-func recur1(j int, s *str) { // ERROR "recur1 s does not escape"
+func recur1(j int, s *str) { // ERROR "recur1 s does not escape$"
 	if j < 100 {
 		j++
 		recur1(j, s)
@@ -162,12 +172,12 @@ func test5(iter int) {
 	var fn *str
 	for i := 0; i < maxI; i++ {
 		// var fn *str // this makes it work, because fn stays off heap
-		fn = &str{m} // ERROR "&str literal escapes to heap"
+		fn = &str{m} // ERROR "&str literal escapes to heap$"
 		recur1(0, fn)
 	}
 
 	if *m != maxI {
-		panic(fmt.Sprintf("iter %d: maxI = %d, *m = %d", iter, maxI, *m)) // ERROR "\*m escapes to heap$" "iter escapes to heap$" "maxI escapes to heap$" "test5 ... argument does not escape$"
+		panic(fmt_Sprintf("iter %d: maxI = %d, *m = %d", iter, maxI, *m)) // ERROR "\*m escapes to heap$" "iter escapes to heap$" "maxI escapes to heap$" "test5 ... argument does not escape$"
 	}
 }
 
@@ -180,11 +190,11 @@ func test6(iter int) {
 	// var fn *str
 	for i := 0; i < maxI; i++ {
 		var fn *str  // this makes it work, because fn stays off heap
-		fn = &str{m} // ERROR "&str literal does not escape"
+		fn = &str{m} // ERROR "test6 &str literal does not escape$"
 		recur1(0, fn)
 	}
 
 	if *m != maxI {
-		panic(fmt.Sprintf("iter %d: maxI = %d, *m = %d", iter, maxI, *m)) // ERROR "\*m escapes to heap$" "iter escapes to heap$" "maxI escapes to heap$" "test6 ... argument does not escape$"
+		panic(fmt_Sprintf("iter %d: maxI = %d, *m = %d", iter, maxI, *m)) // ERROR "\*m escapes to heap$" "iter escapes to heap$" "maxI escapes to heap$" "test6 ... argument does not escape$"
 	}
 }

@@ -864,6 +864,37 @@ func (e *Escape) call(ks []EscHole, call, where *Node) {
 				arg = arg.Left
 			}
 		}
+		// Special case for fmt functions with known behavior
+		if static && fntype != nil && fn.Sym != nil && fn.Sym.Pkg != nil &&
+			i >= fntype.NumParams()-1 && arg.Op == OCONVIFACE &&
+			fn.Sym.Pkg.Path == "fmt" && len(fn.Sym.Name) >= 5 {
+			nam := fn.Sym.Name[0:5]
+			argt := arg.Left.Type
+			if nam == "Print" || nam == "Fprin" || nam == "Sprin" {
+				if (argt.IsInteger() || argt.IsFloat() || argt.IsBoolean() || argt.IsComplex() || argt.IsString()) &&
+					argt == types.Types[argt.Etype] {
+					// Dump("fmt.Printf builtin arg", arg)
+					e.discard(arg)
+					continue
+				} else if ms := argt.AllMethods(); ms != nil {
+					found := false
+				methods:
+					for _, m := range ms.Slice() {
+						switch m.Sym.Name {
+						case "String", "Format", "GoString":
+							found = true
+							// Dump("fmt.Printf method arg", arg)
+							break methods
+						}
+					}
+					if !found {
+						// Dump("fmt.Printf nonprimitive arg", arg)
+						e.discard(arg)
+						continue
+					}
+				}
+			}
+		}
 
 		// no augmentParamHole here; handled in loop before ODDDARG
 		e.expr(paramKs[i], arg)
