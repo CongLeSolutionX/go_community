@@ -864,6 +864,38 @@ func (e *Escape) call(ks []EscHole, call, where *Node) {
 				arg = arg.Left
 			}
 		}
+		// Special case for fmt functions with known behavior.
+		// Arguments that lack user-definable methods called by fmt.*
+		// will not escape.
+		if static && fntype != nil && fn.Sym != nil && fn.Sym.Pkg != nil &&
+			i >= fntype.NumParams()-1 && arg.Op == OCONVIFACE &&
+			fn.Sym.Pkg.Path == "fmt" && len(fn.Sym.Name) >= 5 {
+			nam := fn.Sym.Name[0:5]
+			argt := arg.Left.Type
+			if nam == "Print" || nam == "Fprin" || nam == "Sprin" {
+				// Test for builtin types first
+				if (argt.IsInteger() || argt.IsFloat() || argt.IsBoolean() || argt.IsComplex() || argt.IsString()) &&
+					argt == types.Types[argt.Etype] {
+					e.expr(e.augmentParamHole(e.discardHole(), where), arg)
+					continue
+				} else if ms := argt.AllMethods(); ms != nil && !argt.IsInterface() {
+					// Test for types lacking methods called by fmt.*
+					found := false
+				methods:
+					for _, m := range ms.Slice() {
+						switch m.Sym.Name {
+						case "String", "Format", "GoString":
+							found = true
+							break methods
+						}
+					}
+					if !found {
+						e.expr(e.augmentParamHole(e.discardHole(), where), arg)
+						continue
+					}
+				}
+			}
+		}
 
 		// no augmentParamHole here; handled in loop before ODDDARG
 		e.expr(paramKs[i], arg)

@@ -11,6 +11,8 @@
 
 package foo
 
+import "fmt"
+
 func f(buf []byte) []byte { // ERROR "leaking param: buf to result ~r1 level=0$"
 	return buf
 }
@@ -27,7 +29,7 @@ type Node struct {
 	left, right *Node
 }
 
-func walk(np **Node) int { // ERROR "leaking param content: np"
+func walk(np **Node) int { // ERROR "leaking param content: np$"
 	n := *np
 	w := len(n.s)
 	if n == nil {
@@ -36,7 +38,7 @@ func walk(np **Node) int { // ERROR "leaking param content: np"
 	wl := walk(&n.left)
 	wr := walk(&n.right)
 	if wl < wr {
-		n.left, n.right = n.right, n.left // ERROR "ignoring self-assignment"
+		n.left, n.right = n.right, n.left // ERROR "walk ignoring self-assignment in n.left, n.right = n.right, n.left$"
 		wl, wr = wr, wl
 	}
 	*np = n
@@ -44,11 +46,37 @@ func walk(np **Node) int { // ERROR "leaking param content: np"
 }
 
 // Test for bug where func var f used prototype's escape analysis results.
-func prototype(xyz []string) {} // ERROR "prototype xyz does not escape"
+func prototype(xyz []string) {} // ERROR "prototype xyz does not escape$"
 func bar() {
 	var got [][]string
 	f := prototype
-	f = func(ss []string) { got = append(got, ss) } // ERROR "leaking param: ss" "func literal does not escape"
+	f = func(ss []string) { got = append(got, ss) } // ERROR "bar func literal does not escape$" "leaking param: ss$"
 	s := "string"
-	f([]string{s}) // ERROR "\[\]string literal escapes to heap"
+	f([]string{s}) // ERROR "\[\]string literal escapes to heap$"
+}
+
+// Test for special treatment of arguments to fmt.Printf etc.
+type fooi int
+
+func (x fooi) String() string {
+	return "I am a foo"
+}
+
+type bari int
+
+func (x bari) NotString() string {
+	return "I am a bar"
+}
+
+var one = 1
+var you = "you"
+
+func fmtcaller() {
+	var ifooi interface{} = fooi(42) // ERROR "fooi\(42\) escapes to heap$"
+	var ibari interface{} = bari(17) // ERROR "bari\(17\) escapes to heap$"
+	if one == 2 {
+		ifooi = nil
+		ibari = nil
+	}
+	fmt.Printf("hi %s %s %d %d %s %v %v %v\n", "there", you, 1, one, fooi(11), bari(12), ifooi, ibari) // ERROR "fmtcaller ... argument does not escape$" "fmtcaller .there. does not escape$" "fmtcaller 1 does not escape$" "fmtcaller bari\(12\) does not escape$" "fmtcaller one does not escape$" "fmtcaller you does not escape$" "fooi\(11\) escapes to heap$"
 }
