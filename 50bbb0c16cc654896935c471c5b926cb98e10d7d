@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02705fe6_9cf4ce9a",
+        "filename": "src/cmd/cgo/godefs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-30T19:32:28Z",
+      "side": 1,
+      "message": "Seems like this will do the wrong thing for ++\\n, as only nonoverlapping replacements will be made.",
+      "revId": "50bbb0c16cc654896935c471c5b926cb98e10d7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08403b0b_6a0e7356",
+        "filename": "src/cmd/cgo/godefs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-04-30T19:32:28Z",
+      "side": 1,
+      "message": "Should have a space in the replacement string here, for consistency.",
+      "revId": "50bbb0c16cc654896935c471c5b926cb98e10d7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
