@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "134da1c3_23b883fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-30T23:28:37Z",
+      "side": 1,
+      "message": "I filed https://github.com/golang/go/issues/31771 to support RELNOTE here.",
+      "revId": "1a49216b7191850d499c733dc6b6eb3c739c3f87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
