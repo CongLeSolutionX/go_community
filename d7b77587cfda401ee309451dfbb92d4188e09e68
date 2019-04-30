@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83ab2122_fc8e8e17",
+        "filename": "src/cmd/go/internal/modload/query_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-30T16:27:21Z",
+      "side": 1,
+      "message": "Per #31662, I don\u0027t think this validation should happen in modload.Query at all: modload.Query doesn\u0027t know what the user is going to do with the module, so it shouldn\u0027t detect or diagnose mismatched paths.\n\nmodload.QueryPackage could probably report this sort of error, though, since it\u0027s looking for a specific package within a module. (I\u0027ll try to get CL 173017 in today so you\u0027re not buried in merge conflicts.)\n\n----\n\nThe error propagation from modload.Query to the actual `go` command output is also quite subtle. Tests here are fine, but it seems even more important to have an end-to-end test of this behavior in cmd/go/testdata/script.",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 178
+      },
+      "revId": "d7b77587cfda401ee309451dfbb92d4188e09e68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
