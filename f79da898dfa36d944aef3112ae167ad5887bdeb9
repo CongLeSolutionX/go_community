@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e456c8cb_76478025",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-30T17:54:42Z",
+      "side": 1,
+      "message": "This is a long link. Maybe just link the words \"As announced\" or just \"announced\"?",
+      "range": {
+        "startLine": 46,
+        "startChar": 29,
+        "endLine": 46,
+        "endChar": 67
+      },
+      "revId": "f79da898dfa36d944aef3112ae167ad5887bdeb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b361ba9_6854fadf",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-30T17:54:42Z",
+      "side": 1,
+      "message": "\"these\" plural?\n\nhow about \"previous versions of macOS\"",
+      "range": {
+        "startLine": 48,
+        "startChar": 35,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "f79da898dfa36d944aef3112ae167ad5887bdeb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaab8a35_2806d90e",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-30T17:54:42Z",
+      "side": 1,
+      "message": "likewise. \"of FreeBSD\"",
+      "range": {
+        "startLine": 56,
+        "startChar": 35,
+        "endLine": 56,
+        "endChar": 40
+      },
+      "revId": "f79da898dfa36d944aef3112ae167ad5887bdeb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
