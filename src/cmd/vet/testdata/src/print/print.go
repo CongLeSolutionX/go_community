@@ -7,6 +7,7 @@
 package print
 
 import (
+	"encoding/json"
 	"fmt"
 	logpkg "log" // renamed to make it harder to see
 	"math"
@@ -678,4 +679,16 @@ func PointersToCompoundTypes() {
 		X *T2
 	}
 	fmt.Printf("%s\n", T1{&T2{"x"}}) // ERROR "Printf format %s has arg T1{&T2{.x.}} of wrong type print\.T1"
+}
+
+func Issue30465() {
+	type T1 struct {
+		X string `json:"x"`
+	}
+	type T2 struct {
+		T1
+		X string `json:"x"`
+	}
+	var t2 T2
+	json.Marshal(&t2)
 }
