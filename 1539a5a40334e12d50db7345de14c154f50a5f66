@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43fd12f1_4166ccdf",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-30T20:59:24Z",
+      "side": 1,
+      "message": "Update this pattern",
+      "revId": "1539a5a40334e12d50db7345de14c154f50a5f66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283d66ff_84f34861",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-30T20:59:24Z",
+      "side": 1,
+      "message": "Should we only accept \"0\" here?",
+      "revId": "1539a5a40334e12d50db7345de14c154f50a5f66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa25f2b4_c9f03972",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-30T20:59:24Z",
+      "side": 1,
+      "message": "Looks like vet doesn\u0027t accept this :(",
+      "revId": "1539a5a40334e12d50db7345de14c154f50a5f66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
