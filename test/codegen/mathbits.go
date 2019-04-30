@@ -377,32 +377,38 @@ func IterateBits8(n uint8) int {
 func Add(x, y, ci uint) (r, co uint) {
 	// arm64:"ADDS","ADCS","ADC",-"ADD\t",-"CMP"
 	// amd64:"NEGL","ADCQ","SBBQ","NEGQ"
+	// s390x:"ADDE"
 	return bits.Add(x, y, ci)
 }
 
 func AddC(x, ci uint) (r, co uint) {
 	// arm64:"ADDS","ADCS","ADC",-"ADD\t",-"CMP"
 	// amd64:"NEGL","ADCQ","SBBQ","NEGQ"
+	// s390x:"ADDE"
 	return bits.Add(x, 7, ci)
 }
 
 func AddZ(x, y uint) (r, co uint) {
 	// arm64:"ADDS","ADC",-"ADCS",-"ADD\t",-"CMP"
 	// amd64:"ADDQ","SBBQ","NEGQ",-"NEGL",-"ADCQ"
+	// s390x:"ADDC",-"ADDE"
 	return bits.Add(x, y, 0)
 }
 
 func AddR(x, y, ci uint) uint {
 	// arm64:"ADDS","ADCS",-"ADD\t",-"CMP"
 	// amd64:"NEGL","ADCQ",-"SBBQ",-"NEGQ"
+	// s390x:"ADDE",-"IPM",-"RISBGZ",-"CMP"
 	r, _ := bits.Add(x, y, ci)
 	return r
 }
+
 func AddM(p, q, r *[3]uint) {
 	var c uint
 	r[0], c = bits.Add(p[0], q[0], c)
 	// arm64:"ADCS",-"ADD\t",-"CMP"
 	// amd64:"ADCQ",-"NEGL",-"SBBQ",-"NEGQ"
+	// s390x:"ADDE",-"IPM",-"RISBGZ",-"CMP"
 	r[1], c = bits.Add(p[1], q[1], c)
 	r[2], c = bits.Add(p[2], q[2], c)
 }
@@ -412,6 +418,7 @@ func Add64(x, y, ci uint64) (r, co uint64) {
 	// amd64:"NEGL","ADCQ","SBBQ","NEGQ"
 	// ppc64: "ADDC", "ADDE", "ADDZE"
 	// ppc64le: "ADDC", "ADDE", "ADDZE"
+	// s390x:"ADDE"
 	return bits.Add64(x, y, ci)
 }
 
@@ -420,6 +427,7 @@ func Add64C(x, ci uint64) (r, co uint64) {
 	// amd64:"NEGL","ADCQ","SBBQ","NEGQ"
 	// ppc64: "ADDC", "ADDE", "ADDZE"
 	// ppc64le: "ADDC", "ADDE", "ADDZE"
+	// s390x:"ADDE"
 	return bits.Add64(x, 7, ci)
 }
 
@@ -428,6 +436,7 @@ func Add64Z(x, y uint64) (r, co uint64) {
 	// amd64:"ADDQ","SBBQ","NEGQ",-"NEGL",-"ADCQ"
 	// ppc64: "ADDC", "ADDE", "ADDZE"
 	// ppc64le: "ADDC", "ADDE", "ADDZE"
+	// s390x:"ADDC",-"ADDE"
 	return bits.Add64(x, y, 0)
 }
 
@@ -436,6 +445,7 @@ func Add64R(x, y, ci uint64) uint64 {
 	// amd64:"NEGL","ADCQ",-"SBBQ",-"NEGQ"
 	// ppc64: "ADDC", "ADDE", "ADDZE"
 	// ppc64le: "ADDC", "ADDE", "ADDZE"
+	// s390x:"ADDE"
 	r, _ := bits.Add64(x, y, ci)
 	return r
 }
@@ -446,6 +456,7 @@ func Add64M(p, q, r *[3]uint64) {
 	// amd64:"ADCQ",-"NEGL",-"SBBQ",-"NEGQ"
 	// ppc64: "ADDC", "ADDE", "ADDZE"
 	// ppc64le: "ADDC", "ADDE", "ADDZE"
+	// s390x:"ADDE",-"IPM",-"RISBGZ",-"CMP"
 	r[1], c = bits.Add64(p[1], q[1], c)
 	r[2], c = bits.Add64(p[2], q[2], c)
 }

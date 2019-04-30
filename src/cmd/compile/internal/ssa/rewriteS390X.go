@@ -477,6 +477,10 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpRsh8x8_0(v)
 	case OpS390XADD:
 		return rewriteValueS390X_OpS390XADD_0(v) || rewriteValueS390X_OpS390XADD_10(v)
+	case OpS390XADDC:
+		return rewriteValueS390X_OpS390XADDC_0(v)
+	case OpS390XADDE:
+		return rewriteValueS390X_OpS390XADDE_0(v)
 	case OpS390XADDW:
 		return rewriteValueS390X_OpS390XADDW_0(v) || rewriteValueS390X_OpS390XADDW_10(v)
 	case OpS390XADDWconst:
@@ -6845,6 +6849,175 @@ func rewriteValueS390X_OpS390XADD_10(v *Value) bool {
 		v.AddArg(x)
 		v.AddArg(ptr)
 		v.AddArg(mem)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XADDC_0(v *Value) bool {
+	// match: (ADDC x (MOVDconst [c]))
+	// cond: is16Bit(c)
+	// result: (ADDCconst x [c])
+	for {
+		_ = v.Args[1]
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVDconst {
+			break
+		}
+		c := v_1.AuxInt
+		if !(is16Bit(c)) {
+			break
+		}
+		v.reset(OpS390XADDCconst)
+		v.AuxInt = c
+		v.AddArg(x)
+		return true
+	}
+	// match: (ADDC (MOVDconst [c]) x)
+	// cond: is16Bit(c)
+	// result: (ADDCconst x [c])
+	for {
+		x := v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XMOVDconst {
+			break
+		}
+		c := v_0.AuxInt
+		if !(is16Bit(c)) {
+			break
+		}
+		v.reset(OpS390XADDCconst)
+		v.AuxInt = c
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XADDE_0(v *Value) bool {
+	// match: (ADDE x y (FlagEQ))
+	// cond:
+	// result: (ADDC x y)
+	for {
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XFlagEQ {
+			break
+		}
+		v.reset(OpS390XADDC)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+	// match: (ADDE x y (FlagLT))
+	// cond:
+	// result: (ADDC x y)
+	for {
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XFlagLT {
+			break
+		}
+		v.reset(OpS390XADDC)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+	// match: (ADDE x y (Select1 (ADDCconst [-1] (Select0 (ADDE (MOVDconst [0]) (MOVDconst [0]) c)))))
+	// cond:
+	// result: (ADDE x y c)
+	for {
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpSelect1 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XADDCconst {
+			break
+		}
+		if v_2_0.AuxInt != -1 {
+			break
+		}
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpSelect0 {
+			break
+		}
+		v_2_0_0_0 := v_2_0_0.Args[0]
+		if v_2_0_0_0.Op != OpS390XADDE {
+			break
+		}
+		c := v_2_0_0_0.Args[2]
+		v_2_0_0_0_0 := v_2_0_0_0.Args[0]
+		if v_2_0_0_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		if v_2_0_0_0_0.AuxInt != 0 {
+			break
+		}
+		v_2_0_0_0_1 := v_2_0_0_0.Args[1]
+		if v_2_0_0_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		if v_2_0_0_0_1.AuxInt != 0 {
+			break
+		}
+		v.reset(OpS390XADDE)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(c)
+		return true
+	}
+	// match: (ADDE x y (Select1 (ADDCconst [-1] (Select0 (ADDE (MOVDconst [0]) (MOVDconst [0]) c)))))
+	// cond:
+	// result: (ADDE x y c)
+	for {
+		_ = v.Args[2]
+		x := v.Args[0]
+		y := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpSelect1 {
+			break
+		}
+		v_2_0 := v_2.Args[0]
+		if v_2_0.Op != OpS390XADDCconst {
+			break
+		}
+		if v_2_0.AuxInt != -1 {
+			break
+		}
+		v_2_0_0 := v_2_0.Args[0]
+		if v_2_0_0.Op != OpSelect0 {
+			break
+		}
+		v_2_0_0_0 := v_2_0_0.Args[0]
+		if v_2_0_0_0.Op != OpS390XADDE {
+			break
+		}
+		c := v_2_0_0_0.Args[2]
+		v_2_0_0_0_0 := v_2_0_0_0.Args[0]
+		if v_2_0_0_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		if v_2_0_0_0_0.AuxInt != 0 {
+			break
+		}
+		v_2_0_0_0_1 := v_2_0_0_0.Args[1]
+		if v_2_0_0_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		if v_2_0_0_0_1.AuxInt != 0 {
+			break
+		}
+		v.reset(OpS390XADDE)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(c)
 		return true
 	}
 	return false
@@ -40180,6 +40353,32 @@ func rewriteValueS390X_OpS390XXORload_0(v *Value) bool {
 }
 func rewriteValueS390X_OpSelect0_0(v *Value) bool {
 	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (Select0 (Add64carry x y c))
+	// cond:
+	// result: (Select0 <typ.UInt64> (ADDE x y (Select1 <types.TypeFlags> (ADDCconst c [-1]))))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpAdd64carry {
+			break
+		}
+		c := v_0.Args[2]
+		x := v_0.Args[0]
+		y := v_0.Args[1]
+		v.reset(OpSelect0)
+		v.Type = typ.UInt64
+		v0 := b.NewValue0(v.Pos, OpS390XADDE, types.NewTuple(typ.UInt64, types.TypeFlags))
+		v0.AddArg(x)
+		v0.AddArg(y)
+		v1 := b.NewValue0(v.Pos, OpSelect1, types.TypeFlags)
+		v2 := b.NewValue0(v.Pos, OpS390XADDCconst, types.NewTuple(typ.UInt64, types.TypeFlags))
+		v2.AuxInt = -1
+		v2.AddArg(c)
+		v1.AddArg(v2)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		return true
+	}
 	// match: (Select0 <t> (AddTupleFirst32 val tuple))
 	// cond:
 	// result: (ADDW val (Select0 <t> tuple))
@@ -40216,9 +40415,64 @@ func rewriteValueS390X_OpSelect0_0(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
+	// match: (Select0 (ADDCconst (MOVDconst [c]) [d]))
+	// cond:
+	// result: (MOVDconst [c+d])
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XADDCconst {
+			break
+		}
+		d := v_0.AuxInt
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		c := v_0_0.AuxInt
+		v.reset(OpS390XMOVDconst)
+		v.AuxInt = c + d
+		return true
+	}
 	return false
 }
 func rewriteValueS390X_OpSelect1_0(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (Select1 (Add64carry x y c))
+	// cond:
+	// result: (Select0 <typ.UInt64> (ADDE (MOVDconst [0]) (MOVDconst [0]) (Select1 <types.TypeFlags> (ADDE x y (Select1 <types.TypeFlags> (ADDCconst c [-1]))))))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpAdd64carry {
+			break
+		}
+		c := v_0.Args[2]
+		x := v_0.Args[0]
+		y := v_0.Args[1]
+		v.reset(OpSelect0)
+		v.Type = typ.UInt64
+		v0 := b.NewValue0(v.Pos, OpS390XADDE, types.NewTuple(typ.UInt64, types.TypeFlags))
+		v1 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v1.AuxInt = 0
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpS390XMOVDconst, typ.UInt64)
+		v2.AuxInt = 0
+		v0.AddArg(v2)
+		v3 := b.NewValue0(v.Pos, OpSelect1, types.TypeFlags)
+		v4 := b.NewValue0(v.Pos, OpS390XADDE, types.NewTuple(typ.UInt64, types.TypeFlags))
+		v4.AddArg(x)
+		v4.AddArg(y)
+		v5 := b.NewValue0(v.Pos, OpSelect1, types.TypeFlags)
+		v6 := b.NewValue0(v.Pos, OpS390XADDCconst, types.NewTuple(typ.UInt64, types.TypeFlags))
+		v6.AuxInt = -1
+		v6.AddArg(c)
+		v5.AddArg(v6)
+		v4.AddArg(v5)
+		v3.AddArg(v4)
+		v0.AddArg(v3)
+		v.AddArg(v0)
+		return true
+	}
 	// match: (Select1 (AddTupleFirst32 _ tuple))
 	// cond:
 	// result: (Select1 tuple)
@@ -40243,6 +40497,46 @@ func rewriteValueS390X_OpSelect1_0(v *Value) bool {
 		tuple := v_0.Args[1]
 		v.reset(OpSelect1)
 		v.AddArg(tuple)
+		return true
+	}
+	// match: (Select1 (ADDCconst (MOVDconst [c]) [d]))
+	// cond: uint64(c+d) >= uint64(c) && c+d == 0
+	// result: (FlagEQ)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XADDCconst {
+			break
+		}
+		d := v_0.AuxInt
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		c := v_0_0.AuxInt
+		if !(uint64(c+d) >= uint64(c) && c+d == 0) {
+			break
+		}
+		v.reset(OpS390XFlagEQ)
+		return true
+	}
+	// match: (Select1 (ADDCconst (MOVDconst [c]) [d]))
+	// cond: uint64(c+d) >= uint64(c) && c+d != 0
+	// result: (FlagLT)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XADDCconst {
+			break
+		}
+		d := v_0.AuxInt
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		c := v_0_0.AuxInt
+		if !(uint64(c+d) >= uint64(c) && c+d != 0) {
+			break
+		}
+		v.reset(OpS390XFlagLT)
 		return true
 	}
 	return false
