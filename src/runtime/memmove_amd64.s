@@ -29,7 +29,7 @@
 #include "textflag.h"
 
 // func memmove(to, from unsafe.Pointer, n uintptr)
-TEXT runtime·memmove(SB), NOSPLIT, $0-24
+TEXT runtime·memmove+0(SB), NOSPLIT, $0-24  /* +0 is valid; testing -gensymabis mode */
 
 	MOVQ	to+0(FP), DI
 	MOVQ	from+8(FP), SI
