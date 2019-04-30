@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c41aafc_ffda9879",
+        "filename": "misc/ios/clangsign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-30T19:06:43Z",
+      "side": 1,
+      "message": "missing copyright header",
+      "revId": "4eb491b6685da8a32072fd0c9de7733e10bb6d58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af269d8_3b4e909a",
+        "filename": "misc/ios/clangsign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-04-30T19:06:43Z",
+      "side": 1,
+      "message": "Make this a package comment?\n\nBut is the binary name \"ios\"? Should this be in its own directory or should it be +build ignore?",
+      "revId": "4eb491b6685da8a32072fd0c9de7733e10bb6d58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
