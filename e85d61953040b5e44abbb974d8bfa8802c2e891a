@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6eeaa4ce_08d153f3",
+        "filename": "src/cmd/go/internal/renameio/error_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-04-30T14:18:49Z",
+      "side": 1,
+      "message": "Is this equivalent to `errors.Is(err, syscall.ERROR_ACCESS_DENIED)`, or does *os.LinkError not chain in that way?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "e85d61953040b5e44abbb974d8bfa8802c2e891a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
