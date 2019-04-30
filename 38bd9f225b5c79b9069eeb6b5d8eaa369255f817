@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab3c1a1b_968073d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-04-30T04:15:30Z",
+      "side": 1,
+      "message": "sorry, just spotted that the title is a bit too generic. How about:\n\nencoding/json: fix Unmarshal hang on recursive pointers",
+      "revId": "38bd9f225b5c79b9069eeb6b5d8eaa369255f817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
