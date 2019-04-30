@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45034330_79bea19d",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2497,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-30T14:04:09Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t match the code for two reasons. Since this could be the first schedule call on an M, so we\u0027re not transitioning from anything, even if we pick a GC worker. Perhaps more importantly, this has no idea if we\u0027re coming from a quantum-expired G. But I also don\u0027t think either of things matters. Maybe this should be more operational? Like call this \"tryWakep\" and then document when you set it why you\u0027re setting it? You could imagine there being other reasons to set tryWakep (in fact, traceReader should probably do it, too).\n\nIt\u0027s probably worth mentioning that for regularly scheduled goroutines, ready calls wakep if necessary, but the GC worker doesn\u0027t get ready\u0027d, so this doesn\u0027t happen for it.\n\nPlease wrap these comments tighter (and the one below).",
+      "revId": "839d37efae6ff1f62cb64502ca50df18f5bbdf09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a6968bb_9e3eb05e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2502,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-04-30T14:04:09Z",
+      "side": 1,
+      "message": "gp !\u003d _g_ will never be true because gp will be a user g and _g_ will be a g0. \"gp !\u003d nil\" should suffice.",
+      "revId": "839d37efae6ff1f62cb64502ca50df18f5bbdf09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
