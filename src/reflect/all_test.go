@@ -14,6 +14,7 @@ import (
 	"math"
 	"math/rand"
 	"os"
+	"reflect"
 	. "reflect"
 	"runtime"
 	"sort"
@@ -1932,6 +1933,91 @@ func TestMakeFuncVariadic(t *testing.T) {
 	if r[0] != 2 || r[1] != 3 {
 		t.Errorf("Call returned [%v, %v]; want 2, 3", r[0], r[1])
 	}
+}
+
+// Dummy type that implements io.WriteCloser
+type WC struct {
+}
+
+func (w *WC) Write(p []byte) (n int, err error) {
+	return 0, nil
+}
+func (w *WC) Close() error {
+	return nil
+}
+
+func TestMakeFuncValidReturnAssignments(t *testing.T) {
+	// reflect.Values returned from the wrapped function should be assignment-converted
+	// to the types returned by the result of MakeFunc.
+
+	// Concrete types should be promotable to interfaces they implement.
+	var f func() error
+	f = reflect.MakeFunc(reflect.TypeOf(f), func([]reflect.Value) []reflect.Value {
+		return []reflect.Value{reflect.ValueOf(io.EOF)}
+	}).Interface().(func() error)
+	f()
+
+	// Super-interfaces should be promotable to simpler interfaces.
+	var g func() io.Writer
+	g = reflect.MakeFunc(reflect.TypeOf(g), func([]reflect.Value) []reflect.Value {
+		var w io.WriteCloser = &WC{}
+		return []reflect.Value{reflect.ValueOf(&w).Elem()}
+	}).Interface().(func() io.Writer)
+	g()
+
+	// Channels should be promotable to directional channels.
+	var h func() <-chan int
+	h = reflect.MakeFunc(reflect.TypeOf(h), func([]reflect.Value) []reflect.Value {
+		return []reflect.Value{reflect.ValueOf(make(chan int))}
+	}).Interface().(func() <-chan int)
+	h()
+
+	// Unnamed types should be promotable to named types.
+	type T struct{ a, b, c int }
+	var i func() T
+	i = reflect.MakeFunc(reflect.TypeOf(i), func([]reflect.Value) []reflect.Value {
+		return []reflect.Value{reflect.ValueOf(struct{ a, b, c int }{a: 1, b: 2, c: 3})}
+	}).Interface().(func() T)
+	i()
+}
+
+func TestMakeFuncInvalidReturnAssignments(t *testing.T) {
+	// Type doesn't implement the required interface.
+	shouldPanic(func() {
+		var f func() error
+		f = reflect.MakeFunc(reflect.TypeOf(f), func([]reflect.Value) []reflect.Value {
+			return []reflect.Value{reflect.ValueOf(int(7))}
+		}).Interface().(func() error)
+		f()
+	})
+	// Assigning to an interface with additional methods.
+	shouldPanic(func() {
+		var f func() io.ReadWriteCloser
+		f = reflect.MakeFunc(reflect.TypeOf(f), func([]reflect.Value) []reflect.Value {
+			var w io.WriteCloser = &WC{}
+			return []reflect.Value{reflect.ValueOf(&w).Elem()}
+		}).Interface().(func() io.ReadWriteCloser)
+		f()
+	})
+	// Directional channels can't be assigned to bidirectional ones.
+	shouldPanic(func() {
+		var f func() chan int
+		f = reflect.MakeFunc(reflect.TypeOf(f), func([]reflect.Value) []reflect.Value {
+			var c <-chan int = make(chan int)
+			return []reflect.Value{reflect.ValueOf(c)}
+		}).Interface().(func() chan int)
+		f()
+	})
+	// Two named types which are otherwise identical.
+	shouldPanic(func() {
+		type T struct{ a, b, c int }
+		type U struct{ a, b, c int }
+		var f func() T
+		f = reflect.MakeFunc(reflect.TypeOf(f), func([]reflect.Value) []reflect.Value {
+			return []reflect.Value{reflect.ValueOf(U{a: 1, b: 2, c: 3})}
+		}).Interface().(func() T)
+		f()
+	})
 }
 
 type Point struct {
