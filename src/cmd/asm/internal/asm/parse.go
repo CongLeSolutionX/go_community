@@ -815,7 +815,14 @@ func (p *Parser) funcAddress() (string, bool) {
 	if tok.ScanToken != scanner.Ident || p.atStartOfRegister(name) {
 		return "", false
 	}
-	if p.next().ScanToken != '(' {
+	tok = p.next()
+	if tok.ScanToken == '+' {
+		if p.next().ScanToken != scanner.Int {
+			return "", false
+		}
+		tok = p.next()
+	}
+	if tok.ScanToken != '(' {
 		return "", false
 	}
 	if reg := p.next(); reg.ScanToken != scanner.Ident || reg.String() != "SB" {
