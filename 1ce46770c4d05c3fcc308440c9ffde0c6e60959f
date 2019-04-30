@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97e88561_19765139",
+        "filename": "src/cmd/go/internal/modload/query_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-04-30T15:10:02Z",
+      "side": 1,
+      "message": "thepudds pointed out this /v0 error is wrong (in http://golang.org/cl/174180, an accidental and now abandoned fork of this CL).\n\nNeed to think more about the triggering and message of this error.",
+      "revId": "1ce46770c4d05c3fcc308440c9ffde0c6e60959f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
