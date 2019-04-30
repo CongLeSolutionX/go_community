@@ -555,3 +555,27 @@ Calls to Less O((log(n)-t) * n + bs*n) = O(log(n)*n + (bs-t)*n)
 Calls to Swap O(n * log^2(n) - (t^2+t)/2*n) = O(n * log^2(n))
 
 */
+
+func Slice(slice interface{}, less func(i, j int) bool) {
+	rv := reflectValueOf(slice)
+	swap := reflectSwapper(slice)
+	length := rv.Len()
+	quickSort_func(lessSwap{less, swap}, 0, length, maxDepth(length))
+}
+
+func SliceStable(slice interface{}, less func(i, j int) bool) {
+	rv := reflectValueOf(slice)
+	swap := reflectSwapper(slice)
+	stable_func(lessSwap{less, swap}, rv.Len())
+}
+
+func SliceIsSorted(slice interface{}, less func(i, j int) bool) bool {
+	rv := reflectValueOf(slice)
+	n := rv.Len()
+	for i := n - 1; i > 0; i-- {
+		if less(i, i-1) {
+			return false
+		}
+	}
+	return true
+}
