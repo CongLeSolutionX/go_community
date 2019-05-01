@@ -16,6 +16,24 @@
       "revId": "1de77eb925054bd11432229b332baf07296db541",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12664968_30f5cda4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2246,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-01T14:35:41Z",
+      "side": 1,
+      "message": "Interesting.  Thanks for the comment.  With the current implementation, adding more calls to checkTimers won\u0027t make any difference, because they will all use the same value for \"now\".  What would make a difference would be periodic calls to nanotime to update the current \"now\", which we could then compare with \"pollUntil\".  But nanotime is not free, so I would worry that the CPU cost of calling nanotime would exceed the benefit of slightly more accurate timers.  In practice we can\u0027t expect timer resolution to be any better than the scheduling quantum of 20 microseconds.  Is this loop plausibly going to take longer than that?",
+      "parentUuid": "a110e0a0_ea4d7237",
+      "revId": "1de77eb925054bd11432229b332baf07296db541",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
