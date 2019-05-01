@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e53d4022_c7149825",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-05-01T21:18:03Z",
+      "side": 1,
+      "message": "I don\u0027t understand how this CL affects the compiler behavior. It looks like a no-op to me?",
+      "revId": "39854685d7703f5dc4bdc50d90c89aef5b30f407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
