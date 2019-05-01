@@ -22,6 +22,30 @@
       "revId": "e85d61953040b5e44abbb974d8bfa8802c2e891a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5584519_564158ea",
+        "filename": "src/cmd/go/internal/renameio/error_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-01T10:07:52Z",
+      "side": 1,
+      "message": "I think so.\n\nThis program https://play.golang.org/p/xZPFGNHrX8t prints\n\nerr is \u0026os.LinkError{Op:\"rename\", Old:\"oldname\", New:\"newname\", Err:0x5}\nerrors.Is(err, syscall.ERROR_ACCESS_DENIED) is true",
+      "parentUuid": "6eeaa4ce_08d153f3",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "e85d61953040b5e44abbb974d8bfa8802c2e891a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
