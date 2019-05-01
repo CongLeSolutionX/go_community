@@ -651,6 +651,11 @@ func getdyn(n *Node, top bool) initGenType {
 func isStaticCompositeLiteral(n *Node) bool {
 	switch n.Op {
 	case ONAME:
+		// ONAME node must have children, otherwise, it is not compile-time constant
+		// e.g struct fields, see #31782.
+		if n.Left == nil && n.Right == nil {
+			return false
+		}
 		return n.Class() == PEXTERN && n.Name != nil && n.Name.Readonly()
 	case OSLICELIT:
 		return false
