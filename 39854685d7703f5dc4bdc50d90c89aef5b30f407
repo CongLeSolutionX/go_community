@@ -51,6 +51,24 @@
       "revId": "39854685d7703f5dc4bdc50d90c89aef5b30f407",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f7aaa39_d45b8b37",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-05-01T21:23:45Z",
+      "side": 1,
+      "message": "Ops, sorry, https://go-review.googlesource.com/c/go/+/174777 doesn\u0027t fix #31782.\n\nThere seems to be a problem with my laptop, let me restart.",
+      "parentUuid": "4e973b62_ede1a57a",
+      "revId": "39854685d7703f5dc4bdc50d90c89aef5b30f407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
