@@ -16,6 +16,23 @@
       "revId": "1a49216b7191850d499c733dc6b6eb3c739c3f87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22b8e4fa_c73fa571",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-01T04:17:08Z",
+      "side": 1,
+      "message": "Why have both \"reflect\" and `. \"reflect\"` ?",
+      "revId": "1a49216b7191850d499c733dc6b6eb3c739c3f87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
