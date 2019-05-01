@@ -1405,17 +1405,19 @@ func cmdbootstrap() {
 		xremove(pathf("%s/go_android_exec-adb-sync-status", os.TempDir()))
 	}
 
-	if wrapperPath := wrapperPathFor(goos, goarch); wrapperPath != "" {
-		oldcc := os.Getenv("CC")
-		os.Setenv("GOOS", gohostos)
-		os.Setenv("GOARCH", gohostarch)
-		os.Setenv("CC", compilerEnvLookup(defaultcc, gohostos, gohostarch))
-		goCmd(cmdGo, "build", "-o", pathf("%s/go_%s_%s_exec%s", gobin, goos, goarch, exe), wrapperPath)
-		// Restore environment.
-		// TODO(elias.naur): support environment variables in goCmd?
-		os.Setenv("GOOS", goos)
-		os.Setenv("GOARCH", goarch)
-		os.Setenv("CC", oldcc)
+	if goos != gohostos || goarch != gohostarch {
+		if wrapperPath := wrapperPathFor(goos, goarch); wrapperPath != "" {
+			oldcc := os.Getenv("CC")
+			os.Setenv("GOOS", gohostos)
+			os.Setenv("GOARCH", gohostarch)
+			os.Setenv("CC", compilerEnvLookup(defaultcc, gohostos, gohostarch))
+			goCmd(cmdGo, "build", "-o", pathf("%s/go_%s_%s_exec%s", gobin, goos, goarch, exe), wrapperPath)
+			// Restore environment.
+			// TODO(elias.naur): support environment variables in goCmd?
+			os.Setenv("GOOS", goos)
+			os.Setenv("GOARCH", goarch)
+			os.Setenv("CC", oldcc)
+		}
 	}
 
 	// Print trailing banner unless instructed otherwise.
