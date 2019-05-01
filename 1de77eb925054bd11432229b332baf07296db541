@@ -34,6 +34,24 @@
       "revId": "1de77eb925054bd11432229b332baf07296db541",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28737a93_fb96d0c7",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2246,
+      "author": {
+        "id": 7850
+      },
+      "writtenOn": "2019-05-01T14:52:06Z",
+      "side": 1,
+      "message": "Yes, I think it is possible for these loops to take longer than 20 microseconds, but I don\u0027t have hard data on that particular point. But consider that the inner part of these loops is executed up to 4*(GOMAXPROCS-1) times. For the hardware mentioned in #28808 that\u0027s 220 iterations. That leaves only ~91 nanoseconds for each iteration in the worst  case. Less for larger values of GOMAXPROCS.",
+      "parentUuid": "12664968_30f5cda4",
+      "revId": "1de77eb925054bd11432229b332baf07296db541",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
