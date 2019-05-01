@@ -33,6 +33,24 @@
       "revId": "39854685d7703f5dc4bdc50d90c89aef5b30f407",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e973b62_ede1a57a",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-05-01T21:21:32Z",
+      "side": 1,
+      "message": "Yes, I think it\u0027s my fault. Actually, CL https://go-review.googlesource.com/c/go/+/174777 fixed the issue of https://github.com/golang/go/issues/31782\n\nI ran the go-tip test without -count\u003d1, so it caches.",
+      "parentUuid": "1e169365_d554131f",
+      "revId": "39854685d7703f5dc4bdc50d90c89aef5b30f407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
