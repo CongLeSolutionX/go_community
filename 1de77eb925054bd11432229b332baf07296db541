@@ -52,6 +52,24 @@
       "revId": "1de77eb925054bd11432229b332baf07296db541",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c57ce1b7_e956ea33",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2246,
+      "author": {
+        "id": 7850
+      },
+      "writtenOn": "2019-05-01T18:41:53Z",
+      "side": 1,
+      "message": "I think it makes sense to call `nanotime` at least one time for each iteration of the outer loop. I suggest that if no work can be stollen after one pass over all the other Ps then it makes sense to check if any local timers have expired and made local Gs runnable before making another pass over the other Ps.",
+      "parentUuid": "28737a93_fb96d0c7",
+      "revId": "1de77eb925054bd11432229b332baf07296db541",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
