@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "70305c16_340a2b79",
+        "filename": "src/index/suffixarray/sais.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-05-01T15:23:21Z",
+      "side": 1,
+      "message": "I think first byte is right. If you have 4 bytes 41 42 43 44 then cx ends up being 0x41424344, so the first byte is the high byte. The \u003c\u003d is wrong, though: it should be \u003c 0x7F, so the +1 will be \u003c\u003d 0x7F.",
+      "parentUuid": "fbd4f5ea_e6dc8591",
+      "revId": "2c575bdc4f51e5b22525e256cd038a05fb38f81c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee1aba18_9ae81f02",
         "filename": "src/index/suffixarray/sais.go",
         "patchSetId": 4
