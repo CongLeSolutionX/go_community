@@ -70,6 +70,24 @@
       "revId": "1de77eb925054bd11432229b332baf07296db541",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1998f1f9_a86f0480",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2246,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-01T19:36:13Z",
+      "side": 1,
+      "message": "Thanks.  Right now I\u0027m inclined to leave that for a more general #28808 resolution.",
+      "parentUuid": "c57ce1b7_e956ea33",
+      "revId": "1de77eb925054bd11432229b332baf07296db541",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
