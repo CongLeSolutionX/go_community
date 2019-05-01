@@ -1283,14 +1283,14 @@ func (o *Order) expr(n, lhs *Node) *Node {
 		as := nod(OAS, m, n)
 		typecheck(as, ctxStmt)
 		o.stmt(as)
-		n = m
 
 		// Emit eval+insert of dynamic entries, one at a time.
 		for _, r := range dynamics {
-			as := nod(OAS, nod(OINDEX, n, r.Left), r.Right)
+			as := nod(OAS, nod(OINDEX, m, r.Left), r.Right)
 			typecheck(as, ctxStmt) // Note: this converts the OINDEX to an OINDEXMAP
 			o.stmt(as)
 		}
+		n = m
 	}
 
 	lineno = lno
