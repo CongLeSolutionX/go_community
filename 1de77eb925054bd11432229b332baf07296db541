@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a110e0a0_ea4d7237",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2246,
+      "author": {
+        "id": 7850
+      },
+      "writtenOn": "2019-05-01T14:14:11Z",
+      "side": 1,
+      "message": "This loop can take a non-trivial amount of time for largish values of GOMAXPROCS. Local timers could expire while these loops run. Consider adding a call to checkTimers somewhere in these loops to avoid the expense of stealing G\u0027s or timers from other P\u0027s when a local timer expires and would schedule a G while we\u0027re spinning.\n\nIt seems reasonable to me to prefer scheduling a G from local timers over stealing work or timers from other Ps because it avoids costly locking and queue churn.\n\nI believe this addition would help resolve the issue described in #28808.",
+      "revId": "1de77eb925054bd11432229b332baf07296db541",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
