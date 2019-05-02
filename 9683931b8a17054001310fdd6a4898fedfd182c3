@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e34cbb98_47b6f3fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 29664
+      },
+      "writtenOn": "2019-05-02T03:51:33Z",
+      "side": 1,
+      "message": "I have test my program again. Yes, only the frames that call C need a 48 bytes frame.\nAlthough it seems strange to have two minimum frame sizes, one for GO which is 32, and one for C which is 48. I\u0027ll just leave it alone as it\u0027s now working fine.",
+      "parentUuid": "4df2f487_0c2a9278",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "9683931b8a17054001310fdd6a4898fedfd182c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e1954b62_11ab0be1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -66,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "ccc72c5c_e0c38785",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 29664
+      },
+      "writtenOn": "2019-05-02T03:51:33Z",
+      "side": 1,
+      "message": "It seems that aix/ppc64 have done this work :)",
+      "parentUuid": "e1954b62_11ab0be1",
+      "revId": "9683931b8a17054001310fdd6a4898fedfd182c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9841d545_a31c337c",
         "filename": "src/cmd/link/internal/ld/config.go",
         "patchSetId": 1
@@ -77,6 +119,24 @@
       "writtenOn": "2019-04-29T20:32:13Z",
       "side": 1,
       "message": "The only possibilities are linux/ppc64 or aix/ppc64. So if external linking for linux/ppc64 is now working, this check goes away.",
+      "revId": "9683931b8a17054001310fdd6a4898fedfd182c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f32caff1_6df2e7c0",
+        "filename": "src/cmd/link/internal/ld/config.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 29664
+      },
+      "writtenOn": "2019-05-02T03:51:33Z",
+      "side": 1,
+      "message": "I\u0027m ok if other reviewers also agreed :)",
+      "parentUuid": "9841d545_a31c337c",
       "revId": "9683931b8a17054001310fdd6a4898fedfd182c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -117,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "66b358af_8e041856",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 29664
+      },
+      "writtenOn": "2019-05-02T03:51:33Z",
+      "side": 1,
+      "message": "Yes, as there were no aix/ppc64le, GOARCH_ppc64 seemed enough.\nI\u0027ll fix it.",
+      "parentUuid": "6721c98e_cca20bea",
+      "revId": "9683931b8a17054001310fdd6a4898fedfd182c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "400c5b18_306c8df3",
         "filename": "src/runtime/rt0_linux_ppc64.s",
         "patchSetId": 1
@@ -128,6 +206,24 @@
       "writtenOn": "2019-04-29T20:32:13Z",
       "side": 1,
       "message": "Could you add a comment on why this was added? Such as:\nR0 should be initialized to 0 in ppc64.",
+      "revId": "9683931b8a17054001310fdd6a4898fedfd182c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0ccd18e_d56c35f9",
+        "filename": "src/runtime/rt0_linux_ppc64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 29664
+      },
+      "writtenOn": "2019-05-02T03:51:33Z",
+      "side": 1,
+      "message": "Thanks, I will add a note here.",
+      "parentUuid": "400c5b18_306c8df3",
       "revId": "9683931b8a17054001310fdd6a4898fedfd182c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
