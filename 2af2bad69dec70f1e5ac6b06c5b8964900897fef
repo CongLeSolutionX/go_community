@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c77b714_8e0cd0d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-02T15:25:11Z",
+      "side": 1,
+      "message": "This is a little surprising. The Go version would generate two ADDs and some conditional branches, and the new code would generate three ADDs (ADDC, ADDE, ADDE). It is surprising to me that the new version is much slower.",
+      "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55ee950c_05bf75fe",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390XOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-02T15:25:11Z",
+      "side": 1,
+      "message": "Add comment about what theses ops do.",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 108
+      },
+      "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de043ae1_43bceede",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-02T15:25:11Z",
+      "side": 1,
+      "message": "Test -ADDE?",
+      "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ae1dc68_03401472",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-02T15:25:11Z",
+      "side": 1,
+      "message": "It would be good to test chain collapsing if possible. Would it work if we test something like -\"ADDE\\t\\$0, \\$0\"?",
+      "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
