@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fd3a787_5eb28258",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-02T14:09:00Z",
+      "side": 1,
+      "message": "These lost their docs.",
+      "revId": "c003e6af0af630564b430e053f27f956e297303e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
