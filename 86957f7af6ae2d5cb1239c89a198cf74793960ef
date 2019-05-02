@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85b31602_bf87bbe6",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-05-02T18:51:28Z",
+      "side": 1,
+      "message": "I don\u0027t understand this explanation. ONAME nodes normally don\u0027t have children. I think method expressions are the only weird exception, and those will be PFUNC, not PEXTERN.\n\nAre there any cases now where isStaticCompositeLiteral still returns true for an ONAME node? I\u0027m suspecting we should just remove this entire case clause. I think adding it in CL 174498 was probably an error.",
+      "revId": "86957f7af6ae2d5cb1239c89a198cf74793960ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
