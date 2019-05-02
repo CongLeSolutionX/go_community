@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "443c5ee8_86113d87",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-05-02T23:34:40Z",
+      "side": 1,
+      "message": "\"need need\"\n\nunless you\u0027re going for emphasis :)",
+      "range": {
+        "startLine": 352,
+        "startChar": 37,
+        "endLine": 352,
+        "endChar": 41
+      },
+      "revId": "e9927e41cef801053479098b4b484a4a6ddd1d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4036fb44_4802dd9a",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-05-02T23:34:40Z",
+      "side": 1,
+      "message": "For outgoing client requestS ?\n\nOr is the original wording intentional?",
+      "range": {
+        "startLine": 367,
+        "startChar": 3,
+        "endLine": 367,
+        "endChar": 30
+      },
+      "revId": "e9927e41cef801053479098b4b484a4a6ddd1d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "682c884d_8bed8d4b",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-05-02T23:34:40Z",
+      "side": 1,
+      "message": "same question",
+      "range": {
+        "startLine": 827,
+        "startChar": 19,
+        "endLine": 827,
+        "endChar": 46
+      },
+      "revId": "e9927e41cef801053479098b4b484a4a6ddd1d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
