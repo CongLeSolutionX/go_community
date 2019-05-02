@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1927d118_82cd68e0",
+        "filename": "src/sort/slice.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-02T14:10:05Z",
+      "side": 0,
+      "message": "Seems like you could\u0027ve just deleted this stuff and kept it in slice.go for a smaller diff.\n\nBut I\u0027m also fine moving it to sort.go.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "08318f5942f361ea6d017ece52c177c4c475cd6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
