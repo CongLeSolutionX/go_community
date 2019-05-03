@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "981059c2_79c29f8d",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-03T14:29:56Z",
+      "side": 1,
+      "message": "No space.",
+      "range": {
+        "startLine": 13,
+        "startChar": 38,
+        "endLine": 13,
+        "endChar": 39
+      },
+      "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "673671a6_7e47577e",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-03T14:29:56Z",
+      "side": 1,
+      "message": "This example doesn\u0027t have any actual concurrency on the sharedMap.",
+      "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31fa07dd_ea27c948",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-03T14:29:56Z",
+      "side": 1,
+      "message": "Conventionally this would be the first field to indicate that it protects the whole structure.\n\nAlso, it\u0027s more common to use sync.RWMutex directly, rather than a pointer, and instead make NewSafeMap return a pointer and make the methods take a pointer receiver.",
+      "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85b6ef4c_020c62a8",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-03T14:29:56Z",
+      "side": 1,
+      "message": "changing",
+      "range": {
+        "startLine": 52,
+        "startChar": 47,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b11fe69e_50dd8ea9",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-03T14:29:56Z",
+      "side": 1,
+      "message": "the map",
+      "range": {
+        "startLine": 61,
+        "startChar": 38,
+        "endLine": 61,
+        "endChar": 41
+      },
+      "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
