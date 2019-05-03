@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9e6379a3_21cdc5d5",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390XOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-03T10:11:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55ee950c_05bf75fe",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 108
+      },
+      "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de043ae1_43bceede",
         "filename": "test/codegen/mathbits.go",
         "patchSetId": 2
@@ -124,6 +148,24 @@
       "side": 1,
       "message": "Yeah I\u0027d like to. ADDE only takes register operands though so there isn\u0027t any difference between instructions in a carry chain and instructions to put the carry bit into a register. We could check for MOVD $0, ... and ADDC $-1, ... though. I\u0027ll see if that works.",
       "parentUuid": "9ae1dc68_03401472",
+      "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc5c5ba9_8162765d",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-03T10:11:47Z",
+      "side": 1,
+      "message": "Added a negative check for ADDC $-1, ... (which is a load of the carry from a register into the condition code).",
+      "parentUuid": "94d53e23_616a58cf",
       "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
