@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "c5bdea5a_04b523cb",
+        "filename": "src/cmd/cgo/godefs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-03T05:29:59Z",
+      "side": 1,
+      "message": "Ah ha.",
+      "parentUuid": "5f4bdd75_9c85a633",
+      "revId": "50bbb0c16cc654896935c471c5b926cb98e10d7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08403b0b_6a0e7356",
         "filename": "src/cmd/cgo/godefs.go",
         "patchSetId": 1
