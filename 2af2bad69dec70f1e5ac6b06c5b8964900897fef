@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "766fd314_2e1a6755",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-03T09:22:11Z",
+      "side": 1,
+      "message": "Yeah it is a bit slower than I\u0027d hoped for. The performance of these small loops can vary for lots of reasons. In this case the extra addition in the intrinsic is in the data path whereas the conditional branches in the Go version are very predictable. The critical path is therefore a bit longer in the new code which probably explains most of the slow down:\n\nGo (2 iterations):\nADD  ---\u003e  ADD ---\u003e  ADD  --\u003e  ADD\n\nIntrinsic (2 iterations):\nADDC ---\u003e ADDE ---\u003e ADDE ---\u003e ADDC ---\u003e ADDE ---\u003e ADDE\n\nThe intrinsic will likely be a lot faster when the value of the carry bit is unpredictable though.",
+      "parentUuid": "0c77b714_8e0cd0d7",
+      "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55ee950c_05bf75fe",
         "filename": "src/cmd/compile/internal/ssa/gen/S390XOps.go",
         "patchSetId": 2
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "f6df3c71_c3479b34",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-03T09:22:11Z",
+      "side": 1,
+      "message": "The approach I\u0027ve taken uses ADDE to put the carry bit into a register, we\u0027ll have an ADDE instruction here unfortunately.",
+      "parentUuid": "de043ae1_43bceede",
+      "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ae1dc68_03401472",
         "filename": "test/codegen/mathbits.go",
         "patchSetId": 2
@@ -70,6 +106,24 @@
       "writtenOn": "2019-05-02T15:25:11Z",
       "side": 1,
       "message": "It would be good to test chain collapsing if possible. Would it work if we test something like -\"ADDE\\t\\$0, \\$0\"?",
+      "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94d53e23_616a58cf",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-03T09:22:11Z",
+      "side": 1,
+      "message": "Yeah I\u0027d like to. ADDE only takes register operands though so there isn\u0027t any difference between instructions in a carry chain and instructions to put the carry bit into a register. We could check for MOVD $0, ... and ADDC $-1, ... though. I\u0027ll see if that works.",
+      "parentUuid": "9ae1dc68_03401472",
       "revId": "2af2bad69dec70f1e5ac6b06c5b8964900897fef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
