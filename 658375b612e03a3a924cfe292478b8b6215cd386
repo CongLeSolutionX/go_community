@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40f9ca70_77abb9b9",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 29721
+      },
+      "writtenOn": "2019-05-03T23:42:48Z",
+      "side": 1,
+      "message": "This example will not print anything when executed because the main goroutine will exit immediately. Is that ok for an example?",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "658375b612e03a3a924cfe292478b8b6215cd386",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b9e5b3a_bd3531ef",
+        "filename": "src/sync/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 29721
+      },
+      "writtenOn": "2019-05-03T23:42:48Z",
+      "side": 1,
+      "message": "Same comment as the other example.",
+      "range": {
+        "startLine": 61,
+        "startChar": 5,
+        "endLine": 61,
+        "endChar": 17
+      },
+      "revId": "658375b612e03a3a924cfe292478b8b6215cd386",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
