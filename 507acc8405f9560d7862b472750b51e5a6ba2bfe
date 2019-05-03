@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b8b5b29b_51bebb29",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 29721
+      },
+      "writtenOn": "2019-05-03T22:54:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "981059c2_79c29f8d",
+      "range": {
+        "startLine": 13,
+        "startChar": 38,
+        "endLine": 13,
+        "endChar": 39
+      },
+      "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "673671a6_7e47577e",
         "filename": "src/sync/example_rwmutex_test.go",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2019-05-03T14:29:56Z",
       "side": 1,
       "message": "This example doesn\u0027t have any actual concurrency on the sharedMap.",
+      "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aa86cd1_61b84137",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 29721
+      },
+      "writtenOn": "2019-05-03T22:54:01Z",
+      "side": 1,
+      "message": "Synchronization between the two goroutines is necessary to get the expected output. Otherwise we could follow the same approach we have in sync.Mutex\u0027s example. That is spawning two goroutines without the channel and not checking the output at all. \n\nSee next patch.",
+      "parentUuid": "673671a6_7e47577e",
       "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -56,6 +98,24 @@
       "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a908c3d_002fb553",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 29721
+      },
+      "writtenOn": "2019-05-03T22:54:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31fa07dd_ea27c948",
+      "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "05b9e4b1_0c9fda03",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 29721
+      },
+      "writtenOn": "2019-05-03T22:54:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85b6ef4c_020c62a8",
+      "range": {
+        "startLine": 52,
+        "startChar": 47,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b11fe69e_50dd8ea9",
         "filename": "src/sync/example_rwmutex_test.go",
         "patchSetId": 4
@@ -102,6 +186,30 @@
       "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f8dacf_dc37b9f9",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 29721
+      },
+      "writtenOn": "2019-05-03T22:54:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b11fe69e_50dd8ea9",
+      "range": {
+        "startLine": 61,
+        "startChar": 38,
+        "endLine": 61,
+        "endChar": 41
+      },
+      "revId": "507acc8405f9560d7862b472750b51e5a6ba2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
