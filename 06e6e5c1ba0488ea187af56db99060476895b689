@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea62fbe1_f2cee033",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-05-03T20:48:03Z",
+      "side": 1,
+      "message": "This is a bit confusing because pkg/name only makes sense when talking about Go symbols, but LSym is used for all object file symbols; e.g., it\u0027s also used for C symbols.\n\nI think this comment is more appropriate at types.Sym.Linksym() (or LinksymName()); but it\u0027s also okay here if you clarify that this is talking about Go symbols specifically.",
+      "revId": "06e6e5c1ba0488ea187af56db99060476895b689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
