@@ -280,7 +280,7 @@ func (n *Node) isMethodExpression() bool {
 	return n.Op == ONAME && n.Left != nil && n.Left.Op == OTYPE && n.Right != nil && n.Right.Op == ONAME
 }
 
-// funcname returns the name of the function n.
+// funcname returns the name (without the package) of the function n.
 func (n *Node) funcname() string {
 	if n == nil || n.Func == nil || n.Func.Nname == nil {
 		return "<nil>"
@@ -477,11 +477,11 @@ type Func struct {
 
 	FieldTrack map[*types.Sym]struct{}
 	DebugInfo  *ssa.FuncDebug
-	Ntype      *Node // signature
-	Top        int   // top context (ctxCallee, etc)
-	Closure    *Node // OCLOSURE <-> ODCLFUNC
-	Nname      *Node
-	lsym       *obj.LSym
+	Ntype      *Node     // signature
+	Top        int       // top context (ctxCallee, etc)
+	Closure    *Node     // OCLOSURE <-> ODCLFUNC
+	Nname      *Node     // Func.Nname.Sym.Name is the full name without package included
+	lsym       *obj.LSym // Func.lsym.Name is the full name with package included
 
 	Inl *Inline
 
