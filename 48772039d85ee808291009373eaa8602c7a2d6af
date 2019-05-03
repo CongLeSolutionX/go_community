@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3f0748d_ddd83457",
+        "filename": "src/sync/example_rwmutex_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-03T22:59:18Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of this name. It implies that all other maps aren\u0027t safe.\n\nMaybe \"ConcurrentMap\"?\n\nBut we already have sync.Map, so this example might be misleading in that respect too.\n\nCan we use an example that\u0027s not a map?",
+      "revId": "48772039d85ee808291009373eaa8602c7a2d6af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
