@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a991303_6ac1e275",
+        "filename": "src/cmd/internal/objfile/goobj.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-04T17:51:40Z",
+      "side": 1,
+      "message": "Here the original code seems clearer.",
+      "revId": "57a81ad4bb5cd06ed25871e3a626f3857a326bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6be464ce_bd5d1500",
+        "filename": "src/cmd/internal/objfile/objfile.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-04T17:51:40Z",
+      "side": 1,
+      "message": "Original seems clearer.",
+      "revId": "57a81ad4bb5cd06ed25871e3a626f3857a326bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ad46841_5a7b0efa",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-04T17:51:40Z",
+      "side": 1,
+      "message": "Will gofmt let us move the last curly brace down to the next line?",
+      "revId": "57a81ad4bb5cd06ed25871e3a626f3857a326bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37f5ca0e_0ecb09d1",
+        "filename": "src/database/sql/convert_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-04T17:51:40Z",
+      "side": 1,
+      "message": "Can we move the last curly brace to a new line, here and below?",
+      "revId": "57a81ad4bb5cd06ed25871e3a626f3857a326bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54b93c55_e73c2d39",
+        "filename": "src/encoding/gob/codec_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-04T17:51:40Z",
+      "side": 1,
+      "message": "Original seems clearer.",
+      "revId": "57a81ad4bb5cd06ed25871e3a626f3857a326bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8f2fe3e_76f54862",
+        "filename": "src/internal/fmtsort/sort_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-04T17:51:40Z",
+      "side": 1,
+      "message": "Original seems clearer.",
+      "revId": "57a81ad4bb5cd06ed25871e3a626f3857a326bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
