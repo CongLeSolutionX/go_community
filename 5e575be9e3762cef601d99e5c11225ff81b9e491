@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58d2e389_be8df1fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-04T06:49:06Z",
+      "side": 1,
+      "message": "This needs new test. It does not have to be in syscall package. Maybe we could add new test in os/exec?\n\nMaybe create test child process that calls os.Environ and verifies that all variables are sorted.\n\nMaybe also add some variables (name starting with \"a\" or something) to the end of variable list before starting test child process and make sure the list is still sorted.",
+      "revId": "5e575be9e3762cef601d99e5c11225ff81b9e491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b161e8a8_2693a84a",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-04T06:49:06Z",
+      "side": 1,
+      "message": "I am concerned about adding \"sort\" and \"strings\" packages to syscall dependencies list. But I don\u0027t see an alternative way to implement functionality below.\n\nI will let Brad or Ian decide what to do here.",
+      "revId": "5e575be9e3762cef601d99e5c11225ff81b9e491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bda7b14a_b14b0158",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-04T06:49:06Z",
+      "side": 1,
+      "message": "You need to be careful here. For example, my environment starts with\n```\n\u003d::\u003d::\\\n\u003dC:\u003dC:\\Users\\Alex\n\u003dExitCode\u003d00000000\nALLUSERSPROFILE\u003dC:\\ProgramData\nAPPDATA\u003dC:\\Users\\Alex\\AppData\\Roaming\nCommonProgramFiles\u003dC:\\Program Files\\Common Files\n...\n```\n\nI think we want top 3 lines remain as they are - at the top of that list.",
+      "revId": "5e575be9e3762cef601d99e5c11225ff81b9e491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
