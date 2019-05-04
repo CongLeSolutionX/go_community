@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27b4c555_8cfdf910",
+        "filename": "src/syscall/mkall.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5184
+      },
+      "writtenOn": "2019-05-04T13:32:27Z",
+      "side": 1,
+      "message": "General question: Won\u0027t this use syscall numbers from -current? Should this select a release or a branch and take syscalls.master from there?",
+      "revId": "e2ad117ca88eac7a4a125adf30726ac9affab586",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
