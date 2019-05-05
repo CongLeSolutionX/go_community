@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "236a7f3e_026ce979",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-05T14:10:17Z",
+      "side": 1,
+      "message": "I\u0027d avoid an email so they don\u0027t get support email questions. Just say name and reference the old CL too?",
+      "revId": "ee60797394c7fda650fdd6e7905ad10bffde6fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
