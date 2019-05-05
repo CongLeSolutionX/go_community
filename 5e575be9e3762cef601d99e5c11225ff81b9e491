@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ba87974a_fa1c5617",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-05T00:15:30Z",
+      "side": 1,
+      "message": "Maybe we could use Windows to sort environment strings here?\n\nAccording to https://docs.microsoft.com/en-us/windows/desktop/intl/handling-sorting-in-your-applications\n\n```\nCompareStringOrdinal compares two Unicode strings to test for binary equality, as opposed to linguistic equality. Examples of such non-linguistic strings are NTFS file names, environment variables, and ...\n```\n\nMaybe we could replace use of \"strings\" package with CompareStringOrdinal function? See https://docs.microsoft.com/en-us/windows/desktop/api/Stringapiset/nf-stringapiset-comparestringordinal\n\nI am not sure if we need to worry about \"sort\" package.",
+      "parentUuid": "16aacaef_028821cb",
+      "revId": "5e575be9e3762cef601d99e5c11225ff81b9e491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bda7b14a_b14b0158",
         "filename": "src/syscall/exec_windows.go",
         "patchSetId": 2
