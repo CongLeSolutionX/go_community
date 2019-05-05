@@ -86,6 +86,24 @@
       "revId": "5e575be9e3762cef601d99e5c11225ff81b9e491",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8604affd_c747c7f2",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-05T04:52:14Z",
+      "side": 1,
+      "message": "Apparently these lines are removed by CreateProcess API.\n\nFrom https://docs.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-createprocessw\n\n```\nIf an application provides an environment block, the current directory information of the system drives is not automatically propagated to the new process. For example, there is an environment variable named \u003dC: whose value is the current directory on drive C. An application must manually pass the current directory information to the new process. To do so, the application must explicitly create these environment variable strings, sort them alphabetically (because the system uses a sorted environment), and put them into the environment block. Typically, they will go at the front of the environment block, due to the environment block sort order.\n```",
+      "parentUuid": "bda7b14a_b14b0158",
+      "revId": "5e575be9e3762cef601d99e5c11225ff81b9e491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
