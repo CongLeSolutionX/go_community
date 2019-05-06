@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "33423cb5_bbded24a",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-06T18:00:36Z",
+      "side": 1,
+      "message": "CompareStringOrdinal SGTM if the performance is okay. That\u0027s just a cgo call and not a system call I assume? Environment variables aren\u0027t super huge (I also assume), so even if the call overhead is more than a Go call, it might be tolerable?",
+      "parentUuid": "ba87974a_fa1c5617",
+      "revId": "5e575be9e3762cef601d99e5c11225ff81b9e491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bda7b14a_b14b0158",
         "filename": "src/syscall/exec_windows.go",
         "patchSetId": 2
