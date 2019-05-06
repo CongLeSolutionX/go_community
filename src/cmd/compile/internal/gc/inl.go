@@ -27,6 +27,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/src"
@@ -57,6 +58,8 @@ var inlineExtraThrowCost = getEnvInt("GO_INLTHROWEXTRA", 0)
 var inlineExtraPanicCost = getEnvInt("GO_INLPANICEXTRA", 1)
 var inlineBigFunctionNodes = int(getEnvInt("GO_INLBIGFUNCTION", 5000))
 var inlineBigFunctionMaxCost = getEnvInt("GO_INLBIGMAXBUDGET", 20)
+
+var inlineHashThreshold = getEnvInt("GO_INLHASHTHRESHOLD", -1) // level at which hashing is applied per-site
 
 func getEnvInt(env string, def int32) int32 {
 	s := os.Getenv(env)
@@ -875,6 +878,15 @@ func mkinlcall(n, fn *Node, maxCost int32) *Node {
 		// The example that we observed is inlining of LockOSThread,
 		// which lead to false race reports on m contents.
 		return n
+	}
+
+	if inlineHashThreshold > 0 && fn.Func.Inl.Cost > inlineHashThreshold { // Consult hash function
+		inlineName := fmt.Sprintf("%s:%d:%d->%s.%s(%d)",
+			Curfn.funcname(), n.Pos.Line(), n.Pos.Col(), fn.Sym.Pkg.Name, fn.Sym.Name, fn.Func.Inl.Cost)
+		// fmt.Printf("Large inline %s\n", inlineName)
+		if !ssa.DebugHashMatch("GOINLHASH", inlineName) {
+			return n
+		}
 	}
 
 	if Debug_typecheckinl == 0 {

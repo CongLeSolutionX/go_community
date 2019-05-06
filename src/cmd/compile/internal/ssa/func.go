@@ -715,6 +715,69 @@ func (f *Func) DebugHashMatch(evname, name string) bool {
 	return false
 }
 
+// Singlethreaded version of above
+func DebugHashMatch(evname, name string) bool {
+	evhash := os.Getenv(evname)
+	logMatch := LogHashMatch
+	switch evhash {
+	case "":
+		return true // default behavior with no EV is "on"
+	case "y", "Y":
+		logMatch(evname, name)
+		return true
+	case "n", "N":
+		return false
+	}
+	// Check the hash of the name against a partial input hash.
+	// We use this feature to do a binary search to
+	// find a function that is incorrectly compiled.
+	hstr := ""
+	for _, b := range sha1.Sum([]byte(name)) {
+		hstr += fmt.Sprintf("%08b", b)
+	}
+
+	if strings.HasSuffix(hstr, evhash) {
+		logMatch(evname, name)
+		return true
+	}
+
+	// Iteratively try additional hashes to allow tests for multi-point
+	// failure.
+	for i := 0; true; i++ {
+		ev := fmt.Sprintf("%s%d", evname, i)
+		evv := os.Getenv(ev)
+		if evv == "" {
+			break
+		}
+		if strings.HasSuffix(hstr, evv) {
+			logMatch(ev, name)
+			return true
+		}
+	}
+	return false
+}
+
+var threadUnsafeHashLogFile writeSyncer
+
+func LogHashMatch(evname, name string) {
+	file := threadUnsafeHashLogFile
+	if file == nil {
+		file = os.Stdout
+		if tmpfile := os.Getenv("GSHS_LOGFILE"); tmpfile != "" {
+			var err error
+			file, err = os.OpenFile(tmpfile, os.O_WRONLY|os.O_APPEND, os.ModePerm)
+			if err != nil {
+				panic(fmt.Sprintf("could not open hash-testing logfile %s", tmpfile))
+			} else {
+				fmt.Printf("Opened hash log file %s\n", tmpfile)
+			}
+		}
+		threadUnsafeHashLogFile = file
+	}
+	fmt.Fprintf(file, "%s triggered %s\n", evname, name)
+	file.Sync()
+}
+
 func (f *Func) logDebugHashMatch(evname, name string) {
 	if f.logfiles == nil {
 		f.logfiles = make(map[string]writeSyncer)
@@ -733,8 +796,4 @@ func (f *Func) logDebugHashMatch(evname, name string) {
 	}
 	fmt.Fprintf(file, "%s triggered %s\n", evname, name)
 	file.Sync()
-}
-
-func DebugNameMatch(evname, name string) bool {
-	return os.Getenv(evname) == name
 }
