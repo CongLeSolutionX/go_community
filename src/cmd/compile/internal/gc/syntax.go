@@ -288,6 +288,15 @@ func (n *Node) funcname() string {
 	return n.Func.Nname.Sym.Name
 }
 
+// Sym.Pkg.Name
+// pkgname returns the name of the function n.
+func (n *Node) pkgname() string {
+	if n == nil || n.Func == nil || n.Func.Nname == nil || n.Func.Nname.Sym == nil || n.Func.Nname.Sym.Pkg == nil {
+		return "<nil>"
+	}
+	return n.Func.Nname.Sym.Pkg.Name
+}
+
 // Name holds Node fields used only by named nodes (ONAME, OTYPE, OPACK, OLABEL, some OLITERAL).
 type Name struct {
 	Pack      *Node      // real package for import . names

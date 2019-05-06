@@ -30,7 +30,10 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/src"
+	"encoding/csv"
 	"fmt"
+	"io"
+	"math/rand"
 	"os"
 	"strconv"
 	"strings"
@@ -58,6 +61,8 @@ var inlineExtraPanicCost = getEnvInt("GO_INLPANICEXTRA", 1)
 var inlineBigFunctionNodes = int(getEnvInt("GO_INLBIGFUNCTION", 5000))
 var inlineBigFunctionMaxCost = getEnvInt("GO_INLBIGMAXBUDGET", 20)
 
+var inlineHashThreshold = getEnvInt("GO_INLHASHTHRESHOLD", -1) // level at which hashing is applied per-site
+
 func getEnvInt(env string, def int32) int32 {
 	s := os.Getenv(env)
 	if s == "" {
@@ -68,6 +73,62 @@ func getEnvInt(env string, def int32) int32 {
 		panic("Non-numeric value " + s + " for environment variable " + env)
 	}
 	return int32(val)
+}
+
+type inlineRecord struct {
+	callerPackage  string
+	callerFunction string
+	callerLine     int32
+	callerColumn   int32
+	inlinePackage  string
+	inlineFunction string
+}
+
+var inlineRandomSeed = int64(getEnvInt("GO_INLRANDOMSEED", 0))             // 0 means do none of this.
+var inlineRandomThreshold = int32(getEnvInt("GO_INLRANDOMTHRESHOLD", 100)) // for each record, inline if r.int31n(100) < threshold
+var inlineRecords = os.Getenv("GO_INLRECORDS")                             // A file of inline records in CSV
+
+var doInlineSet map[inlineRecord]bool
+
+func init() {
+	if inlineRandomSeed == 0 {
+		return
+	}
+	doInlineSet = make(map[inlineRecord]bool)
+
+	rng := rand.New(rand.NewSource(inlineRandomSeed))
+	f, err := os.Open(inlineRecords)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	r := csv.NewReader(f)
+	r.Comment = '#'
+
+	for {
+		line, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			panic(err)
+		}
+		if rng.Int31n(100) < inlineRandomThreshold {
+			// Add inlining record
+			//                            0                                1         2           3            4          5   6    7              8             9
+			// goroots/TEST/src/internal/reflectlite/value.go:440:25: ,front_end,INLINE_SITE,reflectlite,Value.assignTo,440,25,reflectlite,directlyAssignable,217
+			callerLine, err := strconv.Atoi(line[5])
+			if err != nil {
+				panic(err)
+			}
+			callerColumn, err := strconv.Atoi(line[6])
+			if err != nil {
+				panic(err)
+			}
+			rec := inlineRecord{callerPackage: line[3], callerFunction: line[4], callerLine: int32(callerLine), callerColumn: int32(callerColumn), inlinePackage: line[7], inlineFunction: line[8]}
+			doInlineSet[rec] = true
+		}
+	}
 }
 
 // Get the function's package. For ordinary functions it's on the ->sym, but for imported methods
@@ -875,6 +936,21 @@ func mkinlcall(n, fn *Node, maxCost int32) *Node {
 		// The example that we observed is inlining of LockOSThread,
 		// which lead to false race reports on m contents.
 		return n
+	}
+
+	if inlineHashThreshold > 0 && fn.Func.Inl.Cost > inlineHashThreshold {
+		// To make records as easy as possible to manipulate and ingest, separate packages from functions.
+
+		if doInlineSet != nil {
+			rec := inlineRecord{callerPackage: Curfn.pkgname(), callerFunction: Curfn.funcname(),
+				callerLine: int32(n.Pos.Line()), callerColumn: int32(n.Pos.Col()), inlinePackage: fn.Sym.Pkg.Name, inlineFunction: fn.Sym.Name}
+			if !doInlineSet[rec] {
+				return n
+			}
+		} else {
+			LogStat(n.Pos, "INLINE_SITE", "front_end", Curfn.pkgname(), Curfn.funcname(),
+				n.Pos.Line(), n.Pos.Col(), fn.Sym.Pkg.Name, fn.Sym.Name, fn.Func.Inl.Cost)
+		}
 	}
 
 	if Debug_typecheckinl == 0 {
