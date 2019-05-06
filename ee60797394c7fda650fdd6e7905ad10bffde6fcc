@@ -16,6 +16,24 @@
       "revId": "ee60797394c7fda650fdd6e7905ad10bffde6fcc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e860414_8f8f3328",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-05-06T16:32:45Z",
+      "side": 1,
+      "message": "I only have his first name. Is that alright?",
+      "parentUuid": "236a7f3e_026ce979",
+      "revId": "ee60797394c7fda650fdd6e7905ad10bffde6fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
