@@ -30,7 +30,9 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/src"
+	"encoding/csv"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -68,6 +70,63 @@ func getEnvInt(env string, def int32) int32 {
 		panic("Non-numeric value " + s + " for environment variable " + env)
 	}
 	return int32(val)
+}
+
+type inlineRecord struct {
+	callerPackage  string
+	callerFunction string
+	callerLine     int32
+	callerColumn   int32
+	inlinePackage  string
+	inlineFunction string
+}
+
+var inlineRecords = os.Getenv("GO_INLRECORDS")           // A file of inline records in CSV
+var inlineRecordSize = getEnvInt("GO_INLRECORDSIZE", 20) // Upper limit for inlining w/o okay from file.
+
+var doInlineSet map[inlineRecord]bool
+
+func init() {
+	if inlineRecords == "" {
+		return
+	}
+
+	if inlineRecords == "_" {
+		return
+	}
+
+	doInlineSet = make(map[inlineRecord]bool)
+
+	f, err := os.Open(inlineRecords)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	r := csv.NewReader(f)
+	r.Comment = '#'
+
+	for {
+		line, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			panic(err)
+		}
+		// Add inlining record
+		//                            0                                1         2           3            4          5   6    7              8             9
+		// goroots/TEST/src/internal/reflectlite/value.go:440:25: ,front_end,INLINE_SITE,reflectlite,Value.assignTo,440,25,reflectlite,directlyAssignable,217
+		callerLine, err := strconv.Atoi(line[5])
+		if err != nil {
+			panic(err)
+		}
+		callerColumn, err := strconv.Atoi(line[6])
+		if err != nil {
+			panic(err)
+		}
+		rec := inlineRecord{callerPackage: line[3], callerFunction: line[4], callerLine: int32(callerLine), callerColumn: int32(callerColumn), inlinePackage: line[7], inlineFunction: line[8]}
+		doInlineSet[rec] = true
+	}
 }
 
 // Get the function's package. For ordinary functions it's on the ->sym, but for imported methods
@@ -856,11 +915,6 @@ func mkinlcall(n, fn *Node, maxCost int32) *Node {
 		// No inlinable body.
 		return n
 	}
-	if fn.Func.Inl.Cost > maxCost {
-		// The inlined function body is too big. Typically we use this check to restrict
-		// inlining into very big functions.  See issue 26546 and 17566.
-		return n
-	}
 
 	if fn == Curfn || fn.Name.Defn == Curfn {
 		// Can't recursively inline a function into itself.
@@ -874,6 +928,36 @@ func mkinlcall(n, fn *Node, maxCost int32) *Node {
 		// we disable inlining of runtime functions when instrumenting.
 		// The example that we observed is inlining of LockOSThread,
 		// which lead to false race reports on m contents.
+		return n
+	}
+
+	// This threshold is much smaller than usual
+	tooBig := fn.Func.Inl.Cost > inlineRecordSize
+	// Either record or conditionally inline all functions between inlineRecordSize and maxCost
+	if tooBig && inlineRecords != "" {
+		if doInlineSet != nil {
+			// To make records as easy as possible to manipulate and ingest, separate packages from functions.
+			rec := inlineRecord{callerPackage: Curfn.pkgname(), callerFunction: Curfn.funcname(),
+				callerLine: int32(n.Pos.Line()), callerColumn: int32(n.Pos.Col()), inlinePackage: fn.Sym.Pkg.Name, inlineFunction: fn.Sym.Name}
+			if doInlineSet[rec] {
+				tooBig = false
+			}
+			// Allow the file of lines to identify call sites by function alone if line and column are zero.
+			rec.callerColumn = 0
+			rec.callerLine = 0
+			if doInlineSet[rec] {
+				tooBig = false
+			}
+			if tooBig {
+				return n
+			}
+		} else {
+			LogStat(n.Pos, "INLINE_SITE", "front_end", Curfn.pkgname(), Curfn.funcname(),
+				n.Pos.Line(), n.Pos.Col(), fn.Sym.Pkg.Name, fn.Sym.Name, fn.Func.Inl.Cost)
+		}
+	}
+
+	if fn.Func.Inl.Cost > maxCost {
 		return n
 	}
 
