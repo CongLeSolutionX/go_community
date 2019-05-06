@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d06411b7_137a2214",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-06T17:49:50Z",
+      "side": 1,
+      "message": "This type needs comments. What does it do? What would I use it for?",
+      "revId": "3a3b05bec64682cf0721bbf1355506f5ac606ac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "789deb9c_fdf6682e",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-06T17:49:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we allocate a new map here and put it in m.maps? v is getting thrown on the floor in this path.\n\nOr are you requiring that all file indexes were provided in newXposmap?  In which case, this should panic.\n\nComments about prerequisites for each of these methods would help.",
+      "revId": "3a3b05bec64682cf0721bbf1355506f5ac606ac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
