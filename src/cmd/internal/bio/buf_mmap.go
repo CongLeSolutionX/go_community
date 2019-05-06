@@ -7,6 +7,7 @@
 package bio
 
 import (
+	"os"
 	"runtime"
 	"sync/atomic"
 	"syscall"
@@ -35,7 +36,11 @@ func init() {
 func (r *Reader) sliceOS(length uint64) ([]byte, bool) {
 	// For small slices, don't bother with the overhead of a
 	// mapping, especially since we have no way to unmap it.
-	const threshold = 16 << 10
+
+	threshold := uint64(16 << 10)
+	if os.Getenv("THANM_HACK_MMAP_LIMIT") != "" {
+		threshold = uint64(64)
+	}
 	if length < threshold {
 		return nil, false
 	}

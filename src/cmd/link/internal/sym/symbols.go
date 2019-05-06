@@ -88,6 +88,13 @@ func (syms *Symbols) Lookup(name string, v int) *Symbol {
 	return syms.LookupEncoded(encoded, v)
 }
 
+// Look up the symbol the given name (from slice) and version, creating the
+// symbol if it is not found.
+func (syms *Symbols) LookupSlice(pieces []string, v int) *Symbol {
+	encoded := syms.names.LookupSlice(pieces)
+	return syms.LookupEncoded(encoded, v)
+}
+
 func (syms *Symbols) LookupEncoded(encoded SymName, v int) *Symbol {
 	m := syms.hash[v]
 	s := m[encoded]

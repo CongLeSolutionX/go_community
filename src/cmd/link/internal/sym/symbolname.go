@@ -5,6 +5,7 @@
 package sym
 
 import (
+	"bytes"
 	"fmt"
 	"sort"
 	"strings"
@@ -171,6 +172,56 @@ func (snt *SymNameTable) handleCollision(s string, hc uint64, val uint64) uintpt
 	snt.collisions[colslot] = append(snt.collisions[colslot], uint64(idx))
 
 	return idx
+}
+
+// LookupSlice takes a slice of strings which when concatenated
+// together form the name. It is assumed that the caller will only
+// be producing multiple pieces in cases where a sym name contains
+// self-package references (e.g. go."".mumble).
+func (snt *SymNameTable) LookupSlice(pieces []string) SymName {
+
+	// Locate rightmost "."
+	dotloc := -1
+	doti := -1
+	for i := len(pieces) - 1; i >= 0; i-- {
+		doti = strings.LastIndex(pieces[i], ".")
+		if doti != -1 {
+			dotloc = i
+			break
+		}
+	}
+
+	var pref, suf string
+	if dotloc == -1 {
+		if len(pieces) != 1 {
+			panic("not expecting multiple pieces with no '.'")
+		}
+		pref = ""
+		suf = pieces[0]
+	} else {
+		// Common special case: pkgpath.sym
+		if len(pieces) == 2 && dotloc == 0 && doti == len(pieces[0])-1 {
+			pref = pieces[0]
+			suf = pieces[1]
+		} else {
+			// More general case
+			var prefb, sufb bytes.Buffer
+			for i := 0; i < dotloc; i++ {
+				prefb.WriteString(pieces[i])
+			}
+			dotpiece := pieces[dotloc]
+			prefb.WriteString(dotpiece[:doti+1])
+			sufb.WriteString(dotpiece[doti+1:])
+			for i := dotloc + 1; i < len(pieces); i++ {
+				sufb.WriteString(pieces[i])
+			}
+			pref = prefb.String()
+			suf = sufb.String()
+		}
+	}
+	prefidx := snt.install(pref)
+	sufidx := snt.install(suf)
+	return SymName{pref: prefidx, suf: sufidx}
 }
 
 func (snt *SymNameTable) Lookup(s string) SymName {

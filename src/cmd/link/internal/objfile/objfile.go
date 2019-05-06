@@ -61,6 +61,8 @@ type objReader struct {
 
 	roObject      []byte // from read-only mmap of object file
 	objFileOffset int64  // offset of object data from start of file
+	pkgPath       string // packagepath post-processed by objabi.PathToPrefix
+	pkgPref       string // contains pkgpath plus "."
 
 	dataReadOnly bool // whether data is backed by read-only memory
 }
@@ -97,6 +99,8 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *sym.Library, le
 		flags:           flags,
 		roObject:        roObject,
 		objFileOffset:   start,
+		pkgPath:         objabi.PathToPrefix(lib.Pkg),
+		pkgPref:         objabi.PathToPrefix(lib.Pkg) + ".",
 	}
 	syms.SetSymName(r.dupSym, ".dup")
 	r.loadObjFile()
@@ -221,7 +225,6 @@ func (r *objReader) readSym() {
 	typ := r.readSymIndex()
 	data := r.readData()
 	nreloc := r.readInt()
-	pkg := objabi.PathToPrefix(r.lib.Pkg)
 	isdup := false
 
 	var dup *sym.Symbol
@@ -250,7 +253,7 @@ func (r *objReader) readSym() {
 	}
 
 overwrite:
-	s.File = pkg
+	s.File = r.pkgPath
 	s.Lib = r.lib
 	if dupok {
 		s.Attr |= sym.AttrDuplicateOK
@@ -434,7 +437,7 @@ func (r *objReader) patchDWARFName(s *sym.Symbol) {
 	if p == -1 {
 		return
 	}
-	pkgprefix := []byte(objabi.PathToPrefix(r.lib.Pkg) + ".")
+	pkgprefix := []byte(r.pkgPref)
 	patched := bytes.Replace(s.P[:e], emptyPkg, pkgprefix, -1)
 
 	s.P = append(patched, s.P[e:]...)
@@ -459,7 +462,7 @@ func (r *objReader) readRef() {
 	if c, err := r.rd.ReadByte(); c != symPrefix || err != nil {
 		log.Fatalf("readSym out of sync")
 	}
-	name := r.readSymName()
+	pieces := r.readSymNameToSlice()
 	var v int
 	if abi := r.readInt(); abi == -1 {
 		// Static
@@ -468,33 +471,37 @@ func (r *objReader) readRef() {
 		// Note that data symbols are "ABI0", which maps to version 0.
 		v = abiver
 	} else {
-		log.Fatalf("invalid symbol ABI for %q: %d", name, abi)
+		log.Fatalf("invalid symbol ABI for %q: %d", strings.Join(pieces, ""), abi)
 	}
-	s := r.syms.Lookup(name, v)
+	s := r.syms.LookupSlice(pieces, v)
 	r.refs = append(r.refs, s)
 
 	if s == nil || v == r.localSymVersion {
 		return
 	}
-	if name[0] == '$' && len(name) > 5 && s.Type == 0 && len(s.P) == 0 {
-		x, err := strconv.ParseUint(name[5:], 16, 64)
-		if err != nil {
-			log.Panicf("failed to parse $-symbol %s: %v", name, err)
-		}
-		s.Type = sym.SRODATA
-		s.Attr |= sym.AttrLocal
-		switch name[:5] {
-		case "$f32.":
-			if uint64(uint32(x)) != x {
-				log.Panicf("$-symbol %s too large: %d", name, x)
+
+	if len(pieces) == 1 {
+		name := pieces[0]
+		if name[0] == '$' && len(name) > 5 && s.Type == 0 && len(s.P) == 0 {
+			x, err := strconv.ParseUint(name[5:], 16, 64)
+			if err != nil {
+				log.Panicf("failed to parse $-symbol %s: %v", name, err)
 			}
-			s.AddUint32(r.arch, uint32(x))
-		case "$f64.", "$i64.":
-			s.AddUint64(r.arch, x)
-		default:
-			log.Panicf("unrecognized $-symbol: %s", name)
+			s.Type = sym.SRODATA
+			s.Attr |= sym.AttrLocal
+			switch name[:5] {
+			case "$f32.":
+				if uint64(uint32(x)) != x {
+					log.Panicf("$-symbol %s too large: %d", name, x)
+				}
+				s.AddUint32(r.arch, uint32(x))
+			case "$f64.", "$i64.":
+				s.AddUint64(r.arch, x)
+			default:
+				log.Panicf("unrecognized $-symbol: %s", name)
+			}
+			s.Attr.Set(sym.AttrReachable, false)
 		}
-		s.Attr.Set(sym.AttrReachable, false)
 	}
 	if r.syms.SymNameHasPrefix(s, "runtime.gcbits.") {
 		s.Attr |= sym.AttrLocal
@@ -582,13 +589,13 @@ func mkROString(rodata []byte) string {
 	return s
 }
 
-// readSymName reads a symbol name, replacing all "". with pkg.
-func (r *objReader) readSymName() string {
-	pkg := objabi.PathToPrefix(r.lib.Pkg)
+// readSymNameToSlice reads a symbol name, replacing all "". with pkg,
+// returning the result as a slice of strings.
+func (r *objReader) readSymNameToSlice() []string {
 	n := r.readInt()
 	if n == 0 {
 		r.readInt64()
-		return ""
+		return []string{}
 	}
 	if cap(r.rdBuf) < n {
 		r.rdBuf = make([]byte, 2*n)
@@ -603,31 +610,36 @@ func (r *objReader) readSymName() string {
 	} else if err != nil {
 		log.Fatalf("%s: error reading symbol: %v", r.pn, err)
 	}
+	result := []string{}
 	adjName := r.rdBuf[:0]
-	nPkgRefs := 0
+	plen := 0
 	for {
 		i := bytes.Index(origName, emptyPkg)
 		if i == -1 {
 			var s string
-			if r.roObject != nil && nPkgRefs == 0 {
-				s = mkROString(r.roObject[sOffset : sOffset+int64(n)])
+			if r.roObject != nil {
+				soff := sOffset + int64(plen)
+				s = mkROString(r.roObject[soff : soff+int64(n-plen)])
 			} else {
 				s = string(append(adjName, origName...))
 			}
+			result = append(result, s)
 			// Read past the peeked origName, now that we're done with it,
 			// using the rfBuf (also no longer used) as the scratch space.
 			// TODO: use bufio.Reader.Discard if available instead?
 			if err == nil {
 				r.readFull(r.rdBuf[:n])
 			}
-			r.rdBuf = adjName[:0] // in case 2*n wasn't enough
-			return s
+			return result
 		}
-		nPkgRefs++
-		adjName = append(adjName, origName[:i]...)
-		adjName = append(adjName, pkg...)
-		adjName = append(adjName, '.')
+
+		if i != 0 {
+			result = append(result, string(origName[:i]))
+			plen += len(origName[:i])
+		}
+		result = append(result, r.pkgPref)
 		origName = origName[i+len(emptyPkg):]
+		plen += len(emptyPkg)
 	}
 }
 

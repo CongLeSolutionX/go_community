@@ -457,6 +457,7 @@ func TestSymTableHasSuffix(t *testing.T) {
 		}
 	}
 }
+
 func TestSymTableNameEqString(t *testing.T) {
 	snt := NewSymNameTable(3)
 	sns, items := populateSNT(&snt)
@@ -474,6 +475,33 @@ func TestSymTableNameEqString(t *testing.T) {
 		if snt.NameEqString(sn, "~"+item) {
 			t.Errorf("snt.NameEqual(%v,%s) returned true expected false",
 				sn, "~"+item)
+		}
+	}
+}
+
+type slpair struct {
+	origslice []string
+	exploded  string
+}
+
+func TestSymNamesSliced(t *testing.T) {
+	snt := NewSymNameTable(1)
+
+	items := [...]slpair{
+		{[]string{""}, "{:}"},
+		{[]string{"."}, "{.:}"},
+		{[]string{".", "."}, "{..:}"},
+		{[]string{"foo.", "bar"}, "{foo.:bar}"},
+		{[]string{".foo", "bar"}, "{.:foobar}"},
+		{[]string{"foo", ".bar"}, "{foo.:bar}"},
+		{[]string{"new.foo.", "bar"}, "{new.foo.:bar}"},
+		{[]string{"a", "b", "c", "d.e", "bar", "-baz"}, "{abcd.:ebar-baz}"},
+	}
+	for idx := 0; idx < len(items); idx++ {
+		sn := snt.LookupSlice(items[idx].origslice)
+		ex := snt.explode(sn)
+		if ex != items[idx].exploded {
+			t.Errorf("item %d: expected exploded %s got %s", idx, items[idx].exploded, ex)
 		}
 	}
 }
