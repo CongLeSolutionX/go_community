@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "28b92057_fbce8257",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-07T08:51:40Z",
+      "side": 1,
+      "message": "\u003e CompareStringOrdinal SGTM if the performance is okay.\n\nI have not used CompareStringOrdinal myself, but it is standard Windows API, so it should work fine.\n\n\u003e That\u0027s just a cgo call and not a system call I assume?\n\nI don\u0027t understand your question. According to documentation, CompareStringOrdinal lives in Kernel32.dll. So we would have to load it, and then use syscall.Syscall to call it.",
+      "parentUuid": "33423cb5_bbded24a",
+      "revId": "5e575be9e3762cef601d99e5c11225ff81b9e491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bda7b14a_b14b0158",
         "filename": "src/syscall/exec_windows.go",
         "patchSetId": 2
