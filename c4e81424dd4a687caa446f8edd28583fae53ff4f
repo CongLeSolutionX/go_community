@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "351205b9_b8b3d81d",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-07T18:38:36Z",
+      "side": 1,
+      "message": "I think I saw that you opened an issue for this; mention that issue number here.",
+      "revId": "c4e81424dd4a687caa446f8edd28583fae53ff4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
