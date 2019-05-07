@@ -16,6 +16,24 @@
       "revId": "c4e81424dd4a687caa446f8edd28583fae53ff4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de0b55f7_0955aab1",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-05-07T18:41:13Z",
+      "side": 1,
+      "message": "Yep. Already done in my local copy.",
+      "parentUuid": "351205b9_b8b3d81d",
+      "revId": "c4e81424dd4a687caa446f8edd28583fae53ff4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
