@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48e51326_79c14ed2",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-07T18:12:44Z",
+      "side": 1,
+      "message": "If `go.mod` includes a module that isn\u0027t actually needed, will `go mod vendor` still put an entry for it in vendorList?\n\nIf not, perhaps we should suggest running `go mod tidy` before `go mod vendor`.",
+      "range": {
+        "startLine": 430,
+        "startChar": 0,
+        "endLine": 432,
+        "endChar": 63
+      },
+      "revId": "b32d75f59815491bf507249bde10e0842aef9209",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
