@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3d391fb8_7011512b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2019-05-08T23:40:15Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "4afcb89b_41f66dc1",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "244a29210fcb88ef5473e984619cbc6d774c49da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af7a6feb_19fddef4",
         "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2019-05-07T13:05:34Z",
       "side": 1,
       "message": "//go:noescape\n\nAlso, rather than *byte use *[1720]byte here. Makes things a bit clearer and a bit more type safe.",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "244a29210fcb88ef5473e984619cbc6d774c49da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55005f8d_e2b51f65",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2019-05-08T23:40:15Z",
+      "side": 1,
+      "message": "put in noescape -- the type change causes problems later on, so I didn\u0027t do it",
+      "parentUuid": "af7a6feb_19fddef4",
       "range": {
         "startLine": 33,
         "startChar": 30,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ab9fa678_8dc622e8",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2019-05-08T23:40:15Z",
+      "side": 1,
+      "message": "Actually it should have been kdsaSig --as in signature. That is what I changed.",
+      "parentUuid": "e996d3bb_0b9bbf3f",
+      "range": {
+        "startLine": 69,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 0
+      },
+      "revId": "244a29210fcb88ef5473e984619cbc6d774c49da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f44f2009_89420885",
         "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2019-05-07T13:05:34Z",
       "side": 1,
       "message": "You don\u0027t need the filler here (since there isn\u0027t a loop in Verify buffer will start off filled with 0s).",
+      "range": {
+        "startLine": 365,
+        "startChar": 2,
+        "endLine": 365,
+        "endChar": 21
+      },
+      "revId": "244a29210fcb88ef5473e984619cbc6d774c49da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3170c80f_0b6f91df",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2019-05-08T23:40:15Z",
+      "side": 1,
+      "message": "Sorry - but I\u0027m paranoid about the filler, and all the buffer references. I\u0027d rather keep it in as explicit. Making a mistake causes headaches.",
+      "parentUuid": "f44f2009_89420885",
       "range": {
         "startLine": 365,
         "startChar": 2,
