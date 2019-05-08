@@ -881,13 +881,11 @@ TEXT _cgo_topofstack(SB),NOSPLIT|NOFRAME,$0
 // goexit+_PCQuantum is halfway through the usual global entry point prologue
 // that derives r2 from r12 which is a bit silly, but not harmful.
 TEXT runtime·goexit(SB),NOSPLIT|NOFRAME|TOPFRAME,$0-0
-	MOVD	24(R1), R2
+	MOVD	R1, R2	// hide (R1) ref from vet
+	MOVD	24(R2), R2
 	BL	runtime·goexit1(SB)	// does not return
 	// traceback from goexit1 must hit code range of goexit
 	MOVD	R0, R0	// NOP
-
-TEXT runtime·sigreturn(SB),NOSPLIT,$0-0
-	RET
 
 // prepGoExitFrame saves the current TOC pointer (i.e. the TOC pointer for the
 // module containing runtime) to the frame that goexit will execute in when
