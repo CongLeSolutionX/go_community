@@ -316,3 +316,11 @@ func bool2int(x bool) int {
 // signal handler, which will attempt to tear down the runtime
 // immediately.
 func abort()
+
+// Called from compiler-generated code; declared for go vet.
+func duffzero()
+func duffcopy()
+func gcWriteBarrier()
+
+// Called from linker-generated .initarray; declared for go vet.
+func addmoduledata()
