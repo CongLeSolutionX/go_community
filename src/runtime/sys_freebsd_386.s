@@ -23,7 +23,8 @@ TEXT runtime·thr_new(SB),NOSPLIT,$-4
 	RET
 
 TEXT runtime·thr_start(SB),NOSPLIT,$0
-	MOVL	mm+0(FP), AX
+	MOVL	SP, AX // hide (SP) ref from vet
+	MOVL	0(AX), AX
 	MOVL	m_g0(AX), BX
 	LEAL	m_tls(AX), BP
 	MOVL	m_id(AX), DI
@@ -235,16 +236,18 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$12-16
 	RET
 
 TEXT runtime·sigtramp(SB),NOSPLIT,$12
-	MOVL	signo+0(FP), BX
+	MOVL	SP, AX	// hide (SP) refs from vet
+	MOVL	16(AX), BX	// signo
 	MOVL	BX, 0(SP)
-	MOVL	info+4(FP), BX
+	MOVL	20(AX), BX // info
 	MOVL	BX, 4(SP)
-	MOVL	context+8(FP), BX
+	MOVL	24(AX), BX // context
 	MOVL	BX, 8(SP)
 	CALL	runtime·sigtrampgo(SB)
 
 	// call sigreturn
-	MOVL	context+8(FP), AX
+	MOVL	SP, AX	// hide (SP) refs from vet
+	MOVL	24(AX), AX	// context
 	MOVL	$0, 0(SP)	// syscall gap
 	MOVL	AX, 4(SP)
 	MOVL	$417, AX	// sigreturn(ucontext)
@@ -319,7 +322,7 @@ TEXT runtime·setldt(SB),NOSPLIT,$32
 	MOVL	$0xffffffff, 0(SP)	// auto-allocate entry and return in AX
 	MOVL	AX, 4(SP)
 	MOVL	$1, 8(SP)
-	CALL	runtime·i386_set_ldt(SB)
+	CALL	i386_set_ldt<>(SB)
 
 	// compute segment selector - (entry*8+7)
 	SHLL	$3, AX
@@ -327,7 +330,7 @@ TEXT runtime·setldt(SB),NOSPLIT,$32
 	MOVW	AX, GS
 	RET
 
-TEXT runtime·i386_set_ldt(SB),NOSPLIT,$16
+TEXT i386_set_ldt<>(SB),NOSPLIT,$16
 	LEAL	args+0(FP), AX	// 0(FP) == 4(SP) before SP got moved
 	MOVL	$0, 0(SP)	// syscall gap
 	MOVL	$1, 4(SP)
