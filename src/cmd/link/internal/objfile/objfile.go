@@ -85,7 +85,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *sym.Library, le
 	start := f.Offset()
 	roObject := f.SliceRO(uint64(length))
 	if roObject != nil {
-		f.Seek(int64(-length), os.SEEK_CUR)
+		f.MustSeek(int64(-length), os.SEEK_CUR)
 	}
 	r := &objReader{
 		rd:              f,
