@@ -855,7 +855,7 @@ func (s *ss) quotedString() string {
 		return string(s.buf)
 	case '"':
 		// Double-quoted: Include the quotes and let strconv.Unquote do the backslash escapes.
-		s.buf.WriteByte('"')
+		s.buf.writeByte('"')
 		for {
 			r := s.mustReadRune()
 			s.buf.WriteRune(r)
@@ -922,7 +922,7 @@ func (s *ss) hexString() string {
 		if !ok {
 			break
 		}
-		s.buf.WriteByte(b)
+		s.buf.writeByte(b)
 	}
 	if len(s.buf) == 0 {
 		s.errorString("no hex data for %x string")

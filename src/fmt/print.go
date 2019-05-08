@@ -83,7 +83,7 @@ func (b *buffer) WriteString(s string) {
 	*b = append(*b, s...)
 }
 
-func (b *buffer) WriteByte(c byte) {
+func (b *buffer) writeByte(c byte) {
 	*b = append(*b, c)
 }
 
@@ -317,29 +317,29 @@ func (p *pp) unknownType(v reflect.Value) {
 		p.buf.WriteString(nilAngleString)
 		return
 	}
-	p.buf.WriteByte('?')
+	p.buf.writeByte('?')
 	p.buf.WriteString(v.Type().String())
-	p.buf.WriteByte('?')
+	p.buf.writeByte('?')
 }
 
 func (p *pp) badVerb(verb rune) {
 	p.erroring = true
 	p.buf.WriteString(percentBangString)
 	p.buf.WriteRune(verb)
-	p.buf.WriteByte('(')
+	p.buf.writeByte('(')
 	switch {
 	case p.arg != nil:
 		p.buf.WriteString(reflect.TypeOf(p.arg).String())
-		p.buf.WriteByte('=')
+		p.buf.writeByte('=')
 		p.printArg(p.arg, 'v')
 	case p.value.IsValid():
 		p.buf.WriteString(p.value.Type().String())
-		p.buf.WriteByte('=')
+		p.buf.writeByte('=')
 		p.printValue(p.value, 'v', 0)
 	default:
 		p.buf.WriteString(nilAngleString)
 	}
-	p.buf.WriteByte(')')
+	p.buf.writeByte(')')
 	p.erroring = false
 }
 
@@ -421,7 +421,7 @@ func (p *pp) fmtComplex(v complex128, size int, verb rune) {
 	switch verb {
 	case 'v', 'b', 'g', 'G', 'x', 'X', 'f', 'F', 'e', 'E':
 		oldPlus := p.fmt.plus
-		p.buf.WriteByte('(')
+		p.buf.writeByte('(')
 		p.fmtFloat(real(v), size/2, verb)
 		// Imaginary part always has a sign.
 		p.fmt.plus = true
@@ -463,23 +463,23 @@ func (p *pp) fmtBytes(v []byte, verb rune, typeString string) {
 				p.buf.WriteString(nilParenString)
 				return
 			}
-			p.buf.WriteByte('{')
+			p.buf.writeByte('{')
 			for i, c := range v {
 				if i > 0 {
 					p.buf.WriteString(commaSpaceString)
 				}
 				p.fmt0x64(uint64(c), true)
 			}
-			p.buf.WriteByte('}')
+			p.buf.writeByte('}')
 		} else {
-			p.buf.WriteByte('[')
+			p.buf.writeByte('[')
 			for i, c := range v {
 				if i > 0 {
-					p.buf.WriteByte(' ')
+					p.buf.writeByte(' ')
 				}
 				p.fmt.fmtInteger(uint64(c), 10, unsigned, verb, ldigits)
 			}
-			p.buf.WriteByte(']')
+			p.buf.writeByte(']')
 		}
 	case 's':
 		p.fmt.fmtBs(v)
@@ -507,7 +507,7 @@ func (p *pp) fmtPointer(value reflect.Value, verb rune) {
 	switch verb {
 	case 'v':
 		if p.fmt.sharpV {
-			p.buf.WriteByte('(')
+			p.buf.writeByte('(')
 			p.buf.WriteString(value.Type().String())
 			p.buf.WriteString(")(")
 			if u == 0 {
@@ -515,7 +515,7 @@ func (p *pp) fmtPointer(value reflect.Value, verb rune) {
 			} else {
 				p.fmt0x64(uint64(u), true)
 			}
-			p.buf.WriteByte(')')
+			p.buf.writeByte(')')
 		} else {
 			if u == 0 {
 				p.fmt.padString(nilAngleString)
@@ -560,7 +560,7 @@ func (p *pp) catchPanic(arg interface{}, verb rune, method string) {
 		p.panicking = true
 		p.printArg(err, 'v')
 		p.panicking = false
-		p.buf.WriteByte(')')
+		p.buf.writeByte(')')
 
 		p.fmt.fmtFlags = oldFlags
 	}
@@ -745,7 +745,7 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 				p.buf.WriteString(nilParenString)
 				return
 			}
-			p.buf.WriteByte('{')
+			p.buf.writeByte('{')
 		} else {
 			p.buf.WriteString(mapString)
 		}
@@ -755,40 +755,40 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 				if p.fmt.sharpV {
 					p.buf.WriteString(commaSpaceString)
 				} else {
-					p.buf.WriteByte(' ')
+					p.buf.writeByte(' ')
 				}
 			}
 			p.printValue(key, verb, depth+1)
-			p.buf.WriteByte(':')
+			p.buf.writeByte(':')
 			p.printValue(sorted.Value[i], verb, depth+1)
 		}
 		if p.fmt.sharpV {
-			p.buf.WriteByte('}')
+			p.buf.writeByte('}')
 		} else {
-			p.buf.WriteByte(']')
+			p.buf.writeByte(']')
 		}
 	case reflect.Struct:
 		if p.fmt.sharpV {
 			p.buf.WriteString(f.Type().String())
 		}
-		p.buf.WriteByte('{')
+		p.buf.writeByte('{')
 		for i := 0; i < f.NumField(); i++ {
 			if i > 0 {
 				if p.fmt.sharpV {
 					p.buf.WriteString(commaSpaceString)
 				} else {
-					p.buf.WriteByte(' ')
+					p.buf.writeByte(' ')
 				}
 			}
 			if p.fmt.plusV || p.fmt.sharpV {
 				if name := f.Type().Field(i).Name; name != "" {
 					p.buf.WriteString(name)
-					p.buf.WriteByte(':')
+					p.buf.writeByte(':')
 				}
 			}
 			p.printValue(getField(f, i), verb, depth+1)
 		}
-		p.buf.WriteByte('}')
+		p.buf.writeByte('}')
 	case reflect.Interface:
 		value := f.Elem()
 		if !value.IsValid() {
@@ -831,23 +831,23 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 				p.buf.WriteString(nilParenString)
 				return
 			}
-			p.buf.WriteByte('{')
+			p.buf.writeByte('{')
 			for i := 0; i < f.Len(); i++ {
 				if i > 0 {
 					p.buf.WriteString(commaSpaceString)
 				}
 				p.printValue(f.Index(i), verb, depth+1)
 			}
-			p.buf.WriteByte('}')
+			p.buf.writeByte('}')
 		} else {
-			p.buf.WriteByte('[')
+			p.buf.writeByte('[')
 			for i := 0; i < f.Len(); i++ {
 				if i > 0 {
-					p.buf.WriteByte(' ')
+					p.buf.writeByte(' ')
 				}
 				p.printValue(f.Index(i), verb, depth+1)
 			}
-			p.buf.WriteByte(']')
+			p.buf.writeByte(']')
 		}
 	case reflect.Ptr:
 		// pointer to array or slice or struct? ok at top level
@@ -855,7 +855,7 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 		if depth == 0 && f.Pointer() != 0 {
 			switch a := f.Elem(); a.Kind() {
 			case reflect.Array, reflect.Slice, reflect.Struct, reflect.Map:
-				p.buf.WriteByte('&')
+				p.buf.writeByte('&')
 				p.printValue(a, verb, depth+1)
 				return
 			}
@@ -1088,7 +1088,7 @@ formatLoop:
 
 		switch {
 		case verb == '%': // Percent does not absorb operands and ignores f.wid and f.prec.
-			p.buf.WriteByte('%')
+			p.buf.writeByte('%')
 		case !p.goodArgNum:
 			p.badArgNum(verb)
 		case argNum >= len(a): // No argument left over to print for the current verb.
@@ -1121,11 +1121,11 @@ formatLoop:
 				p.buf.WriteString(nilAngleString)
 			} else {
 				p.buf.WriteString(reflect.TypeOf(arg).String())
-				p.buf.WriteByte('=')
+				p.buf.writeByte('=')
 				p.printArg(arg, 'v')
 			}
 		}
-		p.buf.WriteByte(')')
+		p.buf.writeByte(')')
 	}
 }
 
@@ -1135,7 +1135,7 @@ func (p *pp) doPrint(a []interface{}) {
 		isString := arg != nil && reflect.TypeOf(arg).Kind() == reflect.String
 		// Add a space between two non-string arguments.
 		if argNum > 0 && !isString && !prevString {
-			p.buf.WriteByte(' ')
+			p.buf.writeByte(' ')
 		}
 		p.printArg(arg, 'v')
 		prevString = isString
@@ -1147,9 +1147,9 @@ func (p *pp) doPrint(a []interface{}) {
 func (p *pp) doPrintln(a []interface{}) {
 	for argNum, arg := range a {
 		if argNum > 0 {
-			p.buf.WriteByte(' ')
+			p.buf.writeByte(' ')
 		}
 		p.printArg(arg, 'v')
 	}
-	p.buf.WriteByte('\n')
+	p.buf.writeByte('\n')
 }

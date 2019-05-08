@@ -574,7 +574,7 @@ func (f *fmt) fmtFloat(v float64, size int, verb rune, prec int) {
 		// If we're zero padding to the left we want the sign before the leading zeros.
 		// Achieve this by writing the sign out and then padding the unsigned number.
 		if f.zero && f.widPresent && f.wid > len(num) {
-			f.buf.WriteByte(num[0])
+			f.buf.writeByte(num[0])
 			f.writePadding(f.wid - len(num))
 			f.buf.Write(num[1:])
 			return
