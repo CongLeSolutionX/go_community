@@ -156,7 +156,7 @@ loop:
 			break
 		}
 		if w.fmt.needColon || !p.fmt.plusV {
-			w.buf.WriteByte(':')
+			w.buf.writeByte(':')
 			w.fmt.needColon = false
 		}
 		w.buf.WriteString(sep)
@@ -195,7 +195,7 @@ func (p *errPPState) Write(b []byte) (n int, err error) {
 		for i, c := range b {
 			if p.fmt.needNewline {
 				if p.fmt.inDetail && p.fmt.needColon {
-					p.buf.WriteByte(':')
+					p.buf.writeByte(':')
 					p.fmt.needColon = false
 				}
 				p.buf.Write(detailSep)
