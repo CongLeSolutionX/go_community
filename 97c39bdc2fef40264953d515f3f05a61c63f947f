@@ -16,6 +16,24 @@
       "revId": "97c39bdc2fef40264953d515f3f05a61c63f947f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d2bdd8_40216c03",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-05-08T15:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366c4024_8ac250af",
+      "revId": "97c39bdc2fef40264953d515f3f05a61c63f947f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
