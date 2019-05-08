@@ -474,7 +474,8 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	RET
 
 	// Paranoia: check that SP is as we expect.
-	MOVL	12(SP), BP
+	MOVL	SP, BP	// avoid (SP) refs for vet
+	MOVL	12(BP), BP
 	CMPL	BP, $1234
 	JEQ	2(PC)
 	INT	$3
@@ -483,9 +484,10 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	MOVL	$SYS_gettid, AX
 	INVOKE_SYSCALL
 
-	MOVL	0(SP), BX	    // m
-	MOVL	4(SP), DX	    // g
-	MOVL	8(SP), SI	    // fn
+	MOVL	SP, BP	// avoid (SP) refs for vet
+	MOVL	0(BP), BX	    // m
+	MOVL	4(BP), DX	    // g
+	MOVL	8(BP), SI	    // fn
 
 	CMPL	BX, $0
 	JEQ	nog
@@ -572,7 +574,7 @@ GLOBL runtime·tls_entry_number(SB), NOPTR, $4
 // The name, setldt, is a misnomer, although we leave this name as it is for
 // the compatibility with other platforms.
 TEXT runtime·setldt(SB),NOSPLIT,$32
-	MOVL	address+4(FP), DX	// base address
+	MOVL	base+4(FP), DX
 
 #ifdef GOOS_android
 	// Android stores the TLS offset in runtime·tls_g.
