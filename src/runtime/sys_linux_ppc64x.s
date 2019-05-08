@@ -616,3 +616,15 @@ TEXT runtime·sbrk0(SB),NOSPLIT|NOFRAME,$0
 	SYSCALL	$SYS_brk
 	MOVD	R3, ret+0(FP)
 	RET
+
+TEXT runtime·access(SB),$0
+	MOVD	R0, 0(R0) // unimplemented, only needed for android; declared in stubs_linux.go
+	RET
+
+TEXT runtime·connect(SB),$0
+	MOVD	R0, 0(R0) // unimplemented, only needed for android; declared in stubs_linux.go
+	RET
+
+TEXT runtime·socket(SB),$0
+	MOVD	R0, 0(R0) // unimplemented, only needed for android; declared in stubs_linux.go
+	RET
