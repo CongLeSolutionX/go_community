@@ -182,12 +182,13 @@ TEXT runtime·walltime(SB),NOSPLIT,$8-12
 	SYSCALL
 	MOVW	4(R29), R3	// sec
 	MOVW	8(R29), R5	// nsec
+	MOVW	$sec+0(FP), R6
 #ifdef GOARCH_mips
-	MOVW	R3, sec_lo+4(FP)
-	MOVW	R0, sec_hi+0(FP)
+	MOVW	R3, 4(R6)
+	MOVW	R0, 0(R6)
 #else
-	MOVW	R3, sec_lo+0(FP)
-	MOVW	R0, sec_hi+4(FP)
+	MOVW	R3, 0(R6)
+	MOVW	R0, 4(R6)
 #endif
 	MOVW	R5, nsec+8(FP)
 	RET
@@ -206,17 +207,18 @@ TEXT runtime·nanotime(SB),NOSPLIT,$8-8
 	MOVW	LO, R3
 	ADDU	R5, R3
 	SGTU	R5, R3, R4
+	MOVW	$ret+0(FP), R6
 #ifdef GOARCH_mips
-	MOVW	R3, ret_lo+4(FP)
+	MOVW	R3, 4(R6)
 #else
-	MOVW	R3, ret_lo+0(FP)
+	MOVW	R3, 0(R6)
 #endif
 	MOVW	HI, R3
 	ADDU	R4, R3
 #ifdef GOARCH_mips
-	MOVW	R3, ret_hi+0(FP)
+	MOVW	R3, 0(R6)
 #else
-	MOVW	R3, ret_hi+4(FP)
+	MOVW	R3, 4(R6)
 #endif
 	RET
 
@@ -369,7 +371,8 @@ TEXT runtime·clone(SB),NOSPLIT|NOFRAME,$0-24
 
 	// In child, on new stack.
 	// Check that SP is as we expect
-	MOVW	12(R29), R16
+	MOVW	R29, R1 // hide (R29) ref from vet
+	MOVW	12(R1), R16
 	MOVW	$1234, R1
 	BEQ	R16, R1, 2(PC)
 	MOVW	(R0), R0
@@ -378,9 +381,10 @@ TEXT runtime·clone(SB),NOSPLIT|NOFRAME,$0-24
 	MOVW	$SYS_gettid, R2
 	SYSCALL
 
-	MOVW	0(R29), R16	// m
-	MOVW	4(R29), R17	// g
-	MOVW	8(R29), R18	// fn
+	MOVW	R29, R1 // hide (R29) ref from vet
+	MOVW	0(R1), R16	// m
+	MOVW	4(R1), R17	// g
+	MOVW	8(R1), R18	// fn
 
 	BEQ	R16, nog
 	BEQ	R17, nog
