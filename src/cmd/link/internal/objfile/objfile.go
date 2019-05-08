@@ -84,7 +84,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, lib *sym.Library, le
 	start := f.Offset()
 	roObject := f.SliceRO(uint64(length))
 	if roObject != nil {
-		f.Seek(int64(-length), os.SEEK_CUR)
+		f.MustSeek(int64(-length), os.SEEK_CUR)
 	}
 	r := &objReader{
 		rd:              f,
@@ -191,7 +191,7 @@ func (r *objReader) readDataSection() (err error) {
 		dOffset := r.rd.Offset() - r.objFileOffset
 		r.data, r.dataReadOnly, err =
 			r.roObject[dOffset:dOffset+int64(r.dataSize)], true, nil
-		r.rd.Seek(int64(r.dataSize), os.SEEK_CUR)
+		r.rd.MustSeek(int64(r.dataSize), os.SEEK_CUR)
 		return
 	}
 	r.data, r.dataReadOnly, err = r.rd.Slice(uint64(r.dataSize))
