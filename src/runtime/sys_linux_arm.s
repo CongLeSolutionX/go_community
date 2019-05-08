@@ -365,8 +365,9 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	MOVW	R0, ret+20(FP)
 	RET
 
-	// Paranoia: check that SP is as we expect. Use R13 to avoid linker 'fixup'
-	MOVW	12(R13), R0
+	// Paranoia: check that SP is as we expect. Use R0 to avoid (R13) or (SP) ref for vet
+	MOVW	R13, R0
+	MOVW	12(R0), R0
 	MOVW	$1234, R1
 	CMP	R0, R1
 	BEQ	2(PC)
@@ -397,8 +398,9 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 
 nog:
 	// Call fn
-	MOVW	8(R13), R0
-	MOVW	$16(R13), R13
+	MOVW	R13, R1 // avoid (R13) for vet
+	MOVW	8(R1), R0
+	MOVW	$16(R1), R13
 	BL	(R0)
 
 	// It shouldn't return. If it does, exit that thread.
