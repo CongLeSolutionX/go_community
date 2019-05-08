@@ -293,13 +293,6 @@ realtime:
 TEXT syscall·now(SB),NOSPLIT,$0
 	JMP runtime·walltime(SB)
 
-TEXT runtime·nacl_clock_gettime(SB),NOSPLIT,$0
-	MOVL arg1+0(FP), DI
-	MOVL arg2+4(FP), SI
-	NACL_SYSCALL(SYS_clock_gettime)
-	MOVL AX, ret+8(FP)
-	RET
-
 TEXT runtime·nanotime(SB),NOSPLIT,$16
 	MOVQ runtime·faketime(SB), AX
 	CMPQ AX, $0
@@ -327,7 +320,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$80
 	// with non-NaCl systems it is referred to here as TLS.
 	// NOTE: Cannot use SYS_tls_get here (like we do in mstart_nacl),
 	// because the main thread never calls tls_set.
-	LEAL ctxt+0(FP), AX
+	LEAL 8(SP), AX
 	MOVL (16*4+5*8)(AX), AX
 	MOVL	AX, TLS
 
