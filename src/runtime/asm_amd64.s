@@ -424,19 +424,20 @@ TEXT runtime·morestack(SB),NOSPLIT,$0-0
 
 	// Called from f.
 	// Set m->morebuf to f's caller.
-	MOVQ	8(SP), AX	// f's caller's PC
+	MOVQ	SP, DI	// avoid (SP) refs for vet
+	MOVQ	8(DI), AX	// f's caller's PC
 	MOVQ	AX, (m_morebuf+gobuf_pc)(BX)
-	LEAQ	16(SP), AX	// f's caller's SP
+	LEAQ	16(DI), AX	// f's caller's SP
 	MOVQ	AX, (m_morebuf+gobuf_sp)(BX)
 	get_tls(CX)
 	MOVQ	g(CX), SI
 	MOVQ	SI, (m_morebuf+gobuf_g)(BX)
 
 	// Set g->sched to context in f.
-	MOVQ	0(SP), AX // f's PC
+	MOVQ	0(DI), AX // f's PC
 	MOVQ	AX, (g_sched+gobuf_pc)(SI)
 	MOVQ	SI, (g_sched+gobuf_g)(SI)
-	LEAQ	8(SP), AX // f's SP
+	LEAQ	8(DI), AX // f's SP
 	MOVQ	AX, (g_sched+gobuf_sp)(SI)
 	MOVQ	BP, (g_sched+gobuf_bp)(SI)
 	MOVQ	DX, (g_sched+gobuf_ctxt)(SI)
@@ -890,7 +891,7 @@ TEXT runtime·aeshash(SB),NOSPLIT,$0-32
 	MOVQ	p+0(FP), AX	// ptr to data
 	MOVQ	s+16(FP), CX	// size
 	LEAQ	ret+24(FP), DX
-	JMP	runtime·aeshashbody(SB)
+	JMP	aeshashbody<>(SB)
 
 // func aeshashstr(p unsafe.Pointer, h uintptr) uintptr
 TEXT runtime·aeshashstr(SB),NOSPLIT,$0-24
@@ -898,12 +899,12 @@ TEXT runtime·aeshashstr(SB),NOSPLIT,$0-24
 	MOVQ	8(AX), CX	// length of string
 	MOVQ	(AX), AX	// string data
 	LEAQ	ret+16(FP), DX
-	JMP	runtime·aeshashbody(SB)
+	JMP	aeshashbody<>(SB)
 
 // AX: data
 // CX: length
 // DX: address to put return value
-TEXT runtime·aeshashbody(SB),NOSPLIT,$0-0
+TEXT aeshashbody<>(SB),NOSPLIT,$0-0
 	// Fill an SSE register with our seeds.
 	MOVQ	h+8(FP), X0			// 64 bits of per-table hash seed
 	PINSRW	$4, CX, X0			// 16 bits of length
