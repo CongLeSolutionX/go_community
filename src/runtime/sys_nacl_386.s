@@ -258,15 +258,6 @@ TEXT runtime·walltime(SB),NOSPLIT,$20
 TEXT syscall·now(SB),NOSPLIT,$0
 	JMP runtime·walltime(SB)
 
-TEXT runtime·nacl_clock_gettime(SB),NOSPLIT,$8
-	MOVL arg1+0(FP), AX
-	MOVL AX, 0(SP)
-	MOVL arg2+4(FP), AX
-	MOVL AX, 4(SP)
-	NACL_SYSCALL(SYS_clock_gettime)
-	MOVL AX, ret+8(FP)
-	RET
-
 TEXT runtime·nanotime(SB),NOSPLIT,$20
 	MOVL $0, 0(SP) // real time clock
 	LEAL 8(SP), AX
@@ -307,7 +298,8 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0
 	JMP 	ret
 
 	// save g
-	MOVL	DI, 20(SP)
+	MOVL	SP, SI	// hide (SP) refs from vet
+	MOVL	DI, 20(SI)
 
 	// g = m->gsignal
 	MOVL	g_m(DI), BX
@@ -315,17 +307,18 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0
 	MOVL	BX, g(CX)
 
 	// copy arguments for sighandler
-	MOVL	$11, 0(SP) // signal
-	MOVL	$0, 4(SP) // siginfo
-	LEAL	ctxt+4(FP), AX
-	MOVL	AX, 8(SP) // context
-	MOVL	DI, 12(SP) // g
+	MOVL	$11, 0(SI) // signal
+	MOVL	$0, 4(SI) // siginfo
+	LEAL	8(SI), AX
+	MOVL	AX, 8(SI) // context
+	MOVL	DI, 12(SI) // g
 
 	CALL	runtime·sighandler(SB)
 
 	// restore g
 	get_tls(CX)
-	MOVL	20(SP), BX
+	MOVL	SP, SI	// hide (SP) refs from vet
+	MOVL	20(SI), BX
 	MOVL	BX, g(CX)
 
 ret:
@@ -359,8 +352,8 @@ ret:
 	//
 	// We smash BP, because that's what the linker smashes during RET.
 	//
-	LEAL	ctxt+4(FP), BP
-	ADDL	$64, BP
+	MOVL	SP, BP
+	ADDL	$72, BP
 	MOVL	0(BP), AX
 	MOVL	4(BP), CX
 	MOVL	8(BP), DX
