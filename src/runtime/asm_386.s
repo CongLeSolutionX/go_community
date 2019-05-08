@@ -92,8 +92,9 @@ GLOBL _rt0_386_lib_argv<>(SB),NOPTR, $4
 TEXT runtime·rt0_go(SB),NOSPLIT,$0
 	// Copy arguments forward on an even stack.
 	// Users of this function jump to it, they don't call it.
-	MOVL	0(SP), AX
-	MOVL	4(SP), BX
+	MOVL	SP, BP
+	MOVL	0(BP), AX
+	MOVL	4(BP), BX
 	SUBL	$128, SP		// plenty of scratch
 	ANDL	$~15, SP
 	MOVL	AX, 120(SP)		// save argc, argv away
@@ -209,7 +210,7 @@ needtls:
 #endif
 
 	// set up %gs
-	CALL	runtime·ldt0setup(SB)
+	CALL	ldt0setup<>(SB)
 
 	// store through it, to make sure it works
 	get_tls(BX)
@@ -453,19 +454,20 @@ TEXT runtime·morestack(SB),NOSPLIT,$0-0
 
 	// Called from f.
 	// Set m->morebuf to f's caller.
-	MOVL	4(SP), DI	// f's caller's PC
-	MOVL	DI, (m_morebuf+gobuf_pc)(BX)
-	LEAL	8(SP), CX	// f's caller's SP
+	MOVL	SP, DI	// avoid (SP) refs for vet
+	MOVL	4(DI), AX	// f's caller's PC
+	MOVL	AX, (m_morebuf+gobuf_pc)(BX)
+	LEAL	8(DI), CX	// f's caller's SP
 	MOVL	CX, (m_morebuf+gobuf_sp)(BX)
 	get_tls(CX)
 	MOVL	g(CX), SI
 	MOVL	SI, (m_morebuf+gobuf_g)(BX)
 
 	// Set g->sched to context in f.
-	MOVL	0(SP), AX	// f's PC
+	MOVL	0(DI), AX	// f's PC
 	MOVL	AX, (g_sched+gobuf_pc)(SI)
 	MOVL	SI, (g_sched+gobuf_g)(SI)
-	LEAL	4(SP), AX	// f's SP
+	LEAL	4(DI), AX	// f's SP
 	MOVL	AX, (g_sched+gobuf_sp)(SI)
 	MOVL	DX, (g_sched+gobuf_ctxt)(SI)
 
@@ -895,7 +897,7 @@ done:
 	MOVL	DX, ret_hi+4(FP)
 	RET
 
-TEXT runtime·ldt0setup(SB),NOSPLIT,$16-0
+TEXT ldt0setup<>(SB),NOSPLIT,$16-0
 	// set up ldt 7 to point at m0.tls
 	// ldt 1 would be fine on Linux, but on OS X, 7 is as low as we can go.
 	// the entry number is just a hint.  setldt will set up GS with what it used.
@@ -914,19 +916,19 @@ TEXT runtime·aeshash(SB),NOSPLIT,$0-16
 	MOVL	p+0(FP), AX	// ptr to data
 	MOVL	s+8(FP), BX	// size
 	LEAL	ret+12(FP), DX
-	JMP	runtime·aeshashbody(SB)
+	JMP	aeshashbody<>(SB)
 
 TEXT runtime·aeshashstr(SB),NOSPLIT,$0-12
 	MOVL	p+0(FP), AX	// ptr to string object
 	MOVL	4(AX), BX	// length of string
 	MOVL	(AX), AX	// string data
 	LEAL	ret+8(FP), DX
-	JMP	runtime·aeshashbody(SB)
+	JMP	aeshashbody<>(SB)
 
 // AX: data
 // BX: length
 // DX: address to put return value
-TEXT runtime·aeshashbody(SB),NOSPLIT,$0-0
+TEXT aeshashbody<>(SB),NOSPLIT,$0-0
 	MOVL	h+4(FP), X0	            // 32 bits of per-table hash seed
 	PINSRW	$4, BX, X0	            // 16 bits of length
 	PSHUFHW	$0, X0, X0	            // replace size with its low 2 bytes repeated 4 times
