@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "fd9cc3f5_51931e8f",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 28030
+      },
+      "writtenOn": "2019-05-08T19:21:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "56de3d51_9a1a946f",
+      "revId": "d004be1a8cc6fdca9eba205f905218a8b448845f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45548e34_f9e29f88",
         "filename": "src/cmd/go/testdata/script/sum_readonly.txt",
         "patchSetId": 5
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "\u003e 1. Not sure what you mean by \"control\" case :)\n\nHmm... I guess it\u0027s probably already covered by another -mod\u003dreadonly test somewhere anyway, but it would still be nice if the only thing that varies between the two runs is the dirtiness of the go.sum file.\n\n(There are two variables in this “experiment”: “go.sum is dirty”, and “-mod\u003dreadonly” is set. Ideally, we should make sure that we\u0027ve tested all four combinations of those variables.)\n\n\u003e 2. I can\u0027t pass -mod\u003dreadonly, because Go adds a \"// indirect\" when I first run \"go get\" on line 4 even though I\u0027m using it in the main.go file on line 24.\n\nAh, that should be easy to fix: you can run `go mod tidy` after `go get`. 🙂",
       "parentUuid": "d260d44e_49b73615",
+      "revId": "d004be1a8cc6fdca9eba205f905218a8b448845f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f001e191_b310eabe",
+        "filename": "src/cmd/go/testdata/script/sum_readonly.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 28030
+      },
+      "writtenOn": "2019-05-08T19:21:28Z",
+      "side": 1,
+      "message": "Ah, good call on go mod tidy. Updated the test case with a few comments to show the 2/4 experiments. I think the other two are definitely well tested in other scripts while this one focuses on \"go.sum\" being dirty/clean. Meaning, there\u0027s no need to test that \"go.sum \u003d\u003d clean \u0026\u0026 -mod!\u003dreaodnly\" as if that failed, this means most test should definitely fail since it\u0027s the happy scenario. BUT, definitely let me know if you\u0027d like me to add those to this particular. script",
+      "parentUuid": "bd6f2f52_ccfbdf56",
       "revId": "d004be1a8cc6fdca9eba205f905218a8b448845f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
