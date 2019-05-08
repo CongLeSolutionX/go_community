@@ -324,7 +324,7 @@ TEXT runtime·lwp_tramp(SB),NOSPLIT,$0
 	LEAL	m_tls(BX), BP
 	PUSHAL				// save registers
 	PUSHL	BP
-	CALL	runtime·settls(SB)
+	CALL	settls<>(SB)
 	POPL	AX
 	POPAL
 
@@ -363,10 +363,10 @@ TEXT runtime·setldt(SB),NOSPLIT,$8
 	// Under NetBSD we set the GS base instead of messing with the LDT.
 	MOVL	base+4(FP), AX
 	MOVL	AX, 0(SP)
-	CALL	runtime·settls(SB)
+	CALL	settls<>(SB)
 	RET
 
-TEXT runtime·settls(SB),NOSPLIT,$16
+TEXT settls<>(SB),NOSPLIT,$16
 	// adjust for ELF: wants to use -4(GS) for g
 	MOVL	base+0(FP), CX
 	ADDL	$4, CX
