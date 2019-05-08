@@ -9,9 +9,9 @@
 
 TEXT runtime·rt0_go(SB),NOSPLIT,$0
 	// copy arguments forward on an even stack
-	MOVL	argc+0(FP), AX
-	MOVL	argv+4(FP), BX
 	MOVL	SP, CX
+	MOVL	8(CX), AX
+	MOVL	12(CX), BX
 	SUBL	$128, CX		// plenty of scratch
 	ANDL	$~15, CX
 	MOVL	CX, SP
@@ -276,19 +276,20 @@ TEXT runtime·morestack(SB),NOSPLIT,$0-0
 
 	// Called from f.
 	// Set m->morebuf to f's caller.
-	MOVL	8(SP), AX	// f's caller's PC
+	MOVL	SP, DI	// hide (SP) refs from vet
+	MOVL	8(DI), AX	// f's caller's PC
 	MOVL	AX, (m_morebuf+gobuf_pc)(BX)
-	LEAL	16(SP), AX	// f's caller's SP
+	LEAL	16(DI), AX	// f's caller's SP
 	MOVL	AX, (m_morebuf+gobuf_sp)(BX)
 	get_tls(CX)
 	MOVL	g(CX), SI
 	MOVL	SI, (m_morebuf+gobuf_g)(BX)
 
 	// Set g->sched to context in f.
-	MOVL	0(SP), AX // f's PC
+	MOVL	0(DI), AX // f's PC
 	MOVL	AX, (g_sched+gobuf_pc)(SI)
 	MOVL	SI, (g_sched+gobuf_g)(SI)
-	LEAL	8(SP), AX // f's SP
+	LEAL	8(DI), AX // f's SP
 	MOVL	AX, (g_sched+gobuf_sp)(SI)
 	MOVL	DX, (g_sched+gobuf_ctxt)(SI)
 
@@ -443,7 +444,8 @@ TEXT runtime·jmpdefer(SB), NOSPLIT, $0-8
 // func asmcgocall(fn, arg unsafe.Pointer) int32
 // Not implemented.
 TEXT runtime·asmcgocall(SB),NOSPLIT,$0-12
-	MOVL	0, AX
+	MOVL	0, AX // crash
+	MOVL	$0, ret+8(FP) // for vet
 	RET
 
 // cgocallback(void (*fn)(void*), void *frame, uintptr framesize)
