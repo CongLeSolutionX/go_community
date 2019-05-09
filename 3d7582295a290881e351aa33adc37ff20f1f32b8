@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ea240f_2542c810",
+        "filename": "src/os/user/lookup_stubs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-09T21:47:20Z",
+      "side": 1,
+      "message": "fixed this to +\u003d too",
+      "revId": "3d7582295a290881e351aa33adc37ff20f1f32b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
