@@ -16,6 +16,24 @@
       "revId": "23f4647f7616cc56f7a522c79c099e0b235816ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b5088bb_c100edb0",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-05-09T23:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7dda9a4_fdb5e265",
+      "revId": "23f4647f7616cc56f7a522c79c099e0b235816ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
