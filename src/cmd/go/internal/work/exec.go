@@ -186,9 +186,9 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 	// The compiler hides the exact value of $GOROOT
 	// when building things in GOROOT,
 	// but it does not hide the exact value of $GOPATH.
-	// Include the full dir in that case.
+	// Include the full dir in that case unless -trimpath was used.
 	// Assume b.WorkDir is being trimmed properly.
-	if !p.Goroot && !strings.HasPrefix(p.Dir, b.WorkDir) {
+	if !p.Goroot && !strings.HasPrefix(p.Dir, b.WorkDir) && !cfg.BuildTrimpath {
 		fmt.Fprintf(h, "dir %s\n", p.Dir)
 	}
 	fmt.Fprintf(h, "goos %s goarch %s\n", cfg.Goos, cfg.Goarch)
@@ -1078,6 +1078,9 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
 	fmt.Fprintf(h, "buildmode %s goos %s goarch %s\n", cfg.BuildBuildmode, cfg.Goos, cfg.Goarch)
 	fmt.Fprintf(h, "import %q\n", p.ImportPath)
 	fmt.Fprintf(h, "omitdebug %v standard %v local %v prefix %q\n", p.Internal.OmitDebug, p.Standard, p.Internal.Local, p.Internal.LocalPrefix)
+	if cfg.BuildTrimpath {
+		fmt.Fprintln(h, "trimpath")
+	}
 
 	// Toolchain-dependent configuration, shared with b.linkSharedActionID.
 	b.printLinkerConfig(h, p)

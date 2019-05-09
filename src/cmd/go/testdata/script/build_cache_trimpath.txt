@@ -1,0 +1,52 @@
+env GO111MODULE=on
+
+# Set up fresh GOCACHE.
+env GOCACHE=$WORK/gocache
+mkdir $GOCACHE
+
+# Without -trimpath, cache contents should be sensitive to path.
+cd $WORK/copy1
+go build -x -o $WORK/a.out
+stderr '(compile|gccgo)( |\.exe)'
+stderr 'link( |\.exe)'
+
+go build -x -o $WORK/a.out
+! stderr '(compile|gccgo)( |\.exe)'
+! stderr 'link( |\.exe)'
+
+cd $WORK/copy2
+go build -x -o $WORK/a.out
+stderr '(compile|gccgo)( |\.exe)'
+stderr 'link( |\.exe)'
+
+# With -trimpath, cache contents should be insensitive to path.
+go clean -cache
+
+cd $WORK/copy1
+go build -x -trimpath -o $WORK/a.out
+stderr '(compile|gccgo)( |\.exe)'
+stderr 'link( |\.exe)'
+
+cd $WORK/copy2
+go build -x -trimpath -o $WORK/a.out
+! stderr '(compile|gccgo)( |\.exe)'
+! stderr 'link( |\.exe)'
+
+# Varying -trimpath should result in a different cache key.
+go build -x -o $WORK/a.out
+stderr '(compile|gccgo)( |\.exe)'
+stderr 'link( |\.exe)'
+
+-- $WORK/copy1/hello.go --
+package main
+func main() { println("hello") }
+
+-- $WORK/copy1/go.mod --
+module m
+
+-- $WORK/copy2/hello.go --
+package main
+func main() { println("hello") }
+
+-- $WORK/copy2/go.mod --
+module m
