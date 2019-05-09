@@ -188,12 +188,18 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 	// but it does not hide the exact value of $GOPATH.
 	// Include the full dir in that case.
 	// Assume b.WorkDir is being trimmed properly.
-	if !p.Goroot && !strings.HasPrefix(p.Dir, b.WorkDir) {
+	if !p.Goroot && !strings.HasPrefix(p.Dir, b.WorkDir) &&
+		// With -trimpath, all but the import path portion is trimmed.
+		// -trimpath has no effect in gccgo.
+		!(cfg.BuildTrimpath && cfg.BuildToolchainName == "gc") {
 		fmt.Fprintf(h, "dir %s\n", p.Dir)
 	}
 	fmt.Fprintf(h, "goos %s goarch %s\n", cfg.Goos, cfg.Goarch)
 	fmt.Fprintf(h, "import %q\n", p.ImportPath)
 	fmt.Fprintf(h, "omitdebug %v standard %v local %v prefix %q\n", p.Internal.OmitDebug, p.Standard, p.Internal.Local, p.Internal.LocalPrefix)
+	if cfg.BuildTrimpath {
+		fmt.Fprintln(h, "trimpath")
+	}
 	if p.Internal.ForceLibrary {
 		fmt.Fprintf(h, "forcelibrary\n")
 	}
@@ -1078,6 +1084,9 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
 	fmt.Fprintf(h, "buildmode %s goos %s goarch %s\n", cfg.BuildBuildmode, cfg.Goos, cfg.Goarch)
 	fmt.Fprintf(h, "import %q\n", p.ImportPath)
 	fmt.Fprintf(h, "omitdebug %v standard %v local %v prefix %q\n", p.Internal.OmitDebug, p.Standard, p.Internal.Local, p.Internal.LocalPrefix)
+	if cfg.BuildTrimpath {
+		fmt.Fprintln(h, "trimpath")
+	}
 
 	// Toolchain-dependent configuration, shared with b.linkSharedActionID.
 	b.printLinkerConfig(h, p)

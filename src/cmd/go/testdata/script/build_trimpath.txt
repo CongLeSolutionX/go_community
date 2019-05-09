@@ -1,3 +1,6 @@
+# -trimpath has no effect with gccgo.
+[gccgo] skip
+
 env -r GOROOT_REGEXP=$GOROOT
 env -r WORK_REGEXP=$WORK
 env GOROOT GOROOT_REGEXP WORK WORK_REGEXP
