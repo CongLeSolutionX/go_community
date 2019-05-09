@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3064fc73_21b79dd4",
+        "filename": "src/os/user/lookup_stubs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-09T21:33:55Z",
+      "side": 1,
+      "message": "I don\u0027t understand why we report GOOS and GOARCH here.  That suggests that they have something to do with the error, but they don\u0027t.  Or arguably we could report GOOS since we handle nacl and android above, but GOARCH seems irrelevant.\n\nAnd maybe we should say \"Current not supported\" rather than \"not implemented\".",
+      "revId": "0d2b5de5fd5a7c63502b8132c92cf8f22466f4ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd837b46_b6e9a8ad",
+        "filename": "src/os/user/lookup_stubs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-09T21:33:55Z",
+      "side": 1,
+      "message": "Should we say \"cgo not enabled\" rather than \"no cgo\"?",
+      "range": {
+        "startLine": 70,
+        "startChar": 63,
+        "endLine": 70,
+        "endChar": 69
+      },
+      "revId": "0d2b5de5fd5a7c63502b8132c92cf8f22466f4ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
