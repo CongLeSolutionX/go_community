@@ -695,6 +695,7 @@ func (b *Builder) linkSharedAction(mode, depMode BuildMode, shlib string, a1 *Ac
 		// Fake package to hold ldflags.
 		// As usual shared libraries are a kludgy, abstraction-violating special case:
 		// we let them use the flags specified for the command-line arguments.
+		// TODO(bcmills): ...why is that?
 		p := &load.Package{}
 		p.Internal.CmdlinePkg = true
 		p.Internal.Ldflags = load.BuildLdflags.For(p)

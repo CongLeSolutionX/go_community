@@ -1,0 +1,11 @@
+# golang.org/issue/31544: spurious error message when linking a pure Go program
+
+cd hello
+go build -ldflags=-linkmode=external
+! stderr 'cannot find runtime/cgo'
+
+-- hello/go.mod --
+module hello
+-- hello/hello.go --
+package main
+func main() { println("hello") }

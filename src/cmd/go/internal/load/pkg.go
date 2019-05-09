@@ -166,8 +166,8 @@ type PackageInternal struct {
 	CompiledImports   []string             // additional Imports necessary when using CompiledGoFiles (all from standard library)
 	RawImports        []string             // this package's original imports as they appear in the text of the program
 	ForceLibrary      bool                 // this package is a library (even if named "main")
-	CmdlineFiles      bool                 // package built from files listed on command line
-	CmdlinePkg        bool                 // package listed on command line
+	CmdlineFiles      bool                 // package built from files listed on command line; must be set before loading for package "main"
+	CmdlinePkg        bool                 // package listed on command line; must be set before loading
 	CmdlinePkgLiteral bool                 // package listed as literal on command line (not via wildcard)
 	Local             bool                 // imported via local path (./ or ../)
 	LocalPrefix       string               // interpret ./ and ../ imports relative to this prefix
@@ -499,11 +499,25 @@ func loadImport(pre *preload, path, srcDir string, parent *Package, stk *ImportS
 	p := packageCache[importPath]
 	if p != nil {
 		p = reusePackage(p, stk)
+
+		// Set CmdlinePkg if appropriate even though p has already been loaded.
+		//
+		// This is fragile, but happens not to break anything at the moment: if we
+		// loaded p as a dependency of something else, then it is not package "main"
+		// and p.load will not have called LinkerDeps.
+		if parent == nil {
+			p.Internal.CmdlinePkg = true
+		}
 	} else {
 		p = new(Package)
 		p.Internal.Local = build.IsLocalImport(path)
 		p.ImportPath = importPath
 		packageCache[importPath] = p
+
+		// Set CmdlinePkg before load, because load uses it to figure out
+		if parent == nil {
+			p.Internal.CmdlinePkg = true
+		}
 
 		// Load package.
 		// loadPackageData may return bp != nil even if an error occurs,
@@ -1959,9 +1973,15 @@ func PackagesAndErrors(patterns []string) []*Package {
 			if pkg == "" {
 				panic(fmt.Sprintf("ImportPaths returned empty package for pattern %s", m.Pattern))
 			}
-			p := loadImport(pre, pkg, base.Cwd, nil, &stk, nil, 0)
+
+			var (
+				noParent    *Package
+				noImportPos []token.Position
+				noMode      int
+			)
+			p := loadImport(pre, pkg, base.Cwd, noParent, &stk, noImportPos, noMode)
+
 			p.Match = append(p.Match, m.Pattern)
-			p.Internal.CmdlinePkg = true
 			if m.Literal {
 				// Note: do not set = m.Literal unconditionally
 				// because maybe we'll see p matching both
