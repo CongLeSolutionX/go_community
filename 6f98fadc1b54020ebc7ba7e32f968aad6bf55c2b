@@ -22,6 +22,30 @@
       "revId": "6f98fadc1b54020ebc7ba7e32f968aad6bf55c2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6622997_bba239cc",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-05-09T20:39:21Z",
+      "side": 1,
+      "message": "I believe we can just not set dir for -trimpath builds since the only part of the path that makes it into the binary is the import path, which is already included below.",
+      "parentUuid": "ca1d4472_7e089e28",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 2
+      },
+      "revId": "6f98fadc1b54020ebc7ba7e32f968aad6bf55c2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
