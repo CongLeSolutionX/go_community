@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6eef537_fedf3c83",
+        "filename": "src/runtime/sys_freebsd_386.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-09T16:33:44Z",
+      "side": 1,
+      "message": "Can we instead fix the Go prototype? E.g., give it an unsafe.Pointer argument",
+      "revId": "37f7181ea60d48db9c166300f04f01f1fb29691f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75558012_35da1176",
+        "filename": "src/runtime/sys_freebsd_386.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-09T16:33:44Z",
+      "side": 1,
+      "message": "Same question. (And in all the sigtramps)",
+      "revId": "37f7181ea60d48db9c166300f04f01f1fb29691f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
