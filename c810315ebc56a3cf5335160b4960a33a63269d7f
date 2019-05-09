@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58a7bc2d_b6f450ac",
+        "filename": "src/cmd/vet/all/whitelist/all.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-09T15:56:28Z",
+      "side": 0,
+      "message": "Unintentional deletion?",
+      "revId": "c810315ebc56a3cf5335160b4960a33a63269d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
