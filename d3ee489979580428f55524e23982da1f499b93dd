@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05e07ae4_396ddf8c",
+        "filename": "src/runtime/stubs_x86.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-09T16:13:39Z",
+      "side": 1,
+      "message": "Put in the arguments for documentation purposes?",
+      "revId": "d3ee489979580428f55524e23982da1f499b93dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93e874f3_0e539b60",
+        "filename": "src/runtime/sys_netbsd_386.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-09T16:13:39Z",
+      "side": 1,
+      "message": "Why both make this a local symbol and declare a Go stub?",
+      "revId": "d3ee489979580428f55524e23982da1f499b93dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
