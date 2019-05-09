@@ -1,0 +1,337 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29976b6d_63adf432",
+        "filename": "src/crypto/ecdsa/ecdsa_noasm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "s/2011/2019/",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fc4bb8c_760fe216",
+        "filename": "src/crypto/ecdsa/ecdsa_noasm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "Don\u0027t need to worry about gccgo in std.",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9a3f5da_70e9736d",
+        "filename": "src/crypto/ecdsa/ecdsa_noasm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "Delete these comments.",
+      "range": {
+        "startLine": 5,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 75
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3676b38_032a1a0e",
+        "filename": "src/crypto/ecdsa/ecdsa_noasm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "Don\u0027t we need a verify function here?",
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f106a74_63c5d0ee",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "s/2011/2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca96f797_53b036f6",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "I\u0027d drop these comments, they are already present in ecdsa.go",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 75
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a792db7_f783c42f",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "Drop the named return value, this function doesn\u0027t need it. Just return plain \u0027bool\u0027.",
+      "range": {
+        "startLine": 45,
+        "startChar": 72,
+        "endLine": 45,
+        "endChar": 80
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6083eb0_7a98ace1",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "Drop the bitSize variable. Do the switch directly on c.Params().BitSize instead (since bitSize isn\u0027t used anywhere else).",
+      "range": {
+        "startLine": 47,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 30
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0124d5fd_3c80c8e2",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "s/ret \u003d true/return true/\n\nSame for other places.",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 12
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acfa51a7_e4e059ac",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "No need for default here. Just put \u0027return false\u0027 after the switch statement.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 7
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96ef0e49_05f89fb2",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "s/break/return/",
+      "range": {
+        "startLine": 137,
+        "startChar": 4,
+        "endLine": 137,
+        "endChar": 9
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c841704_72bf294b",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "If we always return when taking the above branch then we don\u0027t need this else.",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 9
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98bb4e9d_b1647f9f",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "Drop the else:\n\n        return true\n    }\n    return verifyGeneric(pub, c, e, r, s)\n}",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 2
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55d0d2fe_c250bf08",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "s/2011/2019/",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ad796ca_e5ee3c9b",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "This caller check stuff seems fragile. Can\u0027t we just always test the generic implementation here? If we do that maybe we should rename all the code/tests here from S390x to Generic. That would make it clearer that this file is circumventing the normal initialization path in order to test the generic code.",
+      "revId": "12c33001aee57d6a5e826b37d56f0ec77edb176b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

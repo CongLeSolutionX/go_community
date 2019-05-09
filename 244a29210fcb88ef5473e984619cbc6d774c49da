@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "635ac741_db7b91ed",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "You should just need to change the call to kdsaSig from \u0026buffer[0] (type *byte) to \u0026buffer (type *[1720]byte). It is definitely preferable to do that.",
+      "parentUuid": "55005f8d_e2b51f65",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "244a29210fcb88ef5473e984619cbc6d774c49da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e996d3bb_0b9bbf3f",
         "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
         "patchSetId": 3
@@ -143,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "e06c051c_1e0938e2",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "That\u0027s not what I meant, though kdsaSig is better :)\n\nI mean that you don\u0027t need to modify the function code here. Just make it 1 for both signing and verifying. Then when calling sign you can \u0027OR\u0027 the function code with the signing flag:\n\n... \u003d kdsaSig(bo.functionCode | 8, ...\n\nThe advantage of that is you then won\u0027t have to pass in the signing/verifying constants which reduces the complexity a bit.",
+      "parentUuid": "ab9fa678_8dc622e8",
+      "range": {
+        "startLine": 69,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 0
+      },
+      "revId": "244a29210fcb88ef5473e984619cbc6d774c49da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f44f2009_89420885",
         "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
         "patchSetId": 3
@@ -178,6 +226,30 @@
       "side": 1,
       "message": "Sorry - but I\u0027m paranoid about the filler, and all the buffer references. I\u0027d rather keep it in as explicit. Making a mistake causes headaches.",
       "parentUuid": "f44f2009_89420885",
+      "range": {
+        "startLine": 365,
+        "startChar": 2,
+        "endLine": 365,
+        "endChar": 21
+      },
+      "revId": "244a29210fcb88ef5473e984619cbc6d774c49da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8782f430_40f31c18",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-09T10:34:45Z",
+      "side": 1,
+      "message": "Let\u0027s pull this out into a separate function then:\n\n// zeroExtendAndCopy pads src with leading zeros until it has the size given.\n// It then copies the padded src into the dst. Bytes beyond size in dst are\n// not modified.\nfunc zeroExtendAndCopy(dst, src []byte, size int) {\n    nz :\u003d size - len(src)\n    if nz \u003c 0 {\n        panic(\"src is too long\")\n    }\n    // the compiler should replace this loop with a memclr call\n    for i :\u003d 0; i \u003c nz; i++ {\n        dst[i] \u003d 0\n    }\n    copy(dst[nz:size], src[:size-nz])\n    return\n}\n\nThen in the main code you can just do this:\n\nzeroExtendAndCopy(buffer[bo.offsetR:], r.Bytes(), bo.baseSize)\nzeroExtendAndCopy(buffer[bo.offsetS:], s.Bytes(), bo.baseSize)\nzeroExtendAndCopy(buffer[bo.offsetHash:], e.Bytes(), bo.baseSize)\nzeroExtendAndCopy(buffer[bo.offsetKey1:], pub.X.Bytes(), bo.baseSize)\nzeroExtendAndCopy(buffer[bo.offsetKeyRNorKey2:], pub.Y.Bytes(), bo.baseSize)\n\nIn my opinion that is a lot clearer.",
+      "parentUuid": "3170c80f_0b6f91df",
       "range": {
         "startLine": 365,
         "startChar": 2,
