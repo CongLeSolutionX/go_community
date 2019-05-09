@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35f1fa30_567e370f",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-09T19:52:49Z",
+      "side": 1,
+      "message": "Go error messages generally aim to describe the problem, not prescribe a specific solution, so we want to avoid phrases like “should not be”.\n\nHow about:\n\ngo mod vendor: replacement path %s inside vendor directory",
+      "range": {
+        "startLine": 66,
+        "startChar": 33,
+        "endLine": 66,
+        "endChar": 83
+      },
+      "revId": "9bc9f7aec8c15ab3cadf9ee8e7707757595f5f3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
