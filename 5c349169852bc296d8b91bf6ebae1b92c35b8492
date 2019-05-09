@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b5f3957_0c90ae67",
+        "filename": "src/crypto/x509/root_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-09T16:52:51Z",
+      "side": 1,
+      "message": "Perhaps mention that this is related to vet.",
+      "revId": "5c349169852bc296d8b91bf6ebae1b92c35b8492",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "206570c9_b2e1c2cb",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-09T16:52:51Z",
+      "side": 1,
+      "message": "Yuck. I don\u0027t like this at all, but I\u0027m not sure what to do about this since the calling convention of this is so weird. This is in what would normally be the return PC slot, so it\u0027s not like we can even give it an FP-relative name.\n\nWe could change the calling convention around externalthreadhandler instead. E.g., it could take the handler in a register and return with the chain PC in a register. Thoughts?",
+      "revId": "5c349169852bc296d8b91bf6ebae1b92c35b8492",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
