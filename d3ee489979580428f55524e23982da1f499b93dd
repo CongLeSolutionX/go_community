@@ -71,6 +71,24 @@
       "revId": "d3ee489979580428f55524e23982da1f499b93dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "092aeb2d_5778cd6d",
+        "filename": "src/runtime/sys_netbsd_386.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-05-09T19:01:01Z",
+      "side": 1,
+      "message": "Actually this was not it (bad offset elsewhere), and it is not undone.\nThe problem is that runtime.settls is an amd64 function.\nThis is a 386 file reusing the name for something related but not the same.\nIt is now internal but also renamed (lwp_setprivate in this case).",
+      "parentUuid": "8bd358f6_f6c4890d",
+      "revId": "d3ee489979580428f55524e23982da1f499b93dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
