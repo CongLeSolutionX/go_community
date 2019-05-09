@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aeada2cb_e3be3904",
+        "filename": "src/runtime/stubs_x86.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-05-09T21:10:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0c50549_d8df127b",
+      "revId": "66075b83abc898414f2c0ac1fb2856c65d817e6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23daf8fc_0b5af846",
         "filename": "src/runtime/sys_openbsd_386.s",
         "patchSetId": 6
