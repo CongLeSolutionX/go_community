@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f69d537d_df7ac9b1",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-09T19:33:10Z",
+      "side": 1,
+      "message": "Comment that this is called with the OS __stdcall ABI? Maybe even put the C prototype: bool __stdcall ctrlhandler(uint32).\n\n(It took me way too much staring to figure out how this mapped to stdcall, but this would at least give the reader a starting point.)",
+      "revId": "b3605e75133588b65726440a1908ee1bd297f7e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c77141cc_4275eb73",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-09T19:33:10Z",
+      "side": 1,
+      "message": "Same. C prototype: uint32 __stdcall profileloop(void*)",
+      "revId": "b3605e75133588b65726440a1908ee1bd297f7e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
