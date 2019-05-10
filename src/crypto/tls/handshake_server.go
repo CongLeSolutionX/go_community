@@ -263,6 +263,15 @@ Curves:
 		hs.hello.scts = hs.cert.SignedCertificateTimestamps
 	}
 
+	if hs.ellipticOk {
+		// Although omiting the ec_point_formats extension is permitted, some
+		// old OpenSSL version will refuse to handshake if not present.
+		//
+		// Per RFC 4492, section 5.1.2, implementations MUST support the uncompressed
+		// point format.
+		hs.hello.supportedPoints = []uint8{pointFormatUncompressed}
+	}
+
 	if priv, ok := hs.cert.PrivateKey.(crypto.Signer); ok {
 		switch priv.Public().(type) {
 		case *ecdsa.PublicKey:
