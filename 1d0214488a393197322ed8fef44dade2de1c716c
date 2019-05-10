@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2184f072_8d418962",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-05-10T22:37:38Z",
+      "side": 1,
+      "message": "I observed that:\n\n- The existing build_trimpath.txt test checks that with -trimpath the paths are not present in the binary, even with gccgo. I assume that some builders somewhere are running that test *with* gccgo and it passes. (Is that true?)\n- Unlike gc, there is clearly no logic in the gccgo code path which does anything differently based on -trimpath.\n\nTherefore, I inferred that gccgo in its default configuration produces binaries which do not contain the paths that -trimpath is supposed to trim. Perhaps I made a bad assumption somewhere and that\u0027s not true, but *if* that is correct, then it seems not that bad that -trimpath does nothing with gccgo (though rejecting -trimpath with gccgo also seems justified).\n\nIn any case, I\u0027ve never used gccgo before and I\u0027m not sure how to get up and running with it using my locally built go command. I poked around various READMEs in this repo, in the golang.org documentation, and over in https://github.com/golang/gofrontend, but I wasn\u0027t able to figure it out. Any pointers?\n\n\u003e Is there an issue filed for this somewhere?\n\nNot that I was able to find.\n\nOnce I can try it out locally, I will confirm exactly what the current behavior of gccgo + -trimpath is and file an issue about it.\n\nAs far as this CL goes, I propose to remove all the gccgo special-casing. Then, separately, we can address the gccgo/-trimpath issue (possibly by implementing support or by rejecting -trimpath with gccgo).\n\nWDYT?",
+      "parentUuid": "00795658_e638533e",
+      "revId": "1d0214488a393197322ed8fef44dade2de1c716c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6dfafcc2_d5f5295c",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "1d0214488a393197322ed8fef44dade2de1c716c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6a8ed4b_a57e5a49",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-05-10T22:37:38Z",
+      "side": 1,
+      "message": "Yes, I suppose that\u0027s true.",
+      "parentUuid": "6dfafcc2_d5f5295c",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 2
+      },
+      "revId": "1d0214488a393197322ed8fef44dade2de1c716c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
