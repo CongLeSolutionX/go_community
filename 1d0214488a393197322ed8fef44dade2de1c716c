@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "00795658_e638533e",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-10T13:55:01Z",
+      "side": 1,
+      "message": "If -trimpath does not perform is documented function with gccgo, we should probably reject it explicitly during flag validation rather than ignoring the flag based on the toolchain name.\n\nIs there an issue filed for this somewhere?",
+      "revId": "1d0214488a393197322ed8fef44dade2de1c716c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dfafcc2_d5f5295c",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-10T13:55:01Z",
+      "side": 1,
+      "message": "Given that trimpath affects whether we include the `dir` line, do we need an explicit `trimpath` line at all?\n\nIt seems like merely adding or removing the `dir` line should result in hashes that vary appropriately.",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 2
+      },
+      "revId": "1d0214488a393197322ed8fef44dade2de1c716c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b514082d_3eb0535b",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 2
