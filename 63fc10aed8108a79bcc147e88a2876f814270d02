@@ -22,6 +22,30 @@
       "revId": "63fc10aed8108a79bcc147e88a2876f814270d02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "292ac1f9_1383243c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 26615
+      },
+      "writtenOn": "2019-05-11T22:36:57Z",
+      "side": 1,
+      "message": "Done. (for both)\n\nChatty output now looks like:\n\n\u003d\u003d\u003d RUN   TestFoo\n\u003d\u003d\u003d PAUSE TestFoo\n\u003d\u003d\u003d RUN   TestBar\n\u003d\u003d\u003d PAUSE TestBar\n\u003d\u003d\u003d RUN   TestGaz\n\u003d\u003d\u003d PAUSE TestGaz\n\u003d\u003d\u003d CONT  TestFoo\n    TestFoo: main_test.go:14: hello from foo\n\u003d\u003d\u003d CONT  TestGaz\n\u003d\u003d\u003d CONT  TestBar\n    TestGaz: main_test.go:38: hello from gaz\n    TestBar: main_test.go:26: hello from bar\n    TestFoo: main_test.go:14: hello from foo\n    TestBar: main_test.go:26: hello from bar\n    TestGaz: main_test.go:38: hello from gaz\n    TestFoo: main_test.go:14: hello from foo\n    TestGaz: main_test.go:38: hello from gaz\n    TestBar: main_test.go:26: hello from bar\n    TestFoo: main_test.go:14: hello from foo\n    TestGaz: main_test.go:38: hello from gaz\n    TestBar: main_test.go:26: hello from bar\n    TestGaz: main_test.go:38: hello from gaz\n    TestFoo: main_test.go:14: hello from foo\n    TestBar: main_test.go:26: hello from bar\n--- PASS: TestFoo (1.00s)\n--- PASS: TestGaz (1.00s)\n--- PASS: TestBar (1.00s)\nPASS\nok  \tdummy/streaming-test\t1.022s\n\nDitto benchmarking, and I\u0027ve updated src/cmd/go/go_test:TestTestRegex accordingly.",
+      "parentUuid": "c7995259_04335aca",
+      "range": {
+        "startLine": 635,
+        "startChar": 24,
+        "endLine": 635,
+        "endChar": 56
+      },
+      "revId": "63fc10aed8108a79bcc147e88a2876f814270d02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
