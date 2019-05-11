@@ -36,6 +36,13 @@ func fuse(f *Func, typ fuseType) {
 				changed = fuseBlockPlain(b) || changed
 			}
 		}
+		if !changed && typ&fuseTypeIf != 0 {
+			// Run deadcode.
+			// This may enable more fusing.
+			nv, nb := f.countValues(), len(f.Blocks)
+			deadcode(f)
+			changed = len(f.Blocks) != nb || f.countValues() != nv
+		}
 	}
 }
 
