@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1397ac71_adfee055",
+        "filename": "src/os/env_posix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-05-12T15:51:15Z",
+      "side": 1,
+      "message": "Will fix.",
+      "parentUuid": "f2e6b49f_aa9b2d17",
+      "range": {
+        "startLine": 5,
+        "startChar": 10,
+        "endLine": 5,
+        "endChar": 86
+      },
+      "revId": "a1cecce0e69d68ea5c832f0ba35db40164f6864d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45bd2e58_12314b1f",
         "filename": "src/syscall/syscall_windows.go",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "a1cecce0e69d68ea5c832f0ba35db40164f6864d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb175d2f_3171771f",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-05-12T15:51:15Z",
+      "side": 1,
+      "message": "Good idea. Will fix.",
+      "parentUuid": "45bd2e58_12314b1f",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 90
+      },
+      "revId": "a1cecce0e69d68ea5c832f0ba35db40164f6864d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
