@@ -321,13 +321,29 @@ func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle 
 	si.StdOutput = fd[1]
 	si.StdErr = fd[2]
 
+	var envBlock *uint16
+	var destroyBlock bool
+	if sys.Token != 0 && attr.Env == nil {
+		destroyBlock = true
+		err = CreateEnvironmentBlock(&envBlock, sys.Token, false)
+		if err != nil {
+			return 0, 0, err
+		}
+	} else {
+		envBlock = createEnvBlock(attr.Env)
+		destroyBlock = false
+	}
+
 	pi := new(ProcessInformation)
 
 	flags := sys.CreationFlags | CREATE_UNICODE_ENVIRONMENT
 	if sys.Token != 0 {
-		err = CreateProcessAsUser(sys.Token, argv0p, argvp, sys.ProcessAttributes, sys.ThreadAttributes, true, flags, createEnvBlock(attr.Env), dirp, si, pi)
+		err = CreateProcessAsUser(sys.Token, argv0p, argvp, sys.ProcessAttributes, sys.ThreadAttributes, true, flags, envBlock, dirp, si, pi)
 	} else {
-		err = CreateProcess(argv0p, argvp, sys.ProcessAttributes, sys.ThreadAttributes, true, flags, createEnvBlock(attr.Env), dirp, si, pi)
+		err = CreateProcess(argv0p, argvp, sys.ProcessAttributes, sys.ThreadAttributes, true, flags, envBlock, dirp, si, pi)
+	}
+	if destroyBlock {
+		DestroyEnvironmentBlock(envBlock)
 	}
 	if err != nil {
 		return 0, 0, err
