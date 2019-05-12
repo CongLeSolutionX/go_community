@@ -7,3 +7,7 @@ package os
 // supportsCloseOnExec reports whether the platform supports the
 // O_CLOEXEC flag.
 const supportsCloseOnExec = false
+
+func sysProcAttrHasNonDefaultEnvironment(sys *syscall.SysProcAttr) bool {
+	return false
+}

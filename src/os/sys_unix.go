@@ -12,3 +12,7 @@ package os
 // See https://support.apple.com/kb/HT1633.
 // On FreeBSD, the O_CLOEXEC flag was introduced in version 8.3.
 const supportsCloseOnExec = true
+
+func sysProcAttrHasNonDefaultEnvironment(sys *syscall.SysProcAttr) bool {
+	return false
+}
