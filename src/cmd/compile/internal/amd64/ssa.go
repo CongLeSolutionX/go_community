@@ -605,7 +605,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		o := v.Reg()
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = o
-		if v.AuxInt != 0 && v.Aux == nil {
+		if false {
 			// Emit an additional LEA to add the displacement instead of creating a slow 3 operand LEA.
 			switch v.Op {
 			case ssa.OpAMD64LEAQ1, ssa.OpAMD64LEAQ2, ssa.OpAMD64LEAQ4, ssa.OpAMD64LEAQ8:
