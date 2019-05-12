@@ -22,9 +22,16 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 	// repeat rewrites until we find no more rewrites
 	pendingLines := f.cachedLineStarts // Holds statement boundaries that need to be moved to a new value/block
 	pendingLines.clear()
+	debug := f.pass.debug
 	for {
 		change := false
 		for _, b := range f.Blocks {
+			var b0 *Block
+			if debug > 1 {
+				b0 = new(Block)
+				*b0 = *b
+				b0.Succs = append([]Edge{}, b.Succs...) // make a new copy, not aliasing
+			}
 			if b.Control != nil && b.Control.Op == OpCopy {
 				for b.Control.Op == OpCopy {
 					b.SetControl(b.Control.Args[0])
@@ -32,9 +39,22 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 			}
 			if rb(b) {
 				change = true
+				if debug > 1 {
+					fmt.Printf("%s: %s  ->  %s\n", f.pass.name, b0.LongString(), b.LongString())
+				}
 			}
 			for j, v := range b.Values {
-				change = phielimValue(v) || change
+				var v0 *Value
+				if debug > 1 {
+					v0 = new(Value)
+					*v0 = *v
+					v0.Args = append([]*Value{}, v.Args...) // make a new copy, not aliasing
+				}
+
+				vchange := phielimValue(v)
+				if vchange && debug > 1 {
+					fmt.Printf("%s: %s  ->  %s\n", f.pass.name, v0.LongString(), v.LongString())
+				}
 
 				// Eliminate copy inputs.
 				// If any copy input becomes unused, mark it
@@ -68,17 +88,20 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 						}
 						a.Pos = a.Pos.WithNotStmt()
 					}
-					change = true
+					vchange = true
 					for a.Uses == 0 {
 						b := a.Args[0]
 						a.reset(OpInvalid)
 						a = b
 					}
 				}
+				if vchange && debug > 1 {
+					fmt.Printf("%s: %s  ->  %s\n", f.pass.name, v0.LongString(), v.LongString())
+				}
 
 				// apply rewrite function
 				if rv(v) {
-					change = true
+					vchange = true
 					// If value changed to a poor choice for a statement boundary, move the boundary
 					if v.Pos.IsStmt() == src.PosIsStmt {
 						if k := nextGoodStatementIndex(v, j, b); k != j {
@@ -86,6 +109,11 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 							b.Values[k].Pos = b.Values[k].Pos.WithIsStmt()
 						}
 					}
+				}
+
+				change = change || vchange
+				if vchange && debug > 1 {
+					fmt.Printf("%s: %s  ->  %s\n", f.pass.name, v0.LongString(), v.LongString())
 				}
 			}
 		}
