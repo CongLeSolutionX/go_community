@@ -38,7 +38,7 @@ func startProcess(name string, argv []string, attr *ProcAttr) (p *Process, err e
 		Sys: attr.Sys,
 	}
 	if sysattr.Env == nil {
-		sysattr.Env = Environ()
+		sysattr.Env = environForSysProcAttr(sysattr.Sys)
 	}
 	sysattr.Files = make([]uintptr, 0, len(attr.Files))
 	for _, f := range attr.Files {
