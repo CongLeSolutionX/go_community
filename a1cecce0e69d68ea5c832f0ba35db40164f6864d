@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2e6b49f_aa9b2d17",
+        "filename": "src/os/env_posix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-05-12T15:42:28Z",
+      "side": 1,
+      "message": "Use\n\n  // +build !windows\n\nhere?\n\nAlso the filename containing \"posix\" might be a bit confusing. Other files in package os named *_posix.go, include the windows build tag as well (e.g. error_posix.go, file_posix.go). Maybe just call this env.go or env_default.go?",
+      "range": {
+        "startLine": 5,
+        "startChar": 10,
+        "endLine": 5,
+        "endChar": 86
+      },
+      "revId": "a1cecce0e69d68ea5c832f0ba35db40164f6864d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45bd2e58_12314b1f",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-05-12T15:42:28Z",
+      "side": 1,
+      "message": "Might be better to add these to package internal/syscall/windows as the syscall package is frozen.",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 90
+      },
+      "revId": "a1cecce0e69d68ea5c832f0ba35db40164f6864d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
