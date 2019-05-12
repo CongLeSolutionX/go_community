@@ -31,3 +31,7 @@ func hostname() (name string, err error) {
 		}
 	}
 }
+
+func sysProcAttrHasNonDefaultEnvironment(sys *syscall.SysProcAttr) bool {
+	return sys != nil && sys.Token != 0
+}

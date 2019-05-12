@@ -99,6 +99,8 @@ var (
 	procFreeEnvironmentStringsW            = modkernel32.NewProc("FreeEnvironmentStringsW")
 	procGetEnvironmentVariableW            = modkernel32.NewProc("GetEnvironmentVariableW")
 	procSetEnvironmentVariableW            = modkernel32.NewProc("SetEnvironmentVariableW")
+	procCreateEnvironmentBlock             = moduserenv.NewProc("CreateEnvironmentBlock")
+	procDestroyEnvironmentBlock            = moduserenv.NewProc("DestroyEnvironmentBlock")
 	procSetFileTime                        = modkernel32.NewProc("SetFileTime")
 	procGetFileAttributesW                 = modkernel32.NewProc("GetFileAttributesW")
 	procSetFileAttributesW                 = modkernel32.NewProc("SetFileAttributesW")
@@ -861,6 +863,36 @@ func GetEnvironmentVariable(name *uint16, buffer *uint16, size uint32) (n uint32
 
 func SetEnvironmentVariable(name *uint16, value *uint16) (err error) {
 	r1, _, e1 := Syscall(procSetEnvironmentVariableW.Addr(), 2, uintptr(unsafe.Pointer(name)), uintptr(unsafe.Pointer(value)), 0)
+	if r1 == 0 {
+		if e1 != 0 {
+			err = errnoErr(e1)
+		} else {
+			err = EINVAL
+		}
+	}
+	return
+}
+
+func CreateEnvironmentBlock(block **uint16, token Token, inheritExisting bool) (err error) {
+	var _p0 uint32
+	if inheritExisting {
+		_p0 = 1
+	} else {
+		_p0 = 0
+	}
+	r1, _, e1 := Syscall(procCreateEnvironmentBlock.Addr(), 3, uintptr(unsafe.Pointer(block)), uintptr(token), uintptr(_p0))
+	if r1 == 0 {
+		if e1 != 0 {
+			err = errnoErr(e1)
+		} else {
+			err = EINVAL
+		}
+	}
+	return
+}
+
+func DestroyEnvironmentBlock(block *uint16) (err error) {
+	r1, _, e1 := Syscall(procDestroyEnvironmentBlock.Addr(), 1, uintptr(unsafe.Pointer(block)), 0, 0)
 	if r1 == 0 {
 		if e1 != 0 {
 			err = errnoErr(e1)
