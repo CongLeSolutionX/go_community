@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b85ebcc9_e20bebc8",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-05-13T14:51:54Z",
+      "side": 1,
+      "message": "Would it make sense to count in this loop and include that in the debugging output?\nPotential cost is a problem, perhaps.",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "aca3e4a473c1e45990d4c05828826829f72beea5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
