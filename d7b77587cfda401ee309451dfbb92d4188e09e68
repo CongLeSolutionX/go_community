@@ -22,6 +22,30 @@
       "revId": "d7b77587cfda401ee309451dfbb92d4188e09e68",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7de2305d_8ca678a2",
+        "filename": "src/cmd/go/internal/modload/query_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2019-05-13T14:41:56Z",
+      "side": 1,
+      "message": "Bryan, just to double-check, it sounds like you are saying this CL does not need to wait on #31662, given you say \"Per #31662, I don\u0027t think this validation should happen in modload.Query\", but then go on to say \"modload.QueryPackage could probably report this sort of error, though, since it\u0027s looking for a specific package within a module\".\n\nIs that correct that this CL does not need to wait on #31662?\n\nAlso, does inserting this check into modload.QueryPackage sidestep the `replace` related concern you mentioned in https://github.com/golang/go/issues/31662#issuecomment-488069939?",
+      "parentUuid": "83ab2122_fc8e8e17",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 178
+      },
+      "revId": "d7b77587cfda401ee309451dfbb92d4188e09e68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
