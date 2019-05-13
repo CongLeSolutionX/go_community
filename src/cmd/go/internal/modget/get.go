@@ -74,9 +74,11 @@ will use the latest A but then use B v1.2.3, as requested by A. (If there
 are competing requirements for a particular module, then 'go get' resolves
 those requirements by taking the maximum requested version.)
 
-The -u flag instructs get to update dependencies to use newer minor or
-patch releases when available. Continuing the previous example,
-'go get -u A' will use the latest A with B v1.3.1 (not B v1.2.3).
+The -u flag instructs get to update modules providing dependencies
+of packages named on the command line to use newer minor or patch
+releases when available. Continuing the previous example, 'go get -u A'
+will use the latest A with B v1.3.1 (not B v1.2.3). If B requires module C,
+but C does not provide any packages needed by A, C will not be updated.
 
 The -u=patch flag (not -u patch) also instructs get to update dependencies,
 but changes the default to select patch releases.
@@ -93,14 +95,18 @@ this automatically as well.
 The -m flag instructs get to stop here, after resolving, upgrading,
 and downgrading modules and updating go.mod. When using -m,
 each specified package path must be a module path as well,
-not the import path of a package below the module root.
+not the import path of a package below the module root. The special
+pattern 'all' has the same meaning whether or not the -m flag is used:
+'all' matches packages in the main module and their dependencies,
+including test dependencies.
 
-When the -m and -u flags are used together, 'go get' will upgrade
-modules that provide packages depended on by the modules named on
-the command line. For example, 'go get -u -m A' will upgrade A and
-any module providing packages imported by packages in A.
-'go get -u -m' will upgrade modules that provided packages needed
-by the main module.
+When the -m and -u flags are used together, 'go get' will update
+modules providing packages needed by modules named on the command line.
+For example, 'go get -m -u A' will update A and any module
+providing packages needed by packages in A. 'go get -m -u' will update
+modules providing packages needed by the main module.
+'go get -u all' also updates modules providing packages needed by
+the main module, but it includes test dependencies.
 
 The -insecure flag permits fetching from repositories and resolving
 custom domains using insecure schemes such as HTTP. Use with caution.
