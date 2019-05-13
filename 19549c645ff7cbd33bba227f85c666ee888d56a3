@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "223b42b6_941aa708",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-13T21:33:30Z",
+      "side": 1,
+      "message": "What does \"skeletal Xposmap\" mean?\nI think it means \"you may only later call set for positions which have a file index in the keys of x, and line numbers in the range x[file index].\"\nThis is kind of mentioned in the spec to set, but you should also put something here.",
+      "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e08c340e_8793f9a2",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-13T21:33:30Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t need to be in the spec for this function, the caching behavior should be transparent to callers. Put the comment in the implementation if you want.",
+      "range": {
+        "startLine": 49,
+        "startChar": 53,
+        "endLine": 50,
+        "endChar": 55
+      },
+      "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f2d647b_6a791ce0",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-13T21:33:30Z",
+      "side": 1,
+      "message": "// \u003d\u003d set(p, 0)\n\nOr does this mean we\u0027re using an xposmap as a set and we should be ignoring the values?",
+      "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e939ed5_6444f89f",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-13T21:33:30Z",
+      "side": 1,
+      "message": "Comment that get (and contains, for that matter) depend only on the file and line of the position. They don\u0027t depend on the stmt-ness or xlogue of the position.",
+      "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
