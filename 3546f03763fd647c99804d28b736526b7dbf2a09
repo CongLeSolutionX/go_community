@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83857de9_990245b1",
+        "filename": "src/runtime/lock_sema.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-05-13T23:48:09Z",
+      "side": 1,
+      "message": "You don\u0027t need the second sentence in this comment.\n\nPlease add an issue number.",
+      "revId": "3546f03763fd647c99804d28b736526b7dbf2a09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
