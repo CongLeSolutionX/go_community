@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b18cd884_1e17b7a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-13T13:20:35Z",
+      "side": 1,
+      "message": "See https://golang.org/issue/29656#issuecomment-453188367.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "e762711722097f1a0590664d50385a6d9da51443",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
