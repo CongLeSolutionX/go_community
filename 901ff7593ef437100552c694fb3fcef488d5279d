@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085cb881_e1bba45f",
+        "filename": "src/cmd/fix/main_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-13T19:06:12Z",
+      "side": 1,
+      "message": "You can drop the tt.Name prefixes from the error output now.",
+      "range": {
+        "startLine": 101,
+        "startChar": 13,
+        "endLine": 101,
+        "endChar": 54
+      },
+      "revId": "901ff7593ef437100552c694fb3fcef488d5279d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "939ec20d_d9810181",
+        "filename": "src/cmd/fix/main_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-13T19:06:12Z",
+      "side": 1,
+      "message": "etc",
+      "revId": "901ff7593ef437100552c694fb3fcef488d5279d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7ba00e8_2c40bfef",
+        "filename": "src/cmd/fix/main_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-13T19:06:12Z",
+      "side": 1,
+      "message": "etc",
+      "revId": "901ff7593ef437100552c694fb3fcef488d5279d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
