@@ -16,6 +16,24 @@
       "revId": "eaa553a38ce6cae559cd88c0b2b53826d1bdb8d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51b0964c_4960cfad",
+        "filename": "test/fixedbugs/issue31915.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-13T18:37:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e75aabeb_288ecd08",
+      "revId": "eaa553a38ce6cae559cd88c0b2b53826d1bdb8d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
