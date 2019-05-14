@@ -977,8 +977,12 @@ var prealloc = map[*Node]*Node{}
 // If this is part of an assignment lhs = *np, lhs is given.
 // Otherwise lhs == nil. (When lhs != nil it may be possible
 // to avoid copying the result of the expression to a temporary.)
+//
 // The result of expr MUST be assigned back to n, e.g.
 // 	n.Left = o.expr(n.Left, lhs)
+//
+// Note that if n.Left is a static/composite/literal node, it can
+// be changed to non-static/composite/literal (see OCONVIFACE case).
 func (o *Order) expr(n, lhs *Node) *Node {
 	if n == nil {
 		return n
