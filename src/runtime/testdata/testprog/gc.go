@@ -192,14 +192,17 @@ func GCPhys() {
 	runtime.ReadMemStats(&stats)
 	heapBacked := stats.HeapSys - stats.HeapReleased
 	// If heapBacked exceeds the amount of memory actually used for heap
-	// allocated objects by 10% (post-GC HeapAlloc should be quite close to
-	// the size of the working set), then fail.
+	// allocated objects by (retainExtraPercent+5)% (post-GC HeapAlloc should be
+	// quite close to the size of the working set), then fail. The additional +5
+	// factor is added to account for the fact that the scavenger may not have
+	// enough time to complete its goal, but there's no way to coordinate with it
+	// and we don't want to sleep, so this is a reasonable compromise.
 	//
 	// In the context of this test, that indicates a large amount of
 	// fragmentation with physical pages that are otherwise unused but not
 	// returned to the OS.
 	overuse := (float64(heapBacked) - float64(stats.HeapAlloc)) / float64(stats.HeapAlloc)
-	if overuse > 0.1 {
+	if overuse > 0.15 {
 		fmt.Printf("exceeded physical memory overuse threshold of 10%%: %3.2f%%\n"+
 			"(alloc: %d, sys: %d, rel: %d, objs: %d)\n", overuse*100, stats.HeapAlloc,
 			stats.HeapSys, stats.HeapReleased, len(saved))
