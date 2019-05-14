@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d8b84d8a_3553ce1f",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-05-14T16:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "223b42b6_941aa708",
+      "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e08c340e_8793f9a2",
         "filename": "src/cmd/compile/internal/ssa/xposmap.go",
         "patchSetId": 15
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9e5088fb_e0f87f83",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-05-14T16:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e08c340e_8793f9a2",
+      "range": {
+        "startLine": 49,
+        "startChar": 53,
+        "endLine": 50,
+        "endChar": 55
+      },
+      "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f2d647b_6a791ce0",
         "filename": "src/cmd/compile/internal/ssa/xposmap.go",
         "patchSetId": 15
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "c2043418_12e479b1",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-05-14T16:17:56Z",
+      "side": 1,
+      "message": "One phase (nilcheckelim) uses it as a set, others use it as a map.",
+      "parentUuid": "7f2d647b_6a791ce0",
+      "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e939ed5_6444f89f",
         "filename": "src/cmd/compile/internal/ssa/xposmap.go",
         "patchSetId": 15
@@ -70,6 +130,24 @@
       "writtenOn": "2019-05-13T21:33:30Z",
       "side": 1,
       "message": "Comment that get (and contains, for that matter) depend only on the file and line of the position. They don\u0027t depend on the stmt-ness or xlogue of the position.",
+      "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fc5b42f_1b92ab65",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-05-14T16:17:56Z",
+      "side": 1,
+      "message": "Would it make sense to rename the type to xposIndexLineMap, or is that too awful?",
+      "parentUuid": "5e939ed5_6444f89f",
       "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
