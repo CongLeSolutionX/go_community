@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b057124_f1c71c46",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-14T19:21:51Z",
+      "side": 1,
+      "message": "I don\u0027t think this comment makes any sense here.\nn.Left can change for all sorts of reasons, and this is only one of them.\nMost cases have n.Left \u003d o.expr(n.Left, ...) in them.",
+      "revId": "193d45bd7cbbcc8abb0e94727cf8cf49343c5088",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
