@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79bcc19a_16f22eb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-14T14:06:04Z",
+      "side": 1,
+      "message": "you can remove \"(when available\") from the subject. It\u0027s already in the body.",
+      "range": {
+        "startLine": 7,
+        "startChar": 81,
+        "endLine": 7,
+        "endChar": 97
+      },
+      "revId": "a4461fffd74f1557f3d5606c79bc7fcf42ae07d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ad70d65_af9ed952",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-14T14:06:04Z",
+      "side": 1,
+      "message": "Delete this part",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 29
+      },
+      "revId": "a4461fffd74f1557f3d5606c79bc7fcf42ae07d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eba4a9fd_5e329e6c",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-14T14:06:04Z",
+      "side": 1,
+      "message": "I suspect this 2011 was just copy/pasted from elsewhere? When was this code first published? I suspect 2019?",
+      "revId": "a4461fffd74f1557f3d5606c79bc7fcf42ae07d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
