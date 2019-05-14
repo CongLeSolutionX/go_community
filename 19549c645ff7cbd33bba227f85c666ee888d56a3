@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "585f9b49_bca41988",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-14T16:35:54Z",
+      "side": 1,
+      "message": "I guess what I mean is that we should say \"use add/contains\" or use \"set/get\", don\u0027t mix the two (unless you clear() in between).",
+      "parentUuid": "c2043418_12e479b1",
+      "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e939ed5_6444f89f",
         "filename": "src/cmd/compile/internal/ssa/xposmap.go",
         "patchSetId": 15
@@ -148,6 +166,24 @@
       "side": 1,
       "message": "Would it make sense to rename the type to xposIndexLineMap, or is that too awful?",
       "parentUuid": "5e939ed5_6444f89f",
+      "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdf0f98b_209071a3",
+        "filename": "src/cmd/compile/internal/ssa/xposmap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-14T16:35:54Z",
+      "side": 1,
+      "message": "That\u0027s pretty awful. Just a comment somewhere would be fine.",
+      "parentUuid": "5fc5b42f_1b92ab65",
       "revId": "19549c645ff7cbd33bba227f85c666ee888d56a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
