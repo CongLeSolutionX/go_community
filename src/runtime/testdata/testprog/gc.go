@@ -132,29 +132,20 @@ var maybeSaved []byte
 func GCPhys() {
 	// In this test, we construct a very specific scenario. We first
 	// allocate N objects and drop half of their pointers on the floor,
-	// effectively creating N/2 'holes' in our allocated arenas. We then
-	// try to allocate objects twice as big. At the end, we measure the
-	// physical memory overhead of large objects.
+	// effectively creating N/2 'holes' in our allocated arenas. At the
+	// end, we measure the physical memory overhead of large objects.
 	//
 	// The purpose of this test is to ensure that the GC scavenges free
 	// spans eagerly to ensure high physical memory utilization even
 	// during fragmentation.
 	const (
-		// Unfortunately, measuring actual used physical pages is
-		// difficult because HeapReleased doesn't include the parts
-		// of an arena that haven't yet been touched. So, we just
-		// make objects and size sufficiently large such that even
-		// 64 MB overhead is relatively small in the final
-		// calculation.
-		//
-		// Currently, we target 480MiB worth of memory for our test,
-		// computed as size * objects + (size*2) * (objects/2)
-		// = 2 * size * objects
+		// Currently, we target 16 MiB worth of memory for our test,
+		// computed as size * objects.
 		//
 		// Size must be also large enough to be considered a large
 		// object (not in any size-segregated span).
-		size    = 1 << 20
-		objects = 240
+		size    = 64 << 10
+		objects = 256
 	)
 	// Save objects which we want to survive, and condemn objects which we don't.
 	// Note that we condemn objects in this way and release them all at once in
@@ -191,21 +182,22 @@ func GCPhys() {
 	var stats runtime.MemStats
 	runtime.ReadMemStats(&stats)
 	heapBacked := stats.HeapSys - stats.HeapReleased
-	// If heapBacked exceeds the amount of memory actually used for heap
-	// allocated objects by 10% (post-GC HeapAlloc should be quite close to
-	// the size of the working set), then fail.
-	//
-	// In the context of this test, that indicates a large amount of
-	// fragmentation with physical pages that are otherwise unused but not
-	// returned to the OS.
-	overuse := (float64(heapBacked) - float64(stats.HeapAlloc)) / float64(stats.HeapAlloc)
-	if overuse > 0.1 {
-		fmt.Printf("exceeded physical memory overuse threshold of 10%%: %3.2f%%\n"+
-			"(alloc: %d, sys: %d, rel: %d, objs: %d)\n", overuse*100, stats.HeapAlloc,
-			stats.HeapSys, stats.HeapReleased, len(saved))
+	// If heapBacked exceeds the heap goal by more than retainExtraPercent then wait
+	// and try again.
+	overuse := (float64(heapBacked) - float64(stats.NextGC)) / float64(stats.NextGC)
+	if overuse <= 0.10 {
+		fmt.Println("OK")
 		return
 	}
-	fmt.Println("OK")
+	// Physical memory utilization continues to exceed the threshold, so let's assume
+	// it's not going to get there and fail.
+	//
+	// In the context of this test, this indicates a large amount of
+	// fragmentation with physical pages that are otherwise unused but not
+	// returned to the OS.
+	fmt.Printf("exceeded physical memory overuse threshold of 10%%: %3.2f%%\n"+
+		"(goal: %d, sys: %d, rel: %d, objs: %d)\n", overuse*100, stats.NextGC,
+		stats.HeapSys, stats.HeapReleased, len(saved))
 	runtime.KeepAlive(saved)
 }
 
