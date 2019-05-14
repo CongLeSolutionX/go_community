@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4052bdbb_48eed9f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-05-14T01:34:32Z",
+      "side": 1,
+      "message": "It has been a while since I fully understood this code. Just to confirm, does this change do the right thing (i.e. generate correct, efficient code) when nested? E.g.\n\ntype S struct {\n  A string\n}\n\ntype S2 struct {\n  S S\n}\n\ntype T struct {\n  U []S2\n}\n\nx :\u003d []T{7: []S2{9: S{S: \"hi\"} } }\n\nThat is, a sparse slice containing a struct containing a sparse slice. The concern is that these initKind/context variables mostly get inherited recursively, and we\u0027re changing it mid-recursion.",
+      "revId": "b72078556b28ecf0d1939b03d643c4ffbaf0b2a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c45dfd7_fd9f9294",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-05-14T01:34:32Z",
+      "side": 1,
+      "message": "Nit. To make the parallels more obvious:\n\nk :\u003d initKindDynamic\nif vstat \u003d\u003d nil {\n  // Generate ...\n  k \u003d initKindLocalCode\n}\nfixedlit(ctxt, k, value, a, init)\ncontinue",
+      "revId": "b72078556b28ecf0d1939b03d643c4ffbaf0b2a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
