@@ -167,28 +167,6 @@ func TestFrozenObject(t *testing.T) {
 	}
 }
 
-func TestTypedArrayOf(t *testing.T) {
-	testTypedArrayOf(t, "[]int8", []int8{0, -42, 0}, -42)
-	testTypedArrayOf(t, "[]int16", []int16{0, -42, 0}, -42)
-	testTypedArrayOf(t, "[]int32", []int32{0, -42, 0}, -42)
-	testTypedArrayOf(t, "[]uint8", []uint8{0, 42, 0}, 42)
-	testTypedArrayOf(t, "[]uint16", []uint16{0, 42, 0}, 42)
-	testTypedArrayOf(t, "[]uint32", []uint32{0, 42, 0}, 42)
-	testTypedArrayOf(t, "[]float32", []float32{0, -42.5, 0}, -42.5)
-	testTypedArrayOf(t, "[]float64", []float64{0, -42.5, 0}, -42.5)
-}
-
-func testTypedArrayOf(t *testing.T, name string, slice interface{}, want float64) {
-	t.Run(name, func(t *testing.T) {
-		a := js.TypedArrayOf(slice)
-		got := a.Index(1).Float()
-		a.Release()
-		if got != want {
-			t.Errorf("got %#v, want %#v", got, want)
-		}
-	})
-}
-
 func TestNaN(t *testing.T) {
 	want := js.ValueOf(math.NaN())
 	got := dummys.Get("NaN")
@@ -453,4 +431,30 @@ func expectPanic(t *testing.T, fn func()) {
 		}
 	}()
 	fn()
+}
+
+func TestCopyBytesToGo(t *testing.T) {
+	src := js.Global().Get("Uint8Array").New(5)
+	src.SetIndex(1, 42)
+	dst := make([]byte, 3)
+
+	if got, want := js.CopyBytesToGo(dst, src), 3; got != want {
+		t.Errorf("got %d, want %d", got, want)
+	}
+	if got, want := int(dst[1]), 42; got != want {
+		t.Errorf("got %d, want %d", got, want)
+	}
+}
+
+func TestCopyBytesToJS(t *testing.T) {
+	src := make([]byte, 5)
+	src[1] = 42
+	dst := js.Global().Get("Uint8Array").New(3)
+
+	if got, want := js.CopyBytesToJS(dst, src), 3; got != want {
+		t.Errorf("got %d, want %d", got, want)
+	}
+	if got, want := dst.Index(1).Int(), 42; got != want {
+		t.Errorf("got %d, want %d", got, want)
+	}
 }
