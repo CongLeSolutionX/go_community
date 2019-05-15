@@ -20,8 +20,8 @@ var jsCrypto = js.Global().Get("crypto")
 type reader struct{}
 
 func (r *reader) Read(b []byte) (int, error) {
-	a := js.TypedArrayOf(b)
+	buf := uint8Array.New(len(b))
 	jsCrypto.Call("getRandomValues", a)
-	a.Release()
+	js.ReadBytes(b, buf)
 	return len(b), nil
 }

@@ -96,9 +96,9 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 			return nil, err
 		}
 		req.Body.Close()
-		a := js.TypedArrayOf(body)
-		defer a.Release()
-		opt.Set("body", a)
+		buf := uint8Array.New(len(body))
+		js.WriteBytes(buf, body)
+		opt.Set("body", buf)
 	}
 	respPromise := js.Global().Call("fetch", req.URL.String(), opt)
 	var (
@@ -210,9 +210,7 @@ func (r *streamReader) Read(p []byte) (n int, err error) {
 				return nil
 			}
 			value := make([]byte, result.Get("value").Get("byteLength").Int())
-			a := js.TypedArrayOf(value)
-			a.Call("set", result.Get("value"))
-			a.Release()
+			js.ReadBytes(value, result.Get("value"))
 			bCh <- value
 			return nil
 		})
@@ -275,9 +273,7 @@ func (r *arrayReader) Read(p []byte) (n int, err error) {
 			// Wrap the input ArrayBuffer with a Uint8Array
 			uint8arrayWrapper := js.Global().Get("Uint8Array").New(args[0])
 			value := make([]byte, uint8arrayWrapper.Get("byteLength").Int())
-			a := js.TypedArrayOf(value)
-			a.Call("set", uint8arrayWrapper)
-			a.Release()
+			js.ReadBytes(value, uint8arrayWrapper)
 			bCh <- value
 			return nil
 		})

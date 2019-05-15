@@ -384,10 +384,7 @@ func Read(fd int, b []byte) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-
-	a := js.TypedArrayOf(b)
-	a.Call("set", buf)
-	a.Release()
+	js.ReadBytes(b, buf)
 
 	n2 := n.Int()
 	f.pos += int64(n2)
@@ -406,11 +403,8 @@ func Write(fd int, b []byte) (int, error) {
 		return n, err
 	}
 
-	a := js.TypedArrayOf(b)
 	buf := uint8Array.New(len(b))
-	buf.Call("set", a)
-	a.Release()
-
+	js.WriteBytes(buf, b)
 	n, err := fsCall("write", fd, buf, 0, len(b), nil)
 	if err != nil {
 		return 0, err
@@ -426,20 +420,13 @@ func Pread(fd int, b []byte, offset int64) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-
-	a := js.TypedArrayOf(b)
-	a.Call("set", buf)
-	a.Release()
-
+	js.ReadBytes(b, buf)
 	return n.Int(), nil
 }
 
 func Pwrite(fd int, b []byte, offset int64) (int, error) {
-	a := js.TypedArrayOf(b)
 	buf := uint8Array.New(len(b))
-	buf.Call("set", a)
-	a.Release()
-
+	js.WriteBytes(buf, b)
 	n, err := fsCall("write", fd, buf, 0, len(b), offset)
 	if err != nil {
 		return 0, err
