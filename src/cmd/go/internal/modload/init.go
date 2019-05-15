@@ -421,7 +421,6 @@ func legacyModInit() {
 		fmt.Fprintf(os.Stderr, "go: creating new go.mod: module %s\n", path)
 		modFile = new(modfile.File)
 		modFile.AddModuleStmt(path)
-		AddGoStmt()
 	}
 
 	for _, name := range altConfigs {
@@ -432,7 +431,6 @@ func legacyModInit() {
 			if convert == nil {
 				return
 			}
-			AddGoStmt()
 			fmt.Fprintf(os.Stderr, "go: copying requirements from %s\n", base.ShortPath(cfg))
 			cfg = filepath.ToSlash(cfg)
 			if err := modconv.ConvertLegacyConfig(modFile, cfg, data); err != nil {
@@ -669,6 +667,7 @@ func WriteGoMod() {
 		modFile.SetRequire(list)
 	}
 
+	AddGoStmt()
 	modFile.Cleanup() // clean file after edits
 	new, err := modFile.Format()
 	if err != nil {
