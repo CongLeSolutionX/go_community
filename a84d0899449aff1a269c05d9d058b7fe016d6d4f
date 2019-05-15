@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef7cc328_a1ba3bda",
+        "filename": "src/os/env_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-15T09:24:33Z",
+      "side": 1,
+      "message": "Should you have this function return error instead and handle that error in startProcess?\n\nThis CL is claiming to fix issue #32000, but you bailing out when CreateEnvironmentBlock fails makes that untrue.",
+      "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b607d14d_8d471a86",
+        "filename": "src/os/env_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-15T09:24:33Z",
+      "side": 1,
+      "message": "Why do you need `(1 \u003c\u003c 30) - 1`? Why cannot it be round number like `1 \u003c\u003c 30`?",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cb7efa3_7a10029d",
+        "filename": "src/os/env_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-15T09:24:33Z",
+      "side": 1,
+      "message": "I would have called DestroyEnvironmentBlock from defer after line 22. Like\n\ndefer DestroyEnvironmentBlock()\n\n. Why did not you?",
+      "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
