@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73afaf38_d9927831",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-15T13:48:03Z",
+      "side": 1,
+      "message": "Adjusting arbitrary thresholds tends not to turn flaky tests into reliable ones.\n\nGenerally, tests of “condition X ought to hold eventually” can be made both fast and robust by looping (with some sort of backoff) until we actually observe condition X. Then if the test runs on a particularly slow machine, the loop will run a little bit longer rather than producing a flaky failure.",
+      "range": {
+        "startLine": 14,
+        "startChar": 17,
+        "endLine": 16,
+        "endChar": 5
+      },
+      "revId": "674977062b496806b28e8be2001289791ee46b45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
