@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a983907c_c6ac4eeb",
+        "filename": "test/codegen/floats.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2019-05-15T11:10:12Z",
+      "side": 1,
+      "message": "we needn\u0027t a duplicate \"FCMPD\".",
+      "range": {
+        "startLine": 121,
+        "startChar": 25,
+        "endLine": 121,
+        "endChar": 30
+      },
+      "revId": "2a8df08dc92628218f449b8f62cdce4095e85b41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
