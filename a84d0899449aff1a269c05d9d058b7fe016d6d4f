@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "36433525_2c0219b3",
+        "filename": "src/os/env_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-15T12:02:51Z",
+      "side": 1,
+      "message": "Sorry but I am still confused.\n\n\u003e Golang can\u0027t have arrays with a total byte length greater than (1\u003c\u003c31)-1, because this is the maximum size of a signed integer on 32-bit machines.\n\nNot true. Go arrays are index with int. And int on 32-bit CPU is int32. So largest array index you can have (that will work on all different OSes) is max value of int32. Any array, not just []byte.\n\nBut why does this needs to be max possible value? Any large enough value should do. 1\u003c\u003c30 is 1073741824 (about 1 GB of uint16s). I think it large enough to cover larges environment possible. If not, lets go with 1\u003c\u003c31. But why -1 in `(1 \u003c\u003c 30) - 1` ? I still do not see why -1 helps.\n\nI am happy to go as is, but I am worried that future reader will be as confused as I am.",
+      "parentUuid": "6327e628_8a9ee710",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cb7efa3_7a10029d",
         "filename": "src/os/env_windows.go",
         "patchSetId": 8
