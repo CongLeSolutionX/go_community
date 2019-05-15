@@ -387,6 +387,16 @@
 						mem().setUint8(sp + 24, loadValue(sp + 8) instanceof loadValue(sp + 16));
 					},
 
+					// func readBytes(dst []byte, src ref)
+					"syscall/js.readBytes": (sp) => {
+						loadSlice(sp + 8).set(loadValue(sp + 32));
+					},
+
+					// func writeBytes(dst ref, src []byte)
+					"syscall/js.writeBytes": (sp) => {
+						loadValue(sp + 8).set(loadSlice(sp + 16));
+					},
+
 					"debug": (value) => {
 						console.log(value);
 					},
@@ -403,7 +413,6 @@
 				true,
 				false,
 				global,
-				this._inst.exports.mem,
 				this,
 			];
 			this._refs = new Map();

@@ -79,8 +79,7 @@ var (
 	valueTrue      = predefValue(3)
 	valueFalse     = predefValue(4)
 	valueGlobal    = predefValue(5)
-	memory         = predefValue(6) // WebAssembly linear memory
-	jsGo           = predefValue(7) // instance of the Go class in JavaScript
+	jsGo           = predefValue(6) // instance of the Go class in JavaScript
 
 	objectConstructor = valueGlobal.Get("Object")
 	arrayConstructor  = valueGlobal.Get("Array")
@@ -478,3 +477,19 @@ type ValueError struct {
 func (e *ValueError) Error() string {
 	return "syscall/js: call of " + e.Method + " on " + e.Type.String()
 }
+
+// ReadBytes copies bytes from the Uint8Array src to the byte slice dst.
+// It panics if src is not an Uint8Array or if the length of src is larger than the length of dst.
+func ReadBytes(dst []byte, src Value) {
+	readBytes(dst, src.ref)
+}
+
+func readBytes(dst []byte, src ref)
+
+// WriteBytes copies bytes from the byte slice src to the Uint8Array dst.
+// It panics if dst is not an Uint8Array or if the length of src is larger than the length of dst.
+func WriteBytes(dst Value, src []byte) {
+	writeBytes(dst.ref, src)
+}
+
+func writeBytes(dst ref, src []byte)
