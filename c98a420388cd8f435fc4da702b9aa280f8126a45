@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f62fb1c_abaa7839",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-05-15T18:06:57Z",
+      "side": 1,
+      "message": "NOTE FOR REVIEW: This change is not strictly necessary: we must tolerate incompatible versions elsewhere because the proxy may return them. There\u0027s also a performance cost: we may need to do a shallow clone of these versions when we might otherwise get away with \u0027git ls-remote\u0027 only. Heschi argues we shouldn\u0027t do this. I think it\u0027s better to avoid introducing incompatible versions though.\n\nLet me know what you think. If we decide to keep this, I\u0027ll add a test.",
+      "revId": "c98a420388cd8f435fc4da702b9aa280f8126a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
