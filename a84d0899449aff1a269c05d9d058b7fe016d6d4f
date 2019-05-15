@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "6327e628_8a9ee710",
+        "filename": "src/os/env_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-05-15T11:15:06Z",
+      "side": 1,
+      "message": "Golang can\u0027t have arrays with a total byte length greater than (1\u003c\u003c31)-1, because this is the maximum size of a signed integer on 32-bit machines. If we put your proposed 1\u003c\u003c30, then the uint16 would make the number of bytes 1\u003c\u003c31, and 1\u003c\u003c31 is bigger than (1\u003c\u003c31)-1. So we instead give it (1\u003c\u003c30)-1, which is the maximum value such that when multiplied by the size of a uint16 will give a number less than or equal to (1\u003c\u003c31)-1, in this case (1\u003c\u003c31)-2.",
+      "parentUuid": "16aedc6c_139c22ac",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cb7efa3_7a10029d",
         "filename": "src/os/env_windows.go",
         "patchSetId": 8
@@ -155,6 +179,24 @@
       "side": 1,
       "message": "I can see other people adjusting this function later. It is easy enough to add return statement somewhere between lines 23 and 37. If they forget to move call to DestroyEnvironmentBlock then, we will be leaking memory.\n\nI would rather have defer in my code, then leaking memory.",
       "parentUuid": "d62532d8_aed4b252",
+      "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9a64ba6_e407e214",
+        "filename": "src/os/env_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-05-15T11:15:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3bf6c0c0_17667fc6",
       "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
