@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df25d030_f56ba32c",
+        "filename": "src/os/env_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-05-15T10:49:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ef7cc328_a1ba3bda",
+      "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b607d14d_8d471a86",
         "filename": "src/os/env_windows.go",
         "patchSetId": 8
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "7f06e56b_a9cc926a",
+        "filename": "src/os/env_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-05-15T10:49:17Z",
+      "side": 1,
+      "message": "Because sizeof(uint16_t)*(1\u003c\u003c30) \u003e INT_MAX.",
+      "parentUuid": "b607d14d_8d471a86",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cb7efa3_7a10029d",
         "filename": "src/os/env_windows.go",
         "patchSetId": 8
@@ -56,6 +98,24 @@
       "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d62532d8_aed4b252",
+        "filename": "src/os/env_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-05-15T10:49:17Z",
+      "side": 1,
+      "message": "The function has no other avenues of return. What\u0027s the point in adding the overhead of a defer?",
+      "parentUuid": "9cb7efa3_7a10029d",
+      "revId": "a84d0899449aff1a269c05d9d058b7fe016d6d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
