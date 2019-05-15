@@ -183,6 +183,25 @@ func (r *codeRepo) Versions(prefix string) ([]string, error) {
 			}
 		}
 	}
+	if r.codeDir != "" || r.pseudoMajor > "v1" {
+		// If this version is required to have a go.mod file, confirm that it does.
+		// Versions that don't have go.mod files are incompatible. For example,
+		// suppose example.com/foo tagged v2.0.0 before migrating to modules.
+		// They add a go.mod file with path example.com/foo/v2 and tag v2.0.1.
+		// The version list for example.com/foo/v2 should not include v2.0.0.
+		files, err := r.code.ReadFileRevs(list, "go.mod", codehost.MaxGoMod)
+		if err != nil {
+			return nil, err
+		}
+		compatible := make([]string, 0, len(list))
+		for _, rev := range list {
+			f := files[rev]
+			if !os.IsNotExist(f.Err) {
+				compatible = append(compatible, rev)
+			}
+		}
+		list = compatible
+	}
 
 	SortVersions(list)
 	return list, nil
