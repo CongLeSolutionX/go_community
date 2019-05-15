@@ -46,6 +46,30 @@
       "revId": "674977062b496806b28e8be2001289791ee46b45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ad26443_d552cc13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-05-15T22:34:49Z",
+      "side": 1,
+      "message": "It\u0027s been a while since I wrote this test and I mixed up exactly what it was checking (that\u0027s what I get for not reading my own comments...) and the decision to change the threshold was hazy but definitely in the right direction.\n\nThe test checks that scavenging happens during heap growth. The scavenging we\u0027re checking for happens inline with any allocations made and not asynchronously, so there should be no need for flakiness or sleeping.\n\nThe fact is that the flakiness is coming from the fact that the threshold and overuse calculations don\u0027t reflect the current state of the scavenger. I\u0027ve updated the commit message to more accurately reflect what changes I\u0027m making and why.",
+      "parentUuid": "caca4ef2_2e62b37f",
+      "range": {
+        "startLine": 14,
+        "startChar": 17,
+        "endLine": 16,
+        "endChar": 5
+      },
+      "revId": "674977062b496806b28e8be2001289791ee46b45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
