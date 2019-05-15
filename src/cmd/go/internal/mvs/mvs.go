@@ -13,7 +13,6 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"cmd/go/internal/base"
 	"cmd/go/internal/module"
 	"cmd/go/internal/par"
 )
@@ -118,7 +117,7 @@ func BuildList(target module.Version, reqs Reqs) ([]module.Version, error) {
 	return buildList(target, reqs, nil)
 }
 
-func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) module.Version) ([]module.Version, error) {
+func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) (module.Version, error)) ([]module.Version, error) {
 	// Explore work graph in parallel in case reqs.Required
 	// does high-latency network operations.
 	var work par.Work
@@ -136,6 +135,10 @@ func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) mo
 		min      = map[string]string{} // maps module path to minimum required version
 		haveErr  int32
 	)
+	setErr := func(n *modGraphNode, err error) {
+		n.err = err
+		atomic.StoreInt32(&haveErr, 1)
+	}
 
 	work.Add(target)
 	work.Do(10, func(item interface{}) {
@@ -151,8 +154,7 @@ func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) mo
 
 		required, err := reqs.Required(m)
 		if err != nil {
-			node.err = err
-			atomic.StoreInt32(&haveErr, 1)
+			setErr(node, err)
 			return
 		}
 		node.required = required
@@ -161,9 +163,9 @@ func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) mo
 		}
 
 		if upgrade != nil {
-			u := upgrade(m)
-			if u.Path == "" {
-				base.Errorf("Upgrade(%v) returned zero module", m)
+			u, err := upgrade(m)
+			if err != nil {
+				setErr(node, err)
 				return
 			}
 			if u != m {
@@ -329,17 +331,12 @@ func Req(target module.Version, list []module.Version, base []string, reqs Reqs)
 // UpgradeAll returns a build list for the target module
 // in which every module is upgraded to its latest version.
 func UpgradeAll(target module.Version, reqs Reqs) ([]module.Version, error) {
-	return buildList(target, reqs, func(m module.Version) module.Version {
+	return buildList(target, reqs, func(m module.Version) (module.Version, error) {
 		if m.Path == target.Path {
-			return target
+			return target, nil
 		}
 
-		latest, err := reqs.Upgrade(m)
-		if err != nil {
-			panic(err) // TODO
-		}
-		m.Version = latest.Version
-		return m
+		return reqs.Upgrade(m)
 	})
 }
 
@@ -348,7 +345,7 @@ func UpgradeAll(target module.Version, reqs Reqs) ([]module.Version, error) {
 func Upgrade(target module.Version, reqs Reqs, upgrade ...module.Version) ([]module.Version, error) {
 	list, err := reqs.Required(target)
 	if err != nil {
-		panic(err) // TODO
+		return nil, err
 	}
 	// TODO: Maybe if an error is given,
 	// rerun with BuildList(upgrade[0], reqs) etc
@@ -367,7 +364,7 @@ func Upgrade(target module.Version, reqs Reqs, upgrade ...module.Version) ([]mod
 func Downgrade(target module.Version, reqs Reqs, downgrade ...module.Version) ([]module.Version, error) {
 	list, err := reqs.Required(target)
 	if err != nil {
-		panic(err) // TODO
+		return nil, err
 	}
 	max := make(map[string]string)
 	for _, r := range list {
@@ -406,7 +403,17 @@ func Downgrade(target module.Version, reqs Reqs, downgrade ...module.Version) ([
 		}
 		list, err := reqs.Required(m)
 		if err != nil {
-			panic(err) // TODO
+			// If we can't load the requirements, we couldn't load the go.mod file.
+			// There are a number of reasons this can happen, but this usually
+			// means an older version of the module had a missing or invalid
+			// go.mod file. For example, if example.com/mod released v2.0.0 before
+			// migrating to modules (v2.0.0+incompatible), then added a valid go.mod
+			// in v2.0.1, downgrading from v2.0.1 would cause this error.
+			//
+			// TODO(golang.org/issue/31730, golang.org/issue/30134): if the error
+			// is transient (we couldn't download go.mod), return the error from
+			// Downgrade. Currently, we can't tell what kind of error it is.
+			exclude(m)
 		}
 		for _, r := range list {
 			add(r)
@@ -426,7 +433,12 @@ List:
 		for excluded[r] {
 			p, err := reqs.Previous(r)
 			if err != nil {
-				return nil, err // TODO
+				// This is likely a transient error reaching the repository,
+				// rather than a permanent error with the retrieved version.
+				//
+				// TODO(golang.org/issue/31730, golang.org/issue/30134):
+				// decode what to do based on the actual error.
+				return nil, err
 			}
 			// If the target version is a pseudo-version, it may not be
 			// included when iterating over prior versions using reqs.Previous.
