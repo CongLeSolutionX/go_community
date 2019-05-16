@@ -16,6 +16,24 @@
       "revId": "2d98defaea9e1589acb8914c0c252faeb9d11e76",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb234585_3f00d290",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-16T13:46:19Z",
+      "side": 1,
+      "message": "The current one looks fine to me.",
+      "parentUuid": "3393a3db_56395d25",
+      "revId": "2d98defaea9e1589acb8914c0c252faeb9d11e76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
