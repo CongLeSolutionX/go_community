@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2061f479_21bc3597",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-16T20:43:30Z",
+      "side": 1,
+      "message": "I think you could get rid of this map entirely and go straight to a `[]*query`: the only place where the values in `lost` are read is at line 638, and that seems mostly equivalent to `versionByPath[q.m.Path]` (since we know that it was, in fact, lost).\n\n(I may be missing something, though.)",
+      "revId": "571b9fd46d0318e7582bd9896f01b99a05a39819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ad07d7_6a0be932",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-16T20:43:30Z",
+      "side": 1,
+      "message": "It took me a while to figure out what\u0027s going on here — a comment (or a better name) for `lost` would be helpful.\n\n(It seems to map a lost path to the version that was obtained instead, rather than mapping the lost path to the version it was supposed to be at.)",
+      "range": {
+        "startLine": 574,
+        "startChar": 5,
+        "endLine": 574,
+        "endChar": 9
+      },
+      "revId": "571b9fd46d0318e7582bd9896f01b99a05a39819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0737e0d_387e1e82",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-16T20:43:30Z",
+      "side": 1,
+      "message": "Perhaps refer to #31491 and #29773 in this comment?",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 54
+      },
+      "revId": "571b9fd46d0318e7582bd9896f01b99a05a39819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
