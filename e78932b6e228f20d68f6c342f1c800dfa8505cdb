@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "64591dc4_5fa739f2",
+        "filename": "src/runtime/sys_netbsd_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-05-16T15:34:18Z",
+      "side": 1,
+      "message": "Yes - timespec is int64/int64 on arm64 (per defs1_netbsd_arm64.go as well)... looks like you\u0027ve just spotted a bug introduced into sys_netbsd_amd64.s back in 7777bac6e45.",
+      "parentUuid": "ea02961c_4acf3ba2",
+      "revId": "e78932b6e228f20d68f6c342f1c800dfa8505cdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c996dcd_409b318c",
         "filename": "src/runtime/sys_netbsd_arm64.s",
         "patchSetId": 1
