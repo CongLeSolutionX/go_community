@@ -16,6 +16,24 @@
       "revId": "14491a2ec499668388d7fe7e95b84dbf0e1cf04d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5c2b67b_09a8bf4d",
+        "filename": "src/crypto/rand/rand_js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-05-16T10:26:18Z",
+      "side": 0,
+      "message": "There is no garbage collection of references to JS values yet. This is identical to before. \"Release\" only released the pointer to the byte slice on Go\u0027s end.",
+      "parentUuid": "3e327881_271239c5",
+      "revId": "14491a2ec499668388d7fe7e95b84dbf0e1cf04d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
