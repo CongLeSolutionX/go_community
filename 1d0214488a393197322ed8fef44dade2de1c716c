@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "3b59f1d2_f446ec11",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-05-16T19:03:28Z",
+      "side": 1,
+      "message": "I would suggest discarding the modifications here and keeping the addition at 200-202. Please revert the changes in this block.\n\n(This will make the cache recompute things it might be able to reuse, but in general we err on the side of keeping distinct things distinct and not making mistakes about too-aggressive reuse.)",
+      "parentUuid": "c93cf019_d0d02df8",
+      "revId": "1d0214488a393197322ed8fef44dade2de1c716c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6dfafcc2_d5f5295c",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 2
@@ -102,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "551bf0f9_a441bedd",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-05-16T19:03:28Z",
+      "side": 1,
+      "message": "Please keep this.",
+      "parentUuid": "f6a8ed4b_a57e5a49",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 2
+      },
+      "revId": "1d0214488a393197322ed8fef44dade2de1c716c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b514082d_3eb0535b",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 2
@@ -113,6 +155,30 @@
       "writtenOn": "2019-05-09T20:39:21Z",
       "side": 1,
       "message": "I\u0027m not sure if this is required. -trimpath does have a direct effect on the linker (it causes it to set GOROOT_FINAL), but since trimpath is part of the build ID already it doesn\u0027t seem possible to observe the effect of including it in the link cache key here. (So I was unable to write a test specifically for this behavior.)\n\nIs there a way to observe this? Should I remove it?",
+      "range": {
+        "startLine": 1087,
+        "startChar": 0,
+        "endLine": 1089,
+        "endChar": 2
+      },
+      "revId": "1d0214488a393197322ed8fef44dade2de1c716c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93ab0aa5_e3df055c",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-05-16T19:03:28Z",
+      "side": 1,
+      "message": "Please keep this here.",
+      "parentUuid": "b514082d_3eb0535b",
       "range": {
         "startLine": 1087,
         "startChar": 0,
