@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "45a8dce2_009f0256",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-05-16T21:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2061f479_21bc3597",
+      "revId": "571b9fd46d0318e7582bd9896f01b99a05a39819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02d3d68c_45e982cb",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-05-16T21:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4ad07d7_6a0be932",
+      "range": {
+        "startLine": 574,
+        "startChar": 5,
+        "endLine": 574,
+        "endChar": 9
+      },
+      "revId": "571b9fd46d0318e7582bd9896f01b99a05a39819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0737e0d_387e1e82",
         "filename": "src/cmd/go/internal/mvs/mvs.go",
         "patchSetId": 1
@@ -62,6 +104,30 @@
       "revId": "571b9fd46d0318e7582bd9896f01b99a05a39819",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e887c54_5108d3bf",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-05-16T21:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0737e0d_387e1e82",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 54
+      },
+      "revId": "571b9fd46d0318e7582bd9896f01b99a05a39819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
