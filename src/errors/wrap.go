@@ -9,7 +9,7 @@ import (
 )
 
 // Unwrap returns the result of calling the Unwrap method on err, if err
-// implements Wrapper. Otherwise, Unwrap returns nil.
+// implements a method Unwrap() error. Otherwise, Unwrap returns nil.
 func Unwrap(err error) error {
 	u, ok := err.(interface {
 		Unwrap() error
