@@ -22,6 +22,30 @@
       "revId": "ab985a63b1391c39cbb9dbd908c21a7c2e1998e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "423c7df5_2a88c190",
+        "filename": "src/errors/wrap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-05-16T17:10:22Z",
+      "side": 1,
+      "message": "I was following the style in Is/As before, which does seem weird to me. Think I should update those as well?\n\nDescribing the signature in prose gets confusing for anything with parameters. Is there established style for this (aside from defining an interface type for documentation purposes)?\n\n  // An error is considered to match a target if it is equal to that target or\n  // if it implements an Is method such that Is(target) returns true:\n  //\n  //   interface {\n  //     Is(error) bool\n  //   }",
+      "parentUuid": "92e6e9dd_5f3d8b11",
+      "range": {
+        "startLine": 12,
+        "startChar": 29,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "ab985a63b1391c39cbb9dbd908c21a7c2e1998e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
