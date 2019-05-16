@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"sync"
 )
@@ -570,11 +571,22 @@ func runGet(cmd *base.Command, args []string) {
 	}
 
 	// Scan for any upgrades lost by the downgrades.
-	lost := make(map[string]string)
-	for _, m := range modload.BuildList() {
-		t := byPath[m.Path]
-		if t != nil && semver.Compare(m.Version, t.m.Version) != 0 {
-			lost[m.Path] = m.Version
+	var lost map[string]string
+	if len(down) > 0 {
+		versionByPath := make(map[string]string)
+		lost = make(map[string]string)
+		for _, m := range modload.BuildList() {
+			versionByPath[m.Path] = m.Version
+		}
+		for _, q := range byPath {
+			if q.m.Version == "none" {
+				continue
+			}
+			if v, ok := versionByPath[q.m.Path]; !ok {
+				lost[q.m.Path] = "none"
+			} else if semver.Compare(v, q.m.Version) != 0 {
+				lost[q.m.Path] = v
+			}
 		}
 	}
 	if len(lost) > 0 {
@@ -590,19 +602,24 @@ func runGet(cmd *base.Command, args []string) {
 		for _, d := range down {
 			downByPath[d.Path] = d
 		}
+		sortedLost := make([]*query, 0, len(lost))
+		for path := range lost {
+			sortedLost = append(sortedLost, byPath[path])
+		}
+		sort.Slice(sortedLost, func(i, j int) bool {
+			return sortedLost[i].m.Path < sortedLost[j].m.Path
+		})
+
 		var buf strings.Builder
 		fmt.Fprintf(&buf, "go get: inconsistent versions:")
 		reqs := modload.Reqs()
-		for _, q := range queries {
-			if lost[q.m.Path] == "" {
-				continue
-			}
+		for _, q := range sortedLost {
 			// We lost q because its build list requires a newer version of something in down.
 			// Figure out exactly what.
 			// Repeatedly constructing the build list is inefficient
 			// if there are MANY command-line arguments,
 			// but at least all the necessary requirement lists are cached at this point.
-			list, err := mvs.BuildList(q.m, reqs)
+			list, err := buildListForLostUpgrade(q.m, reqs)
 			if err != nil {
 				base.Fatalf("go: %v", err)
 			}
@@ -893,4 +910,30 @@ func (u *upgrader) Upgrade(m module.Version) (module.Version, error) {
 	}
 
 	return module.Version{Path: m.Path, Version: info.Version}, nil
+}
+
+// buildListForLostUpgrade returns the build list for the module graph
+// rooted at lost. Unlike mvs.BuildList, the target module (lost) is not
+// treated specially. The returned build list may contain a newer version
+// of lost.
+//
+// buildListForLostUpgrade is used after a downgrade has removed a module
+// requested at a specific version. This helps us understand the requirements
+// implied by each downgrade.
+func buildListForLostUpgrade(lost module.Version, reqs mvs.Reqs) ([]module.Version, error) {
+	return mvs.BuildList(lostUpgradeRoot, &lostUpgradeReqs{Reqs: reqs, lost: lost})
+}
+
+var lostUpgradeRoot = module.Version{Path: "lost-upgrade-root", Version: ""}
+
+type lostUpgradeReqs struct {
+	mvs.Reqs
+	lost module.Version
+}
+
+func (r *lostUpgradeReqs) Required(mod module.Version) ([]module.Version, error) {
+	if mod == lostUpgradeRoot {
+		return []module.Version{r.lost}, nil
+	}
+	return r.Reqs.Required(mod)
 }
