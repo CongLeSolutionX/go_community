@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92e6e9dd_5f3d8b11",
+        "filename": "src/errors/wrap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-16T16:51:15Z",
+      "side": 1,
+      "message": "We don\u0027t normally write the parens when talking about the name of a func.\n\nBut here you\u0027re writing its signature?\n\nI\u0027d just spell it out:\n\n   \u003e if err\u0027s type contains an Unwrap method returning an error.",
+      "range": {
+        "startLine": 12,
+        "startChar": 29,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "ab985a63b1391c39cbb9dbd908c21a7c2e1998e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
