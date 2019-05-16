@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17cad0ab_fe1a3556",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-16T01:40:21Z",
+      "side": 1,
+      "message": "Did you consider using the word \"Copy\" instead of \"Read\"?\n\nBecause this is a lot like https://golang.org/pkg/builtin/#copy , especially if we made it return the number of bytes copied, rather than panicking on mismatch.\n\nMaybe CopyToGo \u0026 CopyToJS?",
+      "revId": "a41d80c0fe7664d1ca51b54d9d9bea691ba9483a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
