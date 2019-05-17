@@ -46,6 +46,30 @@
       "revId": "c770d6738b30e4ed8bf8e204d5fcacccb6fef539",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1188e2b_dcf96456",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-05-17T16:30:13Z",
+      "side": 1,
+      "message": "Does the +2 mean you\u0027re okay with the current version as is, or do you still think doing the above would be an improvement?",
+      "parentUuid": "fd8cfec8_5b23570f",
+      "range": {
+        "startLine": 54,
+        "startChar": 65,
+        "endLine": 54,
+        "endChar": 66
+      },
+      "revId": "c770d6738b30e4ed8bf8e204d5fcacccb6fef539",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
