@@ -22,6 +22,30 @@
       "revId": "c770d6738b30e4ed8bf8e204d5fcacccb6fef539",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd8cfec8_5b23570f",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-05-17T15:49:24Z",
+      "side": 1,
+      "message": "I sent this CL because the current documentation made me think that httputil does something special that bypasses the default log package behavior and forces it to write to os.Stderr even if that\u0027s not the writer configured there. I looked into the code, and it turned out it does not do anything special and as a result writes to whatever the standard log output is set to, os.Stderr or otherwise. So my motivation is to resolve that confusion. (Also because I thought I already fixed this issue, but that turned out to be in net/http package in CL 53950.)\n\nI don\u0027t like the word \"usually\" in documentation, it\u0027s imprecise and creates a question of \"under what conditions does it actually happen?\"\n\nI could write something like:\n\n    If nil, logging is done via the log package\u0027s standard logger.\n    By default, the log package\u0027s standard logger writes to standard error.\n\nBut I don\u0027t think describing how the log package works needs to be done inside net/http/httputil package; people should read the log package documentation if they\u0027re not familiar with it.\n\nPerhaps it\u0027s not so bad if rephrased as:\n\n    If nil, logging is done via the log package\u0027s standard logger,\n    which by default writes to standard error.\n\nI\u0027d still rather leave it out, but if you think the above is an improvement, I can incorporate that (here and in net/http, to keep them consistent). WDYT?",
+      "parentUuid": "401053f6_bb8c5fff",
+      "range": {
+        "startLine": 54,
+        "startChar": 65,
+        "endLine": 54,
+        "endChar": 66
+      },
+      "revId": "c770d6738b30e4ed8bf8e204d5fcacccb6fef539",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
