@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0179799_1cf36e2b",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-17T16:48:36Z",
+      "side": 0,
+      "message": "This comment is still relevant.",
+      "range": {
+        "startLine": 135,
+        "startChar": 62,
+        "endLine": 136,
+        "endChar": 41
+      },
+      "revId": "4e7bef84c1a84f60791f4b3c23bdd3f3d9392e70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c89128_248b9236",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-05-17T16:48:36Z",
+      "side": 1,
+      "message": "Doesn\u0027t switching from HeapAlloc to NextGC introduce an extra factor of two of slop? Since we just runtime.GC\u0027d, HeapAlloc should be the bottom of the sawtooth and NextGC should be roughly 2*HeapAlloc. Is this test still actually able to check that we\u0027re scavenging immediately? If you disable that scavenging path, does the test fail?",
+      "revId": "4202238649bffc2458f0c1181ab028b94a49b6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
