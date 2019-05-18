@@ -22,6 +22,30 @@
       "revId": "fac793b1a2df97155d1769d85eef9984d2c0ab8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f345cf5_a9fe3c86",
+        "filename": "src/net/ip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 16105
+      },
+      "writtenOn": "2019-05-18T17:08:28Z",
+      "side": 1,
+      "message": "I was struggling to find an intelligible way to work in a mention of \"ones\" without being a bit redundant with CIDRMask, hope this works- if not some guidance on better language would be appreciated. Thanks.",
+      "parentUuid": "48afcc50_c9cabc8e",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 75
+      },
+      "revId": "fac793b1a2df97155d1769d85eef9984d2c0ab8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
