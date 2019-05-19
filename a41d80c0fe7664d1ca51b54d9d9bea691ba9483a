@@ -70,6 +70,24 @@
       "revId": "a41d80c0fe7664d1ca51b54d9d9bea691ba9483a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13c48db7_800e01de",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-19T01:26:21Z",
+      "side": 1,
+      "message": "CopyBytesToX is fine. I\u0027m not worried about verbosity; it\u0027s a low-level package. And CopyBytes leaves us room to add Copy${OTHERSTUFF}To$X later.",
+      "parentUuid": "63b424c9_4c9cb616",
+      "revId": "a41d80c0fe7664d1ca51b54d9d9bea691ba9483a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
