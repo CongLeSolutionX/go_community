@@ -16,6 +16,24 @@
       "revId": "d2d4d2ca07821e61cf3072d71d861c40d269aee3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7e74bc4_26bc3667",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 31884
+      },
+      "writtenOn": "2019-05-20T17:26:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c51b233_e8c39abe",
+      "revId": "d2d4d2ca07821e61cf3072d71d861c40d269aee3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
