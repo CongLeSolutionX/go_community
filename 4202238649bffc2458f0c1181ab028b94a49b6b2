@@ -16,6 +16,24 @@
       "revId": "4202238649bffc2458f0c1181ab028b94a49b6b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adc5cd04_fc0f72f8",
+        "filename": "src/runtime/testdata/testprog/gc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-05-20T15:43:49Z",
+      "side": 1,
+      "message": "yes, you\u0027re right.\n\nI\u0027ve overhauled this test now. It definitely checks for heap-growth scavenging now as we want it to (goes back to using HeapAlloc) but should be much, much more stable.",
+      "parentUuid": "10c89128_248b9236",
+      "revId": "4202238649bffc2458f0c1181ab028b94a49b6b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
