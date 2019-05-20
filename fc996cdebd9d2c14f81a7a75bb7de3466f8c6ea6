@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3a7059b_ca634a98",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-20T16:21:54Z",
+      "side": 1,
+      "message": "add blank lines before+after this func, like all the others in this file.",
+      "revId": "fc996cdebd9d2c14f81a7a75bb7de3466f8c6ea6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
