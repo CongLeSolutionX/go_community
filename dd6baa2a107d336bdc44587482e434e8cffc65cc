@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b02fae3b_5ad29c9a",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-20T21:11:55Z",
+      "side": 1,
+      "message": "\"to dst\"? No need to repeat the type name?",
+      "range": {
+        "startLine": 481,
+        "startChar": 54,
+        "endLine": 481,
+        "endChar": 75
+      },
+      "revId": "dd6baa2a107d336bdc44587482e434e8cffc65cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ff82499_785c18c6",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-20T21:11:55Z",
+      "side": 1,
+      "message": "Start a new line for the sentence starting with \"It\". And for the next sentence too.",
+      "revId": "dd6baa2a107d336bdc44587482e434e8cffc65cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b770c067_bfff993b",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-20T21:11:55Z",
+      "side": 1,
+      "message": "copyBytes?",
+      "revId": "dd6baa2a107d336bdc44587482e434e8cffc65cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baf69c00_f0a60088",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-20T21:11:55Z",
+      "side": 1,
+      "message": "mention \"dst\"? maybe redundant. can we include what type dst actually was?",
+      "revId": "dd6baa2a107d336bdc44587482e434e8cffc65cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05931aeb_85282f28",
+        "filename": "src/syscall/js/js.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-20T21:11:55Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "dd6baa2a107d336bdc44587482e434e8cffc65cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4443e15_8584ff4a",
+        "filename": "src/syscall/js/js_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-20T21:11:55Z",
+      "side": 1,
+      "message": "\"copied %d, want %d\"?\n\nTest that the min return value works in the other direction too? (Copying 3 values to 5 returns 3). And zero on both sides is always an interesting test. At that point a table-driven test is easiest.",
+      "revId": "dd6baa2a107d336bdc44587482e434e8cffc65cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
