@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bd94e08_0d3e4c5d",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-21T13:31:38Z",
+      "side": 1,
+      "message": "Is BitSize alone enough to guarantee that we are using the correct NIST curve?\n\nMaybe we should check the canonical name instead:\n\nswitch c.Params().Name {\ncase \"P-256\":\n  ...\ncase \"P-384\":\n  ...\ncase \"P-521\":\n  ...\n}\n\nThat would also make it easy to force the generic implementation in the tests - by creating new CurveParams with the Name set to something that is not canonical, e.g. \"P-256 GENERIC OVERRIDE\".",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "f777aae5d1fa0b053bb03d64669ef054fb581edb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bfe3b73_419947dd",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-21T13:31:38Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "range": {
+        "startLine": 7,
+        "startChar": 74,
+        "endLine": 7,
+        "endChar": 76
+      },
+      "revId": "f777aae5d1fa0b053bb03d64669ef054fb581edb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
