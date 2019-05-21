@@ -1546,9 +1546,8 @@ func (s *state) ssaOp(op Op, t *types.Type) ssa.Op {
 func floatForComplex(t *types.Type) *types.Type {
 	if t.Size() == 8 {
 		return types.Types[TFLOAT32]
-	} else {
-		return types.Types[TFLOAT64]
 	}
+	return types.Types[TFLOAT64]
 }
 
 type opAndTwoTypes struct {
@@ -2377,11 +2376,11 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 	case OSPTR:
 		a := s.expr(n.Left)
+		op := ssa.OpStringPtr
 		if n.Left.Type.IsSlice() {
-			return s.newValue1(ssa.OpSlicePtr, n.Type, a)
-		} else {
-			return s.newValue1(ssa.OpStringPtr, n.Type, a)
+			op = ssa.OpSlicePtr
 		}
+		return s.newValue1(op, n.Type, a)
 
 	case OITAB:
 		a := s.expr(n.Left)
@@ -3954,13 +3953,13 @@ func (s *state) addr(n *Node, bounded bool) *ssa.Value {
 			i = s.boundsCheck(i, len, ssa.BoundsIndex, n.Bounded())
 			p := s.newValue1(ssa.OpSlicePtr, t, a)
 			return s.newValue2(ssa.OpPtrIndex, t, p, i)
-		} else { // array
-			a := s.addr(n.Left, bounded)
-			i := s.expr(n.Right)
-			len := s.constInt(types.Types[TINT], n.Left.Type.NumElem())
-			i = s.boundsCheck(i, len, ssa.BoundsIndex, n.Bounded())
-			return s.newValue2(ssa.OpPtrIndex, types.NewPtr(n.Left.Type.Elem()), a, i)
 		}
+		// array
+		a := s.addr(n.Left, bounded)
+		i := s.expr(n.Right)
+		len := s.constInt(types.Types[TINT], n.Left.Type.NumElem())
+		i = s.boundsCheck(i, len, ssa.BoundsIndex, n.Bounded())
+		return s.newValue2(ssa.OpPtrIndex, types.NewPtr(n.Left.Type.Elem()), a, i)
 	case ODEREF:
 		return s.exprPtr(n.Left, bounded, n.Pos)
 	case ODOT:
@@ -5123,7 +5122,7 @@ func (s *SSAGenState) Br(op obj.As, target *ssa.Block) *obj.Prog {
 	return p
 }
 
-// DebugFriendlySetPos adjusts Pos.IsStmt subject to heuristics
+// DebugFriendlySetPosFrom adjusts Pos.IsStmt subject to heuristics
 // that reduce "jumpy" line number churn when debugging.
 // Spill/fill/copy instructions from the register allocator,
 // phi functions, and instructions with a no-pos position
