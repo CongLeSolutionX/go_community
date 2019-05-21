@@ -21,6 +21,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 	"unicode"
 	"unicode/utf8"
 )
@@ -159,6 +160,22 @@ func Marshal(v interface{}) ([]byte, error) {
 	e := newEncodeState()
 
 	err := e.marshal(v, encOpts{escapeHTML: true})
+	if err != nil {
+		return nil, err
+	}
+	buf := append([]byte(nil), e.Bytes()...)
+
+	e.Reset()
+	encodeStatePool.Put(e)
+
+	return buf, nil
+}
+
+//todo
+func MarshalFilterStruct(v interface{}, filterFunc FilterFunc) ([]byte, error) {
+	e := newEncodeState()
+
+	err := e.marshal(v, encOpts{escapeHTML: true, filterFunc: filterFunc})
 	if err != nil {
 		return nil, err
 	}
@@ -315,6 +332,8 @@ func (e *encodeState) error(err error) {
 	panic(jsonError{err})
 }
 
+var timeType = reflect.TypeOf(time.Time{})
+
 func isEmptyValue(v reflect.Value) bool {
 	switch v.Kind() {
 	case reflect.Array, reflect.Map, reflect.Slice, reflect.String:
@@ -330,6 +349,10 @@ func isEmptyValue(v reflect.Value) bool {
 	case reflect.Interface, reflect.Ptr:
 		return v.IsNil()
 	}
+
+	if v.Type() == timeType {
+		return v.Interface().(time.Time).IsZero()
+	}
 	return false
 }
 
@@ -342,7 +365,11 @@ type encOpts struct {
 	quoted bool
 	// escapeHTML causes '<', '>', and '&' to be escaped in JSON strings.
 	escapeHTML bool
+	// filter structure
+	filterFunc FilterFunc
 }
+
+type FilterFunc func(fv interface{}) bool
 
 type encoderFunc func(e *encodeState, v reflect.Value, opts encOpts)
 
@@ -653,6 +680,13 @@ FieldLoop:
 		if f.omitEmpty && isEmptyValue(fv) {
 			continue
 		}
+
+		if f.omitEmpty && fv.Kind() == reflect.Struct {
+			if opts.filterFunc != nil && opts.filterFunc(fv.Interface()) == true {
+				continue
+			}
+		}
+
 		e.WriteByte(next)
 		next = ','
 		if opts.escapeHTML {
