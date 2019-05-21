@@ -328,6 +328,26 @@ func ExampleRegexp_FindIndex() {
 	// [18 33]
 	// option1: value1
 }
+
+func ExampleRegexp_FindAllIndex() {
+	content := []byte(`
+	# comment line
+	option1: value1
+	option2: value2
+`)
+	// Regex pattern captures "key: value" pair from the content.
+	pattern := regexp.MustCompile(`(?m)(?P<key>\w+):\s+(?P<value>\w+)$`)
+
+	loc := pattern.FindIndex(content, 2)
+	fmt.Println(loc)
+	fmt.Println(string(content[loc[0][0]:loc[0][1]]))
+	fmt.Println(string(content[loc[1][0]:loc[1][1]]))
+	// Output:
+	// [[18 33] [35 50]]
+	// option1: value1
+	// option2: value2
+}
+
 func ExampleRegexp_FindAllSubmatchIndex() {
 	content := []byte(`
 	# comment line
@@ -352,4 +372,49 @@ func ExampleRegexp_FindAllSubmatchIndex() {
 	// option2: value2
 	// option2
 	// value2
+}
+
+func ExampleRegexp_FindSubmatchIndex() {
+	content := []byte(`
+	# comment line
+	option1: value1
+	option2: value2
+`)
+	// Regex pattern captures "key: value" pair from the content.
+	pattern := regexp.MustCompile(`(?m)(?P<key>\w+):\s+(?P<value>\w+)$`)
+	loc := pattern.FindSubmatch(content)
+	fmt.Println(loc)
+	for i := 0; i < len(loc); i++ {
+		fmt.Printf("%d: %s\n", i, loc[i])
+	}
+	fmt.Println(string(content[loc[0][0]:loc[0][1]]))
+	fmt.Println(string(content[loc[1][0]:loc[1][1]]))
+	// Output:
+	// 0: option1: value1
+	// 1: option1
+	// 2: value1
+}
+
+func ExampleRegexp_ReplaceAll() {
+	content := []byte(`
+	# comment line
+	option1: value1
+	option2# value2
+`)
+	// Regex pattern captures "key: value" pair from the content.
+	pattern := regexp.MustCompile(`(?m)(?P<key>\w+):\s+(?P<value>\w+)$`)
+
+	loc := pattern.ReplaceAll(content, []byte(`foo`))
+	fmt.Println(string(loc))
+	// Output:
+	// foo
+	// option2# value2
+}
+
+func ExampleRegexp_NumSubexp() {
+	pattern := regexp.MustCompile(`(?m)(?P<key>\w+):\s+(?P<value>\w+)$`)
+	loc := pattern.NumSubexp()
+	fmt.Println(loc)
+	// Output:
+	// 2
 }
