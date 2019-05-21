@@ -2115,7 +2115,7 @@
 // installed with "go install" (there is no work space in which to install them),
 // so they are rebuilt from scratch each time they are built.
 // To avoid ambiguity, Go programs cannot use relative import paths
-// within a work space.
+// within a work space or modules.
 //
 // Remote import paths
 //
