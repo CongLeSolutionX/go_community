@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f8d729f_c113ec5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-05-22T19:53:09Z",
+      "side": 1,
+      "message": "Change to \"Updates #30131\".\n\nWhile this change is a useful correction, I think we need a more complete rewrite of this documentation to close this issue. We\u0027re planning to overhaul a lot of this documentation this summer, and this page should be part of that effort.",
+      "revId": "6a9888fdf007c51a89dfcae87741df5867411d75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "451b0287_1bc83611",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-05-22T19:53:09Z",
+      "side": 1,
+      "message": "Let\u0027s break this into another sentence: Relative import paths cannot be used with modules.",
+      "revId": "6a9888fdf007c51a89dfcae87741df5867411d75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
