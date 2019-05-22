@@ -16,6 +16,24 @@
       "revId": "9c8e253ccb79548c729d3288c384d707d352aa77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d801a842_1e99c206",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-05-22T13:41:29Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1: Code-Review+2\n\u003e \n\u003e (1 comment)\n\nParts need to be cleared in free so we dont keep pointers to large objects e.g. errors in sync pool. Its a minor perf win to defer the rest to when we actually need it as the sync pool objects might never be reused and evicted before use.\n\nWe can benchmark using *p \u003d pp{buf: p.buf[:0]} for go1.14. Its likely more expensive since instead of inlined zeroing of only the needed fields it uses a call to a typedmemclr to clear the whole struct. TBD.",
+      "parentUuid": "bbc199a5_502e1233",
+      "revId": "9c8e253ccb79548c729d3288c384d707d352aa77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
