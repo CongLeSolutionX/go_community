@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd7a88a3_8ffd8a4d",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-23T15:06:40Z",
+      "side": 1,
+      "message": "s/bufferoffsets/bufferOffsets/\n\nAlso, add a comment like:\n\n// bufferOffsets represents the offset of a particular parameter in\n// the buffer passed to the KDSA instruction.",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "f2eb25af6948d4fb7e440b20a7947d7a0bd8045c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e9612a6_15ad4998",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-23T15:06:40Z",
+      "side": 1,
+      "message": "s/preconditions/canUseKDSA/\n\n(or similar)",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 77
+      },
+      "revId": "f2eb25af6948d4fb7e440b20a7947d7a0bd8045c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4840e50_095537e4",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-23T15:06:40Z",
+      "side": 1,
+      "message": "Get rid of the new line here.",
+      "revId": "f2eb25af6948d4fb7e440b20a7947d7a0bd8045c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "388ffbd7_b66fdbdd",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-23T15:06:40Z",
+      "side": 1,
+      "message": "Actually I think the pattern we need to get memclr here is this:\n\nz :\u003d dst[:nz]\nfor i :\u003d range z {\n    z[i] \u003d 0\n}\n\nThe existing implementation will probably insert bounds checks.",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 2
+      },
+      "revId": "f2eb25af6948d4fb7e440b20a7947d7a0bd8045c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25ea4b80_119f552a",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-23T15:06:40Z",
+      "side": 1,
+      "message": "I think k can be defined in the inner loop.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 15
+      },
+      "revId": "f2eb25af6948d4fb7e440b20a7947d7a0bd8045c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c726668b_ece6cd6c",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-23T15:06:40Z",
+      "side": 1,
+      "message": "Let\u0027s do this here instead:\n\nreturn nil, nil, err\n\nThen it matches what we do for the other error exit path.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 11
+      },
+      "revId": "f2eb25af6948d4fb7e440b20a7947d7a0bd8045c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49866ed9_e016d580",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-23T15:06:40Z",
+      "side": 1,
+      "message": "This isn\u0027t checking the success return value, so I think the comment below this is misleading.\n\nRegardless I think we should make this simpler:\n\n_, errn :\u003d kdsaSig(bo.functionCode, \u0026buffer)\nreturn errn \u003d\u003d 0",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 46
+      },
+      "revId": "f2eb25af6948d4fb7e440b20a7947d7a0bd8045c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22e9eb9f_d49be57d",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.s",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-23T15:06:40Z",
+      "side": 1,
+      "message": "I think this would be simpler with one return value, error, with the following values\n\n0 - success\n1 - failure, retry with a new random number\n2 - failure, abort\n\nThen we can test for success easily with kdsaSig(...) \u003d\u003d 0.",
+      "revId": "f2eb25af6948d4fb7e440b20a7947d7a0bd8045c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f6777f4_4a8a504d",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2019-05-23T15:06:40Z",
+      "side": 1,
+      "message": "I think these tests could be simpler. I\u0027m thinking something like this (perhaps using sub tests too):\n\nfunc TestNoAsm(t *testing.T) {\n    curves :\u003d [...]elliptic.Curve{\n        elliptic.P256(),\n        elliptic.P384(),\n        elliptic.P521(),\n    }\n\n    for _, curve :\u003d range curves {\n        // override the name of the curve to stop the assembly path being taken\n        params :\u003d *curve.Params()\n        name :\u003d params.Name\n        params.Name \u003d name + \"_GENERIC_OVERRIDE\"\n\n        testKeyGeneration(t, params, name)\n        testSignAndVerify(t, params, name)\n        testNonceSafety(t, params, name)\n        testINDCCA(t, params, name)\n        testNegativeInputs(t, params, name)\n    }\n}",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 80,
+        "endChar": 1
+      },
+      "revId": "f2eb25af6948d4fb7e440b20a7947d7a0bd8045c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
