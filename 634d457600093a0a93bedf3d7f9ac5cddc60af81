@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ba15e0c_b2ee49a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-24T17:40:39Z",
+      "side": 1,
+      "message": "and pointer-free T",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b3f0aab_7f30ad7e",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-24T17:40:39Z",
+      "side": 1,
+      "message": "It seems pretty fragile that we require these statements to be adjacent.\nNot that I have a better idea.",
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb4023de_3d9a34ac",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-24T17:40:39Z",
+      "side": 1,
+      "message": "Does o.stmt(nil) work?\nI guess it does.",
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bf46e9f_6b4e7416",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-24T17:40:39Z",
+      "side": 1,
+      "message": "Presumably we\u0027ve already typecheck\u0027d the make and given errors for things like make([]byte, -1)?",
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8a4b11d_4143d796",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-24T17:40:39Z",
+      "side": 1,
+      "message": "Should this be length?",
+      "range": {
+        "startLine": 1371,
+        "startChar": 26,
+        "endLine": 1371,
+        "endChar": 32
+      },
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "571a4d42_faaf6b1e",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1372,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-05-24T17:40:39Z",
+      "side": 1,
+      "message": "runtime.newarray uses overflow-checked multiplication. Do we need to do that here?",
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
