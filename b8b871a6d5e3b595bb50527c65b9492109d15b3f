@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d39d6048_c7b5a5b2",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3066,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2019-05-24T19:00:39Z",
+      "side": 1,
+      "message": "I would use cheapexpr instead of copyexpr. We should probably also apply it to l, since l gets used twice below, and it\u0027ll ensure we prefer panics in the LHS over the RHS. (Not required by the spec, but avoids changing user-visible behavior.)\n\nLastly, add a comment that cheapexpr on r preserves side-effects in case of short-circuiting and reference the issue.",
+      "range": {
+        "startLine": 3066,
+        "startChar": 6,
+        "endLine": 3066,
+        "endChar": 14
+      },
+      "revId": "b8b871a6d5e3b595bb50527c65b9492109d15b3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01defaed_453c73a7",
+        "filename": "test/fixedbugs/issue32187.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2019-05-24T19:00:39Z",
+      "side": 1,
+      "message": "nit: Technically this is a \"type assertion\".",
+      "revId": "b8b871a6d5e3b595bb50527c65b9492109d15b3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
