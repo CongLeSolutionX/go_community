@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad03e295_70ef2168",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-24T16:51:48Z",
+      "side": 1,
+      "message": "Just FYI, this local variable is going away in CL 177958 anyway.",
+      "revId": "7885f9ca9447db3dbeab10421be6a95eadbe58e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
