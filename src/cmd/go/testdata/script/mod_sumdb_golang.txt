@@ -15,11 +15,23 @@ env GOSUMDB=sum.golang.org
 env GOPROXY=direct
 go get -m rsc.io/quote
 
-# download from proxy.golang.org
+# download from proxy.golang.org with go.sum entry already
 go clean -modcache
-env GOSUMDB='sum.golang.org https://sum.golang.org' # TODO remove URL
-env GOPROXY=https://proxy.golang.org
-go get -m rsc.io/quote
+env GOSUMDB=
+env GOPROXY=
+go get -x -m rsc.io/quote
+! stderr github
+stderr proxy.golang.org/rsc.io/quote
+! stderr sum.golang.org/tile
+! stderr sum.golang.org/lookup/rsc.io/quote
+
+# download again, using checksum database to validate new go.sum lines
+rm go.sum
+go get -x -m rsc.io/quote
+! stderr github
+stderr proxy.golang.org/rsc.io/quote
+stderr sum.golang.org/tile
+stderr sum.golang.org/lookup/rsc.io/quote
 
 -- go.mod --
 module m

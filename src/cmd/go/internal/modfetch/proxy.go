@@ -84,7 +84,7 @@ cached module versions with GOPROXY=https://example.com/proxy.
 `,
 }
 
-var proxyURL = cfg.Getenv("GOPROXY")
+var proxyURL = cfg.GOPROXY
 
 // SetProxy sets the proxy to use when fetching modules.
 // It accepts the same syntax as the GOPROXY environment variable,
