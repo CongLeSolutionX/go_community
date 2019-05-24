@@ -3063,6 +3063,9 @@ func walkcompare(n *Node, init *Nodes) *Node {
 	}
 
 	if l != nil {
+		// cheapexpr on r preserves side-effects
+		// in case of short-circuiting, see #issue32187.
+		r = cheapexpr(r, init)
 		// Handle both == and !=.
 		eq := n.Op
 		andor := OOROR
