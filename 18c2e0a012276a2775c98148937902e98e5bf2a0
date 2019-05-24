@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c761ee_1052cb22",
+        "filename": "src/syscall/js/js_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-24T01:03:21Z",
+      "side": 1,
+      "message": "copyTests",
+      "revId": "18c2e0a012276a2775c98148937902e98e5bf2a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed40a0c3_12965777",
+        "filename": "src/syscall/js/js_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-24T01:03:21Z",
+      "side": 1,
+      "message": "This violates https://github.com/golang/go/wiki/CodeReviewComments#useful-test-failures in that there are two test cases in which want is 3 and on a failure it won\u0027t be obvious which case failed.\n\nSo either include more context here (srcLen), or the more popular option these days is to encode the test parameters in a subtest name:\n\n    for _, tt :\u003d range copytests {\n           t.Run(fmt.Sprintf(\"%d-to-%d\", tt.srcLen, tt.dstLen), func(t *testing.T) {\n                   ....",
+      "revId": "18c2e0a012276a2775c98148937902e98e5bf2a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63a20326_310f4ba5",
+        "filename": "src/syscall/js/js_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-24T01:03:21Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "18c2e0a012276a2775c98148937902e98e5bf2a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
