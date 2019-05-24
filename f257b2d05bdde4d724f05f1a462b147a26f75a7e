@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fb59034_591ae064",
+        "filename": "src/net/lookup_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-05-24T11:08:48Z",
+      "side": 1,
+      "message": "Contents of err will not be helpful here. When command fails, you want to see at least stderr and, probably, stdout, to be able to tell what the problem is.\n\nI think you are better off using os/exec.Cmd.CombinedOutput insted.",
+      "revId": "f257b2d05bdde4d724f05f1a462b147a26f75a7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
