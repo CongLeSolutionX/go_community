@@ -3063,6 +3063,7 @@ func walkcompare(n *Node, init *Nodes) *Node {
 	}
 
 	if l != nil {
+		r = copyexpr(r, r.Type, init)
 		// Handle both == and !=.
 		eq := n.Op
 		andor := OOROR
