@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "39be2155_193f7063",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2019-05-24T21:13:51Z",
+      "side": 1,
+      "message": "Something that would certainly benefit from a high level ssa with calls. Then we could just check if one of the args of copy is a make directly after some pruning passes have run.",
+      "parentUuid": "0b3f0aab_7f30ad7e",
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb4023de_3d9a34ac",
         "filename": "src/cmd/compile/internal/gc/order.go",
         "patchSetId": 4
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "1ecd6dae_1c5ad7ad",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2019-05-24T21:13:51Z",
+      "side": 1,
+      "message": "yes nil is treated as no operation needed in o.stmt.\nhttps://github.com/golang/go/blob/496b8dbbfcd39cc51e1dfc1e9be90b7e61179009/src/cmd/compile/internal/gc/order.go#L495",
+      "parentUuid": "eb4023de_3d9a34ac",
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4bf46e9f_6b4e7416",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 4
@@ -70,6 +106,24 @@
       "writtenOn": "2019-05-24T17:40:39Z",
       "side": 1,
       "message": "Presumably we\u0027ve already typecheck\u0027d the make and given errors for things like make([]byte, -1)?",
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f052f86_3ac95186",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2019-05-24T21:13:51Z",
+      "side": 1,
+      "message": "yes typecheck already made sure that make and copy supplied by users make sense individually (see top comment near case OMAKESLICECOPY).\nThis is defensive in case we introduce a OMAKESLICECOPY node within the compiler directly.",
+      "parentUuid": "4bf46e9f_6b4e7416",
       "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -110,6 +164,24 @@
       "writtenOn": "2019-05-24T17:40:39Z",
       "side": 1,
       "message": "runtime.newarray uses overflow-checked multiplication. Do we need to do that here?",
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa1674d9_32d01e9b",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1372,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2019-05-24T21:13:51Z",
+      "side": 1,
+      "message": "I dont think so. The from slice already exists with len(from)*type.Width. Since len(from)\u003d\u003dlen(to) then len(to)*type.Width should be safe too.\nWill extend the comment here.",
+      "parentUuid": "571a4d42_faaf6b1e",
       "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
