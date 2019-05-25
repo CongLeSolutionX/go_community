@@ -22,6 +22,63 @@
       "revId": "7ebc21df82066f0e8dbbc83827f475f575707d74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92b6dc30_35c844e8",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-25T22:00:50Z",
+      "side": 1,
+      "message": "I think this comment is not very clear. When using soft float, for float/complex types, it is not that it will panic, but it actually has a call. Maybe: Integer divisions may panic; when using soft-float, float/complex divisions will be rewritten to function calls.",
+      "revId": "7ebc21df82066f0e8dbbc83827f475f575707d74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38c5ce37_46b761bc",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-25T22:00:50Z",
+      "side": 1,
+      "message": "We should also handle complex. Maybe just do isInt (without negation).",
+      "range": {
+        "startLine": 989,
+        "startChar": 27,
+        "endLine": 989,
+        "endChar": 34
+      },
+      "revId": "7ebc21df82066f0e8dbbc83827f475f575707d74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e58ead4c_4ff7f27b",
+        "filename": "test/fixedbugs/issue28698.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-25T22:00:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this test is for. In the test case below it will not panic regardless. And the test passes without the fix.",
+      "revId": "7ebc21df82066f0e8dbbc83827f475f575707d74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
