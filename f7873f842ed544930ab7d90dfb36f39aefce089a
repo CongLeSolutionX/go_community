@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ae27361_93712472",
+        "filename": "test/fixedbugs/issue32187.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-25T18:13:57Z",
+      "side": 1,
+      "message": "not sure why this one and type-assertion have hyphens. Remove them so they\u0027re all consistent?",
+      "range": {
+        "startLine": 22,
+        "startChar": 10,
+        "endLine": 22,
+        "endChar": 11
+      },
+      "revId": "f7873f842ed544930ab7d90dfb36f39aefce089a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffbf3f63_f6951a51",
+        "filename": "test/fixedbugs/issue32187.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-25T18:13:57Z",
+      "side": 1,
+      "message": "typo: conversion",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "f7873f842ed544930ab7d90dfb36f39aefce089a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cd5ea87_d68dcddd",
+        "filename": "test/fixedbugs/issue32187.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-05-25T18:13:57Z",
+      "side": 1,
+      "message": "bounds",
+      "revId": "f7873f842ed544930ab7d90dfb36f39aefce089a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
