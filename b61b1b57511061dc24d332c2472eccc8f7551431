@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4d0682c_bbf7e206",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1200,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-25T17:43:37Z",
+      "side": 1,
+      "message": "I think we need to skip the test if cgo is not enabled.",
+      "revId": "b61b1b57511061dc24d332c2472eccc8f7551431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90ecf58f_dd80656c",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-25T17:43:37Z",
+      "side": 1,
+      "message": "No need to defer at this point.",
+      "revId": "b61b1b57511061dc24d332c2472eccc8f7551431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57bc0931_7f8bdc9a",
+        "filename": "src/cmd/link/internal/ld/testdata/issue32233/lib/ObjC.m",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-25T17:43:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure what is the preferred style for obj-C, but this indentation looks rather weird...",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "b61b1b57511061dc24d332c2472eccc8f7551431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1aaaf92_ae6ff206",
+        "filename": "src/cmd/link/internal/ld/testdata/issue32233/main/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-05-25T17:43:37Z",
+      "side": 1,
+      "message": "I guess this works on both GOPATH mode and module mode?",
+      "revId": "b61b1b57511061dc24d332c2472eccc8f7551431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
