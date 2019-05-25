@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "77f22827_1320720f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-05-25T11:01:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ba15e0c_b2ee49a5",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b3f0aab_7f30ad7e",
         "filename": "src/cmd/compile/internal/gc/order.go",
         "patchSetId": 4
@@ -150,6 +174,30 @@
       "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cca6c30_095498cc",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-05-25T11:01:12Z",
+      "side": 1,
+      "message": "makes an additional unneeded type conversion but indeed readds better.",
+      "parentUuid": "e8a4b11d_4143d796",
+      "range": {
+        "startLine": 1371,
+        "startChar": 26,
+        "endLine": 1371,
+        "endChar": 32
+      },
+      "revId": "634d457600093a0a93bedf3d7f9ac5cddc60af81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
