@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ac76c05_212184ac",
+        "filename": "test/fixedbugs/issue32187.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-05-26T06:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ae27361_93712472",
+      "range": {
+        "startLine": 22,
+        "startChar": 10,
+        "endLine": 22,
+        "endChar": 11
+      },
+      "revId": "f7873f842ed544930ab7d90dfb36f39aefce089a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffbf3f63_f6951a51",
         "filename": "test/fixedbugs/issue32187.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "27cf2fef_cc5c8402",
+        "filename": "test/fixedbugs/issue32187.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-05-26T06:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffbf3f63_f6951a51",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "f7873f842ed544930ab7d90dfb36f39aefce089a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cd5ea87_d68dcddd",
         "filename": "test/fixedbugs/issue32187.go",
         "patchSetId": 2
@@ -62,6 +110,24 @@
       "revId": "f7873f842ed544930ab7d90dfb36f39aefce089a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75e97880_c50e74c4",
+        "filename": "test/fixedbugs/issue32187.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-05-26T06:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cd5ea87_d68dcddd",
+      "revId": "f7873f842ed544930ab7d90dfb36f39aefce089a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
