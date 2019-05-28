@@ -354,6 +354,10 @@ forces a direct connection to download modules with path prefixes matching
 either pattern, including "git.corp.example.com/xyzzy", "rsc.io/private",
 and "rsc.io/private/quux".
 
+The GOSUMDB environment variable identifies the name of checksum database
+to use and optionally its public key and URL. To also disable use of the
+checksum database for module patterns, set GONOSUMDB. See 'go help module-auth'.
+
 The 'go env -w' command (see 'go help env') can be used to set these variables
 for future go command invocations.
 
