@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3860e593_ae977855",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-28T20:15:03Z",
+      "side": 1,
+      "message": "Internal tabs in weird places (here, 515, and 522).",
+      "range": {
+        "startLine": 514,
+        "startChar": 25,
+        "endLine": 514,
+        "endChar": 26
+      },
+      "revId": "b39662193056c99ad10f5cb7d65f0184c4ad049a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c3eb3c9_922e3770",
+        "filename": "src/cmd/go/internal/modload/help.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-28T20:15:03Z",
+      "side": 1,
+      "message": "This paragraph seems out-of-place to me.\n\nI agree in concept that we should mention GONOSUMDB alongside GONOPROXY, but perhaps we could be more concise here:\n\nTo also disable use of the checksum database for those patterns,\nset GONOSUMDB (see \u0027go help module-auth\u0027).",
+      "range": {
+        "startLine": 357,
+        "startChar": 0,
+        "endLine": 360,
+        "endChar": 22
+      },
+      "revId": "b39662193056c99ad10f5cb7d65f0184c4ad049a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
