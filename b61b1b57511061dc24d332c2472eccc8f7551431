@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea33334b_1b02e0eb",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1200,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-05-28T20:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d0682c_bbf7e206",
+      "revId": "b61b1b57511061dc24d332c2472eccc8f7551431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90ecf58f_dd80656c",
         "filename": "src/cmd/link/internal/ld/dwarf_test.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "b61b1b57511061dc24d332c2472eccc8f7551431",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c3fbc0c_b835e1d6",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-05-28T20:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90ecf58f_dd80656c",
+      "revId": "b61b1b57511061dc24d332c2472eccc8f7551431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "417e5c55_ddd4bd80",
+        "filename": "src/cmd/link/internal/ld/testdata/issue32233/lib/ObjC.m",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-05-28T20:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57bc0931_7f8bdc9a",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "b61b1b57511061dc24d332c2472eccc8f7551431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1aaaf92_ae6ff206",
         "filename": "src/cmd/link/internal/ld/testdata/issue32233/main/main.go",
         "patchSetId": 3
@@ -73,6 +133,24 @@
       "revId": "b61b1b57511061dc24d332c2472eccc8f7551431",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48fa62d2_0f57ac14",
+        "filename": "src/cmd/link/internal/ld/testdata/issue32233/main/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-05-28T20:15:45Z",
+      "side": 1,
+      "message": "This is patterned after other similar tests in this module, so yes, it should work. I verified that it does the right thing both with and without GO111MODULE\u003doff.",
+      "parentUuid": "c1aaaf92_ae6ff206",
+      "revId": "b61b1b57511061dc24d332c2472eccc8f7551431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
