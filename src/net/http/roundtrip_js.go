@@ -12,6 +12,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"syscall/js"
@@ -185,7 +186,7 @@ var errClosed = errors.New("net/http: reader is closed")
 // useFakeNetwork is used to determine whether the request is made
 // by a test and should be made to use the fake in-memory network.
 func useFakeNetwork() bool {
-	return len(os.Args) > 0 && strings.HasSuffix(os.Args[0], ".test")
+	return len(os.Args) > 0 && strings.HasSuffix(os.Args[0], ".test") && filepath.Base(os.Args[0]) == "node"
 }
 
 // streamReader implements an io.ReadCloser wrapper for ReadableStream.
