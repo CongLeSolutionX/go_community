@@ -1183,7 +1183,7 @@ func (r *mvsReqs) required(mod module.Version) ([]module.Version, error) {
 		return nil, fmt.Errorf("%s@%s: parsing go.mod: missing module line", mod.Path, mod.Version)
 	}
 	if mpath := f.Module.Mod.Path; mpath != origPath && mpath != mod.Path {
-		return nil, fmt.Errorf("%s@%s: parsing go.mod: unexpected module path %q", mod.Path, mod.Version, mpath)
+		return nil, fmt.Errorf("%s@%s: module name %q in go.mod file does not match name used in import path", mod.Path, mod.Version, mpath)
 	}
 	if f.Go != nil {
 		r.versions.LoadOrStore(mod, f.Go.Version)
