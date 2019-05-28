@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "60b00ee0_63151710",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3066,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-05-28T19:42:29Z",
+      "side": 1,
+      "message": "Yes, we want to prioritize panics in the LHS over the RHS. For example,\n\n    var l *interface{}\n    var r []*int\n    _ \u003d *l \u003d\u003d r[0]\n\nshould panic because of a nil pointer dereference, not a slice out of bounds. If we call cheapexpr on r but not on l (or before l), then any panics in r will take priority.\n\nBut thank you for reminding me about the swap above. We actually need to call cheapexpr(n.Left) before cheapexpr(n.Right). So let\u0027s change this code to:\n\n    // Given mixed interface/concrete comparison,\n    // rewrite into types-equal \u0026\u0026 data-equal.\n    // This is efficient, avoids allocations, and avoids runtime calls.\n    if n.Left.Type.IsInterface() !\u003d n.Right.Type.IsInterface() {\n        // Preserve side-effects in case of short-circuiting; see #32187.\n        l :\u003d cheapexpr(n.Left, init)\n        r :\u003d cheapexpr(n.Right, init)\n\n        // Swap so that l is the interface value and r is the concrete value.\n        if n.Right.Type.IsInterface() {\n            l, r \u003d r, l\n        }\n\n        // Handle both \u003d\u003d and !\u003d.\n        ...\n        return n\n    }",
+      "parentUuid": "26199b54_3c052440",
+      "range": {
+        "startLine": 3066,
+        "startChar": 6,
+        "endLine": 3066,
+        "endChar": 14
+      },
+      "revId": "b8b871a6d5e3b595bb50527c65b9492109d15b3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01defaed_453c73a7",
         "filename": "test/fixedbugs/issue32187.go",
         "patchSetId": 1
