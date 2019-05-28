@@ -171,7 +171,7 @@ func newProxyRepo(baseURL, path string) (Repo, error) {
 			return nil, fmt.Errorf("invalid file:// proxy URL with non-path elements: %s", web.Redacted(base))
 		}
 	case "":
-		return nil, fmt.Errorf("invalid proxy URL missing scheme: %s", web.Redacted(base))
+		base.Scheme = "https"
 	default:
 		return nil, fmt.Errorf("invalid proxy URL scheme (must be https, http, file): %s", web.Redacted(base))
 	}
