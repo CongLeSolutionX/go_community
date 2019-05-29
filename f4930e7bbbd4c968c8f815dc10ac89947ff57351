@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f04bc60_69a61181",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-05-29T18:23:50Z",
+      "side": 1,
+      "message": "s/help goproxy/help modules/",
+      "revId": "f4930e7bbbd4c968c8f815dc10ac89947ff57351",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30731010_3c50c4a7",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-05-29T18:23:50Z",
+      "side": 1,
+      "message": "See \u0027go help modules\u0027.",
+      "revId": "f4930e7bbbd4c968c8f815dc10ac89947ff57351",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16642059_c5e507d3",
+        "filename": "src/cmd/go/internal/modload/help.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-05-29T18:23:50Z",
+      "side": 1,
+      "message": "This paragraph is out of place and confusing. The reader has no idea what the checksum database is, why it has a public key, and why you\u0027d disable it. Lines 364-368 introduce that and have the pointer to the details in \u0027go help module-auth\u0027 already.\n\nIf you want to mention the environment variables, I suggest deleting this paragraph and changing line 367 to end with\n\n\"falls back to the Go checksum database, controlled by the GOSUMDB and GONOSUMDB environment variables.\"",
+      "revId": "f4930e7bbbd4c968c8f815dc10ac89947ff57351",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
