@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bbc063b1_45335a52",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-05-29T15:38:58Z",
+      "side": 1,
+      "message": "Done. Good catch.",
+      "parentUuid": "3860e593_ae977855",
+      "range": {
+        "startLine": 514,
+        "startChar": 25,
+        "endLine": 514,
+        "endChar": 26
+      },
+      "revId": "b39662193056c99ad10f5cb7d65f0184c4ad049a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c3eb3c9_922e3770",
         "filename": "src/cmd/go/internal/modload/help.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "b39662193056c99ad10f5cb7d65f0184c4ad049a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aff5d6b5_606aaf6d",
+        "filename": "src/cmd/go/internal/modload/help.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 24659
+      },
+      "writtenOn": "2019-05-29T15:38:58Z",
+      "side": 1,
+      "message": "Kept the sentence about GOSUMDB since it seems relevant here. Updated the GONOSUMDB sentence based on yours.",
+      "parentUuid": "6c3eb3c9_922e3770",
+      "range": {
+        "startLine": 357,
+        "startChar": 0,
+        "endLine": 360,
+        "endChar": 22
+      },
+      "revId": "b39662193056c99ad10f5cb7d65f0184c4ad049a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
