@@ -309,8 +309,20 @@ func ggloblsym(s *obj.LSym, width int32, flags int16) {
 func isfat(t *types.Type) bool {
 	if t != nil {
 		switch t.Etype {
-		case TSTRUCT, TARRAY, TSLICE, TSTRING,
+		case TSLICE, TSTRING,
 			TINTER: // maybe remove later
+			return true
+		case TARRAY:
+			// Array of 1 element, check if element is fat
+			if t.NumElem() == 1 {
+				return isfat(t.Elem())
+			}
+			return true
+		case TSTRUCT:
+			// Struct with 1 field, check if field is fat
+			if t.NumFields() == 1 {
+				return isfat(t.Field(0).Type)
+			}
 			return true
 		}
 	}
