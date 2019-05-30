@@ -46,6 +46,30 @@
       "revId": "1294417a9d7ae14f8f8413490b94865e25da2bd0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3d1698c_91b06ec7",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2019-05-30T11:23:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "656edf52_f997a931",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "1294417a9d7ae14f8f8413490b94865e25da2bd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
