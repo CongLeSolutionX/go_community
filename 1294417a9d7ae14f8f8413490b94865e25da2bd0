@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b9756ab_306e14ae",
+        "filename": "src/net/http/roundtrip_js.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-05-30T10:27:37Z",
+      "side": 1,
+      "message": "The spec says:\n\u003e If multiple packages import a package, the imported package will be initialized only once.\n\nWondering whether we still need a sync.Once ?",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "1294417a9d7ae14f8f8413490b94865e25da2bd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
