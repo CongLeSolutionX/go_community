@@ -142,10 +142,17 @@ func GCPhys() {
 	// scavenging and scavenge most, if not all, of the large holes we created
 	// earlier.
 	const (
-		// Size must be also large enough to be considered a large
-		// object (not in any size-segregated span).
-		size    = 4 << 20
-		split   = 64 << 10
+		// size must be large enough to be considered a large object (not in any
+		// size-segregated span).
+		// split must be a sufficiently large multiple of the runtime page size (e.g. 8).
+		// If split is too small, then what could happen is that a small number of other
+		// allocations could cause whole pages to be allocated with a high degree of
+		// fragmentation, and this could significantly skew the test.
+		// The ratio of size to split must then be sufficiently large such that split
+		// represents far less than the threshold the test checks for (e.g. 1/64th).
+		// This test uses at worst 2*size*objects bytes of memory.
+		size    = 32 << 20
+		split   = 512 << 10
 		objects = 2
 	)
 	// Set GOGC so that this test operates under consistent assumptions.
