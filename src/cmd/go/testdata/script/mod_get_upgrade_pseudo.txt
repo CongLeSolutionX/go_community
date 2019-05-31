@@ -7,11 +7,17 @@ env GO111MODULE=on
 # Only v0.1.0 is tagged.
 #
 # The latest pseudo-version is semantically higher than the latest tag.
-# 'get -u' should not downgrade to the (lower) tagged version.
 
+# 'get -u' should not downgrade to the (lower) tagged version.
 go get -d example.com/pseudoupgrade@b5426c8
-go get -u
+go get -d -u
 go list -m -u all
+stdout '^example.com/pseudoupgrade v0.1.1-0.20190429073117-b5426c86b553$'
+
+# 'get example.com/pseudoupgrade@latest' should not downgrade to
+# the (lower) tagged version.
+go get -d example.com/pseudoupgrade@latest
+go list -m all
 stdout '^example.com/pseudoupgrade v0.1.1-0.20190429073117-b5426c86b553$'
 
 -- go.mod --

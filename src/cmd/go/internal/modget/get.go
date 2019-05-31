@@ -266,7 +266,12 @@ func runGet(cmd *base.Command, args []string) {
 		base.Fatalf("go get: disabled by -mod=%s", cfg.BuildMod)
 	}
 
-	modload.LoadBuildList()
+	buildList := modload.LoadBuildList()
+	buildList = buildList[:len(buildList):len(buildList)] // copy on append
+	versionByPath := make(map[string]string)
+	for _, m := range buildList {
+		versionByPath[m.Path] = m.Version
+	}
 
 	// Do not allow any updating of go.mod until we've applied
 	// all the requested changes and checked that the result matches
@@ -356,18 +361,26 @@ func runGet(cmd *base.Command, args []string) {
 				continue
 			}
 
-			if vers == "patch" {
-				// We need to know the previous version of the module to find
-				// the new version, but we don't know what module provides this
-				// package yet. Wait until we load packages later.
-				// TODO(golang.org/issue/30634): @latest should also depend on
-				// the current version to prevent downgrading from newer pseudoversions.
-			} else {
-				// The requested version of path doesn't depend on the existing version,
-				// so query the module before loading the package. This may let us
-				// load the package only once at the correct version.
-				queries = append(queries, &query{querySpec: querySpec{path: path, vers: vers}, arg: arg})
+			first := path
+			if i := strings.IndexByte(first, '/'); i >= 0 {
+				first = path
 			}
+			if !strings.Contains(first, ".") {
+				// The path doesn't have a dot in the first component and cannot be
+				// queried. It may be a package in the standard library, so wait until
+				// package loading to report an error.
+				continue
+			}
+
+			// If we're querying "latest" or "patch", we need to know the previous
+			// version of the module. For "latest", we want to avoid accidentally
+			// downgrading from a newer prerelease. For "patch", we need to query
+			// the correct minor version.
+			q := &query{querySpec: querySpec{path: path, vers: vers}, arg: arg}
+			if v, ok := versionByPath[path]; ok {
+				q.prevM = module.Version{Path: path, Version: v}
+			}
+			queries = append(queries, q)
 		}
 	}
 	base.ExitIfErrors()
@@ -380,9 +393,25 @@ func runGet(cmd *base.Command, args []string) {
 	queryCache := make(map[querySpec]*query)
 	byPath := runQueries(queryCache, queries, nil)
 
-	// Add queried modules to the build list. This prevents some additional
+	// Add missing modules to the build list. This prevents some additional
 	// lookups for modules at "latest" when we load packages later.
-	buildList, err := mvs.UpgradeAll(modload.Target, newUpgrader(byPath, nil))
+	for _, q := range queries {
+		if _, ok := versionByPath[q.m.Path]; !ok && q.m.Version != "none" {
+			buildList = append(buildList, q.m)
+		}
+	}
+	versionByPath = nil // out of date now; rebuilt later when needed
+	modload.SetBuildList(buildList)
+
+	// Upgrade modules specifically named on the command line. This may let us
+	// load packages only once.
+	upgrade := make(map[string]*query)
+	for path, q := range byPath {
+		if q.path == q.m.Path && q.m.Version != "none" {
+			upgrade[path] = q
+		}
+	}
+	buildList, err := mvs.UpgradeAll(modload.Target, newUpgrader(upgrade, nil))
 	if err != nil {
 		base.Fatalf("go get: %v", err)
 	}
@@ -538,7 +567,6 @@ func runGet(cmd *base.Command, args []string) {
 
 	// Scan for any upgrades lost by the downgrades.
 	var lostUpgrades []*query
-	var versionByPath map[string]string
 	if len(down) > 0 {
 		versionByPath = make(map[string]string)
 		for _, m := range modload.BuildList() {
@@ -680,6 +708,7 @@ func runQueries(cache map[querySpec]*query, queries []*query, modOnly map[string
 // If forceModulePath is set, getQuery must interpret path
 // as a module path.
 func getQuery(path, vers string, prevM module.Version, forceModulePath bool) (module.Version, error) {
+	shouldCheckUpgrade := (vers == "" || vers == "latest" || vers == "patch") && prevM.Version != ""
 	switch vers {
 	case "":
 		vers = "latest"
@@ -691,6 +720,8 @@ func getQuery(path, vers string, prevM module.Version, forceModulePath bool) (mo
 		}
 	}
 
+	var modPath string
+	var rev *modfetch.RevInfo
 	if forceModulePath || !strings.Contains(path, "...") {
 		if path == modload.Target.Path {
 			if vers != "latest" {
@@ -699,23 +730,31 @@ func getQuery(path, vers string, prevM module.Version, forceModulePath bool) (mo
 		}
 
 		// If the path doesn't contain a wildcard, try interpreting it as a module path.
-		info, err := modload.Query(path, vers, modload.Allowed)
-		if err == nil {
-			return module.Version{Path: path, Version: info.Version}, nil
+		var err error
+		rev, err = modload.Query(path, vers, modload.Allowed)
+		if err != nil && forceModulePath {
+			// If the query fails, and the path must be a real module, report the query error.
+			return module.Version{}, err
+		} else if err == nil {
+			modPath = path
 		}
-
-		// If the query fails, and the path must be a real module, report the query error.
-		if forceModulePath {
+	}
+	if modPath == "" {
+		// Otherwise, try a package path or pattern.
+		results, err := modload.QueryPattern(path, vers, modload.Allowed)
+		if err != nil {
 			return module.Version{}, err
 		}
+		modPath = results[0].Mod.Path
+		rev = results[0].Rev
 	}
 
-	// Otherwise, try a package path or pattern.
-	results, err := modload.QueryPattern(path, vers, modload.Allowed)
-	if err != nil {
-		return module.Version{}, err
+	// If we're upgrading to "latest" or "patch", make sure we don't
+	// accidentally downgrade from a newer prerelease or pseudo-version.
+	if shouldCheckUpgrade {
+		rev.Version = checkUpgrade(rev, prevM.Version)
 	}
-	return results[0].Mod, nil
+	return module.Version{Path: modPath, Version: rev.Version}, nil
 }
 
 // An upgrader adapts an underlying mvs.Reqs to apply an
@@ -866,19 +905,30 @@ func (u *upgrader) Upgrade(m module.Version) (module.Version, error) {
 		return m, nil
 	}
 
-	// If we're on a later prerelease, keep using it,
-	// even though normally an Upgrade will ignore prereleases.
-	if semver.Compare(info.Version, m.Version) < 0 {
-		return m, nil
+	v := checkUpgrade(info, m.Version)
+	return module.Version{Path: m.Path, Version: v}, nil
+}
+
+// checkUpgrade confirms that an upgrade to "latest" or "patch"
+// (including -u and -u=patch) is actually an upgrade. If the current version
+// is a newer prerelease or a chronologically newer pseudo-version
+// than rev.Version, current will be returned. Otherwise,
+// rev.Version (the version returned by modfetch) is returned.
+func checkUpgrade(rev *modfetch.RevInfo, current string) string {
+	// If we're on a later prerelease, keep using it.
+	// modload.Query and similar functions won't return prerelease versions
+	// if non-prerelease versions are available.
+	if semver.Compare(rev.Version, current) < 0 {
+		return current
 	}
 
-	// If we're on a pseudo-version chronologically after the latest tagged version, keep using it.
-	// This avoids some accidental downgrades.
-	if mTime, err := modfetch.PseudoVersionTime(m.Version); err == nil && info.Time.Before(mTime) {
-		return m, nil
+	// If we're on a pseudo-version chronologically after the latest tagged
+	// version, keep using it.
+	if oldTime, err := modfetch.PseudoVersionTime(current); err == nil && rev.Time.Before(oldTime) {
+		return current
 	}
 
-	return module.Version{Path: m.Path, Version: info.Version}, nil
+	return rev.Version
 }
 
 // buildListForLostUpgrade returns the build list for the module graph
