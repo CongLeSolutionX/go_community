@@ -140,12 +140,12 @@ const (
 	_FixAllocChunk = 16 << 10 // Chunk size for FixAlloc
 
 	// Per-P, per order stack segment cache size.
-	_StackCacheSize = 32 * 1024
+	_StackCacheSize = pageSize
 
 	// Number of orders that get caching. Order 0 is FixedStack
 	// and each successive order is twice as large.
-	// We want to cache 2KB, 4KB, 8KB, and 16KB stacks. Larger stacks
-	// will be allocated directly.
+	// We want to cache 2KB, 4KB, 8KB, 16KB and 32KB stacks. Larger
+	// stacks will be allocated directly.
 	// Since FixedStack is different on different systems, we
 	// must vary NumStackOrders to keep the same maximum cached size.
 	//   OS               | FixedStack | NumStackOrders
@@ -154,7 +154,7 @@ const (
 	//   windows/32       | 4KB        | 3
 	//   windows/64       | 8KB        | 2
 	//   plan9            | 4KB        | 3
-	_NumStackOrders = 4 - sys.PtrSize/4*sys.GoosWindows - 1*sys.GoosPlan9
+	_NumStackOrders = 5 - sys.PtrSize/4*sys.GoosWindows - 1*sys.GoosPlan9
 
 	// heapAddrBits is the number of bits in a heap address. On
 	// amd64, addresses are sign-extended beyond heapAddrBits. On

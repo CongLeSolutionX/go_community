@@ -531,7 +531,7 @@ func TestGdbConst(t *testing.T) {
 
 	t.Logf("output %q", sgot)
 
-	if !strings.Contains(sgot, "\n$1 = 42\n$2 = 18446744073709551615\n$3 = -1\n$4 = 1 '\\001'\n$5 = 8192") {
+	if !strings.Contains(sgot, "\n$1 = 42\n$2 = 18446744073709551615\n$3 = -1\n$4 = 1 '\\001'\n$5 = 65536") {
 		t.Fatalf("output mismatch")
 	}
 }

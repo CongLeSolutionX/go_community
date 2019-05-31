@@ -29,9 +29,6 @@ const (
 	// once. Larger objects will be split up into "oblets" of at
 	// most this size. Since we can scan 1–2 MB/ms, 128 KB bounds
 	// scan preemption at ~100 µs.
-	//
-	// This must be > _MaxSmallSize so that the object base is the
-	// span base.
 	maxObletBytes = 128 << 10
 
 	// drainCheckThreshold specifies how many units of work to do
@@ -1116,9 +1113,26 @@ func scanobject(b uintptr, gcw *gcWork) {
 	}
 
 	if n > maxObletBytes {
-		// Large object. Break into oblets for better
-		// parallelism and lower latency.
-		if b == s.base() {
+		// Break object into oblets for better parallelism and lower
+		// latency.
+
+		var objBase uintptr
+		if n > maxSmallSize {
+			// The object is a large object so its base necessarily
+			// coincides with a span's.
+			objBase = s.base()
+		} else {
+			// The object is considered "small" but still large enough
+			// to be broken up into oblets, so compute its base within
+			// the span. This is relatively expensive, but is generally
+			// rare. For objects of this size, we also do this calculation
+			// only for a small number of oblets.
+			objBase = s.objIndex(b)*s.elemsize + s.base()
+		}
+
+		// Only enqueue oblets if this is the first time we've seen
+		// this object (i.e. if b == objBase).
+		if b == objBase {
 			// It's possible this is a noscan object (not
 			// from greyobject, but from other code
 			// paths), in which case we must *not* enqueue
@@ -1135,17 +1149,15 @@ func scanobject(b uintptr, gcw *gcWork) {
 			// these will be marked as "no more pointers",
 			// so we'll drop out immediately when we go to
 			// scan those.
-			for oblet := b + maxObletBytes; oblet < s.base()+s.elemsize; oblet += maxObletBytes {
+			for oblet := b + maxObletBytes; oblet < objBase+s.elemsize; oblet += maxObletBytes {
 				if !gcw.putFast(oblet) {
 					gcw.put(oblet)
 				}
 			}
 		}
 
-		// Compute the size of the oblet. Since this object
-		// must be a large object, s.base() is the beginning
-		// of the object.
-		n = s.base() + s.elemsize - b
+		// Compute the size of the oblet.
+		n = objBase + s.elemsize - b
 		if n > maxObletBytes {
 			n = maxObletBytes
 		}
