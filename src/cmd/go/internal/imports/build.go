@@ -138,6 +138,9 @@ func matchTag(name string, tags map[string]bool, want bool) bool {
 	if name == "linux" {
 		have = have || tags["android"]
 	}
+	if name == "illumos" {
+		have = have || tags["solaris"]
+	}
 	return have == want
 }
 
@@ -152,7 +155,8 @@ func matchTag(name string, tags map[string]bool, want bool) bool {
 //     name_$(GOARCH)_test.*
 //     name_$(GOOS)_$(GOARCH)_test.*
 //
-// An exception: if GOOS=android, then files with GOOS=linux are also matched.
+// Two exceptions: if GOOS=android, then files with GOOS=linux are also matched;
+// if GOOS=illumos, then files with GOOS=solaris are matched as well.
 //
 // If tags["*"] is true, then MatchFile will consider all possible
 // GOOS and GOARCH to be available and will consequently

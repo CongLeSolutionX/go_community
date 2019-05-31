@@ -21,6 +21,9 @@ func loadTags() map[string]bool {
 		cfg.BuildContext.GOARCH:   true,
 		cfg.BuildContext.Compiler: true,
 	}
+	if cfg.BuildContext.GOOS == "illumos" {
+		tags["solaris"] = true
+	}
 	if cfg.BuildContext.CgoEnabled {
 		tags["cgo"] = true
 	}
