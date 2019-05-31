@@ -19,7 +19,7 @@ const (
 	//
 	// Larger values reduce workbuf allocation overhead. Smaller
 	// values reduce heap fragmentation.
-	workbufAlloc = 32 << 10
+	workbufAlloc = 64 << 10
 )
 
 // throwOnGCWork causes any operations that add pointers to a gcWork
