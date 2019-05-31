@@ -16,6 +16,24 @@
       "revId": "7d781ef6b55fd1a7337abc8a131d27f21705332c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8fcb4a4_26fd90a0",
+        "filename": "src/cmd/go/internal/imports/tags.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 31975
+      },
+      "writtenOn": "2019-05-31T20:08:41Z",
+      "side": 1,
+      "message": "I came across this issue while trying to build something that uses modules.  In the Makefile for that project, a \"go list\" is run (for whatever reason) and that was failing with the illumos/amd64 toolchain, but not the solaris/amd64 toolchain.  The failure is the same:\n\n    cannot find module for path golang.org/x/sys/unix\n\nAdding this causes the package cache bits to work correctly for that module, which I guess contains a bunch of GOOS-specific bits and perhaps no default implementation.",
+      "parentUuid": "522ede9f_1c7063a4",
+      "revId": "7d781ef6b55fd1a7337abc8a131d27f21705332c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
