@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "522ede9f_1c7063a4",
+        "filename": "src/cmd/go/internal/imports/tags.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-05-31T19:33:27Z",
+      "side": 1,
+      "message": "Given that we don\u0027t set \u0027tags[\"linux\"] \u003d true\u0027 when \u0027cfg.BuildContext.GOOS \u003d\u003d \"android\"\u0027, it seems like we can skip this. It should be covered by the special cases in go/build/build.go and in cmd/go/internal/imports/build.go.",
+      "revId": "7d781ef6b55fd1a7337abc8a131d27f21705332c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
