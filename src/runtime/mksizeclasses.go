@@ -74,11 +74,13 @@ func main() {
 
 const (
 	// Constants that we use and will transfer to the runtime.
-	maxSmallSize = 32 << 10
+	maxSmallSize = 256 << 10
 	smallSizeDiv = 8
 	smallSizeMax = 1024
+	//midSizeDiv   = 128
+	//midSizeMax   = 32 << 10
 	largeSizeDiv = 128
-	pageShift    = 13
+	pageShift    = 16
 
 	// Derived constants.
 	pageSize = 1 << pageShift
@@ -106,7 +108,11 @@ func makeClasses() []class {
 	align := 8
 	for size := align; size <= maxSmallSize; size += align {
 		if powerOfTwo(size) { // bump alignment once in a while
-			if size >= 2048 {
+			if size >= 128<<10 {
+				align = 32 << 10
+			} else if size >= 16<<10 {
+				align = 4096
+			} else if size >= 2048 {
 				align = 256
 			} else if size >= 128 {
 				align = size / 8
@@ -157,7 +163,7 @@ func makeClasses() []class {
 		}
 	}
 
-	if len(classes) != 67 {
+	if len(classes) != 83 {
 		panic("number of size classes has changed")
 	}
 
@@ -185,10 +191,10 @@ func computeDivMagic(c *class) {
 	if powerOfTwo(d) {
 		// If the size is a power of two, heapBitsForObject can divide even faster by masking.
 		// Compute this mask.
-		if max >= 1<<16 {
+		if max >= 1<<32 {
 			panic("max too big for power of two size")
 		}
-		c.mask = 1<<16 - d
+		c.mask = 1<<32 - d
 	}
 
 	// Compute pre-shift by factoring power of 2 out of d.
@@ -263,12 +269,14 @@ func printClasses(w io.Writer, classes []class) {
 	fmt.Fprintf(w, "_MaxSmallSize = %d\n", maxSmallSize)
 	fmt.Fprintf(w, "smallSizeDiv = %d\n", smallSizeDiv)
 	fmt.Fprintf(w, "smallSizeMax = %d\n", smallSizeMax)
+	//fmt.Fprintf(w, "midSizeDiv = %d\n", midSizeDiv)
+	//fmt.Fprintf(w, "midSizeMax = %d\n", midSizeMax)
 	fmt.Fprintf(w, "largeSizeDiv = %d\n", largeSizeDiv)
 	fmt.Fprintf(w, "_NumSizeClasses = %d\n", len(classes))
 	fmt.Fprintf(w, "_PageShift = %d\n", pageShift)
 	fmt.Fprintln(w, ")")
 
-	fmt.Fprint(w, "var class_to_size = [_NumSizeClasses]uint16 {")
+	fmt.Fprint(w, "var class_to_size = [_NumSizeClasses]uint32 {")
 	for _, c := range classes {
 		fmt.Fprintf(w, "%d,", c.size)
 	}
@@ -284,7 +292,7 @@ func printClasses(w io.Writer, classes []class) {
 	fmt.Fprintln(w, "  shift uint8")
 	fmt.Fprintln(w, "  shift2 uint8")
 	fmt.Fprintln(w, "  mul uint16")
-	fmt.Fprintln(w, "  baseMask uint16")
+	fmt.Fprintln(w, "  baseMask uint32")
 	fmt.Fprintln(w, "}")
 	fmt.Fprint(w, "var class_to_divmagic = [_NumSizeClasses]divMagic {")
 	for _, c := range classes {
@@ -309,7 +317,7 @@ func printClasses(w io.Writer, classes []class) {
 	}
 	fmt.Fprintln(w, "}")
 
-	// map from size to size class, for large sizes.
+	// map from size to size class, for middle sizes.
 	sc = make([]int, (maxSmallSize-smallSizeMax)/largeSizeDiv+1)
 	for i := range sc {
 		size := smallSizeMax + i*largeSizeDiv
@@ -325,4 +333,23 @@ func printClasses(w io.Writer, classes []class) {
 		fmt.Fprintf(w, "%d,", v)
 	}
 	fmt.Fprintln(w, "}")
+
+	/*
+		// map from size to size class, for large sizes.
+		sc = make([]int, (maxSmallSize-midSizeMax)/largeSizeDiv+1)
+		for i := range sc {
+			size := midSizeMax + i*largeSizeDiv
+			for j, c := range classes {
+				if c.size >= size {
+					sc[i] = j
+					break
+				}
+			}
+		}
+		fmt.Fprint(w, "var size_to_class2048 = [(_MaxSmallSize-midSizeMax)/largeSizeDiv+1]uint8 {")
+		for _, v := range sc {
+			fmt.Fprintf(w, "%d,", v)
+		}
+		fmt.Fprintln(w, "}")
+	*/
 }
