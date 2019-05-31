@@ -34,6 +34,24 @@
       "revId": "7d781ef6b55fd1a7337abc8a131d27f21705332c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad4a5951_1368b7d6",
+        "filename": "src/cmd/go/internal/imports/tags.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-05-31T21:12:40Z",
+      "side": 1,
+      "message": "I think at the very least we need to explain why this isn\u0027t necessary for the \"android\" GOOS.\n(I don\u0027t see any files with Android-specific build tags in that package.)",
+      "parentUuid": "b8fcb4a4_26fd90a0",
+      "revId": "7d781ef6b55fd1a7337abc8a131d27f21705332c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
