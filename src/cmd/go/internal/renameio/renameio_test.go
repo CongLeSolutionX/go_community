@@ -2,43 +2,53 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package renameio writes files atomically by renaming temporary files.
-
-//+build !nacl,!plan9,!windows,!js
-
 package renameio
 
 import (
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"path/filepath"
-	"syscall"
+	"sync"
 	"testing"
+	"time"
 )
 
-func TestWriteFileModeAppliesUmask(t *testing.T) {
+func TestConcurrentReadsAndWrites(t *testing.T) {
 	dir, err := ioutil.TempDir("", "renameio")
 	if err != nil {
-		t.Fatalf("Failed to create temporary directory: %v", err)
-	}
-
-	const mode = 0644
-	const umask = 0007
-	defer syscall.Umask(syscall.Umask(umask))
-
-	file := filepath.Join(dir, "testWrite")
-	err = WriteFile(file, []byte("go-build"), mode)
-	if err != nil {
-		t.Fatalf("Failed to write file: %v", err)
+		t.Fatal(err)
 	}
 	defer os.RemoveAll(dir)
+	path := filepath.Join(dir, "blob.bin")
 
-	fi, err := os.Stat(file)
-	if err != nil {
-		t.Fatalf("Stat %q (looking for mode %#o): %s", file, mode, err)
+	chunkLen := 64 << 10
+	buf := make([]byte, chunkLen*2)
+	rand.Read(buf)
+
+	n := 1000
+	var wg sync.WaitGroup
+	for ; n > 0; n-- {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+
+			time.Sleep(time.Duration(rand.Intn(100)) * time.Microsecond)
+			offset := rand.Intn(len(buf) - chunkLen)
+			if err := WriteFile(path, buf[offset:offset+chunkLen], 0666); err != nil {
+				t.Error(err)
+			}
+
+			time.Sleep(time.Duration(rand.Intn(100)) * time.Microsecond)
+			data, err := ioutil.ReadFile(path)
+			if err != nil {
+				t.Error(err)
+			}
+			if len(data) != chunkLen {
+				t.Errorf("read %d bytes, but each write is a %d-byte file", len(data), chunkLen)
+			}
+		}()
 	}
 
-	if fi.Mode()&os.ModePerm != 0640 {
-		t.Errorf("Stat %q: mode %#o want %#o", file, fi.Mode()&os.ModePerm, 0640)
-	}
+	wg.Wait()
 }
