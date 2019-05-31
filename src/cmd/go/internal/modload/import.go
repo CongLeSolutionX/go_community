@@ -185,7 +185,7 @@ func Import(path string) (m module.Version, dir string, err error) {
 		}
 	}
 
-	candidates, err := QueryPackage(path, "latest", Allowed)
+	candidates, err := QueryPackage(path, "latest", "", Allowed)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			// Return "cannot find module providing package […]" instead of whatever
