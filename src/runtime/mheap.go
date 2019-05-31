@@ -398,8 +398,8 @@ type mspan struct {
 	// h->sweepgen is incremented by 2 after every GC
 
 	sweepgen    uint32
+	baseMask    uint32     // if non-0, elemsize is a power of 2, & this will get object allocation base
 	divMul      uint16     // for divide by elemsize - divMagic.mul
-	baseMask    uint16     // if non-0, elemsize is a power of 2, & this will get object allocation base
 	allocCount  uint16     // number of allocated objects
 	spanclass   spanClass  // size class and noscan (uint8)
 	state       mSpanState // mspaninuse etc
