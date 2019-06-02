@@ -172,7 +172,6 @@ func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	maxCap := re.MaxCap()
 	capNames := re.CapNames()
 
@@ -216,7 +215,7 @@ func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
 	}
 	regexp.mpool = i
 
-	// If the pattern is anchored at the end only and we have no prefix, prefer scanning backwards
+	// If the pattern is anchored at the end only and we have no prefix, prefer scanning backwards.
 	if regexp.prefix == "" && re.Op == syntax.OpConcat && len(re.Sub) > 0 && re.Sub[len(re.Sub)-1].Op == syntax.OpEndText && re.Sub[0].Op != syntax.OpBeginText {
 		reverseRegexp(re)
 		re = re.Simplify()
@@ -240,7 +239,7 @@ func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
 	return regexp, nil
 }
 
-// reverseRegexp modifies the regexp in place so that it can match a reversed input
+// reverseRegexp modifies the regexp in place so that it can match a reversed input.
 func reverseRegexp(re *syntax.Regexp) bool {
 	switch re.Op {
 	case syntax.OpLiteral:
@@ -267,7 +266,7 @@ func reverseRegexp(re *syntax.Regexp) bool {
 	return true
 }
 
-// reverseCap returns a reversed list of captured positions when backwards scanning the input
+// reverseCap returns a reversed list of captured positions when backwards scanning the input.
 func reverseCap(cap []int, matchcap int, length int) []int {
 	if len(cap) == 0 {
 		return cap
@@ -278,7 +277,7 @@ func reverseCap(cap []int, matchcap int, length int) []int {
 		if cap[n] == -1 {
 			newCap[matchcap-n], newCap[matchcap-n+1] = -1, -1
 		} else {
-			newCap[matchcap-n], newCap[matchcap-n+1] = length-cap[n+1], length-cap[n]
+			newCap[matchcap-n], newCap[matchcap-n+1] = length-cap[matchcap-n+1], length-cap[matchcap-n]
 		}
 	}
 	return newCap
