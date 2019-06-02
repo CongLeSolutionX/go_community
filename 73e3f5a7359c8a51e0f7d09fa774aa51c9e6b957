@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88dcc164_d2421d92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-06-02T08:43:17Z",
+      "side": 1,
+      "message": "s/func ParseIPv6/parseIPv6",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "73e3f5a7359c8a51e0f7d09fa774aa51c9e6b957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d032cb5_d12360df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-06-02T08:43:17Z",
+      "side": 1,
+      "message": "Remove this line",
+      "revId": "73e3f5a7359c8a51e0f7d09fa774aa51c9e6b957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
