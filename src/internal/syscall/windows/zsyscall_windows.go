@@ -40,13 +40,14 @@ var (
 	modkernel32 = syscall.NewLazyDLL(sysdll.Add("kernel32.dll"))
 	modws2_32   = syscall.NewLazyDLL(sysdll.Add("ws2_32.dll"))
 	modnetapi32 = syscall.NewLazyDLL(sysdll.Add("netapi32.dll"))
-	modadvapi32 = syscall.NewLazyDLL(sysdll.Add("advapi32.dll"))
 	moduserenv  = syscall.NewLazyDLL(sysdll.Add("userenv.dll"))
+	modadvapi32 = syscall.NewLazyDLL(sysdll.Add("advapi32.dll"))
 	modpsapi    = syscall.NewLazyDLL(sysdll.Add("psapi.dll"))
 
 	procGetAdaptersAddresses         = modiphlpapi.NewProc("GetAdaptersAddresses")
 	procGetComputerNameExW           = modkernel32.NewProc("GetComputerNameExW")
 	procMoveFileExW                  = modkernel32.NewProc("MoveFileExW")
+	procReplaceFileW                 = modkernel32.NewProc("ReplaceFileW")
 	procGetModuleFileNameW           = modkernel32.NewProc("GetModuleFileNameW")
 	procWSASocketW                   = modws2_32.NewProc("WSASocketW")
 	procLockFileEx                   = modkernel32.NewProc("LockFileEx")
@@ -95,6 +96,18 @@ func GetComputerNameEx(nameformat uint32, buf *uint16, n *uint32) (err error) {
 
 func MoveFileEx(from *uint16, to *uint16, flags uint32) (err error) {
 	r1, _, e1 := syscall.Syscall(procMoveFileExW.Addr(), 3, uintptr(unsafe.Pointer(from)), uintptr(unsafe.Pointer(to)), uintptr(flags))
+	if r1 == 0 {
+		if e1 != 0 {
+			err = errnoErr(e1)
+		} else {
+			err = syscall.EINVAL
+		}
+	}
+	return
+}
+
+func ReplaceFile(replaced *uint16, replacement *uint16, backup *uint16, flags uint32, exclude uintptr, reserved uintptr) (err error) {
+	r1, _, e1 := syscall.Syscall6(procReplaceFileW.Addr(), 6, uintptr(unsafe.Pointer(replaced)), uintptr(unsafe.Pointer(replacement)), uintptr(unsafe.Pointer(backup)), uintptr(flags), uintptr(exclude), uintptr(reserved))
 	if r1 == 0 {
 		if e1 != 0 {
 			err = errnoErr(e1)
