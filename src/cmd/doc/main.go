@@ -57,6 +57,7 @@ var (
 	showAll    bool // -all flag
 	showCmd    bool // -cmd flag
 	showSrc    bool // -src flag
+	showEx     bool // -ex flag
 )
 
 // usage is a replacement usage function for the flags package.
@@ -94,7 +95,13 @@ func do(writer io.Writer, flagSet *flag.FlagSet, args []string) (err error) {
 	flagSet.BoolVar(&showAll, "all", false, "show all documentation for package")
 	flagSet.BoolVar(&showCmd, "cmd", false, "show symbols with package docs even if package is a command")
 	flagSet.BoolVar(&showSrc, "src", false, "show source code for symbol")
+	flagSet.BoolVar(&showEx, "ex", false, "show examples for symbol")
 	flagSet.Parse(args)
+
+	if showSrc && showEx {
+		return fmt.Errorf("cannot specify -src and -ex together")
+	}
+
 	var paths []string
 	var symbol, method string
 	// Loop until something is printed.

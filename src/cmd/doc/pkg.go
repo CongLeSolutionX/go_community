@@ -37,6 +37,7 @@ type Package struct {
 	pkg         *ast.Package // Parsed package.
 	file        *ast.File    // Merged from all files in the package
 	doc         *doc.Package
+	examples    []*doc.Example // Extracted from test files.
 	build       *build.Package
 	typedValue  map[*doc.Value]bool // Consts and vars related to types.
 	constructor map[*doc.Func]bool  // Constructors.
@@ -126,16 +127,20 @@ func (pkg *Package) Fatalf(format string, args ...interface{}) {
 // we can then use to generate documentation.
 func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Package {
 	fs := token.NewFileSet()
-	// include tells parser.ParseDir which files to include.
+	// Prepare a list of names we want to parse with ParseDir,
+	// and an include closure to pass in.
 	// That means the file must be in the build package's GoFiles or CgoFiles
 	// list only (no tag-ignored files, tests, swig or other non-Go files).
+	// If the -ex flag is specified, we also include test files.
+	var includeNames []string
+	includeNames = append(includeNames, pkg.GoFiles...)
+	includeNames = append(includeNames, pkg.CgoFiles...)
+	if showEx {
+		includeNames = append(includeNames, pkg.TestGoFiles...)
+		includeNames = append(includeNames, pkg.XTestGoFiles...)
+	}
 	include := func(info os.FileInfo) bool {
-		for _, name := range pkg.GoFiles {
-			if name == info.Name() {
-				return true
-			}
-		}
-		for _, name := range pkg.CgoFiles {
+		for _, name := range includeNames {
 			if name == info.Name() {
 				return true
 			}
@@ -150,7 +155,13 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 	if len(pkgs) == 0 {
 		log.Fatalf("no source-code package in directory %s", pkg.Dir)
 	}
-	if len(pkgs) > 1 {
+	var testAstPkg *ast.Package
+	if showEx && len(pkgs) == 2 {
+		testAstPkg = pkgs[pkg.Name+"_test"]
+		if testAstPkg == nil {
+			log.Fatalf("no test package") // TODO
+		}
+	} else if len(pkgs) > 1 {
 		log.Fatalf("multiple packages in directory %s", pkg.Dir)
 	}
 	astPkg := pkgs[pkg.Name]
@@ -202,6 +213,15 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 		fs:          fs,
 	}
 	p.buf.pkg = p
+
+	if testAstPkg != nil {
+		var files []*ast.File
+		for _, f := range testAstPkg.Files {
+			files = append(files, f)
+		}
+		p.examples = doc.Examples(files...)
+	}
+
 	return p
 }
 
@@ -249,6 +269,50 @@ func (pkg *Package) emit(comment string, node ast.Node) {
 			pkg.newlines(2) // Blank line after comment to separate from next item.
 		} else {
 			pkg.newlines(1)
+		}
+	}
+}
+
+func (pkg *Package) emitExample(name string, decl ast.Node) {
+	first := true
+	for _, ex := range pkg.examples {
+		if ex.Name != name {
+			continue
+		}
+		if first {
+			pkg.emit("", decl)
+			pkg.newlines(2)
+			first = false
+		}
+		// TODO: include ex.Name if there are multiple matches?
+		if ex.Doc != "" {
+			doc.ToText(&pkg.buf, ex.Doc, "", indent, indentedWidth)
+			pkg.newlines(2)
+		}
+		if ex.Code != nil {
+			var arg ast.Node = ex.Code
+			_, isFile := ex.Code.(*ast.File)
+			if isFile {
+				arg = ex.Play
+			}
+			var buf bytes.Buffer
+			err := format.Node(&buf, pkg.fs, arg)
+			if err != nil {
+				log.Fatal(err)
+			}
+			b := buf.Bytes()
+			if !isFile {
+				b = bytes.TrimPrefix(b, []byte("{\n"))
+				b = bytes.TrimSuffix(b, []byte("\n}"))
+			}
+			pkg.buf.Write(b)
+			pkg.newlines(2)
+		}
+		if ex.Output != "" {
+			out := strings.TrimSpace(ex.Output)
+			out = strings.Replace(out, "\n", "\n\t", -1)
+			pkg.Printf("Output:\n\t%s", out)
+			pkg.newlines(2)
 		}
 	}
 }
@@ -521,6 +585,7 @@ func (pkg *Package) packageDoc() {
 	pkg.funcSummary(pkg.doc.Funcs, false)
 	pkg.typeSummary()
 	pkg.bugs()
+
 }
 
 // packageClause prints the package clause.
@@ -694,8 +759,11 @@ func (pkg *Package) symbolDoc(symbol string) bool {
 	// Functions.
 	for _, fun := range pkg.findFuncs(symbol) {
 		// Symbol is a function.
-		decl := fun.Decl
-		pkg.emit(fun.Doc, decl)
+		if showEx {
+			pkg.emitExample(fun.Decl.Name.Name, fun.Decl)
+		} else {
+			pkg.emit(fun.Doc, fun.Decl)
+		}
 		found = true
 	}
 	// Constants and variables behave the same.
@@ -776,6 +844,10 @@ func (pkg *Package) typeDoc(typ *doc.Type) {
 	decl := typ.Decl
 	spec := pkg.findTypeSpec(decl, typ.Name)
 	trimUnexportedElems(spec)
+	if showEx {
+		pkg.emitExample(typ.Name, spec)
+		return
+	}
 	// If there are multiple types defined, reduce to just this one.
 	if len(decl.Specs) > 1 {
 		decl.Specs = []ast.Spec{spec}
