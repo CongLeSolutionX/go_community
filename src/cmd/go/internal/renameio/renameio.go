@@ -64,7 +64,7 @@ func WriteToFile(filename string, data io.Reader, perm os.FileMode) (err error) 
 
 	var start time.Time
 	for {
-		err := os.Rename(f.Name(), filename)
+		err := rename(f.Name(), filename)
 		if err == nil || !isAccessDeniedError(err) {
 			return err
 		}
