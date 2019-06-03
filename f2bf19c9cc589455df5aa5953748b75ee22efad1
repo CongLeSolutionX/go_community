@@ -16,6 +16,24 @@
       "revId": "f2bf19c9cc589455df5aa5953748b75ee22efad1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca0e3a22_82d262f9",
+        "filename": "src/cmd/go/internal/renameio/rename_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-03T18:17:30Z",
+      "side": 1,
+      "message": "Yes, thank you. Was wondering what this sore spot on my forehead was from. 🙂",
+      "parentUuid": "1191dcfd_61236f29",
+      "revId": "f2bf19c9cc589455df5aa5953748b75ee22efad1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
