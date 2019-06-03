@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "cdb4ab60_e10dc21b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-06-03T07:48:27Z",
+      "side": 1,
+      "message": "s/Fixed/Fixes/ as per https://golang.org/wiki/CommitMessage",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 5
+      },
+      "revId": "7d781ef6b55fd1a7337abc8a131d27f21705332c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "522ede9f_1c7063a4",
         "filename": "src/cmd/go/internal/imports/tags.go",
         "patchSetId": 1
