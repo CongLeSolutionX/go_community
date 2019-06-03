@@ -119,6 +119,7 @@ const (
 //sys	GetAdaptersAddresses(family uint32, flags uint32, reserved uintptr, adapterAddresses *IpAdapterAddresses, sizePointer *uint32) (errcode error) = iphlpapi.GetAdaptersAddresses
 //sys	GetComputerNameEx(nameformat uint32, buf *uint16, n *uint32) (err error) = GetComputerNameExW
 //sys	MoveFileEx(from *uint16, to *uint16, flags uint32) (err error) = MoveFileExW
+//sys ReplaceFile(replaced *uint16, replacement *uint16, backup *uint16, flags uint32, exclude uintptr, reserved uintptr) (err error) = ReplaceFileW
 //sys	GetModuleFileName(module syscall.Handle, fn *uint16, len uint32) (n uint32, err error) = kernel32.GetModuleFileNameW
 
 const (
@@ -238,7 +239,9 @@ const (
 	ComputerNamePhysicalDnsDomain         = 6
 	ComputerNamePhysicalDnsFullyQualified = 7
 	ComputerNameMax                       = 8
+)
 
+const (
 	MOVEFILE_REPLACE_EXISTING      = 0x1
 	MOVEFILE_COPY_ALLOWED          = 0x2
 	MOVEFILE_DELAY_UNTIL_REBOOT    = 0x4
@@ -247,6 +250,12 @@ const (
 	MOVEFILE_FAIL_IF_NOT_TRACKABLE = 0x20
 )
 
+const (
+	REPLACEFILE_IGNORE_MERGE_ERRORS = 0x2
+	REPLACEFILE_IGNORE_ACL_ERRORS   = 0x4
+)
+
+// Rename uses MoveFileEx to rename oldpath to newpath.
 func Rename(oldpath, newpath string) error {
 	from, err := syscall.UTF16PtrFromString(oldpath)
 	if err != nil {
