@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b8a8d5a_2a905a96",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-04T22:20:28Z",
+      "side": 1,
+      "message": "I\u0027m a little confused here: as far as I can tell versionByPath is keyed by module path, but the path here may instead be a package path. Do we need an extra step somewhere in here to resolve these packages to the corresponding modules?",
+      "range": {
+        "startLine": 380,
+        "startChar": 15,
+        "endLine": 380,
+        "endChar": 34
+      },
+      "revId": "a2ec33849be457a7b63463a38a9cd2e884a86b14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61e1118b_dd2e1e94",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-04T22:20:28Z",
+      "side": 1,
+      "message": "Why do we need to call SetBuildList here?\n\n(Presumably there is some implicit communication between the build list and newUpgrader, but what exactly?)",
+      "revId": "a2ec33849be457a7b63463a38a9cd2e884a86b14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "996e8387_c3a53632",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-04T22:20:28Z",
+      "side": 1,
+      "message": "All of the calls to checkUpgrade seem to be associated with calls to modload.Query.\n\nWould it be simpler to change the meaning of the `latest` and `vX.Y` queries there?",
+      "range": {
+        "startLine": 912,
+        "startChar": 0,
+        "endLine": 932,
+        "endChar": 1
+      },
+      "revId": "a2ec33849be457a7b63463a38a9cd2e884a86b14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
