@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3984ba70_0958980b",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-06-05T20:54:31Z",
+      "side": 1,
+      "message": "Add \"Note: the flag smallframes can update this value.\"",
+      "revId": "1a2c0c361af502b51aefe0ffdb24b758e2c8219e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2711665b_7c901492",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-06-05T20:54:31Z",
+      "side": 1,
+      "message": "Can we make this a local variable in Main? That way no one is tempted to use this directly. They just use the variables above.",
+      "revId": "1a2c0c361af502b51aefe0ffdb24b758e2c8219e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23abae43_a5973abe",
+        "filename": "test/fixedbugs/issue27732a.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-06-05T20:54:31Z",
+      "side": 1,
+      "message": "This variable is not used.",
+      "revId": "1a2c0c361af502b51aefe0ffdb24b758e2c8219e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
