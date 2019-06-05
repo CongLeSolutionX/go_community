@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c4e45564_139c81f2",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-05T23:10:07Z",
+      "side": 1,
+      "message": "Added a comment to clarify a bit. If path is not a module path, that\u0027s fine, but it\u0027s still useful to query it, even if it turns out to be in an existing module.\n\nAt the first call to UpgradeAll (before packages are loaded), we\u0027ll only upgrade modules that matched here (this is the upgrade map below).\n\nCreating queries here for all arguments is useful for constructing modOnly below. Previously \u0027go get golang.org/x/tools@patch\u0027 was broken. I don\u0027t think anyone noticed, but since \u0027go get golang.org/x/tools@latest\u0027 now uses the previous version, this behavior would be more problematic.",
+      "parentUuid": "6b8a8d5a_2a905a96",
+      "range": {
+        "startLine": 380,
+        "startChar": 15,
+        "endLine": 380,
+        "endChar": 34
+      },
+      "revId": "a2ec33849be457a7b63463a38a9cd2e884a86b14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61e1118b_dd2e1e94",
         "filename": "src/cmd/go/internal/modget/get.go",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "a2ec33849be457a7b63463a38a9cd2e884a86b14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3fcae1d_1adfecce",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-05T23:10:07Z",
+      "side": 1,
+      "message": "newUpgrader calls modload.Reqs(), which captures the global build list.\n\n(I think we should eliminate the buildList and loaded globals at some point in the future. Not for 1.13 though.)",
+      "parentUuid": "61e1118b_dd2e1e94",
+      "revId": "a2ec33849be457a7b63463a38a9cd2e884a86b14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "a2ec33849be457a7b63463a38a9cd2e884a86b14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79b1205d_e136d126",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-05T23:10:07Z",
+      "side": 1,
+      "message": "Done. This made the CL quite a bit more complicated, so let me know if I should revert any part of this.\n\nIt solves another important problem mentioned on the same bug though: \u0027go list -m -u\u0027 no longer recommends upgrades that are filtered out by this logic.\n\n\u0027go list -m m@patch\u0027 and \u0027go mod download m@patch\u0027 will also work, in case that\u0027s useful. Consistency is good anyway.",
+      "parentUuid": "996e8387_c3a53632",
+      "range": {
+        "startLine": 912,
+        "startChar": 0,
+        "endLine": 932,
+        "endChar": 1
+      },
+      "revId": "a2ec33849be457a7b63463a38a9cd2e884a86b14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
