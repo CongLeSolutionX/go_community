@@ -22,6 +22,30 @@
       "revId": "38ffe80ed911cc47cbc4709a5dbd9b12010ba998",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e391591f_3c6c5d1f",
+        "filename": "src/cmd/go/internal/renameio/renameio.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-05T15:57:12Z",
+      "side": 1,
+      "message": "That\u0027s true.\nHow else would you structure an API whose purpose is to work around ReadFile failures triggered by renaming?\n\n(Concrete suggestions for better naming would be welcome. In the meantime, I\u0027m going to submit based on Jay\u0027s +2 so that we can hopefully be rid of the test flakes.)",
+      "parentUuid": "968b5a40_f0017732",
+      "range": {
+        "startLine": 67,
+        "startChar": 3,
+        "endLine": 67,
+        "endChar": 11
+      },
+      "revId": "38ffe80ed911cc47cbc4709a5dbd9b12010ba998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
