@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e2bc7062_5702bb25",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-06-06T03:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3984ba70_0958980b",
+      "revId": "1a2c0c361af502b51aefe0ffdb24b758e2c8219e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2711665b_7c901492",
         "filename": "src/cmd/compile/internal/gc/go.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ffc0c25c_453c282f",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-06-06T03:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2711665b_7c901492",
+      "revId": "1a2c0c361af502b51aefe0ffdb24b758e2c8219e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23abae43_a5973abe",
         "filename": "test/fixedbugs/issue27732a.go",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "1a2c0c361af502b51aefe0ffdb24b758e2c8219e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "758a9bc4_feeeb202",
+        "filename": "test/fixedbugs/issue27732a.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-06-06T03:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23abae43_a5973abe",
+      "revId": "1a2c0c361af502b51aefe0ffdb24b758e2c8219e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
