@@ -80,7 +80,7 @@ func newGitRepo(remote string, localOK bool) (Repo, error) {
 			// but this lets us say git fetch origin instead, which
 			// is a little nicer. More importantly, using a named remote
 			// avoids a problem with Git LFS. See golang.org/issue/25605.
-			if _, err := Run(r.dir, "git", "remote", "add", "origin", r.remote); err != nil {
+			if _, err := Run(r.dir, "git", "remote", "add", "origin", "--", r.remote); err != nil {
 				os.RemoveAll(r.dir)
 				return nil, err
 			}

@@ -143,7 +143,7 @@ var vcsCmds = map[string]*vcsCmd{
 	"hg": {
 		vcs: "hg",
 		init: func(remote string) []string {
-			return []string{"hg", "clone", "-U", remote, "."}
+			return []string{"hg", "clone", "-U", "--", remote, "."}
 		},
 		tags: func(remote string) []string {
 			return []string{"hg", "tags", "-q"}
@@ -176,7 +176,7 @@ var vcsCmds = map[string]*vcsCmd{
 		vcs:  "svn",
 		init: nil, // no local checkout
 		tags: func(remote string) []string {
-			return []string{"svn", "list", strings.TrimSuffix(remote, "/trunk") + "/tags"}
+			return []string{"svn", "list", "--", strings.TrimSuffix(remote, "/trunk") + "/tags"}
 		},
 		tagRE: re(`(?m)^(.*?)/?$`),
 		statLocal: func(rev, remote string) []string {
@@ -184,12 +184,12 @@ var vcsCmds = map[string]*vcsCmd{
 			if rev == "latest" {
 				suffix = ""
 			}
-			return []string{"svn", "log", "-l1", "--xml", remote + suffix}
+			return []string{"svn", "log", "-l1", "--xml", "--", remote + suffix}
 		},
 		parseStat: svnParseStat,
 		latest:    "latest",
 		readFile: func(rev, file, remote string) []string {
-			return []string{"svn", "cat", remote + "/" + file + "@" + rev}
+			return []string{"svn", "cat", "--", remote + "/" + file + "@" + rev}
 		},
 		// TODO: zip
 	},
@@ -197,7 +197,7 @@ var vcsCmds = map[string]*vcsCmd{
 	"bzr": {
 		vcs: "bzr",
 		init: func(remote string) []string {
-			return []string{"bzr", "branch", "--use-existing-dir", remote, "."}
+			return []string{"bzr", "branch", "--use-existing-dir", "--", remote, "."}
 		},
 		fetch: []string{
 			"bzr", "pull", "--overwrite-tags",
@@ -227,7 +227,7 @@ var vcsCmds = map[string]*vcsCmd{
 	"fossil": {
 		vcs: "fossil",
 		init: func(remote string) []string {
-			return []string{"fossil", "clone", remote, ".fossil"}
+			return []string{"fossil", "clone", "--", remote, ".fossil"}
 		},
 		fetch: []string{"fossil", "pull", "-R", ".fossil"},
 		tags: func(remote string) []string {
