@@ -13,6 +13,7 @@ import (
 	"net/url"
 	"os"
 	pathpkg "path"
+	"path/filepath"
 	"strings"
 	"sync"
 	"time"
@@ -110,9 +111,26 @@ func proxyURLs() ([]string, error) {
 				break
 			}
 
+			// Single-word tokens are reserved for built-in behaviors, and anything
+			// containing the string ":/" or matching an absolute file path must be a
+			// complete URL. For all other paths, implicitly add "https://".
+			if strings.ContainsAny(proxyURL, ".:/") && !strings.Contains(proxyURL, ":/") && !filepath.IsAbs(proxyURL) {
+				proxyURL = "https://" + proxyURL
+			}
+
+			u, err := url.Parse(proxyURL)
+			if err != nil {
+				proxyOnce.err = err
+				return
+			}
+			if u.Scheme == "" {
+				proxyOnce.err = errors.New("GOPROXY must be a valid URL or HTTPS path")
+				return
+			}
+
 			// Check that newProxyRepo accepts the URL.
 			// It won't do anything with the path.
-			_, err := newProxyRepo(proxyURL, "golang.org/x/text")
+			_, err = newProxyRepo(proxyURL, "golang.org/x/text")
 			if err != nil {
 				proxyOnce.err = err
 				return
