@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6e9adb61_42f320fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T19:34:54Z",
+      "side": 1,
+      "message": "Not yet. Russ and Filippo wanted to wait to change that until 1.14.",
+      "parentUuid": "dd4c62d4_fdf5edbf",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df7aa7bc_18a567af",
         "filename": "src/cmd/go/internal/get/vcs.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b3fef97_80cd5452",
+        "filename": "src/cmd/go/internal/get/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T19:34:54Z",
+      "side": 1,
+      "message": "I don\u0027t think so. \"-go-internal-mkdir {dir}\" is interpreted internally in vcsCmd.run1 and isn\u0027t passed to a subprocess. We split the command into fields before expanding variables like {dir}, so it shouldn\u0027t turn into multiple arguments.",
+      "parentUuid": "df7aa7bc_18a567af",
+      "range": {
+        "startLine": 337,
+        "startChar": 43,
+        "endLine": 337,
+        "endChar": 48
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8fc56ff5_d10ef9ec",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T19:34:54Z",
+      "side": 1,
+      "message": "I think this is the only place where we pass a remote URL to git. After this, we just refer to it as \"origin\" (L87).\n\nOutside of this method r.remote may be either \"origin\" or a local git repo, but not a remote URL.",
+      "parentUuid": "0ca4a603_202a0674",
+      "range": {
+        "startLine": 83,
+        "startChar": 61,
+        "endLine": 83,
+        "endChar": 67
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65cce518_bca7ff27",
         "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
         "patchSetId": 1
@@ -85,6 +157,24 @@
       "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70388c1f_bdaf0f7e",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T19:34:54Z",
+      "side": 1,
+      "message": "Added a comment. I think these are okay. This map is populated by running `git ls-remote -q {r.remote}` (where {r.remote} is \"origin\" or a local git repo). The output looks like this:\n\n342b2e1fbaa52c93f31447ad2c6abc048c63e475\tHEAD\n9fcc0e63bb8a8249b98a7eabb1fe8ea125f77b51\trefs/changes/00/1300/1\n32c0d0dc323e485f50d55d5f4ab3f0887c7fb9e5\trefs/changes/00/1300/2\nc942b20a5d85b458c4dce1589326051d85e25d6d\trefs/tags/v0.3.1^{}\n411e6fb2c3b4026500e40dd512fd976f95333fb0\trefs/tags/v0.3.2\n342b2e1fbaa52c93f31447ad2c6abc048c63e475\trefs/tags/v0.3.2^{}\n\nKeys are the right column, values are the left. We only take keys that are \"HEAD\" or start with \"refs/tags/\" or \"refs/heads/\".",
+      "parentUuid": "65cce518_bca7ff27",
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "f97ae533_3aec7fa0",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T19:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58206f0d_f9f3084c",
+      "range": {
+        "startLine": 410,
+        "startChar": 106,
+        "endLine": 410,
+        "endChar": 110
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a2be894_f10ea788",
         "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
         "patchSetId": 1
@@ -131,6 +245,30 @@
       "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cea58327_41bb0b03",
+        "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T19:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a2be894_f10ea788",
+      "range": {
+        "startLine": 171,
+        "startChar": 101,
+        "endLine": 171,
+        "endChar": 108
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "747d5e97_289334a7",
+        "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T19:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54b75b64_051db142",
+      "range": {
+        "startLine": 223,
+        "startChar": 86,
+        "endLine": 223,
+        "endChar": 87
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0afddab_64f6aa32",
         "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
         "patchSetId": 1
@@ -177,6 +339,30 @@
       "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f814c51_f06a18ec",
+        "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T19:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0afddab_64f6aa32",
+      "range": {
+        "startLine": 252,
+        "startChar": 85,
+        "endLine": 252,
+        "endChar": 90
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
