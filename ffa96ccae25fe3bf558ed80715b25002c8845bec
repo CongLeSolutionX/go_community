@@ -2,6 +2,184 @@
   "comments": [
     {
       "key": {
+        "uuid": "dd4c62d4_fdf5edbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T18:00:44Z",
+      "side": 1,
+      "message": "Should/do we apply the same restriction for paths in module mode?",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df7aa7bc_18a567af",
+        "filename": "src/cmd/go/internal/get/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T18:00:44Z",
+      "side": 1,
+      "message": "Do we need to worry about {dir} appearing before \"--\" here?",
+      "range": {
+        "startLine": 337,
+        "startChar": 43,
+        "endLine": 337,
+        "endChar": 48
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ca4a603_202a0674",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T18:00:44Z",
+      "side": 1,
+      "message": "This seems to imply that r.remote may be unsanitized. Do we need to add \u0027--\u0027 before other uses of r.remote throughout this file (line 166 and others)?",
+      "range": {
+        "startLine": 83,
+        "startChar": 61,
+        "endLine": 83,
+        "endChar": 67
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65cce518_bca7ff27",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T18:00:44Z",
+      "side": 1,
+      "message": "We use the values from this map without a leading \"--\" in several places. Do we know that these values are sanitized?\n\n(A comment for this map might be helpful.)",
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58206f0d_f9f3084c",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T18:00:44Z",
+      "side": 1,
+      "message": "Add \"--\" here?",
+      "range": {
+        "startLine": 410,
+        "startChar": 106,
+        "endLine": 410,
+        "endChar": 110
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a2be894_f10ea788",
+        "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T18:00:44Z",
+      "side": 1,
+      "message": "Add \"--\" here?",
+      "range": {
+        "startLine": 171,
+        "startChar": 101,
+        "endLine": 171,
+        "endChar": 108
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54b75b64_051db142",
+        "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T18:00:44Z",
+      "side": 1,
+      "message": "Add \"--\" here?",
+      "range": {
+        "startLine": 223,
+        "startChar": 86,
+        "endLine": 223,
+        "endChar": 87
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0afddab_64f6aa32",
+        "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T18:00:44Z",
+      "side": 1,
+      "message": "Add \"--\" here?",
+      "range": {
+        "startLine": 252,
+        "startChar": 85,
+        "endLine": 252,
+        "endChar": 90
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcf68de2_78ce1854",
         "filename": "src/cmd/go/internal/module/module.go",
         "patchSetId": 1
