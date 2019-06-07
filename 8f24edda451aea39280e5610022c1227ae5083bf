@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59752faa_0b7a43f0",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T19:07:25Z",
+      "side": 1,
+      "message": "Unfortunately, I think this is only true to a first approximation: a `replace` directive can re-point a dotless module path to some other repository or filesystem path, even if that module is not already in the build list.",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 15
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "338cc062_1789e29a",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T19:07:25Z",
+      "side": 1,
+      "message": "Combine this explanation with the “Add missing modules” comment at line 399?\n\n(This clause explains why we need to add the missing modules.)",
+      "range": {
+        "startLine": 406,
+        "startChar": 34,
+        "endLine": 406,
+        "endChar": 82
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9822a1e4_aef5ba58",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T19:07:25Z",
+      "side": 1,
+      "message": "I don\u0027t really follow this second sentence. Why does constructing this map impact the number of times we load packages?\n\nIn the baseline version, we pass the byPath map to newUpgrader mostly to avoid resolving “latest” versions for modules that have specific versions on the command line. (That avoids a needless upgrade-then-downgrade cycle, and also eliminates some spurious additional upgrades.)",
+      "range": {
+        "startLine": 408,
+        "startChar": 60,
+        "endLine": 409,
+        "endChar": 28
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0972ff91_9c637c08",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T19:07:25Z",
+      "side": 1,
+      "message": "What is the behavior if `current` is empty? (Do we fetch the latest version independent of the build list, or first consult the build list explicitly?)",
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c70e818d_90e5e1bb",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T19:07:25Z",
+      "side": 1,
+      "message": "Would it make sense to put this block before the `Lookup` label?\nAs far as I can tell, `vers \u003d\u003d \"\"` iff we did not jump to Lookup directly.\n\nMore generally, there is a lot of repetition of the `rev !\u003d nil` condition. Perhaps we could restructure a bit using a local function instead of `goto` so that we can prefer earlier returns:\n\n\tvar rev *modfetch.RevInfo\n\tlookup :\u003d func(vers string) (*modfetch.RevInfo, error) {\n\t\trev, err :\u003d repo.Stat(vers)\n\t\tif err !\u003d nil {\n\t\t\treturn nil, err\n\t\t}\n\t\tif rev !\u003d nil \u0026\u0026 current !\u003d \"\" \u0026\u0026 […] {\n\t\t\t[…]\n\t\t}\n\t\treturn rev, nil\n\t}\n\n\tvar vers string\n\tif preferOlder {\n\t\tfor _, v :\u003d range versions {\n\t\t\tif semver.Prerelease(v) \u003d\u003d \"\" \u0026\u0026 ok(module.Version{Path: path, Version: v}) {\n\t\t\t\treturn lookup(vers)\n\t\t\t}\n\t\t}\n\t\tfor _, v :\u003d range versions {\n\t\t\tif semver.Prerelease(v) !\u003d \"\" \u0026\u0026 ok(module.Version{Path: path, Version: v}) {\n\t\t\t\treturn lookup(vers)\n\t\t\t}\n\t\t}\n\t} else {\n\t\tfor i :\u003d len(versions) - 1; i \u003e\u003d 0; i-- {\n\t\t\tv :\u003d versions[i]\n\t\t\tif semver.Prerelease(v) \u003d\u003d \"\" \u0026\u0026 ok(module.Version{Path: path, Version: v}) {\n\t\t\t\treturn lookup(vers)\n\t\t\t}\n\t\t}\n\t\tfor i :\u003d len(versions) - 1; i \u003e\u003d 0; i-- {\n\t\t\tv :\u003d versions[i]\n\t\t\tif semver.Prerelease(v) !\u003d \"\" \u0026\u0026 ok(module.Version{Path: path, Version: v}) {\n\t\t\t\treturn lookup(vers)\n\t\t\t}\n\t\t}\n\t}\n\n\tif mayUseLatest {\n\t\tif latest, err :\u003d […]; err \u003d\u003d nil \u0026\u0026 […] {\n\t\t\treturn lookup(latest.Name)\n\t\t}\n\t}\n\n\treturn nil, \u0026NoMatchingVersionError{query: query}",
+      "range": {
+        "startLine": 234,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 0
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7d029fe_4abb29e4",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-07T19:07:25Z",
+      "side": 1,
+      "message": "Passing `current` to `QueryPackage` seems like a bit of a non-sequitur: we\u0027re calling QueryPackage or QueryPattern in order to resolve a package or pattern to a module, so we don\u0027t know a priori which module to report the current version of.\n\nThis may imply that Query also needs to check the build list directly rather than relying on the caller to pass in the current version of the module, or perhaps the queryModule helper-function within QueryPattern should do that.",
+      "range": {
+        "startLine": 297,
+        "startChar": 31,
+        "endLine": 297,
+        "endChar": 38
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
