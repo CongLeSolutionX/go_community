@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcf68de2_78ce1854",
+        "filename": "src/cmd/go/internal/module/module.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T17:18:35Z",
+      "side": 1,
+      "message": "Note for reviewers: this function is not called outside of tests. I don\u0027t think it ever has been.\n\nI\u0027ll send a follow-up CL to call this when loading packages, but it will have to wait for 1.14.",
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
