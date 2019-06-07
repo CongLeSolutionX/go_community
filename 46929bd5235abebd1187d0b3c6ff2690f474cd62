@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df5496ff_c56e9bca",
+        "filename": "src/cmd/go/internal/web/url.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T16:55:16Z",
+      "side": 1,
+      "message": "Consider adding unit tests for urlToFilePath and urlFromFilePath. The integration tests are great, but we should ensure every kind of path is tested here.",
+      "revId": "46929bd5235abebd1187d0b3c6ff2690f474cd62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

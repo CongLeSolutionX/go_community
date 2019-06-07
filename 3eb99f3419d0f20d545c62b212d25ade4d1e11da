@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "492237f5_9be6917b",
+        "filename": "src/cmd/go/internal/web/url.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-07T16:55:16Z",
+      "side": 1,
+      "message": "Nit: adding an example at the beginning of each case would improve readability a little bit.",
+      "revId": "3eb99f3419d0f20d545c62b212d25ade4d1e11da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
