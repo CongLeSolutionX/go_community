@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbbb26da_f7c02461",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7938
+      },
+      "writtenOn": "2019-06-08T17:33:28Z",
+      "side": 1,
+      "message": "2019?",
+      "revId": "97c4ad432743d74ee59648dee0db1b107c701834",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
