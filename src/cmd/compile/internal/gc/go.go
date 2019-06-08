@@ -74,13 +74,13 @@ func init() {
 // 	uchar	nel[4];		// number of elements
 // 	uchar	cap[4];		// allocated number of elements
 // } Array;
-var array_array int // runtime offsetof(Array,array) - same for String
+var slice_array int // runtime offsetof(Array,array) - same for String
 
-var array_nel int // runtime offsetof(Array,nel) - same for String
+var slice_nel int // runtime offsetof(Array,nel) - same for String
 
-var array_cap int // runtime offsetof(Array,cap)
+var slice_cap int // runtime offsetof(Array,cap)
 
-var sizeof_Array int // runtime sizeof(Array)
+var sizeof_Slice int // runtime sizeof(Array)
 
 // note this is the runtime representation
 // of the compilers strings.
