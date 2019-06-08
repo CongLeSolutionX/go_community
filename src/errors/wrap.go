@@ -48,9 +48,9 @@ func Is(err, target error) bool {
 }
 
 // As finds the first error in err's chain that matches the type to which target
-// points, and if so, sets the target to its value and returns true. An error
-// matches a type if it is assignable to the target type, or if it has a method
-// As(interface{}) bool such that As(target) returns true. As will panic if
+// points, and if so, sets the target to its value and returns true. An error matches
+// a type if it is assignable to the type to which target points, or if it has a
+// method As(interface{}) bool such that As(target) returns true. As will panic if
 // target is not a non-nil pointer to a type which implements error or is of
 // interface type. As returns false if error is nil.
 //
