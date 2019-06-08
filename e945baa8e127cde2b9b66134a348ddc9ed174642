@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "638b2568_286741ea",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2019-06-08T18:34:43Z",
+      "side": 1,
+      "message": "Renaming this is fine, but then please update the comments and rename the other array_* variables too.",
+      "revId": "e945baa8e127cde2b9b66134a348ddc9ed174642",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
