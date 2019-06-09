@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0468ab7f_5fdf61b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-06-09T20:35:00Z",
+      "side": 1,
+      "message": "Please use CL instead of git commit, so perhaps:\n\nThis is a backport of CL 178397.\n\nUpdates #32167\nFixes #32168",
+      "revId": "55bd257f33591d74e8f2944dcd4c56caf1537841",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
