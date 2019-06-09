@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1621b647_44bb05de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-06-09T20:17:48Z",
+      "side": 1,
+      "message": "errors: clarify wording about target\u0027s type in doc for As",
+      "revId": "8d64d525fc1918606a52c49987148ce7f1b4b991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19c0c5cb_81da1039",
+        "filename": "src/errors/wrap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-06-09T20:17:48Z",
+      "side": 1,
+      "message": "How about just:\n     to target\u0027s type\n?\n\nI say this because:\n   the type to which target points\nseems off, as target is a value of a type, thus target\ndoesn\u0027t point to a type itself.",
+      "revId": "8d64d525fc1918606a52c49987148ce7f1b4b991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
