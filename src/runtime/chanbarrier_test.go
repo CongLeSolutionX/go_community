@@ -81,3 +81,30 @@ func testChanSendBarrier(useSelect bool) {
 	}
 	wg.Wait()
 }
+
+// Regression test for golang.org/issue/36714.
+func TestChanCloseBarrier(t *testing.T) {
+	n := 100000
+	if testing.Short() {
+		n = 1000
+	}
+	for i := 0; i < n; i++ {
+		var loc int
+		var write = make(chan struct{})
+
+		go func() {
+			loc = 1
+			close(write)
+		}()
+
+		runtime.Gosched()
+
+		select {
+		case <-write:
+			if loc != 1 {
+				t.Fatal("Unreachable")
+			}
+		default:
+		}
+	}
+}
