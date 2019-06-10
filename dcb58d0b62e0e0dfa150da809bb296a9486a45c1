@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25241226_5c536774",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-10T20:07:10Z",
+      "side": 1,
+      "message": "The prefix should be an import path prefix (`cmd/go`, not `cmd/goget`).",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eb59a25_412fc238",
+        "filename": "src/cmd/go/internal/get/get_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-10T20:07:10Z",
+      "side": 1,
+      "message": "New tests of `go get` belong in `src/cmd/go/testdata/script`; see the README there for reference.\n\nThis test should not need any external dependencies; instead, add a test module to `src/cmd/go/testdata/mod`.",
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "603ad1e1_5d863367",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-10T20:07:10Z",
+      "side": 1,
+      "message": "Please don\u0027t add this method. The lack of a String method today provides a nice incentive to mention the field explicitly, or explicitly reveal the fact that the Package may be nil.",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 1
+      },
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d8f7176_7d48c87b",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1958,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-10T20:07:10Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem like the right place for this check: we should know whether we\u0027re looking at a module path or a file path before we even try to construct the package.\n\nMoreover, all we\u0027ve checked for here is that `err !\u003d nil`. That will potentially impact the error reporting for a large class of other issues (such as a typo\u0027d filename).",
+      "range": {
+        "startLine": 1955,
+        "startChar": 0,
+        "endLine": 1958,
+        "endChar": 26
+      },
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcdf6d90_7ad36b36",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2099,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-10T20:07:10Z",
+      "side": 1,
+      "message": "prefer `fmt.Errorf` over `errors.New(fmt.Sprintf`.",
+      "range": {
+        "startLine": 2099,
+        "startChar": 15,
+        "endLine": 2099,
+        "endChar": 37
+      },
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9af0ac80_e492f56b",
+        "filename": "src/cmd/go/internal/load/pkg_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-10T20:07:10Z",
+      "side": 1,
+      "message": "Per https://golang.org/pkg/testing/, the only use of underscores in Go test names is for associating multiple examples with a single declaration.",
+      "range": {
+        "startLine": 70,
+        "startChar": 5,
+        "endLine": 70,
+        "endChar": 27
+      },
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
