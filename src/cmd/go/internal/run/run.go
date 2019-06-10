@@ -76,7 +76,11 @@ func runRun(cmd *base.Command, args []string) {
 				base.Fatalf("go run: cannot run *_test.go files (%s)", file)
 			}
 		}
-		p = load.GoFilesPackage(files)
+		var err error
+		p, err = load.GoFilesPackage(files)
+		if err != nil {
+			base.Fatalf("%v", err)
+		}
 	} else if len(args) > 0 && !strings.HasPrefix(args[0], "-") {
 		pkgs := load.PackagesAndErrors(args[:1])
 		if len(pkgs) == 0 {
