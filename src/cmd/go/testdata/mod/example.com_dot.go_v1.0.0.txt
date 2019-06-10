@@ -1,0 +1,11 @@
+Written by hand.
+Test case for go get package that end with '.go'
+
+-- .mod --
+module example.com/dot.go
+-- .info --
+{"Version":"v1.0.0"}
+-- a.go --
+package a
+
+import _ "testing"

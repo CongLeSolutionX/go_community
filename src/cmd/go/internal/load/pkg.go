@@ -1943,7 +1943,11 @@ func PackagesAndErrors(patterns []string) []*Package {
 	if len(patterns) > 0 {
 		for _, p := range patterns {
 			if strings.HasSuffix(p, ".go") {
-				return []*Package{GoFilesPackage(patterns)}
+				pkg, err := GoFilesPackage(patterns)
+				if err != nil {
+					break // try load the patterns as directory instead of go files
+				}
+				return []*Package{pkg}
 			}
 		}
 	}
@@ -2052,7 +2056,7 @@ func PackagesForBuild(args []string) []*Package {
 // GoFilesPackage creates a package for building a collection of Go files
 // (typically named on the command line). The target is named p.a for
 // package p or named after the first Go file for package main.
-func GoFilesPackage(gofiles []string) *Package {
+func GoFilesPackage(gofiles []string) (*Package, error) {
 	ModInit()
 
 	for _, f := range gofiles {
@@ -2064,7 +2068,7 @@ func GoFilesPackage(gofiles []string) *Package {
 			pkg.Error = &PackageError{
 				Err: fmt.Sprintf("named files must be .go files: %s", pkg.Name),
 			}
-			return pkg
+			return pkg, pkg.Error
 		}
 	}
 
@@ -2081,10 +2085,10 @@ func GoFilesPackage(gofiles []string) *Package {
 	for _, file := range gofiles {
 		fi, err := os.Stat(file)
 		if err != nil {
-			base.Fatalf("%s", err)
+			return nil, err
 		}
 		if fi.IsDir() {
-			base.Fatalf("%s is a directory, should be a Go file", file)
+			return nil, fmt.Errorf("%s is a directory, should be a Go file", file)
 		}
 		dir1, _ := filepath.Split(file)
 		if dir1 == "" {
@@ -2093,7 +2097,7 @@ func GoFilesPackage(gofiles []string) *Package {
 		if dir == "" {
 			dir = dir1
 		} else if dir != dir1 {
-			base.Fatalf("named files must all be in one directory; have %s and %s", dir, dir1)
+			return nil, fmt.Errorf("named files must all be in one directory; have %s and %s", dir, dir1)
 		}
 		dirent = append(dirent, fi)
 	}
@@ -2109,7 +2113,7 @@ func GoFilesPackage(gofiles []string) *Package {
 	}
 	dir, err = filepath.Abs(dir)
 	if err != nil {
-		base.Fatalf("%s", err)
+		return nil, err
 	}
 
 	bp, err := ctxt.ImportDir(dir, 0)
@@ -2139,5 +2143,5 @@ func GoFilesPackage(gofiles []string) *Package {
 
 	setToolFlags(pkg)
 
-	return pkg
+	return pkg, nil
 }

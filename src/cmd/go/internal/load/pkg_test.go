@@ -66,3 +66,41 @@ func TestIsVersionElement(t *testing.T) {
 		}
 	}
 }
+
+func TestLoadPackagesAndErrors(t *testing.T) {
+	ModInit = func() {}
+	tests := []struct {
+		name     string
+		patterns []string
+		want     int
+	}{
+		{
+			name:     "package end with '.go",
+			patterns: []string{"example.com/go-issue-32483/lib.go"},
+			want:     1,
+		},
+
+		{
+			name:     "normal packages",
+			patterns: []string{"fmt", "testing"},
+			want:     2,
+		},
+
+		{
+			name: "go files",
+			patterns: []string{
+				"flag.go",
+				"test.go",
+			},
+			want: 1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := PackagesAndErrors(tt.patterns); len(got) != tt.want {
+				t.Errorf("PackagesAndErrors() = %v, want %v packages", got, tt.want)
+			}
+		})
+	}
+
+}
