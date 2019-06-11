@@ -16,6 +16,29 @@
       "revId": "5a9681041968ee2435962b6189b35e06e66268e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c958975f_8c474217",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-11T19:02:47Z",
+      "side": 1,
+      "message": "This sentence feels a little awkward. Maybe instead: \"For example, an editor could use GOPRIVATE to decide whether to link an imported package to a public godoc.org page.\"",
+      "range": {
+        "startLine": 745,
+        "startChar": 29,
+        "endLine": 747,
+        "endChar": 51
+      },
+      "revId": "5a9681041968ee2435962b6189b35e06e66268e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
