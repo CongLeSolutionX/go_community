@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "c3c6dac0_f37d6208",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-11T18:38:35Z",
+      "side": 1,
+      "message": "Reverted. A full run of `go test cmd/go` showed that this breaks the command. Dmitri reminded me that the TryBots run with -short, and I didn\u0027t notice this earlier.",
+      "parentUuid": "f97ae533_3aec7fa0",
+      "range": {
+        "startLine": 410,
+        "startChar": 106,
+        "endLine": 410,
+        "endChar": 110
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a2be894_f10ea788",
         "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
         "patchSetId": 1
