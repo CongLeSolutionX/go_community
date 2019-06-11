@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0123a040_5d104df5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-11T15:57:05Z",
+      "side": 1,
+      "message": "This step is still running. (Will update the CL if it fails.)",
+      "revId": "3d64edd214465d3d4e19894b204b0fb45b36e458",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
