@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "279df4f0_ddedffb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 28805
+      },
+      "writtenOn": "2019-06-11T03:19:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25241226_5c536774",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6eb59a25_412fc238",
         "filename": "src/cmd/go/internal/get/get_test.go",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b61d833_5cd030bb",
+        "filename": "src/cmd/go/internal/get/get_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 28805
+      },
+      "writtenOn": "2019-06-11T03:19:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6eb59a25_412fc238",
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0a59eeac_80cbe16b",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 28805
+      },
+      "writtenOn": "2019-06-11T03:19:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "603ad1e1_5d863367",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 1
+      },
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d8f7176_7d48c87b",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2019-06-10T20:07:10Z",
       "side": 1,
       "message": "This doesn\u0027t seem like the right place for this check: we should know whether we\u0027re looking at a module path or a file path before we even try to construct the package.\n\nMoreover, all we\u0027ve checked for here is that `err !\u003d nil`. That will potentially impact the error reporting for a large class of other issues (such as a typo\u0027d filename).",
+      "range": {
+        "startLine": 1955,
+        "startChar": 0,
+        "endLine": 1958,
+        "endChar": 26
+      },
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e28b258_88c36441",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1958,
+      "author": {
+        "id": 28805
+      },
+      "writtenOn": "2019-06-11T03:19:24Z",
+      "side": 1,
+      "message": "\u003e This doesn\u0027t seem like the right place for this check: we should know whether we\u0027re looking at a module path or a file path before we even try to construct the package.\n\u003e \n\u003e Moreover, all we\u0027ve checked for here is that `err !\u003d nil`. That will potentially impact the error reporting for a large class of other issues (such as a typo\u0027d filename).\n\nYou\u0027re right. I\u0027ve encountered a test fail: `go get -e -test -json -- c.c x.go`. The file `c.c` cause `GoFilesPackage` fails, so, both of them are loaded again as packages. I think if we permit package ended with \u0027.go\u0027, then \u0027c.c\u0027 should be a valid package name (if it exists). If you agree, I will update the test in `list_test_non_go_files` follow that asumption.",
+      "parentUuid": "4d8f7176_7d48c87b",
       "range": {
         "startLine": 1955,
         "startChar": 0,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "d9d4c095_8e822329",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2099,
+      "author": {
+        "id": 28805
+      },
+      "writtenOn": "2019-06-11T03:19:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcdf6d90_7ad36b36",
+      "range": {
+        "startLine": 2099,
+        "startChar": 15,
+        "endLine": 2099,
+        "endChar": 37
+      },
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af0ac80_e492f56b",
         "filename": "src/cmd/go/internal/load/pkg_test.go",
         "patchSetId": 1
@@ -131,6 +245,30 @@
       "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a2e1ee6_79987064",
+        "filename": "src/cmd/go/internal/load/pkg_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 28805
+      },
+      "writtenOn": "2019-06-11T03:19:24Z",
+      "side": 1,
+      "message": "I use underscore here to avoid clashing with another method in main code that use to load test code and packages. In recent change,I\u0027ve renamed this method to `TestLoadPackagesAndErrors`.",
+      "parentUuid": "9af0ac80_e492f56b",
+      "range": {
+        "startLine": 70,
+        "startChar": 5,
+        "endLine": 70,
+        "endChar": 27
+      },
+      "revId": "dcb58d0b62e0e0dfa150da809bb296a9486a45c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
