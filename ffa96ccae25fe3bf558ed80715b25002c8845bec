@@ -249,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "c78761e6_8a86dedc",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-11T18:41:36Z",
+      "side": 1,
+      "message": "You should also make sure that `bzr`, `fossil`, and `svn` are in your $PATH: the tests for those VCS commands will skip if they aren\u0027t found.",
+      "parentUuid": "c3c6dac0_f37d6208",
+      "range": {
+        "startLine": 410,
+        "startChar": 106,
+        "endLine": 410,
+        "endChar": 110
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a2be894_f10ea788",
         "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
         "patchSetId": 1
