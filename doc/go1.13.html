@@ -324,11 +324,14 @@ TODO
 <dl id="sync"><dt><a href="/pkg/sync/">sync</a></dt>
   <dd>
     <p><!-- CL 166960 -->
-      TODO: <a href="https://golang.org/cl/166960">https://golang.org/cl/166960</a>: use lock-free structure for Pool stealing
+      Large <a href="https://golang.org/pkg/sync/#Pool"><code>sync.Pools</code></a> no longer cause long stop-the-world pauses.
+      <code>sync.Pool</code> now uses a lock-free structure for <code>Pool</code> stealing, replacing what was formerly a
+      locked overflow slice.
     </p>
 
     <p><!-- CL 166961 -->
-      TODO: <a href="https://golang.org/cl/166961">https://golang.org/cl/166961</a>: smooth out Pool behavior over GC with a victim cache
+      <code>sync.Pools</code> no longer need to be completely repopulated after every GC. It now uses a watermark to retain some
+      objects across GCs, as opposed to releasing all objects. This should reduce load spikes for heavy users of <code>sync.Pool</code>.
     </p>
 
 </dl><!-- sync -->
