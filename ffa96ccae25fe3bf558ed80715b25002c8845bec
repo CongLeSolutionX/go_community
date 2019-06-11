@@ -297,6 +297,30 @@
     },
     {
       "key": {
+        "uuid": "54e6aaad_c4ac0cb5",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-11T21:15:07Z",
+      "side": 1,
+      "message": "Ideally you want to check `go test cmd/go/...`, not just `go test cmd/go`.\n\n(There are long tests in some of the subpackages too.)",
+      "parentUuid": "cc0c07c6_5d33def3",
+      "range": {
+        "startLine": 410,
+        "startChar": 106,
+        "endLine": 410,
+        "endChar": 110
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a2be894_f10ea788",
         "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
         "patchSetId": 1
