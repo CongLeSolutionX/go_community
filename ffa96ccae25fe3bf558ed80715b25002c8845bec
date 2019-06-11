@@ -273,6 +273,30 @@
     },
     {
       "key": {
+        "uuid": "cc0c07c6_5d33def3",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-11T21:11:12Z",
+      "side": 1,
+      "message": "Verified on a machine with git, hg, bzr, fossil, and svn installed. \u0027go test cmd/go\u0027 and \u0027./all.bash\u0027 pass.",
+      "parentUuid": "c78761e6_8a86dedc",
+      "range": {
+        "startLine": 410,
+        "startChar": 106,
+        "endLine": 410,
+        "endChar": 110
+      },
+      "revId": "ffa96ccae25fe3bf558ed80715b25002c8845bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a2be894_f10ea788",
         "filename": "src/cmd/go/internal/modfetch/codehost/vcs.go",
         "patchSetId": 1
