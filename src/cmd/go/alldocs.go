@@ -1568,19 +1568,16 @@
 // 		For more details see: 'go help gopath'.
 // 	GOPROXY
 // 		URL of Go module proxy. See 'go help modules'.
-// 	GONOPROXY
+// 	GOPRIVATE, GONOPROXY, GONOSUMDB
 // 		Comma-separated list of glob patterns (in the syntax of Go's path.Match)
-// 		of module path prefixes that should always be fetched directly, ignoring
-// 		the GOPROXY setting. See 'go help modules'.
+// 		of module path prefixes that should always be fetched directly
+// 		or that should not be compared against the checksum database.
+// 		See 'go help module-private'.
+// 	GOROOT
+// 		The root of the go tree.
 // 	GOSUMDB
 // 		The name of checksum database to use and optionally its public key and
 // 		URL. See 'go help module-auth'.
-// 	GONOSUMDB
-// 		Comma-separated list of glob patterns (in the syntax of Go's path.Match)
-// 		of module path prefixes that should not be compared against the checksum
-// 		database. See 'go help module-auth'.
-// 	GOROOT
-// 		The root of the go tree.
 // 	GOTMPDIR
 // 		The directory where the go command will write
 // 		temporary source files, packages, and binaries.
@@ -2598,19 +2595,8 @@
 // to cause a direct connection to be attempted at that point in the search.
 // Any proxies listed after "direct" are never consulted.
 //
-// The GONOPROXY environment variable is a comma-separated list of
-// glob patterns (in the syntax of Go's path.Match) of module path prefixes
-// that should always be fetched directly, ignoring the GOPROXY setting.
-// For example,
-//
-// 	GONOPROXY=*.corp.example.com,rsc.io/private
-//
-// forces a direct connection to download modules with path prefixes matching
-// either pattern, including "git.corp.example.com/xyzzy", "rsc.io/private",
-// and "rsc.io/private/quux".
-//
-// The 'go env -w' command (see 'go help env') can be used to set these variables
-// for future go command invocations.
+// The GOPRIVATE and GONOPROXY environment variables allow bypassing
+// the proxy for selected modules. See 'go help module-private' for details.
 //
 // No matter the source of the modules, the go command checks downloads against
 // known checksums, to detect unexpected changes in the content of any specific
@@ -2805,18 +2791,8 @@
 // the checksum database is not consulted, and all unrecognized modules are
 // accepted, at the cost of giving up the security guarantee of verified repeatable
 // downloads for all modules. A better way to bypass the checksum database
-// for specific modules is to use the GONOSUMDB environment variable.
-//
-// The GONOSUMDB environment variable is a comma-separated list of
-// glob patterns (in the syntax of Go's path.Match) of module path prefixes
-// that should not be compared against the checksum database.
-// For example,
-//
-// 	GONOSUMDB=*.corp.example.com,rsc.io/private
-//
-// disables checksum database lookups for modules with path prefixes matching
-// either pattern, including "git.corp.example.com/xyzzy", "rsc.io/private",
-// and "rsc.io/private/quux".
+// for specific modules is to use the GOPRIVATE or GONOSUMDB environment
+// variables. See 'go help module-private' for details.
 //
 // The 'go env -w' command (see 'go help env') can be used to set these variables
 // for future go command invocations.
