@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62289479_77165a62",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-06-11T15:09:41Z",
+      "side": 1,
+      "message": "Add \u0026\u0026 path.IsAbs(proxyURL) to avoid turning \"/foo\" into https:///foo on Windows.",
+      "revId": "05828fd26ae69a09c508b4e7e542319264fcd64c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
