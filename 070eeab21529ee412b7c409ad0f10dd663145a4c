@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05614ba5_3ce7ca2b",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-11T20:05:51Z",
+      "side": 1,
+      "message": "(nit)\n\nYou can use a singular to avoid pluralizing the `\u003ccode\u003e` block:\n\n\tA large `sync.Pool` no longer causes a long stop-the-world pause during garbage collection.",
+      "range": {
+        "startLine": 327,
+        "startChar": 6,
+        "endLine": 327,
+        "endChar": 83
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fba8fb92_4d5f3799",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-11T20:05:51Z",
+      "side": 1,
+      "message": "This might be more detail than necessary in a release note. (I don\u0027t really know what “Pool stealing” is, and I doubt most readers of the release notes will either.)",
+      "range": {
+        "startLine": 328,
+        "startChar": 60,
+        "endLine": 329,
+        "endChar": 28
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71be3e5a_cc484770",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-11T20:05:51Z",
+      "side": 1,
+      "message": "A `sync.Pool` no longer needs […].\n\n(That also fixes plural/singular agreement with “It” as the subject of the next sentence.)",
+      "range": {
+        "startLine": 333,
+        "startChar": 12,
+        "endLine": 333,
+        "endChar": 22
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10e58dff_7ec1306e",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-11T20:05:51Z",
+      "side": 1,
+      "message": "“GCs, as opposed […]. This should reduce” → “GCs, reducing”\n\n(It\u0027s more concise, and avoids an ambiguous antecedent for “this”.)",
+      "range": {
+        "startLine": 334,
+        "startChar": 24,
+        "endLine": 334,
+        "endChar": 81
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
