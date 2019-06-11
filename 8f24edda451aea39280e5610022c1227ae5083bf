@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "703cdc54_d90164fb",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-11T22:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd1b7042_e648e46c",
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59752faa_0b7a43f0",
         "filename": "src/cmd/go/internal/modget/get.go",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2019-06-07T19:07:25Z",
       "side": 1,
       "message": "Unfortunately, I think this is only true to a first approximation: a `replace` directive can re-point a dotless module path to some other repository or filesystem path, even if that module is not already in the build list.",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 15
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e79c0af_049252c4",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-11T22:25:32Z",
+      "side": 1,
+      "message": "Should the comment be reworded or is a code change needed here?\n\nWe aren\u0027t really looking at replace directives in this code. ImportPathsQuiet and anything else that loads packages will respect replace directives, but getQuery, UpgradeAll, and Downgrade won\u0027t.",
+      "parentUuid": "59752faa_0b7a43f0",
       "range": {
         "startLine": 368,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "bb86568d_b6e5e42d",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-11T22:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "338cc062_1789e29a",
+      "range": {
+        "startLine": 406,
+        "startChar": 34,
+        "endLine": 406,
+        "endChar": 82
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9822a1e4_aef5ba58",
         "filename": "src/cmd/go/internal/modget/get.go",
         "patchSetId": 3
@@ -76,6 +142,30 @@
       "writtenOn": "2019-06-07T19:07:25Z",
       "side": 1,
       "message": "I don\u0027t really follow this second sentence. Why does constructing this map impact the number of times we load packages?\n\nIn the baseline version, we pass the byPath map to newUpgrader mostly to avoid resolving “latest” versions for modules that have specific versions on the command line. (That avoids a needless upgrade-then-downgrade cycle, and also eliminates some spurious additional upgrades.)",
+      "range": {
+        "startLine": 408,
+        "startChar": 60,
+        "endLine": 409,
+        "endChar": 28
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c135344_ebaa980e",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-11T22:25:32Z",
+      "side": 1,
+      "message": "Clarified the comment a bit, but one additional thing to point out: I suspect we should narrow UpgradeAll to the non-@none subset of modOnly. However, if we calculate modOnly first, that means we download and verify zips before go.mod. Russ had some reservations about that in https://go-review.googlesource.com/c/go/+/174099/4/src/cmd/go/testdata/script/mod_sumdb.txt.",
+      "parentUuid": "9822a1e4_aef5ba58",
       "range": {
         "startLine": 408,
         "startChar": 60,
@@ -128,6 +218,30 @@
     },
     {
       "key": {
+        "uuid": "ed90a98a_a55d8a1e",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-11T22:25:32Z",
+      "side": 1,
+      "message": "I played around with this, but extracting lookup into a function didn\u0027t seem to help. The problem is that either repo.Stat or repo.Latest should be called. I\u0027m not confident calling repo.Stat on the version returned by repo.Latest will hit an in-memory cache and avoid extra I/O. So we could have two functions, lookup and lookupLatest, both of which would call a third function, checkLatestIsUpgrade. But then the control flow is pretty obfuscated.\n\ngoto is pretty much equivalent to a tail call, and it seems clearer to have that code come after the version selection.\n\nThat said, I did get rid of some of the `rev !\u003d nil` redundancy. No need for that.",
+      "parentUuid": "c70e818d_90e5e1bb",
+      "range": {
+        "startLine": 234,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 0
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7d029fe_4abb29e4",
         "filename": "src/cmd/go/internal/modload/query.go",
         "patchSetId": 3
@@ -148,6 +262,30 @@
       "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f22f63d_ca6fdead",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-11T22:25:32Z",
+      "side": 1,
+      "message": "Removed the current parameter: if we don\u0027t know which module it is, I don\u0027t think the current version should matter. The only cases where it matters to \u0027go get\u0027 are when Query succeeds.\n\nIf we can avoid Query referencing the global build list, I\u0027d prefer that. I\u0027d love to be able to get rid of global state in modload entirely in the future.",
+      "parentUuid": "f7d029fe_4abb29e4",
+      "range": {
+        "startLine": 297,
+        "startChar": 31,
+        "endLine": 297,
+        "endChar": 38
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
