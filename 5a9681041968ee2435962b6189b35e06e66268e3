@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97157315_12c42c67",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1575,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-11T18:50:12Z",
+      "side": 1,
+      "message": "I don\u0027t see the module-private help text in alldocs.go. Is this change missing an addition to base.Go.Commands in cmd/go/main.go?",
+      "revId": "5a9681041968ee2435962b6189b35e06e66268e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
