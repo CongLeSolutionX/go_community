@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e961486_237b3a6b",
+        "filename": "src/errors/wrap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-11T18:01:29Z",
+      "side": 1,
+      "message": "My brain parses this as: \n\n\tAs will panic if target is not a non-nil pointer […],\n\tor [As will panic] if [target] is not of interface type.\n\nThere are two problems there: the “or” association should be tighter (bound to “pointer to” instead of “will panic”), and the thing that can be of interface type is the pointee, not target itself.\n\nI would suggest:\n\n\tAs will panic if target is not a non-nil pointer to\n\teither a type that implements error or any interface type.",
+      "range": {
+        "startLine": 58,
+        "startChar": 83,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "bc0baad6c3cc0ba6c2ba461897db279d3d6aa0b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
