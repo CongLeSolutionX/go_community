@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "718dda54_e57c1c59",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-06-12T14:47:38Z",
+      "side": 1,
+      "message": "Use a relative path here (drop the scheme \u0026 host)... just /pkg/sync/#Pool",
+      "range": {
+        "startLine": 327,
+        "startChar": 21,
+        "endLine": 327,
+        "endChar": 39
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fba8fb92_4d5f3799",
         "filename": "doc/go1.13.html",
         "patchSetId": 1
@@ -59,6 +82,30 @@
       "writtenOn": "2019-06-11T20:05:51Z",
       "side": 1,
       "message": "A `sync.Pool` no longer needs […].\n\n(That also fixes plural/singular agreement with “It” as the subject of the next sentence.)",
+      "range": {
+        "startLine": 333,
+        "startChar": 12,
+        "endLine": 333,
+        "endChar": 22
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e9f299c_529564fc",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-06-12T14:47:38Z",
+      "side": 1,
+      "message": "IIRC we don\u0027t generally re-state the package name in these notes (sync.Pool instead of Pool) because they\u0027re already in a per-package sections.",
+      "parentUuid": "71be3e5a_cc484770",
       "range": {
         "startLine": 333,
         "startChar": 12,
