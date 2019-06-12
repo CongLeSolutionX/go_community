@@ -16,6 +16,24 @@
       "revId": "c4cf238018624a3a9428d64860cf31085d982878",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64ba84be_8598f0ea",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-12T20:56:50Z",
+      "side": 1,
+      "message": "This case should be okay: QueryPackage and QueryPattern should only be called when the previous version of the module doesn\u0027t matter.\n\nFor \u0027go get golang.org/x/tools/cmd/goimports@patch\u0027, there is an admittedly subtle check on get.go:417. We\u0027ll call QueryPattern with \"golang.org/x/tools/cmd/goimports\", and we\u0027ll get back \"golang.org/x/tools\", perhaps not at the version we want. However, because q.m.Path !\u003d q.path, we won\u0027t pass that to UpgradeAll before entering the package loading loop. We only call UpgradeAll on arguments that are complete module paths.\n\nOnce we get into the package loading loop, QueryPattern may be called via ImportPathsQuiet for imports that can\u0027t be resolved, but that\u0027s only needed for modules we don\u0027t have. For everything else, we\u0027ll find the module that provides named packages, then call Query on that (with forceModulePath so QueryPattern cannot be called).\n\n------\n\nBack to the change at hand though, I\u0027m more worried about a reference to the global build list than I am about the \u0027go get\u0027 logic. For 1.14, I\u0027m in favor of an object that encapsulates the build list, but for 1.13, I think we should either have a current parameter on Query only, or we should go back to post-processing the Query result, as in PS1.\n\nTo make this a little safer, I\u0027ve added an invariant (and an assertion) to getQuery: if prevM is set, forceModulePath must also be set (preventing calls to QueryPattern).\n\nMarking this resolved, but please reopen if this isn\u0027t enough.",
+      "parentUuid": "ddcfd782_4eaeadfd",
+      "revId": "c4cf238018624a3a9428d64860cf31085d982878",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

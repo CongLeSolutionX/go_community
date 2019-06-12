@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "c1310814_fae2e643",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-12T20:56:50Z",
+      "side": 1,
+      "message": "modload.Query will simply fail. It doesn\u0027t handle replacements, and it has no special cases for the standard library. I\u0027ve adjusted the comment a little, but let me know if I should add more.\n\nAt the moment, it seems few things that handle module paths specifically (\u0027go mod download\u0027, \u0027go list -m\u0027) consider replacements. Perhaps \u0027go get\u0027 should do so when querying modules before loading packages? Should probably be another CL though, and I\u0027m not sure if it should be for 1.13.",
+      "parentUuid": "5ddb0577_432ce197",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 15
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "338cc062_1789e29a",
         "filename": "src/cmd/go/internal/modget/get.go",
         "patchSetId": 3
@@ -202,6 +226,30 @@
     },
     {
       "key": {
+        "uuid": "9ed4e718_407c315c",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-12T20:56:50Z",
+      "side": 1,
+      "message": "Resolving for now, but I\u0027d like to revisit this in 1.14.",
+      "parentUuid": "4c135344_ebaa980e",
+      "range": {
+        "startLine": 408,
+        "startChar": 60,
+        "endLine": 409,
+        "endChar": 28
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0972ff91_9c637c08",
         "filename": "src/cmd/go/internal/modload/query.go",
         "patchSetId": 3
@@ -278,6 +326,30 @@
       "side": 1,
       "message": "\u003e I played around with this, but extracting lookup into a function didn\u0027t seem to help. The problem is that either repo.Stat or repo.Latest should be called. I\u0027m not confident calling repo.Stat on the version returned by repo.Latest will hit an in-memory cache and avoid extra I/O.\n\nEven if it doesn\u0027t hit an in-memory cache, it should at least hit an on-disk cache, and on this path the difference is unlikely to matter: it\u0027s just a single cache miss.\n\nThe place where we really need to avoid overhead is in `go list`, since that\u0027s used by interactive tools, and `go build` and `go test` since they\u0027re run frequently. It\u0027s ok if `go get` is a little suboptimal, because it is run infrequently and generally has a lot of more significant work to do anyway.",
       "parentUuid": "ed90a98a_a55d8a1e",
+      "range": {
+        "startLine": 234,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 0
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c42c6f12_68d294f9",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-12T20:56:50Z",
+      "side": 1,
+      "message": "Extracted lookup to a function as you suggested.\n\nThis may add a little overhead to `go list` and `go build` for unknown modules with no tagged versions, but that probably doesn\u0027t matter much, since we\u0027re going to the network and downloading those, too.",
+      "parentUuid": "5e2f168c_89c6b328",
       "range": {
         "startLine": 234,
         "startChar": 8,
