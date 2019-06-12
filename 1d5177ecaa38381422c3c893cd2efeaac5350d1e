@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "324fcce1_78af3d59",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-06-12T16:50:03Z",
+      "side": 1,
+      "message": "\u003ccode\u003efmt\u003c/code\u003e\n\nBut this comment doesn\u0027t say why users should know or care.\n\nThe notable bit is that the formatting of contexts returned by context.WithValue no longer stringify in the same way. So something about how tests depending on the exact stringification might need to be updated. But probably with better wording.",
+      "range": {
+        "startLine": 141,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 17
+      },
+      "revId": "1d5177ecaa38381422c3c893cd2efeaac5350d1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
