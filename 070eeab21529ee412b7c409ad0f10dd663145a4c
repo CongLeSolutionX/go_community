@@ -71,6 +71,78 @@
     },
     {
       "key": {
+        "uuid": "b401df29_c66bb923",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-12T15:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "718dda54_e57c1c59",
+      "range": {
+        "startLine": 327,
+        "startChar": 21,
+        "endLine": 327,
+        "endChar": 39
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36aca033_987a172f",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-12T15:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05614ba5_3ce7ca2b",
+      "range": {
+        "startLine": 327,
+        "startChar": 6,
+        "endLine": 327,
+        "endChar": 83
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5473248d_db00de7f",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-12T15:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a145e195_bb4af27a",
+      "range": {
+        "startLine": 327,
+        "startChar": 94,
+        "endLine": 327,
+        "endChar": 126
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fba8fb92_4d5f3799",
         "filename": "doc/go1.13.html",
         "patchSetId": 1
@@ -115,6 +187,30 @@
       "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cf8ea68_6839f340",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-12T15:47:43Z",
+      "side": 1,
+      "message": "Sure, fine to remove it!",
+      "parentUuid": "1dce21ab_3e22e296",
+      "range": {
+        "startLine": 328,
+        "startChar": 60,
+        "endLine": 329,
+        "endChar": 28
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -182,6 +278,48 @@
     },
     {
       "key": {
+        "uuid": "9c0e70d4_c5855839",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-12T15:47:43Z",
+      "side": 1,
+      "message": "Sure, this was copied directly from the RELNOTE in the original CL. Reworded - LMK what you think.",
+      "parentUuid": "eb748191_b535c97a",
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9edb0528_b486e215",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-12T15:47:43Z",
+      "side": 1,
+      "message": "Changed to \u0027Pool\u0027",
+      "parentUuid": "0e9f299c_529564fc",
+      "range": {
+        "startLine": 333,
+        "startChar": 12,
+        "endLine": 333,
+        "endChar": 22
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10e58dff_7ec1306e",
         "filename": "doc/go1.13.html",
         "patchSetId": 1
@@ -202,6 +340,30 @@
       "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b97b47f_dc1b2e0b",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-12T15:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10e58dff_7ec1306e",
+      "range": {
+        "startLine": 334,
+        "startChar": 24,
+        "endLine": 334,
+        "endChar": 81
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
