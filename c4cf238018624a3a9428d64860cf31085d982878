@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddcfd782_4eaeadfd",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-12T18:44:18Z",
+      "side": 1,
+      "message": "I\u0027m worried that this will end up overwriting a newer-than-latest version if we end up querying for the \"latest\" or \"patch\" version of a package deeper than the module root (or a pattern shallower than that root).\n\nFor example, suppose that I run `go get golang.org/x/tools/cmd/goimports@patch` from within some module other than `golang.org/x/tools`. It\u0027s not a wildcard or relative path, and not in the target module, so if I\u0027m following correctly it will end up enqueued as a query. It\u0027s also not the name of a module, so getQuery will fall through to QueryPattern and we\u0027ll end up here.\n\nSupposing that the user already had a requirement on `golang.org/x/tools` at some newer-than-latest commit, that would result in a downgrade, since we would pass in the version \"\" instead of the version of golang.org/x/tools specified in the build list.\n\nI share your dislike for the global build list, but the only viable alternative I can see here is to pass the build list explicitly to *all* of the Query variants. (Perhaps when the 1.14 tree opens we can make them methods on some object that encapsulates the build list and replacements.)",
+      "revId": "c4cf238018624a3a9428d64860cf31085d982878",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

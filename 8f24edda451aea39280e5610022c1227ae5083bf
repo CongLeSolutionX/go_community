@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "5ddb0577_432ce197",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-12T18:44:18Z",
+      "side": 1,
+      "message": "\u003e Should the comment be reworded or is a code change needed here?\n\nI\u0027m not sure. Mostly I don\u0027t really understand the function of the code here: why is it harmful to query a dotless package?",
+      "parentUuid": "8e79c0af_049252c4",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 15
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "338cc062_1789e29a",
         "filename": "src/cmd/go/internal/modget/get.go",
         "patchSetId": 3
@@ -230,6 +254,30 @@
       "side": 1,
       "message": "I played around with this, but extracting lookup into a function didn\u0027t seem to help. The problem is that either repo.Stat or repo.Latest should be called. I\u0027m not confident calling repo.Stat on the version returned by repo.Latest will hit an in-memory cache and avoid extra I/O. So we could have two functions, lookup and lookupLatest, both of which would call a third function, checkLatestIsUpgrade. But then the control flow is pretty obfuscated.\n\ngoto is pretty much equivalent to a tail call, and it seems clearer to have that code come after the version selection.\n\nThat said, I did get rid of some of the `rev !\u003d nil` redundancy. No need for that.",
       "parentUuid": "c70e818d_90e5e1bb",
+      "range": {
+        "startLine": 234,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 0
+      },
+      "revId": "8f24edda451aea39280e5610022c1227ae5083bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e2f168c_89c6b328",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-12T18:44:18Z",
+      "side": 1,
+      "message": "\u003e I played around with this, but extracting lookup into a function didn\u0027t seem to help. The problem is that either repo.Stat or repo.Latest should be called. I\u0027m not confident calling repo.Stat on the version returned by repo.Latest will hit an in-memory cache and avoid extra I/O.\n\nEven if it doesn\u0027t hit an in-memory cache, it should at least hit an on-disk cache, and on this path the difference is unlikely to matter: it\u0027s just a single cache miss.\n\nThe place where we really need to avoid overhead is in `go list`, since that\u0027s used by interactive tools, and `go build` and `go test` since they\u0027re run frequently. It\u0027s ok if `go get` is a little suboptimal, because it is run infrequently and generally has a lot of more significant work to do anyway.",
+      "parentUuid": "ed90a98a_a55d8a1e",
       "range": {
         "startLine": 234,
         "startChar": 8,
