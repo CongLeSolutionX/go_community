@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77746632_b55bb953",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-12T18:01:24Z",
+      "side": 1,
+      "message": "suggest updating to\n\n\u003ca href\u003d\"/pkg/context/#WithValue\"\u003e\u003ccode\u003eWithValue\u003c/code\u003e\u003c/a\u003e\n\nin order to provide a link to what this release note relates to, and remove the redundant package name.",
+      "range": {
+        "startLine": 141,
+        "startChar": 43,
+        "endLine": 141,
+        "endChar": 72
+      },
+      "revId": "bda9097ea0988c0de94f270ff3dd3690cfa7c8ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
