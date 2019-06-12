@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "a145e195_bb4af27a",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-06-12T15:09:30Z",
+      "side": 1,
+      "message": "Rather than saying \"long\" STW pauses, since that\u0027s subjective (they had to be *tremendously* large to push STW times into the realm that typical of many garbage collectors), perhaps \"no longer increase stop-the-world pause times\"",
+      "range": {
+        "startLine": 327,
+        "startChar": 94,
+        "endLine": 327,
+        "endChar": 126
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fba8fb92_4d5f3799",
         "filename": "doc/go1.13.html",
         "patchSetId": 1
@@ -59,6 +82,30 @@
       "writtenOn": "2019-06-11T20:05:51Z",
       "side": 1,
       "message": "This might be more detail than necessary in a release note. (I don\u0027t really know what “Pool stealing” is, and I doubt most readers of the release notes will either.)",
+      "range": {
+        "startLine": 328,
+        "startChar": 60,
+        "endLine": 329,
+        "endChar": 28
+      },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dce21ab_3e22e296",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-06-12T15:09:30Z",
+      "side": 1,
+      "message": "I agree. I may be worth mentioning that sync.Pool performance has generally been improved. Maybe that falls under our standard \"lots of things are faster\" disclaimer, though this is a fairly targeted and I think a lot of people would be interested that this got faster.",
+      "parentUuid": "fba8fb92_4d5f3799",
       "range": {
         "startLine": 328,
         "startChar": 60,
@@ -112,6 +159,23 @@
         "endLine": 333,
         "endChar": 22
       },
+      "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb748191_b535c97a",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-06-12T15:09:30Z",
+      "side": 1,
+      "message": "The watermark may be more detail than people need in the release notes. Maybe just \"It now retains some objects across GCs\"?",
       "revId": "070eeab21529ee412b7c409ad0f10dd663145a4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
