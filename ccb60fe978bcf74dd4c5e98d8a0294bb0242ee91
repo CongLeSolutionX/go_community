@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9685fa2c_8f4fcfe8",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-06-13T07:10:03Z",
+      "side": 1,
+      "message": "Hmmm .. that\u0027s a mouthful. How about quitRdrCh ? The comment already clarifies the part about error.",
+      "parentUuid": "668d7b7f_960bf366",
+      "revId": "ccb60fe978bcf74dd4c5e98d8a0294bb0242ee91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d28c8b61_f38b74ea",
         "filename": "src/net/http/httputil/dump.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-06-13T05:57:33Z",
       "side": 1,
       "message": "How about just a close(done)",
+      "revId": "ccb60fe978bcf74dd4c5e98d8a0294bb0242ee91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1409f8c_747ca2df",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-06-13T07:10:03Z",
+      "side": 1,
+      "message": "That doesn\u0027t seem to work. I just tried it. Not sure why :/",
+      "parentUuid": "d28c8b61_f38b74ea",
       "revId": "ccb60fe978bcf74dd4c5e98d8a0294bb0242ee91",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9f87c70f_f922f958",
+        "filename": "src/net/http/httputil/dump_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-06-13T07:10:03Z",
+      "side": 1,
+      "message": "I had thought of WantError but the previous fields indicate what is the value that is wanted- i.e. WantDump means what is the value of the dump wanted. But WantError does not mean what error value is wanted.\n\nMustError is much better. Updated.",
+      "parentUuid": "5a781600_ed0bf2eb",
+      "revId": "ccb60fe978bcf74dd4c5e98d8a0294bb0242ee91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57132eaa_6fe0e04e",
         "filename": "src/net/http/httputil/dump_test.go",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "ccb60fe978bcf74dd4c5e98d8a0294bb0242ee91",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2307be1_d254d029",
+        "filename": "src/net/http/httputil/dump_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-06-13T07:10:03Z",
+      "side": 1,
+      "message": "That\u0027s a great idea. I wanted the new tests to be part of the global test slice, but there\u0027s no way to repeat a struct declaration 10 times :P",
+      "parentUuid": "57132eaa_6fe0e04e",
+      "revId": "ccb60fe978bcf74dd4c5e98d8a0294bb0242ee91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
