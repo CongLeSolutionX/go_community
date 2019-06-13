@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "668d7b7f_960bf366",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-06-13T05:57:33Z",
+      "side": 1,
+      "message": "Minor nit about naming, how about `stopReqReadOnErrCh` to make it\nmore succinct? `done` IMHO is a bit ambigious for where it is used.\nSo perhaps:\n\n// We need this channel to ensure that the reader\n//  goroutine exits if t.RoundTrip returns an error.\n// See Issue 32571.\nstopReqReadOnErrCh :\u003d make(chan struct{})",
+      "revId": "ccb60fe978bcf74dd4c5e98d8a0294bb0242ee91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d28c8b61_f38b74ea",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-06-13T05:57:33Z",
+      "side": 1,
+      "message": "How about just a close(done)",
+      "revId": "ccb60fe978bcf74dd4c5e98d8a0294bb0242ee91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a781600_ed0bf2eb",
+        "filename": "src/net/http/httputil/dump_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-06-13T05:57:33Z",
+      "side": 1,
+      "message": "WantError or perhaps MustError",
+      "revId": "ccb60fe978bcf74dd4c5e98d8a0294bb0242ee91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57132eaa_6fe0e04e",
+        "filename": "src/net/http/httputil/dump_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-06-13T05:57:33Z",
+      "side": 1,
+      "message": "This mutates dumpTests globally, am not sure that we intend that.\nPerhaps let\u0027s make a local copy here so:\n\n  // Make a copy of dumpTests and add 10 new cases with an empty URL\n  // to test that no goroutines are leaked as per Issue 32571.\n  // 10 seems to be a decent number which always triggers the failure.\n  dumpTests :\u003d dumpTests[:]",
+      "revId": "ccb60fe978bcf74dd4c5e98d8a0294bb0242ee91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
