@@ -111,6 +111,9 @@ func DumpRequestOut(req *http.Request, body bool) ([]byte, error) {
 	}
 	defer t.CloseIdleConnections()
 
+	// We create a done channel to let the reader goroutine exit
+	// if the roundtrip throws an error.
+	done := make(chan struct{})
 	// Wait for the request before replying with a dummy response:
 	go func() {
 		req, err := http.ReadRequest(bufio.NewReader(pr))
@@ -120,13 +123,18 @@ func DumpRequestOut(req *http.Request, body bool) ([]byte, error) {
 			io.Copy(ioutil.Discard, req.Body)
 			req.Body.Close()
 		}
-		dr.c <- strings.NewReader("HTTP/1.1 204 No Content\r\nConnection: close\r\n\r\n")
+		select {
+		case <-done:
+		case dr.c <- strings.NewReader("HTTP/1.1 204 No Content\r\nConnection: close\r\n\r\n"):
+		}
 	}()
 
 	_, err := t.RoundTrip(reqSend)
 
 	req.Body = save
 	if err != nil {
+		pw.Close()
+		done <- struct{}{}
 		return nil, err
 	}
 	dump := buf.Bytes()
