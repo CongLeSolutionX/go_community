@@ -94,6 +94,30 @@
       "revId": "bda9097ea0988c0de94f270ff3dd3690cfa7c8ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd0f06e3_dad4a463",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-14T15:25:44Z",
+      "side": 1,
+      "message": "Yeah you\u0027re right, I still haven\u0027t mastered the art of viewing Gerrit patchsets :)",
+      "parentUuid": "110697b5_ae6bd591",
+      "range": {
+        "startLine": 141,
+        "startChar": 43,
+        "endLine": 141,
+        "endChar": 72
+      },
+      "revId": "bda9097ea0988c0de94f270ff3dd3690cfa7c8ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
