@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d7a0c25_8057051d",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-14T02:52:41Z",
+      "side": 1,
+      "message": "prevM.Version !\u003d \"\" implies forceModulePath.\n\nDoes the converse also hold? (Does forceModulePath imply prevM.Version !\u003d \"\"?)\nAs far as I can tell it does, but I\u0027d like to confirm that.",
+      "revId": "00a69a563912503ad785b71dd37e2c9d82c5dc09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eef6845_969d66ac",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-14T02:52:41Z",
+      "side": 1,
+      "message": "This check makes it a little easier to see why the QueryPattern call is correct.\n\nIt would be even clearer with an explanatory comment. Is the following accurate?\n\n// We resolve package patterns by calling QueryPattern, which does not accept a\n// previous version and therefore cannot take it into account for the \"latest\" or\n// \"patch\" queries.\n// If we are resolving a package path or pattern, the caller has already resolved\n// any existing packages to their containing module(s), and will set both prevM.Version\n// and forceModulePath for those modules.\n// The only remaining package patterns are those that are not already provided by the\n// build list, which are indicated by an empty prevM.Version.",
+      "range": {
+        "startLine": 722,
+        "startChar": 0,
+        "endLine": 724,
+        "endChar": 2
+      },
+      "revId": "00a69a563912503ad785b71dd37e2c9d82c5dc09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
