@@ -109,21 +109,29 @@ func TestRepoRootForImportPath(t *testing.T) {
 				Repo: "https://git.openstack.org/openstack/swift",
 			},
 		},
-		// Trailing .git is less preferred but included for
-		// compatibility purposes while the same source needs to
-		// be compilable on both old and new go
+		// OpenDev tests
 		{
-			"git.openstack.org/openstack/swift.git",
+			"opendev.org/openstack/swift",
 			&RepoRoot{
 				vcs:  vcsGit,
-				Repo: "https://git.openstack.org/openstack/swift.git",
+				Repo: "https://openstack.org/openstack/swift",
+			},
+		},
+		// Trailing .git is less preferred but included for
+		// compatibility purposes while the same source needs to
+		// be compatible on both old and new go
+		{
+			"opendev.org/openstack/swift.git",
+			&RepoRoot{
+				vcs:  vcsGit,
+				Repo: "https://opendev.org/openstack/swift.git",
 			},
 		},
 		{
-			"git.openstack.org/openstack/swift/go/hummingbird",
+			"opendev.org/openstack/swift/go/hummingbird",
 			&RepoRoot{
 				vcs:  vcsGit,
-				Repo: "https://git.openstack.org/openstack/swift",
+				Repo: "https://opendev.org/openstack/swift",
 			},
 		},
 		{

@@ -1044,6 +1044,14 @@ var vcsPaths = []*vcsPath{
 		repo:   "https://{root}",
 	},
 
+	// Git at OpenDev (the new expanded OpenStack infra service)
+	{
+		prefix: "opendev.org/",
+		regexp: lazyregexp.New(`^(?P<root>opendev\.org/[A-Za-z0-9_.\-]+/[A-Za-z0-9_.\-]+)(\.git)?(/[A-Za-z0-9_.\-]+)*$`),
+		vcs:    "git",
+		repo:   "https://{root}",
+	},
+
 	// chiselapp.com for fossil
 	{
 		prefix: "chiselapp.com/",
