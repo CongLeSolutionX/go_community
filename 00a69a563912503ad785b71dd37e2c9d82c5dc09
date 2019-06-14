@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "82b7a9f7_56175f95",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-14T17:24:51Z",
+      "side": 1,
+      "message": "Almost. This was true except for the main module, for which prevM.Version \u003d\u003d \"\". Querying the main module worked, but the result was ignored, so I\u0027ve added checks to prevent this above. This check is now if-and-only-if.",
+      "parentUuid": "6d7a0c25_8057051d",
+      "revId": "00a69a563912503ad785b71dd37e2c9d82c5dc09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eef6845_969d66ac",
         "filename": "src/cmd/go/internal/modget/get.go",
         "patchSetId": 8
@@ -39,6 +57,30 @@
       "revId": "00a69a563912503ad785b71dd37e2c9d82c5dc09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb0085f0_bab6b5eb",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-14T17:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eef6845_969d66ac",
+      "range": {
+        "startLine": 722,
+        "startChar": 0,
+        "endLine": 724,
+        "endChar": 2
+      },
+      "revId": "00a69a563912503ad785b71dd37e2c9d82c5dc09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
