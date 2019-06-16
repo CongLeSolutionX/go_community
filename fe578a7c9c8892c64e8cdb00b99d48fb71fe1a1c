@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f21101e_1fd76b56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-06-16T04:36:22Z",
+      "side": 1,
+      "message": "Perhaps let\u0027s update the commit message to:\n \nnet/http: fix Server.IdleTimeout and Server.ReadHeaderTimeout docs\n\nCL 46434 changed the doc for Server.IdleTimeout to include\nfalling back to Server.ReadHeaderTimeout if both \nServer.IdleTimeout and Server.ReadTimeout are zero.\nHowever, we explicitly set the ReadDeadlines firstly based\noff Server.IdleTimeout or Server.ReadTimeout before attempting\nto read the next request, thus the current doc is incorrect.\n\nThis CL reverts CL 46434 and also updates the doc for \nServer.ReadHeaderTimeout to documenting falling back\nto Server.ReadTimeout, if the former is zero, otherwise\nthere is no timeout.\n\nFixes #32053",
+      "revId": "fe578a7c9c8892c64e8cdb00b99d48fb71fe1a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b43d04a8_be38ed11",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2526,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-06-16T04:36:22Z",
+      "side": 1,
+      "message": "Please keep the \"maximum\"",
+      "revId": "fe578a7c9c8892c64e8cdb00b99d48fb71fe1a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
