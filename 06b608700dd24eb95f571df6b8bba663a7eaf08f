@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f7b9a2d_e499353a",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 25580
+      },
+      "writtenOn": "2019-06-17T10:24:17Z",
+      "side": 1,
+      "message": "This parsing does not cover a variety of corner cases. Such as a url with an ipv6 address \n```\nhttp://[::1]:3000/\n```",
+      "revId": "06b608700dd24eb95f571df6b8bba663a7eaf08f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
