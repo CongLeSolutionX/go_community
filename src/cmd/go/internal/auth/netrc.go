@@ -81,10 +81,7 @@ func netrcPath() (string, error) {
 	if env := os.Getenv("NETRC"); env != "" {
 		return env, nil
 	}
-	dir, err := os.UserHomeDir()
-	if err != nil {
-		return "", err
-	}
+	dir := try(os.UserHomeDir())
 	base := ".netrc"
 	if runtime.GOOS == "windows" {
 		base = "_netrc"

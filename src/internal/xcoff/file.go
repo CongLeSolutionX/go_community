@@ -85,10 +85,7 @@ type File struct {
 
 // Open opens the named file using os.Open and prepares it for use as an XCOFF binary.
 func Open(name string) (*File, error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(name))
 	ff, err := NewFile(f)
 	if err != nil {
 		f.Close()
@@ -156,9 +153,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	sr := io.NewSectionReader(r, 0, 1<<63-1)
 	// Read XCOFF target machine
 	var magic uint16
-	if err := binary.Read(sr, binary.BigEndian, &magic); err != nil {
-		return nil, err
-	}
+	try(binary.Read(sr, binary.BigEndian, &magic))
 	if magic != U802TOCMAGIC && magic != U64_TOCMAGIC {
 		return nil, fmt.Errorf("unrecognised XCOFF magic: 0x%x", magic)
 	}
@@ -167,9 +162,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	f.TargetMachine = magic
 
 	// Read XCOFF file header
-	if _, err := sr.Seek(0, os.SEEK_SET); err != nil {
-		return nil, err
-	}
+	try(sr.Seek(0, os.SEEK_SET))
 	var nscns uint16
 	var symptr uint64
 	var nsyms int32
@@ -204,14 +197,10 @@ func NewFile(r io.ReaderAt) (*File, error) {
 
 	// Read string table (located right after symbol table).
 	offset := symptr + uint64(nsyms)*SYMESZ
-	if _, err := sr.Seek(int64(offset), os.SEEK_SET); err != nil {
-		return nil, err
-	}
+	try(sr.Seek(int64(offset), os.SEEK_SET))
 	// The first 4 bytes contain the length (in bytes).
 	var l uint32
-	if err := binary.Read(sr, binary.BigEndian, &l); err != nil {
-		return nil, err
-	}
+	try(binary.Read(sr, binary.BigEndian, &l))
 	if l > 4 {
 		if _, err := sr.Seek(int64(offset), os.SEEK_SET); err != nil {
 			return nil, err
@@ -223,9 +212,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	}
 
 	// Read section headers
-	if _, err := sr.Seek(int64(hdrsz)+int64(opthdr), os.SEEK_SET); err != nil {
-		return nil, err
-	}
+	try(sr.Seek(int64(hdrsz)+int64(opthdr), os.SEEK_SET))
 	f.Sections = make([]*Section, nscns)
 	for i := 0; i < int(nscns); i++ {
 		var scnptr uint64
@@ -269,9 +256,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	var idxToSym = make(map[int]*Symbol)
 
 	// Read symbol table
-	if _, err := sr.Seek(int64(symptr), os.SEEK_SET); err != nil {
-		return nil, err
-	}
+	try(sr.Seek(int64(symptr), os.SEEK_SET))
 	f.Symbols = make([]*Symbol, 0)
 	for i := 0; i < int(nsyms); i++ {
 		var numaux int
@@ -382,9 +367,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 		f.Symbols = append(f.Symbols, sym)
 	skip:
 		i += numaux // Skip auxiliary entries
-		if _, err := sr.Seek(int64(numaux)*SYMESZ, os.SEEK_CUR); err != nil {
-			return nil, err
-		}
+		try(sr.Seek(int64(numaux)*SYMESZ, os.SEEK_CUR))
 	}
 
 	// Read relocations
@@ -397,9 +380,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 		if sect.Relptr == 0 {
 			continue
 		}
-		if _, err := sr.Seek(int64(sect.Relptr), os.SEEK_SET); err != nil {
-			return nil, err
-		}
+		try(sr.Seek(int64(sect.Relptr), os.SEEK_SET))
 		for i := uint32(0); i < sect.Nreloc; i++ {
 			switch f.TargetMachine {
 			case U802TOCMAGIC:
@@ -508,9 +489,7 @@ func (f *File) DWARF() (*dwarf.Data, error) {
 // Library name pattern is either path/base/member or base/member
 func (f *File) readImportIDs(s *Section) ([]string, error) {
 	// Read loader header
-	if _, err := s.sr.Seek(0, os.SEEK_SET); err != nil {
-		return nil, err
-	}
+	try(s.sr.Seek(0, os.SEEK_SET))
 	var istlen uint32
 	var nimpid int32
 	var impoff uint64
@@ -534,13 +513,9 @@ func (f *File) readImportIDs(s *Section) ([]string, error) {
 	}
 
 	// Read loader import file ID table
-	if _, err := s.sr.Seek(int64(impoff), os.SEEK_SET); err != nil {
-		return nil, err
-	}
+	try(s.sr.Seek(int64(impoff), os.SEEK_SET))
 	table := make([]byte, istlen)
-	if _, err := io.ReadFull(s.sr, table); err != nil {
-		return nil, err
-	}
+	try(io.ReadFull(s.sr, table))
 
 	offset := 0
 	// First import file ID is the default LIBPATH value
@@ -577,9 +552,7 @@ func (f *File) ImportedSymbols() ([]ImportedSymbol, error) {
 		return nil, nil
 	}
 	// Read loader header
-	if _, err := s.sr.Seek(0, os.SEEK_SET); err != nil {
-		return nil, err
-	}
+	try(s.sr.Seek(0, os.SEEK_SET))
 	var stlen uint32
 	var stoff uint64
 	var nsyms int32
@@ -606,24 +579,15 @@ func (f *File) ImportedSymbols() ([]ImportedSymbol, error) {
 	}
 
 	// Read loader section string table
-	if _, err := s.sr.Seek(int64(stoff), os.SEEK_SET); err != nil {
-		return nil, err
-	}
+	try(s.sr.Seek(int64(stoff), os.SEEK_SET))
 	st := make([]byte, stlen)
-	if _, err := io.ReadFull(s.sr, st); err != nil {
-		return nil, err
-	}
+	try(io.ReadFull(s.sr, st))
 
 	// Read imported libraries
-	libs, err := f.readImportIDs(s)
-	if err != nil {
-		return nil, err
-	}
+	libs := try(f.readImportIDs(s))
 
 	// Read loader symbol table
-	if _, err := s.sr.Seek(int64(symoff), os.SEEK_SET); err != nil {
-		return nil, err
-	}
+	try(s.sr.Seek(int64(symoff), os.SEEK_SET))
 	all := make([]ImportedSymbol, 0)
 	for i := 0; i < int(nsyms); i++ {
 		var name string

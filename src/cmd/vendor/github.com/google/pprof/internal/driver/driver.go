@@ -39,15 +39,9 @@ func PProf(eo *plugin.Options) error {
 
 	o := setDefaults(eo)
 
-	src, cmd, err := parseFlags(o)
-	if err != nil {
-		return err
-	}
+	src, cmd := try(parseFlags(o))
 
-	p, err := fetchProfiles(src, o)
-	if err != nil {
-		return err
-	}
+	p := try(fetchProfiles(src, o))
 
 	if cmd != nil {
 		return generateReport(p, cmd, pprofVariables, o)
@@ -80,10 +74,7 @@ func generateRawReport(p *profile.Profile, cmd []string, vars variables, o *plug
 			return nil, nil, err
 		}
 	}
-	ropt, err := reportOptions(p, numLabelUnits, vars)
-	if err != nil {
-		return nil, nil, err
-	}
+	ropt := try(reportOptions(p, numLabelUnits, vars))
 	ropt.OutputFormat = c.format
 	if len(cmd) == 2 {
 		s, err := regexp.Compile(cmd[1])
@@ -99,24 +90,17 @@ func generateRawReport(p *profile.Profile, cmd []string, vars variables, o *plug
 			return nil, nil, err
 		}
 	}
-	if err := aggregate(p, vars); err != nil {
-		return nil, nil, err
-	}
+	try(aggregate(p, vars))
 
 	return c, rpt, nil
 }
 
 func generateReport(p *profile.Profile, cmd []string, vars variables, o *plugin.Options) error {
-	c, rpt, err := generateRawReport(p, cmd, vars, o)
-	if err != nil {
-		return err
-	}
+	c, rpt := try(generateRawReport(p, cmd, vars, o))
 
 	// Generate the report.
 	dst := new(bytes.Buffer)
-	if err := report.Generate(dst, rpt, o.Obj); err != nil {
-		return err
-	}
+	try(report.Generate(dst, rpt, o.Obj))
 	src := dst
 
 	// If necessary, perform any data post-processing.
@@ -140,10 +124,7 @@ func generateReport(p *profile.Profile, cmd []string, vars variables, o *plugin.
 
 	// Output to specified file.
 	o.UI.PrintErr("Generating report in ", output)
-	out, err := o.Writer.Open(output)
-	if err != nil {
-		return err
-	}
+	out := try(o.Writer.Open(output))
 	if _, err := src.WriteTo(out); err != nil {
 		out.Close()
 		return err
@@ -235,10 +216,7 @@ func aggregate(prof *profile.Profile, v variables) error {
 
 func reportOptions(p *profile.Profile, numLabelUnits map[string]string, vars variables) (*report.Options, error) {
 	si, mean := vars["sample_index"].value, vars["mean"].boolValue()
-	value, meanDiv, sample, err := sampleFormat(p, si, mean)
-	if err != nil {
-		return nil, err
-	}
+	value, meanDiv, sample := try(sampleFormat(p, si, mean))
 
 	stype := sample.Type
 	if mean {
@@ -311,10 +289,7 @@ func sampleFormat(p *profile.Profile, sampleIndex string, mean bool) (value, mea
 	if len(p.SampleType) == 0 {
 		return nil, nil, nil, fmt.Errorf("profile has no samples")
 	}
-	index, err := p.SampleIndexByName(sampleIndex)
-	if err != nil {
-		return nil, nil, nil, err
-	}
+	index := try(p.SampleIndexByName(sampleIndex))
 	value = valueExtractor(index)
 	if mean {
 		meanDiv = valueExtractor(0)

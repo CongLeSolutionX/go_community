@@ -245,10 +245,7 @@ func unixAbs(path string) (string, error) {
 	if IsAbs(path) {
 		return Clean(path), nil
 	}
-	wd, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
+	wd := try(os.Getwd())
 	return Join(wd, path), nil
 }
 
@@ -412,10 +409,7 @@ func Walk(root string, walkFn WalkFunc) error {
 // readDirNames reads the directory named by dirname and returns
 // a sorted list of directory entries.
 func readDirNames(dirname string) ([]string, error) {
-	f, err := os.Open(dirname)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(dirname))
 	names, err := f.Readdirnames(-1)
 	f.Close()
 	if err != nil {

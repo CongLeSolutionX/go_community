@@ -281,9 +281,7 @@ func Req(target module.Version, list []module.Version, base []string, reqs Reqs)
 		return nil
 	}
 	for _, m := range list {
-		if err := walk(m); err != nil {
-			return nil, err
-		}
+		try(walk(m))
 	}
 
 	// Walk modules in reverse post-order, only adding those not implied already.
@@ -346,10 +344,7 @@ func UpgradeAll(target module.Version, reqs Reqs) ([]module.Version, error) {
 // Upgrade returns a build list for the target module
 // in which the given additional modules are upgraded.
 func Upgrade(target module.Version, reqs Reqs, upgrade ...module.Version) ([]module.Version, error) {
-	list, err := reqs.Required(target)
-	if err != nil {
-		return nil, err
-	}
+	list := try(reqs.Required(target))
 	// TODO: Maybe if an error is given,
 	// rerun with BuildList(upgrade[0], reqs) etc
 	// to find which ones are the buggy ones.
@@ -365,10 +360,7 @@ func Upgrade(target module.Version, reqs Reqs, upgrade ...module.Version) ([]mod
 // reqs.Previous, but the methods of reqs must otherwise handle such versions
 // correctly.
 func Downgrade(target module.Version, reqs Reqs, downgrade ...module.Version) ([]module.Version, error) {
-	list, err := reqs.Required(target)
-	if err != nil {
-		return nil, err
-	}
+	list := try(reqs.Required(target))
 	max := make(map[string]string)
 	for _, r := range list {
 		max[r.Path] = r.Version

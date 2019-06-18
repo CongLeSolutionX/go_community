@@ -178,10 +178,7 @@ func get(security SecurityMode, url *urlpkg.URL) (*Response, error) {
 }
 
 func getFile(u *urlpkg.URL) (*Response, error) {
-	path, err := urlToFilePath(u)
-	if err != nil {
-		return nil, err
-	}
+	path := try(urlToFilePath(u))
 	f, err := os.Open(path)
 
 	if os.IsNotExist(err) {

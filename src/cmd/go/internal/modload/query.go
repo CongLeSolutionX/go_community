@@ -184,14 +184,8 @@ func queryProxy(proxy, path, query, current string, allowed func(module.Version)
 	}
 
 	// Load versions and execute query.
-	repo, err := modfetch.Lookup(proxy, path)
-	if err != nil {
-		return nil, err
-	}
-	versions, err := repo.Versions(prefix)
-	if err != nil {
-		return nil, err
-	}
+	repo := try(modfetch.Lookup(proxy, path))
+	versions := try(repo.Versions(prefix))
 
 	lookup := func(v string) (*modfetch.RevInfo, error) {
 		rev, err := repo.Stat(v)

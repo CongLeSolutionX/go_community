@@ -26,14 +26,8 @@ func interfaceMessages(ifindex int) ([]route.Message, error) {
 // interfaceMulticastAddrTable returns addresses for a specific
 // interface.
 func interfaceMulticastAddrTable(ifi *Interface) ([]Addr, error) {
-	rib, err := route.FetchRIB(syscall.AF_UNSPEC, syscall.NET_RT_IFMALIST, ifi.Index)
-	if err != nil {
-		return nil, err
-	}
-	msgs, err := route.ParseRIB(syscall.NET_RT_IFMALIST, rib)
-	if err != nil {
-		return nil, err
-	}
+	rib := try(route.FetchRIB(syscall.AF_UNSPEC, syscall.NET_RT_IFMALIST, ifi.Index))
+	msgs := try(route.ParseRIB(syscall.NET_RT_IFMALIST, rib))
 	ifmat := make([]Addr, 0, len(msgs))
 	for _, m := range msgs {
 		switch m := m.(type) {

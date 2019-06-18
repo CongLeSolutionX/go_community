@@ -145,10 +145,7 @@ func format(
 	// Write it without any leading and trailing space.
 	cfg.Indent = indent + indentAdj
 	var buf bytes.Buffer
-	err := cfg.Fprint(&buf, fset, file)
-	if err != nil {
-		return nil, err
-	}
+	try(cfg.Fprint(&buf, fset, file))
 	out := sourceAdj(buf.Bytes(), cfg.Indent)
 
 	// If the adjusted output is empty, the source

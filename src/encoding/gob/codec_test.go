@@ -1399,9 +1399,7 @@ func TestDebugStruct(t *testing.T) {
 func encFuzzDec(rng *rand.Rand, in interface{}) error {
 	buf := new(bytes.Buffer)
 	enc := NewEncoder(buf)
-	if err := enc.Encode(&in); err != nil {
-		return err
-	}
+	try(enc.Encode(&in))
 
 	b := buf.Bytes()
 	for i, bi := range b {
@@ -1412,9 +1410,7 @@ func encFuzzDec(rng *rand.Rand, in interface{}) error {
 
 	dec := NewDecoder(buf)
 	var e interface{}
-	if err := dec.Decode(&e); err != nil {
-		return err
-	}
+	try(dec.Decode(&e))
 	return nil
 }
 

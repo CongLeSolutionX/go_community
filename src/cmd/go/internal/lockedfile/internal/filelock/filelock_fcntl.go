@@ -55,10 +55,7 @@ func lock(f File, lt lockType) (err error) {
 	// released when *any* descriptor for that inode is closed. So we need to
 	// synchronize access to each inode internally, and must serialize lock and
 	// unlock calls that refer to the same inode through different descriptors.
-	fi, err := f.Stat()
-	if err != nil {
-		return err
-	}
+	fi := try(f.Stat())
 	ino := fi.Sys().(*syscall.Stat_t).Ino
 
 	mu.Lock()

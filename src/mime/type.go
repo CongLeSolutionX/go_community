@@ -141,10 +141,7 @@ func TypeByExtension(ext string) string {
 // ".html". When typ has no associated extensions, ExtensionsByType returns an
 // nil slice.
 func ExtensionsByType(typ string) ([]string, error) {
-	justType, _, err := ParseMediaType(typ)
-	if err != nil {
-		return nil, err
-	}
+	justType, _ := try(ParseMediaType(typ))
 
 	once.Do(initMime)
 	s, ok := extensions.Load(justType)
@@ -166,10 +163,7 @@ func AddExtensionType(ext, typ string) error {
 }
 
 func setExtensionType(extension, mimeType string) error {
-	justType, param, err := ParseMediaType(mimeType)
-	if err != nil {
-		return err
-	}
+	justType, param := try(ParseMediaType(mimeType))
 	if strings.HasPrefix(mimeType, "text/") && param["charset"] == "" {
 		param["charset"] = "utf-8"
 		mimeType = FormatMediaType(mimeType, param)

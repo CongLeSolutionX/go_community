@@ -474,9 +474,7 @@ func downloadPackage(p *load.Package) error {
 	}
 	root := filepath.Join(p.Internal.Build.SrcRoot, filepath.FromSlash(rootPath))
 
-	if err := checkNestedVCS(vcs, root, p.Internal.Build.SrcRoot); err != nil {
-		return err
-	}
+	try(checkNestedVCS(vcs, root, p.Internal.Build.SrcRoot))
 
 	// If we've considered this repository already, don't do it again.
 	if downloadRootCache[root] {
@@ -530,17 +528,12 @@ func downloadPackage(p *load.Package) error {
 	}
 
 	// Select and sync to appropriate version of the repository.
-	tags, err := vcs.tags(root)
-	if err != nil {
-		return err
-	}
+	tags := try(vcs.tags(root))
 	vers := runtime.Version()
 	if i := strings.Index(vers, " "); i >= 0 {
 		vers = vers[:i]
 	}
-	if err := vcs.tagSync(root, selectTag(vers, tags)); err != nil {
-		return err
-	}
+	try(vcs.tagSync(root, selectTag(vers, tags)))
 
 	return nil
 }

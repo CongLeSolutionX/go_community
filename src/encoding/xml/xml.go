@@ -1928,12 +1928,8 @@ func escapeText(w io.Writer, s []byte, escapeNewline bool) error {
 			}
 			continue
 		}
-		if _, err := w.Write(s[last : i-width]); err != nil {
-			return err
-		}
-		if _, err := w.Write(esc); err != nil {
-			return err
-		}
+		try(w.Write(s[last : i-width]))
+		try(w.Write(esc))
 		last = i
 	}
 	_, err := w.Write(s[last:])
@@ -1998,9 +1994,7 @@ func emitCDATA(w io.Writer, s []byte) error {
 	if len(s) == 0 {
 		return nil
 	}
-	if _, err := w.Write(cdataStart); err != nil {
-		return err
-	}
+	try(w.Write(cdataStart))
 	for {
 		i := bytes.Index(s, cdataEnd)
 		if i >= 0 && i+len(cdataEnd) <= len(s) {

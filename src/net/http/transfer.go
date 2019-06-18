@@ -502,15 +502,9 @@ func readTransfer(msg interface{}, r *bufio.Reader) (err error) {
 	}
 
 	// Transfer encoding, content length
-	err = t.fixTransferEncoding()
-	if err != nil {
-		return err
-	}
+	try(t.fixTransferEncoding())
 
-	realLength, err := fixLength(isResponse, t.StatusCode, t.RequestMethod, t.Header, t.TransferEncoding)
-	if err != nil {
-		return err
-	}
+	realLength := try(fixLength(isResponse, t.StatusCode, t.RequestMethod, t.Header, t.TransferEncoding))
 	if isResponse && t.RequestMethod == "HEAD" {
 		if n, err := parseContentLength(t.Header.get("Content-Length")); err != nil {
 			return err
@@ -522,10 +516,7 @@ func readTransfer(msg interface{}, r *bufio.Reader) (err error) {
 	}
 
 	// Trailer
-	t.Trailer, err = fixTrailer(t.Header, t.TransferEncoding)
-	if err != nil {
-		return err
-	}
+	t.Trailer = try(fixTrailer(t.Header, t.TransferEncoding))
 
 	// If there is no Content-Length or chunked Transfer-Encoding on a *Response
 	// and the status is not 1xx, 204 or 304, then the body is unbounded.

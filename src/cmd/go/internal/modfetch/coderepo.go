@@ -141,10 +141,7 @@ func (r *codeRepo) Versions(prefix string) ([]string, error) {
 	if r.codeDir != "" {
 		p = r.codeDir + "/" + p
 	}
-	tags, err := r.code.Tags(p)
-	if err != nil {
-		return nil, err
-	}
+	tags := try(r.code.Tags(p))
 
 	list := []string{}
 	var incompatible []string
@@ -193,18 +190,12 @@ func (r *codeRepo) Stat(rev string) (*RevInfo, error) {
 		return r.Latest()
 	}
 	codeRev := r.revToRev(rev)
-	info, err := r.code.Stat(codeRev)
-	if err != nil {
-		return nil, err
-	}
+	info := try(r.code.Stat(codeRev))
 	return r.convert(info, rev)
 }
 
 func (r *codeRepo) Latest() (*RevInfo, error) {
-	info, err := r.code.Latest()
-	if err != nil {
-		return nil, err
-	}
+	info := try(r.code.Latest())
 	return r.convert(info, "")
 }
 
@@ -320,10 +311,7 @@ func (r *codeRepo) versionToRev(version string) (rev string, err error) {
 }
 
 func (r *codeRepo) findDir(version string) (rev, dir string, gomod []byte, err error) {
-	rev, err = r.versionToRev(version)
-	if err != nil {
-		return "", "", nil, err
-	}
+	rev = try(r.versionToRev(version))
 
 	// Load info about go.mod but delay consideration
 	// (except I/O error) until we rule out v2/go.mod.
@@ -424,10 +412,7 @@ func isMajor(mpath, pathMajor string) bool {
 }
 
 func (r *codeRepo) GoMod(version string) (data []byte, err error) {
-	rev, dir, gomod, err := r.findDir(version)
-	if err != nil {
-		return nil, err
-	}
+	rev, dir, gomod := try(r.findDir(version))
 	if gomod != nil {
 		return gomod, nil
 	}
@@ -457,14 +442,8 @@ func (r *codeRepo) modPrefix(rev string) string {
 }
 
 func (r *codeRepo) Zip(dst io.Writer, version string) error {
-	rev, dir, _, err := r.findDir(version)
-	if err != nil {
-		return err
-	}
-	dl, actualDir, err := r.code.ReadZip(rev, dir, codehost.MaxZipFile)
-	if err != nil {
-		return err
-	}
+	rev, dir, _ := try(r.findDir(version))
+	dl, actualDir := try(r.code.ReadZip(rev, dir, codehost.MaxZipFile))
 	defer dl.Close()
 	if actualDir != "" && !hasPathPrefix(dir, actualDir) {
 		return fmt.Errorf("internal error: downloading %v %v: dir=%q but actualDir=%q", r.modPath, rev, dir, actualDir)
@@ -490,15 +469,10 @@ func (r *codeRepo) Zip(dst io.Writer, version string) error {
 		return fmt.Errorf("downloaded zip file too large")
 	}
 	size := (maxSize + 1) - lr.N
-	if _, err := f.Seek(0, 0); err != nil {
-		return err
-	}
+	try(f.Seek(0, 0))
 
 	// Translate from zip file we have to zip file we want.
-	zr, err := zip.NewReader(f, size)
-	if err != nil {
-		return err
-	}
+	zr := try(zip.NewReader(f, size))
 
 	zw := zip.NewWriter(dst)
 	if subdir != "" {
@@ -585,18 +559,10 @@ func (r *codeRepo) Zip(dst io.Writer, version string) error {
 		}
 		maxSize -= size
 
-		rc, err := zf.Open()
-		if err != nil {
-			return err
-		}
-		w, err := zw.Create(r.modPrefix(version) + "/" + name)
-		if err != nil {
-			return err
-		}
+		rc := try(zf.Open())
+		w := try(zw.Create(r.modPrefix(version) + "/" + name))
 		lr := &io.LimitedReader{R: rc, N: size + 1}
-		if _, err := io.Copy(w, lr); err != nil {
-			return err
-		}
+		try(io.Copy(w, lr))
 		if lr.N <= 0 {
 			return fmt.Errorf("individual file too large")
 		}

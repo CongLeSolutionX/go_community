@@ -85,10 +85,7 @@ func ParsePKCS1PrivateKey(der []byte) (*rsa.PrivateKey, error) {
 		// them as needed.
 	}
 
-	err = key.Validate()
-	if err != nil {
-		return nil, err
-	}
+	try(key.Validate())
 	key.Precompute()
 
 	return key, nil

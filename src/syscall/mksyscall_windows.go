@@ -400,10 +400,7 @@ func newFn(s string) (*Fn, error) {
 	}
 	f.Name = prefix
 	var err error
-	f.Params, err = extractParams(body, f)
-	if err != nil {
-		return nil, err
-	}
+	f.Params = try(extractParams(body, f))
 	// return values
 	_, body, s, found = extractSection(s, '(', ')')
 	if found {
@@ -626,9 +623,7 @@ func ParseFiles(fs []string) (*Source, error) {
 		ExternalImports: make([]string, 0),
 	}
 	for _, file := range fs {
-		if err := src.ParseFile(file); err != nil {
-			return nil, err
-		}
+		try(src.ParseFile(file))
 	}
 	return src, nil
 }
@@ -649,10 +644,7 @@ func (src *Source) DLLs() []string {
 
 // ParseFile adds additional file path to a source set src.
 func (src *Source) ParseFile(path string) error {
-	file, err := os.Open(path)
-	if err != nil {
-		return err
-	}
+	file := try(os.Open(path))
 	defer file.Close()
 
 	s := bufio.NewScanner(file)
@@ -668,27 +660,16 @@ func (src *Source) ParseFile(path string) error {
 		if !(t[0] == ' ' || t[0] == '\t') {
 			continue
 		}
-		f, err := newFn(t[1:])
-		if err != nil {
-			return err
-		}
+		f := try(newFn(t[1:]))
 		src.Funcs = append(src.Funcs, f)
 	}
-	if err := s.Err(); err != nil {
-		return err
-	}
+	try(s.Err())
 	src.Files = append(src.Files, path)
 
 	// get package name
 	fset := token.NewFileSet()
-	_, err = file.Seek(0, 0)
-	if err != nil {
-		return err
-	}
-	pkg, err := parser.ParseFile(fset, "", file, parser.PackageClauseOnly)
-	if err != nil {
-		return err
-	}
+	try(file.Seek(0, 0))
+	pkg := try(parser.ParseFile(fset, "", file, parser.PackageClauseOnly))
 	packageName = pkg.Name.Name
 
 	return nil
@@ -722,10 +703,7 @@ func (src *Source) Generate(w io.Writer) error {
 		pkgXSysWindows        // x/sys/windows package
 		pkgOther
 	)
-	isStdRepo, err := src.IsStdRepo()
-	if err != nil {
-		return err
-	}
+	isStdRepo := try(src.IsStdRepo())
 	var pkgtype int
 	switch {
 	case isStdRepo:

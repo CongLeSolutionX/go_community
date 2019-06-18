@@ -91,9 +91,7 @@ type Reader struct {
 // The Reader.Header fields will be valid in the Reader returned.
 func NewReader(r io.Reader) (*Reader, error) {
 	z := new(Reader)
-	if err := z.Reset(r); err != nil {
-		return nil, err
-	}
+	try(z.Reset(r))
 	return z, nil
 }
 
@@ -145,10 +143,7 @@ func (z *Reader) readString() (string, error) {
 		if i >= len(z.buf) {
 			return "", ErrHeader
 		}
-		z.buf[i], err = z.r.ReadByte()
-		if err != nil {
-			return "", err
-		}
+		z.buf[i] = try(z.r.ReadByte())
 		if z.buf[i] > 0x7f {
 			needConv = true
 		}

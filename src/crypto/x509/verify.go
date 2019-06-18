@@ -747,10 +747,7 @@ func (c *Certificate) Verify(opts VerifyOptions) (chains [][]*Certificate, err e
 		}
 	}
 
-	err = c.isValid(leafCertificate, nil, &opts)
-	if err != nil {
-		return
-	}
+	try(c.isValid(leafCertificate, nil, &opts))
 
 	if len(opts.DNSName) > 0 {
 		err = c.VerifyHostname(opts.DNSName)

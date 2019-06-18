@@ -115,9 +115,7 @@ func (sa *SockaddrUnix) sockaddr() (unsafe.Pointer, _Socklen, error) {
 func Getsockname(fd int) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if err = getsockname(fd, &rsa, &len); err != nil {
-		return
-	}
+	try(getsockname(fd, &rsa, &len))
 	return anyToSockaddr(&rsa)
 }
 
@@ -128,10 +126,7 @@ const ImplementsGetwd = true
 func Getwd() (wd string, err error) {
 	var buf [PathMax]byte
 	// Getcwd will return an error if it failed for any reason.
-	_, err = Getcwd(buf[0:])
-	if err != nil {
-		return "", err
-	}
+	try(Getcwd(buf[0:]))
 	n := clen(buf[:])
 	if n < 1 {
 		return "", EINVAL
@@ -147,10 +142,7 @@ func Getwd() (wd string, err error) {
 //sysnb	setgroups(ngid int, gid *_Gid_t) (err error)
 
 func Getgroups() (gids []int, err error) {
-	n, err := getgroups(0, nil)
-	if err != nil {
-		return nil, err
-	}
+	n := try(getgroups(0, nil))
 	if n == 0 {
 		return nil, nil
 	}
@@ -161,10 +153,7 @@ func Getgroups() (gids []int, err error) {
 	}
 
 	a := make([]_Gid_t, n)
-	n, err = getgroups(n, &a[0])
-	if err != nil {
-		return nil, err
-	}
+	n = try(getgroups(n, &a[0]))
 	gids = make([]int, n)
 	for i, v := range a[0:n] {
 		gids[i] = int(v)
@@ -326,10 +315,7 @@ func anyToSockaddr(rsa *RawSockaddrAny) (Sockaddr, error) {
 func Accept(fd int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = accept(fd, &rsa, &len)
-	if err != nil {
-		return
-	}
+	nfd = try(accept(fd, &rsa, &len))
 	sa, err = anyToSockaddr(&rsa)
 	if err != nil {
 		Close(nfd)
@@ -360,9 +346,7 @@ func Recvmsg(fd int, p, oob []byte, flags int) (n, oobn int, recvflags int, from
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = recvmsg(fd, &msg, flags); err != nil {
-		return
-	}
+	n = try(recvmsg(fd, &msg, flags))
 	oobn = int(msg.Accrightslen)
 	// source address is only specified if the socket is unconnected
 	if rsa.Addr.Family != AF_UNSPEC {
@@ -407,9 +391,7 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = sendmsg(fd, &msg, flags); err != nil {
-		return 0, err
-	}
+	n = try(sendmsg(fd, &msg, flags))
 	if len(oob) > 0 && len(p) == 0 {
 		n = 0
 	}
@@ -498,10 +480,7 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 //sys	utimensat(dirfd int, path string, times *[2]Timespec, flag int) (err error)
 
 func Getexecname() (path string, err error) {
-	ptr, err := getexecname()
-	if err != nil {
-		return "", err
-	}
+	ptr := try(getexecname())
 	bytes := (*[1 << 29]byte)(ptr)[:]
 	for i, b := range bytes {
 		if b == 0 {

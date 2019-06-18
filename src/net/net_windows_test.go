@@ -176,10 +176,7 @@ func runCmd(args ...string) ([]byte, error) {
 		}
 		return b
 	}
-	f, err := ioutil.TempFile("", "netcmd")
-	if err != nil {
-		return nil, err
-	}
+	f := try(ioutil.TempFile("", "netcmd"))
 	f.Close()
 	defer os.Remove(f.Name())
 	cmd := fmt.Sprintf(`%s | Out-File "%s" -encoding UTF8`, strings.Join(args, " "), f.Name())
@@ -198,10 +195,7 @@ func runCmd(args ...string) ([]byte, error) {
 		}
 		return nil, fmt.Errorf("%s failed: %v", args[0], err)
 	}
-	out, err = ioutil.ReadFile(f.Name())
-	if err != nil {
-		return nil, err
-	}
+	out = try(ioutil.ReadFile(f.Name()))
 	return removeUTF8BOM(out), nil
 }
 
@@ -214,10 +208,7 @@ func netshSpeaksEnglish(t *testing.T) bool {
 }
 
 func netshInterfaceIPShowInterface(ipver string, ifaces map[string]bool) error {
-	out, err := runCmd("netsh", "interface", ipver, "show", "interface", "level=verbose")
-	if err != nil {
-		return err
-	}
+	out := try(runCmd("netsh", "interface", ipver, "show", "interface", "level=verbose"))
 	// interface information is listed like:
 	//
 	//Interface Local Area Connection Parameters

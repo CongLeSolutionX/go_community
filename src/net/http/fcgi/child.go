@@ -341,10 +341,7 @@ func Serve(l net.Listener, handler http.Handler) error {
 		handler = http.DefaultServeMux
 	}
 	for {
-		rw, err := l.Accept()
-		if err != nil {
-			return err
-		}
+		rw := try(l.Accept())
 		c := newChild(rw, handler)
 		go c.serve()
 	}

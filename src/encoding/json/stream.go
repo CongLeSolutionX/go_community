@@ -51,19 +51,14 @@ func (dec *Decoder) Decode(v interface{}) error {
 		return dec.err
 	}
 
-	if err := dec.tokenPrepareForDecode(); err != nil {
-		return err
-	}
+	try(dec.tokenPrepareForDecode())
 
 	if !dec.tokenValueAllowed() {
 		return &SyntaxError{msg: "not at beginning of value", Offset: dec.offset()}
 	}
 
 	// Read whole value into buffer.
-	n, err := dec.readValue()
-	if err != nil {
-		return err
-	}
+	n := try(dec.readValue())
 	dec.d.init(dec.buf[dec.scanp : dec.scanp+n])
 	dec.scanp += n
 
@@ -199,10 +194,7 @@ func (enc *Encoder) Encode(v interface{}) error {
 		return enc.err
 	}
 	e := newEncodeState()
-	err := e.marshal(v, encOpts{escapeHTML: enc.escapeHTML})
-	if err != nil {
-		return err
-	}
+	try(e.marshal(v, encOpts{escapeHTML: enc.escapeHTML}))
 
 	// Terminate each value with a newline.
 	// This makes the output look a little nicer
@@ -365,10 +357,7 @@ func (d Delim) String() string {
 // Commas and colons are elided.
 func (dec *Decoder) Token() (Token, error) {
 	for {
-		c, err := dec.peek()
-		if err != nil {
-			return nil, err
-		}
+		c := try(dec.peek())
 		switch c {
 		case '[':
 			if !dec.tokenValueAllowed() {

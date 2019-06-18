@@ -297,9 +297,7 @@ func (w *Writer) Close() error {
 	src := w.src[:w.n]
 	for {
 		nDst, nSrc, err := w.t.Transform(w.dst, src, true)
-		if _, werr := w.w.Write(w.dst[:nDst]); werr != nil {
-			return werr
-		}
+		try(w.w.Write(w.dst[:nDst]))
 		if err != ErrShortDst {
 			return err
 		}

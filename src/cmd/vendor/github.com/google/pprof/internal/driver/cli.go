@@ -108,14 +108,9 @@ func parseFlags(o *plugin.Options) (*source, []string, error) {
 	}
 
 	// Report conflicting options
-	if err := updateFlags(installedFlags); err != nil {
-		return nil, nil, err
-	}
+	try(updateFlags(installedFlags))
 
-	cmd, err := outputFormat(flagCommands, flagParamCommands)
-	if err != nil {
-		return nil, nil, err
-	}
+	cmd := try(outputFormat(flagCommands, flagParamCommands))
 	if cmd != nil && *flagHTTP != "" {
 		return nil, nil, errors.New("-http is not compatible with an output format on the command line")
 	}
@@ -150,9 +145,7 @@ func parseFlags(o *plugin.Options) (*source, []string, error) {
 		Comment:            *flagAddComment,
 	}
 
-	if err := source.addBaseProfiles(*flagBase, *flagDiffBase); err != nil {
-		return nil, nil, err
-	}
+	try(source.addBaseProfiles(*flagBase, *flagDiffBase))
 
 	normalize := pprofVariables["normalize"].boolValue()
 	if normalize && len(source.Base) == 0 {

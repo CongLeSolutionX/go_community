@@ -37,16 +37,12 @@ func sysctlNodes(mib []_C_int) (nodes []Sysctlnode, err error) {
 	qnode := Sysctlnode{Flags: SYSCTL_VERS_1}
 	qp := (*byte)(unsafe.Pointer(&qnode))
 	sz := unsafe.Sizeof(qnode)
-	if err = sysctl(mib, nil, &olen, qp, sz); err != nil {
-		return nil, err
-	}
+	try(sysctl(mib, nil, &olen, qp, sz))
 
 	// Now that we know the size, get the actual nodes.
 	nodes = make([]Sysctlnode, olen/sz)
 	np := (*byte)(unsafe.Pointer(&nodes[0]))
-	if err = sysctl(mib, np, &olen, qp, sz); err != nil {
-		return nil, err
-	}
+	try(sysctl(mib, np, &olen, qp, sz))
 
 	return nodes, nil
 }
@@ -65,10 +61,7 @@ func nametomib(name string) (mib []_C_int, err error) {
 
 	// Discover the nodes and construct the MIB OID.
 	for partno, part := range parts {
-		nodes, err := sysctlNodes(mib)
-		if err != nil {
-			return nil, err
-		}
+		nodes := try(sysctlNodes(mib))
 		for _, node := range nodes {
 			n := make([]byte, 0)
 			for i := range node.Name {
@@ -121,10 +114,7 @@ func Pipe2(p []int, flags int) error {
 func Accept4(fd, flags int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = paccept(fd, &rsa, &len, nil, flags)
-	if err != nil {
-		return
-	}
+	nfd = try(paccept(fd, &rsa, &len, nil, flags))
 	if len > SizeofSockaddrAny {
 		panic("RawSockaddrAny too small")
 	}

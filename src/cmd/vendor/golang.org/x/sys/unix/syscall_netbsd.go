@@ -42,16 +42,12 @@ func sysctlNodes(mib []_C_int) (nodes []Sysctlnode, err error) {
 	qnode := Sysctlnode{Flags: SYSCTL_VERS_1}
 	qp := (*byte)(unsafe.Pointer(&qnode))
 	sz := unsafe.Sizeof(qnode)
-	if err = sysctl(mib, nil, &olen, qp, sz); err != nil {
-		return nil, err
-	}
+	try(sysctl(mib, nil, &olen, qp, sz))
 
 	// Now that we know the size, get the actual nodes.
 	nodes = make([]Sysctlnode, olen/sz)
 	np := (*byte)(unsafe.Pointer(&nodes[0]))
-	if err = sysctl(mib, np, &olen, qp, sz); err != nil {
-		return nil, err
-	}
+	try(sysctl(mib, np, &olen, qp, sz))
 
 	return nodes, nil
 }
@@ -70,10 +66,7 @@ func nametomib(name string) (mib []_C_int, err error) {
 
 	// Discover the nodes and construct the MIB OID.
 	for partno, part := range parts {
-		nodes, err := sysctlNodes(mib)
-		if err != nil {
-			return nil, err
-		}
+		nodes := try(sysctlNodes(mib))
 		for _, node := range nodes {
 			n := make([]byte, 0)
 			for i := range node.Name {
@@ -95,16 +88,11 @@ func nametomib(name string) (mib []_C_int, err error) {
 }
 
 func SysctlClockinfo(name string) (*Clockinfo, error) {
-	mib, err := sysctlmib(name)
-	if err != nil {
-		return nil, err
-	}
+	mib := try(sysctlmib(name))
 
 	n := uintptr(SizeofClockinfo)
 	var ci Clockinfo
-	if err := sysctl(mib, (*byte)(unsafe.Pointer(&ci)), &n, nil, 0); err != nil {
-		return nil, err
-	}
+	try(sysctl(mib, (*byte)(unsafe.Pointer(&ci)), &n, nil, 0))
 	if n != SizeofClockinfo {
 		return nil, EIO
 	}
@@ -131,10 +119,7 @@ const ImplementsGetwd = true
 
 func Getwd() (string, error) {
 	var buf [PathMax]byte
-	_, err := Getcwd(buf[0:])
-	if err != nil {
-		return "", err
-	}
+	try(Getcwd(buf[0:]))
 	n := clen(buf[:])
 	if n < 1 {
 		return "", EINVAL
@@ -201,27 +186,19 @@ func IoctlGetPtmget(fd int, req uint) (*Ptmget, error) {
 func Uname(uname *Utsname) error {
 	mib := []_C_int{CTL_KERN, KERN_OSTYPE}
 	n := unsafe.Sizeof(uname.Sysname)
-	if err := sysctl(mib, &uname.Sysname[0], &n, nil, 0); err != nil {
-		return err
-	}
+	try(sysctl(mib, &uname.Sysname[0], &n, nil, 0))
 
 	mib = []_C_int{CTL_KERN, KERN_HOSTNAME}
 	n = unsafe.Sizeof(uname.Nodename)
-	if err := sysctl(mib, &uname.Nodename[0], &n, nil, 0); err != nil {
-		return err
-	}
+	try(sysctl(mib, &uname.Nodename[0], &n, nil, 0))
 
 	mib = []_C_int{CTL_KERN, KERN_OSRELEASE}
 	n = unsafe.Sizeof(uname.Release)
-	if err := sysctl(mib, &uname.Release[0], &n, nil, 0); err != nil {
-		return err
-	}
+	try(sysctl(mib, &uname.Release[0], &n, nil, 0))
 
 	mib = []_C_int{CTL_KERN, KERN_VERSION}
 	n = unsafe.Sizeof(uname.Version)
-	if err := sysctl(mib, &uname.Version[0], &n, nil, 0); err != nil {
-		return err
-	}
+	try(sysctl(mib, &uname.Version[0], &n, nil, 0))
 
 	// The version might have newlines or tabs in it, convert them to
 	// spaces.
@@ -237,9 +214,7 @@ func Uname(uname *Utsname) error {
 
 	mib = []_C_int{CTL_HW, HW_MACHINE}
 	n = unsafe.Sizeof(uname.Machine)
-	if err := sysctl(mib, &uname.Machine[0], &n, nil, 0); err != nil {
-		return err
-	}
+	try(sysctl(mib, &uname.Machine[0], &n, nil, 0))
 
 	return nil
 }

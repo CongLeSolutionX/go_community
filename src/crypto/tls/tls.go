@@ -56,10 +56,7 @@ type listener struct {
 // Accept waits for and returns the next incoming TLS connection.
 // The returned connection is of type *Conn.
 func (l *listener) Accept() (net.Conn, error) {
-	c, err := l.Listener.Accept()
-	if err != nil {
-		return nil, err
-	}
+	c := try(l.Listener.Accept())
 	return Server(c, l.config), nil
 }
 
@@ -82,10 +79,7 @@ func Listen(network, laddr string, config *Config) (net.Listener, error) {
 	if config == nil || (len(config.Certificates) == 0 && config.GetCertificate == nil) {
 		return nil, errors.New("tls: neither Certificates nor GetCertificate set in Config")
 	}
-	l, err := net.Listen(network, laddr)
-	if err != nil {
-		return nil, err
-	}
+	l := try(net.Listen(network, laddr))
 	return NewListener(l, config), nil
 }
 
@@ -124,10 +118,7 @@ func DialWithDialer(dialer *net.Dialer, network, addr string, config *Config) (*
 		})
 	}
 
-	rawConn, err := dialer.Dial(network, addr)
-	if err != nil {
-		return nil, err
-	}
+	rawConn := try(dialer.Dial(network, addr))
 
 	colonPos := strings.LastIndex(addr, ":")
 	if colonPos == -1 {
@@ -183,14 +174,8 @@ func Dial(network, addr string, config *Config) (*Conn, error) {
 // form a certificate chain. On successful return, Certificate.Leaf will
 // be nil because the parsed form of the certificate is not retained.
 func LoadX509KeyPair(certFile, keyFile string) (Certificate, error) {
-	certPEMBlock, err := ioutil.ReadFile(certFile)
-	if err != nil {
-		return Certificate{}, err
-	}
-	keyPEMBlock, err := ioutil.ReadFile(keyFile)
-	if err != nil {
-		return Certificate{}, err
-	}
+	certPEMBlock := try(ioutil.ReadFile(certFile))
+	keyPEMBlock := try(ioutil.ReadFile(keyFile))
 	return X509KeyPair(certPEMBlock, keyPEMBlock)
 }
 

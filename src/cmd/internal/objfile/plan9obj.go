@@ -29,18 +29,12 @@ type plan9File struct {
 }
 
 func openPlan9(r io.ReaderAt) (rawFile, error) {
-	f, err := plan9obj.NewFile(r)
-	if err != nil {
-		return nil, err
-	}
+	f := try(plan9obj.NewFile(r))
 	return &plan9File{f}, nil
 }
 
 func (f *plan9File) symbols() ([]Sym, error) {
-	plan9Syms, err := f.plan9.Symbols()
-	if err != nil {
-		return nil, err
-	}
+	plan9Syms := try(f.plan9.Symbols())
 
 	// Build sorted list of addresses of all symbols.
 	// We infer the size of a symbol by looking at where the next symbol begins.
@@ -101,10 +95,7 @@ func (f *plan9File) text() (textStart uint64, text []byte, err error) {
 }
 
 func findPlan9Symbol(f *plan9obj.File, name string) (*plan9obj.Sym, error) {
-	syms, err := f.Symbols()
-	if err != nil {
-		return nil, err
-	}
+	syms := try(f.Symbols())
 	for _, s := range syms {
 		if s.Name != name {
 			continue
@@ -115,22 +106,13 @@ func findPlan9Symbol(f *plan9obj.File, name string) (*plan9obj.Sym, error) {
 }
 
 func loadPlan9Table(f *plan9obj.File, sname, ename string) ([]byte, error) {
-	ssym, err := findPlan9Symbol(f, sname)
-	if err != nil {
-		return nil, err
-	}
-	esym, err := findPlan9Symbol(f, ename)
-	if err != nil {
-		return nil, err
-	}
+	ssym := try(findPlan9Symbol(f, sname))
+	esym := try(findPlan9Symbol(f, ename))
 	sect := f.Section("text")
 	if sect == nil {
 		return nil, err
 	}
-	data, err := sect.Data()
-	if err != nil {
-		return nil, err
-	}
+	data := try(sect.Data())
 	textStart := f.LoadAddress + f.HdrSize
 	return data[ssym.Value-textStart : esym.Value-textStart], nil
 }

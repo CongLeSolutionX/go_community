@@ -1689,9 +1689,7 @@ func (pc *persistConn) mapRoundTripError(req *transportRequest, startBytesWritte
 	// If the request was canceled, that's better than network
 	// failures that were likely the result of tearing down the
 	// connection.
-	if cerr := pc.canceled(); cerr != nil {
-		return cerr
-	}
+	try(pc.canceled())
 
 	// See if an error was set explicitly.
 	req.mu.Lock()
@@ -1954,10 +1952,7 @@ func (pc *persistConn) readResponse(rc requestAndChan, trace *httptrace.ClientTr
 
 	continueCh := rc.continueCh
 	for {
-		resp, err = ReadResponse(pc.br, rc.req)
-		if err != nil {
-			return
-		}
+		resp = try(ReadResponse(pc.br, rc.req))
 		resCode := resp.StatusCode
 		if continueCh != nil {
 			if resCode == 100 {

@@ -161,9 +161,7 @@ func (d *Data) LineReader(cu *Entry) (*LineReader, error) {
 	r := LineReader{buf: buf, section: d.line, directories: []string{compDir}}
 
 	// Read the header.
-	if err := r.readHeader(); err != nil {
-		return nil, err
-	}
+	try(r.readHeader())
 
 	// Initialize line reader state.
 	r.Reset()
@@ -260,11 +258,7 @@ func (r *LineReader) readHeader() error {
 	// the first entry nil.
 	r.fileEntries = make([]*LineFile, 1)
 	for {
-		if done, err := r.readFileEntry(); err != nil {
-			return err
-		} else if done {
-			break
-		}
+		done := try(r.readFileEntry())
 	}
 	r.initialFileEntries = len(r.fileEntries)
 
@@ -550,9 +544,7 @@ var ErrUnknownPC = errors.New("ErrUnknownPC")
 // line table. If the caller wishes to do repeated fast PC lookups, it
 // should build an appropriate index of the line table.
 func (r *LineReader) SeekPC(pc uint64, entry *LineEntry) error {
-	if err := r.Next(entry); err != nil {
-		return err
-	}
+	try(r.Next(entry))
 	if entry.Address > pc {
 		// We're too far. Start at the beginning of the table.
 		r.Reset()

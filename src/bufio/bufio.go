@@ -480,10 +480,7 @@ func (b *Reader) ReadString(delim byte) (string, error) {
 // If the underlying reader supports the WriteTo method,
 // this calls the underlying WriteTo without buffering.
 func (b *Reader) WriteTo(w io.Writer) (n int64, err error) {
-	n, err = b.writeBuf(w)
-	if err != nil {
-		return
-	}
+	n = try(b.writeBuf(w))
 
 	if r, ok := b.rd.(io.WriterTo); ok {
 		m, err := r.WriteTo(w)

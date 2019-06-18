@@ -29,19 +29,10 @@ func lookupFullNameDomain(domainAndUser string) (string, error) {
 }
 
 func lookupFullNameServer(servername, username string) (string, error) {
-	s, e := syscall.UTF16PtrFromString(servername)
-	if e != nil {
-		return "", e
-	}
-	u, e := syscall.UTF16PtrFromString(username)
-	if e != nil {
-		return "", e
-	}
+	s := try(syscall.UTF16PtrFromString(servername))
+	u := try(syscall.UTF16PtrFromString(username))
 	var p *byte
-	e = syscall.NetUserGetInfo(s, u, 10, &p)
-	if e != nil {
-		return "", e
-	}
+	try(syscall.NetUserGetInfo(s, u, 10, &p))
 	defer syscall.NetApiBufferFree(p)
 	i := (*syscall.UserInfo10)(unsafe.Pointer(p))
 	if i.FullName == nil {
@@ -90,10 +81,7 @@ func getProfilesDirectory() (string, error) {
 
 // lookupUsernameAndDomain obtains the username and domain for usid.
 func lookupUsernameAndDomain(usid *syscall.SID) (username, domain string, e error) {
-	username, domain, t, e := usid.LookupAccount("")
-	if e != nil {
-		return "", "", e
-	}
+	username, domain, t := try(usid.LookupAccount(""))
 	if t != syscall.SidTypeUser {
 		return "", "", fmt.Errorf("user: should be user account type, not %d", t)
 	}
@@ -102,24 +90,15 @@ func lookupUsernameAndDomain(usid *syscall.SID) (username, domain string, e erro
 
 // findHomeDirInRegistry finds the user home path based on the uid.
 func findHomeDirInRegistry(uid string) (dir string, e error) {
-	k, e := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\`+uid, registry.QUERY_VALUE)
-	if e != nil {
-		return "", e
-	}
+	k := try(registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\`+uid, registry.QUERY_VALUE))
 	defer k.Close()
-	dir, _, e = k.GetStringValue("ProfileImagePath")
-	if e != nil {
-		return "", e
-	}
+	dir, _ = try(k.GetStringValue("ProfileImagePath"))
 	return dir, nil
 }
 
 // lookupGroupName accepts the name of a group and retrieves the group SID.
 func lookupGroupName(groupname string) (string, error) {
-	sid, _, t, e := syscall.LookupSID("", groupname)
-	if e != nil {
-		return "", e
-	}
+	sid, _, t := try(syscall.LookupSID("", groupname))
 	// https://msdn.microsoft.com/en-us/library/cc245478.aspx#gt_0387e636-5654-4910-9519-1f8326cf5ec0
 	// SidTypeAlias should also be treated as a group type next to SidTypeGroup
 	// and SidTypeWellKnownGroup:
@@ -143,10 +122,7 @@ func listGroupsForUsernameAndDomain(username, domain string) ([]string, error) {
 	} else {
 		query = username
 	}
-	q, err := syscall.UTF16PtrFromString(query)
-	if err != nil {
-		return nil, err
-	}
+	q := try(syscall.UTF16PtrFromString(query))
 	var p0 *byte
 	var entriesRead, totalEntries uint32
 	// https://msdn.microsoft.com/en-us/library/windows/desktop/aa370655(v=vs.85).aspx
@@ -157,10 +133,7 @@ func listGroupsForUsernameAndDomain(username, domain string) ([]string, error) {
 	// If no groups can be found for this user, NetUserGetLocalGroups() should
 	// always return the SID of a single group called "None", which
 	// also happens to be the primary group for the local user.
-	err = windows.NetUserGetLocalGroups(nil, q, 0, windows.LG_INCLUDE_INDIRECT, &p0, windows.MAX_PREFERRED_LENGTH, &entriesRead, &totalEntries)
-	if err != nil {
-		return nil, err
-	}
+	try(windows.NetUserGetLocalGroups(nil, q, 0, windows.LG_INCLUDE_INDIRECT, &p0, windows.MAX_PREFERRED_LENGTH, &entriesRead, &totalEntries))
 	defer syscall.NetApiBufferFree(p0)
 	if entriesRead == 0 {
 		return nil, fmt.Errorf("listGroupsForUsernameAndDomain: NetUserGetLocalGroups() returned an empty list for domain: %s, username: %s", domain, username)
@@ -172,10 +145,7 @@ func listGroupsForUsernameAndDomain(username, domain string) ([]string, error) {
 			continue
 		}
 		name := syscall.UTF16ToString((*[1024]uint16)(unsafe.Pointer(entry.Name))[:])
-		sid, err := lookupGroupName(name)
-		if err != nil {
-			return nil, err
-		}
+		sid := try(lookupGroupName(name))
 		sids = append(sids, sid)
 	}
 	return sids, nil
@@ -183,10 +153,7 @@ func listGroupsForUsernameAndDomain(username, domain string) ([]string, error) {
 
 func newUser(uid, gid, dir, username, domain string) (*User, error) {
 	domainAndUser := domain + `\` + username
-	name, e := lookupFullName(domain, username, domainAndUser)
-	if e != nil {
-		return nil, e
-	}
+	name := try(lookupFullName(domain, username, domainAndUser))
 	u := &User{
 		Uid:      uid,
 		Gid:      gid,
@@ -198,35 +165,14 @@ func newUser(uid, gid, dir, username, domain string) (*User, error) {
 }
 
 func current() (*User, error) {
-	t, e := syscall.OpenCurrentProcessToken()
-	if e != nil {
-		return nil, e
-	}
+	t := try(syscall.OpenCurrentProcessToken())
 	defer t.Close()
-	u, e := t.GetTokenUser()
-	if e != nil {
-		return nil, e
-	}
-	pg, e := t.GetTokenPrimaryGroup()
-	if e != nil {
-		return nil, e
-	}
-	uid, e := u.User.Sid.String()
-	if e != nil {
-		return nil, e
-	}
-	gid, e := pg.PrimaryGroup.String()
-	if e != nil {
-		return nil, e
-	}
-	dir, e := t.GetUserProfileDirectory()
-	if e != nil {
-		return nil, e
-	}
-	username, domain, e := lookupUsernameAndDomain(u.User.Sid)
-	if e != nil {
-		return nil, e
-	}
+	u := try(t.GetTokenUser())
+	pg := try(t.GetTokenPrimaryGroup())
+	uid := try(u.User.Sid.String())
+	gid := try(pg.PrimaryGroup.String())
+	dir := try(t.GetUserProfileDirectory())
+	username, domain := try(lookupUsernameAndDomain(u.User.Sid))
 	return newUser(uid, gid, dir, username, domain)
 }
 
@@ -235,17 +181,11 @@ func current() (*User, error) {
 // The method follows this formula: domainRID + "-" + primaryGroupRID
 func lookupUserPrimaryGroup(username, domain string) (string, error) {
 	// get the domain RID
-	sid, _, t, e := syscall.LookupSID("", domain)
-	if e != nil {
-		return "", e
-	}
+	sid, _, t := try(syscall.LookupSID("", domain))
 	if t != syscall.SidTypeDomain {
 		return "", fmt.Errorf("lookupUserPrimaryGroup: should be domain account type, not %d", t)
 	}
-	domainRID, e := sid.String()
-	if e != nil {
-		return "", e
-	}
+	domainRID := try(sid.String())
 	// If the user has joined a domain use the RID of the default primary group
 	// called "Domain Users":
 	// https://support.microsoft.com/en-us/help/243330/well-known-security-identifiers-in-windows-operating-systems
@@ -269,37 +209,19 @@ func lookupUserPrimaryGroup(username, domain string) (string, error) {
 	// but the group will be called "None" instead:
 	// https://www.adampalmer.me/iodigitalsec/2013/08/10/windows-null-session-enumeration/
 	// "Group 'None' (RID: 513)"
-	u, e := syscall.UTF16PtrFromString(username)
-	if e != nil {
-		return "", e
-	}
-	d, e := syscall.UTF16PtrFromString(domain)
-	if e != nil {
-		return "", e
-	}
+	u := try(syscall.UTF16PtrFromString(username))
+	d := try(syscall.UTF16PtrFromString(domain))
 	var p *byte
-	e = syscall.NetUserGetInfo(d, u, 4, &p)
-	if e != nil {
-		return "", e
-	}
+	try(syscall.NetUserGetInfo(d, u, 4, &p))
 	defer syscall.NetApiBufferFree(p)
 	i := (*windows.UserInfo4)(unsafe.Pointer(p))
 	return fmt.Sprintf("%s-%d", domainRID, i.PrimaryGroupID), nil
 }
 
 func newUserFromSid(usid *syscall.SID) (*User, error) {
-	username, domain, e := lookupUsernameAndDomain(usid)
-	if e != nil {
-		return nil, e
-	}
-	gid, e := lookupUserPrimaryGroup(username, domain)
-	if e != nil {
-		return nil, e
-	}
-	uid, e := usid.String()
-	if e != nil {
-		return nil, e
-	}
+	username, domain := try(lookupUsernameAndDomain(usid))
+	gid := try(lookupUserPrimaryGroup(username, domain))
+	uid := try(usid.String())
 	// If this user has logged in at least once their home path should be stored
 	// in the registry under the specified SID. References:
 	// https://social.technet.microsoft.com/wiki/contents/articles/13895.how-to-remove-a-corrupted-user-profile-from-the-registry.aspx
@@ -325,10 +247,7 @@ func newUserFromSid(usid *syscall.SID) (*User, error) {
 }
 
 func lookupUser(username string) (*User, error) {
-	sid, _, t, e := syscall.LookupSID("", username)
-	if e != nil {
-		return nil, e
-	}
+	sid, _, t := try(syscall.LookupSID("", username))
 	if t != syscall.SidTypeUser {
 		return nil, fmt.Errorf("user: should be user account type, not %d", t)
 	}
@@ -336,30 +255,18 @@ func lookupUser(username string) (*User, error) {
 }
 
 func lookupUserId(uid string) (*User, error) {
-	sid, e := syscall.StringToSid(uid)
-	if e != nil {
-		return nil, e
-	}
+	sid := try(syscall.StringToSid(uid))
 	return newUserFromSid(sid)
 }
 
 func lookupGroup(groupname string) (*Group, error) {
-	sid, err := lookupGroupName(groupname)
-	if err != nil {
-		return nil, err
-	}
+	sid := try(lookupGroupName(groupname))
 	return &Group{Name: groupname, Gid: sid}, nil
 }
 
 func lookupGroupId(gid string) (*Group, error) {
-	sid, err := syscall.StringToSid(gid)
-	if err != nil {
-		return nil, err
-	}
-	groupname, _, t, err := sid.LookupAccount("")
-	if err != nil {
-		return nil, err
-	}
+	sid := try(syscall.StringToSid(gid))
+	groupname, _, t := try(sid.LookupAccount(""))
 	if t != syscall.SidTypeGroup && t != syscall.SidTypeWellKnownGroup && t != syscall.SidTypeAlias {
 		return nil, fmt.Errorf("lookupGroupId: should be group account type, not %d", t)
 	}
@@ -367,18 +274,9 @@ func lookupGroupId(gid string) (*Group, error) {
 }
 
 func listGroups(user *User) ([]string, error) {
-	sid, err := syscall.StringToSid(user.Uid)
-	if err != nil {
-		return nil, err
-	}
-	username, domain, err := lookupUsernameAndDomain(sid)
-	if err != nil {
-		return nil, err
-	}
-	sids, err := listGroupsForUsernameAndDomain(username, domain)
-	if err != nil {
-		return nil, err
-	}
+	sid := try(syscall.StringToSid(user.Uid))
+	username, domain := try(lookupUsernameAndDomain(sid))
+	sids := try(listGroupsForUsernameAndDomain(username, domain))
 	// Add the primary group of the user to the list if it is not already there.
 	// This is done only to comply with the POSIX concept of a primary group.
 	for _, sid := range sids {

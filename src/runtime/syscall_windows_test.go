@@ -755,10 +755,7 @@ func resumeChildThread(kernel32 *syscall.DLL, childpid int) error {
 	_Thread32First := kernel32.MustFindProc("Thread32First")
 	_Thread32Next := kernel32.MustFindProc("Thread32Next")
 
-	snapshot, err := syscall.CreateToolhelp32Snapshot(syscall.TH32CS_SNAPTHREAD, 0)
-	if err != nil {
-		return err
-	}
+	snapshot := try(syscall.CreateToolhelp32Snapshot(syscall.TH32CS_SNAPTHREAD, 0))
 	defer syscall.CloseHandle(snapshot)
 
 	const _THREAD_SUSPEND_RESUME = 0x0002

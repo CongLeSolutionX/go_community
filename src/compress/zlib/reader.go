@@ -78,10 +78,7 @@ func NewReader(r io.Reader) (io.ReadCloser, error) {
 // The ReadCloser returned by NewReaderDict also implements Resetter.
 func NewReaderDict(r io.Reader, dict []byte) (io.ReadCloser, error) {
 	z := new(reader)
-	err := z.Reset(r, dict)
-	if err != nil {
-		return nil, err
-	}
+	try(z.Reset(r, dict))
 	return z, nil
 }
 

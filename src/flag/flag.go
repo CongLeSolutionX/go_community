@@ -423,10 +423,7 @@ func (f *FlagSet) Set(name, value string) error {
 	if !ok {
 		return fmt.Errorf("no such flag -%v", name)
 	}
-	err := flag.Value.Set(value)
-	if err != nil {
-		return err
-	}
+	try(flag.Value.Set(value))
 	if f.actual == nil {
 		f.actual = make(map[string]*Flag)
 	}

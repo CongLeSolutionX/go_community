@@ -80,9 +80,7 @@ func GenerateKey(rand io.Reader) (PublicKey, PrivateKey, error) {
 	}
 
 	seed := make([]byte, SeedSize)
-	if _, err := io.ReadFull(rand, seed); err != nil {
-		return nil, nil, err
-	}
+	try(io.ReadFull(rand, seed))
 
 	privateKey := NewKeyFromSeed(seed)
 	publicKey := make([]byte, PublicKeySize)

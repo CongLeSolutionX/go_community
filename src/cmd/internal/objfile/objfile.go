@@ -67,10 +67,7 @@ var openers = []func(io.ReaderAt) (rawFile, error){
 // Open opens the named file.
 // The caller must call f.Close when the file is no longer needed.
 func Open(name string) (*File, error) {
-	r, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	r := try(os.Open(name))
 	if f, err := openGoFile(r); err == nil {
 		return f, nil
 	}
@@ -124,10 +121,7 @@ func (e *Entry) Name() string {
 }
 
 func (e *Entry) Symbols() ([]Sym, error) {
-	syms, err := e.raw.symbols()
-	if err != nil {
-		return nil, err
-	}
+	syms := try(e.raw.symbols())
 	sort.Sort(byAddr(syms))
 	return syms, nil
 }
@@ -145,10 +139,7 @@ func (e *Entry) PCLineTable() (Liner, error) {
 		return pcln, nil
 	}
 	// Otherwise, read the pcln tables and build a Liner out of that.
-	textStart, symtab, pclntab, err := e.raw.pcln()
-	if err != nil {
-		return nil, err
-	}
+	textStart, symtab, pclntab := try(e.raw.pcln())
 	return gosym.NewTable(symtab, gosym.NewLineTable(pclntab, textStart))
 }
 

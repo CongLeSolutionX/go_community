@@ -87,10 +87,7 @@ type ParseResult struct {
 
 // Parse parses, post-processes and verifies the trace.
 func Parse(r io.Reader, bin string) (ParseResult, error) {
-	ver, res, err := parse(r, bin)
-	if err != nil {
-		return ParseResult{}, err
-	}
+	ver, res := try(parse(r, bin))
 	if ver < 1007 && bin == "" {
 		return ParseResult{}, fmt.Errorf("for traces produced by go 1.6 or below, the binary argument must be provided")
 	}
@@ -100,19 +97,10 @@ func Parse(r io.Reader, bin string) (ParseResult, error) {
 // parse parses, post-processes and verifies the trace. It returns the
 // trace version and the list of events.
 func parse(r io.Reader, bin string) (int, ParseResult, error) {
-	ver, rawEvents, strings, err := readTrace(r)
-	if err != nil {
-		return 0, ParseResult{}, err
-	}
-	events, stacks, err := parseEvents(ver, rawEvents, strings)
-	if err != nil {
-		return 0, ParseResult{}, err
-	}
+	ver, rawEvents, strings := try(readTrace(r))
+	events, stacks := try(parseEvents(ver, rawEvents, strings))
 	events = removeFutile(events)
-	err = postProcessTrace(ver, events)
-	if err != nil {
-		return 0, ParseResult{}, err
-	}
+	try(postProcessTrace(ver, events))
 	// Attach stack traces.
 	for _, ev := range events {
 		if ev.StkID != 0 {
@@ -145,10 +133,7 @@ func readTrace(r io.Reader) (ver int, events []rawEvent, strings map[uint64]stri
 		err = fmt.Errorf("failed to read header: read %v, err %v", off, err)
 		return
 	}
-	ver, err = parseHeader(buf[:])
-	if err != nil {
-		return
-	}
+	ver = try(parseHeader(buf[:]))
 	switch ver {
 	case 1005, 1007, 1008, 1009, 1010, 1011:
 		// Note: When adding a new version, add canned traces

@@ -79,10 +79,7 @@ func ResolveUDPAddr(network, address string) (*UDPAddr, error) {
 	default:
 		return nil, UnknownNetworkError(network)
 	}
-	addrs, err := DefaultResolver.internetAddrList(context.Background(), network, address)
-	if err != nil {
-		return nil, err
-	}
+	addrs := try(DefaultResolver.internetAddrList(context.Background(), network, address))
 	return addrs.forResolve(network, address).(*UDPAddr), nil
 }
 

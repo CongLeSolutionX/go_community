@@ -108,10 +108,7 @@ var (
 )
 
 func googleLiteralAddrs() (lits4, lits6 []string, err error) {
-	ips, err := LookupIP("www.google.com")
-	if err != nil {
-		return nil, nil, err
-	}
+	ips := try(LookupIP("www.google.com"))
 	if len(ips) == 0 {
 		return nil, nil, nil
 	}
@@ -147,20 +144,12 @@ func googleLiteralAddrs() (lits4, lits6 []string, err error) {
 }
 
 func fetchGoogle(dial func(string, string) (Conn, error), network, address string) error {
-	c, err := dial(network, address)
-	if err != nil {
-		return err
-	}
+	c := try(dial(network, address))
 	defer c.Close()
 	req := []byte("GET /robots.txt HTTP/1.0\r\nHost: www.google.com\r\n\r\n")
-	if _, err := c.Write(req); err != nil {
-		return err
-	}
+	try(c.Write(req))
 	b := make([]byte, 1000)
-	n, err := io.ReadFull(c, b)
-	if err != nil {
-		return err
-	}
+	n := try(io.ReadFull(c, b))
 	if n < 1000 {
 		return fmt.Errorf("short read from %s:%s->%s", network, c.RemoteAddr(), c.LocalAddr())
 	}

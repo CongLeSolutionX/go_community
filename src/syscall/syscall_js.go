@@ -278,10 +278,7 @@ const ImplementsGetwd = true
 
 func Getwd() (wd string, err error) {
 	var buf [PathMax]byte
-	n, err := Getcwd(buf[0:])
-	if err != nil {
-		return "", err
-	}
+	n := try(Getcwd(buf[0:]))
 	return string(buf[:n]), nil
 }
 

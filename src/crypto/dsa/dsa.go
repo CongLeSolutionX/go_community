@@ -159,10 +159,7 @@ func GenerateKey(priv *PrivateKey, rand io.Reader) error {
 	xBytes := make([]byte, priv.Q.BitLen()/8)
 
 	for {
-		_, err := io.ReadFull(rand, xBytes)
-		if err != nil {
-			return err
-		}
+		try(io.ReadFull(rand, xBytes))
 		x.SetBytes(xBytes)
 		if x.Sign() != 0 && x.Cmp(priv.Q) < 0 {
 			break
@@ -213,10 +210,7 @@ func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err err
 		k := new(big.Int)
 		buf := make([]byte, n)
 		for {
-			_, err = io.ReadFull(rand, buf)
-			if err != nil {
-				return
-			}
+			try(io.ReadFull(rand, buf))
 			k.SetBytes(buf)
 			// priv.Q must be >= 128 because the test above
 			// requires it to be > 0 and that

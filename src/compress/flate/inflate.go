@@ -366,9 +366,7 @@ var codeOrder = [...]int{16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 
 func (f *decompressor) readHuffman() error {
 	// HLIT[5], HDIST[5], HCLEN[4].
 	for f.nb < 5+5+4 {
-		if err := f.moreBits(); err != nil {
-			return err
-		}
+		try(f.moreBits())
 	}
 	nlit := int(f.b&0x1F) + 257
 	if nlit > maxNumLit {
@@ -388,9 +386,7 @@ func (f *decompressor) readHuffman() error {
 	// (HCLEN+4)*3 bits: code lengths in the magic codeOrder order.
 	for i := 0; i < nclen; i++ {
 		for f.nb < 3 {
-			if err := f.moreBits(); err != nil {
-				return err
-			}
+			try(f.moreBits())
 		}
 		f.codebits[codeOrder[i]] = int(f.b & 0x7)
 		f.b >>= 3
@@ -406,10 +402,7 @@ func (f *decompressor) readHuffman() error {
 	// HLIT + 257 code lengths, HDIST + 1 code lengths,
 	// using the code length Huffman code.
 	for i, n := 0, nlit+ndist; i < n; {
-		x, err := f.huffSym(&f.h1)
-		if err != nil {
-			return err
-		}
+		x := try(f.huffSym(&f.h1))
 		if x < 16 {
 			// Actual length.
 			f.bits[i] = x
@@ -440,9 +433,7 @@ func (f *decompressor) readHuffman() error {
 			b = 0
 		}
 		for f.nb < nb {
-			if err := f.moreBits(); err != nil {
-				return err
-			}
+			try(f.moreBits())
 		}
 		rep += int(f.b & uint32(1<<nb-1))
 		f.b >>= nb

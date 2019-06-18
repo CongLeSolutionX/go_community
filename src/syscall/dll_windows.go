@@ -66,10 +66,7 @@ func init() {
 // Use LazyDLL in golang.org/x/sys/windows for a secure way to
 // load system DLLs.
 func LoadDLL(name string) (*DLL, error) {
-	namep, err := UTF16PtrFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	namep := try(UTF16PtrFromString(name))
 	var h uintptr
 	var e Errno
 	if sysdll.IsSystemDLL[name] {
@@ -107,10 +104,7 @@ func MustLoadDLL(name string) *DLL {
 // FindProc searches DLL d for procedure named name and returns *Proc
 // if found. It returns an error if search fails.
 func (d *DLL) FindProc(name string) (proc *Proc, err error) {
-	namep, err := BytePtrFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	namep := try(BytePtrFromString(name))
 	a, e := getprocaddress(uintptr(d.Handle), namep)
 	if e != 0 {
 		return nil, &DLLError{

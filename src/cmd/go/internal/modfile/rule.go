@@ -113,10 +113,7 @@ func ParseLax(file string, data []byte, fix VersionFixer) (*File, error) {
 }
 
 func parseToFile(file string, data []byte, fix VersionFixer, strict bool) (*File, error) {
-	fs, err := parse(file, data)
-	if err != nil {
-		return nil, err
-	}
+	fs := try(parse(file, data))
 	f := &File{
 		Syntax: fs,
 	}
@@ -412,10 +409,7 @@ func parseString(s *string) (string, error) {
 }
 
 func parseVersion(path string, s *string, fix VersionFixer) (string, error) {
-	t, err := parseString(s)
-	if err != nil {
-		return "", err
-	}
+	t := try(parseString(s))
 	if fix != nil {
 		var err error
 		t, err = fix(path, t)

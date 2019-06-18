@@ -109,9 +109,7 @@ func (sa *SockaddrUnix) sockaddr() (unsafe.Pointer, _Socklen, error) {
 func Getsockname(fd int) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if err = getsockname(fd, &rsa, &len); err != nil {
-		return
-	}
+	try(getsockname(fd, &rsa, &len))
 	return anyToSockaddr(fd, &rsa)
 }
 
@@ -120,10 +118,7 @@ func Getsockname(fd int) (sa Sockaddr, err error) {
 func GetsockoptString(fd, level, opt int) (string, error) {
 	buf := make([]byte, 256)
 	vallen := _Socklen(len(buf))
-	err := getsockopt(fd, level, opt, unsafe.Pointer(&buf[0]), &vallen)
-	if err != nil {
-		return "", err
-	}
+	try(getsockopt(fd, level, opt, unsafe.Pointer(&buf[0]), &vallen))
 	return string(buf[:vallen-1]), nil
 }
 
@@ -134,10 +129,7 @@ const ImplementsGetwd = true
 func Getwd() (wd string, err error) {
 	var buf [PathMax]byte
 	// Getcwd will return an error if it failed for any reason.
-	_, err = Getcwd(buf[0:])
-	if err != nil {
-		return "", err
-	}
+	try(Getcwd(buf[0:]))
 	n := clen(buf[:])
 	if n < 1 {
 		return "", EINVAL
@@ -334,10 +326,7 @@ func FcntlFlock(fd uintptr, cmd int, lk *Flock_t) error {
 //sys	futimesat(fildes int, path *byte, times *[2]Timeval) (err error)
 
 func Futimesat(dirfd int, path string, tv []Timeval) error {
-	pathp, err := BytePtrFromString(path)
-	if err != nil {
-		return err
-	}
+	pathp := try(BytePtrFromString(path))
 	if tv == nil {
 		return futimesat(dirfd, pathp, nil)
 	}
@@ -488,9 +477,7 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = sendmsg(fd, &msg, flags); err != nil {
-		return 0, err
-	}
+	n = try(sendmsg(fd, &msg, flags))
 	if len(oob) > 0 && len(p) == 0 {
 		n = 0
 	}
@@ -505,10 +492,7 @@ func Acct(path string) (err error) {
 		return acct(nil)
 	}
 
-	pathp, err := BytePtrFromString(path)
-	if err != nil {
-		return err
-	}
+	pathp := try(BytePtrFromString(path))
 	return acct(pathp)
 }
 

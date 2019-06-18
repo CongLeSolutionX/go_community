@@ -594,16 +594,10 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 		w = bw
 	}
 
-	_, err = fmt.Fprintf(w, "%s %s HTTP/1.1\r\n", valueOrDefault(r.Method, "GET"), ruri)
-	if err != nil {
-		return err
-	}
+	try(fmt.Fprintf(w, "%s %s HTTP/1.1\r\n", valueOrDefault(r.Method, "GET"), ruri))
 
 	// Header lines
-	_, err = fmt.Fprintf(w, "Host: %s\r\n", host)
-	if err != nil {
-		return err
-	}
+	try(fmt.Fprintf(w, "Host: %s\r\n", host))
 	if trace != nil && trace.WroteHeaderField != nil {
 		trace.WroteHeaderField("Host", []string{host})
 	}
@@ -625,19 +619,10 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 	}
 
 	// Process Body,ContentLength,Close,Trailer
-	tw, err := newTransferWriter(r)
-	if err != nil {
-		return err
-	}
-	err = tw.writeHeader(w, trace)
-	if err != nil {
-		return err
-	}
+	tw := try(newTransferWriter(r))
+	try(tw.writeHeader(w, trace))
 
-	err = r.Header.writeSubset(w, reqWriteExcludeHeader, trace)
-	if err != nil {
-		return err
-	}
+	try(r.Header.writeSubset(w, reqWriteExcludeHeader, trace))
 
 	if extraHeaders != nil {
 		err = extraHeaders.write(w, trace)
@@ -646,10 +631,7 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 		}
 	}
 
-	_, err = io.WriteString(w, "\r\n")
-	if err != nil {
-		return err
-	}
+	try(io.WriteString(w, "\r\n"))
 
 	if trace != nil && trace.WroteHeaders != nil {
 		trace.WroteHeaders()
@@ -848,10 +830,8 @@ func NewRequestWithContext(ctx context.Context, method, url string, body io.Read
 	if ctx == nil {
 		return nil, errors.New("net/http: nil Context")
 	}
-	u, err := parseURL(url) // Just url.Parse (url is shadowed for godoc).
-	if err != nil {
-		return nil, err
-	}
+	u := try(parseURL(url)) // Just url.Parse (url is shadowed for godoc).
+
 	rc, ok := body.(io.ReadCloser)
 	if !ok && body != nil {
 		rc = ioutil.NopCloser(body)
@@ -1009,9 +989,7 @@ func readRequest(b *bufio.Reader, deleteHostHeader bool) (req *Request, err erro
 
 	// First line: GET /index.html HTTP/1.0
 	var s string
-	if s, err = tp.ReadLine(); err != nil {
-		return nil, err
-	}
+	s = try(tp.ReadLine())
 	defer func() {
 		putTextprotoReader(tp)
 		if err == io.EOF {
@@ -1046,9 +1024,7 @@ func readRequest(b *bufio.Reader, deleteHostHeader bool) (req *Request, err erro
 		rawurl = "http://" + rawurl
 	}
 
-	if req.URL, err = url.ParseRequestURI(rawurl); err != nil {
-		return nil, err
-	}
+	req.URL = try(url.ParseRequestURI(rawurl))
 
 	if justAuthority {
 		// Strip the bogus "http://" back off.
@@ -1056,10 +1032,7 @@ func readRequest(b *bufio.Reader, deleteHostHeader bool) (req *Request, err erro
 	}
 
 	// Subsequent lines: Key: value.
-	mimeHeader, err := tp.ReadMIMEHeader()
-	if err != nil {
-		return nil, err
-	}
+	mimeHeader := try(tp.ReadMIMEHeader())
 	req.Header = Header(mimeHeader)
 
 	// RFC 7230, section 5.3: Must treat
@@ -1081,10 +1054,7 @@ func readRequest(b *bufio.Reader, deleteHostHeader bool) (req *Request, err erro
 
 	req.Close = shouldClose(req.ProtoMajor, req.ProtoMinor, req.Header, false)
 
-	err = readTransfer(req, b)
-	if err != nil {
-		return nil, err
-	}
+	try(readTransfer(req, b))
 
 	if req.isH2Upgrade() {
 		// Because it's neither chunked, nor declared:
@@ -1290,15 +1260,9 @@ func (r *Request) ParseMultipartForm(maxMemory int64) error {
 		return nil
 	}
 
-	mr, err := r.multipartReader(false)
-	if err != nil {
-		return err
-	}
+	mr := try(r.multipartReader(false))
 
-	f, err := mr.ReadForm(maxMemory)
-	if err != nil {
-		return err
-	}
+	f := try(mr.ReadForm(maxMemory))
 
 	if r.PostForm == nil {
 		r.PostForm = make(url.Values)

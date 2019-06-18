@@ -332,10 +332,7 @@ func (bz2 *reader) readBlock() (err error) {
 			}
 			lengths[j] = uint8(length)
 		}
-		huffmanTrees[i], err = newHuffmanTree(lengths)
-		if err != nil {
-			return err
-		}
+		huffmanTrees[i] = try(newHuffmanTree(lengths))
 	}
 
 	selectorIndex := 1 // the next tree index to use

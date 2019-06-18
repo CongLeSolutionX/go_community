@@ -67,10 +67,7 @@ func CapRightsSet(rights *CapRights, setrights []uint64) error {
 		if caprver(right) != CAP_RIGHTS_VERSION_00 {
 			return errors.New("bad right version")
 		}
-		i, err := rightToIndex(right)
-		if err != nil {
-			return err
-		}
+		i := try(rightToIndex(right))
 		if i >= n {
 			return errors.New("index overflow")
 		}
@@ -102,10 +99,7 @@ func CapRightsClear(rights *CapRights, clearrights []uint64) error {
 		if caprver(right) != CAP_RIGHTS_VERSION_00 {
 			return errors.New("bad right version")
 		}
-		i, err := rightToIndex(right)
-		if err != nil {
-			return err
-		}
+		i := try(rightToIndex(right))
 		if i >= n {
 			return errors.New("index overflow")
 		}
@@ -166,10 +160,7 @@ func CapRightsInit(rights []uint64) (*CapRights, error) {
 	r.Rights[0] = (capRightsGoVersion << 62) | capright(0, 0)
 	r.Rights[1] = capright(1, 0)
 
-	err := CapRightsSet(&r, rights)
-	if err != nil {
-		return nil, err
-	}
+	try(CapRightsSet(&r, rights))
 	return &r, nil
 }
 
@@ -183,13 +174,7 @@ func CapRightsLimit(fd uintptr, rights *CapRights) error {
 // CapRightsGet returns a CapRights structure containing the operations permitted on fd.
 // See man cap_rights_get(3) and rights(4).
 func CapRightsGet(fd uintptr) (*CapRights, error) {
-	r, err := CapRightsInit(nil)
-	if err != nil {
-		return nil, err
-	}
-	err = capRightsGet(capRightsGoVersion, int(fd), r)
-	if err != nil {
-		return nil, err
-	}
+	r := try(CapRightsInit(nil))
+	try(capRightsGet(capRightsGoVersion, int(fd), r))
 	return r, nil
 }

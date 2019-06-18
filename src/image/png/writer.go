@@ -507,9 +507,7 @@ func (e *encoder) writeImage(w io.Writer, m image.Image, cb int, level int) erro
 		}
 
 		// Write the compressed bytes.
-		if _, err := e.zw.Write(cr[f]); err != nil {
-			return err
-		}
+		try(e.zw.Write(cr[f]))
 
 		// The current row for y is the previous row for y+1.
 		pr, cr[0] = cr[0], pr

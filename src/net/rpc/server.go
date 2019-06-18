@@ -559,9 +559,7 @@ func (server *Server) readRequest(codec ServerCodec) (service *service, mtype *m
 		argIsValue = true
 	}
 	// argv guaranteed to be a pointer now.
-	if err = codec.ReadRequestBody(argv.Interface()); err != nil {
-		return
-	}
+	try(codec.ReadRequestBody(argv.Interface()))
 	if argIsValue {
 		argv = argv.Elem()
 	}

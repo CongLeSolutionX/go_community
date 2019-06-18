@@ -79,10 +79,7 @@ func New(abbrev, aranges, frame, info, line, pubnames, ranges, str []byte) (*Dat
 		return nil, DecodeError{"info", 4, "cannot determine byte order"}
 	}
 
-	u, err := d.parseUnits()
-	if err != nil {
-		return nil, err
-	}
+	u := try(d.parseUnits())
 	d.unit = u
 	return d, nil
 }

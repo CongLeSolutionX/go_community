@@ -22,20 +22,11 @@ import (
 //
 // For more information see pledge(2).
 func Pledge(promises, execpromises string) error {
-	maj, min, err := majmin()
-	if err != nil {
-		return err
-	}
+	maj, min := try(majmin())
 
-	err = pledgeAvailable(maj, min, execpromises)
-	if err != nil {
-		return err
-	}
+	try(pledgeAvailable(maj, min, execpromises))
 
-	pptr, err := syscall.BytePtrFromString(promises)
-	if err != nil {
-		return err
-	}
+	pptr := try(syscall.BytePtrFromString(promises))
 
 	// This variable will hold either a nil unsafe.Pointer or
 	// an unsafe.Pointer to a string (execpromises).
@@ -64,23 +55,14 @@ func Pledge(promises, execpromises string) error {
 //
 // For more information see pledge(2).
 func PledgePromises(promises string) error {
-	maj, min, err := majmin()
-	if err != nil {
-		return err
-	}
+	maj, min := try(majmin())
 
-	err = pledgeAvailable(maj, min, "")
-	if err != nil {
-		return err
-	}
+	try(pledgeAvailable(maj, min, ""))
 
 	// This variable holds the execpromises and is always nil.
 	var expr unsafe.Pointer
 
-	pptr, err := syscall.BytePtrFromString(promises)
-	if err != nil {
-		return err
-	}
+	pptr := try(syscall.BytePtrFromString(promises))
 
 	_, _, e := syscall.Syscall(SYS_PLEDGE, uintptr(unsafe.Pointer(pptr)), uintptr(expr), 0)
 	if e != 0 {
@@ -96,23 +78,14 @@ func PledgePromises(promises string) error {
 //
 // For more information see pledge(2).
 func PledgeExecpromises(execpromises string) error {
-	maj, min, err := majmin()
-	if err != nil {
-		return err
-	}
+	maj, min := try(majmin())
 
-	err = pledgeAvailable(maj, min, execpromises)
-	if err != nil {
-		return err
-	}
+	try(pledgeAvailable(maj, min, execpromises))
 
 	// This variable holds the promises and is always nil.
 	var pptr unsafe.Pointer
 
-	exptr, err := syscall.BytePtrFromString(execpromises)
-	if err != nil {
-		return err
-	}
+	exptr := try(syscall.BytePtrFromString(execpromises))
 
 	_, _, e := syscall.Syscall(SYS_PLEDGE, uintptr(pptr), uintptr(unsafe.Pointer(exptr)), 0)
 	if e != 0 {
@@ -125,10 +98,7 @@ func PledgeExecpromises(execpromises string) error {
 // majmin returns major and minor version number for an OpenBSD system.
 func majmin() (major int, minor int, err error) {
 	var v Utsname
-	err = Uname(&v)
-	if err != nil {
-		return
-	}
+	try(Uname(&v))
 
 	major, err = strconv.Atoi(string(v.Release[0]))
 	if err != nil {

@@ -79,20 +79,12 @@ func matchGroupIndexValue(value string, idx int) lineFunc {
 }
 
 func findGroupId(id string, r io.Reader) (*Group, error) {
-	if v, err := readColonFile(r, matchGroupIndexValue(id, 2)); err != nil {
-		return nil, err
-	} else if v != nil {
-		return v.(*Group), nil
-	}
+	v := try(readColonFile(r, matchGroupIndexValue(id, 2)))
 	return nil, UnknownGroupIdError(id)
 }
 
 func findGroupName(name string, r io.Reader) (*Group, error) {
-	if v, err := readColonFile(r, matchGroupIndexValue(name, 0)); err != nil {
-		return nil, err
-	} else if v != nil {
-		return v.(*Group), nil
-	}
+	v := try(readColonFile(r, matchGroupIndexValue(name, 0)))
 	return nil, UnknownGroupError(name)
 }
 
@@ -143,55 +135,35 @@ func findUserId(uid string, r io.Reader) (*User, error) {
 	if e != nil {
 		return nil, errors.New("user: invalid userid " + uid)
 	}
-	if v, err := readColonFile(r, matchUserIndexValue(uid, 2)); err != nil {
-		return nil, err
-	} else if v != nil {
-		return v.(*User), nil
-	}
+	v := try(readColonFile(r, matchUserIndexValue(uid, 2)))
 	return nil, UnknownUserIdError(i)
 }
 
 func findUsername(name string, r io.Reader) (*User, error) {
-	if v, err := readColonFile(r, matchUserIndexValue(name, 0)); err != nil {
-		return nil, err
-	} else if v != nil {
-		return v.(*User), nil
-	}
+	v := try(readColonFile(r, matchUserIndexValue(name, 0)))
 	return nil, UnknownUserError(name)
 }
 
 func lookupGroup(groupname string) (*Group, error) {
-	f, err := os.Open(groupFile)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(groupFile))
 	defer f.Close()
 	return findGroupName(groupname, f)
 }
 
 func lookupGroupId(id string) (*Group, error) {
-	f, err := os.Open(groupFile)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(groupFile))
 	defer f.Close()
 	return findGroupId(id, f)
 }
 
 func lookupUser(username string) (*User, error) {
-	f, err := os.Open(userFile)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(userFile))
 	defer f.Close()
 	return findUsername(username, f)
 }
 
 func lookupUserId(uid string) (*User, error) {
-	f, err := os.Open(userFile)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(userFile))
 	defer f.Close()
 	return findUserId(uid, f)
 }

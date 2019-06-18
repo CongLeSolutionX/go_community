@@ -95,10 +95,7 @@ func (z *Writer) writeBytes(b []byte) error {
 		return errors.New("gzip.Write: Extra data is too large")
 	}
 	le.PutUint16(z.buf[:2], uint16(len(b)))
-	_, err := z.w.Write(z.buf[:2])
-	if err != nil {
-		return err
-	}
+	try(z.w.Write(z.buf[:2]))
 	_, err = z.w.Write(b)
 	return err
 }

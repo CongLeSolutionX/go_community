@@ -34,15 +34,9 @@ const _RTAX_IFA = 5
 const _RTAX_MAX = 8
 
 func getIfList() ([]byte, error) {
-	needed, err := syscall.Getkerninfo(_KINFO_RT_IFLIST, 0, 0, 0)
-	if err != nil {
-		return nil, err
-	}
+	needed := try(syscall.Getkerninfo(_KINFO_RT_IFLIST, 0, 0, 0))
 	tab := make([]byte, needed)
-	_, err = syscall.Getkerninfo(_KINFO_RT_IFLIST, uintptr(unsafe.Pointer(&tab[0])), uintptr(unsafe.Pointer(&needed)), 0)
-	if err != nil {
-		return nil, err
-	}
+	try(syscall.Getkerninfo(_KINFO_RT_IFLIST, uintptr(unsafe.Pointer(&tab[0])), uintptr(unsafe.Pointer(&needed)), 0))
 	return tab[:needed], nil
 }
 
@@ -50,15 +44,9 @@ func getIfList() ([]byte, error) {
 // network interfaces. Otherwise it returns a mapping of a specific
 // interface.
 func interfaceTable(ifindex int) ([]Interface, error) {
-	tab, err := getIfList()
-	if err != nil {
-		return nil, err
-	}
+	tab := try(getIfList())
 
-	sock, err := sysSocket(syscall.AF_INET, syscall.SOCK_DGRAM, 0)
-	if err != nil {
-		return nil, err
-	}
+	sock := try(sysSocket(syscall.AF_INET, syscall.SOCK_DGRAM, 0))
 	defer poll.CloseFunc(sock)
 
 	var ift []Interface
@@ -120,10 +108,7 @@ func linkFlags(rawFlags int32) Flags {
 // network interfaces. Otherwise it returns addresses for a specific
 // interface.
 func interfaceAddrTable(ifi *Interface) ([]Addr, error) {
-	tab, err := getIfList()
-	if err != nil {
-		return nil, err
-	}
+	tab := try(getIfList())
 
 	var ifat []Addr
 	for len(tab) > 0 {

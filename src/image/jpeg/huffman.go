@@ -93,9 +93,7 @@ func (d *decoder) processDHT(n int) error {
 		if n < 17 {
 			return FormatError("DHT has wrong length")
 		}
-		if err := d.readFull(d.tmp[:17]); err != nil {
-			return err
-		}
+		try(d.readFull(d.tmp[:17]))
 		tc := d.tmp[0] >> 4
 		if tc > maxTc {
 			return FormatError("bad Tc value")
@@ -126,9 +124,7 @@ func (d *decoder) processDHT(n int) error {
 		if n < 0 {
 			return FormatError("DHT has wrong length")
 		}
-		if err := d.readFull(h.vals[:h.nCodes]); err != nil {
-			return err
-		}
+		try(d.readFull(h.vals[:h.nCodes]))
 
 		// Derive the look-up table.
 		for i := range h.lut {

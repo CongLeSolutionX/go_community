@@ -236,10 +236,7 @@ type resolvConfTest struct {
 }
 
 func newResolvConfTest() (*resolvConfTest, error) {
-	dir, err := ioutil.TempDir("", "go-resolvconftest")
-	if err != nil {
-		return nil, err
-	}
+	dir := try(ioutil.TempDir("", "go-resolvconftest"))
 	conf := &resolvConfTest{
 		dir:            dir,
 		path:           path.Join(dir, "resolv.conf"),
@@ -250,18 +247,13 @@ func newResolvConfTest() (*resolvConfTest, error) {
 }
 
 func (conf *resolvConfTest) writeAndUpdate(lines []string) error {
-	f, err := os.OpenFile(conf.path, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0600)
-	if err != nil {
-		return err
-	}
+	f := try(os.OpenFile(conf.path, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0600))
 	if _, err := f.WriteString(strings.Join(lines, "\n")); err != nil {
 		f.Close()
 		return err
 	}
 	f.Close()
-	if err := conf.forceUpdate(conf.path, time.Now().Add(time.Hour)); err != nil {
-		return err
-	}
+	try(conf.forceUpdate(conf.path, time.Now().Add(time.Hour)))
 	return nil
 }
 
@@ -823,10 +815,7 @@ func (f *fakeDNSConn) Read(b []byte) (int, error) {
 		return n, nil
 	}
 
-	resp, err := f.server.rh(f.n, f.s, f.q, f.t)
-	if err != nil {
-		return 0, err
-	}
+	resp := try(f.server.rh(f.n, f.s, f.q, f.t))
 
 	bb := make([]byte, 2, 514)
 	bb, err = resp.AppendPack(bb)

@@ -198,10 +198,7 @@ func (e *FormatError) Error() string {
 
 // Open opens the named file using os.Open and prepares it for use as a Mach-O binary.
 func Open(name string) (*File, error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(name))
 	ff, err := NewFile(f)
 	if err != nil {
 		f.Close()
@@ -232,9 +229,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	// Read and decode Mach magic to determine byte order, size.
 	// Magic32 and Magic64 differ only in the bottom bit.
 	var ident [4]byte
-	if _, err := r.ReadAt(ident[0:], 0); err != nil {
-		return nil, err
-	}
+	try(r.ReadAt(ident[0:], 0))
 	be := binary.BigEndian.Uint32(ident[0:])
 	le := binary.LittleEndian.Uint32(ident[0:])
 	switch Magic32 &^ 1 {
@@ -249,9 +244,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	}
 
 	// Read entire file header.
-	if err := binary.Read(sr, f.ByteOrder, &f.FileHeader); err != nil {
-		return nil, err
-	}
+	try(binary.Read(sr, f.ByteOrder, &f.FileHeader))
 
 	// Then load commands.
 	offset := int64(fileHeaderSize32)
@@ -259,9 +252,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 		offset = fileHeaderSize64
 	}
 	dat := make([]byte, f.Cmdsz)
-	if _, err := r.ReadAt(dat, offset); err != nil {
-		return nil, err
-	}
+	try(r.ReadAt(dat, offset))
 	f.Loads = make([]Load, f.Ncmd)
 	bo := f.ByteOrder
 	for i := range f.Loads {
@@ -624,17 +615,11 @@ func (f *File) DWARF() (*dwarf.Data, error) {
 		if _, ok := dat[suffix]; !ok {
 			continue
 		}
-		b, err := sectionData(s)
-		if err != nil {
-			return nil, err
-		}
+		b := try(sectionData(s))
 		dat[suffix] = b
 	}
 
-	d, err := dwarf.New(dat["abbrev"], nil, nil, dat["info"], dat["line"], nil, dat["ranges"], dat["str"])
-	if err != nil {
-		return nil, err
-	}
+	d := try(dwarf.New(dat["abbrev"], nil, nil, dat["info"], dat["line"], nil, dat["ranges"], dat["str"]))
 
 	// Look for DWARF4 .debug_types sections.
 	for i, s := range f.Sections {
@@ -643,15 +628,9 @@ func (f *File) DWARF() (*dwarf.Data, error) {
 			continue
 		}
 
-		b, err := sectionData(s)
-		if err != nil {
-			return nil, err
-		}
+		b := try(sectionData(s))
 
-		err = d.AddTypes(fmt.Sprintf("types-%d", i), b)
-		if err != nil {
-			return nil, err
-		}
+		try(d.AddTypes(fmt.Sprintf("types-%d", i), b))
 	}
 
 	return d, nil

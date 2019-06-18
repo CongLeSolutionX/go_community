@@ -137,9 +137,7 @@ func Import(fset *token.FileSet, packages map[string]*types.Package, path, srcDi
 
 	var hdr string
 	buf := bufio.NewReader(rc)
-	if hdr, err = FindExportData(buf); err != nil {
-		return
-	}
+	hdr = try(FindExportData(buf))
 
 	switch hdr {
 	case "$$\n":
