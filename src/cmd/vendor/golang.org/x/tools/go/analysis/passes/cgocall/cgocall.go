@@ -44,10 +44,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		return nil, nil // doesn't use cgo
 	}
 
-	cgofiles, info, err := typeCheckCgoSourceFiles(pass.Fset, pass.Pkg, pass.Files, pass.TypesInfo, pass.TypesSizes)
-	if err != nil {
-		return nil, err
-	}
+	cgofiles, info := try(typeCheckCgoSourceFiles(pass.Fset, pass.Pkg, pass.Files, pass.TypesInfo, pass.TypesSizes))
 	for _, f := range cgofiles {
 		checkCgo(pass.Fset, f, info, pass.Reportf)
 	}

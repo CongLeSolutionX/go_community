@@ -21,10 +21,7 @@ func (m *RouteMessage) marshal() ([]byte, error) {
 	nativeEndian.PutUint16(b[6:8], uint16(m.Index))
 	nativeEndian.PutUint32(b[24:28], uint32(m.ID))
 	nativeEndian.PutUint32(b[28:32], uint32(m.Seq))
-	attrs, err := marshalAddrs(b[sizeofRtMsghdr:], m.Addrs)
-	if err != nil {
-		return nil, err
-	}
+	attrs := try(marshalAddrs(b[sizeofRtMsghdr:], m.Addrs))
 	if attrs > 0 {
 		nativeEndian.PutUint32(b[12:16], uint32(attrs))
 	}
@@ -56,10 +53,7 @@ func (*wireFormat) parseRouteMessage(_ RIBType, b []byte) (Message, error) {
 	if errno != 0 {
 		m.Err = errno
 	}
-	as, err := parseAddrs(uint(nativeEndian.Uint32(b[12:16])), parseKernelInetAddr, b[ll:])
-	if err != nil {
-		return nil, err
-	}
+	as := try(parseAddrs(uint(nativeEndian.Uint32(b[12:16])), parseKernelInetAddr, b[ll:]))
 	m.Addrs = as
 	return m, nil
 }

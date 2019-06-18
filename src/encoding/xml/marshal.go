@@ -78,9 +78,7 @@ const (
 // Marshal will return an error if asked to marshal a channel, function, or map.
 func Marshal(v interface{}) ([]byte, error) {
 	var b bytes.Buffer
-	if err := NewEncoder(&b).Encode(v); err != nil {
-		return nil, err
-	}
+	try(NewEncoder(&b).Encode(v))
 	return b.Bytes(), nil
 }
 
@@ -126,9 +124,7 @@ func MarshalIndent(v interface{}, prefix, indent string) ([]byte, error) {
 	var b bytes.Buffer
 	enc := NewEncoder(&b)
 	enc.Indent(prefix, indent)
-	if err := enc.Encode(v); err != nil {
-		return nil, err
-	}
+	try(enc.Encode(v))
 	return b.Bytes(), nil
 }
 
@@ -159,10 +155,7 @@ func (enc *Encoder) Indent(prefix, indent string) {
 //
 // Encode calls Flush before returning.
 func (enc *Encoder) Encode(v interface{}) error {
-	err := enc.p.marshalValue(reflect.ValueOf(v), nil, nil)
-	if err != nil {
-		return err
-	}
+	try(enc.p.marshalValue(reflect.ValueOf(v), nil, nil))
 	return enc.p.Flush()
 }
 
@@ -174,10 +167,7 @@ func (enc *Encoder) Encode(v interface{}) error {
 //
 // EncodeElement calls Flush before returning.
 func (enc *Encoder) EncodeElement(v interface{}, start StartElement) error {
-	err := enc.p.marshalValue(reflect.ValueOf(v), nil, &start)
-	if err != nil {
-		return err
-	}
+	try(enc.p.marshalValue(reflect.ValueOf(v), nil, &start))
 	return enc.p.Flush()
 }
 
@@ -459,10 +449,7 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 		return nil
 	}
 
-	tinfo, err := getTypeInfo(typ)
-	if err != nil {
-		return err
-	}
+	tinfo := try(getTypeInfo(typ))
 
 	// Create start element.
 	// Precedence for the XML element name is:
@@ -511,14 +498,10 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 		}
 
 		name := Name{Space: finfo.xmlns, Local: finfo.name}
-		if err := p.marshalAttr(&start, name, fv); err != nil {
-			return err
-		}
+		try(p.marshalAttr(&start, name, fv))
 	}
 
-	if err := p.writeStart(&start); err != nil {
-		return err
-	}
+	try(p.writeStart(&start))
 
 	if val.Kind() == reflect.Struct {
 		err = p.marshalStruct(tinfo, val)
@@ -536,9 +519,7 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 		return err
 	}
 
-	if err := p.writeEnd(start.Name); err != nil {
-		return err
-	}
+	try(p.writeEnd(start.Name))
 
 	return p.cachedWriteError()
 }
@@ -616,10 +597,7 @@ func (p *printer) marshalAttr(start *StartElement, name Name, val reflect.Value)
 		return nil
 	}
 
-	s, b, err := p.marshalSimple(val.Type(), val)
-	if err != nil {
-		return err
-	}
+	s, b := try(p.marshalSimple(val.Type(), val))
 	if b != nil {
 		s = string(b)
 	}
@@ -656,10 +634,7 @@ func (p *printer) marshalInterface(val Marshaler, start StartElement) error {
 	p.tags = append(p.tags, Name{})
 	n := len(p.tags)
 
-	err := val.MarshalXML(p.encoder, start)
-	if err != nil {
-		return err
-	}
+	try(val.MarshalXML(p.encoder, start))
 
 	// Make sure MarshalXML closed all its tags. p.tags[n-1] is the mark.
 	if len(p.tags) > n {
@@ -671,13 +646,8 @@ func (p *printer) marshalInterface(val Marshaler, start StartElement) error {
 
 // marshalTextInterface marshals a TextMarshaler interface value.
 func (p *printer) marshalTextInterface(val encoding.TextMarshaler, start StartElement) error {
-	if err := p.writeStart(&start); err != nil {
-		return err
-	}
-	text, err := val.MarshalText()
-	if err != nil {
-		return err
-	}
+	try(p.writeStart(&start))
+	text := try(val.MarshalText())
 	EscapeText(p, text)
 	return p.writeEnd(start.Name)
 }
@@ -938,9 +908,7 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 				}
 			}
 		}
-		if err := p.marshalValue(vf, finfo, nil); err != nil {
-			return err
-		}
+		try(p.marshalValue(vf, finfo, nil))
 	}
 	s.trim(nil)
 	return p.cachedWriteError()
@@ -999,9 +967,7 @@ func (s *parentStack) trim(parents []string) error {
 		}
 	}
 	for i := len(s.stack) - 1; i >= split; i-- {
-		if err := s.p.writeEnd(Name{Local: s.stack[i]}); err != nil {
-			return err
-		}
+		try(s.p.writeEnd(Name{Local: s.stack[i]}))
 	}
 	s.stack = s.stack[:split]
 	return nil
@@ -1010,9 +976,7 @@ func (s *parentStack) trim(parents []string) error {
 // push adds parent elements to the stack and writes open tags.
 func (s *parentStack) push(parents []string) error {
 	for i := 0; i < len(parents); i++ {
-		if err := s.p.writeStart(&StartElement{Name: Name{Local: parents[i]}}); err != nil {
-			return err
-		}
+		try(s.p.writeStart(&StartElement{Name: Name{Local: parents[i]}}))
 	}
 	s.stack = append(s.stack, parents...)
 	return nil

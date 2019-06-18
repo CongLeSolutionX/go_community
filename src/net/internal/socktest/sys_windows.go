@@ -83,14 +83,9 @@ func (sw *Switch) Closesocket(s syscall.Handle) (err error) {
 	f, _ := sw.fltab[FilterClose]
 	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
-	if err != nil {
-		return err
-	}
+	af := try(f.apply(so))
 	so.Err = syscall.Closesocket(s)
-	if err = af.apply(so); err != nil {
-		return err
-	}
+	try(af.apply(so))
 
 	sw.smu.Lock()
 	defer sw.smu.Unlock()
@@ -113,14 +108,9 @@ func (sw *Switch) Connect(s syscall.Handle, sa syscall.Sockaddr) (err error) {
 	f, _ := sw.fltab[FilterConnect]
 	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
-	if err != nil {
-		return err
-	}
+	af := try(f.apply(so))
 	so.Err = syscall.Connect(s, sa)
-	if err = af.apply(so); err != nil {
-		return err
-	}
+	try(af.apply(so))
 
 	sw.smu.Lock()
 	defer sw.smu.Unlock()
@@ -142,14 +132,9 @@ func (sw *Switch) ConnectEx(s syscall.Handle, sa syscall.Sockaddr, b *byte, n ui
 	f, _ := sw.fltab[FilterConnect]
 	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
-	if err != nil {
-		return err
-	}
+	af := try(f.apply(so))
 	so.Err = syscall.ConnectEx(s, sa, b, n, nwr, o)
-	if err = af.apply(so); err != nil {
-		return err
-	}
+	try(af.apply(so))
 
 	sw.smu.Lock()
 	defer sw.smu.Unlock()
@@ -171,14 +156,9 @@ func (sw *Switch) Listen(s syscall.Handle, backlog int) (err error) {
 	f, _ := sw.fltab[FilterListen]
 	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
-	if err != nil {
-		return err
-	}
+	af := try(f.apply(so))
 	so.Err = syscall.Listen(s, backlog)
-	if err = af.apply(so); err != nil {
-		return err
-	}
+	try(af.apply(so))
 
 	sw.smu.Lock()
 	defer sw.smu.Unlock()
@@ -200,14 +180,9 @@ func (sw *Switch) AcceptEx(ls syscall.Handle, as syscall.Handle, b *byte, rxdata
 	f, _ := sw.fltab[FilterAccept]
 	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
-	if err != nil {
-		return err
-	}
+	af := try(f.apply(so))
 	so.Err = syscall.AcceptEx(ls, as, b, rxdatalen, laddrlen, raddrlen, rcvd, overlapped)
-	if err = af.apply(so); err != nil {
-		return err
-	}
+	try(af.apply(so))
 
 	sw.smu.Lock()
 	defer sw.smu.Unlock()

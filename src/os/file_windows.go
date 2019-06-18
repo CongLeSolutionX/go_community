@@ -407,18 +407,12 @@ func Symlink(oldname, newname string) error {
 // parameter, so that Windows does not follow symlink, if path is a symlink.
 // openSymlink returns opened file handle.
 func openSymlink(path string) (syscall.Handle, error) {
-	p, err := syscall.UTF16PtrFromString(path)
-	if err != nil {
-		return 0, err
-	}
+	p := try(syscall.UTF16PtrFromString(path))
 	attrs := uint32(syscall.FILE_FLAG_BACKUP_SEMANTICS)
 	// Use FILE_FLAG_OPEN_REPARSE_POINT, otherwise CreateFile will follow symlink.
 	// See https://docs.microsoft.com/en-us/windows/desktop/FileIO/symbolic-link-effects-on-file-systems-functions#createfile-and-createfiletransacted
 	attrs |= syscall.FILE_FLAG_OPEN_REPARSE_POINT
-	h, err := syscall.CreateFile(p, 0, 0, nil, syscall.OPEN_EXISTING, attrs, 0)
-	if err != nil {
-		return 0, err
-	}
+	h := try(syscall.CreateFile(p, 0, 0, nil, syscall.OPEN_EXISTING, attrs, 0))
 	return h, nil
 }
 
@@ -445,24 +439,14 @@ func normaliseLinkPath(path string) (string, error) {
 
 	// handle paths, like \??\Volume{abc}\...
 
-	err := windows.LoadGetFinalPathNameByHandle()
-	if err != nil {
-		// we must be using old version of Windows
-		return "", err
-	}
+	try(windows.LoadGetFinalPathNameByHandle()) // we must be using old version of Windows
 
-	h, err := openSymlink(path)
-	if err != nil {
-		return "", err
-	}
+	h := try(openSymlink(path))
 	defer syscall.CloseHandle(h)
 
 	buf := make([]uint16, 100)
 	for {
-		n, err := windows.GetFinalPathNameByHandle(h, &buf[0], uint32(len(buf)), windows.VOLUME_NAME_DOS)
-		if err != nil {
-			return "", err
-		}
+		n := try(windows.GetFinalPathNameByHandle(h, &buf[0], uint32(len(buf)), windows.VOLUME_NAME_DOS))
 		if n < uint32(len(buf)) {
 			break
 		}
@@ -481,18 +465,12 @@ func normaliseLinkPath(path string) (string, error) {
 }
 
 func readlink(path string) (string, error) {
-	h, err := openSymlink(path)
-	if err != nil {
-		return "", err
-	}
+	h := try(openSymlink(path))
 	defer syscall.CloseHandle(h)
 
 	rdbbuf := make([]byte, syscall.MAXIMUM_REPARSE_DATA_BUFFER_SIZE)
 	var bytesReturned uint32
-	err = syscall.DeviceIoControl(h, syscall.FSCTL_GET_REPARSE_POINT, nil, 0, &rdbbuf[0], uint32(len(rdbbuf)), &bytesReturned, nil)
-	if err != nil {
-		return "", err
-	}
+	try(syscall.DeviceIoControl(h, syscall.FSCTL_GET_REPARSE_POINT, nil, 0, &rdbbuf[0], uint32(len(rdbbuf)), &bytesReturned, nil))
 
 	rdb := (*windows.REPARSE_DATA_BUFFER)(unsafe.Pointer(&rdbbuf[0]))
 	switch rdb.ReparseTag {

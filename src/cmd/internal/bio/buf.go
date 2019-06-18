@@ -27,19 +27,13 @@ type Writer struct {
 // Create creates the file named name and returns a Writer
 // for that file.
 func Create(name string) (*Writer, error) {
-	f, err := os.Create(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Create(name))
 	return &Writer{f: f, Writer: bufio.NewWriter(f)}, nil
 }
 
 // Open returns a Reader for the file named name.
 func Open(name string) (*Reader, error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(name))
 	return &Reader{f: f, Reader: bufio.NewReader(f)}, nil
 }
 

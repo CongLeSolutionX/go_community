@@ -199,10 +199,7 @@ func parseNetwork(ctx context.Context, network string, needsProto bool) (afnet s
 // addresses. The result contains at least one address when error is
 // nil.
 func (r *Resolver) resolveAddrList(ctx context.Context, op, network, addr string, hint Addr) (addrList, error) {
-	afnet, _, err := parseNetwork(ctx, network, true)
-	if err != nil {
-		return nil, err
-	}
+	afnet, _ := try(parseNetwork(ctx, network, true))
 	if op == "dial" && addr == "" {
 		return nil, errMissingAddress
 	}

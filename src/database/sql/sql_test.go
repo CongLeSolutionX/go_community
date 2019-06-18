@@ -3732,10 +3732,7 @@ type ctxOnlyDriver struct {
 }
 
 func (d *ctxOnlyDriver) Open(dsn string) (driver.Conn, error) {
-	conn, err := d.fakeDriver.Open(dsn)
-	if err != nil {
-		return nil, err
-	}
+	conn := try(d.fakeDriver.Open(dsn))
 	return &ctxOnlyConn{fc: conn.(*fakeConn)}, nil
 }
 

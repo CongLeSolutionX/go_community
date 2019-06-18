@@ -124,10 +124,7 @@ var errTooBig = errors.New("suffixarray: data too large")
 func readSlice(r io.Reader, buf []byte, data ints) (n int, err error) {
 	// read buffer size
 	var size64 int64
-	size64, err = readInt(r, buf)
-	if err != nil {
-		return
-	}
+	size64 = try(readInt(r, buf))
 	if int64(int(size64)) != size64 || int(size64) < 0 {
 		// We never write chunks this big anyway.
 		return 0, errTooBig
@@ -135,9 +132,7 @@ func readSlice(r io.Reader, buf []byte, data ints) (n int, err error) {
 	size := int(size64)
 
 	// read buffer w/o the size
-	if _, err = io.ReadFull(r, buf[binary.MaxVarintLen64:size]); err != nil {
-		return
-	}
+	try(io.ReadFull(r, buf[binary.MaxVarintLen64:size]))
 
 	// decode as many elements as present in buf
 	for p := binary.MaxVarintLen64; p < size; n++ {
@@ -157,10 +152,7 @@ func (x *Index) Read(r io.Reader) error {
 	buf := make([]byte, bufSize)
 
 	// read length
-	n64, err := readInt(r, buf)
-	if err != nil {
-		return err
-	}
+	n64 := try(readInt(r, buf))
 	if int64(int(n64)) != n64 || int(n64) < 0 {
 		return errTooBig
 	}
@@ -185,17 +177,12 @@ func (x *Index) Read(r io.Reader) error {
 	}
 
 	// read data
-	if _, err := io.ReadFull(r, x.data); err != nil {
-		return err
-	}
+	try(io.ReadFull(r, x.data))
 
 	// read index
 	sa := x.sa
 	for sa.len() > 0 {
-		n, err := readSlice(r, buf, sa)
-		if err != nil {
-			return err
-		}
+		n := try(readSlice(r, buf, sa))
 		sa = sa.slice(n, sa.len())
 	}
 	return nil
@@ -207,22 +194,15 @@ func (x *Index) Write(w io.Writer) error {
 	buf := make([]byte, bufSize)
 
 	// write length
-	if err := writeInt(w, buf, len(x.data)); err != nil {
-		return err
-	}
+	try(writeInt(w, buf, len(x.data)))
 
 	// write data
-	if _, err := w.Write(x.data); err != nil {
-		return err
-	}
+	try(w.Write(x.data))
 
 	// write index
 	sa := x.sa
 	for sa.len() > 0 {
-		n, err := writeSlice(w, buf, sa)
-		if err != nil {
-			return err
-		}
+		n := try(writeSlice(w, buf, sa))
 		sa = sa.slice(n, sa.len())
 	}
 	return nil

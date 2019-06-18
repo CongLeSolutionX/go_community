@@ -45,10 +45,7 @@ func Prime(rand io.Reader, bits int) (p *big.Int, err error) {
 	bigMod := new(big.Int)
 
 	for {
-		_, err = io.ReadFull(rand, bytes)
-		if err != nil {
-			return nil, err
-		}
+		try(io.ReadFull(rand, bytes))
 
 		// Clear bits in the first byte to make sure the candidate has a size <= bits.
 		bytes[0] &= uint8(int(1<<b) - 1)
@@ -126,10 +123,7 @@ func Int(rand io.Reader, max *big.Int) (n *big.Int, err error) {
 	bytes := make([]byte, k)
 
 	for {
-		_, err = io.ReadFull(rand, bytes)
-		if err != nil {
-			return nil, err
-		}
+		try(io.ReadFull(rand, bytes))
 
 		// Clear bits in the first byte to increase the probability
 		// that the candidate is < max.

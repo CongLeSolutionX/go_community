@@ -90,10 +90,7 @@ type decoder struct {
 // readLSB returns the next code for "Least Significant Bits first" data.
 func (d *decoder) readLSB() (uint16, error) {
 	for d.nBits < d.width {
-		x, err := d.r.ReadByte()
-		if err != nil {
-			return 0, err
-		}
+		x := try(d.r.ReadByte())
 		d.bits |= uint32(x) << d.nBits
 		d.nBits += 8
 	}
@@ -106,10 +103,7 @@ func (d *decoder) readLSB() (uint16, error) {
 // readMSB returns the next code for "Most Significant Bits first" data.
 func (d *decoder) readMSB() (uint16, error) {
 	for d.nBits < d.width {
-		x, err := d.r.ReadByte()
-		if err != nil {
-			return 0, err
-		}
+		x := try(d.r.ReadByte())
 		d.bits |= uint32(x) << (24 - d.nBits)
 		d.nBits += 8
 	}

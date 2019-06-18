@@ -45,12 +45,8 @@ func readHexByte(v []byte) (b byte, err error) {
 		return 0, io.ErrUnexpectedEOF
 	}
 	var hb, lb byte
-	if hb, err = fromHex(v[0]); err != nil {
-		return 0, err
-	}
-	if lb, err = fromHex(v[1]); err != nil {
-		return 0, err
-	}
+	hb = try(fromHex(v[0]))
+	lb = try(fromHex(v[1]))
 	return hb<<4 | lb, nil
 }
 

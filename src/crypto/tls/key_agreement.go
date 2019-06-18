@@ -43,10 +43,7 @@ func (ka rsaKeyAgreement) processClientKeyExchange(config *Config, cert *Certifi
 		return nil, errors.New("tls: certificate private key does not implement crypto.Decrypter")
 	}
 	// Perform constant time RSA PKCS#1 v1.5 decryption
-	preMasterSecret, err := priv.Decrypt(config.rand(), ciphertext, &rsa.PKCS1v15DecryptOptions{SessionKeyLen: 48})
-	if err != nil {
-		return nil, err
-	}
+	preMasterSecret := try(priv.Decrypt(config.rand(), ciphertext, &rsa.PKCS1v15DecryptOptions{SessionKeyLen: 48}))
 	// We don't check the version number in the premaster secret. For one,
 	// by checking it, we would leak information about the validity of the
 	// encrypted pre-master secret. Secondly, it provides only a small
@@ -64,15 +61,9 @@ func (ka rsaKeyAgreement) generateClientKeyExchange(config *Config, clientHello 
 	preMasterSecret := make([]byte, 48)
 	preMasterSecret[0] = byte(clientHello.vers >> 8)
 	preMasterSecret[1] = byte(clientHello.vers)
-	_, err := io.ReadFull(config.rand(), preMasterSecret[2:])
-	if err != nil {
-		return nil, nil, err
-	}
+	try(io.ReadFull(config.rand(), preMasterSecret[2:]))
 
-	encrypted, err := rsa.EncryptPKCS1v15(config.rand(), cert.PublicKey.(*rsa.PublicKey), preMasterSecret)
-	if err != nil {
-		return nil, nil, err
-	}
+	encrypted := try(rsa.EncryptPKCS1v15(config.rand(), cert.PublicKey.(*rsa.PublicKey), preMasterSecret))
 	ckx := new(clientKeyExchangeMsg)
 	ckx.ciphertext = make([]byte, len(encrypted)+2)
 	ckx.ciphertext[0] = byte(len(encrypted) >> 8)
@@ -165,10 +156,7 @@ NextCandidate:
 		return nil, errors.New("tls: CurvePreferences includes unsupported curve")
 	}
 
-	params, err := generateECDHEParameters(config.rand(), curveID)
-	if err != nil {
-		return nil, err
-	}
+	params := try(generateECDHEParameters(config.rand(), curveID))
 	ka.params = params
 
 	// See RFC 4492, Section 5.4.
@@ -185,10 +173,7 @@ NextCandidate:
 		return nil, errors.New("tls: certificate private key does not implement crypto.Signer")
 	}
 
-	signatureAlgorithm, sigType, hashFunc, err := pickSignatureAlgorithm(priv.Public(), clientHello.supportedSignatureAlgorithms, supportedSignatureAlgorithms, ka.version)
-	if err != nil {
-		return nil, err
-	}
+	signatureAlgorithm, sigType, hashFunc := try(pickSignatureAlgorithm(priv.Public(), clientHello.supportedSignatureAlgorithms, supportedSignatureAlgorithms, ka.version))
 	if (sigType == signaturePKCS1v15 || sigType == signatureRSAPSS) != ka.isRSA {
 		return nil, errors.New("tls: certificate cannot be used with the selected cipher suite")
 	}
@@ -262,10 +247,7 @@ func (ka *ecdheKeyAgreement) processServerKeyExchange(config *Config, clientHell
 		return errors.New("tls: server selected unsupported curve")
 	}
 
-	params, err := generateECDHEParameters(config.rand(), curveID)
-	if err != nil {
-		return err
-	}
+	params := try(generateECDHEParameters(config.rand(), curveID))
 	ka.params = params
 
 	ka.preMasterSecret = params.SharedKey(publicKey)
@@ -288,10 +270,7 @@ func (ka *ecdheKeyAgreement) processServerKeyExchange(config *Config, clientHell
 			return errServerKeyExchange
 		}
 	}
-	_, sigType, hashFunc, err := pickSignatureAlgorithm(cert.PublicKey, []SignatureScheme{signatureAlgorithm}, clientHello.supportedSignatureAlgorithms, ka.version)
-	if err != nil {
-		return err
-	}
+	_, sigType, hashFunc := try(pickSignatureAlgorithm(cert.PublicKey, []SignatureScheme{signatureAlgorithm}, clientHello.supportedSignatureAlgorithms, ka.version))
 	if (sigType == signaturePKCS1v15 || sigType == signatureRSAPSS) != ka.isRSA {
 		return errServerKeyExchange
 	}

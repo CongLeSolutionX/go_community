@@ -761,10 +761,7 @@ func getQuery(path, vers string, prevM module.Version, forceModulePath bool) (mo
 	}
 
 	// Otherwise, try a package path or pattern.
-	results, err := modload.QueryPattern(path, vers, modload.Allowed)
-	if err != nil {
-		return module.Version{}, err
-	}
+	results := try(modload.QueryPattern(path, vers, modload.Allowed))
 	return results[0].Mod, nil
 }
 
@@ -834,10 +831,7 @@ func newUpgrader(cmdline map[string]*query, pkgs map[string]bool) *upgrader {
 // one the command line, and we include new requirements. Otherwise,
 // we defer to u.Reqs.
 func (u *upgrader) Required(m module.Version) ([]module.Version, error) {
-	rs, err := u.Reqs.Required(m)
-	if err != nil {
-		return nil, err
-	}
+	rs := try(u.Reqs.Required(m))
 	if m != modload.Target {
 		return rs, nil
 	}

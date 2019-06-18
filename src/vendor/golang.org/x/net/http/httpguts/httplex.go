@@ -333,12 +333,9 @@ func PunycodeHostPort(v string) (string, error) {
 		host = v
 		port = ""
 	}
-	host, err = idna.ToASCII(host)
-	if err != nil {
-		// Non-UTF-8? Not representable in Punycode, in any
-		// case.
-		return "", err
-	}
+	host = try(idna.ToASCII(host)) // Non-UTF-8? Not representable in Punycode, in any
+	// case.
+
 	if port == "" {
 		return host, nil
 	}

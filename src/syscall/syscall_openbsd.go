@@ -81,10 +81,7 @@ func Pipe2(p []int, flags int) error {
 func Accept4(fd, flags int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = accept4(fd, &rsa, &len, flags)
-	if err != nil {
-		return
-	}
+	nfd = try(accept4(fd, &rsa, &len, flags))
 	if len > SizeofSockaddrAny {
 		panic("RawSockaddrAny too small")
 	}

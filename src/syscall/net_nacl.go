@@ -357,10 +357,7 @@ func newByteq() *byteq {
 func (q *byteq) read(b []byte, deadline int64) (int, error) {
 	q.Lock()
 	defer q.Unlock()
-	n, err := q.waitRead(len(b), deadline)
-	if err != nil {
-		return 0, err
-	}
+	n := try(q.waitRead(len(b), deadline))
 	b = b[:n]
 	for len(b) > 0 {
 		m := copy(b, q.data[q.r&q.m:])
@@ -406,10 +403,7 @@ func newMsgq() *msgq {
 func (q *msgq) read(deadline int64) (interface{}, error) {
 	q.Lock()
 	defer q.Unlock()
-	n, err := q.waitRead(1, deadline)
-	if err != nil {
-		return nil, err
-	}
+	n := try(q.waitRead(1, deadline))
 	if n == 0 {
 		return nil, nil
 	}
@@ -421,10 +415,7 @@ func (q *msgq) read(deadline int64) (interface{}, error) {
 func (q *msgq) write(m interface{}, deadline int64) error {
 	q.Lock()
 	defer q.Unlock()
-	_, err := q.waitWrite(1, deadline)
-	if err != nil {
-		return err
-	}
+	try(q.waitWrite(1, deadline))
 	q.data[q.w&q.m] = m
 	q.w++
 	return nil
@@ -537,9 +528,7 @@ func (f *netFile) bind(sa Sockaddr) error {
 	if f.addr != nil {
 		return EISCONN
 	}
-	if err := f.proto.bind(f, sa); err != nil {
-		return err
-	}
+	try(f.proto.bind(f, sa))
 	if f.sotype == SOCK_DGRAM {
 		_, ok := net.listener[netAddr{f.proto, f.sotype, f.addr.key()}]
 		if ok {
@@ -675,10 +664,7 @@ func (f *netFile) recvfrom(p []byte, flags int) (n int, from Sockaddr, err error
 	if f.packet == nil {
 		return 0, nil, ENOTCONN
 	}
-	msg1, err := f.packet.read(f.readDeadline())
-	if err != nil {
-		return 0, nil, err
-	}
+	msg1 := try(f.packet.read(f.readDeadline()))
 	msg, ok := msg1.(*pktmsg)
 	if !ok {
 		return 0, nil, EAGAIN
@@ -739,10 +725,7 @@ func (f *netFile) close() error {
 }
 
 func fdToNetFile(fd int) (*netFile, error) {
-	f, err := fdToFile(fd)
-	if err != nil {
-		return nil, err
-	}
+	f := try(fdToFile(fd))
 	impl := f.impl
 	netf, ok := impl.(*netFile)
 	if !ok {
@@ -767,43 +750,28 @@ func Socket(proto, sotype, unused int) (fd int, err error) {
 }
 
 func Bind(fd int, sa Sockaddr) error {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToNetFile(fd))
 	return f.bind(sa)
 }
 
 func StopIO(fd int) error {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToNetFile(fd))
 	f.close()
 	return nil
 }
 
 func Listen(fd int, backlog int) error {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToNetFile(fd))
 	return f.listen(backlog)
 }
 
 func Accept(fd int) (newfd int, sa Sockaddr, err error) {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return 0, nil, err
-	}
+	f := try(fdToNetFile(fd))
 	return f.accept()
 }
 
 func Getsockname(fd int) (sa Sockaddr, err error) {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return nil, err
-	}
+	f := try(fdToNetFile(fd))
 	if f.addr == nil {
 		return nil, ENOTCONN
 	}
@@ -811,10 +779,7 @@ func Getsockname(fd int) (sa Sockaddr, err error) {
 }
 
 func Getpeername(fd int) (sa Sockaddr, err error) {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return nil, err
-	}
+	f := try(fdToNetFile(fd))
 	if f.raddr == nil {
 		return nil, ENOTCONN
 	}
@@ -822,34 +787,22 @@ func Getpeername(fd int) (sa Sockaddr, err error) {
 }
 
 func Connect(fd int, sa Sockaddr) error {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToNetFile(fd))
 	return f.connect(sa)
 }
 
 func Recvfrom(fd int, p []byte, flags int) (n int, from Sockaddr, err error) {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return 0, nil, err
-	}
+	f := try(fdToNetFile(fd))
 	return f.recvfrom(p, flags)
 }
 
 func Sendto(fd int, p []byte, flags int, to Sockaddr) error {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToNetFile(fd))
 	return f.sendto(p, flags, to)
 }
 
 func Recvmsg(fd int, p, oob []byte, flags int) (n, oobn, recvflags int, from Sockaddr, err error) {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return
-	}
+	f := try(fdToNetFile(fd))
 	n, from, err = f.recvfrom(p, flags)
 	return
 }
@@ -860,10 +813,7 @@ func Sendmsg(fd int, p, oob []byte, to Sockaddr, flags int) error {
 }
 
 func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return 0, err
-	}
+	f := try(fdToNetFile(fd))
 	switch f.sotype {
 	case SOCK_STREAM:
 		n, err = f.write(p)
@@ -878,10 +828,7 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 }
 
 func GetsockoptInt(fd, level, opt int) (value int, err error) {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return 0, err
-	}
+	f := try(fdToNetFile(fd))
 	switch {
 	case level == SOL_SOCKET && opt == SO_TYPE:
 		return f.sotype, nil
@@ -894,10 +841,7 @@ func SetsockoptInt(fd, level, opt int, value int) error {
 }
 
 func SetsockoptByte(fd, level, opt int, value byte) error {
-	_, err := fdToNetFile(fd)
-	if err != nil {
-		return err
-	}
+	try(fdToNetFile(fd))
 	return ENOTSUP
 }
 
@@ -906,10 +850,7 @@ func SetsockoptLinger(fd, level, opt int, l *Linger) error {
 }
 
 func SetReadDeadline(fd int, t int64) error {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToNetFile(fd))
 	atomic.StoreInt64(&f.rddeadline, t)
 	if bq := f.rd; bq != nil {
 		bq.Lock()
@@ -926,10 +867,7 @@ func (f *netFile) readDeadline() int64 {
 }
 
 func SetWriteDeadline(fd int, t int64) error {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToNetFile(fd))
 	atomic.StoreInt64(&f.wrdeadline, t)
 	if bq := f.wr; bq != nil {
 		bq.Lock()
@@ -946,10 +884,7 @@ func (f *netFile) writeDeadline() int64 {
 }
 
 func Shutdown(fd int, how int) error {
-	f, err := fdToNetFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToNetFile(fd))
 	switch how {
 	case SHUT_RD:
 		f.rd.close()

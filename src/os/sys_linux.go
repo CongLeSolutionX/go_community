@@ -35,16 +35,10 @@ func hostname() (name string, err error) {
 		return "localhost", nil
 	}
 
-	f, err := Open("/proc/sys/kernel/hostname")
-	if err != nil {
-		return "", err
-	}
+	f := try(Open("/proc/sys/kernel/hostname"))
 	defer f.Close()
 
-	n, err := f.Read(buf[:])
-	if err != nil {
-		return "", err
-	}
+	n := try(f.Read(buf[:]))
 
 	if n > 0 && buf[n-1] == '\n' {
 		n--

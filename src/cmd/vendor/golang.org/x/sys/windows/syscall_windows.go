@@ -101,10 +101,7 @@ func StringToUTF16Ptr(s string) *uint16 { return &StringToUTF16(s)[0] }
 // the UTF-8 string s, with a terminating NUL added. If s
 // contains a NUL byte at any location, it returns (nil, syscall.EINVAL).
 func UTF16PtrFromString(s string) (*uint16, error) {
-	a, err := UTF16FromString(s)
-	if err != nil {
-		return nil, err
-	}
+	a := try(UTF16FromString(s))
 	return &a[0], nil
 }
 
@@ -425,46 +422,28 @@ func Getwd() (wd string, err error) {
 }
 
 func Chdir(path string) (err error) {
-	pathp, err := UTF16PtrFromString(path)
-	if err != nil {
-		return err
-	}
+	pathp := try(UTF16PtrFromString(path))
 	return SetCurrentDirectory(pathp)
 }
 
 func Mkdir(path string, mode uint32) (err error) {
-	pathp, err := UTF16PtrFromString(path)
-	if err != nil {
-		return err
-	}
+	pathp := try(UTF16PtrFromString(path))
 	return CreateDirectory(pathp, nil)
 }
 
 func Rmdir(path string) (err error) {
-	pathp, err := UTF16PtrFromString(path)
-	if err != nil {
-		return err
-	}
+	pathp := try(UTF16PtrFromString(path))
 	return RemoveDirectory(pathp)
 }
 
 func Unlink(path string) (err error) {
-	pathp, err := UTF16PtrFromString(path)
-	if err != nil {
-		return err
-	}
+	pathp := try(UTF16PtrFromString(path))
 	return DeleteFile(pathp)
 }
 
 func Rename(oldpath, newpath string) (err error) {
-	from, err := UTF16PtrFromString(oldpath)
-	if err != nil {
-		return err
-	}
-	to, err := UTF16PtrFromString(newpath)
-	if err != nil {
-		return err
-	}
+	from := try(UTF16PtrFromString(oldpath))
+	to := try(UTF16PtrFromString(newpath))
 	return MoveFileEx(from, to, MOVEFILE_REPLACE_EXISTING)
 }
 
@@ -817,36 +796,26 @@ func SetsockoptInt(fd Handle, level, opt int, value int) (err error) {
 }
 
 func Bind(fd Handle, sa Sockaddr) (err error) {
-	ptr, n, err := sa.sockaddr()
-	if err != nil {
-		return err
-	}
+	ptr, n := try(sa.sockaddr())
 	return bind(fd, ptr, n)
 }
 
 func Connect(fd Handle, sa Sockaddr) (err error) {
-	ptr, n, err := sa.sockaddr()
-	if err != nil {
-		return err
-	}
+	ptr, n := try(sa.sockaddr())
 	return connect(fd, ptr, n)
 }
 
 func Getsockname(fd Handle) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	l := int32(unsafe.Sizeof(rsa))
-	if err = getsockname(fd, &rsa, &l); err != nil {
-		return
-	}
+	try(getsockname(fd, &rsa, &l))
 	return rsa.Sockaddr()
 }
 
 func Getpeername(fd Handle) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	l := int32(unsafe.Sizeof(rsa))
-	if err = getpeername(fd, &rsa, &l); err != nil {
-		return
-	}
+	try(getpeername(fd, &rsa, &l))
 	return rsa.Sockaddr()
 }
 
@@ -859,10 +828,7 @@ func Shutdown(fd Handle, how int) (err error) {
 }
 
 func WSASendto(s Handle, bufs *WSABuf, bufcnt uint32, sent *uint32, flags uint32, to Sockaddr, overlapped *Overlapped, croutine *byte) (err error) {
-	rsa, l, err := to.sockaddr()
-	if err != nil {
-		return err
-	}
+	rsa, l := try(to.sockaddr())
 	return WSASendTo(s, bufs, bufcnt, sent, flags, (*RawSockaddrAny)(unsafe.Pointer(rsa)), l, overlapped, croutine)
 }
 
@@ -913,10 +879,7 @@ func ConnectEx(fd Handle, sa Sockaddr, sendBuf *byte, sendDataLen uint32, bytesS
 	if err != nil {
 		return errorspkg.New("failed to find ConnectEx: " + err.Error())
 	}
-	ptr, n, err := sa.sockaddr()
-	if err != nil {
-		return err
-	}
+	ptr, n := try(sa.sockaddr())
 	return connectEx(fd, ptr, n, sendBuf, sendDataLen, bytesSent, overlapped)
 }
 
@@ -958,10 +921,7 @@ func loadWSASendRecvMsg() error {
 }
 
 func WSASendMsg(fd Handle, msg *WSAMsg, flags uint32, bytesSent *uint32, overlapped *Overlapped, croutine *byte) error {
-	err := loadWSASendRecvMsg()
-	if err != nil {
-		return err
-	}
+	try(loadWSASendRecvMsg())
 	r1, _, e1 := syscall.Syscall6(sendRecvMsgFunc.sendAddr, 6, uintptr(fd), uintptr(unsafe.Pointer(msg)), uintptr(flags), uintptr(unsafe.Pointer(bytesSent)), uintptr(unsafe.Pointer(overlapped)), uintptr(unsafe.Pointer(croutine)))
 	if r1 == socket_error {
 		if e1 != 0 {
@@ -974,10 +934,7 @@ func WSASendMsg(fd Handle, msg *WSAMsg, flags uint32, bytesSent *uint32, overlap
 }
 
 func WSARecvMsg(fd Handle, msg *WSAMsg, bytesReceived *uint32, overlapped *Overlapped, croutine *byte) error {
-	err := loadWSASendRecvMsg()
-	if err != nil {
-		return err
-	}
+	try(loadWSASendRecvMsg())
 	r1, _, e1 := syscall.Syscall6(sendRecvMsgFunc.recvAddr, 5, uintptr(fd), uintptr(unsafe.Pointer(msg)), uintptr(unsafe.Pointer(bytesReceived)), uintptr(unsafe.Pointer(overlapped)), uintptr(unsafe.Pointer(croutine)), 0)
 	if r1 == socket_error {
 		if e1 != 0 {
@@ -1116,24 +1073,16 @@ func FindNextFile(handle Handle, data *Win32finddata) (err error) {
 }
 
 func getProcessEntry(pid int) (*ProcessEntry32, error) {
-	snapshot, err := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)
-	if err != nil {
-		return nil, err
-	}
+	snapshot := try(CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0))
 	defer CloseHandle(snapshot)
 	var procEntry ProcessEntry32
 	procEntry.Size = uint32(unsafe.Sizeof(procEntry))
-	if err = Process32First(snapshot, &procEntry); err != nil {
-		return nil, err
-	}
+	try(Process32First(snapshot, &procEntry))
 	for {
 		if procEntry.ProcessID == uint32(pid) {
 			return &procEntry, nil
 		}
-		err = Process32Next(snapshot, &procEntry)
-		if err != nil {
-			return nil, err
-		}
+		try(Process32Next(snapshot, &procEntry))
 	}
 }
 

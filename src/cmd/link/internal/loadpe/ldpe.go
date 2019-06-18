@@ -137,10 +137,7 @@ func (f *peBiobuf) ReadAt(p []byte, off int64) (int, error) {
 	if ret < 0 {
 		return 0, errors.New("fail to seek")
 	}
-	n, err := f.Read(p)
-	if err != nil {
-		return 0, err
-	}
+	n := try(f.Read(p))
 	return n, nil
 }
 
@@ -160,10 +157,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, input *bio.Reader, pkg string, leng
 	sr := io.NewSectionReader((*peBiobuf)(input), input.Offset(), 1<<63-1)
 
 	// TODO: replace pe.NewFile with pe.Load (grep for "add Load function" in debug/pe for details)
-	f, err := pe.NewFile(sr)
-	if err != nil {
-		return nil, nil, err
-	}
+	f := try(pe.NewFile(sr))
 	defer f.Close()
 
 	// TODO return error if found .cormeta
@@ -239,10 +233,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, input *bio.Reader, pkg string, leng
 				return nil, nil, fmt.Errorf("relocation number %d symbol index idx=%d cannot be large then number of symbols %d", j, r.SymbolTableIndex, len(f.COFFSymbols))
 			}
 			pesym := &f.COFFSymbols[r.SymbolTableIndex]
-			gosym, err := readpesym(arch, syms, f, pesym, sectsyms, localSymVersion)
-			if err != nil {
-				return nil, nil, err
-			}
+			gosym := try(readpesym(arch, syms, f, pesym, sectsyms, localSymVersion))
 			if gosym == nil {
 				name, err := pesym.FullName(f.StringTable)
 				if err != nil {
@@ -327,10 +318,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, input *bio.Reader, pkg string, leng
 
 		numaux = int(pesym.NumberOfAuxSymbols)
 
-		name, err := pesym.FullName(f.StringTable)
-		if err != nil {
-			return nil, nil, err
-		}
+		name := try(pesym.FullName(f.StringTable))
 		if name == "" {
 			continue
 		}
@@ -351,10 +339,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, input *bio.Reader, pkg string, leng
 			}
 		}
 
-		s, err := readpesym(arch, syms, f, pesym, sectsyms, localSymVersion)
-		if err != nil {
-			return nil, nil, err
-		}
+		s := try(readpesym(arch, syms, f, pesym, sectsyms, localSymVersion))
 
 		if pesym.SectionNumber == 0 { // extern
 			if s.Type == sym.SDYNIMPORT {
@@ -436,10 +421,7 @@ func issect(s *pe.COFFSymbol) bool {
 }
 
 func readpesym(arch *sys.Arch, syms *sym.Symbols, f *pe.File, pesym *pe.COFFSymbol, sectsyms map[*pe.Section]*sym.Symbol, localSymVersion int) (*sym.Symbol, error) {
-	symname, err := pesym.FullName(f.StringTable)
-	if err != nil {
-		return nil, err
-	}
+	symname := try(pesym.FullName(f.StringTable))
 	var name string
 	if issect(pesym) {
 		name = sectsyms[f.Sections[pesym.SectionNumber-1]].Name

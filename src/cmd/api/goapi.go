@@ -403,10 +403,7 @@ func (w *Walker) parseFile(dir, file string) (*ast.File, error) {
 		return f, nil
 	}
 
-	f, err := parser.ParseFile(fset, filename, nil, 0)
-	if err != nil {
-		return nil, err
-	}
+	f := try(parser.ParseFile(fset, filename, nil, 0))
 	parsedFileCache[filename] = f
 
 	return f, nil

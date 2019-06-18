@@ -95,19 +95,13 @@ func newVCSRepo(vcs, remote string) (Repo, error) {
 
 	r := &vcsRepo{remote: remote, cmd: cmd}
 	var err error
-	r.dir, r.mu.Path, err = WorkDir(vcsWorkDirType+vcs, r.remote)
-	if err != nil {
-		return nil, err
-	}
+	r.dir, r.mu.Path = try(WorkDir(vcsWorkDirType+vcs, r.remote))
 
 	if cmd.init == nil {
 		return r, nil
 	}
 
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return nil, err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
 	if _, err := os.Stat(filepath.Join(r.dir, "."+vcs)); err != nil {
@@ -290,10 +284,7 @@ func (r *vcsRepo) loadBranches() {
 }
 
 func (r *vcsRepo) Tags(prefix string) ([]string, error) {
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return nil, err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
 	r.tagsOnce.Do(r.loadTags)
@@ -309,10 +300,7 @@ func (r *vcsRepo) Tags(prefix string) ([]string, error) {
 }
 
 func (r *vcsRepo) Stat(rev string) (*RevInfo, error) {
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return nil, err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
 	if rev == "latest" {
@@ -330,10 +318,7 @@ func (r *vcsRepo) Stat(rev string) (*RevInfo, error) {
 	if r.fetchErr != nil {
 		return nil, r.fetchErr
 	}
-	info, err := r.statLocal(rev)
-	if err != nil {
-		return nil, err
-	}
+	info := try(r.statLocal(rev))
 	if !revOK {
 		info.Version = info.Name
 	}
@@ -360,16 +345,10 @@ func (r *vcsRepo) ReadFile(rev, file string, maxSize int64) ([]byte, error) {
 	if rev == "latest" {
 		rev = r.cmd.latest
 	}
-	_, err := r.Stat(rev) // download rev into local repo
-	if err != nil {
-		return nil, err
-	}
+	try(r.Stat(rev)) // download rev into local repo
 
 	// r.Stat acquires r.mu, so lock after that.
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return nil, err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
 	out, err := Run(r.dir, r.cmd.readFile(rev, file, r.remote))
@@ -383,10 +362,7 @@ func (r *vcsRepo) ReadFileRevs(revs []string, file string, maxSize int64) (map[s
 	// We don't technically need to lock here since we're returning an error
 	// uncondititonally, but doing so anyway will help to avoid baking in
 	// lock-inversion bugs.
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return nil, err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
 	return nil, vcsErrorf("ReadFileRevs not implemented")
@@ -396,10 +372,7 @@ func (r *vcsRepo) RecentTag(rev, prefix string) (tag string, err error) {
 	// We don't technically need to lock here since we're returning an error
 	// uncondititonally, but doing so anyway will help to avoid baking in
 	// lock-inversion bugs.
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return "", err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
 	return "", vcsErrorf("RecentTag not implemented")
@@ -410,19 +383,13 @@ func (r *vcsRepo) ReadZip(rev, subdir string, maxSize int64) (zip io.ReadCloser,
 		return nil, "", vcsErrorf("ReadZip not implemented for %s", r.cmd.vcs)
 	}
 
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return nil, "", err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
 	if rev == "latest" {
 		rev = r.cmd.latest
 	}
-	f, err := ioutil.TempFile("", "go-readzip-*.zip")
-	if err != nil {
-		return nil, "", err
-	}
+	f := try(ioutil.TempFile("", "go-readzip-*.zip"))
 	if r.cmd.vcs == "fossil" {
 		// If you run
 		//	fossil zip -R .fossil --name prefix trunk /tmp/x.zip

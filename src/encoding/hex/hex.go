@@ -270,10 +270,7 @@ func (h *dumper) Write(data []byte) (n int, err error) {
 			h.buf[4] = '|'
 			l = 5
 		}
-		_, err = h.w.Write(h.buf[:l])
-		if err != nil {
-			return
-		}
+		try(h.w.Write(h.buf[:l]))
 		n++
 		h.rightChars[h.used] = toChar(data[i])
 		h.used++
@@ -313,10 +310,7 @@ func (h *dumper) Close() (err error) {
 		} else if h.used == 15 {
 			l = 5
 		}
-		_, err = h.w.Write(h.buf[:l])
-		if err != nil {
-			return
-		}
+		try(h.w.Write(h.buf[:l]))
 		h.used++
 	}
 	h.rightChars[nBytes] = '|'

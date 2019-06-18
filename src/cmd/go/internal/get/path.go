@@ -62,9 +62,7 @@ func checkPath(path string, fileName bool) error {
 			elemStart = i + 1
 		}
 	}
-	if err := checkElem(path[elemStart:], fileName); err != nil {
-		return err
-	}
+	try(checkElem(path[elemStart:], fileName))
 	return nil
 }
 

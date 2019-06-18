@@ -167,9 +167,7 @@ type CRTValue struct {
 // Validate performs basic sanity checks on the key.
 // It returns nil if the key is valid, or else an error describing a problem.
 func (priv *PrivateKey) Validate() error {
-	if err := checkPub(&priv.PublicKey); err != nil {
-		return err
-	}
+	try(checkPub(&priv.PublicKey))
 
 	// Check that Πprimes == n.
 	modulus := new(big.Int).Set(bigOne)
@@ -374,9 +372,7 @@ func encrypt(c *big.Int, pub *PublicKey, m *big.Int) *big.Int {
 // The message must be no longer than the length of the public modulus minus
 // twice the hash length, minus a further 2.
 func EncryptOAEP(hash hash.Hash, random io.Reader, pub *PublicKey, msg []byte, label []byte) ([]byte, error) {
-	if err := checkPub(pub); err != nil {
-		return nil, err
-	}
+	try(checkPub(pub))
 	hash.Reset()
 	k := pub.Size()
 	if len(msg) > k-2*hash.Size()-2 {
@@ -395,10 +391,7 @@ func EncryptOAEP(hash hash.Hash, random io.Reader, pub *PublicKey, msg []byte, l
 	db[len(db)-len(msg)-1] = 1
 	copy(db[len(db)-len(msg):], msg)
 
-	_, err := io.ReadFull(random, seed)
-	if err != nil {
-		return nil, err
-	}
+	try(io.ReadFull(random, seed))
 
 	mgf1XOR(db, hash, seed)
 	mgf1XOR(seed, hash, db)
@@ -540,10 +533,7 @@ func decrypt(random io.Reader, priv *PrivateKey, c *big.Int) (m *big.Int, err er
 }
 
 func decryptAndCheck(random io.Reader, priv *PrivateKey, c *big.Int) (m *big.Int, err error) {
-	m, err = decrypt(random, priv, c)
-	if err != nil {
-		return nil, err
-	}
+	m = try(decrypt(random, priv, c))
 
 	// In order to defend against errors in the CRT computation, m^e is
 	// calculated, which should match the original ciphertext.
@@ -567,9 +557,7 @@ func decryptAndCheck(random io.Reader, priv *PrivateKey, c *big.Int) (m *big.Int
 // The label parameter must match the value given when encrypting. See
 // EncryptOAEP for details.
 func DecryptOAEP(hash hash.Hash, random io.Reader, priv *PrivateKey, ciphertext []byte, label []byte) ([]byte, error) {
-	if err := checkPub(&priv.PublicKey); err != nil {
-		return nil, err
-	}
+	try(checkPub(&priv.PublicKey))
 	k := priv.Size()
 	if len(ciphertext) > k ||
 		k < hash.Size()*2+2 {
@@ -578,10 +566,7 @@ func DecryptOAEP(hash hash.Hash, random io.Reader, priv *PrivateKey, ciphertext 
 
 	c := new(big.Int).SetBytes(ciphertext)
 
-	m, err := decrypt(random, priv, c)
-	if err != nil {
-		return nil, err
-	}
+	m := try(decrypt(random, priv, c))
 
 	hash.Write(label)
 	lHash := hash.Sum(nil)

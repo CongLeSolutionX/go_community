@@ -1008,9 +1008,7 @@ func (t *tester) runHostTest(dir, pkg string) error {
 	defer os.Remove(filepath.Join(goroot, dir, "test.test"))
 	cmd := t.dirCmd(dir, t.goTest(), "-c", "-o", "test.test", pkg)
 	cmd.Env = append(os.Environ(), "GOARCH="+gohostarch, "GOOS="+gohostos)
-	if err := cmd.Run(); err != nil {
-		return err
-	}
+	try(cmd.Run())
 	return t.dirCmd(dir, "./test.test", "-test.short").Run()
 }
 
@@ -1471,9 +1469,7 @@ func (t *tester) runPrecompiledStdTest(timeout time.Duration) error {
 	cmd.Dir = filepath.Dir(bin)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	if err := cmd.Start(); err != nil {
-		return err
-	}
+	try(cmd.Start())
 	// And start a timer to kill the process if it doesn't kill
 	// itself in the prescribed timeout.
 	const backupKillFactor = 1.05 // add 5%

@@ -147,9 +147,7 @@ func nslookup(qtype, name string) (string, error) {
 	cmd := exec.Command("nslookup", "-querytype="+qtype, name)
 	cmd.Stdout = &out
 	cmd.Stderr = &err
-	if err := cmd.Run(); err != nil {
-		return "", err
-	}
+	try(cmd.Run())
 	r := strings.ReplaceAll(out.String(), "\r\n", "\n")
 	// nslookup stderr output contains also debug information such as
 	// "Non-authoritative answer" and it doesn't return the correct errcode
@@ -161,9 +159,7 @@ func nslookup(qtype, name string) (string, error) {
 
 func nslookupMX(name string) (mx []*MX, err error) {
 	var r string
-	if r, err = nslookup("mx", name); err != nil {
-		return
-	}
+	r = try(nslookup("mx", name))
 	mx = make([]*MX, 0, 10)
 	// linux nslookup syntax
 	// golang.org      mail exchanger = 2 alt1.aspmx.l.google.com.
@@ -184,9 +180,7 @@ func nslookupMX(name string) (mx []*MX, err error) {
 
 func nslookupNS(name string) (ns []*NS, err error) {
 	var r string
-	if r, err = nslookup("ns", name); err != nil {
-		return
-	}
+	r = try(nslookup("ns", name))
 	ns = make([]*NS, 0, 10)
 	// golang.org      nameserver = ns1.google.com.
 	rx := regexp.MustCompile(`(?m)^([a-z0-9.\-]+)\s+nameserver\s*=\s*([a-z0-9.\-]+)$`)
@@ -198,9 +192,7 @@ func nslookupNS(name string) (ns []*NS, err error) {
 
 func nslookupCNAME(name string) (cname string, err error) {
 	var r string
-	if r, err = nslookup("cname", name); err != nil {
-		return
-	}
+	r = try(nslookup("cname", name))
 	// mail.golang.com canonical name = golang.org.
 	rx := regexp.MustCompile(`(?m)^([a-z0-9.\-]+)\s+canonical name\s*=\s*([a-z0-9.\-]+)$`)
 	// assumes the last CNAME is the correct one
@@ -213,9 +205,7 @@ func nslookupCNAME(name string) (cname string, err error) {
 
 func nslookupTXT(name string) (txt []string, err error) {
 	var r string
-	if r, err = nslookup("txt", name); err != nil {
-		return
-	}
+	r = try(nslookup("txt", name))
 	txt = make([]string, 0, 10)
 	// linux
 	// golang.org      text = "v=spf1 redirect=_spf.google.com"

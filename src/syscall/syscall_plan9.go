@@ -287,10 +287,7 @@ func Await(w *Waitmsg) (err error) {
 
 func Unmount(name, old string) (err error) {
 	fixwd(name, old)
-	oldp, err := BytePtrFromString(old)
-	if err != nil {
-		return err
-	}
+	oldp := try(BytePtrFromString(old))
 	oldptr := uintptr(unsafe.Pointer(oldp))
 
 	var r0 uintptr
@@ -314,11 +311,7 @@ func Unmount(name, old string) (err error) {
 }
 
 func Fchdir(fd int) (err error) {
-	path, err := Fd2path(fd)
-
-	if err != nil {
-		return
-	}
+	path := try(Fd2path(fd))
 
 	return Chdir(path)
 }

@@ -83,10 +83,7 @@ type webArgs struct {
 }
 
 func serveWebInterface(hostport string, p *profile.Profile, o *plugin.Options, disableBrowser bool) error {
-	host, port, err := getHostAndPort(hostport)
-	if err != nil {
-		return err
-	}
+	host, port := try(getHostAndPort(hostport))
 	interactiveMode = true
 	ui := makeWebInterface(p, o)
 	for n, c := range pprofCommands {
@@ -155,10 +152,7 @@ func getHostAndPort(hostport string) (string, int, error) {
 	return host, port, nil
 }
 func defaultWebServer(args *plugin.HTTPServerArgs) error {
-	ln, err := net.Listen("tcp", args.Hostport)
-	if err != nil {
-		return err
-	}
+	ln := try(net.Listen("tcp", args.Hostport))
 	isLocal := isLocalhost(args.Host)
 	handler := http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		if isLocal {
@@ -330,9 +324,7 @@ func dotToSvg(dot []byte) ([]byte, error) {
 	cmd := exec.Command("dot", "-Tsvg")
 	out := &bytes.Buffer{}
 	cmd.Stdin, cmd.Stdout, cmd.Stderr = bytes.NewBuffer(dot), out, os.Stderr
-	if err := cmd.Run(); err != nil {
-		return nil, err
-	}
+	try(cmd.Run())
 
 	// Fix dot bug related to unquoted amperands.
 	svg := bytes.Replace(out.Bytes(), []byte("&;"), []byte("&amp;;"), -1)

@@ -240,27 +240,19 @@ type SockaddrUnix struct {
 }
 
 func Bind(fd int, sa Sockaddr) (err error) {
-	ptr, n, err := sa.sockaddr()
-	if err != nil {
-		return err
-	}
+	ptr, n := try(sa.sockaddr())
 	return bind(fd, ptr, n)
 }
 
 func Connect(fd int, sa Sockaddr) (err error) {
-	ptr, n, err := sa.sockaddr()
-	if err != nil {
-		return err
-	}
+	ptr, n := try(sa.sockaddr())
 	return connect(fd, ptr, n)
 }
 
 func Getpeername(fd int) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if err = getpeername(fd, &rsa, &len); err != nil {
-		return
-	}
+	try(getpeername(fd, &rsa, &len))
 	return anyToSockaddr(&rsa)
 }
 
@@ -274,9 +266,7 @@ func GetsockoptInt(fd, level, opt int) (value int, err error) {
 func Recvfrom(fd int, p []byte, flags int) (n int, from Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if n, err = recvfrom(fd, p, flags, &rsa, &len); err != nil {
-		return
-	}
+	n = try(recvfrom(fd, p, flags, &rsa, &len))
 	if rsa.Addr.Family != AF_UNSPEC {
 		from, err = anyToSockaddr(&rsa)
 	}
@@ -284,10 +274,7 @@ func Recvfrom(fd int, p []byte, flags int) (n int, from Sockaddr, err error) {
 }
 
 func Sendto(fd int, p []byte, flags int, to Sockaddr) (err error) {
-	ptr, n, err := to.sockaddr()
-	if err != nil {
-		return err
-	}
+	ptr, n := try(to.sockaddr())
 	return sendto(fd, p, flags, ptr, n)
 }
 

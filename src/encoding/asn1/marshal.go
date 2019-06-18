@@ -327,10 +327,7 @@ func outsideUTCRange(t time.Time) bool {
 func makeUTCTime(t time.Time) (e encoder, err error) {
 	dst := make([]byte, 0, 18)
 
-	dst, err = appendUTCTime(dst, t)
-	if err != nil {
-		return nil, err
-	}
+	dst = try(appendUTCTime(dst, t))
 
 	return bytesEncoder(dst), nil
 }
@@ -338,10 +335,7 @@ func makeUTCTime(t time.Time) (e encoder, err error) {
 func makeGeneralizedTime(t time.Time) (e encoder, err error) {
 	dst := make([]byte, 0, 20)
 
-	dst, err = appendGeneralizedTime(dst, t)
-	if err != nil {
-		return nil, err
-	}
+	dst = try(appendGeneralizedTime(dst, t))
 
 	return bytesEncoder(dst), nil
 }
@@ -620,10 +614,7 @@ func makeField(v reflect.Value, params fieldParameters) (e encoder, err error) {
 
 	t := new(taggedEncoder)
 
-	t.body, err = makeBody(v, params)
-	if err != nil {
-		return nil, err
-	}
+	t.body = try(makeBody(v, params))
 
 	bodyLen := t.body.Len()
 
@@ -681,10 +672,7 @@ func Marshal(val interface{}) ([]byte, error) {
 // MarshalWithParams allows field parameters to be specified for the
 // top-level element. The form of the params is the same as the field tags.
 func MarshalWithParams(val interface{}, params string) ([]byte, error) {
-	e, err := makeField(reflect.ValueOf(val), parseFieldParameters(params))
-	if err != nil {
-		return nil, err
-	}
+	e := try(makeField(reflect.ValueOf(val), parseFieldParameters(params)))
 	b := make([]byte, e.Len())
 	e.Encode(b)
 	return b, nil

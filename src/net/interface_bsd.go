@@ -16,10 +16,7 @@ import (
 // network interfaces. Otherwise it returns a mapping of a specific
 // interface.
 func interfaceTable(ifindex int) ([]Interface, error) {
-	msgs, err := interfaceMessages(ifindex)
-	if err != nil {
-		return nil, err
-	}
+	msgs := try(interfaceMessages(ifindex))
 	n := len(msgs)
 	if ifindex != 0 {
 		n = 1
@@ -82,10 +79,7 @@ func interfaceAddrTable(ifi *Interface) ([]Addr, error) {
 	if ifi != nil {
 		index = ifi.Index
 	}
-	msgs, err := interfaceMessages(index)
-	if err != nil {
-		return nil, err
-	}
+	msgs := try(interfaceMessages(index))
 	ifat := make([]Addr, 0, len(msgs))
 	for _, m := range msgs {
 		switch m := m.(type) {

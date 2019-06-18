@@ -284,17 +284,11 @@ func (eq *eqchecker) checkValue(v, w reflect.Value) error {
 
 // diff returns the output of running diff on b1 and b2.
 func diff(b1, b2 []byte) (data []byte, err error) {
-	f1, err := ioutil.TempFile("", "testdiff")
-	if err != nil {
-		return nil, err
-	}
+	f1 := try(ioutil.TempFile("", "testdiff"))
 	defer os.Remove(f1.Name())
 	defer f1.Close()
 
-	f2, err := ioutil.TempFile("", "testdiff")
-	if err != nil {
-		return nil, err
-	}
+	f2 := try(ioutil.TempFile("", "testdiff"))
 	defer os.Remove(f2.Name())
 	defer f2.Close()
 

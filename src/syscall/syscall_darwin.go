@@ -62,16 +62,11 @@ func nametomib(name string) (mib []_C_int, err error) {
 	n := uintptr(CTL_MAXNAME) * siz
 
 	p := (*byte)(unsafe.Pointer(&buf[0]))
-	bytes, err := ByteSliceFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	bytes := try(ByteSliceFromString(name))
 
 	// Magic sysctl: "setting" 0.3 to a string name
 	// lets you read back the array of integers form.
-	if err = sysctl([]_C_int{0, 3}, p, &n, &bytes[0], uintptr(len(name))); err != nil {
-		return nil, err
-	}
+	try(sysctl([]_C_int{0, 3}, p, &n, &bytes[0], uintptr(len(name))))
 	return buf[0 : n/siz], nil
 }
 
@@ -114,10 +109,7 @@ func getAttrList(path string, attrList attrList, attrBuf []byte, options uint) (
 	attrList.bitmapCount = attrBitMapCount
 
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return nil, err
-	}
+	_p0 = try(BytePtrFromString(path))
 
 	_, _, e1 := syscall6(
 		funcPC(libc_getattrlist_trampoline),
@@ -201,10 +193,7 @@ func libc_getfsstat_trampoline()
 //go:cgo_import_dynamic libc_getfsstat getfsstat "/usr/lib/libSystem.B.dylib"
 
 func setattrlistTimes(path string, times []Timespec) error {
-	_p0, err := BytePtrFromString(path)
-	if err != nil {
-		return err
-	}
+	_p0 := try(BytePtrFromString(path))
 
 	var attrList attrList
 	attrList.bitmapCount = attrBitMapCount
@@ -388,10 +377,7 @@ func Getdirentries(fd int, buf []byte, basep *uintptr) (n int, err error) {
 	// of calling Getdirentries or ReadDirent repeatedly.
 	// It won't handle assigning the results of lseek to *basep, or handle
 	// the directory being edited underfoot.
-	skip, err := Seek(fd, 0, 1 /* SEEK_CUR */)
-	if err != nil {
-		return 0, err
-	}
+	skip := try(Seek(fd, 0, 1 /* SEEK_CUR */))
 
 	// We need to duplicate the incoming file descriptor
 	// because the caller expects to retain control of it, but
@@ -399,10 +385,7 @@ func Getdirentries(fd int, buf []byte, basep *uintptr) (n int, err error) {
 	// Just Dup'ing the file descriptor is not enough, as the
 	// result shares underlying state. Use openat to make a really
 	// new file descriptor referring to the same directory.
-	fd2, err := openat(fd, ".", O_RDONLY, 0)
-	if err != nil {
-		return 0, err
-	}
+	fd2 := try(openat(fd, ".", O_RDONLY, 0))
 	d, err := fdopendir(fd2)
 	if err != nil {
 		Close(fd2)

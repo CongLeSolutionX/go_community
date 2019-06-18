@@ -33,10 +33,7 @@ type File struct {
 
 // Open opens the named file using os.Open and prepares it for use as a PE binary.
 func Open(name string) (*File, error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(name))
 	ff, err := NewFile(f)
 	if err != nil {
 		f.Close()
@@ -71,9 +68,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	sr := io.NewSectionReader(r, 0, 1<<63-1)
 
 	var dosheader [96]byte
-	if _, err := r.ReadAt(dosheader[0:], 0); err != nil {
-		return nil, err
-	}
+	try(r.ReadAt(dosheader[0:], 0))
 	var base int64
 	if dosheader[0] == 'M' && dosheader[1] == 'Z' {
 		signoff := int64(binary.LittleEndian.Uint32(dosheader[0x3c:]))
@@ -87,9 +82,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 		base = int64(0)
 	}
 	sr.Seek(base, seekStart)
-	if err := binary.Read(sr, binary.LittleEndian, &f.FileHeader); err != nil {
-		return nil, err
-	}
+	try(binary.Read(sr, binary.LittleEndian, &f.FileHeader))
 	switch f.FileHeader.Machine {
 	case IMAGE_FILE_MACHINE_UNKNOWN, IMAGE_FILE_MACHINE_ARMNT, IMAGE_FILE_MACHINE_AMD64, IMAGE_FILE_MACHINE_I386:
 	default:
@@ -99,26 +92,15 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	var err error
 
 	// Read string table.
-	f.StringTable, err = readStringTable(&f.FileHeader, sr)
-	if err != nil {
-		return nil, err
-	}
+	f.StringTable = try(readStringTable(&f.FileHeader, sr))
 
 	// Read symbol table.
-	f.COFFSymbols, err = readCOFFSymbols(&f.FileHeader, sr)
-	if err != nil {
-		return nil, err
-	}
-	f.Symbols, err = removeAuxSymbols(f.COFFSymbols, f.StringTable)
-	if err != nil {
-		return nil, err
-	}
+	f.COFFSymbols = try(readCOFFSymbols(&f.FileHeader, sr))
+	f.Symbols = try(removeAuxSymbols(f.COFFSymbols, f.StringTable))
 
 	// Read optional header.
 	sr.Seek(base, seekStart)
-	if err := binary.Read(sr, binary.LittleEndian, &f.FileHeader); err != nil {
-		return nil, err
-	}
+	try(binary.Read(sr, binary.LittleEndian, &f.FileHeader))
 	var oh32 OptionalHeader32
 	var oh64 OptionalHeader64
 	switch f.FileHeader.SizeOfOptionalHeader {
@@ -144,13 +126,8 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	f.Sections = make([]*Section, f.FileHeader.NumberOfSections)
 	for i := 0; i < int(f.FileHeader.NumberOfSections); i++ {
 		sh := new(SectionHeader32)
-		if err := binary.Read(sr, binary.LittleEndian, sh); err != nil {
-			return nil, err
-		}
-		name, err := sh.fullName(f.StringTable)
-		if err != nil {
-			return nil, err
-		}
+		try(binary.Read(sr, binary.LittleEndian, sh))
+		name := try(sh.fullName(f.StringTable))
 		s := new(Section)
 		s.SectionHeader = SectionHeader{
 			Name:                 name,
@@ -174,10 +151,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	}
 	for i := range f.Sections {
 		var err error
-		f.Sections[i].Relocs, err = readRelocs(&f.Sections[i].SectionHeader, sr)
-		if err != nil {
-			return nil, err
-		}
+		f.Sections[i].Relocs = try(readRelocs(&f.Sections[i].SectionHeader, sr))
 	}
 
 	return f, nil
@@ -274,17 +248,11 @@ func (f *File) DWARF() (*dwarf.Data, error) {
 			continue
 		}
 
-		b, err := sectionData(s)
-		if err != nil {
-			return nil, err
-		}
+		b := try(sectionData(s))
 		dat[suffix] = b
 	}
 
-	d, err := dwarf.New(dat["abbrev"], nil, nil, dat["info"], dat["line"], nil, dat["ranges"], dat["str"])
-	if err != nil {
-		return nil, err
-	}
+	d := try(dwarf.New(dat["abbrev"], nil, nil, dat["info"], dat["line"], nil, dat["ranges"], dat["str"]))
 
 	// Look for DWARF4 .debug_types sections.
 	for i, s := range f.Sections {
@@ -293,15 +261,9 @@ func (f *File) DWARF() (*dwarf.Data, error) {
 			continue
 		}
 
-		b, err := sectionData(s)
-		if err != nil {
-			return nil, err
-		}
+		b := try(sectionData(s))
 
-		err = d.AddTypes(fmt.Sprintf("types-%d", i), b)
-		if err != nil {
-			return nil, err
-		}
+		try(d.AddTypes(fmt.Sprintf("types-%d", i), b))
 	}
 
 	return d, nil
@@ -367,10 +329,7 @@ func (f *File) ImportedSymbols() ([]string, error) {
 		return nil, nil
 	}
 
-	d, err := ds.Data()
-	if err != nil {
-		return nil, err
-	}
+	d := try(ds.Data())
 
 	// seek to the virtual address specified in the import data directory
 	d = d[idd.VirtualAddress-ds.VirtualAddress:]

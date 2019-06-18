@@ -255,10 +255,7 @@ func (c *Cmd) stdin() (f *os.File, err error) {
 		return f, nil
 	}
 
-	pr, pw, err := os.Pipe()
-	if err != nil {
-		return
-	}
+	pr, pw := try(os.Pipe())
 
 	c.closeAfterStart = append(c.closeAfterStart, pr)
 	c.closeAfterWait = append(c.closeAfterWait, pw)
@@ -300,10 +297,7 @@ func (c *Cmd) writerDescriptor(w io.Writer) (f *os.File, err error) {
 		return f, nil
 	}
 
-	pr, pw, err := os.Pipe()
-	if err != nil {
-		return
-	}
+	pr, pw := try(os.Pipe())
 
 	c.closeAfterStart = append(c.closeAfterStart, pw)
 	c.closeAfterWait = append(c.closeAfterWait, pr)
@@ -335,9 +329,7 @@ func (c *Cmd) closeDescriptors(closers []io.Closer) {
 // thread state (for example, Linux or Plan 9 name spaces), the new
 // process will inherit the caller's thread state.
 func (c *Cmd) Run() error {
-	if err := c.Start(); err != nil {
-		return err
-	}
+	try(c.Start())
 	return c.Wait()
 }
 
@@ -359,10 +351,7 @@ func lookExtensions(path, dir string) (string, error) {
 	}
 	dirandpath := filepath.Join(dir, path)
 	// We assume that LookPath will only add file extension.
-	lp, err := LookPath(dirandpath)
-	if err != nil {
-		return "", err
-	}
+	lp := try(LookPath(dirandpath))
 	ext := strings.TrimPrefix(lp, dirandpath)
 	return path + ext, nil
 }
@@ -575,10 +564,7 @@ func (c *Cmd) StdinPipe() (io.WriteCloser, error) {
 	if c.Process != nil {
 		return nil, errors.New("exec: StdinPipe after process started")
 	}
-	pr, pw, err := os.Pipe()
-	if err != nil {
-		return nil, err
-	}
+	pr, pw := try(os.Pipe())
 	c.Stdin = pr
 	c.closeAfterStart = append(c.closeAfterStart, pr)
 	wc := &closeOnce{File: pw}
@@ -617,10 +603,7 @@ func (c *Cmd) StdoutPipe() (io.ReadCloser, error) {
 	if c.Process != nil {
 		return nil, errors.New("exec: StdoutPipe after process started")
 	}
-	pr, pw, err := os.Pipe()
-	if err != nil {
-		return nil, err
-	}
+	pr, pw := try(os.Pipe())
 	c.Stdout = pw
 	c.closeAfterStart = append(c.closeAfterStart, pw)
 	c.closeAfterWait = append(c.closeAfterWait, pr)
@@ -642,10 +625,7 @@ func (c *Cmd) StderrPipe() (io.ReadCloser, error) {
 	if c.Process != nil {
 		return nil, errors.New("exec: StderrPipe after process started")
 	}
-	pr, pw, err := os.Pipe()
-	if err != nil {
-		return nil, err
-	}
+	pr, pw := try(os.Pipe())
 	c.Stderr = pw
 	c.closeAfterStart = append(c.closeAfterStart, pw)
 	c.closeAfterWait = append(c.closeAfterWait, pr)

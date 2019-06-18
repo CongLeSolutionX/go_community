@@ -1954,10 +1954,7 @@ func (pc *persistConn) readResponse(rc requestAndChan, trace *httptrace.ClientTr
 
 	continueCh := rc.continueCh
 	for {
-		resp, err = ReadResponse(pc.br, rc.req)
-		if err != nil {
-			return
-		}
+		resp = try(ReadResponse(pc.br, rc.req))
 		resCode := resp.StatusCode
 		if continueCh != nil {
 			if resCode == 100 {

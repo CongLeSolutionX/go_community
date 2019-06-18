@@ -36,10 +36,7 @@ type DLL struct {
 // DLL preloading attacks. To safely load a system DLL, use LazyDLL
 // with System set to true, or use LoadLibraryEx directly.
 func LoadDLL(name string) (dll *DLL, err error) {
-	namep, err := UTF16PtrFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	namep := try(UTF16PtrFromString(name))
 	h, e := loadlibrary(namep)
 	if e != 0 {
 		return nil, &DLLError{
@@ -67,10 +64,7 @@ func MustLoadDLL(name string) *DLL {
 // FindProc searches DLL d for procedure named name and returns *Proc
 // if found. It returns an error if search fails.
 func (d *DLL) FindProc(name string) (proc *Proc, err error) {
-	namep, err := BytePtrFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	namep := try(BytePtrFromString(name))
 	a, e := getprocaddress(uintptr(d.Handle), namep)
 	if e != 0 {
 		return nil, &DLLError{
@@ -366,10 +360,7 @@ func loadLibraryEx(name string, system bool) (*DLL, error) {
 			loadDLL = systemdir + "\\" + name
 		}
 	}
-	h, err := LoadLibraryEx(loadDLL, 0, flags)
-	if err != nil {
-		return nil, err
-	}
+	h := try(LoadLibraryEx(loadDLL, 0, flags))
 	return &DLL{Name: name, Handle: h}, nil
 }
 

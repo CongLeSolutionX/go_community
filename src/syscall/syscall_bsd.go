@@ -25,10 +25,7 @@ import (
 //sysnb	setgroups(ngid int, gid *_Gid_t) (err error)
 
 func Getgroups() (gids []int, err error) {
-	n, err := getgroups(0, nil)
-	if err != nil {
-		return nil, err
-	}
+	n := try(getgroups(0, nil))
 	if n == 0 {
 		return nil, nil
 	}
@@ -39,10 +36,7 @@ func Getgroups() (gids []int, err error) {
 	}
 
 	a := make([]_Gid_t, n)
-	n, err = getgroups(n, &a[0])
-	if err != nil {
-		return nil, err
-	}
+	n = try(getgroups(n, &a[0]))
 	gids = make([]int, n)
 	for i, v := range a[0:n] {
 		gids[i] = int(v)
@@ -273,10 +267,7 @@ func anyToSockaddr(rsa *RawSockaddrAny) (Sockaddr, error) {
 func Accept(fd int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = accept(fd, &rsa, &len)
-	if err != nil {
-		return
-	}
+	nfd = try(accept(fd, &rsa, &len))
 	if runtime.GOOS == "darwin" && len == 0 {
 		// Accepted socket has no address.
 		// This is likely due to a bug in xnu kernels,
@@ -296,9 +287,7 @@ func Accept(fd int) (nfd int, sa Sockaddr, err error) {
 func Getsockname(fd int) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if err = getsockname(fd, &rsa, &len); err != nil {
-		return
-	}
+	try(getsockname(fd, &rsa, &len))
 	// TODO(jsing): DragonFly has a "bug" (see issue 3349), which should be
 	// reported upstream.
 	if runtime.GOOS == "dragonfly" && rsa.Addr.Family == AF_UNSPEC && rsa.Addr.Len == 0 {
@@ -377,9 +366,7 @@ func Recvmsg(fd int, p, oob []byte, flags int) (n, oobn int, recvflags int, from
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = recvmsg(fd, &msg, flags); err != nil {
-		return
-	}
+	n = try(recvmsg(fd, &msg, flags))
 	oobn = int(msg.Controllen)
 	recvflags = int(msg.Flags)
 	// source address is only specified if the socket is unconnected
@@ -425,9 +412,7 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = sendmsg(fd, &msg, flags); err != nil {
-		return 0, err
-	}
+	n = try(sendmsg(fd, &msg, flags))
 	if len(oob) > 0 && len(p) == 0 {
 		n = 0
 	}
@@ -449,25 +434,18 @@ func Kevent(kq int, changes, events []Kevent_t, timeout *Timespec) (n int, err e
 
 func Sysctl(name string) (value string, err error) {
 	// Translate name to mib number.
-	mib, err := nametomib(name)
-	if err != nil {
-		return "", err
-	}
+	mib := try(nametomib(name))
 
 	// Find size.
 	n := uintptr(0)
-	if err = sysctl(mib, nil, &n, nil, 0); err != nil {
-		return "", err
-	}
+	try(sysctl(mib, nil, &n, nil, 0))
 	if n == 0 {
 		return "", nil
 	}
 
 	// Read into buffer of that size.
 	buf := make([]byte, n)
-	if err = sysctl(mib, &buf[0], &n, nil, 0); err != nil {
-		return "", err
-	}
+	try(sysctl(mib, &buf[0], &n, nil, 0))
 
 	// Throw away terminating NUL.
 	if n > 0 && buf[n-1] == '\x00' {
@@ -478,17 +456,12 @@ func Sysctl(name string) (value string, err error) {
 
 func SysctlUint32(name string) (value uint32, err error) {
 	// Translate name to mib number.
-	mib, err := nametomib(name)
-	if err != nil {
-		return 0, err
-	}
+	mib := try(nametomib(name))
 
 	// Read into buffer of that size.
 	n := uintptr(4)
 	buf := make([]byte, 4)
-	if err = sysctl(mib, &buf[0], &n, nil, 0); err != nil {
-		return 0, err
-	}
+	try(sysctl(mib, &buf[0], &n, nil, 0))
 	if n != 4 {
 		return 0, EIO
 	}

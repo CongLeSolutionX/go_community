@@ -16,18 +16,12 @@ var (
 )
 
 func readenv(key string) (string, error) {
-	fd, err := open("/env/"+key, O_RDONLY)
-	if err != nil {
-		return "", err
-	}
+	fd := try(open("/env/"+key, O_RDONLY))
 	defer Close(fd)
 	l, _ := Seek(fd, 0, 2)
 	Seek(fd, 0, 0)
 	buf := make([]byte, l)
-	n, err := Read(fd, buf)
-	if err != nil {
-		return "", err
-	}
+	n := try(Read(fd, buf))
 	if n > 0 && buf[n-1] == 0 {
 		buf = buf[:n-1]
 	}
@@ -35,16 +29,10 @@ func readenv(key string) (string, error) {
 }
 
 func writeenv(key, value string) error {
-	fd, err := create("/env/"+key, O_RDWR, 0666)
-	if err != nil {
-		return err
-	}
+	fd := try(create("/env/"+key, O_RDWR, 0666))
 	defer Close(fd)
 	b := []byte(value)
-	n, err := Write(fd, b)
-	if err != nil {
-		return err
-	}
+	n := try(Write(fd, b))
 	if n != len(b) {
 		return errShortWrite
 	}
@@ -66,10 +54,7 @@ func Setenv(key, value string) error {
 	if len(key) == 0 {
 		return errZeroLengthKey
 	}
-	err := writeenv(key, value)
-	if err != nil {
-		return err
-	}
+	try(writeenv(key, value))
 	return nil
 }
 

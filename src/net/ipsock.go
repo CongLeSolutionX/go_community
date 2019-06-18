@@ -277,10 +277,7 @@ func (r *Resolver) internetAddrList(ctx context.Context, net, addr string) (addr
 	}
 
 	// Try as a literal IP address, then as a DNS name.
-	ips, err := r.lookupIPAddr(ctx, net, host)
-	if err != nil {
-		return nil, err
-	}
+	ips := try(r.lookupIPAddr(ctx, net, host))
 	// Issue 18806: if the machine has halfway configured
 	// IPv6 such that it can bind on "::" (IPv6unspecified)
 	// but not connect back to that same address, fall

@@ -88,15 +88,9 @@ func processFile(filename string, in io.Reader, out io.Writer, stdin bool) error
 		perm = fi.Mode().Perm()
 	}
 
-	src, err := ioutil.ReadAll(in)
-	if err != nil {
-		return err
-	}
+	src := try(ioutil.ReadAll(in))
 
-	file, sourceAdj, indentAdj, err := parse(fileSet, filename, src, stdin)
-	if err != nil {
-		return err
-	}
+	file, sourceAdj, indentAdj := try(parse(fileSet, filename, src, stdin))
 
 	if rewrite != nil {
 		if sourceAdj == nil {
@@ -114,10 +108,7 @@ func processFile(filename string, in io.Reader, out io.Writer, stdin bool) error
 
 	ast.Inspect(file, normalizeNumbers)
 
-	res, err := format(fileSet, file, sourceAdj, indentAdj, src, printer.Config{Mode: printerMode, Tabwidth: tabWidth})
-	if err != nil {
-		return err
-	}
+	res := try(format(fileSet, file, sourceAdj, indentAdj, src, printer.Config{Mode: printerMode, Tabwidth: tabWidth}))
 
 	if !bytes.Equal(src, res) {
 		// formatting has changed
@@ -228,10 +219,7 @@ func gofmtMain() {
 }
 
 func writeTempFile(dir, prefix string, data []byte) (string, error) {
-	file, err := ioutil.TempFile(dir, prefix)
-	if err != nil {
-		return "", err
-	}
+	file := try(ioutil.TempFile(dir, prefix))
 	_, err = file.Write(data)
 	if err1 := file.Close(); err == nil {
 		err = err1
@@ -244,16 +232,10 @@ func writeTempFile(dir, prefix string, data []byte) (string, error) {
 }
 
 func diff(b1, b2 []byte, filename string) (data []byte, err error) {
-	f1, err := writeTempFile("", "gofmt", b1)
-	if err != nil {
-		return
-	}
+	f1 := try(writeTempFile("", "gofmt", b1))
 	defer os.Remove(f1)
 
-	f2, err := writeTempFile("", "gofmt", b2)
-	if err != nil {
-		return
-	}
+	f2 := try(writeTempFile("", "gofmt", b2))
 	defer os.Remove(f2)
 
 	cmd := "diff"
@@ -306,10 +288,7 @@ const chmodSupported = runtime.GOOS != "windows"
 // the chosen file name.
 func backupFile(filename string, data []byte, perm os.FileMode) (string, error) {
 	// create backup file
-	f, err := ioutil.TempFile(filepath.Dir(filename), filepath.Base(filename))
-	if err != nil {
-		return "", err
-	}
+	f := try(ioutil.TempFile(filepath.Dir(filename), filepath.Base(filename)))
 	bakname := f.Name()
 	if chmodSupported {
 		err = f.Chmod(perm)

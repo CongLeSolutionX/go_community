@@ -30,14 +30,8 @@ func Getenv(key string) (value string, found bool) {
 }
 
 func Setenv(key, value string) error {
-	v, err := UTF16PtrFromString(value)
-	if err != nil {
-		return err
-	}
-	keyp, err := UTF16PtrFromString(key)
-	if err != nil {
-		return err
-	}
+	v := try(UTF16PtrFromString(value))
+	keyp := try(UTF16PtrFromString(key))
 	e := SetEnvironmentVariable(keyp, v)
 	if e != nil {
 		return e
@@ -46,10 +40,7 @@ func Setenv(key, value string) error {
 }
 
 func Unsetenv(key string) error {
-	keyp, err := UTF16PtrFromString(key)
-	if err != nil {
-		return err
-	}
+	keyp := try(UTF16PtrFromString(key))
 	return SetEnvironmentVariable(keyp, nil)
 }
 

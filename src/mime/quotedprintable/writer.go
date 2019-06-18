@@ -65,9 +65,7 @@ func (w *Writer) Write(p []byte) (n int, err error) {
 // Close closes the Writer, flushing any unwritten data to the underlying
 // io.Writer, but does not close the underlying io.Writer.
 func (w *Writer) Close() error {
-	if err := w.checkLastByte(); err != nil {
-		return err
-	}
+	try(w.checkLastByte())
 
 	return w.flush()
 }
@@ -159,9 +157,7 @@ func (w *Writer) insertCRLF() error {
 }
 
 func (w *Writer) flush() error {
-	if _, err := w.w.Write(w.line[:w.i]); err != nil {
-		return err
-	}
+	try(w.w.Write(w.line[:w.i]))
 
 	w.i = 0
 	return nil

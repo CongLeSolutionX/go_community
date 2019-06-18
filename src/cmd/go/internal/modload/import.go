@@ -101,16 +101,13 @@ func Import(path string) (m module.Version, dir string, err error) {
 			// Avoid possibly downloading irrelevant modules.
 			continue
 		}
-		root, isLocal, err := fetch(m)
-		if err != nil {
-			// Report fetch error.
-			// Note that we don't know for sure this module is necessary,
-			// but it certainly _could_ provide the package, and even if we
-			// continue the loop and find the package in some other module,
-			// we need to look at this module to make sure the import is
-			// not ambiguous.
-			return module.Version{}, "", err
-		}
+		root, isLocal := try(fetch(m)) // Report fetch error.
+		// Note that we don't know for sure this module is necessary,
+		// but it certainly _could_ provide the package, and even if we
+		// continue the loop and find the package in some other module,
+		// we need to look at this module to make sure the import is
+		// not ambiguous.
+
 		dir, ok := dirInModule(path, m.Path, root, isLocal)
 		if ok {
 			mods = append(mods, m)

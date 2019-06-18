@@ -686,9 +686,7 @@ func (f *taskFilter) match(t *taskDesc) bool {
 }
 
 func newTaskFilter(r *http.Request) (*taskFilter, error) {
-	if err := r.ParseForm(); err != nil {
-		return nil, err
-	}
+	try(r.ParseForm())
 
 	var name []string
 	var conditions []func(*taskDesc) bool
@@ -762,9 +760,7 @@ func (f *regionFilter) match(id regionTypeID, s regionDesc) bool {
 }
 
 func newRegionFilter(r *http.Request) (*regionFilter, error) {
-	if err := r.ParseForm(); err != nil {
-		return nil, err
-	}
+	try(r.ParseForm())
 
 	var name []string
 	var conditions []func(regionTypeID, regionDesc) bool

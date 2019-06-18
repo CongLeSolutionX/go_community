@@ -19,10 +19,7 @@ func (p *Process) wait() (ps *ProcessState, err error) {
 	}
 
 	// If we can block until Wait4 will succeed immediately, do so.
-	ready, err := p.blockUntilWaitable()
-	if err != nil {
-		return nil, err
-	}
+	ready := try(p.blockUntilWaitable())
 	if ready {
 		// Mark the process done now, before the call to Wait4,
 		// so that Process.signal will not send a signal.

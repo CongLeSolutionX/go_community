@@ -15,10 +15,7 @@ const (
 )
 
 func Unlinkat(dirfd int, path string, flags int) error {
-	p, err := syscall.BytePtrFromString(path)
-	if err != nil {
-		return err
-	}
+	p := try(syscall.BytePtrFromString(path))
 
 	_, _, errno := syscall.Syscall(syscall.SYS_UNLINKAT, uintptr(dirfd), uintptr(unsafe.Pointer(p)), uintptr(flags))
 	if errno != 0 {
@@ -29,10 +26,7 @@ func Unlinkat(dirfd int, path string, flags int) error {
 }
 
 func Openat(dirfd int, path string, flags int, perm uint32) (int, error) {
-	p, err := syscall.BytePtrFromString(path)
-	if err != nil {
-		return 0, err
-	}
+	p := try(syscall.BytePtrFromString(path))
 
 	fd, _, errno := syscall.Syscall6(syscall.SYS_OPENAT, uintptr(dirfd), uintptr(unsafe.Pointer(p)), uintptr(flags), uintptr(perm), 0, 0)
 	if errno != 0 {

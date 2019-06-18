@@ -61,10 +61,7 @@ func parseLinkAddr(b []byte) (Addr, error) {
 	if len(b) < 8 {
 		return nil, errInvalidAddr
 	}
-	_, a, err := parseKernelLinkAddr(sysAF_LINK, b[4:])
-	if err != nil {
-		return nil, err
-	}
+	_, a := try(parseKernelLinkAddr(sysAF_LINK, b[4:]))
 	a.(*LinkAddr).Index = int(nativeEndian.Uint16(b[2:4]))
 	return a, nil
 }

@@ -116,10 +116,7 @@ func (ls *localServer) teardown() error {
 }
 
 func newLocalServer(network string) (*localServer, error) {
-	ln, err := newLocalListener(network)
-	if err != nil {
-		return nil, err
-	}
+	ln := try(newLocalListener(network))
 	return &localServer{Listener: ln, done: make(chan bool)}, nil
 }
 
@@ -185,10 +182,7 @@ func (dss *dualStackServer) teardown() error {
 }
 
 func newDualStackServer() (*dualStackServer, error) {
-	lns, err := newDualStackListener()
-	if err != nil {
-		return nil, err
-	}
+	lns := try(newDualStackListener())
 	_, port, err := SplitHostPort(lns[0].Addr().String())
 	if err != nil {
 		lns[0].Close()
@@ -416,10 +410,7 @@ func (ls *localPacketServer) teardown() error {
 }
 
 func newLocalPacketServer(network string) (*localPacketServer, error) {
-	c, err := newLocalPacketListener(network)
-	if err != nil {
-		return nil, err
-	}
+	c := try(newLocalPacketListener(network))
 	return &localPacketServer{PacketConn: c, done: make(chan bool)}, nil
 }
 

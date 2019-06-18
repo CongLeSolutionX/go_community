@@ -49,18 +49,13 @@ type Cache struct {
 // network file systems and may not suffice to protect the cache.
 //
 func Open(dir string) (*Cache, error) {
-	info, err := os.Stat(dir)
-	if err != nil {
-		return nil, err
-	}
+	info := try(os.Stat(dir))
 	if !info.IsDir() {
 		return nil, &os.PathError{Op: "open", Path: dir, Err: fmt.Errorf("not a directory")}
 	}
 	for i := 0; i < 256; i++ {
 		name := filepath.Join(dir, fmt.Sprintf("%02x", i))
-		if err := os.MkdirAll(name, 0777); err != nil {
-			return nil, err
-		}
+		try(os.MkdirAll(name, 0777))
 	}
 	c := &Cache{
 		dir: dir,
@@ -185,10 +180,7 @@ func (c *Cache) get(id ActionID) (Entry, error) {
 // GetFile looks up the action ID in the cache and returns
 // the name of the corresponding data file.
 func (c *Cache) GetFile(id ActionID) (file string, entry Entry, err error) {
-	entry, err = c.Get(id)
-	if err != nil {
-		return "", Entry{}, err
-	}
+	entry = try(c.Get(id))
 	file = c.OutputFile(entry.OutputID)
 	info, err := os.Stat(file)
 	if err != nil || info.Size() != entry.Size {
@@ -360,13 +352,8 @@ func (c *Cache) PutNoVerify(id ActionID, file io.ReadSeeker) (OutputID, int64, e
 func (c *Cache) put(id ActionID, file io.ReadSeeker, allowVerify bool) (OutputID, int64, error) {
 	// Compute output ID.
 	h := sha256.New()
-	if _, err := file.Seek(0, 0); err != nil {
-		return OutputID{}, 0, err
-	}
-	size, err := io.Copy(h, file)
-	if err != nil {
-		return OutputID{}, 0, err
-	}
+	try(file.Seek(0, 0))
+	size := try(io.Copy(h, file))
 	var out OutputID
 	h.Sum(out[:0])
 
@@ -410,10 +397,7 @@ func (c *Cache) copyFile(file io.ReadSeeker, out OutputID, size int64) error {
 	if err == nil && info.Size() > size { // shouldn't happen but fix in case
 		mode |= os.O_TRUNC
 	}
-	f, err := os.OpenFile(name, mode, 0666)
-	if err != nil {
-		return err
-	}
+	f := try(os.OpenFile(name, mode, 0666))
 	defer f.Close()
 	if size == 0 {
 		// File now exists with correct size.
