@@ -61,10 +61,7 @@ func checkGoFile(pass *analysis.Pass, f *ast.File) {
 }
 
 func checkOtherFile(pass *analysis.Pass, filename string) error {
-	content, tf, err := analysisutil.ReadFile(pass.Fset, filename)
-	if err != nil {
-		return err
-	}
+	content, tf := try(analysisutil.ReadFile(pass.Fset, filename))
 
 	// We must look at the raw lines, as build tags may appear in non-Go
 	// files such as assembly files.

@@ -29,10 +29,7 @@ func interfaceTable(ifindex int) ([]Interface, error) {
 		return ifcs, nil
 	}
 
-	ifc, err := readInterface(ifindex - 1)
-	if err != nil {
-		return nil, err
-	}
+	ifc := try(readInterface(ifindex - 1))
 	return []Interface{*ifc}, nil
 }
 
@@ -43,10 +40,7 @@ func readInterface(i int) (*Interface, error) {
 	}
 
 	ifcstat := ifc.Name + "/status"
-	ifcstatf, err := open(ifcstat)
-	if err != nil {
-		return nil, err
-	}
+	ifcstatf := try(open(ifcstat))
 	defer ifcstatf.close()
 
 	line, ok := ifcstatf.readLine()

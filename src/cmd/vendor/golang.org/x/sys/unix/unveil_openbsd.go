@@ -14,14 +14,8 @@ import (
 // Note that the special case of blocking further
 // unveil calls is handled by UnveilBlock.
 func Unveil(path string, flags string) error {
-	pathPtr, err := syscall.BytePtrFromString(path)
-	if err != nil {
-		return err
-	}
-	flagsPtr, err := syscall.BytePtrFromString(flags)
-	if err != nil {
-		return err
-	}
+	pathPtr := try(syscall.BytePtrFromString(path))
+	flagsPtr := try(syscall.BytePtrFromString(flags))
 	_, _, e := syscall.Syscall(SYS_UNVEIL, uintptr(unsafe.Pointer(pathPtr)), uintptr(unsafe.Pointer(flagsPtr)), 0)
 	if e != 0 {
 		return e

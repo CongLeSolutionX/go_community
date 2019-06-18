@@ -576,9 +576,7 @@ Loop:
 		}
 	}
 
-	if err := copyValue(saveData, data); err != nil {
-		return err
-	}
+	try(copyValue(saveData, data))
 
 	switch t := saveComment; t.Kind() {
 	case reflect.String:

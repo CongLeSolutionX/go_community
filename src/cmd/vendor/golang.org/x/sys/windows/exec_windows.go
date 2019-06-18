@@ -79,10 +79,7 @@ func CloseOnExec(fd Handle) {
 
 // FullPath retrieves the full path of the specified file.
 func FullPath(name string) (path string, err error) {
-	p, err := UTF16PtrFromString(name)
-	if err != nil {
-		return "", err
-	}
+	p := try(UTF16PtrFromString(name))
 	n := uint32(100)
 	for {
 		buf := make([]uint16, n)

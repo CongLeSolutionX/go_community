@@ -49,14 +49,9 @@ func (e *HTTPError) Is(target error) bool {
 //
 // GetBytes is a convenience wrapper around Get and Response.Err.
 func GetBytes(u *url.URL) ([]byte, error) {
-	resp, err := Get(DefaultSecurity, u)
-	if err != nil {
-		return nil, err
-	}
+	resp := try(Get(DefaultSecurity, u))
 	defer resp.Body.Close()
-	if err := resp.Err(); err != nil {
-		return nil, err
-	}
+	try(resp.Err())
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("reading %s: %v", Redacted(u), err)

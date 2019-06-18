@@ -167,18 +167,12 @@ func (re *Regexp) Longest() {
 }
 
 func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
-	re, err := syntax.Parse(expr, mode)
-	if err != nil {
-		return nil, err
-	}
+	re := try(syntax.Parse(expr, mode))
 	maxCap := re.MaxCap()
 	capNames := re.CapNames()
 
 	re = re.Simplify()
-	prog, err := syntax.Compile(re)
-	if err != nil {
-		return nil, err
-	}
+	prog := try(syntax.Compile(re))
 	matchcap := prog.NumCap
 	if matchcap < 2 {
 		matchcap = 2

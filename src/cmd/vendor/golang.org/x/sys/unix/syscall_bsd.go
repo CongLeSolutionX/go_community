@@ -26,10 +26,7 @@ import (
 //sysnb	setgroups(ngid int, gid *_Gid_t) (err error)
 
 func Getgroups() (gids []int, err error) {
-	n, err := getgroups(0, nil)
-	if err != nil {
-		return nil, err
-	}
+	n := try(getgroups(0, nil))
 	if n == 0 {
 		return nil, nil
 	}
@@ -40,10 +37,7 @@ func Getgroups() (gids []int, err error) {
 	}
 
 	a := make([]_Gid_t, n)
-	n, err = getgroups(n, &a[0])
-	if err != nil {
-		return nil, err
-	}
+	n = try(getgroups(n, &a[0]))
 	gids = make([]int, n)
 	for i, v := range a[0:n] {
 		gids[i] = int(v)
@@ -274,10 +268,7 @@ func anyToSockaddr(fd int, rsa *RawSockaddrAny) (Sockaddr, error) {
 func Accept(fd int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = accept(fd, &rsa, &len)
-	if err != nil {
-		return
-	}
+	nfd = try(accept(fd, &rsa, &len))
 	if runtime.GOOS == "darwin" && len == 0 {
 		// Accepted socket has no address.
 		// This is likely due to a bug in xnu kernels,
@@ -297,9 +288,7 @@ func Accept(fd int) (nfd int, sa Sockaddr, err error) {
 func Getsockname(fd int) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if err = getsockname(fd, &rsa, &len); err != nil {
-		return
-	}
+	try(getsockname(fd, &rsa, &len))
 	// TODO(jsing): DragonFly has a "bug" (see issue 3349), which should be
 	// reported upstream.
 	if runtime.GOOS == "dragonfly" && rsa.Addr.Family == AF_UNSPEC && rsa.Addr.Len == 0 {
@@ -316,10 +305,7 @@ func Getsockname(fd int) (sa Sockaddr, err error) {
 func GetsockoptString(fd, level, opt int) (string, error) {
 	buf := make([]byte, 256)
 	vallen := _Socklen(len(buf))
-	err := getsockopt(fd, level, opt, unsafe.Pointer(&buf[0]), &vallen)
-	if err != nil {
-		return "", err
-	}
+	try(getsockopt(fd, level, opt, unsafe.Pointer(&buf[0]), &vallen))
 	return string(buf[:vallen-1]), nil
 }
 
@@ -349,9 +335,7 @@ func Recvmsg(fd int, p, oob []byte, flags int) (n, oobn int, recvflags int, from
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = recvmsg(fd, &msg, flags); err != nil {
-		return
-	}
+	n = try(recvmsg(fd, &msg, flags))
 	oobn = int(msg.Controllen)
 	recvflags = int(msg.Flags)
 	// source address is only specified if the socket is unconnected
@@ -397,9 +381,7 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = sendmsg(fd, &msg, flags); err != nil {
-		return 0, err
-	}
+	n = try(sendmsg(fd, &msg, flags))
 	if len(oob) > 0 && len(p) == 0 {
 		n = 0
 	}
@@ -424,10 +406,7 @@ func Kevent(kq int, changes, events []Kevent_t, timeout *Timespec) (n int, err e
 // sysctlmib translates name to mib number and appends any additional args.
 func sysctlmib(name string, args ...int) ([]_C_int, error) {
 	// Translate name to mib number.
-	mib, err := nametomib(name)
-	if err != nil {
-		return nil, err
-	}
+	mib := try(nametomib(name))
 
 	for _, a := range args {
 		mib = append(mib, _C_int(a))
@@ -441,10 +420,7 @@ func Sysctl(name string) (string, error) {
 }
 
 func SysctlArgs(name string, args ...int) (string, error) {
-	buf, err := SysctlRaw(name, args...)
-	if err != nil {
-		return "", err
-	}
+	buf := try(SysctlRaw(name, args...))
 	n := len(buf)
 
 	// Throw away terminating NUL.
@@ -459,16 +435,11 @@ func SysctlUint32(name string) (uint32, error) {
 }
 
 func SysctlUint32Args(name string, args ...int) (uint32, error) {
-	mib, err := sysctlmib(name, args...)
-	if err != nil {
-		return 0, err
-	}
+	mib := try(sysctlmib(name, args...))
 
 	n := uintptr(4)
 	buf := make([]byte, 4)
-	if err := sysctl(mib, &buf[0], &n, nil, 0); err != nil {
-		return 0, err
-	}
+	try(sysctl(mib, &buf[0], &n, nil, 0))
 	if n != 4 {
 		return 0, EIO
 	}
@@ -476,16 +447,11 @@ func SysctlUint32Args(name string, args ...int) (uint32, error) {
 }
 
 func SysctlUint64(name string, args ...int) (uint64, error) {
-	mib, err := sysctlmib(name, args...)
-	if err != nil {
-		return 0, err
-	}
+	mib := try(sysctlmib(name, args...))
 
 	n := uintptr(8)
 	buf := make([]byte, 8)
-	if err := sysctl(mib, &buf[0], &n, nil, 0); err != nil {
-		return 0, err
-	}
+	try(sysctl(mib, &buf[0], &n, nil, 0))
 	if n != 8 {
 		return 0, EIO
 	}
@@ -493,25 +459,18 @@ func SysctlUint64(name string, args ...int) (uint64, error) {
 }
 
 func SysctlRaw(name string, args ...int) ([]byte, error) {
-	mib, err := sysctlmib(name, args...)
-	if err != nil {
-		return nil, err
-	}
+	mib := try(sysctlmib(name, args...))
 
 	// Find size.
 	n := uintptr(0)
-	if err := sysctl(mib, nil, &n, nil, 0); err != nil {
-		return nil, err
-	}
+	try(sysctl(mib, nil, &n, nil, 0))
 	if n == 0 {
 		return nil, nil
 	}
 
 	// Read into buffer of that size.
 	buf := make([]byte, n)
-	if err := sysctl(mib, &buf[0], &n, nil, 0); err != nil {
-		return nil, err
-	}
+	try(sysctl(mib, &buf[0], &n, nil, 0))
 
 	// The actual call may return less than the original reported required
 	// size so ensure we deal with that.

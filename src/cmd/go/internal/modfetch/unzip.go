@@ -30,19 +30,11 @@ func Unzip(dir, zipfile, prefix string, maxSize int64) error {
 	if len(files) > 0 {
 		return fmt.Errorf("target directory %v exists and is not empty", dir)
 	}
-	if err := os.MkdirAll(dir, 0777); err != nil {
-		return err
-	}
+	try(os.MkdirAll(dir, 0777))
 
-	f, err := os.Open(zipfile)
-	if err != nil {
-		return err
-	}
+	f := try(os.Open(zipfile))
 	defer f.Close()
-	info, err := f.Stat()
-	if err != nil {
-		return err
-	}
+	info := try(f.Stat())
 
 	z, err := zip.NewReader(f, info.Size())
 	if err != nil {

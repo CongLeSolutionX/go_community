@@ -133,10 +133,7 @@ func doLocalSymbolize(prof *profile.Profile, fast, force bool, obj plugin.ObjToo
 		}
 	}
 
-	mt, err := newMapping(prof, obj, ui, force)
-	if err != nil {
-		return err
-	}
+	mt := try(newMapping(prof, obj, ui, force))
 	defer mt.close()
 
 	functions := make(map[profile.Function]*profile.Function)

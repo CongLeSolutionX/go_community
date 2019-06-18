@@ -131,10 +131,7 @@ func SetNonblock(fd Handle, nonblocking bool) (err error) {
 
 // FullPath retrieves the full path of the specified file.
 func FullPath(name string) (path string, err error) {
-	p, err := UTF16PtrFromString(name)
-	if err != nil {
-		return "", err
-	}
+	p := try(UTF16PtrFromString(name))
 	n := uint32(100)
 	for {
 		buf := make([]uint16, n)
@@ -153,10 +150,7 @@ func isSlash(c uint8) bool {
 }
 
 func normalizeDir(dir string) (name string, err error) {
-	ndir, err := FullPath(dir)
-	if err != nil {
-		return "", err
-	}
+	ndir := try(FullPath(dir))
 	if len(ndir) > 2 && isSlash(ndir[0]) && isSlash(ndir[1]) {
 		// dir cannot have \\server\share\path form
 		return "", EINVAL
@@ -262,10 +256,7 @@ func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle 
 			return 0, 0, err
 		}
 	}
-	argv0p, err := UTF16PtrFromString(argv0)
-	if err != nil {
-		return 0, 0, err
-	}
+	argv0p := try(UTF16PtrFromString(argv0))
 
 	var cmdline string
 	// Windows CreateProcess takes the command line as a single string:

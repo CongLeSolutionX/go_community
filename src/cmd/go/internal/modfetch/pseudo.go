@@ -96,10 +96,7 @@ func IsPseudoVersion(v string) bool {
 // It returns an error if v is not a pseudo-version or if the time stamp
 // embedded in the pseudo-version is not a valid time.
 func PseudoVersionTime(v string) (time.Time, error) {
-	timestamp, _, err := parsePseudoVersion(v)
-	if err != nil {
-		return time.Time{}, err
-	}
+	timestamp, _ := try(parsePseudoVersion(v))
 	t, err := time.Parse("20060102150405", timestamp)
 	if err != nil {
 		return time.Time{}, fmt.Errorf("pseudo-version with malformed time %s: %q", timestamp, v)

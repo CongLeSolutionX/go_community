@@ -555,19 +555,14 @@ func formatIDMappings(idMap []SysProcIDMap) []byte {
 
 // writeIDMappings writes the user namespace User ID or Group ID mappings to the specified path.
 func writeIDMappings(path string, idMap []SysProcIDMap) error {
-	fd, err := Open(path, O_RDWR, 0)
-	if err != nil {
-		return err
-	}
+	fd := try(Open(path, O_RDWR, 0))
 
 	if _, err := Write(fd, formatIDMappings(idMap)); err != nil {
 		Close(fd)
 		return err
 	}
 
-	if err := Close(fd); err != nil {
-		return err
-	}
+	try(Close(fd))
 
 	return nil
 }
@@ -578,10 +573,7 @@ func writeIDMappings(path string, idMap []SysProcIDMap) error {
 // disabling setgroups() system call.
 func writeSetgroups(pid int, enable bool) error {
 	sgf := "/proc/" + itoa(pid) + "/setgroups"
-	fd, err := Open(sgf, O_RDWR, 0)
-	if err != nil {
-		return err
-	}
+	fd := try(Open(sgf, O_RDWR, 0))
 
 	var data []byte
 	if enable {

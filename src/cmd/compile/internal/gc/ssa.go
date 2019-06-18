@@ -326,10 +326,7 @@ func dumpSourcesColumn(writer *ssa.HTMLWriter, fn *Node) {
 }
 
 func readFuncLines(file string, start, end uint) (*ssa.FuncLines, error) {
-	f, err := os.Open(os.ExpandEnv(file))
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(os.ExpandEnv(file)))
 	defer f.Close()
 	var lines []string
 	ln := uint(1)

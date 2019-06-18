@@ -38,15 +38,9 @@ import (
 //	total:		(statements)			91.9%
 
 func funcOutput(profile, outputFile string) error {
-	profiles, err := ParseProfiles(profile)
-	if err != nil {
-		return err
-	}
+	profiles := try(ParseProfiles(profile))
 
-	dirs, err := findPkgs(profiles)
-	if err != nil {
-		return err
-	}
+	dirs := try(findPkgs(profiles))
 
 	var out *bufio.Writer
 	if outputFile == "" {
@@ -91,10 +85,7 @@ func funcOutput(profile, outputFile string) error {
 // findFuncs parses the file and returns a slice of FuncExtent descriptors.
 func findFuncs(name string) ([]*FuncExtent, error) {
 	fset := token.NewFileSet()
-	parsedFile, err := parser.ParseFile(fset, name, nil, 0)
-	if err != nil {
-		return nil, err
-	}
+	parsedFile := try(parser.ParseFile(fset, name, nil, 0))
 	visitor := &FuncVisitor{
 		fset:    fset,
 		name:    name,

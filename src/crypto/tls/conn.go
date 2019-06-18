@@ -1091,9 +1091,7 @@ func (c *Conn) Write(b []byte) (int, error) {
 		}
 	}
 
-	if err := c.Handshake(); err != nil {
-		return 0, err
-	}
+	try(c.Handshake())
 
 	c.out.Lock()
 	defer c.out.Unlock()
@@ -1140,10 +1138,7 @@ func (c *Conn) handleRenegotiation() error {
 		return errors.New("tls: internal error: unexpected renegotiation")
 	}
 
-	msg, err := c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg := try(c.readHandshake())
 
 	helloReq, ok := msg.(*helloRequestMsg)
 	if !ok {
@@ -1186,10 +1181,7 @@ func (c *Conn) handlePostHandshakeMessage() error {
 		return c.handleRenegotiation()
 	}
 
-	msg, err := c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg := try(c.readHandshake())
 
 	c.retryCount++
 	if c.retryCount > maxUselessRecords {
@@ -1239,9 +1231,7 @@ func (c *Conn) handleKeyUpdate(keyUpdate *keyUpdateMsg) error {
 // Read can be made to time out and return a net.Error with Timeout() == true
 // after a fixed time limit; see SetDeadline and SetReadDeadline.
 func (c *Conn) Read(b []byte) (int, error) {
-	if err := c.Handshake(); err != nil {
-		return 0, err
-	}
+	try(c.Handshake())
 	if len(b) == 0 {
 		// Put this after Handshake, in case people were calling
 		// Read(nil) for the side effect of the Handshake.
@@ -1310,9 +1300,7 @@ func (c *Conn) Close() error {
 		alertErr = c.closeNotify()
 	}
 
-	if err := c.conn.Close(); err != nil {
-		return err
-	}
+	try(c.conn.Close())
 	return alertErr
 }
 

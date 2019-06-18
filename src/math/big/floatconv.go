@@ -40,25 +40,16 @@ func (z *Float) scan(r io.ByteScanner, base int) (f *Float, b int, err error) {
 	z.form = zero
 
 	// sign
-	z.neg, err = scanSign(r)
-	if err != nil {
-		return
-	}
+	z.neg = try(scanSign(r))
 
 	// mantissa
 	var fcount int // fractional digit count; valid if <= 0
-	z.mant, b, fcount, err = z.mant.scan(r, base, true)
-	if err != nil {
-		return
-	}
+	z.mant, b, fcount = try(z.mant.scan(r, base, true))
 
 	// exponent
 	var exp int64
 	var ebase int
-	exp, ebase, err = scanExponent(r, true, base == 0)
-	if err != nil {
-		return
-	}
+	exp, ebase = try(scanExponent(r, true, base == 0))
 
 	// special-case 0
 	if len(z.mant) == 0 {
@@ -270,9 +261,7 @@ func (z *Float) Parse(s string, base int) (f *Float, b int, err error) {
 	}
 
 	r := strings.NewReader(s)
-	if f, b, err = z.scan(r, base); err != nil {
-		return
-	}
+	f, b = try(z.scan(r, base))
 
 	// entire string must have been consumed
 	if ch, err2 := r.ReadByte(); err2 == nil {

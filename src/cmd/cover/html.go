@@ -22,17 +22,11 @@ import (
 // coverage report, writing it to outfile. If outfile is empty,
 // it writes the report to a temporary file and opens it in a web browser.
 func htmlOutput(profile, outfile string) error {
-	profiles, err := ParseProfiles(profile)
-	if err != nil {
-		return err
-	}
+	profiles := try(ParseProfiles(profile))
 
 	var d templateData
 
-	dirs, err := findPkgs(profiles)
-	if err != nil {
-		return err
-	}
+	dirs := try(findPkgs(profiles))
 
 	for _, profile := range profiles {
 		fn := profile.FileName

@@ -42,10 +42,7 @@ func (p byFileName) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
 // ParseProfiles parses profile data in the specified file and returns a
 // Profile for each source file described therein.
 func ParseProfiles(fileName string) ([]*Profile, error) {
-	pf, err := os.Open(fileName)
-	if err != nil {
-		return nil, err
-	}
+	pf := try(os.Open(fileName))
 	defer pf.Close()
 
 	files := make(map[string]*Profile)
@@ -88,9 +85,7 @@ func ParseProfiles(fileName string) ([]*Profile, error) {
 			Count:     toInt(m[7]),
 		})
 	}
-	if err := s.Err(); err != nil {
-		return nil, err
-	}
+	try(s.Err())
 	for _, p := range files {
 		sort.Sort(blocksByStart(p.Blocks))
 		// Merge samples from the same location.

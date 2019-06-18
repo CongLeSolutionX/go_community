@@ -565,13 +565,11 @@ var defaultClientCommand = []string{"openssl", "s_client", "-no_ticket"}
 // client to connect to it. It returns a recordingConn that wraps the resulting
 // connection.
 func (test *serverTest) connFromCommand() (conn *recordingConn, child *exec.Cmd, err error) {
-	l, err := net.ListenTCP("tcp", &net.TCPAddr{
+	l := try(net.ListenTCP("tcp", &net.TCPAddr{
 		IP:   net.IPv4(127, 0, 0, 1),
 		Port: 0,
-	})
-	if err != nil {
-		return nil, nil, err
-	}
+	}),
+	)
 	defer l.Close()
 
 	port := l.Addr().(*net.TCPAddr).Port
@@ -588,9 +586,7 @@ func (test *serverTest) connFromCommand() (conn *recordingConn, child *exec.Cmd,
 	var output bytes.Buffer
 	cmd.Stdout = &output
 	cmd.Stderr = &output
-	if err := cmd.Start(); err != nil {
-		return nil, nil, err
-	}
+	try(cmd.Start())
 
 	connChan := make(chan interface{})
 	go func() {
@@ -624,10 +620,7 @@ func (test *serverTest) dataPath() string {
 }
 
 func (test *serverTest) loadData() (flows [][]byte, err error) {
-	in, err := os.Open(test.dataPath())
-	if err != nil {
-		return nil, err
-	}
+	in := try(os.Open(test.dataPath()))
 	defer in.Close()
 	return parseTestData(in)
 }

@@ -134,10 +134,7 @@ func readChunkLine(b *bufio.Reader) ([]byte, error) {
 		return nil, ErrLineTooLong
 	}
 	p = trimTrailingWhitespace(p)
-	p, err = removeChunkExtension(p)
-	if err != nil {
-		return nil, err
-	}
+	p = try(removeChunkExtension(p))
 	return p, nil
 }
 
@@ -200,19 +197,13 @@ func (cw *chunkedWriter) Write(data []byte) (n int, err error) {
 		return 0, nil
 	}
 
-	if _, err = fmt.Fprintf(cw.Wire, "%x\r\n", len(data)); err != nil {
-		return 0, err
-	}
-	if n, err = cw.Wire.Write(data); err != nil {
-		return
-	}
+	try(fmt.Fprintf(cw.Wire, "%x\r\n", len(data)))
+	n = try(cw.Wire.Write(data))
 	if n != len(data) {
 		err = io.ErrShortWrite
 		return
 	}
-	if _, err = io.WriteString(cw.Wire, "\r\n"); err != nil {
-		return
-	}
+	try(io.WriteString(cw.Wire, "\r\n"))
 	if bw, ok := cw.Wire.(*FlushAfterChunkWriter); ok {
 		err = bw.Flush()
 	}

@@ -29,14 +29,9 @@ type exe interface {
 
 // openExe opens file and returns it as an exe.
 func openExe(file string) (exe, error) {
-	f, err := os.Open(file)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(file))
 	data := make([]byte, 16)
-	if _, err := io.ReadFull(f, data); err != nil {
-		return nil, err
-	}
+	try(io.ReadFull(f, data))
 	f.Seek(0, 0)
 	if bytes.HasPrefix(data, []byte("\x7FELF")) {
 		e, err := elf.NewFile(f)

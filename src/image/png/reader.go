@@ -143,9 +143,7 @@ func (d *decoder) parseIHDR(length uint32) error {
 	if length != 13 {
 		return FormatError("bad IHDR length")
 	}
-	if _, err := io.ReadFull(d.r, d.tmp[:13]); err != nil {
-		return err
-	}
+	try(io.ReadFull(d.r, d.tmp[:13]))
 	d.crc.Write(d.tmp[:13])
 	if d.tmp[10] != 0 {
 		return UnsupportedError("compression method")
@@ -233,10 +231,7 @@ func (d *decoder) parsePLTE(length uint32) error {
 	if length%3 != 0 || np <= 0 || np > 256 || np > 1<<uint(d.depth) {
 		return FormatError("bad PLTE length")
 	}
-	n, err := io.ReadFull(d.r, d.tmp[:3*np])
-	if err != nil {
-		return err
-	}
+	n := try(io.ReadFull(d.r, d.tmp[:3*np]))
 	d.crc.Write(d.tmp[:n])
 	switch d.cb {
 	case cbP1, cbP2, cbP4, cbP8:
@@ -361,10 +356,7 @@ func (d *decoder) Read(p []byte) (int, error) {
 
 // decode decodes the IDAT data into an image.
 func (d *decoder) decode() (image.Image, error) {
-	r, err := zlib.NewReader(d)
-	if err != nil {
-		return nil, err
-	}
+	r := try(zlib.NewReader(d))
 	defer r.Close()
 	var img image.Image
 	if d.interlace == itNone {
@@ -842,10 +834,7 @@ func (d *decoder) mergePassInto(dst image.Image, src image.Image, pass int) {
 
 func (d *decoder) parseIDAT(length uint32) (err error) {
 	d.idatLength = length
-	d.img, err = d.decode()
-	if err != nil {
-		return err
-	}
+	d.img = try(d.decode())
 	return d.verifyChecksum()
 }
 
@@ -858,10 +847,7 @@ func (d *decoder) parseIEND(length uint32) error {
 
 func (d *decoder) parseChunk() error {
 	// Read the length and chunk type.
-	n, err := io.ReadFull(d.r, d.tmp[:8])
-	if err != nil {
-		return err
-	}
+	n := try(io.ReadFull(d.r, d.tmp[:8]))
 	length := binary.BigEndian.Uint32(d.tmp[:4])
 	d.crc.Reset()
 	d.crc.Write(d.tmp[4:8])
@@ -927,9 +913,7 @@ func (d *decoder) parseChunk() error {
 }
 
 func (d *decoder) verifyChecksum() error {
-	if _, err := io.ReadFull(d.r, d.tmp[:4]); err != nil {
-		return err
-	}
+	try(io.ReadFull(d.r, d.tmp[:4]))
 	if binary.BigEndian.Uint32(d.tmp[:4]) != d.crc.Sum32() {
 		return FormatError("invalid checksum")
 	}
@@ -937,10 +921,7 @@ func (d *decoder) verifyChecksum() error {
 }
 
 func (d *decoder) checkHeader() error {
-	_, err := io.ReadFull(d.r, d.tmp[:len(pngHeader)])
-	if err != nil {
-		return err
-	}
+	try(io.ReadFull(d.r, d.tmp[:len(pngHeader)]))
 	if string(d.tmp[:len(pngHeader)]) != pngHeader {
 		return FormatError("not a PNG file")
 	}

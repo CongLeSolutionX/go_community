@@ -221,16 +221,11 @@ func (d *WordDecoder) Decode(word string) (string, error) {
 	}
 	text := word[split+3:]
 
-	content, err := decode(encoding, text)
-	if err != nil {
-		return "", err
-	}
+	content := try(decode(encoding, text))
 
 	var buf strings.Builder
 
-	if err := d.convert(&buf, charset, content); err != nil {
-		return "", err
-	}
+	try(d.convert(&buf, charset, content))
 
 	return buf.String(), nil
 }
@@ -401,12 +396,8 @@ func qDecode(s string) ([]byte, error) {
 func readHexByte(a, b byte) (byte, error) {
 	var hb, lb byte
 	var err error
-	if hb, err = fromHex(a); err != nil {
-		return 0, err
-	}
-	if lb, err = fromHex(b); err != nil {
-		return 0, err
-	}
+	hb = try(fromHex(a))
+	lb = try(fromHex(b))
 	return hb<<4 | lb, nil
 }
 

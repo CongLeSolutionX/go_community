@@ -320,17 +320,9 @@ func toolVerify(a *Action, b *Builder, p *load.Package, newTool string, ofile st
 	copy(newArgs, args)
 	newArgs[1] = base.Tool(newTool)
 	newArgs[3] = ofile + ".new" // x.6 becomes x.6.new
-	if err := b.run(a, p.Dir, p.ImportPath, nil, newArgs...); err != nil {
-		return err
-	}
-	data1, err := ioutil.ReadFile(ofile)
-	if err != nil {
-		return err
-	}
-	data2, err := ioutil.ReadFile(ofile + ".new")
-	if err != nil {
-		return err
-	}
+	try(b.run(a, p.Dir, p.ImportPath, nil, newArgs...))
+	data1 := try(ioutil.ReadFile(ofile))
+	data2 := try(ioutil.ReadFile(ofile + ".new"))
 	if !bytes.Equal(data1, data2) {
 		return fmt.Errorf("%s and %s produced different output files:\n%s\n%s", filepath.Base(args[1].(string)), newTool, strings.Join(str.StringList(args...), " "), strings.Join(str.StringList(newArgs...), " "))
 	}
@@ -369,10 +361,7 @@ func (gcToolchain) pack(b *Builder, a *Action, afile string, ofiles []string) er
 }
 
 func packInternal(afile string, ofiles []string) error {
-	dst, err := os.OpenFile(afile, os.O_WRONLY|os.O_APPEND, 0)
-	if err != nil {
-		return err
-	}
+	dst := try(os.OpenFile(afile, os.O_WRONLY|os.O_APPEND, 0))
 	defer dst.Close() // only for error returns or panics
 	w := bufio.NewWriter(dst)
 
@@ -412,9 +401,7 @@ func packInternal(afile string, ofiles []string) error {
 		}
 	}
 
-	if err := w.Flush(); err != nil {
-		return err
-	}
+	try(w.Flush())
 	return dst.Close()
 }
 

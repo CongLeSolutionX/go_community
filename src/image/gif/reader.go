@@ -226,10 +226,7 @@ func (d *decoder) decode(r io.Reader, configOnly, keepAllFrames bool) error {
 
 	d.loopCount = -1
 
-	err := d.readHeaderAndScreenDescriptor()
-	if err != nil {
-		return err
-	}
+	try(d.readHeaderAndScreenDescriptor())
 	if configOnly {
 		return nil
 	}
@@ -373,10 +370,7 @@ func (d *decoder) readGraphicControl() error {
 }
 
 func (d *decoder) readImageDescriptor(keepAllFrames bool) error {
-	m, err := d.newImageFromDescriptor()
-	if err != nil {
-		return err
-	}
+	m := try(d.newImageFromDescriptor())
 	useLocalColorTable := d.imageFields&fColorTable != 0
 	if useLocalColorTable {
 		m.Palette, err = d.readColorTable(d.imageFields)
@@ -519,9 +513,7 @@ func (d *decoder) readBlock() (int, error) {
 	if n == 0 || err != nil {
 		return 0, err
 	}
-	if err := readFull(d.r, d.tmp[:n]); err != nil {
-		return 0, err
-	}
+	try(readFull(d.r, d.tmp[:n]))
 	return int(n), nil
 }
 
@@ -560,9 +552,7 @@ func uninterlace(m *image.Paletted) {
 // image as an image.Image.
 func Decode(r io.Reader) (image.Image, error) {
 	var d decoder
-	if err := d.decode(r, false, false); err != nil {
-		return nil, err
-	}
+	try(d.decode(r, false, false))
 	return d.image[0], nil
 }
 
@@ -600,9 +590,7 @@ type GIF struct {
 // and timing information.
 func DecodeAll(r io.Reader) (*GIF, error) {
 	var d decoder
-	if err := d.decode(r, false, true); err != nil {
-		return nil, err
-	}
+	try(d.decode(r, false, true))
 	gif := &GIF{
 		Image:     d.image,
 		LoopCount: d.loopCount,
@@ -622,9 +610,7 @@ func DecodeAll(r io.Reader) (*GIF, error) {
 // without decoding the entire image.
 func DecodeConfig(r io.Reader) (image.Config, error) {
 	var d decoder
-	if err := d.decode(r, true, false); err != nil {
-		return image.Config{}, err
-	}
+	try(d.decode(r, true, false))
 	return image.Config{
 		ColorModel: d.globalColorTable,
 		Width:      d.width,

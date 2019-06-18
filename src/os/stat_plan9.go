@@ -92,10 +92,7 @@ func dirstat(arg interface{}) (*syscall.Dir, error) {
 
 // statNolog implements Stat for Plan 9.
 func statNolog(name string) (FileInfo, error) {
-	d, err := dirstat(name)
-	if err != nil {
-		return nil, err
-	}
+	d := try(dirstat(name))
 	return fileInfoFromStat(d), nil
 }
 

@@ -246,10 +246,7 @@ func (fs *fsys) namei(path string, parent bool) (ip *inode, elem string, err err
 // open opens or creates a file with the given name, open mode,
 // and permission mode bits.
 func (fs *fsys) open(name string, openmode int, mode uint32) (fileImpl, error) {
-	dp, elem, err := fs.namei(name, true)
-	if err != nil {
-		return nil, err
-	}
+	dp, elem := try(fs.namei(name, true))
 	var (
 		ip  *inode
 		dev devFile
@@ -342,10 +339,7 @@ func (f *fsysFile) read(b []byte) (int, error) {
 }
 
 func ReadDirent(fd int, buf []byte) (int, error) {
-	f, err := fdToFsysFile(fd)
-	if err != nil {
-		return 0, err
-	}
+	f := try(fdToFsysFile(fd))
 	f.fsys.mu.Lock()
 	defer f.fsys.mu.Unlock()
 	if f.inode.Mode&S_IFMT != S_IFDIR {
@@ -497,10 +491,7 @@ func Stat(path string, st *Stat_t) error {
 	fsinit()
 	fs.mu.Lock()
 	defer fs.mu.Unlock()
-	ip, _, err := fs.namei(path, false)
-	if err != nil {
-		return err
-	}
+	ip, _ := try(fs.namei(path, false))
 	*st = ip.Stat_t
 	return nil
 }
@@ -513,17 +504,11 @@ func unlink(path string, isdir bool) error {
 	fsinit()
 	fs.mu.Lock()
 	defer fs.mu.Unlock()
-	dp, elem, err := fs.namei(path, true)
-	if err != nil {
-		return err
-	}
+	dp, elem := try(fs.namei(path, true))
 	if elem == "." || elem == ".." {
 		return EINVAL
 	}
-	de, _, err := fs.dirlookup(dp, elem)
-	if err != nil {
-		return err
-	}
+	de, _ := try(fs.dirlookup(dp, elem))
 	if isdir {
 		if de.inode.Mode&S_IFMT != S_IFDIR {
 			return ENOTDIR
@@ -555,19 +540,13 @@ func Chmod(path string, mode uint32) error {
 	fsinit()
 	fs.mu.Lock()
 	defer fs.mu.Unlock()
-	ip, _, err := fs.namei(path, false)
-	if err != nil {
-		return err
-	}
+	ip, _ := try(fs.namei(path, false))
 	ip.Mode = ip.Mode&^0777 | mode&0777
 	return nil
 }
 
 func Fchmod(fd int, mode uint32) error {
-	f, err := fdToFsysFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToFsysFile(fd))
 	f.fsys.mu.Lock()
 	defer f.fsys.mu.Unlock()
 	f.inode.Mode = f.inode.Mode&^0777 | mode&0777
@@ -578,10 +557,7 @@ func Chown(path string, uid, gid int) error {
 	fsinit()
 	fs.mu.Lock()
 	defer fs.mu.Unlock()
-	ip, _, err := fs.namei(path, false)
-	if err != nil {
-		return err
-	}
+	ip, _ := try(fs.namei(path, false))
 	if uid != -1 {
 		ip.Uid = uint32(uid)
 	}
@@ -594,10 +570,7 @@ func Chown(path string, uid, gid int) error {
 func Fchown(fd int, uid, gid int) error {
 	fs.mu.Lock()
 	defer fs.mu.Unlock()
-	f, err := fdToFsysFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToFsysFile(fd))
 	f.fsys.mu.Lock()
 	defer f.fsys.mu.Unlock()
 	f.inode.Uid = uint32(uid)
@@ -616,10 +589,7 @@ func UtimesNano(path string, ts []Timespec) error {
 	fsinit()
 	fs.mu.Lock()
 	defer fs.mu.Unlock()
-	ip, _, err := fs.namei(path, false)
-	if err != nil {
-		return err
-	}
+	ip, _ := try(fs.namei(path, false))
 	ip.Atime = ts[0].Sec
 	ip.AtimeNsec = int64(ts[0].Nsec)
 	ip.Mtime = ts[1].Sec
@@ -631,14 +601,8 @@ func Link(path, link string) error {
 	fsinit()
 	fs.mu.Lock()
 	defer fs.mu.Unlock()
-	ip, _, err := fs.namei(path, false)
-	if err != nil {
-		return err
-	}
-	dp, elem, err := fs.namei(link, true)
-	if err != nil {
-		return err
-	}
+	ip, _ := try(fs.namei(path, false))
+	dp, elem := try(fs.namei(link, true))
 	if ip.Mode&S_IFMT == S_IFDIR {
 		return EPERM
 	}
@@ -654,18 +618,9 @@ func Rename(from, to string) error {
 	fsinit()
 	fs.mu.Lock()
 	defer fs.mu.Unlock()
-	fdp, felem, err := fs.namei(from, true)
-	if err != nil {
-		return err
-	}
-	fde, _, err := fs.dirlookup(fdp, felem)
-	if err != nil {
-		return err
-	}
-	tdp, telem, err := fs.namei(to, true)
-	if err != nil {
-		return err
-	}
+	fdp, felem := try(fs.namei(from, true))
+	fde, _ := try(fs.dirlookup(fdp, felem))
+	tdp, telem := try(fs.namei(to, true))
 	fs.dirlink(tdp, telem, fde.inode)
 	fde.inode.Nlink--
 	*fde = fdp.dir[len(fdp.dir)-1]
@@ -693,18 +648,12 @@ func Truncate(path string, length int64) error {
 	fsinit()
 	fs.mu.Lock()
 	defer fs.mu.Unlock()
-	ip, _, err := fs.namei(path, false)
-	if err != nil {
-		return err
-	}
+	ip, _ := try(fs.namei(path, false))
 	return fs.truncate(ip, length)
 }
 
 func Ftruncate(fd int, length int64) error {
-	f, err := fdToFsysFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToFsysFile(fd))
 	f.fsys.mu.Lock()
 	defer f.fsys.mu.Unlock()
 	return f.fsys.truncate(f.inode, length)
@@ -718,19 +667,13 @@ func Chdir(path string) error {
 func chdir(path string) error {
 	fs.mu.Lock()
 	defer fs.mu.Unlock()
-	ip, _, err := fs.namei(path, false)
-	if err != nil {
-		return err
-	}
+	ip, _ := try(fs.namei(path, false))
 	fs.cwd = ip
 	return nil
 }
 
 func Fchdir(fd int) error {
-	f, err := fdToFsysFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToFsysFile(fd))
 	f.fsys.mu.Lock()
 	defer f.fsys.mu.Unlock()
 	if f.inode.Mode&S_IFMT != S_IFDIR {
@@ -755,10 +698,7 @@ func Fsync(fd int) error {
 // Special devices.
 
 func mkdev(path string, mode uint32, open func() (devFile, error)) error {
-	f, err := fs.open(path, O_CREATE|O_RDONLY|O_EXCL, S_IFCHR|mode)
-	if err != nil {
-		return err
-	}
+	f := try(fs.open(path, O_CREATE|O_RDONLY|O_EXCL, S_IFCHR|mode))
 	ip := f.(*fsysFile).inode
 	ip.Rdev = int64(len(fs.dev))
 	fs.dev = append(fs.dev, open)
@@ -796,9 +736,7 @@ func (f randomFile) close() error {
 }
 
 func (f randomFile) pread(b []byte, offset int64) (int, error) {
-	if err := naclGetRandomBytes(b); err != nil {
-		return 0, err
-	}
+	try(naclGetRandomBytes(b))
 	return len(b), nil
 }
 
@@ -807,10 +745,7 @@ func (f randomFile) pwrite(b []byte, offset int64) (int, error) {
 }
 
 func fdToFsysFile(fd int) (*fsysFile, error) {
-	f, err := fdToFile(fd)
-	if err != nil {
-		return nil, err
-	}
+	f := try(fdToFile(fd))
 	impl := f.impl
 	fsysf, ok := impl.(*fsysFile)
 	if !ok {

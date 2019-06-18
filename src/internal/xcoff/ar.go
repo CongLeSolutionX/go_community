@@ -74,10 +74,7 @@ type MemberHeader struct {
 // OpenArchive opens the named archive using os.Open and prepares it for use
 // as an AIX big archive.
 func OpenArchive(name string) (*Archive, error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(name))
 	arch, err := NewArchive(f)
 	if err != nil {
 		f.Close()
@@ -108,9 +105,7 @@ func NewArchive(r io.ReaderAt) (*Archive, error) {
 
 	// Read File Header
 	var magic [SAIAMAG]byte
-	if _, err := sr.ReadAt(magic[:], 0); err != nil {
-		return nil, err
-	}
+	try(sr.ReadAt(magic[:], 0))
 
 	arch := new(Archive)
 	switch string(magic[:]) {
@@ -123,12 +118,8 @@ func NewArchive(r io.ReaderAt) (*Archive, error) {
 	}
 
 	var fhdr bigarFileHeader
-	if _, err := sr.Seek(0, os.SEEK_SET); err != nil {
-		return nil, err
-	}
-	if err := binary.Read(sr, binary.BigEndian, &fhdr); err != nil {
-		return nil, err
-	}
+	try(sr.Seek(0, os.SEEK_SET))
+	try(binary.Read(sr, binary.BigEndian, &fhdr))
 
 	off, err := parseDecimalBytes(fhdr.Flfstmoff[:])
 	if err != nil {

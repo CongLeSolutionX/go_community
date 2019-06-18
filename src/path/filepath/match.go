@@ -257,10 +257,7 @@ func Glob(pattern string) (matches []string, err error) {
 	}
 
 	var m []string
-	m, err = Glob(dir)
-	if err != nil {
-		return
-	}
+	m = try(Glob(dir))
 	for _, d := range m {
 		matches, err = glob(d, file, matches)
 		if err != nil {
@@ -308,17 +305,11 @@ func cleanGlobPathWindows(path string) (prefixLen int, cleaned string) {
 // added in lexicographical order.
 func glob(dir, pattern string, matches []string) (m []string, e error) {
 	m = matches
-	fi, err := os.Stat(dir)
-	if err != nil {
-		return
-	}
+	fi := try(os.Stat(dir))
 	if !fi.IsDir() {
 		return
 	}
-	d, err := os.Open(dir)
-	if err != nil {
-		return
-	}
+	d := try(os.Open(dir))
 	defer d.Close()
 
 	names, _ := d.Readdirnames(-1)

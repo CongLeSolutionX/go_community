@@ -712,10 +712,7 @@ func (po *poset) CheckEmpty() error {
 
 // DotDump dumps the poset in graphviz format to file fn, with the specified title.
 func (po *poset) DotDump(fn string, title string) error {
-	f, err := os.Create(fn)
-	if err != nil {
-		return err
-	}
+	f := try(os.Create(fn))
 	defer f.Close()
 
 	// Create reverse index mapping (taking aliases into account)

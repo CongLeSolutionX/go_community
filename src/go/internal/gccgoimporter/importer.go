@@ -75,10 +75,7 @@ const (
 // reads the export data from the first member, which is assumed to be an ELF file.
 // This is intended to replicate the logic in gofrontend.
 func openExportFile(fpath string) (reader io.ReadSeeker, closer io.Closer, err error) {
-	f, err := os.Open(fpath)
-	if err != nil {
-		return
-	}
+	f := try(os.Open(fpath))
 	closer = f
 	defer func() {
 		if err != nil && closer != nil {
@@ -87,10 +84,7 @@ func openExportFile(fpath string) (reader io.ReadSeeker, closer io.Closer, err e
 	}()
 
 	var magic [4]byte
-	_, err = f.ReadAt(magic[:], 0)
-	if err != nil {
-		return
-	}
+	try(f.ReadAt(magic[:], 0))
 
 	var objreader io.ReaderAt
 	switch string(magic[:]) {
@@ -251,11 +245,7 @@ func GetImporter(searchpaths []string, initmap map[*types.Package]InitData) Impo
 // returns them as a string.
 func readMagic(reader io.ReadSeeker) (string, error) {
 	var magic [4]byte
-	if _, err := reader.Read(magic[:]); err != nil {
-		return "", err
-	}
-	if _, err := reader.Seek(0, io.SeekStart); err != nil {
-		return "", err
-	}
+	try(reader.Read(magic[:]))
+	try(reader.Seek(0, io.SeekStart))
 	return string(magic[:]), nil
 }

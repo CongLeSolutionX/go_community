@@ -30,16 +30,11 @@ var (
 
 // ReadFile reads the build ID from an archive or executable file.
 func ReadFile(name string) (id string, err error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return "", err
-	}
+	f := try(os.Open(name))
 	defer f.Close()
 
 	buf := make([]byte, 8)
-	if _, err := f.ReadAt(buf, 0); err != nil {
-		return "", err
-	}
+	try(f.ReadAt(buf, 0))
 	if string(buf) != "!<arch>\n" {
 		if string(buf) == "<bigaf>\n" {
 			return readGccgoBigArchive(name, f)
@@ -171,13 +166,9 @@ func readGccgoBigArchive(name string, f *os.File) (string, error) {
 	}
 
 	// Read fixed-length header.
-	if _, err := f.Seek(0, io.SeekStart); err != nil {
-		return "", err
-	}
+	try(f.Seek(0, io.SeekStart))
 	var flhdr [128]byte
-	if _, err := io.ReadFull(f, flhdr[:]); err != nil {
-		return "", err
-	}
+	try(io.ReadFull(f, flhdr[:]))
 	// Read first member offset.
 	offStr := strings.TrimSpace(string(flhdr[68:88]))
 	off, err := strconv.ParseInt(offStr, 10, 64)

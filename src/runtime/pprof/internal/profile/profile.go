@@ -125,10 +125,7 @@ type Function struct {
 // may be a gzip-compressed encoded protobuf or one of many legacy
 // profile formats which may be unsupported in the future.
 func Parse(r io.Reader) (*Profile, error) {
-	orig, err := ioutil.ReadAll(r)
-	if err != nil {
-		return nil, err
-	}
+	orig := try(ioutil.ReadAll(r))
 
 	var p *Profile
 	if len(orig) >= 2 && orig[0] == 0x1f && orig[1] == 0x8b {
@@ -182,13 +179,9 @@ func parseLegacy(data []byte) (*Profile, error) {
 
 func parseUncompressed(data []byte) (*Profile, error) {
 	p := &Profile{}
-	if err := unmarshal(data, p); err != nil {
-		return nil, err
-	}
+	try(unmarshal(data, p))
 
-	if err := p.postDecode(); err != nil {
-		return nil, err
-	}
+	try(p.postDecode())
 
 	return p, nil
 }
@@ -440,9 +433,7 @@ func (p *Profile) String() string {
 // TODO(rsilvera): consider normalizing the profiles based on the
 // total samples collected.
 func (p *Profile) Merge(pb *Profile, r float64) error {
-	if err := p.Compatible(pb); err != nil {
-		return err
-	}
+	try(p.Compatible(pb))
 
 	pb = pb.Copy()
 
@@ -559,10 +550,7 @@ func (p *Profile) Demangle(d Demangler) error {
 	}
 
 	// Update profile with demangled names.
-	demangled, err := d(names)
-	if err != nil {
-		return err
-	}
+	demangled := try(d(names))
 	for _, fn := range p.Function {
 		if dd, ok := demangled[fn.SystemName]; ok {
 			fn.Name = dd

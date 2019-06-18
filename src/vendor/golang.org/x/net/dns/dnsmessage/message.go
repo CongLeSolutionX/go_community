@@ -581,14 +581,9 @@ func (p *Parser) resourceHeader(sec section) (ResourceHeader, error) {
 	if p.resHeaderValid {
 		return p.resHeader, nil
 	}
-	if err := p.checkAdvance(sec); err != nil {
-		return ResourceHeader{}, err
-	}
+	try(p.checkAdvance(sec))
 	var hdr ResourceHeader
-	off, err := hdr.unpack(p.msg, p.off)
-	if err != nil {
-		return ResourceHeader{}, err
-	}
+	off := try(hdr.unpack(p.msg, p.off))
 	p.resHeaderValid = true
 	p.resHeader = hdr
 	p.off = off
@@ -606,9 +601,7 @@ func (p *Parser) skipResource(sec section) error {
 		p.index++
 		return nil
 	}
-	if err := p.checkAdvance(sec); err != nil {
-		return err
-	}
+	try(p.checkAdvance(sec))
 	var err error
 	p.off, err = skipResource(p.msg, p.off)
 	if err != nil {
@@ -620,9 +613,7 @@ func (p *Parser) skipResource(sec section) error {
 
 // Question parses a single Question.
 func (p *Parser) Question() (Question, error) {
-	if err := p.checkAdvance(sectionQuestions); err != nil {
-		return Question{}, err
-	}
+	try(p.checkAdvance(sectionQuestions))
 	var name Name
 	off, err := name.unpack(p.msg, p.off)
 	if err != nil {
@@ -664,9 +655,7 @@ func (p *Parser) AllQuestions() ([]Question, error) {
 
 // SkipQuestion skips a single Question.
 func (p *Parser) SkipQuestion() error {
-	if err := p.checkAdvance(sectionQuestions); err != nil {
-		return err
-	}
+	try(p.checkAdvance(sectionQuestions))
 	off, err := skipName(p.msg, p.off)
 	if err != nil {
 		return &nestedError{"skipping Question Name", err}
@@ -851,10 +840,7 @@ func (p *Parser) CNAMEResource() (CNAMEResource, error) {
 	if !p.resHeaderValid || p.resHeader.Type != TypeCNAME {
 		return CNAMEResource{}, ErrNotStarted
 	}
-	r, err := unpackCNAMEResource(p.msg, p.off)
-	if err != nil {
-		return CNAMEResource{}, err
-	}
+	r := try(unpackCNAMEResource(p.msg, p.off))
 	p.off += int(p.resHeader.Length)
 	p.resHeaderValid = false
 	p.index++
@@ -869,10 +855,7 @@ func (p *Parser) MXResource() (MXResource, error) {
 	if !p.resHeaderValid || p.resHeader.Type != TypeMX {
 		return MXResource{}, ErrNotStarted
 	}
-	r, err := unpackMXResource(p.msg, p.off)
-	if err != nil {
-		return MXResource{}, err
-	}
+	r := try(unpackMXResource(p.msg, p.off))
 	p.off += int(p.resHeader.Length)
 	p.resHeaderValid = false
 	p.index++
@@ -887,10 +870,7 @@ func (p *Parser) NSResource() (NSResource, error) {
 	if !p.resHeaderValid || p.resHeader.Type != TypeNS {
 		return NSResource{}, ErrNotStarted
 	}
-	r, err := unpackNSResource(p.msg, p.off)
-	if err != nil {
-		return NSResource{}, err
-	}
+	r := try(unpackNSResource(p.msg, p.off))
 	p.off += int(p.resHeader.Length)
 	p.resHeaderValid = false
 	p.index++
@@ -905,10 +885,7 @@ func (p *Parser) PTRResource() (PTRResource, error) {
 	if !p.resHeaderValid || p.resHeader.Type != TypePTR {
 		return PTRResource{}, ErrNotStarted
 	}
-	r, err := unpackPTRResource(p.msg, p.off)
-	if err != nil {
-		return PTRResource{}, err
-	}
+	r := try(unpackPTRResource(p.msg, p.off))
 	p.off += int(p.resHeader.Length)
 	p.resHeaderValid = false
 	p.index++
@@ -923,10 +900,7 @@ func (p *Parser) SOAResource() (SOAResource, error) {
 	if !p.resHeaderValid || p.resHeader.Type != TypeSOA {
 		return SOAResource{}, ErrNotStarted
 	}
-	r, err := unpackSOAResource(p.msg, p.off)
-	if err != nil {
-		return SOAResource{}, err
-	}
+	r := try(unpackSOAResource(p.msg, p.off))
 	p.off += int(p.resHeader.Length)
 	p.resHeaderValid = false
 	p.index++
@@ -941,10 +915,7 @@ func (p *Parser) TXTResource() (TXTResource, error) {
 	if !p.resHeaderValid || p.resHeader.Type != TypeTXT {
 		return TXTResource{}, ErrNotStarted
 	}
-	r, err := unpackTXTResource(p.msg, p.off, p.resHeader.Length)
-	if err != nil {
-		return TXTResource{}, err
-	}
+	r := try(unpackTXTResource(p.msg, p.off, p.resHeader.Length))
 	p.off += int(p.resHeader.Length)
 	p.resHeaderValid = false
 	p.index++
@@ -959,10 +930,7 @@ func (p *Parser) SRVResource() (SRVResource, error) {
 	if !p.resHeaderValid || p.resHeader.Type != TypeSRV {
 		return SRVResource{}, ErrNotStarted
 	}
-	r, err := unpackSRVResource(p.msg, p.off)
-	if err != nil {
-		return SRVResource{}, err
-	}
+	r := try(unpackSRVResource(p.msg, p.off))
 	p.off += int(p.resHeader.Length)
 	p.resHeaderValid = false
 	p.index++
@@ -977,10 +945,7 @@ func (p *Parser) AResource() (AResource, error) {
 	if !p.resHeaderValid || p.resHeader.Type != TypeA {
 		return AResource{}, ErrNotStarted
 	}
-	r, err := unpackAResource(p.msg, p.off)
-	if err != nil {
-		return AResource{}, err
-	}
+	r := try(unpackAResource(p.msg, p.off))
 	p.off += int(p.resHeader.Length)
 	p.resHeaderValid = false
 	p.index++
@@ -995,10 +960,7 @@ func (p *Parser) AAAAResource() (AAAAResource, error) {
 	if !p.resHeaderValid || p.resHeader.Type != TypeAAAA {
 		return AAAAResource{}, ErrNotStarted
 	}
-	r, err := unpackAAAAResource(p.msg, p.off)
-	if err != nil {
-		return AAAAResource{}, err
-	}
+	r := try(unpackAAAAResource(p.msg, p.off))
 	p.off += int(p.resHeader.Length)
 	p.resHeaderValid = false
 	p.index++
@@ -1013,10 +975,7 @@ func (p *Parser) OPTResource() (OPTResource, error) {
 	if !p.resHeaderValid || p.resHeader.Type != TypeOPT {
 		return OPTResource{}, ErrNotStarted
 	}
-	r, err := unpackOPTResource(p.msg, p.off, p.resHeader.Length)
-	if err != nil {
-		return OPTResource{}, err
-	}
+	r := try(unpackOPTResource(p.msg, p.off, p.resHeader.Length))
 	p.off += int(p.resHeader.Length)
 	p.resHeaderValid = false
 	p.index++
@@ -1027,21 +986,11 @@ func (p *Parser) OPTResource() (OPTResource, error) {
 func (m *Message) Unpack(msg []byte) error {
 	var p Parser
 	var err error
-	if m.Header, err = p.Start(msg); err != nil {
-		return err
-	}
-	if m.Questions, err = p.AllQuestions(); err != nil {
-		return err
-	}
-	if m.Answers, err = p.AllAnswers(); err != nil {
-		return err
-	}
-	if m.Authorities, err = p.AllAuthorities(); err != nil {
-		return err
-	}
-	if m.Additionals, err = p.AllAdditionals(); err != nil {
-		return err
-	}
+	m.Header = try(p.Start(msg))
+	m.Questions = try(p.AllQuestions())
+	m.Answers = try(p.AllAnswers())
+	m.Authorities = try(p.AllAuthorities())
+	m.Additionals = try(p.AllAdditionals())
 	return nil
 }
 
@@ -1230,36 +1179,28 @@ func (b *Builder) startCheck(s section) error {
 
 // StartQuestions prepares the builder for packing Questions.
 func (b *Builder) StartQuestions() error {
-	if err := b.startCheck(sectionQuestions); err != nil {
-		return err
-	}
+	try(b.startCheck(sectionQuestions))
 	b.section = sectionQuestions
 	return nil
 }
 
 // StartAnswers prepares the builder for packing Answers.
 func (b *Builder) StartAnswers() error {
-	if err := b.startCheck(sectionAnswers); err != nil {
-		return err
-	}
+	try(b.startCheck(sectionAnswers))
 	b.section = sectionAnswers
 	return nil
 }
 
 // StartAuthorities prepares the builder for packing Authorities.
 func (b *Builder) StartAuthorities() error {
-	if err := b.startCheck(sectionAuthorities); err != nil {
-		return err
-	}
+	try(b.startCheck(sectionAuthorities))
 	b.section = sectionAuthorities
 	return nil
 }
 
 // StartAdditionals prepares the builder for packing Additionals.
 func (b *Builder) StartAdditionals() error {
-	if err := b.startCheck(sectionAdditionals); err != nil {
-		return err
-	}
+	try(b.startCheck(sectionAdditionals))
 	b.section = sectionAdditionals
 	return nil
 }
@@ -1296,13 +1237,8 @@ func (b *Builder) Question(q Question) error {
 	if b.section > sectionQuestions {
 		return ErrSectionDone
 	}
-	msg, err := q.pack(b.msg, b.compression, b.start)
-	if err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	msg := try(q.pack(b.msg, b.compression, b.start))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
@@ -1319,9 +1255,7 @@ func (b *Builder) checkResourceSection() error {
 
 // CNAMEResource adds a single CNAMEResource.
 func (b *Builder) CNAMEResource(h ResourceHeader, r CNAMEResource) error {
-	if err := b.checkResourceSection(); err != nil {
-		return err
-	}
+	try(b.checkResourceSection())
 	h.Type = r.realType()
 	msg, lenOff, err := h.pack(b.msg, b.compression, b.start)
 	if err != nil {
@@ -1331,21 +1265,15 @@ func (b *Builder) CNAMEResource(h ResourceHeader, r CNAMEResource) error {
 	if msg, err = r.pack(msg, b.compression, b.start); err != nil {
 		return &nestedError{"CNAMEResource body", err}
 	}
-	if err := h.fixLen(msg, lenOff, preLen); err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	try(h.fixLen(msg, lenOff, preLen))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
 
 // MXResource adds a single MXResource.
 func (b *Builder) MXResource(h ResourceHeader, r MXResource) error {
-	if err := b.checkResourceSection(); err != nil {
-		return err
-	}
+	try(b.checkResourceSection())
 	h.Type = r.realType()
 	msg, lenOff, err := h.pack(b.msg, b.compression, b.start)
 	if err != nil {
@@ -1355,21 +1283,15 @@ func (b *Builder) MXResource(h ResourceHeader, r MXResource) error {
 	if msg, err = r.pack(msg, b.compression, b.start); err != nil {
 		return &nestedError{"MXResource body", err}
 	}
-	if err := h.fixLen(msg, lenOff, preLen); err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	try(h.fixLen(msg, lenOff, preLen))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
 
 // NSResource adds a single NSResource.
 func (b *Builder) NSResource(h ResourceHeader, r NSResource) error {
-	if err := b.checkResourceSection(); err != nil {
-		return err
-	}
+	try(b.checkResourceSection())
 	h.Type = r.realType()
 	msg, lenOff, err := h.pack(b.msg, b.compression, b.start)
 	if err != nil {
@@ -1379,21 +1301,15 @@ func (b *Builder) NSResource(h ResourceHeader, r NSResource) error {
 	if msg, err = r.pack(msg, b.compression, b.start); err != nil {
 		return &nestedError{"NSResource body", err}
 	}
-	if err := h.fixLen(msg, lenOff, preLen); err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	try(h.fixLen(msg, lenOff, preLen))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
 
 // PTRResource adds a single PTRResource.
 func (b *Builder) PTRResource(h ResourceHeader, r PTRResource) error {
-	if err := b.checkResourceSection(); err != nil {
-		return err
-	}
+	try(b.checkResourceSection())
 	h.Type = r.realType()
 	msg, lenOff, err := h.pack(b.msg, b.compression, b.start)
 	if err != nil {
@@ -1403,21 +1319,15 @@ func (b *Builder) PTRResource(h ResourceHeader, r PTRResource) error {
 	if msg, err = r.pack(msg, b.compression, b.start); err != nil {
 		return &nestedError{"PTRResource body", err}
 	}
-	if err := h.fixLen(msg, lenOff, preLen); err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	try(h.fixLen(msg, lenOff, preLen))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
 
 // SOAResource adds a single SOAResource.
 func (b *Builder) SOAResource(h ResourceHeader, r SOAResource) error {
-	if err := b.checkResourceSection(); err != nil {
-		return err
-	}
+	try(b.checkResourceSection())
 	h.Type = r.realType()
 	msg, lenOff, err := h.pack(b.msg, b.compression, b.start)
 	if err != nil {
@@ -1427,21 +1337,15 @@ func (b *Builder) SOAResource(h ResourceHeader, r SOAResource) error {
 	if msg, err = r.pack(msg, b.compression, b.start); err != nil {
 		return &nestedError{"SOAResource body", err}
 	}
-	if err := h.fixLen(msg, lenOff, preLen); err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	try(h.fixLen(msg, lenOff, preLen))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
 
 // TXTResource adds a single TXTResource.
 func (b *Builder) TXTResource(h ResourceHeader, r TXTResource) error {
-	if err := b.checkResourceSection(); err != nil {
-		return err
-	}
+	try(b.checkResourceSection())
 	h.Type = r.realType()
 	msg, lenOff, err := h.pack(b.msg, b.compression, b.start)
 	if err != nil {
@@ -1451,21 +1355,15 @@ func (b *Builder) TXTResource(h ResourceHeader, r TXTResource) error {
 	if msg, err = r.pack(msg, b.compression, b.start); err != nil {
 		return &nestedError{"TXTResource body", err}
 	}
-	if err := h.fixLen(msg, lenOff, preLen); err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	try(h.fixLen(msg, lenOff, preLen))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
 
 // SRVResource adds a single SRVResource.
 func (b *Builder) SRVResource(h ResourceHeader, r SRVResource) error {
-	if err := b.checkResourceSection(); err != nil {
-		return err
-	}
+	try(b.checkResourceSection())
 	h.Type = r.realType()
 	msg, lenOff, err := h.pack(b.msg, b.compression, b.start)
 	if err != nil {
@@ -1475,21 +1373,15 @@ func (b *Builder) SRVResource(h ResourceHeader, r SRVResource) error {
 	if msg, err = r.pack(msg, b.compression, b.start); err != nil {
 		return &nestedError{"SRVResource body", err}
 	}
-	if err := h.fixLen(msg, lenOff, preLen); err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	try(h.fixLen(msg, lenOff, preLen))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
 
 // AResource adds a single AResource.
 func (b *Builder) AResource(h ResourceHeader, r AResource) error {
-	if err := b.checkResourceSection(); err != nil {
-		return err
-	}
+	try(b.checkResourceSection())
 	h.Type = r.realType()
 	msg, lenOff, err := h.pack(b.msg, b.compression, b.start)
 	if err != nil {
@@ -1499,21 +1391,15 @@ func (b *Builder) AResource(h ResourceHeader, r AResource) error {
 	if msg, err = r.pack(msg, b.compression, b.start); err != nil {
 		return &nestedError{"AResource body", err}
 	}
-	if err := h.fixLen(msg, lenOff, preLen); err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	try(h.fixLen(msg, lenOff, preLen))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
 
 // AAAAResource adds a single AAAAResource.
 func (b *Builder) AAAAResource(h ResourceHeader, r AAAAResource) error {
-	if err := b.checkResourceSection(); err != nil {
-		return err
-	}
+	try(b.checkResourceSection())
 	h.Type = r.realType()
 	msg, lenOff, err := h.pack(b.msg, b.compression, b.start)
 	if err != nil {
@@ -1523,21 +1409,15 @@ func (b *Builder) AAAAResource(h ResourceHeader, r AAAAResource) error {
 	if msg, err = r.pack(msg, b.compression, b.start); err != nil {
 		return &nestedError{"AAAAResource body", err}
 	}
-	if err := h.fixLen(msg, lenOff, preLen); err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	try(h.fixLen(msg, lenOff, preLen))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
 
 // OPTResource adds a single OPTResource.
 func (b *Builder) OPTResource(h ResourceHeader, r OPTResource) error {
-	if err := b.checkResourceSection(); err != nil {
-		return err
-	}
+	try(b.checkResourceSection())
 	h.Type = r.realType()
 	msg, lenOff, err := h.pack(b.msg, b.compression, b.start)
 	if err != nil {
@@ -1547,12 +1427,8 @@ func (b *Builder) OPTResource(h ResourceHeader, r OPTResource) error {
 	if msg, err = r.pack(msg, b.compression, b.start); err != nil {
 		return &nestedError{"OPTResource body", err}
 	}
-	if err := h.fixLen(msg, lenOff, preLen); err != nil {
-		return err
-	}
-	if err := b.incrementSectionCount(); err != nil {
-		return err
-	}
+	try(h.fixLen(msg, lenOff, preLen))
+	try(b.incrementSectionCount())
 	b.msg = msg
 	return nil
 }
@@ -2185,9 +2061,7 @@ func (r *CNAMEResource) GoString() string {
 
 func unpackCNAMEResource(msg []byte, off int) (CNAMEResource, error) {
 	var cname Name
-	if _, err := cname.unpack(msg, off); err != nil {
-		return CNAMEResource{}, err
-	}
+	try(cname.unpack(msg, off))
 	return CNAMEResource{cname}, nil
 }
 
@@ -2252,9 +2126,7 @@ func (r *NSResource) GoString() string {
 
 func unpackNSResource(msg []byte, off int) (NSResource, error) {
 	var ns Name
-	if _, err := ns.unpack(msg, off); err != nil {
-		return NSResource{}, err
-	}
+	try(ns.unpack(msg, off))
 	return NSResource{ns}, nil
 }
 
@@ -2279,9 +2151,7 @@ func (r *PTRResource) GoString() string {
 
 func unpackPTRResource(msg []byte, off int) (PTRResource, error) {
 	var ptr Name
-	if _, err := ptr.unpack(msg, off); err != nil {
-		return PTRResource{}, err
-	}
+	try(ptr.unpack(msg, off))
 	return PTRResource{ptr}, nil
 }
 
@@ -2496,9 +2366,7 @@ func (r *AResource) GoString() string {
 
 func unpackAResource(msg []byte, off int) (AResource, error) {
 	var a [4]byte
-	if _, err := unpackBytes(msg, off, a[:]); err != nil {
-		return AResource{}, err
-	}
+	try(unpackBytes(msg, off, a[:]))
 	return AResource{a}, nil
 }
 
@@ -2524,9 +2392,7 @@ func (r *AAAAResource) pack(msg []byte, compression map[string]int, compressionO
 
 func unpackAAAAResource(msg []byte, off int) (AAAAResource, error) {
 	var aaaa [16]byte
-	if _, err := unpackBytes(msg, off, aaaa[:]); err != nil {
-		return AAAAResource{}, err
-	}
+	try(unpackBytes(msg, off, aaaa[:]))
 	return AAAAResource{aaaa}, nil
 }
 

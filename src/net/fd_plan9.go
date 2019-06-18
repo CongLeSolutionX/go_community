@@ -113,9 +113,7 @@ func (fd *netFD) closeWrite() error {
 }
 
 func (fd *netFD) Close() error {
-	if err := fd.pfd.Close(); err != nil {
-		return err
-	}
+	try(fd.pfd.Close())
 	if !fd.ok() {
 		return syscall.EINVAL
 	}

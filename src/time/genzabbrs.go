@@ -65,22 +65,13 @@ type SupplementalData struct {
 }
 
 func readWindowsZones() ([]*zone, error) {
-	r, err := http.Get(wzURL)
-	if err != nil {
-		return nil, err
-	}
+	r := try(http.Get(wzURL))
 	defer r.Body.Close()
 
-	data, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		return nil, err
-	}
+	data := try(ioutil.ReadAll(r.Body))
 
 	var sd SupplementalData
-	err = xml.Unmarshal(data, &sd)
-	if err != nil {
-		return nil, err
-	}
+	try(xml.Unmarshal(data, &sd))
 	zs := make([]*zone, 0)
 	for _, z := range sd.Zones {
 		if z.Territory != "001" {

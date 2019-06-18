@@ -1998,9 +1998,7 @@ func emitCDATA(w io.Writer, s []byte) error {
 	if len(s) == 0 {
 		return nil
 	}
-	if _, err := w.Write(cdataStart); err != nil {
-		return err
-	}
+	try(w.Write(cdataStart))
 	for {
 		i := bytes.Index(s, cdataEnd)
 		if i >= 0 && i+len(cdataEnd) <= len(s) {

@@ -205,10 +205,7 @@ func StoredHashesForRecordHash(n int64, h Hash, r HashReader) ([]Hash, error) {
 	}
 
 	// Fetch hashes.
-	old, err := r.ReadHashes(indexes)
-	if err != nil {
-		return nil, err
-	}
+	old := try(r.ReadHashes(indexes))
 	if len(old) != len(indexes) {
 		return nil, fmt.Errorf("tlog: ReadHashes(%d indexes) = %d hashes", len(indexes), len(old))
 	}
@@ -248,10 +245,7 @@ func TreeHash(n int64, r HashReader) (Hash, error) {
 		return Hash{}, nil
 	}
 	indexes := subTreeIndex(0, n, nil)
-	hashes, err := r.ReadHashes(indexes)
-	if err != nil {
-		return Hash{}, err
-	}
+	hashes := try(r.ReadHashes(indexes))
 	if len(hashes) != len(indexes) {
 		return Hash{}, fmt.Errorf("tlog: ReadHashes(%d indexes) = %d hashes", len(indexes), len(hashes))
 	}
@@ -323,10 +317,7 @@ func ProveRecord(t, n int64, r HashReader) (RecordProof, error) {
 	if len(indexes) == 0 {
 		return RecordProof{}, nil
 	}
-	hashes, err := r.ReadHashes(indexes)
-	if err != nil {
-		return nil, err
-	}
+	hashes := try(r.ReadHashes(indexes))
 	if len(hashes) != len(indexes) {
 		return nil, fmt.Errorf("tlog: ReadHashes(%d indexes) = %d hashes", len(indexes), len(hashes))
 	}
@@ -399,10 +390,7 @@ func CheckRecord(p RecordProof, t int64, th Hash, n int64, h Hash) error {
 	if t < 0 || n < 0 || n >= t {
 		return fmt.Errorf("tlog: invalid inputs in CheckRecord")
 	}
-	th2, err := runRecordProof(p, 0, t, n, h)
-	if err != nil {
-		return err
-	}
+	th2 := try(runRecordProof(p, 0, t, n, h))
 	if th2 == th {
 		return nil
 	}
@@ -462,10 +450,7 @@ func ProveTree(t, n int64, h HashReader) (TreeProof, error) {
 	if len(indexes) == 0 {
 		return TreeProof{}, nil
 	}
-	hashes, err := h.ReadHashes(indexes)
-	if err != nil {
-		return nil, err
-	}
+	hashes := try(h.ReadHashes(indexes))
 	if len(hashes) != len(indexes) {
 		return nil, fmt.Errorf("tlog: ReadHashes(%d indexes) = %d hashes", len(indexes), len(hashes))
 	}
@@ -545,10 +530,7 @@ func CheckTree(p TreeProof, t int64, th Hash, n int64, h Hash) error {
 	if t < 1 || n < 1 || n > t {
 		return fmt.Errorf("tlog: invalid inputs in CheckTree")
 	}
-	h2, th2, err := runTreeProof(p, 0, t, n, h)
-	if err != nil {
-		return err
-	}
+	h2, th2 := try(runTreeProof(p, 0, t, n, h))
 	if th2 == th && h2 == h {
 		return nil
 	}

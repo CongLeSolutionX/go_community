@@ -133,10 +133,7 @@ var vcsHg = &vcsCmd{
 }
 
 func hgRemoteRepo(vcsHg *vcsCmd, rootDir string) (remoteRepo string, err error) {
-	out, err := vcsHg.runOutput(rootDir, "paths default")
-	if err != nil {
-		return "", err
-	}
+	out := try(vcsHg.runOutput(rootDir, "paths default"))
 	return strings.TrimSpace(string(out)), nil
 }
 
@@ -239,18 +236,12 @@ var vcsBzr = &vcsCmd{
 }
 
 func bzrRemoteRepo(vcsBzr *vcsCmd, rootDir string) (remoteRepo string, err error) {
-	outb, err := vcsBzr.runOutput(rootDir, "config parent_location")
-	if err != nil {
-		return "", err
-	}
+	outb := try(vcsBzr.runOutput(rootDir, "config parent_location"))
 	return strings.TrimSpace(string(outb)), nil
 }
 
 func bzrResolveRepo(vcsBzr *vcsCmd, rootDir, remoteRepo string) (realRepo string, err error) {
-	outb, err := vcsBzr.runOutput(rootDir, "info "+remoteRepo)
-	if err != nil {
-		return "", err
-	}
+	outb := try(vcsBzr.runOutput(rootDir, "info "+remoteRepo))
 	out := string(outb)
 
 	// Expect:
@@ -296,10 +287,7 @@ var vcsSvn = &vcsCmd{
 }
 
 func svnRemoteRepo(vcsSvn *vcsCmd, rootDir string) (remoteRepo string, err error) {
-	outb, err := vcsSvn.runOutput(rootDir, "info")
-	if err != nil {
-		return "", err
-	}
+	outb := try(vcsSvn.runOutput(rootDir, "info"))
 	out := string(outb)
 
 	// Expect:
@@ -346,10 +334,7 @@ var vcsFossil = &vcsCmd{
 }
 
 func fossilRemoteRepo(vcsFossil *vcsCmd, rootDir string) (remoteRepo string, err error) {
-	out, err := vcsFossil.runOutput(rootDir, "remote-url")
-	if err != nil {
-		return "", err
-	}
+	out := try(vcsFossil.runOutput(rootDir, "remote-url"))
 	return strings.TrimSpace(string(out)), nil
 }
 
@@ -778,10 +763,7 @@ func urlForImportPath(importPath string) (*urlpkg.URL, error) {
 //
 // This handles custom import paths like "name.tld/pkg/foo" or just "name.tld".
 func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.SecurityMode) (*RepoRoot, error) {
-	url, err := urlForImportPath(importPath)
-	if err != nil {
-		return nil, err
-	}
+	url := try(urlForImportPath(importPath))
 	resp, err := web.Get(security, url)
 	if err != nil {
 		msg := "https fetch: %v"
@@ -849,10 +831,7 @@ func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.Se
 // validateRepoRoot returns an error if repoRoot does not seem to be
 // a valid URL with scheme.
 func validateRepoRoot(repoRoot string) error {
-	url, err := urlpkg.Parse(repoRoot)
-	if err != nil {
-		return err
-	}
+	url := try(urlpkg.Parse(repoRoot))
 	if url.Scheme == "" {
 		return errors.New("no scheme")
 	}
@@ -1091,9 +1070,7 @@ func noVCSSuffix(match map[string]string) error {
 // bitbucketVCS determines the version control system for a
 // Bitbucket repository, by using the Bitbucket API.
 func bitbucketVCS(match map[string]string) error {
-	if err := noVCSSuffix(match); err != nil {
-		return err
-	}
+	try(noVCSSuffix(match))
 
 	var resp struct {
 		SCM string `json:"scm"`

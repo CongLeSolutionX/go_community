@@ -81,9 +81,7 @@ func parseGoCount(b []byte) (*Profile, error) {
 	// Skip comments at the beginning of the file.
 	for s.Scan() && isSpaceOrComment(s.Text()) {
 	}
-	if err := s.Err(); err != nil {
-		return nil, err
-	}
+	try(s.Err())
 	m := countStartRE.FindStringSubmatch(s.Text())
 	if m == nil {
 		return nil, errUnrecognized
@@ -135,13 +133,9 @@ func parseGoCount(b []byte) (*Profile, error) {
 			Value:    []int64{n},
 		})
 	}
-	if err := s.Err(); err != nil {
-		return nil, err
-	}
+	try(s.Err())
 
-	if err := parseAdditionalSections(s, p); err != nil {
-		return nil, err
-	}
+	try(parseAdditionalSections(s, p))
 	return p, nil
 }
 
@@ -337,9 +331,7 @@ func cpuProfile(b []byte, period int64, parse func(b []byte) (uint64, []byte)) (
 		},
 	}
 	var err error
-	if b, _, err = parseCPUSamples(b, parse, true, p); err != nil {
-		return nil, err
-	}
+	b, _ = try(parseCPUSamples(b, parse, true, p))
 
 	// If *most* samples have the same second-to-the-bottom frame, it
 	// strongly suggests that it is an uninteresting artifact of
@@ -377,9 +369,7 @@ func cpuProfile(b []byte, period int64, parse func(b []byte) (uint64, []byte)) (
 		}
 	}
 
-	if err := p.ParseMemoryMap(bytes.NewBuffer(b)); err != nil {
-		return nil, err
-	}
+	try(p.ParseMemoryMap(bytes.NewBuffer(b)))
 
 	cleanupDuplicateLocations(p)
 	return p, nil
@@ -544,12 +534,8 @@ func parseHeap(b []byte) (p *Profile, err error) {
 			NumLabel: map[string][]int64{"bytes": {blocksize}},
 		})
 	}
-	if err := s.Err(); err != nil {
-		return nil, err
-	}
-	if err := parseAdditionalSections(s, p); err != nil {
-		return nil, err
-	}
+	try(s.Err())
+	try(parseAdditionalSections(s, p))
 	return p, nil
 }
 
@@ -618,9 +604,7 @@ func parseHeapSample(line string, rate int64, sampling string, includeAlloc bool
 		}
 	}
 
-	if err := addValues(sampleData[1], sampleData[2], "inuse"); err != nil {
-		return nil, 0, nil, err
-	}
+	try(addValues(sampleData[1], sampleData[2], "inuse"))
 
 	addrs, err = parseHexAddresses(sampleData[5])
 	if err != nil {
@@ -745,9 +729,7 @@ func parseContention(b []byte) (*Profile, error) {
 			return nil, errUnrecognized
 		}
 	}
-	if err := s.Err(); err != nil {
-		return nil, err
-	}
+	try(s.Err())
 
 	locs := make(map[uint64]*Location)
 	for {
@@ -784,13 +766,9 @@ func parseContention(b []byte) (*Profile, error) {
 			break
 		}
 	}
-	if err := s.Err(); err != nil {
-		return nil, err
-	}
+	try(s.Err())
 
-	if err := parseAdditionalSections(s, p); err != nil {
-		return nil, err
-	}
+	try(parseAdditionalSections(s, p))
 
 	return p, nil
 }
@@ -908,9 +886,7 @@ func parseThread(b []byte) (*Profile, error) {
 		})
 	}
 
-	if err := parseAdditionalSections(s, p); err != nil {
-		return nil, err
-	}
+	try(parseAdditionalSections(s, p))
 
 	cleanupDuplicateLocations(p)
 	return p, nil
@@ -942,9 +918,7 @@ func parseThreadSample(s *bufio.Scanner) (nextl string, addrs []uint64, err erro
 		}
 		addrs = append(addrs, curAddrs...)
 	}
-	if err := s.Err(); err != nil {
-		return "", nil, err
-	}
+	try(s.Err())
 	if sameAsPrevious {
 		return line, nil, nil
 	}
@@ -956,9 +930,7 @@ func parseThreadSample(s *bufio.Scanner) (nextl string, addrs []uint64, err erro
 func parseAdditionalSections(s *bufio.Scanner, p *Profile) error {
 	for !isMemoryMapSentinel(s.Text()) && s.Scan() {
 	}
-	if err := s.Err(); err != nil {
-		return err
-	}
+	try(s.Err())
 	return p.ParseMemoryMapFromScanner(s)
 }
 
@@ -998,9 +970,7 @@ func parseProcMapsFromScanner(s *bufio.Scanner) ([]*Mapping, error) {
 		}
 		mapping = append(mapping, m)
 	}
-	if err := s.Err(); err != nil {
-		return nil, err
-	}
+	try(s.Err())
 	return mapping, nil
 }
 
@@ -1026,10 +996,7 @@ func (p *Profile) ParseMemoryMap(rd io.Reader) error {
 // mappings in the current profile.  It renumbers the samples and
 // locations in the profile correspondingly.
 func (p *Profile) ParseMemoryMapFromScanner(s *bufio.Scanner) error {
-	mapping, err := parseProcMapsFromScanner(s)
-	if err != nil {
-		return err
-	}
+	mapping := try(parseProcMapsFromScanner(s))
 	p.Mapping = append(p.Mapping, mapping...)
 	p.massageMappings()
 	p.remapLocationIDs()

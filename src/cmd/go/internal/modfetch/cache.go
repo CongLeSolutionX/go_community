@@ -31,28 +31,19 @@ func cacheDir(path string) (string, error) {
 	if PkgMod == "" {
 		return "", fmt.Errorf("internal error: modfetch.PkgMod not set")
 	}
-	enc, err := module.EncodePath(path)
-	if err != nil {
-		return "", err
-	}
+	enc := try(module.EncodePath(path))
 	return filepath.Join(PkgMod, "cache/download", enc, "/@v"), nil
 }
 
 func CachePath(m module.Version, suffix string) (string, error) {
-	dir, err := cacheDir(m.Path)
-	if err != nil {
-		return "", err
-	}
+	dir := try(cacheDir(m.Path))
 	if !semver.IsValid(m.Version) {
 		return "", fmt.Errorf("non-semver module version %q", m.Version)
 	}
 	if module.CanonicalVersion(m.Version) != m.Version {
 		return "", fmt.Errorf("non-canonical module version %q", m.Version)
 	}
-	encVer, err := module.EncodeVersion(m.Version)
-	if err != nil {
-		return "", err
-	}
+	encVer := try(module.EncodeVersion(m.Version))
 	return filepath.Join(dir, encVer+"."+suffix), nil
 }
 
@@ -62,33 +53,22 @@ func DownloadDir(m module.Version) (string, error) {
 	if PkgMod == "" {
 		return "", fmt.Errorf("internal error: modfetch.PkgMod not set")
 	}
-	enc, err := module.EncodePath(m.Path)
-	if err != nil {
-		return "", err
-	}
+	enc := try(module.EncodePath(m.Path))
 	if !semver.IsValid(m.Version) {
 		return "", fmt.Errorf("non-semver module version %q", m.Version)
 	}
 	if module.CanonicalVersion(m.Version) != m.Version {
 		return "", fmt.Errorf("non-canonical module version %q", m.Version)
 	}
-	encVer, err := module.EncodeVersion(m.Version)
-	if err != nil {
-		return "", err
-	}
+	encVer := try(module.EncodeVersion(m.Version))
 	return filepath.Join(PkgMod, enc+"@"+encVer), nil
 }
 
 // lockVersion locks a file within the module cache that guards the downloading
 // and extraction of the zipfile for the given module version.
 func lockVersion(mod module.Version) (unlock func(), err error) {
-	path, err := CachePath(mod, "lock")
-	if err != nil {
-		return nil, err
-	}
-	if err := os.MkdirAll(filepath.Dir(path), 0777); err != nil {
-		return nil, err
-	}
+	path := try(CachePath(mod, "lock"))
+	try(os.MkdirAll(filepath.Dir(path), 0777))
 	return lockedfile.MutexAt(path).Lock()
 }
 
@@ -263,10 +243,7 @@ func Stat(proxy, path, rev string) (*RevInfo, error) {
 	if err == nil {
 		return info, nil
 	}
-	repo, err := Lookup(proxy, path)
-	if err != nil {
-		return nil, err
-	}
+	repo := try(Lookup(proxy, path))
 	return repo.Stat(rev)
 }
 
@@ -281,22 +258,17 @@ func InfoFile(path, version string) (string, error) {
 		return file, nil
 	}
 
-	err := TryProxies(func(proxy string) error {
+	try(TryProxies(func(proxy string) error {
 		repo, err := Lookup(proxy, path)
 		if err == nil {
 			_, err = repo.Stat(version)
 		}
 		return err
-	})
-	if err != nil {
-		return "", err
-	}
+	}),
+	)
 
 	// Stat should have populated the disk cache for us.
-	file, _, err := readDiskStat(path, version)
-	if err != nil {
-		return "", err
-	}
+	file, _ := try(readDiskStat(path, version))
 	return file, nil
 }
 
@@ -348,14 +320,9 @@ func GoModFile(path, version string) (string, error) {
 	if !semver.IsValid(version) {
 		return "", fmt.Errorf("invalid version %q", version)
 	}
-	if _, err := GoMod(path, version); err != nil {
-		return "", err
-	}
+	try(GoMod(path, version))
 	// GoMod should have populated the disk cache for us.
-	file, _, err := readDiskGoMod(path, version)
-	if err != nil {
-		return "", err
-	}
+	file, _ := try(readDiskGoMod(path, version))
 	return file, nil
 }
 
@@ -365,14 +332,8 @@ func GoModSum(path, version string) (string, error) {
 	if !semver.IsValid(version) {
 		return "", fmt.Errorf("invalid version %q", version)
 	}
-	data, err := GoMod(path, version)
-	if err != nil {
-		return "", err
-	}
-	sum, err := goModSum(data)
-	if err != nil {
-		return "", err
-	}
+	data := try(GoMod(path, version))
+	sum := try(goModSum(data))
 	return sum, nil
 }
 
@@ -495,10 +456,7 @@ func writeDiskStat(file string, info *RevInfo) error {
 	if file == "" {
 		return nil
 	}
-	js, err := json.Marshal(info)
-	if err != nil {
-		return err
-	}
+	js := try(json.Marshal(info))
 	return writeDiskCache(file, js)
 }
 
@@ -515,13 +473,9 @@ func writeDiskCache(file string, data []byte) error {
 		return nil
 	}
 	// Make sure directory for file exists.
-	if err := os.MkdirAll(filepath.Dir(file), 0777); err != nil {
-		return err
-	}
+	try(os.MkdirAll(filepath.Dir(file), 0777))
 
-	if err := renameio.WriteFile(file, data, 0666); err != nil {
-		return err
-	}
+	try(renameio.WriteFile(file, data, 0666))
 
 	if strings.HasSuffix(file, ".mod") {
 		rewriteVersionList(filepath.Dir(file))

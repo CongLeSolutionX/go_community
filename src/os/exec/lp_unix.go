@@ -17,10 +17,7 @@ import (
 var ErrNotFound = errors.New("executable file not found in $PATH")
 
 func findExecutable(file string) error {
-	d, err := os.Stat(file)
-	if err != nil {
-		return err
-	}
+	d := try(os.Stat(file))
 	if m := d.Mode(); !m.IsDir() && m&0111 != 0 {
 		return nil
 	}

@@ -220,12 +220,8 @@ func (d *Decoder) DecodeFull(p []byte) ([]HeaderField, error) {
 	saveFunc := d.emit
 	defer func() { d.emit = saveFunc }()
 	d.emit = func(f HeaderField) { hf = append(hf, f) }
-	if _, err := d.Write(p); err != nil {
-		return nil, err
-	}
-	if err := d.Close(); err != nil {
-		return nil, err
-	}
+	try(d.Write(p))
+	try(d.Close())
 	return hf, nil
 }
 
@@ -337,10 +333,7 @@ func (d *Decoder) parseHeaderFieldRepr() error {
 // (same invariants and behavior as parseHeaderFieldRepr)
 func (d *Decoder) parseFieldIndexed() error {
 	buf := d.buf
-	idx, buf, err := readVarInt(7, buf)
-	if err != nil {
-		return err
-	}
+	idx, buf := try(readVarInt(7, buf))
 	hf, ok := d.at(idx)
 	if !ok {
 		return DecodingError{InvalidIndexError(idx)}
@@ -352,10 +345,7 @@ func (d *Decoder) parseFieldIndexed() error {
 // (same invariants and behavior as parseHeaderFieldRepr)
 func (d *Decoder) parseFieldLiteral(n uint8, it indexType) error {
 	buf := d.buf
-	nameIdx, buf, err := readVarInt(n, buf)
-	if err != nil {
-		return err
-	}
+	nameIdx, buf := try(readVarInt(n, buf))
 
 	var hf HeaderField
 	wantStr := d.emitEnabled || it.indexed()
@@ -371,10 +361,7 @@ func (d *Decoder) parseFieldLiteral(n uint8, it indexType) error {
 			return err
 		}
 	}
-	hf.Value, buf, err = d.readString(buf, wantStr)
-	if err != nil {
-		return err
-	}
+	hf.Value, buf = try(d.readString(buf, wantStr))
 	d.buf = buf
 	if it.indexed() {
 		d.dynTab.add(hf)
@@ -404,10 +391,7 @@ func (d *Decoder) parseDynamicTableSizeUpdate() error {
 	}
 
 	buf := d.buf
-	size, buf, err := readVarInt(5, buf)
-	if err != nil {
-		return err
-	}
+	size, buf := try(readVarInt(5, buf))
 	if size > uint64(d.dynTab.allowedMaxSize) {
 		return DecodingError{errors.New("dynamic table size update too large")}
 	}

@@ -197,10 +197,7 @@ func loadWSASendRecvMsg() error {
 }
 
 func WSASendMsg(fd syscall.Handle, msg *WSAMsg, flags uint32, bytesSent *uint32, overlapped *syscall.Overlapped, croutine *byte) error {
-	err := loadWSASendRecvMsg()
-	if err != nil {
-		return err
-	}
+	try(loadWSASendRecvMsg())
 	r1, _, e1 := syscall.Syscall6(sendRecvMsgFunc.sendAddr, 6, uintptr(fd), uintptr(unsafe.Pointer(msg)), uintptr(flags), uintptr(unsafe.Pointer(bytesSent)), uintptr(unsafe.Pointer(overlapped)), uintptr(unsafe.Pointer(croutine)))
 	if r1 == socket_error {
 		if e1 != 0 {
@@ -213,10 +210,7 @@ func WSASendMsg(fd syscall.Handle, msg *WSAMsg, flags uint32, bytesSent *uint32,
 }
 
 func WSARecvMsg(fd syscall.Handle, msg *WSAMsg, bytesReceived *uint32, overlapped *syscall.Overlapped, croutine *byte) error {
-	err := loadWSASendRecvMsg()
-	if err != nil {
-		return err
-	}
+	try(loadWSASendRecvMsg())
 	r1, _, e1 := syscall.Syscall6(sendRecvMsgFunc.recvAddr, 5, uintptr(fd), uintptr(unsafe.Pointer(msg)), uintptr(unsafe.Pointer(bytesReceived)), uintptr(unsafe.Pointer(overlapped)), uintptr(unsafe.Pointer(croutine)), 0)
 	if r1 == socket_error {
 		if e1 != 0 {
@@ -248,14 +242,8 @@ const (
 )
 
 func Rename(oldpath, newpath string) error {
-	from, err := syscall.UTF16PtrFromString(oldpath)
-	if err != nil {
-		return err
-	}
-	to, err := syscall.UTF16PtrFromString(newpath)
-	if err != nil {
-		return err
-	}
+	from := try(syscall.UTF16PtrFromString(oldpath))
+	to := try(syscall.UTF16PtrFromString(newpath))
 	return MoveFileEx(from, to, MOVEFILE_REPLACE_EXISTING)
 }
 

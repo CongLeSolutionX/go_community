@@ -30,10 +30,7 @@ func Getwd() (dir string, err error) {
 
 	// Clumsy but widespread kludge:
 	// if $PWD is set and matches ".", use it.
-	dot, err := statNolog(".")
-	if err != nil {
-		return "", err
-	}
+	dot := try(statNolog("."))
 	dir = Getenv("PWD")
 	if len(dir) > 0 && dir[0] == '/' {
 		d, err := statNolog(dir)
@@ -64,11 +61,8 @@ func Getwd() (dir string, err error) {
 
 	// Root is a special case because it has no parent
 	// and ends in a slash.
-	root, err := statNolog("/")
-	if err != nil {
-		// Can't stat root - no hope.
-		return "", err
-	}
+	root := try(statNolog("/")) // Can't stat root - no hope.
+
 	if SameFile(root, dot) {
 		return "/", nil
 	}

@@ -294,10 +294,7 @@ func mergePAX(hdr *Header, paxHdrs map[string]string) (err error) {
 // parsePAX parses PAX headers.
 // If an extended header (type 'x') is invalid, ErrHeader is returned
 func parsePAX(r io.Reader) (map[string]string, error) {
-	buf, err := ioutil.ReadAll(r)
-	if err != nil {
-		return nil, err
-	}
+	buf := try(ioutil.ReadAll(r))
 	sbuf := string(buf)
 
 	// For GNU PAX sparse format 0.0 support.
@@ -342,9 +339,8 @@ func parsePAX(r io.Reader) (map[string]string, error) {
 //	* At least 2 blocks of zeros are read.
 func (tr *Reader) readHeader() (*Header, *block, error) {
 	// Two blocks of zero bytes marks the end of the archive.
-	if _, err := io.ReadFull(tr.r, tr.blk[:]); err != nil {
-		return nil, nil, err // EOF is okay here; exactly 0 bytes read
-	}
+	try(io.ReadFull(tr.r, tr.blk[:])) // EOF is okay here; exactly 0 bytes read
+
 	if bytes.Equal(tr.blk[:], zeroBlock[:]) {
 		if _, err := io.ReadFull(tr.r, tr.blk[:]); err != nil {
 			return nil, nil, err // EOF is okay here; exactly 1 block of zeros read
@@ -548,9 +544,7 @@ func readGNUSparseMap1x0(r io.Reader) (sparseDatas, error) {
 
 	// Parse for the number of entries.
 	// Use integer overflow resistant math to check this.
-	if err := feedTokens(1); err != nil {
-		return nil, err
-	}
+	try(feedTokens(1))
 	numEntries, err := strconv.ParseInt(nextToken(), 10, 0) // Intentionally parse as native int
 	if err != nil || numEntries < 0 || int(2*numEntries) < int(numEntries) {
 		return nil, ErrHeader
@@ -559,9 +553,7 @@ func readGNUSparseMap1x0(r io.Reader) (sparseDatas, error) {
 	// Parse for all member entries.
 	// numEntries is trusted after this since a potential attacker must have
 	// committed resources proportional to what this library used.
-	if err := feedTokens(2 * numEntries); err != nil {
-		return nil, err
-	}
+	try(feedTokens(2 * numEntries))
 	spd := make(sparseDatas, 0, numEntries)
 	for i := int64(0); i < numEntries; i++ {
 		offset, err1 := strconv.ParseInt(nextToken(), 10, 64)

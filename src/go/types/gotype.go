@@ -191,10 +191,7 @@ func parse(filename string, src interface{}) (*ast.File, error) {
 }
 
 func parseStdin() (*ast.File, error) {
-	src, err := ioutil.ReadAll(os.Stdin)
-	if err != nil {
-		return nil, err
-	}
+	src := try(ioutil.ReadAll(os.Stdin))
 	return parse("<standard input>", src)
 }
 

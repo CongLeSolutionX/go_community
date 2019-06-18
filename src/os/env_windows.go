@@ -16,10 +16,7 @@ func environForSysProcAttr(sys *syscall.SysProcAttr) (env []string, err error) {
 		return Environ(), nil
 	}
 	var block *uint16
-	err = windows.CreateEnvironmentBlock(&block, sys.Token, false)
-	if err != nil {
-		return nil, err
-	}
+	try(windows.CreateEnvironmentBlock(&block, sys.Token, false))
 	defer windows.DestroyEnvironmentBlock(block)
 	blockp := uintptr(unsafe.Pointer(block))
 	for {

@@ -50,10 +50,7 @@ func Filter(name string, options ...Option) string {
 // If the name does not appear to be a C++ symbol name at all, the
 // error will be ErrNotMangledName.
 func ToString(name string, options ...Option) (string, error) {
-	a, err := ToAST(name, options...)
-	if err != nil {
-		return "", err
-	}
+	a := try(ToAST(name, options...))
 	return ASTToString(a, options...), nil
 }
 

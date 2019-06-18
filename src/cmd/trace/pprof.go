@@ -126,10 +126,7 @@ func pprofMatchingGoroutines(id string, events []*trace.Event) (map[uint64][]int
 // pprofMatchingRegions returns the time intervals of matching regions
 // grouped by the goroutine id. If the filter is nil, returns nil without an error.
 func pprofMatchingRegions(filter *regionFilter) (map[uint64][]interval, error) {
-	res, err := analyzeAnnotations()
-	if err != nil {
-		return nil, err
-	}
+	res := try(analyzeAnnotations())
 	if filter == nil {
 		return nil, nil
 	}

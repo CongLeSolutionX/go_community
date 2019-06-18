@@ -660,11 +660,7 @@ func TestIPv6MulticastListener(t *testing.T) {
 }
 
 func checkMulticastListener(c *UDPConn, ip IP) error {
-	if ok, err := multicastRIBContains(ip); err != nil {
-		return err
-	} else if !ok {
-		return fmt.Errorf("%s not found in multicast rib", ip.String())
-	}
+	ok := try(multicastRIBContains(ip))
 	la := c.LocalAddr()
 	if la, ok := la.(*UDPAddr); !ok || la.Port == 0 {
 		return fmt.Errorf("got %v; want a proper address with non-zero port number", la)

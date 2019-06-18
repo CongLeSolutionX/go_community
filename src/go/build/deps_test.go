@@ -503,9 +503,7 @@ func listStdPkgs(goroot string) ([]string, error) {
 		pkgs = append(pkgs, name)
 		return nil
 	}
-	if err := filepath.Walk(src, walkFn); err != nil {
-		return nil, err
-	}
+	try(filepath.Walk(src, walkFn))
 	return pkgs, nil
 }
 
@@ -582,10 +580,7 @@ var buildIgnore = []byte("\n// +build ignore")
 
 func findImports(pkg string) ([]string, error) {
 	dir := filepath.Join(Default.GOROOT, "src", pkg)
-	files, err := ioutil.ReadDir(dir)
-	if err != nil {
-		return nil, err
-	}
+	files := try(ioutil.ReadDir(dir))
 	var imports []string
 	var haveImport = map[string]bool{}
 	for _, file := range files {

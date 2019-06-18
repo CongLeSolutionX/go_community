@@ -19,9 +19,7 @@ func ParseGodepsJSON(file string, data []byte) (*modfile.File, error) {
 			Rev        string
 		}
 	}
-	if err := json.Unmarshal(data, &cfg); err != nil {
-		return nil, err
-	}
+	try(json.Unmarshal(data, &cfg))
 	mf := new(modfile.File)
 	for _, d := range cfg.Deps {
 		mf.Require = append(mf.Require, &modfile.Require{Mod: module.Version{Path: d.ImportPath, Version: d.Rev}})

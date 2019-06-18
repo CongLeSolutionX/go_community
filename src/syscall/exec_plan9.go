@@ -371,14 +371,8 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 	p[1] = -1
 
 	// Convert args to C form.
-	argv0p, err := BytePtrFromString(argv0)
-	if err != nil {
-		return 0, err
-	}
-	argvp, err := SlicePtrFromStrings(argv)
-	if err != nil {
-		return 0, err
-	}
+	argv0p := try(BytePtrFromString(argv0))
+	argvp := try(SlicePtrFromStrings(argv))
 
 	destDir := attr.Dir
 	if destDir == "" {
@@ -554,14 +548,8 @@ func Exec(argv0 string, argv []string, envv []string) (err error) {
 		}
 	}
 
-	argv0p, err := BytePtrFromString(argv0)
-	if err != nil {
-		return err
-	}
-	argvp, err := SlicePtrFromStrings(argv)
-	if err != nil {
-		return err
-	}
+	argv0p := try(BytePtrFromString(argv0))
+	argvp := try(SlicePtrFromStrings(argv))
 	_, _, e1 := Syscall(SYS_EXEC,
 		uintptr(unsafe.Pointer(argv0p)),
 		uintptr(unsafe.Pointer(&argvp[0])),

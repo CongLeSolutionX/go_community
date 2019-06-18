@@ -129,10 +129,7 @@ func Getcwd(buf []byte) (n int, err error) {
 //sysnb	setgroups(ngid int, gid *_Gid_t) (err error)
 
 func Getgroups() (gids []int, err error) {
-	n, err := getgroups(0, nil)
-	if err != nil {
-		return nil, err
-	}
+	n := try(getgroups(0, nil))
 	if n == 0 {
 		return nil, nil
 	}
@@ -143,10 +140,7 @@ func Getgroups() (gids []int, err error) {
 	}
 
 	a := make([]_Gid_t, n)
-	n, err = getgroups(n, &a[0])
-	if err != nil {
-		return nil, err
-	}
+	n = try(getgroups(n, &a[0]))
 	gids = make([]int, n)
 	for i, v := range a[0:n] {
 		gids[i] = int(v)
@@ -292,9 +286,7 @@ func (sa *SockaddrUnix) sockaddr() (unsafe.Pointer, _Socklen, error) {
 func Getsockname(fd int) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if err = getsockname(fd, &rsa, &len); err != nil {
-		return
-	}
+	try(getsockname(fd, &rsa, &len))
 	return anyToSockaddr(&rsa)
 }
 
@@ -302,10 +294,7 @@ func Getsockname(fd int) (sa Sockaddr, err error) {
 func Accept(fd int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = accept(fd, &rsa, &len)
-	if err != nil {
-		return
-	}
+	nfd = try(accept(fd, &rsa, &len))
 	sa, err = anyToSockaddr(&rsa)
 	if err != nil {
 		Close(nfd)
@@ -341,9 +330,7 @@ func Recvmsg(fd int, p, oob []byte, flags int) (n, oobn int, recvflags int, from
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = recvmsg(fd, &msg, flags); err != nil {
-		return
-	}
+	n = try(recvmsg(fd, &msg, flags))
 	oobn = int(msg.Controllen)
 	recvflags = int(msg.Flags)
 	// source address is only specified if the socket is unconnected
@@ -392,9 +379,7 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = sendmsg(fd, &msg, flags); err != nil {
-		return 0, err
-	}
+	n = try(sendmsg(fd, &msg, flags))
 	if len(oob) > 0 && len(p) == 0 {
 		n = 0
 	}

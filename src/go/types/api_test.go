@@ -22,10 +22,7 @@ import (
 
 func pkgFor(path, source string, info *Info) (*Package, error) {
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, path, source, 0)
-	if err != nil {
-		return nil, err
-	}
+	f := try(parser.ParseFile(fset, path, source, 0))
 	conf := Config{Importer: importer.Default()}
 	return conf.Check(f.Name.Name, fset, []*ast.File{f}, info)
 }

@@ -25,10 +25,7 @@ var (
 )
 
 func (d *socksDialer) connect(ctx context.Context, c net.Conn, address string) (_ net.Addr, ctxErr error) {
-	host, port, err := sockssplitHostPort(address)
-	if err != nil {
-		return nil, err
-	}
+	host, port := try(sockssplitHostPort(address))
 	if deadline, ok := ctx.Deadline(); ok && !deadline.IsZero() {
 		c.SetDeadline(deadline)
 		defer c.SetDeadline(socksnoDeadline)
@@ -159,14 +156,8 @@ func (d *socksDialer) connect(ctx context.Context, c net.Conn, address string) (
 }
 
 func sockssplitHostPort(address string) (string, int, error) {
-	host, port, err := net.SplitHostPort(address)
-	if err != nil {
-		return "", 0, err
-	}
-	portnum, err := strconv.Atoi(port)
-	if err != nil {
-		return "", 0, err
-	}
+	host, port := try(net.SplitHostPort(address))
+	portnum := try(strconv.Atoi(port))
 	if 1 > portnum || portnum > 0xffff {
 		return "", 0, errors.New("port number out of range " + port)
 	}

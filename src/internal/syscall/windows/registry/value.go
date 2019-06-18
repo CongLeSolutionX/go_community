@@ -52,10 +52,7 @@ var (
 // GetValue is a low level function. If value's type is known, use the appropriate
 // Get*Value function instead.
 func (k Key) GetValue(name string, buf []byte) (n int, valtype uint32, err error) {
-	pname, err := syscall.UTF16PtrFromString(name)
-	if err != nil {
-		return 0, 0, err
-	}
+	pname := try(syscall.UTF16PtrFromString(name))
 	var pbuf *byte
 	if len(buf) > 0 {
 		pbuf = (*byte)(unsafe.Pointer(&buf[0]))
@@ -69,10 +66,7 @@ func (k Key) GetValue(name string, buf []byte) (n int, valtype uint32, err error
 }
 
 func (k Key) getValue(name string, buf []byte) (date []byte, valtype uint32, err error) {
-	p, err := syscall.UTF16PtrFromString(name)
-	if err != nil {
-		return nil, 0, err
-	}
+	p := try(syscall.UTF16PtrFromString(name))
 	var t uint32
 	n := uint32(len(buf))
 	for {
@@ -120,10 +114,7 @@ func (k Key) GetStringValue(name string) (val string, valtype uint32, err error)
 // regLoadMUIString; use LoadRegLoadMUIString to check if
 // regLoadMUIString is supported before calling this function.
 func (k Key) GetMUIStringValue(name string) (string, error) {
-	pname, err := syscall.UTF16PtrFromString(name)
-	if err != nil {
-		return "", err
-	}
+	pname := try(syscall.UTF16PtrFromString(name))
 
 	buf := make([]uint16, 1024)
 	var buflen uint32
@@ -174,10 +165,7 @@ func ExpandString(value string) (string, error) {
 	if value == "" {
 		return "", nil
 	}
-	p, err := syscall.UTF16PtrFromString(value)
-	if err != nil {
-		return "", err
-	}
+	p := try(syscall.UTF16PtrFromString(value))
 	r := make([]uint16, 100)
 	for {
 		n, err := expandEnvironmentStrings(p, &r[0], uint32(len(r)))
@@ -269,10 +257,7 @@ func (k Key) GetBinaryValue(name string) (val []byte, valtype uint32, err error)
 }
 
 func (k Key) setValue(name string, valtype uint32, data []byte) error {
-	p, err := syscall.UTF16PtrFromString(name)
-	if err != nil {
-		return err
-	}
+	p := try(syscall.UTF16PtrFromString(name))
 	if len(data) == 0 {
 		return regSetValueEx(syscall.Handle(k), p, 0, valtype, nil, 0)
 	}
@@ -292,10 +277,7 @@ func (k Key) SetQWordValue(name string, value uint64) error {
 }
 
 func (k Key) setStringValue(name string, valtype uint32, value string) error {
-	v, err := syscall.UTF16FromString(value)
-	if err != nil {
-		return err
-	}
+	v := try(syscall.UTF16FromString(value))
 	buf := (*[1 << 29]byte)(unsafe.Pointer(&v[0]))[:len(v)*2]
 	return k.setValue(name, valtype, buf)
 }
@@ -345,10 +327,7 @@ func (k Key) DeleteValue(name string) error {
 // The parameter n controls the number of returned names,
 // analogous to the way os.File.Readdirnames works.
 func (k Key) ReadValueNames(n int) ([]string, error) {
-	ki, err := k.Stat()
-	if err != nil {
-		return nil, err
-	}
+	ki := try(k.Stat())
 	names := make([]string, 0, ki.ValueCount)
 	buf := make([]uint16, ki.MaxValueNameLen+1) // extra room for terminating null character
 loopItems:

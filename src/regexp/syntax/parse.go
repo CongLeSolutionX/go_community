@@ -1246,10 +1246,7 @@ func (p *parser) parseEscape(s string) (r rune, rest string, err error) {
 	if t == "" {
 		return 0, "", &Error{ErrTrailingBackslash, ""}
 	}
-	c, t, err := nextRune(t)
-	if err != nil {
-		return 0, "", err
-	}
+	c, t := try(nextRune(t))
 
 Switch:
 	switch c {
@@ -1467,10 +1464,7 @@ func (p *parser) parseUnicodeClass(s string, r []rune) (out []rune, rest string,
 		sign = -1
 	}
 	t := s[2:]
-	c, t, err := nextRune(t)
-	if err != nil {
-		return
-	}
+	c, t := try(nextRune(t))
 	var seq, name string
 	if c != '{' {
 		// Single-letter name.

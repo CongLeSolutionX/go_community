@@ -37,10 +37,7 @@ func fanotifyMark(fd int, flags uint, mask uint64, dirFd int, pathname *byte) (e
 
 func fchmodat(dirfd int, path string, mode uint32) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_FCHMODAT, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(mode))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -62,15 +59,9 @@ func ioctl(fd int, req uint, arg uintptr) (err error) {
 
 func Linkat(olddirfd int, oldpath string, newdirfd int, newpath string, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(oldpath)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(oldpath))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(newpath)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(newpath))
 	_, _, e1 := Syscall6(SYS_LINKAT, uintptr(olddirfd), uintptr(unsafe.Pointer(_p0)), uintptr(newdirfd), uintptr(unsafe.Pointer(_p1)), uintptr(flags), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -82,10 +73,7 @@ func Linkat(olddirfd int, oldpath string, newdirfd int, newpath string, flags in
 
 func openat(dirfd int, path string, flags int, mode uint32) (fd int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	r0, _, e1 := Syscall6(SYS_OPENAT, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(flags), uintptr(mode), 0, 0)
 	fd = int(r0)
 	if e1 != 0 {
@@ -109,10 +97,7 @@ func ppoll(fds *PollFd, nfds int, timeout *Timespec, sigmask *Sigset_t) (n int, 
 
 func Readlinkat(dirfd int, path string, buf []byte) (n int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 unsafe.Pointer
 	if len(buf) > 0 {
 		_p1 = unsafe.Pointer(&buf[0])
@@ -131,15 +116,9 @@ func Readlinkat(dirfd int, path string, buf []byte) (n int, err error) {
 
 func Symlinkat(oldpath string, newdirfd int, newpath string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(oldpath)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(oldpath))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(newpath)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(newpath))
 	_, _, e1 := Syscall(SYS_SYMLINKAT, uintptr(unsafe.Pointer(_p0)), uintptr(newdirfd), uintptr(unsafe.Pointer(_p1)))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -151,10 +130,7 @@ func Symlinkat(oldpath string, newdirfd int, newpath string) (err error) {
 
 func Unlinkat(dirfd int, path string, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_UNLINKAT, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(flags))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -166,10 +142,7 @@ func Unlinkat(dirfd int, path string, flags int) (err error) {
 
 func utimensat(dirfd int, path string, times *[2]Timespec, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall6(SYS_UTIMENSAT, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(times)), uintptr(flags), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -237,10 +210,7 @@ func KeyctlBuffer(cmd int, arg2 int, buf []byte, arg5 int) (ret int, err error) 
 
 func keyctlJoin(cmd int, arg2 string) (ret int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(arg2)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(arg2))
 	r0, _, e1 := Syscall(SYS_KEYCTL, uintptr(cmd), uintptr(unsafe.Pointer(_p0)), 0)
 	ret = int(r0)
 	if e1 != 0 {
@@ -253,15 +223,9 @@ func keyctlJoin(cmd int, arg2 string) (ret int, err error) {
 
 func keyctlSearch(cmd int, arg2 int, arg3 string, arg4 string, arg5 int) (ret int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(arg3)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(arg3))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(arg4)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(arg4))
 	r0, _, e1 := Syscall6(SYS_KEYCTL, uintptr(cmd), uintptr(arg2), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), uintptr(arg5), 0)
 	ret = int(r0)
 	if e1 != 0 {
@@ -317,10 +281,7 @@ func ptrace(request int, pid int, addr uintptr, data uintptr) (err error) {
 
 func reboot(magic1 uint, magic2 uint, cmd int, arg string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(arg)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(arg))
 	_, _, e1 := Syscall6(SYS_REBOOT, uintptr(magic1), uintptr(magic2), uintptr(cmd), uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -332,20 +293,11 @@ func reboot(magic1 uint, magic2 uint, cmd int, arg string) (err error) {
 
 func mount(source string, target string, fstype string, flags uintptr, data *byte) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(source)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(source))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(target)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(target))
 	var _p2 *byte
-	_p2, err = BytePtrFromString(fstype)
-	if err != nil {
-		return
-	}
+	_p2 = try(BytePtrFromString(fstype))
 	_, _, e1 := Syscall6(SYS_MOUNT, uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), uintptr(unsafe.Pointer(_p2)), uintptr(flags), uintptr(unsafe.Pointer(data)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -357,10 +309,7 @@ func mount(source string, target string, fstype string, flags uintptr, data *byt
 
 func Acct(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_ACCT, uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -372,15 +321,9 @@ func Acct(path string) (err error) {
 
 func AddKey(keyType string, description string, payload []byte, ringid int) (id int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(keyType)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(keyType))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(description)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(description))
 	var _p2 unsafe.Pointer
 	if len(payload) > 0 {
 		_p2 = unsafe.Pointer(&payload[0])
@@ -410,10 +353,7 @@ func Adjtimex(buf *Timex) (state int, err error) {
 
 func Chdir(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_CHDIR, uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -425,10 +365,7 @@ func Chdir(path string) (err error) {
 
 func Chroot(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_CHROOT, uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -491,10 +428,7 @@ func CopyFileRange(rfd int, roff *int64, wfd int, woff *int64, len int, flags in
 
 func DeleteModule(name string, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(name)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(name))
 	_, _, e1 := Syscall(SYS_DELETE_MODULE, uintptr(unsafe.Pointer(_p0)), uintptr(flags), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -596,10 +530,7 @@ func Fchmod(fd int, mode uint32) (err error) {
 
 func Fchownat(dirfd int, path string, uid int, gid int, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall6(SYS_FCHOWNAT, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(uid), uintptr(gid), uintptr(flags), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -632,10 +563,7 @@ func Fdatasync(fd int) (err error) {
 
 func Fgetxattr(fd int, attr string, dest []byte) (sz int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(attr))
 	var _p1 unsafe.Pointer
 	if len(dest) > 0 {
 		_p1 = unsafe.Pointer(&dest[0])
@@ -654,10 +582,7 @@ func Fgetxattr(fd int, attr string, dest []byte) (sz int, err error) {
 
 func FinitModule(fd int, params string, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(params)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(params))
 	_, _, e1 := Syscall(SYS_FINIT_MODULE, uintptr(fd), uintptr(unsafe.Pointer(_p0)), uintptr(flags))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -696,10 +621,7 @@ func Flock(fd int, how int) (err error) {
 
 func Fremovexattr(fd int, attr string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(attr))
 	_, _, e1 := Syscall(SYS_FREMOVEXATTR, uintptr(fd), uintptr(unsafe.Pointer(_p0)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -711,10 +633,7 @@ func Fremovexattr(fd int, attr string) (err error) {
 
 func Fsetxattr(fd int, attr string, dest []byte, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(attr))
 	var _p1 unsafe.Pointer
 	if len(dest) > 0 {
 		_p1 = unsafe.Pointer(&dest[0])
@@ -843,15 +762,9 @@ func Gettid() (tid int) {
 
 func Getxattr(path string, attr string, dest []byte) (sz int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(attr))
 	var _p2 unsafe.Pointer
 	if len(dest) > 0 {
 		_p2 = unsafe.Pointer(&dest[0])
@@ -876,10 +789,7 @@ func InitModule(moduleImage []byte, params string) (err error) {
 		_p0 = unsafe.Pointer(&_zero)
 	}
 	var _p1 *byte
-	_p1, err = BytePtrFromString(params)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(params))
 	_, _, e1 := Syscall(SYS_INIT_MODULE, uintptr(_p0), uintptr(len(moduleImage)), uintptr(unsafe.Pointer(_p1)))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -891,10 +801,7 @@ func InitModule(moduleImage []byte, params string) (err error) {
 
 func InotifyAddWatch(fd int, pathname string, mask uint32) (watchdesc int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(pathname)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(pathname))
 	r0, _, e1 := Syscall(SYS_INOTIFY_ADD_WATCH, uintptr(fd), uintptr(unsafe.Pointer(_p0)), uintptr(mask))
 	watchdesc = int(r0)
 	if e1 != 0 {
@@ -956,15 +863,9 @@ func Klogctl(typ int, buf []byte) (n int, err error) {
 
 func Lgetxattr(path string, attr string, dest []byte) (sz int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(attr))
 	var _p2 unsafe.Pointer
 	if len(dest) > 0 {
 		_p2 = unsafe.Pointer(&dest[0])
@@ -983,10 +884,7 @@ func Lgetxattr(path string, attr string, dest []byte) (sz int, err error) {
 
 func Listxattr(path string, dest []byte) (sz int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 unsafe.Pointer
 	if len(dest) > 0 {
 		_p1 = unsafe.Pointer(&dest[0])
@@ -1005,10 +903,7 @@ func Listxattr(path string, dest []byte) (sz int, err error) {
 
 func Llistxattr(path string, dest []byte) (sz int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 unsafe.Pointer
 	if len(dest) > 0 {
 		_p1 = unsafe.Pointer(&dest[0])
@@ -1027,15 +922,9 @@ func Llistxattr(path string, dest []byte) (sz int, err error) {
 
 func Lremovexattr(path string, attr string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(attr))
 	_, _, e1 := Syscall(SYS_LREMOVEXATTR, uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1047,15 +936,9 @@ func Lremovexattr(path string, attr string) (err error) {
 
 func Lsetxattr(path string, attr string, data []byte, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(attr))
 	var _p2 unsafe.Pointer
 	if len(data) > 0 {
 		_p2 = unsafe.Pointer(&data[0])
@@ -1073,10 +956,7 @@ func Lsetxattr(path string, attr string, data []byte, flags int) (err error) {
 
 func MemfdCreate(name string, flags int) (fd int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(name)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(name))
 	r0, _, e1 := Syscall(SYS_MEMFD_CREATE, uintptr(unsafe.Pointer(_p0)), uintptr(flags), 0)
 	fd = int(r0)
 	if e1 != 0 {
@@ -1089,10 +969,7 @@ func MemfdCreate(name string, flags int) (fd int, err error) {
 
 func Mkdirat(dirfd int, path string, mode uint32) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_MKDIRAT, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(mode))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1104,10 +981,7 @@ func Mkdirat(dirfd int, path string, mode uint32) (err error) {
 
 func Mknodat(dirfd int, path string, mode uint32, dev int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall6(SYS_MKNODAT, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(mode), uintptr(dev), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1140,15 +1014,9 @@ func PerfEventOpen(attr *PerfEventAttr, pid int, cpu int, groupFd int, flags int
 
 func PivotRoot(newroot string, putold string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(newroot)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(newroot))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(putold)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(putold))
 	_, _, e1 := Syscall(SYS_PIVOT_ROOT, uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1208,15 +1076,9 @@ func read(fd int, p []byte) (n int, err error) {
 
 func Removexattr(path string, attr string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(attr))
 	_, _, e1 := Syscall(SYS_REMOVEXATTR, uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1228,15 +1090,9 @@ func Removexattr(path string, attr string) (err error) {
 
 func Renameat2(olddirfd int, oldpath string, newdirfd int, newpath string, flags uint) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(oldpath)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(oldpath))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(newpath)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(newpath))
 	_, _, e1 := Syscall6(SYS_RENAMEAT2, uintptr(olddirfd), uintptr(unsafe.Pointer(_p0)), uintptr(newdirfd), uintptr(unsafe.Pointer(_p1)), uintptr(flags), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1248,20 +1104,11 @@ func Renameat2(olddirfd int, oldpath string, newdirfd int, newpath string, flags
 
 func RequestKey(keyType string, description string, callback string, destRingid int) (id int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(keyType)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(keyType))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(description)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(description))
 	var _p2 *byte
-	_p2, err = BytePtrFromString(callback)
-	if err != nil {
-		return
-	}
+	_p2 = try(BytePtrFromString(callback))
 	r0, _, e1 := Syscall6(SYS_REQUEST_KEY, uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), uintptr(unsafe.Pointer(_p2)), uintptr(destRingid), 0, 0)
 	id = int(r0)
 	if e1 != 0 {
@@ -1357,15 +1204,9 @@ func Setpriority(which int, who int, prio int) (err error) {
 
 func Setxattr(path string, attr string, data []byte, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(attr))
 	var _p2 unsafe.Pointer
 	if len(data) > 0 {
 		_p2 = unsafe.Pointer(&data[0])
@@ -1390,10 +1231,7 @@ func Signalfd(fd int, mask *Sigset_t, flags int) {
 
 func Statx(dirfd int, path string, flags int, mask int, stat *Statx_t) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall6(SYS_STATX, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(flags), uintptr(mask), uintptr(unsafe.Pointer(stat)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1482,10 +1320,7 @@ func Uname(buf *Utsname) (err error) {
 
 func Unmount(target string, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(target)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(target))
 	_, _, e1 := Syscall(SYS_UMOUNT2, uintptr(unsafe.Pointer(_p0)), uintptr(flags), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1666,10 +1501,7 @@ func Munlockall() (err error) {
 
 func faccessat(dirfd int, path string, mode uint32) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_FACCESSAT, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(mode))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1681,10 +1513,7 @@ func faccessat(dirfd int, path string, mode uint32) (err error) {
 
 func nameToHandleAt(dirFD int, pathname string, fh *fileHandle, mountID *_C_int, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(pathname)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(pathname))
 	_, _, e1 := Syscall6(SYS_NAME_TO_HANDLE_AT, uintptr(dirFD), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(fh)), uintptr(unsafe.Pointer(mountID)), uintptr(flags), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1807,10 +1636,7 @@ func Getuid() (uid int) {
 
 func Lchown(path string, uid int, gid int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_LCHOWN, uintptr(unsafe.Pointer(_p0)), uintptr(uid), uintptr(gid))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1866,15 +1692,9 @@ func Pwrite(fd int, p []byte, offset int64) (n int, err error) {
 
 func Renameat(olddirfd int, oldpath string, newdirfd int, newpath string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(oldpath)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(oldpath))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(newpath)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(newpath))
 	_, _, e1 := Syscall6(SYS_RENAMEAT, uintptr(olddirfd), uintptr(unsafe.Pointer(_p0)), uintptr(newdirfd), uintptr(unsafe.Pointer(_p1)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1999,10 +1819,7 @@ func SyncFileRange(fd int, off int64, n int64, flags int) (err error) {
 
 func Truncate(path string, length int64) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall6(SYS_TRUNCATE64, uintptr(unsafe.Pointer(_p0)), 0, uintptr(length), uintptr(length>>32), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2234,10 +2051,7 @@ func Iopl(level int) (err error) {
 
 func futimesat(dirfd int, path string, times *[2]Timeval) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_FUTIMESAT, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(times)))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2270,10 +2084,7 @@ func Time(t *Time_t) (tt Time_t, err error) {
 
 func Utime(path string, buf *Utimbuf) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_UTIME, uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(buf)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2285,10 +2096,7 @@ func Utime(path string, buf *Utimbuf) (err error) {
 
 func utimes(path string, times *[2]Timeval) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_UTIMES, uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(times)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2300,10 +2108,7 @@ func utimes(path string, times *[2]Timeval) (err error) {
 
 func Lstat(path string, stat *Stat_t) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_LSTAT64, uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(stat)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2325,10 +2130,7 @@ func Fstat(fd int, stat *Stat_t) (err error) {
 
 func Fstatat(dirfd int, path string, stat *Stat_t, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall6(SYS_FSTATAT64, uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(stat)), uintptr(flags), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2340,10 +2142,7 @@ func Fstatat(dirfd int, path string, stat *Stat_t, flags int) (err error) {
 
 func Stat(path string, stat *Stat_t) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := Syscall(SYS_STAT64, uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(stat)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)

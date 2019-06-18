@@ -53,10 +53,7 @@ type Message struct {
 func ReadMessage(r io.Reader) (msg *Message, err error) {
 	tp := textproto.NewReader(bufio.NewReader(r))
 
-	hdr, err := tp.ReadMIMEHeader()
-	if err != nil {
-		return nil, err
-	}
+	hdr := try(tp.ReadMIMEHeader())
 
 	return &Message{
 		Header: Header(hdr),
@@ -271,10 +268,7 @@ func (p *addrParser) parseAddressList() ([]*Address, error) {
 }
 
 func (p *addrParser) parseSingleAddress() (*Address, error) {
-	addrs, err := p.parseAddress(true)
-	if err != nil {
-		return nil, err
-	}
+	addrs := try(p.parseAddress(true))
 	if !p.skipCFWS() {
 		return nil, errors.New("mail: misformatted parenthetical comment")
 	}
@@ -359,10 +353,7 @@ func (p *addrParser) parseAddress(handleGroup bool) ([]*Address, error) {
 		// likely meant to be "Full Name <...>".
 		return nil, errors.New("mail: no angle-addr")
 	}
-	spec, err = p.consumeAddrSpec()
-	if err != nil {
-		return nil, err
-	}
+	spec = try(p.consumeAddrSpec())
 	if !p.consume('>') {
 		return nil, errors.New("mail: unclosed angle-addr")
 	}
@@ -451,10 +442,7 @@ func (p *addrParser) consumeAddrSpec() (spec string, err error) {
 		return "", errors.New("mail: no domain in addr-spec")
 	}
 	// TODO(dsymonds): Handle domain-literal
-	domain, err = p.consumeAtom(true, false)
-	if err != nil {
-		return "", err
-	}
+	domain = try(p.consumeAtom(true, false))
 
 	return localPart + "@" + domain, nil
 }

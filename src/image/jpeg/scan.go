@@ -55,9 +55,7 @@ func (d *decoder) processSOS(n int) error {
 	if n < 6 || 4+2*d.nComp < n || n%2 != 0 {
 		return FormatError("SOS has wrong length")
 	}
-	if err := d.readFull(d.tmp[:n]); err != nil {
-		return err
-	}
+	try(d.readFull(d.tmp[:n]))
 	nComp := int(d.tmp[0])
 	if n != 4+2*nComp {
 		return FormatError("SOS length inconsistent with number of components")

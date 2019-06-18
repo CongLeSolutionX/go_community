@@ -16,10 +16,7 @@ import (
 // socket returns a network file descriptor that is ready for
 // asynchronous I/O using the network poller.
 func socket(ctx context.Context, net string, family, sotype, proto int, ipv6only bool, laddr, raddr sockaddr, ctrlFn func(string, string, syscall.RawConn) error) (fd *netFD, err error) {
-	s, err := sysSocket(family, sotype, proto)
-	if err != nil {
-		return nil, err
-	}
+	s := try(sysSocket(family, sotype, proto))
 	if err = setDefaultSockopts(s, family, sotype, ipv6only); err != nil {
 		poll.CloseFunc(s)
 		return nil, err
@@ -174,13 +171,9 @@ func (fd *netFD) dial(ctx context.Context, laddr, raddr sockaddr, ctrlFn func(st
 
 func (fd *netFD) listenStream(laddr sockaddr, backlog int, ctrlFn func(string, string, syscall.RawConn) error) error {
 	var err error
-	if err = setDefaultListenerSockopts(fd.pfd.Sysfd); err != nil {
-		return err
-	}
+	try(setDefaultListenerSockopts(fd.pfd.Sysfd))
 	var lsa syscall.Sockaddr
-	if lsa, err = laddr.sockaddr(fd.family); err != nil {
-		return err
-	}
+	lsa = try(laddr.sockaddr(fd.family))
 	if ctrlFn != nil {
 		c, err := newRawConn(fd)
 		if err != nil {
@@ -196,9 +189,7 @@ func (fd *netFD) listenStream(laddr sockaddr, backlog int, ctrlFn func(string, s
 	if err = listenFunc(fd.pfd.Sysfd, backlog); err != nil {
 		return os.NewSyscallError("listen", err)
 	}
-	if err = fd.init(); err != nil {
-		return err
-	}
+	try(fd.init())
 	lsa, _ = syscall.Getsockname(fd.pfd.Sysfd)
 	fd.setAddr(fd.addrFunc()(lsa), nil)
 	return nil
@@ -230,9 +221,7 @@ func (fd *netFD) listenDatagram(laddr sockaddr, ctrlFn func(string, string, sysc
 	}
 	var err error
 	var lsa syscall.Sockaddr
-	if lsa, err = laddr.sockaddr(fd.family); err != nil {
-		return err
-	}
+	lsa = try(laddr.sockaddr(fd.family))
 	if ctrlFn != nil {
 		c, err := newRawConn(fd)
 		if err != nil {
@@ -245,9 +234,7 @@ func (fd *netFD) listenDatagram(laddr sockaddr, ctrlFn func(string, string, sysc
 	if err = syscall.Bind(fd.pfd.Sysfd, lsa); err != nil {
 		return os.NewSyscallError("bind", err)
 	}
-	if err = fd.init(); err != nil {
-		return err
-	}
+	try(fd.init())
 	lsa, _ = syscall.Getsockname(fd.pfd.Sysfd)
 	fd.setAddr(fd.addrFunc()(lsa), nil)
 	return nil

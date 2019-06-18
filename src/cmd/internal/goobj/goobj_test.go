@@ -46,14 +46,8 @@ func TestMain(m *testing.M) {
 }
 
 func copyDir(dst, src string) error {
-	err := os.MkdirAll(dst, 0777)
-	if err != nil {
-		return err
-	}
-	fis, err := ioutil.ReadDir(src)
-	if err != nil {
-		return err
-	}
+	try(os.MkdirAll(dst, 0777))
+	fis := try(ioutil.ReadDir(src))
 	for _, fi := range fis {
 		err = copyFile(filepath.Join(dst, fi.Name()), filepath.Join(src, fi.Name()))
 		if err != nil {
@@ -65,44 +59,29 @@ func copyDir(dst, src string) error {
 
 func copyFile(dst, src string) (err error) {
 	var s, d *os.File
-	s, err = os.Open(src)
-	if err != nil {
-		return err
-	}
+	s = try(os.Open(src))
 	defer s.Close()
-	d, err = os.Create(dst)
-	if err != nil {
-		return err
-	}
+	d = try(os.Create(dst))
 	defer func() {
 		e := d.Close()
 		if err == nil {
 			err = e
 		}
 	}()
-	_, err = io.Copy(d, s)
-	if err != nil {
-		return err
-	}
+	try(io.Copy(d, s))
 	return nil
 }
 
 func buildGoobj() error {
 	var err error
 
-	buildDir, err = ioutil.TempDir("", "TestGoobj")
-	if err != nil {
-		return err
-	}
+	buildDir = try(ioutil.TempDir("", "TestGoobj"))
 
 	go1obj = filepath.Join(buildDir, "go1.o")
 	go2obj = filepath.Join(buildDir, "go2.o")
 	goarchive = filepath.Join(buildDir, "go.a")
 
-	gotool, err := testenv.GoTool()
-	if err != nil {
-		return err
-	}
+	gotool := try(testenv.GoTool())
 
 	go1src := filepath.Join("testdata", "go1.go")
 	go2src := filepath.Join("testdata", "go2.go")

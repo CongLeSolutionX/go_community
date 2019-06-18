@@ -128,9 +128,7 @@ func parseGoCount(b []byte) (*Profile, error) {
 		})
 	}
 
-	if err = parseAdditionalSections(strings.TrimSpace(line), r, p); err != nil {
-		return nil, err
-	}
+	try(parseAdditionalSections(strings.TrimSpace(line), r, p))
 	return p, nil
 }
 
@@ -315,9 +313,7 @@ func ParseTracebacks(b []byte) (*Profile, error) {
 		addTracebackSample(sloc, sources, p)
 	}
 
-	if err := p.ParseMemoryMap(r); err != nil {
-		return nil, err
-	}
+	try(p.ParseMemoryMap(r))
 	return p, nil
 }
 
@@ -373,9 +369,7 @@ func cpuProfile(b []byte, period int64, parse func(b []byte) (uint64, []byte)) (
 		},
 	}
 	var err error
-	if b, _, err = parseCPUSamples(b, parse, true, p); err != nil {
-		return nil, err
-	}
+	b, _ = try(parseCPUSamples(b, parse, true, p))
 
 	// If all samples have the same second-to-the-bottom frame, it
 	// strongly suggests that it is an uninteresting artifact of
@@ -399,9 +393,7 @@ func cpuProfile(b []byte, period int64, parse func(b []byte) (uint64, []byte)) (
 		}
 	}
 
-	if err := p.ParseMemoryMap(bytes.NewBuffer(b)); err != nil {
-		return nil, err
-	}
+	try(p.ParseMemoryMap(bytes.NewBuffer(b)))
 	return p, nil
 }
 
@@ -584,9 +576,7 @@ func parseHeap(b []byte) (p *Profile, err error) {
 		})
 	}
 
-	if err = parseAdditionalSections(l, r, p); err != nil {
-		return nil, err
-	}
+	try(parseAdditionalSections(l, r, p))
 	return p, nil
 }
 
@@ -824,9 +814,7 @@ func parseCppContention(r *bytes.Buffer) (*Profile, error) {
 		}
 	}
 
-	if err = parseAdditionalSections(l, r, p); err != nil {
-		return nil, err
-	}
+	try(parseAdditionalSections(l, r, p))
 
 	return p, nil
 }
@@ -956,9 +944,7 @@ func parseThread(b []byte) (*Profile, error) {
 		})
 	}
 
-	if err = parseAdditionalSections(line, r, p); err != nil {
-		return nil, err
-	}
+	try(parseAdditionalSections(line, r, p))
 
 	return p, nil
 }

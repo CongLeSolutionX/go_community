@@ -39,9 +39,7 @@ type PKCS1v15DecryptOptions struct {
 func EncryptPKCS1v15(rand io.Reader, pub *PublicKey, msg []byte) ([]byte, error) {
 	randutil.MaybeReadByte(rand)
 
-	if err := checkPub(pub); err != nil {
-		return nil, err
-	}
+	try(checkPub(pub))
 	k := pub.Size()
 	if len(msg) > k-11 {
 		return nil, ErrMessageTooLong
@@ -51,10 +49,7 @@ func EncryptPKCS1v15(rand io.Reader, pub *PublicKey, msg []byte) ([]byte, error)
 	em := make([]byte, k)
 	em[1] = 2
 	ps, mm := em[2:len(em)-len(msg)-1], em[len(em)-len(msg):]
-	err := nonZeroRandomBytes(ps, rand)
-	if err != nil {
-		return nil, err
-	}
+	try(nonZeroRandomBytes(ps, rand))
 	em[len(em)-len(msg)-1] = 0
 	copy(mm, msg)
 
@@ -74,13 +69,8 @@ func EncryptPKCS1v15(rand io.Reader, pub *PublicKey, msg []byte) ([]byte, error)
 // forge signatures as if they had the private key. See
 // DecryptPKCS1v15SessionKey for a way of solving this problem.
 func DecryptPKCS1v15(rand io.Reader, priv *PrivateKey, ciphertext []byte) ([]byte, error) {
-	if err := checkPub(&priv.PublicKey); err != nil {
-		return nil, err
-	}
-	valid, out, index, err := decryptPKCS1v15(rand, priv, ciphertext)
-	if err != nil {
-		return nil, err
-	}
+	try(checkPub(&priv.PublicKey))
+	valid, out, index := try(decryptPKCS1v15(rand, priv, ciphertext))
 	if valid == 0 {
 		return nil, ErrDecryption
 	}
@@ -107,18 +97,13 @@ func DecryptPKCS1v15(rand io.Reader, priv *PrivateKey, ciphertext []byte) ([]byt
 // and thus whether the padding was correct. This defeats the point of this
 // function. Using at least a 16-byte key will protect against this attack.
 func DecryptPKCS1v15SessionKey(rand io.Reader, priv *PrivateKey, ciphertext []byte, key []byte) error {
-	if err := checkPub(&priv.PublicKey); err != nil {
-		return err
-	}
+	try(checkPub(&priv.PublicKey))
 	k := priv.Size()
 	if k-(len(key)+3+8) < 0 {
 		return ErrDecryption
 	}
 
-	valid, em, index, err := decryptPKCS1v15(rand, priv, ciphertext)
-	if err != nil {
-		return err
-	}
+	valid, em, index := try(decryptPKCS1v15(rand, priv, ciphertext))
 
 	if len(em) != k {
 		// This should be impossible because decryptPKCS1v15 always
@@ -145,10 +130,7 @@ func decryptPKCS1v15(rand io.Reader, priv *PrivateKey, ciphertext []byte) (valid
 	}
 
 	c := new(big.Int).SetBytes(ciphertext)
-	m, err := decrypt(rand, priv, c)
-	if err != nil {
-		return
-	}
+	m := try(decrypt(rand, priv, c))
 
 	em = leftPad(m.Bytes(), k)
 	firstByteIsZero := subtle.ConstantTimeByteEq(em[0], 0)
@@ -177,10 +159,7 @@ func decryptPKCS1v15(rand io.Reader, priv *PrivateKey, ciphertext []byte) (valid
 
 // nonZeroRandomBytes fills the given slice with non-zero random octets.
 func nonZeroRandomBytes(s []byte, rand io.Reader) (err error) {
-	_, err = io.ReadFull(rand, s)
-	if err != nil {
-		return
-	}
+	try(io.ReadFull(rand, s))
 
 	for i := 0; i < len(s); i++ {
 		for s[i] == 0 {
@@ -230,10 +209,7 @@ var hashPrefixes = map[crypto.Hash][]byte{
 // messages to signatures and identify the signed messages. As ever,
 // signatures provide authenticity, not confidentiality.
 func SignPKCS1v15(rand io.Reader, priv *PrivateKey, hash crypto.Hash, hashed []byte) ([]byte, error) {
-	hashLen, prefix, err := pkcs1v15HashInfo(hash, len(hashed))
-	if err != nil {
-		return nil, err
-	}
+	hashLen, prefix := try(pkcs1v15HashInfo(hash, len(hashed)))
 
 	tLen := len(prefix) + hashLen
 	k := priv.Size()
@@ -251,10 +227,7 @@ func SignPKCS1v15(rand io.Reader, priv *PrivateKey, hash crypto.Hash, hashed []b
 	copy(em[k-hashLen:k], hashed)
 
 	m := new(big.Int).SetBytes(em)
-	c, err := decryptAndCheck(rand, priv, m)
-	if err != nil {
-		return nil, err
-	}
+	c := try(decryptAndCheck(rand, priv, m))
 
 	copyWithLeftPad(em, c.Bytes())
 	return em, nil
@@ -266,10 +239,7 @@ func SignPKCS1v15(rand io.Reader, priv *PrivateKey, hash crypto.Hash, hashed []b
 // returning a nil error. If hash is zero then hashed is used directly. This
 // isn't advisable except for interoperability.
 func VerifyPKCS1v15(pub *PublicKey, hash crypto.Hash, hashed []byte, sig []byte) error {
-	hashLen, prefix, err := pkcs1v15HashInfo(hash, len(hashed))
-	if err != nil {
-		return err
-	}
+	hashLen, prefix := try(pkcs1v15HashInfo(hash, len(hashed)))
 
 	tLen := len(prefix) + hashLen
 	k := pub.Size()

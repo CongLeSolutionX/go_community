@@ -4662,16 +4662,10 @@ func TestBuildTagsNoComma(t *testing.T) {
 }
 
 func copyFile(src, dst string, perm os.FileMode) error {
-	sf, err := os.Open(src)
-	if err != nil {
-		return err
-	}
+	sf := try(os.Open(src))
 	defer sf.Close()
 
-	df, err := os.OpenFile(dst, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, perm)
-	if err != nil {
-		return err
-	}
+	df := try(os.OpenFile(dst, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, perm))
 
 	_, err = io.Copy(df, sf)
 	err2 := df.Close()

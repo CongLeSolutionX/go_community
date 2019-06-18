@@ -453,9 +453,7 @@ func (b *Builder) build(a *Action) (err error) {
 		return errors.New("binary-only packages are no longer supported")
 	}
 
-	if err := b.Mkdir(a.Objdir); err != nil {
-		return err
-	}
+	try(b.Mkdir(a.Objdir))
 	objdir := a.Objdir
 
 	// Load cached cgo header, but only if we're skipping the main build (cachedBuild==true).
@@ -635,10 +633,7 @@ func (b *Builder) build(a *Action) (err error) {
 	}
 
 	// Collect symbol ABI requirements from assembly.
-	symabis, err := BuildToolchain.symabis(b, a, sfiles)
-	if err != nil {
-		return err
-	}
+	symabis := try(BuildToolchain.symabis(b, a, sfiles))
 
 	// Prepare Go import config.
 	// We start it off with a comment so it can't be empty, so icfg.Bytes() below is never nil.
@@ -776,37 +771,26 @@ func (b *Builder) build(a *Action) (err error) {
 		}
 	}
 
-	if err := b.updateBuildID(a, objpkg, true); err != nil {
-		return err
-	}
+	try(b.updateBuildID(a, objpkg, true))
 
 	a.built = objpkg
 	return nil
 }
 
 func (b *Builder) cacheObjdirFile(a *Action, c *cache.Cache, name string) error {
-	f, err := os.Open(a.Objdir + name)
-	if err != nil {
-		return err
-	}
+	f := try(os.Open(a.Objdir + name))
 	defer f.Close()
 	_, _, err = c.Put(cache.Subkey(a.actionID, name), f)
 	return err
 }
 
 func (b *Builder) findCachedObjdirFile(a *Action, c *cache.Cache, name string) (string, error) {
-	file, _, err := c.GetFile(cache.Subkey(a.actionID, name))
-	if err != nil {
-		return "", err
-	}
+	file, _ := try(c.GetFile(cache.Subkey(a.actionID, name)))
 	return file, nil
 }
 
 func (b *Builder) loadCachedObjdirFile(a *Action, c *cache.Cache, name string) error {
-	cached, err := b.findCachedObjdirFile(a, c, name)
-	if err != nil {
-		return err
-	}
+	cached := try(b.findCachedObjdirFile(a, c, name))
 	return b.copyFile(a.Objdir+name, cached, 0666, true)
 }
 
@@ -1081,9 +1065,7 @@ func (b *Builder) vet(a *Action) error {
 		return fmt.Errorf("internal error marshaling vet config: %v", err)
 	}
 	js = append(js, '\n')
-	if err := b.writeFile(a.Objdir+"vet.cfg", js); err != nil {
-		return err
-	}
+	try(b.writeFile(a.Objdir+"vet.cfg", js))
 
 	env := b.cCompilerEnv()
 	if cfg.BuildToolchainName == "gccgo" {
@@ -1195,14 +1177,10 @@ func (b *Builder) link(a *Action) (err error) {
 	}
 	defer b.flushOutput(a)
 
-	if err := b.Mkdir(a.Objdir); err != nil {
-		return err
-	}
+	try(b.Mkdir(a.Objdir))
 
 	importcfg := a.Objdir + "importcfg.link"
-	if err := b.writeLinkImportcfg(a, importcfg); err != nil {
-		return err
-	}
+	try(b.writeLinkImportcfg(a, importcfg))
 
 	// make target directory
 	dir, _ := filepath.Split(a.Target)
@@ -1212,9 +1190,7 @@ func (b *Builder) link(a *Action) (err error) {
 		}
 	}
 
-	if err := BuildToolchain.ld(b, a, a.Target, importcfg, a.Deps[0].built); err != nil {
-		return err
-	}
+	try(BuildToolchain.ld(b, a, a.Target, importcfg, a.Deps[0].built))
 
 	// Update the binary with the final build ID.
 	// But if OmitDebug is set, don't rewrite the binary, because we set OmitDebug
@@ -1232,9 +1208,7 @@ func (b *Builder) link(a *Action) (err error) {
 	// need again. (On the other hand it does make repeated go test slower.)
 	// It also makes repeated go run slower, which is a win in itself:
 	// we don't want people to treat go run like a scripting environment.
-	if err := b.updateBuildID(a, a.Target, !a.Package.Internal.OmitDebug); err != nil {
-		return err
-	}
+	try(b.updateBuildID(a, a.Target, !a.Package.Internal.OmitDebug))
 
 	a.built = a.Target
 	return nil
@@ -1380,10 +1354,7 @@ func (b *Builder) getPkgConfigFlags(p *load.Package) (cflags, ldflags []string, 
 func (b *Builder) installShlibname(a *Action) error {
 	// TODO: BuildN
 	a1 := a.Deps[0]
-	err := ioutil.WriteFile(a.Target, []byte(filepath.Base(a1.Target)+"\n"), 0666)
-	if err != nil {
-		return err
-	}
+	try(ioutil.WriteFile(a.Target, []byte(filepath.Base(a1.Target)+"\n"), 0666))
 	if cfg.BuildX {
 		b.Showcmd("", "echo '%s' > %s # internal", filepath.Base(a1.Target), a.Target)
 	}
@@ -1428,14 +1399,10 @@ func (b *Builder) linkShared(a *Action) (err error) {
 	}
 	defer b.flushOutput(a)
 
-	if err := b.Mkdir(a.Objdir); err != nil {
-		return err
-	}
+	try(b.Mkdir(a.Objdir))
 
 	importcfg := a.Objdir + "importcfg.link"
-	if err := b.writeLinkImportcfg(a, importcfg); err != nil {
-		return err
-	}
+	try(b.writeLinkImportcfg(a, importcfg))
 
 	// TODO(rsc): There is a missing updateBuildID here,
 	// but we have to decide where to store the build ID in these files.
@@ -1506,9 +1473,7 @@ func BuildInstallFunc(b *Builder, a *Action) (err error) {
 		return nil
 	}
 
-	if err := b.Mkdir(a.Objdir); err != nil {
-		return err
-	}
+	try(b.Mkdir(a.Objdir))
 
 	perm := os.FileMode(0666)
 	if a1.Mode == "link" {
@@ -1621,10 +1586,7 @@ func (b *Builder) copyFile(dst, src string, perm os.FileMode, force bool) error 
 		}
 	}
 
-	sf, err := os.Open(src)
-	if err != nil {
-		return err
-	}
+	sf := try(os.Open(src))
 	defer sf.Close()
 
 	// Be careful about removing/overwriting dst.
@@ -2009,9 +1971,7 @@ func (b *Builder) Mkdir(dir string) error {
 		}
 	}
 
-	if err := os.MkdirAll(dir, 0777); err != nil {
-		return err
-	}
+	try(os.MkdirAll(dir, 0777))
 	return nil
 }
 
@@ -2441,29 +2401,17 @@ func envList(key, def string) []string {
 func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, ldflags []string, err error) {
 	defaults := "-g -O2"
 
-	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
-		return
-	}
-	if cflags, err = buildFlags("CFLAGS", defaults, p.CgoCFLAGS, checkCompilerFlags); err != nil {
-		return
-	}
-	if cxxflags, err = buildFlags("CXXFLAGS", defaults, p.CgoCXXFLAGS, checkCompilerFlags); err != nil {
-		return
-	}
-	if fflags, err = buildFlags("FFLAGS", defaults, p.CgoFFLAGS, checkCompilerFlags); err != nil {
-		return
-	}
-	if ldflags, err = buildFlags("LDFLAGS", defaults, p.CgoLDFLAGS, checkLinkerFlags); err != nil {
-		return
-	}
+	cppflags = try(buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags))
+	cflags = try(buildFlags("CFLAGS", defaults, p.CgoCFLAGS, checkCompilerFlags))
+	cxxflags = try(buildFlags("CXXFLAGS", defaults, p.CgoCXXFLAGS, checkCompilerFlags))
+	fflags = try(buildFlags("FFLAGS", defaults, p.CgoFFLAGS, checkCompilerFlags))
+	ldflags = try(buildFlags("LDFLAGS", defaults, p.CgoLDFLAGS, checkLinkerFlags))
 
 	return
 }
 
 func buildFlags(name, defaults string, fromPackage []string, check func(string, string, []string) error) ([]string, error) {
-	if err := check(name, "#cgo "+name, fromPackage); err != nil {
-		return nil, err
-	}
+	try(check(name, "#cgo "+name, fromPackage))
 	return str.StringList(envList("CGO_"+name, defaults), fromPackage), nil
 }
 
@@ -2471,10 +2419,7 @@ var cgoRe = lazyregexp.New(`[/\\:]`)
 
 func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, gxxfiles, mfiles, ffiles []string) (outGo, outObj []string, err error) {
 	p := a.Package
-	cgoCPPFLAGS, cgoCFLAGS, cgoCXXFLAGS, cgoFFLAGS, cgoLDFLAGS, err := b.CFlags(p)
-	if err != nil {
-		return nil, nil, err
-	}
+	cgoCPPFLAGS, cgoCFLAGS, cgoCXXFLAGS, cgoFFLAGS, cgoLDFLAGS := try(b.CFlags(p))
 
 	cgoCPPFLAGS = append(cgoCPPFLAGS, pcCFLAGS...)
 	cgoLDFLAGS = append(cgoLDFLAGS, pcLDFLAGS...)
@@ -2559,9 +2504,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 		cgoflags = append(cgoflags, "-exportheader="+objdir+"_cgo_install.h")
 	}
 
-	if err := b.run(a, p.Dir, p.ImportPath, cgoenv, cfg.BuildToolexec, cgoExe, "-objdir", objdir, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles); err != nil {
-		return nil, nil, err
-	}
+	try(b.run(a, p.Dir, p.ImportPath, cgoenv, cfg.BuildToolexec, cgoExe, "-objdir", objdir, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles))
 	outGo = append(outGo, gofiles...)
 
 	// Use sequential object file names to keep them distinct
@@ -2649,9 +2592,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 func (b *Builder) dynimport(a *Action, p *load.Package, objdir, importGo, cgoExe string, cflags, cgoLDFLAGS, outObj []string) error {
 	cfile := objdir + "_cgo_main.c"
 	ofile := objdir + "_cgo_main.o"
-	if err := b.gcc(a, p, objdir, ofile, cflags, cfile); err != nil {
-		return err
-	}
+	try(b.gcc(a, p, objdir, ofile, cflags, cfile))
 
 	linkobj := str.StringList(ofile, outObj, p.SysoFiles)
 	dynobj := objdir + "_cgo_.o"
@@ -2669,9 +2610,7 @@ func (b *Builder) dynimport(a *Action, p *load.Package, objdir, importGo, cgoExe
 		}
 		ldflags = append(n, "-pie")
 	}
-	if err := b.gccld(a, p, objdir, dynobj, ldflags, linkobj); err != nil {
-		return err
-	}
+	try(b.gccld(a, p, objdir, dynobj, ldflags, linkobj))
 
 	// cgo -dynimport
 	var cgoflags []string
@@ -2685,14 +2624,9 @@ func (b *Builder) dynimport(a *Action, p *load.Package, objdir, importGo, cgoExe
 // TODO: Don't build a shared library, once SWIG emits the necessary
 // pragmas for external linking.
 func (b *Builder) swig(a *Action, p *load.Package, objdir string, pcCFLAGS []string) (outGo, outC, outCXX []string, err error) {
-	if err := b.swigVersionCheck(); err != nil {
-		return nil, nil, nil, err
-	}
+	try(b.swigVersionCheck())
 
-	intgosize, err := b.swigIntSize(objdir)
-	if err != nil {
-		return nil, nil, nil, err
-	}
+	intgosize := try(b.swigIntSize(objdir))
 
 	for _, f := range p.SwigFiles {
 		goFile, cFile, err := b.swigOne(a, p, f, objdir, pcCFLAGS, false, intgosize)
@@ -2728,10 +2662,7 @@ var (
 )
 
 func (b *Builder) swigDoVersionCheck() error {
-	out, err := b.runOut(nil, "", nil, "swig", "-version")
-	if err != nil {
-		return err
-	}
+	out := try(b.runOut(nil, "", nil, "swig", "-version"))
 	re := regexp.MustCompile(`[vV]ersion +([\d]+)([.][\d]+)?([.][\d]+)?`)
 	matches := re.FindSubmatch(out)
 	if matches == nil {
@@ -2807,9 +2738,7 @@ func (b *Builder) swigDoIntSize(objdir string) (intsize string, err error) {
 		return "$INTBITS", nil
 	}
 	src := filepath.Join(b.WorkDir, "swig_intsize.go")
-	if err = ioutil.WriteFile(src, []byte(swigIntSizeCode), 0666); err != nil {
-		return
-	}
+	try(ioutil.WriteFile(src, []byte(swigIntSizeCode), 0666))
 	srcs := []string{src}
 
 	p := load.GoFilesPackage(srcs)
@@ -2831,10 +2760,7 @@ func (b *Builder) swigIntSize(objdir string) (intsize string, err error) {
 
 // Run SWIG on one SWIG input file.
 func (b *Builder) swigOne(a *Action, p *load.Package, file, objdir string, pcCFLAGS []string, cxx bool, intgosize string) (outGo, outC string, err error) {
-	cgoCPPFLAGS, cgoCFLAGS, cgoCXXFLAGS, _, _, err := b.CFlags(p)
-	if err != nil {
-		return "", "", err
-	}
+	cgoCPPFLAGS, cgoCFLAGS, cgoCXXFLAGS, _, _ := try(b.CFlags(p))
 
 	var cflags []string
 	if cxx {
@@ -2908,9 +2834,7 @@ func (b *Builder) swigOne(a *Action, p *load.Package, file, objdir string, pcCFL
 	// going to compile.
 	goFile = objdir + goFile
 	newGoFile := objdir + "_" + base + "_swig.go"
-	if err := os.Rename(goFile, newGoFile); err != nil {
-		return "", "", err
-	}
+	try(os.Rename(goFile, newGoFile))
 	return newGoFile, objdir + gccBase + gccExt, nil
 }
 

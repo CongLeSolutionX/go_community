@@ -13,9 +13,7 @@ func SendFile(fd *FD, src syscall.Handle, n int64) (int64, error) {
 		return 0, syscall.ESPIPE
 	}
 
-	if err := fd.writeLock(); err != nil {
-		return 0, err
-	}
+	try(fd.writeLock())
 	defer fd.writeUnlock()
 
 	o := &fd.wop
@@ -23,10 +21,7 @@ func SendFile(fd *FD, src syscall.Handle, n int64) (int64, error) {
 	o.handle = src
 
 	// TODO(brainman): skip calling syscall.Seek if OS allows it
-	curpos, err := syscall.Seek(o.handle, 0, 1)
-	if err != nil {
-		return 0, err
-	}
+	curpos := try(syscall.Seek(o.handle, 0, 1))
 
 	o.o.Offset = uint32(curpos)
 	o.o.OffsetHigh = uint32(curpos >> 32)

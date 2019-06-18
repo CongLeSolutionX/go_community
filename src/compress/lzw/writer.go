@@ -217,9 +217,7 @@ func (e *encoder) Close() error {
 	}
 	// Write the eof code.
 	eof := uint32(1)<<e.litWidth + 1
-	if err := e.write(e, eof); err != nil {
-		return err
-	}
+	try(e.write(e, eof))
 	// Write the final bits.
 	if e.nBits > 0 {
 		if e.order == MSB {

@@ -35,10 +35,7 @@ func getcwd() (string, error) {
 	// after an unshare since os.Getwd might just check the
 	// environment, or use some other mechanism.
 	var buf [4096]byte
-	n, err := syscall.Getcwd(buf[:])
-	if err != nil {
-		return "", err
-	}
+	n := try(syscall.Getcwd(buf[:]))
 	// Subtract one for null terminator.
 	return string(buf[:n-1]), nil
 }

@@ -145,9 +145,7 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 			d = -1 // don't confuse deadline right now with no deadline
 		}
 	}
-	if err := fd.incref(); err != nil {
-		return err
-	}
+	try(fd.incref())
 	defer fd.decref()
 	if fd.pd.runtimeCtx == 0 {
 		return ErrNoDeadline

@@ -20,15 +20,10 @@ var (
 // without introducing a dependency on debug/elf and its dependencies.
 func elfBuildID(file string) (string, error) {
 	buf := make([]byte, 256)
-	f, err := os.Open(file)
-	if err != nil {
-		return "", err
-	}
+	f := try(os.Open(file))
 	defer f.Close()
 
-	if _, err := f.ReadAt(buf[:64], 0); err != nil {
-		return "", err
-	}
+	try(f.ReadAt(buf[:64], 0))
 
 	// ELF file begins with \x7F E L F.
 	if buf[0] != 0x7F || buf[1] != 'E' || buf[2] != 'L' || buf[3] != 'F' {

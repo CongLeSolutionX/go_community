@@ -194,10 +194,7 @@ func (e *FormatError) Error() string {
 
 // Open opens the named file using os.Open and prepares it for use as an ELF binary.
 func Open(name string) (*File, error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(name))
 	ff, err := NewFile(f)
 	if err != nil {
 		f.Close()
@@ -236,9 +233,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	sr := io.NewSectionReader(r, 0, 1<<63-1)
 	// Read and decode ELF identifier
 	var ident [16]uint8
-	if _, err := r.ReadAt(ident[0:], 0); err != nil {
-		return nil, err
-	}
+	try(r.ReadAt(ident[0:], 0))
 	if ident[0] != '\x7f' || ident[1] != 'E' || ident[2] != 'L' || ident[3] != 'F' {
 		return nil, &FormatError{0, "bad magic number", ident[0:4]}
 	}
@@ -448,10 +443,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	}
 
 	// Load section header string table.
-	shstrtab, err := f.Sections[shstrndx].Data()
-	if err != nil {
-		return nil, err
-	}
+	shstrtab := try(f.Sections[shstrndx].Data())
 	for i, s := range f.Sections {
 		var ok bool
 		s.Name, ok = getString(shstrtab, int(names[i]))
@@ -629,10 +621,7 @@ func (f *File) applyRelocationsAMD64(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 24")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rela Rela64
@@ -678,10 +667,7 @@ func (f *File) applyRelocations386(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 8")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rel Rel32
@@ -715,10 +701,7 @@ func (f *File) applyRelocationsARM(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 8")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rel Rel32
@@ -753,10 +736,7 @@ func (f *File) applyRelocationsARM64(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 24")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rela Rela64
@@ -802,10 +782,7 @@ func (f *File) applyRelocationsPPC(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 12")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rela Rela32
@@ -842,10 +819,7 @@ func (f *File) applyRelocationsPPC64(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 24")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rela Rela64
@@ -887,10 +861,7 @@ func (f *File) applyRelocationsMIPS(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 8")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rel Rel32
@@ -925,10 +896,7 @@ func (f *File) applyRelocationsMIPS64(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 24")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rela Rela64
@@ -977,10 +945,7 @@ func (f *File) applyRelocationsRISCV64(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 24")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rela Rela64
@@ -1026,10 +991,7 @@ func (f *File) applyRelocationss390x(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 24")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rela Rela64
@@ -1075,10 +1037,7 @@ func (f *File) applyRelocationsSPARC64(dst []byte, rels []byte) error {
 		return errors.New("length of relocation section is not a multiple of 24")
 	}
 
-	symbols, _, err := f.getSymbols(SHT_SYMTAB)
-	if err != nil {
-		return err
-	}
+	symbols, _ := try(f.getSymbols(SHT_SYMTAB))
 
 	b := bytes.NewReader(rels)
 	var rela Rela64
@@ -1188,10 +1147,7 @@ func (f *File) DWARF() (*dwarf.Data, error) {
 		dat[suffix] = b
 	}
 
-	d, err := dwarf.New(dat["abbrev"], nil, nil, dat["info"], dat["line"], nil, dat["ranges"], dat["str"])
-	if err != nil {
-		return nil, err
-	}
+	d := try(dwarf.New(dat["abbrev"], nil, nil, dat["info"], dat["line"], nil, dat["ranges"], dat["str"]))
 
 	// Look for DWARF4 .debug_types sections.
 	for i, s := range f.Sections {
@@ -1247,10 +1203,7 @@ type ImportedSymbol struct {
 // satisfied by other libraries at dynamic load time.
 // It does not return weak symbols.
 func (f *File) ImportedSymbols() ([]ImportedSymbol, error) {
-	sym, str, err := f.getSymbols(SHT_DYNSYM)
-	if err != nil {
-		return nil, err
-	}
+	sym, str := try(f.getSymbols(SHT_DYNSYM))
 	f.gnuVersionInit(str)
 	var all []ImportedSymbol
 	for i, s := range sym {
@@ -1376,14 +1329,8 @@ func (f *File) DynString(tag DynTag) ([]string, error) {
 		// not dynamic, so no libraries
 		return nil, nil
 	}
-	d, err := ds.Data()
-	if err != nil {
-		return nil, err
-	}
-	str, err := f.stringTable(ds.Link)
-	if err != nil {
-		return nil, err
-	}
+	d := try(ds.Data())
+	str := try(f.stringTable(ds.Link))
 	var all []string
 	for len(d) > 0 {
 		var t DynTag

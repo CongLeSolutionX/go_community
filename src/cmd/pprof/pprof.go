@@ -59,10 +59,7 @@ func (f *fetcher) Fetch(src string, duration, timeout time.Duration) (*profile.P
 }
 
 func getProfile(source string, timeout time.Duration) (*profile.Profile, error) {
-	url, err := url.Parse(source)
-	if err != nil {
-		return nil, err
-	}
+	url := try(url.Parse(source))
 
 	var tlsConfig *tls.Config
 	if url.Scheme == "https+insecure" {
@@ -80,10 +77,7 @@ func getProfile(source string, timeout time.Duration) (*profile.Profile, error) 
 			TLSClientConfig:       tlsConfig,
 		},
 	}
-	resp, err := client.Get(source)
-	if err != nil {
-		return nil, err
-	}
+	resp := try(client.Get(source))
 	if resp.StatusCode != http.StatusOK {
 		defer resp.Body.Close()
 		return nil, statusCodeError(resp)
@@ -150,10 +144,7 @@ type objTool struct {
 }
 
 func (*objTool) Open(name string, start, limit, offset uint64) (driver.ObjFile, error) {
-	of, err := objfile.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	of := try(objfile.Open(name))
 	f := &file{
 		name: name,
 		file: of,
@@ -172,10 +163,7 @@ func (*objTool) Demangle(names []string) (map[string]string, error) {
 }
 
 func (t *objTool) Disasm(file string, start, end uint64) ([]driver.Inst, error) {
-	d, err := t.cachedDisasm(file)
-	if err != nil {
-		return nil, err
-	}
+	d := try(t.cachedDisasm(file))
 	var asm []driver.Inst
 	d.Decode(start, end, nil, func(pc, size uint64, file string, line int, text string) {
 		asm = append(asm, driver.Inst{Addr: pc, File: file, Line: line, Text: text})
@@ -193,10 +181,7 @@ func (t *objTool) cachedDisasm(file string) (*objfile.Disasm, error) {
 	if d != nil {
 		return d, nil
 	}
-	f, err := objfile.Open(file)
-	if err != nil {
-		return nil, err
-	}
+	f := try(objfile.Open(file))
 	d, err = f.Disasm()
 	f.Close()
 	if err != nil {

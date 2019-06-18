@@ -46,10 +46,7 @@ func Hash1(files []string, open func(string) (io.ReadCloser, error)) (string, er
 }
 
 func HashDir(dir, prefix string, hash Hash) (string, error) {
-	files, err := DirFiles(dir, prefix)
-	if err != nil {
-		return "", err
-	}
+	files := try(DirFiles(dir, prefix))
 	osOpen := func(name string) (io.ReadCloser, error) {
 		return os.Open(filepath.Join(dir, strings.TrimPrefix(name, prefix)))
 	}
@@ -59,7 +56,7 @@ func HashDir(dir, prefix string, hash Hash) (string, error) {
 func DirFiles(dir, prefix string) ([]string, error) {
 	var files []string
 	dir = filepath.Clean(dir)
-	err := filepath.Walk(dir, func(file string, info os.FileInfo, err error) error {
+	try(filepath.Walk(dir, func(file string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -73,18 +70,13 @@ func DirFiles(dir, prefix string) ([]string, error) {
 		f := filepath.Join(prefix, rel)
 		files = append(files, filepath.ToSlash(f))
 		return nil
-	})
-	if err != nil {
-		return nil, err
-	}
+	}),
+	)
 	return files, nil
 }
 
 func HashZip(zipfile string, hash Hash) (string, error) {
-	z, err := zip.OpenReader(zipfile)
-	if err != nil {
-		return "", err
-	}
+	z := try(zip.OpenReader(zipfile))
 	defer z.Close()
 	var files []string
 	zfiles := make(map[string]*zip.File)

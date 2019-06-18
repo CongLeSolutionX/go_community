@@ -22,11 +22,7 @@ func (v URLValue) String() string {
 }
 
 func (v URLValue) Set(s string) error {
-	if u, err := url.Parse(s); err != nil {
-		return err
-	} else {
-		*v.URL = *u
-	}
+	u := try(url.Parse(s))
 	return nil
 }
 

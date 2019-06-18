@@ -96,10 +96,7 @@ func (d *Data) sigToType(sig uint64) (Type, error) {
 
 	b := makeBuf(d, tu, tu.name, tu.off, tu.data)
 	r := &typeUnitReader{d: d, tu: tu, b: b}
-	t, err := d.readType(tu.name, r, tu.toff, make(map[Offset]Type), nil)
-	if err != nil {
-		return nil, err
-	}
+	t := try(d.readType(tu.name, r, tu.toff, make(map[Offset]Type), nil))
 
 	tu.cache = t
 	return t, nil

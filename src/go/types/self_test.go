@@ -84,10 +84,7 @@ func runbench(t *testing.T, path string, ignoreFuncBodies bool) {
 }
 
 func pkgFiles(fset *token.FileSet, path string) ([]*ast.File, error) {
-	filenames, err := pkgFilenames(path) // from stdlib_test.go
-	if err != nil {
-		return nil, err
-	}
+	filenames := try(pkgFilenames(path)) // from stdlib_test.go
 
 	var files []*ast.File
 	for _, filename := range filenames {

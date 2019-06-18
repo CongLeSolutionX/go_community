@@ -138,9 +138,7 @@ func openFileNolog(name string, flag int, perm FileMode) (*File, error) {
 // be canceled and return immediately with an error.
 // Close will return an error if it has already been called.
 func (f *File) Close() error {
-	if err := f.checkValid("close"); err != nil {
-		return err
-	}
+	try(f.checkValid("close"))
 	return f.file.close()
 }
 
@@ -165,10 +163,7 @@ func (f *File) Stat() (FileInfo, error) {
 	if f == nil {
 		return nil, ErrInvalid
 	}
-	d, err := dirstat(f)
-	if err != nil {
-		return nil, err
-	}
+	d := try(dirstat(f))
 	return fileInfoFromStat(d), nil
 }
 
@@ -492,9 +487,7 @@ func tempDir() string {
 // which must be a directory.
 // If there is an error, it will be of type *PathError.
 func (f *File) Chdir() error {
-	if err := f.checkValid("chdir"); err != nil {
-		return err
-	}
+	try(f.checkValid("chdir"))
 	if e := syscall.Fchdir(f.fd); e != nil {
 		return &PathError{"chdir", f.name, e}
 	}
@@ -503,25 +496,19 @@ func (f *File) Chdir() error {
 
 // setDeadline sets the read and write deadline.
 func (f *File) setDeadline(time.Time) error {
-	if err := f.checkValid("SetDeadline"); err != nil {
-		return err
-	}
+	try(f.checkValid("SetDeadline"))
 	return poll.ErrNoDeadline
 }
 
 // setReadDeadline sets the read deadline.
 func (f *File) setReadDeadline(time.Time) error {
-	if err := f.checkValid("SetReadDeadline"); err != nil {
-		return err
-	}
+	try(f.checkValid("SetReadDeadline"))
 	return poll.ErrNoDeadline
 }
 
 // setWriteDeadline sets the write deadline.
 func (f *File) setWriteDeadline(time.Time) error {
-	if err := f.checkValid("SetWriteDeadline"); err != nil {
-		return err
-	}
+	try(f.checkValid("SetWriteDeadline"))
 	return poll.ErrNoDeadline
 }
 

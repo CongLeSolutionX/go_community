@@ -21,10 +21,7 @@ func boolint(b bool) int {
 }
 
 func ipv4AddrToInterface(ip IP) (*Interface, error) {
-	ift, err := Interfaces()
-	if err != nil {
-		return nil, err
-	}
+	ift := try(Interfaces())
 	for _, ifi := range ift {
 		ifat, err := ifi.Addrs()
 		if err != nil {
@@ -53,10 +50,7 @@ func interfaceToIPv4Addr(ifi *Interface) (IP, error) {
 	if ifi == nil {
 		return IPv4zero, nil
 	}
-	ifat, err := ifi.Addrs()
-	if err != nil {
-		return nil, err
-	}
+	ifat := try(ifi.Addrs())
 	for _, ifa := range ifat {
 		switch v := ifa.(type) {
 		case *IPAddr:
@@ -76,10 +70,7 @@ func setIPv4MreqToInterface(mreq *syscall.IPMreq, ifi *Interface) error {
 	if ifi == nil {
 		return nil
 	}
-	ifat, err := ifi.Addrs()
-	if err != nil {
-		return err
-	}
+	ifat := try(ifi.Addrs())
 	for _, ifa := range ifat {
 		switch v := ifa.(type) {
 		case *IPAddr:

@@ -1290,9 +1290,7 @@ func (cfg *Config) fprint(output io.Writer, fset *token.FileSet, node interface{
 	// print node
 	var p printer
 	p.init(cfg, fset, nodeSizes)
-	if err = p.printNode(node); err != nil {
-		return
-	}
+	try(p.printNode(node))
 	// print outstanding comments
 	p.impliedSemi = false // EOF acts like a newline
 	p.flush(token.Position{Offset: infinity, Line: infinity}, token.EOF)
@@ -1322,9 +1320,7 @@ func (cfg *Config) fprint(output io.Writer, fset *token.FileSet, node interface{
 	}
 
 	// write printer result via tabwriter/trimmer to output
-	if _, err = output.Write(p.output); err != nil {
-		return
-	}
+	try(output.Write(p.output))
 
 	// flush tabwriter, if any
 	if tw, _ := output.(*tabwriter.Writer); tw != nil {

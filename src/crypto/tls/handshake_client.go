@@ -144,10 +144,7 @@ func (c *Conn) clientHandshake() (err error) {
 	// need to be reset.
 	c.didResume = false
 
-	hello, ecdheParams, err := c.makeClientHello()
-	if err != nil {
-		return err
-	}
+	hello, ecdheParams := try(c.makeClientHello())
 
 	cacheKey, session, earlySecret, binderKey := c.loadSession(hello)
 	if cacheKey != "" && session != nil {
@@ -164,14 +161,9 @@ func (c *Conn) clientHandshake() (err error) {
 		}()
 	}
 
-	if _, err := c.writeRecord(recordTypeHandshake, hello.marshal()); err != nil {
-		return err
-	}
+	try(c.writeRecord(recordTypeHandshake, hello.marshal()))
 
-	msg, err := c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg := try(c.readHandshake())
 
 	serverHello, ok := msg.(*serverHelloMsg)
 	if !ok {
@@ -179,9 +171,7 @@ func (c *Conn) clientHandshake() (err error) {
 		return unexpectedMessageError(serverHello, msg)
 	}
 
-	if err := c.pickTLSVersion(serverHello); err != nil {
-		return err
-	}
+	try(c.pickTLSVersion(serverHello))
 
 	if c.vers == VersionTLS13 {
 		hs := &clientHandshakeStateTLS13{
@@ -205,9 +195,7 @@ func (c *Conn) clientHandshake() (err error) {
 		session:     session,
 	}
 
-	if err := hs.handshake(); err != nil {
-		return err
-	}
+	try(hs.handshake())
 
 	// If we had a successful handshake and hs.session is different from
 	// the one already cached - cache a new one.
@@ -359,10 +347,7 @@ func (c *Conn) pickTLSVersion(serverHello *serverHelloMsg) error {
 func (hs *clientHandshakeState) handshake() error {
 	c := hs.c
 
-	isResume, err := hs.processServerHello()
-	if err != nil {
-		return err
-	}
+	isResume := try(hs.processServerHello())
 
 	hs.finishedHash = newFinishedHash(c.vers, hs.suite)
 
@@ -437,10 +422,7 @@ func (hs *clientHandshakeState) pickCipherSuite() error {
 func (hs *clientHandshakeState) doFullHandshake() error {
 	c := hs.c
 
-	msg, err := c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg := try(c.readHandshake())
 	certMsg, ok := msg.(*certificateMsg)
 	if !ok || len(certMsg.certificates) == 0 {
 		c.sendAlert(alertUnexpectedMessage)
@@ -467,10 +449,7 @@ func (hs *clientHandshakeState) doFullHandshake() error {
 		}
 	}
 
-	msg, err = c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg = try(c.readHandshake())
 
 	cs, ok := msg.(*certificateStatusMsg)
 	if ok {
@@ -723,14 +702,9 @@ func (hs *clientHandshakeState) processServerHello() (bool, error) {
 func (hs *clientHandshakeState) readFinished(out []byte) error {
 	c := hs.c
 
-	if err := c.readChangeCipherSpec(); err != nil {
-		return err
-	}
+	try(c.readChangeCipherSpec())
 
-	msg, err := c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg := try(c.readHandshake())
 	serverFinished, ok := msg.(*finishedMsg)
 	if !ok {
 		c.sendAlert(alertUnexpectedMessage)
@@ -754,10 +728,7 @@ func (hs *clientHandshakeState) readSessionTicket() error {
 	}
 
 	c := hs.c
-	msg, err := c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg := try(c.readHandshake())
 	sessionTicketMsg, ok := msg.(*newSessionTicketMsg)
 	if !ok {
 		c.sendAlert(alertUnexpectedMessage)
@@ -781,9 +752,7 @@ func (hs *clientHandshakeState) readSessionTicket() error {
 func (hs *clientHandshakeState) sendFinished(out []byte) error {
 	c := hs.c
 
-	if _, err := c.writeRecord(recordTypeChangeCipherSpec, []byte{1}); err != nil {
-		return err
-	}
+	try(c.writeRecord(recordTypeChangeCipherSpec, []byte{1}))
 	if hs.serverHello.nextProtoNeg {
 		nextProto := new(nextProtoMsg)
 		proto, fallback := mutualProtocol(c.config.NextProtos, hs.serverHello.nextProtos)
@@ -800,9 +769,7 @@ func (hs *clientHandshakeState) sendFinished(out []byte) error {
 	finished := new(finishedMsg)
 	finished.verifyData = hs.finishedHash.clientSum(hs.masterSecret)
 	hs.finishedHash.Write(finished.marshal())
-	if _, err := c.writeRecord(recordTypeHandshake, finished.marshal()); err != nil {
-		return err
-	}
+	try(c.writeRecord(recordTypeHandshake, finished.marshal()))
 	copy(out, finished.verifyData)
 	return nil
 }

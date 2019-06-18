@@ -368,10 +368,7 @@ func (s *signer) Sign(msg []byte) ([]byte, error) { return s.sign(msg) }
 // GenerateKey generates a signer and verifier key pair for a named server.
 // The signer key skey is private and must be kept secret.
 func GenerateKey(rand io.Reader, name string) (skey, vkey string, err error) {
-	pub, priv, err := ed25519.GenerateKey(rand)
-	if err != nil {
-		return "", "", err
-	}
+	pub, priv := try(ed25519.GenerateKey(rand))
 	pubkey := append([]byte{algEd25519}, pub...)
 	privkey := append([]byte{algEd25519}, priv.Seed()...)
 	h := keyHash(name, pubkey)

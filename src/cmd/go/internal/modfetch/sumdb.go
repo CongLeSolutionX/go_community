@@ -207,27 +207,15 @@ func (*dbClient) WriteConfig(file string, old, new []byte) error {
 	}
 	targ := filepath.Join(PkgMod, "../sumdb/"+file)
 	os.MkdirAll(filepath.Dir(targ), 0777)
-	f, err := lockedfile.Edit(targ)
-	if err != nil {
-		return err
-	}
+	f := try(lockedfile.Edit(targ))
 	defer f.Close()
-	data, err := ioutil.ReadAll(f)
-	if err != nil {
-		return err
-	}
+	data := try(ioutil.ReadAll(f))
 	if len(data) > 0 && !bytes.Equal(data, old) {
 		return sumweb.ErrWriteConflict
 	}
-	if _, err := f.Seek(0, 0); err != nil {
-		return err
-	}
-	if err := f.Truncate(0); err != nil {
-		return err
-	}
-	if _, err := f.Write(new); err != nil {
-		return err
-	}
+	try(f.Seek(0, 0))
+	try(f.Truncate(0))
+	try(f.Write(new))
 	return f.Close()
 }
 

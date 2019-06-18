@@ -225,19 +225,13 @@ func (d *decoder) readByteStuffedByte() (x byte, err error) {
 
 	d.bytes.nUnreadable = 0
 
-	x, err = d.readByte()
-	if err != nil {
-		return 0, err
-	}
+	x = try(d.readByte())
 	d.bytes.nUnreadable = 1
 	if x != 0xff {
 		return x, nil
 	}
 
-	x, err = d.readByte()
-	if err != nil {
-		return 0, err
-	}
+	x = try(d.readByte())
 	d.bytes.nUnreadable = 2
 	if x != 0x00 {
 		return 0, errMissingFF00
@@ -318,9 +312,7 @@ func (d *decoder) processSOF(n int) error {
 	default:
 		return UnsupportedError("number of components")
 	}
-	if err := d.readFull(d.tmp[:n]); err != nil {
-		return err
-	}
+	try(d.readFull(d.tmp[:n]))
 	// We only support 8-bit precision.
 	if d.tmp[0] != 8 {
 		return UnsupportedError("precision")
@@ -478,9 +470,7 @@ func (d *decoder) processDRI(n int) error {
 	if n != 2 {
 		return FormatError("DRI has wrong length")
 	}
-	if err := d.readFull(d.tmp[:2]); err != nil {
-		return err
-	}
+	try(d.readFull(d.tmp[:2]))
 	d.ri = int(d.tmp[0])<<8 + int(d.tmp[1])
 	return nil
 }
@@ -489,9 +479,7 @@ func (d *decoder) processApp0Marker(n int) error {
 	if n < 5 {
 		return d.ignore(n)
 	}
-	if err := d.readFull(d.tmp[:5]); err != nil {
-		return err
-	}
+	try(d.readFull(d.tmp[:5]))
 	n -= 5
 
 	d.jfif = d.tmp[0] == 'J' && d.tmp[1] == 'F' && d.tmp[2] == 'I' && d.tmp[3] == 'F' && d.tmp[4] == '\x00'
@@ -506,9 +494,7 @@ func (d *decoder) processApp14Marker(n int) error {
 	if n < 12 {
 		return d.ignore(n)
 	}
-	if err := d.readFull(d.tmp[:12]); err != nil {
-		return err
-	}
+	try(d.readFull(d.tmp[:12]))
 	n -= 12
 
 	if d.tmp[0] == 'A' && d.tmp[1] == 'd' && d.tmp[2] == 'o' && d.tmp[3] == 'b' && d.tmp[4] == 'e' {
@@ -527,9 +513,7 @@ func (d *decoder) decode(r io.Reader, configOnly bool) (image.Image, error) {
 	d.r = r
 
 	// Check for the Start Of Image marker.
-	if err := d.readFull(d.tmp[:2]); err != nil {
-		return nil, err
-	}
+	try(d.readFull(d.tmp[:2]))
 	if d.tmp[0] != 0xff || d.tmp[1] != soiMarker {
 		return nil, FormatError("missing SOI marker")
 	}
@@ -783,9 +767,7 @@ func Decode(r io.Reader) (image.Image, error) {
 // decoding the entire image.
 func DecodeConfig(r io.Reader) (image.Config, error) {
 	var d decoder
-	if _, err := d.decode(r, true); err != nil {
-		return image.Config{}, err
-	}
+	try(d.decode(r, true))
 	switch d.nComp {
 	case 1:
 		return image.Config{

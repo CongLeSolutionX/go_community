@@ -119,10 +119,7 @@ func (t *Template) ParseGlob(pattern string) (*Template, error) {
 
 // parseGlob is the implementation of the function and method ParseGlob.
 func parseGlob(t *Template, pattern string) (*Template, error) {
-	filenames, err := filepath.Glob(pattern)
-	if err != nil {
-		return nil, err
-	}
+	filenames := try(filepath.Glob(pattern))
 	if len(filenames) == 0 {
 		return nil, fmt.Errorf("template: pattern matches no files: %#q", pattern)
 	}

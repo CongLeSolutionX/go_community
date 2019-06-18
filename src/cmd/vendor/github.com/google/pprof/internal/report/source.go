@@ -119,9 +119,7 @@ func printSource(w io.Writer, rpt *Report) error {
 // functions with samples that match the regexp rpt.options.symbol.
 func printWebSource(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 	printHeader(w, rpt)
-	if err := PrintWebList(w, rpt, obj, -1); err != nil {
-		return err
-	}
+	try(PrintWebList(w, rpt, obj, -1))
 	printPageClosing(w)
 	return nil
 }

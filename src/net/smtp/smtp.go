@@ -49,10 +49,7 @@ type Client struct {
 // Dial returns a new Client connected to an SMTP server at addr.
 // The addr must include a port, as in "mail.example.com:smtp".
 func Dial(addr string) (*Client, error) {
-	conn, err := net.Dial("tcp", addr)
-	if err != nil {
-		return nil, err
-	}
+	conn := try(net.Dial("tcp", addr))
 	host, _, _ := net.SplitHostPort(addr)
 	return NewClient(conn, host)
 }
@@ -94,9 +91,7 @@ func (c *Client) hello() error {
 // automatically otherwise. If Hello is called, it must be called before
 // any of the other methods.
 func (c *Client) Hello(localName string) error {
-	if err := validateLine(localName); err != nil {
-		return err
-	}
+	try(validateLine(localName))
 	if c.didHello {
 		return errors.New("smtp: Hello called after other methods")
 	}
@@ -106,10 +101,7 @@ func (c *Client) Hello(localName string) error {
 
 // cmd is a convenience function that sends a command and returns the response
 func (c *Client) cmd(expectCode int, format string, args ...interface{}) (int, string, error) {
-	id, err := c.Text.Cmd(format, args...)
-	if err != nil {
-		return 0, "", err
-	}
+	id := try(c.Text.Cmd(format, args...))
 	c.Text.StartResponse(id)
 	defer c.Text.EndResponse(id)
 	code, msg, err := c.Text.ReadResponse(expectCode)
@@ -127,10 +119,7 @@ func (c *Client) helo() error {
 // ehlo sends the EHLO (extended hello) greeting to the server. It
 // should be the preferred greeting for servers that support it.
 func (c *Client) ehlo() error {
-	_, msg, err := c.cmd(250, "EHLO %s", c.localName)
-	if err != nil {
-		return err
-	}
+	_, msg := try(c.cmd(250, "EHLO %s", c.localName))
 	ext := make(map[string]string)
 	extList := strings.Split(msg, "\n")
 	if len(extList) > 1 {
@@ -154,13 +143,8 @@ func (c *Client) ehlo() error {
 // StartTLS sends the STARTTLS command and encrypts all further communication.
 // Only servers that advertise the STARTTLS extension support this function.
 func (c *Client) StartTLS(config *tls.Config) error {
-	if err := c.hello(); err != nil {
-		return err
-	}
-	_, _, err := c.cmd(220, "STARTTLS")
-	if err != nil {
-		return err
-	}
+	try(c.hello())
+	try(c.cmd(220, "STARTTLS"))
 	c.conn = tls.Client(c.conn, config)
 	c.Text = textproto.NewConn(c.conn)
 	c.tls = true
@@ -183,12 +167,8 @@ func (c *Client) TLSConnectionState() (state tls.ConnectionState, ok bool) {
 // does not necessarily indicate an invalid address. Many servers
 // will not verify addresses for security reasons.
 func (c *Client) Verify(addr string) error {
-	if err := validateLine(addr); err != nil {
-		return err
-	}
-	if err := c.hello(); err != nil {
-		return err
-	}
+	try(validateLine(addr))
+	try(c.hello())
 	_, _, err := c.cmd(250, "VRFY %s", addr)
 	return err
 }
@@ -197,9 +177,7 @@ func (c *Client) Verify(addr string) error {
 // A failed authentication closes the connection.
 // Only servers that advertise the AUTH extension support this function.
 func (c *Client) Auth(a Auth) error {
-	if err := c.hello(); err != nil {
-		return err
-	}
+	try(c.hello())
 	encoding := base64.StdEncoding
 	mech, resp, err := a.Start(&ServerInfo{c.serverName, c.tls, c.auth})
 	if err != nil {
@@ -244,12 +222,8 @@ func (c *Client) Auth(a Auth) error {
 // parameter.
 // This initiates a mail transaction and is followed by one or more Rcpt calls.
 func (c *Client) Mail(from string) error {
-	if err := validateLine(from); err != nil {
-		return err
-	}
-	if err := c.hello(); err != nil {
-		return err
-	}
+	try(validateLine(from))
+	try(c.hello())
 	cmdStr := "MAIL FROM:<%s>"
 	if c.ext != nil {
 		if _, ok := c.ext["8BITMIME"]; ok {
@@ -264,9 +238,7 @@ func (c *Client) Mail(from string) error {
 // A call to Rcpt must be preceded by a call to Mail and may be followed by
 // a Data call or another Rcpt call.
 func (c *Client) Rcpt(to string) error {
-	if err := validateLine(to); err != nil {
-		return err
-	}
+	try(validateLine(to))
 	_, _, err := c.cmd(25, "RCPT TO:<%s>", to)
 	return err
 }
@@ -287,10 +259,7 @@ func (d *dataCloser) Close() error {
 // close the writer before calling any more methods on c. A call to
 // Data must be preceded by one or more calls to Rcpt.
 func (c *Client) Data() (io.WriteCloser, error) {
-	_, _, err := c.cmd(354, "DATA")
-	if err != nil {
-		return nil, err
-	}
+	try(c.cmd(354, "DATA"))
 	return &dataCloser{c, c.Text.DotWriter()}, nil
 }
 
@@ -317,22 +286,15 @@ var testHookStartTLS func(*tls.Config) // nil, except for tests
 // functionality. Higher-level packages exist outside of the standard
 // library.
 func SendMail(addr string, a Auth, from string, to []string, msg []byte) error {
-	if err := validateLine(from); err != nil {
-		return err
-	}
+	try(validateLine(from))
 	for _, recp := range to {
 		if err := validateLine(recp); err != nil {
 			return err
 		}
 	}
-	c, err := Dial(addr)
-	if err != nil {
-		return err
-	}
+	c := try(Dial(addr))
 	defer c.Close()
-	if err = c.hello(); err != nil {
-		return err
-	}
+	try(c.hello())
 	if ok, _ := c.Extension("STARTTLS"); ok {
 		config := &tls.Config{ServerName: c.serverName}
 		if testHookStartTLS != nil {
@@ -350,26 +312,15 @@ func SendMail(addr string, a Auth, from string, to []string, msg []byte) error {
 			return err
 		}
 	}
-	if err = c.Mail(from); err != nil {
-		return err
-	}
+	try(c.Mail(from))
 	for _, addr := range to {
 		if err = c.Rcpt(addr); err != nil {
 			return err
 		}
 	}
-	w, err := c.Data()
-	if err != nil {
-		return err
-	}
-	_, err = w.Write(msg)
-	if err != nil {
-		return err
-	}
-	err = w.Close()
-	if err != nil {
-		return err
-	}
+	w := try(c.Data())
+	try(w.Write(msg))
+	try(w.Close())
 	return c.Quit()
 }
 
@@ -392,9 +343,7 @@ func (c *Client) Extension(ext string) (bool, string) {
 // Reset sends the RSET command to the server, aborting the current mail
 // transaction.
 func (c *Client) Reset() error {
-	if err := c.hello(); err != nil {
-		return err
-	}
+	try(c.hello())
 	_, _, err := c.cmd(250, "RSET")
 	return err
 }
@@ -402,22 +351,15 @@ func (c *Client) Reset() error {
 // Noop sends the NOOP command to the server. It does nothing but check
 // that the connection to the server is okay.
 func (c *Client) Noop() error {
-	if err := c.hello(); err != nil {
-		return err
-	}
+	try(c.hello())
 	_, _, err := c.cmd(250, "NOOP")
 	return err
 }
 
 // Quit sends the QUIT command and closes the connection to the server.
 func (c *Client) Quit() error {
-	if err := c.hello(); err != nil {
-		return err
-	}
-	_, _, err := c.cmd(221, "QUIT")
-	if err != nil {
-		return err
-	}
+	try(c.hello())
+	try(c.cmd(221, "QUIT"))
 	return c.Text.Close()
 }
 
