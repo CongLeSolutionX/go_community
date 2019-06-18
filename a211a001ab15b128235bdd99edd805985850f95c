@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4aded852_0c249c95",
+        "filename": "src/sync/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 25580
+      },
+      "writtenOn": "2019-06-18T09:13:41Z",
+      "side": 1,
+      "message": "Should it `return false` to stop iteration to also highlight stop iteration behaviour ?",
+      "revId": "a211a001ab15b128235bdd99edd805985850f95c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
