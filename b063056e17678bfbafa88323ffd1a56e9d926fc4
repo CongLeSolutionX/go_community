@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "227e0dee_ce0b4ba3",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-06-18T23:41:41Z",
+      "side": 1,
+      "message": "This CL doesn\u0027t add all the ARM v8.1 atomic instructions. I\u0027m not sure what is the best way to say this.",
+      "revId": "b063056e17678bfbafa88323ffd1a56e9d926fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
