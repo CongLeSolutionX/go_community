@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bedce519_8d642d0b",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-06-18T19:32:12Z",
+      "side": 1,
+      "message": "link to the package?",
+      "range": {
+        "startLine": 106,
+        "startChar": 16,
+        "endLine": 106,
+        "endChar": 30
+      },
+      "revId": "2bb3c592d77dffc1a1d5057d737ed7e29906cd76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e8edffa_c84c78ec",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-06-18T19:32:12Z",
+      "side": 1,
+      "message": "link?",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 35
+      },
+      "revId": "2bb3c592d77dffc1a1d5057d737ed7e29906cd76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
