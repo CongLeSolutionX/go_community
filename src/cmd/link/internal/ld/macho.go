@@ -1101,9 +1101,7 @@ func peekMachoPlatform(m *macho.File) (*MachoPlatformLoad, error) {
 		}
 		ml.data = make([]uint32, len(data)/4)
 		r := bytes.NewReader(data)
-		if err := binary.Read(r, m.ByteOrder, &ml.data); err != nil {
-			return nil, err
-		}
+		try(binary.Read(r, m.ByteOrder, &ml.data))
 		return &MachoPlatformLoad{
 			platform: p,
 			cmd:      ml,

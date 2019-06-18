@@ -125,10 +125,7 @@ func generateECDHEParameters(rand io.Reader, curveID CurveID) (ecdheParameters, 
 
 	p := &nistParameters{curveID: curveID}
 	var err error
-	p.privateKey, p.x, p.y, err = elliptic.GenerateKey(curve, rand)
-	if err != nil {
-		return nil, err
-	}
+	p.privateKey, p.x, p.y = try(elliptic.GenerateKey(curve, rand))
 	return p, nil
 }
 

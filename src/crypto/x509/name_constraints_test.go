@@ -1634,22 +1634,14 @@ func makeConstraintsCACert(constraints constraintsSpec, name string, key *ecdsa.
 		IsCA:                  true,
 	}
 
-	if err := addConstraintsToTemplate(constraints, template); err != nil {
-		return nil, err
-	}
+	try(addConstraintsToTemplate(constraints, template))
 
 	if parent == nil {
 		parent = template
 	}
-	derBytes, err := CreateCertificate(rand.Reader, template, parent, &key.PublicKey, parentKey)
-	if err != nil {
-		return nil, err
-	}
+	derBytes := try(CreateCertificate(rand.Reader, template, parent, &key.PublicKey, parentKey))
 
-	caCert, err := ParseCertificate(derBytes)
-	if err != nil {
-		return nil, err
-	}
+	caCert := try(ParseCertificate(derBytes))
 
 	return caCert, nil
 }
@@ -1725,18 +1717,13 @@ func makeConstraintsLeafCert(leaf leafSpec, key *ecdsa.PrivateKey, parent *Certi
 	}
 
 	var err error
-	if template.ExtKeyUsage, template.UnknownExtKeyUsage, err = parseEKUs(leaf.ekus); err != nil {
-		return nil, err
-	}
+	template.ExtKeyUsage, template.UnknownExtKeyUsage = try(parseEKUs(leaf.ekus))
 
 	if parent == nil {
 		parent = template
 	}
 
-	derBytes, err := CreateCertificate(rand.Reader, template, parent, &key.PublicKey, parentKey)
-	if err != nil {
-		return nil, err
-	}
+	derBytes := try(CreateCertificate(rand.Reader, template, parent, &key.PublicKey, parentKey))
 
 	return ParseCertificate(derBytes)
 }
@@ -1823,19 +1810,11 @@ func addConstraintsToTemplate(constraints constraintsSpec, template *Certificate
 	}
 
 	var err error
-	template.PermittedDNSDomains, template.PermittedIPRanges, template.PermittedEmailAddresses, template.PermittedURIDomains, err = parse(constraints.ok)
-	if err != nil {
-		return err
-	}
+	template.PermittedDNSDomains, template.PermittedIPRanges, template.PermittedEmailAddresses, template.PermittedURIDomains = try(parse(constraints.ok))
 
-	template.ExcludedDNSDomains, template.ExcludedIPRanges, template.ExcludedEmailAddresses, template.ExcludedURIDomains, err = parse(constraints.bad)
-	if err != nil {
-		return err
-	}
+	template.ExcludedDNSDomains, template.ExcludedIPRanges, template.ExcludedEmailAddresses, template.ExcludedURIDomains = try(parse(constraints.bad))
 
-	if template.ExtKeyUsage, template.UnknownExtKeyUsage, err = parseEKUs(constraints.ekus); err != nil {
-		return err
-	}
+	template.ExtKeyUsage, template.UnknownExtKeyUsage = try(parseEKUs(constraints.ekus))
 
 	return nil
 }

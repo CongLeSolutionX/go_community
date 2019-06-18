@@ -15,10 +15,7 @@ import (
 var ErrNotFound = errors.New("executable file not found in %PATH%")
 
 func chkStat(file string) error {
-	d, err := os.Stat(file)
-	if err != nil {
-		return err
-	}
+	d := try(os.Stat(file))
 	if d.IsDir() {
 		return os.ErrPermission
 	}

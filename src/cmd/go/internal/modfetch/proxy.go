@@ -142,10 +142,7 @@ func proxyURLs() ([]string, error) {
 // If GOPROXY is set to "off", TryProxies invokes f once with the argument
 // "off".
 func TryProxies(f func(proxy string) error) error {
-	proxies, err := proxyURLs()
-	if err != nil {
-		return err
-	}
+	proxies := try(proxyURLs())
 	if len(proxies) == 0 {
 		return f("off")
 	}
@@ -165,10 +162,7 @@ type proxyRepo struct {
 }
 
 func newProxyRepo(baseURL, path string) (Repo, error) {
-	base, err := url.Parse(baseURL)
-	if err != nil {
-		return nil, err
-	}
+	base := try(url.Parse(baseURL))
 	switch base.Scheme {
 	case "http", "https":
 		// ok
@@ -182,10 +176,7 @@ func newProxyRepo(baseURL, path string) (Repo, error) {
 		return nil, fmt.Errorf("invalid proxy URL scheme (must be https, http, file): %s", web.Redacted(base))
 	}
 
-	enc, err := module.EncodePath(path)
-	if err != nil {
-		return nil, err
-	}
+	enc := try(module.EncodePath(path))
 
 	base.Path = strings.TrimSuffix(base.Path, "/") + "/" + enc
 	base.RawPath = strings.TrimSuffix(base.RawPath, "/") + "/" + pathEscape(enc)
@@ -197,10 +188,7 @@ func (p *proxyRepo) ModulePath() string {
 }
 
 func (p *proxyRepo) getBytes(path string) ([]byte, error) {
-	body, err := p.getBody(path)
-	if err != nil {
-		return nil, err
-	}
+	body := try(p.getBody(path))
 	defer body.Close()
 	return ioutil.ReadAll(body)
 }
@@ -212,10 +200,7 @@ func (p *proxyRepo) getBody(path string) (io.ReadCloser, error) {
 	target.Path = fullPath
 	target.RawPath = pathpkg.Join(target.RawPath, pathEscape(path))
 
-	resp, err := web.Get(web.DefaultSecurity, &target)
-	if err != nil {
-		return nil, err
-	}
+	resp := try(web.Get(web.DefaultSecurity, &target))
 	if err := resp.Err(); err != nil {
 		resp.Body.Close()
 		return nil, err
@@ -224,10 +209,7 @@ func (p *proxyRepo) getBody(path string) (io.ReadCloser, error) {
 }
 
 func (p *proxyRepo) Versions(prefix string) ([]string, error) {
-	data, err := p.getBytes("@v/list")
-	if err != nil {
-		return nil, err
-	}
+	data := try(p.getBytes("@v/list"))
 	var list []string
 	for _, line := range strings.Split(string(data), "\n") {
 		f := strings.Fields(line)
@@ -240,10 +222,7 @@ func (p *proxyRepo) Versions(prefix string) ([]string, error) {
 }
 
 func (p *proxyRepo) latest() (*RevInfo, error) {
-	data, err := p.getBytes("@v/list")
-	if err != nil {
-		return nil, err
-	}
+	data := try(p.getBytes("@v/list"))
 	var best time.Time
 	var bestVersion string
 	for _, line := range strings.Split(string(data), "\n") {
@@ -269,18 +248,10 @@ func (p *proxyRepo) latest() (*RevInfo, error) {
 }
 
 func (p *proxyRepo) Stat(rev string) (*RevInfo, error) {
-	encRev, err := module.EncodeVersion(rev)
-	if err != nil {
-		return nil, err
-	}
-	data, err := p.getBytes("@v/" + encRev + ".info")
-	if err != nil {
-		return nil, err
-	}
+	encRev := try(module.EncodeVersion(rev))
+	data := try(p.getBytes("@v/" + encRev + ".info"))
 	info := new(RevInfo)
-	if err := json.Unmarshal(data, info); err != nil {
-		return nil, err
-	}
+	try(json.Unmarshal(data, info))
 	return info, nil
 }
 
@@ -291,39 +262,23 @@ func (p *proxyRepo) Latest() (*RevInfo, error) {
 		return p.latest()
 	}
 	info := new(RevInfo)
-	if err := json.Unmarshal(data, info); err != nil {
-		return nil, err
-	}
+	try(json.Unmarshal(data, info))
 	return info, nil
 }
 
 func (p *proxyRepo) GoMod(version string) ([]byte, error) {
-	encVer, err := module.EncodeVersion(version)
-	if err != nil {
-		return nil, err
-	}
-	data, err := p.getBytes("@v/" + encVer + ".mod")
-	if err != nil {
-		return nil, err
-	}
+	encVer := try(module.EncodeVersion(version))
+	data := try(p.getBytes("@v/" + encVer + ".mod"))
 	return data, nil
 }
 
 func (p *proxyRepo) Zip(dst io.Writer, version string) error {
-	encVer, err := module.EncodeVersion(version)
-	if err != nil {
-		return err
-	}
-	body, err := p.getBody("@v/" + encVer + ".zip")
-	if err != nil {
-		return err
-	}
+	encVer := try(module.EncodeVersion(version))
+	body := try(p.getBody("@v/" + encVer + ".zip"))
 	defer body.Close()
 
 	lr := &io.LimitedReader{R: body, N: codehost.MaxZipFile + 1}
-	if _, err := io.Copy(dst, lr); err != nil {
-		return err
-	}
+	try(io.Copy(dst, lr))
 	if lr.N <= 0 {
 		return fmt.Errorf("downloaded zip file too large")
 	}

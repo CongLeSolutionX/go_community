@@ -20,22 +20,13 @@ import (
 func createStoreContext(leaf *Certificate, opts *VerifyOptions) (*syscall.CertContext, error) {
 	var storeCtx *syscall.CertContext
 
-	leafCtx, err := syscall.CertCreateCertificateContext(syscall.X509_ASN_ENCODING|syscall.PKCS_7_ASN_ENCODING, &leaf.Raw[0], uint32(len(leaf.Raw)))
-	if err != nil {
-		return nil, err
-	}
+	leafCtx := try(syscall.CertCreateCertificateContext(syscall.X509_ASN_ENCODING|syscall.PKCS_7_ASN_ENCODING, &leaf.Raw[0], uint32(len(leaf.Raw))))
 	defer syscall.CertFreeCertificateContext(leafCtx)
 
-	handle, err := syscall.CertOpenStore(syscall.CERT_STORE_PROV_MEMORY, 0, 0, syscall.CERT_STORE_DEFER_CLOSE_UNTIL_LAST_FREE_FLAG, 0)
-	if err != nil {
-		return nil, err
-	}
+	handle := try(syscall.CertOpenStore(syscall.CERT_STORE_PROV_MEMORY, 0, 0, syscall.CERT_STORE_DEFER_CLOSE_UNTIL_LAST_FREE_FLAG, 0))
 	defer syscall.CertCloseStore(handle, 0)
 
-	err = syscall.CertAddCertificateContextToStore(handle, leafCtx, syscall.CERT_STORE_ADD_ALWAYS, &storeCtx)
-	if err != nil {
-		return nil, err
-	}
+	try(syscall.CertAddCertificateContextToStore(handle, leafCtx, syscall.CERT_STORE_ADD_ALWAYS, &storeCtx))
 
 	if opts.Intermediates != nil {
 		for _, intermediate := range opts.Intermediates.certs {
@@ -70,10 +61,7 @@ func extractSimpleChain(simpleChain **syscall.CertSimpleChain, count int) (chain
 		encodedCert := (*[1 << 20]byte)(unsafe.Pointer(cert.EncodedCert))[:]
 		buf := make([]byte, cert.Length)
 		copy(buf, encodedCert[:])
-		parsedCert, err := ParseCertificate(buf)
-		if err != nil {
-			return nil, err
-		}
+		parsedCert := try(ParseCertificate(buf))
 		chain = append(chain, parsedCert)
 	}
 
@@ -98,10 +86,7 @@ func checkChainTrustStatus(c *Certificate, chainCtx *syscall.CertChainContext) e
 // checkChainSSLServerPolicy checks that the certificate chain in chainCtx is valid for
 // use as a certificate chain for a SSL/TLS server.
 func checkChainSSLServerPolicy(c *Certificate, chainCtx *syscall.CertChainContext, opts *VerifyOptions) error {
-	servernamep, err := syscall.UTF16PtrFromString(opts.DNSName)
-	if err != nil {
-		return err
-	}
+	servernamep := try(syscall.UTF16PtrFromString(opts.DNSName))
 	sslPara := &syscall.SSLExtraCertChainPolicyPara{
 		AuthType:   syscall.AUTHTYPE_SERVER,
 		ServerName: servernamep,
@@ -114,10 +99,7 @@ func checkChainSSLServerPolicy(c *Certificate, chainCtx *syscall.CertChainContex
 	para.Size = uint32(unsafe.Sizeof(*para))
 
 	status := syscall.CertChainPolicyStatus{}
-	err = syscall.CertVerifyCertificateChainPolicy(syscall.CERT_CHAIN_POLICY_SSL, chainCtx, para, &status)
-	if err != nil {
-		return err
-	}
+	try(syscall.CertVerifyCertificateChainPolicy(syscall.CERT_CHAIN_POLICY_SSL, chainCtx, para, &status))
 
 	// TODO(mkrautz): use the lChainIndex and lElementIndex fields
 	// of the CertChainPolicyStatus to provide proper context, instead
@@ -143,10 +125,7 @@ func checkChainSSLServerPolicy(c *Certificate, chainCtx *syscall.CertChainContex
 func (c *Certificate) systemVerify(opts *VerifyOptions) (chains [][]*Certificate, err error) {
 	hasDNSName := opts != nil && len(opts.DNSName) > 0
 
-	storeCtx, err := createStoreContext(c, opts)
-	if err != nil {
-		return nil, err
-	}
+	storeCtx := try(createStoreContext(c, opts))
 	defer syscall.CertFreeCertificateContext(storeCtx)
 
 	para := new(syscall.CertChainPara)
@@ -197,16 +176,10 @@ func (c *Certificate) systemVerify(opts *VerifyOptions) (chains [][]*Certificate
 	// The result is that we'll only get a single trusted chain to
 	// return to our caller.
 	var chainCtx *syscall.CertChainContext
-	err = syscall.CertGetCertificateChain(syscall.Handle(0), storeCtx, verifyTime, storeCtx.Store, para, 0, 0, &chainCtx)
-	if err != nil {
-		return nil, err
-	}
+	try(syscall.CertGetCertificateChain(syscall.Handle(0), storeCtx, verifyTime, storeCtx.Store, para, 0, 0, &chainCtx))
 	defer syscall.CertFreeCertificateChain(chainCtx)
 
-	err = checkChainTrustStatus(c, chainCtx)
-	if err != nil {
-		return nil, err
-	}
+	try(checkChainTrustStatus(c, chainCtx))
 
 	if hasDNSName {
 		err = checkChainSSLServerPolicy(c, chainCtx, opts)
@@ -215,10 +188,7 @@ func (c *Certificate) systemVerify(opts *VerifyOptions) (chains [][]*Certificate
 		}
 	}
 
-	chain, err := extractSimpleChain(chainCtx.Chains, int(chainCtx.ChainCount))
-	if err != nil {
-		return nil, err
-	}
+	chain := try(extractSimpleChain(chainCtx.Chains, int(chainCtx.ChainCount)))
 
 	chains = append(chains, chain)
 
@@ -237,10 +207,7 @@ func loadSystemRoots() (*CertPool, error) {
 
 	const CRYPT_E_NOT_FOUND = 0x80092004
 
-	store, err := syscall.CertOpenSystemStore(0, syscall.StringToUTF16Ptr("ROOT"))
-	if err != nil {
-		return nil, err
-	}
+	store := try(syscall.CertOpenSystemStore(0, syscall.StringToUTF16Ptr("ROOT")))
 	defer syscall.CertCloseStore(store, 0)
 
 	roots := NewCertPool()

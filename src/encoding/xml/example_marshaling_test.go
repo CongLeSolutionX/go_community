@@ -21,9 +21,7 @@ const (
 
 func (a *Animal) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var s string
-	if err := d.DecodeElement(&s, &start); err != nil {
-		return err
-	}
+	try(d.DecodeElement(&s, &start))
 	switch strings.ToLower(s) {
 	default:
 		*a = Unknown

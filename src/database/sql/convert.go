@@ -80,10 +80,7 @@ func (c ccChecker) CheckNamedValue(nv *driver.NamedValue) error {
 	// same error.
 	var err error
 	arg := nv.Value
-	nv.Value, err = c.cci.ColumnConverter(index).ConvertValue(arg)
-	if err != nil {
-		return err
-	}
+	nv.Value = try(c.cci.ColumnConverter(index).ConvertValue(arg))
 	if !driver.IsValue(nv.Value) {
 		return fmt.Errorf("driver ColumnConverter error converted %T to unsupported type %T", arg, nv.Value)
 	}

@@ -301,10 +301,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 		return t, nil
 	}
 	r.Seek(off)
-	e, err := r.Next()
-	if err != nil {
-		return nil, err
-	}
+	e := try(r.Next())
 	addressSize := r.AddressSize()
 	if e == nil || e.Offset != off {
 		return nil, DecodeError{name, off, "no type at offset"}

@@ -63,10 +63,7 @@ func executable() (string, error) {
 
 // isExecutable returns an error if a given file is not an executable.
 func isExecutable(path string) error {
-	stat, err := Stat(path)
-	if err != nil {
-		return err
-	}
+	stat := try(Stat(path))
 	mode := stat.Mode()
 	if !mode.IsRegular() {
 		return ErrPermission

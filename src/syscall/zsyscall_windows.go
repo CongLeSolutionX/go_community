@@ -203,10 +203,7 @@ func GetLastError() (lasterr error) {
 
 func LoadLibrary(libname string) (handle Handle, err error) {
 	var _p0 *uint16
-	_p0, err = UTF16PtrFromString(libname)
-	if err != nil {
-		return
-	}
+	_p0 = try(UTF16PtrFromString(libname))
 	return _LoadLibrary(_p0)
 }
 
@@ -237,10 +234,7 @@ func FreeLibrary(handle Handle) (err error) {
 
 func GetProcAddress(module Handle, procname string) (proc uintptr, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(procname)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(procname))
 	return _GetProcAddress(module, _p0)
 }
 
@@ -1611,10 +1605,7 @@ func WSASendTo(s Handle, bufs *WSABuf, bufcnt uint32, sent *uint32, flags uint32
 
 func GetHostByName(name string) (h *Hostent, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(name)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(name))
 	return _GetHostByName(_p0)
 }
 
@@ -1633,15 +1624,9 @@ func _GetHostByName(name *byte) (h *Hostent, err error) {
 
 func GetServByName(name string, proto string) (s *Servent, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(name)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(name))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(proto)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(proto))
 	return _GetServByName(_p0, _p1)
 }
 
@@ -1666,10 +1651,7 @@ func Ntohs(netshort uint16) (u uint16) {
 
 func GetProtoByName(name string) (p *Protoent, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(name)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(name))
 	return _GetProtoByName(_p0)
 }
 
@@ -1688,10 +1670,7 @@ func _GetProtoByName(name *byte) (p *Protoent, err error) {
 
 func DnsQuery(name string, qtype uint16, options uint32, extra *byte, qrs **DNSRecord, pr *byte) (status error) {
 	var _p0 *uint16
-	_p0, status = UTF16PtrFromString(name)
-	if status != nil {
-		return
-	}
+	_p0 = try(UTF16PtrFromString(name))
 	return _DnsQuery(_p0, qtype, options, extra, qrs, pr)
 }
 

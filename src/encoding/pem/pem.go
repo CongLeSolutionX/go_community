@@ -223,22 +223,13 @@ func (l *lineBreaker) Write(b []byte) (n int, err error) {
 		return len(b), nil
 	}
 
-	n, err = l.out.Write(l.line[0:l.used])
-	if err != nil {
-		return
-	}
+	n = try(l.out.Write(l.line[0:l.used]))
 	excess := pemLineLength - l.used
 	l.used = 0
 
-	n, err = l.out.Write(b[0:excess])
-	if err != nil {
-		return
-	}
+	n = try(l.out.Write(b[0:excess]))
 
-	n, err = l.out.Write(nl)
-	if err != nil {
-		return
-	}
+	n = try(l.out.Write(nl))
 
 	return l.Write(b[excess:])
 }
@@ -272,12 +263,8 @@ func Encode(out io.Writer, b *Block) error {
 	// All errors below are relayed from underlying io.Writer,
 	// so it is now safe to write data.
 
-	if _, err := out.Write(pemStart[1:]); err != nil {
-		return err
-	}
-	if _, err := out.Write([]byte(b.Type + "-----\n")); err != nil {
-		return err
-	}
+	try(out.Write(pemStart[1:]))
+	try(out.Write([]byte(b.Type + "-----\n")))
 
 	if len(b.Headers) > 0 {
 		const procType = "Proc-Type"
@@ -313,15 +300,11 @@ func Encode(out io.Writer, b *Block) error {
 	breaker.out = out
 
 	b64 := base64.NewEncoder(base64.StdEncoding, &breaker)
-	if _, err := b64.Write(b.Bytes); err != nil {
-		return err
-	}
+	try(b64.Write(b.Bytes))
 	b64.Close()
 	breaker.Close()
 
-	if _, err := out.Write(pemEnd[1:]); err != nil {
-		return err
-	}
+	try(out.Write(pemEnd[1:]))
 	_, err := out.Write([]byte(b.Type + "-----\n"))
 	return err
 }

@@ -118,10 +118,7 @@ func (w *Writer) CreatePart(header textproto.MIMEHeader) (io.Writer, error) {
 		}
 	}
 	fmt.Fprintf(&b, "\r\n")
-	_, err := io.Copy(w.w, &b)
-	if err != nil {
-		return nil, err
-	}
+	try(io.Copy(w.w, &b))
 	p := &part{
 		mw: w,
 	}
@@ -157,10 +154,7 @@ func (w *Writer) CreateFormField(fieldname string) (io.Writer, error) {
 
 // WriteField calls CreateFormField and then writes the given value.
 func (w *Writer) WriteField(fieldname, value string) error {
-	p, err := w.CreateFormField(fieldname)
-	if err != nil {
-		return err
-	}
+	p := try(w.CreateFormField(fieldname))
 	_, err = p.Write([]byte(value))
 	return err
 }

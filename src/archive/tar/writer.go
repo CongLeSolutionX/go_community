@@ -65,9 +65,7 @@ func (tw *Writer) Flush() error {
 // If the current file is not fully written, then this returns an error.
 // This implicitly flushes any padding necessary before writing the header.
 func (tw *Writer) WriteHeader(hdr *Header) error {
-	if err := tw.Flush(); err != nil {
-		return err
-	}
+	try(tw.Flush())
 	tw.hdr = *hdr // Shallow copy of Header
 
 	// Avoid usage of the legacy TypeRegA flag, and automatically promote
@@ -209,9 +207,7 @@ func (tw *Writer) writePAXHeader(hdr *Header, paxHdrs map[string]string) error {
 	fmtStr := func(b []byte, s string) { f.formatString(b, toASCII(s)) }
 	blk := tw.templateV7Plus(hdr, fmtStr, f.formatOctal)
 	blk.SetFormat(FormatPAX)
-	if err := tw.writeRawHeader(blk, hdr.Size, hdr.Typeflag); err != nil {
-		return err
-	}
+	try(tw.writeRawHeader(blk, hdr.Size, hdr.Typeflag))
 
 	// TODO(dsnet): Re-enable this when adding sparse support.
 	// See https://golang.org/issue/22735
@@ -294,9 +290,7 @@ func (tw *Writer) writeGNUHeader(hdr *Header) error {
 		}
 	*/
 	blk.SetFormat(FormatGNU)
-	if err := tw.writeRawHeader(blk, hdr.Size, hdr.Typeflag); err != nil {
-		return err
-	}
+	try(tw.writeRawHeader(blk, hdr.Size, hdr.Typeflag))
 
 	// Write the extended sparse map and setup the sparse writer if necessary.
 	if len(spd) > 0 {
@@ -375,9 +369,7 @@ func (tw *Writer) writeRawFile(name, data string, flag byte, format Format) erro
 	}
 
 	// Write the header and data.
-	if err := tw.writeRawHeader(&tw.blk, int64(len(data)), flag); err != nil {
-		return err
-	}
+	try(tw.writeRawHeader(&tw.blk, int64(len(data)), flag))
 	_, err := io.WriteString(tw, data)
 	return err
 }
@@ -386,12 +378,8 @@ func (tw *Writer) writeRawFile(name, data string, flag byte, format Format) erro
 // It sets up the Writer such that it can accept a file of the given size.
 // If the flag is a special header-only flag, then the size is treated as zero.
 func (tw *Writer) writeRawHeader(blk *block, size int64, flag byte) error {
-	if err := tw.Flush(); err != nil {
-		return err
-	}
-	if _, err := tw.w.Write(blk[:]); err != nil {
-		return err
-	}
+	try(tw.Flush())
+	try(tw.w.Write(blk[:]))
 	if isHeaderOnlyType(flag) {
 		size = 0
 	}

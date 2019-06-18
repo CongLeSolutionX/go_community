@@ -45,10 +45,7 @@ func buildObjdump() error {
 	}
 
 	exe = filepath.Join(tmp, "testobjdump.exe")
-	gotool, err := testenv.GoTool()
-	if err != nil {
-		return err
-	}
+	gotool := try(testenv.GoTool())
 	out, err := exec.Command(gotool, "build", "-o", exe, "cmd/objdump").CombinedOutput()
 	if err != nil {
 		os.RemoveAll(tmp)

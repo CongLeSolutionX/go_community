@@ -19,10 +19,7 @@ const filename = "<src>"
 
 func makePkg(src string) (*Package, error) {
 	fset := token.NewFileSet()
-	file, err := parser.ParseFile(fset, filename, src, parser.DeclarationErrors)
-	if err != nil {
-		return nil, err
-	}
+	file := try(parser.ParseFile(fset, filename, src, parser.DeclarationErrors))
 	// use the package name as package path
 	conf := Config{Importer: importer.Default()}
 	return conf.Check(file.Name.Name, fset, []*ast.File{file}, nil)

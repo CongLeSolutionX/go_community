@@ -64,19 +64,13 @@ func download(mod module.Version, dir string) (err error) {
 	// To avoid cluttering the cache with extraneous files,
 	// DownloadZip uses the same lockfile as Download.
 	// Invoke DownloadZip before locking the file.
-	zipfile, err := DownloadZip(mod)
-	if err != nil {
-		return err
-	}
+	zipfile := try(DownloadZip(mod))
 
 	if cfg.CmdName != "mod download" {
 		fmt.Fprintf(os.Stderr, "go: extracting %s %s\n", mod.Path, mod.Version)
 	}
 
-	unlock, err := lockVersion(mod)
-	if err != nil {
-		return err
-	}
+	unlock := try(lockVersion(mod))
 	defer unlock()
 
 	// Check whether the directory was populated while we were waiting on the lock.
@@ -101,13 +95,8 @@ func download(mod module.Version, dir string) (err error) {
 	// signal that it has been extracted successfully, and if someone deletes
 	// the entire directory (e.g. as an attempt to prune out file corruption)
 	// the module cache will still be left in a recoverable state.
-	if err := os.MkdirAll(parentDir, 0777); err != nil {
-		return err
-	}
-	tmpDir, err := ioutil.TempDir(parentDir, tmpPrefix)
-	if err != nil {
-		return err
-	}
+	try(os.MkdirAll(parentDir, 0777))
+	tmpDir := try(ioutil.TempDir(parentDir, tmpPrefix))
 	defer func() {
 		if err != nil {
 			RemoveAll(tmpDir)
@@ -120,9 +109,7 @@ func download(mod module.Version, dir string) (err error) {
 		return err
 	}
 
-	if err := os.Rename(tmpDir, dir); err != nil {
-		return err
-	}
+	try(os.Rename(tmpDir, dir))
 
 	// Make dir read-only only *after* renaming it.
 	// os.Rename was observed to fail for read-only directories on macOS.
@@ -194,10 +181,7 @@ func downloadZip(mod module.Version, zipfile string) (err error) {
 	// contents of the file (by hashing it) before we commit it. Because the file
 	// is zip-compressed, we need an actual file — or at least an io.ReaderAt — to
 	// validate it: we can't just tee the stream as we write it.
-	f, err := ioutil.TempFile(filepath.Dir(zipfile), filepath.Base(renameio.Pattern(zipfile)))
-	if err != nil {
-		return err
-	}
+	f := try(ioutil.TempFile(filepath.Dir(zipfile), filepath.Base(renameio.Pattern(zipfile))))
 	defer func() {
 		if err != nil {
 			f.Close()
@@ -205,28 +189,20 @@ func downloadZip(mod module.Version, zipfile string) (err error) {
 		}
 	}()
 
-	err = TryProxies(func(proxy string) error {
+	try(TryProxies(func(proxy string) error {
 		repo, err := Lookup(proxy, mod.Path)
 		if err != nil {
 			return err
 		}
 		return repo.Zip(f, mod.Version)
-	})
-	if err != nil {
-		return err
-	}
+	}),
+	)
 
 	// Double-check that the paths within the zip file are well-formed.
 	//
 	// TODO(bcmills): There is a similar check within the Unzip function. Can we eliminate one?
-	fi, err := f.Stat()
-	if err != nil {
-		return err
-	}
-	z, err := zip.NewReader(f, fi.Size())
-	if err != nil {
-		return err
-	}
+	fi := try(f.Stat())
+	z := try(zip.NewReader(f, fi.Size()))
 	prefix := mod.Path + "@" + mod.Version + "/"
 	for _, f := range z.File {
 		if !strings.HasPrefix(f.Name, prefix) {
@@ -237,26 +213,15 @@ func downloadZip(mod module.Version, zipfile string) (err error) {
 	// Sync the file before renaming it: otherwise, after a crash the reader may
 	// observe a 0-length file instead of the actual contents.
 	// See https://golang.org/issue/22397#issuecomment-380831736.
-	if err := f.Sync(); err != nil {
-		return err
-	}
-	if err := f.Close(); err != nil {
-		return err
-	}
+	try(f.Sync())
+	try(f.Close())
 
 	// Hash the zip file and check the sum before renaming to the final location.
-	hash, err := dirhash.HashZip(f.Name(), dirhash.DefaultHash)
-	if err != nil {
-		return err
-	}
+	hash := try(dirhash.HashZip(f.Name(), dirhash.DefaultHash))
 	checkModSum(mod, hash)
 
-	if err := renameio.WriteFile(zipfile+"hash", []byte(hash), 0666); err != nil {
-		return err
-	}
-	if err := os.Rename(f.Name(), zipfile); err != nil {
-		return err
-	}
+	try(renameio.WriteFile(zipfile+"hash", []byte(hash), 0666))
+	try(os.Rename(f.Name(), zipfile))
 
 	// TODO(bcmills): Should we make the .zip and .ziphash files read-only to discourage tampering?
 

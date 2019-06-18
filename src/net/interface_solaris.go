@@ -14,10 +14,7 @@ import (
 // network interfaces. Otherwise it returns a mapping of a specific
 // interface.
 func interfaceTable(ifindex int) ([]Interface, error) {
-	lls, err := lif.Links(syscall.AF_UNSPEC, "")
-	if err != nil {
-		return nil, err
-	}
+	lls := try(lif.Links(syscall.AF_UNSPEC, ""))
 	var ift []Interface
 	for _, ll := range lls {
 		if ifindex != 0 && ifindex != ll.Index {
@@ -78,10 +75,7 @@ func interfaceAddrTable(ifi *Interface) ([]Addr, error) {
 	if ifi != nil {
 		name = ifi.Name
 	}
-	as, err := lif.Addrs(syscall.AF_UNSPEC, name)
-	if err != nil {
-		return nil, err
-	}
+	as := try(lif.Addrs(syscall.AF_UNSPEC, name))
 	var ifat []Addr
 	for _, a := range as {
 		var ip IP

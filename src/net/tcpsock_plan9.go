@@ -30,20 +30,14 @@ func (sd *sysDialer) doDialTCP(ctx context.Context, laddr, raddr *TCPAddr) (*TCP
 	if raddr == nil {
 		return nil, errMissingAddress
 	}
-	fd, err := dialPlan9(ctx, sd.network, laddr, raddr)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(dialPlan9(ctx, sd.network, laddr, raddr))
 	return newTCPConn(fd), nil
 }
 
 func (ln *TCPListener) ok() bool { return ln != nil && ln.fd != nil && ln.fd.ctl != nil }
 
 func (ln *TCPListener) accept() (*TCPConn, error) {
-	fd, err := ln.fd.acceptPlan9()
-	if err != nil {
-		return nil, err
-	}
+	fd := try(ln.fd.acceptPlan9())
 	tc := newTCPConn(fd)
 	if ln.lc.KeepAlive >= 0 {
 		setKeepAlive(fd, true)
@@ -57,31 +51,21 @@ func (ln *TCPListener) accept() (*TCPConn, error) {
 }
 
 func (ln *TCPListener) close() error {
-	if err := ln.fd.pfd.Close(); err != nil {
-		return err
-	}
+	try(ln.fd.pfd.Close())
 	if _, err := ln.fd.ctl.WriteString("hangup"); err != nil {
 		ln.fd.ctl.Close()
 		return err
 	}
-	if err := ln.fd.ctl.Close(); err != nil {
-		return err
-	}
+	try(ln.fd.ctl.Close())
 	return nil
 }
 
 func (ln *TCPListener) file() (*os.File, error) {
-	f, err := ln.dup()
-	if err != nil {
-		return nil, err
-	}
+	f := try(ln.dup())
 	return f, nil
 }
 
 func (sl *sysListener) listenTCP(ctx context.Context, laddr *TCPAddr) (*TCPListener, error) {
-	fd, err := listenPlan9(ctx, sl.network, laddr)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(listenPlan9(ctx, sl.network, laddr))
 	return &TCPListener{fd: fd, lc: sl.ListenConfig}, nil
 }

@@ -1474,10 +1474,7 @@ func http2ReadFrameHeader(r io.Reader) (http2FrameHeader, error) {
 }
 
 func http2readFrameHeader(buf []byte, r io.Reader) (http2FrameHeader, error) {
-	_, err := io.ReadFull(r, buf[:http2frameHeaderLen])
-	if err != nil {
-		return http2FrameHeader{}, err
-	}
+	try(io.ReadFull(r, buf[:http2frameHeaderLen]))
 	return http2FrameHeader{
 		Length:   (uint32(buf[0])<<16 | uint32(buf[1])<<8 | uint32(buf[2])),
 		Type:     http2FrameType(buf[3]),
@@ -1732,17 +1729,12 @@ func (fr *http2Framer) ReadFrame() (http2Frame, error) {
 	if fr.lastFrame != nil {
 		fr.lastFrame.invalidate()
 	}
-	fh, err := http2readFrameHeader(fr.headerBuf[:], fr.r)
-	if err != nil {
-		return nil, err
-	}
+	fh := try(http2readFrameHeader(fr.headerBuf[:], fr.r))
 	if fh.Length > fr.maxReadSize {
 		return nil, http2ErrFrameTooLarge
 	}
 	payload := fr.getReadBuf(fh.Length)
-	if _, err := io.ReadFull(fr.r, payload); err != nil {
-		return nil, err
-	}
+	try(io.ReadFull(fr.r, payload))
 	f, err := http2typeFrameParser(fh.Type)(fr.frameCache, fh, payload)
 	if err != nil {
 		if ce, ok := err.(http2connError); ok {
@@ -1750,9 +1742,7 @@ func (fr *http2Framer) ReadFrame() (http2Frame, error) {
 		}
 		return nil, err
 	}
-	if err := fr.checkFrameOrder(f); err != nil {
-		return nil, err
-	}
+	try(fr.checkFrameOrder(f))
 	if fr.logReads {
 		fr.debugReadLoggerf("http2: Framer %p: read %v", fr, http2summarizeFrame(f))
 	}
@@ -2034,9 +2024,7 @@ func (f *http2SettingsFrame) HasDuplicates() bool {
 func (f *http2SettingsFrame) ForeachSetting(fn func(http2Setting) error) error {
 	f.checkValid()
 	for i := 0; i < f.NumSettings(); i++ {
-		if err := fn(f.Setting(i)); err != nil {
-			return err
-		}
+		try(fn(f.Setting(i)))
 	}
 	return nil
 }
@@ -2517,10 +2505,7 @@ func http2parsePushPromise(_ *http2frameCache, fh http2FrameHeader, p []byte) (_
 		}
 	}
 
-	p, pp.PromiseID, err = http2readUint32(p)
-	if err != nil {
-		return
-	}
+	p, pp.PromiseID = try(http2readUint32(p))
 	pp.PromiseID = pp.PromiseID & (1<<31 - 1)
 
 	if int(padLength) > len(p) {
@@ -4546,14 +4531,12 @@ func (sc *http2serverConn) writeDataFromHandler(stream *http2stream, data []byte
 	ch := http2errChanPool.Get().(chan error)
 	writeArg := http2writeDataPool.Get().(*http2writeData)
 	*writeArg = http2writeData{stream.id, data, endStream}
-	err := sc.writeFrameFromHandler(http2FrameWriteRequest{
+	try(sc.writeFrameFromHandler(http2FrameWriteRequest{
 		write:  writeArg,
 		stream: stream,
 		done:   ch,
-	})
-	if err != nil {
-		return err
-	}
+	}),
+	)
 	var frameWriteDone bool // the frame write is done (successfully or not)
 	select {
 	case err = <-ch:
@@ -5094,9 +5077,7 @@ func (sc *http2serverConn) processSettings(f *http2SettingsFrame) error {
 		// duplicate entries.
 		return http2ConnectionError(http2ErrCodeProtocol)
 	}
-	if err := f.ForeachSetting(sc.processSetting); err != nil {
-		return err
-	}
+	try(f.ForeachSetting(sc.processSetting))
 	sc.needToSendSettingsAck = true
 	sc.scheduleFrameWrite()
 	return nil
@@ -5104,9 +5085,7 @@ func (sc *http2serverConn) processSettings(f *http2SettingsFrame) error {
 
 func (sc *http2serverConn) processSetting(s http2Setting) error {
 	sc.serveG.check()
-	if err := s.Valid(); err != nil {
-		return err
-	}
+	try(s.Valid())
 	if http2VerboseLogs {
 		sc.vlogf("http2: server processing setting %v", s)
 	}
@@ -5384,10 +5363,7 @@ func (sc *http2serverConn) processHeaders(f *http2MetaHeadersFrame) error {
 		sc.writeSched.AdjustStream(st.id, f.Priority)
 	}
 
-	rw, req, err := sc.newWriterAndRequest(st, f)
-	if err != nil {
-		return err
-	}
+	rw, req := try(sc.newWriterAndRequest(st, f))
 	st.reqTrailer = req.Trailer
 	if st.reqTrailer != nil {
 		st.trailer = make(Header)
@@ -5463,9 +5439,7 @@ func (sc *http2serverConn) processPriority(f *http2PriorityFrame) error {
 	if sc.inGoAway {
 		return nil
 	}
-	if err := http2checkPriority(f.StreamID, f.http2PriorityParam); err != nil {
-		return err
-	}
+	try(http2checkPriority(f.StreamID, f.http2PriorityParam))
 	sc.writeSched.AdjustStream(f.StreamID, f.http2PriorityParam)
 	return nil
 }
@@ -5550,10 +5524,7 @@ func (sc *http2serverConn) newWriterAndRequest(st *http2stream, f *http2MetaHead
 		rp.authority = rp.header.Get("Host")
 	}
 
-	rw, req, err := sc.newWriterAndRequestNoBody(st, rp)
-	if err != nil {
-		return nil, nil, err
-	}
+	rw, req := try(sc.newWriterAndRequestNoBody(st, rp))
 	if bodyOpen {
 		if vv, ok := rp.header["Content-Length"]; ok {
 			req.ContentLength, _ = strconv.ParseInt(vv[0], 10, 64)
@@ -5706,13 +5677,12 @@ func (sc *http2serverConn) writeHeaders(st *http2stream, headerData *http2writeR
 		// mutates it.
 		errc = http2errChanPool.Get().(chan error)
 	}
-	if err := sc.writeFrameFromHandler(http2FrameWriteRequest{
+	try(sc.writeFrameFromHandler(http2FrameWriteRequest{
 		write:  headerData,
 		stream: st,
 		done:   errc,
-	}); err != nil {
-		return err
-	}
+	}),
+	)
 	if errc != nil {
 		select {
 		case err := <-errc:
@@ -6274,10 +6244,7 @@ func (w *http2responseWriter) Push(target string, opts *PushOptions) error {
 	}
 
 	// Validate the request.
-	u, err := url.Parse(target)
-	if err != nil {
-		return err
-	}
+	u := try(url.Parse(target))
 	if u.Scheme == "" {
 		if !strings.HasPrefix(target, "/") {
 			return fmt.Errorf("target must be an absolute URL or an absolute path: %q", target)
@@ -6305,9 +6272,7 @@ func (w *http2responseWriter) Push(target string, opts *PushOptions) error {
 			return fmt.Errorf("promised request headers cannot include %q", k)
 		}
 	}
-	if err := http2checkValidHTTP2RequestHeaders(opts.Header); err != nil {
-		return err
-	}
+	try(http2checkValidHTTP2RequestHeaders(opts.Header))
 
 	// The RFC effectively limits promised requests to GET and HEAD:
 	// "Promised requests MUST be cacheable [GET, HEAD, or POST], and MUST be safe [GET or HEAD]"
@@ -6603,9 +6568,7 @@ func http2configureTransport(t1 *Transport) (*http2Transport, error) {
 		t1:       t1,
 	}
 	connPool.t = t2
-	if err := http2registerHTTPSProtocol(t1, http2noDialH2RoundTripper{t2}); err != nil {
-		return nil, err
-	}
+	try(http2registerHTTPSProtocol(t1, http2noDialH2RoundTripper{t2}))
 	if t1.TLSClientConfig == nil {
 		t1.TLSClientConfig = new(tls.Config)
 	}
@@ -6993,14 +6956,8 @@ func http2canRetryError(err error) bool {
 }
 
 func (t *http2Transport) dialClientConn(addr string, singleUse bool) (*http2ClientConn, error) {
-	host, _, err := net.SplitHostPort(addr)
-	if err != nil {
-		return nil, err
-	}
-	tconn, err := t.dialTLS()("tcp", addr, t.newTLSConfig(host))
-	if err != nil {
-		return nil, err
-	}
+	host, _ := try(net.SplitHostPort(addr))
+	tconn := try(t.dialTLS()("tcp", addr, t.newTLSConfig(host)))
 	return t.newClientConn(tconn, singleUse)
 }
 
@@ -7026,13 +6983,8 @@ func (t *http2Transport) dialTLS() func(string, string, *tls.Config) (net.Conn, 
 }
 
 func (t *http2Transport) dialTLSDefault(network, addr string, cfg *tls.Config) (net.Conn, error) {
-	cn, err := tls.Dial(network, addr, cfg)
-	if err != nil {
-		return nil, err
-	}
-	if err := cn.Handshake(); err != nil {
-		return nil, err
-	}
+	cn := try(tls.Dial(network, addr, cfg))
+	try(cn.Handshake())
 	if !cfg.InsecureSkipVerify {
 		if err := cn.VerifyHostname(cfg.ServerName); err != nil {
 			return nil, err
@@ -7236,9 +7188,7 @@ var http2shutdownEnterWaitStateHook = func() {}
 
 // Shutdown gracefully close the client connection, waiting for running streams to complete.
 func (cc *http2ClientConn) Shutdown(ctx context.Context) error {
-	if err := cc.sendGoAway(); err != nil {
-		return err
-	}
+	try(cc.sendGoAway())
 	// Wait for all in-flight streams to complete or connection to close
 	done := make(chan error, 1)
 	cancelled := false // guarded by cc.mu
@@ -7282,12 +7232,8 @@ func (cc *http2ClientConn) sendGoAway() error {
 	}
 	// Send a graceful shutdown frame to server
 	maxStreamID := cc.nextStreamID
-	if err := cc.fr.WriteGoAway(maxStreamID, http2ErrCodeNo, nil); err != nil {
-		return err
-	}
-	if err := cc.bw.Flush(); err != nil {
-		return err
-	}
+	try(cc.fr.WriteGoAway(maxStreamID, http2ErrCodeNo, nil))
+	try(cc.bw.Flush())
 	// Prevent new requests
 	cc.closing = true
 	return nil
@@ -7797,9 +7743,7 @@ func (cs *http2clientStream) awaitFlowControl(maxBytes int) (taken int32, err er
 		if cs.stopReqBody != nil {
 			return 0, cs.stopReqBody
 		}
-		if err := cs.checkResetOrDone(); err != nil {
-			return 0, err
-		}
+		try(cs.checkResetOrDone())
 		if a := cs.flow.available(); a > 0 {
 			take := a
 			if int(take) > maxBytes {
@@ -7831,10 +7775,7 @@ func (cc *http2ClientConn) encodeHeaders(req *Request, addGzipHeader bool, trail
 	if host == "" {
 		host = req.URL.Host
 	}
-	host, err := httpguts.PunycodeHostPort(host)
-	if err != nil {
-		return nil, err
-	}
+	host := try(httpguts.PunycodeHostPort(host))
 
 	var path string
 	if req.Method != "CONNECT" {
@@ -8656,7 +8597,7 @@ func (rl *http2clientConnReadLoop) processSettings(f *http2SettingsFrame) error 
 		return http2ConnectionError(http2ErrCodeProtocol)
 	}
 
-	err := f.ForeachSetting(func(s http2Setting) error {
+	try(f.ForeachSetting(func(s http2Setting) error {
 		switch s.ID {
 		case http2SettingMaxFrameSize:
 			cc.maxFrameSize = s.Val
@@ -8688,10 +8629,8 @@ func (rl *http2clientConnReadLoop) processSettings(f *http2SettingsFrame) error 
 			cc.vlogf("Unhandled Setting: %v", s)
 		}
 		return nil
-	})
-	if err != nil {
-		return err
-	}
+	}),
+	)
 
 	cc.wmu.Lock()
 	defer cc.wmu.Unlock()
@@ -8750,9 +8689,7 @@ func (cc *http2ClientConn) Ping(ctx context.Context) error {
 	// Generate a random payload
 	var p [8]byte
 	for {
-		if _, err := rand.Read(p[:]); err != nil {
-			return err
-		}
+		try(rand.Read(p[:]))
 		cc.mu.Lock()
 		// check for dup before insert
 		if _, found := cc.pings[p]; !found {
@@ -8798,9 +8735,7 @@ func (rl *http2clientConnReadLoop) processPing(f *http2PingFrame) error {
 	cc := rl.cc
 	cc.wmu.Lock()
 	defer cc.wmu.Unlock()
-	if err := cc.fr.WritePing(true, f.Data); err != nil {
-		return err
-	}
+	try(cc.fr.WritePing(true, f.Data))
 	return cc.bw.Flush()
 }
 
@@ -9221,9 +9156,7 @@ func http2splitHeaderBlock(ctx http2writeContext, headerBlock []byte, fn func(ct
 			frag = frag[:maxFrameSize]
 		}
 		headerBlock = headerBlock[len(frag):]
-		if err := fn(ctx, frag, first, len(headerBlock) == 0); err != nil {
-			return err
-		}
+		try(fn(ctx, frag, first, len(headerBlock) == 0))
 		first = false
 	}
 	return nil

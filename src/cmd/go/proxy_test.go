@@ -340,14 +340,8 @@ var archiveCache par.Cache
 var cmdGoDir, _ = os.Getwd()
 
 func readArchive(path, vers string) (*txtar.Archive, error) {
-	enc, err := module.EncodePath(path)
-	if err != nil {
-		return nil, err
-	}
-	encVers, err := module.EncodeVersion(vers)
-	if err != nil {
-		return nil, err
-	}
+	enc := try(module.EncodePath(path))
+	encVers := try(module.EncodeVersion(vers))
 
 	prefix := strings.ReplaceAll(enc, "/", "_")
 	name := filepath.Join(cmdGoDir, "testdata/mod", prefix+"_"+encVers+".txt")
@@ -369,10 +363,7 @@ func readArchive(path, vers string) (*txtar.Archive, error) {
 
 // proxyGoSum returns the two go.sum lines for path@vers.
 func proxyGoSum(path, vers string) ([]byte, error) {
-	a, err := readArchive(path, vers)
-	if err != nil {
-		return nil, err
-	}
+	a := try(readArchive(path, vers))
 	var names []string
 	files := make(map[string][]byte)
 	var gomod []byte
@@ -387,19 +378,15 @@ func proxyGoSum(path, vers string) ([]byte, error) {
 		names = append(names, name)
 		files[name] = f.Data
 	}
-	h1, err := dirhash.Hash1(names, func(name string) (io.ReadCloser, error) {
+	h1 := try(dirhash.Hash1(names, func(name string) (io.ReadCloser, error) {
 		data := files[name]
 		return ioutil.NopCloser(bytes.NewReader(data)), nil
-	})
-	if err != nil {
-		return nil, err
-	}
-	h1mod, err := dirhash.Hash1([]string{"go.mod"}, func(string) (io.ReadCloser, error) {
+	}),
+	)
+	h1mod := try(dirhash.Hash1([]string{"go.mod"}, func(string) (io.ReadCloser, error) {
 		return ioutil.NopCloser(bytes.NewReader(gomod)), nil
-	})
-	if err != nil {
-		return nil, err
-	}
+	}),
+	)
 	data := []byte(fmt.Sprintf("%s %s %s\n%s %s/go.mod %s\n", path, vers, h1, path, vers, h1mod))
 	return data, nil
 }

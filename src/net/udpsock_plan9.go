@@ -13,10 +13,7 @@ import (
 
 func (c *UDPConn) readFrom(b []byte) (n int, addr *UDPAddr, err error) {
 	buf := make([]byte, udpHeaderSize+len(b))
-	m, err := c.fd.Read(buf)
-	if err != nil {
-		return 0, nil, err
-	}
+	m := try(c.fd.Read(buf))
 	if m < udpHeaderSize {
 		return 0, nil, errors.New("short read reading UDP header")
 	}
@@ -45,9 +42,7 @@ func (c *UDPConn) writeTo(b []byte, addr *UDPAddr) (int, error) {
 	buf := make([]byte, udpHeaderSize+len(b))
 	i := copy(buf, h.Bytes())
 	copy(buf[i:], b)
-	if _, err := c.fd.Write(buf); err != nil {
-		return 0, err
-	}
+	try(c.fd.Write(buf))
 	return len(b), nil
 }
 
@@ -56,10 +51,7 @@ func (c *UDPConn) writeMsg(b, oob []byte, addr *UDPAddr) (n, oobn int, err error
 }
 
 func (sd *sysDialer) dialUDP(ctx context.Context, laddr, raddr *UDPAddr) (*UDPConn, error) {
-	fd, err := dialPlan9(ctx, sd.network, laddr, raddr)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(dialPlan9(ctx, sd.network, laddr, raddr))
 	return newUDPConn(fd), nil
 }
 
@@ -92,31 +84,16 @@ func unmarshalUDPHeader(b []byte) (*udpHeader, []byte) {
 }
 
 func (sl *sysListener) listenUDP(ctx context.Context, laddr *UDPAddr) (*UDPConn, error) {
-	l, err := listenPlan9(ctx, sl.network, laddr)
-	if err != nil {
-		return nil, err
-	}
-	_, err = l.ctl.WriteString("headers")
-	if err != nil {
-		return nil, err
-	}
-	l.data, err = os.OpenFile(l.dir+"/data", os.O_RDWR, 0)
-	if err != nil {
-		return nil, err
-	}
+	l := try(listenPlan9(ctx, sl.network, laddr))
+	try(l.ctl.WriteString("headers"))
+	l.data = try(os.OpenFile(l.dir+"/data", os.O_RDWR, 0))
 	fd, err := l.netFD()
 	return newUDPConn(fd), err
 }
 
 func (sl *sysListener) listenMulticastUDP(ctx context.Context, ifi *Interface, gaddr *UDPAddr) (*UDPConn, error) {
-	l, err := listenPlan9(ctx, sl.network, gaddr)
-	if err != nil {
-		return nil, err
-	}
-	_, err = l.ctl.WriteString("headers")
-	if err != nil {
-		return nil, err
-	}
+	l := try(listenPlan9(ctx, sl.network, gaddr))
+	try(l.ctl.WriteString("headers"))
 	var addrs []Addr
 	if ifi != nil {
 		addrs, err = ifi.Addrs()
@@ -137,13 +114,7 @@ func (sl *sysListener) listenMulticastUDP(ctx context.Context, ifi *Interface, g
 			}
 		}
 	}
-	l.data, err = os.OpenFile(l.dir+"/data", os.O_RDWR, 0)
-	if err != nil {
-		return nil, err
-	}
-	fd, err := l.netFD()
-	if err != nil {
-		return nil, err
-	}
+	l.data = try(os.OpenFile(l.dir+"/data", os.O_RDWR, 0))
+	fd := try(l.netFD())
 	return newUDPConn(fd), nil
 }

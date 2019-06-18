@@ -90,10 +90,7 @@ func Node(dst io.Writer, fset *token.FileSet, node interface{}) error {
 //
 func Source(src []byte) ([]byte, error) {
 	fset := token.NewFileSet()
-	file, sourceAdj, indentAdj, err := parse(fset, "", src, true)
-	if err != nil {
-		return nil, err
-	}
+	file, sourceAdj, indentAdj := try(parse(fset, "", src, true))
 
 	if sourceAdj == nil {
 		// Complete source file.

@@ -131,17 +131,10 @@ func errstr() string {
 func readnum(path string) (uint, error) {
 	var b [12]byte
 
-	fd, e := Open(path, O_RDONLY)
-	if e != nil {
-		return 0, e
-	}
+	fd := try(Open(path, O_RDONLY))
 	defer Close(fd)
 
-	n, e := Pread(fd, b[:], 0)
-
-	if e != nil {
-		return 0, e
-	}
+	n := try(Pread(fd, b[:], 0))
 
 	m := 0
 	for ; m < n && b[m] == ' '; m++ {
@@ -174,10 +167,7 @@ var ioSync int64
 func Fd2path(fd int) (path string, err error) {
 	var buf [512]byte
 
-	e := fd2path(fd, buf[:])
-	if e != nil {
-		return "", e
-	}
+	try(fd2path(fd, buf[:]))
 	return cstring(buf[:]), nil
 }
 
@@ -287,10 +277,7 @@ func Await(w *Waitmsg) (err error) {
 
 func Unmount(name, old string) (err error) {
 	fixwd(name, old)
-	oldp, err := BytePtrFromString(old)
-	if err != nil {
-		return err
-	}
+	oldp := try(BytePtrFromString(old))
 	oldptr := uintptr(unsafe.Pointer(oldp))
 
 	var r0 uintptr
@@ -314,11 +301,7 @@ func Unmount(name, old string) (err error) {
 }
 
 func Fchdir(fd int) (err error) {
-	path, err := Fd2path(fd)
-
-	if err != nil {
-		return
-	}
+	path := try(Fd2path(fd))
 
 	return Chdir(path)
 }

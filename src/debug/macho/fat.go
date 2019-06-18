@@ -95,10 +95,7 @@ func NewFatFile(r io.ReaderAt) (*FatFile, error) {
 		offset += fatArchHeaderSize
 
 		fr := io.NewSectionReader(r, int64(fa.Offset), int64(fa.Size))
-		fa.File, err = NewFile(fr)
-		if err != nil {
-			return nil, err
-		}
+		fa.File = try(NewFile(fr))
 
 		// Make sure the architecture for this image is not duplicate.
 		seenArch := (uint64(fa.Cpu) << 32) | uint64(fa.SubCpu)
@@ -123,10 +120,7 @@ func NewFatFile(r io.ReaderAt) (*FatFile, error) {
 // OpenFat opens the named file using os.Open and prepares it for use as a Mach-O
 // universal binary.
 func OpenFat(name string) (*FatFile, error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(name))
 	ff, err := NewFatFile(f)
 	if err != nil {
 		f.Close()

@@ -331,9 +331,7 @@ func TestAnalyzeAnnotationGC(t *testing.T) {
 func traceProgram(t *testing.T, f func(), name string) error {
 	t.Helper()
 	buf := new(bytes.Buffer)
-	if err := trace.Start(buf); err != nil {
-		return err
-	}
+	try(trace.Start(buf))
 	f()
 	trace.Stop()
 

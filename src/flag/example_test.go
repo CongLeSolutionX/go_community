@@ -52,10 +52,7 @@ func (i *interval) Set(value string) error {
 		return errors.New("interval flag already set")
 	}
 	for _, dt := range strings.Split(value, ",") {
-		duration, err := time.ParseDuration(dt)
-		if err != nil {
-			return err
-		}
+		duration := try(time.ParseDuration(dt))
 		*i = append(*i, duration)
 	}
 	return nil

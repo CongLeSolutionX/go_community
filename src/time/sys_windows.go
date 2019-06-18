@@ -14,10 +14,7 @@ func interrupt() {
 }
 
 func open(name string) (uintptr, error) {
-	fd, err := syscall.Open(name, syscall.O_RDONLY, 0)
-	if err != nil {
-		return 0, err
-	}
+	fd := try(syscall.Open(name, syscall.O_RDONLY, 0))
 	return uintptr(fd), nil
 }
 
@@ -34,9 +31,7 @@ func preadn(fd uintptr, buf []byte, off int) error {
 	if off < 0 {
 		whence = seekEnd
 	}
-	if _, err := syscall.Seek(syscall.Handle(fd), int64(off), whence); err != nil {
-		return err
-	}
+	try(syscall.Seek(syscall.Handle(fd), int64(off), whence))
 	for len(buf) > 0 {
 		m, err := syscall.Read(syscall.Handle(fd), buf)
 		if m <= 0 {

@@ -25,10 +25,7 @@ var (
 )
 
 func (d *socksDialer) connect(ctx context.Context, c net.Conn, address string) (_ net.Addr, ctxErr error) {
-	host, port, err := sockssplitHostPort(address)
-	if err != nil {
-		return nil, err
-	}
+	host, port := try(sockssplitHostPort(address))
 	if deadline, ok := ctx.Deadline(); ok && !deadline.IsZero() {
 		c.SetDeadline(deadline)
 		defer c.SetDeadline(socksnoDeadline)
@@ -67,13 +64,9 @@ func (d *socksDialer) connect(ctx context.Context, c net.Conn, address string) (
 			b = append(b, byte(am))
 		}
 	}
-	if _, ctxErr = c.Write(b); ctxErr != nil {
-		return
-	}
+	try(c.Write(b))
 
-	if _, ctxErr = io.ReadFull(c, b[:2]); ctxErr != nil {
-		return
-	}
+	try(io.ReadFull(c, b[:2]))
 	if b[0] != socksVersion5 {
 		return nil, errors.New("unexpected protocol version " + strconv.Itoa(int(b[0])))
 	}
@@ -108,13 +101,9 @@ func (d *socksDialer) connect(ctx context.Context, c net.Conn, address string) (
 		b = append(b, host...)
 	}
 	b = append(b, byte(port>>8), byte(port))
-	if _, ctxErr = c.Write(b); ctxErr != nil {
-		return
-	}
+	try(c.Write(b))
 
-	if _, ctxErr = io.ReadFull(c, b[:4]); ctxErr != nil {
-		return
-	}
+	try(io.ReadFull(c, b[:4]))
 	if b[0] != socksVersion5 {
 		return nil, errors.New("unexpected protocol version " + strconv.Itoa(int(b[0])))
 	}
@@ -146,9 +135,7 @@ func (d *socksDialer) connect(ctx context.Context, c net.Conn, address string) (
 	} else {
 		b = b[:l]
 	}
-	if _, ctxErr = io.ReadFull(c, b); ctxErr != nil {
-		return
-	}
+	try(io.ReadFull(c, b))
 	if a.IP != nil {
 		copy(a.IP, b)
 	} else {
@@ -159,14 +146,8 @@ func (d *socksDialer) connect(ctx context.Context, c net.Conn, address string) (
 }
 
 func sockssplitHostPort(address string) (string, int, error) {
-	host, port, err := net.SplitHostPort(address)
-	if err != nil {
-		return "", 0, err
-	}
-	portnum, err := strconv.Atoi(port)
-	if err != nil {
-		return "", 0, err
-	}
+	host, port := try(net.SplitHostPort(address))
+	portnum := try(strconv.Atoi(port))
 	if 1 > portnum || portnum > 0xffff {
 		return "", 0, errors.New("port number out of range " + port)
 	}
@@ -402,10 +383,7 @@ func (d *socksDialer) validateTarget(network, address string) error {
 
 func (d *socksDialer) pathAddrs(address string) (proxy, dst net.Addr, err error) {
 	for i, s := range []string{d.proxyAddress, address} {
-		host, port, err := sockssplitHostPort(s)
-		if err != nil {
-			return nil, nil, err
-		}
+		host, port := try(sockssplitHostPort(s))
 		a := &socksAddr{Port: port}
 		a.IP = net.ParseIP(host)
 		if a.IP == nil {

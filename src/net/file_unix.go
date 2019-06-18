@@ -28,10 +28,7 @@ func dupSocket(f *os.File) (int, error) {
 }
 
 func newFileFD(f *os.File) (*netFD, error) {
-	s, err := dupSocket(f)
-	if err != nil {
-		return nil, err
-	}
+	s := try(dupSocket(f))
 	family := syscall.AF_UNSPEC
 	sotype, err := syscall.GetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_TYPE)
 	if err != nil {
@@ -68,10 +65,7 @@ func newFileFD(f *os.File) (*netFD, error) {
 }
 
 func fileConn(f *os.File) (Conn, error) {
-	fd, err := newFileFD(f)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(newFileFD(f))
 	switch fd.laddr.(type) {
 	case *TCPAddr:
 		return newTCPConn(fd), nil
@@ -87,10 +81,7 @@ func fileConn(f *os.File) (Conn, error) {
 }
 
 func fileListener(f *os.File) (Listener, error) {
-	fd, err := newFileFD(f)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(newFileFD(f))
 	switch laddr := fd.laddr.(type) {
 	case *TCPAddr:
 		return &TCPListener{fd: fd}, nil
@@ -102,10 +93,7 @@ func fileListener(f *os.File) (Listener, error) {
 }
 
 func filePacketConn(f *os.File) (PacketConn, error) {
-	fd, err := newFileFD(f)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(newFileFD(f))
 	switch fd.laddr.(type) {
 	case *UDPAddr:
 		return newUDPConn(fd), nil

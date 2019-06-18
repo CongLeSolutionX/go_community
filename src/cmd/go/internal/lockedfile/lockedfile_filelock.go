@@ -18,10 +18,7 @@ func openFile(name string, flag int, perm os.FileMode) (*os.File, error) {
 	// calls for Linux and Windows anyway, so it's simpler to use that approach
 	// consistently.
 
-	f, err := os.OpenFile(name, flag&^os.O_TRUNC, perm)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.OpenFile(name, flag&^os.O_TRUNC, perm))
 
 	switch flag & (os.O_RDONLY | os.O_WRONLY | os.O_RDWR) {
 	case os.O_WRONLY, os.O_RDWR:

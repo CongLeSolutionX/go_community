@@ -74,10 +74,7 @@ type MemberHeader struct {
 // OpenArchive opens the named archive using os.Open and prepares it for use
 // as an AIX big archive.
 func OpenArchive(name string) (*Archive, error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(name))
 	arch, err := NewArchive(f)
 	if err != nil {
 		f.Close()
@@ -108,9 +105,7 @@ func NewArchive(r io.ReaderAt) (*Archive, error) {
 
 	// Read File Header
 	var magic [SAIAMAG]byte
-	if _, err := sr.ReadAt(magic[:], 0); err != nil {
-		return nil, err
-	}
+	try(sr.ReadAt(magic[:], 0))
 
 	arch := new(Archive)
 	switch string(magic[:]) {
@@ -123,12 +118,8 @@ func NewArchive(r io.ReaderAt) (*Archive, error) {
 	}
 
 	var fhdr bigarFileHeader
-	if _, err := sr.Seek(0, os.SEEK_SET); err != nil {
-		return nil, err
-	}
-	if err := binary.Read(sr, binary.BigEndian, &fhdr); err != nil {
-		return nil, err
-	}
+	try(sr.Seek(0, os.SEEK_SET))
+	try(binary.Read(sr, binary.BigEndian, &fhdr))
 
 	off, err := parseDecimalBytes(fhdr.Flfstmoff[:])
 	if err != nil {
@@ -151,14 +142,10 @@ func NewArchive(r io.ReaderAt) (*Archive, error) {
 		// The member header is normally 2 bytes larger. But it's easier
 		// to read the name if the header is read without _ar_nam.
 		// However, AIAFMAG must be read afterward.
-		if _, err := sr.Seek(off, os.SEEK_SET); err != nil {
-			return nil, err
-		}
+		try(sr.Seek(off, os.SEEK_SET))
 
 		var mhdr bigarMemberHeader
-		if err := binary.Read(sr, binary.BigEndian, &mhdr); err != nil {
-			return nil, err
-		}
+		try(binary.Read(sr, binary.BigEndian, &mhdr))
 
 		member := new(Member)
 		arch.Members = append(arch.Members, member)
@@ -175,9 +162,7 @@ func NewArchive(r io.ReaderAt) (*Archive, error) {
 			return nil, fmt.Errorf("error parsing name length in member header(%q); %v", mhdr, err)
 		}
 		name := make([]byte, namlen)
-		if err := binary.Read(sr, binary.BigEndian, name); err != nil {
-			return nil, err
-		}
+		try(binary.Read(sr, binary.BigEndian, name))
 		member.Name = string(name)
 
 		fileoff := off + AR_HSZ_BIG + namlen
@@ -190,9 +175,7 @@ func NewArchive(r io.ReaderAt) (*Archive, error) {
 
 		// Read AIAFMAG string
 		var fmag [2]byte
-		if err := binary.Read(sr, binary.BigEndian, &fmag); err != nil {
-			return nil, err
-		}
+		try(binary.Read(sr, binary.BigEndian, &fmag))
 		if string(fmag[:]) != AIAFMAG {
 			return nil, fmt.Errorf("AIAFMAG not found after member header")
 		}

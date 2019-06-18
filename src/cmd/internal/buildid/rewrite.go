@@ -83,9 +83,7 @@ func FindAndHash(r io.Reader, id string, bufSize int) (matches []int64, hash [32
 func Rewrite(w io.WriterAt, pos []int64, id string) error {
 	b := []byte(id)
 	for _, p := range pos {
-		if _, err := w.WriteAt(b, p); err != nil {
-			return err
-		}
+		try(w.WriteAt(b, p))
 	}
 	return nil
 }

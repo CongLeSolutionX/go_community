@@ -204,19 +204,11 @@ func (c *Conn) Lookup(path, vers string) (lines []string, err error) {
 		}
 	}()
 
-	if err := c.init(); err != nil {
-		return nil, err
-	}
+	try(c.init())
 
 	// Prepare encoded cache filename / URL.
-	epath, err := encodePath(path)
-	if err != nil {
-		return nil, err
-	}
-	evers, err := encodeVersion(strings.TrimSuffix(vers, "/go.mod"))
-	if err != nil {
-		return nil, err
-	}
+	epath := try(encodePath(path))
+	evers := try(encodeVersion(strings.TrimSuffix(vers, "/go.mod")))
 	file := c.name + "/lookup/" + epath + "@" + evers
 	remotePath := "/lookup/" + epath + "@" + evers
 
@@ -288,10 +280,7 @@ func (c *Conn) Lookup(path, vers string) (lines []string, err error) {
 // taking care to merge any independent updates to that configuration.
 func (c *Conn) mergeLatest(msg []byte) error {
 	// Merge msg into our in-memory copy of the latest tree head.
-	when, err := c.mergeLatestMem(msg)
-	if err != nil {
-		return err
-	}
+	when := try(c.mergeLatestMem(msg))
 	if when != msgFuture {
 		// msg matched our present or was in the past.
 		// No change to our present, so no update of config file.
@@ -303,14 +292,8 @@ func (c *Conn) mergeLatest(msg []byte) error {
 	// we need to merge any updates made there as well.
 	// Note that writeConfig is an atomic compare-and-swap.
 	for {
-		msg, err := c.client.ReadConfig(c.name + "/latest")
-		if err != nil {
-			return err
-		}
-		when, err := c.mergeLatestMem(msg)
-		if err != nil {
-			return err
-		}
+		msg := try(c.client.ReadConfig(c.name + "/latest"))
+		when := try(c.mergeLatestMem(msg))
 		if when != msgPast {
 			// msg matched our present or was from the future,
 			// and now our in-memory copy matches.
@@ -384,9 +367,7 @@ func (c *Conn) mergeLatestMem(msg []byte) (when int, err error) {
 		}
 
 		// The tree head looks new. Check that we are on its timeline and try to move our timeline forward.
-		if err := c.checkTrees(latest, latestMsg, tree, msg); err != nil {
-			return 0, err
-		}
+		try(c.checkTrees(latest, latestMsg, tree, msg))
 
 		// Install our msg if possible.
 		// Otherwise we will go around again.
@@ -469,10 +450,7 @@ func (c *Conn) checkRecord(id int64, data []byte) error {
 	if id >= latest.N {
 		return fmt.Errorf("cannot validate record %d in tree of size %d", id, latest.N)
 	}
-	hashes, err := tlog.TileHashReader(latest, &c.tileReader).ReadHashes([]int64{tlog.StoredHashIndex(0, id)})
-	if err != nil {
-		return err
-	}
+	hashes := try(tlog.TileHashReader(latest, &c.tileReader).ReadHashes([]int64{tlog.StoredHashIndex(0, id)}))
 	if hashes[0] == tlog.RecordHash(data) {
 		return nil
 	}

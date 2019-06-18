@@ -815,10 +815,7 @@ func builderTest(b *work.Builder, p *load.Package) (buildAction, runAction, prin
 			DeclVars: declareCoverVars,
 		}
 	}
-	pmain, ptest, pxtest, err := load.TestPackagesFor(p, cover)
-	if err != nil {
-		return nil, nil, nil, err
-	}
+	pmain, ptest, pxtest := try(load.TestPackagesFor(p, cover))
 
 	// Use last element of import path, not package name.
 	// They differ when package name is "main".
@@ -833,9 +830,7 @@ func builderTest(b *work.Builder, p *load.Package) (buildAction, runAction, prin
 	testBinary := elem + ".test"
 
 	testDir := b.NewObjdir()
-	if err := b.Mkdir(testDir); err != nil {
-		return nil, nil, nil, err
-	}
+	try(b.Mkdir(testDir))
 
 	pmain.Dir = testDir
 	pmain.Internal.OmitDebug = !testC && !testNeedBinary

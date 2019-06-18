@@ -188,10 +188,8 @@ func (ctxt *Context) openFile(path string) (io.ReadCloser, error) {
 		return fn(path)
 	}
 
-	f, err := os.Open(path)
-	if err != nil {
-		return nil, err // nil interface
-	}
+	f := try(os.Open(path)) // nil interface
+
 	return f, nil
 }
 
@@ -1274,10 +1272,7 @@ func (ctxt *Context) matchFile(dir, name string, allTags map[string]bool, binary
 	}
 
 	filename = ctxt.joinPath(dir, name)
-	f, err := ctxt.openFile(filename)
-	if err != nil {
-		return
-	}
+	f := try(ctxt.openFile(filename))
 
 	if strings.HasSuffix(filename, ".go") {
 		data, err = readImports(f, false, nil)

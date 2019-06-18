@@ -1281,9 +1281,7 @@ func parseNanoseconds(value string, nbytes int) (ns int, rangeErrString string, 
 		err = errBad
 		return
 	}
-	if ns, err = atoi(value[1:nbytes]); err != nil {
-		return
-	}
+	ns = try(atoi(value[1:nbytes]))
 	if ns < 0 || 1e9 <= ns {
 		rangeErrString = "fractional second"
 		return

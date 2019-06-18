@@ -1776,10 +1776,7 @@ func readelfsymboldata(ctxt *Link, f *elf.File, sym *elf.Symbol) []byte {
 
 func readwithpad(r io.Reader, sz int32) ([]byte, error) {
 	data := make([]byte, Rnd(int64(sz), 4))
-	_, err := io.ReadFull(r, data)
-	if err != nil {
-		return nil, err
-	}
+	try(io.ReadFull(r, data))
 	data = data[:sz]
 	return data, nil
 }

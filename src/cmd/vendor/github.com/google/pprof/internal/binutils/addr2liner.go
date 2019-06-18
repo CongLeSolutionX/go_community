@@ -93,19 +93,12 @@ func newAddr2Liner(cmd, file string, base uint64) (*addr2Liner, error) {
 	}
 
 	var err error
-	if j.in, err = j.cmd.StdinPipe(); err != nil {
-		return nil, err
-	}
+	j.in = try(j.cmd.StdinPipe())
 
-	outPipe, err := j.cmd.StdoutPipe()
-	if err != nil {
-		return nil, err
-	}
+	outPipe := try(j.cmd.StdoutPipe())
 
 	j.out = bufio.NewReader(outPipe)
-	if err := j.cmd.Start(); err != nil {
-		return nil, err
-	}
+	try(j.cmd.Start())
 
 	a := &addr2Liner{
 		rw:   j,
@@ -116,10 +109,7 @@ func newAddr2Liner(cmd, file string, base uint64) (*addr2Liner, error) {
 }
 
 func (d *addr2Liner) readString() (string, error) {
-	s, err := d.rw.readLine()
-	if err != nil {
-		return "", err
-	}
+	s := try(d.rw.readLine())
 	return strings.TrimSpace(s), nil
 }
 
@@ -178,18 +168,11 @@ func (d *addr2Liner) rawAddrInfo(addr uint64) ([]plugin.Frame, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 
-	if err := d.rw.write(fmt.Sprintf("%x", addr-d.base)); err != nil {
-		return nil, err
-	}
+	try(d.rw.write(fmt.Sprintf("%x", addr-d.base)))
 
-	if err := d.rw.write(fmt.Sprintf("%x", sentinel)); err != nil {
-		return nil, err
-	}
+	try(d.rw.write(fmt.Sprintf("%x", sentinel)))
 
-	resp, err := d.readString()
-	if err != nil {
-		return nil, err
-	}
+	resp := try(d.readString())
 
 	if !strings.HasPrefix(resp, "0x") {
 		return nil, fmt.Errorf("unexpected addr2line output: %s", resp)
@@ -212,10 +195,7 @@ func (d *addr2Liner) rawAddrInfo(addr uint64) ([]plugin.Frame, error) {
 // addrInfo returns the stack frame information for a specific program
 // address. It returns nil if the address could not be identified.
 func (d *addr2Liner) addrInfo(addr uint64) ([]plugin.Frame, error) {
-	stack, err := d.rawAddrInfo(addr)
-	if err != nil {
-		return nil, err
-	}
+	stack := try(d.rawAddrInfo(addr))
 
 	// Certain versions of addr2line produce incomplete names due to
 	// https://sourceware.org/bugzilla/show_bug.cgi?id=17541. Attempt to replace

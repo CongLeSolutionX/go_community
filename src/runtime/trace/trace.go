@@ -121,9 +121,7 @@ func Start(w io.Writer) error {
 	tracing.Lock()
 	defer tracing.Unlock()
 
-	if err := runtime.StartTrace(); err != nil {
-		return err
-	}
+	try(runtime.StartTrace())
 	go func() {
 		for {
 			data := runtime.ReadTrace()

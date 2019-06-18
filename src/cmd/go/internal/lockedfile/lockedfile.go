@@ -40,10 +40,7 @@ func OpenFile(name string, flag int, perm os.FileMode) (*File, error) {
 		f   = new(File)
 		err error
 	)
-	f.osFile.File, err = openFile(name, flag, perm)
-	if err != nil {
-		return nil, err
-	}
+	f.osFile.File = try(openFile(name, flag, perm))
 
 	// Although the operating system will drop locks for open files when the go
 	// command exits, we want to hold locks for as little time as possible, and we
@@ -97,10 +94,7 @@ func (f *File) Close() error {
 
 // Read opens the named file with a read-lock and returns its contents.
 func Read(name string) ([]byte, error) {
-	f, err := Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(Open(name))
 	defer f.Close()
 
 	return ioutil.ReadAll(f)
@@ -109,10 +103,7 @@ func Read(name string) ([]byte, error) {
 // Write opens the named file (creating it with the given permissions if needed),
 // then write-locks it and overwrites it with the given content.
 func Write(name string, content io.Reader, perm os.FileMode) (err error) {
-	f, err := OpenFile(name, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, perm)
-	if err != nil {
-		return err
-	}
+	f := try(OpenFile(name, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, perm))
 
 	_, err = io.Copy(f, content)
 	if closeErr := f.Close(); err == nil {

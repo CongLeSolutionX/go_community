@@ -127,10 +127,7 @@ func symbolizeMapping(source string, offset int64, syms func(string, string) ([]
 	lines := make(map[uint64]profile.Line)
 	functions := make(map[string]*profile.Function)
 
-	b, err := syms(source, strings.Join(a, "+"))
-	if err != nil {
-		return err
-	}
+	b := try(syms(source, strings.Join(a, "+")))
 
 	buf := bytes.NewBuffer(b)
 	for {

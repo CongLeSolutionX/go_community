@@ -50,10 +50,7 @@ func ReadAll(r io.Reader) ([]byte, error) {
 // reads the whole file, it does not treat an EOF from Read as an error
 // to be reported.
 func ReadFile(filename string) ([]byte, error) {
-	f, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(filename))
 	defer f.Close()
 	// It's a good but not certain bet that FileInfo will tell us exactly how much to
 	// read, so let's try it but be prepared for the answer to be wrong.
@@ -77,10 +74,7 @@ func ReadFile(filename string) ([]byte, error) {
 // If the file does not exist, WriteFile creates it with permissions perm;
 // otherwise WriteFile truncates it before writing.
 func WriteFile(filename string, data []byte, perm os.FileMode) error {
-	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, perm)
-	if err != nil {
-		return err
-	}
+	f := try(os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, perm))
 	n, err := f.Write(data)
 	if err == nil && n < len(data) {
 		err = io.ErrShortWrite
@@ -94,10 +88,7 @@ func WriteFile(filename string, data []byte, perm os.FileMode) error {
 // ReadDir reads the directory named by dirname and returns
 // a list of directory entries sorted by filename.
 func ReadDir(dirname string) ([]os.FileInfo, error) {
-	f, err := os.Open(dirname)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(dirname))
 	list, err := f.Readdir(-1)
 	f.Close()
 	if err != nil {

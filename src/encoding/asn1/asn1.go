@@ -90,10 +90,7 @@ func checkInteger(bytes []byte) error {
 // parseInt64 treats the given bytes as a big-endian, signed integer and
 // returns the result.
 func parseInt64(bytes []byte) (ret int64, err error) {
-	err = checkInteger(bytes)
-	if err != nil {
-		return
-	}
+	try(checkInteger(bytes))
 	if len(bytes) > 8 {
 		// We'll overflow an int64 in this case.
 		err = StructuralError{"integer too large"}
@@ -113,13 +110,8 @@ func parseInt64(bytes []byte) (ret int64, err error) {
 // parseInt treats the given bytes as a big-endian, signed integer and returns
 // the result.
 func parseInt32(bytes []byte) (int32, error) {
-	if err := checkInteger(bytes); err != nil {
-		return 0, err
-	}
-	ret64, err := parseInt64(bytes)
-	if err != nil {
-		return 0, err
-	}
+	try(checkInteger(bytes))
+	ret64 := try(parseInt64(bytes))
 	if ret64 != int64(int32(ret64)) {
 		return 0, StructuralError{"integer too large"}
 	}
@@ -131,9 +123,7 @@ var bigOne = big.NewInt(1)
 // parseBigInt treats the given bytes as a big-endian, signed integer and returns
 // the result.
 func parseBigInt(bytes []byte) (*big.Int, error) {
-	if err := checkInteger(bytes); err != nil {
-		return nil, err
-	}
+	try(checkInteger(bytes))
 	ret := new(big.Int)
 	if len(bytes) > 0 && bytes[0]&0x80 == 0x80 {
 		// This is a negative number.
@@ -264,10 +254,7 @@ func parseObjectIdentifier(bytes []byte) (s ObjectIdentifier, err error) {
 	// According to this packing, value1 can take the values 0, 1 and 2 only.
 	// When value1 = 0 or value1 = 1, then value2 is <= 39. When value1 = 2,
 	// then there are no restrictions on value2.
-	v, offset, err := parseBase128Int(bytes, 0)
-	if err != nil {
-		return
-	}
+	v, offset := try(parseBase128Int(bytes, 0))
 	if v < 80 {
 		s[0] = v / 40
 		s[1] = v % 40
@@ -278,10 +265,7 @@ func parseObjectIdentifier(bytes []byte) (s ObjectIdentifier, err error) {
 
 	i := 2
 	for ; offset < len(bytes); i++ {
-		v, offset, err = parseBase128Int(bytes, offset)
-		if err != nil {
-			return
-		}
+		v, offset = try(parseBase128Int(bytes, offset))
 		s[i] = v
 	}
 	s = s[0:i]
@@ -361,9 +345,7 @@ func parseGeneralizedTime(bytes []byte) (ret time.Time, err error) {
 	const formatStr = "20060102150405Z0700"
 	s := string(bytes)
 
-	if ret, err = time.Parse(formatStr, s); err != nil {
-		return
-	}
+	ret = try(time.Parse(formatStr, s))
 
 	if serialized := ret.Format(formatStr); serialized != s {
 		err = fmt.Errorf("asn1: time did not serialize back to the original value and may be invalid: given %q, but serialized as %q", s, serialized)
@@ -584,10 +566,7 @@ func parseSequenceOf(bytes []byte, sliceType reflect.Type, elemType reflect.Type
 	numElements := 0
 	for offset := 0; offset < len(bytes); {
 		var t tagAndLength
-		t, offset, err = parseTagAndLength(bytes, offset)
-		if err != nil {
-			return
-		}
+		t, offset = try(parseTagAndLength(bytes, offset))
 		switch t.tag {
 		case TagIA5String, TagGeneralString, TagT61String, TagUTF8String, TagNumericString:
 			// We pretend that various other string types are
@@ -614,10 +593,7 @@ func parseSequenceOf(bytes []byte, sliceType reflect.Type, elemType reflect.Type
 	params := fieldParameters{}
 	offset := 0
 	for i := 0; i < numElements; i++ {
-		offset, err = parseField(ret.Index(i), bytes, offset, params)
-		if err != nil {
-			return
-		}
+		offset = try(parseField(ret.Index(i), bytes, offset, params))
 	}
 	return
 }
@@ -705,10 +681,7 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 		return
 	}
 
-	t, offset, err := parseTagAndLength(bytes, offset)
-	if err != nil {
-		return
-	}
+	t, offset := try(parseTagAndLength(bytes, offset))
 	if params.explicit {
 		expectedClass := ClassContextSpecific
 		if params.application {
@@ -1058,9 +1031,6 @@ func Unmarshal(b []byte, val interface{}) (rest []byte, err error) {
 // top-level element. The form of the params is the same as the field tags.
 func UnmarshalWithParams(b []byte, val interface{}, params string) (rest []byte, err error) {
 	v := reflect.ValueOf(val).Elem()
-	offset, err := parseField(v, b, 0, parseFieldParameters(params))
-	if err != nil {
-		return nil, err
-	}
+	offset := try(parseField(v, b, 0, parseFieldParameters(params)))
 	return b[offset:], nil
 }

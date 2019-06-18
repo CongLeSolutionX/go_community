@@ -671,14 +671,8 @@ func (r *Reader) SeekPC(pc uint64) (*Entry, error) {
 		r.unit = unit
 		u := &r.d.unit[unit]
 		r.b = makeBuf(r.d, u, "info", u.off, u.data)
-		e, err := r.Next()
-		if err != nil {
-			return nil, err
-		}
-		ranges, err := r.d.Ranges(e)
-		if err != nil {
-			return nil, err
-		}
+		e := try(r.Next())
+		ranges := try(r.d.Ranges(e))
 		for _, pcs := range ranges {
 			if pcs[0] <= pc && pc < pcs[1] {
 				return e, nil

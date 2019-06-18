@@ -73,10 +73,7 @@ func (c *UDPConn) writeTo(b []byte, addr *UDPAddr) (int, error) {
 	if addr == nil {
 		return 0, errMissingAddress
 	}
-	sa, err := addr.sockaddr(c.fd.family)
-	if err != nil {
-		return 0, err
-	}
+	sa := try(addr.sockaddr(c.fd.family))
 	return c.fd.writeTo(b, sa)
 }
 
@@ -87,34 +84,22 @@ func (c *UDPConn) writeMsg(b, oob []byte, addr *UDPAddr) (n, oobn int, err error
 	if !c.fd.isConnected && addr == nil {
 		return 0, 0, errMissingAddress
 	}
-	sa, err := addr.sockaddr(c.fd.family)
-	if err != nil {
-		return 0, 0, err
-	}
+	sa := try(addr.sockaddr(c.fd.family))
 	return c.fd.writeMsg(b, oob, sa)
 }
 
 func (sd *sysDialer) dialUDP(ctx context.Context, laddr, raddr *UDPAddr) (*UDPConn, error) {
-	fd, err := internetSocket(ctx, sd.network, laddr, raddr, syscall.SOCK_DGRAM, 0, "dial", sd.Dialer.Control)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(internetSocket(ctx, sd.network, laddr, raddr, syscall.SOCK_DGRAM, 0, "dial", sd.Dialer.Control))
 	return newUDPConn(fd), nil
 }
 
 func (sl *sysListener) listenUDP(ctx context.Context, laddr *UDPAddr) (*UDPConn, error) {
-	fd, err := internetSocket(ctx, sl.network, laddr, nil, syscall.SOCK_DGRAM, 0, "listen", sl.ListenConfig.Control)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(internetSocket(ctx, sl.network, laddr, nil, syscall.SOCK_DGRAM, 0, "listen", sl.ListenConfig.Control))
 	return newUDPConn(fd), nil
 }
 
 func (sl *sysListener) listenMulticastUDP(ctx context.Context, ifi *Interface, gaddr *UDPAddr) (*UDPConn, error) {
-	fd, err := internetSocket(ctx, sl.network, gaddr, nil, syscall.SOCK_DGRAM, 0, "listen", sl.ListenConfig.Control)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(internetSocket(ctx, sl.network, gaddr, nil, syscall.SOCK_DGRAM, 0, "listen", sl.ListenConfig.Control))
 	c := newUDPConn(fd)
 	if ip4 := gaddr.IP.To4(); ip4 != nil {
 		if err := listenIPv4MulticastUDP(c, ifi, ip4); err != nil {
@@ -136,12 +121,8 @@ func listenIPv4MulticastUDP(c *UDPConn, ifi *Interface, ip IP) error {
 			return err
 		}
 	}
-	if err := setIPv4MulticastLoopback(c.fd, false); err != nil {
-		return err
-	}
-	if err := joinIPv4Group(c.fd, ifi, ip); err != nil {
-		return err
-	}
+	try(setIPv4MulticastLoopback(c.fd, false))
+	try(joinIPv4Group(c.fd, ifi, ip))
 	return nil
 }
 
@@ -151,11 +132,7 @@ func listenIPv6MulticastUDP(c *UDPConn, ifi *Interface, ip IP) error {
 			return err
 		}
 	}
-	if err := setIPv6MulticastLoopback(c.fd, false); err != nil {
-		return err
-	}
-	if err := joinIPv6Group(c.fd, ifi, ip); err != nil {
-		return err
-	}
+	try(setIPv6MulticastLoopback(c.fd, false))
+	try(joinIPv6Group(c.fd, ifi, ip))
 	return nil
 }

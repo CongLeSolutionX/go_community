@@ -171,10 +171,7 @@ func itoa(val int) string {
 }
 
 func postNote(pid int, note string) error {
-	f, err := os.OpenFile("/proc/"+itoa(pid)+"/note", os.O_WRONLY, 0)
-	if err != nil {
-		return err
-	}
+	f := try(os.OpenFile("/proc/"+itoa(pid)+"/note", os.O_WRONLY, 0))
 	defer f.Close()
 	_, err = f.Write([]byte(note))
 	return err

@@ -363,9 +363,7 @@ func (b *Builder) gccgoBuildIDFile(a *Action) (string, error) {
 		}
 	}
 
-	if err := ioutil.WriteFile(sfile, buf.Bytes(), 0666); err != nil {
-		return "", err
-	}
+	try(ioutil.WriteFile(sfile, buf.Bytes(), 0666))
 
 	return sfile, nil
 }
@@ -579,10 +577,7 @@ func (b *Builder) useCache(a *Action, p *load.Package, actionHash cache.ActionID
 }
 
 func showStdout(b *Builder, c *cache.Cache, actionID cache.ActionID, key string) error {
-	stdout, stdoutEntry, err := c.GetBytes(cache.Subkey(actionID, key))
-	if err != nil {
-		return err
-	}
+	stdout, stdoutEntry := try(c.GetBytes(cache.Subkey(actionID, key)))
 
 	if len(stdout) > 0 {
 		if cfg.BuildX || cfg.BuildN {
@@ -640,10 +635,7 @@ func (b *Builder) updateBuildID(a *Action, target string, rewrite bool) error {
 	}
 
 	// Find occurrences of old ID and compute new content-based ID.
-	r, err := os.Open(target)
-	if err != nil {
-		return err
-	}
+	r := try(os.Open(target))
 	matches, hash, err := buildid.FindAndHash(r, a.buildID, 0)
 	r.Close()
 	if err != nil {

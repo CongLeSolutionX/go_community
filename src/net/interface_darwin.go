@@ -11,24 +11,15 @@ import (
 )
 
 func interfaceMessages(ifindex int) ([]route.Message, error) {
-	rib, err := route.FetchRIB(syscall.AF_UNSPEC, syscall.NET_RT_IFLIST, ifindex)
-	if err != nil {
-		return nil, err
-	}
+	rib := try(route.FetchRIB(syscall.AF_UNSPEC, syscall.NET_RT_IFLIST, ifindex))
 	return route.ParseRIB(syscall.NET_RT_IFLIST, rib)
 }
 
 // interfaceMulticastAddrTable returns addresses for a specific
 // interface.
 func interfaceMulticastAddrTable(ifi *Interface) ([]Addr, error) {
-	rib, err := route.FetchRIB(syscall.AF_UNSPEC, syscall.NET_RT_IFLIST2, ifi.Index)
-	if err != nil {
-		return nil, err
-	}
-	msgs, err := route.ParseRIB(syscall.NET_RT_IFLIST2, rib)
-	if err != nil {
-		return nil, err
-	}
+	rib := try(route.FetchRIB(syscall.AF_UNSPEC, syscall.NET_RT_IFLIST2, ifi.Index))
+	msgs := try(route.ParseRIB(syscall.NET_RT_IFLIST2, rib))
 	ifmat := make([]Addr, 0, len(msgs))
 	for _, m := range msgs {
 		switch m := m.(type) {

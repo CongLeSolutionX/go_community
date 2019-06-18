@@ -40,10 +40,7 @@ func Merge(srcs []*Profile) (*Profile, error) {
 	if len(srcs) == 0 {
 		return nil, fmt.Errorf("no profiles to merge")
 	}
-	p, err := combineHeaders(srcs)
-	if err != nil {
-		return nil, err
-	}
+	p := try(combineHeaders(srcs))
 
 	pm := &profileMerger{
 		p:         p,
@@ -90,9 +87,7 @@ func Merge(srcs []*Profile) (*Profile, error) {
 // source profile's value of that sample type.
 func (p *Profile) Normalize(pb *Profile) error {
 
-	if err := p.compatible(pb); err != nil {
-		return err
-	}
+	try(p.compatible(pb))
 
 	baseVals := make([]int64, len(p.SampleType))
 	for _, s := range pb.Sample {
@@ -406,9 +401,7 @@ type functionKey struct {
 // their combined profile.
 func combineHeaders(srcs []*Profile) (*Profile, error) {
 	for _, s := range srcs[1:] {
-		if err := srcs[0].compatible(s); err != nil {
-			return nil, err
-		}
+		try(srcs[0].compatible(s))
 	}
 
 	var timeNanos, durationNanos, period int64

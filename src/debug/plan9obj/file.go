@@ -96,10 +96,7 @@ func (e *formatError) Error() string {
 
 // Open opens the named file using os.Open and prepares it for use as a Plan 9 a.out binary.
 func Open(name string) (*File, error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(name))
 	ff, err := NewFile(f)
 	if err != nil {
 		f.Close()
@@ -136,18 +133,11 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	sr := io.NewSectionReader(r, 0, 1<<63-1)
 	// Read and decode Plan 9 magic
 	var magic [4]byte
-	if _, err := r.ReadAt(magic[:], 0); err != nil {
-		return nil, err
-	}
-	_, err := parseMagic(magic[:])
-	if err != nil {
-		return nil, err
-	}
+	try(r.ReadAt(magic[:], 0))
+	try(parseMagic(magic[:]))
 
 	ph := new(prog)
-	if err := binary.Read(sr, binary.BigEndian, ph); err != nil {
-		return nil, err
-	}
+	try(binary.Read(sr, binary.BigEndian, ph))
 
 	f := &File{FileHeader: FileHeader{
 		Magic:       ph.Magic,
@@ -256,17 +246,15 @@ func walksymtab(data []byte, ptrsz int, fn func(sym) error) error {
 // returning an in-memory representation.
 func newTable(symtab []byte, ptrsz int) ([]Sym, error) {
 	var n int
-	err := walksymtab(symtab, ptrsz, func(s sym) error {
+	try(walksymtab(symtab, ptrsz, func(s sym) error {
 		n++
 		return nil
-	})
-	if err != nil {
-		return nil, err
-	}
+	}),
+	)
 
 	fname := make(map[uint16]string)
 	syms := make([]Sym, 0, n)
-	err = walksymtab(symtab, ptrsz, func(s sym) error {
+	try(walksymtab(symtab, ptrsz, func(s sym) error {
 		n := len(syms)
 		syms = syms[0 : n+1]
 		ts := &syms[n]
@@ -293,10 +281,8 @@ func newTable(symtab []byte, ptrsz int) ([]Sym, error) {
 			fname[uint16(s.value)] = ts.Name
 		}
 		return nil
-	})
-	if err != nil {
-		return nil, err
-	}
+	}),
+	)
 
 	return syms, nil
 }

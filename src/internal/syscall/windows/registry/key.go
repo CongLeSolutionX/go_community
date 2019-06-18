@@ -77,15 +77,9 @@ func (k Key) Close() error {
 // The access parameter specifies desired access rights to the
 // key to be opened.
 func OpenKey(k Key, path string, access uint32) (Key, error) {
-	p, err := syscall.UTF16PtrFromString(path)
-	if err != nil {
-		return 0, err
-	}
+	p := try(syscall.UTF16PtrFromString(path))
 	var subkey syscall.Handle
-	err = syscall.RegOpenKeyEx(syscall.Handle(k), p, 0, access, &subkey)
-	if err != nil {
-		return 0, err
-	}
+	try(syscall.RegOpenKeyEx(syscall.Handle(k), p, 0, access, &subkey))
 	return Key(subkey), nil
 }
 
@@ -163,11 +157,9 @@ type KeyInfo struct {
 // Stat retrieves information about the open key k.
 func (k Key) Stat() (*KeyInfo, error) {
 	var ki KeyInfo
-	err := syscall.RegQueryInfoKey(syscall.Handle(k), nil, nil, nil,
+	try(syscall.RegQueryInfoKey(syscall.Handle(k), nil, nil, nil,
 		&ki.SubKeyCount, &ki.MaxSubKeyLen, nil, &ki.ValueCount,
-		&ki.MaxValueNameLen, &ki.MaxValueLen, nil, &ki.lastWriteTime)
-	if err != nil {
-		return nil, err
-	}
+		&ki.MaxValueNameLen, &ki.MaxValueLen, nil, &ki.lastWriteTime),
+	)
 	return &ki, nil
 }

@@ -129,18 +129,10 @@ func (w *Writer) Close() error {
 		} else {
 			b.uint32(uint32(h.offset))
 		}
-		if _, err := w.cw.Write(buf[:]); err != nil {
-			return err
-		}
-		if _, err := io.WriteString(w.cw, h.Name); err != nil {
-			return err
-		}
-		if _, err := w.cw.Write(h.Extra); err != nil {
-			return err
-		}
-		if _, err := io.WriteString(w.cw, h.Comment); err != nil {
-			return err
-		}
+		try(w.cw.Write(buf[:]))
+		try(io.WriteString(w.cw, h.Name))
+		try(w.cw.Write(h.Extra))
+		try(io.WriteString(w.cw, h.Comment))
 	}
 	end := w.cw.count
 
@@ -195,12 +187,8 @@ func (w *Writer) Close() error {
 	b.uint32(uint32(size))           // size of directory
 	b.uint32(uint32(offset))         // start of directory
 	b.uint16(uint16(len(w.comment))) // byte size of EOCD comment
-	if _, err := w.cw.Write(buf[:]); err != nil {
-		return err
-	}
-	if _, err := io.WriteString(w.cw, w.comment); err != nil {
-		return err
-	}
+	try(w.cw.Write(buf[:]))
+	try(io.WriteString(w.cw, w.comment))
 
 	return w.cw.w.(*bufio.Writer).Flush()
 }
@@ -365,9 +353,7 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 		ow = fw
 	}
 	w.dir = append(w.dir, h)
-	if err := writeHeader(w.cw, fh); err != nil {
-		return nil, err
-	}
+	try(writeHeader(w.cw, fh))
 	// If we're creating a directory, fw is nil.
 	w.last = fw
 	return ow, nil
@@ -395,12 +381,8 @@ func writeHeader(w io.Writer, h *FileHeader) error {
 	b.uint32(0) // and uncompressed size should be zero
 	b.uint16(uint16(len(h.Name)))
 	b.uint16(uint16(len(h.Extra)))
-	if _, err := w.Write(buf[:]); err != nil {
-		return err
-	}
-	if _, err := io.WriteString(w, h.Name); err != nil {
-		return err
-	}
+	try(w.Write(buf[:]))
+	try(io.WriteString(w, h.Name))
 	_, err := w.Write(h.Extra)
 	return err
 }
@@ -455,9 +437,7 @@ func (w *fileWriter) close() error {
 		return errors.New("zip: file closed twice")
 	}
 	w.closed = true
-	if err := w.comp.Close(); err != nil {
-		return err
-	}
+	try(w.comp.Close())
 
 	// update FileHeader
 	fh := w.header.FileHeader

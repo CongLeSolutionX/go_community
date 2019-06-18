@@ -322,10 +322,7 @@ func (r *gitRepo) stat(rev string) (*RevInfo, error) {
 	}
 
 	// Protect r.fetchLevel and the "fetch more and more" sequence.
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return nil, err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
 	// Perhaps r.localTags did not have the ref when we loaded local tags,
@@ -474,10 +471,8 @@ func (r *gitRepo) Stat(rev string) (*RevInfo, error) {
 
 func (r *gitRepo) ReadFile(rev, file string, maxSize int64) ([]byte, error) {
 	// TODO: Could use git cat-file --batch.
-	info, err := r.Stat(rev) // download rev into local git repo
-	if err != nil {
-		return nil, err
-	}
+	info := try(r.Stat(rev)) // download rev into local git repo
+
 	out, err := Run(r.dir, "git", "cat-file", "blob", info.Name+":"+file)
 	if err != nil {
 		return nil, os.ErrNotExist
@@ -494,10 +489,7 @@ func (r *gitRepo) ReadFileRevs(revs []string, file string, maxSize int64) (map[s
 	}
 
 	// Collect locally-known revs.
-	need, err := r.readFileRevs(revs, file, files)
-	if err != nil {
-		return nil, err
-	}
+	need := try(r.readFileRevs(revs, file, files))
 	if len(need) == 0 {
 		return files, nil
 	}
@@ -519,10 +511,7 @@ func (r *gitRepo) ReadFileRevs(revs []string, file string, maxSize int64) (map[s
 
 	// Protect r.fetchLevel and the "fetch more and more" sequence.
 	// See stat method above.
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return nil, err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
 	var refs []string
@@ -542,9 +531,7 @@ func (r *gitRepo) ReadFileRevs(revs []string, file string, maxSize int64) (map[s
 			protoFlag = []string{"-c", "protocol.version=0"}
 		}
 	}
-	if _, err := Run(r.dir, "git", protoFlag, "fetch", unshallowFlag, "-f", r.remote, refs); err != nil {
-		return nil, err
-	}
+	try(Run(r.dir, "git", protoFlag, "fetch", unshallowFlag, "-f", r.remote, refs))
 
 	// TODO(bcmills): after the 1.11 freeze, replace the block above with:
 	//	if r.fetchLevel <= fetchSome {
@@ -558,9 +545,7 @@ func (r *gitRepo) ReadFileRevs(revs []string, file string, maxSize int64) (map[s
 	//		}
 	//	}
 
-	if _, err := r.readFileRevs(redo, file, files); err != nil {
-		return nil, err
-	}
+	try(r.readFileRevs(redo, file, files))
 
 	return files, nil
 }
@@ -572,10 +557,7 @@ func (r *gitRepo) readFileRevs(tags []string, file string, fileMap map[string]*F
 		fmt.Fprintf(&stdin, "refs/tags/%s:%s\n", tag, file)
 	}
 
-	data, err := RunWithStdin(r.dir, &stdin, "git", "cat-file", "--batch")
-	if err != nil {
-		return nil, err
-	}
+	data := try(RunWithStdin(r.dir, &stdin, "git", "cat-file", "--batch"))
 
 	next := func() (typ string, body []byte, ok bool) {
 		var line string
@@ -649,10 +631,7 @@ func (r *gitRepo) readFileRevs(tags []string, file string, fileMap map[string]*F
 }
 
 func (r *gitRepo) RecentTag(rev, prefix string) (tag string, err error) {
-	info, err := r.Stat(rev)
-	if err != nil {
-		return "", err
-	}
+	info := try(r.Stat(rev))
 	rev = info.Name // expand hash prefixes
 
 	// describe sets tag and err using 'git for-each-ref' and reports whether the
@@ -699,10 +678,7 @@ func (r *gitRepo) RecentTag(rev, prefix string) (tag string, err error) {
 
 	// Git didn't find a version tag preceding the requested rev.
 	// See whether any plausible tag exists.
-	tags, err := r.Tags(prefix + "v")
-	if err != nil {
-		return "", err
-	}
+	tags := try(r.Tags(prefix + "v"))
 	if len(tags) == 0 {
 		return "", nil
 	}
@@ -710,10 +686,7 @@ func (r *gitRepo) RecentTag(rev, prefix string) (tag string, err error) {
 	// There are plausible tags, but we don't know if rev is a descendent of any of them.
 	// Fetch the history to find out.
 
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return "", err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
 	if r.fetchLevel < fetchAll {
@@ -744,20 +717,12 @@ func (r *gitRepo) ReadZip(rev, subdir string, maxSize int64) (zip io.ReadCloser,
 	if subdir != "" {
 		args = append(args, "--", subdir)
 	}
-	info, err := r.Stat(rev) // download rev into local git repo
-	if err != nil {
-		return nil, "", err
-	}
+	info := try(r.Stat(rev)) // download rev into local git repo
 
-	unlock, err := r.mu.Lock()
-	if err != nil {
-		return nil, "", err
-	}
+	unlock := try(r.mu.Lock())
 	defer unlock()
 
-	if err := ensureGitAttributes(r.dir); err != nil {
-		return nil, "", err
-	}
+	try(ensureGitAttributes(r.dir))
 
 	// Incredibly, git produces different archives depending on whether
 	// it is running on a Windows system or not, in an attempt to normalize
@@ -788,14 +753,9 @@ func ensureGitAttributes(repoDir string) (err error) {
 	d := repoDir + "/info"
 	p := d + "/attributes"
 
-	if err := os.MkdirAll(d, 0755); err != nil {
-		return err
-	}
+	try(os.MkdirAll(d, 0755))
 
-	f, err := os.OpenFile(p, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
-	if err != nil {
-		return err
-	}
+	f := try(os.OpenFile(p, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666))
 	defer func() {
 		closeErr := f.Close()
 		if closeErr != nil {
@@ -803,10 +763,7 @@ func ensureGitAttributes(repoDir string) (err error) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(f)
-	if err != nil {
-		return err
-	}
+	b := try(ioutil.ReadAll(f))
 	if !bytes.HasSuffix(b, []byte(attr)) {
 		_, err := f.WriteString(attr)
 		return err

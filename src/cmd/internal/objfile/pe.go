@@ -19,10 +19,7 @@ type peFile struct {
 }
 
 func openPE(r io.ReaderAt) (rawFile, error) {
-	f, err := pe.NewFile(r)
-	if err != nil {
-		return nil, err
-	}
+	f := try(pe.NewFile(r))
 	return &peFile{f}, nil
 }
 
@@ -162,22 +159,13 @@ func findPESymbol(f *pe.File, name string) (*pe.Symbol, error) {
 }
 
 func loadPETable(f *pe.File, sname, ename string) ([]byte, error) {
-	ssym, err := findPESymbol(f, sname)
-	if err != nil {
-		return nil, err
-	}
-	esym, err := findPESymbol(f, ename)
-	if err != nil {
-		return nil, err
-	}
+	ssym := try(findPESymbol(f, sname))
+	esym := try(findPESymbol(f, ename))
 	if ssym.SectionNumber != esym.SectionNumber {
 		return nil, fmt.Errorf("%s and %s symbols must be in the same section", sname, ename)
 	}
 	sect := f.Sections[ssym.SectionNumber-1]
-	data, err := sect.Data()
-	if err != nil {
-		return nil, err
-	}
+	data := try(sect.Data())
 	return data[ssym.Value:esym.Value], nil
 }
 

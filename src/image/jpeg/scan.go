@@ -55,9 +55,7 @@ func (d *decoder) processSOS(n int) error {
 	if n < 6 || 4+2*d.nComp < n || n%2 != 0 {
 		return FormatError("SOS has wrong length")
 	}
-	if err := d.readFull(d.tmp[:n]); err != nil {
-		return err
-	}
+	try(d.readFull(d.tmp[:n]))
 	nComp := int(d.tmp[0])
 	if n != 4+2*nComp {
 		return FormatError("SOS length inconsistent with number of components")
@@ -298,9 +296,7 @@ func (d *decoder) processSOS(n int) error {
 						// SOS markers are processed.
 						continue
 					}
-					if err := d.reconstructBlock(&b, bx, by, int(compIndex)); err != nil {
-						return err
-					}
+					try(d.reconstructBlock(&b, bx, by, int(compIndex)))
 				} // for j
 			} // for i
 			mcu++
@@ -420,10 +416,7 @@ func (d *decoder) refineNonZeroes(b *block, zig, zigEnd, nz, delta int32) (int32
 			nz--
 			continue
 		}
-		bit, err := d.decodeBit()
-		if err != nil {
-			return 0, err
-		}
+		bit := try(d.decodeBit())
 		if !bit {
 			continue
 		}
@@ -450,9 +443,7 @@ func (d *decoder) reconstructProgressiveImage() error {
 		stride := mxx * d.comp[i].h
 		for by := 0; by*v < d.height; by++ {
 			for bx := 0; bx*h < d.width; bx++ {
-				if err := d.reconstructBlock(&d.progCoeffs[i][by*stride+bx], bx, by, i); err != nil {
-					return err
-				}
+				try(d.reconstructBlock(&d.progCoeffs[i][by*stride+bx], bx, by, i))
 			}
 		}
 	}

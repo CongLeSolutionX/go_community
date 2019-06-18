@@ -76,9 +76,7 @@ func Validate(analyzers []*Analyzer) error {
 		return nil
 	}
 	for _, a := range analyzers {
-		if err := visit(a); err != nil {
-			return err
-		}
+		try(visit(a))
 	}
 
 	// Reject duplicates among analyzers.

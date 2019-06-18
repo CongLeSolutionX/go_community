@@ -454,10 +454,7 @@ func (c *fakeConn) ExecContext(ctx context.Context, query string, args []driver.
 	// just to check that all the args are of the proper types.
 	// ErrSkip is returned so the caller acts as if we didn't
 	// implement this at all.
-	err := checkSubsetTypes(c.db.allowAny, args)
-	if err != nil {
-		return nil, err
-	}
+	try(checkSubsetTypes(c.db.allowAny, args))
 	return nil, driver.ErrSkip
 }
 
@@ -471,10 +468,7 @@ func (c *fakeConn) QueryContext(ctx context.Context, query string, args []driver
 	// just to check that all the args are of the proper types.
 	// ErrSkip is returned so the caller acts as if we didn't
 	// implement this at all.
-	err := checkSubsetTypes(c.db.allowAny, args)
-	if err != nil {
-		return nil, err
-	}
+	try(checkSubsetTypes(c.db.allowAny, args))
 	return nil, driver.ErrSkip
 }
 
@@ -746,10 +740,7 @@ func (s *fakeStmt) ExecContext(ctx context.Context, args []driver.NamedValue) (d
 		return nil, errors.New("fakedb: session is dirty")
 	}
 
-	err := checkSubsetTypes(s.c.db.allowAny, args)
-	if err != nil {
-		return nil, err
-	}
+	try(checkSubsetTypes(s.c.db.allowAny, args))
 	s.touchMem()
 
 	if s.wait > 0 {
@@ -860,10 +851,7 @@ func (s *fakeStmt) QueryContext(ctx context.Context, args []driver.NamedValue) (
 		return nil, errors.New("fakedb: session is dirty")
 	}
 
-	err := checkSubsetTypes(s.c.db.allowAny, args)
-	if err != nil {
-		return nil, err
-	}
+	try(checkSubsetTypes(s.c.db.allowAny, args))
 
 	s.touchMem()
 	db := s.c.db

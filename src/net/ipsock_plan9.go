@@ -70,19 +70,10 @@ func parsePlan9Addr(s string) (ip IP, iport int, err error) {
 func readPlan9Addr(proto, filename string) (addr Addr, err error) {
 	var buf [128]byte
 
-	f, err := os.Open(filename)
-	if err != nil {
-		return
-	}
+	f := try(os.Open(filename))
 	defer f.Close()
-	n, err := f.Read(buf[:])
-	if err != nil {
-		return
-	}
-	ip, port, err := parsePlan9Addr(string(buf[:n]))
-	if err != nil {
-		return
-	}
+	n := try(f.Read(buf[:]))
+	ip, port := try(parsePlan9Addr(string(buf[:n])))
 	switch proto {
 	case "tcp":
 		addr = &TCPAddr{IP: ip, Port: port}
@@ -118,14 +109,8 @@ func startPlan9(ctx context.Context, net string, addr Addr) (ctl *os.File, dest,
 		return
 	}
 
-	clone, dest, err := queryCS1(ctx, proto, ip, port)
-	if err != nil {
-		return
-	}
-	f, err := os.OpenFile(clone, os.O_RDWR, 0)
-	if err != nil {
-		return
-	}
+	clone, dest := try(queryCS1(ctx, proto, ip, port))
+	f := try(os.OpenFile(clone, os.O_RDWR, 0))
 	var buf [16]byte
 	n, err := f.Read(buf[:])
 	if err != nil {
@@ -195,10 +180,7 @@ func dialPlan9Blocking(ctx context.Context, net string, laddr, raddr Addr) (fd *
 	if isWildcard(raddr) {
 		raddr = toLocal(raddr, net)
 	}
-	f, dest, proto, name, err := startPlan9(ctx, net, raddr)
-	if err != nil {
-		return nil, err
-	}
+	f, dest, proto, name := try(startPlan9(ctx, net, raddr))
 	_, err = f.WriteString("connect " + dest)
 	if err != nil {
 		f.Close()
@@ -220,10 +202,7 @@ func dialPlan9Blocking(ctx context.Context, net string, laddr, raddr Addr) (fd *
 
 func listenPlan9(ctx context.Context, net string, laddr Addr) (fd *netFD, err error) {
 	defer func() { fixErr(err) }()
-	f, dest, proto, name, err := startPlan9(ctx, net, laddr)
-	if err != nil {
-		return nil, err
-	}
+	f, dest, proto, name := try(startPlan9(ctx, net, laddr))
 	_, err = f.WriteString("announce " + dest)
 	if err != nil {
 		f.Close()
@@ -243,14 +222,9 @@ func (fd *netFD) netFD() (*netFD, error) {
 
 func (fd *netFD) acceptPlan9() (nfd *netFD, err error) {
 	defer func() { fixErr(err) }()
-	if err := fd.pfd.ReadLock(); err != nil {
-		return nil, err
-	}
+	try(fd.pfd.ReadLock())
 	defer fd.pfd.ReadUnlock()
-	listen, err := os.Open(fd.dir + "/listen")
-	if err != nil {
-		return nil, err
-	}
+	listen := try(os.Open(fd.dir + "/listen"))
 	var buf [16]byte
 	n, err := listen.Read(buf[:])
 	if err != nil {

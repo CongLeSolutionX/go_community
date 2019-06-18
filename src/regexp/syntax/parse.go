@@ -1246,10 +1246,7 @@ func (p *parser) parseEscape(s string) (r rune, rest string, err error) {
 	if t == "" {
 		return 0, "", &Error{ErrTrailingBackslash, ""}
 	}
-	c, t, err := nextRune(t)
-	if err != nil {
-		return 0, "", err
-	}
+	c, t := try(nextRune(t))
 
 Switch:
 	switch c {
@@ -1467,10 +1464,7 @@ func (p *parser) parseUnicodeClass(s string, r []rune) (out []rune, rest string,
 		sign = -1
 	}
 	t := s[2:]
-	c, t, err := nextRune(t)
-	if err != nil {
-		return
-	}
+	c, t := try(nextRune(t))
 	var seq, name string
 	if c != '{' {
 		// Single-letter name.
@@ -1571,10 +1565,7 @@ func (p *parser) parseClass(s string) (rest string, err error) {
 		}
 
 		// Look for Unicode character group like \p{Han}.
-		nclass, nt, err := p.parseUnicodeClass(t, class)
-		if err != nil {
-			return "", err
-		}
+		nclass, nt := try(p.parseUnicodeClass(t, class))
 		if nclass != nil {
 			class, t = nclass, nt
 			continue
@@ -1589,9 +1580,7 @@ func (p *parser) parseClass(s string) (rest string, err error) {
 		// Single character or simple range.
 		rng := t
 		var lo, hi rune
-		if lo, t, err = p.parseClassChar(t, s); err != nil {
-			return "", err
-		}
+		lo, t = try(p.parseClassChar(t, s))
 		hi = lo
 		// [a-] means (a|-) so check for final ].
 		if len(t) >= 2 && t[0] == '-' && t[1] != ']' {

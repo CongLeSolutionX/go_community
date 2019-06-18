@@ -65,18 +65,12 @@ func (f *file) readLine() (s string, ok bool) {
 }
 
 func open(name string) (*file, error) {
-	fd, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(os.Open(name))
 	return &file{fd, make([]byte, 0, 64*1024), false}, nil
 }
 
 func stat(name string) (mtime time.Time, size int64, err error) {
-	st, err := os.Stat(name)
-	if err != nil {
-		return time.Time{}, 0, err
-	}
+	st := try(os.Stat(name))
 	return st.ModTime(), st.Size(), nil
 }
 
@@ -287,9 +281,7 @@ func foreachLine(x []byte, fn func(line []byte) error) error {
 		}
 		line := x[:nl+1]
 		x = x[nl+1:]
-		if err := fn(line); err != nil {
-			return err
-		}
+		try(fn(line))
 	}
 	return nil
 }

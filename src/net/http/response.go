@@ -199,10 +199,7 @@ func ReadResponse(r *bufio.Reader, req *Request) (*Response, error) {
 
 	fixPragmaCacheControl(resp.Header)
 
-	err = readTransfer(resp, r)
-	if err != nil {
-		return nil, err
-	}
+	try(readTransfer(resp, r))
 
 	return resp, nil
 }
@@ -257,9 +254,7 @@ func (r *Response) Write(w io.Writer) error {
 		text = strings.TrimPrefix(text, strconv.Itoa(r.StatusCode)+" ")
 	}
 
-	if _, err := fmt.Fprintf(w, "HTTP/%d.%d %03d %s\r\n", r.ProtoMajor, r.ProtoMinor, r.StatusCode, text); err != nil {
-		return err
-	}
+	try(fmt.Fprintf(w, "HTTP/%d.%d %03d %s\r\n", r.ProtoMajor, r.ProtoMinor, r.StatusCode, text))
 
 	// Clone it, so we can modify r1 as needed.
 	r1 := new(Response)
@@ -295,20 +290,11 @@ func (r *Response) Write(w io.Writer) error {
 	}
 
 	// Process Body,ContentLength,Close,Trailer
-	tw, err := newTransferWriter(r1)
-	if err != nil {
-		return err
-	}
-	err = tw.writeHeader(w, nil)
-	if err != nil {
-		return err
-	}
+	tw := try(newTransferWriter(r1))
+	try(tw.writeHeader(w, nil))
 
 	// Rest of header
-	err = r.Header.WriteSubset(w, respExcludeHeader)
-	if err != nil {
-		return err
-	}
+	try(r.Header.WriteSubset(w, respExcludeHeader))
 
 	// contentLengthAlreadySent may have been already sent for
 	// POST/PUT requests, even if zero length. See Issue 8180.
@@ -320,15 +306,10 @@ func (r *Response) Write(w io.Writer) error {
 	}
 
 	// End-of-header
-	if _, err := io.WriteString(w, "\r\n"); err != nil {
-		return err
-	}
+	try(io.WriteString(w, "\r\n"))
 
 	// Write body and trailer
-	err = tw.writeBody(w)
-	if err != nil {
-		return err
-	}
+	try(tw.writeBody(w))
 
 	// Success
 	return nil

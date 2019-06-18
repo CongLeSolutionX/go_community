@@ -21,10 +21,7 @@ type machoFile struct {
 }
 
 func openMacho(r io.ReaderAt) (rawFile, error) {
-	f, err := macho.NewFile(r)
-	if err != nil {
-		return nil, err
-	}
+	f := try(macho.NewFile(r))
 	return &machoFile{f}, nil
 }
 

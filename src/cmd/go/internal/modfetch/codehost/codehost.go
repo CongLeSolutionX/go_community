@@ -151,9 +151,7 @@ func WorkDir(typ, name string) (dir, lockfile string, err error) {
 	if cfg.BuildX {
 		fmt.Fprintf(os.Stderr, "mkdir -p %s # %s %s\n", filepath.Dir(dir), typ, name)
 	}
-	if err := os.MkdirAll(filepath.Dir(dir), 0777); err != nil {
-		return "", "", err
-	}
+	try(os.MkdirAll(filepath.Dir(dir), 0777))
 
 	lockfile = dir + ".lock"
 	if cfg.BuildX {
@@ -185,9 +183,7 @@ func WorkDir(typ, name string) (dir, lockfile string, err error) {
 		fmt.Fprintf(os.Stderr, "mkdir -p %s # %s %s\n", dir, typ, name)
 	}
 	os.RemoveAll(dir)
-	if err := os.MkdirAll(dir, 0777); err != nil {
-		return "", "", err
-	}
+	try(os.MkdirAll(dir, 0777))
 	if err := ioutil.WriteFile(dir+".info", []byte(key), 0666); err != nil {
 		os.RemoveAll(dir)
 		return "", "", err

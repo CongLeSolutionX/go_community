@@ -401,9 +401,7 @@ func trimSpace(b []byte) string {
 // parseArchive parses a Unix archive of Go object files.
 func (r *objReader) parseArchive() error {
 	for r.offset < r.limit {
-		if err := r.readFull(r.tmp[:60]); err != nil {
-			return err
-		}
+		try(r.readFull(r.tmp[:60]))
 		data := r.tmp[:60]
 
 		// Each file is preceded by this text header (slice indices in first column):

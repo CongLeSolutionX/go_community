@@ -51,9 +51,7 @@ func newAddr2LinerNM(cmd, file string, base uint64) (*addr2LinerNM, error) {
 	var b bytes.Buffer
 	c := exec.Command(cmd, "-n", file)
 	c.Stdout = &b
-	if err := c.Run(); err != nil {
-		return nil, err
-	}
+	try(c.Run())
 	return parseAddr2LinerNM(base, &b)
 }
 

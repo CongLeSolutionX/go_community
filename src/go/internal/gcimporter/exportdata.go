@@ -17,10 +17,7 @@ import (
 func readGopackHeader(r *bufio.Reader) (name string, size int, err error) {
 	// See $GOROOT/include/ar.h.
 	hdr := make([]byte, 16+12+6+6+8+10+2)
-	_, err = io.ReadFull(r, hdr)
-	if err != nil {
-		return
-	}
+	try(io.ReadFull(r, hdr))
 	// leave for debugging
 	if false {
 		fmt.Printf("header: %s", hdr)

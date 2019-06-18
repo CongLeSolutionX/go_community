@@ -10,10 +10,7 @@ import "syscall"
 
 func executable() (string, error) {
 	fn := "/proc/" + itoa(Getpid()) + "/text"
-	f, err := Open(fn)
-	if err != nil {
-		return "", err
-	}
+	f := try(Open(fn))
 	defer f.Close()
 	return syscall.Fd2path(int(f.Fd()))
 }

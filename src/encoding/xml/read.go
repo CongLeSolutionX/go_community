@@ -224,10 +224,7 @@ func (d *Decoder) unmarshalTextInterface(val encoding.TextUnmarshaler) error {
 	var buf []byte
 	depth := 1
 	for depth > 0 {
-		t, err := d.Token()
-		if err != nil {
-			return err
-		}
+		t := try(d.Token())
 		switch t := t.(type) {
 		case CharData:
 			if depth == 1 {
@@ -576,9 +573,7 @@ Loop:
 		}
 	}
 
-	if err := copyValue(saveData, data); err != nil {
-		return err
-	}
+	try(copyValue(saveData, data))
 
 	switch t := saveComment; t.Kind() {
 	case reflect.String:
@@ -739,10 +734,7 @@ Loop:
 // element; otherwise it returns an error describing the problem.
 func (d *Decoder) Skip() error {
 	for {
-		tok, err := d.Token()
-		if err != nil {
-			return err
-		}
+		tok := try(d.Token())
 		switch tok.(type) {
 		case StartElement:
 			if err := d.Skip(); err != nil {
