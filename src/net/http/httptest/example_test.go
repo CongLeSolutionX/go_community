@@ -9,8 +9,10 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 )
 
 func ExampleResponseRecorder() {
@@ -67,6 +69,34 @@ func ExampleNewTLSServer() {
 		log.Fatal(err)
 	}
 
+	greeting, err := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%s", greeting)
+	// Output: Hello, client
+}
+
+func ExampleServer_by_hostname() {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "Hello, client")
+	}))
+	defer ts.Close()
+
+	target, err := url.Parse(ts.URL)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	target.Host = net.JoinHostPort("my.test.example", target.Port())
+
+	client := ts.Client()
+	res, err := client.Get(target.String())
+	if err != nil {
+		log.Fatal(err)
+	}
 	greeting, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {

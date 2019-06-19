@@ -4355,6 +4355,7 @@ func TestTransportMaxIdleConns(t *testing.T) {
 	ctx := context.WithValue(context.Background(), nettrace.LookupIPAltResolverKey{}, func(ctx context.Context, _, host string) ([]net.IPAddr, error) {
 		return []net.IPAddr{{IP: net.ParseIP(ip)}}, nil
 	})
+	tr.Dial = nil // Clear the default Dial from the httptest.Server to ensure DialContext is used.
 
 	hitHost := func(n int) {
 		req, _ := NewRequest("GET", fmt.Sprintf("http://host-%d.dns-is-faked.golang:"+port, n), nil)

@@ -6,10 +6,14 @@ package httptest
 
 import (
 	"bufio"
+	"context"
+	"fmt"
 	"io/ioutil"
 	"net"
 	"net/http"
+	"net/url"
 	"testing"
+	"time"
 )
 
 type newServerFunc func(http.Handler) *Server
@@ -48,6 +52,11 @@ func TestServer(t *testing.T) {
 			newServer := newServers[name]
 			t.Run("ServerClient", func(t *testing.T) { testServerClient(t, newServer) })
 			t.Run("TLSServerClientTransportType", func(t *testing.T) { testTLSServerClientTransportType(t, newServer) })
+		})
+	}
+	for name, newServer := range newServers {
+		t.Run(name, func(t *testing.T) {
+			t.Run("ClientRequestToHostname", func(t *testing.T) { testClientRequestToHostname(t, newServer) })
 		})
 	}
 }
@@ -184,6 +193,58 @@ func testTLSServerClientTransportType(t *testing.T, newTLSServer newServerFunc) 
 	if _, ok := client.Transport.(*http.Transport); !ok {
 		t.Errorf("got %T, want *http.Transport", client.Transport)
 	}
+}
+
+// Tests that requests to *.test.example go to the *Server.
+// Issue 31054.
+func testClientRequestToHostname(t *testing.T, newServer newServerFunc) {
+	const expectedResponse = "hello"
+	ts := newServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, expectedResponse)
+	}))
+	defer ts.Close()
+
+	testReq := func(hostname string, shouldSucceed bool) {
+		target, err := url.Parse(ts.URL)
+		if err != nil {
+			t.Fatal(err)
+		}
+		target.Host = net.JoinHostPort(hostname, target.Port())
+		req, err := http.NewRequest(http.MethodGet, target.String(), nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+		defer cancel()
+
+		req = req.WithContext(ctx)
+		res, err := ts.Client().Do(req)
+		if err != nil {
+			if shouldSucceed {
+				t.Errorf("should have reached %s via %s: %v", ts.URL, target, err)
+			}
+			return
+		}
+
+		got, err := ioutil.ReadAll(res.Body)
+		res.Body.Close()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !shouldSucceed {
+			t.Errorf("should not have reached %s via %s", ts.URL, target)
+			return
+		}
+		if string(got) != expectedResponse {
+			t.Errorf("got %q, want %q", string(got), expectedResponse)
+			return
+		}
+	}
+
+	testReq("host.test.example", true)
+	testReq("test.example", false)
+	testReq("host.test.example.no", false)
 }
 
 type onlyCloseListener struct {

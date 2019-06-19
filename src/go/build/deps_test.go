@@ -443,7 +443,7 @@ var pkgDeps = map[string][]string{
 	"net/http/fcgi":      {"L4", "NET", "OS", "context", "net/http", "net/http/cgi"},
 	"net/http/httptest": {
 		"L4", "NET", "OS", "crypto/tls", "flag", "net/http", "net/http/internal", "crypto/x509",
-		"golang.org/x/net/http/httpguts",
+		"golang.org/x/net/http/httpguts", "context",
 	},
 	"net/http/httputil": {"L4", "NET", "OS", "context", "net/http", "net/http/internal", "golang.org/x/net/http/httpguts"},
 	"net/http/pprof":    {"L4", "OS", "html/template", "net/http", "runtime/pprof", "runtime/trace"},

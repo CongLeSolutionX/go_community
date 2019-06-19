@@ -9,37 +9,38 @@ import "strings"
 // LocalhostCert is a PEM-encoded TLS cert with SAN IPs
 // "127.0.0.1" and "[::1]", expiring at Jan 29 16:00:00 2084 GMT.
 // generated from src/crypto/tls:
-// go run generate_cert.go  --rsa-bits 1024 --host 127.0.0.1,::1,example.com --ca --start-date "Jan 1 00:00:00 1970" --duration=1000000h
+// go run generate_cert.go --rsa-bits 1024 --host "127.0.0.1,::1,example.com,*.test.example" --ca --start-date "Jan 1 00:00:00 1970" --duration=1000000h
 var LocalhostCert = []byte(`-----BEGIN CERTIFICATE-----
-MIICEzCCAXygAwIBAgIQMIMChMLGrR+QvmQvpwAU6zANBgkqhkiG9w0BAQsFADAS
+MIICIzCCAYygAwIBAgIQFd0/NIjcQteXI/5IUTAkdzANBgkqhkiG9w0BAQsFADAS
 MRAwDgYDVQQKEwdBY21lIENvMCAXDTcwMDEwMTAwMDAwMFoYDzIwODQwMTI5MTYw
 MDAwWjASMRAwDgYDVQQKEwdBY21lIENvMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCB
-iQKBgQDuLnQAI3mDgey3VBzWnB2L39JUU4txjeVE6myuDqkM/uGlfjb9SjY1bIw4
-iA5sBBZzHi3z0h1YV8QPuxEbi4nW91IJm2gsvvZhIrCHS3l6afab4pZBl2+XsDul
-rKBxKKtD1rGxlG4LjncdabFn9gvLZad2bSysqz/qTAUStTvqJQIDAQABo2gwZjAO
+iQKBgQCxECpq9t32ivJJeQK+WJQUYuClYIWOyWFZICIdp4bzsWuR+97zWQTOmvla
+ogiO4Zx9of+FJADg+zXuX5ZoPqF6IOBdA6Yu1iSKcYTBhe7BzoCSxAzwOMatTwEU
+X/XRtAyeMtlZ880SNL7/FKzB6Bj2Tdd3GL5+p7aEAkPVoPK+OQIDAQABo3gwdjAO
 BgNVHQ8BAf8EBAMCAqQwEwYDVR0lBAwwCgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUw
-AwEB/zAuBgNVHREEJzAlggtleGFtcGxlLmNvbYcEfwAAAYcQAAAAAAAAAAAAAAAA
-AAAAATANBgkqhkiG9w0BAQsFAAOBgQCEcetwO59EWk7WiJsG4x8SY+UIAA+flUI9
-tyC4lNhbcF2Idq9greZwbYCqTTTr2XiRNSMLCOjKyI7ukPoPjo16ocHj+P3vZGfs
-h1fIw3cSS2OolhloGw/XM6RWPWtPAlGykKLciQrBru5NAPvCMsb/I1DAceTiotQM
-fblo6RBxUQ==
+AwEB/zA+BgNVHREENzA1ggtleGFtcGxlLmNvbYIOKi50ZXN0LmV4YW1wbGWHBH8A
+AAGHEAAAAAAAAAAAAAAAAAAAAAEwDQYJKoZIhvcNAQELBQADgYEAPOKyZaR/5y8N
+XDbqnqTChTzjuf5XhECFZJqc+Qxwmhv0cw6rPg3/yTH/XJQHMB9NjUx2OiaXeLAp
+HlRCz7mfAeYFvhqa2E7sTZhlsxIrlnoJfRzX/e8Y+gB4usB1I9s8onVDo93ASJAa
+8m0IAUV6khBDEBHOeOmoMZZ4SfmlaMA=
 -----END CERTIFICATE-----`)
 
-// LocalhostKey is the private key for localhostCert.
+// LocalhostKey is the private key for LocalhostCert.
 var LocalhostKey = []byte(testingKey(`-----BEGIN RSA TESTING KEY-----
-MIICXgIBAAKBgQDuLnQAI3mDgey3VBzWnB2L39JUU4txjeVE6myuDqkM/uGlfjb9
-SjY1bIw4iA5sBBZzHi3z0h1YV8QPuxEbi4nW91IJm2gsvvZhIrCHS3l6afab4pZB
-l2+XsDulrKBxKKtD1rGxlG4LjncdabFn9gvLZad2bSysqz/qTAUStTvqJQIDAQAB
-AoGAGRzwwir7XvBOAy5tM/uV6e+Zf6anZzus1s1Y1ClbjbE6HXbnWWF/wbZGOpet
-3Zm4vD6MXc7jpTLryzTQIvVdfQbRc6+MUVeLKwZatTXtdZrhu+Jk7hx0nTPy8Jcb
-uJqFk541aEw+mMogY/xEcfbWd6IOkp+4xqjlFLBEDytgbIECQQDvH/E6nk+hgN4H
-qzzVtxxr397vWrjrIgPbJpQvBsafG7b0dA4AFjwVbFLmQcj2PprIMmPcQrooz8vp
-jy4SHEg1AkEA/v13/5M47K9vCxmb8QeD/asydfsgS5TeuNi8DoUBEmiSJwma7FXY
-fFUtxuvL7XvjwjN5B30pNEbc6Iuyt7y4MQJBAIt21su4b3sjXNueLKH85Q+phy2U
-fQtuUE9txblTu14q3N7gHRZB4ZMhFYyDy8CKrN2cPg/Fvyt0Xlp/DoCzjA0CQQDU
-y2ptGsuSmgUtWj3NM9xuwYPm+Z/F84K6+ARYiZ6PYj013sovGKUFfYAqVXVlxtIX
-qyUBnu3X9ps8ZfjLZO7BAkEAlT4R5Yl6cGhaJQYZHOde3JEMhNRcVFMO8dJDaFeo
-f9Oeos0UUothgiDktdQHxdNEwLjQf7lJJBzV+5OtwswCWA==
+MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALEQKmr23faK8kl5
+Ar5YlBRi4KVghY7JYVkgIh2nhvOxa5H73vNZBM6a+VqiCI7hnH2h/4UkAOD7Ne5f
+lmg+oXog4F0Dpi7WJIpxhMGF7sHOgJLEDPA4xq1PARRf9dG0DJ4y2VnzzRI0vv8U
+rMHoGPZN13cYvn6ntoQCQ9Wg8r45AgMBAAECgYEAiAbPT5WQOFPOhzt8LBeIy5Ca
+3PImKOf07a+OBhIpzxXCekhxo6oD02Wjo0lQIdSZkLrfvr1GH5FegV7WAgf7rLwG
+2IMdV5Gi5nmAxiXEZmMmg5VIq3k2Bo3mh0HajQXRak8LwMHjGyz+P7jmQJ+3A0Iw
+OaQXaLWPuT7PNbLOuTECQQDKqbjyJemAL5Wr9ZVTq3whnQa/4yydWdHooxXyfUVE
+XLK/l9VFaqqix2rGUOrReI241qP96G6LUD5wg8gDsC0LAkEA36msIfxxmPBri9J+
+oq5FndqqXLxcGGCDRhWk5VYkQsmwGazIxBYRqPuktAVFo17XtIfKmgw9j/sNtQPH
+EgAkSwJASY+JXft84dZj0WL2rMQV7m18wbHHw+WSV4q6sKXfuoybJQgLlYK+JQ+V
+Jh7A3P+REYJ3S/ZOCas6vsRWmWAdOQJBAJcurm6un+6cHGX/25+FIwOHif5zR+Em
+Y7Wc7cAjURFgGUvRkkeRD1DlADi7E45Rjoa1/wnP2lEXhvVjX01YkS8CQQCkC4ql
+FpDcjbho/JCWOeMFm7JFjWNcHw8WjkZysuADUCqM937AubwPPiYC4t8g3QKtCihU
+5Oy2F/u9vtPuEaU1
 -----END RSA TESTING KEY-----`))
 
 func testingKey(s string) string { return strings.ReplaceAll(s, "TESTING KEY", "PRIVATE KEY") }

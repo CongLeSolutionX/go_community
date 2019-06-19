@@ -120,7 +120,7 @@ func (s *Server) Start() {
 		panic("Server already started")
 	}
 	if s.client == nil {
-		s.client = &http.Client{Transport: &http.Transport{}}
+		s.client = &http.Client{Transport: &http.Transport{Dial: s.dial}}
 	}
 	s.URL = "http://" + s.Listener.Addr().String()
 	s.wrap()
@@ -166,6 +166,7 @@ func (s *Server) StartTLS() {
 		TLSClientConfig: &tls.Config{
 			RootCAs: certpool,
 		},
+		Dial: s.dial,
 	}
 	s.Listener = tls.NewListener(s.Listener, s.TLS)
 	s.URL = "https://" + s.Listener.Addr().String()
@@ -284,7 +285,9 @@ func (s *Server) Certificate() *x509.Certificate {
 	return s.certificate
 }
 
-// Client returns an HTTP client configured for making requests to the server.
+// Client returns an HTTP client configured for making requests to the server
+// by sending requests to Server.URL, or using a hostname that matches
+// *.test.example (with the URL otherwise the same as Server.URL).
 // It is configured to trust the server's TLS test certificate and will
 // close its idle connections on Server.Close.
 func (s *Server) Client() *http.Client {
@@ -370,4 +373,17 @@ func (s *Server) forgetConn(c net.Conn) {
 		delete(s.conns, c)
 		s.wg.Done()
 	}
+}
+
+// dial resolves requests for *.test.example to this
+// (*Server).Listener.Addr().
+func (s *Server) dial(network, addr string) (net.Conn, error) {
+	addrHost, _, err := net.SplitHostPort(addr)
+	if err != nil {
+		return nil, err
+	}
+	if network != "tcp" || !strings.HasSuffix(addrHost, ".test.example") {
+		return net.Dial(network, addr)
+	}
+	return net.Dial(s.Listener.Addr().Network(), s.Listener.Addr().String())
 }
