@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9a15500_af0b9eef",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-19T17:42:13Z",
+      "side": 1,
+      "message": "Do you think it\u0027s worth providing any context around motivation or benefits of this change here, or do we just want to stick to the fact of the change?",
+      "range": {
+        "startLine": 79,
+        "startChar": 76,
+        "endLine": 79,
+        "endChar": 88
+      },
+      "revId": "89f1932a0ef6ef112bdc8188510dd0684c0e4a82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "249ba6c0_6580c09f",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-19T17:42:13Z",
+      "side": 1,
+      "message": "\u003ccode\u003ego doc\u003c/code\u003e ?",
+      "range": {
+        "startLine": 89,
+        "startChar": 67,
+        "endLine": 89,
+        "endChar": 99
+      },
+      "revId": "89f1932a0ef6ef112bdc8188510dd0684c0e4a82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a640aa5_baa51610",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-19T17:42:13Z",
+      "side": 1,
+      "message": "why is this in quotes?",
+      "range": {
+        "startLine": 89,
+        "startChar": 103,
+        "endLine": 89,
+        "endChar": 104
+      },
+      "revId": "89f1932a0ef6ef112bdc8188510dd0684c0e4a82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
