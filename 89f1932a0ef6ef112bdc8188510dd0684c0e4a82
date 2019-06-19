@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "235ff1fe_94f17a50",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-06-19T21:24:01Z",
+      "side": 1,
+      "message": "not really the style. note for instance the paragraph above: Go 1.13 now requires FreeBSD 11.2 or later; support for previous versions has been discontinued.",
+      "parentUuid": "b9a15500_af0b9eef",
+      "range": {
+        "startLine": 79,
+        "startChar": 76,
+        "endLine": 79,
+        "endChar": 88
+      },
+      "revId": "89f1932a0ef6ef112bdc8188510dd0684c0e4a82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "249ba6c0_6580c09f",
         "filename": "doc/go1.13.html",
         "patchSetId": 1
@@ -59,6 +83,54 @@
       "writtenOn": "2019-06-19T17:42:13Z",
       "side": 1,
       "message": "why is this in quotes?",
+      "range": {
+        "startLine": 89,
+        "startChar": 103,
+        "endLine": 89,
+        "endChar": 104
+      },
+      "revId": "89f1932a0ef6ef112bdc8188510dd0684c0e4a82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f0822b_9843b784",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-06-19T21:24:01Z",
+      "side": 1,
+      "message": "the constant width space is very wide. i\u0027ve established the precedent of doing it like this; it looks much better.",
+      "parentUuid": "249ba6c0_6580c09f",
+      "range": {
+        "startLine": 89,
+        "startChar": 67,
+        "endLine": 89,
+        "endChar": 99
+      },
+      "revId": "89f1932a0ef6ef112bdc8188510dd0684c0e4a82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "200da644_d08496c1",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-06-19T21:24:01Z",
+      "side": 1,
+      "message": "no idea.",
+      "parentUuid": "8a640aa5_baa51610",
       "range": {
         "startLine": 89,
         "startChar": 103,
