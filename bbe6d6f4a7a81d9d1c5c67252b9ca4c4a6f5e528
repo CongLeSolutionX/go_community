@@ -52,6 +52,24 @@
       "revId": "bbe6d6f4a7a81d9d1c5c67252b9ca4c4a6f5e528",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e43f50d1_9f9c9039",
+        "filename": "src/cmd/link/internal/ld/macho_combine_dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-06-20T14:45:48Z",
+      "side": 1,
+      "message": "Ah.  Well, I can try this and see how the tests go. I guess it makes sense to be more consistent about setting vmsize to zero.",
+      "parentUuid": "a89ff10f_a0ae073f",
+      "revId": "bbe6d6f4a7a81d9d1c5c67252b9ca4c4a6f5e528",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
