@@ -201,6 +201,13 @@ func TestSetMaxHeap(t *testing.T) {
 	notify := make(chan struct{}, 1)
 	prev := SetMaxHeap(limit, notify)
 
+	// Check that that notified us of heap pressure.
+	select {
+	case <-notify:
+	default:
+		t.Errorf("missing GC pressure notification")
+	}
+
 	// Test return value.
 	if prev != ^uintptr(0) {
 		t.Errorf("want previous limit %d, got %d", ^uintptr(0), prev)
@@ -208,13 +215,6 @@ func TestSetMaxHeap(t *testing.T) {
 	prev = SetMaxHeap(limit, notify)
 	if prev != limit {
 		t.Errorf("want previous limit %d, got %d", limit, prev)
-	}
-
-	// Check that that notified us of heap pressure.
-	select {
-	case <-notify:
-	default:
-		t.Errorf("missing GC pressure notification")
 	}
 
 	// Allocate a bunch and check that we stay under the limit.
