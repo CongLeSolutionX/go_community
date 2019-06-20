@@ -165,6 +165,9 @@ const defaultHeapMinimum = 4 << 20
 // Initialized from $GOGC.  GOGC=off means no GC.
 var gcpercent int32
 
+// To begin with, maxHeap is infinity.
+var maxHeap uintptr = ^uintptr(0)
+
 func gcinit() {
 	if unsafe.Sizeof(workbuf{}) != _WorkbufSize {
 		throw("size of Workbuf is suboptimal")
@@ -269,14 +272,16 @@ func gcSetMaxHeap(bytes uintptr, notify chan<- struct{}) uintptr {
 	// which could lead to deadlock.
 	lock(&gcPressure.lock)
 	gcPressure.notify = notify
-	prev := gcPressure.maxHeap
-	gcPressure.maxHeap = bytes
 	unlock(&gcPressure.lock)
 
-	lock(&mheap_.lock)
-	// Updating pacing.
-	updated := gcSetTriggerRatio(memstats.triggerRatio)
-	unlock(&mheap_.lock)
+	systemstack(func() {
+		lock(&mheap_.lock)
+		prev := maxHeap
+		maxHeap = bytes
+		// Updating pacing.
+		updated := gcSetTriggerRatio(memstats.triggerRatio)
+		unlock(&mheap_.lock)
+	})
 
 	if updated {
 		gcPolicyNotify()
@@ -985,18 +990,20 @@ func gcPolicyNotify() {
 
 //go:linkname gcReadPolicy runtime/debug.gcReadPolicy
 func gcReadPolicy() (gogc int, maxHeap uintptr, egogc int) {
-	lock(&mheap_.lock)
-	lock(&gcPressure.lock)
-	gogc, maxHeap, egogc = gcReadPolicyLocked()
-	unlock(&gcPressure.lock)
-	unlock(&mheap_.lock)
+	systemstack(func() {
+		lock(&mheap_.lock)
+		gogc, maxHeap, egogc = gcReadPolicyLocked()
+		unlock(&mheap_.lock)
+	})
 	return
 }
 
-// Both mheap_.lock and gcPressure.lock must be locked.
+// mheap_.lock must be locked, therefore this must be called on the
+// systemstack.
+//go:systemstack
 func gcReadPolicyLocked() (gogc int, maxHeap uintptr, egogc int) {
 	goal := memstats.next_gc
-	if goal < uint64(gcPressure.maxHeap) && gcpercent >= 0 {
+	if goal < uint64(maxHeap) && gcpercent >= 0 {
 		// We're not up against the max heap size, so just
 		// return GOGC.
 		egogc = int(gcpercent)
@@ -1010,7 +1017,7 @@ func gcReadPolicyLocked() (gogc int, maxHeap uintptr, egogc int) {
 			egogc = int(gcpercent)
 		}
 	}
-	return int(gcpercent), gcPressure.maxHeap, egogc
+	return int(gcpercent), maxHeap, egogc
 }
 
 // gcEffectiveGrowthRatio returns the current effective heap growth
