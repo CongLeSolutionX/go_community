@@ -116,7 +116,6 @@ type UnknownRevisionError struct {
 func (e *UnknownRevisionError) Error() string {
 	return "unknown revision " + e.Rev
 }
-
 func (e *UnknownRevisionError) Is(err error) bool {
 	return err == os.ErrNotExist
 }
