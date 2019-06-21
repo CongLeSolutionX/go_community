@@ -2,6 +2,7 @@
 
 env GO111MODULE=on
 env GOSUMDB=
+env GOPATH=$WORK/gopath1
 
 # With a file-based proxy with an empty checksum directory,
 # downloading a new module should fail, even if a subsequent
@@ -18,11 +19,20 @@ stderr '^verifying golang.org/x/text.*: Not Found'
 [!windows] env GOPROXY=file://$WORK/emptyproxy,https://proxy.golang.org
 go get -d golang.org/x/text@v0.3.2
 
+# After a successful sumdb lookup, it should be possible to
+# repeat the lookup using the download cache as a proxy.
+[windows] env GOPROXY=file:///$GOPATH/pkg/mod/cache/download
+[!windows] env GOPROXY=file://$GOPATH/pkg/mod/cache/download
+env GOSUMDB=off
+env GOPATH=$WORK/gopath2
+rm go.sum
+go get -d -x -v golang.org/x/text@v0.3.2
+
 # Once the checksum is present in the go.sum file,
 # an empty file-based sumdb can be used in conjunction with
 # a fallback module mirror.
 grep golang.org/x/text go.sum
-go clean -modcache
+env GOPATH=$WORK/gopath3
 [windows] env GOPROXY=file:///$WORK/sumproxy
 [!windows] env GOPROXY=file://$WORK/sumproxy
 ! go get -d golang.org/x/text@v0.3.2
