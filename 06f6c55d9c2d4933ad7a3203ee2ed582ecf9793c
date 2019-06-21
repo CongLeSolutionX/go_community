@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39220b8b_ab84de85",
+        "filename": "src/cmd/go/testdata/script/mod_list_pseudo.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-06-21T20:49:42Z",
+      "side": 1,
+      "message": "Suggestion, consider using -json to cover the version time as well.",
+      "revId": "06f6c55d9c2d4933ad7a3203ee2ed582ecf9793c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
