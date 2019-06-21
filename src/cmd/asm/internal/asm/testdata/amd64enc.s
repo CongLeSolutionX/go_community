@@ -769,10 +769,12 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	CLAC                                    // 0f01ca
 	CLC                                     // f8
 	CLD                                     // fc
+	CLDEMOTE (BX)                           // 0f1c03
 	CLFLUSH (BX)                            // 0fae3b
 	CLFLUSH (R11)                           // 410fae3b
 	CLFLUSHOPT (BX)                         // 660fae3b
 	CLFLUSHOPT (R11)                        // 66410fae3b
+	CLWB (BX)                               // 660fae33
 	CLI                                     // fa
 	CLTS                                    // 0f06
 	CMC                                     // f5
@@ -5792,6 +5794,7 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	TESTB R11, DL                           // 4484da
 	TESTB DL, R11                           // 4184d3
 	TESTB R11, R11                          // 4584db
+	TPAUSE BX                               // 660faef3
 	TZCNTW (BX), DX                         // 66f30fbc13
 	TZCNTW (R11), DX                        // 66f3410fbc13
 	TZCNTW DX, DX                           // 66f30fbcd2
@@ -5834,6 +5837,7 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	UCOMISS X11, X11                        // 450f2edb
 	UD1                                     // 0fb9
 	UD2                                     // 0f0b
+	UMWAIT BX								// f20faef3
 	UNPCKHPD (BX), X2                       // 660f1513
 	UNPCKHPD (R11), X2                      // 66410f1513
 	UNPCKHPD X2, X2                         // 660f15d2
@@ -5866,6 +5870,7 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	UNPCKLPS (R11), X11                     // 450f141b
 	UNPCKLPS X2, X11                        // 440f14da
 	UNPCKLPS X11, X11                       // 450f14db
+	UMONITOR BX								// f30faef3
 	VADDPD (BX), X9, X2                     // c4e1315813 or c5b15813
 	VADDPD (R11), X9, X2                    // c4c1315813
 	VADDPD X2, X9, X2                       // c4e13158d2 or c5b158d2
