@@ -132,4 +132,16 @@ TEXT errors(SB),$0
 	VADDPD.BCST X3, X2, K1, X1       // ERROR "illegal broadcast without memory argument"
 	VADDPD.BCST X3, X2, K1, X1       // ERROR "illegal broadcast without memory argument"
 	VADDPD.BCST X3, X2, K1, X1       // ERROR "illegal broadcast without memory argument"
+
+	// CLWB instuctions:
+	CLWB BX                          // ERROR "invalid instruction"
+
+	// CLDEMOTE instructions:
+	CLDEMOTE (BX)                    // 0f1c03
+	// WAITPKG instructions:
+	TPAUSE (BX)                      // ERROR "invalid instruction"
+	UMONITORW (BX)                   // ERROR "invalid instruction"
+	UMONITORL (BX)                   // ERROR "invalid instruction"
+	UMONITORQ (BX)                   // ERROR "invalid instruction"
+	UMWAIT (BX)                      // ERROR "invalid instruction"
 	RET
