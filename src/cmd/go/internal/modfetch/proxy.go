@@ -231,7 +231,7 @@ func (p *proxyRepo) Versions(prefix string) ([]string, error) {
 	var list []string
 	for _, line := range strings.Split(string(data), "\n") {
 		f := strings.Fields(line)
-		if len(f) >= 1 && semver.IsValid(f[0]) && strings.HasPrefix(f[0], prefix) {
+		if len(f) >= 1 && semver.IsValid(f[0]) && strings.HasPrefix(f[0], prefix) && !IsPseudoVersion(f[0]) {
 			list = append(list, f[0])
 		}
 	}
