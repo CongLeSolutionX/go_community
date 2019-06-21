@@ -22,6 +22,30 @@
       "revId": "840deafc24072dccb8ff6be95fe3251be0e812ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a54ae647_048008c0",
+        "filename": "src/cmd/link/internal/ld/macho_combine_dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-06-21T12:11:41Z",
+      "side": 1,
+      "message": "Agreed. But I do think it\u0027s the right way to have it work.",
+      "parentUuid": "596c97a4_daaec96c",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 2
+      },
+      "revId": "840deafc24072dccb8ff6be95fe3251be0e812ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
