@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5c41997_5afb0a35",
+        "filename": "src/bufio/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-06-21T08:10:38Z",
+      "side": 1,
+      "message": "\"Use return\" is not grammatical.\n\nI also feel there should be a comment about why an error check is not needed here.",
+      "revId": "44c9354c5a780746b4ebef8ce436a10ee37e01cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
