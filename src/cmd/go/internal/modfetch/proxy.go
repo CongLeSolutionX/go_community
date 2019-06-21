@@ -231,7 +231,7 @@ func (p *proxyRepo) Versions(prefix string) ([]string, error) {
 	var list []string
 	for _, line := range strings.Split(string(data), "\n") {
 		f := strings.Fields(line)
-		if len(f) >= 1 && semver.IsValid(f[0]) && strings.HasPrefix(f[0], prefix) {
+		if len(f) >= 1 && semver.IsValid(f[0]) && strings.HasPrefix(f[0], prefix) && !IsPseudoVersion(f[0]) {
 			list = append(list, f[0])
 		}
 	}
@@ -248,16 +248,30 @@ func (p *proxyRepo) latest() (*RevInfo, error) {
 	var bestVersion string
 	for _, line := range strings.Split(string(data), "\n") {
 		f := strings.Fields(line)
-		if len(f) >= 2 && semver.IsValid(f[0]) {
-			ft, err := time.Parse(time.RFC3339, f[1])
-			if err == nil && best.Before(ft) {
+		if len(f) >= 1 && semver.IsValid(f[0]) {
+			// If the proxy includes timestamps, prefer the most recent commit. If it
+			// includes versions but not timestamps, derive the timestamps from
+			// pseudo-versions: Repo.Latest promises that this method is only called
+			// when there are no tagged versions.
+			var ft time.Time
+			if len(f) >= 2 {
+				ft, _ = time.Parse(time.RFC3339, f[1])
+			} else if IsPseudoVersion(f[0]) {
+				ft, _ = PseudoVersionTime(f[0])
+			} else {
+				// Repo.Latest promises that this method is only called where there are
+				// no tagged versions. Ignore any tagged versions that were added in the
+				// meantime.
+				continue
+			}
+			if best.Before(ft) {
 				best = ft
 				bestVersion = f[0]
 			}
 		}
 	}
 	if bestVersion == "" {
-		return nil, fmt.Errorf("no commits")
+		return nil, codehost.ErrNoCommits
 	}
 	info := &RevInfo{
 		Version: bestVersion,
