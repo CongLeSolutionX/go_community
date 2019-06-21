@@ -121,6 +121,15 @@ func (e *UnknownRevisionError) Is(err error) bool {
 	return err == os.ErrNotExist
 }
 
+type noCommitsError struct{}
+
+func (e noCommitsError) Error() string     { return "no commits" }
+func (e noCommitsError) Is(err error) bool { return err == os.ErrNotExist }
+
+// ErrNoCommits is an error equivalent to os.ErrNotExist indicating that a given
+// repository or module contains no commits.
+var ErrNoCommits error = noCommitsError{}
+
 // AllHex reports whether the revision rev is entirely lower-case hexadecimal digits.
 func AllHex(rev string) bool {
 	for i := 0; i < len(rev); i++ {

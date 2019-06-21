@@ -231,7 +231,7 @@ func (p *proxyRepo) Versions(prefix string) ([]string, error) {
 	var list []string
 	for _, line := range strings.Split(string(data), "\n") {
 		f := strings.Fields(line)
-		if len(f) >= 1 && semver.IsValid(f[0]) && strings.HasPrefix(f[0], prefix) {
+		if len(f) >= 1 && semver.IsValid(f[0]) && strings.HasPrefix(f[0], prefix) && !IsPseudoVersion(f[0]) {
 			list = append(list, f[0])
 		}
 	}
@@ -248,16 +248,21 @@ func (p *proxyRepo) latest() (*RevInfo, error) {
 	var bestVersion string
 	for _, line := range strings.Split(string(data), "\n") {
 		f := strings.Fields(line)
-		if len(f) >= 2 && semver.IsValid(f[0]) {
-			ft, err := time.Parse(time.RFC3339, f[1])
-			if err == nil && best.Before(ft) {
+		if len(f) >= 1 && semver.IsValid(f[0]) {
+			// If the proxy includes timestamps, prefer the most recent commit. If it
+			// includes versions but not timestamps, prefer the semantically highest.
+			var ft time.Time
+			if len(f) >= 2 {
+				ft, _ = time.Parse(time.RFC3339, f[1])
+			}
+			if best.Before(ft) || best.IsZero() && semver.Compare(bestVersion, f[0]) < 0 {
 				best = ft
 				bestVersion = f[0]
 			}
 		}
 	}
 	if bestVersion == "" {
-		return nil, fmt.Errorf("no commits")
+		return nil, codehost.ErrNoCommits
 	}
 	info := &RevInfo{
 		Version: bestVersion,
