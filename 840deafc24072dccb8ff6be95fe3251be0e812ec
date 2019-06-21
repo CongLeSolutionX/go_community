@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "65f49b78_d926f66c",
+        "filename": "src/cmd/link/internal/ld/macho_combine_dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-06-21T14:36:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8547550_bef43f2f",
+      "range": {
+        "startLine": 393,
+        "startChar": 46,
+        "endLine": 393,
+        "endChar": 65
+      },
+      "revId": "840deafc24072dccb8ff6be95fe3251be0e812ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "596c97a4_daaec96c",
         "filename": "src/cmd/link/internal/ld/macho_combine_dwarf.go",
         "patchSetId": 2
