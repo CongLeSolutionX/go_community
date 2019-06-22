@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "657c761e_9c291a7f",
+        "filename": "src/cmd/go/internal/modfetch/sumdb.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-06-22T00:00:28Z",
+      "side": 1,
+      "message": "Perhaps the typo was that \"download\" was added at all, and instead it should be removed rather than moved:\n\n    -targ :\u003d filepath.Join(PkgMod, \"download/cache/sumdb\", file)\n    +targ :\u003d filepath.Join(PkgMod, \"cache/sumdb\", file)\n\nThe $GOPATH/pkg/mod/cache directory currently has (at least) these top level entries:\n\n• download\n• lock\n• vcs\n\nWould sumdb be a better fit there?\n\nThe GOPATH/pkg/mod/cache/download directory is the local module cache, and so far, it has only contained modules.\n\nThe last paragraph of https://golang.org/cmd/go/#hdr-Module_proxy_protocol talks about copying its contents for the purposes of creating a static filesystem-based module proxy:\n\n\u003e serving $GOPATH/pkg/mod/cache/download at (or copying it to)\n\u003e https://example.com/proxy would let other users access those\n\u003e cached module versions with GOPROXY\u003dhttps://example.com/proxy.\n\n\"sumdb\" cannot conflict with a valid domain since there\u0027s no dot in it.",
+      "revId": "0e75b3523599e93d81fe6fa472e044aa1784dd26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
