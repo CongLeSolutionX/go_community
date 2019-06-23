@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aba3ba1_cb185419",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1702,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2019-06-23T08:49:59Z",
+      "side": 1,
+      "message": "ydivl accepts both reg and mem arguments, because Yml covers\nboth Ym and Yrl (you can see ycover table filling code to understand\nthe relationships between Y constants).\n\nWhat you probably need is Yrl and the closest ytab could be\nywrfsbase, but you should double check it.\n\nI would add a negative test into amd64error file that tries to\nuse memory operands for this instruction. It should yield\n\"invalid instruction\" error. Right now it wouldn\u0027t but when you\nfix an issue, it should pass a test.\n\nNote that you should check other ydivl uses you uploaded.\n\n  reg-only \u003d\u003e Yrl\n  mem-only \u003d\u003e Ym\n  reg/mem  \u003d\u003e Yml",
+      "revId": "6770803dc25f457e01dd24ef3d26ace10162b5e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
