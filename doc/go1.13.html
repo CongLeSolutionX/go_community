@@ -428,7 +428,26 @@ TODO
       object.
     </p>
 
-</dl><!-- debug/dwarf -->
+</dl><!-- errors -->
+
+<dl id="errors"><dt><a href="/pkg/errors/">errors</a></dt>
+  <dd>
+    <!-- CL 163558 -->
+    <p>
+      The new function <a href="/pkg/errors/#As"><code>As</code></a> finds the first error in a given error’s chain
+      that matches a given target’s type, and if so, sets the target to that error value.
+    </p>
+    <p>
+      The new function <a href="/pkg/errors/#Is"><code>Is</code></a> reports whether a given error value matches an
+      error in another’s chain.
+    </p>
+    <p>
+      The new function <a href="/pkg/errors/#Unwrap"><code>Unwrap</code></a> returns the result of calling the
+      <code>Unwrap</code> method on a given error, if that error’s type contains an <code>Unwrap</code> method
+      returning the error.
+    </p>
+
+</dl><!-- errors -->
 
 <dl id="html/template"><dt><a href="/pkg/html/template/">html/template</a></dt>
   <dd>
