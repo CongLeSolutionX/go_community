@@ -22,6 +22,52 @@
       "revId": "b8ae890877bf36e4eb0bc9ba1d3747611f779011",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4970f365_c628ef35",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-24T21:19:50Z",
+      "side": 1,
+      "message": "Perhaps lead with the context:\n\n“The paths searched for system roots now include /etc/ssl/cert.pem to support […]”",
+      "range": {
+        "startLine": 419,
+        "startChar": 6,
+        "endLine": 420,
+        "endChar": 59
+      },
+      "revId": "b8ae890877bf36e4eb0bc9ba1d3747611f779011",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a924b3d_d781a5cb",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-24T21:19:50Z",
+      "side": 1,
+      "message": "s/an/a/",
+      "range": {
+        "startLine": 491,
+        "startChar": 120,
+        "endLine": 491,
+        "endChar": 122
+      },
+      "revId": "b8ae890877bf36e4eb0bc9ba1d3747611f779011",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
