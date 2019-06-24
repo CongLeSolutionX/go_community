@@ -16,6 +16,24 @@
       "revId": "7049f34be712eaff4e167821de09a6905db740e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11043dae_4f44701b",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-24T22:19:03Z",
+      "side": 1,
+      "message": "\u003e Orthogonal to this change, but please confirm my understanding: this method will be called after a \"@v/list\" query (started by modload.queryProxy) returns no suitable versions and a \"@latest\" query has failed. It repeats the \"@v/list\" query.\n\nCorrect.\n\n\u003e Why repeat the \"@v/list\" query? Could we save the versions from the first one instead?\n\nGood question. Come to think of it, there may have been an optimization for this that was lost in CL 170879.\n\nThat CL consolidated the web and web2 packages, and dropped the web2 cache on the theory that the vast majority of its caching behavior is replicated in the repo layer. It looks like I missed a case where the lower-level cache has an effect.",
+      "parentUuid": "3e5ead3a_f7e28d5e",
+      "revId": "7049f34be712eaff4e167821de09a6905db740e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
