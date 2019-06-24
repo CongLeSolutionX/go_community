@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c709af65_afa0a60f",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-06-24T05:56:55Z",
+      "side": 1,
+      "message": "Please don\u0027t combine whitespace fixes with changes to how the code works.  Do them as two separate CLs, so that it is easy to see the real change to the code without getting lost in the whitespace fixes.  Thanks.",
+      "revId": "7697b6fdebb3ed735b1e3486f018f920754dc30c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0414bd3c_a3299a72",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-06-24T05:56:55Z",
+      "side": 1,
+      "message": "sigtramp is a special function and I would guess that we should keep the $0 on this line and the explicit stack adjustment on the next line.",
+      "revId": "7697b6fdebb3ed735b1e3486f018f920754dc30c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
