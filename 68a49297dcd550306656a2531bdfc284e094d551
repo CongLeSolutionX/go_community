@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab66df37_a2227a66",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-24T22:42:26Z",
+      "side": 1,
+      "message": "One more thing to add:\n\n\u003cp\u003e\u003c!-- CL 177677 --\u003e\n  Additionally, the \u003ccode\u003ego\u003c/code\u003e \u003ccode\u003eget\u003c/code\u003e subcommand now supports\n  the \u003ccode\u003e-t\u003c/code\u003e flag in module-aware mode. As in GOPATH mode,\n  the \u003ccode\u003e-t\u003c/code\u003e flag instructs \u003ccode\u003ego\u003c/code\u003e \u003ccode\u003eget\u003c/code\u003e to\n  download and build packages imported by tests of packages named\n  on the command line. When used with the \u003ccode\u003e-u\u003c/code\u003e flag, modules\n  containing packages imported by tests named on the command line will\n  also be updated.\n\u003c/p\u003e",
+      "revId": "68a49297dcd550306656a2531bdfc284e094d551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
