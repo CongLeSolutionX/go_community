@@ -171,11 +171,38 @@ TODO
 
 <h3 id="modules">Modules</h3>
 
-<p id="patch-suffix"><!-- CL 167747 -->
-  <a href="/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them"><code>go</code>
-  <code>get</code></a> in module mode now supports the version suffix
-  <code>@patch</code> to request the latest patch release.
-  TODO(bcmills): expand.
+<h4 id="go-get"><code>go</code> <code>get</code></h3>
+
+<p><!-- CL 174099 -->
+  In module-aware mode, the set of modules updated by
+  <code>go</code> <code>get</code> <code>-u</code> is now smaller, and is more
+  consistent with the set of packages updated by
+  <code>go</code> <code>get</code> <code>-u</code> in GOPATH mode.
+  <code>go</code> <code>get</code> <code>-u</code> continues to update the
+  modules and packages named on the command line, but additionally updates only
+  the modules containing the packages imported by the named packages, rather
+  than the transitive module requirements of the modules containing the named
+  packages.
+</p>
+
+<p><!-- CL 177879 -->
+  As a result of the above changes to
+  <code>go</code> <code>get</code> <code>-u</code>, the
+  <code>go</code> <code>get</code> subcommand no longer supports
+  the <code>-m</code> flag, which caused <code>go</code> <code>get</code> to
+  stop before loading packages. The <code>-d</code> flag remains supported, and
+  continues to cause <code>go</code> <code>get</code> to stop after downloading
+  the source code needed to build dependencies of the named packages.
+</p>
+
+<p><!-- CL 167747 -->
+  In module-aware mode, the <code>go</code> <code>get</code> subcommand now
+  supports the version suffix <code>@patch</code>. The <code>@patch</code>
+  suffix indicates that the named module, or module containing the named
+  package, should be updated to the highest patch release with the same
+  major and minor versions as the version found in the build list.
+  If no such version is present in the build list, <code>@patch</code> is
+  equivalent to the existing <code>@latest</code> suffix.
 </p>
 
 <h4 id="version-validation">Version validation</h4><!-- CL 181881 -->
@@ -212,14 +239,15 @@ TODO
 <p>
   If the main module directly requires a version that fails the above
   validation, a corrected version can be obtained by redacting the version to
-  just the commit hash and re-running a <code>go</code> command such as <code>go
-  list -m all</code> or <code>go mod tidy</code>. For example,
-  <pre>require github.com/docker/docker v1.14.0-0.20190319215453-e7b5f7dbe98c</pre>
-      can be redacted to
-  <pre>require github.com/docker/docker e7b5f7dbe98c</pre>
-  which resolves to
-  <pre>require github.com/docker/docker v0.7.3-0.20190319215453-e7b5f7dbe98c</pre>
+  just the commit hash and re-running a <code>go</code> command such
+  as <code>go</code> <code>list</code> <code>-m</code> <code>all</code>
+  or <code>go</code> <code>mod</code> <code>tidy</code>. For example,
 </p>
+<pre>require github.com/docker/docker v1.14.0-0.20190319215453-e7b5f7dbe98c</pre>
+<p>can be redacted to</p>
+<pre>require github.com/docker/docker e7b5f7dbe98c</pre>
+<p>which resolves to</p>
+<pre>require github.com/docker/docker v0.7.3-0.20190319215453-e7b5f7dbe98c</pre>
 
 <p>
   If the main module has a transitive requirement on a version that fails
@@ -253,6 +281,10 @@ TODO
   <a href="/cmd/go/#hdr-Generate_Go_files_by_processing_source"><code>go</code>
   <code>generate</code></a> now sets the <code>generate</code> build tag so that
   files may be searched for directives but ignored during build.
+</p>
+
+<p><!-- CL 171137 -->
+  TODO
 </p>
 
 <h3 id="compiler">Compiler toolchain</h3>
