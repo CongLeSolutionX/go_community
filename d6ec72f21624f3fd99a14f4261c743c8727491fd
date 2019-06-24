@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "583cb1fe_8cbea8c9",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-06-24T18:33:27Z",
+      "side": 1,
+      "message": "Thanks, that was sloppy.",
+      "parentUuid": "af46101a_b7236b29",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 15
+      },
+      "revId": "d6ec72f21624f3fd99a14f4261c743c8727491fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4cf1a5_f3c36cea",
         "filename": "doc/go1.13.html",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "d6ec72f21624f3fd99a14f4261c743c8727491fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a49148ac_672e5684",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-06-24T18:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f4cf1a5_f3c36cea",
+      "range": {
+        "startLine": 149,
+        "startChar": 10,
+        "endLine": 149,
+        "endChar": 16
+      },
+      "revId": "d6ec72f21624f3fd99a14f4261c743c8727491fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
