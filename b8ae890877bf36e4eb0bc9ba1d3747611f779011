@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d1dc6e5_8a4d01ec",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-24T21:18:18Z",
+      "side": 1,
+      "message": "I want to add a bit more text to this. Leave it as a TODO and I\u0027ll send a CL?",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 4
+      },
+      "revId": "b8ae890877bf36e4eb0bc9ba1d3747611f779011",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
