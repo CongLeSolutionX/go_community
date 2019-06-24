@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d56d121d_2f6f35ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-06-24T18:23:55Z",
+      "side": 1,
+      "message": "Just say \"Instructions added:\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "c9a9441e6d4809d6554d866d5c5d599d3261cee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3927bb8b_0e6890f4",
+        "filename": "src/cmd/internal/obj/x86/aenum.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-06-24T18:23:55Z",
+      "side": 1,
+      "message": "This comment says this file is generated. If so, we should not edit this directly. But it may have already diverged. I don\u0027t remember. Iskander, could you confirm?",
+      "revId": "c9a9441e6d4809d6554d866d5c5d599d3261cee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
