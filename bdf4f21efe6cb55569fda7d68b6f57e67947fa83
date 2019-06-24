@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "276fcbdd_82df5621",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-24T22:49:25Z",
+      "side": 1,
+      "message": "We mention at the top that the proxy is on by default, but it\u0027s probably worth mentioning explicitly that the default value for GOPROXY is now \"https://proxy.golang.org,direct\".",
+      "revId": "bdf4f21efe6cb55569fda7d68b6f57e67947fa83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
