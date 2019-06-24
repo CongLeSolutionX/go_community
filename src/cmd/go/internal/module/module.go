@@ -95,6 +95,24 @@ func (e *InvalidVersionError) Error() string {
 
 func (e *InvalidVersionError) Unwrap() error { return e.Err }
 
+// MapError applies f to the first error in the chain of err that is not either
+// a ModuleError or an InvalidVersionError, re-wrapping the resulting error with
+// those layers if present.
+func MapError(err error, f func(error) error) error {
+	switch err := err.(type) {
+	case *ModuleError:
+		mErr := *err
+		mErr.Err = MapError(err.Err, f)
+		return &mErr
+	case *InvalidVersionError:
+		vErr := *err
+		vErr.Err = MapError(err.Err, f)
+		return &vErr
+	default:
+		return f(err)
+	}
+}
+
 // Check checks that a given module path, version pair is valid.
 // In addition to the path being a valid module path
 // and the version being a valid semantic version,
@@ -536,7 +554,10 @@ func EncodePath(path string) (encoding string, err error) {
 // and not contain exclamation marks.
 func EncodeVersion(v string) (encoding string, err error) {
 	if err := checkElem(v, true); err != nil || strings.Contains(v, "!") {
-		return "", fmt.Errorf("disallowed version string %q", v)
+		return "", &InvalidVersionError{
+			Version: v,
+			Err:     fmt.Errorf("disallowed version string"),
+		}
 	}
 	return encodeString(v)
 }
