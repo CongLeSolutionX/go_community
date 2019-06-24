@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2665f5c6_e5ebb0c3",
+        "filename": "src/cmd/go/internal/modfetch/codehost/codehost.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-24T17:26:07Z",
+      "side": 1,
+      "message": "Nit: blank line between functions",
+      "revId": "99c12a6d6f31fb34f5ad9d0c523d2a3660adab7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f531653d_48f09529",
+        "filename": "src/cmd/go/internal/modfetch/codehost/codehost.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-24T17:26:07Z",
+      "side": 1,
+      "message": "Random thought (no change needed): it\u0027s odd that we\u0027re using something from the os package as a generic \"not found\" error. I wonder if \"errors\" should provide a standard set of errors like \"not found\", \"permission denied\", \"invalid argument\", etc.",
+      "revId": "99c12a6d6f31fb34f5ad9d0c523d2a3660adab7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
