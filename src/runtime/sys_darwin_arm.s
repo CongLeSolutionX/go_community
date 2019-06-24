@@ -43,7 +43,7 @@ TEXT runtime·read_trampoline(SB),NOSPLIT,$0
 
 TEXT runtime·exit_trampoline(SB),NOSPLIT|NOFRAME,$0
 	MOVW	0(R0), R0	// arg 0 code
-	BL libc_exit(SB)
+	BL	libc_exit(SB)
 	MOVW	$1234, R0
 	MOVW	$1002, R1
 	MOVW	R0, (R1)	// fail hard
@@ -69,11 +69,11 @@ TEXT runtime·mmap_trampoline(SB),NOSPLIT,$0
 	// go on the stack.
 	MOVM.DB.W [R4-R6], (R13)
 	BL	libc_mmap(SB)
-	ADD $12, R13
+	ADD	$12, R13
 	MOVW	$0, R1
 	MOVW	$-1, R2
 	CMP	R0, R2
-	BNE ok
+	BNE	ok
 	BL	libc_error(SB)
 	MOVW	(R0), R1
 	MOVW	$0, R0
@@ -85,7 +85,7 @@ ok:
 TEXT runtime·munmap_trampoline(SB),NOSPLIT,$0
 	MOVW	4(R0), R1	// arg 2 len
 	MOVW	0(R0), R0	// arg 1 addr
-	BL libc_munmap(SB)
+	BL	libc_munmap(SB)
 	MOVW	$-1, R2
 	CMP	R0, R2
 	BL.EQ	notok<>(SB)
@@ -158,16 +158,14 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-16
 	MOVW	R4, R13
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$0
-	// Reserve space for callee-save registers and arguments.
-	SUB	$36, R13
-
-	MOVW	R4, 12(R13)
-	MOVW	R5, 16(R13)
-	MOVW	R6, 20(R13)
-	MOVW	R7, 24(R13)
-	MOVW	R8, 28(R13)
-	MOVW	R11, 32(R13)
+TEXT runtime·sigtramp(SB),NOSPLIT,$40
+	// Save callee-save registers.
+	MOVW	R4, 16(R13)
+	MOVW	R5, 20(R13)
+	MOVW	R6, 24(R13)
+	MOVW	R7, 28(R13)
+	MOVW	R8, 32(R13)
+	MOVW	R11, 36(R13)
 
 	// Save arguments.
 	MOVW	R0, 4(R13)	// sig
@@ -182,7 +180,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0
 
 	MOVW	R13, R6
 	CMP	$0, g
-	BEQ nog
+	BEQ	nog
 
 	// iOS always use the main stack to run the signal handler.
 	// We need to switch to gsignal ourselves.
@@ -198,7 +196,7 @@ nog:
 
 	// Reserve space for args and the stack pointer on the
 	// gsignal stack.
-	SUB $24, R6
+	SUB	$24, R6
 	// Save stack pointer.
 	MOVW	R13, R4
 	MOVW	R4, 16(R6)
@@ -216,14 +214,12 @@ nog:
 	MOVW	R5, R13
 
 	// Restore callee-save registers.
-	MOVW	12(R13), R4
-	MOVW	16(R13), R5
-	MOVW	20(R13), R6
-	MOVW	24(R13), R7
-	MOVW	28(R13), R8
-	MOVW	32(R13), R11
-
-	ADD $36, R13
+	MOVW	16(R13), R4
+	MOVW	20(R13), R5
+	MOVW	24(R13), R6
+	MOVW	28(R13), R7
+	MOVW	32(R13), R8
+	MOVW	36(R13), R11
 
 	RET
 
@@ -248,7 +244,7 @@ TEXT runtime·sigaction_trampoline(SB),NOSPLIT,$0
 
 TEXT runtime·usleep_trampoline(SB),NOSPLIT,$0
 	MOVW	0(R0), R0	// arg 1 usec
-	BL libc_usleep(SB)
+	BL	libc_usleep(SB)
 	RET
 
 TEXT ·publicationBarrier(SB),NOSPLIT|NOFRAME,$0-0
@@ -265,7 +261,7 @@ TEXT runtime·sysctl_trampoline(SB),NOSPLIT,$0
 	// go on the stack.
 	MOVM.DB.W [R4-R5], (R13)
 	BL	libc_sysctl(SB)
-	ADD $(2*4), R13
+	ADD	$(2*4), R13
 	RET
 
 TEXT runtime·kqueue_trampoline(SB),NOSPLIT,$0
