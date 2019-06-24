@@ -227,6 +227,7 @@ func (enc *Encoder) Encode(v interface{}) error {
 	if _, err = enc.w.Write(b); err != nil {
 		enc.err = err
 	}
+	e.Reset()
 	encodeStatePool.Put(e)
 	return err
 }
