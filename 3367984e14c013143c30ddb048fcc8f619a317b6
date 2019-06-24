@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bb8a164_7b9f8e01",
+        "filename": "src/cmd/asm/internal/asm/testdata/amd64enc_extra.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2019-06-24T14:05:32Z",
+      "side": 1,
+      "message": "I\u0027m curious why the encoding is the same here.\nI would expect different operand size to have some particular OSZ altering prefix,\nlike REX.W or 66 (operand size override).\n\nIn other words, I would expect something like:\n  66f30faef3\n  f30faef3\n  48f30faef3\n\nBut this is a very naive approximation, you better consult the manual or, better yet,\nanother (external) assembler. If assembler that can encode these instructions exists, please do a validation.",
+      "revId": "3367984e14c013143c30ddb048fcc8f619a317b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b14427f_025f9f0c",
+        "filename": "src/cmd/asm/internal/asm/testdata/amd64error.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2019-06-24T14:05:32Z",
+      "side": 1,
+      "message": "I think this line should contain ERROR directive. :)",
+      "revId": "3367984e14c013143c30ddb048fcc8f619a317b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
