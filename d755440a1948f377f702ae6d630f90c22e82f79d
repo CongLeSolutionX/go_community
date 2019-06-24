@@ -16,6 +16,24 @@
       "revId": "d755440a1948f377f702ae6d630f90c22e82f79d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7dc62d5_6ef61cbf",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-24T18:27:04Z",
+      "side": 1,
+      "message": "Probably not. The error message still says “missing go.mod”.\n\nThere is a bit more structure around that fragment now, but with some wordsmithing we could probably do better.",
+      "parentUuid": "7fc3abfd_7ffb91ae",
+      "revId": "d755440a1948f377f702ae6d630f90c22e82f79d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
