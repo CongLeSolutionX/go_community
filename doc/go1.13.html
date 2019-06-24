@@ -255,6 +255,13 @@ TODO
   files may be searched for directives but ignored during build.
 </p>
 
+<p id="binary-only"><!-- CL 165746 -->
+  As <a href="go1.12#binary-only">announced</a> in the Go 1.12 release notes,
+  binary-only packages are no longer supported. Building a binary-only package
+  (marked with a <code>//go:binary-only-package</code> comment) now results
+  in an error.
+</p>
+
 <h3 id="compiler">Compiler toolchain</h3>
 
 <p><!-- CL 170448 -->
