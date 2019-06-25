@@ -34,6 +34,24 @@
       "revId": "e28f0d92991e60ac3174b2ebf224f37be22c8fad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a44fbff_adebdc4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-25T21:15:30Z",
+      "side": 1,
+      "message": "\u003e If @v/list returns an empty list and @latest returns a 404, Query will return a NoMatchingVersionError, which is not equivalent to os.ErrNotExist and will therefore suppress proxy fallback.\n\u003e \n\u003e If @v/list returns a 404, I believe that Query will return it directly.\n\u003e \n\u003e So they\u0027re probably not actually equivalent in terms of fallback behavior: I suspect that this sentence in the commit message is in error.\n\u003e \n\u003e There may be a bug here. Let me add some more tests, and I\u0027ll follow up. Thanks for the insight!\n\nThere is a (relatively mild) edge-case bug related to this behavior, and it was neither introduced nor fixed by this CL.\n\nThe scenario is: suppose that the proxy applies some security policy on the returned versions. When it receives the @v/list request, none of the tagged versions comply with the policy, so it returns an empty list (the module is theoretically OK, and perhaps some specific pseudo-version would be allowed, but @v/list isn\u0027t obligated to advertise pseudo-versions).\n\nNow we ask the proxy about @latest, and the latest pseudo-version is downright unacceptable: 403 Forbidden, do not fall back to another proxy. That\u0027s the error we should report to the user.\n\nWe don\u0027t do that, though: instead, we fall back to @v/list and return a *NoMathcingVersion error, which changes the message from \"403 Forbidden\" to \"no matching versions for query\". It still stops fallback (see the comment on NoMatchingVersionError), but not for the right reason — and, in particular, it does not supersede the successful lookup for the other possible module that provides the package.\n\nI\u0027ll send a CL. 🙂",
+      "parentUuid": "feef95d7_119a2605",
+      "revId": "e28f0d92991e60ac3174b2ebf224f37be22c8fad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
