@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d62154_577601dc",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-06-25T15:08:13Z",
+      "side": 1,
+      "message": "The current document is now named \u0027Power ISA\u0027 only.",
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1514ca4_d1816cfd",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-06-25T15:08:13Z",
+      "side": 1,
+      "message": "s/power8/POWER8/",
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf1edf9c_daf065ab",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-06-25T15:08:13Z",
+      "side": 1,
+      "message": "I think I\u0027d prefer to point people to ISA3.0 instead, mostly because it\u0027s the OpenPOWER ISA (i.e. unified). 2.07B has a lot of things that apply only for embedded processors (which we currently don\u0027t support) and might cause confusion. But I\u0027ll leave that to you.",
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fd0706d_31180455",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-06-25T15:08:13Z",
+      "side": 1,
+      "message": "s/PPC64/Power/",
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
