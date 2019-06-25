@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc0be11d_d8f4817f",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-06-25T16:11:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "07d62154_577601dc",
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1514ca4_d1816cfd",
         "filename": "src/cmd/internal/obj/ppc64/doc.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c8596af_0de3c75e",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-06-25T16:11:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c1514ca4_d1816cfd",
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5a66e41a_caafd39f",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-06-25T16:11:43Z",
+      "side": 1,
+      "message": "I\u0027d prefer to leave this as the document for Power8, since Golang is mostly based on power8. We have made minimal updates for Power9 so far.",
+      "parentUuid": "bf1edf9c_daf065ab",
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fd0706d_31180455",
         "filename": "src/cmd/internal/obj/ppc64/doc.go",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9004b2f9_aeb452b8",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-06-25T16:11:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7fd0706d_31180455",
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "12ef3b23_5646c6b2",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-06-25T16:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91aa8d3b_292b43af",
+      "range": {
+        "startLine": 54,
+        "startChar": 45,
+        "endLine": 55,
+        "endChar": 12
+      },
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce248e99_2959bf9d",
         "filename": "src/cmd/internal/obj/ppc64/doc.go",
         "patchSetId": 1
@@ -104,6 +200,30 @@
       "writtenOn": "2019-06-25T15:36:51Z",
       "side": 1,
       "message": "Do we use both forms on PPC64? The examples below only used (Ra+Rb) form.",
+      "range": {
+        "startLine": 66,
+        "startChar": 20,
+        "endLine": 66,
+        "endChar": 40
+      },
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59316b44_b9457878",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-06-25T16:11:43Z",
+      "side": 1,
+      "message": "Both are accepted by the assembler.",
+      "parentUuid": "ce248e99_2959bf9d",
       "range": {
         "startLine": 66,
         "startChar": 20,
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "d2c2fb94_8c0ba764",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-06-25T16:11:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "680cd3fb_0bd66b2f",
+      "range": {
+        "startLine": 93,
+        "startChar": 38,
+        "endLine": 93,
+        "endChar": 39
+      },
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bc3aeed_4438dcd8",
         "filename": "src/cmd/internal/obj/ppc64/doc.go",
         "patchSetId": 1
@@ -150,6 +294,30 @@
       "writtenOn": "2019-06-25T15:36:51Z",
       "side": 1,
       "message": "This is confusing. It mentions VS32 but also the 0-31 range, which seems contradicting. cmd/internal/obj/ppc64/a.out.go has VS0-VS63, though.",
+      "range": {
+        "startLine": 198,
+        "startChar": 72,
+        "endLine": 198,
+        "endChar": 78
+      },
+      "revId": "9d2a87f73a7ad14c4894104a8c38f73ae468801c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8994ecee_4c4013c8",
+        "filename": "src/cmd/internal/obj/ppc64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2019-06-25T16:11:43Z",
+      "side": 1,
+      "message": "Yes, it should have been 0-63. Let me know if what I wrote makes more sense.",
+      "parentUuid": "8bc3aeed_4438dcd8",
       "range": {
         "startLine": 198,
         "startChar": 72,
