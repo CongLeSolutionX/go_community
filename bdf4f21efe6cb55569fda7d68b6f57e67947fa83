@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "f1703bdf_53ed35d7",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-25T15:18:35Z",
+      "side": 1,
+      "message": "\"...or direct\"? It\u0027s probably worth calling out here that not only is \"direct\" in the default as Jay said, but that it isn\u0027t just proxy URLs that can be in this variable.",
+      "range": {
+        "startLine": 190,
+        "startChar": 32,
+        "endLine": 190,
+        "endChar": 36
+      },
+      "revId": "bdf4f21efe6cb55569fda7d68b6f57e67947fa83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c58bc4d_5379025d",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-25T15:18:35Z",
+      "side": 1,
+      "message": "I\u0027d just say \"a non-400 error code\" or something like that. The 410 is more of an implementation detail, and is probably more detail than people need in the release notes. Unless the go command is actually explicitly checking those two codes only (I imagine it is also doing the fallback if a 400 bad request is given?)",
+      "range": {
+        "startLine": 193,
+        "startChar": 59,
+        "endLine": 193,
+        "endChar": 69
+      },
+      "revId": "bdf4f21efe6cb55569fda7d68b6f57e67947fa83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "276fcbdd_82df5621",
         "filename": "doc/go1.13.html",
         "patchSetId": 1
@@ -13,6 +59,52 @@
       "writtenOn": "2019-06-24T22:49:25Z",
       "side": 1,
       "message": "We mention at the top that the proxy is on by default, but it\u0027s probably worth mentioning explicitly that the default value for GOPROXY is now \"https://proxy.golang.org,direct\".",
+      "revId": "bdf4f21efe6cb55569fda7d68b6f57e67947fa83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a670969_0af13f19",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-25T15:18:35Z",
+      "side": 1,
+      "message": "Up to you, but I\u0027d prefer s/database/server, since that more accurately depicts what\u0027s going on at a protocol level.",
+      "range": {
+        "startLine": 201,
+        "startChar": 14,
+        "endLine": 201,
+        "endChar": 22
+      },
+      "revId": "bdf4f21efe6cb55569fda7d68b6f57e67947fa83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16026bb8_a5202143",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-25T15:18:35Z",
+      "side": 1,
+      "message": "or to a different proxy that can serve their source code?",
+      "range": {
+        "startLine": 213,
+        "startChar": 40,
+        "endLine": 213,
+        "endChar": 46
+      },
       "revId": "bdf4f21efe6cb55569fda7d68b6f57e67947fa83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
