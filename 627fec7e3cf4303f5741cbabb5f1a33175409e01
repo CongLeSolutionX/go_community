@@ -83,6 +83,23 @@
       "revId": "627fec7e3cf4303f5741cbabb5f1a33175409e01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05876a84_d218b482",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2019-06-25T17:55:38Z",
+      "side": 1,
+      "message": "Minor, but I think it would help to move up this paragraph on the \u0027-t\u0027 flag; perhaps just before the \u0027@patch\u0027 paragraph, or just before the \u0027-d\u0027 paragraph. \n\nThe \u0027-t\u0027 discussion is more related to the narrowing of \u0027go get\u0027 behavior and the \u0027go get -u\u0027 discussion. The \u0027@patch\u0027 discussion is more independent.",
+      "revId": "627fec7e3cf4303f5741cbabb5f1a33175409e01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
