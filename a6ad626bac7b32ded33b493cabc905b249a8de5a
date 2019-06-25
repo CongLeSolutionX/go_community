@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7f49d5fe_896b3593",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-06-25T19:56:55Z",
+      "side": 1,
+      "message": "Yeah, unfortunately, it can preview Markdown files, but not HTML files (likely due to security implications of rendering arbitrary HTML on *.googlesource.com).\n\nIf you\u0027re willing to use the terminal, you can do something like:\n\n    curl https://go.googlesource.com/go/+/refs/changes/30/183630/5/doc/go1.13.html?format\u003dTEXT \\\n      | base64 -D \u003e doc.html \u0026\u0026 open doc.html\n\nBut at that point it\u0027s probably easier to just open the file you edited locally in browser.",
+      "parentUuid": "a50775d4_7e1054fe",
+      "range": {
+        "startLine": 216,
+        "startChar": 40,
+        "endLine": 216,
+        "endChar": 42
+      },
+      "revId": "a6ad626bac7b32ded33b493cabc905b249a8de5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ee55ec6_60037a6a",
         "filename": "doc/go1.13.html",
         "patchSetId": 5
