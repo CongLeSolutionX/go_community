@@ -16,6 +16,24 @@
       "revId": "e28f0d92991e60ac3174b2ebf224f37be22c8fad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feef95d7_119a2605",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-25T20:20:04Z",
+      "side": 1,
+      "message": "\u003e Do you mind clarifying what you meant by this sentence? Does this CL change any behavior, or is it just an internal code refactor with no behavior change?\n\nThere is a slight change in behavior here: if the .info file for the @latest version is invalid, that error is now surfaced (as shown in the `badproxy` test case in mod_query_empty.txt).\n\n\n\u003e This question may be related to or the same as what Hana asked in https://go-review.googlesource.com/c/go/+/183402/15/src/cmd/go/internal/modfetch/proxy.go#349. If so, I can refer to the answer you wrote there. Thanks.\n\nYes, it\u0027s closely related. I think we currently have a bit of a testing gap for proxies that support the @latest endpoint.\n\n\u003e I thought it was possible for a module to exist and have 0 versions (different from it not existing), but now I\u0027m less sure and will want to investigate/learn more about that.\n\nHmm, let\u0027s think through it.\n\nIf @v/list returns an empty list and @latest returns a 404, Query will return a NoMatchingVersionError, which is not equivalent to os.ErrNotExist and will therefore suppress proxy fallback.\n\nIf @v/list returns a 404, I believe that Query will return it directly.\n\nSo they\u0027re probably not actually equivalent in terms of fallback behavior: I suspect that this sentence in the commit message is in error.\n\nThere may be a bug here. Let me add some more tests, and I\u0027ll follow up. Thanks for the insight!",
+      "parentUuid": "910913df_7eaecb90",
+      "revId": "e28f0d92991e60ac3174b2ebf224f37be22c8fad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
