@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0417882_026f6d48",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-06-25T18:36:14Z",
+      "side": 1,
+      "message": "This (@v/list returns version and timestamp pairs) is part of undocumented secret of proxy protocols. Should it be kept? Or should it be documented?",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 42
+      },
+      "revId": "19690053606dd14dedcf028bb37df79e3e33c003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6443cce_7773847b",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-06-25T18:36:14Z",
+      "side": 1,
+      "message": "Why is it ok to trust the timestamp embeded in this pseudo-version like version string and use it for sorting? OTOH, the actual timestamp is from the p.Stat call.",
+      "range": {
+        "startLine": 286,
+        "startChar": 4,
+        "endLine": 286,
+        "endChar": 35
+      },
+      "revId": "19690053606dd14dedcf028bb37df79e3e33c003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c088c55b_2aacdd39",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-06-25T18:36:14Z",
+      "side": 1,
+      "message": "This makes it to fall back to the \"@v/list\" query if the proxy does not implement the \"@latest\" endpoint. Currently, the published proxy proto spec does not specify whether the pseudo-versions can be included in @v/list, nor what @latest endpoint should report. Depending on how a proxy interprets and implements the protocol, I am afraid the go command may end up behaving differently in a subtle way.",
+      "range": {
+        "startLine": 349,
+        "startChar": 2,
+        "endLine": 349,
+        "endChar": 19
+      },
+      "revId": "19690053606dd14dedcf028bb37df79e3e33c003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
