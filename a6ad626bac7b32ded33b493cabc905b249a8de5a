@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a50775d4_7e1054fe",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-25T19:09:45Z",
+      "side": 1,
+      "message": "Argh. I wish Gerrit had support for HTML previews...",
+      "parentUuid": "e7a968ba_9f4f4fac",
+      "range": {
+        "startLine": 216,
+        "startChar": 40,
+        "endLine": 216,
+        "endChar": 42
+      },
+      "revId": "a6ad626bac7b32ded33b493cabc905b249a8de5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ee55ec6_60037a6a",
         "filename": "doc/go1.13.html",
         "patchSetId": 5
