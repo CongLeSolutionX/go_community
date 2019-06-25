@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "910913df_7eaecb90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-06-25T19:48:04Z",
+      "side": 1,
+      "message": "Do you mind clarifying what you meant by this sentence? Does this CL change any behavior, or is it just an internal code refactor with no behavior change?\n\nI ask because some module proxies don\u0027t include pseudo-versions in @v/list, so an empty @v/list can be returned for a module that exists and has 1 or more pseudo-versions available (such module proxies implement the @latest endpoint for discovering at least one pseudo-version).\n\nThis question may be related to or the same as what Hana asked in https://go-review.googlesource.com/c/go/+/183402/15/src/cmd/go/internal/modfetch/proxy.go#349. If so, I can refer to the answer you wrote there. Thanks.\n\nI thought it was possible for a module to exist and have 0 versions (different from it not existing), but now I\u0027m less sure and will want to investigate/learn more about that.",
+      "revId": "e28f0d92991e60ac3174b2ebf224f37be22c8fad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
