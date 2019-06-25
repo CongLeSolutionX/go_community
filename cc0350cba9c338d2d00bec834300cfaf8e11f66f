@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e97ddd9c_46199f9f",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-06-25T15:10:06Z",
+      "side": 1,
+      "message": "I know this was taken directly from the godoc, but it was a bit confusing to try to parse. \"Unwrap\" and \"error\" are said 3 times each in one sentence. Perhaps that\u0027s just me though :)\n\nMaybe \"The new function \u003ca href\u003d\"/pkg/errors/#Unwrap\"\u003e\u003ccode\u003eUnwrap\u003c/code\u003e\u003c/a\u003e returns the result of calling the\n\u003ccode\u003eUnwrap\u003c/code\u003e method on a given error, if one exists\".",
+      "range": {
+        "startLine": 445,
+        "startChar": 6,
+        "endLine": 447,
+        "endChar": 26
+      },
+      "revId": "cc0350cba9c338d2d00bec834300cfaf8e11f66f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
