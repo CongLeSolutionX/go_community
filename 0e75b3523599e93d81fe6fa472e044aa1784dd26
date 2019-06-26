@@ -70,6 +70,24 @@
       "revId": "0e75b3523599e93d81fe6fa472e044aa1784dd26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "496c2757_dcc4de3a",
+        "filename": "src/cmd/go/internal/modfetch/sumdb.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-26T17:28:05Z",
+      "side": 1,
+      "message": "But I think it\u0027s not possible to serve it out of a directory in $GOPATH/pkg/mod. The layout is different, right? That\u0027s all I meant.",
+      "parentUuid": "c3b0b054_6cd19c61",
+      "revId": "0e75b3523599e93d81fe6fa472e044aa1784dd26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
