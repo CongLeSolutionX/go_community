@@ -37,6 +37,11 @@
 // functions, are the atomic equivalents of "return *addr" and
 // "*addr = val".
 //
+// The load performs the acquire operation on the affected memory location:
+// no reads or writes in the current thread can be reordered before this
+// load. The store performs the release operation: no reads or writes in
+// the current thread can be reordered after this store.
+//
 package atomic
 
 import (
