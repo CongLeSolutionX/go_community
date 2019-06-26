@@ -52,6 +52,24 @@
       "revId": "0e75b3523599e93d81fe6fa472e044aa1784dd26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3b0b054_6cd19c61",
+        "filename": "src/cmd/go/internal/modfetch/sumdb.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2019-06-26T17:25:49Z",
+      "side": 1,
+      "message": "It is possible to serve a sumdb as a static filesystem, though you would need a lot of /lookup entries cached, and this is how you\u0027d do it. See https://go.googlesource.com/proposal/+/master/design/25530-sumdb.md#proxying-a-checksum-database.",
+      "parentUuid": "a79beb1b_c8af90b4",
+      "revId": "0e75b3523599e93d81fe6fa472e044aa1784dd26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
