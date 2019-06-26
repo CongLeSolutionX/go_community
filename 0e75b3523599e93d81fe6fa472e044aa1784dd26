@@ -88,6 +88,24 @@
       "revId": "0e75b3523599e93d81fe6fa472e044aa1784dd26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf0002bc_f15913b5",
+        "filename": "src/cmd/go/internal/modfetch/sumdb.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2019-06-26T19:21:44Z",
+      "side": 1,
+      "message": "Added the test Bryan asked for, which took me longer to get working than I care to admit. It passes now and fails at the previous commit.",
+      "parentUuid": "496c2757_dcc4de3a",
+      "revId": "0e75b3523599e93d81fe6fa472e044aa1784dd26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
