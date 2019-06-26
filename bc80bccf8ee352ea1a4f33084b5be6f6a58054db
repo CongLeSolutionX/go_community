@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a355c1b_8b725bc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-06-26T18:14:51Z",
+      "side": 1,
+      "message": "reflect: keep RO flags unchanged in Value.Addr\n\nSee https://golang.org/wiki/CommitMessage",
+      "revId": "bc80bccf8ee352ea1a4f33084b5be6f6a58054db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e439319_a1fadfd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-06-26T18:14:51Z",
+      "side": 1,
+      "message": "Don\u0027t use () after functions.  godoc doesn\u0027t highlight them so we avoid them in comments.",
+      "revId": "bc80bccf8ee352ea1a4f33084b5be6f6a58054db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f3b191b_5cf6499d",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-06-26T18:14:51Z",
+      "side": 1,
+      "message": "The effect of this is to keep flagEmbedRO and to not add flagStickyRO.  So one effect I see is that calling Method on the result will drop the flagEmbedRO flag, and so we can get a result that is not marked RO at all.  And then we will be permitted to Call that method, which should not be permitted since it is derived from an unexported field.\n\nWhat am I missing?",
+      "revId": "bc80bccf8ee352ea1a4f33084b5be6f6a58054db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
