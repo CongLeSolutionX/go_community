@@ -34,6 +34,24 @@
       "revId": "0e75b3523599e93d81fe6fa472e044aa1784dd26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0427b1dd_b4854dfc",
+        "filename": "src/cmd/go/internal/modfetch/sumdb.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-26T17:24:26Z",
+      "side": 1,
+      "message": "I believe the intent is for GOPATH/pkg/mod/cache/download to be usable as a proxy, and as such it should contain any SUMDB contents that are relevant to proxy as well.\n\nI\u0027m surprised that there isn\u0027t a test case broken because of this somewhere in mod_file_proxy.txt or mod_sumdb_file_path.txt. Please ensure that at least one of those tests verifies this property.",
+      "parentUuid": "657c761e_9c291a7f",
+      "revId": "0e75b3523599e93d81fe6fa472e044aa1784dd26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
