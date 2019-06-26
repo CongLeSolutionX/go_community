@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2535b308_365f63cf",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-06-26T17:56:25Z",
+      "side": 1,
+      "message": "Perhaps also add a sentence describing the motivation:\n\nThis simplifies the common practice of maintaining a GOPATH directory that contains some projects that have migrated to modules and some that have not.",
+      "revId": "ddcb05ef985304046ffe108db2140adb9a1b50e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
