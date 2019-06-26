@@ -34,6 +34,24 @@
       "revId": "865f0043f60c37bc418db5e4ba39ebc007f1edca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06c6aa69_c39e29a2",
+        "filename": "src/cmd/go/testdata/script/mod_sumdb_file_path.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2019-06-26T20:12:58Z",
+      "side": 1,
+      "message": "I kinda prefer the explicitness of this.",
+      "parentUuid": "3f015035_e273a938",
+      "revId": "865f0043f60c37bc418db5e4ba39ebc007f1edca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
