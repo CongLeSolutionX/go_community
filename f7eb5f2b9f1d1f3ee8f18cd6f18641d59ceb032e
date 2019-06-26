@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2c47946_55120dc8",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-06-26T17:03:01Z",
+      "side": 1,
+      "message": "The s,\u003cem\u003e,\u003c/em\u003e, fix from CL 183843 got lost here (that probably explains the merge conflict).",
+      "range": {
+        "startLine": 264,
+        "startChar": 17,
+        "endLine": 264,
+        "endChar": 21
+      },
+      "revId": "f7eb5f2b9f1d1f3ee8f18cd6f18641d59ceb032e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
