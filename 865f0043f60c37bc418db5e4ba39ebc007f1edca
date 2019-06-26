@@ -16,6 +16,24 @@
       "revId": "865f0043f60c37bc418db5e4ba39ebc007f1edca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f015035_e273a938",
+        "filename": "src/cmd/go/testdata/script/mod_sumdb_file_path.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-06-26T19:40:27Z",
+      "side": 1,
+      "message": "Needing to create the file seems reasonable to me: I don\u0027t think the sumdb code has any fallback like the module-proxy code, so creating the `supported` file automatically would cause failures in a configuration with a better fallback.\n\nConsider:\n\n\tGOPROXY\u003dfile://$GOPATH/pkg/mod/cache/download,https://proxy.golang.org,direct\n\nHowever, you can probably skip the explicit `cp` by using the full path in the txtar header:\n\n-- $WORK/gopath1/pkg/mod/cache/download/sumdb/sum.golang.org/supported --",
+      "parentUuid": "5a825c84_886eb86b",
+      "revId": "865f0043f60c37bc418db5e4ba39ebc007f1edca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
