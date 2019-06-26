@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ef1bfe6f_e00951bd",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2019-06-26T15:59:53Z",
+      "side": 1,
+      "message": "golang.org/issue/32789",
+      "parentUuid": "9c19755e_1489b487",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 42
+      },
+      "revId": "19690053606dd14dedcf028bb37df79e3e33c003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6443cce_7773847b",
         "filename": "src/cmd/go/internal/modfetch/proxy.go",
         "patchSetId": 15
