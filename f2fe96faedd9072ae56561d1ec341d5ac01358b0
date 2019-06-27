@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2243966_55cbef97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-06-27T23:07:33Z",
+      "side": 1,
+      "message": "i have no idea what fzf does. can you provide a clearer explanation?\nalso, an example both with and without -short is a good way to document changes like this.",
+      "revId": "f2fe96faedd9072ae56561d1ec341d5ac01358b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
