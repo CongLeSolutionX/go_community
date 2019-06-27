@@ -124,6 +124,8 @@ Flags:
 	-u
 		Show documentation for unexported as well as exported
 		symbols, methods, and fields.
+	-short
+		Short summary of symbols without package docs.
 `,
 }
 
