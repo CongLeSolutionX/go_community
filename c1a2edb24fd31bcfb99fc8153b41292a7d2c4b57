@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8292d0a_3f8974a2",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-06-27T23:06:31Z",
+      "side": 1,
+      "message": "s/one line/one-line/\nthose two words are serving as an adjective.",
+      "revId": "c1a2edb24fd31bcfb99fc8153b41292a7d2c4b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72948ad2_053af6b1",
+        "filename": "src/cmd/go/internal/doc/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-06-27T23:06:31Z",
+      "side": 1,
+      "message": "you need to run mkalldocs.sh in cmd/go",
+      "revId": "c1a2edb24fd31bcfb99fc8153b41292a7d2c4b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad6cf311_75059dd5",
+        "filename": "src/cmd/go/internal/doc/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-06-27T23:06:31Z",
+      "side": 1,
+      "message": "s/One line/One-line/",
+      "revId": "c1a2edb24fd31bcfb99fc8153b41292a7d2c4b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
