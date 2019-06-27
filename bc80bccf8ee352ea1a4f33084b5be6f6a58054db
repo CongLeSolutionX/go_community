@@ -50,6 +50,24 @@
       "revId": "bc80bccf8ee352ea1a4f33084b5be6f6a58054db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd1724f2_0fd3ff07",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 13880
+      },
+      "writtenOn": "2019-06-27T14:28:16Z",
+      "side": 1,
+      "message": "I think it is safe as all method values retrieved from Method, MethodByName are exported. If a field is flagged with only flagEmbedRO, then it is an anonymous field with no unexported ancestors, thus its exported fields including exported methods are exported. I think this is what the comment \"Clear flagEmbedRO\" in Method says.A\n\nIs there any exported methods in reflect leaking unexported methods to caller ? I did find one.",
+      "parentUuid": "0f3b191b_5cf6499d",
+      "revId": "bc80bccf8ee352ea1a4f33084b5be6f6a58054db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
