@@ -210,6 +210,18 @@ var tests = []test{
 			`func \(unexportedType\)`,
 		},
 	},
+	// Package dump -sym
+	{
+		"full package with -sym",
+		[]string{`-sym`, p},
+		[]string{
+			`const ExportedConstant = 1`,               // Simple constant.
+			`func ReturnUnexported\(\) unexportedType`, // Function with unexported return type.
+		},
+		[]string{
+			`MultiLine(String|Method|Field)`, // No data from multi line portions.
+		},
+	},
 	// Package dump -u
 	{
 		"full package with u",
