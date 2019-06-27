@@ -611,6 +611,21 @@ func parseAuthority(authority string) (user *Userinfo, host string, err error) {
 	return user, host, nil
 }
 
+// isIPV6valid do a fast validation of IPV6 address
+func isIPV6valid(host string) bool {
+	// It's better to use net.ParseIP, but:
+	// go_bootstrap cannot depend on cgo package net
+	filterNonHex := func(r rune) rune {
+		switch {
+		case r > 'F' && r <= 'Z':
+		case r > 'f' && r <= 'z':
+			return 'x'
+		}
+		return r
+	}
+	return host == strings.Map(filterNonHex, host)
+}
+
 // parseHost parses host as an authority without user
 // information. That is, as host[:port].
 func parseHost(host string) (string, error) {
@@ -634,6 +649,9 @@ func parseHost(host string) (string, error) {
 		// like newlines.
 		zone := strings.Index(host[:i], "%25")
 		if zone >= 0 {
+			if !isIPV6valid(host[:zone]) {
+				return "", fmt.Errorf("invalid ip: %q", host[:zone])
+			}
 			host1, err := unescape(host[:zone], encodeHost)
 			if err != nil {
 				return "", err
@@ -648,6 +666,15 @@ func parseHost(host string) (string, error) {
 			}
 			return host1 + host2 + host3, nil
 		}
+
+		if !isIPV6valid(host[1:i]) {
+			return "", fmt.Errorf("invalid ip: %q", host[1:i])
+		}
+	} else if strings.Count(host, ":") > 1 {
+		// We're here because of that hostname does not start from "["
+		// Let's check if it IPv6 or not (only IPv6 may contain 2 or more ":")
+		// RFC 3986 IPV6 addresses must begin with bracket
+		return "", errors.New("ipv6 address must begin with bracket")
 	} else if i := strings.LastIndex(host, ":"); i != -1 {
 		colonPort := host[i:]
 		if !validOptionalPort(colonPort) {
