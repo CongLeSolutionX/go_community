@@ -472,26 +472,6 @@ var urltests = []URLTest{
 		"",
 	},
 	{
-		// Malformed IPv6 but still accepted.
-		"http://2b01:e34:ef40:7730:8e70:5aff:fefe:edac:8080/foo",
-		&URL{
-			Scheme: "http",
-			Host:   "2b01:e34:ef40:7730:8e70:5aff:fefe:edac:8080",
-			Path:   "/foo",
-		},
-		"",
-	},
-	{
-		// Malformed IPv6 but still accepted.
-		"http://2b01:e34:ef40:7730:8e70:5aff:fefe:edac:/foo",
-		&URL{
-			Scheme: "http",
-			Host:   "2b01:e34:ef40:7730:8e70:5aff:fefe:edac:",
-			Path:   "/foo",
-		},
-		"",
-	},
-	{
 		"http://[2b01:e34:ef40:7730:8e70:5aff:fefe:edac]:8080/foo",
 		&URL{
 			Scheme: "http",
@@ -681,6 +661,8 @@ var parseRequestURLTests = []struct {
 	// RFC 6874.
 	{"http://[fe80::1%en0]/", false},
 	{"http://[fe80::1%en0]:8080/", false},
+	{"http://1::12:2008", false},
+	{"https://[::y]", false},
 }
 
 func TestParseRequestURI(t *testing.T) {
