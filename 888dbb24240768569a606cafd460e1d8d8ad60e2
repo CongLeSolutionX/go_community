@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4a7220f_f9634d23",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-06-27T01:43:13Z",
+      "side": 1,
+      "message": "This is not a good name, as everything doc does is show symbols. And this includes the comments, right? so the usage text isn\u0027t right either.\n\nYou also need to update the go command so its help describes this flag.\n\nLet\u0027s not bikeshed this here. The feature is reasonable but should start with a proposal or at least an issue to get the details right. Please open an issue on the tracker and add a reference to it here. I will mark this -1 for now.",
+      "revId": "888dbb24240768569a606cafd460e1d8d8ad60e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
