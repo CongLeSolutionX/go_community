@@ -268,6 +268,26 @@ func (p *Package) writeDefs() {
 	}
 }
 
+// elfImportedSymbols is like elf.File.ImportedSymbols, but it
+// includes weak symbols.
+//
+// Some versions of LLD (at least LLD 8) emit several pthreads symbols
+// as weak, but we need to import those. See issue #31912.
+func elfImportedSymbols(f *elf.File) []elf.ImportedSymbol {
+	syms, _ := f.DynamicSymbols()
+	var imports []elf.ImportedSymbol
+	for _, s := range syms {
+		if (elf.ST_BIND(s.Info) == elf.STB_GLOBAL || elf.ST_BIND(s.Info) == elf.STB_WEAK) && s.Section == elf.SHN_UNDEF {
+			imports = append(imports, elf.ImportedSymbol{
+				Name:    s.Name,
+				Library: s.Library,
+				Version: s.Version,
+			})
+		}
+	}
+	return imports
+}
+
 func dynimport(obj string) {
 	stdout := os.Stdout
 	if *dynout != "" {
@@ -290,7 +310,7 @@ func dynimport(obj string) {
 				}
 			}
 		}
-		sym, _ := f.ImportedSymbols()
+		sym := elfImportedSymbols(f)
 		for _, s := range sym {
 			targ := s.Name
 			if s.Version != "" {
