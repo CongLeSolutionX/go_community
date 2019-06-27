@@ -457,16 +457,21 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 		}
 	}
 
+	var certReq *certificateRequestMsg
 	if c.config.ClientAuth >= RequestClientCert {
 		// Request a client certificate
-		certReq := new(certificateRequestMsg)
+		certReq = new(certificateRequestMsg)
 		certReq.certificateTypes = []byte{
 			byte(certTypeRSASign),
 			byte(certTypeECDSASign),
 		}
 		if c.vers >= VersionTLS12 {
 			certReq.hasSignatureAlgorithm = true
+<<<<<<< HEAD   (5c354e [dev.boringcrypto] misc/boring: add go1.12.6b4 and go1.11.11)
 			certReq.supportedSignatureAlgorithms = supportedSignatureAlgorithms()
+=======
+			certReq.supportedSignatureAlgorithms = supportedSignatureAlgorithmsTLS12
+>>>>>>> BRANCH (0b3a57 crypto/tls: disable RSA-PSS in TLS 1.2 again)
 		}
 
 		// An empty list of certificateAuthorities signals to
@@ -562,7 +567,11 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 		}
 
 		// Determine the signature type.
+<<<<<<< HEAD   (5c354e [dev.boringcrypto] misc/boring: add go1.12.6b4 and go1.11.11)
 		_, sigType, hashFunc, err := pickSignatureAlgorithm(pub, []SignatureScheme{certVerify.signatureAlgorithm}, supportedSignatureAlgorithms(), c.vers)
+=======
+		_, sigType, hashFunc, err := pickSignatureAlgorithm(pub, []SignatureScheme{certVerify.signatureAlgorithm}, certReq.supportedSignatureAlgorithms, c.vers)
+>>>>>>> BRANCH (0b3a57 crypto/tls: disable RSA-PSS in TLS 1.2 again)
 		if err != nil {
 			c.sendAlert(alertIllegalParameter)
 			return err
