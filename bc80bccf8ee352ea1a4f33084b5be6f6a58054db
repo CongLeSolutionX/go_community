@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5d26ab07_878b84d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13880
+      },
+      "writtenOn": "2019-06-27T14:32:46Z",
+      "side": 1,
+      "message": "Sorry, I did not realize Gerrit will squash out commits in branch and the pull request title/description will be the final commit\u0027s title and commit message. I have change commit title to what you request.",
+      "parentUuid": "3a355c1b_8b725bc2",
+      "revId": "bc80bccf8ee352ea1a4f33084b5be6f6a58054db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e439319_a1fadfd4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-06-26T18:14:51Z",
       "side": 1,
       "message": "Don\u0027t use () after functions.  godoc doesn\u0027t highlight them so we avoid them in comments.",
+      "revId": "bc80bccf8ee352ea1a4f33084b5be6f6a58054db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40544121_9540c02c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13880
+      },
+      "writtenOn": "2019-06-27T14:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e439319_a1fadfd4",
       "revId": "bc80bccf8ee352ea1a4f33084b5be6f6a58054db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
