@@ -611,6 +611,53 @@ func parseAuthority(authority string) (user *Userinfo, host string, err error) {
 	return user, host, nil
 }
 
+// isValidIPv6Address reports whether v6addr is a valid IPv6 address literal.
+// The string should not contain the square brackets or a port number.
+func isValidIPv6Address(v6addr string) bool {
+	// It's better to use net.ParseIP, but:
+	// go_bootstrap cannot depend on cgo package net
+
+	// Check if there are more then 2 ':' together (ex. :::)
+	if strings.Contains(v6addr, ":::") {
+		return false
+	}
+	// Check if there are more then once '::' (ex. ::2001::, RFC 4291 2.2)
+	if strings.Count(v6addr, "::") > 1 {
+		return false
+	}
+	// Check a single : at the end (requires :: if any)
+	l := len(v6addr)
+	if v6addr[l-1:] == ":" {
+		if l == 1 {
+			return false
+		}
+		if v6addr[l-2:l-1] != ":" {
+			return false
+		}
+	}
+	// Check leading colon
+	if v6addr[:1] == ":" {
+		if l == 1 {
+			return false
+		}
+		if v6addr[1:2] != ":" {
+			return false
+		}
+	}
+
+	// There should be no less than 2 and no more then 8 parts
+	ipv6PartsCount := len(strings.Split(v6addr, ":"))
+	if ipv6PartsCount < 2 || ipv6PartsCount > 8 {
+		return false
+	}
+
+	validSymbols := "[]abcdefABCDEF0123456789:"
+	invalidSymbols := func(r rune) bool {
+		return !strings.ContainsRune(validSymbols, r)
+	}
+	return strings.IndexFunc(v6addr, invalidSymbols) == -1
+}
+
 // parseHost parses host as an authority without user
 // information. That is, as host[:port].
 func parseHost(host string) (string, error) {
@@ -634,6 +681,9 @@ func parseHost(host string) (string, error) {
 		// like newlines.
 		zone := strings.Index(host[:i], "%25")
 		if zone >= 0 {
+			if !isValidIPv6Address(host[:zone]) {
+				return "", fmt.Errorf("invalid ip: %q", host[:zone])
+			}
 			host1, err := unescape(host[:zone], encodeHost)
 			if err != nil {
 				return "", err
@@ -648,6 +698,15 @@ func parseHost(host string) (string, error) {
 			}
 			return host1 + host2 + host3, nil
 		}
+
+		if !isValidIPv6Address(host[1:i]) {
+			return "", fmt.Errorf("invalid ip: %q", host[1:i])
+		}
+	} else if strings.Count(host, ":") > 1 {
+		// We're here because of that hostname does not start from "["
+		// Let's check if it IPv6 or not (only IPv6 may contain 2 or more ":")
+		// RFC 3986 IPV6 addresses must begin with bracket
+		return "", errors.New("IPv6 address must begin with bracket")
 	} else if i := strings.LastIndex(host, ":"); i != -1 {
 		colonPort := host[i:]
 		if !validOptionalPort(colonPort) {
