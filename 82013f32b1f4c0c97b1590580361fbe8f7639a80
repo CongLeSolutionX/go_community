@@ -16,6 +16,24 @@
       "revId": "82013f32b1f4c0c97b1590580361fbe8f7639a80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67c3047b_79bc8226",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-06-28T05:28:02Z",
+      "side": 1,
+      "message": "I can\u0027t think of any difference when doing external linking.  I think everything will be handed back to the external linker to handle anyhow.\n\nWhen doing internal linking I think that, in effect, after the Go linker gets done with this, we are going to update the STB_WEAK symbol to a STB_GLOBAL symbol in the executable.  If the dynamic linker cannot find a definition for a dynamic symbol, then it will give an error for an STB_GLOBAL symbol but for an STB_WEAK symbol simply set the symbol to zero.  So it\u0027s conceivable that this change will convert a working program to a program that gets an undefined symbol error at startup time.  But it should never happen with the standard library, since we don\u0027t use weak symbols there.  It could only happen with an unusual program that chooses to use internal linking and also chooses to use weak symbols.",
+      "parentUuid": "dcf63de4_2b334744",
+      "revId": "82013f32b1f4c0c97b1590580361fbe8f7639a80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
