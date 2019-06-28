@@ -16,6 +16,24 @@
       "revId": "f257b2d05bdde4d724f05f1a462b147a26f75a7e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f41befb_020ccaf8",
+        "filename": "src/net/lookup_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 32259
+      },
+      "writtenOn": "2019-06-28T05:14:04Z",
+      "side": 1,
+      "message": "I\u0027ve switched to using `CombinedOutput()`. Now, instead of `skipping failed lookup 172.16.17.189 test: exit status 1` it returns `skipping failed lookup 172.16.17.189 test: Ping request could not find host nonexistinghost. Please check the name`, which indeed is more helpful.",
+      "parentUuid": "9fb59034_591ae064",
+      "revId": "f257b2d05bdde4d724f05f1a462b147a26f75a7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
