@@ -1029,3 +1029,14 @@ func TestMarshalUncommonFieldNames(t *testing.T) {
 		t.Fatalf("Marshal: got %s want %s", got, want)
 	}
 }
+
+func TestMarshalerErrorExt(t *testing.T) {
+	s := "test variable"
+	me := MarshalerError{reflect.TypeOf(s), fmt.Errorf("json: test error")}
+	mee := MarshalerErrorExt{me, "TestMarshalerErrorExt"}
+	want := "json: error calling TestMarshalerErrorExt for type string: json: test error"
+	got := mee.Error()
+	if got != want {
+		t.Fatalf("MarshalerErrorExt: got %s, want %s", got, want)
+	}
+}

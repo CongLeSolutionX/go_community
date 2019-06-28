@@ -272,6 +272,19 @@ func (e *MarshalerError) Error() string {
 
 func (e *MarshalerError) Unwrap() error { return e.Err }
 
+// A MarshalerErrorExt represents an error from calling a MarshalJSON or
+// MarshalText method. It saves a function's name were it was called.
+type MarshalerErrorExt struct {
+	MarshalerError
+	Origin string
+}
+
+func (e MarshalerErrorExt) Error() string {
+	return "json: error calling " + e.Origin +
+		" for type " + e.Type.String() +
+		": " + e.Err.Error()
+}
+
 var hex = "0123456789abcdef"
 
 // An encodeState encodes JSON into a bytes.Buffer.
@@ -456,7 +469,7 @@ func marshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 		err = compact(&e.Buffer, b, opts.escapeHTML)
 	}
 	if err != nil {
-		e.error(&MarshalerError{v.Type(), err})
+		e.error(MarshalerErrorExt{MarshalerError{v.Type(), err}, "MarshalJSON"})
 	}
 }
 
@@ -473,7 +486,7 @@ func addrMarshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 		err = compact(&e.Buffer, b, opts.escapeHTML)
 	}
 	if err != nil {
-		e.error(&MarshalerError{v.Type(), err})
+		e.error(MarshalerErrorExt{MarshalerError{v.Type(), err}, "MarshalJSON"})
 	}
 }
 
@@ -485,7 +498,7 @@ func textMarshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 	m := v.Interface().(encoding.TextMarshaler)
 	b, err := m.MarshalText()
 	if err != nil {
-		e.error(&MarshalerError{v.Type(), err})
+		e.error(MarshalerErrorExt{MarshalerError{v.Type(), err}, "MarshalText"})
 	}
 	e.stringBytes(b, opts.escapeHTML)
 }
@@ -499,7 +512,7 @@ func addrTextMarshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 	m := va.Interface().(encoding.TextMarshaler)
 	b, err := m.MarshalText()
 	if err != nil {
-		e.error(&MarshalerError{v.Type(), err})
+		e.error(MarshalerErrorExt{MarshalerError{v.Type(), err}, "MarshalText"})
 	}
 	e.stringBytes(b, opts.escapeHTML)
 }
