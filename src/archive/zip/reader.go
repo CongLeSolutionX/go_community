@@ -225,6 +225,9 @@ func (r *checksumReader) Read(b []byte) (n int, err error) {
 		}
 	}
 	r.err = err
+	if err == io.EOF {
+		err = nil
+	}
 	return
 }
 
