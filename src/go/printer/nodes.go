@@ -1237,10 +1237,10 @@ func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
 			// lead to more nicely formatted code in general.
 			if p.indentList(s.Results) {
 				p.print(indent)
-				p.exprList(s.Pos(), s.Results, 1, noIndent, token.NoPos, false)
+				p.exprList(token.NoPos, s.Results, 1, noIndent, token.NoPos, false)
 				p.print(unindent)
 			} else {
-				p.exprList(s.Pos(), s.Results, 1, 0, token.NoPos, false)
+				p.exprList(token.NoPos, s.Results, 1, 0, token.NoPos, false)
 			}
 		}
 
