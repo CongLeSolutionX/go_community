@@ -177,6 +177,12 @@ var scavenge struct {
 	parked bool
 	timer  *timer
 	gen    uint32 // read with either lock or mheap_.lock, write with both
+
+	inprogress struct {
+		waitnote   note
+		lock       mutex
+		start, end uintptr
+	}
 }
 
 // wakeScavengerLocked unparks the scavenger if necessary. It must be called
@@ -312,7 +318,7 @@ func bgscavenge(c chan int) {
 			// If we're above the line, scavenge to get below the
 			// line.
 			if retained > want {
-				released = mheap_.scavengeLocked(uintptr(retained - want))
+				released = mheap_.scavengeLocked(uintptr(retained-want), true)
 			}
 			unlock(&mheap_.lock)
 

@@ -566,22 +566,6 @@ func (s *mspan) hugePages() uintptr {
 	return 0
 }
 
-func (s *mspan) scavenge() uintptr {
-	// start and end must be rounded in, otherwise madvise
-	// will round them *out* and release more memory
-	// than we want.
-	start, end := s.physPageBounds()
-	if end <= start {
-		// start and end don't span a whole physical page.
-		return 0
-	}
-	released := end - start
-	memstats.heap_released += uint64(released)
-	s.scavenged = true
-	sysUnused(unsafe.Pointer(start), released)
-	return released
-}
-
 // released returns the number of bytes in this span
 // which were returned back to the OS.
 func (s *mspan) released() uintptr {
@@ -1207,6 +1191,21 @@ HaveSpan:
 	// "Unscavenge" s only AFTER splitting so that
 	// we only sysUsed whatever we actually need.
 	if s.scavenged {
+		// Acquire the range which is currently being scavenged, if any.
+		// This can only possibly happen for spans which are already marked
+		// scavenged, because the scavenger will always mark it scavenged
+		// before actually scavenging.
+		lock(&scavenge.inprogress.lock)
+		start, end := scavenge.inprogress.start, scavenge.inprogress.end
+		unlock(&scavenge.inprogress.lock)
+
+		// If the two ranges overlap, then we're trying to allocate something
+		// that's in the process of being scavenged. We need to sleep until
+		// it's finished so that we can proceed.
+		if start != 0 && start < s.base()+s.npages*pageSize && s.base() < end {
+			notesleep(&scavenge.inprogress.waitnote)
+		}
+
 		// sysUsed all the pages that are actually available
 		// in the span. Note that we don't need to decrement
 		// heap_released since we already did so earlier.
@@ -1413,9 +1412,14 @@ func (h *mheap) scavengeSplit(t treapIter, size uintptr) *mspan {
 // starting from the span with the highest base address and working down.
 // It then takes those spans and places them in scav.
 //
+// bg indicates whether the caller is the background scavenger. There must
+// be exactly one path in the runtime which calls this with bg = true and
+// it must be only reachable by the background scavenger's goroutine.
+//
 // Returns the amount of memory scavenged in bytes. h must be locked.
-func (h *mheap) scavengeLocked(nbytes uintptr) uintptr {
+func (h *mheap) scavengeLocked(nbytes uintptr, bg bool) uintptr {
 	released := uintptr(0)
+top:
 	// Iterate over spans with huge pages first, then spans without.
 	const mask = treapIterScav | treapIterHuge
 	for _, match := range []treapIterType{treapIterHuge, 0} {
@@ -1432,16 +1436,69 @@ func (h *mheap) scavengeLocked(nbytes uintptr) uintptr {
 			n := t.prev()
 			if span := h.scavengeSplit(t, nbytes-released); span != nil {
 				s = span
+				// Update start and end since s may be different now.
+				start, end = s.physPageBounds()
 			} else {
 				h.free.erase(t)
 			}
-			released += s.scavenge()
-			// Now that s is scavenged, we must eagerly coalesce it
+			released += end - start
+			s.scavenged = true
+			memstats.heap_released += uint64(end - start)
+			// Now that s has scavenged = true, we must eagerly coalesce it
 			// with its neighbors to prevent having two spans with
 			// the same scavenged state adjacent to each other.
 			h.coalesce(s)
 			t = n
 			h.free.insert(s)
+
+			if bg {
+				// We're the background scavenger.
+				lock(&scavenge.inprogress.lock)
+
+				// Make a note of which memory we're scavenging right now.
+				scavenge.inprogress.start = start
+				scavenge.inprogress.end = end
+
+				// Clear the note to prepare for waiters who might use it.
+				noteclear(&scavenge.inprogress.waitnote)
+
+				unlock(&scavenge.inprogress.lock)
+
+				// Let go of the heap lock so we're not holding up other
+				// allocators unless they need the memory we're scavenging.
+				unlock(&h.lock)
+			}
+			// If we're not the background scavenger, we don't need to worry about
+			// synchronizing with any allocators because we're just going to hold
+			// onto the heap lock the whole time.
+			// Also, we don't need to worry about synchronizing with the
+			// background scavenger because we'll never find ourselves work on the
+			// same span. The background scavenger always marks a span as scavenged
+			// before letting go of the heap lock, and the only way a span may become
+			// free and unscavenged is via an allocation, which we prevent by holding
+			// the heap lock.
+
+			// Release memory back to the OS.
+			sysUnused(unsafe.Pointer(start), end-start)
+
+			if bg {
+				// We're the background scavenger.
+				lock(&scavenge.inprogress.lock)
+
+				// Clear the in-progress range.
+				scavenge.inprogress.start = 0
+				scavenge.inprogress.end = 0
+
+				// Wake up anyone who might be waiting to use this memory range.
+				notewakeup(&scavenge.inprogress.waitnote)
+
+				unlock(&scavenge.inprogress.lock)
+
+				// Re-acquire the heap lock and jump back to the top since all the state
+				// we were holding onto is only valid while we have the heap lock.
+				lock(&h.lock)
+				goto top
+			}
 		}
 	}
 	return released
@@ -1460,7 +1517,7 @@ func (h *mheap) scavengeIfNeededLocked(size uintptr) {
 		if overage := r + uint64(size) - h.scavengeRetainedGoal; overage < todo {
 			todo = overage
 		}
-		h.scavengeLocked(uintptr(todo))
+		h.scavengeLocked(uintptr(todo), false)
 	}
 }
 
@@ -1474,7 +1531,7 @@ func (h *mheap) scavengeAll() {
 	gp := getg()
 	gp.m.mallocing++
 	lock(&h.lock)
-	released := h.scavengeLocked(^uintptr(0))
+	released := h.scavengeLocked(^uintptr(0), false)
 	unlock(&h.lock)
 	gp.m.mallocing--
 
