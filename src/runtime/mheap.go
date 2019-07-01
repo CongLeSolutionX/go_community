@@ -388,6 +388,15 @@ type mspan struct {
 	allocBits  *gcBits
 	gcmarkBits *gcBits
 
+	// scavnote exists so that an allocator which allocates
+	// a scavenged span can sleep on it until the background scavenger
+	// is finished scavenging the memory owned by this span.
+	//
+	// If scavnote is being slept on, then s must be on
+	// scavenge.inprogress.waiters such that the background scavenger
+	// can wake up the sleeper.
+	scavnote note
+
 	// sweep generation:
 	// if sweepgen == h->sweepgen - 2, the span needs sweeping
 	// if sweepgen == h->sweepgen - 1, the span is currently being swept
@@ -564,6 +573,44 @@ func (s *mspan) hugePages() uintptr {
 		return (end - start) / physHugePageSize
 	}
 	return 0
+}
+
+// Unscavenges s by calling sysUsed.
+//
+// It blocks if the scavenger is currently scavenging any part of this
+// span. This function does not update memstats.heap_released, though, so
+// the caller must arrange for that to happen appropriately.
+//
+// This may be run with or without locks held.
+func (s *mspan) unscavenge() {
+	// Acquire the range which is currently being scavenged, if any.
+	// This can only possibly happen for spans which are already marked
+	// scavenged, because the scavenger will always mark it scavenged
+	// before actually scavenging.
+	lock(&scavenge.inprogress.lock)
+	start, end := scavenge.inprogress.start, scavenge.inprogress.end
+
+	// If the two ranges overlap, then we're trying to allocate something
+	// that's in the process of being scavenged. We need to sleep until
+	// it's finished so that we can proceed.
+	if start != 0 && start < s.base()+s.npages*pageSize && s.base() < end {
+		// Clear s's scavnote and add s to the waiters list.
+		noteclear(&s.scavnote)
+		scavenge.inprogress.waiters.insert(s)
+		unlock(&scavenge.inprogress.lock)
+
+		// Sleep until awoken by the scavenger, meaning its safe to
+		// unscavenge.
+		notesleep(&s.scavnote)
+	} else {
+		unlock(&scavenge.inprogress.lock)
+	}
+
+	// sysUsed all the pages that are actually available
+	// in the span. Note that we don't need to decrement
+	// heap_released since we already did so earlier.
+	sysUsed(unsafe.Pointer(s.base()), s.npages<<_PageShift)
+	s.scavenged = false
 }
 
 // released returns the number of bytes in this span
@@ -1044,6 +1091,12 @@ func (h *mheap) alloc_m(npage uintptr, spanclass spanClass, large bool) *mspan {
 	// order these writes. On the read side, the data dependency
 	// between p and the index in h.spans orders the reads.
 	unlock(&h.lock)
+
+	if s != nil && s.scavenged {
+		// Unscavenge s as per the contract with allocSpanLocked.
+		// Note that the heap need not be locked for this.
+		s.unscavenge()
+	}
 	return s
 }
 
@@ -1103,6 +1156,11 @@ func (h *mheap) allocManual(npage uintptr, stat *uint64) *mspan {
 	// This unlock acts as a release barrier. See mheap.alloc_m.
 	unlock(&h.lock)
 
+	if s != nil && s.scavenged {
+		// Unscavenge s as per the contract with allocSpanLocked.
+		// Note that the heap need not be locked for this.
+		s.unscavenge()
+	}
 	return s
 }
 
@@ -1131,6 +1189,9 @@ func (h *mheap) setSpans(base, npage uintptr, s *mspan) {
 // Allocates a span of the given size.  h must be locked.
 // The returned span has been removed from the
 // free structures, but its state is still mSpanFree.
+// If the returned span is scavenged, it is the caller's
+// responsibility to unscavenge it before use. This method
+// will update memstats.heap_released appropriately, however.
 func (h *mheap) allocSpanLocked(npage uintptr, stat *uint64) *mspan {
 	t := h.free.find(npage)
 	if t.valid() {
@@ -1188,30 +1249,7 @@ HaveSpan:
 	} else {
 		throw("candidate mspan for allocation is too small")
 	}
-	// "Unscavenge" s only AFTER splitting so that
-	// we only sysUsed whatever we actually need.
 	if s.scavenged {
-		// Acquire the range which is currently being scavenged, if any.
-		// This can only possibly happen for spans which are already marked
-		// scavenged, because the scavenger will always mark it scavenged
-		// before actually scavenging.
-		lock(&scavenge.inprogress.lock)
-		start, end := scavenge.inprogress.start, scavenge.inprogress.end
-		unlock(&scavenge.inprogress.lock)
-
-		// If the two ranges overlap, then we're trying to allocate something
-		// that's in the process of being scavenged. We need to sleep until
-		// it's finished so that we can proceed.
-		if start != 0 && start < s.base()+s.npages*pageSize && s.base() < end {
-			notesleep(&scavenge.inprogress.waitnote)
-		}
-
-		// sysUsed all the pages that are actually available
-		// in the span. Note that we don't need to decrement
-		// heap_released since we already did so earlier.
-		sysUsed(unsafe.Pointer(s.base()), s.npages<<_PageShift)
-		s.scavenged = false
-
 		// Since we allocated out of a scavenged span, we just
 		// grew the RSS. Mitigate this by scavenging enough free
 		// space to make up for it but only if we need to.
@@ -1459,9 +1497,6 @@ top:
 				scavenge.inprogress.start = start
 				scavenge.inprogress.end = end
 
-				// Clear the note to prepare for waiters who might use it.
-				noteclear(&scavenge.inprogress.waitnote)
-
 				unlock(&scavenge.inprogress.lock)
 
 				// Let go of the heap lock so we're not holding up other
@@ -1490,7 +1525,15 @@ top:
 				scavenge.inprogress.end = 0
 
 				// Wake up anyone who might be waiting to use this memory range.
-				notewakeup(&scavenge.inprogress.waitnote)
+				for !scavenge.inprogress.waiters.isEmpty() {
+					// Remove the span before waking the waiter, since otherwise
+					// the caller could observe s on a list.
+					s := scavenge.inprogress.waiters.first
+					scavenge.inprogress.waiters.remove(s)
+
+					// Wake the waiter.
+					notewakeup(&s.scavnote)
+				}
 
 				unlock(&scavenge.inprogress.lock)
 

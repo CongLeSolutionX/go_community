@@ -179,8 +179,8 @@ var scavenge struct {
 	gen    uint32 // read with either lock or mheap_.lock, write with both
 
 	inprogress struct {
-		waitnote   note
 		lock       mutex
+		waiters    mSpanList
 		start, end uintptr
 	}
 }
