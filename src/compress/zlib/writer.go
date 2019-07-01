@@ -116,23 +116,16 @@ func (z *Writer) writeHeader() (err error) {
 		z.scratch[1] |= 1 << 5
 	}
 	z.scratch[1] += uint8(31 - (uint16(z.scratch[0])<<8+uint16(z.scratch[1]))%31)
-	if _, err = z.w.Write(z.scratch[0:2]); err != nil {
-		return err
-	}
+	try(z.w.Write(z.scratch[0:2]))
 	if z.dict != nil {
 		// The next four bytes are the Adler-32 checksum of the dictionary.
 		binary.BigEndian.PutUint32(z.scratch[:], adler32.Checksum(z.dict))
-		if _, err = z.w.Write(z.scratch[0:4]); err != nil {
-			return err
-		}
+		try(z.w.Write(z.scratch[0:4]))
 	}
 	if z.compressor == nil {
 		// Initialize deflater unless the Writer is being reused
 		// after a Reset call.
-		z.compressor, err = flate.NewWriterDict(z.w, z.level, z.dict)
-		if err != nil {
-			return err
-		}
+		z.compressor = try(flate.NewWriterDict(z.w, z.level, z.dict))
 		z.digest = adler32.New()
 	}
 	return nil

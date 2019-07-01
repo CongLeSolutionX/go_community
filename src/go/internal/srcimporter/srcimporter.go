@@ -65,10 +65,7 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 	if abs, err := p.absPath(srcDir); err == nil { // see issue #14282
 		srcDir = abs
 	}
-	bp, err := p.ctxt.Import(path, srcDir, 0)
-	if err != nil {
-		return nil, err // err may be *build.NoGoError - return as is
-	}
+	bp := try(p.ctxt.Import(path, srcDir, 0)) // err may be *build.NoGoError - return as is
 
 	// package unsafe is known to the type checker
 	if bp.ImportPath == "unsafe" {
@@ -106,10 +103,7 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 	filenames = append(filenames, bp.GoFiles...)
 	filenames = append(filenames, bp.CgoFiles...)
 
-	files, err := p.parseFiles(bp.Dir, filenames)
-	if err != nil {
-		return nil, err
-	}
+	files := try(p.parseFiles(bp.Dir, filenames))
 
 	// type-check package files
 	var firstHardErr error

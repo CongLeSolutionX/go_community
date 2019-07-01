@@ -285,13 +285,11 @@ func walksymtab(data []byte, fn func(sym) error) error {
 // Starting with Go 1.3, the Go symbol table no longer includes symbol data.
 func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
 	var n int
-	err := walksymtab(symtab, func(s sym) error {
+	try(walksymtab(symtab, func(s sym) error {
 		n++
 		return nil
-	})
-	if err != nil {
-		return nil, err
-	}
+	}),
+	)
 
 	var t Table
 	if pcln.isGo12() {
@@ -302,7 +300,7 @@ func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
 	nf := 0
 	nz := 0
 	lasttyp := uint8(0)
-	err = walksymtab(symtab, func(s sym) error {
+	try(walksymtab(symtab, func(s sym) error {
 		n := len(t.Syms)
 		t.Syms = t.Syms[0 : n+1]
 		ts := &t.Syms[n]
@@ -347,10 +345,8 @@ func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
 		}
 		lasttyp = s.typ
 		return nil
-	})
-	if err != nil {
-		return nil, err
-	}
+	}),
+	)
 
 	t.Funcs = make([]Func, 0, nf)
 	t.Files = make(map[string]*Obj)
@@ -532,10 +528,7 @@ func (t *Table) LineToPC(file string, line int) (pc uint64, fn *Func, err error)
 		return pc, t.PCToFunc(pc), nil
 	}
 
-	abs, err := obj.alineFromLine(file, line)
-	if err != nil {
-		return
-	}
+	abs := try(obj.alineFromLine(file, line))
 	for i := range obj.Funcs {
 		f := &obj.Funcs[i]
 		pc := f.LineTable.LineToPC(abs, f.End)

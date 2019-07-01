@@ -534,12 +534,8 @@ func forkExecPipe(p []int) (err error) {
 	// pipe2 was added in 2.6.27 and our minimum requirement is 2.6.23, so it
 	// might not be implemented.
 	if err == ENOSYS {
-		if err = Pipe(p); err != nil {
-			return
-		}
-		if _, err = fcntl(p[0], F_SETFD, FD_CLOEXEC); err != nil {
-			return
-		}
+		try(Pipe(p))
+		try(fcntl(p[0], F_SETFD, FD_CLOEXEC))
 		_, err = fcntl(p[1], F_SETFD, FD_CLOEXEC)
 	}
 	return
@@ -555,19 +551,14 @@ func formatIDMappings(idMap []SysProcIDMap) []byte {
 
 // writeIDMappings writes the user namespace User ID or Group ID mappings to the specified path.
 func writeIDMappings(path string, idMap []SysProcIDMap) error {
-	fd, err := Open(path, O_RDWR, 0)
-	if err != nil {
-		return err
-	}
+	fd := try(Open(path, O_RDWR, 0))
 
 	if _, err := Write(fd, formatIDMappings(idMap)); err != nil {
 		Close(fd)
 		return err
 	}
 
-	if err := Close(fd); err != nil {
-		return err
-	}
+	try(Close(fd))
 
 	return nil
 }
@@ -578,10 +569,7 @@ func writeIDMappings(path string, idMap []SysProcIDMap) error {
 // disabling setgroups() system call.
 func writeSetgroups(pid int, enable bool) error {
 	sgf := "/proc/" + itoa(pid) + "/setgroups"
-	fd, err := Open(sgf, O_RDWR, 0)
-	if err != nil {
-		return err
-	}
+	fd := try(Open(sgf, O_RDWR, 0))
 
 	var data []byte
 	if enable {
@@ -603,9 +591,7 @@ func writeSetgroups(pid int, enable bool) error {
 func writeUidGidMappings(pid int, sys *SysProcAttr) error {
 	if sys.UidMappings != nil {
 		uidf := "/proc/" + itoa(pid) + "/uid_map"
-		if err := writeIDMappings(uidf, sys.UidMappings); err != nil {
-			return err
-		}
+		try(writeIDMappings(uidf, sys.UidMappings))
 	}
 
 	if sys.GidMappings != nil {
@@ -614,9 +600,7 @@ func writeUidGidMappings(pid int, sys *SysProcAttr) error {
 			return err
 		}
 		gidf := "/proc/" + itoa(pid) + "/gid_map"
-		if err := writeIDMappings(gidf, sys.GidMappings); err != nil {
-			return err
-		}
+		try(writeIDMappings(gidf, sys.GidMappings))
 	}
 
 	return nil

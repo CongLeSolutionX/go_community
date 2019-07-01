@@ -147,18 +147,12 @@ func Dup2(fd, newfd int) error {
 }
 
 func Fstat(fd int, st *Stat_t) error {
-	f, err := fdToFile(fd)
-	if err != nil {
-		return err
-	}
+	f := try(fdToFile(fd))
 	return f.impl.stat(st)
 }
 
 func Read(fd int, b []byte) (int, error) {
-	f, err := fdToFile(fd)
-	if err != nil {
-		return 0, err
-	}
+	f := try(fdToFile(fd))
 	return f.impl.read(b)
 }
 
@@ -169,34 +163,22 @@ func Write(fd int, b []byte) (int, error) {
 		// avoid nil in syscalls; nacl doesn't like that.
 		b = zerobuf[:]
 	}
-	f, err := fdToFile(fd)
-	if err != nil {
-		return 0, err
-	}
+	f := try(fdToFile(fd))
 	return f.impl.write(b)
 }
 
 func Pread(fd int, b []byte, offset int64) (int, error) {
-	f, err := fdToFile(fd)
-	if err != nil {
-		return 0, err
-	}
+	f := try(fdToFile(fd))
 	return f.impl.pread(b, offset)
 }
 
 func Pwrite(fd int, b []byte, offset int64) (int, error) {
-	f, err := fdToFile(fd)
-	if err != nil {
-		return 0, err
-	}
+	f := try(fdToFile(fd))
 	return f.impl.pwrite(b, offset)
 }
 
 func Seek(fd int, offset int64, whence int) (int64, error) {
-	f, err := fdToFile(fd)
-	if err != nil {
-		return 0, err
-	}
+	f := try(fdToFile(fd))
 	return f.impl.seek(offset, whence)
 }
 
@@ -252,13 +234,8 @@ func (f *naclFile) seek(off int64, whence int) (int64, error) {
 
 func (f *naclFile) prw(b []byte, offset int64, rw func([]byte) (int, error)) (int, error) {
 	// NaCl has no pread; simulate with seek and hope for no races.
-	old, err := f.seek(0, io.SeekCurrent)
-	if err != nil {
-		return 0, err
-	}
-	if _, err := f.seek(offset, io.SeekStart); err != nil {
-		return 0, err
-	}
+	old := try(f.seek(0, io.SeekCurrent))
+	try(f.seek(offset, io.SeekStart))
 	n, err := rw(b)
 	f.seek(old, io.SeekStart)
 	return n, err

@@ -45,10 +45,7 @@ func adapterAddresses() ([]*windows.IpAdapterAddresses, error) {
 // network interfaces. Otherwise it returns a mapping of a specific
 // interface.
 func interfaceTable(ifindex int) ([]Interface, error) {
-	aas, err := adapterAddresses()
-	if err != nil {
-		return nil, err
-	}
+	aas := try(adapterAddresses())
 	var ift []Interface
 	for _, aa := range aas {
 		index := aa.IfIndex
@@ -99,10 +96,7 @@ func interfaceTable(ifindex int) ([]Interface, error) {
 // network interfaces. Otherwise it returns addresses for a specific
 // interface.
 func interfaceAddrTable(ifi *Interface) ([]Addr, error) {
-	aas, err := adapterAddresses()
-	if err != nil {
-		return nil, err
-	}
+	aas := try(adapterAddresses())
 	var ifat []Addr
 	for _, aa := range aas {
 		index := aa.IfIndex
@@ -146,10 +140,7 @@ func interfaceAddrTable(ifi *Interface) ([]Addr, error) {
 // interfaceMulticastAddrTable returns addresses for a specific
 // interface.
 func interfaceMulticastAddrTable(ifi *Interface) ([]Addr, error) {
-	aas, err := adapterAddresses()
-	if err != nil {
-		return nil, err
-	}
+	aas := try(adapterAddresses())
 	var ifat []Addr
 	for _, aa := range aas {
 		index := aa.IfIndex

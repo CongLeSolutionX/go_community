@@ -28,30 +28,21 @@ func IsTerminal(fd int) bool {
 // returned does not include the \n.
 func ReadPassword(fd int) ([]byte, error) {
 	// see also: http://src.illumos.org/source/xref/illumos-gate/usr/src/lib/libast/common/uwin/getpass.c
-	val, err := unix.IoctlGetTermios(fd, unix.TCGETS)
-	if err != nil {
-		return nil, err
-	}
+	val := try(unix.IoctlGetTermios(fd, unix.TCGETS))
 	oldState := *val
 
 	newState := oldState
 	newState.Lflag &^= syscall.ECHO
 	newState.Lflag |= syscall.ICANON | syscall.ISIG
 	newState.Iflag |= syscall.ICRNL
-	err = unix.IoctlSetTermios(fd, unix.TCSETS, &newState)
-	if err != nil {
-		return nil, err
-	}
+	try(unix.IoctlSetTermios(fd, unix.TCSETS, &newState))
 
 	defer unix.IoctlSetTermios(fd, unix.TCSETS, &oldState)
 
 	var buf [16]byte
 	var ret []byte
 	for {
-		n, err := syscall.Read(fd, buf[:])
-		if err != nil {
-			return nil, err
-		}
+		n := try(syscall.Read(fd, buf[:]))
 		if n == 0 {
 			if len(ret) == 0 {
 				return nil, io.EOF
@@ -75,10 +66,7 @@ func ReadPassword(fd int) ([]byte, error) {
 // restored.
 // see http://cr.illumos.org/~webrev/andy_js/1060/
 func MakeRaw(fd int) (*State, error) {
-	termios, err := unix.IoctlGetTermios(fd, unix.TCGETS)
-	if err != nil {
-		return nil, err
-	}
+	termios := try(unix.IoctlGetTermios(fd, unix.TCGETS))
 
 	oldState := State{termios: *termios}
 
@@ -90,9 +78,7 @@ func MakeRaw(fd int) (*State, error) {
 	termios.Cc[unix.VMIN] = 1
 	termios.Cc[unix.VTIME] = 0
 
-	if err := unix.IoctlSetTermios(fd, unix.TCSETS, termios); err != nil {
-		return nil, err
-	}
+	try(unix.IoctlSetTermios(fd, unix.TCSETS, termios))
 
 	return &oldState, nil
 }
@@ -106,19 +92,13 @@ func Restore(fd int, oldState *State) error {
 // GetState returns the current state of a terminal which may be useful to
 // restore the terminal after a signal.
 func GetState(fd int) (*State, error) {
-	termios, err := unix.IoctlGetTermios(fd, unix.TCGETS)
-	if err != nil {
-		return nil, err
-	}
+	termios := try(unix.IoctlGetTermios(fd, unix.TCGETS))
 
 	return &State{termios: *termios}, nil
 }
 
 // GetSize returns the dimensions of the given terminal.
 func GetSize(fd int) (width, height int, err error) {
-	ws, err := unix.IoctlGetWinsize(fd, unix.TIOCGWINSZ)
-	if err != nil {
-		return 0, 0, err
-	}
+	ws := try(unix.IoctlGetWinsize(fd, unix.TIOCGWINSZ))
 	return int(ws.Col), int(ws.Row), nil
 }

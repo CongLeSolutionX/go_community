@@ -662,14 +662,10 @@ func (t *Terminal) Write(buf []byte) (n int, err error) {
 		t.clearLineToRight()
 	}
 
-	if _, err = t.c.Write(t.outBuf); err != nil {
-		return
-	}
+	try(t.c.Write(t.outBuf))
 	t.outBuf = t.outBuf[:0]
 
-	if n, err = writeWithCRLF(t.c, buf); err != nil {
-		return
-	}
+	n = try(writeWithCRLF(t.c, buf))
 
 	t.writeLine(t.prompt)
 	if t.echo {
@@ -678,9 +674,7 @@ func (t *Terminal) Write(buf []byte) (n int, err error) {
 
 	t.moveCursorToPos(t.pos)
 
-	if _, err = t.c.Write(t.outBuf); err != nil {
-		return
-	}
+	try(t.c.Write(t.outBuf))
 	t.outBuf = t.outBuf[:0]
 	return
 }

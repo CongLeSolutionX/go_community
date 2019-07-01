@@ -188,10 +188,7 @@ func (r *Resolver) LookupHost(ctx context.Context, host string) (addrs []string,
 // LookupIP looks up host using the local resolver.
 // It returns a slice of that host's IPv4 and IPv6 addresses.
 func LookupIP(host string) ([]IP, error) {
-	addrs, err := DefaultResolver.LookupIPAddr(context.Background(), host)
-	if err != nil {
-		return nil, err
-	}
+	addrs := try(DefaultResolver.LookupIPAddr(context.Background(), host))
 	ips := make([]IP, len(addrs))
 	for i, ia := range addrs {
 		ips[i] = ia.IP
@@ -344,10 +341,7 @@ func (r *Resolver) LookupPort(ctx context.Context, network, service string) (por
 		default:
 			return 0, &AddrError{Err: "unknown network", Addr: network}
 		}
-		port, err = r.lookupPort(ctx, network, service)
-		if err != nil {
-			return 0, err
-		}
+		port = try(r.lookupPort(ctx, network, service))
 	}
 	if 0 > port || port > 65535 {
 		return 0, &AddrError{Err: "invalid port", Addr: service}

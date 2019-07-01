@@ -331,20 +331,14 @@ func (c *child) cleanUp() {
 func Serve(l net.Listener, handler http.Handler) error {
 	if l == nil {
 		var err error
-		l, err = net.FileListener(os.Stdin)
-		if err != nil {
-			return err
-		}
+		l = try(net.FileListener(os.Stdin))
 		defer l.Close()
 	}
 	if handler == nil {
 		handler = http.DefaultServeMux
 	}
 	for {
-		rw, err := l.Accept()
-		if err != nil {
-			return err
-		}
+		rw := try(l.Accept())
 		c := newChild(rw, handler)
 		go c.serve()
 	}

@@ -68,16 +68,11 @@ func nametomib(name string) (mib []_C_int, err error) {
 	n := uintptr(CTL_MAXNAME) * siz
 
 	p := (*byte)(unsafe.Pointer(&buf[0]))
-	bytes, err := ByteSliceFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	bytes := try(ByteSliceFromString(name))
 
 	// Magic sysctl: "setting" 0.3 to a string name
 	// lets you read back the array of integers form.
-	if err = sysctl([]_C_int{0, 3}, p, &n, &bytes[0], uintptr(len(name))); err != nil {
-		return nil, err
-	}
+	try(sysctl([]_C_int{0, 3}, p, &n, &bytes[0], uintptr(len(name))))
 	return buf[0 : n/siz], nil
 }
 
@@ -124,10 +119,7 @@ func SetsockoptIPMreqn(fd, level, opt int, mreq *IPMreqn) (err error) {
 func Accept4(fd, flags int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = accept4(fd, &rsa, &len, flags)
-	if err != nil {
-		return
-	}
+	nfd = try(accept4(fd, &rsa, &len, flags))
 	if len > SizeofSockaddrAny {
 		panic("RawSockaddrAny too small")
 	}
@@ -186,10 +178,7 @@ func Stat(path string, st *Stat_t) (err error) {
 	if supportsABI(_ino64First) {
 		return fstatat_freebsd12(_AT_FDCWD, path, st, 0)
 	}
-	err = stat(path, &oldStat)
-	if err != nil {
-		return err
-	}
+	try(stat(path, &oldStat))
 
 	st.convertFrom(&oldStat)
 	return nil
@@ -200,10 +189,7 @@ func Lstat(path string, st *Stat_t) (err error) {
 	if supportsABI(_ino64First) {
 		return fstatat_freebsd12(_AT_FDCWD, path, st, _AT_SYMLINK_NOFOLLOW)
 	}
-	err = lstat(path, &oldStat)
-	if err != nil {
-		return err
-	}
+	try(lstat(path, &oldStat))
 
 	st.convertFrom(&oldStat)
 	return nil
@@ -214,10 +200,7 @@ func Fstat(fd int, st *Stat_t) (err error) {
 	if supportsABI(_ino64First) {
 		return fstat_freebsd12(fd, st)
 	}
-	err = fstat(fd, &oldStat)
-	if err != nil {
-		return err
-	}
+	try(fstat(fd, &oldStat))
 
 	st.convertFrom(&oldStat)
 	return nil
@@ -228,10 +211,7 @@ func Fstatat(fd int, path string, st *Stat_t, flags int) (err error) {
 	if supportsABI(_ino64First) {
 		return fstatat_freebsd12(fd, path, st, flags)
 	}
-	err = fstatat(fd, path, &oldStat, flags)
-	if err != nil {
-		return err
-	}
+	try(fstatat(fd, path, &oldStat, flags))
 
 	st.convertFrom(&oldStat)
 	return nil
@@ -242,10 +222,7 @@ func Statfs(path string, st *Statfs_t) (err error) {
 	if supportsABI(_ino64First) {
 		return statfs_freebsd12(path, st)
 	}
-	err = statfs(path, &oldStatfs)
-	if err != nil {
-		return err
-	}
+	try(statfs(path, &oldStatfs))
 
 	st.convertFrom(&oldStatfs)
 	return nil
@@ -256,10 +233,7 @@ func Fstatfs(fd int, st *Statfs_t) (err error) {
 	if supportsABI(_ino64First) {
 		return fstatfs_freebsd12(fd, st)
 	}
-	err = fstatfs(fd, &oldStatfs)
-	if err != nil {
-		return err
-	}
+	try(fstatfs(fd, &oldStatfs))
 
 	st.convertFrom(&oldStatfs)
 	return nil

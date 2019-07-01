@@ -148,10 +148,7 @@ var loader struct {
 // parseEvents is a compatibility wrapper that returns only
 // the Events part of trace.ParseResult returned by parseTrace.
 func parseEvents() ([]*trace.Event, error) {
-	res, err := parseTrace()
-	if err != nil {
-		return nil, err
-	}
+	res := try(parseTrace())
 	return res.Events, err
 }
 

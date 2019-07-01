@@ -665,9 +665,7 @@ func (d *compressor) close() error {
 // Otherwise the error returned will be non-nil.
 func NewWriter(w io.Writer, level int) (*Writer, error) {
 	var dw Writer
-	if err := dw.d.init(w, level); err != nil {
-		return nil, err
-	}
+	try(dw.d.init(w, level))
 	return &dw, nil
 }
 
@@ -679,10 +677,7 @@ func NewWriter(w io.Writer, level int) (*Writer, error) {
 // same dictionary.
 func NewWriterDict(w io.Writer, level int, dict []byte) (*Writer, error) {
 	dw := &dictWriter{w}
-	zw, err := NewWriter(dw, level)
-	if err != nil {
-		return nil, err
-	}
+	zw := try(NewWriter(dw, level))
 	zw.d.fillWindow(dict)
 	zw.dict = append(zw.dict, dict...) // duplicate dictionary for Reset method.
 	return zw, err

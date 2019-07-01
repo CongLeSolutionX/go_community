@@ -35,10 +35,7 @@ func IsTerminal(fd int) bool {
 // mode and returns the previous state of the terminal so that it can be
 // restored.
 func MakeRaw(fd int) (*State, error) {
-	termios, err := unix.IoctlGetTermios(fd, ioctlReadTermios)
-	if err != nil {
-		return nil, err
-	}
+	termios := try(unix.IoctlGetTermios(fd, ioctlReadTermios))
 
 	oldState := State{termios: *termios}
 
@@ -51,9 +48,7 @@ func MakeRaw(fd int) (*State, error) {
 	termios.Cflag |= unix.CS8
 	termios.Cc[unix.VMIN] = 1
 	termios.Cc[unix.VTIME] = 0
-	if err := unix.IoctlSetTermios(fd, ioctlWriteTermios, termios); err != nil {
-		return nil, err
-	}
+	try(unix.IoctlSetTermios(fd, ioctlWriteTermios, termios))
 
 	return &oldState, nil
 }
@@ -61,10 +56,7 @@ func MakeRaw(fd int) (*State, error) {
 // GetState returns the current state of a terminal which may be useful to
 // restore the terminal after a signal.
 func GetState(fd int) (*State, error) {
-	termios, err := unix.IoctlGetTermios(fd, ioctlReadTermios)
-	if err != nil {
-		return nil, err
-	}
+	termios := try(unix.IoctlGetTermios(fd, ioctlReadTermios))
 
 	return &State{termios: *termios}, nil
 }
@@ -95,18 +87,13 @@ func (r passwordReader) Read(buf []byte) (int, error) {
 // is commonly used for inputting passwords and other sensitive data. The slice
 // returned does not include the \n.
 func ReadPassword(fd int) ([]byte, error) {
-	termios, err := unix.IoctlGetTermios(fd, ioctlReadTermios)
-	if err != nil {
-		return nil, err
-	}
+	termios := try(unix.IoctlGetTermios(fd, ioctlReadTermios))
 
 	newState := *termios
 	newState.Lflag &^= unix.ECHO
 	newState.Lflag |= unix.ICANON | unix.ISIG
 	newState.Iflag |= unix.ICRNL
-	if err := unix.IoctlSetTermios(fd, ioctlWriteTermios, &newState); err != nil {
-		return nil, err
-	}
+	try(unix.IoctlSetTermios(fd, ioctlWriteTermios, &newState))
 
 	defer unix.IoctlSetTermios(fd, ioctlWriteTermios, termios)
 

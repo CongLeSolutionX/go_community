@@ -121,10 +121,7 @@ func IsPseudoVersion(v string) bool {
 // It returns an error if v is not a pseudo-version or if the time stamp
 // embedded in the pseudo-version is not a valid time.
 func PseudoVersionTime(v string) (time.Time, error) {
-	_, timestamp, _, _, err := parsePseudoVersion(v)
-	if err != nil {
-		return time.Time{}, err
-	}
+	_, timestamp, _, _ := try(parsePseudoVersion(v))
 	t, err := time.Parse("20060102150405", timestamp)
 	if err != nil {
 		return time.Time{}, &module.InvalidVersionError{
@@ -149,10 +146,7 @@ func PseudoVersionRev(v string) (rev string, err error) {
 // If v has no parent version (that is, if it is "vX.0.0-[…]"),
 // PseudoVersionBase returns the empty string and a nil error.
 func PseudoVersionBase(v string) (string, error) {
-	base, _, _, build, err := parsePseudoVersion(v)
-	if err != nil {
-		return "", err
-	}
+	base, _, _, build := try(parsePseudoVersion(v))
 
 	switch pre := semver.Prerelease(base); pre {
 	case "":

@@ -181,10 +181,7 @@ func (x *Int) Format(s fmt.State, ch rune) {
 //
 func (z *Int) scan(r io.ByteScanner, base int) (*Int, int, error) {
 	// determine sign
-	neg, err := scanSign(r)
-	if err != nil {
-		return nil, 0, err
-	}
+	neg := try(scanSign(r))
 
 	// determine mantissa
 	z.abs, base, _, err = z.abs.scan(r, base, false)

@@ -261,10 +261,7 @@ func lookupDirect(path string) (Repo, error) {
 		return newProxyRepo(rr.Repo, path)
 	}
 
-	code, err := lookupCodeRepo(rr)
-	if err != nil {
-		return nil, err
-	}
+	code := try(lookupCodeRepo(rr))
 	return newCodeRepo(code, rr.Root, path)
 }
 
@@ -295,34 +292,19 @@ func ImportRepoRev(path, rev string) (Repo, *RevInfo, error) {
 	if get.Insecure {
 		security = web.Insecure
 	}
-	rr, err := get.RepoRootForImportPath(path, get.IgnoreMod, security)
-	if err != nil {
-		return nil, nil, err
-	}
+	rr := try(get.RepoRootForImportPath(path, get.IgnoreMod, security))
 
-	code, err := lookupCodeRepo(rr)
-	if err != nil {
-		return nil, nil, err
-	}
+	code := try(lookupCodeRepo(rr))
 
-	revInfo, err := code.Stat(rev)
-	if err != nil {
-		return nil, nil, err
-	}
+	revInfo := try(code.Stat(rev))
 
 	// TODO: Look in repo to find path, check for go.mod files.
 	// For now we're just assuming rr.Root is the module path,
 	// which is true in the absence of go.mod files.
 
-	repo, err := newCodeRepo(code, rr.Root, rr.Root)
-	if err != nil {
-		return nil, nil, err
-	}
+	repo := try(newCodeRepo(code, rr.Root, rr.Root))
 
-	info, err := repo.(*codeRepo).convert(revInfo, rev)
-	if err != nil {
-		return nil, nil, err
-	}
+	info := try(repo.(*codeRepo).convert(revInfo, rev))
 	return repo, info, nil
 }
 

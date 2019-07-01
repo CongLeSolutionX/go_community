@@ -32,10 +32,7 @@ func (sh *SectionHeader32) fullName(st StringTable) (string, error) {
 	if sh.Name[0] != '/' {
 		return cstring(sh.Name[:]), nil
 	}
-	i, err := strconv.Atoi(cstring(sh.Name[1:]))
-	if err != nil {
-		return "", err
-	}
+	i := try(strconv.Atoi(cstring(sh.Name[1:])))
 	return st.String(uint32(i))
 }
 

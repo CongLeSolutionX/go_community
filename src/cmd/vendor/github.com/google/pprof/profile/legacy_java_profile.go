@@ -47,18 +47,12 @@ func javaCPUProfile(b []byte, period int64, parse func(b []byte) (uint64, []byte
 	}
 	var err error
 	var locs map[uint64]*Location
-	if b, locs, err = parseCPUSamples(b, parse, false, p); err != nil {
-		return nil, err
-	}
+	b, locs = try(parseCPUSamples(b, parse, false, p))
 
-	if err = parseJavaLocations(b, locs, p); err != nil {
-		return nil, err
-	}
+	try(parseJavaLocations(b, locs, p))
 
 	// Strip out addresses for better merge.
-	if err = p.Aggregate(true, true, true, true, false); err != nil {
-		return nil, err
-	}
+	try(p.Aggregate(true, true, true, true, false))
 
 	return p, nil
 }
@@ -87,21 +81,13 @@ func parseJavaProfile(b []byte) (*Profile, error) {
 		return nil, errUnrecognized
 	}
 
-	if b, err = parseJavaHeader(pType, h[1], p); err != nil {
-		return nil, err
-	}
+	b = try(parseJavaHeader(pType, h[1], p))
 	var locs map[uint64]*Location
-	if b, locs, err = parseJavaSamples(pType, b, p); err != nil {
-		return nil, err
-	}
-	if err = parseJavaLocations(b, locs, p); err != nil {
-		return nil, err
-	}
+	b, locs = try(parseJavaSamples(pType, b, p))
+	try(parseJavaLocations(b, locs, p))
 
 	// Strip out addresses for better merge.
-	if err = p.Aggregate(true, true, true, true, false); err != nil {
-		return nil, err
-	}
+	try(p.Aggregate(true, true, true, true, false))
 
 	return p, nil
 }

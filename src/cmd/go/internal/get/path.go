@@ -56,15 +56,11 @@ func checkPath(path string, fileName bool) error {
 	elemStart := 0
 	for i, r := range path {
 		if r == '/' {
-			if err := checkElem(path[elemStart:i], fileName); err != nil {
-				return err
-			}
+			try(checkElem(path[elemStart:i], fileName))
 			elemStart = i + 1
 		}
 	}
-	if err := checkElem(path[elemStart:], fileName); err != nil {
-		return err
-	}
+	try(checkElem(path[elemStart:], fileName))
 	return nil
 }
 

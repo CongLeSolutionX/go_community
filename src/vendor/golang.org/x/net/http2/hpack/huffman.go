@@ -22,9 +22,7 @@ func HuffmanDecode(w io.Writer, v []byte) (int, error) {
 	buf := bufPool.Get().(*bytes.Buffer)
 	buf.Reset()
 	defer bufPool.Put(buf)
-	if err := huffmanDecode(buf, 0, v); err != nil {
-		return 0, err
-	}
+	try(huffmanDecode(buf, 0, v))
 	return w.Write(buf.Bytes())
 }
 
@@ -33,9 +31,7 @@ func HuffmanDecodeToString(v []byte) (string, error) {
 	buf := bufPool.Get().(*bytes.Buffer)
 	buf.Reset()
 	defer bufPool.Put(buf)
-	if err := huffmanDecode(buf, 0, v); err != nil {
-		return "", err
-	}
+	try(huffmanDecode(buf, 0, v))
 	return buf.String(), nil
 }
 

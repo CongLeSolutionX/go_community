@@ -74,10 +74,7 @@ func DumpRequestOut(req *http.Request, body bool) ([]byte, error) {
 		}
 	} else {
 		var err error
-		save, req.Body, err = drainBody(req.Body)
-		if err != nil {
-			return nil, err
-		}
+		save, req.Body = try(drainBody(req.Body))
 	}
 
 	// Since we're using the actual Transport code to write the request,
@@ -194,10 +191,7 @@ func DumpRequest(req *http.Request, body bool) ([]byte, error) {
 	if !body || req.Body == nil {
 		req.Body = nil
 	} else {
-		save, req.Body, err = drainBody(req.Body)
-		if err != nil {
-			return nil, err
-		}
+		save, req.Body = try(drainBody(req.Body))
 	}
 
 	var b bytes.Buffer
@@ -235,10 +229,7 @@ func DumpRequest(req *http.Request, body bool) ([]byte, error) {
 		fmt.Fprintf(&b, "Connection: close\r\n")
 	}
 
-	err = req.Header.WriteSubset(&b, reqWriteExcludeHeaderDump)
-	if err != nil {
-		return nil, err
-	}
+	try(req.Header.WriteSubset(&b, reqWriteExcludeHeaderDump))
 
 	io.WriteString(&b, "\r\n")
 

@@ -482,9 +482,7 @@ func (hc *halfConn) encrypt(record, payload []byte, rand io.Reader) ([]byte, err
 			// (see the Sweet32 attack).
 			copy(explicitNonce, hc.seq[:])
 		} else {
-			if _, err := io.ReadFull(rand, explicitNonce); err != nil {
-				return nil, err
-			}
+			try(io.ReadFull(rand, explicitNonce))
 		}
 	}
 
@@ -990,9 +988,7 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (int, error) {
 // the record layer.
 func (c *Conn) readHandshake() (interface{}, error) {
 	for c.hand.Len() < 4 {
-		if err := c.readRecord(); err != nil {
-			return nil, err
-		}
+		try(c.readRecord())
 	}
 
 	data := c.hand.Bytes()
@@ -1002,9 +998,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
 		return nil, c.in.setErrorLocked(fmt.Errorf("tls: handshake message of length %d bytes exceeds maximum of %d bytes", n, maxHandshake))
 	}
 	for c.hand.Len() < 4+n {
-		if err := c.readRecord(); err != nil {
-			return nil, err
-		}
+		try(c.readRecord())
 	}
 	data = c.hand.Next(4 + n)
 	var m handshakeMessage
@@ -1091,9 +1085,7 @@ func (c *Conn) Write(b []byte) (int, error) {
 		}
 	}
 
-	if err := c.Handshake(); err != nil {
-		return 0, err
-	}
+	try(c.Handshake())
 
 	c.out.Lock()
 	defer c.out.Unlock()
@@ -1140,10 +1132,7 @@ func (c *Conn) handleRenegotiation() error {
 		return errors.New("tls: internal error: unexpected renegotiation")
 	}
 
-	msg, err := c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg := try(c.readHandshake())
 
 	helloReq, ok := msg.(*helloRequestMsg)
 	if !ok {
@@ -1186,10 +1175,7 @@ func (c *Conn) handlePostHandshakeMessage() error {
 		return c.handleRenegotiation()
 	}
 
-	msg, err := c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg := try(c.readHandshake())
 
 	c.retryCount++
 	if c.retryCount > maxUselessRecords {
@@ -1239,9 +1225,7 @@ func (c *Conn) handleKeyUpdate(keyUpdate *keyUpdateMsg) error {
 // Read can be made to time out and return a net.Error with Timeout() == true
 // after a fixed time limit; see SetDeadline and SetReadDeadline.
 func (c *Conn) Read(b []byte) (int, error) {
-	if err := c.Handshake(); err != nil {
-		return 0, err
-	}
+	try(c.Handshake())
 	if len(b) == 0 {
 		// Put this after Handshake, in case people were calling
 		// Read(nil) for the side effect of the Handshake.
@@ -1252,13 +1236,9 @@ func (c *Conn) Read(b []byte) (int, error) {
 	defer c.in.Unlock()
 
 	for c.input.Len() == 0 {
-		if err := c.readRecord(); err != nil {
-			return 0, err
-		}
+		try(c.readRecord())
 		for c.hand.Len() > 0 {
-			if err := c.handlePostHandshakeMessage(); err != nil {
-				return 0, err
-			}
+			try(c.handlePostHandshakeMessage())
 		}
 	}
 
@@ -1310,9 +1290,7 @@ func (c *Conn) Close() error {
 		alertErr = c.closeNotify()
 	}
 
-	if err := c.conn.Close(); err != nil {
-		return err
-	}
+	try(c.conn.Close())
 	return alertErr
 }
 

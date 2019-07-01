@@ -72,9 +72,7 @@ func (d *decoder) ensureNBits(n int32) error {
 // F.2.2.1.
 func (d *decoder) receiveExtend(t uint8) (int32, error) {
 	if d.bits.n < int32(t) {
-		if err := d.ensureNBits(int32(t)); err != nil {
-			return 0, err
-		}
+		try(d.ensureNBits(int32(t)))
 	}
 	d.bits.n -= int32(t)
 	d.bits.m >>= t
@@ -93,9 +91,7 @@ func (d *decoder) processDHT(n int) error {
 		if n < 17 {
 			return FormatError("DHT has wrong length")
 		}
-		if err := d.readFull(d.tmp[:17]); err != nil {
-			return err
-		}
+		try(d.readFull(d.tmp[:17]))
 		tc := d.tmp[0] >> 4
 		if tc > maxTc {
 			return FormatError("bad Tc value")
@@ -126,9 +122,7 @@ func (d *decoder) processDHT(n int) error {
 		if n < 0 {
 			return FormatError("DHT has wrong length")
 		}
-		if err := d.readFull(h.vals[:h.nCodes]); err != nil {
-			return err
-		}
+		try(d.readFull(h.vals[:h.nCodes]))
 
 		// Derive the look-up table.
 		for i := range h.lut {
@@ -235,9 +229,7 @@ func (d *decoder) decodeBit() (bool, error) {
 
 func (d *decoder) decodeBits(n int32) (uint32, error) {
 	if d.bits.n < n {
-		if err := d.ensureNBits(n); err != nil {
-			return 0, err
-		}
+		try(d.ensureNBits(n))
 	}
 	ret := d.bits.a >> uint32(d.bits.n-n)
 	ret &= (1 << uint32(n)) - 1

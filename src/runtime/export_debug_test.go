@@ -57,9 +57,7 @@ func InjectDebugCall(gp *g, fn, args interface{}, tkill func(tid int) error) (in
 		noteclear(&h.done)
 		h.err = ""
 
-		if err := tkill(tid); err != nil {
-			return nil, err
-		}
+		try(tkill(tid))
 		// Wait for completion.
 		notetsleepg(&h.done, -1)
 		if h.err != "" {

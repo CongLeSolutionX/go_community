@@ -150,10 +150,7 @@ func EnvFile() (string, error) {
 		}
 		return file, nil
 	}
-	dir, err := os.UserConfigDir()
-	if err != nil {
-		return "", err
-	}
+	dir := try(os.UserConfigDir())
 	if dir == "" {
 		return "", fmt.Errorf("missing user-config dir")
 	}

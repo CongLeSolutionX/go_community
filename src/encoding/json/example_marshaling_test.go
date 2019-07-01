@@ -21,9 +21,7 @@ const (
 
 func (a *Animal) UnmarshalJSON(b []byte) error {
 	var s string
-	if err := json.Unmarshal(b, &s); err != nil {
-		return err
-	}
+	try(json.Unmarshal(b, &s))
 	switch strings.ToLower(s) {
 	default:
 		*a = Unknown

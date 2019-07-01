@@ -193,15 +193,9 @@ func emsaPSSVerify(mHash, em []byte, emBits, sLen int, hash hash.Hash) error {
 // later used to verify the signature.
 func signPSSWithSalt(rand io.Reader, priv *PrivateKey, hash crypto.Hash, hashed, salt []byte) (s []byte, err error) {
 	nBits := priv.N.BitLen()
-	em, err := emsaPSSEncode(hashed, nBits-1, salt, hash.New())
-	if err != nil {
-		return
-	}
+	em := try(emsaPSSEncode(hashed, nBits-1, salt, hash.New()))
 	m := new(big.Int).SetBytes(em)
-	c, err := decryptAndCheck(rand, priv, m)
-	if err != nil {
-		return
-	}
+	c := try(decryptAndCheck(rand, priv, m))
 	s = make([]byte, (nBits+7)/8)
 	copyWithLeftPad(s, c.Bytes())
 	return
@@ -260,9 +254,7 @@ func SignPSS(rand io.Reader, priv *PrivateKey, hash crypto.Hash, hashed []byte, 
 	}
 
 	salt := make([]byte, saltLength)
-	if _, err := io.ReadFull(rand, salt); err != nil {
-		return nil, err
-	}
+	try(io.ReadFull(rand, salt))
 	return signPSSWithSalt(rand, priv, hash, hashed, salt)
 }
 

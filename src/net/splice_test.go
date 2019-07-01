@@ -329,10 +329,7 @@ func (tc spliceTestCase) bench(b *testing.B) {
 }
 
 func spliceTestSocketPair(net string) (client, server Conn, err error) {
-	ln, err := newLocalListener(net)
-	if err != nil {
-		return nil, nil, err
-	}
+	ln := try(newLocalListener(net))
 	defer ln.Close()
 	var cerr, serr error
 	acceptDone := make(chan struct{})
@@ -358,10 +355,7 @@ func spliceTestSocketPair(net string) (client, server Conn, err error) {
 }
 
 func startSpliceClient(conn Conn, op string, chunkSize, totalSize int) (func(), error) {
-	f, err := conn.(interface{ File() (*os.File, error) }).File()
-	if err != nil {
-		return nil, err
-	}
+	f := try(conn.(interface{ File() (*os.File, error) }).File())
 
 	cmd := exec.Command(os.Args[0], os.Args[1:]...)
 	cmd.Env = []string{
@@ -375,9 +369,7 @@ func startSpliceClient(conn Conn, op string, chunkSize, totalSize int) (func(), 
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	if err := cmd.Start(); err != nil {
-		return nil, err
-	}
+	try(cmd.Start())
 
 	donec := make(chan struct{})
 	go func() {

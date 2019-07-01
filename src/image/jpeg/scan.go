@@ -55,9 +55,7 @@ func (d *decoder) processSOS(n int) error {
 	if n < 6 || 4+2*d.nComp < n || n%2 != 0 {
 		return FormatError("SOS has wrong length")
 	}
-	if err := d.readFull(d.tmp[:n]); err != nil {
-		return err
-	}
+	try(d.readFull(d.tmp[:n]))
 	nComp := int(d.tmp[0])
 	if n != 4+2*nComp {
 		return FormatError("SOS length inconsistent with number of components")
@@ -222,25 +220,17 @@ func (d *decoder) processSOS(n int) error {
 					}
 
 					if ah != 0 {
-						if err := d.refine(&b, &d.huff[acTable][scan[i].ta], zigStart, zigEnd, 1<<al); err != nil {
-							return err
-						}
+						try(d.refine(&b, &d.huff[acTable][scan[i].ta], zigStart, zigEnd, 1<<al))
 					} else {
 						zig := zigStart
 						if zig == 0 {
 							zig++
 							// Decode the DC coefficient, as specified in section F.2.2.1.
-							value, err := d.decodeHuffman(&d.huff[dcTable][scan[i].td])
-							if err != nil {
-								return err
-							}
+							value := try(d.decodeHuffman(&d.huff[dcTable][scan[i].td]))
 							if value > 16 {
 								return UnsupportedError("excessive DC component")
 							}
-							dcDelta, err := d.receiveExtend(value)
-							if err != nil {
-								return err
-							}
+							dcDelta := try(d.receiveExtend(value))
 							dc[compIndex] += dcDelta
 							b[0] = dc[compIndex] << al
 						}
@@ -251,10 +241,7 @@ func (d *decoder) processSOS(n int) error {
 							// Decode the AC coefficients, as specified in section F.2.2.2.
 							huff := &d.huff[acTable][scan[i].ta]
 							for ; zig <= zigEnd; zig++ {
-								value, err := d.decodeHuffman(huff)
-								if err != nil {
-									return err
-								}
+								value := try(d.decodeHuffman(huff))
 								val0 := value >> 4
 								val1 := value & 0x0f
 								if val1 != 0 {
@@ -262,19 +249,13 @@ func (d *decoder) processSOS(n int) error {
 									if zig > zigEnd {
 										break
 									}
-									ac, err := d.receiveExtend(val1)
-									if err != nil {
-										return err
-									}
+									ac := try(d.receiveExtend(val1))
 									b[unzig[zig]] = ac << al
 								} else {
 									if val0 != 0x0f {
 										d.eobRun = uint16(1 << val0)
 										if val0 != 0 {
-											bits, err := d.decodeBits(int32(val0))
-											if err != nil {
-												return err
-											}
+											bits := try(d.decodeBits(int32(val0)))
 											d.eobRun |= uint16(bits)
 										}
 										d.eobRun--
@@ -298,18 +279,14 @@ func (d *decoder) processSOS(n int) error {
 						// SOS markers are processed.
 						continue
 					}
-					if err := d.reconstructBlock(&b, bx, by, int(compIndex)); err != nil {
-						return err
-					}
+					try(d.reconstructBlock(&b, bx, by, int(compIndex)))
 				} // for j
 			} // for i
 			mcu++
 			if d.ri > 0 && mcu%d.ri == 0 && mcu < mxx*myy {
 				// A more sophisticated decoder could use RST[0-7] markers to resynchronize from corrupt input,
 				// but this one assumes well-formed input, and hence the restart marker follows immediately.
-				if err := d.readFull(d.tmp[:2]); err != nil {
-					return err
-				}
+				try(d.readFull(d.tmp[:2]))
 				if d.tmp[0] != 0xff || d.tmp[1] != expectedRST {
 					return FormatError("bad RST marker")
 				}
@@ -338,10 +315,7 @@ func (d *decoder) refine(b *block, h *huffman, zigStart, zigEnd, delta int32) er
 		if zigEnd != 0 {
 			panic("unreachable")
 		}
-		bit, err := d.decodeBit()
-		if err != nil {
-			return err
-		}
+		bit := try(d.decodeBit())
 		if bit {
 			b[0] |= delta
 		}
@@ -401,9 +375,7 @@ func (d *decoder) refine(b *block, h *huffman, zigStart, zigEnd, delta int32) er
 	}
 	if d.eobRun > 0 {
 		d.eobRun--
-		if _, err := d.refineNonZeroes(b, zig, zigEnd, -1, delta); err != nil {
-			return err
-		}
+		try(d.refineNonZeroes(b, zig, zigEnd, -1, delta))
 	}
 	return nil
 }
@@ -420,10 +392,7 @@ func (d *decoder) refineNonZeroes(b *block, zig, zigEnd, nz, delta int32) (int32
 			nz--
 			continue
 		}
-		bit, err := d.decodeBit()
-		if err != nil {
-			return 0, err
-		}
+		bit := try(d.decodeBit())
 		if !bit {
 			continue
 		}
@@ -450,9 +419,7 @@ func (d *decoder) reconstructProgressiveImage() error {
 		stride := mxx * d.comp[i].h
 		for by := 0; by*v < d.height; by++ {
 			for bx := 0; bx*h < d.width; bx++ {
-				if err := d.reconstructBlock(&d.progCoeffs[i][by*stride+bx], bx, by, i); err != nil {
-					return err
-				}
+				try(d.reconstructBlock(&d.progCoeffs[i][by*stride+bx], bx, by, i))
 			}
 		}
 	}

@@ -16,10 +16,7 @@ import (
 // socket returns a network file descriptor that is ready for
 // asynchronous I/O using the network poller.
 func socket(ctx context.Context, net string, family, sotype, proto int, ipv6only bool, laddr, raddr sockaddr, ctrlFn func(string, string, syscall.RawConn) error) (fd *netFD, err error) {
-	s, err := sysSocket(family, sotype, proto)
-	if err != nil {
-		return nil, err
-	}
+	s := try(sysSocket(family, sotype, proto))
 	if err = setDefaultSockopts(s, family, sotype, ipv6only); err != nil {
 		poll.CloseFunc(s)
 		return nil, err
@@ -115,19 +112,14 @@ func (fd *netFD) addrFunc() func(syscall.Sockaddr) Addr {
 
 func (fd *netFD) dial(ctx context.Context, laddr, raddr sockaddr, ctrlFn func(string, string, syscall.RawConn) error) error {
 	if ctrlFn != nil {
-		c, err := newRawConn(fd)
-		if err != nil {
-			return err
-		}
+		c := try(newRawConn(fd))
 		var ctrlAddr string
 		if raddr != nil {
 			ctrlAddr = raddr.String()
 		} else if laddr != nil {
 			ctrlAddr = laddr.String()
 		}
-		if err := ctrlFn(fd.ctrlNetwork(), ctrlAddr, c); err != nil {
-			return err
-		}
+		try(ctrlFn(fd.ctrlNetwork(), ctrlAddr, c))
 	}
 	var err error
 	var lsa syscall.Sockaddr
@@ -143,17 +135,11 @@ func (fd *netFD) dial(ctx context.Context, laddr, raddr sockaddr, ctrlFn func(st
 	var rsa syscall.Sockaddr  // remote address from the user
 	var crsa syscall.Sockaddr // remote address we actually connected to
 	if raddr != nil {
-		if rsa, err = raddr.sockaddr(fd.family); err != nil {
-			return err
-		}
-		if crsa, err = fd.connect(ctx, lsa, rsa); err != nil {
-			return err
-		}
+		rsa = try(raddr.sockaddr(fd.family))
+		crsa = try(fd.connect(ctx, lsa, rsa))
 		fd.isConnected = true
 	} else {
-		if err := fd.init(); err != nil {
-			return err
-		}
+		try(fd.init())
 	}
 	// Record the local and remote addresses from the actual socket.
 	// Get the local address by calling Getsockname.
@@ -174,21 +160,12 @@ func (fd *netFD) dial(ctx context.Context, laddr, raddr sockaddr, ctrlFn func(st
 
 func (fd *netFD) listenStream(laddr sockaddr, backlog int, ctrlFn func(string, string, syscall.RawConn) error) error {
 	var err error
-	if err = setDefaultListenerSockopts(fd.pfd.Sysfd); err != nil {
-		return err
-	}
+	try(setDefaultListenerSockopts(fd.pfd.Sysfd))
 	var lsa syscall.Sockaddr
-	if lsa, err = laddr.sockaddr(fd.family); err != nil {
-		return err
-	}
+	lsa = try(laddr.sockaddr(fd.family))
 	if ctrlFn != nil {
-		c, err := newRawConn(fd)
-		if err != nil {
-			return err
-		}
-		if err := ctrlFn(fd.ctrlNetwork(), laddr.String(), c); err != nil {
-			return err
-		}
+		c := try(newRawConn(fd))
+		try(ctrlFn(fd.ctrlNetwork(), laddr.String(), c))
 	}
 	if err = syscall.Bind(fd.pfd.Sysfd, lsa); err != nil {
 		return os.NewSyscallError("bind", err)
@@ -196,9 +173,7 @@ func (fd *netFD) listenStream(laddr sockaddr, backlog int, ctrlFn func(string, s
 	if err = listenFunc(fd.pfd.Sysfd, backlog); err != nil {
 		return os.NewSyscallError("listen", err)
 	}
-	if err = fd.init(); err != nil {
-		return err
-	}
+	try(fd.init())
 	lsa, _ = syscall.Getsockname(fd.pfd.Sysfd)
 	fd.setAddr(fd.addrFunc()(lsa), nil)
 	return nil
@@ -230,24 +205,15 @@ func (fd *netFD) listenDatagram(laddr sockaddr, ctrlFn func(string, string, sysc
 	}
 	var err error
 	var lsa syscall.Sockaddr
-	if lsa, err = laddr.sockaddr(fd.family); err != nil {
-		return err
-	}
+	lsa = try(laddr.sockaddr(fd.family))
 	if ctrlFn != nil {
-		c, err := newRawConn(fd)
-		if err != nil {
-			return err
-		}
-		if err := ctrlFn(fd.ctrlNetwork(), laddr.String(), c); err != nil {
-			return err
-		}
+		c := try(newRawConn(fd))
+		try(ctrlFn(fd.ctrlNetwork(), laddr.String(), c))
 	}
 	if err = syscall.Bind(fd.pfd.Sysfd, lsa); err != nil {
 		return os.NewSyscallError("bind", err)
 	}
-	if err = fd.init(); err != nil {
-		return err
-	}
+	try(fd.init())
 	lsa, _ = syscall.Getsockname(fd.pfd.Sysfd)
 	fd.setAddr(fd.addrFunc()(lsa), nil)
 	return nil

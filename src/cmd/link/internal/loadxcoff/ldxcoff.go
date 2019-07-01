@@ -31,10 +31,7 @@ func (f *xcoffBiobuf) ReadAt(p []byte, off int64) (int, error) {
 	if ret < 0 {
 		return 0, errors.New("fail to seek")
 	}
-	n, err := f.Read(p)
-	if err != nil {
-		return 0, err
-	}
+	n := try(f.Read(p))
 	return n, nil
 }
 
@@ -48,10 +45,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, input *bio.Reader, pkg string, leng
 
 	var ldSections []*ldSection
 
-	f, err := xcoff.NewFile((*xcoffBiobuf)(input))
-	if err != nil {
-		return nil, err
-	}
+	f := try(xcoff.NewFile((*xcoffBiobuf)(input)))
 	defer f.Close()
 
 	for _, sect := range f.Sections {
@@ -77,10 +71,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, input *bio.Reader, pkg string, leng
 
 		s.Size = int64(lds.Size)
 		if s.Type != sym.SNOPTRBSS {
-			data, err := lds.Section.Data()
-			if err != nil {
-				return nil, err
-			}
+			data := try(lds.Section.Data())
 			s.P = data
 		}
 

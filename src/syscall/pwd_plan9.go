@@ -50,10 +50,7 @@ func fixwd(paths ...string) {
 
 // goroutine-specific getwd
 func getwd() (wd string, err error) {
-	fd, err := open(".", O_RDONLY)
-	if err != nil {
-		return "", err
-	}
+	fd := try(open(".", O_RDONLY))
 	defer Close(fd)
 	return Fd2path(fd)
 }
@@ -65,10 +62,7 @@ func Getwd() (wd string, err error) {
 	if wdSet {
 		return wdStr, nil
 	}
-	wd, err = getwd()
-	if err != nil {
-		return
-	}
+	wd = try(getwd())
 	wdSet = true
 	wdStr = wd
 	return wd, nil
@@ -79,14 +73,9 @@ func Chdir(path string) error {
 	wdmu.Lock()
 	defer wdmu.Unlock()
 
-	if err := chdir(path); err != nil {
-		return err
-	}
+	try(chdir(path))
 
-	wd, err := getwd()
-	if err != nil {
-		return err
-	}
+	wd := try(getwd())
 	wdSet = true
 	wdStr = wd
 	return nil

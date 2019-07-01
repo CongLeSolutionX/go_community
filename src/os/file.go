@@ -106,9 +106,7 @@ func (e *LinkError) Unwrap() error {
 // It returns the number of bytes read and any error encountered.
 // At end of file, Read returns 0, io.EOF.
 func (f *File) Read(b []byte) (n int, err error) {
-	if err := f.checkValid("read"); err != nil {
-		return 0, err
-	}
+	try(f.checkValid("read"))
 	n, e := f.read(b)
 	return n, f.wrapErr("read", e)
 }
@@ -118,9 +116,7 @@ func (f *File) Read(b []byte) (n int, err error) {
 // ReadAt always returns a non-nil error when n < len(b).
 // At end of file, that error is io.EOF.
 func (f *File) ReadAt(b []byte, off int64) (n int, err error) {
-	if err := f.checkValid("read"); err != nil {
-		return 0, err
-	}
+	try(f.checkValid("read"))
 
 	if off < 0 {
 		return 0, &PathError{"readat", f.name, errors.New("negative offset")}
@@ -143,9 +139,7 @@ func (f *File) ReadAt(b []byte, off int64) (n int, err error) {
 // It returns the number of bytes written and an error, if any.
 // Write returns a non-nil error when n != len(b).
 func (f *File) Write(b []byte) (n int, err error) {
-	if err := f.checkValid("write"); err != nil {
-		return 0, err
-	}
+	try(f.checkValid("write"))
 	n, e := f.write(b)
 	if n < 0 {
 		n = 0
@@ -171,9 +165,7 @@ var errWriteAtInAppendMode = errors.New("os: invalid use of WriteAt on file open
 //
 // If file was opened with the O_APPEND flag, WriteAt returns an error.
 func (f *File) WriteAt(b []byte, off int64) (n int, err error) {
-	if err := f.checkValid("write"); err != nil {
-		return 0, err
-	}
+	try(f.checkValid("write"))
 	if f.appendMode {
 		return 0, errWriteAtInAppendMode
 	}
@@ -201,9 +193,7 @@ func (f *File) WriteAt(b []byte, off int64) (n int, err error) {
 // It returns the new offset and an error, if any.
 // The behavior of Seek on a file opened with O_APPEND is not specified.
 func (f *File) Seek(offset int64, whence int) (ret int64, err error) {
-	if err := f.checkValid("seek"); err != nil {
-		return 0, err
-	}
+	try(f.checkValid("seek"))
 	r, e := f.seek(offset, whence)
 	if e == nil && f.dirinfo != nil && r != 0 {
 		e = syscall.EISDIR
@@ -245,10 +235,7 @@ func Mkdir(name string, perm FileMode) error {
 
 // setStickyBit adds ModeSticky to the permision bits of path, non atomic.
 func setStickyBit(name string) error {
-	fi, err := Stat(name)
-	if err != nil {
-		return err
-	}
+	fi := try(Stat(name))
 	return Chmod(name, fi.Mode()|ModeSticky)
 }
 
@@ -293,10 +280,7 @@ func Create(name string) (*File, error) {
 // If there is an error, it will be of type *PathError.
 func OpenFile(name string, flag int, perm FileMode) (*File, error) {
 	testlog.Open(name)
-	f, err := openFileNolog(name, flag, perm)
-	if err != nil {
-		return nil, err
-	}
+	f := try(openFileNolog(name, flag, perm))
 	f.appendMode = flag&O_APPEND != 0
 
 	return f, nil
@@ -551,8 +535,6 @@ func (f *File) SetWriteDeadline(t time.Time) error {
 // SyscallConn returns a raw file.
 // This implements the syscall.Conn interface.
 func (f *File) SyscallConn() (syscall.RawConn, error) {
-	if err := f.checkValid("SyscallConn"); err != nil {
-		return nil, err
-	}
+	try(f.checkValid("SyscallConn"))
 	return newRawConn(f)
 }

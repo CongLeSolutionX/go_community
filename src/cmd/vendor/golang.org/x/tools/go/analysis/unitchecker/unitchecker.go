@@ -164,10 +164,7 @@ func Run(configFile string, analyzers []*analysis.Analyzer) {
 }
 
 func readConfig(filename string) (*Config, error) {
-	data, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
+	data := try(ioutil.ReadFile(filename))
 	cfg := new(Config)
 	if err := json.Unmarshal(data, cfg); err != nil {
 		return nil, fmt.Errorf("cannot decode JSON config file %s: %v", filename, err)
@@ -289,10 +286,7 @@ func run(fset *token.FileSet, cfg *Config, analyzers []*analysis.Analyzer) ([]re
 		}
 		return nil, nil // no .vetx file, no facts
 	}
-	facts, err := facts.Decode(pkg, read)
-	if err != nil {
-		return nil, err
-	}
+	facts := try(facts.Decode(pkg, read))
 
 	// In parallel, execute the DAG of analyzers.
 	var exec func(a *analysis.Analyzer) *action

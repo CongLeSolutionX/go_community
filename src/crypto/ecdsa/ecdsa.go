@@ -73,10 +73,7 @@ func (priv *PrivateKey) Public() crypto.PublicKey {
 // where the private part is kept in, for example, a hardware module. Common
 // uses should use the Sign function in this package directly.
 func (priv *PrivateKey) Sign(rand io.Reader, digest []byte, opts crypto.SignerOpts) ([]byte, error) {
-	r, s, err := Sign(rand, priv, digest)
-	if err != nil {
-		return nil, err
-	}
+	r, s := try(Sign(rand, priv, digest))
 
 	return asn1.Marshal(ecdsaSignature{r, s})
 }
@@ -88,10 +85,7 @@ var one = new(big.Int).SetInt64(1)
 func randFieldElement(c elliptic.Curve, rand io.Reader) (k *big.Int, err error) {
 	params := c.Params()
 	b := make([]byte, params.BitSize/8+8)
-	_, err = io.ReadFull(rand, b)
-	if err != nil {
-		return
-	}
+	try(io.ReadFull(rand, b))
 
 	k = new(big.Int).SetBytes(b)
 	n := new(big.Int).Sub(params.N, one)
@@ -102,10 +96,7 @@ func randFieldElement(c elliptic.Curve, rand io.Reader) (k *big.Int, err error) 
 
 // GenerateKey generates a public and private key pair.
 func GenerateKey(c elliptic.Curve, rand io.Reader) (*PrivateKey, error) {
-	k, err := randFieldElement(c, rand)
-	if err != nil {
-		return nil, err
-	}
+	k := try(randFieldElement(c, rand))
 
 	priv := new(PrivateKey)
 	priv.PublicKey.Curve = c
@@ -161,10 +152,7 @@ func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err err
 		entropylen = 32
 	}
 	entropy := make([]byte, entropylen)
-	_, err = io.ReadFull(rand, entropy)
-	if err != nil {
-		return
-	}
+	try(io.ReadFull(rand, entropy))
 
 	// Initialize an SHA-512 hash context; digest ...
 	md := sha512.New()
@@ -175,10 +163,7 @@ func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err err
 	// which is an indifferentiable MAC.
 
 	// Create an AES-CTR instance to use as a CSPRNG.
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, nil, err
-	}
+	block := try(aes.NewCipher(key))
 
 	// Create a CSPRNG that xors a stream of zeros with
 	// the output of the AES-CTR instance.

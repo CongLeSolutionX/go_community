@@ -712,17 +712,11 @@ func buildTypeInfo(ut *userTypeInfo, rt reflect.Type) (*typeInfo, error) {
 		return info, nil
 	}
 
-	gt, err := getBaseType(rt.Name(), rt)
-	if err != nil {
-		return nil, err
-	}
+	gt := try(getBaseType(rt.Name(), rt))
 	info := &typeInfo{id: gt.id()}
 
 	if ut.externalEnc != 0 {
-		userType, err := getType(rt.Name(), ut, rt)
-		if err != nil {
-			return nil, err
-		}
+		userType := try(getType(rt.Name(), ut, rt))
 		gt := userType.id().gobType().(*gobEncoderType)
 		switch ut.externalEnc {
 		case xGob:

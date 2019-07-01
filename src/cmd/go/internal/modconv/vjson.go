@@ -18,9 +18,7 @@ func ParseVendorJSON(file string, data []byte) (*modfile.File, error) {
 			Revision string
 		}
 	}
-	if err := json.Unmarshal(data, &cfg); err != nil {
-		return nil, err
-	}
+	try(json.Unmarshal(data, &cfg))
 	mf := new(modfile.File)
 	for _, d := range cfg.Package {
 		mf.Require = append(mf.Require, &modfile.Require{Mod: module.Version{Path: d.Path, Version: d.Revision}})

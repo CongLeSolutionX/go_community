@@ -30,19 +30,11 @@ func Unzip(dir, zipfile, prefix string, maxSize int64) error {
 	if len(files) > 0 {
 		return fmt.Errorf("target directory %v exists and is not empty", dir)
 	}
-	if err := os.MkdirAll(dir, 0777); err != nil {
-		return err
-	}
+	try(os.MkdirAll(dir, 0777))
 
-	f, err := os.Open(zipfile)
-	if err != nil {
-		return err
-	}
+	f := try(os.Open(zipfile))
 	defer f.Close()
-	info, err := f.Stat()
-	if err != nil {
-		return err
-	}
+	info := try(f.Stat())
 
 	z, err := zip.NewReader(f, info.Size())
 	if err != nil {
@@ -83,9 +75,7 @@ func Unzip(dir, zipfile, prefix string, maxSize int64) error {
 		if err := module.CheckFilePath(name); err != nil {
 			return fmt.Errorf("unzip %v: %v", zipfile, err)
 		}
-		if err := checkFold(name); err != nil {
-			return err
-		}
+		try(checkFold(name))
 		if path.Clean(zf.Name) != zf.Name || strings.HasPrefix(zf.Name[len(prefix)+1:], "/") {
 			return fmt.Errorf("unzip %v: invalid file name %s", zipfile, zf.Name)
 		}
@@ -103,9 +93,7 @@ func Unzip(dir, zipfile, prefix string, maxSize int64) error {
 		}
 		name := zf.Name[len(prefix):]
 		dst := filepath.Join(dir, name)
-		if err := os.MkdirAll(filepath.Dir(dst), 0777); err != nil {
-			return err
-		}
+		try(os.MkdirAll(filepath.Dir(dst), 0777))
 		w, err := os.OpenFile(dst, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0444)
 		if err != nil {
 			return fmt.Errorf("unzip %v: %v", zipfile, err)

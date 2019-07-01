@@ -411,10 +411,7 @@ func downloadPackage(p *load.Package) error {
 
 	if p.Internal.Build.SrcRoot != "" {
 		// Directory exists. Look for checkout along path to src.
-		vcs, rootPath, err = vcsFromDir(p.Dir, p.Internal.Build.SrcRoot)
-		if err != nil {
-			return err
-		}
+		vcs, rootPath = try(vcsFromDir(p.Dir, p.Internal.Build.SrcRoot))
 		repo = "<local>" // should be unused; make distinctive
 
 		// Double-check where it came from.
@@ -445,10 +442,7 @@ func downloadPackage(p *load.Package) error {
 	} else {
 		// Analyze the import path to determine the version control system,
 		// repository, and the import path for the root of the repository.
-		rr, err := RepoRootForImportPath(importPrefix, IgnoreMod, security)
-		if err != nil {
-			return err
-		}
+		rr := try(RepoRootForImportPath(importPrefix, IgnoreMod, security))
 		vcs, repo, rootPath = rr.vcs, rr.Repo, rr.Root
 	}
 	if !blindRepo && !vcs.isSecure(repo) && !Insecure {
@@ -474,9 +468,7 @@ func downloadPackage(p *load.Package) error {
 	}
 	root := filepath.Join(p.Internal.Build.SrcRoot, filepath.FromSlash(rootPath))
 
-	if err := checkNestedVCS(vcs, root, p.Internal.Build.SrcRoot); err != nil {
-		return err
-	}
+	try(checkNestedVCS(vcs, root, p.Internal.Build.SrcRoot))
 
 	// If we've considered this repository already, don't do it again.
 	if downloadRootCache[root] {
@@ -504,21 +496,15 @@ func downloadPackage(p *load.Package) error {
 
 		// Some version control tools require the parent of the target to exist.
 		parent, _ := filepath.Split(root)
-		if err = os.MkdirAll(parent, 0777); err != nil {
-			return err
-		}
+		try(os.MkdirAll(parent, 0777))
 		if cfg.BuildV && !gopathExisted && p.Internal.Build.Root == cfg.BuildContext.GOPATH {
 			fmt.Fprintf(os.Stderr, "created GOPATH=%s; see 'go help gopath'\n", p.Internal.Build.Root)
 		}
 
-		if err = vcs.create(root, repo); err != nil {
-			return err
-		}
+		try(vcs.create(root, repo))
 	} else {
 		// Metadata directory does exist; download incremental updates.
-		if err = vcs.download(root); err != nil {
-			return err
-		}
+		try(vcs.download(root))
 	}
 
 	if cfg.BuildN {
@@ -530,17 +516,12 @@ func downloadPackage(p *load.Package) error {
 	}
 
 	// Select and sync to appropriate version of the repository.
-	tags, err := vcs.tags(root)
-	if err != nil {
-		return err
-	}
+	tags := try(vcs.tags(root))
 	vers := runtime.Version()
 	if i := strings.Index(vers, " "); i >= 0 {
 		vers = vers[:i]
 	}
-	if err := vcs.tagSync(root, selectTag(vers, tags)); err != nil {
-		return err
-	}
+	try(vcs.tagSync(root, selectTag(vers, tags)))
 
 	return nil
 }

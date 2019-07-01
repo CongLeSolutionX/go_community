@@ -75,9 +75,7 @@ func (w *Writer) SetComment(comment string) error {
 // It does not close the underlying writer.
 func (w *Writer) Close() error {
 	if w.last != nil && !w.last.closed {
-		if err := w.last.close(); err != nil {
-			return err
-		}
+		try(w.last.close())
 		w.last = nil
 	}
 	if w.closed {
@@ -129,18 +127,10 @@ func (w *Writer) Close() error {
 		} else {
 			b.uint32(uint32(h.offset))
 		}
-		if _, err := w.cw.Write(buf[:]); err != nil {
-			return err
-		}
-		if _, err := io.WriteString(w.cw, h.Name); err != nil {
-			return err
-		}
-		if _, err := w.cw.Write(h.Extra); err != nil {
-			return err
-		}
-		if _, err := io.WriteString(w.cw, h.Comment); err != nil {
-			return err
-		}
+		try(w.cw.Write(buf[:]))
+		try(io.WriteString(w.cw, h.Name))
+		try(w.cw.Write(h.Extra))
+		try(io.WriteString(w.cw, h.Comment))
 	}
 	end := w.cw.count
 
@@ -174,9 +164,7 @@ func (w *Writer) Close() error {
 		b.uint64(uint64(end)) // relative offset of the zip64 end of central directory record
 		b.uint32(1)           // total number of disks
 
-		if _, err := w.cw.Write(buf[:]); err != nil {
-			return err
-		}
+		try(w.cw.Write(buf[:]))
 
 		// store max values in the regular end record to signal
 		// that the zip64 values should be used instead
@@ -195,12 +183,8 @@ func (w *Writer) Close() error {
 	b.uint32(uint32(size))           // size of directory
 	b.uint32(uint32(offset))         // start of directory
 	b.uint16(uint16(len(w.comment))) // byte size of EOCD comment
-	if _, err := w.cw.Write(buf[:]); err != nil {
-		return err
-	}
-	if _, err := io.WriteString(w.cw, w.comment); err != nil {
-		return err
-	}
+	try(w.cw.Write(buf[:]))
+	try(io.WriteString(w.cw, w.comment))
 
 	return w.cw.w.(*bufio.Writer).Flush()
 }
@@ -254,9 +238,7 @@ func detectUTF8(s string) (valid, require bool) {
 // call to Create, CreateHeader, or Close.
 func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 	if w.last != nil && !w.last.closed {
-		if err := w.last.close(); err != nil {
-			return nil, err
-		}
+		try(w.last.close())
 	}
 	if len(w.dir) > 0 && w.dir[len(w.dir)-1].FileHeader == fh {
 		// See https://golang.org/issue/11144 confusion.
@@ -356,18 +338,13 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 			return nil, ErrAlgorithm
 		}
 		var err error
-		fw.comp, err = comp(fw.compCount)
-		if err != nil {
-			return nil, err
-		}
+		fw.comp = try(comp(fw.compCount))
 		fw.rawCount = &countWriter{w: fw.comp}
 		fw.header = h
 		ow = fw
 	}
 	w.dir = append(w.dir, h)
-	if err := writeHeader(w.cw, fh); err != nil {
-		return nil, err
-	}
+	try(writeHeader(w.cw, fh))
 	// If we're creating a directory, fw is nil.
 	w.last = fw
 	return ow, nil
@@ -395,12 +372,8 @@ func writeHeader(w io.Writer, h *FileHeader) error {
 	b.uint32(0) // and uncompressed size should be zero
 	b.uint16(uint16(len(h.Name)))
 	b.uint16(uint16(len(h.Extra)))
-	if _, err := w.Write(buf[:]); err != nil {
-		return err
-	}
-	if _, err := io.WriteString(w, h.Name); err != nil {
-		return err
-	}
+	try(w.Write(buf[:]))
+	try(io.WriteString(w, h.Name))
 	_, err := w.Write(h.Extra)
 	return err
 }
@@ -455,9 +428,7 @@ func (w *fileWriter) close() error {
 		return errors.New("zip: file closed twice")
 	}
 	w.closed = true
-	if err := w.comp.Close(); err != nil {
-		return err
-	}
+	try(w.comp.Close())
 
 	// update FileHeader
 	fh := w.header.FileHeader

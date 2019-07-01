@@ -54,15 +54,9 @@ func (s *TestServer) Signed(ctx context.Context) ([]byte, error) {
 	defer s.mu.Unlock()
 
 	size := int64(len(s.records))
-	h, err := tlog.TreeHash(size, s.hashes)
-	if err != nil {
-		return nil, err
-	}
+	h := try(tlog.TreeHash(size, s.hashes))
 	text := tlog.FormatTree(tlog.Tree{N: size, Hash: h})
-	signer, err := note.NewSigner(s.signer)
-	if err != nil {
-		return nil, err
-	}
+	signer := try(note.NewSigner(s.signer))
 	return note.Sign(&note.Note{Text: string(text)}, signer)
 }
 
@@ -94,10 +88,7 @@ func (s *TestServer) Lookup(ctx context.Context, key string) (int64, error) {
 		return 0, fmt.Errorf("invalid lookup key %q", key)
 	}
 	path, vers := key[:i], key[i+1:]
-	data, err := s.gosum(path, vers)
-	if err != nil {
-		return 0, err
-	}
+	data := try(s.gosum(path, vers))
 
 	s.mu.Lock()
 	defer s.mu.Unlock()

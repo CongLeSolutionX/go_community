@@ -41,20 +41,11 @@ type Disasm struct {
 
 // Disasm returns a disassembler for the file f.
 func (e *Entry) Disasm() (*Disasm, error) {
-	syms, err := e.Symbols()
-	if err != nil {
-		return nil, err
-	}
+	syms := try(e.Symbols())
 
-	pcln, err := e.PCLineTable()
-	if err != nil {
-		return nil, err
-	}
+	pcln := try(e.PCLineTable())
 
-	textStart, textBytes, err := e.Text()
-	if err != nil {
-		return nil, err
-	}
+	textStart, textBytes := try(e.Text())
 
 	goarch := e.GOARCH()
 	disasm := disasms[goarch]
@@ -157,10 +148,7 @@ func (fc *FileCache) Line(filename string, line int) ([]byte, error) {
 	}
 
 	if e == nil {
-		content, err := ioutil.ReadFile(filename)
-		if err != nil {
-			return nil, err
-		}
+		content := try(ioutil.ReadFile(filename))
 
 		cf = &CachedFile{
 			FileName: filename,

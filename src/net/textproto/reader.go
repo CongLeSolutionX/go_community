@@ -54,10 +54,7 @@ func (r *Reader) readLineSlice() ([]byte, error) {
 	r.closeDot()
 	var line []byte
 	for {
-		l, more, err := r.R.ReadLine()
-		if err != nil {
-			return nil, err
-		}
+		l, more := try(r.R.ReadLine())
 		// Avoid the copy if the first call produced a full line.
 		if line == nil && !more {
 			return l, nil
@@ -122,10 +119,7 @@ func (r *Reader) ReadContinuedLineBytes() ([]byte, error) {
 
 func (r *Reader) readContinuedLineSlice() ([]byte, error) {
 	// Read the first line.
-	line, err := r.readLineSlice()
-	if err != nil {
-		return nil, err
-	}
+	line := try(r.readLineSlice())
 	if len(line) == 0 { // blank line - no continuation
 		return line, nil
 	}
@@ -177,10 +171,7 @@ func (r *Reader) skipSpace() int {
 }
 
 func (r *Reader) readCodeLine(expectCode int) (code int, continued bool, message string, err error) {
-	line, err := r.ReadLine()
-	if err != nil {
-		return
-	}
+	line := try(r.ReadLine())
 	return parseCodeLine(line, expectCode)
 }
 
@@ -258,10 +249,7 @@ func (r *Reader) ReadResponse(expectCode int) (code int, message string, err err
 	code, continued, message, err := r.readCodeLine(expectCode)
 	multi := continued
 	for continued {
-		line, err := r.ReadLine()
-		if err != nil {
-			return 0, "", err
-		}
+		line := try(r.ReadLine())
 
 		var code2 int
 		var moreMessage string

@@ -57,10 +57,7 @@ func (fs dotFileHidingFileSystem) Open(name string) (http.File, error) {
 		return nil, os.ErrPermission
 	}
 
-	file, err := fs.FileSystem.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	file := try(fs.FileSystem.Open(name))
 	return dotFileHidingFile{file}, err
 }
 

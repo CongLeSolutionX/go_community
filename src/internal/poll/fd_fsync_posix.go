@@ -10,9 +10,7 @@ import "syscall"
 
 // Fsync wraps syscall.Fsync.
 func (fd *FD) Fsync() error {
-	if err := fd.incref(); err != nil {
-		return err
-	}
+	try(fd.incref())
 	defer fd.decref()
 	return syscall.Fsync(fd.Sysfd)
 }

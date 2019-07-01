@@ -36,10 +36,7 @@ func applyFocus(prof *profile.Profile, numLabelUnits map[string]string, v variab
 	showfrom, err := compileRegexOption("show_from", v["show_from"].value, err)
 	tagfocus, err := compileTagFilter("tagfocus", v["tagfocus"].value, numLabelUnits, ui, err)
 	tagignore, err := compileTagFilter("tagignore", v["tagignore"].value, numLabelUnits, ui, err)
-	prunefrom, err := compileRegexOption("prune_from", v["prune_from"].value, err)
-	if err != nil {
-		return err
-	}
+	prunefrom := try(compileRegexOption("prune_from", v["prune_from"].value, err))
 
 	fm, im, hm, hnm := prof.FilterSamplesByName(focus, ignore, hide, show)
 	warnNoMatches(focus == nil || fm, "Focus", ui)

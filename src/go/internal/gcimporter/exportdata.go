@@ -17,10 +17,7 @@ import (
 func readGopackHeader(r *bufio.Reader) (name string, size int, err error) {
 	// See $GOROOT/include/ar.h.
 	hdr := make([]byte, 16+12+6+6+8+10+2)
-	_, err = io.ReadFull(r, hdr)
-	if err != nil {
-		return
-	}
+	try(io.ReadFull(r, hdr))
 	// leave for debugging
 	if false {
 		fmt.Printf("header: %s", hdr)
@@ -52,9 +49,7 @@ func FindExportData(r *bufio.Reader) (hdr string, err error) {
 	if string(line) == "!<arch>\n" {
 		// Archive file. Scan to __.PKGDEF.
 		var name string
-		if name, _, err = readGopackHeader(r); err != nil {
-			return
-		}
+		name, _ = try(readGopackHeader(r))
 
 		// First entry should be __.PKGDEF.
 		if name != "__.PKGDEF" {

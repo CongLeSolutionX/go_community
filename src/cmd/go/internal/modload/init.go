@@ -518,9 +518,7 @@ func findAltConfig(dir string) (root, name string) {
 func findModulePath(dir string) (string, error) {
 	if CmdModModule != "" {
 		// Running go mod init x/y/z; return x/y/z.
-		if err := module.CheckImportPath(CmdModModule); err != nil {
-			return "", err
-		}
+		try(module.CheckImportPath(CmdModModule))
 		return CmdModModule, nil
 	}
 
@@ -750,9 +748,6 @@ func fixVersion(path, vers string) (string, error) {
 		}
 	}
 
-	info, err := Query(path, vers, "", nil)
-	if err != nil {
-		return "", err
-	}
+	info := try(Query(path, vers, "", nil))
 	return info.Version, nil
 }

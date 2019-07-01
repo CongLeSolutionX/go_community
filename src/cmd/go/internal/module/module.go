@@ -102,9 +102,7 @@ func (e *InvalidVersionError) Unwrap() error { return e.Err }
 // For example, the path "yaml/v2" only corresponds to
 // semantic versions beginning with "v2.".
 func Check(path, version string) error {
-	if err := CheckPath(path); err != nil {
-		return err
-	}
+	try(CheckPath(path))
 	if !semver.IsValid(version) {
 		return &ModuleError{
 			Path: path,
@@ -236,15 +234,11 @@ func checkPath(path string, fileName bool) error {
 	elemStart := 0
 	for i, r := range path {
 		if r == '/' {
-			if err := checkElem(path[elemStart:i], fileName); err != nil {
-				return err
-			}
+			try(checkElem(path[elemStart:i], fileName))
 			elemStart = i + 1
 		}
 	}
-	if err := checkElem(path[elemStart:], fileName); err != nil {
-		return err
-	}
+	try(checkElem(path[elemStart:], fileName))
 	return nil
 }
 
@@ -524,9 +518,7 @@ func Sort(list []Version) {
 // EncodePath returns the safe encoding of the given module path.
 // It fails if the module path is invalid.
 func EncodePath(path string) (encoding string, err error) {
-	if err := CheckPath(path); err != nil {
-		return "", err
-	}
+	try(CheckPath(path))
 
 	return encodeString(path)
 }

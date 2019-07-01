@@ -61,10 +61,7 @@ func (c ccChecker) CheckNamedValue(nv *driver.NamedValue) error {
 	// itself to a driver type. For example, a NullString
 	// struct changing into a string or nil.
 	if vr, ok := nv.Value.(driver.Valuer); ok {
-		sv, err := callValuerValue(vr)
-		if err != nil {
-			return err
-		}
+		sv := try(callValuerValue(vr))
 		if !driver.IsValue(sv) {
 			return fmt.Errorf("non-subset type %T returned from Value", sv)
 		}
@@ -80,10 +77,7 @@ func (c ccChecker) CheckNamedValue(nv *driver.NamedValue) error {
 	// same error.
 	var err error
 	arg := nv.Value
-	nv.Value, err = c.cci.ColumnConverter(index).ConvertValue(arg)
-	if err != nil {
-		return err
-	}
+	nv.Value = try(c.cci.ColumnConverter(index).ConvertValue(arg))
 	if !driver.IsValue(nv.Value) {
 		return fmt.Errorf("driver ColumnConverter error converted %T to unsupported type %T", arg, nv.Value)
 	}
@@ -143,9 +137,7 @@ func driverArgsConnLocked(ci driver.Conn, ds *driverStmt, args []interface{}) ([
 	for _, arg := range args {
 		nv := &nvargs[n]
 		if np, ok := arg.(NamedArg); ok {
-			if err = validateNamedValueName(np.Name); err != nil {
-				return nil, err
-			}
+			try(validateNamedValueName(np.Name))
 			arg = np.Value
 			nv.Name = np.Name
 		}

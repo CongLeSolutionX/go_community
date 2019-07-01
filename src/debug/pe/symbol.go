@@ -70,10 +70,7 @@ func removeAuxSymbols(allsyms []COFFSymbol, st StringTable) ([]*Symbol, error) {
 			aux--
 			continue
 		}
-		name, err := sym.FullName(st)
-		if err != nil {
-			return nil, err
-		}
+		name := try(sym.FullName(st))
 		aux = sym.NumberOfAuxSymbols
 		s := &Symbol{
 			Name:          name,

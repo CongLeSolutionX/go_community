@@ -569,10 +569,7 @@ func (t *Transport) roundTrip(req *Request) (*Response, error) {
 		if req.GetBody != nil {
 			newReq := *req
 			var err error
-			newReq.Body, err = req.GetBody()
-			if err != nil {
-				return nil, err
-			}
+			newReq.Body = try(req.GetBody())
 			req = &newReq
 		}
 	}
@@ -1412,9 +1409,7 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 	}
 
 	if cm.proxyURL != nil && cm.targetScheme == "https" {
-		if err := pconn.addTLS(cm.tlsHost(), trace); err != nil {
-			return nil, err
-		}
+		try(pconn.addTLS(cm.tlsHost(), trace))
 	}
 
 	if s := pconn.tlsState; s != nil && s.NegotiatedProtocolIsMutual && s.NegotiatedProtocol != "" {
@@ -1689,9 +1684,7 @@ func (pc *persistConn) mapRoundTripError(req *transportRequest, startBytesWritte
 	// If the request was canceled, that's better than network
 	// failures that were likely the result of tearing down the
 	// connection.
-	if cerr := pc.canceled(); cerr != nil {
-		return cerr
-	}
+	try(pc.canceled())
 
 	// See if an error was set explicitly.
 	req.mu.Lock()
@@ -1954,10 +1947,7 @@ func (pc *persistConn) readResponse(rc requestAndChan, trace *httptrace.ClientTr
 
 	continueCh := rc.continueCh
 	for {
-		resp, err = ReadResponse(pc.br, rc.req)
-		if err != nil {
-			return
-		}
+		resp = try(ReadResponse(pc.br, rc.req))
 		resCode := resp.StatusCode
 		if continueCh != nil {
 			if resCode == 100 {
@@ -1981,9 +1971,7 @@ func (pc *persistConn) readResponse(rc requestAndChan, trace *httptrace.ClientTr
 			}
 			pc.readLimit = pc.maxHeaderResponseSize() // reset the limit
 			if trace != nil && trace.Got1xxResponse != nil {
-				if err := trace.Got1xxResponse(resCode, textproto.MIMEHeader(resp.Header)); err != nil {
-					return nil, err
-				}
+				try(trace.Got1xxResponse(resCode, textproto.MIMEHeader(resp.Header)))
 			}
 			continue
 		}

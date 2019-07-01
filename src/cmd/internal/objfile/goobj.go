@@ -23,10 +23,7 @@ type goobjFile struct {
 }
 
 func openGoFile(r *os.File) (*File, error) {
-	f, err := goobj.Parse(r, `""`)
-	if err != nil {
-		return nil, err
-	}
+	f := try(goobj.Parse(r, `""`))
 	rf := &goobjFile{goobj: f, f: r}
 	if len(f.Native) == 0 {
 		return &File{r, []*Entry{&Entry{raw: rf}}}, nil
@@ -199,10 +196,7 @@ func readvarint(p *[]byte) uint32 {
 // We treat the whole object file as the text section.
 func (f *goobjFile) text() (textStart uint64, text []byte, err error) {
 	var info os.FileInfo
-	info, err = f.f.Stat()
-	if err != nil {
-		return
-	}
+	info = try(f.f.Stat())
 	text = make([]byte, info.Size())
 	_, err = f.f.ReadAt(text, 0)
 	return

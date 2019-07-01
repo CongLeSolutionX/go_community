@@ -53,10 +53,7 @@ func (c *Certificate) systemVerify(opts *VerifyOptions) (chains [][]*Certificate
 //    whole process takes about 180 milliseconds with 1 untrusted root
 //    CA. (Compared to 110ms in the cgo path)
 func execSecurityRoots() (*CertPool, error) {
-	hasPolicy, err := getCertsWithTrustPolicy()
-	if err != nil {
-		return nil, err
-	}
+	hasPolicy := try(getCertsWithTrustPolicy())
 	if debugDarwinRoots {
 		fmt.Fprintf(os.Stderr, "crypto/x509: %d certs have a trust policy\n", len(hasPolicy))
 	}
@@ -157,10 +154,7 @@ func execSecurityRoots() (*CertPool, error) {
 func forEachCertInKeychains(paths []string, f func(*Certificate)) error {
 	args := append([]string{"find-certificate", "-a", "-p"}, paths...)
 	cmd := exec.Command("/usr/bin/security", args...)
-	data, err := cmd.Output()
-	if err != nil {
-		return err
-	}
+	data := try(cmd.Output())
 	for len(data) > 0 {
 		var block *pem.Block
 		block, data = pem.Decode(data)
@@ -223,10 +217,7 @@ func verifyCertWithSystem(cert *Certificate) bool {
 // settings. This code is only used for cgo-disabled builds.
 func getCertsWithTrustPolicy() (map[string]bool, error) {
 	set := map[string]bool{}
-	td, err := ioutil.TempDir("", "x509trustpolicy")
-	if err != nil {
-		return nil, err
-	}
+	td := try(ioutil.TempDir("", "x509trustpolicy"))
 	defer os.RemoveAll(td)
 	run := func(file string, args ...string) error {
 		file = filepath.Join(td, file)

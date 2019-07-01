@@ -74,19 +74,12 @@ func newLLVMSymbolizer(cmd, file string, base uint64) (*llvmSymbolizer, error) {
 	}
 
 	var err error
-	if j.in, err = j.cmd.StdinPipe(); err != nil {
-		return nil, err
-	}
+	j.in = try(j.cmd.StdinPipe())
 
-	outPipe, err := j.cmd.StdoutPipe()
-	if err != nil {
-		return nil, err
-	}
+	outPipe := try(j.cmd.StdoutPipe())
 
 	j.out = bufio.NewReader(outPipe)
-	if err := j.cmd.Start(); err != nil {
-		return nil, err
-	}
+	try(j.cmd.Start())
 
 	a := &llvmSymbolizer{
 		filename: file,
@@ -98,10 +91,7 @@ func newLLVMSymbolizer(cmd, file string, base uint64) (*llvmSymbolizer, error) {
 }
 
 func (d *llvmSymbolizer) readString() (string, error) {
-	s, err := d.rw.readLine()
-	if err != nil {
-		return "", err
-	}
+	s := try(d.rw.readLine())
 	return strings.TrimSpace(s), nil
 }
 
@@ -155,9 +145,7 @@ func (d *llvmSymbolizer) addrInfo(addr uint64) ([]plugin.Frame, error) {
 	d.Lock()
 	defer d.Unlock()
 
-	if err := d.rw.write(fmt.Sprintf("%s 0x%x", d.filename, addr-d.base)); err != nil {
-		return nil, err
-	}
+	try(d.rw.write(fmt.Sprintf("%s 0x%x", d.filename, addr-d.base)))
 
 	var stack []plugin.Frame
 	for {

@@ -511,9 +511,7 @@ func parse(rawurl string, viaRequest bool) (*URL, error) {
 
 	// Split off possible leading "http:", "mailto:", etc.
 	// Cannot contain escaped characters.
-	if url.Scheme, rest, err = getscheme(rawurl); err != nil {
-		return nil, err
-	}
+	url.Scheme, rest = try(getscheme(rawurl))
 	url.Scheme = strings.ToLower(url.Scheme)
 
 	if strings.HasSuffix(rest, "?") && strings.Count(rest, "?") == 1 {
@@ -550,18 +548,13 @@ func parse(rawurl string, viaRequest bool) (*URL, error) {
 	if (url.Scheme != "" || !viaRequest && !strings.HasPrefix(rest, "///")) && strings.HasPrefix(rest, "//") {
 		var authority string
 		authority, rest = split(rest[2:], "/", false)
-		url.User, url.Host, err = parseAuthority(authority)
-		if err != nil {
-			return nil, err
-		}
+		url.User, url.Host = try(parseAuthority(authority))
 	}
 	// Set Path and, optionally, RawPath.
 	// RawPath is a hint of the encoding of Path. We don't want to set it if
 	// the default escaping of Path is equivalent, to help make sure that people
 	// don't rely on it in general.
-	if err := url.setPath(rest); err != nil {
-		return nil, err
-	}
+	try(url.setPath(rest))
 	return url, nil
 }
 
@@ -583,18 +576,12 @@ func parseAuthority(authority string) (user *Userinfo, host string, err error) {
 		return nil, "", errors.New("net/url: invalid userinfo")
 	}
 	if !strings.Contains(userinfo, ":") {
-		if userinfo, err = unescape(userinfo, encodeUserPassword); err != nil {
-			return nil, "", err
-		}
+		userinfo = try(unescape(userinfo, encodeUserPassword))
 		user = User(userinfo)
 	} else {
 		username, password := split(userinfo, ":", true)
-		if username, err = unescape(username, encodeUserPassword); err != nil {
-			return nil, "", err
-		}
-		if password, err = unescape(password, encodeUserPassword); err != nil {
-			return nil, "", err
-		}
+		username = try(unescape(username, encodeUserPassword))
+		password = try(unescape(password, encodeUserPassword))
 		user = UserPassword(username, password)
 	}
 	return user, host, nil
@@ -623,26 +610,15 @@ func parseHost(host string) (string, error) {
 		// like newlines.
 		zone := strings.Index(host[:i], "%25")
 		if zone >= 0 {
-			host1, err := unescape(host[:zone], encodeHost)
-			if err != nil {
-				return "", err
-			}
-			host2, err := unescape(host[zone:i], encodeZone)
-			if err != nil {
-				return "", err
-			}
-			host3, err := unescape(host[i:], encodeHost)
-			if err != nil {
-				return "", err
-			}
+			host1 := try(unescape(host[:zone], encodeHost))
+			host2 := try(unescape(host[zone:i], encodeZone))
+			host3 := try(unescape(host[i:], encodeHost))
 			return host1 + host2 + host3, nil
 		}
 	}
 
 	var err error
-	if host, err = unescape(host, encodeHost); err != nil {
-		return "", err
-	}
+	host = try(unescape(host, encodeHost))
 	return host, nil
 }
 
@@ -655,10 +631,7 @@ func parseHost(host string) (string, error) {
 // setPath will return an error only if the provided path contains an invalid
 // escaping.
 func (u *URL) setPath(p string) error {
-	path, err := unescape(p, encodePath)
-	if err != nil {
-		return err
-	}
+	path := try(unescape(p, encodePath))
 	u.Path = path
 	if escp := escape(path, encodePath); p == escp {
 		// Default encoding is fine.
@@ -963,10 +936,7 @@ func (u *URL) IsAbs() bool {
 // may be relative or absolute. Parse returns nil, err on parse
 // failure, otherwise its return value is the same as ResolveReference.
 func (u *URL) Parse(ref string) (*URL, error) {
-	refurl, err := Parse(ref)
-	if err != nil {
-		return nil, err
-	}
+	refurl := try(Parse(ref))
 	return u.ResolveReference(refurl), nil
 }
 
@@ -1083,10 +1053,7 @@ func (u *URL) MarshalBinary() (text []byte, err error) {
 }
 
 func (u *URL) UnmarshalBinary(text []byte) error {
-	u1, err := Parse(string(text))
-	if err != nil {
-		return err
-	}
+	u1 := try(Parse(string(text)))
 	*u = *u1
 	return nil
 }

@@ -282,10 +282,7 @@ func Check(f interface{}, config *Config) error {
 	maxCount := config.getMaxCount()
 
 	for i := 0; i < maxCount; i++ {
-		err := arbitraryValues(arguments, fType, config, rand)
-		if err != nil {
-			return err
-		}
+		try(arbitraryValues(arguments, fType, config, rand))
 
 		if !fVal.Call(arguments)[0].Bool() {
 			return &CheckError{i + 1, toInterfaces(arguments)}
@@ -322,10 +319,7 @@ func CheckEqual(f, g interface{}, config *Config) error {
 	maxCount := config.getMaxCount()
 
 	for i := 0; i < maxCount; i++ {
-		err := arbitraryValues(arguments, xType, config, rand)
-		if err != nil {
-			return err
-		}
+		try(arbitraryValues(arguments, xType, config, rand))
 
 		xOut := toInterfaces(x.Call(arguments))
 		yOut := toInterfaces(y.Call(arguments))

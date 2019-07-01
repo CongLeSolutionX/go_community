@@ -142,10 +142,7 @@ func proxyURLs() ([]string, error) {
 // If GOPROXY is set to "off", TryProxies invokes f once with the argument
 // "off".
 func TryProxies(f func(proxy string) error) error {
-	proxies, err := proxyURLs()
-	if err != nil {
-		return err
-	}
+	proxies := try(proxyURLs())
 	if len(proxies) == 0 {
 		return f("off")
 	}
@@ -165,10 +162,7 @@ type proxyRepo struct {
 }
 
 func newProxyRepo(baseURL, path string) (Repo, error) {
-	base, err := url.Parse(baseURL)
-	if err != nil {
-		return nil, err
-	}
+	base := try(url.Parse(baseURL))
 	switch base.Scheme {
 	case "http", "https":
 		// ok
@@ -182,10 +176,7 @@ func newProxyRepo(baseURL, path string) (Repo, error) {
 		return nil, fmt.Errorf("invalid proxy URL scheme (must be https, http, file): %s", web.Redacted(base))
 	}
 
-	enc, err := module.EncodePath(path)
-	if err != nil {
-		return nil, err
-	}
+	enc := try(module.EncodePath(path))
 
 	base.Path = strings.TrimSuffix(base.Path, "/") + "/" + enc
 	base.RawPath = strings.TrimSuffix(base.RawPath, "/") + "/" + pathEscape(enc)
@@ -217,10 +208,7 @@ func (p *proxyRepo) versionError(version string, err error) error {
 }
 
 func (p *proxyRepo) getBytes(path string) ([]byte, error) {
-	body, err := p.getBody(path)
-	if err != nil {
-		return nil, err
-	}
+	body := try(p.getBody(path))
 	defer body.Close()
 	return ioutil.ReadAll(body)
 }
@@ -232,10 +220,7 @@ func (p *proxyRepo) getBody(path string) (io.ReadCloser, error) {
 	target.Path = fullPath
 	target.RawPath = pathpkg.Join(target.RawPath, pathEscape(path))
 
-	resp, err := web.Get(web.DefaultSecurity, &target)
-	if err != nil {
-		return nil, err
-	}
+	resp := try(web.Get(web.DefaultSecurity, &target))
 	if err := resp.Err(); err != nil {
 		resp.Body.Close()
 		return nil, err

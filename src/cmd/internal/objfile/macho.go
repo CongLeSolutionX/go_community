@@ -21,10 +21,7 @@ type machoFile struct {
 }
 
 func openMacho(r io.ReaderAt) (rawFile, error) {
-	f, err := macho.NewFile(r)
-	if err != nil {
-		return nil, err
-	}
+	f := try(macho.NewFile(r))
 	return &machoFile{f}, nil
 }
 
@@ -83,14 +80,10 @@ func (f *machoFile) pcln() (textStart uint64, symtab, pclntab []byte, err error)
 		textStart = sect.Addr
 	}
 	if sect := f.macho.Section("__gosymtab"); sect != nil {
-		if symtab, err = sect.Data(); err != nil {
-			return 0, nil, nil, err
-		}
+		symtab = try(sect.Data())
 	}
 	if sect := f.macho.Section("__gopclntab"); sect != nil {
-		if pclntab, err = sect.Data(); err != nil {
-			return 0, nil, nil, err
-		}
+		pclntab = try(sect.Data())
 	}
 	return textStart, symtab, pclntab, nil
 }

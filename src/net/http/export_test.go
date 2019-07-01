@@ -214,10 +214,7 @@ func hookSetter(dst *func()) func(func()) {
 }
 
 func ExportHttp2ConfigureTransport(t *Transport) error {
-	t2, err := http2configureTransport(t)
-	if err != nil {
-		return err
-	}
+	t2 := try(http2configureTransport(t))
 	t.h2transport = t2
 	return nil
 }

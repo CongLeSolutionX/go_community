@@ -54,10 +54,7 @@ func (mu *Mutex) Lock() (unlock func(), err error) {
 	// in the future, it should call OpenFile with O_RDONLY and will require the
 	// files must be readable, so we should not let the caller make any
 	// assumptions about Mutex working with write-only files.
-	f, err := OpenFile(mu.Path, os.O_RDWR|os.O_CREATE, 0666)
-	if err != nil {
-		return nil, err
-	}
+	f := try(OpenFile(mu.Path, os.O_RDWR|os.O_CREATE, 0666))
 	mu.mu.Lock()
 
 	return func() {

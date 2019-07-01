@@ -42,10 +42,7 @@ func unixSocket(ctx context.Context, net string, laddr, raddr sockaddr, mode str
 		return nil, errors.New("unknown mode: " + mode)
 	}
 
-	fd, err := socket(ctx, net, syscall.AF_UNIX, sotype, 0, false, laddr, raddr, ctrlFn)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(socket(ctx, net, syscall.AF_UNIX, sotype, 0, false, laddr, raddr, ctrlFn))
 	return fd, nil
 }
 
@@ -151,18 +148,12 @@ func (c *UnixConn) writeMsg(b, oob []byte, addr *UnixAddr) (n, oobn int, err err
 }
 
 func (sd *sysDialer) dialUnix(ctx context.Context, laddr, raddr *UnixAddr) (*UnixConn, error) {
-	fd, err := unixSocket(ctx, sd.network, laddr, raddr, "dial", sd.Dialer.Control)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(unixSocket(ctx, sd.network, laddr, raddr, "dial", sd.Dialer.Control))
 	return newUnixConn(fd), nil
 }
 
 func (ln *UnixListener) accept() (*UnixConn, error) {
-	fd, err := ln.fd.accept()
-	if err != nil {
-		return nil, err
-	}
+	fd := try(ln.fd.accept())
 	return newUnixConn(fd), nil
 }
 
@@ -187,10 +178,7 @@ func (ln *UnixListener) close() error {
 }
 
 func (ln *UnixListener) file() (*os.File, error) {
-	f, err := ln.fd.dup()
-	if err != nil {
-		return nil, err
-	}
+	f := try(ln.fd.dup())
 	return f, nil
 }
 
@@ -207,17 +195,11 @@ func (l *UnixListener) SetUnlinkOnClose(unlink bool) {
 }
 
 func (sl *sysListener) listenUnix(ctx context.Context, laddr *UnixAddr) (*UnixListener, error) {
-	fd, err := unixSocket(ctx, sl.network, laddr, nil, "listen", sl.ListenConfig.Control)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(unixSocket(ctx, sl.network, laddr, nil, "listen", sl.ListenConfig.Control))
 	return &UnixListener{fd: fd, path: fd.laddr.String(), unlink: true}, nil
 }
 
 func (sl *sysListener) listenUnixgram(ctx context.Context, laddr *UnixAddr) (*UnixConn, error) {
-	fd, err := unixSocket(ctx, sl.network, laddr, nil, "listen", sl.ListenConfig.Control)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(unixSocket(ctx, sl.network, laddr, nil, "listen", sl.ListenConfig.Control))
 	return newUnixConn(fd), nil
 }

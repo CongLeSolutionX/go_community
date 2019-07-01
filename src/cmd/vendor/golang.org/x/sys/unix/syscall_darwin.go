@@ -64,16 +64,11 @@ func nametomib(name string) (mib []_C_int, err error) {
 	n := uintptr(CTL_MAXNAME) * siz
 
 	p := (*byte)(unsafe.Pointer(&buf[0]))
-	bytes, err := ByteSliceFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	bytes := try(ByteSliceFromString(name))
 
 	// Magic sysctl: "setting" 0.3 to a string name
 	// lets you read back the array of integers form.
-	if err = sysctl([]_C_int{0, 3}, p, &n, &bytes[0], uintptr(len(name))); err != nil {
-		return nil, err
-	}
+	try(sysctl([]_C_int{0, 3}, p, &n, &bytes[0], uintptr(len(name))))
 	return buf[0 : n/siz], nil
 }
 
@@ -103,14 +98,9 @@ func getAttrList(path string, attrList attrList, attrBuf []byte, options uint) (
 	attrList.bitmapCount = attrBitMapCount
 
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return nil, err
-	}
+	_p0 = try(BytePtrFromString(path))
 
-	if err := getattrlist(_p0, unsafe.Pointer(&attrList), unsafe.Pointer(&attrBuf[0]), uintptr(len(attrBuf)), int(options)); err != nil {
-		return nil, err
-	}
+	try(getattrlist(_p0, unsafe.Pointer(&attrList), unsafe.Pointer(&attrBuf[0]), uintptr(len(attrBuf)), int(options)))
 	size := *(*uint32)(unsafe.Pointer(&attrBuf[0]))
 
 	// dat is the section of attrBuf that contains valid data,
@@ -145,16 +135,11 @@ func getAttrList(path string, attrList attrList, attrBuf []byte, options uint) (
 //sys getattrlist(path *byte, list unsafe.Pointer, buf unsafe.Pointer, size uintptr, options int) (err error)
 
 func SysctlClockinfo(name string) (*Clockinfo, error) {
-	mib, err := sysctlmib(name)
-	if err != nil {
-		return nil, err
-	}
+	mib := try(sysctlmib(name))
 
 	n := uintptr(SizeofClockinfo)
 	var ci Clockinfo
-	if err := sysctl(mib, (*byte)(unsafe.Pointer(&ci)), &n, nil, 0); err != nil {
-		return nil, err
-	}
+	try(sysctl(mib, (*byte)(unsafe.Pointer(&ci)), &n, nil, 0))
 	if n != SizeofClockinfo {
 		return nil, EIO
 	}
@@ -288,10 +273,7 @@ func Flistxattr(fd int, dest []byte) (sz int, err error) {
 }
 
 func setattrlistTimes(path string, times []Timespec, flags int) error {
-	_p0, err := BytePtrFromString(path)
-	if err != nil {
-		return err
-	}
+	_p0 := try(BytePtrFromString(path))
 
 	var attrList attrList
 	attrList.bitmapCount = ATTR_BIT_MAP_COUNT
@@ -368,27 +350,19 @@ func IoctlGetTermios(fd int, req uint) (*Termios, error) {
 func Uname(uname *Utsname) error {
 	mib := []_C_int{CTL_KERN, KERN_OSTYPE}
 	n := unsafe.Sizeof(uname.Sysname)
-	if err := sysctl(mib, &uname.Sysname[0], &n, nil, 0); err != nil {
-		return err
-	}
+	try(sysctl(mib, &uname.Sysname[0], &n, nil, 0))
 
 	mib = []_C_int{CTL_KERN, KERN_HOSTNAME}
 	n = unsafe.Sizeof(uname.Nodename)
-	if err := sysctl(mib, &uname.Nodename[0], &n, nil, 0); err != nil {
-		return err
-	}
+	try(sysctl(mib, &uname.Nodename[0], &n, nil, 0))
 
 	mib = []_C_int{CTL_KERN, KERN_OSRELEASE}
 	n = unsafe.Sizeof(uname.Release)
-	if err := sysctl(mib, &uname.Release[0], &n, nil, 0); err != nil {
-		return err
-	}
+	try(sysctl(mib, &uname.Release[0], &n, nil, 0))
 
 	mib = []_C_int{CTL_KERN, KERN_VERSION}
 	n = unsafe.Sizeof(uname.Version)
-	if err := sysctl(mib, &uname.Version[0], &n, nil, 0); err != nil {
-		return err
-	}
+	try(sysctl(mib, &uname.Version[0], &n, nil, 0))
 
 	// The version might have newlines or tabs in it, convert them to
 	// spaces.
@@ -404,9 +378,7 @@ func Uname(uname *Utsname) error {
 
 	mib = []_C_int{CTL_HW, HW_MACHINE}
 	n = unsafe.Sizeof(uname.Machine)
-	if err := sysctl(mib, &uname.Machine[0], &n, nil, 0); err != nil {
-		return err
-	}
+	try(sysctl(mib, &uname.Machine[0], &n, nil, 0))
 
 	return nil
 }

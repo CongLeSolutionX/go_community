@@ -17,19 +17,13 @@ import (
 func readAligned4(r io.Reader, sz int32) ([]byte, error) {
 	full := (sz + 3) &^ 3
 	data := make([]byte, full)
-	_, err := io.ReadFull(r, data)
-	if err != nil {
-		return nil, err
-	}
+	try(io.ReadFull(r, data))
 	data = data[:sz]
 	return data, nil
 }
 
 func ReadELFNote(filename, name string, typ int32) ([]byte, error) {
-	f, err := elf.Open(filename)
-	if err != nil {
-		return nil, err
-	}
+	f := try(elf.Open(filename))
 	defer f.Close()
 	for _, sect := range f.Sections {
 		if sect.Type != elf.SHT_NOTE {
@@ -114,16 +108,10 @@ func readELF(name string, f *os.File, data []byte) (buildid string, err error) {
 			// or even the first few megabytes of the file
 			// due to differences in note segment placement;
 			// in that case, extract the note data manually.
-			_, err = f.Seek(int64(p.Off), io.SeekStart)
-			if err != nil {
-				return "", err
-			}
+			try(f.Seek(int64(p.Off), io.SeekStart))
 
 			note = make([]byte, p.Filesz)
-			_, err = io.ReadFull(f, note)
-			if err != nil {
-				return "", err
-			}
+			try(io.ReadFull(f, note))
 		}
 
 		filesz := p.Filesz
@@ -199,9 +187,7 @@ func readMacho(name string, f *os.File, data []byte) (buildid string, err error)
 		n = uint64(readSize)
 	}
 	buf := make([]byte, n)
-	if _, err := f.ReadAt(buf, int64(sect.Offset)); err != nil {
-		return "", err
-	}
+	try(f.ReadAt(buf, int64(sect.Offset)))
 
 	return readRaw(name, buf)
 }

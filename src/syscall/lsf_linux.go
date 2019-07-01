@@ -23,10 +23,7 @@ func LsfJump(code, k, jt, jf int) *SockFilter {
 // Deprecated: Use golang.org/x/net/bpf instead.
 func LsfSocket(ifindex, proto int) (int, error) {
 	var lsall SockaddrLinklayer
-	s, e := Socket(AF_PACKET, SOCK_RAW, proto)
-	if e != nil {
-		return 0, e
-	}
+	s := try(Socket(AF_PACKET, SOCK_RAW, proto))
 	p := (*[2]byte)(unsafe.Pointer(&lsall.Protocol))
 	p[0] = byte(proto >> 8)
 	p[1] = byte(proto)
@@ -46,10 +43,7 @@ type iflags struct {
 
 // Deprecated: Use golang.org/x/net/bpf instead.
 func SetLsfPromisc(name string, m bool) error {
-	s, e := Socket(AF_INET, SOCK_DGRAM, 0)
-	if e != nil {
-		return e
-	}
+	s := try(Socket(AF_INET, SOCK_DGRAM, 0))
 	defer Close(s)
 	var ifl iflags
 	copy(ifl.name[:], []byte(name))

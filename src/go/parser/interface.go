@@ -83,10 +83,7 @@ func ParseFile(fset *token.FileSet, filename string, src interface{}, mode Mode)
 	}
 
 	// get source
-	text, err := readSource(filename, src)
-	if err != nil {
-		return nil, err
-	}
+	text := try(readSource(filename, src))
 
 	var p parser
 	defer func() {
@@ -133,16 +130,10 @@ func ParseFile(fset *token.FileSet, filename string, src interface{}, mode Mode)
 // first error encountered are returned.
 //
 func ParseDir(fset *token.FileSet, path string, filter func(os.FileInfo) bool, mode Mode) (pkgs map[string]*ast.Package, first error) {
-	fd, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(os.Open(path))
 	defer fd.Close()
 
-	list, err := fd.Readdir(-1)
-	if err != nil {
-		return nil, err
-	}
+	list := try(fd.Readdir(-1))
 
 	pkgs = make(map[string]*ast.Package)
 	for _, d := range list {
@@ -179,10 +170,7 @@ func ParseExprFrom(fset *token.FileSet, filename string, src interface{}, mode M
 	}
 
 	// get source
-	text, err := readSource(filename, src)
-	if err != nil {
-		return nil, err
-	}
+	text := try(readSource(filename, src))
 
 	var p parser
 	defer func() {

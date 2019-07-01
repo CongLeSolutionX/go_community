@@ -327,10 +327,7 @@ func libc___sysctl_trampoline()
 
 func utimes(path string, timeval *[2]Timeval) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_utimes_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(timeval)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -576,15 +573,9 @@ func libc_pipe_trampoline()
 
 func getxattr(path string, attr string, dest *byte, size int, position uint32, options int) (sz int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(attr))
 	r0, _, e1 := syscall_syscall6(funcPC(libc_getxattr_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), uintptr(unsafe.Pointer(dest)), uintptr(size), uintptr(position), uintptr(options))
 	sz = int(r0)
 	if e1 != 0 {
@@ -602,10 +593,7 @@ func libc_getxattr_trampoline()
 
 func fgetxattr(fd int, attr string, dest *byte, size int, position uint32, options int) (sz int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(attr))
 	r0, _, e1 := syscall_syscall6(funcPC(libc_fgetxattr_trampoline), uintptr(fd), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(dest)), uintptr(size), uintptr(position), uintptr(options))
 	sz = int(r0)
 	if e1 != 0 {
@@ -623,15 +611,9 @@ func libc_fgetxattr_trampoline()
 
 func setxattr(path string, attr string, data *byte, size int, position uint32, options int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(attr))
 	_, _, e1 := syscall_syscall6(funcPC(libc_setxattr_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), uintptr(unsafe.Pointer(data)), uintptr(size), uintptr(position), uintptr(options))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -648,10 +630,7 @@ func libc_setxattr_trampoline()
 
 func fsetxattr(fd int, attr string, data *byte, size int, position uint32, options int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(attr))
 	_, _, e1 := syscall_syscall6(funcPC(libc_fsetxattr_trampoline), uintptr(fd), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(data)), uintptr(size), uintptr(position), uintptr(options))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -668,15 +647,9 @@ func libc_fsetxattr_trampoline()
 
 func removexattr(path string, attr string, options int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(attr))
 	_, _, e1 := syscall_syscall(funcPC(libc_removexattr_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), uintptr(options))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -693,10 +666,7 @@ func libc_removexattr_trampoline()
 
 func fremovexattr(fd int, attr string, options int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(attr)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(attr))
 	_, _, e1 := syscall_syscall(funcPC(libc_fremovexattr_trampoline), uintptr(fd), uintptr(unsafe.Pointer(_p0)), uintptr(options))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -713,10 +683,7 @@ func libc_fremovexattr_trampoline()
 
 func listxattr(path string, dest *byte, size int, options int) (sz int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	r0, _, e1 := syscall_syscall6(funcPC(libc_listxattr_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(dest)), uintptr(size), uintptr(options), 0, 0)
 	sz = int(r0)
 	if e1 != 0 {
@@ -810,10 +777,7 @@ func libc_sendfile_trampoline()
 
 func Access(path string, mode uint32) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_access_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(mode), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -845,10 +809,7 @@ func libc_adjtime_trampoline()
 
 func Chdir(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_chdir_trampoline), uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -865,10 +826,7 @@ func libc_chdir_trampoline()
 
 func Chflags(path string, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_chflags_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(flags), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -885,10 +843,7 @@ func libc_chflags_trampoline()
 
 func Chmod(path string, mode uint32) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_chmod_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(mode), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -905,10 +860,7 @@ func libc_chmod_trampoline()
 
 func Chown(path string, uid int, gid int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_chown_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(uid), uintptr(gid))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -925,10 +877,7 @@ func libc_chown_trampoline()
 
 func Chroot(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_chroot_trampoline), uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -991,15 +940,9 @@ func libc_dup2_trampoline()
 
 func Exchangedata(path1 string, path2 string, options int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path1)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path1))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(path2)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(path2))
 	_, _, e1 := syscall_syscall(funcPC(libc_exchangedata_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), uintptr(options))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1028,10 +971,7 @@ func libc_exit_trampoline()
 
 func Faccessat(dirfd int, path string, mode uint32, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall6(funcPC(libc_faccessat_trampoline), uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(mode), uintptr(flags), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1093,10 +1033,7 @@ func libc_fchmod_trampoline()
 
 func Fchmodat(dirfd int, path string, mode uint32, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall6(funcPC(libc_fchmodat_trampoline), uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(mode), uintptr(flags), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1128,10 +1065,7 @@ func libc_fchown_trampoline()
 
 func Fchownat(dirfd int, path string, uid int, gid int, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall6(funcPC(libc_fchownat_trampoline), uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(uid), uintptr(gid), uintptr(flags), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1420,10 +1354,7 @@ func libc_kqueue_trampoline()
 
 func Lchown(path string, uid int, gid int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_lchown_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(uid), uintptr(gid))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1440,15 +1371,9 @@ func libc_lchown_trampoline()
 
 func Link(path string, link string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(link)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(link))
 	_, _, e1 := syscall_syscall(funcPC(libc_link_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1465,15 +1390,9 @@ func libc_link_trampoline()
 
 func Linkat(pathfd int, path string, linkfd int, link string, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(link)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(link))
 	_, _, e1 := syscall_syscall6(funcPC(libc_linkat_trampoline), uintptr(pathfd), uintptr(unsafe.Pointer(_p0)), uintptr(linkfd), uintptr(unsafe.Pointer(_p1)), uintptr(flags), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1505,10 +1424,7 @@ func libc_listen_trampoline()
 
 func Mkdir(path string, mode uint32) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_mkdir_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(mode), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1525,10 +1441,7 @@ func libc_mkdir_trampoline()
 
 func Mkdirat(dirfd int, path string, mode uint32) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_mkdirat_trampoline), uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(mode))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1545,10 +1458,7 @@ func libc_mkdirat_trampoline()
 
 func Mkfifo(path string, mode uint32) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_mkfifo_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(mode), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1565,10 +1475,7 @@ func libc_mkfifo_trampoline()
 
 func Mknod(path string, mode uint32, dev int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_mknod_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(mode), uintptr(dev))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1585,10 +1492,7 @@ func libc_mknod_trampoline()
 
 func Open(path string, mode int, perm uint32) (fd int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	r0, _, e1 := syscall_syscall(funcPC(libc_open_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(mode), uintptr(perm))
 	fd = int(r0)
 	if e1 != 0 {
@@ -1606,10 +1510,7 @@ func libc_open_trampoline()
 
 func Openat(dirfd int, path string, mode int, perm uint32) (fd int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	r0, _, e1 := syscall_syscall6(funcPC(libc_openat_trampoline), uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(mode), uintptr(perm), 0, 0)
 	fd = int(r0)
 	if e1 != 0 {
@@ -1627,10 +1528,7 @@ func libc_openat_trampoline()
 
 func Pathconf(path string, name int) (val int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	r0, _, e1 := syscall_syscall(funcPC(libc_pathconf_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(name), 0)
 	val = int(r0)
 	if e1 != 0 {
@@ -1714,10 +1612,7 @@ func libc_read_trampoline()
 
 func Readlink(path string, buf []byte) (n int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 unsafe.Pointer
 	if len(buf) > 0 {
 		_p1 = unsafe.Pointer(&buf[0])
@@ -1741,10 +1636,7 @@ func libc_readlink_trampoline()
 
 func Readlinkat(dirfd int, path string, buf []byte) (n int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 unsafe.Pointer
 	if len(buf) > 0 {
 		_p1 = unsafe.Pointer(&buf[0])
@@ -1768,15 +1660,9 @@ func libc_readlinkat_trampoline()
 
 func Rename(from string, to string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(from)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(from))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(to)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(to))
 	_, _, e1 := syscall_syscall(funcPC(libc_rename_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1793,15 +1679,9 @@ func libc_rename_trampoline()
 
 func Renameat(fromfd int, from string, tofd int, to string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(from)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(from))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(to)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(to))
 	_, _, e1 := syscall_syscall6(funcPC(libc_renameat_trampoline), uintptr(fromfd), uintptr(unsafe.Pointer(_p0)), uintptr(tofd), uintptr(unsafe.Pointer(_p1)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1818,10 +1698,7 @@ func libc_renameat_trampoline()
 
 func Revoke(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_revoke_trampoline), uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1838,10 +1715,7 @@ func libc_revoke_trampoline()
 
 func Rmdir(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_rmdir_trampoline), uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1934,10 +1808,7 @@ func libc_setgid_trampoline()
 
 func Setlogin(name string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(name)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(name))
 	_, _, e1 := syscall_syscall(funcPC(libc_setlogin_trampoline), uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2090,15 +1961,9 @@ func libc_setuid_trampoline()
 
 func Symlink(path string, link string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(link)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(link))
 	_, _, e1 := syscall_syscall(funcPC(libc_symlink_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2115,15 +1980,9 @@ func libc_symlink_trampoline()
 
 func Symlinkat(oldpath string, newdirfd int, newpath string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(oldpath)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(oldpath))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(newpath)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(newpath))
 	_, _, e1 := syscall_syscall(funcPC(libc_symlinkat_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(newdirfd), uintptr(unsafe.Pointer(_p1)))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2155,10 +2014,7 @@ func libc_sync_trampoline()
 
 func Truncate(path string, length int64) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_truncate_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(length), uintptr(length>>32))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2188,10 +2044,7 @@ func libc_umask_trampoline()
 
 func Undelete(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_undelete_trampoline), uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2208,10 +2061,7 @@ func libc_undelete_trampoline()
 
 func Unlink(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_unlink_trampoline), uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2228,10 +2078,7 @@ func libc_unlink_trampoline()
 
 func Unlinkat(dirfd int, path string, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_unlinkat_trampoline), uintptr(dirfd), uintptr(unsafe.Pointer(_p0)), uintptr(flags))
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2248,10 +2095,7 @@ func libc_unlinkat_trampoline()
 
 func Unmount(path string, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_unmount_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(flags), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2375,10 +2219,7 @@ func libc_fstat_trampoline()
 
 func Fstatat(fd int, path string, stat *Stat_t, flags int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall6(funcPC(libc_fstatat_trampoline), uintptr(fd), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(stat)), uintptr(flags), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2426,10 +2267,7 @@ func libc_getfsstat_trampoline()
 
 func Lstat(path string, stat *Stat_t) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_lstat_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(stat)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2446,10 +2284,7 @@ func libc_lstat_trampoline()
 
 func Stat(path string, stat *Stat_t) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_stat_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(stat)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -2466,10 +2301,7 @@ func libc_stat_trampoline()
 
 func Statfs(path string, stat *Statfs_t) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	_, _, e1 := syscall_syscall(funcPC(libc_statfs_trampoline), uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(stat)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)

@@ -123,16 +123,12 @@ type record struct {
 }
 
 func (rec *record) read(r io.Reader) (err error) {
-	if err = binary.Read(r, binary.BigEndian, &rec.h); err != nil {
-		return err
-	}
+	try(binary.Read(r, binary.BigEndian, &rec.h))
 	if rec.h.Version != 1 {
 		return errors.New("fcgi: invalid header version")
 	}
 	n := int(rec.h.ContentLength) + int(rec.h.PaddingLength)
-	if _, err = io.ReadFull(r, rec.buf[:n]); err != nil {
-		return err
-	}
+	try(io.ReadFull(r, rec.buf[:n]))
 	return nil
 }
 
@@ -146,15 +142,9 @@ func (c *conn) writeRecord(recType recType, reqId uint16, b []byte) error {
 	defer c.mutex.Unlock()
 	c.buf.Reset()
 	c.h.init(recType, reqId, len(b))
-	if err := binary.Write(&c.buf, binary.BigEndian, c.h); err != nil {
-		return err
-	}
-	if _, err := c.buf.Write(b); err != nil {
-		return err
-	}
-	if _, err := c.buf.Write(pad[:c.h.PaddingLength]); err != nil {
-		return err
-	}
+	try(binary.Write(&c.buf, binary.BigEndian, c.h))
+	try(c.buf.Write(b))
+	try(c.buf.Write(pad[:c.h.PaddingLength]))
 	_, err := c.rwc.Write(c.buf.Bytes())
 	return err
 }
@@ -172,15 +162,9 @@ func (c *conn) writePairs(recType recType, reqId uint16, pairs map[string]string
 	for k, v := range pairs {
 		n := encodeSize(b, uint32(len(k)))
 		n += encodeSize(b[n:], uint32(len(v)))
-		if _, err := w.Write(b[:n]); err != nil {
-			return err
-		}
-		if _, err := w.WriteString(k); err != nil {
-			return err
-		}
-		if _, err := w.WriteString(v); err != nil {
-			return err
-		}
+		try(w.Write(b[:n]))
+		try(w.WriteString(k))
+		try(w.WriteString(v))
 	}
 	w.Close()
 	return nil

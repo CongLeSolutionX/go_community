@@ -57,9 +57,7 @@ func openFile(name string, flag int, perm os.FileMode) (*os.File, error) {
 	// can be confident that a successful OpenFile implies exclusive use.
 	if fi, err := os.Stat(name); err == nil {
 		if fi.Mode()&os.ModeExclusive == 0 {
-			if err := os.Chmod(name, fi.Mode()|os.ModeExclusive); err != nil {
-				return nil, err
-			}
+			try(os.Chmod(name, fi.Mode()|os.ModeExclusive))
 		}
 	} else if !os.IsNotExist(err) {
 		return nil, err

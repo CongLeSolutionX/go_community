@@ -119,10 +119,7 @@ func parseNotes(reader io.Reader, alignment int, order binary.ByteOrder) ([]elfN
 // If no build-ID was found but the binary was read without error, it returns
 // (nil, nil).
 func GetBuildID(binary io.ReaderAt) ([]byte, error) {
-	f, err := elf.NewFile(binary)
-	if err != nil {
-		return nil, err
-	}
+	f := try(elf.NewFile(binary))
 
 	findBuildID := func(notes []elfNote) ([]byte, error) {
 		var buildID []byte
@@ -142,10 +139,7 @@ func GetBuildID(binary io.ReaderAt) ([]byte, error) {
 		if p.Type != elf.PT_NOTE {
 			continue
 		}
-		notes, err := parseNotes(p.Open(), int(p.Align), f.ByteOrder)
-		if err != nil {
-			return nil, err
-		}
+		notes := try(parseNotes(p.Open(), int(p.Align), f.ByteOrder))
 		if b, err := findBuildID(notes); b != nil || err != nil {
 			return b, err
 		}
@@ -154,10 +148,7 @@ func GetBuildID(binary io.ReaderAt) ([]byte, error) {
 		if s.Type != elf.SHT_NOTE {
 			continue
 		}
-		notes, err := parseNotes(s.Open(), int(s.Addralign), f.ByteOrder)
-		if err != nil {
-			return nil, err
-		}
+		notes := try(parseNotes(s.Open(), int(s.Addralign), f.ByteOrder))
 		if b, err := findBuildID(notes); b != nil || err != nil {
 			return b, err
 		}

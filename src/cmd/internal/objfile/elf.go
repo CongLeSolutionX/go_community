@@ -19,18 +19,12 @@ type elfFile struct {
 }
 
 func openElf(r io.ReaderAt) (rawFile, error) {
-	f, err := elf.NewFile(r)
-	if err != nil {
-		return nil, err
-	}
+	f := try(elf.NewFile(r))
 	return &elfFile{f}, nil
 }
 
 func (f *elfFile) symbols() ([]Sym, error) {
-	elfSyms, err := f.elf.Symbols()
-	if err != nil {
-		return nil, err
-	}
+	elfSyms := try(f.elf.Symbols())
 
 	var syms []Sym
 	for _, s := range elfSyms {
@@ -69,14 +63,10 @@ func (f *elfFile) pcln() (textStart uint64, symtab, pclntab []byte, err error) {
 		textStart = sect.Addr
 	}
 	if sect := f.elf.Section(".gosymtab"); sect != nil {
-		if symtab, err = sect.Data(); err != nil {
-			return 0, nil, nil, err
-		}
+		symtab = try(sect.Data())
 	}
 	if sect := f.elf.Section(".gopclntab"); sect != nil {
-		if pclntab, err = sect.Data(); err != nil {
-			return 0, nil, nil, err
-		}
+		pclntab = try(sect.Data())
 	}
 	return textStart, symtab, pclntab, nil
 }

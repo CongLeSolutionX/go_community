@@ -115,9 +115,7 @@ func MarshalPKIXPublicKey(pub interface{}) ([]byte, error) {
 	var publicKeyAlgorithm pkix.AlgorithmIdentifier
 	var err error
 
-	if publicKeyBytes, publicKeyAlgorithm, err = marshalPublicKey(pub); err != nil {
-		return nil, err
-	}
+	publicKeyBytes, publicKeyAlgorithm = try(marshalPublicKey(pub))
 
 	pkix := pkixPublicKey{
 		Algo: publicKeyAlgorithm,
@@ -1153,14 +1151,9 @@ func forEachSAN(extension []byte, callback func(tag int, data []byte) error) err
 	rest = seq.Bytes
 	for len(rest) > 0 {
 		var v asn1.RawValue
-		rest, err = asn1.Unmarshal(rest, &v)
-		if err != nil {
-			return err
-		}
+		rest = try(asn1.Unmarshal(rest, &v))
 
-		if err := callback(v.Tag, v.Bytes); err != nil {
-			return err
-		}
+		try(callback(v.Tag, v.Bytes))
 	}
 
 	return nil
@@ -1399,10 +1392,7 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 	out.PublicKeyAlgorithm =
 		getPublicKeyAlgorithmFromOID(in.TBSCertificate.PublicKey.Algorithm.Algorithm)
 	var err error
-	out.PublicKey, err = parsePublicKey(out.PublicKeyAlgorithm, &in.TBSCertificate.PublicKey)
-	if err != nil {
-		return nil, err
-	}
+	out.PublicKey = try(parsePublicKey(out.PublicKeyAlgorithm, &in.TBSCertificate.PublicKey))
 
 	out.Version = in.TBSCertificate.Version + 1
 	out.SerialNumber = in.TBSCertificate.SerialNumber
@@ -1610,10 +1600,7 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 // ParseCertificate parses a single certificate from the given ASN.1 DER data.
 func ParseCertificate(asn1Data []byte) (*Certificate, error) {
 	var cert certificate
-	rest, err := asn1.Unmarshal(asn1Data, &cert)
-	if err != nil {
-		return nil, err
-	}
+	rest := try(asn1.Unmarshal(asn1Data, &cert))
 	if len(rest) > 0 {
 		return nil, asn1.SyntaxError{Msg: "trailing data"}
 	}
@@ -1629,19 +1616,13 @@ func ParseCertificates(asn1Data []byte) ([]*Certificate, error) {
 	for len(asn1Data) > 0 {
 		cert := new(certificate)
 		var err error
-		asn1Data, err = asn1.Unmarshal(asn1Data, cert)
-		if err != nil {
-			return nil, err
-		}
+		asn1Data = try(asn1.Unmarshal(asn1Data, cert))
 		v = append(v, cert)
 	}
 
 	ret := make([]*Certificate, len(v))
 	for i, ci := range v {
-		cert, err := parseCertificate(ci)
-		if err != nil {
-			return nil, err
-		}
+		cert := try(parseCertificate(ci))
 		ret[i] = cert
 	}
 
@@ -1757,10 +1738,7 @@ func buildExtensions(template *Certificate, subjectIsEmpty bool, authorityKeyId 
 		}
 
 		bitString := a[:l]
-		ret[n].Value, err = asn1.Marshal(asn1.BitString{Bytes: bitString, BitLength: asn1BitLength(bitString)})
-		if err != nil {
-			return
-		}
+		ret[n].Value = try(asn1.Marshal(asn1.BitString{Bytes: bitString, BitLength: asn1BitLength(bitString)}))
 		n++
 	}
 
@@ -1779,10 +1757,7 @@ func buildExtensions(template *Certificate, subjectIsEmpty bool, authorityKeyId 
 
 		oids = append(oids, template.UnknownExtKeyUsage...)
 
-		ret[n].Value, err = asn1.Marshal(oids)
-		if err != nil {
-			return
-		}
+		ret[n].Value = try(asn1.Marshal(oids))
 		n++
 	}
 
@@ -1805,19 +1780,13 @@ func buildExtensions(template *Certificate, subjectIsEmpty bool, authorityKeyId 
 
 	if len(template.SubjectKeyId) > 0 && !oidInExtensions(oidExtensionSubjectKeyId, template.ExtraExtensions) {
 		ret[n].Id = oidExtensionSubjectKeyId
-		ret[n].Value, err = asn1.Marshal(template.SubjectKeyId)
-		if err != nil {
-			return
-		}
+		ret[n].Value = try(asn1.Marshal(template.SubjectKeyId))
 		n++
 	}
 
 	if len(authorityKeyId) > 0 && !oidInExtensions(oidExtensionAuthorityKeyId, template.ExtraExtensions) {
 		ret[n].Id = oidExtensionAuthorityKeyId
-		ret[n].Value, err = asn1.Marshal(authKeyId{authorityKeyId})
-		if err != nil {
-			return
-		}
+		ret[n].Value = try(asn1.Marshal(authKeyId{authorityKeyId}))
 		n++
 	}
 
@@ -1837,10 +1806,7 @@ func buildExtensions(template *Certificate, subjectIsEmpty bool, authorityKeyId 
 				Location: asn1.RawValue{Tag: 6, Class: 2, Bytes: []byte(name)},
 			})
 		}
-		ret[n].Value, err = asn1.Marshal(aiaValues)
-		if err != nil {
-			return
-		}
+		ret[n].Value = try(asn1.Marshal(aiaValues))
 		n++
 	}
 
@@ -1851,10 +1817,7 @@ func buildExtensions(template *Certificate, subjectIsEmpty bool, authorityKeyId 
 		// “If the subject field contains an empty sequence ... then
 		// subjectAltName extension ... is marked as critical”
 		ret[n].Critical = subjectIsEmpty
-		ret[n].Value, err = marshalSANs(template.DNSNames, template.EmailAddresses, template.IPAddresses, template.URIs)
-		if err != nil {
-			return
-		}
+		ret[n].Value = try(marshalSANs(template.DNSNames, template.EmailAddresses, template.IPAddresses, template.URIs))
 		n++
 	}
 
@@ -1865,10 +1828,7 @@ func buildExtensions(template *Certificate, subjectIsEmpty bool, authorityKeyId 
 		for i, policy := range template.PolicyIdentifiers {
 			policies[i].Policy = policy
 		}
-		ret[n].Value, err = asn1.Marshal(policies)
-		if err != nil {
-			return
-		}
+		ret[n].Value = try(asn1.Marshal(policies))
 		n++
 	}
 
@@ -1938,15 +1898,9 @@ func buildExtensions(template *Certificate, subjectIsEmpty bool, authorityKeyId 
 			return b.Bytes()
 		}
 
-		permitted, err := serialiseConstraints(template.PermittedDNSDomains, template.PermittedIPRanges, template.PermittedEmailAddresses, template.PermittedURIDomains)
-		if err != nil {
-			return nil, err
-		}
+		permitted := try(serialiseConstraints(template.PermittedDNSDomains, template.PermittedIPRanges, template.PermittedEmailAddresses, template.PermittedURIDomains))
 
-		excluded, err := serialiseConstraints(template.ExcludedDNSDomains, template.ExcludedIPRanges, template.ExcludedEmailAddresses, template.ExcludedURIDomains)
-		if err != nil {
-			return nil, err
-		}
+		excluded := try(serialiseConstraints(template.ExcludedDNSDomains, template.ExcludedIPRanges, template.ExcludedEmailAddresses, template.ExcludedURIDomains))
 
 		var b cryptobyte.Builder
 		b.AddASN1(cryptobyte_asn1.SEQUENCE, func(b *cryptobyte.Builder) {
@@ -1963,10 +1917,7 @@ func buildExtensions(template *Certificate, subjectIsEmpty bool, authorityKeyId 
 			}
 		})
 
-		ret[n].Value, err = b.Bytes()
-		if err != nil {
-			return nil, err
-		}
+		ret[n].Value = try(b.Bytes())
 		n++
 	}
 
@@ -1986,10 +1937,7 @@ func buildExtensions(template *Certificate, subjectIsEmpty bool, authorityKeyId 
 			crlDp = append(crlDp, dp)
 		}
 
-		ret[n].Value, err = asn1.Marshal(crlDp)
-		if err != nil {
-			return
-		}
+		ret[n].Value = try(asn1.Marshal(crlDp))
 		n++
 	}
 
@@ -2143,35 +2091,20 @@ func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv 
 		return nil, errors.New("x509: no SerialNumber given")
 	}
 
-	hashFunc, signatureAlgorithm, err := signingParamsForPublicKey(key.Public(), template.SignatureAlgorithm)
-	if err != nil {
-		return nil, err
-	}
+	hashFunc, signatureAlgorithm := try(signingParamsForPublicKey(key.Public(), template.SignatureAlgorithm))
 
-	publicKeyBytes, publicKeyAlgorithm, err := marshalPublicKey(pub)
-	if err != nil {
-		return nil, err
-	}
+	publicKeyBytes, publicKeyAlgorithm := try(marshalPublicKey(pub))
 
-	asn1Issuer, err := subjectBytes(parent)
-	if err != nil {
-		return
-	}
+	asn1Issuer := try(subjectBytes(parent))
 
-	asn1Subject, err := subjectBytes(template)
-	if err != nil {
-		return
-	}
+	asn1Subject := try(subjectBytes(template))
 
 	authorityKeyId := template.AuthorityKeyId
 	if !bytes.Equal(asn1Issuer, asn1Subject) && len(parent.SubjectKeyId) > 0 {
 		authorityKeyId = parent.SubjectKeyId
 	}
 
-	extensions, err := buildExtensions(template, bytes.Equal(asn1Subject, emptyASN1Subject), authorityKeyId)
-	if err != nil {
-		return
-	}
+	extensions := try(buildExtensions(template, bytes.Equal(asn1Subject, emptyASN1Subject), authorityKeyId))
 
 	encodedPublicKey := asn1.BitString{BitLength: len(publicKeyBytes) * 8, Bytes: publicKeyBytes}
 	c := tbsCertificate{
@@ -2185,10 +2118,7 @@ func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv 
 		Extensions:         extensions,
 	}
 
-	tbsCertContents, err := asn1.Marshal(c)
-	if err != nil {
-		return
-	}
+	tbsCertContents := try(asn1.Marshal(c))
 	c.Raw = tbsCertContents
 
 	signed := tbsCertContents
@@ -2207,10 +2137,7 @@ func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv 
 	}
 
 	var signature []byte
-	signature, err = key.Sign(rand, signed, signerOpts)
-	if err != nil {
-		return
-	}
+	signature = try(key.Sign(rand, signed, signerOpts))
 
 	return asn1.Marshal(certificate{
 		nil,
@@ -2260,10 +2187,7 @@ func (c *Certificate) CreateCRL(rand io.Reader, priv interface{}, revokedCerts [
 		return nil, errors.New("x509: certificate private key does not implement crypto.Signer")
 	}
 
-	hashFunc, signatureAlgorithm, err := signingParamsForPublicKey(key.Public(), 0)
-	if err != nil {
-		return nil, err
-	}
+	hashFunc, signatureAlgorithm := try(signingParamsForPublicKey(key.Public(), 0))
 
 	// Force revocation times to UTC per RFC 5280.
 	revokedCertsUTC := make([]pkix.RevokedCertificate, len(revokedCerts))
@@ -2285,27 +2209,18 @@ func (c *Certificate) CreateCRL(rand io.Reader, priv interface{}, revokedCerts [
 	if len(c.SubjectKeyId) > 0 {
 		var aki pkix.Extension
 		aki.Id = oidExtensionAuthorityKeyId
-		aki.Value, err = asn1.Marshal(authKeyId{Id: c.SubjectKeyId})
-		if err != nil {
-			return
-		}
+		aki.Value = try(asn1.Marshal(authKeyId{Id: c.SubjectKeyId}))
 		tbsCertList.Extensions = append(tbsCertList.Extensions, aki)
 	}
 
-	tbsCertListContents, err := asn1.Marshal(tbsCertList)
-	if err != nil {
-		return
-	}
+	tbsCertListContents := try(asn1.Marshal(tbsCertList))
 
 	h := hashFunc.New()
 	h.Write(tbsCertListContents)
 	digest := h.Sum(nil)
 
 	var signature []byte
-	signature, err = key.Sign(rand, digest, hashFunc)
-	if err != nil {
-		return
-	}
+	signature = try(key.Sign(rand, digest, hashFunc))
 
 	return asn1.Marshal(pkix.CertificateList{
 		TBSCertList:        tbsCertList,
@@ -2384,14 +2299,8 @@ var oidExtensionRequest = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 9, 14}
 // CertificateRequest's Attributes into tbsCertificateRequest RawAttributes.
 func newRawAttributes(attributes []pkix.AttributeTypeAndValueSET) ([]asn1.RawValue, error) {
 	var rawAttributes []asn1.RawValue
-	b, err := asn1.Marshal(attributes)
-	if err != nil {
-		return nil, err
-	}
-	rest, err := asn1.Unmarshal(b, &rawAttributes)
-	if err != nil {
-		return nil, err
-	}
+	b := try(asn1.Marshal(attributes))
+	rest := try(asn1.Unmarshal(b, &rawAttributes))
 	if len(rest) != 0 {
 		return nil, errors.New("x509: failed to unmarshal raw CSR Attributes")
 	}
@@ -2435,9 +2344,7 @@ func parseCSRExtensions(rawAttributes []asn1.RawValue) ([]pkix.Extension, error)
 		}
 
 		var extensions []pkix.Extension
-		if _, err := asn1.Unmarshal(attr.Values[0].FullBytes, &extensions); err != nil {
-			return nil, err
-		}
+		try(asn1.Unmarshal(attr.Values[0].FullBytes, &extensions))
 		ret = append(ret, extensions...)
 	}
 
@@ -2471,26 +2378,17 @@ func CreateCertificateRequest(rand io.Reader, template *CertificateRequest, priv
 
 	var hashFunc crypto.Hash
 	var sigAlgo pkix.AlgorithmIdentifier
-	hashFunc, sigAlgo, err = signingParamsForPublicKey(key.Public(), template.SignatureAlgorithm)
-	if err != nil {
-		return nil, err
-	}
+	hashFunc, sigAlgo = try(signingParamsForPublicKey(key.Public(), template.SignatureAlgorithm))
 
 	var publicKeyBytes []byte
 	var publicKeyAlgorithm pkix.AlgorithmIdentifier
-	publicKeyBytes, publicKeyAlgorithm, err = marshalPublicKey(key.Public())
-	if err != nil {
-		return nil, err
-	}
+	publicKeyBytes, publicKeyAlgorithm = try(marshalPublicKey(key.Public()))
 
 	var extensions []pkix.Extension
 
 	if (len(template.DNSNames) > 0 || len(template.EmailAddresses) > 0 || len(template.IPAddresses) > 0 || len(template.URIs) > 0) &&
 		!oidInExtensions(oidExtensionSubjectAltName, template.ExtraExtensions) {
-		sanBytes, err := marshalSANs(template.DNSNames, template.EmailAddresses, template.IPAddresses, template.URIs)
-		if err != nil {
-			return nil, err
-		}
+		sanBytes := try(marshalSANs(template.DNSNames, template.EmailAddresses, template.IPAddresses, template.URIs))
 
 		extensions = append(extensions, pkix.Extension{
 			Id:    oidExtensionSubjectAltName,
@@ -2553,10 +2451,7 @@ func CreateCertificateRequest(rand io.Reader, template *CertificateRequest, priv
 		}
 	}
 
-	rawAttributes, err := newRawAttributes(attributes)
-	if err != nil {
-		return
-	}
+	rawAttributes := try(newRawAttributes(attributes))
 
 	// If not included in attributes, add a new attribute for the
 	// extensions.
@@ -2575,19 +2470,14 @@ func CreateCertificateRequest(rand io.Reader, template *CertificateRequest, priv
 		}
 
 		var rawValue asn1.RawValue
-		if _, err := asn1.Unmarshal(b, &rawValue); err != nil {
-			return nil, err
-		}
+		try(asn1.Unmarshal(b, &rawValue))
 
 		rawAttributes = append(rawAttributes, rawValue)
 	}
 
 	asn1Subject := template.RawSubject
 	if len(asn1Subject) == 0 {
-		asn1Subject, err = asn1.Marshal(template.Subject.ToRDNSequence())
-		if err != nil {
-			return nil, err
-		}
+		asn1Subject = try(asn1.Marshal(template.Subject.ToRDNSequence()))
 	}
 
 	tbsCSR := tbsCertificateRequest{
@@ -2603,10 +2493,7 @@ func CreateCertificateRequest(rand io.Reader, template *CertificateRequest, priv
 		RawAttributes: rawAttributes,
 	}
 
-	tbsCSRContents, err := asn1.Marshal(tbsCSR)
-	if err != nil {
-		return
-	}
+	tbsCSRContents := try(asn1.Marshal(tbsCSR))
 	tbsCSR.Raw = tbsCSRContents
 
 	signed := tbsCSRContents
@@ -2617,10 +2504,7 @@ func CreateCertificateRequest(rand io.Reader, template *CertificateRequest, priv
 	}
 
 	var signature []byte
-	signature, err = key.Sign(rand, signed, hashFunc)
-	if err != nil {
-		return
-	}
+	signature = try(key.Sign(rand, signed, hashFunc))
 
 	return asn1.Marshal(certificateRequest{
 		TBSCSR:             tbsCSR,
@@ -2664,10 +2548,7 @@ func parseCertificateRequest(in *certificateRequest) (*CertificateRequest, error
 	}
 
 	var err error
-	out.PublicKey, err = parsePublicKey(out.PublicKeyAlgorithm, &in.TBSCSR.PublicKey)
-	if err != nil {
-		return nil, err
-	}
+	out.PublicKey = try(parsePublicKey(out.PublicKeyAlgorithm, &in.TBSCSR.PublicKey))
 
 	var subject pkix.RDNSequence
 	if rest, err := asn1.Unmarshal(in.TBSCSR.Subject.FullBytes, &subject); err != nil {
@@ -2678,16 +2559,11 @@ func parseCertificateRequest(in *certificateRequest) (*CertificateRequest, error
 
 	out.Subject.FillFromRDNSequence(&subject)
 
-	if out.Extensions, err = parseCSRExtensions(in.TBSCSR.RawAttributes); err != nil {
-		return nil, err
-	}
+	out.Extensions = try(parseCSRExtensions(in.TBSCSR.RawAttributes))
 
 	for _, extension := range out.Extensions {
 		if extension.Id.Equal(oidExtensionSubjectAltName) {
-			out.DNSNames, out.EmailAddresses, out.IPAddresses, out.URIs, err = parseSANExtension(extension.Value)
-			if err != nil {
-				return nil, err
-			}
+			out.DNSNames, out.EmailAddresses, out.IPAddresses, out.URIs = try(parseSANExtension(extension.Value))
 		}
 	}
 

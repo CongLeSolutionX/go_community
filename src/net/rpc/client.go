@@ -215,12 +215,8 @@ type gobClientCodec struct {
 }
 
 func (c *gobClientCodec) WriteRequest(r *Request, body interface{}) (err error) {
-	if err = c.enc.Encode(r); err != nil {
-		return
-	}
-	if err = c.enc.Encode(body); err != nil {
-		return
-	}
+	try(c.enc.Encode(r))
+	try(c.enc.Encode(body))
 	return c.encBuf.Flush()
 }
 
@@ -246,10 +242,7 @@ func DialHTTP(network, address string) (*Client, error) {
 // at the specified network address and path.
 func DialHTTPPath(network, address, path string) (*Client, error) {
 	var err error
-	conn, err := net.Dial(network, address)
-	if err != nil {
-		return nil, err
-	}
+	conn := try(net.Dial(network, address))
 	io.WriteString(conn, "CONNECT "+path+" HTTP/1.0\n\n")
 
 	// Require successful HTTP response
@@ -272,10 +265,7 @@ func DialHTTPPath(network, address, path string) (*Client, error) {
 
 // Dial connects to an RPC server at the specified network address.
 func Dial(network, address string) (*Client, error) {
-	conn, err := net.Dial(network, address)
-	if err != nil {
-		return nil, err
-	}
+	conn := try(net.Dial(network, address))
 	return NewClient(conn), nil
 }
 

@@ -131,9 +131,7 @@ func newPart(mr *Reader) (*Part, error) {
 		Header: make(map[string][]string),
 		mr:     mr,
 	}
-	if err := bp.populateHeaders(); err != nil {
-		return nil, err
-	}
+	try(bp.populateHeaders())
 	bp.r = partReader{bp}
 	const cte = "Content-Transfer-Encoding"
 	if strings.EqualFold(bp.Header.Get(cte), "quoted-printable") {
@@ -325,10 +323,7 @@ func (r *Reader) NextPart() (*Part, error) {
 
 		if r.isBoundaryDelimiterLine(line) {
 			r.partsRead++
-			bp, err := newPart(r)
-			if err != nil {
-				return nil, err
-			}
+			bp := try(newPart(r))
 			r.currentPart = bp
 			return bp, nil
 		}

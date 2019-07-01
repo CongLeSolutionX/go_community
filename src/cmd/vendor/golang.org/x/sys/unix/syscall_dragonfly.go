@@ -44,16 +44,11 @@ func nametomib(name string) (mib []_C_int, err error) {
 	n := uintptr(CTL_MAXNAME) * siz
 
 	p := (*byte)(unsafe.Pointer(&buf[0]))
-	bytes, err := ByteSliceFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	bytes := try(ByteSliceFromString(name))
 
 	// Magic sysctl: "setting" 0.3 to a string name
 	// lets you read back the array of integers form.
-	if err = sysctl([]_C_int{0, 3}, p, &n, &bytes[0], uintptr(len(name))); err != nil {
-		return nil, err
-	}
+	try(sysctl([]_C_int{0, 3}, p, &n, &bytes[0], uintptr(len(name))))
 	return buf[0 : n/siz], nil
 }
 
@@ -80,10 +75,7 @@ func Pwrite(fd int, p []byte, offset int64) (n int, err error) {
 func Accept4(fd, flags int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = accept4(fd, &rsa, &len, flags)
-	if err != nil {
-		return
-	}
+	nfd = try(accept4(fd, &rsa, &len, flags))
 	if len > SizeofSockaddrAny {
 		panic("RawSockaddrAny too small")
 	}
@@ -101,10 +93,7 @@ const ImplementsGetwd = true
 
 func Getwd() (string, error) {
 	var buf [PathMax]byte
-	_, err := Getcwd(buf[0:])
-	if err != nil {
-		return "", err
-	}
+	try(Getcwd(buf[0:]))
 	n := clen(buf[:])
 	if n < 1 {
 		return "", EINVAL
@@ -187,30 +176,22 @@ func sysctlUname(mib []_C_int, old *byte, oldlen *uintptr) error {
 func Uname(uname *Utsname) error {
 	mib := []_C_int{CTL_KERN, KERN_OSTYPE}
 	n := unsafe.Sizeof(uname.Sysname)
-	if err := sysctlUname(mib, &uname.Sysname[0], &n); err != nil {
-		return err
-	}
+	try(sysctlUname(mib, &uname.Sysname[0], &n))
 	uname.Sysname[unsafe.Sizeof(uname.Sysname)-1] = 0
 
 	mib = []_C_int{CTL_KERN, KERN_HOSTNAME}
 	n = unsafe.Sizeof(uname.Nodename)
-	if err := sysctlUname(mib, &uname.Nodename[0], &n); err != nil {
-		return err
-	}
+	try(sysctlUname(mib, &uname.Nodename[0], &n))
 	uname.Nodename[unsafe.Sizeof(uname.Nodename)-1] = 0
 
 	mib = []_C_int{CTL_KERN, KERN_OSRELEASE}
 	n = unsafe.Sizeof(uname.Release)
-	if err := sysctlUname(mib, &uname.Release[0], &n); err != nil {
-		return err
-	}
+	try(sysctlUname(mib, &uname.Release[0], &n))
 	uname.Release[unsafe.Sizeof(uname.Release)-1] = 0
 
 	mib = []_C_int{CTL_KERN, KERN_VERSION}
 	n = unsafe.Sizeof(uname.Version)
-	if err := sysctlUname(mib, &uname.Version[0], &n); err != nil {
-		return err
-	}
+	try(sysctlUname(mib, &uname.Version[0], &n))
 
 	// The version might have newlines or tabs in it, convert them to
 	// spaces.
@@ -226,9 +207,7 @@ func Uname(uname *Utsname) error {
 
 	mib = []_C_int{CTL_HW, HW_MACHINE}
 	n = unsafe.Sizeof(uname.Machine)
-	if err := sysctlUname(mib, &uname.Machine[0], &n); err != nil {
-		return err
-	}
+	try(sysctlUname(mib, &uname.Machine[0], &n))
 	uname.Machine[unsafe.Sizeof(uname.Machine)-1] = 0
 
 	return nil

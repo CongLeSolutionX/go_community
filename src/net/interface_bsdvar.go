@@ -13,10 +13,7 @@ import (
 )
 
 func interfaceMessages(ifindex int) ([]route.Message, error) {
-	rib, err := route.FetchRIB(syscall.AF_UNSPEC, syscall.NET_RT_IFLIST, ifindex)
-	if err != nil {
-		return nil, err
-	}
+	rib := try(route.FetchRIB(syscall.AF_UNSPEC, syscall.NET_RT_IFLIST, ifindex))
 	return route.ParseRIB(syscall.NET_RT_IFLIST, rib)
 }
 

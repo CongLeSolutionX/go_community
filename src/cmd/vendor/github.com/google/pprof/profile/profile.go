@@ -143,10 +143,7 @@ type Function struct {
 // may be a gzip-compressed encoded protobuf or one of many legacy
 // profile formats which may be unsupported in the future.
 func Parse(r io.Reader) (*Profile, error) {
-	data, err := ioutil.ReadAll(r)
-	if err != nil {
-		return nil, err
-	}
+	data := try(ioutil.ReadAll(r))
 	return ParseData(data)
 }
 
@@ -212,13 +209,9 @@ func ParseUncompressed(data []byte) (*Profile, error) {
 		return nil, errNoData
 	}
 	p := &Profile{}
-	if err := unmarshal(data, p); err != nil {
-		return nil, err
-	}
+	try(unmarshal(data, p))
 
-	if err := p.postDecode(); err != nil {
-		return nil, err
-	}
+	try(p.postDecode())
 
 	return p, nil
 }

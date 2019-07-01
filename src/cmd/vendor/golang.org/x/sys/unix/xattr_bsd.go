@@ -87,10 +87,7 @@ func Fsetxattr(fd int, attr string, data []byte, flags int) (err error) {
 	}
 	datasiz := len(data)
 
-	nsid, a, err := xattrnamespace(attr)
-	if err != nil {
-		return
-	}
+	nsid, a := try(xattrnamespace(attr))
 
 	_, err = ExtattrSetFd(fd, nsid, a, uintptr(d), datasiz)
 	return
@@ -103,10 +100,7 @@ func Setxattr(file string, attr string, data []byte, flags int) (err error) {
 	}
 	datasiz := len(data)
 
-	nsid, a, err := xattrnamespace(attr)
-	if err != nil {
-		return
-	}
+	nsid, a := try(xattrnamespace(attr))
 
 	_, err = ExtattrSetFile(file, nsid, a, uintptr(d), datasiz)
 	return
@@ -119,40 +113,28 @@ func Lsetxattr(link string, attr string, data []byte, flags int) (err error) {
 	}
 	datasiz := len(data)
 
-	nsid, a, err := xattrnamespace(attr)
-	if err != nil {
-		return
-	}
+	nsid, a := try(xattrnamespace(attr))
 
 	_, err = ExtattrSetLink(link, nsid, a, uintptr(d), datasiz)
 	return
 }
 
 func Removexattr(file string, attr string) (err error) {
-	nsid, a, err := xattrnamespace(attr)
-	if err != nil {
-		return
-	}
+	nsid, a := try(xattrnamespace(attr))
 
 	err = ExtattrDeleteFile(file, nsid, a)
 	return
 }
 
 func Fremovexattr(fd int, attr string) (err error) {
-	nsid, a, err := xattrnamespace(attr)
-	if err != nil {
-		return
-	}
+	nsid, a := try(xattrnamespace(attr))
 
 	err = ExtattrDeleteFd(fd, nsid, a)
 	return
 }
 
 func Lremovexattr(link string, attr string) (err error) {
-	nsid, a, err := xattrnamespace(attr)
-	if err != nil {
-		return
-	}
+	nsid, a := try(xattrnamespace(attr))
 
 	err = ExtattrDeleteLink(link, nsid, a)
 	return

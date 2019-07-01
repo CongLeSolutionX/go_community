@@ -194,10 +194,7 @@ func decodeVarint(data []byte) (uint64, []byte, error) {
 }
 
 func decodeField(b *buffer, data []byte) ([]byte, error) {
-	x, data, err := decodeVarint(data)
-	if err != nil {
-		return nil, err
-	}
+	x, data := try(decodeVarint(data))
 	b.field = int(x >> 3)
 	b.typ = int(x & 7)
 	b.data = nil
@@ -246,32 +243,23 @@ func checkType(b *buffer, typ int) error {
 }
 
 func decodeMessage(b *buffer, m message) error {
-	if err := checkType(b, 2); err != nil {
-		return err
-	}
+	try(checkType(b, 2))
 	dec := m.decoder()
 	data := b.data
 	for len(data) > 0 {
 		// pull varint field# + type
 		var err error
-		data, err = decodeField(b, data)
-		if err != nil {
-			return err
-		}
+		data = try(decodeField(b, data))
 		if b.field >= len(dec) || dec[b.field] == nil {
 			continue
 		}
-		if err := dec[b.field](b, m); err != nil {
-			return err
-		}
+		try(dec[b.field](b, m))
 	}
 	return nil
 }
 
 func decodeInt64(b *buffer, x *int64) error {
-	if err := checkType(b, 0); err != nil {
-		return err
-	}
+	try(checkType(b, 0))
 	*x = int64(b.u64)
 	return nil
 }
@@ -284,25 +272,19 @@ func decodeInt64s(b *buffer, x *[]int64) error {
 			var u uint64
 			var err error
 
-			if u, data, err = decodeVarint(data); err != nil {
-				return err
-			}
+			u, data = try(decodeVarint(data))
 			*x = append(*x, int64(u))
 		}
 		return nil
 	}
 	var i int64
-	if err := decodeInt64(b, &i); err != nil {
-		return err
-	}
+	try(decodeInt64(b, &i))
 	*x = append(*x, i)
 	return nil
 }
 
 func decodeUint64(b *buffer, x *uint64) error {
-	if err := checkType(b, 0); err != nil {
-		return err
-	}
+	try(checkType(b, 0))
 	*x = b.u64
 	return nil
 }
@@ -315,42 +297,32 @@ func decodeUint64s(b *buffer, x *[]uint64) error {
 			var u uint64
 			var err error
 
-			if u, data, err = decodeVarint(data); err != nil {
-				return err
-			}
+			u, data = try(decodeVarint(data))
 			*x = append(*x, u)
 		}
 		return nil
 	}
 	var u uint64
-	if err := decodeUint64(b, &u); err != nil {
-		return err
-	}
+	try(decodeUint64(b, &u))
 	*x = append(*x, u)
 	return nil
 }
 
 func decodeString(b *buffer, x *string) error {
-	if err := checkType(b, 2); err != nil {
-		return err
-	}
+	try(checkType(b, 2))
 	*x = string(b.data)
 	return nil
 }
 
 func decodeStrings(b *buffer, x *[]string) error {
 	var s string
-	if err := decodeString(b, &s); err != nil {
-		return err
-	}
+	try(decodeString(b, &s))
 	*x = append(*x, s)
 	return nil
 }
 
 func decodeBool(b *buffer, x *bool) error {
-	if err := checkType(b, 0); err != nil {
-		return err
-	}
+	try(checkType(b, 0))
 	if int64(b.u64) == 0 {
 		*x = false
 	} else {

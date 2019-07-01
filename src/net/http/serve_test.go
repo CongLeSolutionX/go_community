@@ -1252,10 +1252,7 @@ type blockingRemoteAddrListener struct {
 }
 
 func (l *blockingRemoteAddrListener) Accept() (net.Conn, error) {
-	c, err := l.Listener.Accept()
-	if err != nil {
-		return nil, err
-	}
+	c := try(l.Listener.Accept())
 	brac := &blockingRemoteAddrConn{
 		Conn:  c,
 		addrs: make(chan net.Addr, 1),
@@ -5078,10 +5075,7 @@ func BenchmarkServer(b *testing.B) {
 
 // getNoBody wraps Get but closes any Response.Body before returning the response.
 func getNoBody(urlStr string) (*Response, error) {
-	res, err := Get(urlStr)
-	if err != nil {
-		return nil, err
-	}
+	res := try(Get(urlStr))
 	res.Body.Close()
 	return res, nil
 }
@@ -6154,15 +6148,10 @@ func TestUnsupportedTransferEncodingsReturn501(t *testing.T) {
 // sending http1ReqBody as the payload and retrieving
 // the response as it was sent on the wire.
 func fetchWireResponse(host string, http1ReqBody []byte) ([]byte, error) {
-	conn, err := net.Dial("tcp", host)
-	if err != nil {
-		return nil, err
-	}
+	conn := try(net.Dial("tcp", host))
 	defer conn.Close()
 
-	if _, err := conn.Write(http1ReqBody); err != nil {
-		return nil, err
-	}
+	try(conn.Write(http1ReqBody))
 	return ioutil.ReadAll(conn)
 }
 

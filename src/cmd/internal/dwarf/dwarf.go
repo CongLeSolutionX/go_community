@@ -1308,10 +1308,7 @@ func PutInlinedFunc(ctxt Context, s *FnState, callersym Sym, callIdx int) error 
 	// Children of this inline.
 	for _, sib := range inlChildren(callIdx, &s.InlCalls) {
 		absfn := s.InlCalls.Calls[sib].AbsFunSym
-		err := PutInlinedFunc(ctxt, s, absfn, sib)
-		if err != nil {
-			return err
-		}
+		try(PutInlinedFunc(ctxt, s, absfn, sib))
 	}
 
 	Uleb128put(ctxt, s.Info, 0)
@@ -1343,17 +1340,12 @@ func PutConcreteFunc(ctxt Context, s *FnState) error {
 	putattr(ctxt, s.Info, abbrev, DW_FORM_block1, DW_CLS_BLOCK, 1, []byte{DW_OP_call_frame_cfa})
 
 	// Scopes
-	if err := putPrunedScopes(ctxt, s, abbrev); err != nil {
-		return err
-	}
+	try(putPrunedScopes(ctxt, s, abbrev))
 
 	// Inlined subroutines.
 	for _, sib := range inlChildren(-1, &s.InlCalls) {
 		absfn := s.InlCalls.Calls[sib].AbsFunSym
-		err := PutInlinedFunc(ctxt, s, absfn, sib)
-		if err != nil {
-			return err
-		}
+		try(PutInlinedFunc(ctxt, s, absfn, sib))
 	}
 
 	Uleb128put(ctxt, s.Info, 0)
@@ -1385,17 +1377,12 @@ func PutDefaultFunc(ctxt Context, s *FnState) error {
 	putattr(ctxt, s.Info, abbrev, DW_FORM_flag, DW_CLS_FLAG, ev, 0)
 
 	// Scopes
-	if err := putPrunedScopes(ctxt, s, abbrev); err != nil {
-		return err
-	}
+	try(putPrunedScopes(ctxt, s, abbrev))
 
 	// Inlined subroutines.
 	for _, sib := range inlChildren(-1, &s.InlCalls) {
 		absfn := s.InlCalls.Calls[sib].AbsFunSym
-		err := PutInlinedFunc(ctxt, s, absfn, sib)
-		if err != nil {
-			return err
-		}
+		try(PutInlinedFunc(ctxt, s, absfn, sib))
 	}
 
 	Uleb128put(ctxt, s.Info, 0)

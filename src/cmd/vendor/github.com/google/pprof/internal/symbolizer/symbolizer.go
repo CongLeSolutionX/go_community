@@ -88,9 +88,8 @@ func (s *Symbolizer) Symbolize(mode string, sources plugin.MappingSources, p *pr
 		post := func(source, post string) ([]byte, error) {
 			return postURL(source, post, s.Transport)
 		}
-		if err = symbolzSymbolize(p, force, sources, post, s.UI); err != nil {
-			return err // Ran out of options.
-		}
+		try(symbolzSymbolize(p, force, sources, post, s.UI)) // Ran out of options.
+
 	}
 
 	demangleFunction(p, force, demanglerMode)
@@ -133,10 +132,7 @@ func doLocalSymbolize(prof *profile.Profile, fast, force bool, obj plugin.ObjToo
 		}
 	}
 
-	mt, err := newMapping(prof, obj, ui, force)
-	if err != nil {
-		return err
-	}
+	mt := try(newMapping(prof, obj, ui, force))
 	defer mt.close()
 
 	functions := make(map[profile.Function]*profile.Function)

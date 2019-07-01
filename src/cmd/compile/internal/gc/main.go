@@ -763,10 +763,7 @@ func Main(archInit func(*Arch)) {
 }
 
 func writebench(filename string) error {
-	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		return err
-	}
+	f := try(os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666))
 
 	var buf bytes.Buffer
 	fmt.Fprintln(&buf, "commit:", objabi.Version)
@@ -774,10 +771,7 @@ func writebench(filename string) error {
 	fmt.Fprintln(&buf, "goarch:", runtime.GOARCH)
 	timings.Write(&buf, "BenchmarkCompile:"+myimportpath+":")
 
-	n, err := f.Write(buf.Bytes())
-	if err != nil {
-		return err
-	}
+	n := try(f.Write(buf.Bytes()))
 	if n != buf.Len() {
 		panic("bad writer")
 	}
@@ -1493,13 +1487,7 @@ func parseLang(s string) (lang, error) {
 	if matches == nil {
 		return lang{}, fmt.Errorf(`should be something like "go1.12"`)
 	}
-	major, err := strconv.Atoi(matches[1])
-	if err != nil {
-		return lang{}, err
-	}
-	minor, err := strconv.Atoi(matches[2])
-	if err != nil {
-		return lang{}, err
-	}
+	major := try(strconv.Atoi(matches[1]))
+	minor := try(strconv.Atoi(matches[2]))
 	return lang{major: major, minor: minor}, nil
 }

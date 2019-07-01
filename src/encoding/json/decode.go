@@ -97,10 +97,7 @@ func Unmarshal(data []byte, v interface{}) error {
 	// Avoids filling out half a data structure
 	// before discovering a JSON syntax error.
 	var d decodeState
-	err := checkValid(data, &d.scan)
-	if err != nil {
-		return err
-	}
+	try(checkValid(data, &d.scan))
 
 	d.init(data)
 	return d.unmarshal(v)
@@ -630,14 +627,10 @@ func (d *decodeState) array(v reflect.Value) error {
 
 		if i < v.Len() {
 			// Decode into element.
-			if err := d.value(v.Index(i)); err != nil {
-				return err
-			}
+			try(d.value(v.Index(i)))
 		} else {
 			// Ran out of fixed array: skip.
-			if err := d.value(reflect.Value{}); err != nil {
-				return err
-			}
+			try(d.value(reflect.Value{}))
 		}
 		i++
 
@@ -837,9 +830,7 @@ func (d *decodeState) object(v reflect.Value) error {
 				d.saveError(fmt.Errorf("json: invalid use of ,string struct tag, trying to unmarshal unquoted value into %v", subv.Type()))
 			}
 		} else {
-			if err := d.value(subv); err != nil {
-				return err
-			}
+			try(d.value(subv))
 		}
 
 		// Write value back to map;

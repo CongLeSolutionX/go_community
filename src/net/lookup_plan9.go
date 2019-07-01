@@ -84,10 +84,7 @@ func queryCS1(ctx context.Context, net string, ip IP, port int) (clone, dest str
 	if len(ip) != 0 && !ip.IsUnspecified() {
 		ips = ip.String()
 	}
-	lines, err := queryCS(ctx, net, ips, itoa(port))
-	if err != nil {
-		return
-	}
+	lines := try(queryCS(ctx, net, ips, itoa(port)))
 	f := getFields(lines[0])
 	if len(f) < 2 {
 		return "", "", errors.New("bad response from ndb/cs")
@@ -124,10 +121,7 @@ func toLower(in string) string {
 // lookupProtocol looks up IP protocol name and returns
 // the corresponding protocol number.
 func lookupProtocol(ctx context.Context, name string) (proto int, err error) {
-	lines, err := query(ctx, netdir+"/cs", "!protocol="+toLower(name), 128)
-	if err != nil {
-		return 0, err
-	}
+	lines := try(query(ctx, netdir+"/cs", "!protocol="+toLower(name), 128))
 	if len(lines) == 0 {
 		return 0, UnknownNetworkError(name)
 	}
@@ -179,10 +173,7 @@ loop:
 }
 
 func (r *Resolver) lookupIP(ctx context.Context, _, host string) (addrs []IPAddr, err error) {
-	lits, err := r.lookupHost(ctx, host)
-	if err != nil {
-		return
-	}
+	lits := try(r.lookupHost(ctx, host))
 	for _, lit := range lits {
 		host, zone := splitHostZone(lit)
 		if ip := ParseIP(host); ip != nil {
@@ -200,10 +191,7 @@ func (*Resolver) lookupPort(ctx context.Context, network, service string) (port 
 	case "udp4", "udp6":
 		network = "udp"
 	}
-	lines, err := queryCS(ctx, network, "127.0.0.1", toLower(service))
-	if err != nil {
-		return
-	}
+	lines := try(queryCS(ctx, network, "127.0.0.1", toLower(service)))
 	unknownPortError := &AddrError{Err: "unknown port", Addr: network + "/" + service}
 	if len(lines) == 0 {
 		return 0, unknownPortError
@@ -246,10 +234,7 @@ func (*Resolver) lookupSRV(ctx context.Context, service, proto, name string) (cn
 	} else {
 		target = "_" + service + "._" + proto + "." + name
 	}
-	lines, err := queryDNS(ctx, target, "srv")
-	if err != nil {
-		return
-	}
+	lines := try(queryDNS(ctx, target, "srv"))
 	for _, line := range lines {
 		f := getFields(line)
 		if len(f) < 6 {
@@ -269,10 +254,7 @@ func (*Resolver) lookupSRV(ctx context.Context, service, proto, name string) (cn
 }
 
 func (*Resolver) lookupMX(ctx context.Context, name string) (mx []*MX, err error) {
-	lines, err := queryDNS(ctx, name, "mx")
-	if err != nil {
-		return
-	}
+	lines := try(queryDNS(ctx, name, "mx"))
 	for _, line := range lines {
 		f := getFields(line)
 		if len(f) < 4 {
@@ -287,10 +269,7 @@ func (*Resolver) lookupMX(ctx context.Context, name string) (mx []*MX, err error
 }
 
 func (*Resolver) lookupNS(ctx context.Context, name string) (ns []*NS, err error) {
-	lines, err := queryDNS(ctx, name, "ns")
-	if err != nil {
-		return
-	}
+	lines := try(queryDNS(ctx, name, "ns"))
 	for _, line := range lines {
 		f := getFields(line)
 		if len(f) < 3 {
@@ -302,10 +281,7 @@ func (*Resolver) lookupNS(ctx context.Context, name string) (ns []*NS, err error
 }
 
 func (*Resolver) lookupTXT(ctx context.Context, name string) (txt []string, err error) {
-	lines, err := queryDNS(ctx, name, "txt")
-	if err != nil {
-		return
-	}
+	lines := try(queryDNS(ctx, name, "txt"))
 	for _, line := range lines {
 		if i := bytealg.IndexByteString(line, '\t'); i >= 0 {
 			txt = append(txt, absDomainName([]byte(line[i+1:])))
@@ -315,14 +291,8 @@ func (*Resolver) lookupTXT(ctx context.Context, name string) (txt []string, err 
 }
 
 func (*Resolver) lookupAddr(ctx context.Context, addr string) (name []string, err error) {
-	arpa, err := reverseaddr(addr)
-	if err != nil {
-		return
-	}
-	lines, err := queryDNS(ctx, arpa, "ptr")
-	if err != nil {
-		return
-	}
+	arpa := try(reverseaddr(addr))
+	lines := try(queryDNS(ctx, arpa, "ptr"))
 	for _, line := range lines {
 		f := getFields(line)
 		if len(f) < 3 {

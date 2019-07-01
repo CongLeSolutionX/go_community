@@ -162,26 +162,17 @@ func (fs *fileStat) loadFileId() error {
 	} else {
 		path = fs.path
 	}
-	pathp, err := syscall.UTF16PtrFromString(path)
-	if err != nil {
-		return err
-	}
+	pathp := try(syscall.UTF16PtrFromString(path))
 	attrs := uint32(syscall.FILE_FLAG_BACKUP_SEMANTICS)
 	if fs.isSymlink() {
 		// Use FILE_FLAG_OPEN_REPARSE_POINT, otherwise CreateFile will follow symlink.
 		// See https://docs.microsoft.com/en-us/windows/desktop/FileIO/symbolic-link-effects-on-file-systems-functions#createfile-and-createfiletransacted
 		attrs |= syscall.FILE_FLAG_OPEN_REPARSE_POINT
 	}
-	h, err := syscall.CreateFile(pathp, 0, 0, nil, syscall.OPEN_EXISTING, attrs, 0)
-	if err != nil {
-		return err
-	}
+	h := try(syscall.CreateFile(pathp, 0, 0, nil, syscall.OPEN_EXISTING, attrs, 0))
 	defer syscall.CloseHandle(h)
 	var i syscall.ByHandleFileInformation
-	err = syscall.GetFileInformationByHandle(h, &i)
-	if err != nil {
-		return err
-	}
+	try(syscall.GetFileInformationByHandle(h, &i))
 	fs.path = ""
 	fs.vol = i.VolumeSerialNumber
 	fs.idxhi = i.FileIndexHigh

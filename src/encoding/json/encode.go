@@ -158,10 +158,7 @@ import (
 func Marshal(v interface{}) ([]byte, error) {
 	e := newEncodeState()
 
-	err := e.marshal(v, encOpts{escapeHTML: true})
-	if err != nil {
-		return nil, err
-	}
+	try(e.marshal(v, encOpts{escapeHTML: true}))
 	buf := append([]byte(nil), e.Bytes()...)
 
 	e.Reset()
@@ -174,15 +171,9 @@ func Marshal(v interface{}) ([]byte, error) {
 // Each JSON element in the output will begin on a new line beginning with prefix
 // followed by one or more copies of indent according to the indentation nesting.
 func MarshalIndent(v interface{}, prefix, indent string) ([]byte, error) {
-	b, err := Marshal(v)
-	if err != nil {
-		return nil, err
-	}
+	b := try(Marshal(v))
 	var buf bytes.Buffer
-	err = Indent(&buf, b, prefix, indent)
-	if err != nil {
-		return nil, err
-	}
+	try(Indent(&buf, b, prefix, indent))
 	return buf.Bytes(), nil
 }
 

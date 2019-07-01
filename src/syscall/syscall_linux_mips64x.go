@@ -78,10 +78,7 @@ func Select(nfd int, r *FdSet, w *FdSet, e *FdSet, timeout *Timeval) (n int, err
 
 func Time(t *Time_t) (tt Time_t, err error) {
 	var tv Timeval
-	err = Gettimeofday(&tv)
-	if err != nil {
-		return 0, err
-	}
+	try(Gettimeofday(&tv))
 	if t != nil {
 		*t = Time_t(tv.Sec)
 	}

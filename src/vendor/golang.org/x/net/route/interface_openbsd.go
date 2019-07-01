@@ -28,10 +28,7 @@ func (*wireFormat) parseInterfaceMessage(_ RIBType, b []byte) (Message, error) {
 	if len(b) < ll {
 		return nil, errInvalidMessage
 	}
-	a, err := parseLinkAddr(b[ll:])
-	if err != nil {
-		return nil, err
-	}
+	a := try(parseLinkAddr(b[ll:]))
 	m.Addrs[sysRTAX_IFP] = a
 	m.Name = a.(*LinkAddr).Name
 	return m, nil
@@ -57,10 +54,7 @@ func (*wireFormat) parseInterfaceAddrMessage(_ RIBType, b []byte) (Message, erro
 		raw:     b[:l],
 	}
 	var err error
-	m.Addrs, err = parseAddrs(uint(nativeEndian.Uint32(b[12:16])), parseKernelInetAddr, b[bodyOff:])
-	if err != nil {
-		return nil, err
-	}
+	m.Addrs = try(parseAddrs(uint(nativeEndian.Uint32(b[12:16])), parseKernelInetAddr, b[bodyOff:]))
 	return m, nil
 }
 

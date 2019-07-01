@@ -66,17 +66,11 @@ func init() {
 // Use LazyDLL in golang.org/x/sys/windows for a secure way to
 // load system DLLs.
 func LoadDLL(name string) (*DLL, error) {
-	namep, err := UTF16PtrFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	namep := try(UTF16PtrFromString(name))
 	var h uintptr
 	var e Errno
 	if sysdll.IsSystemDLL[name] {
-		absoluteFilepathp, err := UTF16PtrFromString(systemDirectoryPrefix + name)
-		if err != nil {
-			return nil, err
-		}
+		absoluteFilepathp := try(UTF16PtrFromString(systemDirectoryPrefix + name))
 		h, e = loadsystemlibrary(namep, absoluteFilepathp)
 	} else {
 		h, e = loadlibrary(namep)
@@ -107,10 +101,7 @@ func MustLoadDLL(name string) *DLL {
 // FindProc searches DLL d for procedure named name and returns *Proc
 // if found. It returns an error if search fails.
 func (d *DLL) FindProc(name string) (proc *Proc, err error) {
-	namep, err := BytePtrFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	namep := try(BytePtrFromString(name))
 	a, e := getprocaddress(uintptr(d.Handle), namep)
 	if e != 0 {
 		return nil, &DLLError{
@@ -233,10 +224,7 @@ func (d *LazyDLL) Load() error {
 		d.mu.Lock()
 		defer d.mu.Unlock()
 		if d.dll == nil {
-			dll, e := LoadDLL(d.Name)
-			if e != nil {
-				return e
-			}
+			dll := try(LoadDLL(d.Name))
 			// Non-racy version of:
 			// d.dll = dll
 			atomic.StorePointer((*unsafe.Pointer)(unsafe.Pointer(&d.dll)), unsafe.Pointer(dll))
@@ -288,14 +276,8 @@ func (p *LazyProc) Find() error {
 		p.mu.Lock()
 		defer p.mu.Unlock()
 		if p.proc == nil {
-			e := p.l.Load()
-			if e != nil {
-				return e
-			}
-			proc, e := p.l.dll.FindProc(p.Name)
-			if e != nil {
-				return e
-			}
+			try(p.l.Load())
+			proc := try(p.l.dll.FindProc(p.Name))
 			// Non-racy version of:
 			// p.proc = proc
 			atomic.StorePointer((*unsafe.Pointer)(unsafe.Pointer(&p.proc)), unsafe.Pointer(proc))

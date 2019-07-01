@@ -103,10 +103,7 @@ func SlicePtrFromStrings(ss []string) ([]*byte, error) {
 func CloseOnExec(fd int) { fcntl(fd, F_SETFD, FD_CLOEXEC) }
 
 func SetNonblock(fd int, nonblocking bool) (err error) {
-	flag, err := fcntl(fd, F_GETFL, 0)
-	if err != nil {
-		return err
-	}
+	flag := try(fcntl(fd, F_GETFL, 0))
 	if nonblocking {
 		flag |= O_NONBLOCK
 	} else {
@@ -155,18 +152,9 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 	p[1] = -1
 
 	// Convert args to C form.
-	argv0p, err := BytePtrFromString(argv0)
-	if err != nil {
-		return 0, err
-	}
-	argvp, err := SlicePtrFromStrings(argv)
-	if err != nil {
-		return 0, err
-	}
-	envvp, err := SlicePtrFromStrings(attr.Env)
-	if err != nil {
-		return 0, err
-	}
+	argv0p := try(BytePtrFromString(argv0))
+	argvp := try(SlicePtrFromStrings(argv))
+	envvp := try(SlicePtrFromStrings(attr.Env))
 
 	if (runtime.GOOS == "freebsd" || runtime.GOOS == "dragonfly") && len(argv[0]) > len(argv0) {
 		argvp[0] = argv0p
@@ -174,17 +162,11 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 
 	var chroot *byte
 	if sys.Chroot != "" {
-		chroot, err = BytePtrFromString(sys.Chroot)
-		if err != nil {
-			return 0, err
-		}
+		chroot = try(BytePtrFromString(sys.Chroot))
 	}
 	var dir *byte
 	if attr.Dir != "" {
-		dir, err = BytePtrFromString(attr.Dir)
-		if err != nil {
-			return 0, err
-		}
+		dir = try(BytePtrFromString(attr.Dir))
 	}
 
 	// Acquire the fork lock so that no other threads
@@ -260,18 +242,9 @@ var execveDarwin func(path *byte, argv **byte, envp **byte) error
 
 // Exec invokes the execve(2) system call.
 func Exec(argv0 string, argv []string, envv []string) (err error) {
-	argv0p, err := BytePtrFromString(argv0)
-	if err != nil {
-		return err
-	}
-	argvp, err := SlicePtrFromStrings(argv)
-	if err != nil {
-		return err
-	}
-	envvp, err := SlicePtrFromStrings(envv)
-	if err != nil {
-		return err
-	}
+	argv0p := try(BytePtrFromString(argv0))
+	argvp := try(SlicePtrFromStrings(argv))
+	envvp := try(SlicePtrFromStrings(envv))
 	runtime_BeforeExec()
 
 	var err1 error

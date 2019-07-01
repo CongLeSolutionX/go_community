@@ -68,15 +68,9 @@ func main() {
 }
 
 func selectCerts() ([]*x509.Certificate, error) {
-	ids, err := fetchCertIDs()
-	if err != nil {
-		return nil, err
-	}
+	ids := try(fetchCertIDs())
 
-	scerts, err := sysCerts()
-	if err != nil {
-		return nil, err
-	}
+	scerts := try(sysCerts())
 
 	var certs []*x509.Certificate
 	for _, id := range ids {
@@ -91,10 +85,7 @@ func selectCerts() ([]*x509.Certificate, error) {
 
 func sysCerts() (certs map[string]*x509.Certificate, err error) {
 	cmd := exec.Command("/usr/bin/security", "find-certificate", "-a", "-p", "/System/Library/Keychains/SystemRootCertificates.keychain")
-	data, err := cmd.Output()
-	if err != nil {
-		return nil, err
-	}
+	data := try(cmd.Output())
 	certs = make(map[string]*x509.Certificate)
 	for len(data) > 0 {
 		var block *pem.Block
@@ -126,15 +117,9 @@ type certID struct {
 func fetchCertIDs() ([]certID, error) {
 	// Download the iOS 11 support page. The index for all iOS versions is here:
 	// https://support.apple.com/en-us/HT204132
-	resp, err := http.Get("https://support.apple.com/en-us/HT208125")
-	if err != nil {
-		return nil, err
-	}
+	resp := try(http.Get("https://support.apple.com/en-us/HT208125"))
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
+	body := try(ioutil.ReadAll(resp.Body))
 	text := string(body)
 	text = text[strings.Index(text, "<div id=trusted"):]
 	text = text[:strings.Index(text, "</div>")]

@@ -747,25 +747,17 @@ func (c *Certificate) Verify(opts VerifyOptions) (chains [][]*Certificate, err e
 		}
 	}
 
-	err = c.isValid(leafCertificate, nil, &opts)
-	if err != nil {
-		return
-	}
+	try(c.isValid(leafCertificate, nil, &opts))
 
 	if len(opts.DNSName) > 0 {
-		err = c.VerifyHostname(opts.DNSName)
-		if err != nil {
-			return
-		}
+		try(c.VerifyHostname(opts.DNSName))
 	}
 
 	var candidateChains [][]*Certificate
 	if opts.Roots.contains(c) {
 		candidateChains = append(candidateChains, []*Certificate{c})
 	} else {
-		if candidateChains, err = c.buildChains(nil, []*Certificate{c}, nil, &opts); err != nil {
-			return nil, err
-		}
+		candidateChains = try(c.buildChains(nil, []*Certificate{c}, nil, &opts))
 	}
 
 	keyUsages := opts.KeyUsages

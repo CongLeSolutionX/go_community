@@ -29,14 +29,9 @@ type exe interface {
 
 // openExe opens file and returns it as an exe.
 func openExe(file string) (exe, error) {
-	f, err := os.Open(file)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(file))
 	data := make([]byte, 16)
-	if _, err := io.ReadFull(f, data); err != nil {
-		return nil, err
-	}
+	try(io.ReadFull(f, data))
 	f.Seek(0, 0)
 	if bytes.HasPrefix(data, []byte("\x7FELF")) {
 		e, err := elf.NewFile(f)
@@ -92,10 +87,7 @@ func (x *elfExe) ReadData(addr, size uint64) ([]byte, error) {
 				n = size
 			}
 			data := make([]byte, n)
-			_, err := prog.ReadAt(data, int64(addr-prog.Vaddr))
-			if err != nil {
-				return nil, err
-			}
+			try(prog.ReadAt(data, int64(addr-prog.Vaddr)))
 			return data, nil
 		}
 	}
@@ -140,10 +132,7 @@ func (x *peExe) ReadData(addr, size uint64) ([]byte, error) {
 				n = size
 			}
 			data := make([]byte, n)
-			_, err := sect.ReadAt(data, int64(addr-uint64(sect.VirtualAddress)))
-			if err != nil {
-				return nil, err
-			}
+			try(sect.ReadAt(data, int64(addr-uint64(sect.VirtualAddress))))
 			return data, nil
 		}
 	}
@@ -197,10 +186,7 @@ func (x *machoExe) ReadData(addr, size uint64) ([]byte, error) {
 				n = size
 			}
 			data := make([]byte, n)
-			_, err := seg.ReadAt(data, int64(addr-seg.Addr))
-			if err != nil {
-				return nil, err
-			}
+			try(seg.ReadAt(data, int64(addr-seg.Addr)))
 			return data, nil
 		}
 	}
@@ -237,10 +223,7 @@ func (x *xcoffExe) ReadData(addr, size uint64) ([]byte, error) {
 				n = size
 			}
 			data := make([]byte, n)
-			_, err := sect.ReadAt(data, int64(addr-uint64(sect.VirtualAddress)))
-			if err != nil {
-				return nil, err
-			}
+			try(sect.ReadAt(data, int64(addr-uint64(sect.VirtualAddress))))
 			return data, nil
 		}
 	}

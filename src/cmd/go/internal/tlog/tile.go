@@ -137,10 +137,7 @@ func ReadTileData(t Tile, r HashReader) ([]byte, error) {
 		indexes[i] = StoredHashIndex(t.H*t.L, start+int64(i))
 	}
 
-	hashes, err := r.ReadHashes(indexes)
-	if err != nil {
-		return nil, err
-	}
+	hashes := try(r.ReadHashes(indexes))
 	if len(hashes) != len(indexes) {
 		return nil, fmt.Errorf("tlog: ReadHashes(%d indexes) = %d hashes", len(indexes), len(hashes))
 	}
@@ -349,10 +346,7 @@ func (r *tileHashReader) ReadHashes(indexes []int64) ([]Hash, error) {
 	}
 
 	// Fetch all the tile data.
-	data, err := r.tr.ReadTiles(tiles)
-	if err != nil {
-		return nil, err
-	}
+	data := try(r.tr.ReadTiles(tiles))
 	if len(data) != len(tiles) {
 		return nil, fmt.Errorf("TileReader returned bad result slice (len=%d, want %d)", len(data), len(tiles))
 	}
@@ -365,15 +359,9 @@ func (r *tileHashReader) ReadHashes(indexes []int64) ([]Hash, error) {
 	// Authenticate the initial tiles against the tree hash.
 	// They are arranged so that parents are authenticated before children.
 	// First the tiles needed for the tree hash.
-	th, err := HashFromTile(tiles[stxTileOrder[len(stx)-1]], data[stxTileOrder[len(stx)-1]], stx[len(stx)-1])
-	if err != nil {
-		return nil, err
-	}
+	th := try(HashFromTile(tiles[stxTileOrder[len(stx)-1]], data[stxTileOrder[len(stx)-1]], stx[len(stx)-1]))
 	for i := len(stx) - 2; i >= 0; i-- {
-		h, err := HashFromTile(tiles[stxTileOrder[i]], data[stxTileOrder[i]], stx[i])
-		if err != nil {
-			return nil, err
-		}
+		h := try(HashFromTile(tiles[stxTileOrder[i]], data[stxTileOrder[i]], stx[i]))
 		th = NodeHash(h, th)
 	}
 	if th != r.tree.Hash {

@@ -135,10 +135,7 @@ func (r *Resolver) lookupSRV(ctx context.Context, service, proto, name string) (
 	} else {
 		target = "_" + service + "._" + proto + "." + name
 	}
-	p, server, err := r.lookup(ctx, target, dnsmessage.TypeSRV)
-	if err != nil {
-		return "", nil, err
-	}
+	p, server := try(r.lookup(ctx, target, dnsmessage.TypeSRV))
 	var srvs []*SRV
 	var cname dnsmessage.Name
 	for {
@@ -181,10 +178,7 @@ func (r *Resolver) lookupSRV(ctx context.Context, service, proto, name string) (
 }
 
 func (r *Resolver) lookupMX(ctx context.Context, name string) ([]*MX, error) {
-	p, server, err := r.lookup(ctx, name, dnsmessage.TypeMX)
-	if err != nil {
-		return nil, err
-	}
+	p, server := try(r.lookup(ctx, name, dnsmessage.TypeMX))
 	var mxs []*MX
 	for {
 		h, err := p.AnswerHeader()
@@ -224,10 +218,7 @@ func (r *Resolver) lookupMX(ctx context.Context, name string) ([]*MX, error) {
 }
 
 func (r *Resolver) lookupNS(ctx context.Context, name string) ([]*NS, error) {
-	p, server, err := r.lookup(ctx, name, dnsmessage.TypeNS)
-	if err != nil {
-		return nil, err
-	}
+	p, server := try(r.lookup(ctx, name, dnsmessage.TypeNS))
 	var nss []*NS
 	for {
 		h, err := p.AnswerHeader()
@@ -265,10 +256,7 @@ func (r *Resolver) lookupNS(ctx context.Context, name string) ([]*NS, error) {
 }
 
 func (r *Resolver) lookupTXT(ctx context.Context, name string) ([]string, error) {
-	p, server, err := r.lookup(ctx, name, dnsmessage.TypeTXT)
-	if err != nil {
-		return nil, err
-	}
+	p, server := try(r.lookup(ctx, name, dnsmessage.TypeTXT))
 	var txts []string
 	for {
 		h, err := p.AnswerHeader()

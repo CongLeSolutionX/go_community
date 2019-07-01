@@ -52,23 +52,17 @@ func (w *Writer) Write(record []string) error {
 
 	for n, field := range record {
 		if n > 0 {
-			if _, err := w.w.WriteRune(w.Comma); err != nil {
-				return err
-			}
+			try(w.w.WriteRune(w.Comma))
 		}
 
 		// If we don't have to have a quoted field then just
 		// write out the field and continue to the next field.
 		if !w.fieldNeedsQuotes(field) {
-			if _, err := w.w.WriteString(field); err != nil {
-				return err
-			}
+			try(w.w.WriteString(field))
 			continue
 		}
 
-		if err := w.w.WriteByte('"'); err != nil {
-			return err
-		}
+		try(w.w.WriteByte('"'))
 		for len(field) > 0 {
 			// Search for special characters.
 			i := strings.IndexAny(field, "\"\r\n")
@@ -77,9 +71,7 @@ func (w *Writer) Write(record []string) error {
 			}
 
 			// Copy verbatim everything before the special character.
-			if _, err := w.w.WriteString(field[:i]); err != nil {
-				return err
-			}
+			try(w.w.WriteString(field[:i]))
 			field = field[i:]
 
 			// Encode the special character.
@@ -105,9 +97,7 @@ func (w *Writer) Write(record []string) error {
 				}
 			}
 		}
-		if err := w.w.WriteByte('"'); err != nil {
-			return err
-		}
+		try(w.w.WriteByte('"'))
 	}
 	var err error
 	if w.UseCRLF {
@@ -134,10 +124,7 @@ func (w *Writer) Error() error {
 // returning any error from the Flush.
 func (w *Writer) WriteAll(records [][]string) error {
 	for _, record := range records {
-		err := w.Write(record)
-		if err != nil {
-			return err
-		}
+		try(w.Write(record))
 	}
 	return w.w.Flush()
 }

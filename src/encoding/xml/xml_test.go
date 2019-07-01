@@ -827,10 +827,7 @@ type mapper struct {
 }
 
 func (m mapper) Token() (Token, error) {
-	tok, err := m.t.Token()
-	if err != nil {
-		return nil, err
-	}
+	tok := try(m.t.Token())
 	return m.f(tok), nil
 }
 

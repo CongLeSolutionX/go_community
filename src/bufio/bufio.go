@@ -483,10 +483,7 @@ func (b *Reader) ReadString(delim byte) (string, error) {
 // If the underlying reader supports the WriteTo method,
 // this calls the underlying WriteTo without buffering.
 func (b *Reader) WriteTo(w io.Writer) (n int64, err error) {
-	n, err = b.writeBuf(w)
-	if err != nil {
-		return
-	}
+	n = try(b.writeBuf(w))
 
 	if r, ok := b.rd.(io.WriterTo); ok {
 		m, err := r.WriteTo(w)
@@ -657,10 +654,7 @@ func (b *Writer) WriteByte(c byte) error {
 // the number of bytes written and any error.
 func (b *Writer) WriteRune(r rune) (size int, err error) {
 	if r < utf8.RuneSelf {
-		err = b.WriteByte(byte(r))
-		if err != nil {
-			return 0, err
-		}
+		try(b.WriteByte(byte(r)))
 		return 1, nil
 	}
 	if b.err != nil {

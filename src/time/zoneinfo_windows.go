@@ -61,16 +61,10 @@ func matchZoneKey(zones registry.Key, kname string, stdname, dstname string) (ma
 // toEnglishName searches the registry for an English name of a time zone
 // whose zone names are stdname and dstname and returns the English name.
 func toEnglishName(stdname, dstname string) (string, error) {
-	k, err := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones`, registry.ENUMERATE_SUB_KEYS|registry.QUERY_VALUE)
-	if err != nil {
-		return "", err
-	}
+	k := try(registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones`, registry.ENUMERATE_SUB_KEYS|registry.QUERY_VALUE))
 	defer k.Close()
 
-	names, err := k.ReadSubKeyNames(-1)
-	if err != nil {
-		return "", err
-	}
+	names := try(k.ReadSubKeyNames(-1))
 	for _, name := range names {
 		matched, err := matchZoneKey(k, name, stdname, dstname)
 		if err == nil && matched {

@@ -71,9 +71,7 @@ func (fd *netFD) connect(ctx context.Context, la, ra syscall.Sockaddr) (syscall.
 	// Do not need to call fd.writeLock here,
 	// because fd is not yet accessible to user,
 	// so no concurrent operations are possible.
-	if err := fd.init(); err != nil {
-		return nil, err
-	}
+	try(fd.init())
 	if deadline, ok := ctx.Deadline(); ok && !deadline.IsZero() {
 		fd.pfd.SetWriteDeadline(deadline)
 		defer fd.pfd.SetWriteDeadline(noDeadline)

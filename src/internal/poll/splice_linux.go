@@ -77,13 +77,9 @@ func Splice(dst, src *FD, remain int64) (written int64, handled bool, sc string,
 //
 // If spliceDrain returns (0, nil), src is at EOF.
 func spliceDrain(pipefd int, sock *FD, max int) (int, error) {
-	if err := sock.readLock(); err != nil {
-		return 0, err
-	}
+	try(sock.readLock())
 	defer sock.readUnlock()
-	if err := sock.pd.prepareRead(sock.isFile); err != nil {
-		return 0, err
-	}
+	try(sock.pd.prepareRead(sock.isFile))
 	for {
 		n, err := splice(pipefd, sock.Sysfd, max, spliceNonblock)
 		if err != syscall.EAGAIN {
@@ -109,13 +105,9 @@ func spliceDrain(pipefd int, sock *FD, max int) (int, error) {
 // all of it to the socket. This behavior is similar to the Write
 // step of an io.Copy in userspace.
 func splicePump(sock *FD, pipefd int, inPipe int) (int, error) {
-	if err := sock.writeLock(); err != nil {
-		return 0, err
-	}
+	try(sock.writeLock())
 	defer sock.writeUnlock()
-	if err := sock.pd.prepareWrite(sock.isFile); err != nil {
-		return 0, err
-	}
+	try(sock.pd.prepareWrite(sock.isFile))
 	written := 0
 	for inPipe > 0 {
 		n, err := splice(sock.Sysfd, pipefd, inPipe, spliceNonblock)

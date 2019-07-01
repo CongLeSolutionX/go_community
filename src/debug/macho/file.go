@@ -198,10 +198,7 @@ func (e *FormatError) Error() string {
 
 // Open opens the named file using os.Open and prepares it for use as a Mach-O binary.
 func Open(name string) (*File, error) {
-	f, err := os.Open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(name))
 	ff, err := NewFile(f)
 	if err != nil {
 		f.Close()
@@ -232,9 +229,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	// Read and decode Mach magic to determine byte order, size.
 	// Magic32 and Magic64 differ only in the bottom bit.
 	var ident [4]byte
-	if _, err := r.ReadAt(ident[0:], 0); err != nil {
-		return nil, err
-	}
+	try(r.ReadAt(ident[0:], 0))
 	be := binary.BigEndian.Uint32(ident[0:])
 	le := binary.LittleEndian.Uint32(ident[0:])
 	switch Magic32 &^ 1 {
@@ -249,9 +244,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	}
 
 	// Read entire file header.
-	if err := binary.Read(sr, f.ByteOrder, &f.FileHeader); err != nil {
-		return nil, err
-	}
+	try(binary.Read(sr, f.ByteOrder, &f.FileHeader))
 
 	// Then load commands.
 	offset := int64(fileHeaderSize32)
@@ -259,9 +252,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 		offset = fileHeaderSize64
 	}
 	dat := make([]byte, f.Cmdsz)
-	if _, err := r.ReadAt(dat, offset); err != nil {
-		return nil, err
-	}
+	try(r.ReadAt(dat, offset))
 	f.Loads = make([]Load, f.Ncmd)
 	bo := f.ByteOrder
 	for i := range f.Loads {
@@ -455,14 +446,10 @@ func (f *File) parseSymtab(symdat, strtab, cmddat []byte, hdr *SymtabCmd, offset
 	for i := range symtab {
 		var n Nlist64
 		if f.Magic == Magic64 {
-			if err := binary.Read(b, bo, &n); err != nil {
-				return nil, err
-			}
+			try(binary.Read(b, bo, &n))
 		} else {
 			var n32 Nlist32
-			if err := binary.Read(b, bo, &n32); err != nil {
-				return nil, err
-			}
+			try(binary.Read(b, bo, &n32))
 			n.Name = n32.Name
 			n.Type = n32.Type
 			n.Sect = n32.Sect
@@ -497,9 +484,7 @@ func (f *File) pushSection(sh *Section, r io.ReaderAt) error {
 
 	if sh.Nreloc > 0 {
 		reldat := make([]byte, int(sh.Nreloc)*8)
-		if _, err := r.ReadAt(reldat, int64(sh.Reloff)); err != nil {
-			return err
-		}
+		try(r.ReadAt(reldat, int64(sh.Reloff)))
 		b := bytes.NewReader(reldat)
 
 		bo := f.ByteOrder
@@ -509,9 +494,7 @@ func (f *File) pushSection(sh *Section, r io.ReaderAt) error {
 			rel := &sh.Relocs[i]
 
 			var ri relocInfo
-			if err := binary.Read(b, bo, &ri); err != nil {
-				return err
-			}
+			try(binary.Read(b, bo, &ri))
 
 			if ri.Addr&(1<<31) != 0 { // scattered
 				rel.Addr = ri.Addr & (1<<24 - 1)
@@ -624,17 +607,11 @@ func (f *File) DWARF() (*dwarf.Data, error) {
 		if _, ok := dat[suffix]; !ok {
 			continue
 		}
-		b, err := sectionData(s)
-		if err != nil {
-			return nil, err
-		}
+		b := try(sectionData(s))
 		dat[suffix] = b
 	}
 
-	d, err := dwarf.New(dat["abbrev"], nil, nil, dat["info"], dat["line"], nil, dat["ranges"], dat["str"])
-	if err != nil {
-		return nil, err
-	}
+	d := try(dwarf.New(dat["abbrev"], nil, nil, dat["info"], dat["line"], nil, dat["ranges"], dat["str"]))
 
 	// Look for DWARF4 .debug_types sections.
 	for i, s := range f.Sections {
@@ -643,15 +620,9 @@ func (f *File) DWARF() (*dwarf.Data, error) {
 			continue
 		}
 
-		b, err := sectionData(s)
-		if err != nil {
-			return nil, err
-		}
+		b := try(sectionData(s))
 
-		err = d.AddTypes(fmt.Sprintf("types-%d", i), b)
-		if err != nil {
-			return nil, err
-		}
+		try(d.AddTypes(fmt.Sprintf("types-%d", i), b))
 	}
 
 	return d, nil

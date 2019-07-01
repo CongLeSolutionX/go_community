@@ -30,15 +30,9 @@ type GccgoInstallation struct {
 func (inst *GccgoInstallation) InitFromDriver(gccgoPath string, args ...string) (err error) {
 	argv := append([]string{"-###", "-S", "-x", "go", "-"}, args...)
 	cmd := exec.Command(gccgoPath, argv...)
-	stderr, err := cmd.StderrPipe()
-	if err != nil {
-		return
-	}
+	stderr := try(cmd.StderrPipe())
 
-	err = cmd.Start()
-	if err != nil {
-		return
-	}
+	try(cmd.Start())
 
 	scanner := bufio.NewScanner(stderr)
 	for scanner.Scan() {
@@ -58,10 +52,7 @@ func (inst *GccgoInstallation) InitFromDriver(gccgoPath string, args ...string) 
 	}
 
 	argv = append([]string{"-dumpversion"}, args...)
-	stdout, err := exec.Command(gccgoPath, argv...).Output()
-	if err != nil {
-		return
-	}
+	stdout := try(exec.Command(gccgoPath, argv...).Output())
 	inst.GccVersion = strings.TrimSpace(string(stdout))
 
 	return

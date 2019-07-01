@@ -240,10 +240,7 @@ type internalObjTool struct {
 }
 
 func (o *internalObjTool) Open(file string, start, limit, offset uint64) (plugin.ObjFile, error) {
-	f, err := o.ObjTool.Open(file, start, limit, offset)
-	if err != nil {
-		return nil, err
-	}
+	f := try(o.ObjTool.Open(file, start, limit, offset))
 	return &internalObjFile{f}, err
 }
 
@@ -252,10 +249,7 @@ type internalObjFile struct {
 }
 
 func (f *internalObjFile) SourceLine(frame uint64) ([]plugin.Frame, error) {
-	frames, err := f.ObjFile.SourceLine(frame)
-	if err != nil {
-		return nil, err
-	}
+	frames := try(f.ObjFile.SourceLine(frame))
 	var pluginFrames []plugin.Frame
 	for _, f := range frames {
 		pluginFrames = append(pluginFrames, plugin.Frame(f))
@@ -264,10 +258,7 @@ func (f *internalObjFile) SourceLine(frame uint64) ([]plugin.Frame, error) {
 }
 
 func (f *internalObjFile) Symbols(r *regexp.Regexp, addr uint64) ([]*plugin.Sym, error) {
-	syms, err := f.ObjFile.Symbols(r, addr)
-	if err != nil {
-		return nil, err
-	}
+	syms := try(f.ObjFile.Symbols(r, addr))
 	var pluginSyms []*plugin.Sym
 	for _, s := range syms {
 		ps := plugin.Sym(*s)
@@ -277,10 +268,7 @@ func (f *internalObjFile) Symbols(r *regexp.Regexp, addr uint64) ([]*plugin.Sym,
 }
 
 func (o *internalObjTool) Disasm(file string, start, end uint64) ([]plugin.Inst, error) {
-	insts, err := o.ObjTool.Disasm(file, start, end)
-	if err != nil {
-		return nil, err
-	}
+	insts := try(o.ObjTool.Disasm(file, start, end))
 	var pluginInst []plugin.Inst
 	for _, inst := range insts {
 		pluginInst = append(pluginInst, plugin.Inst(inst))

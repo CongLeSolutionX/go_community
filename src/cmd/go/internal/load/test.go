@@ -497,9 +497,7 @@ func formatTestinginit(p *Package) []byte {
 // formatTestmain returns the content of the _testmain.go file for t.
 func formatTestmain(t *testFuncs) ([]byte, error) {
 	var buf bytes.Buffer
-	if err := testmainTmpl.Execute(&buf, t); err != nil {
-		return nil, err
-	}
+	try(testmainTmpl.Execute(&buf, t))
 	return buf.Bytes(), nil
 }
 

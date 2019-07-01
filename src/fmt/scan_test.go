@@ -83,10 +83,7 @@ var (
 type Xs string
 
 func (x *Xs) Scan(state ScanState, verb rune) error {
-	tok, err := state.Token(true, func(r rune) bool { return r == verb })
-	if err != nil {
-		return err
-	}
+	tok := try(state.Token(true, func(r rune) bool { return r == verb }))
 	s := string(tok)
 	if !regexp.MustCompile("^" + string(verb) + "+$").MatchString(s) {
 		return errors.New("syntax error for xs")
@@ -105,14 +102,9 @@ type IntString struct {
 }
 
 func (s *IntString) Scan(state ScanState, verb rune) error {
-	if _, err := Fscan(state, &s.i); err != nil {
-		return err
-	}
+	try(Fscan(state, &s.i))
 
-	tok, err := state.Token(true, nil)
-	if err != nil {
-		return err
-	}
+	tok := try(state.Token(true, nil))
 	s.s = string(tok)
 	return nil
 }
@@ -892,10 +884,7 @@ type TwoLines string
 func (t *TwoLines) Scan(state ScanState, verb rune) error {
 	chars := make([]rune, 0, 100)
 	for nlCount := 0; nlCount < 2; {
-		c, _, err := state.ReadRune()
-		if err != nil {
-			return err
-		}
+		c, _ := try(state.ReadRune())
 		chars = append(chars, c)
 		if c == '\n' {
 			nlCount++
@@ -1003,10 +992,7 @@ type RecursiveInt struct {
 }
 
 func (r *RecursiveInt) Scan(state ScanState, verb rune) (err error) {
-	_, err = Fscan(state, &r.i)
-	if err != nil {
-		return
-	}
+	try(Fscan(state, &r.i))
 	next := new(RecursiveInt)
 	_, err = Fscanf(state, ".%v", next)
 	if err != nil {
@@ -1024,10 +1010,7 @@ func (r *RecursiveInt) Scan(state ScanState, verb rune) (err error) {
 // performance more directly.
 func scanInts(r *RecursiveInt, b *bytes.Buffer) (err error) {
 	r.next = nil
-	_, err = Fscan(b, &r.i)
-	if err != nil {
-		return
-	}
+	try(Fscan(b, &r.i))
 	c, _, err := b.ReadRune()
 	if err != nil {
 		if err == io.EOF {

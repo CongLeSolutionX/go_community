@@ -84,10 +84,7 @@ func ParseGopkgLock(file string, data []byte) (*modfile.File, error) {
 			// Convert "source" to import path, such as
 			// git@test.com:x/y.git and https://test.com/x/y.git.
 			// We get "test.com/x/y" at last.
-			source, err := decodeSource(r.Source)
-			if err != nil {
-				return nil, err
-			}
+			source := try(decodeSource(r.Source))
 			old := module.Version{Path: r.Path, Version: r.Version}
 			new := module.Version{Path: source, Version: r.Version}
 			mf.Replace = append(mf.Replace, &modfile.Replace{Old: old, New: new})

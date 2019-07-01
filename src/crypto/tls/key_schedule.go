@@ -112,9 +112,7 @@ type ecdheParameters interface {
 func generateECDHEParameters(rand io.Reader, curveID CurveID) (ecdheParameters, error) {
 	if curveID == X25519 {
 		p := &x25519Parameters{}
-		if _, err := io.ReadFull(rand, p.privateKey[:]); err != nil {
-			return nil, err
-		}
+		try(io.ReadFull(rand, p.privateKey[:]))
 		curve25519.ScalarBaseMult(&p.publicKey, &p.privateKey)
 		return p, nil
 	}
@@ -126,10 +124,7 @@ func generateECDHEParameters(rand io.Reader, curveID CurveID) (ecdheParameters, 
 
 	p := &nistParameters{curveID: curveID}
 	var err error
-	p.privateKey, p.x, p.y, err = elliptic.GenerateKey(curve, rand)
-	if err != nil {
-		return nil, err
-	}
+	p.privateKey, p.x, p.y = try(elliptic.GenerateKey(curve, rand))
 	return p, nil
 }
 

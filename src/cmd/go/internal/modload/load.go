@@ -1091,10 +1091,7 @@ func (r *mvsReqs) required(mod module.Version) ([]module.Version, error) {
 		base.Fatalf("go: internal error: %s@%s: unexpected invalid semantic version", mod.Path, mod.Version)
 	}
 
-	data, err := modfetch.GoMod(mod.Path, mod.Version)
-	if err != nil {
-		return nil, err
-	}
+	data := try(modfetch.GoMod(mod.Path, mod.Version))
 	f, err := modfile.ParseLax("go.mod", data, nil)
 	if err != nil {
 		return nil, module.VersionError(mod, fmt.Errorf("parsing go.mod: %v", err))
@@ -1143,10 +1140,7 @@ func versions(path string) ([]string, error) {
 // Previous returns the tagged version of m.Path immediately prior to
 // m.Version, or version "none" if no prior version is tagged.
 func (*mvsReqs) Previous(m module.Version) (module.Version, error) {
-	list, err := versions(m.Path)
-	if err != nil {
-		return module.Version{}, err
-	}
+	list := try(versions(m.Path))
 	i := sort.Search(len(list), func(i int) bool { return semver.Compare(list[i], m.Version) >= 0 })
 	if i > 0 {
 		return module.Version{Path: m.Path, Version: list[i-1]}, nil
@@ -1158,10 +1152,7 @@ func (*mvsReqs) Previous(m module.Version) (module.Version, error) {
 // It is only used by the exclusion processing in the Required method,
 // not called directly by MVS.
 func (*mvsReqs) next(m module.Version) (module.Version, error) {
-	list, err := versions(m.Path)
-	if err != nil {
-		return module.Version{}, err
-	}
+	list := try(versions(m.Path))
 	i := sort.Search(len(list), func(i int) bool { return semver.Compare(list[i], m.Version) > 0 })
 	if i < len(list) {
 		return module.Version{Path: m.Path, Version: list[i]}, nil

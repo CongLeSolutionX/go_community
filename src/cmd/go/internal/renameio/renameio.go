@@ -36,10 +36,7 @@ func WriteFile(filename string, data []byte, perm os.FileMode) (err error) {
 // WriteToFile is a variant of WriteFile that accepts the data as an io.Reader
 // instead of a slice.
 func WriteToFile(filename string, data io.Reader, perm os.FileMode) (err error) {
-	f, err := tempFile(filepath.Dir(filename), filepath.Base(filename), perm)
-	if err != nil {
-		return err
-	}
+	f := try(tempFile(filepath.Dir(filename), filepath.Base(filename), perm))
 	defer func() {
 		// Only call os.Remove on f.Name() if we failed to rename it: otherwise,
 		// some other process may have created a new file with the same name after
@@ -50,18 +47,12 @@ func WriteToFile(filename string, data io.Reader, perm os.FileMode) (err error) 
 		}
 	}()
 
-	if _, err := io.Copy(f, data); err != nil {
-		return err
-	}
+	try(io.Copy(f, data))
 	// Sync the file before renaming it: otherwise, after a crash the reader may
 	// observe a 0-length file instead of the actual contents.
 	// See https://golang.org/issue/22397#issuecomment-380831736.
-	if err := f.Sync(); err != nil {
-		return err
-	}
-	if err := f.Close(); err != nil {
-		return err
-	}
+	try(f.Sync())
+	try(f.Close())
 
 	return robustio.Rename(f.Name(), filename)
 }

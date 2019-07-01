@@ -57,16 +57,10 @@ const (
 )
 
 func getProcessIntegrityLevel() (string, error) {
-	procToken, err := syscall.OpenCurrentProcessToken()
-	if err != nil {
-		return "", err
-	}
+	procToken := try(syscall.OpenCurrentProcessToken())
 	defer procToken.Close()
 
-	p, err := tokenGetInfo(procToken, syscall.TokenIntegrityLevel, 64)
-	if err != nil {
-		return "", err
-	}
+	p := try(tokenGetInfo(procToken, syscall.TokenIntegrityLevel, 64))
 
 	tml := (*windows.TOKEN_MANDATORY_LABEL)(p)
 
@@ -95,37 +89,27 @@ func tokenGetInfo(t syscall.Token, class uint32, initSize int) (unsafe.Pointer, 
 func getIntegrityLevelToken(wns string) (syscall.Token, error) {
 	var procToken, token syscall.Token
 
-	proc, err := syscall.GetCurrentProcess()
-	if err != nil {
-		return 0, err
-	}
+	proc := try(syscall.GetCurrentProcess())
 	defer syscall.CloseHandle(proc)
 
-	err = syscall.OpenProcessToken(proc,
+	try(syscall.OpenProcessToken(proc,
 		syscall.TOKEN_DUPLICATE|
 			syscall.TOKEN_ADJUST_DEFAULT|
 			syscall.TOKEN_QUERY|
 			syscall.TOKEN_ASSIGN_PRIMARY,
-		&procToken)
-	if err != nil {
-		return 0, err
-	}
+		&procToken),
+	)
 	defer procToken.Close()
 
-	sid, err := syscall.StringToSid(wns)
-	if err != nil {
-		return 0, err
-	}
+	sid := try(syscall.StringToSid(wns))
 
 	tml := &windows.TOKEN_MANDATORY_LABEL{}
 	tml.Label.Attributes = windows.SE_GROUP_INTEGRITY
 	tml.Label.Sid = sid
 
-	err = windows.DuplicateTokenEx(procToken, 0, nil, windows.SecurityImpersonation,
-		windows.TokenPrimary, &token)
-	if err != nil {
-		return 0, err
-	}
+	try(windows.DuplicateTokenEx(procToken, 0, nil, windows.SecurityImpersonation,
+		windows.TokenPrimary, &token),
+	)
 
 	err = windows.SetTokenInformation(token,
 		syscall.TokenIntegrityLevel,

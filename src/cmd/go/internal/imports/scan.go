@@ -15,10 +15,7 @@ import (
 )
 
 func ScanDir(dir string, tags map[string]bool) ([]string, []string, error) {
-	infos, err := ioutil.ReadDir(dir)
-	if err != nil {
-		return nil, nil, err
-	}
+	infos := try(ioutil.ReadDir(dir))
 	var files []string
 	for _, info := range infos {
 		name := info.Name()

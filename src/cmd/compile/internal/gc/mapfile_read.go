@@ -13,9 +13,6 @@ import (
 
 func mapFile(f *os.File, offset, length int64) (string, error) {
 	buf := make([]byte, length)
-	_, err := io.ReadFull(io.NewSectionReader(f, offset, length), buf)
-	if err != nil {
-		return "", err
-	}
+	try(io.ReadFull(io.NewSectionReader(f, offset, length), buf))
 	return string(buf), nil
 }

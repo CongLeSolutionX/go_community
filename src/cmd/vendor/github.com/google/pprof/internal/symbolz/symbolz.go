@@ -56,9 +56,7 @@ func Symbolize(p *profile.Profile, force bool, sources plugin.MappingSources, sy
 		}
 		for _, source := range mappingSources {
 			if symz := symbolz(source.Source); symz != "" {
-				if err := symbolizeMapping(symz, int64(source.Start)-int64(m.Start), syms, m, p); err != nil {
-					return err
-				}
+				try(symbolizeMapping(symz, int64(source.Start)-int64(m.Start), syms, m, p))
 				m.HasFunctions = true
 				break
 			}
@@ -127,10 +125,7 @@ func symbolizeMapping(source string, offset int64, syms func(string, string) ([]
 	lines := make(map[uint64]profile.Line)
 	functions := make(map[string]*profile.Function)
 
-	b, err := syms(source, strings.Join(a, "+"))
-	if err != nil {
-		return err
-	}
+	b := try(syms(source, strings.Join(a, "+")))
 
 	buf := bytes.NewBuffer(b)
 	for {

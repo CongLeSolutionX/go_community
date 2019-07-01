@@ -79,10 +79,7 @@ func lookupUser(username string) (*User, error) {
 }
 
 func lookupUserId(uid string) (*User, error) {
-	i, e := strconv.Atoi(uid)
-	if e != nil {
-		return nil, e
-	}
+	i := try(strconv.Atoi(uid))
 	return lookupUnixUid(i)
 }
 
@@ -159,10 +156,7 @@ func lookupGroup(groupname string) (*Group, error) {
 }
 
 func lookupGroupId(gid string) (*Group, error) {
-	i, e := strconv.Atoi(gid)
-	if e != nil {
-		return nil, e
-	}
+	i := try(strconv.Atoi(gid))
 	return lookupUnixGid(i)
 }
 

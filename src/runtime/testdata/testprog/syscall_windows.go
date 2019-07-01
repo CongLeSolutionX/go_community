@@ -34,15 +34,9 @@ func ZeroDivisionException() {
 }
 
 func getPagefileUsage() (uintptr, error) {
-	p, err := syscall.GetCurrentProcess()
-	if err != nil {
-		return 0, err
-	}
+	p := try(syscall.GetCurrentProcess())
 	var m windows.PROCESS_MEMORY_COUNTERS
-	err = windows.GetProcessMemoryInfo(p, &m, uint32(unsafe.Sizeof(m)))
-	if err != nil {
-		return 0, err
-	}
+	try(windows.GetProcessMemoryInfo(p, &m, uint32(unsafe.Sizeof(m))))
 	return m.PagefileUsage, nil
 }
 

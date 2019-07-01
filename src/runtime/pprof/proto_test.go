@@ -26,9 +26,7 @@ import (
 func translateCPUProfile(data []uint64) (*profile.Profile, error) {
 	var buf bytes.Buffer
 	b := newProfileBuilder(&buf)
-	if err := b.addCPUData(data, nil); err != nil {
-		return nil, err
-	}
+	try(b.addCPUData(data, nil))
 	b.build()
 	return profile.Parse(&buf)
 }

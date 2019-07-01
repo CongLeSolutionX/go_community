@@ -46,10 +46,7 @@ func ByteSliceFromString(s string) ([]byte, error) {
 // bytes containing the text of s. If s contains a NUL byte at any
 // location, it returns (nil, syscall.EINVAL).
 func BytePtrFromString(s string) (*byte, error) {
-	a, err := ByteSliceFromString(s)
-	if err != nil {
-		return nil, err
-	}
+	a := try(ByteSliceFromString(s))
 	return &a[0], nil
 }
 

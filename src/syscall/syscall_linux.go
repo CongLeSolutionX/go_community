@@ -53,9 +53,7 @@ func Faccessat(dirfd int, path string, mode uint32, flags int) (err error) {
 	}
 
 	var st Stat_t
-	if err := fstatat(dirfd, path, &st, flags&_AT_SYMLINK_NOFOLLOW); err != nil {
-		return err
-	}
+	try(fstatat(dirfd, path, &st, flags&_AT_SYMLINK_NOFOLLOW))
 
 	mode &= 7
 	if mode == 0 {
@@ -209,10 +207,7 @@ func Futimesat(dirfd int, path string, tv []Timeval) (err error) {
 	if len(tv) != 2 {
 		return EINVAL
 	}
-	pathp, err := BytePtrFromString(path)
-	if err != nil {
-		return err
-	}
+	pathp := try(BytePtrFromString(path))
 	return futimesat(dirfd, pathp, (*[2]Timeval)(unsafe.Pointer(&tv[0])))
 }
 
@@ -228,10 +223,7 @@ const ImplementsGetwd = true
 
 func Getwd() (wd string, err error) {
 	var buf [PathMax]byte
-	n, err := Getcwd(buf[0:])
-	if err != nil {
-		return "", err
-	}
+	n := try(Getcwd(buf[0:]))
 	// Getcwd returns the number of bytes written to buf, including the NUL.
 	if n < 1 || n > len(buf) || buf[n-1] != 0 {
 		return "", EINVAL
@@ -240,10 +232,7 @@ func Getwd() (wd string, err error) {
 }
 
 func Getgroups() (gids []int, err error) {
-	n, err := getgroups(0, nil)
-	if err != nil {
-		return nil, err
-	}
+	n := try(getgroups(0, nil))
 	if n == 0 {
 		return nil, nil
 	}
@@ -254,10 +243,7 @@ func Getgroups() (gids []int, err error) {
 	}
 
 	a := make([]_Gid_t, n)
-	n, err = getgroups(n, &a[0])
-	if err != nil {
-		return nil, err
-	}
+	n = try(getgroups(n, &a[0]))
 	gids = make([]int, n)
 	for i, v := range a[0:n] {
 		gids[i] = int(v)
@@ -523,10 +509,7 @@ func anyToSockaddr(rsa *RawSockaddrAny) (Sockaddr, error) {
 func Accept(fd int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = accept(fd, &rsa, &len)
-	if err != nil {
-		return
-	}
+	nfd = try(accept(fd, &rsa, &len))
 	sa, err = anyToSockaddr(&rsa)
 	if err != nil {
 		Close(nfd)
@@ -538,10 +521,7 @@ func Accept(fd int) (nfd int, sa Sockaddr, err error) {
 func Accept4(fd int, flags int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = accept4(fd, &rsa, &len, flags)
-	if err != nil {
-		return
-	}
+	nfd = try(accept4(fd, &rsa, &len, flags))
 	if len > SizeofSockaddrAny {
 		panic("RawSockaddrAny too small")
 	}
@@ -556,9 +536,7 @@ func Accept4(fd int, flags int) (nfd int, sa Sockaddr, err error) {
 func Getsockname(fd int) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if err = getsockname(fd, &rsa, &len); err != nil {
-		return
-	}
+	try(getsockname(fd, &rsa, &len))
 	return anyToSockaddr(&rsa)
 }
 
@@ -628,10 +606,7 @@ func Recvmsg(fd int, p, oob []byte, flags int) (n, oobn int, recvflags int, from
 	if len(oob) > 0 {
 		if len(p) == 0 {
 			var sockType int
-			sockType, err = GetsockoptInt(fd, SOL_SOCKET, SO_TYPE)
-			if err != nil {
-				return
-			}
+			sockType = try(GetsockoptInt(fd, SOL_SOCKET, SO_TYPE))
 			// receive at least one normal byte
 			if sockType != SOCK_DGRAM {
 				iov.Base = &dummy
@@ -643,9 +618,7 @@ func Recvmsg(fd int, p, oob []byte, flags int) (n, oobn int, recvflags int, from
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = recvmsg(fd, &msg, flags); err != nil {
-		return
-	}
+	n = try(recvmsg(fd, &msg, flags))
 	oobn = int(msg.Controllen)
 	recvflags = int(msg.Flags)
 	// source address is only specified if the socket is unconnected
@@ -665,10 +638,7 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 	var salen _Socklen
 	if to != nil {
 		var err error
-		ptr, salen, err = to.sockaddr()
-		if err != nil {
-			return 0, err
-		}
+		ptr, salen = try(to.sockaddr())
 	}
 	var msg Msghdr
 	msg.Name = (*byte)(ptr)
@@ -682,10 +652,7 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 	if len(oob) > 0 {
 		if len(p) == 0 {
 			var sockType int
-			sockType, err = GetsockoptInt(fd, SOL_SOCKET, SO_TYPE)
-			if err != nil {
-				return 0, err
-			}
+			sockType = try(GetsockoptInt(fd, SOL_SOCKET, SO_TYPE))
 			// send at least one normal byte
 			if sockType != SOCK_DGRAM {
 				iov.Base = &dummy
@@ -697,9 +664,7 @@ func SendmsgN(fd int, p, oob []byte, to Sockaddr, flags int) (n int, err error) 
 	}
 	msg.Iov = &iov
 	msg.Iovlen = 1
-	if n, err = sendmsg(fd, &msg, flags); err != nil {
-		return 0, err
-	}
+	n = try(sendmsg(fd, &msg, flags))
 	if len(oob) > 0 && len(p) == 0 {
 		n = 0
 	}
@@ -729,10 +694,7 @@ func ptracePeek(req int, pid int, addr uintptr, out []byte) (count int, err erro
 	// boundary.
 	n := 0
 	if addr%sizeofPtr != 0 {
-		err = ptrace(req, pid, addr-addr%sizeofPtr, uintptr(unsafe.Pointer(&buf[0])))
-		if err != nil {
-			return 0, err
-		}
+		try(ptrace(req, pid, addr-addr%sizeofPtr, uintptr(unsafe.Pointer(&buf[0]))))
 		n += copy(out, buf[addr%sizeofPtr:])
 		out = out[n:]
 	}
@@ -769,16 +731,10 @@ func ptracePoke(pokeReq int, peekReq int, pid int, addr uintptr, data []byte) (c
 	n := 0
 	if addr%sizeofPtr != 0 {
 		var buf [sizeofPtr]byte
-		err = ptrace(peekReq, pid, addr-addr%sizeofPtr, uintptr(unsafe.Pointer(&buf[0])))
-		if err != nil {
-			return 0, err
-		}
+		try(ptrace(peekReq, pid, addr-addr%sizeofPtr, uintptr(unsafe.Pointer(&buf[0]))))
 		n += copy(buf[addr%sizeofPtr:], data)
 		word := *((*uintptr)(unsafe.Pointer(&buf[0])))
-		err = ptrace(pokeReq, pid, addr-addr%sizeofPtr, word)
-		if err != nil {
-			return 0, err
-		}
+		try(ptrace(pokeReq, pid, addr-addr%sizeofPtr, word))
 		data = data[n:]
 	}
 
@@ -887,10 +843,7 @@ func Mount(source string, target string, fstype string, flags uintptr, data stri
 	if data == "" {
 		return mount(source, target, fstype, flags, nil)
 	}
-	datap, err := BytePtrFromString(data)
-	if err != nil {
-		return err
-	}
+	datap := try(BytePtrFromString(data))
 	return mount(source, target, fstype, flags, datap)
 }
 

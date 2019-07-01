@@ -113,10 +113,7 @@ func Getrlimit(resource int, rlim *Rlimit) (err error) {
 	}
 
 	rl := rlimit32{}
-	err = getrlimit(resource, &rl)
-	if err != nil {
-		return
-	}
+	try(getrlimit(resource, &rl))
 
 	if rl.Cur == rlimInf32 {
 		rlim.Cur = rlimInf64
@@ -349,10 +346,7 @@ func Fstatfs(fd int, buf *Statfs_t) (err error) {
 }
 
 func Statfs(path string, buf *Statfs_t) (err error) {
-	pathp, err := BytePtrFromString(path)
-	if err != nil {
-		return err
-	}
+	pathp := try(BytePtrFromString(path))
 	_, _, e := Syscall(SYS_STATFS64, uintptr(unsafe.Pointer(pathp)), unsafe.Sizeof(*buf), uintptr(unsafe.Pointer(buf)))
 	if e != 0 {
 		err = e

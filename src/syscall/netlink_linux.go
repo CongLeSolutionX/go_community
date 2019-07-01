@@ -50,19 +50,12 @@ func newNetlinkRouteRequest(proto, seq, family int) []byte {
 // NetlinkRIB returns routing information base, as known as RIB, which
 // consists of network facility information, states and parameters.
 func NetlinkRIB(proto, family int) ([]byte, error) {
-	s, err := Socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE)
-	if err != nil {
-		return nil, err
-	}
+	s := try(Socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE))
 	defer Close(s)
 	lsa := &SockaddrNetlink{Family: AF_NETLINK}
-	if err := Bind(s, lsa); err != nil {
-		return nil, err
-	}
+	try(Bind(s, lsa))
 	wb := newNetlinkRouteRequest(proto, 1, family)
-	if err := Sendto(s, wb, 0, lsa); err != nil {
-		return nil, err
-	}
+	try(Sendto(s, wb, 0, lsa))
 	var tab []byte
 	rbNew := make([]byte, Getpagesize())
 done:
@@ -116,10 +109,7 @@ type NetlinkMessage struct {
 func ParseNetlinkMessage(b []byte) ([]NetlinkMessage, error) {
 	var msgs []NetlinkMessage
 	for len(b) >= NLMSG_HDRLEN {
-		h, dbuf, dlen, err := netlinkMessageHeaderAndData(b)
-		if err != nil {
-			return nil, err
-		}
+		h, dbuf, dlen := try(netlinkMessageHeaderAndData(b))
 		m := NetlinkMessage{Header: *h, Data: dbuf[:int(h.Len)-NLMSG_HDRLEN]}
 		msgs = append(msgs, m)
 		b = b[dlen:]
@@ -159,10 +149,7 @@ func ParseNetlinkRouteAttr(m *NetlinkMessage) ([]NetlinkRouteAttr, error) {
 	}
 	var attrs []NetlinkRouteAttr
 	for len(b) >= SizeofRtAttr {
-		a, vbuf, alen, err := netlinkRouteAttrAndValue(b)
-		if err != nil {
-			return nil, err
-		}
+		a, vbuf, alen := try(netlinkRouteAttrAndValue(b))
 		ra := NetlinkRouteAttr{Attr: *a, Value: vbuf[:int(a.Len)-SizeofRtAttr]}
 		attrs = append(attrs, ra)
 		b = b[alen:]

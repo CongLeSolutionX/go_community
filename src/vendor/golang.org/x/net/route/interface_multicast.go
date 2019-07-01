@@ -22,9 +22,6 @@ func (w *wireFormat) parseInterfaceMulticastAddrMessage(_ RIBType, b []byte) (Me
 		raw:     b[:l],
 	}
 	var err error
-	m.Addrs, err = parseAddrs(uint(nativeEndian.Uint32(b[4:8])), parseKernelInetAddr, b[w.bodyOff:])
-	if err != nil {
-		return nil, err
-	}
+	m.Addrs = try(parseAddrs(uint(nativeEndian.Uint32(b[4:8])), parseKernelInetAddr, b[w.bodyOff:]))
 	return m, nil
 }

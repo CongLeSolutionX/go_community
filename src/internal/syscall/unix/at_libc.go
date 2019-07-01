@@ -22,10 +22,7 @@ var (
 )
 
 func Unlinkat(dirfd int, path string, flags int) error {
-	p, err := syscall.BytePtrFromString(path)
-	if err != nil {
-		return err
-	}
+	p := try(syscall.BytePtrFromString(path))
 
 	_, _, errno := syscall6(uintptr(unsafe.Pointer(&procUnlinkat)), 3, uintptr(dirfd), uintptr(unsafe.Pointer(p)), uintptr(flags), 0, 0, 0)
 	if errno != 0 {
@@ -36,10 +33,7 @@ func Unlinkat(dirfd int, path string, flags int) error {
 }
 
 func Openat(dirfd int, path string, flags int, perm uint32) (int, error) {
-	p, err := syscall.BytePtrFromString(path)
-	if err != nil {
-		return 0, err
-	}
+	p := try(syscall.BytePtrFromString(path))
 
 	fd, _, errno := syscall6(uintptr(unsafe.Pointer(&procOpenat)), 4, uintptr(dirfd), uintptr(unsafe.Pointer(p)), uintptr(flags), uintptr(perm), 0, 0)
 	if errno != 0 {
@@ -50,10 +44,7 @@ func Openat(dirfd int, path string, flags int, perm uint32) (int, error) {
 }
 
 func Fstatat(dirfd int, path string, stat *syscall.Stat_t, flags int) error {
-	p, err := syscall.BytePtrFromString(path)
-	if err != nil {
-		return err
-	}
+	p := try(syscall.BytePtrFromString(path))
 
 	_, _, errno := syscall6(uintptr(unsafe.Pointer(&procFstatat)), 4, uintptr(dirfd), uintptr(unsafe.Pointer(p)), uintptr(unsafe.Pointer(stat)), uintptr(flags), 0, 0)
 	if errno != 0 {

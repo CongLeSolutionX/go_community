@@ -100,10 +100,7 @@ func Import(fset *token.FileSet, packages map[string]*types.Package, path, srcDi
 		if pkg = packages[id]; pkg != nil && pkg.Complete() {
 			return
 		}
-		f, err := lookup(path)
-		if err != nil {
-			return nil, err
-		}
+		f := try(lookup(path))
 		rc = f
 	} else {
 		var filename string
@@ -121,10 +118,7 @@ func Import(fset *token.FileSet, packages map[string]*types.Package, path, srcDi
 		}
 
 		// open file
-		f, err := os.Open(filename)
-		if err != nil {
-			return nil, err
-		}
+		f := try(os.Open(filename))
 		defer func() {
 			if err != nil {
 				// add file name to error
@@ -137,9 +131,7 @@ func Import(fset *token.FileSet, packages map[string]*types.Package, path, srcDi
 
 	var hdr string
 	buf := bufio.NewReader(rc)
-	if hdr, err = FindExportData(buf); err != nil {
-		return
-	}
+	hdr = try(FindExportData(buf))
 
 	switch hdr {
 	case "$$\n":

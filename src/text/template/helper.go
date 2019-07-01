@@ -62,10 +62,7 @@ func parseFiles(t *Template, filenames ...string) (*Template, error) {
 		return nil, fmt.Errorf("template: no files named in call to ParseFiles")
 	}
 	for _, filename := range filenames {
-		b, err := ioutil.ReadFile(filename)
-		if err != nil {
-			return nil, err
-		}
+		b := try(ioutil.ReadFile(filename))
 		s := string(b)
 		name := filepath.Base(filename)
 		// First template becomes return value if not already defined,
@@ -83,10 +80,7 @@ func parseFiles(t *Template, filenames ...string) (*Template, error) {
 		} else {
 			tmpl = t.New(name)
 		}
-		_, err = tmpl.Parse(s)
-		if err != nil {
-			return nil, err
-		}
+		try(tmpl.Parse(s))
 	}
 	return t, nil
 }
@@ -119,10 +113,7 @@ func (t *Template) ParseGlob(pattern string) (*Template, error) {
 
 // parseGlob is the implementation of the function and method ParseGlob.
 func parseGlob(t *Template, pattern string) (*Template, error) {
-	filenames, err := filepath.Glob(pattern)
-	if err != nil {
-		return nil, err
-	}
+	filenames := try(filepath.Glob(pattern))
 	if len(filenames) == 0 {
 		return nil, fmt.Errorf("template: pattern matches no files: %#q", pattern)
 	}

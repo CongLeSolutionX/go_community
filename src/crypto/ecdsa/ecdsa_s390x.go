@@ -112,10 +112,7 @@ func sign(priv *PrivateKey, csprng *cipher.StreamReader, c elliptic.Curve, e *bi
 		var buffer [1720]byte
 		for {
 			var k *big.Int
-			k, err = randFieldElement(c, csprng)
-			if err != nil {
-				return nil, nil, err
-			}
+			k = try(randFieldElement(c, csprng))
 			zeroExtendAndCopy(buffer[bo.offsetHash:], e.Bytes(), bo.hashSize)
 			zeroExtendAndCopy(buffer[bo.offsetKey1:], priv.D.Bytes(), bo.baseSize)
 			zeroExtendAndCopy(buffer[bo.offsetRNorKey2:], k.Bytes(), bo.baseSize)

@@ -253,10 +253,7 @@ func slice(item reflect.Value, indexes ...reflect.Value) (reflect.Value, error) 
 	// set default values for cases item[:], item[i:].
 	idx := [3]int{0, v.Len()}
 	for i, index := range indexes {
-		x, err := indexArg(index, cap)
-		if err != nil {
-			return reflect.Value{}, err
-		}
+		x := try(indexArg(index, cap))
 		idx[i] = x
 	}
 	// given item[i:j], make sure i <= j.

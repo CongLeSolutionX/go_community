@@ -50,12 +50,8 @@ func newRequest(q dnsmessage.Question) (id uint16, udpReq, tcpReq []byte, err er
 	id = uint16(rand.Int()) ^ uint16(time.Now().UnixNano())
 	b := dnsmessage.NewBuilder(make([]byte, 2, 514), dnsmessage.Header{ID: id, RecursionDesired: true})
 	b.EnableCompression()
-	if err := b.StartQuestions(); err != nil {
-		return 0, nil, nil, err
-	}
-	if err := b.Question(q); err != nil {
-		return 0, nil, nil, err
-	}
+	try(b.StartQuestions())
+	try(b.Question(q))
 	tcpReq, err = b.Finish()
 	udpReq = tcpReq[2:]
 	l := len(tcpReq) - 2
@@ -78,16 +74,11 @@ func checkResponse(reqID uint16, reqQues dnsmessage.Question, respHdr dnsmessage
 }
 
 func dnsPacketRoundTrip(c Conn, id uint16, query dnsmessage.Question, b []byte) (dnsmessage.Parser, dnsmessage.Header, error) {
-	if _, err := c.Write(b); err != nil {
-		return dnsmessage.Parser{}, dnsmessage.Header{}, err
-	}
+	try(c.Write(b))
 
 	b = make([]byte, 512) // see RFC 1035
 	for {
-		n, err := c.Read(b)
-		if err != nil {
-			return dnsmessage.Parser{}, dnsmessage.Header{}, err
-		}
+		n := try(c.Read(b))
 		var p dnsmessage.Parser
 		// Ignore invalid responses as they may be malicious
 		// forgery attempts. Instead continue waiting until
@@ -105,22 +96,15 @@ func dnsPacketRoundTrip(c Conn, id uint16, query dnsmessage.Question, b []byte) 
 }
 
 func dnsStreamRoundTrip(c Conn, id uint16, query dnsmessage.Question, b []byte) (dnsmessage.Parser, dnsmessage.Header, error) {
-	if _, err := c.Write(b); err != nil {
-		return dnsmessage.Parser{}, dnsmessage.Header{}, err
-	}
+	try(c.Write(b))
 
 	b = make([]byte, 1280) // 1280 is a reasonable initial size for IP over Ethernet, see RFC 4035
-	if _, err := io.ReadFull(c, b[:2]); err != nil {
-		return dnsmessage.Parser{}, dnsmessage.Header{}, err
-	}
+	try(io.ReadFull(c, b[:2]))
 	l := int(b[0])<<8 | int(b[1])
 	if l > len(b) {
 		b = make([]byte, l)
 	}
-	n, err := io.ReadFull(c, b[:l])
-	if err != nil {
-		return dnsmessage.Parser{}, dnsmessage.Header{}, err
-	}
+	n := try(io.ReadFull(c, b[:l]))
 	var p dnsmessage.Parser
 	h, err := p.Start(b[:n])
 	if err != nil {
@@ -153,10 +137,7 @@ func (r *Resolver) exchange(ctx context.Context, server string, q dnsmessage.Que
 		ctx, cancel := context.WithDeadline(ctx, time.Now().Add(timeout))
 		defer cancel()
 
-		c, err := r.dial(ctx, network, server)
-		if err != nil {
-			return dnsmessage.Parser{}, dnsmessage.Header{}, err
-		}
+		c := try(r.dial(ctx, network, server))
 		if d, ok := ctx.Deadline(); ok && !d.IsZero() {
 			c.SetDeadline(d)
 		}
@@ -531,10 +512,7 @@ func (r *Resolver) goLookupHostOrder(ctx context.Context, name string, order hos
 			return
 		}
 	}
-	ips, _, err := r.goLookupIPCNAMEOrder(ctx, name, order)
-	if err != nil {
-		return
-	}
+	ips, _ := try(r.goLookupIPCNAMEOrder(ctx, name, order))
 	addrs = make([]string, 0, len(ips))
 	for _, ip := range ips {
 		addrs = append(addrs, ip.String())
@@ -743,14 +721,8 @@ func (r *Resolver) goLookupPTR(ctx context.Context, addr string) ([]string, erro
 	if len(names) > 0 {
 		return names, nil
 	}
-	arpa, err := reverseaddr(addr)
-	if err != nil {
-		return nil, err
-	}
-	p, server, err := r.lookup(ctx, arpa, dnsmessage.TypePTR)
-	if err != nil {
-		return nil, err
-	}
+	arpa := try(reverseaddr(addr))
+	p, server := try(r.lookup(ctx, arpa, dnsmessage.TypePTR))
 	var ptrs []string
 	for {
 		h, err := p.AnswerHeader()

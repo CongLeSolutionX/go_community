@@ -54,10 +54,7 @@ func await(s []byte) (n int, err error) {
 
 func open(path string, mode int) (fd int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	r0, _, e1 := Syscall(SYS_OPEN, uintptr(unsafe.Pointer(_p0)), uintptr(mode), 0)
 	fd = int(r0)
 	if int32(r0) == -1 {
@@ -70,10 +67,7 @@ func open(path string, mode int) (fd int, err error) {
 
 func create(path string, mode int, perm uint32) (fd int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	r0, _, e1 := Syscall(SYS_CREATE, uintptr(unsafe.Pointer(_p0)), uintptr(mode), uintptr(perm))
 	fd = int(r0)
 	if int32(r0) == -1 {
@@ -86,10 +80,7 @@ func create(path string, mode int, perm uint32) (fd int, err error) {
 
 func remove(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	r0, _, e1 := Syscall(SYS_REMOVE, uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if int32(r0) == -1 {
 		err = e1
@@ -101,10 +92,7 @@ func remove(path string) (err error) {
 
 func stat(path string, edir []byte) (n int, err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 unsafe.Pointer
 	if len(edir) > 0 {
 		_p1 = unsafe.Pointer(&edir[0])
@@ -123,15 +111,9 @@ func stat(path string, edir []byte) (n int, err error) {
 
 func bind(name string, old string, flag int) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(name)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(name))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(old)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(old))
 	r0, _, e1 := Syscall(SYS_BIND, uintptr(unsafe.Pointer(_p0)), uintptr(unsafe.Pointer(_p1)), uintptr(flag))
 	if int32(r0) == -1 {
 		err = e1
@@ -143,15 +125,9 @@ func bind(name string, old string, flag int) (err error) {
 
 func mount(fd int, afd int, old string, flag int, aname string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(old)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(old))
 	var _p1 *byte
-	_p1, err = BytePtrFromString(aname)
-	if err != nil {
-		return
-	}
+	_p1 = try(BytePtrFromString(aname))
 	r0, _, e1 := Syscall6(SYS_MOUNT, uintptr(fd), uintptr(afd), uintptr(unsafe.Pointer(_p0)), uintptr(flag), uintptr(unsafe.Pointer(_p1)), 0)
 	if int32(r0) == -1 {
 		err = e1
@@ -163,10 +139,7 @@ func mount(fd int, afd int, old string, flag int, aname string) (err error) {
 
 func wstat(path string, edir []byte) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	var _p1 unsafe.Pointer
 	if len(edir) > 0 {
 		_p1 = unsafe.Pointer(&edir[0])
@@ -184,10 +157,7 @@ func wstat(path string, edir []byte) (err error) {
 
 func chdir(path string) (err error) {
 	var _p0 *byte
-	_p0, err = BytePtrFromString(path)
-	if err != nil {
-		return
-	}
+	_p0 = try(BytePtrFromString(path))
 	r0, _, e1 := Syscall(SYS_CHDIR, uintptr(unsafe.Pointer(_p0)), 0, 0)
 	if int32(r0) == -1 {
 		err = e1

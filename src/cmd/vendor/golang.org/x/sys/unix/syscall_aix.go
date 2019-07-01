@@ -104,9 +104,7 @@ func (sa *SockaddrUnix) sockaddr() (unsafe.Pointer, _Socklen, error) {
 func Getsockname(fd int) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if err = getsockname(fd, &rsa, &len); err != nil {
-		return
-	}
+	try(getsockname(fd, &rsa, &len))
 	return anyToSockaddr(fd, &rsa)
 }
 
@@ -144,10 +142,7 @@ func Getcwd(buf []byte) (n int, err error) {
 }
 
 func Getgroups() (gids []int, err error) {
-	n, err := getgroups(0, nil)
-	if err != nil {
-		return nil, err
-	}
+	n := try(getgroups(0, nil))
 	if n == 0 {
 		return nil, nil
 	}
@@ -158,10 +153,7 @@ func Getgroups() (gids []int, err error) {
 	}
 
 	a := make([]_Gid_t, n)
-	n, err = getgroups(n, &a[0])
-	if err != nil {
-		return nil, err
-	}
+	n = try(getgroups(n, &a[0]))
 	gids = make([]int, n)
 	for i, v := range a[0:n] {
 		gids[i] = int(v)

@@ -27,10 +27,7 @@ import (
 // by a web server in a CGI environment.
 // The returned Request's Body is populated, if applicable.
 func Request() (*http.Request, error) {
-	r, err := RequestFromMap(envMap(os.Environ()))
-	if err != nil {
-		return nil, err
-	}
+	r := try(RequestFromMap(envMap(os.Environ())))
 	if r.ContentLength > 0 {
 		r.Body = ioutil.NopCloser(io.LimitReader(os.Stdin, r.ContentLength))
 	}
@@ -144,10 +141,7 @@ func RequestFromMap(params map[string]string) (*http.Request, error) {
 // an error is returned. The provided handler may be nil to use
 // http.DefaultServeMux.
 func Serve(handler http.Handler) error {
-	req, err := Request()
-	if err != nil {
-		return err
-	}
+	req := try(Request())
 	if handler == nil {
 		handler = http.DefaultServeMux
 	}
@@ -158,9 +152,7 @@ func Serve(handler http.Handler) error {
 	}
 	handler.ServeHTTP(rw, req)
 	rw.Write(nil) // make sure a response is sent
-	if err = rw.bufw.Flush(); err != nil {
-		return err
-	}
+	try(rw.bufw.Flush())
 	return nil
 }
 

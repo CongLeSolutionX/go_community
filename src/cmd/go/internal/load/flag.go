@@ -61,10 +61,7 @@ func (f *PerPackageFlag) set(v, cwd string) error {
 		match = MatchPackage(pattern, cwd)
 		v = v[i+1:]
 	}
-	flags, err := str.SplitQuotedFields(v)
-	if err != nil {
-		return err
-	}
+	flags := try(str.SplitQuotedFields(v))
 	if flags == nil {
 		flags = []string{}
 	}

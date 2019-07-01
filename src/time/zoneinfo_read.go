@@ -347,10 +347,7 @@ func get2(b []byte) int {
 // loadTzinfoFromZip returns the contents of the file with the given name
 // in the given uncompressed zip file.
 func loadTzinfoFromZip(zipfile, name string) ([]byte, error) {
-	fd, err := open(zipfile)
-	if err != nil {
-		return nil, err
-	}
+	fd := try(open(zipfile))
 	defer closefd(fd)
 
 	const (
@@ -497,10 +494,7 @@ func loadLocation(name string, sources []string) (z *Location, firstErr error) {
 // here to avoid depending on io/ioutil or os.
 // It returns an error if name exceeds maxFileSize bytes.
 func readFile(name string) ([]byte, error) {
-	f, err := open(name)
-	if err != nil {
-		return nil, err
-	}
+	f := try(open(name))
 	defer closefd(f)
 	var (
 		buf [4096]byte

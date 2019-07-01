@@ -144,10 +144,7 @@ func ParseMediaType(v string) (mediatype string, params map[string]string, err e
 	}
 	mediatype = strings.TrimSpace(strings.ToLower(v[0:i]))
 
-	err = checkMediaTypeDisposition(mediatype)
-	if err != nil {
-		return "", nil, err
-	}
+	try(checkMediaTypeDisposition(mediatype))
 
 	params = make(map[string]string)
 

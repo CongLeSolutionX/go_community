@@ -138,10 +138,7 @@ func (r *codeRepo) Versions(prefix string) ([]string, error) {
 	if r.codeDir != "" {
 		p = r.codeDir + "/" + p
 	}
-	tags, err := r.code.Tags(p)
-	if err != nil {
-		return nil, err
-	}
+	tags := try(r.code.Tags(p))
 
 	list := []string{}
 	var incompatible []string
@@ -169,10 +166,7 @@ func (r *codeRepo) Versions(prefix string) ([]string, error) {
 		// Check for later versions that were created not following semantic import versioning,
 		// as indicated by the absence of a go.mod file. Those versions can be addressed
 		// by referring to them with a +incompatible suffix, as in v17.0.0+incompatible.
-		files, err := r.code.ReadFileRevs(incompatible, "go.mod", codehost.MaxGoMod)
-		if err != nil {
-			return nil, err
-		}
+		files := try(r.code.ReadFileRevs(incompatible, "go.mod", codehost.MaxGoMod))
 		for _, rev := range incompatible {
 			f := files[rev]
 			if os.IsNotExist(f.Err) {
@@ -190,18 +184,12 @@ func (r *codeRepo) Stat(rev string) (*RevInfo, error) {
 		return r.Latest()
 	}
 	codeRev := r.revToRev(rev)
-	info, err := r.code.Stat(codeRev)
-	if err != nil {
-		return nil, err
-	}
+	info := try(r.code.Stat(codeRev))
 	return r.convert(info, rev)
 }
 
 func (r *codeRepo) Latest() (*RevInfo, error) {
-	info, err := r.code.Latest()
-	if err != nil {
-		return nil, err
-	}
+	info := try(r.code.Latest())
 	return r.convert(info, "")
 }
 
@@ -294,9 +282,7 @@ func (r *codeRepo) convert(info *codehost.RevInfo, statVers string) (*RevInfo, e
 		info2.Version = statVers
 
 		if IsPseudoVersion(info2.Version) {
-			if err := r.validatePseudoVersion(info, info2.Version); err != nil {
-				return nil, err
-			}
+			try(r.validatePseudoVersion(info, info2.Version))
 			return checkGoMod()
 		}
 
@@ -447,14 +433,9 @@ func (r *codeRepo) validatePseudoVersion(info *codehost.RevInfo, version string)
 		}
 	}()
 
-	if err := module.MatchPathMajor(version, r.pathMajor); err != nil {
-		return err
-	}
+	try(module.MatchPathMajor(version, r.pathMajor))
 
-	rev, err := PseudoVersionRev(version)
-	if err != nil {
-		return err
-	}
+	rev := try(PseudoVersionRev(version))
 	if rev != info.Short {
 		switch {
 		case strings.HasPrefix(rev, info.Short):
@@ -466,10 +447,7 @@ func (r *codeRepo) validatePseudoVersion(info *codehost.RevInfo, version string)
 		}
 	}
 
-	t, err := PseudoVersionTime(version)
-	if err != nil {
-		return err
-	}
+	t := try(PseudoVersionTime(version))
 	if !t.Equal(info.Time.Truncate(time.Second)) {
 		return fmt.Errorf("does not match version-control timestamp (%s)", info.Time.UTC().Format(time.RFC3339))
 	}
@@ -490,10 +468,7 @@ func (r *codeRepo) validatePseudoVersion(info *codehost.RevInfo, version string)
 	// not enforce that property when resolving existing pseudo-versions: we don't
 	// know when the parent tags were added, and the highest-tagged parent may not
 	// have existed when the pseudo-version was first resolved.
-	base, err := PseudoVersionBase(strings.TrimSuffix(version, "+incompatible"))
-	if err != nil {
-		return err
-	}
+	base := try(PseudoVersionBase(strings.TrimSuffix(version, "+incompatible")))
 	if base == "" {
 		if r.pseudoMajor == "" && semver.Major(version) == "v1" {
 			return fmt.Errorf("major version without preceding tag must be v0, not v1")
@@ -506,10 +481,7 @@ func (r *codeRepo) validatePseudoVersion(info *codehost.RevInfo, version string)
 		tagPrefix = r.codeDir + "/"
 	}
 
-	tags, err := r.code.Tags(tagPrefix + base)
-	if err != nil {
-		return err
-	}
+	tags := try(r.code.Tags(tagPrefix + base))
 
 	var lastTag string // Prefer to log some real tag rather than a canonically-equivalent base.
 	ancestorFound := false
@@ -572,10 +544,7 @@ func (r *codeRepo) versionToRev(version string) (rev string, err error) {
 }
 
 func (r *codeRepo) findDir(version string) (rev, dir string, gomod []byte, err error) {
-	rev, err = r.versionToRev(version)
-	if err != nil {
-		return "", "", nil, err
-	}
+	rev = try(r.versionToRev(version))
 
 	// Load info about go.mod but delay consideration
 	// (except I/O error) until we rule out v2/go.mod.
@@ -685,16 +654,10 @@ func (r *codeRepo) GoMod(version string) (data []byte, err error) {
 		// only using the revision at the end.
 		// Invoke Stat to verify the metadata explicitly so we don't return
 		// a bogus file for an invalid version.
-		_, err := r.Stat(version)
-		if err != nil {
-			return nil, err
-		}
+		try(r.Stat(version))
 	}
 
-	rev, dir, gomod, err := r.findDir(version)
-	if err != nil {
-		return nil, err
-	}
+	rev, dir, gomod := try(r.findDir(version))
 	if gomod != nil {
 		return gomod, nil
 	}
@@ -733,20 +696,11 @@ func (r *codeRepo) Zip(dst io.Writer, version string) error {
 		// only using the revision at the end.
 		// Invoke Stat to verify the metadata explicitly so we don't return
 		// a bogus file for an invalid version.
-		_, err := r.Stat(version)
-		if err != nil {
-			return err
-		}
+		try(r.Stat(version))
 	}
 
-	rev, dir, _, err := r.findDir(version)
-	if err != nil {
-		return err
-	}
-	dl, actualDir, err := r.code.ReadZip(rev, dir, codehost.MaxZipFile)
-	if err != nil {
-		return err
-	}
+	rev, dir, _ := try(r.findDir(version))
+	dl, actualDir := try(r.code.ReadZip(rev, dir, codehost.MaxZipFile))
 	defer dl.Close()
 	if actualDir != "" && !hasPathPrefix(dir, actualDir) {
 		return fmt.Errorf("internal error: downloading %v %v: dir=%q but actualDir=%q", r.modPath, rev, dir, actualDir)
@@ -772,15 +726,10 @@ func (r *codeRepo) Zip(dst io.Writer, version string) error {
 		return fmt.Errorf("downloaded zip file too large")
 	}
 	size := (maxSize + 1) - lr.N
-	if _, err := f.Seek(0, 0); err != nil {
-		return err
-	}
+	try(f.Seek(0, 0))
 
 	// Translate from zip file we have to zip file we want.
-	zr, err := zip.NewReader(f, size)
-	if err != nil {
-		return err
-	}
+	zr := try(zip.NewReader(f, size))
 
 	zw := zip.NewWriter(dst)
 	if subdir != "" {
@@ -867,18 +816,10 @@ func (r *codeRepo) Zip(dst io.Writer, version string) error {
 		}
 		maxSize -= size
 
-		rc, err := zf.Open()
-		if err != nil {
-			return err
-		}
-		w, err := zw.Create(r.modPrefix(version) + "/" + name)
-		if err != nil {
-			return err
-		}
+		rc := try(zf.Open())
+		w := try(zw.Create(r.modPrefix(version) + "/" + name))
 		lr := &io.LimitedReader{R: rc, N: size + 1}
-		if _, err := io.Copy(w, lr); err != nil {
-			return err
-		}
+		try(io.Copy(w, lr))
 		if lr.N <= 0 {
 			return fmt.Errorf("individual file too large")
 		}
@@ -887,13 +828,8 @@ func (r *codeRepo) Zip(dst io.Writer, version string) error {
 	if !haveLICENSE && subdir != "" {
 		data, err := r.code.ReadFile(rev, "LICENSE", codehost.MaxLICENSE)
 		if err == nil {
-			w, err := zw.Create(r.modPrefix(version) + "/LICENSE")
-			if err != nil {
-				return err
-			}
-			if _, err := w.Write(data); err != nil {
-				return err
-			}
+			w := try(zw.Create(r.modPrefix(version) + "/LICENSE"))
+			try(w.Write(data))
 		}
 	}
 

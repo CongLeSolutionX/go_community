@@ -334,10 +334,7 @@ func (r *readRune) ReadRune() (rr rune, size int, err error) {
 		size = utf8.RuneLen(rr)
 		return
 	}
-	r.buf[0], err = r.readByte()
-	if err != nil {
-		return
-	}
+	r.buf[0] = try(r.readByte())
 	if r.buf[0] < utf8.RuneSelf { // fast check for common ASCII case
 		rr = rune(r.buf[0])
 		size = 1 // Known to be 1.

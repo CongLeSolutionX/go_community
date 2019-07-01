@@ -27,9 +27,7 @@ func runBuildTag(pass *analysis.Pass) (interface{}, error) {
 		checkGoFile(pass, f)
 	}
 	for _, name := range pass.OtherFiles {
-		if err := checkOtherFile(pass, name); err != nil {
-			return nil, err
-		}
+		try(checkOtherFile(pass, name))
 	}
 	return nil, nil
 }
@@ -61,10 +59,7 @@ func checkGoFile(pass *analysis.Pass, f *ast.File) {
 }
 
 func checkOtherFile(pass *analysis.Pass, filename string) error {
-	content, tf, err := analysisutil.ReadFile(pass.Fset, filename)
-	if err != nil {
-		return err
-	}
+	content, tf := try(analysisutil.ReadFile(pass.Fset, filename))
 
 	// We must look at the raw lines, as build tags may appear in non-Go
 	// files such as assembly files.
@@ -117,9 +112,7 @@ func checkLine(line string, pastCutoff bool) error {
 		if pastCutoff {
 			return fmt.Errorf("+build comment must appear before package clause and be followed by a blank line")
 		}
-		if err := checkArguments(fields); err != nil {
-			return err
-		}
+		try(checkArguments(fields))
 	} else {
 		// Comment with +build but not at beginning.
 		if !pastCutoff {

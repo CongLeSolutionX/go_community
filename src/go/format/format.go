@@ -58,10 +58,7 @@ func Node(dst io.Writer, fset *token.FileSet, node interface{}) error {
 		// Make a copy of the AST because ast.SortImports is destructive.
 		// TODO(gri) Do this more efficiently.
 		var buf bytes.Buffer
-		err := config.Fprint(&buf, fset, file)
-		if err != nil {
-			return err
-		}
+		try(config.Fprint(&buf, fset, file))
 		file, err = parser.ParseFile(fset, "", buf.Bytes(), parserMode)
 		if err != nil {
 			// We should never get here. If we do, provide good diagnostic.
@@ -90,10 +87,7 @@ func Node(dst io.Writer, fset *token.FileSet, node interface{}) error {
 //
 func Source(src []byte) ([]byte, error) {
 	fset := token.NewFileSet()
-	file, sourceAdj, indentAdj, err := parse(fset, "", src, true)
-	if err != nil {
-		return nil, err
-	}
+	file, sourceAdj, indentAdj := try(parse(fset, "", src, true))
 
 	if sourceAdj == nil {
 		// Complete source file.

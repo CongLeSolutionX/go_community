@@ -51,10 +51,7 @@ func (w *normWriter) Write(data []byte) (n int, err error) {
 // Close forces data that remains in the buffer to be written.
 func (w *normWriter) Close() error {
 	if len(w.buf) > 0 {
-		_, err := w.w.Write(w.buf)
-		if err != nil {
-			return err
-		}
+		try(w.w.Write(w.buf))
 	}
 	return nil
 }

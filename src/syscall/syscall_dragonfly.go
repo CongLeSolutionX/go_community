@@ -43,16 +43,11 @@ func nametomib(name string) (mib []_C_int, err error) {
 	n := uintptr(CTL_MAXNAME) * siz
 
 	p := (*byte)(unsafe.Pointer(&buf[0]))
-	bytes, err := ByteSliceFromString(name)
-	if err != nil {
-		return nil, err
-	}
+	bytes := try(ByteSliceFromString(name))
 
 	// Magic sysctl: "setting" 0.3 to a string name
 	// lets you read back the array of integers form.
-	if err = sysctl([]_C_int{0, 3}, p, &n, &bytes[0], uintptr(len(name))); err != nil {
-		return nil, err
-	}
+	try(sysctl([]_C_int{0, 3}, p, &n, &bytes[0], uintptr(len(name))))
 	return buf[0 : n/siz], nil
 }
 
@@ -95,10 +90,7 @@ func Pwrite(fd int, p []byte, offset int64) (n int, err error) {
 func Accept4(fd, flags int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	nfd, err = accept4(fd, &rsa, &len, flags)
-	if err != nil {
-		return
-	}
+	nfd = try(accept4(fd, &rsa, &len, flags))
 	if len > SizeofSockaddrAny {
 		panic("RawSockaddrAny too small")
 	}

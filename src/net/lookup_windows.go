@@ -70,10 +70,7 @@ func lookupProtocol(ctx context.Context, name string) (int, error) {
 }
 
 func (r *Resolver) lookupHost(ctx context.Context, name string) ([]string, error) {
-	ips, err := r.lookupIP(ctx, "ip", name)
-	if err != nil {
-		return nil, err
-	}
+	ips := try(r.lookupIP(ctx, "ip", name))
 	addrs := make([]string, 0, len(ips))
 	for _, ip := range ips {
 		addrs = append(addrs, ip.String())
@@ -329,10 +326,7 @@ func (*Resolver) lookupAddr(ctx context.Context, addr string) ([]string, error) 
 	// TODO(bradfitz): finish ctx plumbing. Nothing currently depends on this.
 	acquireThread()
 	defer releaseThread()
-	arpa, err := reverseaddr(addr)
-	if err != nil {
-		return nil, err
-	}
+	arpa := try(reverseaddr(addr))
 	var r *syscall.DNSRecord
 	e := syscall.DnsQuery(arpa, syscall.DNS_TYPE_PTR, 0, nil, &r, nil)
 	if e != nil {

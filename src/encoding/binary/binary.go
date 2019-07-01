@@ -162,9 +162,7 @@ func Read(r io.Reader, order ByteOrder, data interface{}) error {
 	// Fast path for basic types and slices.
 	if n := intDataSize(data); n != 0 {
 		bs := make([]byte, n)
-		if _, err := io.ReadFull(r, bs); err != nil {
-			return err
-		}
+		try(io.ReadFull(r, bs))
 		switch data := data.(type) {
 		case *bool:
 			*data = bs[0] != 0
@@ -236,9 +234,7 @@ func Read(r io.Reader, order ByteOrder, data interface{}) error {
 		return errors.New("binary.Read: invalid type " + reflect.TypeOf(data).String())
 	}
 	d := &decoder{order: order, buf: make([]byte, size)}
-	if _, err := io.ReadFull(r, d.buf); err != nil {
-		return err
-	}
+	try(io.ReadFull(r, d.buf))
 	d.value(v)
 	return nil
 }

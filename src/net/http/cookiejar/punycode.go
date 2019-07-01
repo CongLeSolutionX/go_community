@@ -139,10 +139,7 @@ func toASCII(s string) (string, error) {
 	labels := strings.Split(s, ".")
 	for i, label := range labels {
 		if !ascii(label) {
-			a, err := encode(acePrefix, label)
-			if err != nil {
-				return "", err
-			}
+			a := try(encode(acePrefix, label))
 			labels[i] = a
 		}
 	}

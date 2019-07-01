@@ -16,9 +16,7 @@ const maxSendfileSize int = 4 << 20
 
 // SendFile wraps the sendfile system call.
 func SendFile(dstFD *FD, src int, pos, remain int64) (int64, error) {
-	if err := dstFD.writeLock(); err != nil {
-		return 0, err
-	}
+	try(dstFD.writeLock())
 	defer dstFD.writeUnlock()
 
 	dst := int(dstFD.Sysfd)

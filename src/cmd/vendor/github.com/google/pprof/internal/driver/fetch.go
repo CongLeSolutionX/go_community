@@ -56,32 +56,21 @@ func fetchProfiles(s *source, o *plugin.Options) (*profile.Profile, error) {
 		})
 	}
 
-	p, pbase, m, mbase, save, err := grabSourcesAndBases(sources, bases, o.Fetch, o.Obj, o.UI, o.HTTPTransport)
-	if err != nil {
-		return nil, err
-	}
+	p, pbase, m, mbase, save := try(grabSourcesAndBases(sources, bases, o.Fetch, o.Obj, o.UI, o.HTTPTransport))
 
 	if pbase != nil {
 		if s.DiffBase {
 			pbase.SetLabel("pprof::base", []string{"true"})
 		}
 		if s.Normalize {
-			err := p.Normalize(pbase)
-			if err != nil {
-				return nil, err
-			}
+			try(p.Normalize(pbase))
 		}
 		pbase.Scale(-1)
-		p, m, err = combineProfiles([]*profile.Profile{p, pbase}, []plugin.MappingSources{m, mbase})
-		if err != nil {
-			return nil, err
-		}
+		p, m = try(combineProfiles([]*profile.Profile{p, pbase}, []plugin.MappingSources{m, mbase}))
 	}
 
 	// Symbolize the merged profile.
-	if err := o.Sym.Symbolize(s.Symbolize, m, p); err != nil {
-		return nil, err
-	}
+	try(o.Sym.Symbolize(s.Symbolize, m, p))
 	p.RemoveUninteresting()
 	unsourceMappings(p)
 
@@ -91,10 +80,7 @@ func fetchProfiles(s *source, o *plugin.Options) (*profile.Profile, error) {
 
 	// Save a copy of the merged profile if there is at least one remote source.
 	if save {
-		dir, err := setTmpDir(o.UI)
-		if err != nil {
-			return nil, err
-		}
+		dir := try(setTmpDir(o.UI))
 
 		prefix := "pprof."
 		if len(p.Mapping) > 0 && p.Mapping[0].File != "" {
@@ -115,9 +101,7 @@ func fetchProfiles(s *source, o *plugin.Options) (*profile.Profile, error) {
 		}
 	}
 
-	if err := p.CheckValid(); err != nil {
-		return nil, err
-	}
+	try(p.CheckValid())
 
 	return p, nil
 }
@@ -242,14 +226,9 @@ func concurrentGrab(sources []profileSource, fetch plugin.Fetcher, obj plugin.Ob
 
 func combineProfiles(profiles []*profile.Profile, msrcs []plugin.MappingSources) (*profile.Profile, plugin.MappingSources, error) {
 	// Merge profiles.
-	if err := measurement.ScaleProfiles(profiles); err != nil {
-		return nil, nil, err
-	}
+	try(measurement.ScaleProfiles(profiles))
 
-	p, err := profile.Merge(profiles)
-	if err != nil {
-		return nil, nil, err
-	}
+	p := try(profile.Merge(profiles))
 
 	// Combine mapping sources.
 	msrc := make(plugin.MappingSources)
@@ -313,22 +292,14 @@ func grabProfile(s *source, source string, fetcher plugin.Fetcher, obj plugin.Ob
 	var src string
 	duration, timeout := time.Duration(s.Seconds)*time.Second, time.Duration(s.Timeout)*time.Second
 	if fetcher != nil {
-		p, src, err = fetcher.Fetch(source, duration, timeout)
-		if err != nil {
-			return
-		}
+		p, src = try(fetcher.Fetch(source, duration, timeout))
 	}
 	if err != nil || p == nil {
 		// Fetch the profile over HTTP or from a file.
-		p, src, err = fetch(source, duration, timeout, ui, tr)
-		if err != nil {
-			return
-		}
+		p, src = try(fetch(source, duration, timeout, ui, tr))
 	}
 
-	if err = p.CheckValid(); err != nil {
-		return
-	}
+	try(p.CheckValid())
 
 	// Update the binary locations from command line and paths.
 	locateBinaries(p, s, obj, ui)
@@ -536,10 +507,7 @@ func convertPerfData(perfPath string, ui plugin.UI) (*os.File, error) {
 	ui.Print(fmt.Sprintf(
 		"Converting %s to a profile.proto... (May take a few minutes)",
 		perfPath))
-	profile, err := newTempFile(os.TempDir(), "pprof_", ".pb.gz")
-	if err != nil {
-		return nil, err
-	}
+	profile := try(newTempFile(os.TempDir(), "pprof_", ".pb.gz"))
 	deferDeleteTempFile(profile.Name())
 	cmd := exec.Command("perf_to_profile", "-i", perfPath, "-o", profile.Name(), "-f")
 	cmd.Stdout, cmd.Stderr = os.Stdout, os.Stderr

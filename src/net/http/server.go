@@ -571,10 +571,7 @@ func (w *response) ReadFrom(src io.Reader) (n int64, err error) {
 	// own ReadFrom method). If not, or if our src isn't a regular
 	// file, just fall back to the normal copy method.
 	rf, ok := w.conn.rwc.(io.ReaderFrom)
-	regFile, err := srcIsRegularFile(src)
-	if err != nil {
-		return 0, err
-	}
+	regFile := try(srcIsRegularFile(src))
 	if !ok || !regFile {
 		bufp := copyBufPool.Get().(*[]byte)
 		defer copyBufPool.Put(bufp)
@@ -2818,10 +2815,7 @@ func (srv *Server) ListenAndServe() error {
 	if addr == "" {
 		addr = ":http"
 	}
-	ln, err := net.Listen("tcp", addr)
-	if err != nil {
-		return err
-	}
+	ln := try(net.Listen("tcp", addr))
 	return srv.Serve(ln)
 }
 
@@ -2872,9 +2866,7 @@ func (srv *Server) Serve(l net.Listener) error {
 	l = &onceCloseListener{Listener: l}
 	defer l.Close()
 
-	if err := srv.setupHTTP2_Serve(); err != nil {
-		return err
-	}
+	try(srv.setupHTTP2_Serve())
 
 	if !srv.trackListener(&l, true) {
 		return ErrServerClosed
@@ -2944,9 +2936,7 @@ func (srv *Server) Serve(l net.Listener) error {
 func (srv *Server) ServeTLS(l net.Listener, certFile, keyFile string) error {
 	// Setup HTTP/2 before srv.Serve, to initialize srv.TLSConfig
 	// before we clone it and create the TLS Listener.
-	if err := srv.setupHTTP2_ServeTLS(); err != nil {
-		return err
-	}
+	try(srv.setupHTTP2_ServeTLS())
 
 	config := cloneTLSConfig(srv.TLSConfig)
 	if !strSliceContains(config.NextProtos, "http/1.1") {
@@ -2957,10 +2947,7 @@ func (srv *Server) ServeTLS(l net.Listener, certFile, keyFile string) error {
 	if !configHasCert || certFile != "" || keyFile != "" {
 		var err error
 		config.Certificates = make([]tls.Certificate, 1)
-		config.Certificates[0], err = tls.LoadX509KeyPair(certFile, keyFile)
-		if err != nil {
-			return err
-		}
+		config.Certificates[0] = try(tls.LoadX509KeyPair(certFile, keyFile))
 	}
 
 	tlsListener := tls.NewListener(l, config)
@@ -3114,10 +3101,7 @@ func (srv *Server) ListenAndServeTLS(certFile, keyFile string) error {
 		addr = ":https"
 	}
 
-	ln, err := net.Listen("tcp", addr)
-	if err != nil {
-		return err
-	}
+	ln := try(net.Listen("tcp", addr))
 
 	defer ln.Close()
 

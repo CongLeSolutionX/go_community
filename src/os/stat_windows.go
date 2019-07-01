@@ -52,10 +52,7 @@ func (file *File) Stat() (FileInfo, error) {
 		return &fileStat{name: basename(file.name), filetype: ft}, nil
 	}
 
-	fs, err := newFileStatFromGetFileInformationByHandle(file.name, file.pfd.Sysfd)
-	if err != nil {
-		return nil, err
-	}
+	fs := try(newFileStatFromGetFileInformationByHandle(file.name, file.pfd.Sysfd))
 	fs.filetype = ft
 	return fs, err
 }
@@ -87,9 +84,7 @@ func stat(funcname, name string, createFileAttrs uint32) (FileInfo, error) {
 			FileSizeHigh:   fa.FileSizeHigh,
 			FileSizeLow:    fa.FileSizeLow,
 		}
-		if err := fs.saveInfoFromPath(name); err != nil {
-			return nil, err
-		}
+		try(fs.saveInfoFromPath(name))
 		return fs, nil
 	}
 	// GetFileAttributesEx fails with ERROR_SHARING_VIOLATION error for
@@ -102,9 +97,7 @@ func stat(funcname, name string, createFileAttrs uint32) (FileInfo, error) {
 		}
 		syscall.FindClose(sh)
 		fs := newFileStatFromWin32finddata(&fd)
-		if err := fs.saveInfoFromPath(name); err != nil {
-			return nil, err
-		}
+		try(fs.saveInfoFromPath(name))
 		return fs, nil
 	}
 

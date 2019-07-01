@@ -40,10 +40,7 @@ func (c *Conn) serverHandshake() error {
 	// encrypt the tickets with.
 	c.config.serverInitOnce.Do(func() { c.config.serverInit(nil) })
 
-	clientHello, err := c.readClientHello()
-	if err != nil {
-		return err
-	}
+	clientHello := try(c.readClientHello())
 
 	if c.vers == VersionTLS13 {
 		hs := serverHandshakeStateTLS13{
@@ -63,65 +60,37 @@ func (c *Conn) serverHandshake() error {
 func (hs *serverHandshakeState) handshake() error {
 	c := hs.c
 
-	if err := hs.processClientHello(); err != nil {
-		return err
-	}
+	try(hs.processClientHello())
 
 	// For an overview of TLS handshaking, see RFC 5246, Section 7.3.
 	c.buffering = true
 	if hs.checkForResumption() {
 		// The client has included a session ticket and so we do an abbreviated handshake.
-		if err := hs.doResumeHandshake(); err != nil {
-			return err
-		}
-		if err := hs.establishKeys(); err != nil {
-			return err
-		}
+		try(hs.doResumeHandshake())
+		try(hs.establishKeys())
 		// ticketSupported is set in a resumption handshake if the
 		// ticket from the client was encrypted with an old session
 		// ticket key and thus a refreshed ticket should be sent.
 		if hs.hello.ticketSupported {
-			if err := hs.sendSessionTicket(); err != nil {
-				return err
-			}
+			try(hs.sendSessionTicket())
 		}
-		if err := hs.sendFinished(c.serverFinished[:]); err != nil {
-			return err
-		}
-		if _, err := c.flush(); err != nil {
-			return err
-		}
+		try(hs.sendFinished(c.serverFinished[:]))
+		try(c.flush())
 		c.clientFinishedIsFirst = false
-		if err := hs.readFinished(nil); err != nil {
-			return err
-		}
+		try(hs.readFinished(nil))
 		c.didResume = true
 	} else {
 		// The client didn't include a session ticket, or it wasn't
 		// valid so we do a full handshake.
-		if err := hs.pickCipherSuite(); err != nil {
-			return err
-		}
-		if err := hs.doFullHandshake(); err != nil {
-			return err
-		}
-		if err := hs.establishKeys(); err != nil {
-			return err
-		}
-		if err := hs.readFinished(c.clientFinished[:]); err != nil {
-			return err
-		}
+		try(hs.pickCipherSuite())
+		try(hs.doFullHandshake())
+		try(hs.establishKeys())
+		try(hs.readFinished(c.clientFinished[:]))
 		c.clientFinishedIsFirst = true
 		c.buffering = true
-		if err := hs.sendSessionTicket(); err != nil {
-			return err
-		}
-		if err := hs.sendFinished(nil); err != nil {
-			return err
-		}
-		if _, err := c.flush(); err != nil {
-			return err
-		}
+		try(hs.sendSessionTicket())
+		try(hs.sendFinished(nil))
+		try(c.flush())
 	}
 
 	c.ekm = ekmFromMasterSecret(c.vers, hs.suite, hs.masterSecret, hs.clientHello.random, hs.hello.random)
@@ -132,10 +101,7 @@ func (hs *serverHandshakeState) handshake() error {
 
 // readClientHello reads a ClientHello message and selects the protocol version.
 func (c *Conn) readClientHello() (*clientHelloMsg, error) {
-	msg, err := c.readHandshake()
-	if err != nil {
-		return nil, err
-	}
+	msg := try(c.readHandshake())
 	clientHello, ok := msg.(*clientHelloMsg)
 	if !ok {
 		c.sendAlert(alertUnexpectedMessage)
@@ -391,15 +357,12 @@ func (hs *serverHandshakeState) doResumeHandshake() error {
 	hs.finishedHash.discardHandshakeBuffer()
 	hs.finishedHash.Write(hs.clientHello.marshal())
 	hs.finishedHash.Write(hs.hello.marshal())
-	if _, err := c.writeRecord(recordTypeHandshake, hs.hello.marshal()); err != nil {
-		return err
-	}
+	try(c.writeRecord(recordTypeHandshake, hs.hello.marshal()))
 
-	if err := c.processCertsFromClient(Certificate{
+	try(c.processCertsFromClient(Certificate{
 		Certificate: hs.sessionState.certificates,
-	}); err != nil {
-		return err
-	}
+	}),
+	)
 
 	hs.masterSecret = hs.sessionState.masterSecret
 
@@ -424,24 +387,18 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 	}
 	hs.finishedHash.Write(hs.clientHello.marshal())
 	hs.finishedHash.Write(hs.hello.marshal())
-	if _, err := c.writeRecord(recordTypeHandshake, hs.hello.marshal()); err != nil {
-		return err
-	}
+	try(c.writeRecord(recordTypeHandshake, hs.hello.marshal()))
 
 	certMsg := new(certificateMsg)
 	certMsg.certificates = hs.cert.Certificate
 	hs.finishedHash.Write(certMsg.marshal())
-	if _, err := c.writeRecord(recordTypeHandshake, certMsg.marshal()); err != nil {
-		return err
-	}
+	try(c.writeRecord(recordTypeHandshake, certMsg.marshal()))
 
 	if hs.hello.ocspStapling {
 		certStatus := new(certificateStatusMsg)
 		certStatus.response = hs.cert.OCSPStaple
 		hs.finishedHash.Write(certStatus.marshal())
-		if _, err := c.writeRecord(recordTypeHandshake, certStatus.marshal()); err != nil {
-			return err
-		}
+		try(c.writeRecord(recordTypeHandshake, certStatus.marshal()))
 	}
 
 	keyAgreement := hs.suite.ka(c.vers)
@@ -452,9 +409,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 	}
 	if skx != nil {
 		hs.finishedHash.Write(skx.marshal())
-		if _, err := c.writeRecord(recordTypeHandshake, skx.marshal()); err != nil {
-			return err
-		}
+		try(c.writeRecord(recordTypeHandshake, skx.marshal()))
 	}
 
 	var certReq *certificateRequestMsg
@@ -479,27 +434,18 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 			certReq.certificateAuthorities = c.config.ClientCAs.Subjects()
 		}
 		hs.finishedHash.Write(certReq.marshal())
-		if _, err := c.writeRecord(recordTypeHandshake, certReq.marshal()); err != nil {
-			return err
-		}
+		try(c.writeRecord(recordTypeHandshake, certReq.marshal()))
 	}
 
 	helloDone := new(serverHelloDoneMsg)
 	hs.finishedHash.Write(helloDone.marshal())
-	if _, err := c.writeRecord(recordTypeHandshake, helloDone.marshal()); err != nil {
-		return err
-	}
+	try(c.writeRecord(recordTypeHandshake, helloDone.marshal()))
 
-	if _, err := c.flush(); err != nil {
-		return err
-	}
+	try(c.flush())
 
 	var pub crypto.PublicKey // public key for client auth, if any
 
-	msg, err := c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg := try(c.readHandshake())
 
 	// If we requested a client certificate, then the client must send a
 	// certificate message, even if it's empty.
@@ -511,19 +457,15 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 		}
 		hs.finishedHash.Write(certMsg.marshal())
 
-		if err := c.processCertsFromClient(Certificate{
+		try(c.processCertsFromClient(Certificate{
 			Certificate: certMsg.certificates,
-		}); err != nil {
-			return err
-		}
+		}),
+		)
 		if len(certMsg.certificates) != 0 {
 			pub = c.peerCertificates[0].PublicKey
 		}
 
-		msg, err = c.readHandshake()
-		if err != nil {
-			return err
-		}
+		msg = try(c.readHandshake())
 	}
 
 	// Get client key exchange
@@ -552,10 +494,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 	// to the client's certificate. This allows us to verify that the client is in
 	// possession of the private key of the certificate.
 	if len(c.peerCertificates) > 0 {
-		msg, err = c.readHandshake()
-		if err != nil {
-			return err
-		}
+		msg = try(c.readHandshake())
 		certVerify, ok := msg.(*certificateVerifyMsg)
 		if !ok {
 			c.sendAlert(alertUnexpectedMessage)
@@ -614,15 +553,10 @@ func (hs *serverHandshakeState) establishKeys() error {
 func (hs *serverHandshakeState) readFinished(out []byte) error {
 	c := hs.c
 
-	if err := c.readChangeCipherSpec(); err != nil {
-		return err
-	}
+	try(c.readChangeCipherSpec())
 
 	if hs.hello.nextProtoNeg {
-		msg, err := c.readHandshake()
-		if err != nil {
-			return err
-		}
+		msg := try(c.readHandshake())
 		nextProto, ok := msg.(*nextProtoMsg)
 		if !ok {
 			c.sendAlert(alertUnexpectedMessage)
@@ -632,10 +566,7 @@ func (hs *serverHandshakeState) readFinished(out []byte) error {
 		c.clientProtocol = nextProto.proto
 	}
 
-	msg, err := c.readHandshake()
-	if err != nil {
-		return err
-	}
+	msg := try(c.readHandshake())
 	clientFinished, ok := msg.(*finishedMsg)
 	if !ok {
 		c.sendAlert(alertUnexpectedMessage)
@@ -673,15 +604,10 @@ func (hs *serverHandshakeState) sendSessionTicket() error {
 		certificates: certsFromClient,
 	}
 	var err error
-	m.ticket, err = c.encryptTicket(state.marshal())
-	if err != nil {
-		return err
-	}
+	m.ticket = try(c.encryptTicket(state.marshal()))
 
 	hs.finishedHash.Write(m.marshal())
-	if _, err := c.writeRecord(recordTypeHandshake, m.marshal()); err != nil {
-		return err
-	}
+	try(c.writeRecord(recordTypeHandshake, m.marshal()))
 
 	return nil
 }
@@ -689,16 +615,12 @@ func (hs *serverHandshakeState) sendSessionTicket() error {
 func (hs *serverHandshakeState) sendFinished(out []byte) error {
 	c := hs.c
 
-	if _, err := c.writeRecord(recordTypeChangeCipherSpec, []byte{1}); err != nil {
-		return err
-	}
+	try(c.writeRecord(recordTypeChangeCipherSpec, []byte{1}))
 
 	finished := new(finishedMsg)
 	finished.verifyData = hs.finishedHash.serverSum(hs.masterSecret)
 	hs.finishedHash.Write(finished.marshal())
-	if _, err := c.writeRecord(recordTypeHandshake, finished.marshal()); err != nil {
-		return err
-	}
+	try(c.writeRecord(recordTypeHandshake, finished.marshal()))
 
 	c.cipherSuite = hs.suite.id
 	copy(out, finished.verifyData)

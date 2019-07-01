@@ -400,10 +400,7 @@ type fileNM struct {
 
 func (f *fileNM) SourceLine(addr uint64) ([]plugin.Frame, error) {
 	if f.addr2linernm == nil {
-		addr2liner, err := newAddr2LinerNM(f.b.nm, f.name, f.base)
-		if err != nil {
-			return nil, err
-		}
+		addr2liner := try(newAddr2LinerNM(f.b.nm, f.name, f.base))
 		f.addr2linernm = addr2liner
 	}
 	return f.addr2linernm.addrInfo(addr)

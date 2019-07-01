@@ -133,10 +133,7 @@ var vcsHg = &vcsCmd{
 }
 
 func hgRemoteRepo(vcsHg *vcsCmd, rootDir string) (remoteRepo string, err error) {
-	out, err := vcsHg.runOutput(rootDir, "paths default")
-	if err != nil {
-		return "", err
-	}
+	out := try(vcsHg.runOutput(rootDir, "paths default"))
 	return strings.TrimSpace(string(out)), nil
 }
 
@@ -200,10 +197,7 @@ func gitRemoteRepo(vcsGit *vcsCmd, rootDir string) (remoteRepo string, err error
 			Path:   m[3],
 		}
 	} else {
-		repoURL, err = urlpkg.Parse(out)
-		if err != nil {
-			return "", err
-		}
+		repoURL = try(urlpkg.Parse(out))
 	}
 
 	// Iterate over insecure schemes too, because this function simply
@@ -239,18 +233,12 @@ var vcsBzr = &vcsCmd{
 }
 
 func bzrRemoteRepo(vcsBzr *vcsCmd, rootDir string) (remoteRepo string, err error) {
-	outb, err := vcsBzr.runOutput(rootDir, "config parent_location")
-	if err != nil {
-		return "", err
-	}
+	outb := try(vcsBzr.runOutput(rootDir, "config parent_location"))
 	return strings.TrimSpace(string(outb)), nil
 }
 
 func bzrResolveRepo(vcsBzr *vcsCmd, rootDir, remoteRepo string) (realRepo string, err error) {
-	outb, err := vcsBzr.runOutput(rootDir, "info "+remoteRepo)
-	if err != nil {
-		return "", err
-	}
+	outb := try(vcsBzr.runOutput(rootDir, "info "+remoteRepo))
 	out := string(outb)
 
 	// Expect:
@@ -296,10 +284,7 @@ var vcsSvn = &vcsCmd{
 }
 
 func svnRemoteRepo(vcsSvn *vcsCmd, rootDir string) (remoteRepo string, err error) {
-	outb, err := vcsSvn.runOutput(rootDir, "info")
-	if err != nil {
-		return "", err
-	}
+	outb := try(vcsSvn.runOutput(rootDir, "info"))
 	out := string(outb)
 
 	// Expect:
@@ -346,10 +331,7 @@ var vcsFossil = &vcsCmd{
 }
 
 func fossilRemoteRepo(vcsFossil *vcsCmd, rootDir string) (remoteRepo string, err error) {
-	out, err := vcsFossil.runOutput(rootDir, "remote-url")
-	if err != nil {
-		return "", err
-	}
+	out := try(vcsFossil.runOutput(rootDir, "remote-url"))
 	return strings.TrimSpace(string(out)), nil
 }
 
@@ -451,9 +433,7 @@ func (v *vcsCmd) ping(scheme, repo string) error {
 // The parent of dir must exist; dir must not.
 func (v *vcsCmd) create(dir, repo string) error {
 	for _, cmd := range v.createCmd {
-		if err := v.run(".", cmd, "dir", dir, "repo", repo); err != nil {
-			return err
-		}
+		try(v.run(".", cmd, "dir", dir, "repo", repo))
 	}
 	return nil
 }
@@ -461,9 +441,7 @@ func (v *vcsCmd) create(dir, repo string) error {
 // download downloads any new changes for the repo in dir.
 func (v *vcsCmd) download(dir string) error {
 	for _, cmd := range v.downloadCmd {
-		if err := v.run(dir, cmd); err != nil {
-			return err
-		}
+		try(v.run(dir, cmd))
 	}
 	return nil
 }
@@ -472,10 +450,7 @@ func (v *vcsCmd) download(dir string) error {
 func (v *vcsCmd) tags(dir string) ([]string, error) {
 	var tags []string
 	for _, tc := range v.tagCmd {
-		out, err := v.runOutput(dir, tc.cmd)
-		if err != nil {
-			return nil, err
-		}
+		out := try(v.runOutput(dir, tc.cmd))
 		re := regexp.MustCompile(`(?m-s)` + tc.pattern)
 		for _, m := range re.FindAllStringSubmatch(string(out), -1) {
 			tags = append(tags, m[1])
@@ -492,10 +467,7 @@ func (v *vcsCmd) tagSync(dir, tag string) error {
 	}
 	if tag != "" {
 		for _, tc := range v.tagLookupCmd {
-			out, err := v.runOutput(dir, tc.cmd, "tag", tag)
-			if err != nil {
-				return err
-			}
+			out := try(v.runOutput(dir, tc.cmd, "tag", tag))
 			re := regexp.MustCompile(`(?m-s)` + tc.pattern)
 			m := re.FindStringSubmatch(string(out))
 			if len(m) > 1 {
@@ -507,17 +479,13 @@ func (v *vcsCmd) tagSync(dir, tag string) error {
 
 	if tag == "" && v.tagSyncDefault != nil {
 		for _, cmd := range v.tagSyncDefault {
-			if err := v.run(dir, cmd); err != nil {
-				return err
-			}
+			try(v.run(dir, cmd))
 		}
 		return nil
 	}
 
 	for _, cmd := range v.tagSyncCmd {
-		if err := v.run(dir, cmd, "tag", tag); err != nil {
-			return err
-		}
+		try(v.run(dir, cmd, "tag", tag))
 	}
 	return nil
 }
@@ -717,9 +685,7 @@ func repoRootFromVCSPaths(importPath, scheme string, security web.SecurityMode, 
 			match["repo"] = expand(match, srv.repo)
 		}
 		if srv.check != nil {
-			if err := srv.check(match); err != nil {
-				return nil, err
-			}
+			try(srv.check(match))
 		}
 		vcs := vcsByCmd(match["vcs"])
 		if vcs == nil {
@@ -778,10 +744,7 @@ func urlForImportPath(importPath string) (*urlpkg.URL, error) {
 //
 // This handles custom import paths like "name.tld/pkg/foo" or just "name.tld".
 func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.SecurityMode) (*RepoRoot, error) {
-	url, err := urlForImportPath(importPath)
-	if err != nil {
-		return nil, err
-	}
+	url := try(urlForImportPath(importPath))
 	resp, err := web.Get(security, url)
 	if err != nil {
 		msg := "https fetch: %v"
@@ -818,10 +781,7 @@ func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.Se
 			log.Printf("get %q: verifying non-authoritative meta tag", importPath)
 		}
 		var imports []metaImport
-		url, imports, err = metaImportsForPrefix(mmi.Prefix, mod, security)
-		if err != nil {
-			return nil, err
-		}
+		url, imports = try(metaImportsForPrefix(mmi.Prefix, mod, security))
 		metaImport2, err := matchGoImport(imports, importPath)
 		if err != nil || mmi != metaImport2 {
 			return nil, fmt.Errorf("%s and %s disagree about go-import for %s", resp.URL, url, mmi.Prefix)
@@ -849,10 +809,7 @@ func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.Se
 // validateRepoRoot returns an error if repoRoot does not seem to be
 // a valid URL with scheme.
 func validateRepoRoot(repoRoot string) error {
-	url, err := urlpkg.Parse(repoRoot)
-	if err != nil {
-		return err
-	}
+	url := try(urlpkg.Parse(repoRoot))
 	if url.Scheme == "" {
 		return errors.New("no scheme")
 	}
@@ -1091,9 +1048,7 @@ func noVCSSuffix(match map[string]string) error {
 // bitbucketVCS determines the version control system for a
 // Bitbucket repository, by using the Bitbucket API.
 func bitbucketVCS(match map[string]string) error {
-	if err := noVCSSuffix(match); err != nil {
-		return err
-	}
+	try(noVCSSuffix(match))
 
 	var resp struct {
 		SCM string `json:"scm"`

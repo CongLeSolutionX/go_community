@@ -62,9 +62,7 @@ func (fd *FD) Read(fn func([]byte) (int, error), b []byte) (int, error) {
 	if fd.rtimedout.isSet() {
 		return 0, ErrTimeout
 	}
-	if err := fd.readLock(); err != nil {
-		return 0, err
-	}
+	try(fd.readLock())
 	defer fd.readUnlock()
 	if len(b) == 0 {
 		return 0, nil
@@ -86,9 +84,7 @@ func (fd *FD) Write(fn func([]byte) (int, error), b []byte) (int, error) {
 	if fd.wtimedout.isSet() {
 		return 0, ErrTimeout
 	}
-	if err := fd.writeLock(); err != nil {
-		return 0, err
-	}
+	try(fd.writeLock())
 	defer fd.writeUnlock()
 	fd.waio = newAsyncIO(fn, b)
 	n, err := fd.waio.Wait()

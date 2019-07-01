@@ -701,9 +701,7 @@ func literalRegexp(s string, flags Flags) *Regexp {
 func Parse(s string, flags Flags) (*Regexp, error) {
 	if flags&Literal != 0 {
 		// Trivial parser for literal string.
-		if err := checkUTF8(s); err != nil {
-			return nil, err
-		}
+		try(checkUTF8(s))
 		return literalRegexp(s, flags), nil
 	}
 
@@ -966,17 +964,13 @@ func (p *parser) parsePerlFlags(s string) (rest string, err error) {
 		// Pull out name.
 		end := strings.IndexRune(t, '>')
 		if end < 0 {
-			if err = checkUTF8(t); err != nil {
-				return "", err
-			}
+			try(checkUTF8(t))
 			return "", &Error{ErrInvalidNamedCapture, s}
 		}
 
 		capture := t[:end+1] // "(?P<name>"
 		name := t[4:end]     // "name"
-		if err = checkUTF8(name); err != nil {
-			return "", err
-		}
+		try(checkUTF8(name))
 		if !isValidCaptureName(name) {
 			return "", &Error{ErrInvalidNamedCapture, capture}
 		}
@@ -1246,10 +1240,7 @@ func (p *parser) parseEscape(s string) (r rune, rest string, err error) {
 	if t == "" {
 		return 0, "", &Error{ErrTrailingBackslash, ""}
 	}
-	c, t, err := nextRune(t)
-	if err != nil {
-		return 0, "", err
-	}
+	c, t := try(nextRune(t))
 
 Switch:
 	switch c {
@@ -1467,10 +1458,7 @@ func (p *parser) parseUnicodeClass(s string, r []rune) (out []rune, rest string,
 		sign = -1
 	}
 	t := s[2:]
-	c, t, err := nextRune(t)
-	if err != nil {
-		return
-	}
+	c, t := try(nextRune(t))
 	var seq, name string
 	if c != '{' {
 		// Single-letter name.
@@ -1480,16 +1468,12 @@ func (p *parser) parseUnicodeClass(s string, r []rune) (out []rune, rest string,
 		// Name is in braces.
 		end := strings.IndexRune(s, '}')
 		if end < 0 {
-			if err = checkUTF8(s); err != nil {
-				return
-			}
+			try(checkUTF8(s))
 			return nil, "", &Error{ErrInvalidCharRange, s}
 		}
 		seq, t = s[:end+1], s[end+1:]
 		name = s[3:end]
-		if err = checkUTF8(name); err != nil {
-			return
-		}
+		try(checkUTF8(name))
 	}
 
 	// Group can have leading negation too.  \p{^Han} == \P{Han}, \P{^Han} == \p{Han}.
@@ -1560,10 +1544,7 @@ func (p *parser) parseClass(s string) (rest string, err error) {
 
 		// Look for POSIX [:alnum:] etc.
 		if len(t) > 2 && t[0] == '[' && t[1] == ':' {
-			nclass, nt, err := p.parseNamedClass(t, class)
-			if err != nil {
-				return "", err
-			}
+			nclass, nt := try(p.parseNamedClass(t, class))
 			if nclass != nil {
 				class, t = nclass, nt
 				continue
@@ -1571,10 +1552,7 @@ func (p *parser) parseClass(s string) (rest string, err error) {
 		}
 
 		// Look for Unicode character group like \p{Han}.
-		nclass, nt, err := p.parseUnicodeClass(t, class)
-		if err != nil {
-			return "", err
-		}
+		nclass, nt := try(p.parseUnicodeClass(t, class))
 		if nclass != nil {
 			class, t = nclass, nt
 			continue
@@ -1589,16 +1567,12 @@ func (p *parser) parseClass(s string) (rest string, err error) {
 		// Single character or simple range.
 		rng := t
 		var lo, hi rune
-		if lo, t, err = p.parseClassChar(t, s); err != nil {
-			return "", err
-		}
+		lo, t = try(p.parseClassChar(t, s))
 		hi = lo
 		// [a-] means (a|-) so check for final ].
 		if len(t) >= 2 && t[0] == '-' && t[1] != ']' {
 			t = t[1:]
-			if hi, t, err = p.parseClassChar(t, s); err != nil {
-				return "", err
-			}
+			hi, t = try(p.parseClassChar(t, s))
 			if hi < lo {
 				rng = rng[:len(rng)-len(t)]
 				return "", &Error{Code: ErrInvalidCharRange, Expr: rng}

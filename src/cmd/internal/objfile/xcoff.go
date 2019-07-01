@@ -19,10 +19,7 @@ type xcoffFile struct {
 }
 
 func openXcoff(r io.ReaderAt) (rawFile, error) {
-	f, err := xcoff.NewFile(r)
-	if err != nil {
-		return nil, err
-	}
+	f := try(xcoff.NewFile(r))
 	return &xcoffFile{f}, nil
 }
 
@@ -91,12 +88,8 @@ func (f *xcoffFile) pcln() (textStart uint64, symtab, pclntab []byte, err error)
 	if sect := f.xcoff.Section(".text"); sect != nil {
 		textStart = sect.VirtualAddress
 	}
-	if pclntab, err = loadXCOFFTable(f.xcoff, "runtime.pclntab", "runtime.epclntab"); err != nil {
-		return 0, nil, nil, err
-	}
-	if symtab, err = loadXCOFFTable(f.xcoff, "runtime.symtab", "runtime.esymtab"); err != nil {
-		return 0, nil, nil, err
-	}
+	pclntab = try(loadXCOFFTable(f.xcoff, "runtime.pclntab", "runtime.epclntab"))
+	symtab = try(loadXCOFFTable(f.xcoff, "runtime.symtab", "runtime.esymtab"))
 	return textStart, symtab, pclntab, nil
 }
 
@@ -127,22 +120,13 @@ func findXCOFFSymbol(f *xcoff.File, name string) (*xcoff.Symbol, error) {
 }
 
 func loadXCOFFTable(f *xcoff.File, sname, ename string) ([]byte, error) {
-	ssym, err := findXCOFFSymbol(f, sname)
-	if err != nil {
-		return nil, err
-	}
-	esym, err := findXCOFFSymbol(f, ename)
-	if err != nil {
-		return nil, err
-	}
+	ssym := try(findXCOFFSymbol(f, sname))
+	esym := try(findXCOFFSymbol(f, ename))
 	if ssym.SectionNumber != esym.SectionNumber {
 		return nil, fmt.Errorf("%s and %s symbols must be in the same section", sname, ename)
 	}
 	sect := f.Sections[ssym.SectionNumber-1]
-	data, err := sect.Data()
-	if err != nil {
-		return nil, err
-	}
+	data := try(sect.Data())
 	return data[ssym.Value:esym.Value], nil
 }
 

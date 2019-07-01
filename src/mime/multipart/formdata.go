@@ -83,10 +83,7 @@ func (r *Reader) readForm(maxMemory int64) (_ *Form, err error) {
 		}
 		if n > maxMemory {
 			// too big, write to disk and flush buffer
-			file, err := ioutil.TempFile("", "multipart-")
-			if err != nil {
-				return nil, err
-			}
+			file := try(ioutil.TempFile("", "multipart-"))
 			size, err := io.Copy(file, io.MultiReader(&b, p))
 			if cerr := file.Close(); err == nil {
 				err = cerr

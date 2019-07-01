@@ -37,10 +37,7 @@ const (
 // TranslateAccountName converts a directory service
 // object name from one format to another.
 func TranslateAccountName(username string, from, to uint32, initSize int) (string, error) {
-	u, e := UTF16PtrFromString(username)
-	if e != nil {
-		return "", e
-	}
+	u := try(UTF16PtrFromString(username))
 	n := uint32(50)
 	for {
 		b := make([]uint16, n)
@@ -105,14 +102,8 @@ type SID struct{}
 // sid into a valid, functional sid.
 func StringToSid(s string) (*SID, error) {
 	var sid *SID
-	p, e := UTF16PtrFromString(s)
-	if e != nil {
-		return nil, e
-	}
-	e = ConvertStringSidToSid(p, &sid)
-	if e != nil {
-		return nil, e
-	}
+	p := try(UTF16PtrFromString(s))
+	try(ConvertStringSidToSid(p, &sid))
 	defer LocalFree((Handle)(unsafe.Pointer(sid)))
 	return sid.Copy()
 }
@@ -124,16 +115,10 @@ func LookupSID(system, account string) (sid *SID, domain string, accType uint32,
 	if len(account) == 0 {
 		return nil, "", 0, EINVAL
 	}
-	acc, e := UTF16PtrFromString(account)
-	if e != nil {
-		return nil, "", 0, e
-	}
+	acc := try(UTF16PtrFromString(account))
 	var sys *uint16
 	if len(system) > 0 {
-		sys, e = UTF16PtrFromString(system)
-		if e != nil {
-			return nil, "", 0, e
-		}
+		sys = try(UTF16PtrFromString(system))
 	}
 	n := uint32(50)
 	dn := uint32(50)
@@ -158,10 +143,7 @@ func LookupSID(system, account string) (sid *SID, domain string, accType uint32,
 // suitable for display, storage, or transmission.
 func (sid *SID) String() (string, error) {
 	var s *uint16
-	e := ConvertSidToStringSid(sid, &s)
-	if e != nil {
-		return "", e
-	}
+	try(ConvertSidToStringSid(sid, &s))
 	defer LocalFree((Handle)(unsafe.Pointer(s)))
 	return UTF16ToString((*[256]uint16)(unsafe.Pointer(s))[:]), nil
 }
@@ -175,10 +157,7 @@ func (sid *SID) Len() int {
 func (sid *SID) Copy() (*SID, error) {
 	b := make([]byte, sid.Len())
 	sid2 := (*SID)(unsafe.Pointer(&b[0]))
-	e := CopySid(uint32(len(b)), sid2, sid)
-	if e != nil {
-		return nil, e
-	}
+	try(CopySid(uint32(len(b)), sid2, sid))
 	return sid2, nil
 }
 
@@ -188,10 +167,7 @@ func (sid *SID) Copy() (*SID, error) {
 func (sid *SID) LookupAccount(system string) (account, domain string, accType uint32, err error) {
 	var sys *uint16
 	if len(system) > 0 {
-		sys, err = UTF16PtrFromString(system)
-		if err != nil {
-			return "", "", 0, err
-		}
+		sys = try(UTF16PtrFromString(system))
 	}
 	n := uint32(50)
 	dn := uint32(50)
@@ -304,15 +280,9 @@ type Token Handle
 // OpenCurrentProcessToken opens the access token
 // associated with current process.
 func OpenCurrentProcessToken() (Token, error) {
-	p, e := GetCurrentProcess()
-	if e != nil {
-		return 0, e
-	}
+	p := try(GetCurrentProcess())
 	var t Token
-	e = OpenProcessToken(p, TOKEN_QUERY, &t)
-	if e != nil {
-		return 0, e
-	}
+	try(OpenProcessToken(p, TOKEN_QUERY, &t))
 	return t, nil
 }
 
@@ -341,10 +311,7 @@ func (t Token) getInfo(class uint32, initSize int) (unsafe.Pointer, error) {
 
 // GetTokenUser retrieves access token t user account information.
 func (t Token) GetTokenUser() (*Tokenuser, error) {
-	i, e := t.getInfo(TokenUser, 50)
-	if e != nil {
-		return nil, e
-	}
+	i := try(t.getInfo(TokenUser, 50))
 	return (*Tokenuser)(i), nil
 }
 
@@ -352,10 +319,7 @@ func (t Token) GetTokenUser() (*Tokenuser, error) {
 // A pointer to a SID structure representing a group that will become
 // the primary group of any objects created by a process using this access token.
 func (t Token) GetTokenPrimaryGroup() (*Tokenprimarygroup, error) {
-	i, e := t.getInfo(TokenPrimaryGroup, 50)
-	if e != nil {
-		return nil, e
-	}
+	i := try(t.getInfo(TokenPrimaryGroup, 50))
 	return (*Tokenprimarygroup)(i), nil
 }
 

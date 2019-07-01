@@ -276,15 +276,9 @@ func TestOpen(t *testing.T) {
 // elf.NewFile requires io.ReaderAt, which compress/gzip cannot
 // provide. Decompress the file to a bytes.Reader.
 func decompress(gz string) (io.ReaderAt, error) {
-	in, err := os.Open(gz)
-	if err != nil {
-		return nil, err
-	}
+	in := try(os.Open(gz))
 	defer in.Close()
-	r, err := gzip.NewReader(in)
-	if err != nil {
-		return nil, err
-	}
+	r := try(gzip.NewReader(in))
 	var out bytes.Buffer
 	_, err = io.Copy(&out, r)
 	return bytes.NewReader(out.Bytes()), err

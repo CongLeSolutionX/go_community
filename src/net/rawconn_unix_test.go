@@ -32,16 +32,14 @@ func readRawConn(c syscall.RawConn, b []byte) (int, error) {
 
 func writeRawConn(c syscall.RawConn, b []byte) error {
 	var operr error
-	err := c.Write(func(s uintptr) bool {
+	try(c.Write(func(s uintptr) bool {
 		_, operr = syscall.Write(int(s), b)
 		if operr == syscall.EAGAIN {
 			return false
 		}
 		return true
-	})
-	if err != nil {
-		return err
-	}
+	}),
+	)
 	if operr != nil {
 		return operr
 	}
@@ -84,9 +82,7 @@ func controlRawConn(c syscall.RawConn, addr Addr) error {
 			}
 		}
 	}
-	if err := c.Control(fn); err != nil {
-		return err
-	}
+	try(c.Control(fn))
 	if operr != nil {
 		return operr
 	}
@@ -117,9 +113,7 @@ func controlOnConnSetup(network string, address string, c syscall.RawConn) error
 			return errors.New("unknown network: " + network)
 		}
 	}
-	if err := c.Control(fn); err != nil {
-		return err
-	}
+	try(c.Control(fn))
 	if operr != nil {
 		return operr
 	}

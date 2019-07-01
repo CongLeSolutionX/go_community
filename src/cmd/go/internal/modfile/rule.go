@@ -112,10 +112,7 @@ func ParseLax(file string, data []byte, fix VersionFixer) (*File, error) {
 }
 
 func parseToFile(file string, data []byte, fix VersionFixer, strict bool) (*File, error) {
-	fs, err := parse(file, data)
-	if err != nil {
-		return nil, err
-	}
+	fs := try(parse(file, data))
 	f := &File{
 		Syntax: fs,
 	}
@@ -388,9 +385,7 @@ func parseString(s *string) (string, error) {
 	t := *s
 	if strings.HasPrefix(t, `"`) {
 		var err error
-		if t, err = strconv.Unquote(t); err != nil {
-			return "", err
-		}
+		t = try(strconv.Unquote(t))
 	} else if strings.ContainsAny(t, "\"'`") {
 		// Other quotes are reserved both for possible future expansion
 		// and to avoid confusion. For example if someone types 'x'

@@ -18,20 +18,14 @@ import (
 )
 
 func readImg(filename string) (image.Image, error) {
-	f, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(filename))
 	defer f.Close()
 	m, _, err := image.Decode(f)
 	return m, err
 }
 
 func readGIF(filename string) (*GIF, error) {
-	f, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
+	f := try(os.Open(filename))
 	defer f.Close()
 	return DecodeAll(f)
 }

@@ -129,15 +129,9 @@ func interfaceAddrTable(ifi *Interface) ([]Addr, error) {
 	var ift []Interface
 	if ifi == nil {
 		var err error
-		ift, err = interfaceTable(0)
-		if err != nil {
-			return nil, err
-		}
+		ift = try(interfaceTable(0))
 	}
-	ifat, err := addrTable(ift, ifi, msgs)
-	if err != nil {
-		return nil, err
-	}
+	ifat := try(addrTable(ift, ifi, msgs))
 	return ifat, nil
 }
 

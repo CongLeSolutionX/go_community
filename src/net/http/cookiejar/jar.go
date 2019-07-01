@@ -298,10 +298,7 @@ func canonicalHost(host string) (string, error) {
 	var err error
 	host = strings.ToLower(host)
 	if hasPort(host) {
-		host, _, err = net.SplitHostPort(host)
-		if err != nil {
-			return "", err
-		}
+		host, _ = try(net.SplitHostPort(host))
 	}
 	if strings.HasSuffix(host, ".") {
 		// Strip trailing dot from fully qualified domain names.

@@ -191,10 +191,7 @@ func parse(filename string, src interface{}) (*ast.File, error) {
 }
 
 func parseStdin() (*ast.File, error) {
-	src, err := ioutil.ReadAll(os.Stdin)
-	if err != nil {
-		return nil, err
-	}
+	src := try(ioutil.ReadAll(os.Stdin))
 	return parse("<standard input>", src)
 }
 
@@ -262,20 +259,14 @@ func parseDir(dir string) ([]*ast.File, error) {
 func getPkgFiles(args []string) ([]*ast.File, error) {
 	if len(args) == 0 {
 		// stdin
-		file, err := parseStdin()
-		if err != nil {
-			return nil, err
-		}
+		file := try(parseStdin())
 		return []*ast.File{file}, nil
 	}
 
 	if len(args) == 1 {
 		// possibly a directory
 		path := args[0]
-		info, err := os.Stat(path)
-		if err != nil {
-			return nil, err
-		}
+		info := try(os.Stat(path))
 		if info.IsDir() {
 			return parseDir(path)
 		}

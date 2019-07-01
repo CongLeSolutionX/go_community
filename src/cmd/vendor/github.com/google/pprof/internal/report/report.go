@@ -421,10 +421,7 @@ func PrintAssembly(w io.Writer, rpt *Report, obj plugin.ObjTool, maxFuncs int) e
 		flatSum, cumSum := sns.Sum()
 
 		// Get the function assembly.
-		insts, err := obj.Disasm(s.sym.File, s.sym.Start, s.sym.End)
-		if err != nil {
-			return err
-		}
+		insts := try(obj.Disasm(s.sym.File, s.sym.Start, s.sym.End))
 
 		ns := annotateAssembly(insts, sns, s.base)
 

@@ -80,10 +80,7 @@ func walkSymlinks(path string) (string, error) {
 
 		// Resolve symlink.
 
-		fi, err := os.Lstat(dest)
-		if err != nil {
-			return "", err
-		}
+		fi := try(os.Lstat(dest))
 
 		if fi.Mode()&os.ModeSymlink == 0 {
 			if !fi.Mode().IsDir() && end < len(path) {
@@ -99,10 +96,7 @@ func walkSymlinks(path string) (string, error) {
 			return "", errors.New("EvalSymlinks: too many links")
 		}
 
-		link, err := os.Readlink(dest)
-		if err != nil {
-			return "", err
-		}
+		link := try(os.Readlink(dest))
 
 		if isWindowsDot && !IsAbs(link) {
 			// On Windows, if "." is a relative symlink,

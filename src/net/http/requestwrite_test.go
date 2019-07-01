@@ -922,10 +922,7 @@ func dumpRequestOut(req *Request, onReadHeaders func()) ([]byte, error) {
 		dr.c <- strings.NewReader("HTTP/1.1 204 No Content\r\nConnection: close\r\n\r\n")
 	}()
 
-	_, err := t.RoundTrip(req)
-	if err != nil {
-		return nil, err
-	}
+	try(t.RoundTrip(req))
 	return buf.Bytes(), nil
 }
 

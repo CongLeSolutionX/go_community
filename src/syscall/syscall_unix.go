@@ -55,10 +55,7 @@ func (m *mmapper) Mmap(fd int, offset int64, length int, prot int, flags int) (d
 	}
 
 	// Map the requested memory.
-	addr, errno := m.mmap(0, uintptr(length), prot, flags, fd, offset)
-	if errno != nil {
-		return nil, errno
-	}
+	addr := try(m.mmap(0, uintptr(length), prot, flags, fd, offset))
 
 	// Slice memory layout
 	var sl = struct {
@@ -93,9 +90,7 @@ func (m *mmapper) Munmap(data []byte) (err error) {
 	}
 
 	// Unmap the memory and update m.
-	if errno := m.munmap(uintptr(unsafe.Pointer(&b[0])), uintptr(len(b))); errno != nil {
-		return errno
-	}
+	try(m.munmap(uintptr(unsafe.Pointer(&b[0])), uintptr(len(b))))
 	delete(m.active, p)
 	return nil
 }
@@ -240,27 +235,19 @@ type SockaddrUnix struct {
 }
 
 func Bind(fd int, sa Sockaddr) (err error) {
-	ptr, n, err := sa.sockaddr()
-	if err != nil {
-		return err
-	}
+	ptr, n := try(sa.sockaddr())
 	return bind(fd, ptr, n)
 }
 
 func Connect(fd int, sa Sockaddr) (err error) {
-	ptr, n, err := sa.sockaddr()
-	if err != nil {
-		return err
-	}
+	ptr, n := try(sa.sockaddr())
 	return connect(fd, ptr, n)
 }
 
 func Getpeername(fd int) (sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if err = getpeername(fd, &rsa, &len); err != nil {
-		return
-	}
+	try(getpeername(fd, &rsa, &len))
 	return anyToSockaddr(&rsa)
 }
 
@@ -274,9 +261,7 @@ func GetsockoptInt(fd, level, opt int) (value int, err error) {
 func Recvfrom(fd int, p []byte, flags int) (n int, from Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny
-	if n, err = recvfrom(fd, p, flags, &rsa, &len); err != nil {
-		return
-	}
+	n = try(recvfrom(fd, p, flags, &rsa, &len))
 	if rsa.Addr.Family != AF_UNSPEC {
 		from, err = anyToSockaddr(&rsa)
 	}
@@ -284,10 +269,7 @@ func Recvfrom(fd int, p []byte, flags int) (n int, from Sockaddr, err error) {
 }
 
 func Sendto(fd int, p []byte, flags int, to Sockaddr) (err error) {
-	ptr, n, err := to.sockaddr()
-	if err != nil {
-		return err
-	}
+	ptr, n := try(to.sockaddr())
 	return sendto(fd, p, flags, ptr, n)
 }
 

@@ -23,10 +23,7 @@ import (
 // type-checked.
 func Eval(fset *token.FileSet, pkg *Package, pos token.Pos, expr string) (_ TypeAndValue, err error) {
 	// parse expressions
-	node, err := parser.ParseExprFrom(fset, "eval", expr, 0)
-	if err != nil {
-		return TypeAndValue{}, err
-	}
+	node := try(parser.ParseExprFrom(fset, "eval", expr, 0))
 
 	info := &Info{
 		Types: make(map[ast.Expr]TypeAndValue),

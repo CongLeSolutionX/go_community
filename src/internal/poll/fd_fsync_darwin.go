@@ -13,9 +13,7 @@ import (
 // on OS X, SYS_FSYNC doesn't fully flush contents to disk.
 // See Issue #26650 as well as the man page for fsync on OS X.
 func (fd *FD) Fsync() error {
-	if err := fd.incref(); err != nil {
-		return err
-	}
+	try(fd.incref())
 	defer fd.decref()
 
 	_, e1 := fcntl(fd.Sysfd, syscall.F_FULLFSYNC, 0)

@@ -131,17 +131,11 @@ func SetNonblock(fd Handle, nonblocking bool) (err error) {
 
 // FullPath retrieves the full path of the specified file.
 func FullPath(name string) (path string, err error) {
-	p, err := UTF16PtrFromString(name)
-	if err != nil {
-		return "", err
-	}
+	p := try(UTF16PtrFromString(name))
 	n := uint32(100)
 	for {
 		buf := make([]uint16, n)
-		n, err = GetFullPathName(p, uint32(len(buf)), &buf[0], nil)
-		if err != nil {
-			return "", err
-		}
+		n = try(GetFullPathName(p, uint32(len(buf)), &buf[0], nil))
 		if n <= uint32(len(buf)) {
 			return UTF16ToString(buf[:n]), nil
 		}
@@ -153,10 +147,7 @@ func isSlash(c uint8) bool {
 }
 
 func normalizeDir(dir string) (name string, err error) {
-	ndir, err := FullPath(dir)
-	if err != nil {
-		return "", err
-	}
+	ndir := try(FullPath(dir))
 	if len(ndir) > 2 && isSlash(ndir[0]) && isSlash(ndir[1]) {
 		// dir cannot have \\server\share\path form
 		return "", EINVAL
@@ -187,10 +178,7 @@ func joinExeDirAndFName(dir, p string) (name string, err error) {
 		if isSlash(p[2]) {
 			return p, nil
 		} else {
-			d, err := normalizeDir(dir)
-			if err != nil {
-				return "", err
-			}
+			d := try(normalizeDir(dir))
 			if volToUpper(int(p[0])) == volToUpper(int(d[0])) {
 				return FullPath(d + "\\" + p[2:])
 			} else {
@@ -199,10 +187,7 @@ func joinExeDirAndFName(dir, p string) (name string, err error) {
 		}
 	} else {
 		// no drive letter
-		d, err := normalizeDir(dir)
-		if err != nil {
-			return "", err
-		}
+		d := try(normalizeDir(dir))
 		if isSlash(p[0]) {
 			return FullPath(d[:2] + p)
 		} else {
@@ -257,15 +242,9 @@ func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle 
 		// process is started, it does Chdir(attr.Dir). We are adjusting
 		// for that difference here by making argv0 absolute.
 		var err error
-		argv0, err = joinExeDirAndFName(attr.Dir, argv0)
-		if err != nil {
-			return 0, 0, err
-		}
+		argv0 = try(joinExeDirAndFName(attr.Dir, argv0))
 	}
-	argv0p, err := UTF16PtrFromString(argv0)
-	if err != nil {
-		return 0, 0, err
-	}
+	argv0p := try(UTF16PtrFromString(argv0))
 
 	var cmdline string
 	// Windows CreateProcess takes the command line as a single string:
@@ -279,18 +258,12 @@ func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle 
 
 	var argvp *uint16
 	if len(cmdline) != 0 {
-		argvp, err = UTF16PtrFromString(cmdline)
-		if err != nil {
-			return 0, 0, err
-		}
+		argvp = try(UTF16PtrFromString(cmdline))
 	}
 
 	var dirp *uint16
 	if len(attr.Dir) != 0 {
-		dirp, err = UTF16PtrFromString(attr.Dir)
-		if err != nil {
-			return 0, 0, err
-		}
+		dirp = try(UTF16PtrFromString(attr.Dir))
 	}
 
 	// Acquire the fork lock so that no other threads
@@ -303,10 +276,7 @@ func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle 
 	fd := make([]Handle, len(attr.Files))
 	for i := range attr.Files {
 		if attr.Files[i] > 0 {
-			err := DuplicateHandle(p, Handle(attr.Files[i]), p, &fd[i], 0, true, DUPLICATE_SAME_ACCESS)
-			if err != nil {
-				return 0, 0, err
-			}
+			try(DuplicateHandle(p, Handle(attr.Files[i]), p, &fd[i], 0, true, DUPLICATE_SAME_ACCESS))
 			defer CloseHandle(Handle(fd[i]))
 		}
 	}

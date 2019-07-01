@@ -273,9 +273,7 @@ func (t *transferWriter) shouldSendContentLength() bool {
 
 func (t *transferWriter) writeHeader(w io.Writer, trace *httptrace.ClientTrace) error {
 	if t.Close && !hasToken(t.Header.get("Connection"), "close") {
-		if _, err := io.WriteString(w, "Connection: close\r\n"); err != nil {
-			return err
-		}
+		try(io.WriteString(w, "Connection: close\r\n"))
 		if trace != nil && trace.WroteHeaderField != nil {
 			trace.WroteHeaderField("Connection", []string{"close"})
 		}
@@ -285,12 +283,8 @@ func (t *transferWriter) writeHeader(w io.Writer, trace *httptrace.ClientTrace) 
 	// function of the sanitized field triple (Body, ContentLength,
 	// TransferEncoding)
 	if t.shouldSendContentLength() {
-		if _, err := io.WriteString(w, "Content-Length: "); err != nil {
-			return err
-		}
-		if _, err := io.WriteString(w, strconv.FormatInt(t.ContentLength, 10)+"\r\n"); err != nil {
-			return err
-		}
+		try(io.WriteString(w, "Content-Length: "))
+		try(io.WriteString(w, strconv.FormatInt(t.ContentLength, 10)+"\r\n"))
 		if trace != nil && trace.WroteHeaderField != nil {
 			trace.WroteHeaderField("Content-Length", []string{strconv.FormatInt(t.ContentLength, 10)})
 		}
@@ -318,9 +312,7 @@ func (t *transferWriter) writeHeader(w io.Writer, trace *httptrace.ClientTrace) 
 			sort.Strings(keys)
 			// TODO: could do better allocation-wise here, but trailers are rare,
 			// so being lazy for now.
-			if _, err := io.WriteString(w, "Trailer: "+strings.Join(keys, ",")+"\r\n"); err != nil {
-				return err
-			}
+			try(io.WriteString(w, "Trailer: "+strings.Join(keys, ",")+"\r\n"))
 			if trace != nil && trace.WroteHeaderField != nil {
 				trace.WroteHeaderField("Trailer", keys)
 			}
@@ -369,9 +361,7 @@ func (t *transferWriter) writeBody(w io.Writer) error {
 		}
 	}
 	if t.BodyCloser != nil {
-		if err := t.BodyCloser.Close(); err != nil {
-			return err
-		}
+		try(t.BodyCloser.Close())
 	}
 
 	if !t.ResponseToHEAD && t.ContentLength != -1 && t.ContentLength != ncopy {
@@ -382,9 +372,7 @@ func (t *transferWriter) writeBody(w io.Writer) error {
 	if chunked(t.TransferEncoding) {
 		// Write Trailer header
 		if t.Trailer != nil {
-			if err := t.Trailer.Write(w); err != nil {
-				return err
-			}
+			try(t.Trailer.Write(w))
 		}
 		// Last chunk, empty trailer
 		_, err = io.WriteString(w, "\r\n")
@@ -502,15 +490,9 @@ func readTransfer(msg interface{}, r *bufio.Reader) (err error) {
 	}
 
 	// Transfer encoding, content length
-	err = t.fixTransferEncoding()
-	if err != nil {
-		return err
-	}
+	try(t.fixTransferEncoding())
 
-	realLength, err := fixLength(isResponse, t.StatusCode, t.RequestMethod, t.Header, t.TransferEncoding)
-	if err != nil {
-		return err
-	}
+	realLength := try(fixLength(isResponse, t.StatusCode, t.RequestMethod, t.Header, t.TransferEncoding))
 	if isResponse && t.RequestMethod == "HEAD" {
 		if n, err := parseContentLength(t.Header.get("Content-Length")); err != nil {
 			return err
@@ -522,10 +504,7 @@ func readTransfer(msg interface{}, r *bufio.Reader) (err error) {
 	}
 
 	// Trailer
-	t.Trailer, err = fixTrailer(t.Header, t.TransferEncoding)
-	if err != nil {
-		return err
-	}
+	t.Trailer = try(fixTrailer(t.Header, t.TransferEncoding))
 
 	// If there is no Content-Length or chunked Transfer-Encoding on a *Response
 	// and the status is not 1xx, 204 or 304, then the body is unbounded.

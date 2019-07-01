@@ -55,10 +55,7 @@ func checkOpenSSLVersion() error {
 	}
 
 	openssl := exec.Command("openssl", "version")
-	output, err := openssl.CombinedOutput()
-	if err != nil {
-		return err
-	}
+	output := try(openssl.CombinedOutput())
 
 	version := string(output)
 	if strings.HasPrefix(version, "OpenSSL 1.1.1") {
