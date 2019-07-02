@@ -544,3 +544,20 @@ func TestRangeError(t *testing.T) {
 		}
 	}
 }
+
+// Issue 32775: index out of range when argc is 0
+func TestNilOsArgs(t *testing.T) {
+	tmp := make([]string, len(os.Args))
+	copy(tmp, os.Args)
+
+	defer func() {
+		os.Args = tmp
+		if r := recover(); r != nil {
+			t.Errorf("Panic on nil os.Args: %v", r)
+		}
+	}()
+
+	os.Args = nil
+
+	ResetForTesting(nil)
+}
