@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "208ef3e6_ae56cafb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2019-07-02T21:39:05Z",
+      "side": 1,
+      "message": "Was this observed in the wild? Not sure if #32879 was an instance of this from very quick look.",
+      "revId": "f86ecd368804a6b48e8fb68af7cc44a9c6ebf25b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
