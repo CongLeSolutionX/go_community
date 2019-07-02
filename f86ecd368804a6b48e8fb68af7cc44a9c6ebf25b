@@ -16,6 +16,24 @@
       "revId": "f86ecd368804a6b48e8fb68af7cc44a9c6ebf25b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd67157f_fec6e701",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-02T21:45:01Z",
+      "side": 1,
+      "message": "Yes: specifically, we know of one instance here:\nhttps://github.com/future-architect/vuls/blob/f8c0b387163871e58907fd5b0b321e3781165a8c/go.mod#L106\n\nI do not know how that pseudo-version came to exist in that file, but given that the file contains other pseudo-versions that fail validation I suspect either an erroneous hand-edit or a buggy or quirky script.",
+      "parentUuid": "208ef3e6_ae56cafb",
+      "revId": "f86ecd368804a6b48e8fb68af7cc44a9c6ebf25b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
