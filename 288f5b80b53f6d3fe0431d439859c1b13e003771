@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7249a847_e41bb6f4",
+        "filename": "test/fixedbugs/issue32922.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-07-03T19:26:51Z",
+      "side": 1,
+      "message": "Nit: this copyright header (as well as other files in this CL) has different link breaks than other files in the repository. Not sure if it matters. Others have:\n\n// Copyright 2019 The Go Authors. All rights reserved.\n// Use of this source code is governed by a BSD-style\n// license that can be found in the LICENSE file.",
+      "revId": "288f5b80b53f6d3fe0431d439859c1b13e003771",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
