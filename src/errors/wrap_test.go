@@ -223,7 +223,7 @@ type wrapped struct {
 
 func (e wrapped) Error() string { return e.msg }
 
-func (e wrapped) Unwrap() error { return e.err }
+func (e wrapped) Unwrap() wrapper { return e.err }
 
 type errorUncomparable struct {
 	f []string

@@ -119,6 +119,8 @@ func (e Errno) Error() string {
 	return "errno " + itoa(int(e))
 }
 
+func (e Errno) Unwrap() wrapper { return nil }
+
 func (e Errno) Is(target error) bool {
 	switch target {
 	case oserror.ErrTemporary:

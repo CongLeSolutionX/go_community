@@ -113,6 +113,8 @@ func (e *BuildListError) Error() string {
 	return b.String()
 }
 
+func (e *BuildListError) Unwrap() wrapper { return nil }
+
 // BuildList returns the build list for the target module.
 // The first element is the target itself, with the remainder of the list sorted by path.
 func BuildList(target module.Version, reqs Reqs) ([]module.Version, error) {
