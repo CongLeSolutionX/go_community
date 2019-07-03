@@ -166,6 +166,8 @@ func (errorThatGosched) Error() string {
 	return "errorThatGosched"
 }
 
+func (errorThatGosched) Unwrap() wrapper { return nil }
+
 func GoschedInPanic() {
 	panic(errorThatGosched{})
 }
@@ -177,6 +179,8 @@ func (errorThatPrint) Error() string {
 	fmt.Println("2")
 	return "3"
 }
+
+func (errorThatPrint) Unwrap() wrapper { return nil }
 
 func SyscallInPanic() {
 	panic(errorThatPrint{})
@@ -225,6 +229,8 @@ type panicError struct{}
 func (*panicError) Error() string {
 	panic("double error")
 }
+
+func (panicError) Unwrap() wrapper { return nil }
 
 func PanicLoop() {
 	panic(&panicError{})

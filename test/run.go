@@ -253,6 +253,8 @@ type skipError string
 
 func (s skipError) Error() string { return string(s) }
 
+func (skipError) Unwrap() wrapper { return nil }
+
 func check(err error) {
 	if err != nil {
 		log.Fatal(err)

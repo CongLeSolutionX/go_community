@@ -118,6 +118,8 @@ func (w *W) Error() string {
 	return fmt.Sprintf("[%d]", w.k)
 }
 
+func (W) Unwrap() wrapper { return nil }
+
 var siVal = I(S{"a", "b"})
 
 var tVal = &T{

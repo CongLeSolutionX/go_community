@@ -411,7 +411,7 @@ func (e *Error) Error() string {
 	return fmt.Sprintf("%s %s: %v", e.Verb, e.ModPath, e.Err)
 }
 
-func (e *Error) Unwrap() error { return e.Err }
+func (e *Error) Unwrap() wrapper { return e.Err }
 
 func parseVersion(verb string, path string, s *string, fix VersionFixer) (string, error) {
 	t, err := parseString(s)

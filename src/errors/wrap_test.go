@@ -19,7 +19,7 @@ func TestIs(t *testing.T) {
 
 	err3 := errors.New("3")
 
-	poser := &poser{"either 1 or 3", func(err error) bool {
+	poser := &poser{"either 1 or 3", func(err wrapper) bool {
 		return err == err1 || err == err3
 	}}
 
@@ -58,13 +58,14 @@ func TestIs(t *testing.T) {
 
 type poser struct {
 	msg string
-	f   func(error) bool
+	f   func(wrapper) bool
 }
 
 var poserPathErr = &os.PathError{Op: "poser"}
 
-func (p *poser) Error() string     { return p.msg }
-func (p *poser) Is(err error) bool { return p.f(err) }
+func (p *poser) Error() string       { return p.msg }
+func (poser) Unwrap() wrapper        { return nil }
+func (p *poser) Is(err wrapper) bool { return p.f(err) }
 func (p *poser) As(err interface{}) bool {
 	switch x := err.(type) {
 	case **poser:
@@ -215,6 +216,7 @@ func TestUnwrap(t *testing.T) {
 type errorT struct{ s string }
 
 func (e errorT) Error() string { return fmt.Sprintf("errorT(%s)", e.s) }
+func (errorT) Unwrap() wrapper { return nil }
 
 type wrapped struct {
 	msg string
@@ -223,7 +225,7 @@ type wrapped struct {
 
 func (e wrapped) Error() string { return e.msg }
 
-func (e wrapped) Unwrap() error { return e.err }
+func (e wrapped) Unwrap() wrapper { return e.err }
 
 type errorUncomparable struct {
 	f []string
@@ -233,7 +235,9 @@ func (errorUncomparable) Error() string {
 	return "uncomparable error"
 }
 
-func (errorUncomparable) Is(target error) bool {
+func (errorUncomparable) Unwrap() wrapper { return nil }
+
+func (errorUncomparable) Is(target wrapper) bool {
 	_, ok := target.(errorUncomparable)
 	return ok
 }

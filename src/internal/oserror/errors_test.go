@@ -16,6 +16,7 @@ type ttError struct {
 func (e ttError) Error() string {
 	return fmt.Sprintf("ttError{timeout:%v temporary:%v}", e.timeout, e.temporary)
 }
+func (ttError) Unwrap() wrapper   { return nil }
 func (e ttError) Timeout() bool   { return e.timeout }
 func (e ttError) Temporary() bool { return e.temporary }
 
@@ -23,8 +24,9 @@ type isError struct {
 	err error
 }
 
-func (e isError) Error() string        { return fmt.Sprintf("isError(%v)", e.err) }
-func (e isError) Is(target error) bool { return e.err == target }
+func (e isError) Error() string          { return fmt.Sprintf("isError(%v)", e.err) }
+func (isError) Unwrap() wrapper          { return nil }
+func (e isError) Is(target wrapper) bool { return e.err == target }
 
 func TestIsTimeout(t *testing.T) {
 	for _, test := range []struct {

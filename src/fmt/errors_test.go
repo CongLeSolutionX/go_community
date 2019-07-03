@@ -71,3 +71,5 @@ func TestErrorf(t *testing.T) {
 type errString string
 
 func (e errString) Error() string { return string(e) }
+
+func (errString) Unwrap() wrapper { return nil }

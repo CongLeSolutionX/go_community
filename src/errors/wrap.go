@@ -11,40 +11,32 @@ import (
 // Unwrap returns the result of calling the Unwrap method on err, if err's
 // type contains an Unwrap method returning error.
 // Otherwise, Unwrap returns nil.
-func Unwrap(err error) error {
-	u, ok := err.(interface {
-		Unwrap() error
-	})
-	if !ok {
-		return nil
+func Unwrap(w wrapper) wrapper {
+	if w != nil {
+		return w.Unwrap()
 	}
-	return u.Unwrap()
+	return nil
 }
 
 // Is reports whether any error in err's chain matches target.
 //
 // An error is considered to match a target if it is equal to that target or if
 // it implements a method Is(error) bool such that Is(target) returns true.
-func Is(err, target error) bool {
+func Is(err, target wrapper) bool {
 	if target == nil {
 		return err == target
 	}
-
 	isComparable := reflectlite.TypeOf(target).Comparable()
-	for {
-		if isComparable && err == target {
-			return true
-		}
-		if x, ok := err.(interface{ Is(error) bool }); ok && x.Is(target) {
-			return true
-		}
-		// TODO: consider supporing target.Is(err). This would allow
-		// user-definable predicates, but also may allow for coping with sloppy
-		// APIs, thereby making it easier to get away with them.
-		if err = Unwrap(err); err == nil {
-			return false
-		}
+	if isComparable && err == target {
+		return true
 	}
+	if x, ok := err.(interface{ Is(wrapper) bool }); ok && x.Is(target) {
+		return true
+	}
+	if w := Unwrap(err); w != nil {
+		return Is(w, target)
+	}
+	return false
 }
 
 // As finds the first error in err's chain that matches target, and if so, sets
@@ -57,7 +49,7 @@ func Is(err, target error) bool {
 //
 // As will panic if target is not a non-nil pointer to either a type that implements
 // error, or to any interface type. As returns false if err is nil.
-func As(err error, target interface{}) bool {
+func As(err wrapper, target interface{}) bool {
 	if target == nil {
 		panic("errors: target cannot be nil")
 	}
@@ -66,7 +58,7 @@ func As(err error, target interface{}) bool {
 	if typ.Kind() != reflectlite.Ptr || val.IsNil() {
 		panic("errors: target must be a non-nil pointer")
 	}
-	if e := typ.Elem(); e.Kind() != reflectlite.Interface && !e.Implements(errorType) {
+	if e := typ.Elem(); e.Kind() != reflectlite.Interface && !e.Implements(wrapperType) {
 		panic("errors: *target must be interface or implement error")
 	}
 	targetType := typ.Elem()
@@ -78,9 +70,9 @@ func As(err error, target interface{}) bool {
 		if x, ok := err.(interface{ As(interface{}) bool }); ok && x.As(target) {
 			return true
 		}
-		err = Unwrap(err)
+		err = err.Unwrap()
 	}
 	return false
 }
 
-var errorType = reflectlite.TypeOf((*error)(nil)).Elem()
+var wrapperType = reflectlite.TypeOf((*wrapper)(nil)).Elem()

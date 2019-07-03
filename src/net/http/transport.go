@@ -772,7 +772,7 @@ type transportReadFromServerError struct {
 	err error
 }
 
-func (e transportReadFromServerError) Unwrap() error { return e.err }
+func (e transportReadFromServerError) Unwrap() wrapper { return e.err }
 
 func (e transportReadFromServerError) Error() string {
 	return fmt.Sprintf("net/http: Transport failed to read from server: %v", e.err)
@@ -2281,10 +2281,11 @@ type httpError struct {
 }
 
 func (e *httpError) Error() string   { return e.err }
+func (httpError) Unwrap() wrapper    { return nil }
 func (e *httpError) Timeout() bool   { return e.timeout }
 func (e *httpError) Temporary() bool { return true }
 
-func (e *httpError) Is(target error) bool {
+func (e *httpError) Is(target wrapper) bool {
 	switch target {
 	case os.ErrTimeout:
 		return e.timeout
@@ -2627,8 +2628,9 @@ type tlsHandshakeTimeoutError struct{}
 func (tlsHandshakeTimeoutError) Timeout() bool   { return true }
 func (tlsHandshakeTimeoutError) Temporary() bool { return true }
 func (tlsHandshakeTimeoutError) Error() string   { return "net/http: TLS handshake timeout" }
+func (tlsHandshakeTimeoutError) Unwrap() wrapper { return nil }
 
-func (tlsHandshakeTimeoutError) Is(target error) bool {
+func (tlsHandshakeTimeoutError) Is(target wrapper) bool {
 	return target == os.ErrTimeout || target == os.ErrTemporary
 }
 

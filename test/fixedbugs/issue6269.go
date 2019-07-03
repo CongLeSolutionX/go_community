@@ -20,6 +20,8 @@ func (bar) Error() string {
 	return "fail"
 }
 
+func (bar) Unwrap() wrapper { return nil }
+
 func unused() {
 	type collision struct {
 		bar
@@ -27,10 +29,13 @@ func unused() {
 	_ = collision{}
 }
 
+type collision struct {
+	foo
+}
+
+func (collision) Unwrap() wrapper { return nil }
+
 func main() {
-	type collision struct {
-		foo
-	}
 	s := error(collision{})
 	if str := s.Error(); str != "ok" {
 		println("s.Error() ==", str)

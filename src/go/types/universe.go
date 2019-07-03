@@ -68,6 +68,31 @@ var aliases = [...]*Basic{
 	{Rune, IsInteger, "rune"},
 }
 
+func defWrapperType(t *Named) {
+	res := NewVar(token.NoPos, nil, "", t)
+	sig := &Signature{results: NewTuple(res)}
+	wrp := NewFunc(token.NoPos, nil, "Unwrap", sig)
+	sig.recv = NewVar(token.NoPos, nil, "", t)
+	t.SetUnderlying(NewInterfaceType([]*Func{wrp}, nil).Complete())
+}
+
+func defErrorType(t *Named) {
+	// Error() string
+	res1 := NewVar(token.NoPos, nil, "", Typ[String])
+	sig1 := &Signature{results: NewTuple(res1)}
+	err := NewFunc(token.NoPos, nil, "Error", sig1)
+
+	// Unwrap() wrapper
+	res2 := NewVar(token.NoPos, nil, "", t)
+	sig2 := &Signature{results: NewTuple(res2)}
+	wrp := NewFunc(token.NoPos, nil, "Unwrap", sig2)
+
+	typ := &Named{underlying: NewInterfaceType([]*Func{err, wrp}, nil).Complete()}
+	sig1.recv = NewVar(token.NoPos, nil, "", typ)
+	sig2.recv = NewVar(token.NoPos, nil, "", typ)
+	def(NewTypeName(token.NoPos, nil, "error", typ))
+}
+
 func defPredeclaredTypes() {
 	for _, t := range Typ {
 		def(NewTypeName(token.NoPos, nil, t.name, t))
@@ -76,13 +101,11 @@ func defPredeclaredTypes() {
 		def(NewTypeName(token.NoPos, nil, t.name, t))
 	}
 
-	// Error has a nil package in its qualified name since it is in no package
-	res := NewVar(token.NoPos, nil, "", Typ[String])
-	sig := &Signature{results: NewTuple(res)}
-	err := NewFunc(token.NoPos, nil, "Error", sig)
-	typ := &Named{underlying: NewInterfaceType([]*Func{err}, nil).Complete()}
-	sig.recv = NewVar(token.NoPos, nil, "", typ)
-	def(NewTypeName(token.NoPos, nil, "error", typ))
+	tname := &TypeName{object{nil, token.NoPos, nil, "wrapper", nil, 0, black, token.NoPos}}
+	t := NewNamed(tname, nil, nil)
+	defWrapperType(t)
+	def(tname)
+	defErrorType(t)
 }
 
 var predeclaredConsts = [...]struct {

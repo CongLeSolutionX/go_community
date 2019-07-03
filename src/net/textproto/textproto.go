@@ -42,6 +42,8 @@ func (e *Error) Error() string {
 	return fmt.Sprintf("%03d %s", e.Code, e.Msg)
 }
 
+func (Error) Unwrap() wrapper { return nil }
+
 // A ProtocolError describes a protocol violation such
 // as an invalid response or a hung-up connection.
 type ProtocolError string
@@ -49,6 +51,8 @@ type ProtocolError string
 func (p ProtocolError) Error() string {
 	return string(p)
 }
+
+func (ProtocolError) Unwrap() wrapper { return nil }
 
 // A Conn represents a textual network protocol connection.
 // It consists of a Reader and Writer to manage I/O
