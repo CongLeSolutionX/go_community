@@ -36,10 +36,14 @@ func (e CorruptInputError) Error() string {
 	return "flate: corrupt input before offset " + strconv.FormatInt(int64(e), 10)
 }
 
+func (e CorruptInputError) Unwrap() wrapper { return nil }
+
 // An InternalError reports an error in the flate code itself.
 type InternalError string
 
 func (e InternalError) Error() string { return "flate: internal error: " + string(e) }
+
+func (e InternalError) Unwrap() wrapper { return nil }
 
 // A ReadError reports an error encountered while reading input.
 //

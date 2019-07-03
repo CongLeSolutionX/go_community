@@ -460,6 +460,8 @@ func (e *NoGoError) Error() string {
 	return "no buildable Go source files in " + e.Dir
 }
 
+func (NoGoError) Unwrap() wrapper { return nil }
+
 // MultiplePackageError describes a directory containing
 // multiple buildable Go source files for multiple packages.
 type MultiplePackageError struct {
@@ -472,6 +474,8 @@ func (e *MultiplePackageError) Error() string {
 	// Error string limited to two entries for compatibility.
 	return fmt.Sprintf("found packages %s (%s) and %s (%s) in %s", e.Packages[0], e.Files[0], e.Packages[1], e.Files[1], e.Dir)
 }
+
+func (e *MultiplePackageError) Unwrap() wrapper { return nil }
 
 func nameExt(name string) string {
 	i := strings.LastIndex(name, ".")

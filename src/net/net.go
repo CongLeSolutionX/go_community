@@ -448,7 +448,7 @@ type OpError struct {
 	Err error
 }
 
-func (e *OpError) Unwrap() error { return e.Err }
+func (e *OpError) Unwrap() wrapper { return e.Err }
 
 func (e *OpError) Error() string {
 	if e == nil {
@@ -575,7 +575,7 @@ type DNSConfigError struct {
 	Err error
 }
 
-func (e *DNSConfigError) Unwrap() error   { return e.Err }
+func (e *DNSConfigError) Unwrap() wrapper { return e.Err }
 func (e *DNSConfigError) Error() string   { return "error reading DNS config: " + e.Err.Error() }
 func (e *DNSConfigError) Timeout() bool   { return false }
 func (e *DNSConfigError) Temporary() bool { return false }

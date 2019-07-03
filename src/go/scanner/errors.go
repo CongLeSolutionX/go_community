@@ -100,6 +100,8 @@ func (p ErrorList) Error() string {
 	return fmt.Sprintf("%s (and %d more errors)", p[0], len(p)-1)
 }
 
+func (p ErrorList) Unwrap() wrapper { return nil }
+
 // Err returns an error equivalent to this error list.
 // If the list is empty, Err returns nil.
 func (p ErrorList) Err() error {
