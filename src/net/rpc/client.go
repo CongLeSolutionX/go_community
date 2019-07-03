@@ -23,6 +23,8 @@ func (e ServerError) Error() string {
 	return string(e)
 }
 
+func (ServerError) Unwrap() wrapper { return nil }
+
 var ErrShutdown = errors.New("connection is shut down")
 
 // Call represents an active RPC.

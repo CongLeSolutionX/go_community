@@ -26,7 +26,7 @@ type Error struct {
 	Err error
 }
 
-func (e *Error) Unwrap() error   { return e.Err }
+func (e *Error) Unwrap() wrapper { return e.Err }
 func (e *Error) Error() string   { return e.Op + " " + e.URL + ": " + e.Err.Error() }
 func (e *Error) Timeout() bool   { return oserror.IsTimeout(e.Err) }
 func (e *Error) Temporary() bool { return oserror.IsTemporary(e.Err) }
@@ -73,11 +73,15 @@ func (e EscapeError) Error() string {
 	return "invalid URL escape " + strconv.Quote(string(e))
 }
 
+func (e EscapeError) Unwrap() wrapper { return nil }
+
 type InvalidHostError string
 
 func (e InvalidHostError) Error() string {
 	return "invalid character " + strconv.Quote(string(e)) + " in host name"
 }
+
+func (e InvalidHostError) Unwrap() wrapper { return nil }
 
 // Return true if the specified character should be escaped when
 // appearing in a URL string, according to RFC 3986.

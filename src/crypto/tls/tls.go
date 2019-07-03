@@ -92,6 +92,7 @@ func Listen(network, laddr string, config *Config) (net.Listener, error) {
 type timeoutError struct{}
 
 func (timeoutError) Error() string   { return "tls: DialWithDialer timed out" }
+func (timeoutError) Unwrap() wrapper { return nil }
 func (timeoutError) Timeout() bool   { return true }
 func (timeoutError) Temporary() bool { return true }
 

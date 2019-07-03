@@ -40,6 +40,8 @@ func (e *HTTPError) Error() string {
 	return fmt.Sprintf("reading %s: %v", e.URL, e.Status)
 }
 
+func (HTTPError) Unwrap() wrapper { return nil }
+
 func (e *HTTPError) Is(target error) bool {
 	return target == os.ErrNotExist && (e.StatusCode == 404 || e.StatusCode == 410)
 }

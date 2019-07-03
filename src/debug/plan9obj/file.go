@@ -94,6 +94,8 @@ func (e *formatError) Error() string {
 	return msg
 }
 
+func (formatError) Unwrap() wrapper { return nil }
+
 // Open opens the named file using os.Open and prepares it for use as a Plan 9 a.out binary.
 func Open(name string) (*File, error) {
 	f, err := os.Open(name)

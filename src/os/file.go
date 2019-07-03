@@ -98,7 +98,7 @@ func (e *LinkError) Error() string {
 	return e.Op + " " + e.Old + " " + e.New + ": " + e.Err.Error()
 }
 
-func (e *LinkError) Unwrap() error {
+func (e *LinkError) Unwrap() wrapper {
 	return e.Err
 }
 
