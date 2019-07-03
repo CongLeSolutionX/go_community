@@ -26,6 +26,8 @@ func (f fileSizeError) Error() string {
 	return "time: file " + string(f) + " is too large"
 }
 
+func (f fileSizeError) Unwrap() wrapper { return nil }
+
 // Copies of io.Seek* constants to avoid importing "io":
 const (
 	seekStart   = 0

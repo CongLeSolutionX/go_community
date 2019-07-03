@@ -1028,6 +1028,8 @@ func (e *UnsupportedTypeError) Error() string {
 	return "xml: unsupported type: " + e.Type.String()
 }
 
+func (e *UnsupportedTypeError) Unwrap() wrapper { return nil }
+
 func isEmptyValue(v reflect.Value) bool {
 	switch v.Kind() {
 	case reflect.Array, reflect.Map, reflect.Slice, reflect.String:

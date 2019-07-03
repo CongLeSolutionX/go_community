@@ -39,7 +39,7 @@ func (r *intReader) uint64() uint64 {
 	return i
 }
 
-const predeclReserved = 32
+const predeclReserved = 33
 
 type itag uint64
 

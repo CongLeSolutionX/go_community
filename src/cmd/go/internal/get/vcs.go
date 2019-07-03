@@ -954,6 +954,8 @@ func (m ImportMismatchError) Error() string {
 	return strings.Join(formattedStrings, ", ")
 }
 
+func (ImportMismatchError) Unwrap() wrapper { return nil }
+
 // matchGoImport returns the metaImport from imports matching importPath.
 // An error is returned if there are multiple matches.
 // errNoMatch is returned if none match.
