@@ -365,13 +365,13 @@ func typeinit() {
 	itable = types.NewPtr(types.Types[TUINT8])
 }
 
-func makeErrorInterface() *types.Type {
+func makeWrapperInterface() *types.Type {
 	field := types.NewField()
-	field.Type = types.Types[TSTRING]
+	field.Type = types.Types[TWRAPPER]
 	f := functypefield(fakeRecvField(), nil, []*types.Field{field})
 
 	field = types.NewField()
-	field.Sym = lookup("Error")
+	field.Sym = lookup("Unwrap")
 	field.Type = f
 
 	t := types.New(TINTER)
@@ -379,9 +379,39 @@ func makeErrorInterface() *types.Type {
 	return t
 }
 
+func makeErrorInterface() *types.Type {
+	field := types.NewField()
+	field.Type = types.Types[TSTRING]
+	f := functypefield(fakeRecvField(), nil, []*types.Field{field})
+
+	field1 := types.NewField()
+	field1.Sym = lookup("Error")
+	field1.Type = f
+
+	field = types.NewField()
+	field.Type = types.Types[TWRAPPER]
+	f = functypefield(fakeRecvField(), nil, []*types.Field{field})
+
+	field2 := types.NewField()
+	field2.Sym = lookup("Unwrap")
+	field2.Type = f
+
+	t := types.New(TINTER)
+	t.SetInterface([]*types.Field{field1, field2})
+	return t
+}
+
 func lexinit1() {
+	// wrapper type
+	s := builtinpkg.Lookup("wrapper")
+	types.Wrappertype = makeWrapperInterface()
+	types.Wrappertype.Sym = s
+	types.Wrappertype.Orig = makeWrapperInterface()
+	s.Def = asTypesNode(typenod(types.Wrappertype))
+	dowidth(types.Wrappertype)
+
 	// error type
-	s := builtinpkg.Lookup("error")
+	s = builtinpkg.Lookup("error")
 	types.Errortype = makeErrorInterface()
 	types.Errortype.Sym = s
 	types.Errortype.Orig = makeErrorInterface()
