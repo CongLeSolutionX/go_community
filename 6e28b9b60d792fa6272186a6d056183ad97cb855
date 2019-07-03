@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0ae09684_6d3dec60",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-07-03T04:55:28Z",
+      "side": 1,
+      "message": "It is not a defined convention, but I agree it reads better that way. Changed.",
+      "parentUuid": "b1e8c404_3b783844",
+      "range": {
+        "startLine": 128,
+        "startChar": 9,
+        "endLine": 128,
+        "endChar": 19
+      },
+      "revId": "6e28b9b60d792fa6272186a6d056183ad97cb855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290f4131_4f9a9c96",
         "filename": "src/net/http/httputil/dump.go",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "6e28b9b60d792fa6272186a6d056183ad97cb855",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16d5c532_957994e3",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-07-03T04:55:28Z",
+      "side": 1,
+      "message": "That is the whole point here. Closing the pipewriter enables the http.ReadRequest to return. And then we quit the goroutine by sending `struct{}{}` to it.",
+      "parentUuid": "290f4131_4f9a9c96",
+      "range": {
+        "startLine": 137,
+        "startChar": 10,
+        "endLine": 137,
+        "endChar": 11
+      },
+      "revId": "6e28b9b60d792fa6272186a6d056183ad97cb855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
