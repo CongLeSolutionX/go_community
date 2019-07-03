@@ -16,6 +16,24 @@
       "revId": "288f5b80b53f6d3fe0431d439859c1b13e003771",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b201f8a8_60a49f69",
+        "filename": "test/fixedbugs/issue32922.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-07-03T19:27:33Z",
+      "side": 1,
+      "message": "line breaks, I meant.",
+      "parentUuid": "7249a847_e41bb6f4",
+      "revId": "288f5b80b53f6d3fe0431d439859c1b13e003771",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
