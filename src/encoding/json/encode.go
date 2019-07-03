@@ -237,6 +237,8 @@ func (e *UnsupportedTypeError) Error() string {
 	return "json: unsupported type: " + e.Type.String()
 }
 
+func (e *UnsupportedTypeError) Unwrap() wrapper { return nil }
+
 type UnsupportedValueError struct {
 	Value reflect.Value
 	Str   string
@@ -245,6 +247,8 @@ type UnsupportedValueError struct {
 func (e *UnsupportedValueError) Error() string {
 	return "json: unsupported value: " + e.Str
 }
+
+func (e *UnsupportedValueError) Unwrap() wrapper { return nil }
 
 // Before Go 1.2, an InvalidUTF8Error was returned by Marshal when
 // attempting to encode a string value with invalid UTF-8 sequences.
@@ -270,7 +274,7 @@ func (e *MarshalerError) Error() string {
 	return "json: error calling MarshalJSON for type " + e.Type.String() + ": " + e.Err.Error()
 }
 
-func (e *MarshalerError) Unwrap() error { return e.Err }
+func (e *MarshalerError) Unwrap() wrapper { return e.Err }
 
 var hex = "0123456789abcdef"
 

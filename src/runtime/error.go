@@ -77,6 +77,10 @@ func (e errorString) Error() string {
 	return "runtime error: " + string(e)
 }
 
+func (e errorString) Unwrap() wrapper {
+	return nil
+}
+
 // plainError represents a runtime error described a string without
 // the prefix "runtime error: " after invoking errorString.Error().
 // See Issue #14965.

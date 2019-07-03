@@ -38,6 +38,6 @@ func (e *wrapError) Error() string {
 	return e.msg
 }
 
-func (e *wrapError) Unwrap() error {
+func (e *wrapError) Unwrap() wrapper {
 	return e.err
 }
