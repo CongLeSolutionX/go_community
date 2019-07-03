@@ -416,6 +416,8 @@ func (e *UnknownVerifierError) Error() string {
 	return fmt.Sprintf("unknown key %s+%08x", e.Name, e.KeyHash)
 }
 
+func (UnknownVerifierError) Unwrap() wrapper { return nil }
+
 // An ambiguousVerifierError indicates that the given name and hash
 // match multiple keys passed to VerifierList.
 // (If this happens, some malicious actor has taken control of the
@@ -429,6 +431,8 @@ type ambiguousVerifierError struct {
 func (e *ambiguousVerifierError) Error() string {
 	return fmt.Sprintf("ambiguous key %s+%08x", e.name, e.hash)
 }
+
+func (ambiguousVerifierError) Unwrap() wrapper { return nil }
 
 // VerifierList returns a Verifiers implementation that uses the given list of verifiers.
 func VerifierList(list ...Verifier) Verifiers {
@@ -486,6 +490,8 @@ func (e *UnverifiedNoteError) Error() string {
 	return "note has no verifiable signatures"
 }
 
+func (UnverifiedNoteError) Unwrap() wrapper { return nil }
+
 // An InvalidSignatureError indicates that the given key was known
 // and the associated Verifier rejected the signature.
 type InvalidSignatureError struct {
@@ -496,6 +502,8 @@ type InvalidSignatureError struct {
 func (e *InvalidSignatureError) Error() string {
 	return fmt.Sprintf("invalid signature for key %s+%08x", e.Name, e.Hash)
 }
+
+func (InvalidSignatureError) Unwrap() wrapper { return nil }
 
 var (
 	errMalformedNote = errors.New("malformed note")

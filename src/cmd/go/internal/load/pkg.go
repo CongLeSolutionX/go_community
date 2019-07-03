@@ -212,6 +212,8 @@ func (e *NoGoError) Error() string {
 	return "no Go files in " + e.Package.Dir
 }
 
+func (NoGoError) Unwrap() wrapper { return nil }
+
 // Resolve returns the resolved version of imports,
 // which should be p.TestImports or p.XTestImports, NOT p.Imports.
 // The imports in p.TestImports and p.XTestImports are not recursively
@@ -325,6 +327,8 @@ func (p *PackageError) Error() string {
 	}
 	return "package " + strings.Join(p.ImportStack, "\n\timports ") + ": " + p.Err
 }
+
+func (PackageError) Unwrap() wrapper { return nil }
 
 // An ImportStack is a stack of import paths, possibly with the suffix " (test)" appended.
 // The import path of a test package is the import path of the corresponding
