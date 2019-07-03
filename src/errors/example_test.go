@@ -19,6 +19,8 @@ func (e MyError) Error() string {
 	return fmt.Sprintf("%v: %v", e.When, e.What)
 }
 
+func (MyError) Unwrap() wrapper { return nil }
+
 func oops() error {
 	return MyError{
 		time.Date(1989, 3, 15, 22, 30, 0, 0, time.UTC),

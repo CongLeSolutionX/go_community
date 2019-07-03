@@ -12,39 +12,28 @@ import (
 // type contains an Unwrap method returning error.
 // Otherwise, Unwrap returns nil.
 func Unwrap(err error) error {
-	u, ok := err.(interface {
-		Unwrap() error
-	})
-	if !ok {
-		return nil
-	}
-	return u.Unwrap()
+	return nil // err.Unwrap().(error)
 }
 
 // Is reports whether any error in err's chain matches target.
 //
 // An error is considered to match a target if it is equal to that target or if
 // it implements a method Is(error) bool such that Is(target) returns true.
-func Is(err, target error) bool {
+func Is(err, target wrapper) bool {
 	if target == nil {
 		return err == target
 	}
-
 	isComparable := reflectlite.TypeOf(target).Comparable()
-	for {
-		if isComparable && err == target {
-			return true
-		}
-		if x, ok := err.(interface{ Is(error) bool }); ok && x.Is(target) {
-			return true
-		}
-		// TODO: consider supporing target.Is(err). This would allow
-		// user-definable predicates, but also may allow for coping with sloppy
-		// APIs, thereby making it easier to get away with them.
-		if err = Unwrap(err); err == nil {
-			return false
-		}
+	if isComparable && err == target {
+		return true
 	}
+	if x, ok := err.(interface{ Is(wrapper) bool }); ok && x.Is(target) {
+		return true
+	}
+	if w := err.Unwrap(); w != nil {
+		return Is(w, target)
+	}
+	return false
 }
 
 // As finds the first error in err's chain that matches target, and if so, sets

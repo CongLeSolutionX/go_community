@@ -279,6 +279,8 @@ func (e CorruptInputError) Error() string {
 	return "illegal base32 data at input byte " + strconv.FormatInt(int64(e), 10)
 }
 
+func (CorruptInputError) Unwrap() wrapper { return nil }
+
 // decode is like Decode but returns an additional 'end' value, which
 // indicates if end-of-message padding was encountered and thus any
 // additional data is an error. This method assumes that src has been

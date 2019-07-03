@@ -566,6 +566,8 @@ type RecordHeaderError struct {
 
 func (e RecordHeaderError) Error() string { return "tls: " + e.Msg }
 
+func (RecordHeaderError) Unwrap() wrapper { return nil }
+
 func (c *Conn) newRecordHeaderError(conn net.Conn, msg string) (err RecordHeaderError) {
 	err.Msg = msg
 	err.Conn = conn

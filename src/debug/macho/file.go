@@ -196,6 +196,8 @@ func (e *FormatError) Error() string {
 	return msg
 }
 
+func (FormatError) Unwrap() wrapper { return nil }
+
 // Open opens the named file using os.Open and prepares it for use as a Mach-O binary.
 func Open(name string) (*File, error) {
 	f, err := os.Open(name)
