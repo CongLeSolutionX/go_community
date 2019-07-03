@@ -789,7 +789,7 @@ type transportReadFromServerError struct {
 	err error
 }
 
-func (e transportReadFromServerError) Unwrap() error { return e.err }
+func (e transportReadFromServerError) Unwrap() wrapper { return e.err }
 
 func (e transportReadFromServerError) Error() string {
 	return fmt.Sprintf("net/http: Transport failed to read from server: %v", e.err)
