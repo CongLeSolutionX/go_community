@@ -156,6 +156,8 @@ type UnmarshalError string
 
 func (e UnmarshalError) Error() string { return string(e) }
 
+func (e UnmarshalError) Unwrap() wrapper { return nil }
+
 // Unmarshaler is the interface implemented by objects that can unmarshal
 // an XML element description of themselves.
 //

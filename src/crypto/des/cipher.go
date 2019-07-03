@@ -20,6 +20,8 @@ func (k KeySizeError) Error() string {
 	return "crypto/des: invalid key size " + strconv.Itoa(int(k))
 }
 
+func (KeySizeError) Unwrap() wrapper { return nil }
+
 // desCipher is an instance of DES encryption.
 type desCipher struct {
 	subkeys [16]uint64

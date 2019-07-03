@@ -402,6 +402,9 @@ type notExistError string
 func (e notExistError) Error() string {
 	return string(e)
 }
-func (notExistError) Is(target error) bool {
+
+func (e notExistError) Unwrap() wrapper { return nil }
+
+func (notExistError) Is(target wrapper) bool {
 	return target == os.ErrNotExist
 }

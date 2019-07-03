@@ -82,6 +82,8 @@ func (err ErrNaN) Error() string {
 	return err.msg
 }
 
+func (ErrNaN) Unwrap() wrapper { return nil }
+
 // NewFloat allocates and returns a new Float set to x,
 // with precision 53 and rounding mode ToNearestEven.
 // NewFloat panics with ErrNaN if x is a NaN.

@@ -44,10 +44,11 @@ type TimeoutError struct{}
 
 // Implement the net.Error interface.
 func (e *TimeoutError) Error() string   { return "i/o timeout" }
+func (e *TimeoutError) Unwrap() wrapper { return nil }
 func (e *TimeoutError) Timeout() bool   { return true }
 func (e *TimeoutError) Temporary() bool { return true }
 
-func (e *TimeoutError) Is(target error) bool {
+func (e *TimeoutError) Is(target wrapper) bool {
 	return target == oserror.ErrTimeout || target == oserror.ErrTemporary
 }
 

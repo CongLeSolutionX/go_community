@@ -308,6 +308,8 @@ func (e *nestedError) Error() string {
 	return e.s + ": " + e.err.Error()
 }
 
+func (nestedError) Unwrap() wrapper { return nil }
+
 // Header is a representation of a DNS message header.
 type Header struct {
 	ID                 uint16

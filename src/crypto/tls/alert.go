@@ -83,3 +83,5 @@ func (e alert) String() string {
 func (e alert) Error() string {
 	return e.String()
 }
+
+func (alert) Unwrap() wrapper { return nil }

@@ -28,6 +28,8 @@ func (err Error) Error() string {
 	return fmt.Sprintf("%s: %s", err.Pos, err.Msg)
 }
 
+func (Error) Unwrap() wrapper { return nil }
+
 var _ error = Error{} // verify that Error implements error
 
 // An ErrorHandler is called for each error encountered reading a .go file.
