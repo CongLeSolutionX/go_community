@@ -47,6 +47,8 @@ type ProtocolError struct {
 
 func (pe *ProtocolError) Error() string { return pe.ErrorString }
 
+func (ProtocolError) Unwrap() wrapper { return nil }
+
 var (
 	// ErrNotSupported is returned by the Push method of Pusher
 	// implementations to indicate that HTTP/2 Push support is not
@@ -88,6 +90,8 @@ type badStringError struct {
 }
 
 func (e *badStringError) Error() string { return fmt.Sprintf("%s %q", e.what, e.str) }
+
+func (badStringError) Unwrap() wrapper { return nil }
 
 // Headers that Request.Write handles itself and should be skipped.
 var reqWriteExcludeHeader = map[string]bool{

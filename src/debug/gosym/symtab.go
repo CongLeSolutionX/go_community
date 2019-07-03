@@ -693,6 +693,8 @@ type UnknownFileError string
 
 func (e UnknownFileError) Error() string { return "unknown file: " + string(e) }
 
+func (UnknownFileError) Unwrap() wrapper { return nil }
+
 // UnknownLineError represents a failure to map a line to a program
 // counter, either because the line is beyond the bounds of the file
 // or because there is no code on the given line.
@@ -704,6 +706,8 @@ type UnknownLineError struct {
 func (e *UnknownLineError) Error() string {
 	return "no code at " + e.File + ":" + strconv.Itoa(e.Line)
 }
+
+func (UnknownLineError) Unwrap() wrapper { return nil }
 
 // DecodingError represents an error during the decoding of
 // the symbol table.
@@ -721,3 +725,5 @@ func (e *DecodingError) Error() string {
 	msg += fmt.Sprintf(" at byte %#x", e.off)
 	return msg
 }
+
+func (DecodingError) Unwrap() wrapper { return nil }

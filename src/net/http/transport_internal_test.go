@@ -106,6 +106,7 @@ type issue22091Error struct{}
 
 func (issue22091Error) IsHTTP2NoCachedConnError() {}
 func (issue22091Error) Error() string             { return "issue22091Error" }
+func (issue22091Error) Unwrap() wrapper           { return nil }
 
 func TestTransportShouldRetryRequest(t *testing.T) {
 	tests := []struct {

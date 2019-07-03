@@ -27,7 +27,7 @@ func (e ErrorString) Error() string { return string(e) }
 // NewError converts s to an ErrorString, which satisfies the Error interface.
 func NewError(s string) error { return ErrorString(s) }
 
-func (e ErrorString) Is(target error) bool {
+func (e ErrorString) Is(target wrapper) bool {
 	switch target {
 	case oserror.ErrTemporary:
 		return e.Temporary()

@@ -23,6 +23,8 @@ func (de DecodingError) Error() string {
 	return fmt.Sprintf("decoding error: %v", de.Err)
 }
 
+func (DecodingError) Unwrap() wrapper { return nil }
+
 // An InvalidIndexError is returned when an encoder references a table
 // entry before the static table or after the end of the dynamic table.
 type InvalidIndexError int
@@ -30,6 +32,8 @@ type InvalidIndexError int
 func (e InvalidIndexError) Error() string {
 	return fmt.Sprintf("invalid indexed representation index %d", int(e))
 }
+
+func (InvalidIndexError) Unwrap() wrapper { return nil }
 
 // A HeaderField is a name-value pair. Both the name and value are
 // treated as opaque sequences of octets.

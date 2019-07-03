@@ -877,6 +877,8 @@ func (pasteIndicatorError) Error() string {
 	return "terminal: ErrPasteIndicator not correctly handled"
 }
 
+func (pasteIndicatorError) Unwrap() wrapper { return nil }
+
 // ErrPasteIndicator may be returned from ReadLine as the error, in addition
 // to valid line data. It indicates that bracketed paste mode is enabled and
 // that the returned line consists only of pasted data. Programs may wish to

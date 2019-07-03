@@ -724,6 +724,8 @@ func (e charsetError) Error() string {
 	return fmt.Sprintf("charset not supported: %q", string(e))
 }
 
+func (charsetError) Unwrap() wrapper { return nil }
+
 // isAtext reports whether r is an RFC 5322 atext character.
 // If dot is true, period is included.
 // If permissive is true, RFC 5322 3.2.3 specials is included,

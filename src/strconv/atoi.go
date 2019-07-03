@@ -31,6 +31,8 @@ func (e *NumError) Error() string {
 	return "strconv." + e.Func + ": " + "parsing " + Quote(e.Num) + ": " + e.Err.Error()
 }
 
+func (e *NumError) Unwrap() wrapper { return nil }
+
 func syntaxError(fn, str string) *NumError {
 	return &NumError{fn, str, ErrSyntax}
 }

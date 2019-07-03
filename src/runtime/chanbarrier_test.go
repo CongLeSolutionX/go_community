@@ -16,7 +16,8 @@ type response struct {
 type myError struct {
 }
 
-func (myError) Error() string { return "" }
+func (myError) Error() string   { return "" }
+func (myError) Unwrap() wrapper { return nil }
 
 func doRequest(useSelect bool) (*response, error) {
 	type async struct {

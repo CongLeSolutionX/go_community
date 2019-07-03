@@ -116,7 +116,10 @@ type UnknownRevisionError struct {
 func (e *UnknownRevisionError) Error() string {
 	return "unknown revision " + e.Rev
 }
-func (UnknownRevisionError) Is(err error) bool {
+
+func (UnknownRevisionError) Unwrap() wrapper { return nil }
+
+func (UnknownRevisionError) Is(err wrapper) bool {
 	return err == os.ErrNotExist
 }
 
@@ -129,7 +132,10 @@ type noCommitsError struct{}
 func (noCommitsError) Error() string {
 	return "no commits"
 }
-func (noCommitsError) Is(err error) bool {
+
+func (noCommitsError) Unwrap() wrapper { return nil }
+
+func (noCommitsError) Is(err wrapper) bool {
 	return err == os.ErrNotExist
 }
 
@@ -241,6 +247,8 @@ func (e *RunError) Error() string {
 	}
 	return text
 }
+
+func (e *RunError) Unwrap() wrapper { return nil }
 
 var dirLock sync.Map
 

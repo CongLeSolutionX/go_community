@@ -598,6 +598,8 @@ func (uste *unsupportedTEError) Error() string {
 	return uste.err
 }
 
+func (unsupportedTEError) Unwrap() wrapper { return nil }
+
 // isUnsupportedTEError checks if the error is of type
 // unsupportedTEError. It is usually invoked with a non-nil err.
 func isUnsupportedTEError(err error) bool {
