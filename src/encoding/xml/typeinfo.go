@@ -344,6 +344,8 @@ func (e *TagPathError) Error() string {
 	return fmt.Sprintf("%s field %q with tag %q conflicts with field %q with tag %q", e.Struct, e.Field1, e.Tag1, e.Field2, e.Tag2)
 }
 
+func (e *TagPathError) Unwrap() wrapper { return nil }
+
 // value returns v's field value corresponding to finfo.
 // It's equivalent to v.FieldByIndex(finfo.idx), but initializes
 // and dereferences pointers as necessary.

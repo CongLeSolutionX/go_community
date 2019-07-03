@@ -7,7 +7,6 @@
 package net
 
 import (
-	"errors"
 	"fmt"
 	"internal/oserror"
 	"internal/poll"
@@ -90,7 +89,7 @@ func TestDialTimeout(t *testing.T) {
 			if nerr, ok := err.(Error); !ok || !nerr.Timeout() {
 				t.Fatalf("#%d: %v", i, err)
 			}
-			if !errors.Is(err, oserror.ErrTimeout) {
+			if !oserror.IsTimeout(err) {
 				t.Fatalf("#%d: Dial error is not os.ErrTimeout: %v", i, err)
 			}
 		}

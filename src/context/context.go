@@ -161,9 +161,10 @@ var DeadlineExceeded error = deadlineExceededError{}
 type deadlineExceededError struct{}
 
 func (deadlineExceededError) Error() string   { return "context deadline exceeded" }
+func (deadlineExceededError) Unwrap() wrapper { return nil }
 func (deadlineExceededError) Timeout() bool   { return true }
 func (deadlineExceededError) Temporary() bool { return true }
-func (deadlineExceededError) Is(target error) bool {
+func (deadlineExceededError) Is(target wrapper) bool {
 	return target == oserror.ErrTimeout || target == oserror.ErrTemporary
 }
 

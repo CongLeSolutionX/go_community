@@ -50,10 +50,10 @@ func TestErrorf(t *testing.T) {
 		wantText: "%!w(string=not-an-error) is not an error",
 	}, {
 		err:      fmt.Errorf("wrapped two errors: %w %w", errString("1"), errString("2")),
-		wantText: "wrapped two errors: 1 %!w(fmt_test.errString=2)",
+		wantText: "wrapped two errors: %!w(fmt_test.errString=1) %!w(fmt_test.errString=2)",
 	}, {
 		err:      fmt.Errorf("wrapped three errors: %w %w %w", errString("1"), errString("2"), errString("3")),
-		wantText: "wrapped three errors: 1 %!w(fmt_test.errString=2) %!w(fmt_test.errString=3)",
+		wantText: "wrapped three errors: %!w(fmt_test.errString=1) %!w(fmt_test.errString=2) %!w(fmt_test.errString=3)",
 	}, {
 		err:        fmt.Errorf("%w", nil),
 		wantText:   "%!w(<nil>)",

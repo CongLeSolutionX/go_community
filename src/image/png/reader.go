@@ -125,12 +125,16 @@ type FormatError string
 
 func (e FormatError) Error() string { return "png: invalid format: " + string(e) }
 
+func (FormatError) Unwrap() wrapper { return nil }
+
 var chunkOrderError = FormatError("chunk out of order")
 
 // An UnsupportedError reports that the input uses a valid but unimplemented PNG feature.
 type UnsupportedError string
 
 func (e UnsupportedError) Error() string { return "png: unsupported feature: " + string(e) }
+
+func (UnsupportedError) Unwrap() wrapper { return nil }
 
 func min(a, b int) int {
 	if a < b {

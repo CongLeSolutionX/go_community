@@ -121,7 +121,7 @@ func (e ExecError) Error() string {
 	return e.Err.Error()
 }
 
-func (e ExecError) Unwrap() error {
+func (e ExecError) Unwrap() wrapper {
 	return e.Err
 }
 

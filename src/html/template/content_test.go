@@ -417,6 +417,8 @@ func (s *errorer) Error() string {
 	return fmt.Sprintf("error=%d", s.v)
 }
 
+func (errorer) Unwrap() wrapper { return nil }
+
 func TestStringer(t *testing.T) {
 	s := &stringer{3}
 	b := new(bytes.Buffer)
