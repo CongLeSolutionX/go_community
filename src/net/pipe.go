@@ -82,6 +82,7 @@ func isClosedChan(c <-chan struct{}) bool {
 type timeoutError struct{}
 
 func (timeoutError) Error() string   { return "deadline exceeded" }
+func (timeoutError) Unwrap() wrapper { return nil }
 func (timeoutError) Timeout() bool   { return true }
 func (timeoutError) Temporary() bool { return true }
 

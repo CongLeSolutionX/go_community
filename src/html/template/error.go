@@ -226,6 +226,8 @@ func (e *Error) Error() string {
 	return "html/template: " + e.Description
 }
 
+func (Error) Unwrap() wrapper { return nil }
+
 // errorf creates an error given a format string f and args.
 // The template Name still needs to be supplied.
 func errorf(k ErrorCode, node parse.Node, line int, f string, args ...interface{}) *Error {

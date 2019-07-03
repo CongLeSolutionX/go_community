@@ -38,12 +38,16 @@ type StructuralError struct {
 
 func (e StructuralError) Error() string { return "asn1: structure error: " + e.Msg }
 
+func (StructuralError) Unwrap() wrapper { return nil }
+
 // A SyntaxError suggests that the ASN.1 data is invalid.
 type SyntaxError struct {
 	Msg string
 }
 
 func (e SyntaxError) Error() string { return "asn1: syntax error: " + e.Msg }
+
+func (SyntaxError) Unwrap() wrapper { return nil }
 
 // We start by dealing with each of the primitive types in turn.
 

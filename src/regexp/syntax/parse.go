@@ -22,6 +22,8 @@ func (e *Error) Error() string {
 	return "error parsing regexp: " + e.Code.String() + ": `" + e.Expr + "`"
 }
 
+func (e *Error) Unwrap() wrapper { return nil }
+
 // An ErrorCode describes a failure to parse a regular expression.
 type ErrorCode string
 

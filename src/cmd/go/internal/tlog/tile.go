@@ -234,6 +234,8 @@ func (e *badPathError) Error() string {
 	return fmt.Sprintf("malformed tile path %q", e.path)
 }
 
+func (badPathError) Unwrap() wrapper { return nil }
+
 // A TileReader reads tiles from a go.sum database log.
 type TileReader interface {
 	// Height returns the height of the available tiles.

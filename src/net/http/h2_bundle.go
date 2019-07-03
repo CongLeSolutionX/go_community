@@ -1142,6 +1142,8 @@ func (e http2ConnectionError) Error() string {
 	return fmt.Sprintf("connection error: %s", http2ErrCode(e))
 }
 
+func (http2ConnectionError) Unwrap() wrapper { return nil }
+
 // StreamError is an error that only affects one stream within an
 // HTTP/2 connection.
 type http2StreamError struct {
@@ -1161,6 +1163,8 @@ func (e http2StreamError) Error() string {
 	return fmt.Sprintf("stream error: stream ID %d; %v", e.StreamID, e.Code)
 }
 
+func (http2StreamError) Unwrap() wrapper { return nil }
+
 // 6.9.1 The Flow Control Window
 // "If a sender receives a WINDOW_UPDATE that causes a flow control
 // window to exceed this maximum it MUST terminate either the stream
@@ -1169,6 +1173,8 @@ func (e http2StreamError) Error() string {
 type http2goAwayFlowError struct{}
 
 func (http2goAwayFlowError) Error() string { return "connection exceeded flow control window size" }
+
+func (http2goAwayFlowError) Unwrap() wrapper { return nil }
 
 // connError represents an HTTP/2 ConnectionError error code, along
 // with a string (for debugging) explaining why.
@@ -1186,11 +1192,15 @@ func (e http2connError) Error() string {
 	return fmt.Sprintf("http2: connection error: %v: %v", e.Code, e.Reason)
 }
 
+func (http2connError) Unwrap() wrapper { return nil }
+
 type http2pseudoHeaderError string
 
 func (e http2pseudoHeaderError) Error() string {
 	return fmt.Sprintf("invalid pseudo-header %q", string(e))
 }
+
+func (http2pseudoHeaderError) Unwrap() wrapper { return nil }
 
 type http2duplicatePseudoHeaderError string
 
@@ -1198,17 +1208,23 @@ func (e http2duplicatePseudoHeaderError) Error() string {
 	return fmt.Sprintf("duplicate pseudo-header %q", string(e))
 }
 
+func (http2duplicatePseudoHeaderError) Unwrap() wrapper { return nil }
+
 type http2headerFieldNameError string
 
 func (e http2headerFieldNameError) Error() string {
 	return fmt.Sprintf("invalid header field name %q", string(e))
 }
 
+func (http2headerFieldNameError) Unwrap() wrapper { return nil }
+
 type http2headerFieldValueError string
 
 func (e http2headerFieldValueError) Error() string {
 	return fmt.Sprintf("invalid header field value %q", string(e))
 }
+
+func (http2headerFieldValueError) Unwrap() wrapper { return nil }
 
 var (
 	http2errMixPseudoHeaderTypes = errors.New("mix of request and response pseudo headers")
@@ -3395,6 +3411,8 @@ type http2httpError struct {
 }
 
 func (e *http2httpError) Error() string { return e.msg }
+
+func (http2httpError) Unwrap() wrapper { return nil }
 
 func (e *http2httpError) Timeout() bool { return e.timeout }
 
@@ -6844,6 +6862,8 @@ func (http2noCachedConnError) IsHTTP2NoCachedConnError() {}
 
 func (http2noCachedConnError) Error() string { return "http2: no cached connection was available" }
 
+func (http2noCachedConnError) Unwrap() wrapper { return nil }
+
 // isNoCachedConnError reports whether err is of type noCachedConnError
 // or its equivalent renamed type in net/http2's h2_bundle.go. Both types
 // may coexist in the same running program.
@@ -7823,6 +7843,8 @@ type http2badStringError struct {
 
 func (e *http2badStringError) Error() string { return fmt.Sprintf("%s %q", e.what, e.str) }
 
+func (http2badStringError) Unwrap() wrapper { return nil }
+
 // requires cc.mu be held.
 func (cc *http2ClientConn) encodeHeaders(req *Request, addGzipHeader bool, trailers string, contentLength int64) ([]byte, error) {
 	cc.hbuf.Reset()
@@ -8090,6 +8112,8 @@ func (e http2GoAwayError) Error() string {
 	return fmt.Sprintf("http2: server sent GOAWAY and closed the connection; LastStreamID=%v, ErrCode=%v, debug=%q",
 		e.LastStreamID, e.ErrCode, e.DebugData)
 }
+
+func (http2GoAwayError) Unwrap() wrapper { return nil }
 
 func http2isEOFOrNetReadError(err error) bool {
 	if err == io.EOF {

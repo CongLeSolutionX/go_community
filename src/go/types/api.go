@@ -51,6 +51,8 @@ func (err Error) Error() string {
 	return fmt.Sprintf("%s: %s", err.Fset.Position(err.Pos), err.Msg)
 }
 
+func (Error) Unwrap() wrapper { return nil }
+
 // An Importer resolves import paths to Packages.
 //
 // CAUTION: This interface does not support the import of locally

@@ -12,13 +12,7 @@ import (
 // type contains an Unwrap method returning error.
 // Otherwise, Unwrap returns nil.
 func Unwrap(err error) error {
-	u, ok := err.(interface {
-		Unwrap() error
-	})
-	if !ok {
-		return nil
-	}
-	return u.Unwrap()
+	return err.Unwrap().(error)
 }
 
 // Is reports whether any error in err's chain matches target.

@@ -21,12 +21,14 @@ var (
 
 type timeoutError struct{}
 
-func (timeoutError) Error() string { return "deadline exceeded" }
-func (timeoutError) Timeout() bool { return true }
+func (timeoutError) Error() string   { return "deadline exceeded" }
+func (timeoutError) Unwrap() wrapper { return nil }
+func (timeoutError) Timeout() bool   { return true }
 
 type temporaryError struct{}
 
 func (temporaryError) Error() string   { return "temporary error" }
+func (temporaryError) Unwrap() wrapper { return nil }
 func (temporaryError) Temporary() bool { return true }
 
 // IsTimeout reports whether err indicates a timeout.

@@ -68,6 +68,34 @@ var aliases = [...]*Basic{
 	{Rune, IsInteger, "rune"},
 }
 
+func defWrapperType(tname *TypeName) {
+	t := NewNamed(tname, nil, nil)
+	res := NewVar(token.NoPos, nil, "", t)
+	sig := &Signature{results: NewTuple(res)}
+	wrp := NewFunc(token.NoPos, nil, "Unwrap", sig)
+	typ := &Named{underlying: NewInterfaceType([]*Func{wrp}, nil).Complete()}
+	sig.recv = NewVar(token.NoPos, nil, "", typ)
+	t.SetUnderlying(NewInterfaceType([]*Func{wrp}, nil))
+	def(tname)
+}
+
+func defErrorType(tname *TypeName) {
+	t := NewNamed(tname, nil, nil)
+	res1 := NewVar(token.NoPos, nil, "", t)
+	sig1 := &Signature{results: NewTuple(res1)}
+	wrp := NewFunc(token.NoPos, nil, "Unwrap", sig1)
+	typ1 := &Named{underlying: NewInterfaceType([]*Func{wrp}, nil).Complete()}
+	sig1.recv = NewVar(token.NoPos, nil, "", typ1)
+	t.SetUnderlying(NewInterfaceType([]*Func{wrp}, nil))
+
+	res2 := NewVar(token.NoPos, nil, "", Typ[String])
+	sig2 := &Signature{results: NewTuple(res2)}
+	err := NewFunc(token.NoPos, nil, "Error", sig2)
+	typ2 := &Named{underlying: NewInterfaceType([]*Func{err, wrp}, nil).Complete()}
+	sig2.recv = NewVar(token.NoPos, nil, "", typ2)
+	def(NewTypeName(token.NoPos, nil, "error", typ2))
+}
+
 func defPredeclaredTypes() {
 	for _, t := range Typ {
 		def(NewTypeName(token.NoPos, nil, t.name, t))
@@ -76,13 +104,9 @@ func defPredeclaredTypes() {
 		def(NewTypeName(token.NoPos, nil, t.name, t))
 	}
 
-	// Error has a nil package in its qualified name since it is in no package
-	res := NewVar(token.NoPos, nil, "", Typ[String])
-	sig := &Signature{results: NewTuple(res)}
-	err := NewFunc(token.NoPos, nil, "Error", sig)
-	typ := &Named{underlying: NewInterfaceType([]*Func{err}, nil).Complete()}
-	sig.recv = NewVar(token.NoPos, nil, "", typ)
-	def(NewTypeName(token.NoPos, nil, "error", typ))
+	tname := &TypeName{object{nil, token.NoPos, nil, "wrapper", nil, 0, black, token.NoPos}}
+	defWrapperType(tname)
+	defErrorType(tname)
 }
 
 var predeclaredConsts = [...]struct {

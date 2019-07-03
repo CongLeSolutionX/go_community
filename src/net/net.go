@@ -448,7 +448,7 @@ type OpError struct {
 	Err error
 }
 
-func (e *OpError) Unwrap() error { return e.Err }
+func (e *OpError) Unwrap() wrapper { return e.Err }
 
 func (e *OpError) Error() string {
 	if e == nil {
@@ -538,6 +538,8 @@ type ParseError struct {
 
 func (e *ParseError) Error() string { return "invalid " + e.Type + ": " + e.Text }
 
+func (ParseError) Unwrap() wrapper { return nil }
+
 type AddrError struct {
 	Err  string
 	Addr string
@@ -554,18 +556,22 @@ func (e *AddrError) Error() string {
 	return s
 }
 
+func (AddrError) Unwrap() wrapper { return nil }
+
 func (e *AddrError) Timeout() bool   { return false }
 func (e *AddrError) Temporary() bool { return false }
 
 type UnknownNetworkError string
 
 func (e UnknownNetworkError) Error() string   { return "unknown network " + string(e) }
+func (UnknownNetworkError) Unwrap() wrapper   { return nil }
 func (e UnknownNetworkError) Timeout() bool   { return false }
 func (e UnknownNetworkError) Temporary() bool { return false }
 
 type InvalidAddrError string
 
 func (e InvalidAddrError) Error() string   { return string(e) }
+func (InvalidAddrError) Unwrap() wrapper   { return nil }
 func (e InvalidAddrError) Timeout() bool   { return false }
 func (e InvalidAddrError) Temporary() bool { return false }
 
@@ -575,7 +581,7 @@ type DNSConfigError struct {
 	Err error
 }
 
-func (e *DNSConfigError) Unwrap() error   { return e.Err }
+func (e *DNSConfigError) Unwrap() wrapper { return e.Err }
 func (e *DNSConfigError) Error() string   { return "error reading DNS config: " + e.Err.Error() }
 func (e *DNSConfigError) Timeout() bool   { return false }
 func (e *DNSConfigError) Temporary() bool { return false }
@@ -606,6 +612,8 @@ func (e *DNSError) Error() string {
 	s += ": " + e.Err
 	return s
 }
+
+func (DNSError) Unwrap() wrapper { return nil }
 
 // Timeout reports whether the DNS lookup is known to have timed out.
 // This is not always known; a DNS lookup may fail due to a timeout
