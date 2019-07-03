@@ -21,16 +21,18 @@ var (
 
 type timeoutError struct{}
 
-func (timeoutError) Error() string { return "deadline exceeded" }
-func (timeoutError) Timeout() bool { return true }
+func (timeoutError) Error() string   { return "deadline exceeded" }
+func (timeoutError) Unwrap() wrapper { return nil }
+func (timeoutError) Timeout() bool   { return true }
 
 type temporaryError struct{}
 
 func (temporaryError) Error() string   { return "temporary error" }
+func (temporaryError) Unwrap() wrapper { return nil }
 func (temporaryError) Temporary() bool { return true }
 
 // IsTimeout reports whether err indicates a timeout.
-func IsTimeout(err error) bool {
+func IsTimeout(err wrapper) bool {
 	for err != nil {
 		if err == ErrTimeout {
 			return true
@@ -41,13 +43,13 @@ func IsTimeout(err error) bool {
 		if x, ok := err.(interface{ Is(error) bool }); ok && x.Is(ErrTimeout) {
 			return true
 		}
-		err = errors.Unwrap(err)
+		err = err.Unwrap()
 	}
 	return false
 }
 
 // IsTemporary reports whether err indicates a temporary condition.
-func IsTemporary(err error) bool {
+func IsTemporary(err wrapper) bool {
 	for err != nil {
 		if err == ErrTemporary {
 			return true
@@ -58,7 +60,7 @@ func IsTemporary(err error) bool {
 		if x, ok := err.(interface{ Is(error) bool }); ok && x.Is(ErrTemporary) {
 			return true
 		}
-		err = errors.Unwrap(err)
+		err = err.Unwrap()
 	}
 	return false
 }

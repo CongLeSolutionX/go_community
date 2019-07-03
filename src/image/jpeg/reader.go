@@ -22,10 +22,14 @@ type FormatError string
 
 func (e FormatError) Error() string { return "invalid JPEG format: " + string(e) }
 
+func (FormatError) Unwrap() wrapper { return nil }
+
 // An UnsupportedError reports that the input uses a valid but unimplemented JPEG feature.
 type UnsupportedError string
 
 func (e UnsupportedError) Error() string { return "unsupported JPEG feature: " + string(e) }
+
+func (UnsupportedError) Unwrap() wrapper { return nil }
 
 var errUnsupportedSubsamplingRatio = UnsupportedError("luma/chroma subsampling ratio")
 

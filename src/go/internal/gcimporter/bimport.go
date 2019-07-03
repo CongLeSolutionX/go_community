@@ -1011,6 +1011,8 @@ var predeclared = []types.Type{
 
 	// used internally by gc; never used by this package or in .a files
 	anyType{},
+
+	types.Universe.Lookup("wrapper").Type(),
 }
 
 type anyType struct{}

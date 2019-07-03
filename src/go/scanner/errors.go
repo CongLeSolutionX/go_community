@@ -31,6 +31,8 @@ func (e Error) Error() string {
 	return e.Msg
 }
 
+func (Error) Unwrap() wrapper { return nil }
+
 // ErrorList is a list of *Errors.
 // The zero value for an ErrorList is an empty ErrorList ready to use.
 //
@@ -99,6 +101,8 @@ func (p ErrorList) Error() string {
 	}
 	return fmt.Sprintf("%s (and %d more errors)", p[0], len(p)-1)
 }
+
+func (p ErrorList) Unwrap() wrapper { return nil }
 
 // Err returns an error equivalent to this error list.
 // If the list is empty, Err returns nil.

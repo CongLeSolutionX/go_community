@@ -65,6 +65,8 @@ func (e UnknownUserIdError) Error() string {
 	return "user: unknown userid " + strconv.Itoa(int(e))
 }
 
+func (UnknownUserIdError) Unwrap() wrapper { return nil }
+
 // UnknownUserError is returned by Lookup when
 // a user cannot be found.
 type UnknownUserError string
@@ -72,6 +74,8 @@ type UnknownUserError string
 func (e UnknownUserError) Error() string {
 	return "user: unknown user " + string(e)
 }
+
+func (UnknownUserError) Unwrap() wrapper { return nil }
 
 // UnknownGroupIdError is returned by LookupGroupId when
 // a group cannot be found.
@@ -81,6 +85,8 @@ func (e UnknownGroupIdError) Error() string {
 	return "group: unknown groupid " + string(e)
 }
 
+func (UnknownGroupIdError) Unwrap() wrapper { return nil }
+
 // UnknownGroupError is returned by LookupGroup when
 // a group cannot be found.
 type UnknownGroupError string
@@ -88,3 +94,5 @@ type UnknownGroupError string
 func (e UnknownGroupError) Error() string {
 	return "group: unknown group " + string(e)
 }
+
+func (UnknownGroupError) Unwrap() wrapper { return nil }

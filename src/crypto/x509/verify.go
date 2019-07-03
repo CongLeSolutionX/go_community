@@ -99,6 +99,8 @@ func (e CertificateInvalidError) Error() string {
 	return "x509: unknown error"
 }
 
+func (CertificateInvalidError) Unwrap() wrapper { return nil }
+
 // HostnameError results when the set of authorized names doesn't match the
 // requested name.
 type HostnameError struct {
@@ -141,6 +143,8 @@ func (h HostnameError) Error() string {
 	return "x509: certificate is valid for " + valid + ", not " + h.Host
 }
 
+func (HostnameError) Unwrap() wrapper { return nil }
+
 // UnknownAuthorityError results when the certificate issuer is unknown
 type UnknownAuthorityError struct {
 	Cert *Certificate
@@ -168,6 +172,8 @@ func (e UnknownAuthorityError) Error() string {
 	return s
 }
 
+func (UnknownAuthorityError) Unwrap() wrapper { return nil }
+
 // SystemRootsError results when we fail to load the system root certificates.
 type SystemRootsError struct {
 	Err error
@@ -180,6 +186,8 @@ func (se SystemRootsError) Error() string {
 	}
 	return msg
 }
+
+func (SystemRootsError) Unwrap() wrapper { return nil }
 
 // errNotParsed is returned when a certificate without ASN.1 contents is
 // verified. Platform-specific verification needs the ASN.1 contents.
