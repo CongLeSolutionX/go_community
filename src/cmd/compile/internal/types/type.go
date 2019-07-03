@@ -72,6 +72,9 @@ const (
 	TSSA   // internal types used by SSA backend (flags, memory, etc.)
 	TTUPLE // a pair of types, used by SSA backend
 
+	// TWRAPPER interface
+	TWRAPPER
+
 	NTYPE
 )
 
@@ -103,6 +106,9 @@ var (
 	// Predeclared alias types. Kept separate for better error messages.
 	Bytetype *Type
 	Runetype *Type
+
+	// Predeclared wrapper interface type.
+	Wrappertype *Type
 
 	// Predeclared error interface type.
 	Errortype *Type
