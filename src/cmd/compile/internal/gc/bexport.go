@@ -180,6 +180,9 @@ func predeclared() []*types.Type {
 			// error
 			types.Errortype,
 
+			// wrapper
+			types.Wrappertype,
+
 			// untyped types
 			untype(CTBOOL),
 			untype(CTINT),
