@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efafa499_b77d560c",
+        "filename": "src/go/build/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-03T14:34:16Z",
+      "side": 1,
+      "message": "(nit)\n\nThe phrase “comprised of” turns out to be surprisingly contentious.¹\nPerhaps s/is comprised of/consists of/ instead?\n\n¹ https://en.wikipedia.org/wiki/Comprised_of#Evaluation",
+      "range": {
+        "startLine": 75,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 28
+      },
+      "revId": "b776933776fdd0710a83f056d2452858899095be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
