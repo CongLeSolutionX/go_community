@@ -20,6 +20,8 @@ func (s StructuralError) Error() string {
 	return "bzip2 data invalid: " + string(s)
 }
 
+func (StructuralError) Unwrap() wrapper { return nil }
+
 // A reader decompresses bzip2 compressed data.
 type reader struct {
 	br           bitReader

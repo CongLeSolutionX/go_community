@@ -49,7 +49,7 @@ type PathError struct {
 
 func (e *PathError) Error() string { return e.Op + " " + e.Path + ": " + e.Err.Error() }
 
-func (e *PathError) Unwrap() error { return e.Err }
+func (e *PathError) Unwrap() wrapper { return e.Err }
 
 // Timeout reports whether this error represents a timeout.
 func (e *PathError) Timeout() bool {
@@ -65,7 +65,7 @@ type SyscallError struct {
 
 func (e *SyscallError) Error() string { return e.Syscall + ": " + e.Err.Error() }
 
-func (e *SyscallError) Unwrap() error { return e.Err }
+func (e *SyscallError) Unwrap() wrapper { return e.Err }
 
 // Timeout reports whether this error represents a timeout.
 func (e *SyscallError) Timeout() bool {

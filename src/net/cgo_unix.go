@@ -35,6 +35,7 @@ import (
 type addrinfoErrno int
 
 func (eai addrinfoErrno) Error() string   { return C.GoString(C.gai_strerror(C.int(eai))) }
+func (addrinfoErrno) Unwrap() wrapper     { return nil }
 func (eai addrinfoErrno) Temporary() bool { return eai == C.EAI_AGAIN }
 func (eai addrinfoErrno) Timeout() bool   { return false }
 

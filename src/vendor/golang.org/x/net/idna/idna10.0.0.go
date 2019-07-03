@@ -291,12 +291,16 @@ func (e labelError) Error() string {
 	return fmt.Sprintf("idna: invalid label %q", e.label)
 }
 
+func (labelError) Unwrap() wrapper { return nil }
+
 type runeError rune
 
 func (e runeError) code() string { return "P1" }
 func (e runeError) Error() string {
 	return fmt.Sprintf("idna: disallowed rune %U", e)
 }
+
+func (runeError) Unwrap() wrapper { return nil }
 
 // process implements the algorithm described in section 4 of UTS #46,
 // see https://www.unicode.org/reports/tr46.

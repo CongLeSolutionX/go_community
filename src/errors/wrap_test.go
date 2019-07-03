@@ -64,6 +64,7 @@ type poser struct {
 var poserPathErr = &os.PathError{Op: "poser"}
 
 func (p *poser) Error() string     { return p.msg }
+func (poser) Unwrap() wrapper      { return nil }
 func (p *poser) Is(err error) bool { return p.f(err) }
 func (p *poser) As(err interface{}) bool {
 	switch x := err.(type) {
@@ -215,6 +216,7 @@ func TestUnwrap(t *testing.T) {
 type errorT struct{ s string }
 
 func (e errorT) Error() string { return fmt.Sprintf("errorT(%s)", e.s) }
+func (errorT) Unwrap() wrapper { return nil }
 
 type wrapped struct {
 	msg string
@@ -223,7 +225,7 @@ type wrapped struct {
 
 func (e wrapped) Error() string { return e.msg }
 
-func (e wrapped) Unwrap() error { return e.err }
+func (e wrapped) Unwrap() wrapper { return e.err }
 
 type errorUncomparable struct {
 	f []string
@@ -232,6 +234,8 @@ type errorUncomparable struct {
 func (errorUncomparable) Error() string {
 	return "uncomparable error"
 }
+
+func (errorUncomparable) Unwrap() wrapper { return nil }
 
 func (errorUncomparable) Is(target error) bool {
 	_, ok := target.(errorUncomparable)
