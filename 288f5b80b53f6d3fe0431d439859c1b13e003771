@@ -34,6 +34,24 @@
       "revId": "288f5b80b53f6d3fe0431d439859c1b13e003771",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46dbf734_cc651b38",
+        "filename": "test/fixedbugs/issue32922.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-07-03T19:31:41Z",
+      "side": 1,
+      "message": "Not sure what happened there, but I\u0027ll fix it up, Thanks.",
+      "parentUuid": "b201f8a8_60a49f69",
+      "revId": "288f5b80b53f6d3fe0431d439859c1b13e003771",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
