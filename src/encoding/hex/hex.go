@@ -44,6 +44,8 @@ func (e InvalidByteError) Error() string {
 	return fmt.Sprintf("encoding/hex: invalid byte: %#U", rune(e))
 }
 
+func (e InvalidByteError) Unwrap() wrapper { return nil }
+
 // DecodedLen returns the length of a decoding of x source bytes.
 // Specifically, it returns x / 2.
 func DecodedLen(x int) int { return x / 2 }

@@ -453,3 +453,5 @@ type FormatError struct {
 func (e *FormatError) Error() string {
 	return "unknown error"
 }
+
+func (FormatError) Unwrap() wrapper { return nil }

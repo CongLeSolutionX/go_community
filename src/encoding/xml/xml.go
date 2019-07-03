@@ -35,6 +35,8 @@ func (e *SyntaxError) Error() string {
 	return "XML syntax error on line " + strconv.Itoa(e.Line) + ": " + e.Msg
 }
 
+func (e *SyntaxError) Unwrap() wrapper { return nil }
+
 // A Name represents an XML name (Local) annotated
 // with a name space identifier (Space).
 // In tokens returned by Decoder.Token, the Space identifier

@@ -568,6 +568,7 @@ type unexportedErrorOtherFields struct {
 type errorer struct{}
 
 func (e errorer) Error() string { return "errorer" }
+func (errorer) Unwrap() wrapper { return nil }
 
 type unexportedCustomError struct {
 	e errorer

@@ -25,8 +25,6 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
-	"golang.org/x/crypto/cryptobyte"
-	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
 	"io"
 	"math/big"
 	"net"
@@ -35,6 +33,9 @@ import (
 	"strings"
 	"time"
 	"unicode/utf8"
+
+	"golang.org/x/crypto/cryptobyte"
+	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
 )
 
 // pkixPublicKey reflects a PKIX public key structure. See SubjectPublicKeyInfo
@@ -770,6 +771,8 @@ func (e InsecureAlgorithmError) Error() string {
 	return fmt.Sprintf("x509: cannot verify signature: insecure algorithm %v", SignatureAlgorithm(e))
 }
 
+func (InsecureAlgorithmError) Unwrap() wrapper { return nil }
+
 // ConstraintViolationError results when a requested usage is not permitted by
 // a certificate. For example: checking a signature when the public key isn't a
 // certificate signing key.
@@ -778,6 +781,8 @@ type ConstraintViolationError struct{}
 func (ConstraintViolationError) Error() string {
 	return "x509: invalid signature: parent certificate cannot sign this kind of certificate"
 }
+
+func (ConstraintViolationError) Unwrap() wrapper { return nil }
 
 func (c *Certificate) Equal(other *Certificate) bool {
 	return bytes.Equal(c.Raw, other.Raw)
@@ -983,6 +988,8 @@ type UnhandledCriticalExtension struct{}
 func (h UnhandledCriticalExtension) Error() string {
 	return "x509: unhandled critical extension"
 }
+
+func (UnhandledCriticalExtension) Unwrap() wrapper { return nil }
 
 type basicConstraints struct {
 	IsCA       bool `asn1:"optional"`

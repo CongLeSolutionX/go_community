@@ -197,6 +197,9 @@ func predeclared() []*types.Type {
 
 			// any type, for builtin export data
 			types.Types[TANY],
+
+			// wrapper
+			types.Wrappertype,
 		}
 	}
 	return predecl
