@@ -69,6 +69,8 @@ func (p PackageError) Error() string {
 	return string(p)
 }
 
+func (PackageError) Unwrap() wrapper { return nil }
+
 // prettyPath returns a version of the package path that is suitable for an
 // error message. It obeys the import comment if present. Also, since
 // pkg.build.ImportPath is sometimes the unhelpful "" or ".", it looks for a

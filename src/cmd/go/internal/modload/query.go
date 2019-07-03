@@ -509,6 +509,8 @@ func (e *NoMatchingVersionError) Error() string {
 	return fmt.Sprintf("no matching versions for query %q", e.query) + currentSuffix
 }
 
+func (NoMatchingVersionError) Unwrap() wrapper { return nil }
+
 // A packageNotInModuleError indicates that QueryPattern found a candidate
 // module at the requested version, but that module did not contain any packages
 // matching the requested pattern.
@@ -535,6 +537,8 @@ func (e *packageNotInModuleError) Error() string {
 	}
 	return fmt.Sprintf("module %s@%s%s found, but does not contain package %s", e.mod.Path, e.query, found, e.pattern)
 }
+
+func (packageNotInModuleError) Unwrap() wrapper { return nil }
 
 // ModuleHasRootPackage returns whether module m contains a package m.Path.
 func ModuleHasRootPackage(m module.Version) (bool, error) {

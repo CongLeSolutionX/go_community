@@ -52,6 +52,8 @@ func (he headerError) Error() string {
 	return fmt.Sprintf("%s: %v", prefix, strings.Join(ss, "; and "))
 }
 
+func (headerError) Unwrap() wrapper { return nil }
+
 // Type flags for Header.Typeflag.
 const (
 	// Type '0' indicates a regular file.
