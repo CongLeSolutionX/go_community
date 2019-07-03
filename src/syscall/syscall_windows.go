@@ -111,9 +111,11 @@ func (e Errno) Error() string {
 	return string(utf16.Decode(b[:n]))
 }
 
+func (Errno) Unwrap() wrapper { return nil }
+
 const _ERROR_BAD_NETPATH = Errno(53)
 
-func (e Errno) Is(target error) bool {
+func (e Errno) Is(target wrapper) bool {
 	switch target {
 	case oserror.ErrTemporary:
 		return e.Temporary()

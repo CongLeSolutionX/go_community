@@ -13,7 +13,8 @@ import (
 
 type ET struct{}
 
-func (*ET) Error() string { return "err" }
+func (*ET) Error() string  { return "err" }
+func (ET) Unwrap() wrapper { return nil }
 
 func main() {
 	check("false", fmt.Sprintf("(*ET)(nil) == error(nil): %v", (*ET)(nil) == error(nil)))

@@ -703,7 +703,7 @@ func typePkg(t *types.Type) *types.Pkg {
 			}
 		}
 	}
-	if tsym != nil && t != types.Types[t.Etype] && t != types.Errortype {
+	if tsym != nil && t != types.Types[t.Etype] && t != types.Errortype && t != types.Wrappertype {
 		return tsym.Pkg
 	}
 	return nil
@@ -1189,7 +1189,7 @@ func dtypesym(t *types.Type) *obj.LSym {
 		dupok = obj.DUPOK
 	}
 
-	if myimportpath != "runtime" || (tbase != types.Types[tbase.Etype] && tbase != types.Bytetype && tbase != types.Runetype && tbase != types.Errortype) { // int, float, etc
+	if myimportpath != "runtime" || (tbase != types.Types[tbase.Etype] && tbase != types.Bytetype && tbase != types.Runetype && tbase != types.Errortype && tbase != types.Wrappertype) { // int, float, etc
 		// named types from other files are defined only by those files
 		if tbase.Sym != nil && tbase.Sym.Pkg != localpkg {
 			return lsym
@@ -1282,7 +1282,7 @@ func dtypesym(t *types.Type) *obj.LSym {
 		ot = dcommontype(lsym, t)
 
 		var tpkg *types.Pkg
-		if t.Sym != nil && t != types.Types[t.Etype] && t != types.Errortype {
+		if t.Sym != nil && t != types.Types[t.Etype] && t != types.Errortype && t != types.Wrappertype {
 			tpkg = t.Sym.Pkg
 		}
 		ot = dgopkgpath(lsym, ot, tpkg)
@@ -1626,8 +1626,11 @@ func dumpbasictypes() {
 		// emit type structs for error and func(error) string.
 		// The latter is the type of an auto-generated wrapper.
 		dtypesym(types.NewPtr(types.Errortype))
-
 		dtypesym(functype(nil, []*Node{anonfield(types.Errortype)}, []*Node{anonfield(types.Types[TSTRING])}))
+		dtypesym(functype(nil, []*Node{anonfield(types.Errortype)}, []*Node{anonfield(types.Wrappertype)}))
+
+		dtypesym(types.NewPtr(types.Wrappertype))
+		dtypesym(functype(nil, []*Node{anonfield(types.Wrappertype)}, []*Node{anonfield(types.Wrappertype)}))
 
 		// add paths for runtime and main, which 6l imports implicitly.
 		dimportpath(Runtimepkg)

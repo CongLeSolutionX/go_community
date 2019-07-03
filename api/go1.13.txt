@@ -39,11 +39,6 @@ pkg debug/dwarf, method (*UnsupportedType) String() string
 pkg debug/dwarf, type UnsupportedType struct
 pkg debug/dwarf, type UnsupportedType struct, embedded CommonType
 pkg debug/dwarf, type UnsupportedType struct, Tag Tag
-pkg encoding/csv, method (*ParseError) Unwrap() error
-pkg encoding/json, method (*MarshalerError) Unwrap() error
-pkg errors, func As(error, interface{}) bool
-pkg errors, func Is(error, error) bool
-pkg errors, func Unwrap(error) error
 pkg go/constant, func Make(interface{}) Value
 pkg go/constant, func Val(Value) interface{}
 pkg go/token, func IsExported(string) bool
@@ -208,19 +203,10 @@ pkg net/http, type Server struct, ConnContext func(context.Context, net.Conn) co
 pkg net/http, type Transport struct, ForceAttemptHTTP2 bool
 pkg net/http, type Transport struct, ReadBufferSize int
 pkg net/http, type Transport struct, WriteBufferSize int
-pkg net, method (*DNSConfigError) Unwrap() error
-pkg net, method (*DNSError) Is(error) bool
-pkg net, method (*OpError) Is(error) bool
-pkg net, method (*OpError) Unwrap() error
 pkg net, type DNSError struct, IsNotFound bool
 pkg net, type ListenConfig struct, KeepAlive time.Duration
-pkg net/url, method (*Error) Unwrap() error
 pkg os/exec, method (*Cmd) String() string
-pkg os/exec, method (*Error) Unwrap() error
 pkg os, func UserConfigDir() (string, error)
-pkg os, method (*LinkError) Unwrap() error
-pkg os, method (*PathError) Unwrap() error
-pkg os, method (*SyscallError) Unwrap() error
 pkg os (netbsd-arm64-cgo), const DevNull = "/dev/null"
 pkg os (netbsd-arm64-cgo), const O_APPEND = 8
 pkg os (netbsd-arm64-cgo), const O_CREATE = 512
@@ -249,7 +235,6 @@ pkg runtime (netbsd-arm64-cgo), const GOOS = "netbsd"
 pkg runtime (netbsd-arm64), const GOARCH = "arm64"
 pkg runtime (netbsd-arm64), const GOOS = "netbsd"
 pkg strings, func ToValidUTF8(string, string) string
-pkg syscall, method (Errno) Is(error) bool
 pkg syscall (netbsd-arm64-cgo), const AF_APPLETALK = 16
 pkg syscall (netbsd-arm64-cgo), const AF_APPLETALK ideal-int
 pkg syscall (netbsd-arm64-cgo), const AF_ARP = 28
@@ -8021,7 +8006,6 @@ pkg syscall (windows-amd64), type SysProcAttr struct, ThreadAttributes *Security
 pkg testing, func Init()
 pkg testing, method (*B) ReportMetric(float64, string)
 pkg testing, type BenchmarkResult struct, Extra map[string]float64
-pkg text/template, method (ExecError) Unwrap() error
 pkg time, method (Duration) Microseconds() int64
 pkg time, method (Duration) Milliseconds() int64
 pkg unicode, const Version = "11.0.0"

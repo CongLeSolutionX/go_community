@@ -25,6 +25,8 @@ func (cgoError) Error() string {
 	return C.GoString(C.geterror())
 }
 
+func (cgoError) Unwrap() wrapper { return nil }
+
 func CgoPanicDeadlock() {
 	panic(cgoError{})
 }

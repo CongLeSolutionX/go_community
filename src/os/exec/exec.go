@@ -47,7 +47,7 @@ func (e *Error) Error() string {
 	return "exec: " + strconv.Quote(e.Name) + ": " + e.Err.Error()
 }
 
-func (e *Error) Unwrap() error { return e.Err }
+func (e *Error) Unwrap() wrapper { return e.Err }
 
 // Cmd represents an external command being prepared or run.
 //
@@ -471,6 +471,8 @@ type ExitError struct {
 func (e *ExitError) Error() string {
 	return e.ProcessState.String()
 }
+
+func (e *ExitError) Unwrap() wrapper { return nil }
 
 // Wait waits for the command to exit and waits for any copying to
 // stdin or copying from stdout or stderr to complete.

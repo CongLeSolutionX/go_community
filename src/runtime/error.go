@@ -53,6 +53,8 @@ func (e *TypeAssertionError) Error() string {
 		": missing method " + e.missingMethod
 }
 
+func (TypeAssertionError) Unwrap() wrapper { return nil }
+
 //go:nosplit
 // itoa converts val to a decimal representation. The result is
 // written somewhere within buf and the location of the result is returned.
@@ -77,6 +79,10 @@ func (e errorString) Error() string {
 	return "runtime error: " + string(e)
 }
 
+func (e errorString) Unwrap() wrapper {
+	return nil
+}
+
 // plainError represents a runtime error described a string without
 // the prefix "runtime error: " after invoking errorString.Error().
 // See Issue #14965.
@@ -87,6 +93,8 @@ func (e plainError) RuntimeError() {}
 func (e plainError) Error() string {
 	return string(e)
 }
+
+func (plainError) Unwrap() wrapper { return nil }
 
 // An boundsError represents a an indexing or slicing operation gone wrong.
 type boundsError struct {
@@ -180,6 +188,8 @@ func (e boundsError) Error() string {
 	}
 	return string(b)
 }
+
+func (boundsError) Unwrap() wrapper { return nil }
 
 type stringer interface {
 	String() string

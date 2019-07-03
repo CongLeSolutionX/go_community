@@ -236,6 +236,8 @@ func (de demangleErr) Error() string {
 	return fmt.Sprintf("%s at %d", de.err, de.off)
 }
 
+func (demangleErr) Unwrap() wrapper { return nil }
+
 // adjustErr adjusts the position of err, if it is a demangleErr,
 // and returns err.
 func adjustErr(err error, adj int) error {

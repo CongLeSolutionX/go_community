@@ -67,7 +67,7 @@ func (e *ModuleError) Error() string {
 	return fmt.Sprintf("module %s: %v", e.Path, e.Err)
 }
 
-func (e *ModuleError) Unwrap() error { return e.Err }
+func (e *ModuleError) Unwrap() wrapper { return e.Err }
 
 // An InvalidVersionError indicates an error specific to a version, with the
 // module path unknown or specified externally.
@@ -93,7 +93,7 @@ func (e *InvalidVersionError) Error() string {
 	return fmt.Sprintf("%s %q invalid: %s", e.noun(), e.Version, e.Err)
 }
 
-func (e *InvalidVersionError) Unwrap() error { return e.Err }
+func (e *InvalidVersionError) Unwrap() wrapper { return e.Err }
 
 // Check checks that a given module path, version pair is valid.
 // In addition to the path being a valid module path

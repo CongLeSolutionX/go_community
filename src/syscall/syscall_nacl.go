@@ -63,7 +63,9 @@ func (e Errno) Error() string {
 	return "errno " + itoa(int(e))
 }
 
-func (e Errno) Is(target error) bool {
+func (Errno) Unwrap() wrapper { return nil }
+
+func (e Errno) Is(target wrapper) bool {
 	switch target {
 	case oserror.ErrTemporary:
 		return e.Temporary()

@@ -4548,7 +4548,6 @@ pkg net, type DNSError struct, Err string
 pkg net, type DNSError struct, IsTimeout bool
 pkg net, type DNSError struct, Name string
 pkg net, type DNSError struct, Server string
-pkg net, type Error interface { Error, Temporary, Timeout }
 pkg net, type Error interface, Error() string
 pkg net, type Error interface, Temporary() bool
 pkg net, type Error interface, Timeout() bool
@@ -5699,7 +5698,6 @@ pkg runtime, method (*MemProfileRecord) Stack() []uintptr
 pkg runtime, method (*StackRecord) Stack() []uintptr
 pkg runtime, method (*TypeAssertionError) Error() string
 pkg runtime, method (*TypeAssertionError) RuntimeError()
-pkg runtime, type Error interface { Error, RuntimeError }
 pkg runtime, type Error interface, Error() string
 pkg runtime, type Error interface, RuntimeError()
 pkg runtime, type Func struct

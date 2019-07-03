@@ -172,6 +172,8 @@ func (e CorruptInputError) Error() string {
 	return "illegal ascii85 data at input byte " + strconv.FormatInt(int64(e), 10)
 }
 
+func (CorruptInputError) Unwrap() wrapper { return nil }
+
 // Decode decodes src into dst, returning both the number
 // of bytes written to dst and the number consumed from src.
 // If src contains invalid ascii85 data, Decode will return the
