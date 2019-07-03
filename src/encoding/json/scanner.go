@@ -44,6 +44,8 @@ type SyntaxError struct {
 
 func (e *SyntaxError) Error() string { return e.msg }
 
+func (e *SyntaxError) Unwrap() wrapper { return e.Err }
+
 // A scanner is a JSON scanning state machine.
 // Callers call scan.reset() and then pass bytes in one at a time
 // by calling scan.step(&scan, c) for each byte.

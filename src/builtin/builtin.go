@@ -259,4 +259,9 @@ func println(args ...Type)
 // representing an error condition, with the nil value representing no error.
 type error interface {
 	Error() string
+	Unwrap() wrapper
+}
+
+type wrapper interface {
+	Unwrap() wrapper
 }
