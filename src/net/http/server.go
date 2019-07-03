@@ -1733,6 +1733,8 @@ type badRequestError string
 
 func (e badRequestError) Error() string { return "Bad Request: " + string(e) }
 
+func (badRequestError) Unwrap() wrapper { return nil }
+
 // ErrAbortHandler is a sentinel panic value to abort a handler.
 // While any panic from ServeHTTP aborts the response to the client,
 // panicking with ErrAbortHandler also suppresses logging of a stack

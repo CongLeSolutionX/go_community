@@ -104,6 +104,9 @@ var (
 	Bytetype *Type
 	Runetype *Type
 
+	// Predeclared wrapper interface type.
+	Wrappertype *Type
+
 	// Predeclared error interface type.
 	Errortype *Type
 

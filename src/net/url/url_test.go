@@ -1545,6 +1545,7 @@ type timeoutError struct {
 }
 
 func (e *timeoutError) Error() string { return "timeout error" }
+func (timeoutError) Unwrap() wrapper  { return nil }
 func (e *timeoutError) Timeout() bool { return e.timeout }
 
 type temporaryError struct {
@@ -1552,6 +1553,7 @@ type temporaryError struct {
 }
 
 func (e *temporaryError) Error() string   { return "temporary error" }
+func (temporaryError) Unwrap() wrapper    { return nil }
 func (e *temporaryError) Temporary() bool { return e.temporary }
 
 type timeoutTemporaryError struct {
@@ -1560,6 +1562,7 @@ type timeoutTemporaryError struct {
 }
 
 func (e *timeoutTemporaryError) Error() string { return "timeout/temporary error" }
+func (timeoutTemporaryError) Unwrap() wrapper  { return nil }
 
 var netErrorTests = []struct {
 	err       error

@@ -47,9 +47,10 @@ pkg p1, type EmbedSelector struct, embedded Time
 pkg p1, type EmbedURLPtr struct
 pkg p1, type EmbedURLPtr struct, embedded *URL
 pkg p1, type Embedded struct
-pkg p1, type Error interface { Error, Temporary }
+pkg p1, type Error interface { Error, Temporary, Unwrap }
 pkg p1, type Error interface, Error() string
 pkg p1, type Error interface, Temporary() bool
+pkg p1, type Error interface, Unwrap() wrapper
 pkg p1, type FuncType func(int, int, string) (*B, error)
 pkg p1, type I interface, Get(string) int64
 pkg p1, type I interface, GetNamed(string) int64

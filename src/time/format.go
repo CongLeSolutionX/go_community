@@ -703,6 +703,8 @@ func (e *ParseError) Error() string {
 		quote(e.Value) + e.Message
 }
 
+func (e *ParseError) Unwrap() wrapper { return nil }
+
 // isDigit reports whether s[i] is in range and is a decimal digit.
 func isDigit(s string, i int) bool {
 	if len(s) <= i {

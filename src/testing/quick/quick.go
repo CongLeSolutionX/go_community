@@ -224,6 +224,8 @@ type SetupError string
 
 func (s SetupError) Error() string { return string(s) }
 
+func (SetupError) Unwrap() wrapper { return nil }
+
 // A CheckError is the result of Check finding an error.
 type CheckError struct {
 	Count int
@@ -233,6 +235,8 @@ type CheckError struct {
 func (s *CheckError) Error() string {
 	return fmt.Sprintf("#%d: failed on input %s", s.Count, toString(s.In))
 }
+
+func (CheckError) Unwrap() wrapper { return nil }
 
 // A CheckEqualError is the result CheckEqual finding an error.
 type CheckEqualError struct {
@@ -244,6 +248,8 @@ type CheckEqualError struct {
 func (s *CheckEqualError) Error() string {
 	return fmt.Sprintf("#%d: failed on input %s. Output 1: %s. Output 2: %s", s.Count, toString(s.In), toString(s.Out1), toString(s.Out2))
 }
+
+func (CheckEqualError) Unwrap() wrapper { return nil }
 
 // Check looks for an input to f, any function that returns bool,
 // such that f returns false. It calls f repeatedly, with arbitrary
