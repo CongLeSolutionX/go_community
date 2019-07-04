@@ -45,7 +45,14 @@ var (
 	ModDirImportPath     func(string) string                                                                      // return effective import path for directory
 )
 
-var IgnoreImports bool // control whether we ignore imports in packages
+var (
+	// IgnoreImports controls whether we ignore imports in packages.
+	IgnoreImports bool
+
+	// IncludeTestingInit controls whether we alter package "testing"
+	// when it is loaded to include the init.go file.
+	IncludeTestingInit bool
+)
 
 // A Package describes a single package found in a directory.
 type Package struct {
@@ -177,7 +184,6 @@ type PackageInternal struct {
 	OmitDebug         bool                 // tell linker not to write debug information
 	GobinSubdir       bool                 // install target would be subdir of GOBIN
 	BuildInfo         string               // add this info to package main
-	TestinginitGo     []byte               // content for _testinginit.go
 	TestmainGo        []byte               // content for _testmain.go
 
 	Asmflags   []string // -asmflags for this package
@@ -662,6 +668,27 @@ func loadPackageData(path, parentPath, parentDir, parentRoot string, parentIsStd
 			data.p, data.err = cfg.BuildContext.Import(r.path, parentDir, buildMode)
 		}
 		data.p.ImportPath = r.path
+
+		// When running under 'go test', alter the testing package to
+		// use the init.go file instead of ignoring it due to its
+		// build constraint.
+		if IncludeTestingInit && r.path == "testing" && data.err == nil {
+			const initGo = "init.go"
+			initFound := false
+			for i, f := range data.p.IgnoredGoFiles {
+				if f == initGo {
+					initFound = true
+					data.p.IgnoredGoFiles = append(data.p.IgnoredGoFiles[:i], data.p.IgnoredGoFiles[i+1:]...)
+					break
+				}
+			}
+			if !initFound {
+				panic("internal error: no init.go in testing package")
+			}
+			// Insert init.go; maintain sorting.
+			i := sort.SearchStrings(data.p.GoFiles, initGo)
+			data.p.GoFiles = append(data.p.GoFiles[:i], append([]string{initGo}, data.p.GoFiles[i:]...)...)
+		}
 
 		// Set data.p.BinDir in cases where go/build.Context.Import
 		// may give us a path we don't want.

@@ -2,15 +2,16 @@
 
 env GO111MODULE=on
 
-# A TestMain should be able to access testing flags if it calls flag.Parse
-# without needing to use testing.Init.
-# Test code can use the name 'testing' without colliding with generated
-# testinginit code.
 # Tests running under 'go test' should observe that testing.Init is called
 # before any user package initialization code runs.
+# A TestMain should be able to access testing flags if it calls flag.Parse
+# without needing to use testing.Init.
+# Though it is ill-advised, a dependency of a test should be able to call
+# flag.Parse during initialization without breaking 'go test' as long as it
+# imports "testing". See golang.org/issue/31859.
 go test
-stdout TestMain
 stdout TestInit
+stdout TestMain
 stdout TestExt
 
 -- go.mod --
@@ -20,10 +21,11 @@ module m
 package testinitflag
 
 import (
+	_ "m/dep"
 	"flag"
 	"fmt"
 	"os"
-	Testing "testing"
+	"testing"
 )
 
 func testFlagsInitialized() bool {
@@ -36,17 +38,16 @@ func testFlagsInitialized() bool {
 	return found
 }
 
-var testing int
 var testingInitAtInitialization = testFlagsInitialized()
 
-func TestInit(t *Testing.T) {
+func TestInit(t *testing.T) {
 	if !testingInitAtInitialization {
 		t.Fatal("testing.Init not called before package initialization")
 	}
 	fmt.Printf("TestInit\n")
 }
 
-func TestMain(m *Testing.M) {
+func TestMain(m *testing.M) {
 	fmt.Printf("TestMain\n")
 	flag.Parse()
 	if !testFlagsInitialized() {
@@ -62,7 +63,7 @@ package testinitflag_test
 import (
 	"flag"
 	"fmt"
-	Testing "testing"
+	"testing"
 )
 
 func testFlagsInitialized() bool {
@@ -75,12 +76,21 @@ func testFlagsInitialized() bool {
 	return found
 }
 
-var testing int
 var testingInitAtInitialization = testFlagsInitialized()
 
-func TestExt(t *Testing.T) {
+func TestExt(t *testing.T) {
 	fmt.Printf("TestExt\n")
 	if !testingInitAtInitialization {
 		t.Fatal("testing.Init not called before package initialization")
 	}
 }
+
+-- dep/dep.go --
+package dep
+
+import (
+	"flag"
+	_ "testing"
+)
+
+func init() { flag.Parse() }

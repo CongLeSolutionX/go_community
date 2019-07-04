@@ -529,6 +529,7 @@ func testCmdUsage() {
 }
 
 func runTest(cmd *base.Command, args []string) {
+	load.IncludeTestingInit = true
 	modload.LoadTests = true
 
 	pkgArgs, testArgs = testFlags(testCmdUsage, args)
