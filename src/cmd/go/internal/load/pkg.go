@@ -177,7 +177,6 @@ type PackageInternal struct {
 	OmitDebug         bool                 // tell linker not to write debug information
 	GobinSubdir       bool                 // install target would be subdir of GOBIN
 	BuildInfo         string               // add this info to package main
-	TestinginitGo     []byte               // content for _testinginit.go
 	TestmainGo        []byte               // content for _testmain.go
 
 	Asmflags   []string // -asmflags for this package
@@ -466,6 +465,7 @@ func LoadImport(path, srcDir string, parent *Package, stk *ImportStack, importPo
 }
 
 func loadImport(pre *preload, path, srcDir string, parent *Package, stk *ImportStack, importPos []token.Position, mode int) *Package {
+	// FIXME(caleb): WIP WIP WIP do something special here?
 	if path == "" {
 		panic("LoadImport called with empty package path")
 	}
