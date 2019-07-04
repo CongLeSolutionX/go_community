@@ -89,7 +89,19 @@ func ExampleTempFile_suffix() {
 }
 
 func ExampleReadFile() {
-	content, err := ioutil.ReadFile("testdata/hello")
+	message := []byte("Hello, Gophers!")
+	tmpfile, err := ioutil.TempFile("", "example_read_file")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer os.Remove(tmpfile.Name()) // clean up
+
+	if err := ioutil.WriteFile(tmpfile.Name(), message, 0644); err != nil {
+		log.Fatal(err)
+	}
+
+	content, err := ioutil.ReadFile(tmpfile.Name())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -102,8 +114,14 @@ func ExampleReadFile() {
 
 func ExampleWriteFile() {
 	message := []byte("Hello, Gophers!")
-	err := ioutil.WriteFile("testdata/hello", message, 0644)
+	tmpfile, err := ioutil.TempFile("", "example_write_file")
 	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer os.Remove(tmpfile.Name()) // clean up
+
+	if err := ioutil.WriteFile(tmpfile.Name(), message, 0644); err != nil {
 		log.Fatal(err)
 	}
 }
