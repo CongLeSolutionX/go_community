@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da67d64a_d8695352",
+        "filename": "src/runtime/crash_unix_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-05T01:24:09Z",
+      "side": 1,
+      "message": "The format specifier will already handle printing nonfile but also perhaps let\u0027s make this\na t.Fatalf:\n\n     t.Fatalf(\"open(\\\"%s\\\")\u003d%d, want -1\", nonfile, fd)",
+      "revId": "011031923f33d38e82ea54bdb13e355516f5b760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d992bf2_254c73c2",
+        "filename": "src/runtime/crash_unix_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-05T01:24:09Z",
+      "side": 1,
+      "message": "if got, want :\u003d r, -int32(syscall.EBADF); got !\u003d want {\n     t.Errorf(\"read()\u003d%d, want %d\", got, want)\n}",
+      "revId": "011031923f33d38e82ea54bdb13e355516f5b760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18973064_a4da79f6",
+        "filename": "src/runtime/crash_unix_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-05T01:24:09Z",
+      "side": 1,
+      "message": "Ditto about: got, want",
+      "revId": "011031923f33d38e82ea54bdb13e355516f5b760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84f77232_5bd4ccca",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-05T01:24:09Z",
+      "side": 1,
+      "message": "Can\u0027t CMP compare immediates without this move of a constant to register R1?\n\n      CMP R0, -1",
+      "revId": "011031923f33d38e82ea54bdb13e355516f5b760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a055449e_5b30ad72",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-05T01:24:09Z",
+      "side": 1,
+      "message": "Ditto here about CMP \u003cREGISTER\u003e, \u003cIMMEDIATE/SCALAR VALUE\u003e",
+      "revId": "011031923f33d38e82ea54bdb13e355516f5b760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "171cdd51_13230da8",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-05T01:24:09Z",
+      "side": 1,
+      "message": "Can NEG work here or do we not support NEG in our Go ASM for ARM?",
+      "revId": "011031923f33d38e82ea54bdb13e355516f5b760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
