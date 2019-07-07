@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a3ba62a_95cf7539",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-07T04:19:52Z",
+      "side": 1,
+      "message": "This looks like a big change to me. Previously\nrdwake would occupy the left most 16 bits during the comparison,\nbut now it\u0027ll be compared to directly.\n\nAlso we had that previous sanity check:\n   if rdwake \u003e 0xFFFF || wrwake \u003e 0xFFFF {\n\tthrow(\"netpolldescriptor: invalid fd number\")\n   }\nor is the probability of those ranges low that it was just being an extraneous check?",
+      "revId": "f85439abd209ee1836e191f0e67529b2f8fb17e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
