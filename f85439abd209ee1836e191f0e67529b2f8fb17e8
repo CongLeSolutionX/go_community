@@ -16,6 +16,24 @@
       "revId": "f85439abd209ee1836e191f0e67529b2f8fb17e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3908848c_7da4c1ed",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-07T17:07:33Z",
+      "side": 1,
+      "message": "The old API was designed to return the file descriptor as a single number.  The other netpoll implementations used a single file descriptor so that was fine.  When AIX was added the single uintptr was used to hold two numbers.  But with the API change that is no longer necessary.  Now, instead of returning two numbers in a single uintptr we just have to compare the new argument to the two file descriptors.\n\nThe tests against 0xFFFF were to ensure that returning two file descriptors in a single uintptr would not overflow.  Since that is no longer done that test is no longer needed.",
+      "parentUuid": "0a3ba62a_95cf7539",
+      "revId": "f85439abd209ee1836e191f0e67529b2f8fb17e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
