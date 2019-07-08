@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63a7ee84_143fc04d",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-07-08T14:06:43Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me what this means. Do modern clients not support it anymore?",
+      "range": {
+        "startLine": 538,
+        "startChar": 6,
+        "endLine": 538,
+        "endChar": 46
+      },
+      "revId": "ed0670410cdc57cfc0b0cf9f0292a6f0c6786f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "077ba509_000604ed",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-07-08T14:06:43Z",
+      "side": 1,
+      "message": "Just \"See golang.org/issue/32716\" since saying the issue number in addition to linking to it is a bit redundant.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 53
+      },
+      "revId": "ed0670410cdc57cfc0b0cf9f0292a6f0c6786f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
