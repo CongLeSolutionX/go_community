@@ -100,11 +100,33 @@ func ImportPathsQuiet(patterns []string, tags map[string]bool) []*search.Match {
 						dir = filepath.Clean(dir)
 					}
 
+					// golang.org/issue/32917: We should resolve a relative path to a
+					// package path only if the relative path actually contains that
+					// package. If the relative path does not exist or contains no
+					// buildable Go files, then we can be certain that it does *not*
+					// contain that package.
+					_, err := cfg.BuildContext.ImportDir(dir, 0)
+					if err != nil {
+						// If the named directory does not exist or contains no Go files,
+						// the package does not exist.
+						// Other errors may affect package loading, but not resolution.
+						// Instead of resolving the path, leave it unresolved to produce
+						// an error at build time.
+						if fi, err := os.Stat(dir); err != nil || !fi.IsDir() {
+							m.Pkgs = append(m.Pkgs, pkg)
+							continue
+						}
+						if _, noGo := err.(*build.NoGoError); noGo {
+							m.Pkgs = append(m.Pkgs, pkg)
+							continue
+						}
+					}
+
 					// Note: The checks for @ here are just to avoid misinterpreting
 					// the module cache directories (formerly GOPATH/src/mod/foo@v1.5.2/bar).
 					// It's not strictly necessary but helpful to keep the checks.
 					if modRoot != "" && dir == modRoot {
-						pkg = Target.Path
+						pkg = targetPrefix
 					} else if modRoot != "" && strings.HasPrefix(dir, modRoot+string(filepath.Separator)) && !strings.Contains(dir[len(modRoot):], "@") {
 						suffix := filepath.ToSlash(dir[len(modRoot):])
 						if strings.HasPrefix(suffix, "/vendor/") {
@@ -121,7 +143,13 @@ func ImportPathsQuiet(patterns []string, tags map[string]bool) []*search.Match {
 								continue
 							}
 						} else {
-							pkg = Target.Path + suffix
+							modPkg := targetPrefix + suffix
+							if _, ok := dirInModule(modPkg, targetPrefix, modRoot, true); ok {
+								pkg = modPkg
+							} else if !iterating {
+								ModRoot()
+								base.Errorf("go: directory %s is outside main module", base.ShortPath(dir))
+							}
 						}
 					} else if sub := search.InDir(dir, cfg.GOROOTsrc); sub != "" && sub != "." && !strings.Contains(sub, "@") {
 						pkg = filepath.ToSlash(sub)
