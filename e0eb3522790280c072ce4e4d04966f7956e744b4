@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f8e3dd9_46e9ca85",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-07-09T01:12:39Z",
+      "side": 1,
+      "message": "I recommend putting this at the end of the slice, after types.Types[TANY]. Putting it here will unnecessarily change the indices for the other types, and cause even more problems for go/types.",
+      "revId": "e0eb3522790280c072ce4e4d04966f7956e744b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b6cacc0_eb34a136",
+        "filename": "src/cmd/compile/internal/gc/universe.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-07-09T01:12:39Z",
+      "side": 1,
+      "message": "You need to assign types.Wrappertype here if you\u0027re going to use it in bexport.go.",
+      "revId": "e0eb3522790280c072ce4e4d04966f7956e744b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b377f972_d173eba5",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-07-09T01:12:39Z",
+      "side": 1,
+      "message": "You can get rid of this.",
+      "revId": "e0eb3522790280c072ce4e4d04966f7956e744b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
