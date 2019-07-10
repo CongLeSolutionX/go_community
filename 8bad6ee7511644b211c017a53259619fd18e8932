@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb21f8fb_0950ea50",
+        "filename": "test/fixedbugs/issue33013.dir/c.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-10T16:33:30Z",
+      "side": 1,
+      "message": "Any reason for the local import alias?",
+      "revId": "8bad6ee7511644b211c017a53259619fd18e8932",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
