@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15edb55c_4e6c1d27",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-10T14:28:44Z",
+      "side": 1,
+      "message": "Consider extracting this block (or perhaps most of the loop body) into a small function. updateMatches is already very complicated, and this adds a lot.",
+      "revId": "f8705654b9e7e174df52c01f6c23f4e65aab0c0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53e5f913_f31d031e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-10T14:28:44Z",
+      "side": 1,
+      "message": "Can this be memoized so we don\u0027t need to do the I/O each round? fsDirs[i] should be the same on every iteration, so I think the result here will be the same, too.\n\nActually, I\u0027m not altogether clear on the comment at L86. I guess if we have an absolute path to a package in the module cache, if the specific version of the module is not in the build list, we should hit the error at L164.",
+      "revId": "f8705654b9e7e174df52c01f6c23f4e65aab0c0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "141b40ce_9890fa60",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-10T14:28:44Z",
+      "side": 1,
+      "message": "This stat now seems redundant. Can we consolidate?",
+      "revId": "f8705654b9e7e174df52c01f6c23f4e65aab0c0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
