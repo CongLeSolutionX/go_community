@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e03089e2_8ae41a54",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-07-10T20:14:24Z",
+      "side": 1,
+      "message": "Go 1.13 is the last release that will run on Native Client (NaCl).",
+      "range": {
+        "startLine": 105,
+        "startChar": 35,
+        "endLine": 105,
+        "endChar": 43
+      },
+      "revId": "d66e0120deeed80a3d6971ccd5f5188706138cc7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
