@@ -588,23 +588,37 @@ func (s *mspan) unscavenge() {
 	// scavenged, because the scavenger will always mark it scavenged
 	// before actually scavenging.
 	lock(&scavenge.inprogress.lock)
-	start, end := scavenge.inprogress.start, scavenge.inprogress.end
+	for i := 0; i < len(scavenge.inprogress.queue); i++ {
+		start := scavenge.inprogress.queue[i].start
+		end := scavenge.inprogress.queue[i].end
 
-	// If the two ranges overlap, then we're trying to allocate something
-	// that's in the process of being scavenged. We need to sleep until
-	// it's finished so that we can proceed.
-	if start != 0 && start < s.base()+s.npages*pageSize && s.base() < end {
-		// Clear s's scavnote and add s to the waiters list.
-		noteclear(&s.scavnote)
-		scavenge.inprogress.waiters.insert(s)
-		unlock(&scavenge.inprogress.lock)
+		// If the two ranges overlap, then we're trying to allocate something
+		// that's in the process of being scavenged. We need to sleep until
+		// it's finished so that we can proceed.
+		if start != 0 && start < s.base()+s.npages*pageSize && s.base() < end {
+			// Clear s's scavnote and add s to the waiters list.
+			noteclear(&s.scavnote)
+			scavenge.inprogress.queue[i].waiters.insert(s)
+			unlock(&scavenge.inprogress.lock)
 
-		// Sleep until awoken by the scavenger, meaning its safe to
-		// unscavenge.
-		notesleep(&s.scavnote)
-	} else {
-		unlock(&scavenge.inprogress.lock)
+			// Sleep until awoken by the scavenger, meaning its safe to
+			// unscavenge.
+			notesleep(&s.scavnote)
+
+			// Re-lock and look at the rest of the entries. We don't ever need
+			// to look at previous entries because the scavenger is guaranteed
+			// to go over entries in order, so every entry < i is necessarily
+			// done now, and is otherwise irrelevant.
+			// Note that there's a race here where the scavenger may have finished
+			// scavenging everything after i and could have refilled the queue.
+			// This is fine, since any new space is guarnateed not to overlap with
+			// s because the scavenger couldn't have possibly gotten ownership of
+			// the space s owns.
+			lock(&scavenge.inprogress.lock)
+		}
 	}
+	// We didn't find any overlapping section.
+	unlock(&scavenge.inprogress.lock)
 
 	// sysUsed all the pages that are actually available
 	// in the span. Note that we don't need to decrement
@@ -1453,11 +1467,14 @@ func (h *mheap) scavengeSplit(t treapIter, size uintptr) *mspan {
 // bg indicates whether the caller is the background scavenger. There must
 // be exactly one path in the runtime which calls this with bg = true and
 // it must be only reachable by the background scavenger's goroutine.
+// If bg is set, instead of scavenging directly, this routine enqueues
+// memory regions to be scavenged later.
 //
 // Returns the amount of memory scavenged in bytes. h must be locked.
 func (h *mheap) scavengeLocked(nbytes uintptr, bg bool) uintptr {
 	released := uintptr(0)
-top:
+	spans := 0
+
 	// Iterate over spans with huge pages first, then spans without.
 	const mask = treapIterScav | treapIterHuge
 	for _, match := range []treapIterType{treapIterHuge, 0} {
@@ -1494,54 +1511,20 @@ top:
 				lock(&scavenge.inprogress.lock)
 
 				// Make a note of which memory we're scavenging right now.
-				scavenge.inprogress.start = start
-				scavenge.inprogress.end = end
+				scavenge.inprogress.queue[spans].start = start
+				scavenge.inprogress.queue[spans].end = end
 
 				unlock(&scavenge.inprogress.lock)
 
-				// Let go of the heap lock so we're not holding up other
-				// allocators unless they need the memory we're scavenging.
-				unlock(&h.lock)
-			}
-			// If we're not the background scavenger, we don't need to worry about
-			// synchronizing with any allocators because we're just going to hold
-			// onto the heap lock the whole time.
-			// Also, we don't need to worry about synchronizing with the
-			// background scavenger because we'll never find ourselves work on the
-			// same span. The background scavenger always marks a span as scavenged
-			// before letting go of the heap lock, and the only way a span may become
-			// free and unscavenged is via an allocation, which we prevent by holding
-			// the heap lock.
-
-			// Release memory back to the OS.
-			sysUnused(unsafe.Pointer(start), end-start)
-
-			if bg {
-				// We're the background scavenger.
-				lock(&scavenge.inprogress.lock)
-
-				// Clear the in-progress range.
-				scavenge.inprogress.start = 0
-				scavenge.inprogress.end = 0
-
-				// Wake up anyone who might be waiting to use this memory range.
-				for !scavenge.inprogress.waiters.isEmpty() {
-					// Remove the span before waking the waiter, since otherwise
-					// the caller could observe s on a list.
-					s := scavenge.inprogress.waiters.first
-					scavenge.inprogress.waiters.remove(s)
-
-					// Wake the waiter.
-					notewakeup(&s.scavnote)
+				// We've filled up the queue, so exit for now.
+				if spans == len(scavenge.inprogress.queue)-1 {
+					return released
 				}
-
-				unlock(&scavenge.inprogress.lock)
-
-				// Re-acquire the heap lock and jump back to the top since all the state
-				// we were holding onto is only valid while we have the heap lock.
-				lock(&h.lock)
-				goto top
+			} else {
+				// Release memory back to the OS.
+				sysUnused(unsafe.Pointer(start), end-start)
 			}
+			spans++
 		}
 	}
 	return released

@@ -33,6 +33,8 @@
 
 package runtime
 
+import "unsafe"
+
 const (
 	// The background scavenger is paced according to these parameters.
 	//
@@ -179,9 +181,11 @@ var scavenge struct {
 	gen    uint32 // read with either lock or mheap_.lock, write with both
 
 	inprogress struct {
-		lock       mutex
-		waiters    mSpanList
-		start, end uintptr
+		lock  mutex
+		queue [8]struct {
+			waiters    mSpanList
+			start, end uintptr
+		}
 	}
 }
 
@@ -284,6 +288,7 @@ func bgscavenge(c chan int) {
 	for {
 		released := uintptr(0)
 		park := false
+		cont := false
 		ttnext := int64(0)
 		gen := uint32(0)
 
@@ -322,13 +327,45 @@ func bgscavenge(c chan int) {
 			}
 			unlock(&mheap_.lock)
 
+			for i := 0; i < len(scavenge.inprogress.queue); i++ {
+				start := scavenge.inprogress.queue[i].start
+				if start == 0 {
+					break
+				}
+				end := scavenge.inprogress.queue[i].end
+
+				// Release memory back to the OS.
+				sysUnused(unsafe.Pointer(start), end-start)
+
+				lock(&scavenge.inprogress.lock)
+
+				// Clear the in-progress range.
+				scavenge.inprogress.queue[i].start = 0
+				scavenge.inprogress.queue[i].end = 0
+
+				// Wake up anyone who might be waiting to use this memory range.
+				for !scavenge.inprogress.queue[i].waiters.isEmpty() {
+					// Remove the span before waking the waiter, since otherwise
+					// the caller could observe s on a list.
+					s := scavenge.inprogress.queue[i].waiters.first
+					scavenge.inprogress.queue[i].waiters.remove(s)
+
+					// Wake the waiter.
+					notewakeup(&s.scavnote)
+				}
+
+				unlock(&scavenge.inprogress.lock)
+			}
+
 			// If we over-scavenged a bit, calculate how much time it'll
 			// take at the current rate for us to make that up. We definitely
 			// won't have any work to do until at least that amount of time
 			// passes.
-			if released > uintptr(retained-want) {
+			if released >= uintptr(retained-want) {
 				extra := released - uintptr(retained-want)
 				ttnext = int64(float64(extra) / rate)
+			} else {
+				cont = true
 			}
 		})
 
@@ -365,7 +402,10 @@ func bgscavenge(c chan int) {
 			continue
 		}
 
-		// Give something else a chance to run, no locks are held.
-		Gosched()
+		// Give something else a chance to run, as long as we got to our goal.
+		// No locks are held.
+		if !cont {
+			Gosched()
+		}
 	}
 }
