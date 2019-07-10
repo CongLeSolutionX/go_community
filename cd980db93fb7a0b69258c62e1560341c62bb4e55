@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "397416a3_c9bd6c4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-10T14:24:54Z",
+      "side": 1,
+      "message": "Not sure this sentence is really adding anything here.",
+      "revId": "cd980db93fb7a0b69258c62e1560341c62bb4e55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3d2c4bb_c2989107",
+        "filename": "test/fixedbugs/issue33013.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-10T14:24:54Z",
+      "side": 1,
+      "message": "This is a bit picky, so sorry, but using \"context\" means that this test is going to depend on the details of a standard library package.  The context package might change in such a way that this test is no longer testing what we thought it was testing.  Can you replace \"context\" here with a tiny package that does whatever is needed to trigger the problem?",
+      "revId": "cd980db93fb7a0b69258c62e1560341c62bb4e55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
