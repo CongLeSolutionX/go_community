@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a462a8c_f2005742",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-07-11T00:30:34Z",
+      "side": 1,
+      "message": "Please wrap to a more comfortable width of 76~ characters, per golang.org/wiki/CommitMessage.",
+      "revId": "eae9b9dd0c81c177d5b688f948d169a8a1b3ecc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72224bb9_c995cfe1",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-07-11T00:30:34Z",
+      "side": 1,
+      "message": "This change doesn\u0027t seem to be intentional, please undo.",
+      "revId": "eae9b9dd0c81c177d5b688f948d169a8a1b3ecc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
