@@ -22,6 +22,30 @@
       "revId": "5c5d8daa40828dfc58b74e64cb1569bcbee88b44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13fe98df_036e5b34",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 32657
+      },
+      "writtenOn": "2019-07-12T20:49:05Z",
+      "side": 1,
+      "message": "Technically, you\u0027re right, but I don\u0027t think it reasonable and clear for user to include such a header \"../../src/runtime/go_tls.h\" in their source file. Hence, I don\u0027t think it necessary to clarify this usage in the doc.",
+      "parentUuid": "39cc9f3f_448456e3",
+      "range": {
+        "startLine": 594,
+        "startChar": 0,
+        "endLine": 594,
+        "endChar": 35
+      },
+      "revId": "5c5d8daa40828dfc58b74e64cb1569bcbee88b44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
