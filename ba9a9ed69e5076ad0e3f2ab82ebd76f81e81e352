@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "90a19c81_b60c170d",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-12T21:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "399aaec9_8309debe",
+      "revId": "ba9a9ed69e5076ad0e3f2ab82ebd76f81e81e352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1f41460_1bfcd553",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "ba9a9ed69e5076ad0e3f2ab82ebd76f81e81e352",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2b8e5a8_6a0228fc",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-12T21:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1f41460_1bfcd553",
+      "revId": "ba9a9ed69e5076ad0e3f2ab82ebd76f81e81e352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
