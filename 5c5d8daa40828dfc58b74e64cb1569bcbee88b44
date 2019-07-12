@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39cc9f3f_448456e3",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-07-12T14:49:34Z",
+      "side": 1,
+      "message": "Technically, get_tls works even it is not in the runtime package. This is enough for getting the \"g\" pointer. But the offsets, like g_m, are only available in the runtime package\u0027s go_asm.h.",
+      "range": {
+        "startLine": 594,
+        "startChar": 0,
+        "endLine": 594,
+        "endChar": 35
+      },
+      "revId": "5c5d8daa40828dfc58b74e64cb1569bcbee88b44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
