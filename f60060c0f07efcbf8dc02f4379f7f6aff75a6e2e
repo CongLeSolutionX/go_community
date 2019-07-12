@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2eddec27_f096921a",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-12T21:35:01Z",
+      "side": 1,
+      "message": "Ah, here\u0027s the trouble with the TryBots, I think: the version of the `testing` package with the `init` function should appear as a test variant of the package when using `go list -test`, but instead it\u0027s taking the place of the non-test `testing` package when the command is `go test`.\n\nTo keep `go list` working properly, I think the test and non-test variants of the `testing` package need to be treated as essentially two distinct packages.",
+      "revId": "f60060c0f07efcbf8dc02f4379f7f6aff75a6e2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
