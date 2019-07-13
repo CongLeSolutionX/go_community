@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90508287_fbb518f6",
+        "filename": "src/net/lookup_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-07-13T03:06:53Z",
+      "side": 1,
+      "message": "I would still keep original error in returned error (the `exit status 1` part). Maybe exit code might be useful for debugging. Something like:\n\ns/errors.New(string(stdoutStderr))/fmt.Errorf(\u0027%v: %v\u0027, err, string(stdoutStderr))/",
+      "range": {
+        "startLine": 287,
+        "startChar": 13,
+        "endLine": 287,
+        "endChar": 45
+      },
+      "revId": "56dcf77d348366d7cea4ae0028724b8adcc2c6fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
