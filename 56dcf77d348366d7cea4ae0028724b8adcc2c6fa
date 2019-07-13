@@ -22,6 +22,30 @@
       "revId": "56dcf77d348366d7cea4ae0028724b8adcc2c6fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c69cf5e_73fb5410",
+        "filename": "src/net/lookup_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-07-13T03:25:09Z",
+      "side": 1,
+      "message": "Please, address my comment, and then it LGTM.\n\nGo tree is currently closed for changes. But, once go 1.13 is released and the tree opens, I will submit your change.\n\nThank you very much.\n\nAlex",
+      "parentUuid": "90508287_fbb518f6",
+      "range": {
+        "startLine": 287,
+        "startChar": 13,
+        "endLine": 287,
+        "endChar": 45
+      },
+      "revId": "56dcf77d348366d7cea4ae0028724b8adcc2c6fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
