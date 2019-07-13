@@ -16,6 +16,24 @@
       "revId": "f60060c0f07efcbf8dc02f4379f7f6aff75a6e2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f66fbc5_395980e6",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2019-07-13T00:13:32Z",
+      "side": 1,
+      "message": "It makes sense that I need to adjust `go test -list` to fix the TryBot error. I\u0027m not sure I follow everything you\u0027re saying, though. Are you implying that the change to \u0027go list\u0027 would be *instead* of this mechanism whereby we alter the testing package under \u0027go test\u0027?\n\nDo you know whether that also explains the failure I was seeing locally as well in https://go-review.googlesource.com/c/go/+/184923/2#message-b658c300697ed7708d2f79e28c0ecf593632d6ec? I don\u0027t see how that error could happen as a result of \u0027go list\u0027 behavior.",
+      "parentUuid": "2eddec27_f096921a",
+      "revId": "f60060c0f07efcbf8dc02f4379f7f6aff75a6e2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
