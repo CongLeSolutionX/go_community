@@ -10,6 +10,34 @@ import (
 	"testing"
 )
 
+func TestMultipleWithClientTrace(t *testing.T) {
+	// Issue #32925
+	var buf bytes.Buffer
+	connectStart := func(b byte) func(network, addr string) {
+		return func(network, addr string) {
+			buf.WriteByte(b)
+		}
+	}
+
+	ctx := context.Background()
+	trace := &ClientTrace{
+		ConnectStart: connectStart('N'),
+	}
+	// Adding the same trace multiple times. It should have a cumulative effect.
+	ctx = WithClientTrace(ctx, trace)
+	ctx = WithClientTrace(ctx, trace)
+	ctx = WithClientTrace(ctx, trace)
+	ctx = WithClientTrace(ctx, trace)
+	ctx = WithClientTrace(ctx, trace)
+	lasttrace := ContextClientTrace(ctx)
+
+	buf.Reset()
+	lasttrace.ConnectStart("net", "addr")
+	if got, want := buf.String(), "NNNNN"; got != want {
+		t.Errorf("got %q; want %q", got, want)
+	}
+}
+
 func TestWithClientTrace(t *testing.T) {
 	var buf bytes.Buffer
 	connectStart := func(b byte) func(network, addr string) {
@@ -76,10 +104,10 @@ func TestCompose(t *testing.T) {
 		testNum = i
 		buf.Reset()
 
-		tr := *tt.trace
-		tr.compose(tt.old)
-		if tr.ConnectStart != nil {
-			tr.ConnectStart("net", "addr")
+		tr := tt.trace
+		ntr := compose(tr, tt.old)
+		if ntr.ConnectStart != nil {
+			ntr.ConnectStart("net", "addr")
 		}
 		if got := buf.String(); got != tt.want {
 			t.Errorf("%d. got = %q; want %q", i, got, tt.want)
