@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a98ab98_730343bb",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-15T18:51:32Z",
+      "side": 1,
+      "message": "Heh, ironic that the fix was to make the code do what the comment already says it does... 😅",
+      "range": {
+        "startLine": 207,
+        "startChar": 5,
+        "endLine": 207,
+        "endChar": 24
+      },
+      "revId": "90042f5191ec47bfa822971d5ce38303c17f32dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

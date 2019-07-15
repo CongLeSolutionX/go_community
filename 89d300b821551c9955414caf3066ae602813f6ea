@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "693e66ee_b75df48d",
+        "filename": "src/cmd/internal/objabi/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-15T18:51:32Z",
+      "side": 0,
+      "message": "Was this a separate bug? (Were we including the experiment string twice in the output?)\n\nIf so, perhaps we can at least include a regression test for that part...",
+      "revId": "89d300b821551c9955414caf3066ae602813f6ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
