@@ -34,6 +34,24 @@
       "revId": "e0739d12007f4fabbbef91deee9de9923d5924d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27836f87_c3f49bfd",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-07-15T22:26:57Z",
+      "side": 0,
+      "message": "I see, you\u0027re right, not having an \u003ch3\u003e title if the only entry will be that a port is being removed is consistent. Thanks.\n\nOn a different note, it might still be helpful to add a id\u003d\"nacl\" attribute to the \u003cp\u003e element so that it\u0027s possible to link to it. See https://golang.org/doc/go1.12#hurd as a previous example. Minor, since https://tip.golang.org/doc/go1.13#ports is very close.",
+      "parentUuid": "557706e8_e2b88605",
+      "revId": "e0739d12007f4fabbbef91deee9de9923d5924d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
