@@ -36,26 +36,26 @@ func WithClientTrace(ctx context.Context, trace *ClientTrace) context.Context {
 		panic("nil trace")
 	}
 	old := ContextClientTrace(ctx)
-	trace.compose(old)
+	lTrace := compose(trace, old)
 
-	ctx = context.WithValue(ctx, clientEventContextKey{}, trace)
-	if trace.hasNetHooks() {
+	ctx = context.WithValue(ctx, clientEventContextKey{}, lTrace)
+	if lTrace.hasNetHooks() {
 		nt := &nettrace.Trace{
-			ConnectStart: trace.ConnectStart,
-			ConnectDone:  trace.ConnectDone,
+			ConnectStart: lTrace.ConnectStart,
+			ConnectDone:  lTrace.ConnectDone,
 		}
-		if trace.DNSStart != nil {
+		if lTrace.DNSStart != nil {
 			nt.DNSStart = func(name string) {
-				trace.DNSStart(DNSStartInfo{Host: name})
+				lTrace.DNSStart(DNSStartInfo{Host: name})
 			}
 		}
-		if trace.DNSDone != nil {
+		if lTrace.DNSDone != nil {
 			nt.DNSDone = func(netIPs []interface{}, coalesced bool, err error) {
 				addrs := make([]net.IPAddr, len(netIPs))
 				for i, ip := range netIPs {
 					addrs[i] = ip.(net.IPAddr)
 				}
-				trace.DNSDone(DNSDoneInfo{
+				lTrace.DNSDone(DNSDoneInfo{
 					Addrs:     addrs,
 					Coalesced: coalesced,
 					Err:       err,
@@ -170,41 +170,50 @@ type WroteRequestInfo struct {
 	Err error
 }
 
-// compose modifies t such that it respects the previously-registered hooks in old,
-// subject to the composition policy requested in t.Compose.
-func (t *ClientTrace) compose(old *ClientTrace) {
+// compose returns a new ClientTrace such that it respects the
+// previously-registered hooks in old and new ones in new,
+// subject to the composition policy requested in Compose.
+func compose(new, old *ClientTrace) *ClientTrace {
+	lTrace := &ClientTrace{}
 	if old == nil {
-		return
+		old = &ClientTrace{}
 	}
-	tv := reflect.ValueOf(t).Elem()
+
+	lv := reflect.ValueOf(lTrace).Elem()
 	ov := reflect.ValueOf(old).Elem()
-	structType := tv.Type()
+	nv := reflect.ValueOf(new).Elem()
+
+	structType := nv.Type()
+	// Copy hook functions from old and new *ClientTrace into a local copy.
+	// If both define a given hook function, then create a new
+	// function that calls them in the same order.
 	for i := 0; i < structType.NumField(); i++ {
-		tf := tv.Field(i)
-		hookType := tf.Type()
-		if hookType.Kind() != reflect.Func {
-			continue
-		}
-		of := ov.Field(i)
-		if of.IsNil() {
-			continue
-		}
-		if tf.IsNil() {
-			tf.Set(of)
-			continue
-		}
+		nf := nv.Field(i)
+		hookType := nf.Type()
+		// Only copy hook functions
+		if hookType.Kind() == reflect.Func {
+			lf := lv.Field(i)
+			of := ov.Field(i)
 
-		// Make a copy of tf for tf to call. (Otherwise it
-		// creates a recursive call cycle and stack overflows)
-		tfCopy := reflect.ValueOf(tf.Interface())
+			if of.IsNil() && !nf.IsNil() { // Case 1: old does not have hook and new has
+				// Take new hook
+				lf.Set(nf)
+			} else if !of.IsNil() && nf.IsNil() { // Case 2: old has hook and new does not
+				// Take old hook
+				lf.Set(of)
+			} else if !of.IsNil() && !nf.IsNil() { // Case 3: old and new both have hook
+				// Otherwise, both hook functions have to be called.
 
-		// We need to call both tf and of in some order.
-		newFunc := reflect.MakeFunc(hookType, func(args []reflect.Value) []reflect.Value {
-			tfCopy.Call(args)
-			return of.Call(args)
-		})
-		tv.Field(i).Set(newFunc)
+				// We need to call both nf and of in some order.
+				newFunc := reflect.MakeFunc(hookType, func(args []reflect.Value) []reflect.Value {
+					nf.Call(args)
+					return of.Call(args)
+				})
+				lf.Set(newFunc)
+			}
+		}
 	}
+	return lTrace
 }
 
 // DNSStartInfo contains information about a DNS request.
