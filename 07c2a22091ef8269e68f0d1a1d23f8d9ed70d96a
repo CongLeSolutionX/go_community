@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a5c41c9_fa644788",
+        "filename": "src/go/types/universe.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-07-15T21:21:40Z",
+      "side": 1,
+      "message": "Get rid of this line. You already have \"t\", which is your Named that represents \"wrapper\".",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 74
+      },
+      "revId": "07c2a22091ef8269e68f0d1a1d23f8d9ed70d96a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75b9f8fa_909e78f1",
+        "filename": "src/go/types/universe.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-07-15T21:21:40Z",
+      "side": 1,
+      "message": "Probably need \".Complete()\" here.",
+      "range": {
+        "startLine": 77,
+        "startChar": 51,
+        "endLine": 77,
+        "endChar": 52
+      },
+      "revId": "07c2a22091ef8269e68f0d1a1d23f8d9ed70d96a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35dea31e_e6b65cab",
+        "filename": "src/go/types/universe.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-07-15T21:21:40Z",
+      "side": 1,
+      "message": "Replace with:\n\n        // Error() string\n\tres1 :\u003d NewVar(token.NoPos, nil, \"\", Typ[String])\n\tsig1 :\u003d \u0026Signature{results: NewTuple(res1)}\n\terr :\u003d NewFunc(token.NoPos, nil, \"Error\", sig1)\n\n        // Unwrap() wrapper\n\tres2 :\u003d NewVar(token.NoPos, nil, \"\", t)\n\tsig2 :\u003d \u0026Signature{results: NewTuple(res2)}\n\twrp :\u003d NewFunc(token.NoPos, nil, \"Unwrap\", sig2)\n\n\ttyp :\u003d \u0026Named{underlying: NewInterfaceType([]*Func{err, wrp}, nil).Complete()}\n\tsig1.recv \u003d NewVar(token.NoPos, nil, \"\", typ)\n\tsig2.recv \u003d NewVar(token.NoPos, nil, \"\", typ)\n\tdef(NewTypeName(token.NoPos, nil, \"error\", typ))",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 50
+      },
+      "revId": "07c2a22091ef8269e68f0d1a1d23f8d9ed70d96a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
