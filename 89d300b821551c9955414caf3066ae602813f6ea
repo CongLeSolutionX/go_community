@@ -16,6 +16,24 @@
       "revId": "89d300b821551c9955414caf3066ae602813f6ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bd695e8_f4e13a8f",
+        "filename": "src/cmd/internal/objabi/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2019-07-15T20:39:55Z",
+      "side": 0,
+      "message": "This issue was fixed last year in https://golang.org/cl/128735, which introduced this code to internal/work/buildid.go\nIn https://go-review.googlesource.com/c/149338, it was moved internal/objabi/flag.go\n\nSomewhere in-between CL/128735 and today, this check stopped working as expected.\n\nI\u0027m guessing this is being removed since it doesn\u0027t work.",
+      "parentUuid": "693e66ee_b75df48d",
+      "revId": "89d300b821551c9955414caf3066ae602813f6ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
