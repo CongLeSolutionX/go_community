@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dc3116b_ac695e0d",
+        "filename": "misc/reboot/experiment_toolid_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-15T21:50:25Z",
+      "side": 1,
+      "message": "Maybe make this something more distinctive (like go1.999999) so that it\u0027s obviously not tied to an actual version?",
+      "range": {
+        "startLine": 37,
+        "startChar": 69,
+        "endLine": 37,
+        "endChar": 77
+      },
+      "revId": "42ad70bc5058d18878a984028478f1d4275eeab6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
