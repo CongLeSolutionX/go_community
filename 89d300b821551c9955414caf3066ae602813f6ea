@@ -34,6 +34,24 @@
       "revId": "89d300b821551c9955414caf3066ae602813f6ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ddb2d90_96f2d055",
+        "filename": "src/cmd/internal/objabi/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-15T21:04:40Z",
+      "side": 0,
+      "message": "I think CL 149338 was the break. When the go command reads the version, for release versions specifically, it only reads the third word in the output (e.g., go1.13). The experiments are printed, but the go command ignores them.\n\nThis part of the CL addresses a second, unreported bug, also from CL 149338: if there are non-default experiments, they are printed twice. That doesn\u0027t really break anything, it\u0027s just ugly.",
+      "parentUuid": "5bd695e8_f4e13a8f",
+      "revId": "89d300b821551c9955414caf3066ae602813f6ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
