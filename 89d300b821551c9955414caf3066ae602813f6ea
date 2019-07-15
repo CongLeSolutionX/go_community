@@ -52,6 +52,24 @@
       "revId": "89d300b821551c9955414caf3066ae602813f6ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98eb7df1_3b4edea2",
+        "filename": "src/cmd/internal/objabi/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-15T21:49:03Z",
+      "side": 0,
+      "message": "I\u0027ve added a test in misc/reboot. It\u0027s very expensive, so it requires -tags\u003dexplicit.\n\nIt covers both the tool ID issue and the experiment string doubling.",
+      "parentUuid": "4ddb2d90_96f2d055",
+      "revId": "89d300b821551c9955414caf3066ae602813f6ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
