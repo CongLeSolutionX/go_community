@@ -16,6 +16,24 @@
       "revId": "e0739d12007f4fabbbef91deee9de9923d5924d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "557706e8_e2b88605",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 29863
+      },
+      "writtenOn": "2019-07-15T22:17:28Z",
+      "side": 0,
+      "message": "I duplicated the styling of the deprecation notes from the 1.12 ports section: https://github.com/golang/go/blob/24a6ca09d0151f2dc6a524217b8523abd33403bb/doc/go1.12.html#L33",
+      "parentUuid": "45db17d9_77005ce4",
+      "revId": "e0739d12007f4fabbbef91deee9de9923d5924d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
