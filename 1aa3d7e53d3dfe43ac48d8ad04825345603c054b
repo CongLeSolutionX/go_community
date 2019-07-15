@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fd4aa75_4dbb149b",
+        "filename": "src/go/types/universe.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-07-15T18:46:45Z",
+      "side": 1,
+      "message": "You need to use the Named that was created in defWrapperType, not create another one.",
+      "revId": "1aa3d7e53d3dfe43ac48d8ad04825345603c054b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
