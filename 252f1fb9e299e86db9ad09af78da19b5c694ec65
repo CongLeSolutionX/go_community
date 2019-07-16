@@ -16,6 +16,24 @@
       "revId": "252f1fb9e299e86db9ad09af78da19b5c694ec65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29e388ce_ca9d2174",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1341,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2019-07-16T17:28:10Z",
+      "side": 1,
+      "message": "Thank you Bryan.\n\nYou are absolutely correct regarding channels. The original intended design was to try to make the resetter reset the connection strings in the background while it was waiting in a connection pool, allowing the application to proceed after the query completed. I did not do a good job of capturing that.\n\nProbably the safest and most conservative thing to do is to remove the background resetter altogether and have the Reset happen synchronously after the query. This change may speed up queries in some cases (no channel interactions for if the Reset has no network access) and possibly slow down other cases (if the Reset involves a network call). Either way it will be provably correct through review.\n\nThen I can come back later can see if it makes sense to make it asynchronous, but actually put numbers behind that decision.",
+      "parentUuid": "ff8d9496_ad2a4631",
+      "revId": "252f1fb9e299e86db9ad09af78da19b5c694ec65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
