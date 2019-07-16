@@ -918,12 +918,13 @@ func loadobjfile(ctxt *Link, lib *sym.Library) {
 }
 
 type Hostobj struct {
-	ld     func(*Link, *bio.Reader, string, int64, string)
-	pkg    string
-	pn     string
-	file   string
-	off    int64
-	length int64
+	ld       func(*Link, *bio.Reader, string, int64, string)
+	pkg      string
+	pn       string
+	file     string
+	off      int64
+	length   int64
+	internal bool
 }
 
 var hostobj []Hostobj
@@ -972,14 +973,23 @@ func ldhostobj(ld func(*Link, *bio.Reader, string, int64, string), headType obja
 	h.file = file
 	h.off = f.Offset()
 	h.length = length
+	h.internal = isinternal
 	return h
 }
 
 func hostobjs(ctxt *Link) {
+	// load all hostobj
+	hostobjsExternalOnly(ctxt, false)
+}
+
+func hostobjsExternalOnly(ctxt *Link, sel bool) {
 	var h *Hostobj
 
 	for i := 0; i < len(hostobj); i++ {
 		h = &hostobj[i]
+		if sel && h.internal {
+			continue
+		}
 		f, err := bio.Open(h.file)
 		if err != nil {
 			Exitf("cannot reopen %s: %v", h.pn, err)
@@ -1001,6 +1011,10 @@ func hostlinksetup(ctxt *Link) {
 	// information for its final link.
 	debug_s = *FlagS
 	*FlagS = false
+
+	// load non-internal host objects, populating the symbol table so that
+	// reloc can work
+	hostobjsExternalOnly(ctxt, true)
 
 	// create temporary directory and arrange cleanup
 	if *flagTmpdir == "" {
