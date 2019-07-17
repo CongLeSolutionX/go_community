@@ -229,8 +229,7 @@ func buildList(target module.Version, reqs Reqs, upgrade func(module.Version) (m
 
 	list := []module.Version{target}
 	listed := map[string]bool{target.Path: true}
-	for i := 0; i < len(list); i++ {
-		n := modGraph[list[i]]
+	for _, n := range modGraph {
 		required := n.required
 		for _, r := range required {
 			v := min[r.Path]

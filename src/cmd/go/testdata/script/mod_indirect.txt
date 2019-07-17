@@ -1,0 +1,70 @@
+env GO111MODULE=on
+
+go mod graph
+stdout i@v0.1.0
+! grep 'i v' go.mod
+
+go list all
+stdout '^i$'
+! grep 'i v' go.mod
+
+go list -m all
+stdout '^i v0.1.0'
+
+-- go.mod --
+module main
+
+go 1.13
+
+require (
+	a v0.0.0
+	b v0.0.0
+	c v0.0.0
+)
+
+replace (
+	a => ./a
+	b => ./b
+	c => ./c
+	x v0.1.0 => ./x1
+	x v0.2.0 => ./x2
+	i => ./i
+)
+-- main.go --
+package main
+
+import (
+	_ "a"
+	_ "b"
+	_ "c"
+)
+
+func main() {}
+-- a/go.mod --
+module a
+go 1.13
+require x v0.1.0
+-- a/a.go --
+package a
+-- b/go.mod --
+module b
+go 1.13
+require x v0.2.0
+-- b/b.go --
+package b
+-- c/go.mod --
+module c
+go 1.13
+-- c/c.go --
+package c
+import _ "i"
+-- x1/go.mod --
+module x
+go1.13
+require i v0.1.0
+-- x2/go.mod --
+module x
+go1.13
+-- i/go.mod --
+-- i/i.go --
+package i
