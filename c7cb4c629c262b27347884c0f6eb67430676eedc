@@ -35,6 +35,23 @@
       "revId": "c7cb4c629c262b27347884c0f6eb67430676eedc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c709390_17bf0be0",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-17T15:24:35Z",
+      "side": 1,
+      "message": "These comments should mention the module root as well.",
+      "revId": "c7cb4c629c262b27347884c0f6eb67430676eedc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
