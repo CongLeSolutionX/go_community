@@ -179,13 +179,13 @@ var codeRepoTests = []codeRepoTest{
 		vcs:  "git",
 		path: "github.com/rsc/vgotest1/submod",
 		rev:  "v1.0.0",
-		err:  "unknown revision submod/v1.0.0",
+		err:  "unknown revision or tag submod/v1.0.0",
 	},
 	{
 		vcs:  "git",
 		path: "github.com/rsc/vgotest1/submod",
 		rev:  "v1.0.3",
-		err:  "unknown revision submod/v1.0.3",
+		err:  "unknown revision or tag submod/v1.0.3",
 	},
 	{
 		vcs:     "git",
