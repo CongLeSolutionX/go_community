@@ -50,6 +50,74 @@
       "revId": "41d8ac003b705aeaa7c61c2e043f77d7c89ca32a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ba11c02_78ec2014",
+        "filename": "src/cmd/go/internal/mvs/mvs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-17T17:43:36Z",
+      "side": 1,
+      "message": "I think we can make this more straightforward by iterating over min instead of modGraph. Our intent is to have a version in the build list for every module path we encountered when walking the graph, correct? Do we actually need a second pass?",
+      "revId": "41d8ac003b705aeaa7c61c2e043f77d7c89ca32a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d564f60_81b0a66c",
+        "filename": "src/cmd/go/testdata/script/mod_indirect.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-17T17:43:36Z",
+      "side": 1,
+      "message": "A comment here would be helpful, especially with links back to the issues.",
+      "revId": "41d8ac003b705aeaa7c61c2e043f77d7c89ca32a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "008854f3_a2ec2a23",
+        "filename": "src/cmd/go/testdata/script/mod_indirect.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-17T17:43:36Z",
+      "side": 1,
+      "message": "Not needed because it\u0027s required by x@v0.1.0, correct?",
+      "revId": "41d8ac003b705aeaa7c61c2e043f77d7c89ca32a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e3a8dc2_0494b16f",
+        "filename": "src/cmd/go/testdata/script/mod_indirect.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-17T17:43:36Z",
+      "side": 1,
+      "message": "To be clear, replace is just here to make the test case self-contained. It\u0027s not needed to trigger the bug, right?",
+      "revId": "41d8ac003b705aeaa7c61c2e043f77d7c89ca32a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
