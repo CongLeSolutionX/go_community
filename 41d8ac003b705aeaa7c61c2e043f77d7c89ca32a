@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "94921262_efd5c654",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-17T19:05:02Z",
+      "side": 1,
+      "message": "Fixed in followup CL 186557.",
+      "parentUuid": "8c3f7b60_39a93523",
+      "revId": "41d8ac003b705aeaa7c61c2e043f77d7c89ca32a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4eebf515_aaf7f0e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -69,6 +87,24 @@
       "revId": "41d8ac003b705aeaa7c61c2e043f77d7c89ca32a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5d682be_1cc14175",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-17T19:05:02Z",
+      "side": 1,
+      "message": "Fixed in followup CL 186557.",
+      "parentUuid": "2e8584f6_454844aa",
+      "revId": "41d8ac003b705aeaa7c61c2e043f77d7c89ca32a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
