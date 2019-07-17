@@ -52,6 +52,24 @@
       "revId": "c7cb4c629c262b27347884c0f6eb67430676eedc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "502c7bc3_b9e3bb26",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-17T21:35:22Z",
+      "side": 1,
+      "message": "They do in PS5.",
+      "parentUuid": "3c709390_17bf0be0",
+      "revId": "c7cb4c629c262b27347884c0f6eb67430676eedc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
