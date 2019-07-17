@@ -22,6 +22,30 @@
       "revId": "4d4391ee5bb1b5e7fafb7c65fd5cf8f5208a1d89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aa7ce40_1e8d4e68",
+        "filename": "src/cmd/go/internal/modfetch/codehost/codehost.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 15355
+      },
+      "writtenOn": "2019-07-17T00:59:06Z",
+      "side": 1,
+      "message": "Yes! :D I thought I did a grep on everything for `Is(err error)`. Guess I didn\u0027t",
+      "parentUuid": "262688d0_b63cb5f3",
+      "range": {
+        "startLine": 122,
+        "startChar": 28,
+        "endLine": 122,
+        "endChar": 41
+      },
+      "revId": "4d4391ee5bb1b5e7fafb7c65fd5cf8f5208a1d89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
