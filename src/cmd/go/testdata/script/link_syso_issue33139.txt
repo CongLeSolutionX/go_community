@@ -1,0 +1,47 @@
+# Test that we can link a syso file that is embedded in a package, that is
+# referenced by an assembly stub.  See issue 33139.
+#
+# We use cgo only to enforce external linkage of the main executable.
+[!cgo] stop
+[!gc] stop
+[linux] cc -c -o syso/test.syso syso/asm/test_linux.s
+[darwin] cc -c -o syso/test.syso syso/asm/test_darwin.s
+go build ./cmd/main.go
+
+-- syso/test.s --
+#include "textflag.h"
+
+TEXT ·Test(SB), NOSPLIT, $0
+	JMP asmTest(SB)
+
+-- syso/test.go --
+package syso
+
+func Test()
+
+-- syso/asm/test_linux.s --
+	.globl asmTest
+asmTest:
+	ret
+
+-- syso/asm/test_darwin.s --
+	.globl _asmTest
+_asmTest:
+	ret
+
+-- cmd/main.go --
+package main
+
+/*
+ // Force use of external linker
+ #include <stdio.h>
+ */
+import "C"
+
+import (
+	"syso"
+)
+
+func main() {
+	syso.Test()
+}
