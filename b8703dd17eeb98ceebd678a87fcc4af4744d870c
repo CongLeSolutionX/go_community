@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "808dc8ff_2b57d615",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-17T14:25:54Z",
+      "side": 1,
+      "message": "Please remove this paragraph from the first comment in the GitHub pull request.  Thanks.",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07147bf9_079f0fae",
+        "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-17T14:25:54Z",
+      "side": 1,
+      "message": "What if we aren\u0027t on GNU/Linux or Darwin?\n\nActually, why use assembler here at all?  Why not just use a .c file, as in cgo_syso_issue29253.txt?",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "320c1fa2_e813926d",
+        "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-17T14:25:54Z",
+      "side": 1,
+      "message": "If cgo isn\u0027t important you could just use \"go build -ldflags\u003d-linkmode\u003dexternal\".",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ed8048e_86641423",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-17T14:25:54Z",
+      "side": 1,
+      "message": "Let\u0027s call this field isInternalPkg, and give it a comment to explain what it means.",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecbf43bb_f57f7948",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-17T14:25:54Z",
+      "side": 1,
+      "message": "The name \"sel\" really doesn\u0027t convey anything.  How about skipInternalPkgs?\n\nI don\u0027t think it\u0027s worth adding a new function here.  Just add a new parameter to hostobjs, and change the single caller.\n\nThat said, why do we have to skip the internal objects?  What happens if we don\u0027t?",
+      "range": {
+        "startLine": 985,
+        "startChar": 38,
+        "endLine": 985,
+        "endChar": 41
+      },
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
