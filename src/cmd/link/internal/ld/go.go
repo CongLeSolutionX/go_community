@@ -111,6 +111,7 @@ func ldpkg(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, filename s
 		}
 		p1 += p0
 
+		lib.Cgo = true
 		loadcgo(ctxt, filename, objabi.PathToPrefix(lib.Pkg), data[p0:p1])
 	}
 }

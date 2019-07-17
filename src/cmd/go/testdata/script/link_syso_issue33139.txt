@@ -1,0 +1,36 @@
+# Test that we can link a syso file that is embedded in a package, that is
+# referenced by an assembly stub.  See issue 33139.
+[!gc] stop
+[darwin] cc -c -o syso/test.syso syso/asm/test_darwin.s
+[!darwin] cc -c -o syso/test.syso syso/asm/test.s
+go build -ldflags='-linkmode=external' ./cmd/main.go
+
+-- syso/test.s --
+#include "textflag.h"
+
+TEXT ·Test(SB), NOSPLIT, $0
+	JMP asmTest(SB)
+
+-- syso/test.go --
+package syso
+
+func Test()
+
+-- syso/asm/test.s --
+	.globl asmTest
+asmTest:
+	ret
+
+-- syso/asm/test_darwin.s --
+	.globl _asmTest
+_asmTest:
+	ret
+
+-- cmd/main.go --
+package main
+
+import "syso"
+
+func main() {
+	syso.Test()
+}
