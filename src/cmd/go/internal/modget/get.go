@@ -43,7 +43,8 @@ the corresponding module to use. By default, get chooses the latest tagged
 release version, such as v0.4.5 or v1.2.3. If there are no tagged release
 versions, get chooses the latest tagged pre-release version, such as
 v0.0.1-pre1. If there are no tagged versions at all, get chooses the latest
-known commit.
+known commit. If the module is already required at a later version (for example,
+a pre-release newer than the latest release), get will use the later version.
 
 This default version selection can be overridden by adding an @version
 suffix to the package argument, as in 'go get golang.org/x/text@v0.3.0'.
