@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c3f7b60_39a93523",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-17T17:15:44Z",
+      "side": 1,
+      "message": "There is another bug remaining for at least this particular issue. Following the steps to reproduce the issue, I still see changes between the `go.mod` file after `go mod tidy` and after `go list all`.",
+      "revId": "41d8ac003b705aeaa7c61c2e043f77d7c89ca32a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
