@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f38157_afa16763",
+        "filename": "src/sync/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-18T20:47:52Z",
+      "side": 1,
+      "message": "This example is cute, but sadly it is not guaranteed to terminate.\n\nConsider a schedule in which this each goroutine yields at the start of each loop iteration. The first goroutine will always store the pig and always find it, and the second goroutine will always delete the pig and never find it.\n\nSince Go does not promise randomized scheduling, such a schedule is permitted (and may, in fact, occur — especially on unusual platforms such as js/wasm).",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 3
+      },
+      "revId": "5bd819233836cc267aef5dc78a0fcd9ab68f5ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f26fe5d2_77cd999c",
+        "filename": "src/sync/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-18T20:47:52Z",
+      "side": 1,
+      "message": "There is also no guarantee that the output will occur in this order.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 1
+      },
+      "revId": "5bd819233836cc267aef5dc78a0fcd9ab68f5ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
