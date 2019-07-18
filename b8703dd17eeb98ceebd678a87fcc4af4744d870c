@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9524f221_5a7543dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2019-07-18T02:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50270a1f_27803883",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07147bf9_079f0fae",
         "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
         "patchSetId": 2
@@ -90,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "c9866fdb_87ceefe3",
+        "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2019-07-18T02:48:17Z",
+      "side": 1,
+      "message": "Apologies for my confusion; I\u0027ve updated the CL as requested.",
+      "parentUuid": "463b7cbd_bddcbcda",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "320c1fa2_e813926d",
         "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
         "patchSetId": 2
@@ -125,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "c912d9ee_999b4227",
+        "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2019-07-18T02:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b526d54_d29cb086",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ed8048e_86641423",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 2
@@ -154,6 +208,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "8ed8048e_86641423",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb4ff375_47a9e806",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2019-07-18T02:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee4defa2_90a35e39",
       "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -204,6 +276,30 @@
       "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd2dc2aa_ab22589b",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2019-07-18T02:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a41a1dfd_0c344077",
+      "range": {
+        "startLine": 985,
+        "startChar": 38,
+        "endLine": 985,
+        "endChar": 41
+      },
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
