@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49f92ce8_87f32076",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2019-07-18T08:43:26Z",
+      "side": 1,
+      "message": "Is it perhaps easier to describe the behaviour as being equivalent to @upgrade?\n\nThat would require a rejig in the order of the docs, but I think it would be much clearer as a result.\n\nBecause as things stand, an earlier sentence still reads \"By default, get chooses the latest tagged release version\"... and this caveat only appears a couple of sentences later. Being able to say something like, \"when no version is specified, get behaves as if @upgrade had been supplied\"?",
+      "revId": "0158f80c13b90f5fec6f8dd43d8d511d8e8fe230",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
