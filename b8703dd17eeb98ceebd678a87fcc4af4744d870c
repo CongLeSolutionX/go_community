@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "463b7cbd_bddcbcda",
+        "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-18T00:43:06Z",
+      "side": 1,
+      "message": "I\u0027m not saying use cgo.  I\u0027m saying use a .c file instead of a .s file.",
+      "parentUuid": "feef8a8b_4ee513a9",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "320c1fa2_e813926d",
         "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
         "patchSetId": 2
