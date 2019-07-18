@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "50270a1f_27803883",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2019-07-18T00:02:59Z",
+      "side": 1,
+      "message": "That\u0027s weird: it wasn\u0027t in the commit I pushed to GitHub.  I\u0027ve edited the top comment on the GitHub PR, and it seems to have fixed it here in Gerrit.",
+      "parentUuid": "808dc8ff_2b57d615",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "07147bf9_079f0fae",
         "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feef8a8b_4ee513a9",
+        "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2019-07-18T00:02:59Z",
+      "side": 1,
+      "message": "We need to use the assembler: the stub needs to reference the symbol in the .syso file to trigger the defective path through cmd/link.  \n\nIf we used cgo, a C wrapper is created at build time that calls the .syso symbol `asmTest`, and the Go package refers to this cgo wrapper, not `asmTest`.  As a result, cmd/link doesn\u0027t know, and doesn\u0027t try to look up the `asmTest` symbol before executing the external linker, and so the bug is not triggered.  The external linker relocates the `asmTest` symbol correctly under cgo, so the final binary is valid.\n\nSecondly, we *want* to directly call the function in the .syso file and not use cgo:\n\n1. To execute performance-critical code written in another language without the cgo overhead.\n2. To execute code that might not be written in C: it could be written in any compiled language, or existing non-Plan 9 assembly code assembled with an external tool.  It might be a binary object file that uses a different ABI to the host.  (The sample `asmTest` assembly function provided only just happens to double as a C-compatible function, but only because it trivially doesn\u0027t pass/return arguments, nor use the stack.)",
+      "parentUuid": "07147bf9_079f0fae",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9b526d54_d29cb086",
+        "filename": "src/cmd/go/testdata/script/link_syso_issue33139.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2019-07-18T00:02:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "320c1fa2_e813926d",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ed8048e_86641423",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "ee4defa2_90a35e39",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2019-07-18T00:02:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8ed8048e_86641423",
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecbf43bb_f57f7948",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 2
@@ -81,6 +153,30 @@
       "writtenOn": "2019-07-17T14:25:54Z",
       "side": 1,
       "message": "The name \"sel\" really doesn\u0027t convey anything.  How about skipInternalPkgs?\n\nI don\u0027t think it\u0027s worth adding a new function here.  Just add a new parameter to hostobjs, and change the single caller.\n\nThat said, why do we have to skip the internal objects?  What happens if we don\u0027t?",
+      "range": {
+        "startLine": 985,
+        "startChar": 38,
+        "endLine": 985,
+        "endChar": 41
+      },
+      "revId": "b8703dd17eeb98ceebd678a87fcc4af4744d870c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a41a1dfd_0c344077",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 32979
+      },
+      "writtenOn": "2019-07-18T00:02:59Z",
+      "side": 1,
+      "message": "\u003e That said, why do we have to skip the internal objects?  What happens if we don\u0027t?\n\nIf we don\u0027t, cmd/link fails with a bunch of `relocation target XXX not defined`.  I\u0027ve spent some time looking into this more deeply: this error occurs when we end up trying to load the cgo wrapper host object files (which we should not do).\n\nPrevious to this CL, `hostobjs(...)` was only invoked on internal links (where cgo is never used).  By excluding internal packages in this CL, we avoid the above failure for the provided test, but it isn\u0027t the right thing to do in general.\n\nI\u0027ve reworked the CL to take the above into account: only non-cgo host objects are loaded during external link in the new CL.",
+      "parentUuid": "ecbf43bb_f57f7948",
       "range": {
         "startLine": 985,
         "startChar": 38,
