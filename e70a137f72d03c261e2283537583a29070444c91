@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d021a7b0_a847666f",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-18T15:11:01Z",
+      "side": 1,
+      "message": "The general rule for context.Context is to never pass nil. Allowing a nil Context here makes it more difficult to track that invariant through the package: it\u0027s not obvious which `ctx` variables are invariantly non-nil and which need to be checked.\n\nIt\u0027s probably clearer to use `context.TODO()` at the call sites instead of `nil`.",
+      "revId": "e70a137f72d03c261e2283537583a29070444c91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ed52905_582859c4",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-18T15:11:01Z",
+      "side": 1,
+      "message": "This seems to imply that the call to ResetSession could block indefinitely. That\u0027s probably not something we want on the Close path.\n\nWould it make sense to instead mark the driverConn as dirty, and make the ResetSession call when the connection is _obtained from_ the pool rather than when it is returned _to_ the pool? Then the ResetSession call could be restricted to the deadline of the next transaction, rather than spending some indefinite amount of time on cleanup.",
+      "range": {
+        "startLine": 1248,
+        "startChar": 0,
+        "endLine": 1250,
+        "endChar": 4
+      },
+      "revId": "e70a137f72d03c261e2283537583a29070444c91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
