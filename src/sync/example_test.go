@@ -57,3 +57,62 @@ func ExampleOnce() {
 	// Output:
 	// Only once
 }
+
+func ExampleMap() {
+	var barn sync.Map
+	var wg sync.WaitGroup
+	// Store
+	barn.Store("cow", "moo")
+	barn.Store("chicken", "cluck")
+	barn.Store("gopher", "go")
+
+	wg.Add(1)
+
+	// Scramble the barn coroutines:
+	// store and try to not find the pig
+	go func() {
+		for {
+			barn.Store("pig", "mud")
+			// Load
+			_, found := barn.Load("pig")
+			if !found {
+				fmt.Println("floop the pig")
+				wg.Done()
+				break
+			}
+		}
+	}()
+
+	// delete and try to find the pig
+	go func() {
+		for {
+			barn.Delete("pig")
+			// Load
+			_, found := barn.Load("pig")
+			if found {
+				fmt.Println("floop the pig")
+				wg.Done()
+				break
+			}
+		}
+	}()
+
+	// Range & Delete
+	barn.Range(func(key interface{}, value interface{}) bool {
+		if key.(string) == "chicken" {
+			fmt.Println("found the chicken")
+			barn.Delete(key.(string)) // cast the key interface
+			return false // stop iteration
+		}
+		return true // continue to the next iteration in the range
+	})
+
+	// at this point we wait for the pig to be or not be there
+	// using a regular map this application would have a race condition
+	// yet using sync map we are safely replicating indetermination
+	wg.Wait()
+
+	// Output:
+	// found the chicken
+	// floop the pig
+}
