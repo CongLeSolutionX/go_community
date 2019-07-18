@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15679562_3c77a9dc",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-18T20:33:52Z",
+      "side": 1,
+      "message": "I think we should be a bit more explicit about the impact on the `-u` flag.\n\nPerhaps (but feel free to do something else):\n\n“If a module passed as an argument to `go get` or selected for upgrade by the `-u` flag is already at a version newer than the latest released version, it will now remain at the newer version. The version suffix `@upgrade` explicitly requests this behavior, and `@latest` explicitly requests the latest release regardless of any newer active version.”",
+      "revId": "add8815f51cbcc354758cd6b616c7b4aec6e42f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e472b502_b798628a",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-07-18T20:33:52Z",
+      "side": 1,
+      "message": "(nit)\n\nStarting with a lower-case verb is a little awkward without a code-font hint. I\u0027d be tempted to shuffle the clauses to avoid it: “If the module is not already required at a later version ([…]), get will update the module to the looked-up version.”",
+      "range": {
+        "startLine": 573,
+        "startChar": 17,
+        "endLine": 573,
+        "endChar": 20
+      },
+      "revId": "add8815f51cbcc354758cd6b616c7b4aec6e42f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
