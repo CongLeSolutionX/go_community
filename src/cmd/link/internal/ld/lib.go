@@ -542,10 +542,10 @@ func (ctxt *Link) loadlib() {
 	}
 	dynexp = dynexp[:w]
 
-	// In internal link mode, read the host object files.
-	if ctxt.LinkMode == LinkInternal {
-		hostobjs(ctxt)
+	// Read the host object files.
+	hostobjs(ctxt)
 
+	if ctxt.LinkMode == LinkInternal {
 		// If we have any undefined symbols in external
 		// objects, try to read them from the libgcc file.
 		any := false
@@ -918,12 +918,13 @@ func loadobjfile(ctxt *Link, lib *sym.Library) {
 }
 
 type Hostobj struct {
-	ld     func(*Link, *bio.Reader, string, int64, string)
-	pkg    string
-	pn     string
-	file   string
-	off    int64
-	length int64
+	ld       func(*Link, *bio.Reader, string, int64, string)
+	pkg      string
+	pn       string
+	file     string
+	off      int64
+	length   int64
+	isCgoPkg bool // part of a Cgo package
 }
 
 var hostobj []Hostobj
@@ -939,7 +940,7 @@ var internalpkg = []string{
 	"runtime/msan",
 }
 
-func ldhostobj(ld func(*Link, *bio.Reader, string, int64, string), headType objabi.HeadType, f *bio.Reader, pkg string, length int64, pn string, file string) *Hostobj {
+func ldhostobj(ld func(*Link, *bio.Reader, string, int64, string), headType objabi.HeadType, f *bio.Reader, lib *sym.Library, pkg string, length int64, pn string, file string) *Hostobj {
 	isinternal := false
 	for _, intpkg := range internalpkg {
 		if pkg == intpkg {
@@ -972,6 +973,7 @@ func ldhostobj(ld func(*Link, *bio.Reader, string, int64, string), headType obja
 	h.file = file
 	h.off = f.Offset()
 	h.length = length
+	h.isCgoPkg = lib.Cgo
 	return h
 }
 
@@ -980,6 +982,13 @@ func hostobjs(ctxt *Link) {
 
 	for i := 0; i < len(hostobj); i++ {
 		h = &hostobj[i]
+		if h.isCgoPkg && ctxt.LinkMode == LinkExternal {
+			// The Hostobj is part of a cgo package during an external link.
+			// Any host objects within this package are accessed from symbols
+			// already loaded from a Go object file, so we do not need to load
+			// any of the host object symbols in this file.
+			continue
+		}
 		f, err := bio.Open(h.file)
 		if err != nil {
 			Exitf("cannot reopen %s: %v", h.pn, err)
@@ -1620,7 +1629,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 			ehdr.flags = flags
 			ctxt.Textp = append(ctxt.Textp, textp...)
 		}
-		return ldhostobj(ldelf, ctxt.HeadType, f, pkg, length, pn, file)
+		return ldhostobj(ldelf, ctxt.HeadType, f, lib, pkg, length, pn, file)
 	}
 
 	if magic&^1 == 0xfeedface || magic&^0x01000000 == 0xcefaedfe {
@@ -1632,7 +1641,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 			}
 			ctxt.Textp = append(ctxt.Textp, textp...)
 		}
-		return ldhostobj(ldmacho, ctxt.HeadType, f, pkg, length, pn, file)
+		return ldhostobj(ldmacho, ctxt.HeadType, f, lib, pkg, length, pn, file)
 	}
 
 	if c1 == 0x4c && c2 == 0x01 || c1 == 0x64 && c2 == 0x86 {
@@ -1647,7 +1656,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 			}
 			ctxt.Textp = append(ctxt.Textp, textp...)
 		}
-		return ldhostobj(ldpe, ctxt.HeadType, f, pkg, length, pn, file)
+		return ldhostobj(ldpe, ctxt.HeadType, f, lib, pkg, length, pn, file)
 	}
 
 	if c1 == 0x01 && (c2 == 0xD7 || c2 == 0xF7) {
@@ -1659,7 +1668,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 			}
 			ctxt.Textp = append(ctxt.Textp, textp...)
 		}
-		return ldhostobj(ldxcoff, ctxt.HeadType, f, pkg, length, pn, file)
+		return ldhostobj(ldxcoff, ctxt.HeadType, f, lib, pkg, length, pn, file)
 	}
 
 	/* check the header */
