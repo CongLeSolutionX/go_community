@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d4ba3e_95ace89f",
+        "filename": "test/fixedbugs/issue33158.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-07-18T15:14:35Z",
+      "side": 1,
+      "message": "Is os.Getenv necessary, or any function that returns a string will do? Probably doesn\u0027t really matter.",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "5bb2b8edc60b5ef3606d2e5118b3577158065e7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
