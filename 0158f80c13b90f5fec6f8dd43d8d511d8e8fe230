@@ -16,6 +16,24 @@
       "revId": "0158f80c13b90f5fec6f8dd43d8d511d8e8fe230",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d0d69cd_85e0f33c",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-18T20:05:59Z",
+      "side": 1,
+      "message": "I expect @upgrade will almost never be used explicitly; it\u0027s more important to describe the default behavior. I\u0027d also rather not introduce the @ suffixes until we\u0027ve covered the default behavior.\n\nI\u0027ve changed this a little bit to say \"looks up\" instead of chooses. That makes it sound a little more tentative -- we don\u0027t say which version will be used until the last sentence.\n\nI realize these docs leave a lot to be desired. At some point in the 1.14 cycle, I hope we can move much of this out of the go command, into golang.org/doc. We\u0027d have more room for examples, and it would be easier to link to a section in what is now \u0027go help modules\u0027 that describes all the version queries in one place.",
+      "parentUuid": "49f92ce8_87f32076",
+      "revId": "0158f80c13b90f5fec6f8dd43d8d511d8e8fe230",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
