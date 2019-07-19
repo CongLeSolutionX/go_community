@@ -4,7 +4,9 @@
 
 package path
 
-import "testing"
+import (
+	"testing"
+)
 
 type MatchTest struct {
 	pattern, s string
@@ -13,6 +15,7 @@ type MatchTest struct {
 }
 
 var matchTests = []MatchTest{
+	{"\\", "", false, ErrBadPattern},
 	{"abc", "abc", true, nil},
 	{"*", "abc", true, nil},
 	{"*c", "abc", true, nil},
@@ -51,8 +54,17 @@ var matchTests = []MatchTest{
 	{"[\\-x]", "x", true, nil},
 	{"[\\-x]", "-", true, nil},
 	{"[\\-x]", "a", false, nil},
+	{"*x", "xxx", true, nil},
+	{"\\\\", "\\", true, nil},
+	{"a*a\\[", "aba[", true, nil},
+	{"[a-\\b]", "b", true, nil},
+	{"a[\\^b]", "a^", true, nil},
+	{"[a-z][0-9]", "b2", true, nil},
+	{"[a-z2]", "b", true, nil},
+	{"[a-z2]", "2", true, nil},
+	{"[\\^]", "^", true, nil},
 	{"[]a]", "]", false, ErrBadPattern},
-	{"[-]", "-", false, ErrBadPattern},
+	{"[-]", "", false, ErrBadPattern},
 	{"[x-]", "x", false, ErrBadPattern},
 	{"[x-]", "-", false, ErrBadPattern},
 	{"[x-]", "z", false, ErrBadPattern},
@@ -64,9 +76,28 @@ var matchTests = []MatchTest{
 	{"[", "a", false, ErrBadPattern},
 	{"[^", "a", false, ErrBadPattern},
 	{"[^bc", "a", false, ErrBadPattern},
-	{"a[", "a", false, nil},
+	{"a[", "a", false, ErrBadPattern},
 	{"a[", "ab", false, ErrBadPattern},
-	{"*x", "xxx", true, nil},
+	{"a[\\]", "", false, ErrBadPattern},
+	{"[[]]", "", false, ErrBadPattern},
+	{"]", "", false, ErrBadPattern},
+	{"^", "", false, ErrBadPattern},
+	{"a[a^]", "ab", false, ErrBadPattern},
+	{"a\\", "a", false, ErrBadPattern},
+	{"a\\[a-z]", "a[a-z]", false, ErrBadPattern},
+	{"[]", "", false, ErrBadPattern},
+	{"[^]", "", false, ErrBadPattern},
+	{"[\\]", "", false, ErrBadPattern},
+	{"a[*]b", "", false, ErrBadPattern},
+	{"a[?]b", "", false, ErrBadPattern},
+	{"a*a[", "", false, ErrBadPattern},
+	{"a[--]b", "", false, ErrBadPattern},
+	{"]", "", false, ErrBadPattern},
+	{"\\", "", false, ErrBadPattern},
+	{"[-]", "", false, ErrBadPattern},
+	{"[x-]", "", false, ErrBadPattern},
+	{"[-x]", "", false, ErrBadPattern},
+	{"-", "", false, ErrBadPattern},
 }
 
 func TestMatch(t *testing.T) {
