@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "915f90b3_924ba39c",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-19T19:56:21Z",
+      "side": 1,
+      "message": "Rewrote a bit to incorporate your phrasing. I added a sentence that this is consistent with the -u flag. The -u flag already did this is 1.12; it\u0027s just the behavior for named arguments that has changed.",
+      "parentUuid": "15679562_3c77a9dc",
+      "revId": "add8815f51cbcc354758cd6b616c7b4aec6e42f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e472b502_b798628a",
         "filename": "src/cmd/go/alldocs.go",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "add8815f51cbcc354758cd6b616c7b4aec6e42f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2541296_e458199b",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-07-19T19:56:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e472b502_b798628a",
+      "range": {
+        "startLine": 573,
+        "startChar": 17,
+        "endLine": 573,
+        "endChar": 20
+      },
+      "revId": "add8815f51cbcc354758cd6b616c7b4aec6e42f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
