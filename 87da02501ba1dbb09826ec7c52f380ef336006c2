@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c77649d_80b18fd3",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-07-19T22:35:29Z",
+      "side": 1,
+      "message": "if we were going to park before (meaning our work was done) and now we\u0027re not, then that means this might spin. I think it\u0027ll only spin once so this is fine (presumably if it\u0027s actually \"done\" then it\u0027ll come back around, trace.released \u003d\u003d 0, and it\u0027ll skip this and park properly). I think this behavior is maybe worth a comment? initially it seemed to me like if park is set to false then we might just keep spinning until there was more work to do because we needed to keep time for the gctrace.",
+      "range": {
+        "startLine": 348,
+        "startChar": 3,
+        "endLine": 348,
+        "endChar": 15
+      },
+      "revId": "87da02501ba1dbb09826ec7c52f380ef336006c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69a670d4_e5dfed4c",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-07-19T22:35:29Z",
+      "side": 1,
+      "message": "This is outside of the scope of this change, but we could probably take these three variables and instead of making them direct control variables, have them funnel into some logic which just spits out a number for how long to sleep.\n\nmaybe this could work if scavengeSleep were to sleep infinitely (i.e. park) if it\u0027s given a negative time. at the very least if we did that we could merge ttnext and park, and just have ttnext \u003c 0 to indicate we want to park (it\u0027ll never be negative as a result of the regular computations).",
+      "range": {
+        "startLine": 362,
+        "startChar": 2,
+        "endLine": 386,
+        "endChar": 3
+      },
+      "revId": "87da02501ba1dbb09826ec7c52f380ef336006c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
