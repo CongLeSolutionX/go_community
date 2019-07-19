@@ -275,6 +275,13 @@ func bgscavenge(c chan int) {
 
 	retryDelayNS := minSleepNS
 
+	var trace struct {
+		nextTime int64   // earliest nanotime of next print
+		released uintptr // memory released since last print
+	}
+	const printLimitNS = 30e9 // print at most every 30 seconds
+	trace.nextTime = nanotime() + printLimitNS
+
 	for {
 		released := uintptr(0)
 		park := false
@@ -325,19 +332,38 @@ func bgscavenge(c chan int) {
 				ttnext = int64(float64(extra) / rate)
 			}
 		})
+		trace.released += released
+
+		if debug.gctrace > 0 && trace.released > 0 {
+			if nanotime() >= trace.nextTime {
+				// The "released" number is cumulative
+				// since the last print, so some of
+				// this memory may have been re-acquired.
+				print("scvg: ", trace.released>>20, " MB released\n")
+				print("scvg: inuse: ", memstats.heap_inuse>>20, ", idle: ", memstats.heap_idle>>20, ", sys: ", memstats.heap_sys>>20, ", released: ", memstats.heap_released>>20, ", consumed: ", (memstats.heap_sys-memstats.heap_released)>>20, " (MB)\n")
+				trace.nextTime = nanotime() + printLimitNS
+				trace.released = 0
+			}
+			// Make sure we don't delay past the next print time.
+			park = false
+			now := nanotime()
+			maxDelay := int64(0)
+			if now < trace.nextTime {
+				maxDelay = trace.nextTime - now
+			}
+			if retryDelayNS > maxDelay {
+				retryDelayNS = maxDelay
+			}
+			if ttnext > maxDelay {
+				ttnext = maxDelay
+			}
+		}
 
 		if park {
 			lock(&scavenge.lock)
 			scavenge.parked = true
 			goparkunlock(&scavenge.lock, waitReasonGCScavengeWait, traceEvGoBlock, 1)
 			continue
-		}
-
-		if debug.gctrace > 0 {
-			if released > 0 {
-				print("scvg: ", released>>20, " MB released\n")
-			}
-			print("scvg: inuse: ", memstats.heap_inuse>>20, ", idle: ", memstats.heap_idle>>20, ", sys: ", memstats.heap_sys>>20, ", released: ", memstats.heap_released>>20, ", consumed: ", (memstats.heap_sys-memstats.heap_released)>>20, " (MB)\n")
 		}
 
 		if released == 0 {
