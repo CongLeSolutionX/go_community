@@ -70,6 +70,30 @@
       "revId": "56dcf77d348366d7cea4ae0028724b8adcc2c6fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a53d811_e1543b90",
+        "filename": "src/net/lookup_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-07-21T04:03:14Z",
+      "side": 1,
+      "message": "Still LGTM.\n\nI will submit later, as promised.\n\nAlex",
+      "parentUuid": "e1d84475_d85456cf",
+      "range": {
+        "startLine": 287,
+        "startChar": 13,
+        "endLine": 287,
+        "endChar": 45
+      },
+      "revId": "56dcf77d348366d7cea4ae0028724b8adcc2c6fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
