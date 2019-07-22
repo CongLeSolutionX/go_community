@@ -542,8 +542,8 @@ func (ctxt *Link) loadlib() {
 	}
 	dynexp = dynexp[:w]
 
-	// In internal link mode, read the host object files.
 	if ctxt.LinkMode == LinkInternal {
+		// In internal link mode, read the host object files.
 		hostobjs(ctxt)
 
 		// If we have any undefined symbols in external
@@ -994,6 +994,30 @@ func hostobjs(ctxt *Link) {
 func hostlinksetup(ctxt *Link) {
 	if ctxt.LinkMode != LinkExternal {
 		return
+	}
+
+	if len(hostobj) > 0 {
+		// Load host object symbols into a separate context, so that the host
+		// object symbols don't pollute the temporary object file created below.
+		hctxt := linknew(ctxt.Arch)
+		hctxt.LinkMode = LinkExternal
+		oldFlags := ehdr.flags // save flags
+		hostobjs(hctxt)
+		ehdr.flags = oldFlags // restore flags
+
+		// For each untyped symbol having a relocation that appears in a host
+		// object file, we set the symbol type to dynamic import so that the
+		// external linker relocates the symbol to that host object.
+		const globalNamespace = 0
+		for _, s := range ctxt.Syms.Allsym {
+			for i := range s.R {
+				r := &s.R[i]
+				if r.Sym != nil && r.Sym.Type == sym.Sxxx && hctxt.Syms.ROLookup(r.Sym.Name, globalNamespace) != nil {
+					r.Sym.Type = sym.SDYNIMPORT
+					r.Sym.Attr |= sym.AttrExternal
+				}
+			}
+		}
 	}
 
 	// For external link, record that we need to tell the external linker -s,

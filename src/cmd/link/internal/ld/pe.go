@@ -1011,7 +1011,7 @@ func initdynimport(ctxt *Link) *Dll {
 	dr = nil
 	var m *Imp
 	for _, s := range ctxt.Syms.Allsym {
-		if !s.Attr.Reachable() || s.Type != sym.SDYNIMPORT {
+		if !s.Attr.Reachable() || s.Type != sym.SDYNIMPORT || s.Dynimplib() == "" {
 			continue
 		}
 		for d = dr; d != nil; d = d.next {
