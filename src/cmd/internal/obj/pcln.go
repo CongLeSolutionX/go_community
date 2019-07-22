@@ -384,3 +384,69 @@ func linkpcln(ctxt *Link, cursym *LSym) {
 		}
 	}
 }
+
+// PCIter iterates over encoded pcdata tables.
+type PCIter struct {
+	p       []byte
+	Pc      uint32 // Current PC value we've stepped to.
+	Nextpc  uint32 // Next PC we'll step to.
+	Pcscale uint32 // The architecture's PC scale factor (in units of 32bit integers).
+	Value   int32  // Current word the PC would be pointing at.
+	start   bool
+	Done    bool // True when we've come to the end of the segment.
+}
+
+// NewPCIter creates a PCIter and configures it for ctxt's architecture.
+func NewPCIter(pcscale uint32) *PCIter {
+	it := new(PCIter)
+	it.Pcscale = pcscale
+	return it
+}
+
+// next advances it to the next pc.
+func (it *PCIter) Next() {
+	it.Pc = it.Nextpc
+	if it.Done {
+		return
+	}
+	if len(it.p) == 0 {
+		it.Done = true
+		return
+	}
+
+	// value delta
+	val, n := binary.Varint(it.p)
+	if n <= 0 {
+		log.Fatalf("bad value varint in pciternext: read %v", n)
+	}
+	it.p = it.p[n:]
+
+	if val == 0 && !it.start {
+		it.Done = true
+		return
+	}
+
+	it.start = false
+	it.Value += int32(val)
+
+	// pc delta
+	pc, n := binary.Uvarint(it.p)
+	if n <= 0 {
+		log.Fatalf("bad pc varint in pciternext: read %v", n)
+	}
+	it.p = it.p[n:]
+
+	it.Nextpc = it.Pc + uint32(pc)*it.Pcscale
+}
+
+// init prepares it to iterate over p,
+// and advances it to the first pc.
+func (it *PCIter) Init(p []byte) {
+	it.p = p
+	it.Pc = 0
+	it.Nextpc = 0
+	it.Value = -1
+	it.start = true
+	it.Done = false
+	it.Next()
+}
