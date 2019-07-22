@@ -82,6 +82,10 @@ var (
 	netpollInited  uint32
 	pollcache      pollCache
 	netpollWaiters uint32
+
+	// netpollWaitersEver is a monotonically increasing count of
+	// times netpollWaiters has been incremented.
+	netpollWaitersEver uint64
 )
 
 //go:linkname poll_runtime_pollServerInit internal/poll.runtime_pollServerInit
@@ -351,6 +355,12 @@ func netpollcheckerr(pd *pollDesc, mode int32) int {
 	return 0
 }
 
+// netpollTotalCount returns the total number of times that netpollWaiters has
+// been incremented. netpollTotalCount is intended to be used with go:linkname.
+func netpollTotalCount() uint64 {
+	return atomic.Load64(&netpollWaitersEver)
+}
+
 func netpollblockcommit(gp *g, gpp unsafe.Pointer) bool {
 	r := atomic.Casuintptr((*uintptr)(gpp), pdWait, uintptr(unsafe.Pointer(gp)))
 	if r {
@@ -358,6 +368,7 @@ func netpollblockcommit(gp *g, gpp unsafe.Pointer) bool {
 		// The scheduler uses this to decide whether to block
 		// waiting for the poller if there is nothing else to do.
 		atomic.Xadd(&netpollWaiters, 1)
+		atomic.Xadd64(&netpollWaitersEver, 1)
 	}
 	return r
 }
