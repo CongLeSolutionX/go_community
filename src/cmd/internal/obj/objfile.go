@@ -453,12 +453,33 @@ func (x relocByOff) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
 // implement dwarf.Context
 type dwCtxt struct{ *Link }
 
+func (c dwCtxt) IsDwarf64() bool {
+	return c.Link.Headtype == objabi.Haix
+}
+func (c dwCtxt) Pos(s dwarf.Sym) int64 {
+	ls := s.(*LSym)
+	return ls.Size
+}
 func (c dwCtxt) PtrSize() int {
 	return c.Arch.PtrSize
 }
 func (c dwCtxt) AddInt(s dwarf.Sym, size int, i int64) {
 	ls := s.(*LSym)
 	ls.WriteInt(c.Link, ls.Size, size, i)
+}
+func (c dwCtxt) SetInt(s dwarf.Sym, pos int64, size int, i int64) {
+	ls := s.(*LSym)
+	ls.WriteInt(c.Link, pos, size, i)
+}
+func (c dwCtxt) AddUint16(s dwarf.Sym, i uint16) {
+	c.AddInt(s, 2, int64(i))
+}
+func (c dwCtxt) AddUint8(s dwarf.Sym, i uint8) {
+	b := []byte{byte(i)}
+	c.AddBytes(s, b)
+}
+func (c dwCtxt) AddUleb128(s dwarf.Sym, val int64) {
+	dwarf.Uleb128put(c, s, val)
 }
 func (c dwCtxt) AddBytes(s dwarf.Sym, b []byte) {
 	ls := s.(*LSym)
@@ -537,7 +558,7 @@ func isDwarf64(ctxt *Link) bool {
 	return ctxt.Headtype == objabi.Haix
 }
 
-func (ctxt *Link) dwarfSym(s *LSym) (dwarfInfoSym, dwarfLocSym, dwarfRangesSym, dwarfAbsFnSym, dwarfIsStmtSym *LSym) {
+func (ctxt *Link) dwarfSym(s *LSym) (dwarfInfoSym, dwarfLocSym, dwarfRangesSym, dwarfAbsFnSym, dwarfIsStmtSym, dwarfDebugLine *LSym) {
 	if s.Type != objabi.STEXT {
 		ctxt.Diag("dwarfSym of non-TEXT %v", s)
 	}
@@ -551,9 +572,10 @@ func (ctxt *Link) dwarfSym(s *LSym) (dwarfInfoSym, dwarfLocSym, dwarfRangesSym, 
 			s.Func.dwarfAbsFnSym = ctxt.DwFixups.AbsFuncDwarfSym(s)
 		}
 		s.Func.dwarfIsStmtSym = ctxt.LookupDerived(s, dwarf.IsStmtPrefix+s.Name)
+		s.Func.dwarfDebugLinesSym = ctxt.LookupDerived(s, dwarf.DebugLinesPrefix+s.Name)
 
 	}
-	return s.Func.dwarfInfoSym, s.Func.dwarfLocSym, s.Func.dwarfRangesSym, s.Func.dwarfAbsFnSym, s.Func.dwarfIsStmtSym
+	return s.Func.dwarfInfoSym, s.Func.dwarfLocSym, s.Func.dwarfRangesSym, s.Func.dwarfAbsFnSym, s.Func.dwarfIsStmtSym, s.Func.dwarfDebugLinesSym
 }
 
 func (s *LSym) Len() int64 {
@@ -577,7 +599,7 @@ func (ctxt *Link) fileSymbol(fn *LSym) *LSym {
 // TEXT symbol 's'. The various DWARF symbols must already have been
 // initialized in InitTextSym.
 func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string) {
-	info, loc, ranges, absfunc, _ := ctxt.dwarfSym(s)
+	info, loc, ranges, absfunc, _, lines := ctxt.dwarfSym(s)
 	if info.Size != 0 {
 		ctxt.Diag("makeFuncDebugEntry double process %v", s)
 	}
@@ -605,6 +627,7 @@ func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string)
 		InlCalls:      inlcalls,
 		UseBASEntries: ctxt.UseBASEntries,
 	}
+
 	if absfunc != nil {
 		err = dwarf.PutAbstractFunc(dwctxt, fnstate)
 		if err != nil {
@@ -617,6 +640,8 @@ func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string)
 	if err != nil {
 		ctxt.Diag("emitting DWARF for %s failed: %v", s.Name, err)
 	}
+
+	ctxt.writeDebugLines(s, lines)
 }
 
 // DwarfIntConst creates a link symbol for an integer constant with the
