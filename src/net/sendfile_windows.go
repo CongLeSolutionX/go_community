@@ -29,6 +29,10 @@ func sendFile(fd *netFD, r io.Reader) (written int64, err error, handled bool) {
 		if n <= 0 {
 			return 0, nil, true
 		}
+		const maxsend = 2147483646 // the maximum value for a 32-bit integer minus 1
+		if n > maxsend {
+			return 0, nil, false
+		}
 	}
 	f, ok := r.(*os.File)
 	if !ok {
