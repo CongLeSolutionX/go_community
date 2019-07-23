@@ -46,6 +46,30 @@
       "revId": "1b842cfdc6682c87aecd2d8dba726194a076a4db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "110ba4ea_adbe01fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 33000
+      },
+      "writtenOn": "2019-07-23T18:30:38Z",
+      "side": 1,
+      "message": "Understood!\n\nI\u0027ll use your suggestion, I like it!\n\nThanks",
+      "parentUuid": "520c722f_cb9e7f2f",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "1b842cfdc6682c87aecd2d8dba726194a076a4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
