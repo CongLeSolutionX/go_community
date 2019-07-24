@@ -63,6 +63,24 @@
       "revId": "5c5d8daa40828dfc58b74e64cb1569bcbee88b44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bd214eb_666b1209",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 32657
+      },
+      "writtenOn": "2019-07-24T11:05:58Z",
+      "side": 1,
+      "message": "I didn\u0027t find a place suitable to move to, so I added some hint for go_asm.h and go_tls.h in the \"Note\" section.",
+      "parentUuid": "2bd3d27c_b2fda114",
+      "revId": "5c5d8daa40828dfc58b74e64cb1569bcbee88b44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
