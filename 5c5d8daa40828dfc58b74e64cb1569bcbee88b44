@@ -46,6 +46,23 @@
       "revId": "5c5d8daa40828dfc58b74e64cb1569bcbee88b44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bd3d27c_b2fda114",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-07-24T08:37:22Z",
+      "side": 1,
+      "message": "The go_asm.h part applies to all architectures. Maybe it would be better to move it out of the 386 section?",
+      "revId": "5c5d8daa40828dfc58b74e64cb1569bcbee88b44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
