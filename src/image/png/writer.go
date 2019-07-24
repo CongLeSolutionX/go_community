@@ -314,7 +314,7 @@ func (e *encoder) writeImage(w io.Writer, m image.Image, cb int, level int) erro
 	defer e.zw.Close()
 
 	bitsPerPixel := 0
-
+	pixelsPerByte := 0
 	switch cb {
 	case cbG8:
 		bitsPerPixel = 8
@@ -324,10 +324,13 @@ func (e *encoder) writeImage(w io.Writer, m image.Image, cb int, level int) erro
 		bitsPerPixel = 8
 	case cbP4:
 		bitsPerPixel = 4
+		pixelsPerByte = 8 / bitsPerPixel
 	case cbP2:
 		bitsPerPixel = 2
+		pixelsPerByte = 8 / bitsPerPixel
 	case cbP1:
 		bitsPerPixel = 1
+		pixelsPerByte = 8 / bitsPerPixel
 	case cbTCA8:
 		bitsPerPixel = 32
 	case cbTC16:
@@ -429,7 +432,7 @@ func (e *encoder) writeImage(w io.Writer, m image.Image, cb int, level int) erro
 			for x := b.Min.X; x < b.Max.X; x++ {
 				a = a<<uint(bitsPerPixel) | pi.ColorIndexAt(x, y)
 				c++
-				if c == 8/bitsPerPixel {
+				if c == pixelsPerByte {
 					cr[0][i] = a
 					i += 1
 					a = 0
@@ -437,7 +440,7 @@ func (e *encoder) writeImage(w io.Writer, m image.Image, cb int, level int) erro
 				}
 			}
 			if c != 0 {
-				for c != 8/bitsPerPixel {
+				for c != pixelsPerByte {
 					a = a << uint(bitsPerPixel)
 					c++
 				}
