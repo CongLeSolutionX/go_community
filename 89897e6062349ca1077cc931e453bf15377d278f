@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bb82cba_0d650a2f",
+        "filename": "src/net/sendfile_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-24T01:42:44Z",
+      "side": 1,
+      "message": "Perhaps this:\n\n// TransmitFile can be invoked in one call with at most\n// 2,147,483,646 bytes: the maximum value for a 32-bit integer minus 1\n// See https://docs.microsoft.com/en-us/windows/win32/api/mswsock/nf-mswsock-transmitfile\nconst maxSendBytes \u003d 0x7fffffff - 1",
+      "revId": "89897e6062349ca1077cc931e453bf15377d278f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
