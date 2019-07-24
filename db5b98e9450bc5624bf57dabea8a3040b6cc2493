@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c2dadd9_00d73426",
+        "filename": "src/image/png/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2019-07-24T23:59:33Z",
+      "side": 1,
+      "message": "I think you can revert this (see below).",
+      "revId": "db5b98e9450bc5624bf57dabea8a3040b6cc2493",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc722116_d1334691",
+        "filename": "src/image/png/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2019-07-24T23:59:33Z",
+      "side": 1,
+      "message": "Instead, after this line:\npixelsPerByte :\u003d 8 / bitsPerPixel",
+      "revId": "db5b98e9450bc5624bf57dabea8a3040b6cc2493",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
