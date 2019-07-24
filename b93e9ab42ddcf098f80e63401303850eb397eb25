@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b57a0de_d60d0863",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-24T01:49:29Z",
+      "side": 1,
+      "message": "I think this comment as it was before was easier to read because\nthis code block is quite huge and that comment is a guide before\nanyone reading it needs to examine the if statement.",
+      "revId": "b93e9ab42ddcf098f80e63401303850eb397eb25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
