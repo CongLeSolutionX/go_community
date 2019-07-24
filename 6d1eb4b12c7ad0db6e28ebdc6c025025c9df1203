@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d776682c_d49830ed",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2019-07-24T02:46:43Z",
+      "side": 1,
+      "message": "Is this an unrelated change?",
+      "revId": "6d1eb4b12c7ad0db6e28ebdc6c025025c9df1203",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d4f2ba9_aefdd163",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2019-07-24T02:46:43Z",
+      "side": 1,
+      "message": "How does this relate (if at all) to the existing io.LimitedReader type?",
+      "revId": "6d1eb4b12c7ad0db6e28ebdc6c025025c9df1203",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1e579eb_1bb258f7",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2019-07-24T02:46:43Z",
+      "side": 1,
+      "message": "Is n \u003d\u003d 0 a special case? If so, the documentation should discuss that.",
+      "revId": "6d1eb4b12c7ad0db6e28ebdc6c025025c9df1203",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b8eaa65_9d3ac179",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2019-07-24T02:46:43Z",
+      "side": 1,
+      "message": "Does this affect the benchmarks?",
+      "revId": "6d1eb4b12c7ad0db6e28ebdc6c025025c9df1203",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faa0b48e_fa545a2c",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2019-07-24T02:46:43Z",
+      "side": 1,
+      "message": "Is this an unrelated change?",
+      "revId": "6d1eb4b12c7ad0db6e28ebdc6c025025c9df1203",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
