@@ -8,6 +8,7 @@
 package json
 
 import (
+	"bytes"
 	"encoding"
 	"encoding/base64"
 	"fmt"
@@ -768,10 +769,19 @@ func (d *decodeState) object(v reflect.Value) error {
 			subv = mapElem
 		} else {
 			var f *field
-			if i, ok := fields.nameIndex[string(key)]; ok {
+			if len(fields.list) < 20 {
+				for i := range fields.list {
+					ff := &fields.list[i]
+					if bytes.Equal(ff.nameBytes, key) {
+						f = ff
+						break
+					}
+				}
+			} else if i, ok := fields.nameIndex[string(key)]; ok {
 				// Found an exact name match.
 				f = &fields.list[i]
-			} else {
+			}
+			if f == nil {
 				// Fall back to the expensive case-insensitive
 				// linear search.
 				for i := range fields.list {
