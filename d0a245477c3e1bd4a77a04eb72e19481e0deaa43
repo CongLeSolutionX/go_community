@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "019f41ad_c61da639",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2019-07-26T19:34:04Z",
+      "side": 1,
+      "message": "This seems high. Please provide rationale for how this number was derived.\nAlso, show benchmarks for a variety of thresholds.",
+      "range": {
+        "startLine": 772,
+        "startChar": 25,
+        "endLine": 772,
+        "endChar": 27
+      },
+      "revId": "d0a245477c3e1bd4a77a04eb72e19481e0deaa43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
