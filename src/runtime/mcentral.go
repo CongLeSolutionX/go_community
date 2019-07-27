@@ -42,6 +42,21 @@ func (c *mcentral) cacheSpan() *mspan {
 	spanBytes := uintptr(class_to_allocnpages[c.spanclass.sizeclass()]) * _PageSize
 	deductSweepCredit(spanBytes, 0)
 
+	// If we sweep spanBudget spans without finding any free
+	// space, just allocate a fresh span. This limits the amount
+	// of time we can spend trying to find free space and
+	// amortizes the cost of small object sweeping over the
+	// benefit of having a full free span to allocate from. By
+	// setting this to 100, we limit the space overhead to 1%.
+	//
+	// TODO(austin): This still has bad worst-case throughput. For
+	// example, this could find just one free slot on the 100th
+	// swept span. That limits allocation latency, but still has
+	// very poor throughput. We could instead keep a running
+	// free-to-used budget and switch to fresh span allocation if
+	// the budget runs low.
+	spanBudget := 100
+
 	lock(&c.lock)
 	traceDone := false
 	if trace.enabled {
@@ -50,7 +65,8 @@ func (c *mcentral) cacheSpan() *mspan {
 	sg := mheap_.sweepgen
 retry:
 	var s *mspan
-	for s = c.nonempty.first; s != nil; s = s.next {
+	for s = c.nonempty.first; s != nil && spanBudget >= 0; s = s.next {
+		spanBudget--
 		if s.sweepgen == sg-2 && atomic.Cas(&s.sweepgen, sg-2, sg-1) {
 			c.nonempty.remove(s)
 			c.empty.insertBack(s)
@@ -69,7 +85,8 @@ retry:
 		goto havespan
 	}
 
-	for s = c.empty.first; s != nil; s = s.next {
+	for s = c.empty.first; s != nil && spanBudget >= 0; s = s.next {
+		spanBudget--
 		if s.sweepgen == sg-2 && atomic.Cas(&s.sweepgen, sg-2, sg-1) {
 			// we have an empty span that requires sweeping,
 			// sweep it and see if we can free some space in it
