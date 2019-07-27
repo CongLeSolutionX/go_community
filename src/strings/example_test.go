@@ -251,12 +251,28 @@ func ExampleTitle() {
 	// Output: Her Royal Highness
 }
 
+func ExampleTitle_titleVsToTitle() {
+	fmt.Println(strings.Title("her royal highness"))
+	fmt.Println(strings.ToTitle("her royal highness"))
+	// Output:
+	// Her Royal Highness
+	// HER ROYAL HIGHNESS
+}
+
 func ExampleToTitle() {
 	fmt.Println(strings.ToTitle("loud noises"))
 	fmt.Println(strings.ToTitle("хлеб"))
 	// Output:
 	// LOUD NOISES
 	// ХЛЕБ
+}
+
+func ExampleToTitle_toTitleVsTitle() {
+	fmt.Println(strings.ToTitle("loud noises"))
+	fmt.Println(strings.Title("loud noises"))
+	// Output:
+	// LOUD NOISES
+	// Loud Noises
 }
 
 func ExampleToTitleSpecial() {
