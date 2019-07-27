@@ -610,7 +610,8 @@ func ToLower(s string) string {
 	return Map(unicode.ToLower, s)
 }
 
-// ToTitle returns a copy of the string s with all Unicode letters mapped to their title case.
+// ToTitle returns a copy of the string s with all Unicode letters mapped to
+// their title case, as defined by https://unicode.org/faq/casemap_charprop.html#4.
 func ToTitle(s string) string { return Map(unicode.ToTitle, s) }
 
 // ToUpperSpecial returns a copy of the string s with all Unicode letters mapped to their
@@ -707,7 +708,7 @@ func isSeparator(r rune) bool {
 }
 
 // Title returns a copy of the string s with all Unicode letters that begin words
-// mapped to their title case.
+// mapped to their title case, as defined by https://unicode.org/faq/casemap_charprop.html#4.
 //
 // BUG(rsc): The rule Title uses for word boundaries does not handle Unicode punctuation properly.
 func Title(s string) string {

@@ -259,6 +259,14 @@ func ExampleToTitle() {
 	// ХЛЕБ
 }
 
+func ExampleToTitle_toTitleVsTitle() {
+	fmt.Println(strings.ToTitle("loud noises"))
+	fmt.Println(strings.Title("loud noises"))
+	// Output:
+	// LOUD NOISES
+	// Loud Noises
+}
+
 func ExampleToTitleSpecial() {
 	fmt.Println(strings.ToTitleSpecial(unicode.TurkishCase, "dünyanın ilk borsa yapısı Aizonai kabul edilir"))
 	// Output:
