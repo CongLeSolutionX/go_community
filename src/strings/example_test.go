@@ -248,15 +248,18 @@ func ExampleSplitAfterN() {
 
 func ExampleTitle() {
 	fmt.Println(strings.Title("her royal highness"))
-	// Output: Her Royal Highness
+	fmt.Println(strings.ToTitle("her royal highness"))
+	// Output:
+	// Her Royal Highness
+	// HER ROYAL HIGHNESS
 }
 
 func ExampleToTitle() {
-	fmt.Println(strings.ToTitle("loud noises"))
 	fmt.Println(strings.ToTitle("хлеб"))
+	fmt.Println(strings.Title("хлеб"))
 	// Output:
-	// LOUD NOISES
 	// ХЛЕБ
+	// Хлеб
 }
 
 func ExampleToTitleSpecial() {
