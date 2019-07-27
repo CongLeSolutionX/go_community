@@ -85,35 +85,36 @@ func TestParseFormQueryMethods(t *testing.T) {
 	}
 }
 
-type stringMap map[string][]string
-type parseContentTypeTest struct {
-	shouldError bool
-	contentType stringMap
-}
-
-var parseContentTypeTests = []parseContentTypeTest{
-	{false, stringMap{"Content-Type": {"text/plain"}}},
-	// Empty content type is legal - may be treated as
-	// application/octet-stream (RFC 7231, section 3.1.1.5)
-	{false, stringMap{}},
-	{true, stringMap{"Content-Type": {"text/plain; boundary="}}},
-	{false, stringMap{"Content-Type": {"application/unknown"}}},
-}
-
 func TestParseFormUnknownContentType(t *testing.T) {
-	for i, test := range parseContentTypeTests {
-		req := &Request{
-			Method: "POST",
-			Header: Header(test.contentType),
-			Body:   ioutil.NopCloser(strings.NewReader("body")),
-		}
-		err := req.ParseForm()
-		switch {
-		case err == nil && test.shouldError:
-			t.Errorf("test %d should have returned error", i)
-		case err != nil && !test.shouldError:
-			t.Errorf("test %d should not have returned error, got %v", i, err)
-		}
+	for _, test := range []struct {
+		name        string
+		shouldError bool
+		contentType Header
+	}{
+		{"text", false, Header{"Content-Type": {"text/plain"}}},
+		// Empty content type is legal - may be treated as
+		// application/octet-stream (RFC 7231, section 3.1.1.5)
+		{"empty", false, Header{}},
+		{"boundary", true, Header{"Content-Type": {"text/plain; boundary="}}},
+		{"unknown", false, Header{"Content-Type": {"application/unknown"}}},
+	} {
+		t.Run(
+			test.name,
+			func(t *testing.T) {
+				req := &Request{
+					Method: "POST",
+					Header: test.contentType,
+					Body:   ioutil.NopCloser(strings.NewReader("body")),
+				}
+				err := req.ParseForm()
+				switch {
+				case err == nil && test.shouldError:
+					t.Errorf("test %s should have returned error", test.name)
+				case err != nil && !test.shouldError:
+					t.Errorf("test %s should not have returned error, got %v", test.name, err)
+				}
+			},
+		)
 	}
 }
 
