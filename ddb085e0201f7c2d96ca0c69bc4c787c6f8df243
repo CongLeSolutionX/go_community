@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17485de2_4a381f1d",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-27T23:38:44Z",
+      "side": 1,
+      "message": "No need for the colon here.",
+      "range": {
+        "startLine": 614,
+        "startChar": 34,
+        "endLine": 614,
+        "endChar": 35
+      },
+      "revId": "ddb085e0201f7c2d96ca0c69bc4c787c6f8df243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
