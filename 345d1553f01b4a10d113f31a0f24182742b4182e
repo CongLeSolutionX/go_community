@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef4b8b34_685b6664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2019-07-28T07:05:46Z",
+      "side": 1,
+      "message": "Please give slightly more context about how. Perhaps:\n\n improve deflate performance by register allocating the index",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "345d1553f01b4a10d113f31a0f24182742b4182e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da5bbc8c_e5ec3031",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2019-07-28T07:05:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this means, but it seems that the crux of the optimization is to help the compiler use a register to handle the index instead of performing a memory operation every time. Is that correct?\n\nPerhaps:\n\n Use local index variable to help the go compiler use a\n register to for the hash index instead of continuous\n memory read and write operations.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "345d1553f01b4a10d113f31a0f24182742b4182e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
