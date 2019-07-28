@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4932861d_b475ef63",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-07-28T00:54:28Z",
+      "side": 1,
+      "message": "Nervous about putting a link here, which may go stale.\nIs it necessary? It seems clear to me already; we are talking Unicode.",
+      "revId": "a0b2c0338b49b91834ffc77ecd05f0c9472d3112",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
