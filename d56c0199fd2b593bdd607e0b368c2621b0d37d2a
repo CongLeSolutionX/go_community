@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a38463e0_7f50d16c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-07-29T20:13:22Z",
+      "side": 1,
+      "message": "Thanks David! Check out  https://github.com/golang/go/wiki/CommitMessage. If there is an issue associated with this change, can you add \"Fixes #\u003cnum\u003e\" or \"Updates #\u003cnum\u003e\" depending on whether or not this change fully fixes it?\nThe CL description should also read as \"This change modifies Go to ___________\"",
+      "revId": "d56c0199fd2b593bdd607e0b368c2621b0d37d2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d1c5416_47469c62",
         "filename": "src/net/http/request_test.go",
         "patchSetId": 1
