@@ -156,18 +156,10 @@ func numberLines(f *Func) {
 		}
 
 		if firstPosIndex == -1 { // Effectively empty block, check block's own Pos, consider preds.
-			if b.Pos.IsStmt() != src.PosNotStmt {
-				b.Pos = b.Pos.WithIsStmt()
-				endlines[b.ID] = b.Pos
-				if f.pass.debug > 0 {
-					fmt.Printf("Mark stmt effectively-empty-block %s %s %s\n", f.Name, b, flc(b.Pos))
-				}
-				continue
-			}
 			line := src.NoXPos
 			for _, p := range b.Preds {
 				pbi := p.Block().ID
-				if endlines[pbi] != line {
+				if endlines[pbi].Line() != line.Line() {
 					if line == src.NoXPos {
 						line = endlines[pbi]
 						continue
@@ -178,7 +170,20 @@ func numberLines(f *Func) {
 
 				}
 			}
-			endlines[b.ID] = line
+			// If the block has no statement itself and is effectively empty, tag it w/ predecessor(s) but not as a statement
+			if b.Pos.IsStmt() == src.PosNotStmt {
+				b.Pos = line
+				endlines[b.ID] = line
+				continue
+			}
+			// If the block differs from its predecessors, mark it as a statement
+			if line == src.NoXPos || line.Line() != b.Pos.Line() {
+				b.Pos = b.Pos.WithIsStmt()
+				if f.pass.debug > 0 {
+					fmt.Printf("Mark stmt effectively-empty-block %s %s %s\n", f.Name, b, flc(b.Pos))
+				}
+			}
+			endlines[b.ID] = b.Pos
 			continue
 		}
 		// check predecessors for any difference; if firstPos differs, then it is a boundary.

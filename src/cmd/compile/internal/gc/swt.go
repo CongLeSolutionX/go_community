@@ -343,7 +343,7 @@ func (s *exprSwitch) walkCases(cc []caseClause) *Node {
 		for _, c := range cc {
 			n := c.node
 			lno := setlineno(n)
-
+			lineno = lineno.WithNotStmt()
 			a := nod(OIF, nil, nil)
 			if rng := n.List.Slice(); rng != nil {
 				// Integer range.
@@ -373,6 +373,9 @@ func (s *exprSwitch) walkCases(cc []caseClause) *Node {
 	}
 
 	// find the middle and recur
+	lno := lineno
+	lineno = lineno.WithNotStmt()
+
 	half := len(cc) / 2
 	a := nod(OIF, nil, nil)
 	n := cc[half-1].node
@@ -391,6 +394,8 @@ func (s *exprSwitch) walkCases(cc []caseClause) *Node {
 	} else {
 		a.Left = le
 	}
+	lineno = lno
+
 	a.Left = typecheck(a.Left, ctxExpr)
 	a.Left = defaultlit(a.Left, nil)
 	a.Nbody.Set1(s.walkCases(cc[:half]))
@@ -411,7 +416,6 @@ func casebody(sw *Node, typeswvar *Node) {
 	var cas []*Node  // cases
 	var stat []*Node // statements
 	var def *Node    // defaults
-	br := nod(OBREAK, nil, nil)
 
 	for _, n := range sw.List.Slice() {
 		setlineno(n)
@@ -509,10 +513,13 @@ func casebody(sw *Node, typeswvar *Node) {
 		}
 		last := stat[fallIndex]
 		if last.Op != OFALL {
+			br := nod(OBREAK, nil, nil)
+			br.Pos = last.Pos
 			stat = append(stat, br)
 		}
 	}
 
+	br := nod(OBREAK, nil, nil)
 	stat = append(stat, br)
 	if def != nil {
 		cas = append(cas, def)
