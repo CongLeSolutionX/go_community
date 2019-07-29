@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf30460a_6fcefea9",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-29T20:54:19Z",
+      "side": 1,
+      "message": "Presumably this means we can\u0027t set the sampling rate to more than 1\u003c\u003c32, but that\u0027s probably okay.",
+      "revId": "c914a549a0048b0979f62927a009e1eb71f4d5e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
