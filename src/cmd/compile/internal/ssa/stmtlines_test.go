@@ -115,5 +115,10 @@ func TestStmtLines(t *testing.T) {
 	if len(nonStmtLines)*100 > 2*len(lines) { // expect 98% elsewhere.
 		t.Errorf("Saw too many (not amd64, > 2%%) lines without statement marks, total=%d, nostmt=%d\n", len(lines), len(nonStmtLines))
 	}
+	if *verbose {
+		for _, l := range nonStmtLines {
+			t.Logf("%s:%d\n", l.File, l.Line)
+		}
+	}
 	t.Logf("total=%d, nostmt=%d\n", len(lines), len(nonStmtLines))
 }
