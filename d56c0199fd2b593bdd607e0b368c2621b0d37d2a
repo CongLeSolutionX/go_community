@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d1c5416_47469c62",
+        "filename": "src/net/http/request_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-29T17:13:47Z",
+      "side": 1,
+      "message": "Am not too keen on this style of inlining, makes it hard to inspect the test cases.\n\nHow about:\n\ntests :\u003d []struct{\n   ...\n}{\n   {...},\n   ...\n}\n\nfor _, tt :\u003d range tests {",
+      "revId": "d56c0199fd2b593bdd607e0b368c2621b0d37d2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0ecd5b7_56c6217b",
+        "filename": "src/net/http/request_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-29T17:13:47Z",
+      "side": 1,
+      "message": "Let\u0027s perhaps instead check for the error string because just checking\nan error will mean that something could radically change and slip checks\nfor entirely examining the error so perhaps make this\n   wantErr string",
+      "revId": "d56c0199fd2b593bdd607e0b368c2621b0d37d2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "256ddfa7_bfdfdb80",
+        "filename": "src/net/http/request_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-29T17:13:47Z",
+      "side": 1,
+      "message": "We can keep these on the same line:\n\n\nt.Run(test.name, func(t *testing.T) {\n})",
+      "revId": "d56c0199fd2b593bdd607e0b368c2621b0d37d2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19c5093c_2782c1e6",
+        "filename": "src/net/http/request_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-29T17:13:47Z",
+      "side": 1,
+      "message": "Now that we are using sub-tests we no longer need this \"test %d?%s\" prefix and can do:\n\n    t.Fatal(\"Should have errored\")",
+      "revId": "d56c0199fd2b593bdd607e0b368c2621b0d37d2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
