@@ -5220,8 +5220,11 @@ func (s *SSAGenState) DebugFriendlySetPosFrom(v *ssa.Value) {
 			// in the generated code.
 			if p.IsStmt() != src.PosIsStmt {
 				p = p.WithNotStmt()
+				v.Pos = p
 			}
 			s.SetPos(p)
+		} else {
+			s.SetPos(s.pp.pos.WithNotStmt())
 		}
 	}
 }
