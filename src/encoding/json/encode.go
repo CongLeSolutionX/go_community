@@ -153,7 +153,7 @@ import (
 //
 // JSON cannot represent cyclic data structures and Marshal does not
 // handle them. Passing cyclic structures to Marshal will result in
-// an infinite recursion.
+// an error.
 //
 func Marshal(v interface{}) ([]byte, error) {
 	e := newEncodeState()
@@ -277,6 +277,7 @@ var hex = "0123456789abcdef"
 // An encodeState encodes JSON into a bytes.Buffer.
 type encodeState struct {
 	bytes.Buffer // accumulated output
+	seenPtrs     map[uintptr]struct{}
 	scratch      [64]byte
 }
 
@@ -286,9 +287,13 @@ func newEncodeState() *encodeState {
 	if v := encodeStatePool.Get(); v != nil {
 		e := v.(*encodeState)
 		e.Reset()
+		// Empty the map too.
+		for k := range e.seenPtrs {
+			delete(e.seenPtrs, k)
+		}
 		return e
 	}
-	return new(encodeState)
+	return &encodeState{seenPtrs: make(map[uintptr]struct{})}
 }
 
 // jsonError is an error wrapper type for internal use only.
@@ -807,7 +812,13 @@ func (pe ptrEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 		e.WriteString("null")
 		return
 	}
+	ptr := v.Pointer()
+	if _, ok := e.seenPtrs[ptr]; ok {
+		e.error(&UnsupportedValueError{v, fmt.Sprintf("encountered a cycle via %s", v.Type())})
+	}
+	e.seenPtrs[ptr] = struct{}{}
 	pe.elemEnc(e, v.Elem(), opts)
+	delete(e.seenPtrs, ptr)
 }
 
 func newPtrEncoder(t reflect.Type) encoderFunc {
