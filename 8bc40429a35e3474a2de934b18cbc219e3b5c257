@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84f8bf04_32a46f64",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-07-29T19:11:47Z",
+      "side": 1,
+      "message": "nit: this will make the test checks run in random order, which could make the test confusing and unpredictable in the future. why not:\n\ntype subexpIndex struct {\n    name  string\n    index int\n}\n\n[...]\n\nindices []subexpIndex\n\n[...]\n\n, []subexpIndex{{\"\", 0}, {\"foo\", 1}, ...}",
+      "revId": "8bc40429a35e3474a2de934b18cbc219e3b5c257",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b74cc0f_507c5dca",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-07-29T19:11:47Z",
+      "side": 1,
+      "message": "Why not use something more obvious than \"foo\", like \"missing\"?",
+      "revId": "8bc40429a35e3474a2de934b18cbc219e3b5c257",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "756631cf_f4b15600",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-07-29T19:11:47Z",
+      "side": 1,
+      "message": "redundant check? iterating over a nil map is a no-op",
+      "revId": "8bc40429a35e3474a2de934b18cbc219e3b5c257",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3cc3053_759b9087",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-07-29T19:11:47Z",
+      "side": 1,
+      "message": "I think you can drop the \"else\"",
+      "revId": "8bc40429a35e3474a2de934b18cbc219e3b5c257",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c868a8d_2417495c",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-07-29T19:11:47Z",
+      "side": 1,
+      "message": "comma after \"in this case\"",
+      "revId": "8bc40429a35e3474a2de934b18cbc219e3b5c257",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
