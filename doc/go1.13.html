@@ -127,6 +127,15 @@ Do not send CLs removing the interior tags from such phrases.
   support for previous versions has been discontinued.
 </p>
 
+<p>
+  With the <a href="/doc/go1.12#darwin">move to <code>libSystem</code></a>
+  for all syscalls in Go 1.12, some behaviors have changed. Notably,
+  <a href="/pkg/syscall/#Setrlimit"><code>Setrlimit</code></a> reports
+  <code>invalid</code> <code>argument</code> in places where it historically
+  succeeded. This consequence is not specific to Go and users should expect
+  behavioral parity with <code>libSystem</code>'s implementation.
+</p>
+
 <h3 id="freebsd">FreeBSD</h3>
 
 <p>
