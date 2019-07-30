@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "d9c68d24_12ef047d",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-07-30T21:49:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ded0b621_dc33b5bf",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19539125_719b3c15",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 4
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "4b93614d_1ac3e471",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-07-30T21:49:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19539125_719b3c15",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfe41c6a_3ab032de",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 4
@@ -64,6 +100,24 @@
       "writtenOn": "2019-07-30T16:13:44Z",
       "side": 1,
       "message": "How does it use \u0027s\u0027?",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd867ff9_9ae61c7b",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-07-30T21:49:56Z",
+      "side": 1,
+      "message": "I wordsmithed this to (hopefully) address your concern.",
+      "parentUuid": "dfe41c6a_3ab032de",
       "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "00fdc467_8b0685f5",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-07-30T21:49:56Z",
+      "side": 1,
+      "message": "Yes, I\u0027m running into this now as I work on the CL that actually uses this work. I chose too fine a resolution here. (sheepishly nods his head.)\n\nI\u0027ll rework this for CU level dependency.",
+      "parentUuid": "42203372_ccb8bbaa",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "121f5762_babd6803",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 4
@@ -98,6 +170,24 @@
       "writtenOn": "2019-07-30T16:13:44Z",
       "side": 1,
       "message": "I don\u0027t think this is actually safe or necessarily correct... Nothing protects other $\u0027s in these paths, so a funny source path could result in unintended expansions. Also, it doesn\u0027t necessarily get expanded to the value of GOROOT in the environment.\n\nIn the linker, we use the function expandGoroot to do this. I\u0027m not positive the compiler even has all of the information it needs to do this correctly (maybe it does?), which further suggests we may need to generate the CU header in the linker.",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "618e58df_428fe4c9",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-07-30T21:49:56Z",
+      "side": 1,
+      "message": "Again, reworked as per our original discussion.",
+      "parentUuid": "121f5762_babd6803",
       "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -200,6 +290,24 @@
       "writtenOn": "2019-07-30T16:13:44Z",
       "side": 1,
       "message": "For future reference, the refactoring to move PCIter from ld to obj could have been done as a separate CL first. One nice thing about carefully splitting out refactoring like that is that we can use toolstash -cmp to check that it really had no effect on the generated objects.\n\nBut it\u0027s not a big deal; not worth splitting out at this point.",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d085ac4d_0d2cba16",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-07-30T21:49:56Z",
+      "side": 1,
+      "message": "Ack. Good point.",
+      "parentUuid": "de623891_a9965014",
       "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
