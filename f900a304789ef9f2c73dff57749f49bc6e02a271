@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53b7422a_ef38b7bf",
+        "filename": "src/cmd/compile/internal/ssa/stmtlines_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-07-30T14:00:33Z",
+      "side": 1,
+      "message": "I\u0027m more of a fan of testing.Verbose, but I guess -v works for ssa tests. YMMV",
+      "range": {
+        "startLine": 118,
+        "startChar": 5,
+        "endLine": 118,
+        "endChar": 12
+      },
+      "revId": "f900a304789ef9f2c73dff57749f49bc6e02a271",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbcdae6f_406dff6c",
+        "filename": "src/cmd/compile/internal/ssa/stmtlines_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-07-30T14:00:33Z",
+      "side": 1,
+      "message": "do you want to label these lines? Up to you, but dropping some sort of description might help future you.",
+      "range": {
+        "startLine": 120,
+        "startChar": 18,
+        "endLine": 120,
+        "endChar": 19
+      },
+      "revId": "f900a304789ef9f2c73dff57749f49bc6e02a271",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
