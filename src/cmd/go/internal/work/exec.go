@@ -406,14 +406,14 @@ func (b *Builder) build(a *Action) (err error) {
 			if b.NeedExport {
 				p.Export = a.built
 			}
-			if need&needCompiledGoFiles != 0 && b.loadCachedSrcFiles(a) {
+			if need&needCompiledGoFiles != 0 && b.loadCachedSrcFiles(a) == nil {
 				need &^= needCompiledGoFiles
 			}
 		}
 
 		// Source files might be cached, even if the full action is not
 		// (e.g., go list -compiled -find).
-		if !cachedBuild && need&needCompiledGoFiles != 0 && b.loadCachedSrcFiles(a) {
+		if !cachedBuild && need&needCompiledGoFiles != 0 && b.loadCachedSrcFiles(a) == nil {
 			need &^= needCompiledGoFiles
 		}
 
@@ -615,8 +615,8 @@ func (b *Builder) build(a *Action) (err error) {
 		need &^= needVet
 	}
 	if need&needCompiledGoFiles != 0 {
-		if !b.loadCachedSrcFiles(a) {
-			return fmt.Errorf("failed to cache compiled Go files")
+		if err := b.loadCachedSrcFiles(a); err != nil {
+			return fmt.Errorf("loading compiled Go files from cache: %w", err)
 		}
 		need &^= needCompiledGoFiles
 	}
@@ -869,14 +869,14 @@ func (b *Builder) loadCachedVet(a *Action) bool {
 	return true
 }
 
-func (b *Builder) loadCachedSrcFiles(a *Action) bool {
+func (b *Builder) loadCachedSrcFiles(a *Action) error {
 	c := cache.Default()
 	if c == nil {
-		return false
+		return errors.New("cache disabled")
 	}
 	list, _, err := c.GetBytes(cache.Subkey(a.actionID, "srcfiles"))
 	if err != nil {
-		return false
+		return fmt.Errorf("reading srcfiles list: %w", err)
 	}
 	var files []string
 	for _, name := range strings.Split(string(list), "\n") {
@@ -889,12 +889,12 @@ func (b *Builder) loadCachedSrcFiles(a *Action) bool {
 		}
 		file, err := b.findCachedObjdirFile(a, c, name)
 		if err != nil {
-			return false
+			return fmt.Errorf("finding %s: %w", name, err)
 		}
 		files = append(files, file)
 	}
 	a.Package.CompiledGoFiles = files
-	return true
+	return nil
 }
 
 // vetConfig is the configuration passed to vet describing a single package.
