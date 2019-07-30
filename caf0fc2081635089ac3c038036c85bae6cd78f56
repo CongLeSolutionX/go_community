@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5810bce_254a72e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "Standard convention is lower-case and no period:\n\ncmd/compile: move debug_line generation from linker into compiler",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ded0b621_dc33b5bf",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "There should be a blank line after this comment so this doesn\u0027t get confused for a package doc comment.",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19539125_719b3c15",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "I know this came from ld/dwarf.go, but we might as well turn it into line comments while we\u0027re here.\n\nAlso, this comment is attached to the const block, but the relationship to the constants isn\u0027t obvious. Maybe explicitly say that these constants were selected to make best use of single-byte opcodes to generate a compact line table?",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfe41c6a_3ab032de",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "How does it use \u0027s\u0027?",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42203372_ccb8bbaa",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "What\u0027s the plan with the CU header? Previously, we generated one CU header per package, but this is generating it for just the symbol. We had talked about generating just the opcode fragments for each function symbol and letting the linker paste one the CU header.\n\nMight be worth hinting at more of the plan in the commit message.",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "121f5762_babd6803",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "I don\u0027t think this is actually safe or necessarily correct... Nothing protects other $\u0027s in these paths, so a funny source path could result in unintended expansions. Also, it doesn\u0027t necessarily get expanded to the value of GOROOT in the environment.\n\nIn the linker, we use the function expandGoroot to do this. I\u0027m not positive the compiler even has all of the information it needs to do this correctly (maybe it does?), which further suggests we may need to generate the CU header in the linker.",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b2c9a3e_8cf3db0a",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "Given that this can access the underlying position information, is the plan to shift to using that directly, rather than decoding the encoded runtime pcln data? For example, it seems particularly silly to encode the pctostmt table into a symbol below, just to then immediately decode it back out. And it\u0027s presumably much more efficient to access the raw data for the other tables, too, even though we have to encode them anyway.\n\n(I think that should be the plan, but I\u0027m happy to hear arguments otherwise. :)",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c41a44_cfae4510",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right, since is_stmt could be in either state here, and this is just flipping it. But I also think it\u0027s not necessary, since we\u0027re about to end_sequence, which will reset is_stmt to the right value anyway. (Previously, we didn\u0027t end_sequence until after all of the functions, so we had to be more careful with is_stmt.)",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82628dbb_431ff04c",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "I suppose right now we really are terminating the line section. If we want to switch to pasting together opcode fragments from different functions, this should probably be something like \"// Reset the state machine to the default state for the next opcode sequence\"",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10afb46b_bac9da3b",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "// start extended opcode",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c83b7232_7e48fa91",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "// one byte opcode",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de623891_a9965014",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "For future reference, the refactoring to move PCIter from ld to obj could have been done as a separate CL first. One nice thing about carefully splitting out refactoring like that is that we can use toolstash -cmp to check that it really had no effect on the generated objects.\n\nBut it\u0027s not a big deal; not worth splitting out at this point.",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43f5cf2d_b96530d8",
+        "filename": "src/cmd/link/internal/sym/symkind.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-07-30T16:13:44Z",
+      "side": 1,
+      "message": "Consider putting this before SDWARFMISC, since the others really correspond to real DWARF sections and SDWARFMISC is special.",
+      "revId": "caf0fc2081635089ac3c038036c85bae6cd78f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
