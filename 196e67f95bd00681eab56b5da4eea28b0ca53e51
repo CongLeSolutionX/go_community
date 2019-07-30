@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f2d4784_7ad373b8",
+        "filename": "src/cmd/go/testdata/script/version.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-30T22:47:14Z",
+      "side": 0,
+      "message": "Any reason to remove this line?",
+      "revId": "196e67f95bd00681eab56b5da4eea28b0ca53e51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
