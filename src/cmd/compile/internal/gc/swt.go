@@ -411,7 +411,6 @@ func casebody(sw *Node, typeswvar *Node) {
 	var cas []*Node  // cases
 	var stat []*Node // statements
 	var def *Node    // defaults
-	br := nod(OBREAK, nil, nil)
 
 	for _, n := range sw.List.Slice() {
 		setlineno(n)
@@ -509,10 +508,13 @@ func casebody(sw *Node, typeswvar *Node) {
 		}
 		last := stat[fallIndex]
 		if last.Op != OFALL {
+			br := nod(OBREAK, nil, nil)
+			br.Pos = last.Pos
 			stat = append(stat, br)
 		}
 	}
 
+	br := nod(OBREAK, nil, nil)
 	stat = append(stat, br)
 	if def != nil {
 		cas = append(cas, def)
