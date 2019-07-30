@@ -16,6 +16,24 @@
       "revId": "0a1b468feba717638755bcca0ac293cc2e85c849",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ad3348e_0a2476b8",
+        "filename": "src/strings/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 33094
+      },
+      "writtenOn": "2019-07-30T00:49:22Z",
+      "side": 1,
+      "message": "Ah I see. In this context your suggestion about adding a comment referring to the other example makes more sense.",
+      "parentUuid": "9a780258_540a1236",
+      "revId": "0a1b468feba717638755bcca0ac293cc2e85c849",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
