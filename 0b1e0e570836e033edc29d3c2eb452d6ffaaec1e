@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7bf170d2_04fc1281",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-07-31T04:04:51Z",
+      "side": 1,
+      "message": "Argh, yes, I meant GitHub.  It\u0027s easy to update commit messages in Gerrit.\n\nHow did you update it in GitHub?  Can you frob other people\u0027s pull requests?",
+      "parentUuid": "545198b3_667e2bea",
+      "revId": "0b1e0e570836e033edc29d3c2eb452d6ffaaec1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0d2b0d4_a962af2b",
         "filename": "src/cmd/go/internal/version/exe.go",
         "patchSetId": 2
