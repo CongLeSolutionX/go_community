@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "663c02d8_4c6d0268",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-07-31T08:30:45Z",
+      "side": 1,
+      "message": "\u003ccode\u003esyscall.Setrlimit\u003c/code\u003e\n\nPerhaps let\u0027s use syscall.Setrlimit to make it easy to grok with context about the package\nand I\u0027ve seen us do the same say for unsafe.Pointer https://github.com/golang/go/blob/39d4178735d6ca90e076b3fc3d7e38f56fd6b945/doc/go1.13.html#L416",
+      "revId": "ce37cc97e36019e8c2834f04bb6b754c544da823",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
