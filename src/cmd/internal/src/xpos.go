@@ -109,6 +109,7 @@ func (p XPos) AtColumn1() XPos {
 type PosTable struct {
 	baseList []*PosBase
 	indexMap map[*PosBase]int
+	NameMap  map[string]int // Maps file symbol name to index for debug information.
 }
 
 // XPos returns the corresponding XPos for the given pos,
@@ -121,12 +122,16 @@ func (t *PosTable) XPos(pos Pos) XPos {
 		t.baseList = append(t.baseList, nil)
 		m = map[*PosBase]int{nil: 0}
 		t.indexMap = m
+		t.NameMap = make(map[string]int)
 	}
 	i, ok := m[pos.base]
 	if !ok {
 		i = len(t.baseList)
 		t.baseList = append(t.baseList, pos.base)
 		t.indexMap[pos.base] = i
+		if _, ok := t.NameMap[pos.base.symFilename]; !ok {
+			t.NameMap[pos.base.symFilename] = len(t.NameMap)
+		}
 	}
 	return XPos{int32(i), pos.lico}
 }
@@ -139,4 +144,12 @@ func (t *PosTable) Pos(p XPos) Pos {
 		base = t.baseList[p.index]
 	}
 	return Pos{base, p.lico}
+}
+
+// FileIndex returns the index of the given filename(symbol) in the PosTable, or -1 if not found.
+func (t *PosTable) FileIndex(filename string) int {
+	if v, ok := t.NameMap[filename]; ok {
+		return v
+	}
+	return -1
 }
