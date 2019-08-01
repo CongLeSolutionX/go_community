@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efcf2d9e_e472a6de",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-01T16:31:56Z",
+      "side": 1,
+      "message": "PC",
+      "range": {
+        "startLine": 391,
+        "startChar": 1,
+        "endLine": 391,
+        "endChar": 3
+      },
+      "revId": "be438322bfe30663691b36f7dd5befaca3b2b698",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce0ca9bb_f8085f06",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-01T16:31:56Z",
+      "side": 1,
+      "message": "NextPC",
+      "range": {
+        "startLine": 392,
+        "startChar": 1,
+        "endLine": 392,
+        "endChar": 7
+      },
+      "revId": "be438322bfe30663691b36f7dd5befaca3b2b698",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "970d1c0c_83449cdf",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-01T16:31:56Z",
+      "side": 1,
+      "message": "PCScale. (Ugh, I wish we didn\u0027t have to export this.)",
+      "revId": "be438322bfe30663691b36f7dd5befaca3b2b698",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76e0f127_4c31aeb9",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-01T16:31:56Z",
+      "side": 1,
+      "message": "Update reference to \"ctxt\" to instead explain what Pcscale is.",
+      "revId": "be438322bfe30663691b36f7dd5befaca3b2b698",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "162b9ffa_6ea07a8b",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-01T16:31:56Z",
+      "side": 1,
+      "message": "pcScale",
+      "range": {
+        "startLine": 400,
+        "startChar": 15,
+        "endLine": 400,
+        "endChar": 22
+      },
+      "revId": "be438322bfe30663691b36f7dd5befaca3b2b698",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
