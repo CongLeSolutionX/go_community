@@ -1,0 +1,7 @@
+package main
+
+// testcase for issue #28082
+
+func foo() {}
+
+func bar() {}
