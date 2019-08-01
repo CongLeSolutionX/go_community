@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1e2579_c119c7f4",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2019-08-01T19:35:29Z",
+      "side": 1,
+      "message": "I think SubexpName(\"\") should be -1.\nThe entry re.SubexpNames()[0] exists only to make the indexes start at 1\nand should be ignored otherwise. It does not make sense to return in a query.",
+      "revId": "f62bb54a0179ad593b4ff85322720c9009f21590",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
