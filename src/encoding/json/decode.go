@@ -275,6 +275,10 @@ type decodeState struct {
 	// safeUnquote is the number of current string literal bytes that don't
 	// need to be unquoted. When negative, no bytes need unquoting.
 	safeUnquote int
+
+	// this keeps field keys to prevent allocating multiple copies of
+	// the same strings. For all entries, literals[k]=k
+	literals map[string]string
 }
 
 // readIndex returns the position of the last byte read.
@@ -295,6 +299,11 @@ func (d *decodeState) init(data []byte) *decodeState {
 
 	// Reuse the allocated space for the FieldStack slice.
 	d.errorContext.FieldStack = d.errorContext.FieldStack[:0]
+
+	// Initialize literals if necessary
+	if d.literals == nil {
+		d.literals = make(map[string]string)
+	}
 	return d
 }
 
@@ -1162,6 +1171,13 @@ func (d *decodeState) objectInterface() map[string]interface{} {
 		key, ok := d.unquote(item)
 		if !ok {
 			panic(phasePanicMsg)
+		}
+
+		// Store key in literals map
+		if s, ok := d.literals[key]; !ok {
+			d.literals[key] = key
+		} else {
+			key = s
 		}
 
 		// Read : before value.
