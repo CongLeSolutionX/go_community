@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17e98a6f_c3926dad",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1696,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T22:10:25Z",
+      "side": 1,
+      "message": "s/fromOutCol/startOutCol/\n\nsince you called the first argument startPos (or, alternatively, leave fromOutCol alone and call the first argument fromPos). Up to you.",
+      "range": {
+        "startLine": 1696,
+        "startChar": 51,
+        "endLine": 1696,
+        "endChar": 61
+      },
+      "revId": "7df9176bac091f793af58ac85231d33c46a5ca80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28e20b8f_c3dae41b",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1698,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T22:10:25Z",
+      "side": 1,
+      "message": "now that we only need the startPosition.Line, let\u0027s simplify this:\n\nif p.posFor(startPos).Line \u003d\u003d p.pos.Line { ...",
+      "range": {
+        "startLine": 1698,
+        "startChar": 5,
+        "endLine": 1698,
+        "endChar": 18
+      },
+      "revId": "7df9176bac091f793af58ac85231d33c46a5ca80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
