@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76cce2f1_c89b392d",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-08-02T20:37:59Z",
+      "side": 1,
+      "message": "To disable them",
+      "range": {
+        "startLine": 711,
+        "startChar": 6,
+        "endLine": 711,
+        "endChar": 16
+      },
+      "revId": "2c72226329a2b0137cc09e43a908890211c93120",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11490087_f2390103",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2019-08-02T20:37:59Z",
+      "side": 1,
+      "message": "... or with \u003ca href\u003d\"/pkg/os#IsTimeout\"\u003e\u003ccode\u003eos.IsTimeout\u003c/code\u003e\u003c/a\u003e ...?",
+      "range": {
+        "startLine": 722,
+        "startChar": 6,
+        "endLine": 722,
+        "endChar": 37
+      },
+      "revId": "2c72226329a2b0137cc09e43a908890211c93120",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
