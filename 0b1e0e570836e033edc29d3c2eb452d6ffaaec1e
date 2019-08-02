@@ -87,6 +87,24 @@
       "revId": "0b1e0e570836e033edc29d3c2eb452d6ffaaec1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f8b884b_f67153cf",
+        "filename": "src/cmd/go/internal/version/exe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-08-02T21:20:27Z",
+      "side": 1,
+      "message": "I would still like to see this change made: just add a loop, don\u0027t replace the existing one.  Do you have time to do that?  Thanks.",
+      "parentUuid": "e0d2b0d4_a962af2b",
+      "revId": "0b1e0e570836e033edc29d3c2eb452d6ffaaec1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
