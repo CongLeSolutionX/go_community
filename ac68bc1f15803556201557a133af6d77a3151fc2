@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d84cae6f_71b5926f",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-08-02T13:52:48Z",
+      "side": 1,
+      "message": "Using \"even\" here suggests a missing clause, like \"if err is not os.ErrExist but wraps os.ErrExist\".  I suggeset just dropping \"even\".",
+      "range": {
+        "startLine": 37,
+        "startChar": 35,
+        "endLine": 37,
+        "endChar": 39
+      },
+      "revId": "ac68bc1f15803556201557a133af6d77a3151fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae14179e_8151b620",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-08-02T13:52:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure this parenthetical helps.  This is the documentation for the errors package, not the os package.",
+      "revId": "ac68bc1f15803556201557a133af6d77a3151fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6380d0ce_b74244c4",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-08-02T13:52:48Z",
+      "side": 1,
+      "message": "compatibility",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 29
+      },
+      "revId": "ac68bc1f15803556201557a133af6d77a3151fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aecb4129_4e86424b",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-08-02T13:52:48Z",
+      "side": 1,
+      "message": "This seems imprecise.  Maybe\n\nUse the As function to determine if an error is of a given type. The second argument must be a pointer of some type PE pointing to some value E. As behaves much like Is, but instead of testing for equality is tests for assignability.  If the first argument is assignable to *PE, As sets E to the value.  If that fails, As calls Unwrap on the argument and repeats the test, looping until assignability succeeds or Unwrap returns nil. As reports whether it succeeded in making an assignment. Writing",
+      "revId": "ac68bc1f15803556201557a133af6d77a3151fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04bd3aa8_401a45f6",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-08-02T13:52:48Z",
+      "side": 1,
+      "message": "Again, drop \"even\".",
+      "range": {
+        "startLine": 59,
+        "startChar": 35,
+        "endLine": 59,
+        "endChar": 39
+      },
+      "revId": "ac68bc1f15803556201557a133af6d77a3151fc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
