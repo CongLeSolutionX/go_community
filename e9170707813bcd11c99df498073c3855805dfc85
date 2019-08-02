@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ade4c32f_119508d9",
+        "filename": "src/context/context.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2019-08-02T18:52:14Z",
+      "side": 1,
+      "message": "This is documenting the current implementation, which may change. Let\u0027s document the specification instead:\n\n// The close of the Done channel may happen asynchronously,\n// after the cancel function returns.",
+      "range": {
+        "startLine": 230,
+        "startChar": 3,
+        "endLine": 230,
+        "endChar": 77
+      },
+      "revId": "e9170707813bcd11c99df498073c3855805dfc85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8641e0c6_a4a26313",
+        "filename": "src/context/context.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2019-08-02T18:52:14Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 396,
+        "startChar": 3,
+        "endLine": 396,
+        "endChar": 15
+      },
+      "revId": "e9170707813bcd11c99df498073c3855805dfc85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
