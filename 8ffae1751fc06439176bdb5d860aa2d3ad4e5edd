@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e886c4a_9bc6d8a4",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1698,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T22:31:29Z",
+      "side": 1,
+      "message": "actually now you can just add this condition to the previous `if`\n\nif startPos.IsValid() \u0026\u0026 p.pos.IsValid() \u0026\u0026 startPos.IsValid() \u0026\u0026 p.pos.IsValid() {\n   return ...\n}\n\nSorry - didn\u0027t realized before.",
+      "range": {
+        "startLine": 1698,
+        "startChar": 22,
+        "endLine": 1698,
+        "endChar": 23
+      },
+      "revId": "8ffae1751fc06439176bdb5d860aa2d3ad4e5edd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

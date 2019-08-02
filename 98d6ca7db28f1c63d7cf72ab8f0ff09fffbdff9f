@@ -93,6 +93,30 @@
       "revId": "98d6ca7db28f1c63d7cf72ab8f0ff09fffbdff9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f99f724_66259d14",
+        "filename": "src/cmd/gofmt/testdata/issue28082.input",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T22:31:29Z",
+      "side": 1,
+      "message": "Sorry, my bad. I missed that.",
+      "parentUuid": "59216735_f609595f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 4
+      },
+      "revId": "98d6ca7db28f1c63d7cf72ab8f0ff09fffbdff9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
