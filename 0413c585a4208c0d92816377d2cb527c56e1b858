@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e805d60_c4110eef",
+        "filename": "src/cmd/gofmt/testdata/emptydeclsingleline.input",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T21:16:29Z",
+      "side": 1,
+      "message": "please add the copyright notice - we\u0027ve been doing this for all test files (not just here, also in $GOROOT/test).",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 12
+      },
+      "revId": "0413c585a4208c0d92816377d2cb527c56e1b858",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ea1b851_0a1ab79d",
+        "filename": "src/cmd/gofmt/testdata/emptydeclsingleline.input",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T21:16:29Z",
+      "side": 1,
+      "message": "Also: Since this file is specifically for issue #28082, let\u0027s name it\n\nissue28082.input\n\nThat will also set precedent for future bug fixes.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "0413c585a4208c0d92816377d2cb527c56e1b858",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3871e08_c1d14b11",
+        "filename": "src/cmd/gofmt/testdata/emptydeclsingleline.input",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T21:16:29Z",
+      "side": 1,
+      "message": "Add the original example from the issue as well?",
+      "revId": "0413c585a4208c0d92816377d2cb527c56e1b858",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30e67d71_6a37f9ce",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T21:16:29Z",
+      "side": 1,
+      "message": "since we\u0027re only interested in the column, let\u0027s just save the column instead of copying the entire Position struct and then throwing much of it away:\n\nstartCol :\u003d p.out.Column - len(\"func\")\n\n(and s/4/len(\"func\")/ then it\u0027s immediately clear where the 4 is coming from)",
+      "range": {
+        "startLine": 799,
+        "startChar": 12,
+        "endLine": 799,
+        "endChar": 13
+      },
+      "revId": "0413c585a4208c0d92816377d2cb527c56e1b858",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "633aa218_f2c0ea8f",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T21:16:29Z",
+      "side": 1,
+      "message": "just use startCol here",
+      "revId": "0413c585a4208c0d92816377d2cb527c56e1b858",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9198245d_bb96fe71",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1693,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T21:16:29Z",
+      "side": 1,
+      "message": "This function is independent of function headers - so I wouldn\u0027t call it funcHeaderSize. As far as I can tell the difference between this and what was here before is simply that you use the p.out positions for the actual distance computation.\n\nSo I\u0027d call this still distanceFrom and simple provide the extra column argument, maybe calling it fromOutColumn (or just: fromOutCol). Of if you prefer start then call then use the signature\n\ndistanceFrom(start token.Pos, startOutColumn int) int ....",
+      "range": {
+        "startLine": 1693,
+        "startChar": 3,
+        "endLine": 1693,
+        "endChar": 17
+      },
+      "revId": "0413c585a4208c0d92816377d2cb527c56e1b858",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2345ecbf_b180c96e",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T21:16:29Z",
+      "side": 1,
+      "message": "same here:\n\nstartCol :\u003d p.out.Column - len(\"func \")",
+      "range": {
+        "startLine": 1716,
+        "startChar": 1,
+        "endLine": 1716,
+        "endChar": 9
+      },
+      "revId": "0413c585a4208c0d92816377d2cb527c56e1b858",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbb8b51a_2d309cca",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1723,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-02T21:16:29Z",
+      "side": 1,
+      "message": "and use startCol here",
+      "range": {
+        "startLine": 1723,
+        "startChar": 47,
+        "endLine": 1723,
+        "endChar": 53
+      },
+      "revId": "0413c585a4208c0d92816377d2cb527c56e1b858",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
