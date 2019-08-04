@@ -80,3 +80,36 @@ func TestContextLabels(t *testing.T) {
 		t.Errorf("(sorted) labels on context: got %v, want %v", gotLabels, wantLabels)
 	}
 }
+
+func TestLabelMapStringer(t *testing.T) {
+	for _, tbl := range []struct {
+		m        labelMap
+		expected string
+	}{
+		{
+			m: labelMap{
+				// empty map
+			},
+			expected: "{}",
+		}, {
+			m: labelMap{
+				"foo": "bar",
+			},
+			expected: `{"foo": "bar"}`,
+		}, {
+			m: labelMap{
+				"foo":             "bar",
+				"key1":            "value1",
+				"key2":            "value2",
+				"key3":            "value3",
+				"key4WithNewline": "\nvalue4",
+			},
+			expected: `{"foo": "bar", "key1": "value1", "key2": "value2", "key3": "value3", "key4WithNewline": "\nvalue4"}`,
+		},
+	} {
+		if str := tbl.m.String(); tbl.expected != str {
+			t.Errorf("%#v.String() produced unexpected output; got %q; expected %q",
+				tbl.m, str, tbl.expected)
+		}
+	}
+}
