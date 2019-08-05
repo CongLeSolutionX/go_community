@@ -37,6 +37,10 @@
 // functions, are the atomic equivalents of "return *addr" and
 // "*addr = val".
 //
+// The atomic operations guarantee sequential consistency among the atomic
+// variables. You shouldn't mix atomic and non-atomic accesses for a given
+// memory word.
+
 package atomic
 
 import (
