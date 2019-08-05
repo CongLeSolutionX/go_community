@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "186d4270_31854650",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1400,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-08-05T21:05:30Z",
+      "side": 1,
+      "message": "I\u0027m leaning towards just \"set of Go constant expressions\" as more appropriate.\n\nI\u0027m describing here constSet from the caller\u0027s point-of-view, so the details of explicitly tracking position information isn\u0027t really relevant to them. It\u0027s an internal detail only needed for reporting high quality error diagnostics.\n\nAlso, strictly speaking, if it was a \"set of (Go constant expressions and their positions)\", then adding a Go constant expression with a different position wouldn\u0027t be a \"duplicate\" set element.\n\nLet me know if you disagree though.",
+      "parentUuid": "59885f59_6bd3d279",
+      "range": {
+        "startLine": 1400,
+        "startChar": 57,
+        "endLine": 1400,
+        "endChar": 58
+      },
+      "revId": "c73e940ac729068065bc5376d14f9e85cdfc8e50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a514d4be_376462a3",
         "filename": "src/cmd/compile/internal/gc/const.go",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "c73e940ac729068065bc5376d14f9e85cdfc8e50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0838fad_fd1e159e",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-08-05T21:05:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a514d4be_376462a3",
+      "range": {
+        "startLine": 1472,
+        "startChar": 58,
+        "endLine": 1472,
+        "endChar": 67
+      },
+      "revId": "c73e940ac729068065bc5376d14f9e85cdfc8e50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
