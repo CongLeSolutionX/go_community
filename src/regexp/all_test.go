@@ -902,30 +902,50 @@ func TestDeepEqual(t *testing.T) {
 	}
 }
 
-var minInputLenTests = []struct {
+var inputLenTests = []struct {
 	Regexp string
 	min    int
+	max    int
 }{
-	{``, 0},
-	{`a`, 1},
-	{`aa`, 2},
-	{`(aa)a`, 3},
-	{`(?:aa)a`, 3},
-	{`a?a`, 1},
-	{`(aaa)|(aa)`, 2},
-	{`(aa)+a`, 3},
-	{`(aa)*a`, 1},
-	{`(aa){3,5}`, 6},
-	{`[a-z]`, 1},
-	{`日`, 3},
+	{``, 0, -1},
+	{`a`, 1, -1},
+	{`aa`, 2, -1},
+	{`(aa)a`, 3, -1},
+	{`(?:aa)a`, 3, -1},
+	{`a?a`, 1, -1},
+	{`(aaa)|(aa)`, 2, -1},
+	{`(aa)+a`, 3, -1},
+	{`(aa)*a`, 1, -1},
+	{`(aa){3,5}`, 6, -1},
+	{`[a-z]`, 1, -1},
+	{`日`, 3, -1},
+	{`^$`, 0, 0},
+	{`^()$`, 0, 0},
+	{`^a$`, 1, 1},
+	{`^a{2,5}$`, 2, 5},
+	{`^日{2,5}$`, 6, 15},
+	{`^a{2,}$`, 2, -1},
+	{`^((aaa)|(aa))$`, 2, 3},
+	{`^a*$`, 0, -1},
+	{`^a+$`, 1, -1},
+	{`^a?$`, 0, 1},
+	{`^.$`, 1, 4},
+	{`^[0-9a-eg-z]$`, 1, 1},
+	{`^[[:ascii:]]$`, 1, 1},
+	{`^\D$`, 1, 4},
+	{`^.\ba$`, 2, 5},
+	{`^.\Ba$`, 2, 5},
 }
 
-func TestMinInputLen(t *testing.T) {
-	for _, tt := range minInputLenTests {
+func TestInputLen(t *testing.T) {
+	for _, tt := range inputLenTests {
 		re, _ := syntax.Parse(tt.Regexp, syntax.Perl)
-		m := minInputLen(re)
-		if m != tt.min {
-			t.Errorf("regexp %#q has minInputLen %d, should be %d", tt.Regexp, m, tt.min)
+		min, max := inputLenBounds(re, true)
+		if min != tt.min {
+			t.Errorf("regexp %#q has minInputLen %d, should be %d", tt.Regexp, min, tt.min)
+		}
+		if max != tt.max {
+			t.Errorf("regexp %#q has maxInputLen %d, should be %d", tt.Regexp, max, tt.max)
 		}
 	}
 }

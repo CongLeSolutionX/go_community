@@ -708,6 +708,7 @@ var benchData = []struct{ name, re string }{
 	{"Easy0", "ABCDEFGHIJKLMNOPQRSTUVWXYZ$"},
 	{"Easy0i", "(?i)ABCDEFGHIJklmnopqrstuvwxyz$"},
 	{"Easy1", "A[AB]B[BC]C[CD]D[DE]E[EF]F[FG]G[GH]H[HI]I[IJ]J$"},
+	{"EasyLen32", "^[A-D]{0,32}$"},
 	{"Medium", "[XYZ]ABCDEFGHIJKLMNOPQRSTUVWXYZ$"},
 	{"Hard", "[ -~]*ABCDEFGHIJKLMNOPQRSTUVWXYZ$"},
 	{"Hard1", "ABCD|CDEF|EFGH|GHIJ|IJKL|KLMN|MNOP|OPQR|QRST|STUV|UVWX|WXYZ"},
