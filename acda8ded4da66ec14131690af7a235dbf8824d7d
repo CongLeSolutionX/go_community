@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eafdcbf9_a7070d55",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-08-05T20:51:06Z",
+      "side": 1,
+      "message": "The New function creates ....",
+      "revId": "acda8ded4da66ec14131690af7a235dbf8824d7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb641515_c8828193",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-08-05T20:51:06Z",
+      "side": 1,
+      "message": "It\u0027s good to avoid starting a sentence with a lower-case letter. English doesn\u0027t like that.\n\nA simple way to create wrapped errors is to call fmt.Errorf and apply the %w verb to the error argument:",
+      "revId": "acda8ded4da66ec14131690af7a235dbf8824d7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b0f6db1_3867369e",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-08-05T20:51:06Z",
+      "side": 1,
+      "message": "Dangler; you need the colon I added above.",
+      "revId": "acda8ded4da66ec14131690af7a235dbf8824d7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e28e125f_897f24e4",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-08-05T20:51:06Z",
+      "side": 1,
+      "message": "\"Gets\" is a lazy word.\n\nUnwrap unpacks a wrapped error. If its argu...",
+      "revId": "acda8ded4da66ec14131690af7a235dbf8824d7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f41d2b49_5805cd59",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-08-05T20:51:06Z",
+      "side": 1,
+      "message": "The Is function unwraps its first argument sequentially looking for an error that matches the second. It reports whether it finds a match. It should be used in preference to simple equality checks:",
+      "revId": "acda8ded4da66ec14131690af7a235dbf8824d7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cdd3319_74e0d936",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-08-05T20:51:06Z",
+      "side": 1,
+      "message": "s/is/it/",
+      "revId": "acda8ded4da66ec14131690af7a235dbf8824d7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56b8778c_c9bbd8b7",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-08-05T20:51:06Z",
+      "side": 1,
+      "message": "Use \u0027sequentially\u0027 as I did above and this could be more concise.",
+      "revId": "acda8ded4da66ec14131690af7a235dbf8824d7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
