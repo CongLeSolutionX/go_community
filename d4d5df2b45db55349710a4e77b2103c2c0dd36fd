@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f9df8c7_301dd61d",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-08-05T21:38:11Z",
+      "side": 1,
+      "message": "This meaning of bounded should be described where OMAKESLICE is declared in syntax.go.",
+      "range": {
+        "startLine": 373,
+        "startChar": 8,
+        "endLine": 373,
+        "endChar": 15
+      },
+      "revId": "d4d5df2b45db55349710a4e77b2103c2c0dd36fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47bda84d_b1b36e6e",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-08-05T21:38:11Z",
+      "side": 1,
+      "message": "This one-line summary really doesn\u0027t do this op justice.\nCan you expand this description?\nSomething like the OFORUNTIL comment below would be great.",
+      "range": {
+        "startLine": 664,
+        "startChar": 52,
+        "endLine": 664,
+        "endChar": 118
+      },
+      "revId": "d4d5df2b45db55349710a4e77b2103c2c0dd36fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d6d25bd_d8974713",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-08-05T21:38:11Z",
+      "side": 1,
+      "message": "If these have been typechecked, why are we typechecking them again?",
+      "revId": "d4d5df2b45db55349710a4e77b2103c2c0dd36fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
