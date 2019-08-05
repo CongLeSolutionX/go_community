@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f250763b_dcd077ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2019-08-05T16:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80f970e7_9cfef988",
+      "revId": "8ffae1751fc06439176bdb5d860aa2d3ad4e5edd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e886c4a_9bc6d8a4",
         "filename": "src/go/printer/nodes.go",
         "patchSetId": 6
@@ -39,6 +57,30 @@
       "revId": "8ffae1751fc06439176bdb5d860aa2d3ad4e5edd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1f3b0c5_d0266e57",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1698,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2019-08-05T16:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e886c4a_9bc6d8a4",
+      "range": {
+        "startLine": 1698,
+        "startChar": 22,
+        "endLine": 1698,
+        "endChar": 23
+      },
+      "revId": "8ffae1751fc06439176bdb5d860aa2d3ad4e5edd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
