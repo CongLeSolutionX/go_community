@@ -46,6 +46,81 @@
       "revId": "37a06557d3bcabfdecf066a45b02205cfa8412e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db850ca7_969120f9",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1410,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-08-05T20:44:41Z",
+      "side": 1,
+      "message": "I think perhaps you thought it was a typo \"add adds\" :)",
+      "parentUuid": "582a52ea_ef44eef0",
+      "range": {
+        "startLine": 1410,
+        "startChar": 7,
+        "endLine": 1410,
+        "endChar": 10
+      },
+      "revId": "37a06557d3bcabfdecf066a45b02205cfa8412e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28d48a86_ce753ec3",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-08-05T20:44:41Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "37a06557d3bcabfdecf066a45b02205cfa8412e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3696eb25_64921cdd",
+        "filename": "test/fixedbugs/issue33460.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-08-05T20:44:41Z",
+      "side": 1,
+      "message": "While this is nice to ensure edits don\u0027t require also changing the error expectation,\nit might be better to hardcode a line number for easy auditing and also to ensure that we\nfail loudly.",
+      "revId": "37a06557d3bcabfdecf066a45b02205cfa8412e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55b8deb5_c2343e68",
+        "filename": "test/fixedbugs/issue33460.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-08-05T20:44:41Z",
+      "side": 1,
+      "message": "Let\u0027s also add a test for map literals since the message now displays\nthe previous definition e.g.\n\nfunc mp() {\n\tconst s \u003d \"a\"\n\tm :\u003d map[string]int{\n\t\t\"a\": 10,\n\t\t\"b\": 11,\n\t\t\"a\": 12,\n\t\ts:   14,\n\t}\n\t_ \u003d m\n}",
+      "revId": "37a06557d3bcabfdecf066a45b02205cfa8412e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
