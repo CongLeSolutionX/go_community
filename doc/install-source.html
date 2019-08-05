@@ -154,6 +154,17 @@ on Windows, <code>make.bat</code>).
 </p>
 
 <p>
+Note: When using the git branch <code>release-branch.go1.4</code> to generate a
+bootstrap toolchain, checkout this branch in a <b>dedicated</b> git clone that
+you will keep checked out to branch <code>release-branch.go1.4</code>.  Without
+preserving this branch of the go1.4 repository that holds the bootstrap
+toolchain, you are likely to encounter failures when trying to run the
+toolchain. The go1.4 bootstrap toolchain <b>must be able</b> to properly
+traverse the go1.4 sources that it assumes are present under this repository
+root.
+</p>
+
+<p>
 To cross-compile a bootstrap toolchain from source, which is
 necessary on systems Go 1.4 did not target (for
 example, <code>linux/ppc64le</code>), install Go on a different system
@@ -239,6 +250,11 @@ in <code>$HOME/goroot/bin</code>. The directory may have any name, but note
 that if Go is checked out in <code>$HOME/go</code>, it will conflict with
 the default location of <code>$GOPATH</code>.
 See <a href="#gopath"><code>GOPATH</code></a> below.</p>
+
+Reminder: If you opted to also compile the bootstrap binaries from source (in an
+earlier section), you still need to <code>git clone</code> again at this point
+(to checkout the latest <code>&lt;tag&gt;</code>), because you must keep your
+go1.4 repository distinct.
 
 <h2 id="head">(Optional) Switch to the master branch</h2>
 
