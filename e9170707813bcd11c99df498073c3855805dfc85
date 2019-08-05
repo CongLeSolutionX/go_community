@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f4bf1c52_d19f8e61",
+        "filename": "src/context/context.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2019-08-05T13:54:41Z",
+      "side": 1,
+      "message": "Yes, that makes much more sense. I initially thought of adding it to CancelFunc documentation, but seemed out of place there.",
+      "parentUuid": "ade4c32f_119508d9",
+      "range": {
+        "startLine": 230,
+        "startChar": 3,
+        "endLine": 230,
+        "endChar": 77
+      },
+      "revId": "e9170707813bcd11c99df498073c3855805dfc85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8641e0c6_a4a26313",
         "filename": "src/context/context.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "e9170707813bcd11c99df498073c3855805dfc85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d64faa3e_9eb5cbeb",
+        "filename": "src/context/context.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2019-08-05T13:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8641e0c6_a4a26313",
+      "range": {
+        "startLine": 396,
+        "startChar": 3,
+        "endLine": 396,
+        "endChar": 15
+      },
+      "revId": "e9170707813bcd11c99df498073c3855805dfc85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
