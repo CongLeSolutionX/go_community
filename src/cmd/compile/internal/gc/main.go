@@ -415,6 +415,7 @@ func Main(archInit func(*Arch)) {
 				}
 				continue Split
 			}
+
 			// special case for ssa for now
 			if strings.HasPrefix(name, "ssa/") {
 				// expect form ssa/phase/flag
