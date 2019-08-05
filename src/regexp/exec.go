@@ -524,7 +524,7 @@ func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap i
 		dstCap = arrayNoInts[:0:0]
 	}
 
-	if r == nil && len(b)+len(s) < re.minInputLen {
+	if r == nil && (len(b)+len(s) < re.minInputLen || (re.maxInputLen >= 0 && len(b)+len(s) > re.maxInputLen)) {
 		return nil
 	}
 
