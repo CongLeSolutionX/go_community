@@ -34,6 +34,24 @@
       "revId": "fba60669751a5362c43e3bdee8455bed3fa275b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7bfdce0_f8d3b0a5",
+        "filename": "test/fixedbugs/issue4085b.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-08-06T02:00:11Z",
+      "side": 0,
+      "message": "I\u0027d rather leave old tests as is and add new ones.",
+      "parentUuid": "8a99ab74_81fbfef7",
+      "revId": "fba60669751a5362c43e3bdee8455bed3fa275b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

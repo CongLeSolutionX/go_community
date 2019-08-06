@@ -80,6 +80,24 @@
       "revId": "d4d5df2b45db55349710a4e77b2103c2c0dd36fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c751beb5_4cbc55be",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-08-06T02:00:11Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "e659bc36_fa7777de",
+      "revId": "d4d5df2b45db55349710a4e77b2103c2c0dd36fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
