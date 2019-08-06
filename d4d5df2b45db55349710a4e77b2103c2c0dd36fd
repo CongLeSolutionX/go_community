@@ -62,6 +62,24 @@
       "revId": "d4d5df2b45db55349710a4e77b2103c2c0dd36fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e659bc36_fa7777de",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-08-06T01:05:30Z",
+      "side": 1,
+      "message": "Only typechecked for code coming from source files. If later someone introduces a new OMAKESLICE as part of a different frontend rewrite flow the n.Left and n.Right might not have been typechecked.",
+      "parentUuid": "7d6d25bd_d8974713",
+      "revId": "d4d5df2b45db55349710a4e77b2103c2c0dd36fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
