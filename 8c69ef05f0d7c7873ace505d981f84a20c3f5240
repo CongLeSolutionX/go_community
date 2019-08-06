@@ -16,6 +16,24 @@
       "revId": "8c69ef05f0d7c7873ace505d981f84a20c3f5240",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e064626a_24267da0",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 33278
+      },
+      "writtenOn": "2019-08-06T16:19:24Z",
+      "side": 1,
+      "message": "Cool.  I much prefer your phrasing over mine... \"on one condition\" ;)\n\nMy \"condition\" (really just an idea): \n- We use sub-headings or horizontal lines or something to divide \"compiler binaries\" into 3 clear subsections.\n\nI struggled with how to edit this \"compiler binaries\" section in a clear and concise way, because this section feels like 3 sections in 1, and it initially took me many re-readings to discern where exactly one sub-section ends and the next begins.\n\n(The sections I see are \"use a binary release\", \"use 1.4 source\", and \"cross-compile using 1.4 source\".)\n\nThat is why I went through contortions to express: \"if-and-only-if you took the build-from-git-src option...\".\n\nAll 3 sections could benefit from a bit more explicitness, but I only have experience with the \"use 1.4 source\" section right now.\n\n--------------------------------------------------\n\nWe could do \"bulleted paragraphs\", like: https://golang.org/doc/install/source#environment\n\nWe could do \"h3\" subheadings, like the per-OS ones at: https://golang.org/doc/install#install\n\nLooking over a handful of pages, it seems like \"h3\" subheadings are the typical pattern in these docs.\n\nWhat do you think?  Do you also discern approximately 3 subheadings?  I realize that the \"1.4 source\" subsection will then be a bigger subsection than the others, but maybe this will induce other people to see an opportunity to add some bonus touch-ups to the other subsections.",
+      "parentUuid": "e35423b1_e9f3ba13",
+      "revId": "8c69ef05f0d7c7873ace505d981f84a20c3f5240",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
