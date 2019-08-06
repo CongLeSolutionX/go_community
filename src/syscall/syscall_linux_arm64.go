@@ -154,6 +154,4 @@ const (
 	SYS_EPOLL_WAIT   = 1069
 )
 
-func rawVforkSyscall(trap, a1 uintptr) (r1 uintptr, err Errno) {
-	panic("not implemented")
-}
+func rawVforkSyscall(trap, a1 uintptr) (r1 uintptr, err Errno)
