@@ -22,6 +22,30 @@
       "revId": "1044ad7e4e04930b1a942f640c696edd6b56339d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21c37c93_c7aaeff3",
+        "filename": "src/sync/atomic/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2019-08-08T08:58:13Z",
+      "side": 1,
+      "message": "It\u0027s difficult to describe the behavior of atomic and non-atomic when using other synchronization operations, so we decided to remove this sentence. The behavior not mentioned in the document is not guaranteed. Thank you.",
+      "parentUuid": "5ca49a01_cfa3b474",
+      "range": {
+        "startLine": 41,
+        "startChar": 28,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "1044ad7e4e04930b1a942f640c696edd6b56339d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
