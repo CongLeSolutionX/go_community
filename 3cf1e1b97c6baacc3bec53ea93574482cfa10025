@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0449a694_a3d3b069",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-08-08T19:12:08Z",
+      "side": 1,
+      "message": "We don\u0027t use Signed-off-by lines, please remove them.  Thanks.",
+      "revId": "3cf1e1b97c6baacc3bec53ea93574482cfa10025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
