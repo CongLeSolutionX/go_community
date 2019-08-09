@@ -1624,6 +1624,9 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 	c4 := bgetc(f)
 	f.MustSeek(start, 0)
 
+	unit := &sym.CompilationUnit{Lib: lib}
+	lib.Units = append(lib.Units, unit)
+
 	magic := uint32(c1)<<24 | uint32(c2)<<16 | uint32(c3)<<8 | uint32(c4)
 	if magic == 0x7f454c46 { // \x7F E L F
 		ldelf := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
