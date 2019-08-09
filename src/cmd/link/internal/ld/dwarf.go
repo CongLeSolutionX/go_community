@@ -862,13 +862,15 @@ func dwarfDefineGlobal(ctxt *Link, s *sym.Symbol, str string, v int64, gotype *s
 	if lib == nil {
 		lib = ctxt.LibraryByPkg["runtime"]
 	}
-	dv := newdie(ctxt, ctxt.compUnitByPackage[lib].dwinfo, dwarf.DW_ABRV_VARIABLE, str, int(s.Version))
-	newabslocexprattr(dv, v, s)
-	if !s.IsFileLocal() {
-		newattr(dv, dwarf.DW_AT_external, dwarf.DW_CLS_FLAG, 1, 0)
+	for _, unit := range ctxt.compUnitsByPackage[lib] {
+		dv := newdie(ctxt, unit.dwinfo, dwarf.DW_ABRV_VARIABLE, str, int(s.Version))
+		newabslocexprattr(dv, v, s)
+		if !s.IsFileLocal() {
+			newattr(dv, dwarf.DW_AT_external, dwarf.DW_CLS_FLAG, 1, 0)
+		}
+		dt := defgotype(ctxt, gotype)
+		newrefattr(dv, dwarf.DW_AT_type, dt)
 	}
-	dt := defgotype(ctxt, gotype)
-	newrefattr(dv, dwarf.DW_AT_type, dt)
 }
 
 // For use with pass.c::genasmsym
@@ -949,34 +951,36 @@ func calcCompUnitRanges(ctxt *Link) {
 		if s.FuncInfo == nil {
 			continue
 		}
-		unit := ctxt.compUnitByPackage[s.Lib]
-
-		// Update PC ranges.
-		//
-		// We don't simply compare the end of the previous
-		// symbol with the start of the next because there's
-		// often a little padding between them. Instead, we
-		// only create boundaries between symbols from
-		// different units.
-		if prevUnit != unit {
-			unit.pcs = append(unit.pcs, dwarf.Range{Start: s.Value - unit.lib.Textp[0].Value})
-			prevUnit = unit
+		for _, unit := range ctxt.compUnitsByPackage[s.Lib] {
+			// Update PC ranges.
+			//
+			// We don't simply compare the end of the previous
+			// symbol with the start of the next because there's
+			// often a little padding between them. Instead, we
+			// only create boundaries between symbols from
+			// different units.
+			if prevUnit != unit {
+				unit.pcs = append(unit.pcs, dwarf.Range{Start: s.Value - unit.lib.Textp[0].Value})
+				prevUnit = unit
+			}
+			unit.pcs[len(unit.pcs)-1].End = s.Value - unit.lib.Textp[0].Value + s.Size
 		}
-		unit.pcs[len(unit.pcs)-1].End = s.Value - unit.lib.Textp[0].Value + s.Size
 	}
 }
 
 func movetomodule(ctxt *Link, parent *dwarf.DWDie) {
 	runtimelib := ctxt.LibraryByPkg["runtime"]
-	die := ctxt.compUnitByPackage[runtimelib].dwinfo.Child
-	if die == nil {
-		ctxt.compUnitByPackage[runtimelib].dwinfo.Child = parent.Child
-		return
+	for _, unit := range ctxt.compUnitsByPackage[runtimelib] {
+		die := unit.dwinfo.Child
+		if die == nil {
+			unit.dwinfo.Child = parent.Child
+		} else {
+			for die.Link != nil {
+				die = die.Link
+			}
+			die.Link = parent.Child
+		}
 	}
-	for die.Link != nil {
-		die = die.Link
-	}
-	die.Link = parent.Child
 }
 
 // If the pcln table contains runtime/proc.go, use that to set gdbscript path.
@@ -1169,6 +1173,9 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 	for _, s := range unit.lib.Textp { // textp has been dead-code-eliminated already.
 		dsym := dwarfFuncSym(ctxt, s, dwarf.InfoPrefix, true)
 		for _, f := range s.FuncInfo.File {
+			if ctxt.Debugvlog > 1 {
+				ctxt.Logf("\tUNIT NAME: %q\n", s.Name)
+			}
 			if _, ok := fileNums[int(f.Value)]; ok {
 				continue
 			}
@@ -1772,7 +1779,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		dwsectCUSize = make(map[string]uint64)
 	}
 
-	ctxt.compUnitByPackage = make(map[*sym.Library]*compilationUnit)
+	ctxt.compUnitsByPackage = make(map[*sym.Library][]*compilationUnit)
 
 	// Forctxt.Diagnostic messages.
 	newattr(&dwtypes, dwarf.DW_AT_name, dwarf.DW_CLS_STRING, int64(len("dwtypes")), "dwtypes")
@@ -1827,7 +1834,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 			unit.consts = s
 		}
 		ctxt.compUnits = append(ctxt.compUnits, unit)
-		ctxt.compUnitByPackage[lib] = unit
+		ctxt.compUnitsByPackage[lib] = append(ctxt.compUnitsByPackage[lib], unit)
 
 		unit.dwinfo = newdie(ctxt, &dwroot, dwarf.DW_ABRV_COMPUNIT, unit.lib.Pkg, 0)
 		newattr(unit.dwinfo, dwarf.DW_AT_language, dwarf.DW_CLS_CONSTANT, int64(dwarf.DW_LANG_Go), 0)
