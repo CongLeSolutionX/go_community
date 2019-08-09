@@ -862,13 +862,15 @@ func dwarfDefineGlobal(ctxt *Link, s *sym.Symbol, str string, v int64, gotype *s
 	if lib == nil {
 		lib = ctxt.LibraryByPkg["runtime"]
 	}
-	dv := newdie(ctxt, ctxt.compUnitByPackage[lib].dwinfo, dwarf.DW_ABRV_VARIABLE, str, int(s.Version))
-	newabslocexprattr(dv, v, s)
-	if !s.IsFileLocal() {
-		newattr(dv, dwarf.DW_AT_external, dwarf.DW_CLS_FLAG, 1, 0)
+	for _, unit := range ctxt.compUnitsByPackage[lib] {
+		dv := newdie(ctxt, unit.dwinfo, dwarf.DW_ABRV_VARIABLE, str, int(s.Version))
+		newabslocexprattr(dv, v, s)
+		if !s.IsFileLocal() {
+			newattr(dv, dwarf.DW_AT_external, dwarf.DW_CLS_FLAG, 1, 0)
+		}
+		dt := defgotype(ctxt, gotype)
+		newrefattr(dv, dwarf.DW_AT_type, dt)
 	}
-	dt := defgotype(ctxt, gotype)
-	newrefattr(dv, dwarf.DW_AT_type, dt)
 }
 
 // For use with pass.c::genasmsym
@@ -940,6 +942,7 @@ type compilationUnit struct {
 	funcDIEs  []*sym.Symbol // Function DIE subtrees
 	absFnDIEs []*sym.Symbol // Abstract function DIE subtrees
 	rangeSyms []*sym.Symbol // symbols for debug_range
+	textP     []*sym.Symbol // text symbols in this CU
 }
 
 // calcCompUnitRanges calculates the PC ranges of the compilation units.
@@ -949,34 +952,36 @@ func calcCompUnitRanges(ctxt *Link) {
 		if s.FuncInfo == nil {
 			continue
 		}
-		unit := ctxt.compUnitByPackage[s.Lib]
-
-		// Update PC ranges.
-		//
-		// We don't simply compare the end of the previous
-		// symbol with the start of the next because there's
-		// often a little padding between them. Instead, we
-		// only create boundaries between symbols from
-		// different units.
-		if prevUnit != unit {
-			unit.pcs = append(unit.pcs, dwarf.Range{Start: s.Value - unit.lib.Textp[0].Value})
-			prevUnit = unit
+		for _, unit := range ctxt.compUnitsByPackage[s.Lib] {
+			// Update PC ranges.
+			//
+			// We don't simply compare the end of the previous
+			// symbol with the start of the next because there's
+			// often a little padding between them. Instead, we
+			// only create boundaries between symbols from
+			// different units.
+			if prevUnit != unit {
+				unit.pcs = append(unit.pcs, dwarf.Range{Start: s.Value - unit.textP[0].Value})
+				prevUnit = unit
+			}
+			unit.pcs[len(unit.pcs)-1].End = s.Value - unit.textP[0].Value + s.Size
 		}
-		unit.pcs[len(unit.pcs)-1].End = s.Value - unit.lib.Textp[0].Value + s.Size
 	}
 }
 
 func movetomodule(ctxt *Link, parent *dwarf.DWDie) {
 	runtimelib := ctxt.LibraryByPkg["runtime"]
-	die := ctxt.compUnitByPackage[runtimelib].dwinfo.Child
-	if die == nil {
-		ctxt.compUnitByPackage[runtimelib].dwinfo.Child = parent.Child
-		return
+	for _, unit := range ctxt.compUnitsByPackage[runtimelib] {
+		die := unit.dwinfo.Child
+		if die == nil {
+			unit.dwinfo.Child = parent.Child
+		} else {
+			for die.Link != nil {
+				die = die.Link
+			}
+			die.Link = parent.Child
+		}
 	}
-	for die.Link != nil {
-		die = die.Link
-	}
-	die.Link = parent.Child
 }
 
 // If the pcln table contains runtime/proc.go, use that to set gdbscript path.
@@ -1166,9 +1171,12 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 	// Create the file table. fileNums maps from global file
 	// indexes (created by numberfile) to CU-local indexes.
 	fileNums := make(map[int]int)
-	for _, s := range unit.lib.Textp { // textp has been dead-code-eliminated already.
+	for _, s := range unit.textP { // textp has been dead-code-eliminated already.
 		dsym := dwarfFuncSym(ctxt, s, dwarf.InfoPrefix, true)
 		for _, f := range s.FuncInfo.File {
+			if ctxt.Debugvlog > 1 {
+				ctxt.Logf("\tUNIT NAME: %q\n", s.Name)
+			}
 			if _, ok := fileNums[int(f.Value)]; ok {
 				continue
 			}
@@ -1206,7 +1214,7 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 	dwarf.Uleb128put(dwarfctxt, ls, 1+int64(ctxt.Arch.PtrSize))
 	ls.AddUint8(dwarf.DW_LNE_set_address)
 
-	s := unit.lib.Textp[0]
+	s := unit.textP[0]
 	pc := s.Value
 	line := 1
 	file := 1
@@ -1215,7 +1223,7 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 	pcfile := obj.NewPCIter(uint32(ctxt.Arch.MinLC))
 	pcline := obj.NewPCIter(uint32(ctxt.Arch.MinLC))
 	pcstmt := obj.NewPCIter(uint32(ctxt.Arch.MinLC))
-	for i, s := range unit.lib.Textp {
+	for i, s := range unit.textP {
 		finddebugruntimepath(s)
 
 		pcfile.Init(s.FuncInfo.Pcfile.P)
@@ -1287,7 +1295,7 @@ func writelines(ctxt *Link, unit *compilationUnit, ls *sym.Symbol) {
 				pcline.Next()
 			}
 		}
-		if is_stmt == 0 && i < len(unit.lib.Textp)-1 {
+		if is_stmt == 0 && i < len(unit.textP)-1 {
 			// If there is more than one function, ensure default value is established.
 			is_stmt = 1
 			ls.AddUint8(uint8(dwarf.DW_LNS_negate_stmt))
@@ -1555,7 +1563,7 @@ func writeinfo(ctxt *Link, syms []*sym.Symbol, units []*compilationUnit, abbrevs
 		compunit := u.dwinfo
 		s := dtolsym(compunit.Sym)
 
-		if len(u.lib.Textp) == 0 && u.dwinfo.Child == nil {
+		if len(u.textP) == 0 && u.dwinfo.Child == nil {
 			continue
 		}
 
@@ -1772,7 +1780,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		dwsectCUSize = make(map[string]uint64)
 	}
 
-	ctxt.compUnitByPackage = make(map[*sym.Library]*compilationUnit)
+	ctxt.compUnitsByPackage = make(map[*sym.Library][]*compilationUnit)
 
 	// Forctxt.Diagnostic messages.
 	newattr(&dwtypes, dwarf.DW_AT_name, dwarf.DW_CLS_STRING, int64(len("dwtypes")), "dwtypes")
@@ -1826,8 +1834,10 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 			importInfoSymbol(ctxt, s)
 			unit.consts = s
 		}
+		unit.textP = make([]*sym.Symbol, len(lib.Textp))
+		copy(unit.textP, lib.Textp)
 		ctxt.compUnits = append(ctxt.compUnits, unit)
-		ctxt.compUnitByPackage[lib] = unit
+		ctxt.compUnitsByPackage[lib] = append(ctxt.compUnitsByPackage[lib], unit)
 
 		unit.dwinfo = newdie(ctxt, &dwroot, dwarf.DW_ABRV_COMPUNIT, unit.lib.Pkg, 0)
 		newattr(unit.dwinfo, dwarf.DW_AT_language, dwarf.DW_CLS_CONSTANT, int64(dwarf.DW_LANG_Go), 0)
@@ -1951,7 +1961,7 @@ func dwarfGenerateDebugSyms(ctxt *Link) {
 			continue
 		}
 		writelines(ctxt, u, debugLine)
-		writepcranges(ctxt, u, u.lib.Textp[0], u.pcs, debugRanges)
+		writepcranges(ctxt, u, u.textP[0], u.pcs, debugRanges)
 	}
 
 	// newdie adds DIEs to the *beginning* of the parent's DIE list.
@@ -2133,14 +2143,14 @@ func (v compilationUnitByStartPC) Swap(i, j int) { v[i], v[j] = v[j], v[i] }
 
 func (v compilationUnitByStartPC) Less(i, j int) bool {
 	switch {
-	case len(v[i].lib.Textp) == 0 && len(v[j].lib.Textp) == 0:
+	case len(v[i].textP) == 0 && len(v[j].textP) == 0:
 		return v[i].lib.Pkg < v[j].lib.Pkg
-	case len(v[i].lib.Textp) != 0 && len(v[j].lib.Textp) == 0:
+	case len(v[i].textP) != 0 && len(v[j].textP) == 0:
 		return true
-	case len(v[i].lib.Textp) == 0 && len(v[j].lib.Textp) != 0:
+	case len(v[i].textP) == 0 && len(v[j].textP) != 0:
 		return false
 	default:
-		return v[i].lib.Textp[0].Value < v[j].lib.Textp[0].Value
+		return v[i].textP[0].Value < v[j].textP[0].Value
 	}
 }
 
