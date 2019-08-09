@@ -1,4 +1,3 @@
-// Copyright 2013 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -254,7 +253,6 @@ func (r *objReader) readSym() {
 
 overwrite:
 	s.File = r.pkgpref[:len(r.pkgpref)-1]
-	s.Lib = r.lib
 	if dupok {
 		s.Attr |= sym.AttrDuplicateOK
 	}
@@ -405,7 +403,8 @@ overwrite:
 				reason = fmt.Sprintf("new length %d != old length %d",
 					len(data), len(dup.P))
 			}
-			fmt.Fprintf(os.Stderr, "cmd/link: while reading object for '%v': duplicate symbol '%s', previous def at '%v', with mismatched payload: %s\n", r.lib, dup, dup.Lib, reason)
+			fmt.Fprintf(os.Stderr, "cmd/link: while reading object for '%v': duplicate symbol '%s', previous def at '%v', with mismatched payload: %s\n", r.lib, dup, r.lib.Pkg, reason)
+			s.Unit.TextP = append(s.Unit.TextP, s)
 
 			// For the moment, whitelist DWARF subprogram DIEs for
 			// auto-generated wrapper functions. What seems to happen
