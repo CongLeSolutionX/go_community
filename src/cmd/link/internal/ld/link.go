@@ -91,8 +91,8 @@ type Link struct {
 	// Used to implement field tracking.
 	Reachparent map[*sym.Symbol]*sym.Symbol
 
-	compUnits         []*compilationUnit // DWARF compilation units
-	compUnitByPackage map[*sym.Library]*compilationUnit
+	compUnits          []*sym.CompilationUnit // DWARF compilation units
+	compUnitsByPackage map[*sym.Library][]*sym.CompilationUnit
 
 	relocbuf []byte // temporary buffer for applying relocations
 }
