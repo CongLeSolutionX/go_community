@@ -10,6 +10,7 @@ import (
 	. "sync"
 	"sync/atomic"
 	"testing"
+	"unsafe"
 )
 
 func testWaitGroup(t *testing.T, wg1 *WaitGroup, wg2 *WaitGroup) {
@@ -212,6 +213,9 @@ func TestWaitGroupAlign(t *testing.T) {
 		wg WaitGroup
 	}
 	var x X
+	if x.wg.StateAlign() != 8 && unsafe.Sizeof(&struct{}{}) == 8 {
+		t.Fatal("state1 is not 64-bit aligned on 64-bit arch")
+	}
 	x.wg.Add(1)
 	go func(x *X) {
 		x.wg.Done()

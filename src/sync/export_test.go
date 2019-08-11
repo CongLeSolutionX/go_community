@@ -4,6 +4,8 @@
 
 package sync
 
+import "unsafe"
+
 // Export for testing.
 var Runtime_Semacquire = runtime_Semacquire
 var Runtime_Semrelease = runtime_Semrelease
@@ -54,4 +56,9 @@ func (c *poolChain) PopHead() (interface{}, bool) {
 
 func (c *poolChain) PopTail() (interface{}, bool) {
 	return c.popTail()
+}
+
+// WaitGroup testing
+func (wg *WaitGroup) StateAlign() uintptr {
+	return unsafe.Alignof(wg.state1)
 }
