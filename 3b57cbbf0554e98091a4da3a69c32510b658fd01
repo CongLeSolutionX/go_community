@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09724b82_f1d13f7f",
+        "filename": "doc/asm.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-08-11T05:29:24Z",
+      "side": 1,
+      "message": "please change this line slightly to drop the plural and add punctuation:\n\nelement of \u003ccode\u003eg\u003c/code\u003e, called \u003ccode\u003ego_asm.h\u003c/code\u003e.",
+      "revId": "3b57cbbf0554e98091a4da3a69c32510b658fd01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "013c6b81_9a49fe53",
+        "filename": "doc/asm.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-08-11T05:29:24Z",
+      "side": 1,
+      "message": "amd64p32 is not defined in this document. i guess that\u0027s ok.",
+      "revId": "3b57cbbf0554e98091a4da3a69c32510b658fd01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
