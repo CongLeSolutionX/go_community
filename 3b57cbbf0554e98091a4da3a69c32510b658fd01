@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97089e48_79a3dca4",
+        "filename": "doc/asm.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 32657
+      },
+      "writtenOn": "2019-08-11T05:33:15Z",
+      "side": 1,
+      "message": "Thanks for pointing out that.",
+      "parentUuid": "09724b82_f1d13f7f",
+      "revId": "3b57cbbf0554e98091a4da3a69c32510b658fd01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "013c6b81_9a49fe53",
         "filename": "doc/asm.html",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "3b57cbbf0554e98091a4da3a69c32510b658fd01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1803e69f_da32fa29",
+        "filename": "doc/asm.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 32657
+      },
+      "writtenOn": "2019-08-11T05:33:15Z",
+      "side": 1,
+      "message": "Yes, it\u0027s defined in the source code.",
+      "parentUuid": "013c6b81_9a49fe53",
+      "revId": "3b57cbbf0554e98091a4da3a69c32510b658fd01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
