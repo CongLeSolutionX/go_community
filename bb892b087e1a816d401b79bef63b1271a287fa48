@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a4d55a3_88f3248b",
+        "filename": "doc/asm.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-08-11T04:52:37Z",
+      "side": 1,
+      "message": "s/: the/: The/\nAlso please don\u0027t start a sentence with a lower-case letter. Rephrase to avoid that.\nTry this:\n\nNote: The code above works only in the \u003ccode\u003eruntime\u003c/code\u003e package, while \u003ccode\u003ego_tls.h\u003c/code\u003e also\napplies to \u003ca href\u003d\"#arm\"\u003earm\u003c/a\u003e, \u003ca href\u003d\"#amd64\"\u003eamd64\u003c/a\u003e and amd64p32 and \u003ccode\u003ego_asm.h\u003c/code\u003e applies to all architectures.",
+      "revId": "bb892b087e1a816d401b79bef63b1271a287fa48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
