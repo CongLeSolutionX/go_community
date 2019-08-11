@@ -22,18 +22,23 @@ type WaitGroup struct {
 
 	// 64-bit value: high 32 bits are counter, low 32 bits are waiter count.
 	// 64-bit atomic operations require 64-bit alignment, but 32-bit
-	// compilers do not ensure it. So we allocate 12 bytes and then use
+	// compilers do not ensure it. So we allocate 16 bytes and then use
 	// the aligned 8 bytes in them as state, and the other 4 as storage
-	// for the sema.
-	state1 [3]uint32
+	// for the sema. We use [2]uint64 instead of [3]uint32 because this
+	// guarantees that the first element is 64-bit aligned on 64-bit
+	// compilers, allowing to make use of this knowledge to constant-fold
+	// the if in state() when we are on a 64-bit compiler.
+	state1 [2]uint64
 }
 
 // state returns pointers to the state and sema fields stored within wg.state1.
 func (wg *WaitGroup) state() (statep *uint64, semap *uint32) {
-	if uintptr(unsafe.Pointer(&wg.state1))%8 == 0 {
-		return (*uint64)(unsafe.Pointer(&wg.state1)), &wg.state1[2]
+	const is64BitAligned = unsafe.Alignof(wg.state1) == 8
+	if is64BitAligned || uintptr(unsafe.Pointer(&wg.state1))%8 == 0 {
+		return &wg.state1[0], (*uint32)(unsafe.Pointer(&wg.state1[1]))
 	} else {
-		return (*uint64)(unsafe.Pointer(&wg.state1[1])), &wg.state1[0]
+		state1 := (*[4]uint32)(unsafe.Pointer(&wg.state1))
+		return (*uint64)(unsafe.Pointer(&state1[1])), &state1[0]
 	}
 }
 
