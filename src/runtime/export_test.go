@@ -727,15 +727,24 @@ func UnsafeChunkFromSlice(b []uint8) *Chunk8 { return (*Chunk8)(unsafeChunkFromS
 func (c *Chunk8) Load() uint64               { return (*chunk8)(c).load() }
 func (c *Chunk8) Store(x uint64)             { (*chunk8)(c).store(x) }
 
+// Expose mallocSum for testing.
+type MallocSum mallocSum
+
+func PackMallocSum(start, max, end int) MallocSum { return MallocSum(packMallocSum(start, max, end)) }
+func (m MallocSum) Start() int                    { return mallocSum(m).start() }
+func (m MallocSum) Max() int                      { return mallocSum(m).max() }
+func (m MallocSum) End() int                      { return mallocSum(m).end() }
+
 // Expose mallocBits for testing.
 type MallocBits mallocBits
 
 func (b *MallocBits) Alloc(npages uintptr, hint int) (int, int) {
 	return (*mallocBits)(b).alloc(npages, hint)
 }
-func (b *MallocBits) AllocRange(i, n int) { (*mallocBits)(b).allocRange(i, n) }
-func (b *MallocBits) Free1(i int)         { (*mallocBits)(b).free1(i) }
-func (b *MallocBits) Free(i, n int)       { (*mallocBits)(b).free(i, n) }
+func (b *MallocBits) AllocRange(i, n int)  { (*mallocBits)(b).allocRange(i, n) }
+func (b *MallocBits) Free1(i int)          { (*mallocBits)(b).free1(i) }
+func (b *MallocBits) Free(i, n int)        { (*mallocBits)(b).free(i, n) }
+func (b *MallocBits) Summarize() MallocSum { return MallocSum((*mallocBits)(b).summarize()) }
 
 // Expose non-trivial alloc helpers for testing.
 func SetConsecBits64(x uint64, i, n int) uint64   { return setConsecBits64(x, i, n) }
