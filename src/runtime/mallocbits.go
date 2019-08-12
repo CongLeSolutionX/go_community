@@ -1,0 +1,254 @@
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package runtime
+
+import (
+	"math/bits"
+)
+
+// pageBits is a bitmap representing one bit per page in a malloc chunk.
+type pageBits [mallocChunkPages / 64]uint64
+
+// set sets bit i of pageBits.
+func (b *pageBits) set(i int) {
+	b[i/64] |= 1 << (i % 64)
+}
+
+// setRange sets bits in the range [i, i+n).
+func (b *pageBits) setRange(i, n int) {
+	_ = b[i/64]
+	if n == 1 {
+		// Fast path for the n == 1 case.
+		b.set(i)
+		return
+	}
+	// Set bits [i, j].
+	j := i + n - 1
+	if i/64 == j/64 {
+		b[i/64] |= ((uint64(1) << n) - 1) << (i % 64)
+		return
+	}
+	_ = b[j/64]
+	// Set leading bits.
+	b[i/64] |= ^uint64(0) << (i % 64)
+	for k := i/64 + 1; k < j/64; k++ {
+		b[k] = ^uint64(0)
+	}
+	// Set trailing bits.
+	b[j/64] |= (uint64(1) << (j%64 + 1)) - 1
+}
+
+// setAll sets all the bits of b.
+func (b *pageBits) setAll() {
+	for i := range b {
+		b[i] = ^uint64(0)
+	}
+}
+
+// clear clears bit i of pageBits.
+func (b *pageBits) clear(i int) {
+	b[i/64] &^= 1 << (i % 64)
+}
+
+// clearRange clears bits in the range [i, i+n).
+func (b *pageBits) clearRange(i, n int) {
+	_ = b[i/64]
+	if n == 1 {
+		// Fast path for the n == 1 case.
+		b.clear(i)
+		return
+	}
+	// Clear bits [i, j].
+	j := i + n - 1
+	if i/64 == j/64 {
+		b[i/64] &^= ((uint64(1) << n) - 1) << (i % 64)
+		return
+	}
+	_ = b[j/64]
+	// Clear leading bits.
+	b[i/64] &^= ^uint64(0) << (i % 64)
+	for k := i/64 + 1; k < j/64; k++ {
+		b[k] = 0
+	}
+	// Clear trailing bits.
+	b[j/64] &^= (uint64(1) << (j%64 + 1)) - 1
+}
+
+// clearAll frees all the bits of b.
+func (b *pageBits) clearAll() {
+	for i := range b {
+		b[i] = 0
+	}
+}
+
+// mallocBits is a page-per-bit bitmap.
+//
+// It wraps a pageBits with different names and additional features,
+// such as summarizing and searching.
+type mallocBits pageBits
+
+// find searches for npages contiguous free pages in mallocBits and returns
+// the index where that run starts as well as, as well as the index of
+// the first free bit it found in the search. searchIdx represents the first
+// known free page and where to begin the search from.
+//
+// If find fails to find any free space, it returns an index of -1 and
+// the new searchIdx should be ignored.
+//
+// The returned searchIdx is always the index of the first free page found
+// in this bitmap during the search, except if npages == 1, in which
+// case it will be the index just after the first free page, because that
+// index is assumed to be allocated and so represents a minor
+// optimization for that case.
+func (b *mallocBits) find(npages uintptr, searchIdx int) (int, int) {
+	if npages == 1 {
+		addr := b.find1(searchIdx)
+		// Return a searchIdx of addr + 1 since we assume addr will be
+		// allocated.
+		return addr, addr + 1
+	} else if npages <= 64 {
+		return b.findSmallN(npages, searchIdx)
+	}
+	return b.findLargeN(npages, searchIdx)
+}
+
+// find1 is a helper for find which searches for a single free page
+// in the mallocBits and returns the index.
+//
+// See find for an explanation of the searchIdx parameter.
+func (b *mallocBits) find1(searchIdx int) int {
+	for i := searchIdx / 64; i < len(b); i++ {
+		x := b[i]
+		if x == ^uint64(0) {
+			continue
+		}
+		return i*64 + bits.TrailingZeros64(^x)
+	}
+	return -1
+}
+
+// findSmallN is a helper for find which searches for npages contiguous free pages
+// in this mallocBits and returns the index where that run of contiguous pages
+// starts as well as the index of the first free page it finds in its search.
+//
+// See find for an explanation of the searchIdx parameter.
+//
+// Returns a -1 index on failure and the new searchIdx should be ignored.
+//
+// findSmallN assumes npages <= 64, where any such contiguous run of pages
+// crosses at most one aligned 64-bit boundary in the bits.
+func (b *mallocBits) findSmallN(npages uintptr, searchIdx int) (int, int) {
+	end, nSearchIdx := int(0), -1
+	for i := searchIdx / 64; i < len(b); i++ {
+		bi := b[i]
+		if bi == ^uint64(0) {
+			end = 0
+			continue
+		}
+		// First see if we can pack our allocation in the trailing
+		// zeros plus the end of the last 64 bits.
+		start := bits.TrailingZeros64(bi)
+		if nSearchIdx == -1 {
+			// The new searchIdx is going to be at these 64 bits after any
+			// 1s we file, so count trailing 1s.
+			nSearchIdx = i*64 + bits.TrailingZeros64(^bi)
+		}
+		if end+start >= int(npages) {
+			return i*64 - end, nSearchIdx
+		}
+		// Next, check the interior of the 64-bit chunk.
+		j := findConsecN64(^bi, int(npages))
+		if j < 64 {
+			return i*64 + j, nSearchIdx
+		}
+		end = bits.LeadingZeros64(bi)
+	}
+	return -1, nSearchIdx
+}
+
+// findLargeN is a helper for find which searches for npages contiguous free pages
+// in this mallocBits and returns the index where that run starts, as well as the
+// index of the first free page it found it its search.
+//
+// See alloc for an explanation of the searchIdx parameter.
+//
+// Returns a -1 index on failure and the new searchIdx should be ignored.
+//
+// findLargeN assumes npages > 64, where any such run of free pages
+// crosses at least one aligned 64-bit boundary in the bits.
+func (b *mallocBits) findLargeN(npages uintptr, searchIdx int) (int, int) {
+	start, size, nSearchIdx := -1, int(0), -1
+	for i := searchIdx / 64; i < len(b); i++ {
+		x := b[i]
+		if x == ^uint64(0) {
+			size = 0
+			continue
+		}
+		if nSearchIdx == -1 {
+			// The new searchIdx is going to be at these 64 bits after any
+			// 1s we file, so count trailing 1s.
+			nSearchIdx = i*64 + bits.TrailingZeros64(^x)
+		}
+		if size == 0 {
+			size = bits.LeadingZeros64(x)
+			start = i*64 + 64 - size
+			continue
+		}
+		s := bits.TrailingZeros64(x)
+		if s+size >= int(npages) {
+			size += s
+			break
+		}
+		if s < 64 {
+			size = bits.LeadingZeros64(x)
+			start = i*64 + 64 - size
+			continue
+		}
+		size += 64
+	}
+	if size < int(npages) {
+		return -1, nSearchIdx
+	}
+	return start, nSearchIdx
+}
+
+// allocRange allocates the range [i, i+n).
+func (b *mallocBits) allocRange(i, n int) {
+	(*pageBits)(b).setRange(i, n)
+}
+
+// allocAll allocates all the bits of b.
+func (b *mallocBits) allocAll() {
+	(*pageBits)(b).setAll()
+}
+
+// free1 frees a single page in the mallocBits at i.
+func (b *mallocBits) free1(i int) {
+	(*pageBits)(b).clear(i)
+}
+
+// free frees the range [i, i+n) of pages in the mallocBits.
+func (b *mallocBits) free(i, n int) {
+	(*pageBits)(b).clearRange(i, n)
+}
+
+// freeAll frees all the bits of b.
+func (b *mallocBits) freeAll() {
+	(*pageBits)(b).clearAll()
+}
+
+// findConsecN64 returns the bit index of the first set of
+// n consecutive 1 bits. If no consecutive set of 1 bits of
+// size n may be found in c, then it returns an integer > 64.
+func findConsecN64(c uint64, n int) int {
+	i := 0
+	cont := bits.TrailingZeros64(^c)
+	for cont < n && i < 64 {
+		i += cont
+		i += bits.TrailingZeros64(c >> i)
+		cont = bits.TrailingZeros64(^(c >> i))
+	}
+	return i
+}
