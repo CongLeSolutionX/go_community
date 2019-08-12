@@ -452,6 +452,9 @@ func mallocinit() {
 			physHugePageShift++
 		}
 	}
+	if pagesPerArena%mallocChunkPages != 0 {
+		throw("pagesPerArena % mallocChunkPages != 0")
+	}
 
 	// Initialize the heap.
 	mheap_.init()
