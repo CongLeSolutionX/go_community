@@ -728,3 +728,25 @@ func RunGetgThreadSwitchTest() {
 		panic("g1 != g3")
 	}
 }
+
+const (
+	PagesPerArena    = pagesPerArena
+	MallocChunkPages = mallocChunkPages
+)
+
+// Expose mallocBits for testing.
+type MallocBits mallocBits
+
+func (b *MallocBits) Find(npages uintptr, searchIdx uint) (uint, uint) {
+	return (*mallocBits)(b).find(npages, searchIdx)
+}
+func (b *MallocBits) AllocRange(i, n uint) { (*mallocBits)(b).allocRange(i, n) }
+func (b *MallocBits) Free(i, n uint)       { (*mallocBits)(b).free(i, n) }
+
+// Expose non-trivial helpers for testing.
+func FindBitRange64(c uint64, n uint) uint { return findBitRange64(c, n) }
+
+// BitRange represents a range over a bitmap.
+type BitRange struct {
+	I, N uint // bit index and length in bits
+}
