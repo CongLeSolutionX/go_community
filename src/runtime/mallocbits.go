@@ -1,0 +1,284 @@
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package runtime
+
+import (
+	"math/bits"
+	"unsafe"
+)
+
+// pageBits is a bitmap representing one bit per page in an arena.
+type pageBits [pagesPerArena / 8]uint8
+
+// setRange sets bits in the range [i, i+n).
+func (b *pageBits) setRange(i, n int) {
+	// TODO: make this faster with wider aligned stores.
+	_ = b[i/8]
+	j := i + n - 1
+	if i/8 == j/8 {
+		b[i/8] = setConsecBits8(b[i/8], i%8, n)
+		return
+	}
+	_ = b[j/8]
+	b[i/8] = setConsecBits8(b[i/8], i%8, 8-i%8)
+	for k := i/8 + 1; k < j/8; k++ {
+		b[k] = ^uint8(0)
+	}
+	b[j/8] = setConsecBits8(b[j/8], 0, j%8+1)
+}
+
+// setAll sets all the bits of b.
+func (b *pageBits) setAll() {
+	for i := 0; i < len(b); i++ {
+		b[i] = ^uint8(0)
+	}
+}
+
+// clear1 clears a single bit in the pageBits at i.
+func (b *pageBits) clear1(i int) {
+	b[i/8] &^= 1 << uint(i%8)
+}
+
+// clearRange clears bits in the range [i, i+n).
+func (b *pageBits) clearRange(i, n int) {
+	// TODO: make this faster with wider aligned stores.
+	_ = b[i/8]
+	j := i + n - 1
+	if i/8 == j/8 {
+		b[i/8] = clearConsecBits8(b[i/8], i%8, n)
+		return
+	}
+	_ = b[j/8]
+	b[i/8] = clearConsecBits8(b[i/8], i%8, 8-i%8)
+	for k := i/8 + 1; k < j/8; k++ {
+		b[k] = 0
+	}
+	b[j/8] = clearConsecBits8(b[j/8], 0, j%8+1)
+}
+
+// clearAll frees all the bits of b.
+func (b *pageBits) clearAll() {
+	// Should optimize into a memclr.
+	for i := range b {
+		b[i] = 0
+	}
+}
+
+// chunk8 is a convenient abstraction for doing a little endian
+// 64-bit load and store from a byte slice.
+type chunk8 [8]uint8
+
+// unsafeChunkFromSlice creates a chunk8 from a byte slice.
+func unsafeChunkFromSlice(b []uint8) *chunk8 {
+	return (*chunk8)(unsafe.Pointer(&b[0]))
+}
+
+// load loads 64 bits (little endian) from the chunk.
+func (d *chunk8) load() uint64 {
+	return uint64(d[0]) | uint64(d[1])<<8 | uint64(d[2])<<16 | uint64(d[3])<<24 |
+		uint64(d[4])<<32 | uint64(d[5])<<40 | uint64(d[6])<<48 | uint64(d[7])<<56
+}
+
+// store stores 64 bits (little endian) to the chunk.
+func (b *chunk8) store(v uint64) {
+	b[0] = byte(v)
+	b[1] = byte(v >> 8)
+	b[2] = byte(v >> 16)
+	b[3] = byte(v >> 24)
+	b[4] = byte(v >> 32)
+	b[5] = byte(v >> 40)
+	b[6] = byte(v >> 48)
+	b[7] = byte(v >> 56)
+}
+
+// mallocBits is a page-per-bit bitmap.
+//
+// It wraps a pageBits with different names and additional features,
+// such as summarizing and searching.
+type mallocBits pageBits
+
+// alloc1 allocates a single page from the mallocBits and returns the index.
+func (b *mallocBits) alloc1(hint int) int {
+	for i := hint / 64 * 8; i < len(b)-7; i += 8 {
+		d := unsafeChunkFromSlice(b[i : i+8])
+		x := d.load()
+		if x == ^uint64(0) {
+			continue
+		}
+		z := bits.TrailingZeros64(^x)
+		d[z/8] |= 1 << uint(z%8)
+		return i*8 + z
+	}
+	return -1
+}
+
+// alloc allocates npages mallocBits from this mallocBits and returns
+// the index where that run of contiguous mallocBits starts as well as a
+// new hint..
+//
+// hint represents the first known index and where to begin
+// the search from.
+func (b *mallocBits) alloc(npages uintptr, hint int) (int, int) {
+	if npages == 1 {
+		addr := b.alloc1(hint)
+		return addr, addr + 1
+	} else if npages <= 64 {
+		return b.allocSmallN(npages, hint)
+	}
+	return b.allocLargeN(npages, hint)
+}
+
+// allocSmallN allocates npages mallocBits from this mallocBits and returns
+// the index where that run of contiguous mallocBits starts as well as a new
+// hint.
+//
+// allocSmallN assumes npages <= 64, where any such allocation
+// crosses at most one aligned 64-bit chunk boundary in the bits.
+func (b *mallocBits) allocSmallN(npages uintptr, hint int) (int, int) {
+	var (
+		prevd *chunk8
+		prevx uint64
+		end   int
+		nhint int = -1
+	)
+	for i := hint / 64 * 8; i < len(b)-7; i += 8 {
+		d := unsafeChunkFromSlice(b[i : i+8])
+		x := d.load()
+		if x == ^uint64(0) {
+			end = 0
+			continue
+		}
+		// First see if we can pack our allocation in the trailing
+		// zeros plus the end of the last 64-bit chunk.
+		start := bits.TrailingZeros64(x)
+		if nhint < 0 {
+			nhint = i * 8
+		}
+		if end+start > int(npages) {
+			if end != 0 {
+				// Set the `end` highest mallocBits and store.
+				prevd.store(setConsecBits64(prevx, 64-end, end))
+			}
+			// Set the `s` lowest mallocBits and store.
+			d.store(setConsecBits64(x, 0, int(npages)-end))
+			return i*8 - end, nhint
+		}
+		// Next check the interior of the 64-bit chunk.
+		j := findConsecN64(^x, int(npages))
+		if j < 64 {
+			// Set mallocBits [j, j+npages) and store.
+			d.store(setConsecBits64(x, j, int(npages)))
+			return i*8 + j, nhint
+		}
+		end = bits.LeadingZeros64(x)
+		prevd = d
+		prevx = x
+	}
+	return -1, nhint
+}
+
+// allocLargeN allocates npages mallocBits from this mallocBits and returns
+// the index where that run of contiguous mallocBits starts as well as a new
+// hint.
+//
+// allocLargeN assumes npages > 64, where any such allocation
+// crosses at least one aligned 64-bit chunk boundary in the bits.
+func (b *mallocBits) allocLargeN(npages uintptr, hint int) (int, int) {
+	start, size, nhint := -1, 0, -1
+	for i := hint / 64 * 8; i < len(b)-7; i += 8 {
+		d := unsafeChunkFromSlice(b[i : i+8])
+		x := d.load()
+		if x == ^uint64(0) {
+			size = 0
+			continue
+		}
+		if nhint < 0 {
+			nhint = i * 8
+		}
+		if size == 0 {
+			size = bits.LeadingZeros64(x)
+			start = i*8 + 64 - size
+			continue
+		}
+		s := bits.TrailingZeros64(x)
+		if s+size >= int(npages) {
+			size += s
+			break
+		}
+		if s < 64 {
+			size = 0
+			continue
+		}
+		size += 64
+	}
+	if size < int(npages) {
+		return -1, nhint
+	}
+	b.allocRange(start, int(npages))
+	return start, nhint
+}
+
+// allocRange allocates the range [i, i+n).
+func (b *mallocBits) allocRange(i, n int) {
+	(*pageBits)(b).setRange(i, n)
+}
+
+// allocAll allocates all the bits of b.
+func (b *mallocBits) allocAll() {
+	(*pageBits)(b).setAll()
+}
+
+// free1 frees a single page in the mallocBits at i.
+func (b *mallocBits) free1(i int) {
+	(*pageBits)(b).clear1(i)
+}
+
+// free frees the range [i, i+n) of pages in the mallocBits.
+func (b *mallocBits) free(i, n int) {
+	(*pageBits)(b).clearRange(i, n)
+}
+
+// freeAll frees all the bits of b.
+func (b *mallocBits) freeAll() {
+	(*pageBits)(b).clearAll()
+}
+
+// setConsecBits8 sets n consecutive bits to 1 in x starting
+// at bit index i.
+func setConsecBits8(x uint8, i, n int) uint8 {
+	return x | ((uint8(1<<uint(n)) - 1) << uint(i))
+}
+
+// clearConsecBits8 sets n consecutive bits to 0 in x starting
+// at bit index i.
+func clearConsecBits8(x uint8, i, n int) uint8 {
+	return x &^ ((uint8(1<<uint(n)) - 1) << uint(i))
+}
+
+// setConsecBits64 sets n consecutive bits to 1 in x starting
+// at bit index i.
+func setConsecBits64(x uint64, i, n int) uint64 {
+	return x | ((uint64(1<<uint(n)) - 1) << uint(i))
+}
+
+// clearConsecBits64 sets n consecutive bits to 0 in x starting
+// at bit index i.
+func clearConsecBits64(x uint64, i, n int) uint64 {
+	return x &^ ((uint64(1<<uint(n)) - 1) << uint(i))
+}
+
+// findConsecN64 returns the bit index of the first set of
+// n consecutive 1 bits. If no consecutive set of 1 bits of
+// size n may be found in c, then it returns 64.
+func findConsecN64(c uint64, n int) int {
+	i := 0
+	cont := bits.TrailingZeros64(^c)
+	for cont < n && i < 64 {
+		i += cont
+		i += bits.TrailingZeros64(c >> uint(i))
+		cont = bits.TrailingZeros64(^(c >> uint(i)))
+	}
+	return i
+}

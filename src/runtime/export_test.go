@@ -715,3 +715,34 @@ func RunGetgThreadSwitchTest() {
 		panic("g1 != g3")
 	}
 }
+
+const (
+	PagesPerArena = pagesPerArena
+)
+
+// Expose chunk8 for testing.
+type Chunk8 chunk8
+
+func UnsafeChunkFromSlice(b []uint8) *Chunk8 { return (*Chunk8)(unsafeChunkFromSlice(b)) }
+func (c *Chunk8) Load() uint64               { return (*chunk8)(c).load() }
+func (c *Chunk8) Store(x uint64)             { (*chunk8)(c).store(x) }
+
+// Expose mallocBits for testing.
+type MallocBits mallocBits
+
+func (b *MallocBits) Alloc(npages uintptr, hint int) (int, int) {
+	return (*mallocBits)(b).alloc(npages, hint)
+}
+func (b *MallocBits) AllocRange(i, n int) { (*mallocBits)(b).allocRange(i, n) }
+func (b *MallocBits) Free1(i int)         { (*mallocBits)(b).free1(i) }
+func (b *MallocBits) Free(i, n int)       { (*mallocBits)(b).free(i, n) }
+
+// Expose non-trivial alloc helpers for testing.
+func SetConsecBits64(x uint64, i, n int) uint64   { return setConsecBits64(x, i, n) }
+func ClearConsecBits64(x uint64, i, n int) uint64 { return clearConsecBits64(x, i, n) }
+func FindConsecN64(c uint64, n int) int           { return findConsecN64(c, n) }
+
+// BitRange represents a range over a bitmap.
+type BitRange struct {
+	I, N int // bit index and length in bits
+}
