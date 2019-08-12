@@ -5,6 +5,7 @@
 package runtime_test
 
 import (
+	"fmt"
 	. "runtime"
 	"testing"
 )
@@ -124,6 +125,100 @@ func TestMallocBitsAllocRange(t *testing.T) {
 func invertMallocBits(b *MallocBits) {
 	for i := range b {
 		b[i] = ^b[i]
+	}
+}
+
+// Ensures two packed summaries are identical, and reports a detailed description
+// of the difference if they're not.
+func checkMallocSum(t *testing.T, got, want MallocSum) {
+	if got.Start() != want.Start() {
+		t.Errorf("inconsistent start: got %d, want %d", got.Start(), want.Start())
+	}
+	if got.Max() != want.Max() {
+		t.Errorf("inconsistent max: got %d, want %d", got.Max(), want.Max())
+	}
+	if got.End() != want.End() {
+		t.Errorf("inconsistent end: got %d, want %d", got.End(), want.End())
+	}
+}
+
+// Ensures computing bit summaries works as expected.
+func TestMallocBitsSummarize(t *testing.T) {
+	tests := map[string]struct {
+		s               []BitRange
+		start, max, end int
+	}{
+		"NoneFree": {},
+		"OnlyStart": {
+			s:     []BitRange{{0, 10}},
+			start: 10,
+			max:   10,
+		},
+		"OnlyEnd": {
+			s:   []BitRange{{PagesPerArena - 40, 40}},
+			max: 40,
+			end: 40,
+		},
+		"StartAndEnd": {
+			s:     []BitRange{{0, 11}, {PagesPerArena - 23, 23}},
+			start: 11,
+			max:   23,
+			end:   23,
+		},
+		"StartMaxEnd": {
+			s:     []BitRange{{0, 4}, {50, 100}, {PagesPerArena - 4, 4}},
+			start: 4,
+			max:   100,
+			end:   4,
+		},
+		"OnlyMax": {
+			s:   []BitRange{{1, 20}, {35, 241}, {PagesPerArena - 50, 30}},
+			max: 241,
+		},
+		"MultiMax": {
+			s:   []BitRange{{35, 2}, {40, 5}, {100, 5}},
+			max: 5,
+		},
+		"One": {
+			s:   []BitRange{{2, 1}},
+			max: 1,
+		},
+		"AllFree": {
+			s:     []BitRange{{0, 1024}},
+			start: 1024,
+			max:   1024,
+			end:   1024,
+		},
+	}
+	for name, v := range tests {
+		v := v
+		t.Run(name, func(t *testing.T) {
+			b := makeMallocBits(v.s)
+			// In the MallocBits we create 1's represent free spots, but in our actual
+			// MallocBits 1 means not free, so invert.
+			invertMallocBits(b)
+			checkMallocSum(t, b.Summarize(), PackMallocSum(v.start, v.max, v.end))
+		})
+	}
+}
+
+// Benchmarks how quickly we can summarize a MallocBits.
+func BenchmarkMallocBitsSummarize(b *testing.B) {
+	buf0 := new(MallocBits)
+	buf1 := new(MallocBits)
+	for i := 0; i < len(buf1); i++ {
+		buf1[i] = ^uint8(0)
+	}
+	bufa := new(MallocBits)
+	for i := 0; i < len(bufa); i++ {
+		bufa[i] = 0xaa
+	}
+	for _, buf := range []*MallocBits{buf0, buf1, bufa} {
+		b.Run(fmt.Sprintf("Unpacked%02X", buf[0]), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				buf.Summarize()
+			}
+		})
 	}
 }
 
