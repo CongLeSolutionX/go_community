@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef3a080f_758a06a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-13T20:47:44Z",
+      "side": 1,
+      "message": "I think it\u0027d be helpful to include the list of commands used to generate this. E.g.:\n\n    go get golang.org/x/net@74dc4d7220e7acc4e100824340f3e66577424772\n    go mod tidy\n    go mod vendor\n    go generate net/http",
+      "revId": "72d69fb610800b6f9d540a751fc13ee8a53953fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
