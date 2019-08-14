@@ -38,6 +38,7 @@ var Nanotime = nanotime
 var NetpollBreak = netpollBreak
 var Usleep = usleep
 
+var PageSize = pageSize
 var PhysHugePageSize = physHugePageSize
 
 var NetpollGenericInit = netpollGenericInit
@@ -730,7 +731,6 @@ func RunGetgThreadSwitchTest() {
 }
 
 const (
-	PagesPerArena    = pagesPerArena
 	MallocChunkPages = mallocChunkPages
 )
 
@@ -781,7 +781,85 @@ func SummarizeSlow(b *MallocBits) MallocSum {
 // Expose non-trivial helpers for testing.
 func FindBitRange64(c uint64, n uint) uint { return findBitRange64(c, n) }
 
+// Expose chunk index type.
+type ChunkIdx chunkIdx
+
+// Expose pageAlloc for testing. Note that because pageAlloc is
+// not in the heap, so is PageAlloc.
+type PageAlloc pageAlloc
+
+func (p *PageAlloc) Alloc(npages uintptr) uintptr { return (*pageAlloc)(p).alloc(npages) }
+func (p *PageAlloc) Free(base, npages uintptr)    { (*pageAlloc)(p).free(base, npages) }
+func (p *PageAlloc) Bounds() (ChunkIdx, ChunkIdx) {
+	return ChunkIdx((*pageAlloc)(p).start), ChunkIdx((*pageAlloc)(p).end)
+}
+func (p *PageAlloc) MallocBits(i ChunkIdx) *MallocBits {
+	return (*MallocBits)(&((*pageAlloc)(p).chunks[i]))
+}
+
 // BitRange represents a range over a bitmap.
 type BitRange struct {
 	I, N uint // bit index and length in bits
+}
+
+// NewPageAlloc creates a new page allocator for testing and
+// initializes it with the chunks map. Each key represents a chunk
+// index and each value is a series of bit ranges to set within that
+// chunk.
+func NewPageAlloc(chunks map[ChunkIdx][]BitRange) *PageAlloc {
+	p := new(pageAlloc)
+
+	// We've got an entry, so initialize the pageAlloc.
+	p.init(new(mutex), nil)
+
+	for i, init := range chunks {
+		addr := chunkBase(chunkIdx(i))
+
+		// Mark the chunk's existence in the pageAlloc.
+		p.grow(addr, mallocChunkBytes, nil)
+
+		// Initialize the bitmap and update pageAlloc metadata.
+		chunk := &p.chunks[chunkIndex(addr)]
+		for _, s := range init {
+			// Ignore the case of s.N == 0. allocRange doesn't handle
+			// it and it's a no-op anyway.
+			if s.N != 0 {
+				chunk.allocRange(s.I, s.N)
+			}
+		}
+
+		// Update heap metadata for the allocRange calls above.
+		p.update(addr, mallocChunkPages, false, false)
+	}
+
+	SetFinalizer(p, func(p *pageAlloc) {
+		// Free all the mapped space for the summary levels.
+		if pageAlloc64Bit != 0 {
+			for l := 0; l < summaryLevels; l++ {
+				sysFree(unsafe.Pointer(&p.summary[l][0]), uintptr(cap(p.summary[l]))*mallocSumBytes, nil)
+			}
+		} else {
+			resSize := uintptr(0)
+			for _, s := range p.summary {
+				resSize += uintptr(cap(s)) * mallocSumBytes
+			}
+			sysFree(unsafe.Pointer(&p.summary[0][0]), alignUp(resSize, physPageSize), nil)
+		}
+
+		// Free the mapped space for chunks.
+		chunksLen := uintptr(cap(p.chunks)) * unsafe.Sizeof(p.chunks[0])
+		sysFree(unsafe.Pointer(&p.chunks[0]), alignUp(chunksLen, physPageSize), nil)
+	})
+	return (*PageAlloc)(p)
+}
+
+// BaseChunkIdx is a convenient chunkIdx value which works on both
+// 64 bit and 32 bit platforms, allowing the tests to share code
+// between the two.
+var BaseChunkIdx = ChunkIdx(chunkIndex((0xc000*pageAlloc64Bit + 0x200*pageAlloc32Bit) * mallocChunkBytes))
+
+// PageBase returns an address given a chunk index and a page index
+// relative to that chunk.
+func PageBase(c ChunkIdx, pageIdx uint) uintptr {
+	return chunkBase(chunkIdx(c)) + uintptr(pageIdx)*pageSize
 }
