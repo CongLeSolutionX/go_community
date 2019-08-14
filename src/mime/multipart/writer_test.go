@@ -80,6 +80,30 @@ func TestWriter(t *testing.T) {
 	}
 }
 
+func TestCreateFormUnicode(t *testing.T) {
+	var buf bytes.Buffer
+	w := NewWriter(&buf)
+	if _, err := w.CreateFormFile("foo-ä-€", "foo-ä-€.txt"); err != nil {
+		t.Fatal("CreateFormFile error:", err)
+	}
+	if _, err := w.CreateFormField("bar-ä-€"); err != nil {
+		t.Fatal("CreateFormField error:", err)
+	}
+	if err := w.Close(); err != nil {
+		t.Fatal("Close error:", err)
+	}
+
+	got := buf.String()
+	wantFile := `Content-Disposition: form-data; filename*=utf-8''foo-%C3%A4-%E2%82%AC.txt; name*=utf-8''foo-%C3%A4-%E2%82%AC` + "\r\n"
+	if !strings.Contains(got, wantFile) {
+		t.Errorf("want %q in %q", wantFile, got)
+	}
+	wantField := `Content-Disposition: form-data; name*=utf-8''bar-%C3%A4-%E2%82%AC` + "\r\n"
+	if !strings.Contains(got, wantField) {
+		t.Errorf("want %q in %q", wantField, got)
+	}
+}
+
 func TestWriterSetBoundary(t *testing.T) {
 	tests := []struct {
 		b  string
