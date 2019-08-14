@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a11869f_440bc606",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-08-14T09:41:47Z",
+      "side": 1,
+      "message": "please re-add the oxford comma before \"or\"",
+      "revId": "a5ab3c792dafe9ad1dfc7d653b9bbc5eec163a46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
