@@ -44,7 +44,7 @@ func diffMallocBits(a, b *MallocBits) []int {
 
 // Ensures that got and want are the same, and if not, reports
 // detailed diff information.
-func checkMallocBits(t *testing.T, got, want *MallocBits) {
+func checkMallocBits(t *testing.T, got, want *MallocBits) bool {
 	d := diffMallocBits(got, want)
 	if len(d) != 0 {
 		t.Errorf("%d location(s) different", len(d))
@@ -53,7 +53,9 @@ func checkMallocBits(t *testing.T, got, want *MallocBits) {
 			t.Logf("\t|  got: %08b", got[i])
 			t.Logf("\t| want: %08b", want[i])
 		}
+		return false
 	}
+	return true
 }
 
 // makeMallocBits produces an initialized MallocBits by setting
