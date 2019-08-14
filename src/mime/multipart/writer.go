@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"mime"
 	"net/textproto"
 	"sort"
 	"strings"
@@ -129,19 +130,15 @@ func (w *Writer) CreatePart(header textproto.MIMEHeader) (io.Writer, error) {
 	return p, nil
 }
 
-var quoteEscaper = strings.NewReplacer("\\", "\\\\", `"`, "\\\"")
-
-func escapeQuotes(s string) string {
-	return quoteEscaper.Replace(s)
-}
-
 // CreateFormFile is a convenience wrapper around CreatePart. It creates
 // a new form-data header with the provided field name and file name.
 func (w *Writer) CreateFormFile(fieldname, filename string) (io.Writer, error) {
 	h := make(textproto.MIMEHeader)
 	h.Set("Content-Disposition",
-		fmt.Sprintf(`form-data; name="%s"; filename="%s"`,
-			escapeQuotes(fieldname), escapeQuotes(filename)))
+		mime.FormatMediaType("form-data", map[string]string{
+			"name":     fieldname,
+			"filename": filename,
+		}))
 	h.Set("Content-Type", "application/octet-stream")
 	return w.CreatePart(h)
 }
@@ -151,7 +148,9 @@ func (w *Writer) CreateFormFile(fieldname, filename string) (io.Writer, error) {
 func (w *Writer) CreateFormField(fieldname string) (io.Writer, error) {
 	h := make(textproto.MIMEHeader)
 	h.Set("Content-Disposition",
-		fmt.Sprintf(`form-data; name="%s"`, escapeQuotes(fieldname)))
+		mime.FormatMediaType("form-data", map[string]string{
+			"name": fieldname,
+		}))
 	return w.CreatePart(h)
 }
 

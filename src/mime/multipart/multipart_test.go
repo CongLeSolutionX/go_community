@@ -58,6 +58,7 @@ func TestNameAccessors(t *testing.T) {
 		{` FORM-DATA ; name="foo"`, "foo", ""},
 		{` FORM-DATA ; name=foo`, "foo", ""},
 		{` FORM-DATA ; filename="foo.txt"; name=foo; baz=quux`, "foo", "foo.txt"},
+		{` FORM-DATA ; filename*=UTF-8''foo-%c3%a4-%e2%82%ac.html; name*=UTF-8''foo-%c3%a4-%e2%82%ac`, "foo-ä-€", "foo-ä-€.html"},
 		{` not-form-data ; filename="bar.txt"; name=foo; baz=quux`, "", "bar.txt"},
 	}
 	for i, test := range tests {
