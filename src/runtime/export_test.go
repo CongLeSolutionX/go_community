@@ -36,6 +36,7 @@ var Atoi32 = atoi32
 
 var Nanotime = nanotime
 
+var PageSize = pageSize
 var PhysHugePageSize = physHugePageSize
 
 type LFNode struct {
@@ -748,7 +749,168 @@ func SetConsecBits64(x uint64, i, n int) uint64   { return setConsecBits64(x, i,
 func ClearConsecBits64(x uint64, i, n int) uint64 { return clearConsecBits64(x, i, n) }
 func FindConsecN64(c uint64, n int) int           { return findConsecN64(c, n) }
 
+// Expose pageAlloc for testing. Note that because pageAlloc is
+// not in the heap, so is PageAlloc.
+//
+//go:notinheap
+type PageAlloc pageAlloc
+
+func (p *PageAlloc) Alloc(npages uintptr) uintptr { return (*pageAlloc)(p).alloc(npages) }
+func (p *PageAlloc) Free(base, npages uintptr)    { (*pageAlloc)(p).free(base, npages) }
+func (p *PageAlloc) Bounds() (uint, uint) {
+	return uint((*pageAlloc)(p).start), uint((*pageAlloc)(p).end)
+}
+func (p *PageAlloc) HasArena(i uint) bool {
+	if (*pageAlloc)(p).arenas(arenaIdx(i)) != nil {
+		return true
+	}
+	return false
+}
+func (p *PageAlloc) MallocBits(i uint) *MallocBits {
+	return (*MallocBits)(&((*pageAlloc)(p).arenas(arenaIdx(i)).pageAlloc))
+}
+
 // BitRange represents a range over a bitmap.
 type BitRange struct {
 	I, N int // bit index and length in bits
+}
+
+type arenaL2Entry [1 << arenaL2Bits]*heapArena
+
+// Must be notinheap because mheap and pageAlloc are.
+//
+//go:notinheap
+type pageAllocDummy struct {
+	mheap       mheap
+	pageAlloc   pageAlloc
+	inUse       bool
+	l2Allocs    []*arenaL2Entry
+	arenasAlloc struct {
+		base, size uintptr
+	}
+}
+
+var pageAllocDummies [2]pageAllocDummy
+
+// GetTestPageAlloc returns a cached dummy pageAlloc for testing.
+//
+// It initializes the dummy pageAlloc using arenas, with the map
+// key representing the non-base-offset'd arena index and the
+// values being bit ranges to set to 1 for that arena's allocation
+// bits.
+//
+// Note that this function could fail if all cached pageAllocs are
+// in-use. If more than the number above are required for a given
+// test, increase the size of pageAllocDummies above. Furthermore,
+// because of this caching mechanism, any pageAlloc tests using
+// this function cannot be run in parallel with other pageAlloc tests.
+//
+// Although this caching mechanism seems arbitrary, it serves an
+// important purpose. The biggest reason is that we cannot heap
+// allocate any of pageAlloc's structures, because both pageAlloc
+// and mheap are go:notinheap. Furthermore, pageAlloc consists of
+// enormous memory mappings that, while probably not problematic
+// in small multiples, could have adverse effects if we could create
+// as many as we want on-demand. This mechanism thus also helps
+// limit the amount of memory mappings we create.
+func GetTestPageAlloc(arenas map[int][]BitRange) *PageAlloc {
+	// Search for an unused entry.
+	var entry *pageAllocDummy
+	for i := 0; i < len(pageAllocDummies); i++ {
+		if !pageAllocDummies[i].inUse {
+			entry = &pageAllocDummies[i]
+			entry.inUse = true
+			break
+		}
+	}
+	if entry == nil {
+		return nil
+	}
+
+	// We've got an entry, so initialize the pageAlloc.
+	entry.pageAlloc.init(&entry.mheap, nil)
+
+	// sysAlloc space for the arena and record details so we can free it later.
+	entry.arenasAlloc.size = unsafe.Sizeof(heapArena{}) * uintptr(len(arenas))
+	entry.arenasAlloc.base = uintptr(sysAlloc(entry.arenasAlloc.size, nil))
+
+	n := 0
+	for aidx, init := range arenas {
+		// Create the new heapArena.
+		ha := (*heapArena)(unsafe.Pointer(entry.arenasAlloc.base + uintptr(n)*unsafe.Sizeof(heapArena{})))
+
+		// Update mheap metadata.
+		addr := uintptr(aidx) * heapArenaBytes
+		ai := arenaIndex(addr)
+		l2 := entry.mheap.arenas[ai.l1()]
+		if l2 == nil {
+			// Allocate an L2 arena map.
+			l2 = (*[1 << arenaL2Bits]*heapArena)(sysAlloc(unsafe.Sizeof(arenaL2Entry{}), nil))
+			entry.l2Allocs = append(entry.l2Allocs, (*arenaL2Entry)(l2))
+			entry.mheap.arenas[ai.l1()] = l2
+		}
+		l2[ai.l2()] = ha
+
+		// Mark the arena's existence in the pageAlloc.
+		entry.pageAlloc.grow(addr, heapArenaBytes, nil)
+
+		// Initialize the bitmap and update pageAlloc metadata.
+		for _, s := range init {
+			ha.pageAlloc.allocRange(s.I, s.N)
+		}
+		entry.pageAlloc.update(addr, pagesPerArena, false, false)
+		n++
+	}
+	return (*PageAlloc)(&entry.pageAlloc)
+}
+
+// PutTestPageAlloc returns a pageAlloc to the cache mechaism.
+//
+// It also frees/unmaps any resources associated with the pageAlloc.
+func PutTestPageAlloc(pa *PageAlloc) {
+	p := (*pageAlloc)(pa)
+
+	// Find the corresponding entry.
+	var entry *pageAllocDummy
+	for i := 0; i < len(pageAllocDummies); i++ {
+		if p == &pageAllocDummies[i].pageAlloc {
+			entry = &pageAllocDummies[i]
+		}
+	}
+	if entry == nil {
+		panic("attempt to put back page alloc which wasn't taken?")
+	}
+
+	// Free all the mapped space for the summary levels.
+	if _64bit != 0 {
+		for l := 0; l < summaryLevels; l++ {
+			sysFree(unsafe.Pointer(&p.summary[l][0]), uintptr(cap(p.summary[l]))*mallocSumBytes, nil)
+		}
+	} else {
+		resSize := uintptr(0)
+		for l := 0; l < summaryLevels; l++ {
+			resSize += uintptr(cap(p.summary[l])) * mallocSumBytes
+		}
+		sysFree(unsafe.Pointer(&p.summary[0][0]), alignUp(resSize, physPageSize), nil)
+	}
+
+	// Free all the space for the heap arena structs.
+	sysFree(unsafe.Pointer(entry.arenasAlloc.base), entry.arenasAlloc.size, nil)
+
+	// Free all the space for the mheap l2 entries.
+	for i := 0; i < len(entry.l2Allocs); i++ {
+		sysFree(unsafe.Pointer(entry.l2Allocs[i]), unsafe.Sizeof(arenaL2Entry{}), nil)
+	}
+
+	// Clear all relevant fields.
+	entry.mheap = mheap{}
+	entry.pageAlloc = pageAlloc{}
+	entry.l2Allocs = []*arenaL2Entry{}
+	entry.inUse = false
+}
+
+const BaseArenaIdx = 0xc00*_64bit + 0x8*(1-_64bit)
+
+func PageBase(arenaIdx uintptr, pageIdx int) uintptr {
+	return arenaIdx*heapArenaBytes + uintptr(pageIdx*pageSize)
 }
