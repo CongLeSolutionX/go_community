@@ -266,6 +266,15 @@ type heapArena struct {
 	// faster scanning, but we don't have 64-bit atomic bit
 	// operations.
 	pageMarks [pagesPerArena / 8]uint8
+
+	// pageAlloc is a set of bitmaps used for allocation. Each bit
+	// corresponds to a page which is free or in-use. It does not
+	// correspond to spans in any way.
+	//
+	// This is used in allocation, freeing, and scavenging.
+	//
+	// Reads and writes are protected by mheap_.lock.
+	pageAlloc mallocBits
 }
 
 // arenaHint is a hint for where to grow the heap arenas. See
