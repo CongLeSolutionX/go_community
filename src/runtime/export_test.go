@@ -36,6 +36,7 @@ var Atoi32 = atoi32
 
 var Nanotime = nanotime
 
+var PageSize = pageSize
 var PhysHugePageSize = physHugePageSize
 
 type LFNode struct {
@@ -720,7 +721,6 @@ func RunGetgThreadSwitchTest() {
 }
 
 const (
-	PagesPerArena    = pagesPerArena
 	MallocChunkPages = mallocChunkPages
 )
 
@@ -771,7 +771,152 @@ func SummarizeSlow(b *MallocBits) MallocSum {
 // Expose non-trivial helpers for testing.
 func FindBitRange64(c uint64, n uint) uint { return findBitRange64(c, n) }
 
+// Expose pageAlloc for testing. Note that because pageAlloc is
+// not in the heap, so is PageAlloc.
+//
+//go:notinheap
+type PageAlloc pageAlloc
+
+func (p *PageAlloc) Alloc(npages uintptr) uintptr { return (*pageAlloc)(p).alloc(npages) }
+func (p *PageAlloc) Free(base, npages uintptr)    { (*pageAlloc)(p).free(base, npages) }
+func (p *PageAlloc) Bounds() (uint, uint) {
+	return uint((*pageAlloc)(p).start), uint((*pageAlloc)(p).end)
+}
+func (p *PageAlloc) HasChunk(i uint) bool {
+	if (*pageAlloc)(p).chunks[i] != nil {
+		return true
+	}
+	return false
+}
+func (p *PageAlloc) MallocBits(i uint) *MallocBits {
+	return (*MallocBits)((*pageAlloc)(p).chunks[i])
+}
+
 // BitRange represents a range over a bitmap.
 type BitRange struct {
 	I, N uint // bit index and length in bits
+}
+
+type arenaL2Entry [1 << arenaL2Bits]*heapArena
+
+// Must be notinheap because mheap and pageAlloc are.
+//
+//go:notinheap
+type pageAllocDummy struct {
+	pageAlloc pageAlloc
+	dummyLock mutex
+	inUse     bool
+}
+
+var pageAllocDummies [2]pageAllocDummy
+
+// GetTestPageAlloc returns a cached dummy pageAlloc for testing.
+//
+// It initializes the dummy pageAlloc using a set of bit ranges
+// for each chunk.
+//
+// Note that this function could fail if all cached pageAllocs are
+// in-use. If more than the number above are required for a given
+// test, increase the size of pageAllocDummies above. Furthermore,
+// because of this caching mechanism, any pageAlloc tests using
+// this function cannot be run in parallel with other pageAlloc tests.
+//
+// Although this caching mechanism seems arbitrary, it serves an
+// important purpose. The biggest reason is that we cannot heap
+// allocate any of pageAlloc's structures, because pageAlloc is
+// go:notinheap. Furthermore, pageAlloc consists of enormous memory
+// mappings that, while probably not problematic in small multiples,
+// could have adverse effects if we could create as many as we want
+// on-demand. This mechanism thus also helps limit the amount of
+// memory mappings we create.
+func GetTestPageAlloc(chunks map[int][]BitRange) *PageAlloc {
+	// Search for an unused entry.
+	var entry *pageAllocDummy
+	for i := 0; i < len(pageAllocDummies); i++ {
+		if !pageAllocDummies[i].inUse {
+			entry = &pageAllocDummies[i]
+			entry.inUse = true
+			break
+		}
+	}
+	if entry == nil {
+		return nil
+	}
+
+	// We've got an entry, so initialize the pageAlloc.
+	entry.pageAlloc.init(&entry.dummyLock, nil)
+
+	for i, init := range chunks {
+		// Update mheap metadata.
+		addr := uintptr(i) * mallocChunkBytes
+
+		// Mark the chunk's existence in the pageAlloc.
+		entry.pageAlloc.grow(addr, mallocChunkBytes, nil)
+
+		// Initialize the bitmap and update pageAlloc metadata.
+		chunk := entry.pageAlloc.chunks[chunkIndex(addr)]
+		for _, s := range init {
+			// Ignore the case of s.N == 0. allocRange doesn't handle
+			// it and it's a no-op anyway.
+			if s.N != 0 {
+				chunk.allocRange(s.I, s.N)
+			}
+		}
+		entry.pageAlloc.update(addr, mallocChunkPages, false, false)
+	}
+	return (*PageAlloc)(&entry.pageAlloc)
+}
+
+// PutTestPageAlloc returns a pageAlloc to the cache mechanism.
+//
+// It also frees/unmaps any resources associated with the pageAlloc.
+func PutTestPageAlloc(pa *PageAlloc) {
+	p := (*pageAlloc)(pa)
+
+	// Find the corresponding entry.
+	var entry *pageAllocDummy
+	for i := 0; i < len(pageAllocDummies); i++ {
+		if p == &pageAllocDummies[i].pageAlloc {
+			entry = &pageAllocDummies[i]
+		}
+	}
+	if entry == nil {
+		panic("attempt to put back page alloc which wasn't taken?")
+	}
+
+	// Free all the mapped space for the summary levels.
+	if pageAlloc64Bit != 0 {
+		for l := 0; l < summaryLevels; l++ {
+			sysFree(unsafe.Pointer(&p.summary[l][0]), uintptr(cap(p.summary[l]))*mallocSumBytes, nil)
+		}
+	} else {
+		resSize := uintptr(0)
+		for l := 0; l < summaryLevels; l++ {
+			resSize += uintptr(cap(p.summary[l])) * mallocSumBytes
+		}
+		sysFree(unsafe.Pointer(&p.summary[0][0]), alignUp(resSize, physPageSize), nil)
+	}
+
+	// Free all the bitmap chunks in the fixalloc.
+	//
+	// There's no easy way to free the memory backing a fixalloc,
+	// so we'll hold onto it and re-use it.
+	for c := p.start; c < p.end; c++ {
+		if p.chunks[c] != nil {
+			p.mallocBitsAlloc.free(unsafe.Pointer(p.chunks[c]))
+		}
+	}
+
+	// Free the mapped space for chunks.
+	sysFree(unsafe.Pointer(&p.chunks[0]), uintptr(cap(p.chunks))*sys.PtrSize, nil)
+
+	// Clear all relevant fields, but hold on to the fixalloc.
+	entry.pageAlloc = pageAlloc{mallocBitsAlloc: p.mallocBitsAlloc}
+	entry.inUse = false
+}
+
+const BaseChunkIdx = 0xc000*pageAlloc64Bit + 0x200*pageAlloc32Bit
+
+func PageBase(chunkIdx uintptr, pageIdx int) uintptr {
+	return chunkIdx*mallocChunkBytes + uintptr(pageIdx*pageSize)
 }
