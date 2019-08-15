@@ -170,6 +170,31 @@ func BenchmarkCodeDecoder(b *testing.B) {
 	b.SetBytes(int64(len(codeJSON)))
 }
 
+func BenchmarkCodeDecodeToInterface(b *testing.B) {
+	b.ReportAllocs()
+	if codeJSON == nil {
+		b.StopTimer()
+		codeInit()
+		b.StartTimer()
+	}
+	b.RunParallel(func(pb *testing.PB) {
+		var buf bytes.Buffer
+		dec := NewDecoder(&buf)
+		var r interface{}
+		for pb.Next() {
+			buf.Write(codeJSON)
+			// hide EOF
+			buf.WriteByte('\n')
+			buf.WriteByte('\n')
+			buf.WriteByte('\n')
+			if err := dec.Decode(&r); err != nil {
+				b.Fatal("Decode:", err)
+			}
+		}
+	})
+	b.SetBytes(int64(len(codeJSON)))
+}
+
 func BenchmarkUnicodeDecoder(b *testing.B) {
 	b.ReportAllocs()
 	j := []byte(`"\uD83D\uDE01"`)
