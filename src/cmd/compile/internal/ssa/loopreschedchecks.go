@@ -40,6 +40,8 @@ func (r *rewrite) String() string {
 	return s
 }
 
+var filter = true
+
 // insertLoopReschedChecks inserts rescheduling checks on loop backedges.
 func insertLoopReschedChecks(f *Func) {
 	// TODO: when split information is recorded in export data, insert checks only on backedges that can be reached on a split-call-free path.
@@ -65,7 +67,33 @@ func insertLoopReschedChecks(f *Func) {
 		return
 	}
 
-	backedges := backedges(f)
+	backedges0 := backedges(f)
+	var backedges []Edge // successor edges, i.e., target is a loop header
+	if filter {
+		nest := f.loopnest()
+		if f.pass.debug > 0 {
+			for _, l := range nest.loops {
+				if l.containsCall && !l.containsUnavoidableCall {
+					f.fe.Warnl(l.header.Pos, "Inserting preemption for block %s", l.header.String())
+				}
+			}
+		}
+
+		if nest.hasIrreducible {
+			backedges = backedges0
+		} else {
+			for _, e := range backedges {
+				b := e.b
+				l := nest.b2l[b.ID]
+				if l.containsCall && !l.containsUnavoidableCall {
+					backedges = append(backedges, e)
+				}
+			}
+		}
+	} else {
+		backedges = backedges0
+	}
+
 	if len(backedges) == 0 { // no backedges means no rescheduling checks.
 		return
 	}
@@ -79,7 +107,7 @@ func insertLoopReschedChecks(f *Func) {
 	// visited only after all its non-backedge predecessors have been visited).
 	sdom := newSparseOrderedTree(f, idom, po)
 
-	if f.pass.debug > 1 {
+	if f.pass.debug > 2 {
 		fmt.Printf("before %s = %s\n", f.Name, sdom.treestructure(f.Entry))
 	}
 
@@ -105,7 +133,7 @@ func insertLoopReschedChecks(f *Func) {
 			mem = memDefsAtBlockEnds[b.Preds[j].b.ID]
 		}
 		memDefsAtBlockEnds[b.ID] = mem
-		if f.pass.debug > 2 {
+		if f.pass.debug > 3 {
 			fmt.Printf("memDefsAtBlockEnds[%s] = %s\n", b, mem)
 		}
 	}
@@ -138,7 +166,7 @@ func insertLoopReschedChecks(f *Func) {
 		tofixBackedges[i].m = headerMemPhi
 
 	}
-	if f.pass.debug > 0 {
+	if f.pass.debug > 1 {
 		for b, r := range newmemphis {
 			fmt.Printf("before b=%s, rewrite=%s\n", b, r.String())
 		}
@@ -150,7 +178,7 @@ func insertLoopReschedChecks(f *Func) {
 
 	rewriteNewPhis(f.Entry, f.Entry, f, memDefsAtBlockEnds, newmemphis, dfPhiTargets, sdom)
 
-	if f.pass.debug > 0 {
+	if f.pass.debug > 1 {
 		for b, r := range newmemphis {
 			fmt.Printf("after b=%s, rewrite=%s\n", b, r.String())
 		}
@@ -265,7 +293,7 @@ func insertLoopReschedChecks(f *Func) {
 
 	f.invalidateCFG()
 
-	if f.pass.debug > 1 {
+	if f.pass.debug > 2 {
 		sdom = newSparseTree(f, f.Idom())
 		fmt.Printf("after %s = %s\n", f.Name, sdom.treestructure(f.Entry))
 	}
@@ -319,7 +347,7 @@ func rewriteNewPhis(h, b *Block, f *Func, defsForUses []*Value, newphis map[*Blo
 					continue
 				}
 				*p = append(*p, tgt)
-				if f.pass.debug > 1 {
+				if f.pass.debug > 2 {
 					fmt.Printf("added block target for h=%v, b=%v, x=%v, y=%v, tgt.v=%s, tgt.i=%d\n",
 						h, b, x, y, v, i)
 				}
@@ -340,7 +368,7 @@ func rewriteNewPhis(h, b *Block, f *Func, defsForUses []*Value, newphis map[*Blo
 						tgt := rewriteTarget{v, e.i}
 						*p = append(*p, tgt)
 						dfPhiTargets[tgt] = true
-						if f.pass.debug > 1 {
+						if f.pass.debug > 2 {
 							fmt.Printf("added phi target for h=%v, b=%v, s=%v, x=%v, y=%v, tgt.v=%s, tgt.i=%d\n",
 								h, b, s, x, y, v.LongString(), e.i)
 						}

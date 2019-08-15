@@ -24,6 +24,9 @@ type loop struct {
 
 	// register allocation uses this.
 	containsUnavoidableCall bool // True if all paths through the loop have a call
+
+	containsCall bool // True if loop contains any call at all
+
 }
 
 // outerinner records that outer contains inner
@@ -371,6 +374,10 @@ func loopnestfor(f *Func) *loopnest {
 	dominatedByCall := make([]bool, f.NumBlocks())
 	for _, b := range po {
 		if checkContainsCall(b) {
+			l := b2l[b.ID]
+			if l != nil {
+				l.containsCall = true
+			}
 			dominatedByCall[b.ID] = true
 		}
 	}
