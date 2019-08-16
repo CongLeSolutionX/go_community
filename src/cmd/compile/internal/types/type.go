@@ -165,24 +165,27 @@ type Type struct {
 }
 
 const (
-	typeNotInHeap  = 1 << iota // type cannot be heap allocated
-	typeBroke                  // broken type definition
-	typeNoalg                  // suppress hash and eq algorithm generation
-	typeDeferwidth             // width computation has been deferred and type is on deferredTypeStack
-	typeRecur
+	typeNotInHeap         = 1 << iota // type cannot be heap allocated
+	typeBroke                         // broken type definition
+	typeNoalg                         // suppress hash and eq algorithm generation
+	typeDeferwidth                    // width computation has been deferred and type is on deferredTypeStack
+	typeRecur                         // recursive type definitiong
+	typeNotSafeForDowidth             // Dowidth will not perform
 )
 
-func (t *Type) NotInHeap() bool  { return t.flags&typeNotInHeap != 0 }
-func (t *Type) Broke() bool      { return t.flags&typeBroke != 0 }
-func (t *Type) Noalg() bool      { return t.flags&typeNoalg != 0 }
-func (t *Type) Deferwidth() bool { return t.flags&typeDeferwidth != 0 }
-func (t *Type) Recur() bool      { return t.flags&typeRecur != 0 }
+func (t *Type) NotInHeap() bool         { return t.flags&typeNotInHeap != 0 }
+func (t *Type) Broke() bool             { return t.flags&typeBroke != 0 }
+func (t *Type) Noalg() bool             { return t.flags&typeNoalg != 0 }
+func (t *Type) Deferwidth() bool        { return t.flags&typeDeferwidth != 0 }
+func (t *Type) Recur() bool             { return t.flags&typeRecur != 0 }
+func (t *Type) NotSafeForDowidth() bool { return t.flags&typeNotSafeForDowidth != 0 }
 
-func (t *Type) SetNotInHeap(b bool)  { t.flags.set(typeNotInHeap, b) }
-func (t *Type) SetBroke(b bool)      { t.flags.set(typeBroke, b) }
-func (t *Type) SetNoalg(b bool)      { t.flags.set(typeNoalg, b) }
-func (t *Type) SetDeferwidth(b bool) { t.flags.set(typeDeferwidth, b) }
-func (t *Type) SetRecur(b bool)      { t.flags.set(typeRecur, b) }
+func (t *Type) SetNotInHeap(b bool)         { t.flags.set(typeNotInHeap, b) }
+func (t *Type) SetBroke(b bool)             { t.flags.set(typeBroke, b) }
+func (t *Type) SetNoalg(b bool)             { t.flags.set(typeNoalg, b) }
+func (t *Type) SetDeferwidth(b bool)        { t.flags.set(typeDeferwidth, b) }
+func (t *Type) SetRecur(b bool)             { t.flags.set(typeRecur, b) }
+func (t *Type) SetNotSafeForDowidth(b bool) { t.flags.set(typeNotSafeForDowidth, b) }
 
 // Pkg returns the package that t appeared in.
 //
@@ -865,6 +868,17 @@ func (t *Type) Fields() *Fields {
 	}
 	Fatalf("Fields: type %v does not have fields", t)
 	return nil
+}
+
+func (t *Type) FieldsNoExpand() *Fields {
+	t.wantEtype(TINTER)
+	// TODO(mdempsky,cuonglm): This doesn't correctly recognize when a non-empty
+	// interface expands to an empty interface; e.g., "interface { E }"
+	// given "type E interface {}".
+	if f := &t.Extra.(*Interface).Fields; f.s != nil {
+		return f
+	}
+	return &t.methods
 }
 
 // Field returns the i'th field/method of struct/interface type t.

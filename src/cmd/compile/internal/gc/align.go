@@ -182,7 +182,7 @@ func dowidth(t *types.Type) {
 		Fatalf("dowidth without betypeinit")
 	}
 
-	if t == nil {
+	if t == nil || t.NotSafeForDowidth() {
 		return
 	}
 

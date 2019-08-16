@@ -27,6 +27,10 @@ func tracePrint(title string, n *Node) func(np **Node) {
 		pos = linestr(n.Pos)
 		op = n.Op.String()
 		tc = n.Typecheck()
+		if n.Type != nil {
+			n.Type.SetNotSafeForDowidth(true)
+			defer n.Type.SetNotSafeForDowidth(false)
+		}
 	}
 
 	fmt.Printf("%s: %s%s %p %s %v tc=%d\n", pos, indent, title, n, op, n, tc)
@@ -49,6 +53,10 @@ func tracePrint(title string, n *Node) func(np **Node) {
 			op = n.Op.String()
 			tc = n.Typecheck()
 			typ = n.Type
+			if n.Type != nil {
+				n.Type.SetNotSafeForDowidth(true)
+				defer n.Type.SetNotSafeForDowidth(false)
+			}
 		}
 
 		fmt.Printf("%s: %s=> %p %s %v tc=%d type=%#L\n", pos, indent, n, op, n, tc, typ)
