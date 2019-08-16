@@ -867,6 +867,17 @@ func (t *Type) Fields() *Fields {
 	return nil
 }
 
+func (t *Type) FieldsNoExpand() *Fields {
+	t.wantEtype(TINTER)
+	// TODO(mdempsky,cuonglm): This doesn't correctly recognize when a non-empty
+	// interface expands to an empty interface; e.g., "interface { E }"
+	// given "type E interface {}".
+	if f := &t.Extra.(*Interface).Fields; f.s != nil {
+		return f
+	}
+	return &t.methods
+}
+
 // Field returns the i'th field/method of struct/interface type t.
 func (t *Type) Field(i int) *Field {
 	return t.Fields().Slice()[i]
