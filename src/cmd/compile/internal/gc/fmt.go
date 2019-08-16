@@ -734,12 +734,14 @@ func typefmt(t *types.Type, flag FmtFlag, mode fmtMode, depth int) string {
 		return "map[" + tmodeString(t.Key(), mode, depth) + "]" + tmodeString(t.Elem(), mode, depth)
 
 	case TINTER:
-		if t.IsEmptyInterface() {
+		fields := t.FieldsNoExpand()
+		// Empty interface
+		if fields.Len() == 0 {
 			return "interface {}"
 		}
 		buf := make([]byte, 0, 64)
 		buf = append(buf, "interface {"...)
-		for i, f := range t.Fields().Slice() {
+		for i, f := range fields.Slice() {
 			if i != 0 {
 				buf = append(buf, ';')
 			}
@@ -760,9 +762,7 @@ func typefmt(t *types.Type, flag FmtFlag, mode fmtMode, depth int) string {
 			}
 			buf = append(buf, tconv(f.Type, FmtShort, mode, depth)...)
 		}
-		if t.NumFields() != 0 {
-			buf = append(buf, ' ')
-		}
+		buf = append(buf, ' ')
 		buf = append(buf, '}')
 		return string(buf)
 

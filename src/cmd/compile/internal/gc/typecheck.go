@@ -2060,6 +2060,11 @@ func typecheck1(n *Node, top int) (res *Node) {
 	if n.Op == OTYPE && top&Etype == 0 {
 		if !n.Type.Broke() {
 			yyerror("type %v is not an expression", n.Type)
+			if !n.Type.IsDDDArray() {
+				// TODO(cuonglm,mdempsky): get rid of all random checkwidth and move to
+				//                         setTypeNode
+				checkwidth(n.Type)
+			}
 		}
 		n.Type = nil
 		return n
