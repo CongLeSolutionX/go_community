@@ -21,15 +21,19 @@ func tracePrint(title string, n *Node) func(np **Node) {
 	indent := traceIndent
 
 	// guard against nil
-	var pos, op string
+	var pos, op, nodeSymName string
 	var tc uint8
 	if n != nil {
 		pos = linestr(n.Pos)
 		op = n.Op.String()
 		tc = n.Typecheck()
+		if n.Sym != nil {
+			nodeSymName = n.Sym.Name
+		}
 	}
 
-	fmt.Printf("%s: %s%s %p %s %v tc=%d\n", pos, indent, title, n, op, n, tc)
+	fmt.Printf("%s: %s%s %p %s %s tc=%d\n", pos, indent, title, n, op, nodeSymName, tc)
+
 	traceIndent = append(traceIndent, ". "...)
 
 	return func(np **Node) {
@@ -43,15 +47,20 @@ func tracePrint(title string, n *Node) func(np **Node) {
 		// guard against nil
 		// use outer pos, op so we don't get empty pos/op if n == nil (nicer output)
 		var tc uint8
-		var typ *types.Type
+		var typ string
 		if n != nil {
 			pos = linestr(n.Pos)
 			op = n.Op.String()
 			tc = n.Typecheck()
-			typ = n.Type
+			if n.Type != nil {
+				typ = n.Type.SimpleString()
+			}
+			if n.Sym != nil {
+				nodeSymName = n.Sym.Name
+			}
 		}
 
-		fmt.Printf("%s: %s=> %p %s %v tc=%d type=%#L\n", pos, indent, n, op, n, tc, typ)
+		fmt.Printf("%s: %s=> %p %s %s tc=%d type=%s\n", pos, indent, n, op, nodeSymName, tc, typ)
 	}
 }
 
