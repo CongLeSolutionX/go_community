@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c5587d1_f57ffdae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-19T19:20:43Z",
+      "side": 1,
+      "message": "Remove \"the\".",
+      "range": {
+        "startLine": 11,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f8f09df_63386c8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-19T19:20:43Z",
+      "side": 1,
+      "message": "I find this sentence is hard to parse. Perhaps this \"is that\" shouldn\u0027t be there?",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c714b46d_a7feea86",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-19T19:20:43Z",
+      "side": 1,
+      "message": "Why [0]? Should it be s.Unit (if not nil)?",
+      "range": {
+        "startLine": 868,
+        "startChar": 20,
+        "endLine": 868,
+        "endChar": 51
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd882b4b_7cebe560",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1817,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-19T19:20:43Z",
+      "side": 1,
+      "message": "How expensive is this? I wish we wouldn\u0027t need to do this. In lib.Textp sorted in CU order? (If we read one object file a time, and nothing reorder it later, I guess it would be.) If so, we can subslice it.",
+      "range": {
+        "startLine": 1815,
+        "startChar": 0,
+        "endLine": 1817,
+        "endChar": 3
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ad0009f_d119dff8",
+        "filename": "src/cmd/link/internal/objfile/objfile.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-19T19:20:43Z",
+      "side": 1,
+      "message": "Why change this? Was the old code wrong?",
+      "range": {
+        "startLine": 410,
+        "startChar": 157,
+        "endLine": 410,
+        "endChar": 166
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42c49c55_7303389a",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-19T19:20:43Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "730647dd_85c08710",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-19T19:20:43Z",
+      "side": 1,
+      "message": "With this CL it is no longer per-package, right?",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95419557_97a52179",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-19T19:20:43Z",
+      "side": 1,
+      "message": "Nit: it seems we use Textp/textp in other places, with lowercase p. Maybe do the same here?",
+      "range": {
+        "startLine": 20,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 6
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
