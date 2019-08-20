@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf2b1520_b5507ba4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-20T21:55:53Z",
+      "side": 1,
+      "message": "There\u0027s only one release this time, so:\n\n    add go1.12.9b4 to RELEASES",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "d92fc1e1cf3d426f81e60b75e7865a51cb94f9f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
