@@ -544,6 +544,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	}
 }
 
+// stacksplitPre generates the function stack check prologue following
+// Prog p (which should be the TEXT Prog). It returns one or two
+// branch Progs that must be patched to jump to the morestack epilogue.
 func (c *ctxtz) stacksplitPre(p *obj.Prog, framesize int32) (*obj.Prog, *obj.Prog) {
 	var q *obj.Prog
 
@@ -563,36 +566,17 @@ func (c *ctxtz) stacksplitPre(p *obj.Prog, framesize int32) (*obj.Prog, *obj.Pro
 	q = nil
 	if framesize <= objabi.StackSmall {
 		// small stack: SP < stackguard
-		//	CMP	stackguard, SP
-
-		//p.To.Type = obj.TYPE_REG
-		//p.To.Reg = REGSP
-
-		// q1: BLT	done
-
+		//	CMPUBGE	stackguard, SP, morestack-label
 		p = obj.Appendp(p, c.newprog)
-		//q1 = p
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = REG_R3
 		p.Reg = REGSP
 		p.As = ACMPUBGE
 		p.To.Type = obj.TYPE_BRANCH
-		//p = obj.Appendp(ctxt, p)
-
-		//p.As = ACMPU
-		//p.From.Type = obj.TYPE_REG
-		//p.From.Reg = REG_R3
-		//p.To.Type = obj.TYPE_REG
-		//p.To.Reg = REGSP
-
-		//p = obj.Appendp(ctxt, p)
-		//p.As = ABGE
-		//p.To.Type = obj.TYPE_BRANCH
-
 	} else if framesize <= objabi.StackBig {
 		// large stack: SP-framesize < stackguard-StackSmall
 		//	ADD $-(framesize-StackSmall), SP, R4
-		//	CMP stackguard, R4
+		//	CMPUBGE stackguard, R4, morestack-label
 		p = obj.Appendp(p, c.newprog)
 
 		p.As = AADD
@@ -620,11 +604,11 @@ func (c *ctxtz) stacksplitPre(p *obj.Prog, framesize int32) (*obj.Prog, *obj.Pro
 		// That breaks the math above, so we have to check for that explicitly.
 		//	// stackguard is R3
 		//	CMP	R3, $StackPreempt
-		//	BEQ	label-of-call-to-morestack
+		//	BEQ	morestack-label
 		//	ADD	$StackGuard, SP, R4
 		//	SUB	R3, R4
 		//	MOVD	$(framesize+(StackGuard-StackSmall)), TEMP
-		//	CMPUBGE	TEMP, R4
+		//	CMPUBGE	TEMP, R4, morestack-label
 		p = obj.Appendp(p, c.newprog)
 
 		p.As = ACMP
@@ -671,6 +655,12 @@ func (c *ctxtz) stacksplitPre(p *obj.Prog, framesize int32) (*obj.Prog, *obj.Pro
 	return p, q
 }
 
+// stacksplitPost generates the function epilogue that calls morestack
+// and returns the new last instruction in the function.
+//
+// p is the last Prog in the function. pPre and pPreempt, if non-nil,
+// are the instructions that branch to the epilogue. This will fill in
+// their branch targets.
 func (c *ctxtz) stacksplitPost(p *obj.Prog, pPre *obj.Prog, pPreempt *obj.Prog, framesize int32) *obj.Prog {
 	// Now we are at the end of the function, but logically
 	// we are still in function prologue. We need to fix the
