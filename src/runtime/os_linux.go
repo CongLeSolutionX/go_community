@@ -434,13 +434,12 @@ func sysSigaction(sig uint32, new, old *sigactiont) {
 		// QEMU turns calls to the sigaction system call into
 		// calls to the C library sigaction call; the C
 		// library call rejects attempts to call sigaction for
-		// SIGCANCEL (32) or SIGSETXID (33).
-		//
-		// QEMU rejects calling sigaction on SIGRTMAX (64).
+		// SIGCANCEL (32) or SIGSETXID (33). QEMU rejects calling
+		// sigaction on SIGRTMAX (64) and on SIGRTMAX-1 (63).
 		//
 		// Just ignore the error in these case. There isn't
 		// anything we can do about it anyhow.
-		if sig != 32 && sig != 33 && sig != 64 {
+		if sig != 32 && sig != 33 && sig != 63 && sig != 64 {
 			// Use system stack to avoid split stack overflow on ppc64/ppc64le.
 			systemstack(func() {
 				throw("sigaction failed")
