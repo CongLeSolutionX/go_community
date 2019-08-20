@@ -1853,6 +1853,7 @@
 
 // floating point optimizations
 (Mul(32|64)F x (Const(32|64)F [auxFrom64F(1)])) -> x
+(Sub(32|64)F (Const(32|64)F [auxFrom64F(0)]) x) -> (Neg(32|64)F x)
 (Mul32F x (Const32F [auxFrom32F(-1)])) -> (Neg32F x)
 (Mul64F x (Const64F [auxFrom64F(-1)])) -> (Neg64F x)
 (Mul32F x (Const32F [auxFrom32F(2)])) -> (Add32F x x)
