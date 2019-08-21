@@ -49,6 +49,7 @@
 package runtime
 
 import (
+	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -69,6 +70,11 @@ const (
 
 	// Maximum searchAddr value, which indicates that the heap has no free space.
 	maxSearchAddr = ^uintptr(0) - arenaBaseOffset
+
+	// Minimum scavAddr value, which indicates that the scavenger is done.
+	//
+	// minScavAddr + arenaBaseOffset == 0
+	minScavAddr = (^uintptr(0) >> logArenaBaseOffset) * arenaBaseOffset
 )
 
 // Global chunk index.
@@ -145,12 +151,15 @@ type pageAlloc struct {
 	// The backing store for chunks is reserved in init and committed
 	// by grow.
 	//
-	// Each chunk is allocated out of mallocBitsAlloc.
-	chunks          []*mallocBits
-	mallocBitsAlloc fixalloc // allocator for mallocBits
+	// Each chunk is allocated out of mallocDataAlloc.
+	chunks          []*mallocData
+	mallocDataAlloc fixalloc // allocator for mallocData
 
 	// The address to start an allocation search with.
 	searchAddr uintptr
+
+	// The address to start a scavenge candidate search with.
+	scavAddr uintptr
 
 	// start and end represent the chunk indices
 	// which pageAlloc knows about. It assumes
@@ -161,6 +170,9 @@ type pageAlloc struct {
 	// mheap_.lock. This level of indirection is critical
 	// for testing.
 	mheapLock *mutex
+
+	// Whether or not this struct is being used in tests.
+	test bool
 }
 
 func (s *pageAlloc) init(mheapLock *mutex, sysStat *uint64) {
@@ -170,15 +182,18 @@ func (s *pageAlloc) init(mheapLock *mutex, sysStat *uint64) {
 	// Start with the searchAddr in a state indicating there's no free memory.
 	s.searchAddr = maxSearchAddr
 
+	// Start with the scavAddr in a state indicating there's nothing more to do.
+	s.scavAddr = minScavAddr
+
 	// Initialize allocator for mallocBits.
-	s.mallocBitsAlloc.init(unsafe.Sizeof(mallocBits{}), nil, nil, &memstats.gc_sys)
+	s.mallocDataAlloc.init(unsafe.Sizeof(mallocData{}), nil, nil, &memstats.gc_sys)
 
 	// Reserve space for pointers to mallocBits and put this reservation
 	// into the chunks slice.
 	const maxChunks = (1 << heapAddrBits) / mallocChunkBytes
 	r := sysReserve(nil, maxChunks*sys.PtrSize)
 	sl := notInHeapSlice{(*notInHeap)(r), 0, maxChunks}
-	s.chunks = *(*[]*mallocBits)(unsafe.Pointer(&sl))
+	s.chunks = *(*[]*mallocData)(unsafe.Pointer(&sl))
 
 	// Set the mheapLock.
 	s.mheapLock = mheapLock
@@ -254,7 +269,15 @@ func (s *pageAlloc) grow(base, size uintptr, sysStat *uint64) {
 
 	// Allocate new sections of the bitmap.
 	for c := chunkIndex(base); c < chunkIndex(limit); c++ {
-		s.chunks[c] = (*mallocBits)(s.mallocBitsAlloc.alloc())
+		m := (*mallocData)(s.mallocDataAlloc.alloc())
+
+		// Newly-grown memory is always considered scavenged.
+		m.scavengeRange(0, mallocChunkPages)
+
+		// Store without write barrier since m is not in the heap,
+		// and we're not allowed to have write barriers in the
+		// allocation codepaths.
+		atomic.StorepNoWB(unsafe.Pointer(&s.chunks[c]), unsafe.Pointer(m))
 	}
 
 	// Update summaries accordingly. This operation acts kind of
