@@ -71,6 +71,11 @@ const (
 
 	// Maximum searchAddr value, which indicates that the heap has no free space.
 	maxSearchAddr = ^uintptr(0) - arenaBaseOffset
+
+	// Minimum scavAddr value, which indicates that the scavenger is done.
+	//
+	// minScavAddr + arenaBaseOffset == 0
+	minScavAddr = (^uintptr(0) >> logArenaBaseOffset) * arenaBaseOffset
 )
 
 // Global chunk index.
@@ -150,11 +155,17 @@ type pageAlloc struct {
 	// The address to start an allocation search with.
 	searchAddr uintptr
 
+	// The address to start a scavenge candidate search with.
+	scavAddr uintptr
+
 	// start and end represent the chunk indices
 	// which pageAlloc knows about. It assumes
 	// chunks in the range [start, end) are
 	// currently ready to use.
 	start, end chunkIdx
+
+	// Whether or not this struct is being used in tests.
+	test bool
 
 	// Reference to an mheap, used for testing by using
 	// a dummy mheap structure.
@@ -167,6 +178,9 @@ func (s *pageAlloc) init(h *mheap, sysStat *uint64) {
 
 	// Start with the searchAddr in a state indicating there's no free memory.
 	s.searchAddr = maxSearchAddr
+
+	// Start with the scavAddr in a state indicating there's nothing more to do.
+	s.scavAddr = minScavAddr
 
 	// Save a reference to mheap. This extra level of indirection is
 	// critical for testing.
@@ -504,7 +518,7 @@ nextLevel:
 				print("runtime: summary[", l, "][", i+j, "] = (", sum.start(), ", ", sum.max(), ", ", sum.end(), ")\n")
 				if l == len(s.summary)-1 {
 					if a := s.arenas(arenaIdx(i + j)); a != nil {
-						for z, b := range a.pageAlloc {
+						for z, b := range a.pageAlloc.mallocBits {
 							print("runtime: mallocbits[", z, "] = ", hex(uintptr(b)), "\n")
 						}
 					}
@@ -526,7 +540,7 @@ nextLevel:
 	if j < 0 {
 		max := s.summary[len(s.summary)-1][i].max()
 		print("runtime: max = ", max, ", npages = ", npages, "\n")
-		for z, b := range s.arenas(arenaIdx(i)).pageAlloc {
+		for z, b := range s.arenas(arenaIdx(i)).pageAlloc.mallocBits {
 			print("runtime: mallocbits[", z, "] = ", hex(uintptr(b)), "\n")
 		}
 		throw("bad summary data")
@@ -564,7 +578,7 @@ func (s *pageAlloc) alloc(npages uintptr) uintptr {
 			if j < 0 {
 				print("runtime: max = ", max, ", npages = ", npages, "\n")
 				print("runtime: searchAddrIndex = ", arenaPageIndex(s.searchAddr), ", s.searchAddr = ", hex(s.searchAddr), "\n")
-				for z, b := range s.arenas(i).pageAlloc {
+				for z, b := range s.arenas(i).pageAlloc.mallocBits {
 					print("runtime: mallocbits[", z, "] = ", hex(uintptr(b)), "\n")
 				}
 				throw("bad summary data")
