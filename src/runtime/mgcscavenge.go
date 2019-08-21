@@ -55,6 +55,11 @@
 
 package runtime
 
+import (
+	"math/bits"
+	"unsafe"
+)
+
 const (
 	// The background scavenger is paced according to these parameters.
 	//
@@ -404,4 +409,299 @@ func bgscavenge(c chan int) {
 		// Give something else a chance to run, no locks are held.
 		Gosched()
 	}
+}
+
+// scavenge scavenges nbytes worth of free pages, starting with the
+// highest address first. Successive calls continue from where it left
+// off until the heap is exhausted. Call resetScavengeAddr to bring it
+// back to the top of the heap.
+//
+// Returns the amount of memory scavenged in bytes.
+//
+// s.mheap must not be locked.
+//
+// Must run on the system stack because scavengeone must run on the
+// system stack.
+//
+//go:systemstack
+func (s *pageAlloc) scavenge(nbytes uintptr) uintptr {
+	released := uintptr(0)
+	for released < nbytes {
+		r := s.scavengeone(nbytes - released)
+		if r == 0 {
+			// Nothing left to scavenge! Give up.
+			break
+		}
+		released += r
+	}
+	return released
+}
+
+// resetScavengeAddr sets the scavenge hint to the top of the heap's
+// address space. This should be called each time the scavenger's pacing
+// changes.
+//
+// s.mheap.lock must be held.
+func (s *pageAlloc) resetScavengeAddr() {
+	s.scavAddr = uintptr(s.end+1)*heapArenaBytes - 1
+}
+
+// scavengeone starts from s.scavAddr and walks down the heap until it finds
+// a contiguous run of pages to scavenge. It will try to scavenge at most
+// max bytes at once, but will avoid breaking huge pages. Once it scavenges
+// some memory it returns how much it scavenged and updates s.scavAddr
+// appropriately. s.scavAddr must be reset manually and externally.
+//
+// Should it exhaust the heap, it will return 0 and set s.scavAddr to 0.
+//
+// s.mheap must not be locked. Must be run on the system stack because it
+// acquires the heap lock.
+//
+//go:systemstack
+func (s *pageAlloc) scavengeone(max uintptr) uintptr {
+	maxPages := int(alignUp(max, pageSize) / pageSize)
+
+	lock(&s.mheap.lock)
+	if s.scavAddr == 0 {
+		// A zero hint means there are no more free and unscavenged pages. Quit.
+		unlock(&s.mheap.lock)
+		return 0
+	}
+
+	// Check the arena containing the scav addr, starting at the addr
+	// and see if there are any free and unscavenged pages.
+	top := arenaIdx(s.scavAddr / heapArenaBytes)
+	a := s.arenas(top)
+	if a != nil {
+		base, npages := a.pageAlloc.findScavengeCandidate(arenaPageIndex(s.scavAddr), maxPages)
+
+		// If we found something, scavenge it and return!
+		if npages != 0 {
+			s.scavengeRangeLocked(top, a, base, npages)
+			unlock(&s.mheap.lock)
+			return uintptr(npages) * pageSize
+		}
+	}
+	unlock(&s.mheap.lock)
+
+	// Slow path: iterate optimistically looking for any free and unscavenged page.
+	// If we think we see something, stop and verify it!
+arenaLoop:
+	for i := top - 1; i >= s.start; i-- {
+		for j := mallocChunksPerArena - 1; j >= 0; j-- {
+			// If this arena is totally in-use don't bother doing
+			// a more sophisticated check.
+			//
+			// Note we're accessing this without a lock, but that's fine.
+			// We're being optimistic anyway.
+			if s.summary[len(s.summary)-1][chunkIndex(i, j)].max() == 0 {
+				continue
+			}
+
+			// Look over the chunk for this arena and see if there are any
+			// free and unscavenged pages.
+			a := s.arenas(i)
+			if a == nil || !a.pageAlloc.hasScavengeCandidate(j) {
+				continue
+			}
+
+			// We found a candidate, so let's lock and verify it.
+			lock(&s.mheap.lock)
+
+			// Find, verify, and scavenge if we can.
+			base, npages := a.pageAlloc.findScavengeCandidate((j+1)*mallocChunkPages-1, maxPages)
+			if npages == 0 {
+				// We were fooled, let's take this opportunity to mark all the
+				// memory up to here as scavenged for future calls and continue.
+				// Note that findScavengeCandidate will attempt to search the rest
+				// of the arena's chunks, so we can just start at the next arena.
+				s.scavAddr = uintptr(i)*heapArenaBytes - 1
+				unlock(&s.mheap.lock)
+				continue arenaLoop
+			}
+			s.scavengeRangeLocked(i, a, base, npages)
+			unlock(&s.mheap.lock)
+
+			return uintptr(npages) * pageSize
+		}
+	}
+
+	lock(&s.mheap.lock)
+	// We couldn't find anything, so signal that there's nothing left
+	// to scavenge if the hint hasn't been updated at all.
+	s.scavAddr = 0
+	unlock(&s.mheap.lock)
+
+	return 0
+}
+
+// scavengeRangeLocked scavenges the given region of memory.
+//
+// s.mheap must be locked.
+func (s *pageAlloc) scavengeRangeLocked(i arenaIdx, a *heapArena, base, npages int) {
+	a.pageAlloc.scavengeRange(base, npages)
+
+	// Update the scav pointer.
+	s.scavAddr = uintptr(i)*heapArenaBytes + uintptr(base)*pageSize
+
+	if !s.test {
+		start := arenaBase(i) + uintptr(base)*pageSize
+
+		// Only perform the actual scavenging if we're not in a test.
+		// It's dangerous to do so otherwise.
+		sysUnused(unsafe.Pointer(start), uintptr(npages)*pageSize)
+
+		// Update global accounting only when not in test, otherwise
+		// the runtime's accounting will be wrong.
+		memstats.heap_released += uint64(npages) * pageSize
+	}
+}
+
+// hasScavengeCandidate returns if there's any free-and-unscavenged memory
+// in the region represented by this mallocData.
+//
+// chunk indicates the chunk to search.
+func (m *mallocData) hasScavengeCandidate(chunk int) bool {
+	// The goal of this search is to see if the arena contains any free and unscavenged memory.
+	for i := (chunk+1)*mallocChunkPages/64 - 1; i >= chunk*mallocChunkPages/64; i-- {
+		// 1s are scavenged OR non-free => 0s are unscavenged AND free
+		x := m.scavenged[i] | m.mallocBits[i]
+
+		// Quickly skip over chunks of non-free or scavenged pages.
+		if x == ^uint64(0) {
+			continue
+		}
+		return true
+	}
+	return false
+}
+
+// findScavengeCandidate returns a start index and a size for this mallocData
+// segment which represents a contiguous region of free and unscavenged memory.
+//
+// hint indicates a point at which to start the search, but note that
+// findScavengeCandidate searches backwards through the mallocData. That is, it
+// will return the highest scavenge candidate.
+//
+// max is a hint for how big of a region is desired. If max >= pagesPerArena, then
+// findScavengeCandidate effectively returns entire free and unscavenged regions.
+// If max < pagesPerArena, it may truncate the returned region such that size is
+// max. However, findScavengeCandidate may still return a larger region if, for
+// example, it chooses to preserve huge pages. That is, even if max is small,
+// size is not guaranteed to be equal to max.
+//
+// TODO(mknyszek): This function is... a bit hard to follow. It should be refactored.
+func (m *mallocData) findScavengeCandidate(hint, max int) (start int, size int) {
+	splitFreeRegion := func(start, size int) (int, int) {
+		bottom := start
+		start = start + size - max
+		size = max
+		// If we don't have huge pages, just return the split down to max.
+		if physHugePageSize <= pageSize {
+			return start, size
+		}
+		// Compute the huge page boundary above our candidate.
+		pagesPerHugePage := uintptr(physHugePageSize / pageSize)
+		hugePageAbove := int(alignUp(uintptr(start), pagesPerHugePage))
+		// If that boundary is within our current candidate, then we may be breaking
+		// a huge page.
+		if hugePageAbove <= start+size {
+			hugePageBelow := int(alignDown(uintptr(start), pagesPerHugePage))
+			// If start is on a 64 page boundary there could still be more to
+			// find. In particular, we might find a huge page. Iterate a little
+			// further, at most up to the next huge page boundary.
+			if bottom%64 == 0 {
+				for i := bottom/64 - 1; i >= 0 && bottom > hugePageBelow; i-- {
+					// 1s are scavenged OR non-free => 0s are unscavenged AND free
+					x := m.scavenged[i] | m.mallocBits[i]
+					// Count leading 1s.
+					z1 := bits.LeadingZeros64(^x)
+					if z1 != 0 {
+						// If there are any leading 1s we can't make any progress.
+						break
+					}
+					// There are no leading 1s, that means there must be leading
+					// zeros. No matter what, we want to include them.
+					z0 := bits.LeadingZeros64(x)
+					bottom -= z0
+					// If, however, these zeros don't reach the bottom of the this
+					// 64 bit chunk, then that means that we are blocked from
+					// continuing.
+					if z0 != 64 {
+						break
+					}
+				}
+			}
+			if hugePageBelow >= bottom {
+				// We're in danger of breaking apart a huge page since start+size crosses
+				// a huge page boundary and rounding down start to the nearest huge
+				// page boundary is valid. Include the entire huge page in the bound by
+				// rounding down to the huge page size.
+				size = max + start - hugePageBelow
+				start = hugePageBelow
+			}
+		}
+		return start, size
+	}
+
+	// The goal of this search is to find the last contiguous run
+	// of free and unscavenged pages which is at most max pages in size.
+	// If we find a larger one, we just take the top max pages from it.
+	for i := hint / 64; i >= 0; i-- {
+		// 1s are scavenged OR non-free => 0s are unscavenged AND free
+		x := m.scavenged[i] | m.mallocBits[i]
+
+		// Quickly skip over blocks of non-free or scavenged pages.
+		if x == ^uint64(0) {
+			start = 0
+			size = 0
+			continue
+		}
+
+		// z1 counts the number of leading 1s.
+		z1 := bits.LeadingZeros64(^x)
+
+		// z0 counts the number of zeroes after that.
+		// z0 may be 64 even if z1 != 0 because when we
+		// shift we might shift out all the 1s.
+		z0 := bits.LeadingZeros64(x << z1)
+
+		if z0 != 64 {
+			// Does not reach bottom edge.
+			// This could mean one of two things:
+			// 1) The top z0 < 64 bits of x are zero, e.g. 1101...111000.
+			//    In this case z1 == 0.
+			// 2) The top z1 bits of x are ones, and the next z0 bits
+			//    are zero, e.g. 1101...111001. In this case z1 != 0.
+			// In both of these cases, there could be more pockets of
+			// zeroes, but that doesn't matter. We just want to get the
+			// first pocket. The same math applies in both cases.
+			start = i*64 + 64 - z0 - z1
+			size += z0
+			if size > max {
+				start, size = splitFreeRegion(start, size)
+			}
+			return start, size
+		}
+		// Reaches bottom edge.
+		// Again there are two cases here:
+		// 1) x == 0 and z1 == 0.
+		// 2) The bottom 64-z1 bits are zero and z1 != 0.
+		start = i * 64
+		if z1 == 0 {
+			size += 64
+		} else {
+			size = 64 - z1
+		}
+		if size >= max {
+			return splitFreeRegion(start, size)
+		}
+	}
+	return start, size
+}
+
+// scavengeRange unconditionally marks the scavenge bits for
+// the given bit range in the mallocData.
+func (m *mallocData) scavengeRange(base, npages int) {
+	m.scavenged.setRange(base, npages)
 }
