@@ -651,6 +651,8 @@ type Link struct {
 	Framepointer_enabled bool
 	UseBASEntries        bool // Use Base Address Selection Entries in location lists and PC ranges
 
+	Flag_maymorestack string // If non-empty, call this function in stack checks
+
 	// state for writing objects
 	Text []*LSym
 	Data []*LSym

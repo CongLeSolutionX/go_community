@@ -615,8 +615,10 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				rel.Type = objabi.R_ADDRPOWER_PCREL
 			}
 
+			didMorestack := false
 			if !c.cursym.Func.Text.From.Sym.NoSplit() {
 				q = c.stacksplit(q, autosize) // emit split check
+				didMorestack = true
 			}
 
 			// Special handling of the racecall thunk. Assume that its asm code will
@@ -697,6 +699,27 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q.To.Type = obj.TYPE_MEM
 				q.To.Reg = REGSP
 				q.To.Offset = 24
+			}
+
+			// If there's a stack check prologue, call
+			// mayMoreStack now that LR is saved.
+			if ctxt.Flag_maymorestack != "" && didMorestack && !cursym.CFunc() && !cursym.Func.Text.From.Sym.NeedCtxt() {
+				// TODO: Support functions that need context
+				q = obj.Appendp(q, newprog)
+				q.Pos = p.Pos
+				q.As = ABL
+				q.To.Type = obj.TYPE_BRANCH
+				q.To.Sym = ctxt.Lookup(ctxt.Flag_maymorestack)
+				if cursym.Leaf() {
+					// Restore LR from stack.
+					q = obj.Appendp(q, newprog)
+					q.Pos = p.Pos
+					q.As = AMOVD
+					q.From.Type = obj.TYPE_MEM
+					q.From.Reg = REGSP
+					q.To.Type = obj.TYPE_REG
+					q.To.Reg = REG_LR
+				}
 			}
 
 			if c.cursym.Func.Text.From.Sym.Wrapper() {

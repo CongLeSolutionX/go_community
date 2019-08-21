@@ -358,6 +358,26 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				c.cursym.Func.Text.Mark |= LEAF
 			}
 
+			// If there's a stack check prologue, call
+			// mayMoreStack now that LR is saved.
+			if ctxt.Flag_maymorestack != "" && wasSplit && !cursym.CFunc() && !cursym.Func.Text.From.Sym.NeedCtxt() {
+				// TODO: Support functions that need context
+				q = obj.Appendp(q, newprog)
+				q.Pos = p.Pos
+				q.As = ABL
+				q.To.Type = obj.TYPE_BRANCH
+				q.To.Sym = ctxt.Lookup(ctxt.Flag_maymorestack)
+				if cursym.Leaf() {
+					// Restore LR from stack.
+					q = obj.Appendp(q, newprog)
+					q.As = AMOVD
+					q.From.Type = obj.TYPE_MEM
+					q.From.Reg = REGSP
+					q.To.Type = obj.TYPE_REG
+					q.To.Reg = REG_LR
+				}
+			}
+
 			if c.cursym.Func.Text.Mark&LEAF != 0 {
 				c.cursym.Set(obj.AttrLeaf, true)
 				break

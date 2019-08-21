@@ -1152,6 +1152,19 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 	jls := obj.Appendp(p, newprog)
 	jls.As = AJLS
 	jls.To.Type = obj.TYPE_BRANCH
+	end := jls
+
+	// Call runtime.mayMoreStack
+	if ctxt.Flag_maymorestack != "" && !cursym.CFunc() && !cursym.Func.Text.From.Sym.NeedCtxt() {
+		// TODO: Support functions that need context
+		p := obj.Appendp(end, newprog)
+		p.Pos = cursym.Func.Text.Pos
+		p.As = obj.ACALL
+		p.To.Type = obj.TYPE_BRANCH
+		p.To.Name = obj.NAME_EXTERN
+		p.To.Sym = ctxt.Lookup(ctxt.Flag_maymorestack)
+		end = p
+	}
 
 	var last *obj.Prog
 	for last = cursym.Func.Text; last.Link != nil; last = last.Link {
@@ -1200,7 +1213,7 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 		q1.Pcond = call
 	}
 
-	return jls
+	return end
 }
 
 var unaryDst = map[obj.As]bool{

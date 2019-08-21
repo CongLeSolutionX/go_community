@@ -582,8 +582,10 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				}
 			}
 
+			didMorestack := false
 			if !p.From.Sym.NoSplit() {
 				p = c.stacksplit(p, c.autosize) // emit split check
+				didMorestack = true
 			}
 
 			aoffset := c.autosize
@@ -656,6 +658,27 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q1.Reg = REGSP
 				q1.To.Type = obj.TYPE_REG
 				q1.To.Reg = REGFP
+			}
+
+			// If there's a stack check prologue, call
+			// mayMoreStack now that LR is saved.
+			if ctxt.Flag_maymorestack != "" && didMorestack && !cursym.CFunc() && !cursym.Func.Text.From.Sym.NeedCtxt() {
+				// TODO: Support functions that need context
+				q1 = obj.Appendp(q1, newprog)
+				q1.Pos = p.Pos
+				q1.As = obj.ACALL
+				q1.To.Type = obj.TYPE_BRANCH
+				q1.To.Sym = ctxt.Lookup(ctxt.Flag_maymorestack)
+				if cursym.Leaf() {
+					// Restore LR from stack.
+					q1 = obj.Appendp(q1, newprog)
+					q1.Pos = p.Pos
+					q1.As = AMOVD
+					q1.From.Type = obj.TYPE_MEM
+					q1.From.Reg = REGSP
+					q1.To.Type = obj.TYPE_REG
+					q1.To.Reg = REGLINK
+				}
 			}
 
 			if c.cursym.Func.Text.From.Sym.Wrapper() {

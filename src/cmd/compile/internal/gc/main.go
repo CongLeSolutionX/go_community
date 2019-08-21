@@ -52,6 +52,7 @@ var (
 	Debug_typecheckinl int
 	Debug_gendwarfinl  int
 	Debug_softfloat    int
+	Debug_maymorestack string
 )
 
 // Debug arguments.
@@ -81,6 +82,7 @@ var debugtab = []struct {
 	{"typecheckinl", "eager typechecking of inline function bodies", &Debug_typecheckinl},
 	{"dwarfinl", "print information about DWARF inlined function creation", &Debug_gendwarfinl},
 	{"softfloat", "force compiler to emit soft-float code", &Debug_softfloat},
+	{"maymorestack", "call runtime.mayMoreStack on all stack growth checks", &Debug_maymorestack},
 }
 
 const debugHelpHeader = `usage: -d arg[,arg]* and arg is <key>[=<value>]
@@ -440,6 +442,7 @@ func Main(archInit func(*Arch)) {
 	if flagDWARF {
 		dwarf.EnableLogging(Debug_gendwarfinl != 0)
 	}
+	Ctxt.Flag_maymorestack = Debug_maymorestack
 
 	if Debug_softfloat != 0 {
 		thearch.SoftFloat = true

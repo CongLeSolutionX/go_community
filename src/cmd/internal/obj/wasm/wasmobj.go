@@ -339,6 +339,13 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			p.To = obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_EXTERN, Sym: morestackNoCtxt}
 		}
 		p = appendp(p, AEnd)
+
+		// Call maymorestack function.
+		if ctxt.Flag_maymorestack != "" && !s.Func.Text.From.Sym.NeedCtxt() {
+			maymorestack := ctxt.LookupABI(ctxt.Flag_maymorestack, obj.ABIInternal)
+			p = appendp(p, ACALLNORESUME, constAddr(0))
+			p.To = obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_EXTERN, Sym: maymorestack}
+		}
 	}
 
 	// record the branches targeting the entry loop and the unwind exit,
