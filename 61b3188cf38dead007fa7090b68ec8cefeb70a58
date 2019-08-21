@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "482f5149_64202524",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2747,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-08-21T14:49:52Z",
+      "side": 1,
+      "message": "it should resolve no matter where you are.",
+      "range": {
+        "startLine": 2747,
+        "startChar": 47,
+        "endLine": 2747,
+        "endChar": 61
+      },
+      "revId": "61b3188cf38dead007fa7090b68ec8cefeb70a58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c56df64f_9b8deac0",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-08-21T14:49:52Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 705,
+        "startChar": 44,
+        "endLine": 705,
+        "endChar": 58
+      },
+      "revId": "61b3188cf38dead007fa7090b68ec8cefeb70a58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
