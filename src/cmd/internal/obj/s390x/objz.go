@@ -242,6 +242,11 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		case obj.ATEXT:
 			q = p
 			p.Mark |= LEAF
+			if ctxt.Flag_maymorestack != "" && !p.From.Sym.NoSplit() {
+				// We may have to call mayMoreStack,
+				// so this isn't a leaf.
+				p.Mark &^= LEAF
+			}
 
 		case ABL, ABCL:
 			q = p
@@ -356,6 +361,22 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				// (e.g. gogo) are not identified as leaves but still have
 				// no frame.
 				c.cursym.Func.Text.Mark |= LEAF
+			}
+
+			// If there's a stack check prologue, call
+			// mayMoreStack now that LR is saved.
+			if ctxt.Flag_maymorestack != "" && !p.From.Sym.NoSplit() && !cursym.CFunc() && !cursym.Func.Text.From.Sym.NeedCtxt() {
+				// TODO: Support functions that need context
+				if cursym.Leaf() {
+					// We should have suppressed
+					// marking this as a leaf.
+					panic("marked morestack function as leaf")
+				}
+				p := obj.Appendp(p, newprog)
+				p.Pos = cursym.Func.Text.Pos
+				p.As = ABL
+				p.To.Type = obj.TYPE_BRANCH
+				p.To.Sym = ctxt.Lookup(ctxt.Flag_maymorestack)
 			}
 
 			if c.cursym.Func.Text.Mark&LEAF != 0 {

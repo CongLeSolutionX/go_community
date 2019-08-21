@@ -1153,6 +1153,17 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 	jls.As = AJLS
 	jls.To.Type = obj.TYPE_BRANCH
 
+	// Call runtime.mayMoreStack
+	if ctxt.Flag_maymorestack != "" && !cursym.CFunc() && !cursym.Func.Text.From.Sym.NeedCtxt() {
+		// TODO: Support functions that need context
+		p := obj.Appendp(jls, newprog)
+		p.Pos = cursym.Func.Text.Pos
+		p.As = obj.ACALL
+		p.To.Type = obj.TYPE_BRANCH
+		p.To.Name = obj.NAME_EXTERN
+		p.To.Sym = ctxt.Lookup(ctxt.Flag_maymorestack)
+	}
+
 	var last *obj.Prog
 	for last = cursym.Func.Text; last.Link != nil; last = last.Link {
 	}
