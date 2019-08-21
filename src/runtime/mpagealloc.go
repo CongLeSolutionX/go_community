@@ -80,6 +80,11 @@ const (
 	// value in the shifted address space, but searchAddr is stored as a regular
 	// memory address. See arenaBaseOffset for details.
 	maxSearchAddr = ^uintptr(0) - arenaBaseOffset
+
+	// Minimum scavAddr value, which indicates that the scavenger is done.
+	//
+	// minScavAddr + arenaBaseOffset == 0
+	minScavAddr = (^uintptr(0) >> logArenaBaseOffset) * arenaBaseOffset
 )
 
 // Global chunk index.
@@ -160,7 +165,7 @@ type pageAlloc struct {
 	//
 	// To find the chunk containing a memory address `a`, do:
 	//   chunks[chunkIndex(a)]
-	chunks []mallocBits
+	chunks []mallocData
 
 	// The address to start an allocation search with.
 	//
@@ -174,6 +179,9 @@ type pageAlloc struct {
 	// space on architectures with segmented address spaces.
 	searchAddr uintptr
 
+	// The address to start a scavenge candidate search with.
+	scavAddr uintptr
+
 	// start and end represent the chunk indices
 	// which pageAlloc knows about. It assumes
 	// chunks in the range [start, end) are
@@ -183,6 +191,9 @@ type pageAlloc struct {
 	// mheap_.lock. This level of indirection makes it possible
 	// to test pageAlloc indepedently of the runtime allocator.
 	mheapLock *mutex
+
+	// Whether or not this struct is being used in tests.
+	test bool
 }
 
 func (s *pageAlloc) init(mheapLock *mutex, sysStat *uint64) {
@@ -192,12 +203,15 @@ func (s *pageAlloc) init(mheapLock *mutex, sysStat *uint64) {
 	// Start with the searchAddr in a state indicating there's no free memory.
 	s.searchAddr = maxSearchAddr
 
+	// Start with the scavAddr in a state indicating there's nothing more to do.
+	s.scavAddr = minScavAddr
+
 	// Reserve space for pointers to mallocBits and put this reservation
 	// into the chunks slice.
 	const maxChunks = (1 << heapAddrBits) / mallocChunkBytes
-	r := sysReserve(nil, maxChunks*unsafe.Sizeof(mallocBits{}))
+	r := sysReserve(nil, maxChunks*unsafe.Sizeof(mallocData{}))
 	sl := notInHeapSlice{(*notInHeap)(r), 0, maxChunks}
-	s.chunks = *(*[]mallocBits)(unsafe.Pointer(&sl))
+	s.chunks = *(*[]mallocData)(unsafe.Pointer(&sl))
 
 	// Set the mheapLock.
 	s.mheapLock = mheapLock
@@ -282,7 +296,7 @@ func (s *pageAlloc) grow(base, size uintptr, sysStat *uint64) {
 	}
 
 	// Extend the mapped part of the chunk reservation.
-	elemSize := unsafe.Sizeof(mallocBits{})
+	elemSize := unsafe.Sizeof(mallocData{})
 	extendMappedRegion(
 		unsafe.Pointer(&s.chunks[0]),
 		uintptr(oldStart)*elemSize,
@@ -298,6 +312,13 @@ func (s *pageAlloc) grow(base, size uintptr, sysStat *uint64) {
 	// of the heap on architectures with signed address spaces.
 	if base+arenaBaseOffset < s.searchAddr+arenaBaseOffset {
 		s.searchAddr = base
+	}
+
+	// Newly-grown memory is always considered scavenged.
+	//
+	// Set all the bits in the scavenged bitmaps high.
+	for c := chunkIndex(base); c < chunkIndex(limit); c++ {
+		s.chunks[c].scavengeRange(0, mallocChunkPages)
 	}
 
 	// Update summaries accordingly. The grow acts like a free, so

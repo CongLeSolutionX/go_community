@@ -36,7 +36,6 @@ var Atoi32 = atoi32
 
 var Nanotime = nanotime
 
-var PageSize = pageSize
 var PhysHugePageSize = physHugePageSize
 
 type LFNode struct {
@@ -721,6 +720,7 @@ func RunGetgThreadSwitchTest() {
 }
 
 const (
+	PageSize         = pageSize
 	MallocChunkPages = mallocChunkPages
 )
 
@@ -771,6 +771,23 @@ func SummarizeSlow(b *MallocBits) MallocSum {
 // Expose non-trivial helpers for testing.
 func FindBitRange64(c uint64, n uint) uint { return findBitRange64(c, n) }
 
+// Expose mallocData for testing.
+type MallocData mallocData
+
+func (d *MallocData) FindScavengeCandidate(searchIdx, max uint) (uint, uint) {
+	return (*mallocData)(d).findScavengeCandidate(searchIdx, max)
+}
+func (d *MallocData) AllocRange(i, n uint) { (*mallocData)(d).allocRange(i, n) }
+func (d *MallocData) ScavengeRange(i, n uint) {
+	(*mallocData)(d).scavengeRange(i, n)
+}
+func (d *MallocData) MallocBits() *MallocBits {
+	return (*MallocBits)(&(*mallocData)(d).mallocBits)
+}
+func (d *MallocData) Scavenged() *MallocBits {
+	return (*MallocBits)(&(*mallocData)(d).scavenged)
+}
+
 // Expose chunk index type.
 type ChunkIdx chunkIdx
 
@@ -783,8 +800,14 @@ func (p *PageAlloc) Free(base, npages uintptr)    { (*pageAlloc)(p).free(base, n
 func (p *PageAlloc) Bounds() (ChunkIdx, ChunkIdx) {
 	return ChunkIdx((*pageAlloc)(p).start), ChunkIdx((*pageAlloc)(p).end)
 }
-func (p *PageAlloc) MallocBits(i ChunkIdx) *MallocBits {
-	return (*MallocBits)(&((*pageAlloc)(p).chunks[i]))
+func (p *PageAlloc) MallocData(i ChunkIdx) *MallocData {
+	return (*MallocData)(&((*pageAlloc)(p).chunks[i]))
+}
+func (p *PageAlloc) Scavenge(nbytes uintptr) (r uintptr) {
+	systemstack(func() {
+		r = (*pageAlloc)(p).scavenge(nbytes)
+	})
+	return
 }
 
 // BitRange represents a range over a bitmap.
@@ -793,10 +816,20 @@ type BitRange struct {
 }
 
 // NewPageAlloc creates a new page allocator for testing and
-// initializes it with the chunks map. Each key represents a chunk
-// index and each value is a series of bit ranges to set within that
-// chunk.
-func NewPageAlloc(chunks map[ChunkIdx][]BitRange) *PageAlloc {
+// initializes it with the scav and chunks maps. Each key in these maps
+// represents a chunk index and each value is a series of bit ranges to
+// set within each bitmap's chunk.
+//
+// The initialization of the pageAlloc preserves the invariant that if a
+// scavenged bit is set the alloc bit is necessarily unset, so some
+// of the bits described by scav may be cleared in the final bitmap if
+// ranges in chunks overlap with them.
+//
+// scav is optional, and if nil, the scavenged bitmap will be cleared
+// (as opposed to all 1s, which it usually is). Furthermore, every
+// chunk index in scav must appear in chunks; ones that do not are
+// ignored.
+func NewPageAlloc(chunks, scav map[ChunkIdx][]BitRange) *PageAlloc {
 	p := new(pageAlloc)
 
 	// We've got an entry, so initialize the pageAlloc.
@@ -810,6 +843,25 @@ func NewPageAlloc(chunks map[ChunkIdx][]BitRange) *PageAlloc {
 
 		// Initialize the bitmap and update pageAlloc metadata.
 		chunk := &p.chunks[chunkIndex(addr)]
+
+		// Clear all the scavenged bits which grow set.
+		chunk.scavenged.clearRange(0, mallocChunkPages)
+
+		// Apply scavenge state if applicable.
+		if scav != nil {
+			if scvg, ok := scav[i]; ok {
+				for _, s := range scvg {
+					// Ignore the case of s.N == 0.scavengeRange doesn't handle
+					// it and it's a no-op anyway.
+					if s.N != 0 {
+						chunk.scavengeRange(s.I, s.N)
+					}
+				}
+			}
+		}
+		p.resetScavengeAddr()
+
+		// Apply alloc state.
 		for _, s := range init {
 			// Ignore the case of s.N == 0. allocRange doesn't handle
 			// it and it's a no-op anyway.
@@ -837,7 +889,7 @@ func NewPageAlloc(chunks map[ChunkIdx][]BitRange) *PageAlloc {
 		}
 
 		// Free the mapped space for chunks.
-		chunksLen := uintptr(cap(p.chunks)) * unsafe.Sizeof(mallocBits{})
+		chunksLen := uintptr(cap(p.chunks)) * unsafe.Sizeof(mallocData{})
 		sysFree(unsafe.Pointer(&p.chunks[0]), alignUp(chunksLen, physPageSize), nil)
 	})
 	return (*PageAlloc)(p)
