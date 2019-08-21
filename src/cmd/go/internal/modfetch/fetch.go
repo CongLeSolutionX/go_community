@@ -701,7 +701,9 @@ to use and optionally its public key and URL, as in:
 	GOSUMDB="sum.golang.org+<publickey>"
 	GOSUMDB="sum.golang.org+<publickey> https://sum.golang.org"
 
-The go command knows the public key of sum.golang.org; use of any other
+The go command knows the public key of sum.golang.org,
+and also that the name sum.golang.google.cn (inside China)
+connects to sum.golang.org and uses that key; use of any other
 database requires giving the public key explicitly. The URL defaults to
 "https://" followed by the database name.
 
