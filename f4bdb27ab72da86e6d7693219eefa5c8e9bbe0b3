@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d172b28_41f33aea",
+        "filename": "src/cmd/go/internal/modfetch/sumdb.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-08-21T15:09:14Z",
+      "side": 1,
+      "message": "\"mainland\"",
+      "range": {
+        "startLine": 65,
+        "startChar": 34,
+        "endLine": 65,
+        "endChar": 39
+      },
+      "revId": "f4bdb27ab72da86e6d7693219eefa5c8e9bbe0b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
