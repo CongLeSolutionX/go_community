@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b12085c4_0051601b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-08-21T17:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c5587d1_f57ffdae",
+      "range": {
+        "startLine": 11,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f8f09df_63386c8b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d192096f_b28cb1eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-08-21T17:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f8f09df_63386c8b",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "48ac56d5_530e9977",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-08-21T17:32:43Z",
+      "side": 1,
+      "message": "Actually, it\u0027s more subtle than that. s.Unit is fine, as long as the unit contains Textp. In other words, it\u0027s possible to be a symbol that doesn\u0027t have a Textp and therefore isn\u0027t in the compunits. I\u0027ll drop a comment here explaining it all.",
+      "parentUuid": "c714b46d_a7feea86",
+      "range": {
+        "startLine": 868,
+        "startChar": 20,
+        "endLine": 868,
+        "endChar": 51
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd882b4b_7cebe560",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 7
@@ -91,6 +163,30 @@
       "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e00138c_e402c5d6",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1817,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-08-21T17:32:43Z",
+      "side": 1,
+      "message": "It\u0027s no worse than what we do in deadcode.go. As such, I moved it there. (Thanks for the idea to do it there instead!)",
+      "parentUuid": "cd882b4b_7cebe560",
+      "range": {
+        "startLine": 1815,
+        "startChar": 0,
+        "endLine": 1817,
+        "endChar": 3
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "a4594f38_2e5dce91",
+        "filename": "src/cmd/link/internal/objfile/objfile.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-08-21T17:32:43Z",
+      "side": 1,
+      "message": "Technically no. r.lib has String that just returns Pkg. I\u0027ll go back to the old code. :)",
+      "parentUuid": "4ad0009f_d119dff8",
+      "range": {
+        "startLine": 410,
+        "startChar": 157,
+        "endLine": 410,
+        "endChar": 166
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42c49c55_7303389a",
         "filename": "src/cmd/link/internal/sym/compilation_unit.go",
         "patchSetId": 7
@@ -137,6 +257,30 @@
       "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6db61a7_5e2580a9",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-08-21T17:32:43Z",
+      "side": 1,
+      "message": "I like to live in the past, sue me.\n\nThanks.",
+      "parentUuid": "42c49c55_7303389a",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "6006ac40_59fb6c19",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-08-21T17:32:43Z",
+      "side": 1,
+      "message": "Fair point. Copy-pasta strikes twice in the same file!",
+      "parentUuid": "730647dd_85c08710",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95419557_97a52179",
         "filename": "src/cmd/link/internal/sym/compilation_unit.go",
         "patchSetId": 7
@@ -183,6 +351,30 @@
       "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ce0cd0_49e056ee",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-08-21T17:32:43Z",
+      "side": 1,
+      "message": "I considered it, rejected it, and with your prodding have decided it\u0027s probably better to be consistent rather than (what I think is) more right. In other words, switching to Textp -- as suggested.",
+      "parentUuid": "95419557_97a52179",
+      "range": {
+        "startLine": 20,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 6
+      },
+      "revId": "46a95a7203d62ab133f5c062ae17955b02cff29b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
