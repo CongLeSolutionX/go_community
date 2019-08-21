@@ -288,42 +288,42 @@ func ImportRepoRev(path, rev string) (Repo, *RevInfo, error) {
 		return nil, nil, fmt.Errorf("repo version lookup disabled by -mod=%s", cfg.BuildMod)
 	}
 
-	// Note: Because we are converting a code reference from a legacy
-	// version control system, we ignore meta tags about modules
-	// and use only direct source control entries (get.IgnoreMod).
-	security := web.SecureOnly
-	if get.Insecure {
-		security = web.Insecure
-	}
-	rr, err := get.RepoRootForImportPath(path, get.IgnoreMod, security)
+	var repo Repo
+	err := TryProxies(func(proxy string) (err error) {
+		repo, err = Lookup(proxy, path)
+		return err
+	})
 	if err != nil {
 		return nil, nil, err
 	}
 
-	code, err := lookupCodeRepo(rr)
-	if err != nil {
-		return nil, nil, err
+	var revInfo *RevInfo
+	if code, ok := repo.(codehost.Repo); ok {
+		codeInfo, err := code.Stat(rev)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		// TODO: Look in repo to find path, check for go.mod files.
+		// For now we're just assuming rr.Root is the module path,
+		// which is true in the absence of go.mod files.
+
+		repo, err = newCodeRepo(code, repo.ModulePath(), repo.ModulePath())
+		if err != nil {
+			return nil, nil, err
+		}
+
+		revInfo, err = repo.(*codeRepo).convert(codeInfo, rev)
+		if err != nil {
+			return nil, nil, err
+		}
+	} else {
+		if revInfo, err = repo.Stat(rev); err != nil {
+			return nil, nil, err
+		}
 	}
 
-	revInfo, err := code.Stat(rev)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	// TODO: Look in repo to find path, check for go.mod files.
-	// For now we're just assuming rr.Root is the module path,
-	// which is true in the absence of go.mod files.
-
-	repo, err := newCodeRepo(code, rr.Root, rr.Root)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	info, err := repo.(*codeRepo).convert(revInfo, rev)
-	if err != nil {
-		return nil, nil, err
-	}
-	return repo, info, nil
+	return repo, revInfo, nil
 }
 
 func SortVersions(list []string) {
