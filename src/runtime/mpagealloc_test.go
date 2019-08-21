@@ -23,8 +23,12 @@ func checkPageAlloc(t *testing.T, want, got *PageAlloc) {
 
 	for i := gotStart; i < gotEnd; i++ {
 		// Check the bitmaps.
-		if !checkPallocBits(t, got.PallocBits(i), want.PallocBits(i)) {
-			t.Logf("in chunk %d", i)
+		gb, wb := got.PallocData(i), want.PallocData(i)
+		if !checkPallocBits(t, gb.PallocBits(), wb.PallocBits()) {
+			t.Logf("in chunk %d (mallocBits)", i)
+		}
+		if !checkPallocBits(t, gb.Scavenged(), wb.Scavenged()) {
+			t.Logf("in chunk %d (scavenged)", i)
 		}
 	}
 	// TODO(mknyszek): Verify summaries too?
@@ -310,13 +314,13 @@ func TestPageAllocAlloc(t *testing.T) {
 	for name, v := range tests {
 		v := v
 		t.Run(name, func(t *testing.T) {
-			b := NewPageAlloc(v.before)
+			b := NewPageAlloc(v.before, nil)
 			for iter, i := range v.hits {
 				if a := b.Alloc(i.npages); a != i.base {
 					t.Fatalf("bad alloc #%d: want 0x%x, got 0x%x", iter+1, i.base, a)
 				}
 			}
-			want := NewPageAlloc(v.after)
+			want := NewPageAlloc(v.after, nil)
 			checkPageAlloc(t, want, b)
 		})
 	}
@@ -331,7 +335,7 @@ func TestPageAllocExhaust(t *testing.T) {
 			for i := ChunkIdx(0); i < 4; i++ {
 				bDesc[BaseChunkIdx+i] = []BitRange{}
 			}
-			b := NewPageAlloc(bDesc)
+			b := NewPageAlloc(bDesc, nil)
 
 			// Allocate into b with npages until we've exhausted the heap.
 			nAlloc := (PallocChunkPages * 4) / int(npages)
@@ -361,7 +365,7 @@ func TestPageAllocExhaust(t *testing.T) {
 					wantDesc[BaseChunkIdx+i] = []BitRange{}
 				}
 			}
-			want := NewPageAlloc(wantDesc)
+			want := NewPageAlloc(wantDesc, nil)
 
 			// Check to make sure the heap b matches what we want.
 			checkPageAlloc(t, want, b)
@@ -584,12 +588,13 @@ func TestPageAllocFree(t *testing.T) {
 	for name, v := range tests {
 		v := v
 		t.Run(name, func(t *testing.T) {
-			b := NewPageAlloc(v.before)
+			b := NewPageAlloc(v.before, nil)
+
 			for _, addr := range v.frees {
 				b.Free(addr, v.npages)
 			}
 
-			want := NewPageAlloc(v.after)
+			want := NewPageAlloc(v.after, nil)
 			checkPageAlloc(t, want, b)
 		})
 	}
@@ -633,7 +638,7 @@ func TestPageAllocAllocAndFree(t *testing.T) {
 	for name, v := range tests {
 		v := v
 		t.Run(name, func(t *testing.T) {
-			b := NewPageAlloc(v.init)
+			b := NewPageAlloc(v.init, nil)
 
 			for iter, i := range v.hits {
 				if i.alloc {
