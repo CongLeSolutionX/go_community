@@ -145,11 +145,19 @@ type pageAlloc struct {
 	// from it, subtract arenaBaseOffset.
 	hint uintptr
 
+	// The address to start a scavenge candidate search
+	// with. Like hint, this value has arenaBaseOffset added
+	// to it.
+	scavAddr uintptr
+
 	// start and end represent the arena indices
 	// which pageAlloc knows about. It assumes
 	// arenas in the range [start, end) are
 	// currently ready to use.
 	start, end arenaIdx
+
+	// Whether or not this struct is being used in tests.
+	test bool
 
 	// Reference to an mheap, used for testing by using
 	// a dummy mheap structure.
@@ -435,7 +443,6 @@ func (s *pageAlloc) allocSlow(npages uintptr) (uintptr, uintptr) {
 	// hint is the best hint we could glean from our search.
 	// Zero indicates we have no hint yet.
 	hint := uintptr(0)
-	lastsum := mallocSum(0)
 nextLevel:
 	for l := 0; l < len(s.summary); l++ {
 		b := levelBits[l]
@@ -480,7 +487,6 @@ nextLevel:
 				// The entry itself contains npages contiguous
 				// free pages, so drop down into the next level.
 				i += j
-				lastsum = sum
 				continue nextLevel
 			}
 			if hint == 0 {
@@ -531,15 +537,6 @@ nextLevel:
 	ai := arenaIdx(i / mallocChunksPerArena)
 	j, h := s.arenas(ai).pageAlloc.alloc(npages, (i%mallocChunksPerArena)*mallocChunkPages)
 	if j < 0 {
-		print("lastsum = (", lastsum.start(), ", ", lastsum.max(), ", ", lastsum.end(), ")\n")
-		print("arenaIndex = ", hex(ai), "\n")
-		print("chunkIndex = ", i%mallocChunksPerArena, "\n")
-		for i := range s.arenas(ai).pageAlloc {
-			if (i*64)%mallocChunkPages == 0 {
-				print("chunk ", i, "\n")
-			}
-			print("mallocBits[", i, "] = ", hex(s.arenas(ai).pageAlloc[i]), "\n")
-		}
 		throw("bad summary data")
 	}
 	addr := uintptr(ai)*heapArenaBytes + uintptr(j)*pageSize - arenaBaseOffset
