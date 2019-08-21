@@ -327,3 +327,24 @@ func findConsecN64(c uint64, n int) int {
 	}
 	return i
 }
+
+// mallocData encapsulates mallocBits and a bitmap for
+// whether or not a given page is scavenged in a single
+// structure. It's effectively a mallocBits with
+// additional functionality.
+type mallocData struct {
+	mallocBits
+	scavenged pageBits
+}
+
+func (m *mallocData) allocRange(i, n int) {
+	// Clear the scavenged bits when we alloc the range.
+	m.mallocBits.allocRange(i, n)
+	m.scavenged.clearRange(i, n)
+}
+
+func (m *mallocData) allocAll() {
+	// Clear the scavenged bits when we alloc the range.
+	m.mallocBits.allocAll()
+	m.scavenged.clearAll()
+}
