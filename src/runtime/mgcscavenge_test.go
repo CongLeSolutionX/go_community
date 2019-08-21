@@ -1,0 +1,278 @@
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package runtime_test
+
+import (
+	. "runtime"
+	"testing"
+)
+
+// makeMallocData produces an initialized MallocData by setting
+// the ranges of described in alloc and scavenge.
+func makeMallocData(alloc, scavenged []BitRange) *MallocData {
+	b := new(MallocData)
+	for _, v := range alloc {
+		b.AllocRange(v.I, v.N)
+	}
+	for _, v := range scavenged {
+		b.ScavengeRange(v.I, v.N)
+	}
+	return b
+}
+
+func TestMallocDataHasScavengeCandidate(t *testing.T) {
+	tests := map[string]struct {
+		alloc, scavenged []BitRange
+		hasCandidate     bool
+	}{
+		"AllFree": {
+			hasCandidate: true,
+		},
+		"AllScavenged": {
+			scavenged:    []BitRange{{0, PagesPerArena}},
+			hasCandidate: false,
+		},
+		"NoneFree": {
+			alloc:        []BitRange{{0, PagesPerArena}},
+			scavenged:    []BitRange{{PagesPerArena / 2, PagesPerArena / 2}},
+			hasCandidate: false,
+		},
+		"OneFree": {
+			alloc:        []BitRange{{0, 40}, {41, PagesPerArena - 41}},
+			hasCandidate: true,
+		},
+		"OneScavenged": {
+			alloc:        []BitRange{{0, 40}, {41, PagesPerArena - 41}},
+			scavenged:    []BitRange{{40, 1}},
+			hasCandidate: false,
+		},
+		"Mixed": {
+			alloc:        []BitRange{{0, 40}, {42, PagesPerArena - 42}},
+			scavenged:    []BitRange{{0, 41}, {42, PagesPerArena - 42}},
+			hasCandidate: true,
+		},
+		"StartFree": {
+			alloc:        []BitRange{{1, PagesPerArena - 1}},
+			hasCandidate: true,
+		},
+		"EndFree": {
+			alloc:        []BitRange{{0, PagesPerArena - 1}},
+			hasCandidate: true,
+		},
+	}
+	for name, v := range tests {
+		v := v
+		t.Run(name, func(t *testing.T) {
+			b := makeMallocData(v.alloc, v.scavenged)
+			if has := b.HasScavengeCandidate(PagesPerArena - 1); has != v.hasCandidate {
+				t.Fatalf("hasCandidate mismatch: got %t, want %t", has, v.hasCandidate)
+			}
+		})
+	}
+}
+
+func TestMallocDataFindScavengeCandidate(t *testing.T) {
+	type test struct {
+		alloc, scavenged []BitRange
+		max              int
+		hit              BitRange
+	}
+	tests := map[string]test{
+		"AllFree": {
+			max: PagesPerArena,
+			hit: BitRange{0, PagesPerArena},
+		},
+		"AllScavenged": {
+			scavenged: []BitRange{{0, PagesPerArena}},
+			max:       PagesPerArena,
+			hit:       BitRange{0, 0},
+		},
+		"NoneFree": {
+			alloc:     []BitRange{{0, PagesPerArena}},
+			scavenged: []BitRange{{PagesPerArena / 2, PagesPerArena / 2}},
+			max:       PagesPerArena,
+			hit:       BitRange{0, 0},
+		},
+		"OneFree": {
+			alloc: []BitRange{{0, 40}, {41, PagesPerArena - 41}},
+			max:   PagesPerArena,
+			hit:   BitRange{40, 1},
+		},
+		"OneScavenged": {
+			alloc:     []BitRange{{0, 40}, {41, PagesPerArena - 41}},
+			scavenged: []BitRange{{40, 1}},
+			max:       PagesPerArena,
+			hit:       BitRange{0, 0},
+		},
+		"Mixed": {
+			alloc:     []BitRange{{0, 40}, {42, PagesPerArena - 42}},
+			scavenged: []BitRange{{0, 41}, {42, PagesPerArena - 42}},
+			max:       PagesPerArena,
+			hit:       BitRange{41, 1},
+		},
+		"StartFree": {
+			alloc: []BitRange{{1, PagesPerArena - 1}},
+			max:   PagesPerArena,
+			hit:   BitRange{0, 1},
+		},
+		"EndFree": {
+			alloc: []BitRange{{0, PagesPerArena - 1}},
+			max:   PagesPerArena,
+			hit:   BitRange{PagesPerArena - 1, 1},
+		},
+		"Straddle64": {
+			alloc: []BitRange{{0, 63}, {65, PagesPerArena - 65}},
+			max:   2,
+			hit:   BitRange{63, 2},
+		},
+		"Multi": {
+			alloc:     []BitRange{{0, 63}, {65, 20}, {87, PagesPerArena - 87}},
+			scavenged: []BitRange{{86, 1}},
+			max:       PagesPerArena,
+			hit:       BitRange{85, 1},
+		},
+	}
+	if PhysHugePageSize > uintptr(PageSize) {
+		// Check hugepage preserving behavior.
+		bits := int(PhysHugePageSize / uintptr(PageSize))
+		tests["PreserveHugePage"] = test{
+			alloc: []BitRange{{bits + 2, PagesPerArena - (bits + 2)}},
+			max:   3, // Make it so that max would have us try to break the huge page.
+			hit:   BitRange{0, bits + 2},
+		}
+	}
+	for name, v := range tests {
+		v := v
+		t.Run(name, func(t *testing.T) {
+			b := makeMallocData(v.alloc, v.scavenged)
+			start, size := b.FindScavengeCandidate(PagesPerArena-1, v.max)
+			got := BitRange{start, size}
+			if !(got.N == 0 && v.hit.N == 0) && got != v.hit {
+				t.Fatalf("candidate mismatch: got %v, want %v", got, v.hit)
+			}
+		})
+	}
+}
+
+// Tests end-to-end scavenging on a pageAlloc.
+func TestPageAllocScavenge(t *testing.T) {
+	type hit struct {
+		request, expect uintptr
+	}
+	tests := map[string]struct {
+		beforeAlloc map[int][]BitRange
+		beforeScav  map[int][]BitRange
+		hits        []hit
+		afterScav   map[int][]BitRange
+	}{
+		"AllFreeUnscavExhaust": {
+			beforeAlloc: map[int][]BitRange{
+				0xc00: {},
+				0xc01: {},
+				0xc02: {},
+			},
+			beforeScav: map[int][]BitRange{
+				0xc00: {},
+				0xc01: {},
+				0xc02: {},
+			},
+			hits: []hit{
+				{1 << 40, 3 * PagesPerArena * PageSize},
+			},
+			afterScav: map[int][]BitRange{
+				0xc00: {{0, PagesPerArena}},
+				0xc01: {{0, PagesPerArena}},
+				0xc02: {{0, PagesPerArena}},
+			},
+		},
+		"NoneFreeUnscavExhaust": {
+			beforeAlloc: map[int][]BitRange{
+				0xc00: {{0, PagesPerArena}},
+				0xc01: {},
+				0xc02: {{0, PagesPerArena}},
+			},
+			beforeScav: map[int][]BitRange{
+				0xc00: {},
+				0xc01: {{0, PagesPerArena}},
+				0xc02: {},
+			},
+			hits: []hit{
+				{1 << 40, 0},
+			},
+			afterScav: map[int][]BitRange{
+				0xc00: {},
+				0xc01: {{0, PagesPerArena}},
+				0xc02: {},
+			},
+		},
+		"ScavHighestPageFirst": {
+			beforeAlloc: map[int][]BitRange{
+				0xc00: {},
+			},
+			beforeScav: map[int][]BitRange{
+				0xc00: {{1, PagesPerArena - 2}},
+			},
+			hits: []hit{
+				{1, PageSize},
+			},
+			afterScav: map[int][]BitRange{
+				0xc00: {{1, PagesPerArena - 1}},
+			},
+		},
+		"ScavMultiple": {
+			beforeAlloc: map[int][]BitRange{
+				0xc00: {},
+			},
+			beforeScav: map[int][]BitRange{
+				0xc00: {{1, PagesPerArena - 2}},
+			},
+			hits: []hit{
+				{1, PageSize},
+				{1, PageSize},
+			},
+			afterScav: map[int][]BitRange{
+				0xc00: {{0, PagesPerArena}},
+			},
+		},
+		"ScavMultiple2": {
+			beforeAlloc: map[int][]BitRange{
+				0xc00: {},
+				0xc01: {},
+			},
+			beforeScav: map[int][]BitRange{
+				0xc00: {{1, PagesPerArena - 2}},
+				0xc01: {{0, PagesPerArena - 2}},
+			},
+			hits: []hit{
+				{2 * PageSize, 2 * PageSize},
+				{1, PageSize},
+				{1, PageSize},
+			},
+			afterScav: map[int][]BitRange{
+				0xc00: {{0, PagesPerArena}},
+				0xc01: {{0, PagesPerArena}},
+			},
+		},
+	}
+	for name, v := range tests {
+		v := v
+		t.Run(name, func(t *testing.T) {
+			b := GetTestPageAlloc(v.beforeAlloc)
+			b.InitScavState(v.beforeScav)
+			defer PutTestPageAlloc(b)
+
+			for iter, h := range v.hits {
+				if got := b.Scavenge(h.request); got != h.expect {
+					t.Fatalf("bad scavenge #%d: want %d, got %d", iter+1, h.expect, got)
+				}
+			}
+			want := GetTestPageAlloc(v.beforeAlloc)
+			want.InitScavState(v.afterScav)
+			defer PutTestPageAlloc(want)
+
+			checkPageAlloc(t, want, b)
+		})
+	}
+}
