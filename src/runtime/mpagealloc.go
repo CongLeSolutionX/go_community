@@ -43,6 +43,11 @@ const (
 
 	// Maximum hint value, which indicates that the heap has no free space.
 	maxHint = ^uintptr(0) - arenaBaseOffset
+
+	// Minimum scavAddr value, which indicates that the scavenger is done.
+	//
+	// minScavAddr + arenaBaseOffset == 0
+	minScavAddr = (^uintptr(0) >> logArenaBaseOffset) * arenaBaseOffset
 )
 
 // Global chunk index.
@@ -124,11 +129,19 @@ type pageAlloc struct {
 	// The hint address to start an allocation search with.
 	hint uintptr
 
+	// The address to start a scavenge candidate search
+	// with. Like hint, this value has arenaBaseOffset added
+	// to it.
+	scavAddr uintptr
+
 	// start and end represent the chunk indices
 	// which pageAlloc knows about. It assumes
 	// chunks in the range [start, end) are
 	// currently ready to use.
 	start, end chunkIdx
+
+	// Whether or not this struct is being used in tests.
+	test bool
 
 	// Reference to an mheap, used for testing by using
 	// a dummy mheap structure.
@@ -141,6 +154,9 @@ func (s *pageAlloc) init(h *mheap, sysStat *uint64) {
 
 	// Start with the hint in a state indicating there's no free memory.
 	s.hint = maxHint
+
+	// Start with the scavAddr in a state indicating there's nothing more to do.
+	s.scavAddr = minScavAddr
 
 	// Save a reference to mheap. This extra level of indirection is
 	// critical for testing.
