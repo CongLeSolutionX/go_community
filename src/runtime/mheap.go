@@ -274,7 +274,7 @@ type heapArena struct {
 	// This is used in allocation, freeing, and scavenging.
 	//
 	// Reads and writes are protected by mheap_.lock.
-	pageAlloc [mallocChunksPerArena]mallocBits
+	pageAlloc [mallocChunksPerArena]mallocData
 }
 
 // arenaHint is a hint for where to grow the heap arenas. See
