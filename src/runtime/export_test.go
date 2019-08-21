@@ -36,7 +36,6 @@ var Atoi32 = atoi32
 
 var Nanotime = nanotime
 
-var PageSize = pageSize
 var PhysHugePageSize = physHugePageSize
 
 type LFNode struct {
@@ -721,6 +720,7 @@ func RunGetgThreadSwitchTest() {
 }
 
 const (
+	PageSize         = pageSize
 	MallocChunkPages = mallocChunkPages
 )
 
@@ -771,6 +771,17 @@ func SummarizeSlow(b *MallocBits) MallocSum {
 // Expose non-trivial helpers for testing.
 func FindBitRange64(c uint64, n uint) uint { return findBitRange64(c, n) }
 
+// Expose mallocData for testing.
+type MallocData mallocData
+
+func (d *MallocData) FindScavengeCandidate(searchIdx, max uint) (uint, uint) {
+	return (*mallocData)(d).findScavengeCandidate(searchIdx, max)
+}
+func (d *MallocData) AllocRange(i, n uint) { (*mallocData)(d).allocRange(i, n) }
+func (d *MallocData) ScavengeRange(i, n uint) {
+	(*mallocData)(d).scavengeRange(i, n)
+}
+
 // Expose chunk index type.
 type ChunkIdx chunkIdx
 
@@ -784,7 +795,26 @@ func (p *PageAlloc) Bounds() (ChunkIdx, ChunkIdx) {
 	return ChunkIdx((*pageAlloc)(p).start), ChunkIdx((*pageAlloc)(p).end)
 }
 func (p *PageAlloc) MallocBits(i ChunkIdx) *MallocBits {
-	return (*MallocBits)(&((*pageAlloc)(p).chunks[i]))
+	return (*MallocBits)(&((*pageAlloc)(p).chunks[i].mallocBits))
+}
+func (p *PageAlloc) Scavenge(nbytes uintptr) (r uintptr) {
+	systemstack(func() {
+		r = (*pageAlloc)(p).scavenge(nbytes)
+	})
+	return
+}
+
+// InitScavState initializes the pageAlloc's scavenged bitmap by first clearing
+// the bitmap and then applying 1 bits to the bit ranges for each arena in arenas.
+func (p *PageAlloc) InitScavState(arenas map[ChunkIdx][]BitRange) {
+	pp := (*pageAlloc)(p)
+	for ci, init := range arenas {
+		pp.chunks[ci].scavenged.clearRange(0, mallocChunkPages)
+		for _, s := range init {
+			pp.chunks[ci].scavengeRange(s.I, s.N)
+		}
+	}
+	pp.resetScavengeAddr()
 }
 
 // BitRange represents a range over a bitmap.
@@ -837,7 +867,7 @@ func NewPageAlloc(chunks map[ChunkIdx][]BitRange) *PageAlloc {
 		}
 
 		// Free the mapped space for chunks.
-		sysFree(unsafe.Pointer(&p.chunks[0]), uintptr(cap(p.chunks))*unsafe.Sizeof(mallocBits{}), nil)
+		sysFree(unsafe.Pointer(&p.chunks[0]), uintptr(cap(p.chunks))*unsafe.Sizeof(mallocData{}), nil)
 	})
 	return (*PageAlloc)(p)
 }

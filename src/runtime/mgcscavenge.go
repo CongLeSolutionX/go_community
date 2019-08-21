@@ -55,6 +55,11 @@
 
 package runtime
 
+import (
+	"math/bits"
+	"unsafe"
+)
+
 const (
 	// The background scavenger is paced according to these parameters.
 	//
@@ -404,4 +409,331 @@ func bgscavenge(c chan int) {
 		// Give something else a chance to run, no locks are held.
 		Gosched()
 	}
+}
+
+// scavenge scavenges nbytes worth of free pages, starting with the
+// highest address first. Successive calls continue from where it left
+// off until the heap is exhausted. Call resetScavengeAddr to bring it
+// back to the top of the heap.
+//
+// Returns the amount of memory scavenged in bytes.
+//
+// s.mheap must not be locked.
+//
+// Must run on the system stack because scavengeone must run on the
+// system stack.
+//
+//go:systemstack
+func (s *pageAlloc) scavenge(nbytes uintptr) uintptr {
+	released := uintptr(0)
+	for released < nbytes {
+		r := s.scavengeone(nbytes - released)
+		if r == 0 {
+			// Nothing left to scavenge! Give up.
+			break
+		}
+		released += r
+	}
+	return released
+}
+
+// resetScavengeAddr sets the scavenge start address to the top of the heap's
+// address space. This should be called each time the scavenger's pacing
+// changes.
+//
+// s.mheap.lock must be held.
+func (s *pageAlloc) resetScavengeAddr() {
+	s.scavAddr = chunkBase(s.end) - 1
+}
+
+// scavengeone starts from s.scavAddr and walks down the heap until it finds
+// a contiguous run of pages to scavenge. It will try to scavenge at most
+// max bytes at once, but will avoid breaking huge pages. Once it scavenges
+// some memory it returns how much it scavenged and updates s.scavAddr
+// appropriately. s.scavAddr must be reset manually and externally.
+//
+// Should it exhaust the heap, it will return 0 and set s.scavAddr to minScavAddr.
+//
+// s.mheap must not be locked. Must be run on the system stack because it
+// acquires the heap lock.
+//
+//go:systemstack
+func (s *pageAlloc) scavengeone(max uintptr) uintptr {
+	// Calculate the number of pages. Note that max can and will be the
+	// max value, so we need to be very careful not to overflow here.
+	// Rather than use alignUp, calculate the number of pages rounded down
+	// first, then add back one if necessary.
+	maxPages := uint(max/pageSize + (max%pageSize+pageSize-1)/pageSize)
+
+	lock(s.mheapLock)
+	top := chunkIndex(s.scavAddr)
+	if top < s.start {
+		unlock(s.mheapLock)
+		return 0
+	}
+
+	// Check the arena containing the scav addr, starting at the addr
+	// and see if there are any free and unscavenged pages.
+	ci := chunkIndex(s.scavAddr)
+	base, npages := s.chunks[ci].findScavengeCandidate(chunkPageIndex(s.scavAddr), maxPages)
+
+	// If we found something, scavenge it and return!
+	if npages != 0 {
+		s.scavengeRangeLocked(ci, base, npages)
+		unlock(s.mheapLock)
+		return uintptr(npages) * pageSize
+	}
+	unlock(s.mheapLock)
+
+	// Slow path: iterate optimistically looking for any free and unscavenged page.
+	// If we think we see something, stop and verify it!
+nextChunk:
+	for i := top - 1; i >= s.start; i-- {
+		// If this arena is totally in-use or doesn't exist, don't bother doing
+		// a more sophisticated check.
+		//
+		// Note we're accessing this without a lock, but that's fine.
+		// We're being optimistic anyway.
+		if s.summary[len(s.summary)-1][i] == 0 {
+			continue
+		}
+
+		// We found a candidate, so let's lock and verify it.
+		lock(s.mheapLock)
+
+		// Find, verify, and scavenge if we can.
+		chunk := &s.chunks[i]
+		base, npages := chunk.findScavengeCandidate(mallocChunkPages-1, maxPages)
+		if npages == 0 {
+			// We were fooled, let's take this opportunity to mark all the
+			// memory up to here as scavenged for future calls and continue.
+			// Note that findScavengeCandidate will attempt to search the rest
+			// of the arena's chunks, so we can just start at the next arena.
+			s.scavAddr = chunkBase(i-1) + mallocChunkPages*pageSize - 1
+			unlock(s.mheapLock)
+			continue nextChunk
+		}
+		s.scavengeRangeLocked(i, base, npages)
+		unlock(s.mheapLock)
+
+		return uintptr(npages) * pageSize
+	}
+
+	lock(s.mheapLock)
+	// We couldn't find anything, so signal that there's nothing left
+	// to scavenge.
+	s.scavAddr = minScavAddr
+	unlock(s.mheapLock)
+
+	return 0
+}
+
+// scavengeRangeLocked scavenges the given region of memory.
+//
+// s.mheap must be locked.
+func (s *pageAlloc) scavengeRangeLocked(ci chunkIdx, base, npages uint) {
+	s.chunks[ci].scavengeRange(base, npages)
+
+	// Compute the full address for the start of the range.
+	addr := chunkBase(ci) + uintptr(base)*pageSize
+
+	// Update the scav pointer.
+	s.scavAddr = addr - 1
+
+	if !s.test {
+		// Only perform the actual scavenging if we're not in a test.
+		// It's dangerous to do so otherwise.
+		sysUnused(unsafe.Pointer(addr), uintptr(npages)*pageSize)
+
+		// Update global accounting only when not in test, otherwise
+		// the runtime's accounting will be wrong.
+		memstats.heap_released += uint64(npages) * pageSize
+	}
+}
+
+// scavengeRange unconditionally marks the scavenge bits for
+// the given bit range in the mallocData.
+func (m *mallocData) scavengeRange(base, npages uint) {
+	m.scavenged.setRange(base, npages)
+}
+
+// findScavengeCandidate returns a start index and a size for this mallocData
+// segment which represents a contiguous region of free and unscavenged memory.
+//
+// searchIdx indicates a point at which to start the search, but note that
+// findScavengeCandidate searches backwards through the mallocData. That is, it
+// will return the highest scavenge candidate.
+//
+// max is a searchIdx for how big of a region is desired. If max >= mallocChunkPages, then
+// findScavengeCandidate effectively returns entire free and unscavenged regions.
+// If max < mallocChunkPages, it may truncate the returned region such that size is
+// max. However, findScavengeCandidate may still return a larger region if, for
+// example, it chooses to preserve huge pages. That is, even if max is small,
+// size is not guaranteed to be equal to max.
+func (m *mallocData) findScavengeCandidate(searchIdx, max uint) (start uint, size uint) {
+	i := int(searchIdx / 64)
+	// Start by quickly skip over blocks of non-free or scavenged pages.
+	for ; i >= 0; i-- {
+		// 1s are scavenged OR non-free => 0s are unscavenged AND free
+		x := m.scavenged[i] | m.mallocBits[i]
+		if x != ^uint64(0) {
+			break
+		}
+	}
+	if i < 0 {
+		// Failed to find any free/unscavenged pages.
+		return 0, 0
+	}
+	// We have something in the 64-bit chunk at i, but it could
+	// extend further. Loop until we find the extent of it or we hit
+	// max.
+	for ; i >= 0; i-- {
+		// 1s are scavenged OR non-free => 0s are unscavenged AND free
+		x := m.scavenged[i] | m.mallocBits[i]
+
+		// z1 counts the number of leading 1s.
+		z1 := uint(bits.LeadingZeros64(^x))
+
+		// z0 counts the number of zeroes after that.
+		// z0 may be 64 even if z1 != 0 because when we
+		// shift we might shift out all the 1s.
+		z0 := uint(bits.LeadingZeros64(x << z1))
+
+		// Now, we have 4 cases.
+		//
+		// 1) x is 0, in which case we want to add that on and keep iterating
+		//    no matter the case. We would have stopped earlier if it wasn't
+		//    relevant.
+		//    In this case, z1 == 0 (no leading 1s) and z0 == 64 (all zeroes).
+		// 2) x looks like 0...01..., where we have consecutive zeroes
+		//    on the leading edge of this 64-bit bitmap section. In this case,
+		//    we want to stop no matter what. We have a 1 at our bottom edge
+		//    and so we can't possibly increase the size of this consecutive run
+		//    of zeroes.
+		//    In this case z1 == 0 (no leading 1s) and z0 != 64 (not all zeroes).
+		// 3) x looks like 1...10...0, where we have a set of consecutive 1s
+		//    and then zeroes leading to the trailing edge of the 64-bit bitmap
+		//    section. In this case, we want to stop if we already have a run
+		//    since we now may have a 1 at our trailing edge. However, if we haven't
+		//    seen any zeroes yet (size == 0) then we want to keep going.
+		//    In this case, z1 != 0 (leading 1s) and z0 == 64 (shifting out the 1s
+		//    leads to all zeroes).
+		// 4) x looks like 1...10...01..., where the first run of zeroes we find are in a
+		//    "pocket", or surrounded by 1s within this 64-bit bitmap section.
+		//    Again, we want to stop if we already have a run started, since we now
+		//    may have a 1 at our trailing edge. If we haven't seen any zeroes yet,
+		//    we also want to stop, since we have a 1 at our trailing edge.
+		//    In this case, z1 != 0 (leading 1s) and z0 != 64 (there are some number
+		//    of zeroes before another 1).
+		//
+		// Finally, in cases 1 and 3 we want to stop iterating if we've exceeded max.
+		if z1 == 0 {
+			if z0 == 64 {
+				// Case 1.
+				start = uint(i) * 64
+				size += 64
+				if size >= max {
+					// Don't continue if we're exceeding max.
+					break
+				}
+				continue
+			} else {
+				// Case 2.
+				start = uint(i)*64 + 64 - z0
+				size += z0
+				break
+			}
+		} else {
+			// In cases 3 and 4, we already have something from the
+			// previous iterations, but we don't
+			// have any way to continue it, so stop.
+			if size != 0 {
+				break
+			}
+			if z0 == 64 {
+				// Case 3.
+				start = uint(i) * 64
+				size = 64 - z1
+				if size >= max {
+					// Don't continue if we're exceeding max.
+					break
+				}
+				continue
+			} else {
+				// Case 4.
+				start = uint(i)*64 + 64 - z0 - z1
+				size = z0
+				break
+			}
+		}
+	}
+	// Split the section we find if it's larger than max... but hold on to
+	// our original starting point, since we may need it later.
+	bottom := start
+	if size > max {
+		start = start + size - max
+		size = max
+	}
+	if physHugePageSize > pageSize {
+		// We have huge pages, so now the fun begins. What we need to do is ensure
+		// we don't break apart a huge page. What this means is that if the range
+		// [start, start+size) overlaps with a free-and-unscavenged huge page, we
+		// want to grow the region we scavenge to include that huge page.
+		// Note that we always want to split down to max before absorbing this huge
+		// page, so that we avoid absorbing it if we don't have to.
+
+		// Compute the huge page boundary above our candidate.
+		pagesPerHugePage := uintptr(physHugePageSize / pageSize)
+		hugePageAbove := uint(alignUp(uintptr(start), pagesPerHugePage))
+
+		// If that boundary is within our current candidate, then we may be breaking
+		// a huge page.
+		if hugePageAbove <= start+size {
+			// Compute the huge page boundary below our candidate. Note that
+			// we can go as far down as bottom, so it's possible bottom includes
+			// a huge page but start doesn't.
+			hugePageBelow := uint(alignDown(uintptr(start), pagesPerHugePage))
+
+			// If bottom is on a 64 page boundary there could still be more to
+			// find. Above, if we've exceeded max, we may have stopped iterating
+			// in the middle of a free-and-unscavenged huge page. Iterate a little
+			// further, at most up to the next huge page boundary. If it already
+			// encompasses that, we won't need to go any further.
+			if bottom%64 == 0 {
+				for i := int(bottom/64) - 1; i >= 0 && bottom > hugePageBelow; i-- {
+					// 1s are scavenged OR non-free => 0s are unscavenged AND free
+					x := m.scavenged[i] | m.mallocBits[i]
+
+					// Count leading 1s.
+					z1 := uint(bits.LeadingZeros64(^x))
+					if z1 != 0 {
+						// There are leading ones, so we can't continue. Done.
+						break
+					}
+
+					// There are no leading 1s, that means there must be leading
+					// zeros. No matter what, we want to include them. Do so by
+					// dropping bottom lower.
+					z0 := uint(bits.LeadingZeros64(x))
+					bottom -= z0
+
+					// If these zeros don't reach the trailing edge of this 64-bit
+					// bitmap section, then that means that we are blocked from
+					// continuing, so stop here. Otherwise, continue onward.
+					if z0 != 64 {
+						break
+					}
+				}
+			}
+			if hugePageBelow >= bottom {
+				// We're in danger of breaking apart a huge page since start+size crosses
+				// a huge page boundary and rounding down start to the nearest huge
+				// page boundary is safe. Include the entire huge page in the bound by
+				// rounding down to the huge page size.
+				size = size + (start - hugePageBelow)
+				start = hugePageBelow
+			}
+		}
+	}
+	return start, size
 }
