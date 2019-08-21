@@ -36,7 +36,6 @@ var Atoi32 = atoi32
 
 var Nanotime = nanotime
 
-var PageSize = pageSize
 var PhysHugePageSize = physHugePageSize
 
 type LFNode struct {
@@ -721,6 +720,7 @@ func RunGetgThreadSwitchTest() {
 }
 
 const (
+	PageSize         = pageSize
 	MallocChunkPages = mallocChunkPages
 )
 
@@ -747,6 +747,17 @@ func SetConsecBits64(x uint64, i, n int) uint64   { return setConsecBits64(x, i,
 func ClearConsecBits64(x uint64, i, n int) uint64 { return clearConsecBits64(x, i, n) }
 func FindConsecN64(c uint64, n int) int           { return findConsecN64(c, n) }
 
+// Expose mallocData for testing.
+type MallocData mallocData
+
+func (d *MallocData) FindScavengeCandidate(hint, max int) (int, int) {
+	return (*mallocData)(d).findScavengeCandidate(hint, max)
+}
+func (d *MallocData) AllocRange(i, n int) { (*mallocData)(d).allocRange(i, n) }
+func (d *MallocData) ScavengeRange(i, n int) {
+	(*mallocData)(d).scavengeRange(i, n)
+}
+
 // Expose pageAlloc for testing. Note that because pageAlloc is
 // not in the heap, so is PageAlloc.
 //
@@ -765,7 +776,28 @@ func (p *PageAlloc) HasChunk(i uint) bool {
 	return false
 }
 func (p *PageAlloc) MallocBits(i uint) *MallocBits {
-	return (*MallocBits)((*pageAlloc)(p).chunks[i])
+	return (*MallocBits)(&((*pageAlloc)(p).chunks[i].mallocBits))
+}
+func (p *PageAlloc) Scavenge(nbytes uintptr) (r uintptr) {
+	systemstack(func() {
+		r = (*pageAlloc)(p).scavenge(nbytes)
+	})
+	return
+}
+
+// InitScavState initializes the pageAlloc's scavenged bitmap by first clearing
+// the bitmap and then applying 1 bits to the bit ranges for each arena in arenas.
+func (p *PageAlloc) InitScavState(arenas map[int][]BitRange) {
+	pp := (*pageAlloc)(p)
+	for highaddr, init := range arenas {
+		addr := uintptr(highaddr) * mallocChunkBytes
+		ci := chunkIndex(addr)
+		pp.chunks[ci].scavenged.clearRange(0, mallocChunkPages)
+		for _, s := range init {
+			pp.chunks[ci].scavengeRange(s.I, s.N)
+		}
+	}
+	pp.resetScavengeAddr()
 }
 
 // BitRange represents a range over a bitmap.
@@ -790,6 +822,10 @@ var pageAllocDummies [2]pageAllocDummy
 //
 // It initializes the dummy pageAlloc using a set of bit ranges
 // for each chunk.
+//
+// All arenas are initialized to be completely scavenged, as any
+// arena produced live would be. To initialize the arena's scavenged
+// state, call InitScavState on the returned pageAlloc.
 //
 // Note that this function could fail if all cached pageAllocs are
 // in-use. If more than the number above are required for a given
@@ -821,6 +857,7 @@ func GetTestPageAlloc(chunks map[int][]BitRange) *PageAlloc {
 
 	// We've got an entry, so initialize the pageAlloc.
 	entry.pageAlloc.init(&entry.dummyLock, nil)
+	entry.pageAlloc.test = true
 
 	n := 0
 	for i, init := range chunks {
@@ -831,6 +868,9 @@ func GetTestPageAlloc(chunks map[int][]BitRange) *PageAlloc {
 		entry.pageAlloc.grow(addr, mallocChunkBytes, nil)
 
 		// Initialize the bitmap and update pageAlloc metadata.
+		//
+		// Just like when running live, start with the arena
+		// completely scavenged.
 		chunk := entry.pageAlloc.chunks[chunkIndex(addr)]
 		for _, s := range init {
 			chunk.allocRange(s.I, s.N)
@@ -877,7 +917,7 @@ func PutTestPageAlloc(pa *PageAlloc) {
 	// so we'll hold onto it and re-use it.
 	for c := p.start; c < p.end; c++ {
 		if p.chunks[c] != nil {
-			p.mallocBitsAlloc.free(unsafe.Pointer(p.chunks[c]))
+			p.mallocDataAlloc.free(unsafe.Pointer(p.chunks[c]))
 		}
 	}
 
@@ -885,7 +925,7 @@ func PutTestPageAlloc(pa *PageAlloc) {
 	sysFree(unsafe.Pointer(&p.chunks[0]), uintptr(cap(p.chunks))*sys.PtrSize, nil)
 
 	// Clear all relevant fields, but hold on to the fixalloc.
-	entry.pageAlloc = pageAlloc{mallocBitsAlloc: p.mallocBitsAlloc}
+	entry.pageAlloc = pageAlloc{mallocDataAlloc: p.mallocDataAlloc}
 	entry.inUse = false
 }
 
