@@ -127,11 +127,19 @@ type pageAlloc struct {
 	// from it, subtract arenaBaseOffset.
 	hint uintptr
 
+	// The address to start a scavenge candidate search
+	// with. Like hint, this value has arenaBaseOffset added
+	// to it.
+	scavAddr uintptr
+
 	// start and end represent the arena indices
 	// which pageAlloc knows about. It assumes
 	// arenas in the range [start, end) are
 	// currently ready to use.
 	start, end arenaIdx
+
+	// Whether or not this struct is being used in tests.
+	test bool
 
 	// Reference to an mheap, used for testing by using
 	// a dummy mheap structure.
