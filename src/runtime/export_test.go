@@ -36,7 +36,6 @@ var Atoi32 = atoi32
 
 var Nanotime = nanotime
 
-var PageSize = pageSize
 var PhysHugePageSize = physHugePageSize
 
 type LFNode struct {
@@ -721,6 +720,7 @@ func RunGetgThreadSwitchTest() {
 }
 
 const (
+	PageSize             = pageSize
 	PagesPerArena        = pagesPerArena
 	MallocChunkPages     = mallocChunkPages
 	MallocChunksPerArena = mallocChunksPerArena
@@ -749,6 +749,17 @@ func SetConsecBits64(x uint64, i, n int) uint64   { return setConsecBits64(x, i,
 func ClearConsecBits64(x uint64, i, n int) uint64 { return clearConsecBits64(x, i, n) }
 func FindConsecN64(c uint64, n int) int           { return findConsecN64(c, n) }
 
+// Expose mallocData for testing.
+type MallocData mallocData
+
+func (d *MallocData) FindScavengeCandidate(hint, max int) (int, int) {
+	return (*mallocData)(d).findScavengeCandidate(hint, max)
+}
+func (d *MallocData) AllocRange(i, n int) { (*mallocData)(d).allocRange(i, n) }
+func (d *MallocData) ScavengeRange(i, n int) {
+	(*mallocData)(d).scavengeRange(i, n)
+}
+
 // Expose pageAlloc for testing. Note that because pageAlloc is
 // not in the heap, so is PageAlloc.
 //
@@ -767,7 +778,28 @@ func (p *PageAlloc) HasArena(i uint) bool {
 	return false
 }
 func (p *PageAlloc) MallocBits(i uint) *MallocBits {
-	return (*MallocBits)(&((*pageAlloc)(p).arenas(arenaIdx(i)).pageAlloc))
+	return (*MallocBits)(&(((*pageAlloc)(p).arenas(arenaIdx(i)).pageAlloc).mallocBits))
+}
+func (p *PageAlloc) Scavenge(nbytes uintptr) (r uintptr) {
+	systemstack(func() {
+		r = (*pageAlloc)(p).scavenge(nbytes)
+	})
+	return
+}
+
+// InitScavState initializes the pageAlloc's scavenged bitmap by first clearing
+// the bitmap and then applying 1 bits to the bit ranges for each arena in arenas.
+func (p *PageAlloc) InitScavState(arenas map[int][]BitRange) {
+	pp := (*pageAlloc)(p)
+	for highaddr, init := range arenas {
+		addr := uintptr(highaddr) * heapArenaBytes
+		a := pp.arenas(arenaIndex(addr))
+		a.pageAlloc.scavenged.clearRange(0, pagesPerArena)
+		for _, s := range init {
+			a.pageAlloc.scavengeRange(s.I, s.N)
+		}
+	}
+	pp.resetScavengeAddr()
 }
 
 // BitRange represents a range over a bitmap.
@@ -799,6 +831,10 @@ var pageAllocDummies [2]pageAllocDummy
 // values being bit ranges to set to 1 for that arena's allocation
 // bits.
 //
+// All arenas are initialized to be completely scavenged, as any
+// arena produced live would be. To initialize the arena's scavenged
+// state, call InitScavState on the returned pageAlloc.
+//
 // Note that this function could fail if all cached pageAllocs are
 // in-use. If more than the number above are required for a given
 // test, increase the size of pageAllocDummies above. Furthermore,
@@ -829,6 +865,7 @@ func GetTestPageAlloc(arenas map[int][]BitRange) *PageAlloc {
 
 	// We've got an entry, so initialize the pageAlloc.
 	entry.pageAlloc.init(&entry.mheap, nil)
+	entry.pageAlloc.test = true
 
 	// sysAlloc space for the arena and record details so we can free it later.
 	entry.arenasAlloc.size = unsafe.Sizeof(heapArena{}) * uintptr(len(arenas))
@@ -855,6 +892,10 @@ func GetTestPageAlloc(arenas map[int][]BitRange) *PageAlloc {
 		entry.pageAlloc.grow(addr, heapArenaBytes, nil)
 
 		// Initialize the bitmap and update pageAlloc metadata.
+		//
+		// Just like when running live, start with the arena
+		// completely scavenged.
+		ha.pageAlloc.scavengeRange(0, pagesPerArena)
 		for _, s := range init {
 			ha.pageAlloc.allocRange(s.I, s.N)
 		}
