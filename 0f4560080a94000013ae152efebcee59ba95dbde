@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e517f92_fb8997f1",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-08-22T16:57:31Z",
+      "side": 1,
+      "message": "What\u0027s the relationship between these integers and the ones stored in t.indexMap?\nIt looks like they\u0027re probably the same or maybe off by one.\nI.e., you could use i, if they\u0027re supposed to be the same.",
+      "range": {
+        "startLine": 135,
+        "startChar": 37,
+        "endLine": 135,
+        "endChar": 51
+      },
+      "revId": "0f4560080a94000013ae152efebcee59ba95dbde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
