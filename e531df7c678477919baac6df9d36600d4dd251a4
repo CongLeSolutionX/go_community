@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f92f9967_bf32845c",
+        "filename": "doc/go1.11.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-08-22T15:35:50Z",
+      "side": 1,
+      "message": "Maintain the indentation. Here and elsewhere.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "e531df7c678477919baac6df9d36600d4dd251a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
