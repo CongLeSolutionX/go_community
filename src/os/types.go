@@ -36,7 +36,7 @@ type FileMode uint32
 
 // The defined file mode bits are the most significant bits of the FileMode.
 // The nine least-significant bits are the standard Unix rwxrwxrwx permissions.
-// The values of these bits should be considered part of the public API and
+// The values of the lowest 9 bits should be considered part of the public API and
 // may be used in wire protocols or disk representations: they must not be
 // changed, although new bits might be added.
 const (
