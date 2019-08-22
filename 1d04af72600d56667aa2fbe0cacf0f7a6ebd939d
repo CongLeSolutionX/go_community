@@ -34,6 +34,24 @@
       "revId": "1d04af72600d56667aa2fbe0cacf0f7a6ebd939d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29c7cf07_e68ae32f",
+        "filename": "src/cmd/go/internal/modfetch/repo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 28810
+      },
+      "writtenOn": "2019-08-22T13:48:40Z",
+      "side": 1,
+      "message": "I just implemented it in the new patch and updated a test, please review it. :-)",
+      "parentUuid": "15583cbf_80e9cef9",
+      "revId": "1d04af72600d56667aa2fbe0cacf0f7a6ebd939d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
