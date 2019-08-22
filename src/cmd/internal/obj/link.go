@@ -416,6 +416,8 @@ type FuncInfo struct {
 	GCLocals     *LSym
 	GCRegs       *LSym
 	StackObjects *LSym
+
+	FuncInfoSym *LSym
 }
 
 type InlMark struct {
