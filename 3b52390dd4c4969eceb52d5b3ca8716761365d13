@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a44a6725_7e11dc8f",
+        "filename": "src/os/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-22T19:27:16Z",
+      "side": 1,
+      "message": "I don\u0027t think we should have \"nine\" in one place and \"9\" in the next.\n\nI think the old wording is fine, though. If anything, change the period after \"permissions\" to a semicolon to make it even more explicit that \"these\" refers to the just-referenced nine bits.",
+      "range": {
+        "startLine": 38,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 29
+      },
+      "revId": "3b52390dd4c4969eceb52d5b3ca8716761365d13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
