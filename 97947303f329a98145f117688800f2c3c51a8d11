@@ -46,6 +46,30 @@
       "revId": "97947303f329a98145f117688800f2c3c51a8d11",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b195c87_dac23a4d",
+        "filename": "src/cmd/link/internal/objfile/objfile.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-08-22T15:57:31Z",
+      "side": 1,
+      "message": "OK, SGTM for the short term. I\u0027ll follow up in person to see if I can understand the details of the diffs a bit better.",
+      "parentUuid": "c5e71a23_eae35d68",
+      "range": {
+        "startLine": 420,
+        "startChar": 33,
+        "endLine": 420,
+        "endChar": 46
+      },
+      "revId": "97947303f329a98145f117688800f2c3c51a8d11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
