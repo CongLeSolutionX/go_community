@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ee6cfed_4208be97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-08-22T03:53:20Z",
+      "side": 1,
+      "message": "add:\nUpdates #29193",
+      "revId": "62c68820d3bd10007e6d708fdc3648e77237c9d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
