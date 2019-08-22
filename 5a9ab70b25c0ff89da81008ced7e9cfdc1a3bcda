@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99cdb44e_f6ac5ec0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-08-22T20:17:31Z",
+      "side": 1,
+      "message": "I was concerned this might be a portability issue (e.g., if Go gets ported to some weirdo OS that uses negative errno values), but apparently C99 and POSIX (since 2001) require errno values to be positive \u0027int\u0027 values. TIL\n\nhttp://pubs.opengroup.org/onlinepubs/9699919799/basedefs/errno.h.html",
+      "revId": "5a9ab70b25c0ff89da81008ced7e9cfdc1a3bcda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
