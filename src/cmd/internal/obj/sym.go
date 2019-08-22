@@ -247,6 +247,9 @@ func (ctxt *Link) TraverseSyms(flag traverseFlag, fn func(*LSym)) {
 					for _, d := range pc.Funcdata {
 						fn(d)
 					}
+					for _, f := range pc.File {
+						fn(ctxt.Lookup(f))
+					}
 					for _, call := range pc.InlTree.nodes {
 						fn(call.Func)
 					}
