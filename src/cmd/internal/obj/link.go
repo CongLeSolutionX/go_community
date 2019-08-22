@@ -665,6 +665,8 @@ type Link struct {
 	// TODO(austin): Replace this with ABI wrappers once the ABIs
 	// actually diverge.
 	ABIAliases []*LSym
+
+	DWARFFileTable []string // The file table for the DWARF .debug_lines table.
 }
 
 func (ctxt *Link) Diag(format string, args ...interface{}) {

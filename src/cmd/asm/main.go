@@ -82,6 +82,7 @@ func main() {
 			break
 		}
 	}
+	ctxt.CreateDebugLinesFileTable()
 	if ok && !*flags.SymABIs {
 		obj.WriteObjFile(ctxt, buf, "")
 	}

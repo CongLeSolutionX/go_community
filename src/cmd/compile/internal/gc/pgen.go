@@ -374,6 +374,8 @@ func compileFunctions() {
 		Ctxt.InParallel = false
 		sizeCalculationDisabled = false
 	}
+	// Make the file table for the debug_lines section.
+	Ctxt.CreateDebugLinesFileTable()
 }
 
 func debuginfo(fnsym *obj.LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCalls) {
