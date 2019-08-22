@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdd2a649_a102d0bf",
+        "filename": "src/cmd/go/internal/modfetch/repo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-08-22T04:14:00Z",
+      "side": 1,
+      "message": "I wonder whether we still need ImportRepoRev at all, given that the proxies we have today can generally resolve commits to versions.\n\nWhat happens if you change the call site to use modload.QueryPackage instead, perhaps using the same fallback-to-module behavior as in `modget`?¹\n\n¹https://github.com/golang/go/blob/e764432605cb26478067890b49f4f16019c9a9b9/src/cmd/go/internal/modget/get.go#L783-L799",
+      "revId": "1d04af72600d56667aa2fbe0cacf0f7a6ebd939d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
