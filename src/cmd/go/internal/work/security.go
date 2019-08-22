@@ -218,6 +218,7 @@ var validLinkerFlagsWithNextArg = []string{
 	"-Wl,-R",
 	"-Wl,--just-symbols",
 	"-Wl,-undefined",
+	"-sectcreate",
 }
 
 func checkCompilerFlags(name, source string, list []string) error {
