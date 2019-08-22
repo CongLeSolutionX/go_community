@@ -16,6 +16,24 @@
       "revId": "1d04af72600d56667aa2fbe0cacf0f7a6ebd939d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15583cbf_80e9cef9",
+        "filename": "src/cmd/go/internal/modfetch/repo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 28810
+      },
+      "writtenOn": "2019-08-22T04:34:26Z",
+      "side": 1,
+      "message": "My first thought was to remove modfetch.ImportRepoRev and replace:\n\nhttps://github.com/golang/go/blob/70ac1c2f3f0d39be8696aeda5c926d4879cccc18/src/cmd/go/internal/modconv/convert.go#L69\n\nwith something like\n\n```go\nvar info *modfetch.RevInfo\nerr :\u003d modfetch.TryProxies(func(proxy string) (err error) {\n\tinfo, err \u003d modfetch.Stat(proxy, r.Path, r.Version)\n\treturn err\n})\n```\n\nBut if I do this, the TODO stuff in modfetch.ImportRepoRev will be removed too. So I chose the one that hurts the least.\n\nAnd, we can\u0027t use modload.Query or anything in modload because \"import cycle not allowed\".",
+      "parentUuid": "bdd2a649_a102d0bf",
+      "revId": "1d04af72600d56667aa2fbe0cacf0f7a6ebd939d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
