@@ -458,10 +458,12 @@ type notifyList struct {
 	notify uint32
 
 	// List of parked waiters.
-	lock mutex
+	lock mutex // lockClass: notifyListLockClass
 	head *sudog
 	tail *sudog
 }
+
+var notifyListLockClass = &lockClass{name: "runtime.notifyList.lock"}
 
 // less checks if a < b, considering a & b running counts that may overflow the
 // 32-bit range, and that their "unwrapped" difference is always less than 2^31.
@@ -483,7 +485,7 @@ func notifyListAdd(l *notifyList) uint32 {
 // notifyListAdd was called, it returns immediately. Otherwise, it blocks.
 //go:linkname notifyListWait sync.runtime_notifyListWait
 func notifyListWait(l *notifyList, t uint32) {
-	lock(&l.lock)
+	lockLabeled(&l.lock, notifyListLockClass, 0)
 
 	// Return right away if this ticket has already been notified.
 	if less(t, l.notify) {
@@ -525,7 +527,7 @@ func notifyListNotifyAll(l *notifyList) {
 
 	// Pull the list out into a local variable, waiters will be readied
 	// outside the lock.
-	lock(&l.lock)
+	lockLabeled(&l.lock, notifyListLockClass, 0)
 	s := l.head
 	l.head = nil
 	l.tail = nil
@@ -555,7 +557,7 @@ func notifyListNotifyOne(l *notifyList) {
 		return
 	}
 
-	lock(&l.lock)
+	lockLabeled(&l.lock, notifyListLockClass, 0)
 
 	// Re-check under the lock if we need to do anything.
 	t := l.notify

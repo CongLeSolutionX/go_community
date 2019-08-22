@@ -53,7 +53,7 @@ type pollDesc struct {
 	// in a lock-free way by all operations.
 	// NOTE(dvyukov): the following code uses uintptr to store *g (rg/wg),
 	// that will blow up when GC starts moving objects.
-	lock    mutex // protects the following fields
+	lock    mutex // protects the following fields; lockClass: pollDescLockClass
 	fd      uintptr
 	closing bool
 	everr   bool    // marks event scanning error happened
@@ -67,6 +67,8 @@ type pollDesc struct {
 	wt      timer   // write deadline timer
 	wd      int64   // write deadline
 }
+
+var pollDescLockClass = &lockClass{name: "runtime.pollDesc.lock"}
 
 type pollCache struct {
 	lock  mutex
@@ -112,7 +114,7 @@ func poll_runtime_isPollServerDescriptor(fd uintptr) bool {
 //go:linkname poll_runtime_pollOpen internal/poll.runtime_pollOpen
 func poll_runtime_pollOpen(fd uintptr) (*pollDesc, int) {
 	pd := pollcache.alloc()
-	lock(&pd.lock)
+	lockLabeled(&pd.lock, pollDescLockClass, 0)
 	if pd.wg != 0 && pd.wg != pdReady {
 		throw("runtime: blocked write on free polldesc")
 	}
@@ -203,7 +205,7 @@ func poll_runtime_pollWaitCanceled(pd *pollDesc, mode int) {
 
 //go:linkname poll_runtime_pollSetDeadline internal/poll.runtime_pollSetDeadline
 func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
-	lock(&pd.lock)
+	lockLabeled(&pd.lock, pollDescLockClass, 0)
 	if pd.closing {
 		unlock(&pd.lock)
 		return
@@ -288,7 +290,7 @@ func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
 
 //go:linkname poll_runtime_pollUnblock internal/poll.runtime_pollUnblock
 func poll_runtime_pollUnblock(pd *pollDesc) {
-	lock(&pd.lock)
+	lockLabeled(&pd.lock, pollDescLockClass, 0)
 	if pd.closing {
 		throw("runtime: unblock on closing polldesc")
 	}
@@ -434,7 +436,7 @@ func netpollunblock(pd *pollDesc, mode int32, ioready bool) *g {
 }
 
 func netpolldeadlineimpl(pd *pollDesc, seq uintptr, read, write bool) {
-	lock(&pd.lock)
+	lockLabeled(&pd.lock, pollDescLockClass, 0)
 	// Seq arg is seq when the timer was set.
 	// If it's stale, ignore the timer event.
 	currentSeq := pd.rseq

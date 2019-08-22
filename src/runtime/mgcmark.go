@@ -331,7 +331,7 @@ func markrootSpans(gcw *gcWork, shard int) {
 
 		// Lock the specials to prevent a special from being
 		// removed from the list while we're traversing it.
-		lock(&s.speciallock)
+		lockLabeled(&s.speciallock, mspanSpeciallockClass, 0)
 
 		for sp := s.specials; sp != nil; sp = sp.next {
 			if sp.kind != _KindSpecialFinalizer {

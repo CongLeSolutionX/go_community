@@ -222,6 +222,8 @@ func main() {
 		gopark(nil, nil, waitReasonPanicWait, traceEvGoStop, 1)
 	}
 
+	lockLogFlushAll()
+
 	exit(0)
 	for {
 		var x *int32
@@ -235,6 +237,7 @@ func os_beforeExit() {
 	if raceenabled {
 		racefini()
 	}
+	lockLogFlushAll()
 }
 
 // start forcegc helper goroutine
@@ -1305,6 +1308,8 @@ found:
 	sched.nmfreed++
 	checkdead()
 	unlock(&sched.lock)
+
+	m.lockLog.flush()
 
 	if osStack {
 		// Return from mstart and let the system thread

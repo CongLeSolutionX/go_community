@@ -517,6 +517,8 @@ type m struct {
 
 	dlogPerM
 
+	lockLog lockLogPerM
+
 	mOS
 }
 

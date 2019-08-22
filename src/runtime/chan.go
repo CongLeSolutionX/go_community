@@ -47,8 +47,10 @@ type hchan struct {
 	// Do not change another G's status while holding this lock
 	// (in particular, do not ready a G), as this can deadlock
 	// with stack shrinking.
-	lock mutex
+	lock mutex // lockClass: hchanLockClass
 }
+
+var hchanLockClass = &lockClass{name: "runtime.hchan.lock"}
 
 type waitq struct {
 	first *sudog
@@ -180,7 +182,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 		t0 = cputicks()
 	}
 
-	lock(&c.lock)
+	lockLabeled(&c.lock, hchanLockClass, 0)
 
 	if c.closed != 0 {
 		unlock(&c.lock)
@@ -336,7 +338,7 @@ func closechan(c *hchan) {
 		panic(plainError("close of nil channel"))
 	}
 
-	lock(&c.lock)
+	lockLabeled(&c.lock, hchanLockClass, 0)
 	if c.closed != 0 {
 		unlock(&c.lock)
 		panic(plainError("close of closed channel"))
@@ -457,7 +459,7 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 		t0 = cputicks()
 	}
 
-	lock(&c.lock)
+	lockLabeled(&c.lock, hchanLockClass, 0)
 
 	if c.closed != 0 && c.qcount == 0 {
 		if raceenabled {

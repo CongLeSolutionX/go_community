@@ -43,6 +43,11 @@ func key32(p *uintptr) *uint32 {
 	return (*uint32)(unsafe.Pointer(p))
 }
 
+// lock acquires mutex l.
+//
+// If l is a non-static (e.g., heap-allocated) lock, prefer
+// lockLabeled in order to record its lock class for lock graph
+// analysis.
 func lock(l *mutex) {
 	gp := getg()
 
@@ -54,6 +59,7 @@ func lock(l *mutex) {
 	// Speculative grab for lock.
 	v := atomic.Xchg(key32(&l.key), mutex_locked)
 	if v == mutex_unlocked {
+		lockLogAcquire(l)
 		return
 	}
 
@@ -72,12 +78,13 @@ func lock(l *mutex) {
 	if ncpu > 1 {
 		spin = active_spin
 	}
+loop:
 	for {
 		// Try for lock, spinning.
 		for i := 0; i < spin; i++ {
 			for l.key == mutex_unlocked {
 				if atomic.Cas(key32(&l.key), mutex_unlocked, wait) {
-					return
+					break loop
 				}
 			}
 			procyield(active_spin_cnt)
@@ -87,7 +94,7 @@ func lock(l *mutex) {
 		for i := 0; i < passive_spin; i++ {
 			for l.key == mutex_unlocked {
 				if atomic.Cas(key32(&l.key), mutex_unlocked, wait) {
-					return
+					break loop
 				}
 			}
 			osyield()
@@ -96,14 +103,17 @@ func lock(l *mutex) {
 		// Sleep.
 		v = atomic.Xchg(key32(&l.key), mutex_sleeping)
 		if v == mutex_unlocked {
-			return
+			break loop
 		}
 		wait = mutex_sleeping
 		futexsleep(key32(&l.key), mutex_sleeping, -1)
 	}
+
+	lockLogAcquire(l)
 }
 
 func unlock(l *mutex) {
+	lockLogRelease(l)
 	v := atomic.Xchg(key32(&l.key), mutex_unlocked)
 	if v == mutex_unlocked {
 		throw("unlock of unlocked lock")

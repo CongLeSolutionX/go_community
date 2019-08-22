@@ -783,7 +783,7 @@ func syncadjustsudogs(gp *g, used uintptr, adjinfo *adjustinfo) uintptr {
 	var lastc *hchan
 	for sg := gp.waiting; sg != nil; sg = sg.waitlink {
 		if sg.c != lastc {
-			lock(&sg.c.lock)
+			lockLabeled(&sg.c.lock, hchanLockClass, uint64(sg.c.sortkey()))
 		}
 		lastc = sg.c
 	}

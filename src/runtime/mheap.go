@@ -408,9 +408,11 @@ type mspan struct {
 	scavenged   bool       // whether this span has had its pages released to the OS
 	elemsize    uintptr    // computed from sizeclass or from npages
 	limit       uintptr    // end of data in span
-	speciallock mutex      // guards specials list
+	speciallock mutex      // guards specials list; lockClass: mspanSpeciallockClass
 	specials    *special   // linked list of special records sorted by offset.
 }
+
+var mspanSpeciallockClass = &lockClass{name: "runtime.mspan.speciallock"}
 
 func (s *mspan) base() uintptr {
 	return s.startAddr
@@ -1653,7 +1655,7 @@ func addspecial(p unsafe.Pointer, s *special) bool {
 	offset := uintptr(p) - span.base()
 	kind := s.kind
 
-	lock(&span.speciallock)
+	lockLabeled(&span.speciallock, mspanSpeciallockClass, 0)
 
 	// Find splice point, check for existing record.
 	t := &span.specials
@@ -1700,7 +1702,7 @@ func removespecial(p unsafe.Pointer, kind uint8) *special {
 
 	offset := uintptr(p) - span.base()
 
-	lock(&span.speciallock)
+	lockLabeled(&span.speciallock, mspanSpeciallockClass, 0)
 	t := &span.specials
 	for {
 		s := *t
