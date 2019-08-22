@@ -27,8 +27,8 @@ import (
 )
 
 const (
-	startmagic = "\x00go112ld"
-	endmagic   = "\xffgo112ld"
+	startmagic = "\x00go114ld"
+	endmagic   = "\xffgo114ld"
 )
 
 var emptyPkg = []byte(`"".`)
@@ -134,6 +134,14 @@ func (r *objReader) loadObjFile() {
 			break
 		}
 		r.lib.ImportStrings = append(r.lib.ImportStrings, lib)
+	}
+
+	// DWARF strings
+	count := r.readInt()
+	r.unit.DWARFFileTable = make([]string, count)
+	for i := 0; i < count; i++ {
+		// NB: This could be a mkROString call here.
+		r.unit.DWARFFileTable = append(r.unit.DWARFFileTable, r.readString())
 	}
 
 	// Symbol references
