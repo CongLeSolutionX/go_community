@@ -1,0 +1,4 @@
+# github.com/aclements/go-moremath v0.0.0-20190830160640-d16893ddf098
+github.com/aclements/go-moremath/graph
+github.com/aclements/go-moremath/graph/graphalg
+github.com/aclements/go-moremath/graph/graphout

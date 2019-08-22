@@ -28,6 +28,7 @@ _testmain.go
 /misc/cgo/life/run.out
 /misc/cgo/stdio/run.out
 /misc/cgo/testso/main
+/misc/lockcheck/lockcheck
 /pkg/
 /src/*.*/
 /src/cmd/cgo/zdefaultcc.go
