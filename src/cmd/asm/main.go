@@ -83,6 +83,7 @@ func main() {
 		}
 	}
 	if ok && !*flags.SymABIs {
+		ctxt.CreateDebugLinesFileTable()
 		obj.WriteObjFile(ctxt, buf, "")
 	}
 	if !ok || diag {

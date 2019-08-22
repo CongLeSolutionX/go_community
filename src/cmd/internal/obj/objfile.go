@@ -86,7 +86,7 @@ func WriteObjFile(ctxt *Link, b *bufio.Writer, pkgpath string) {
 	w := newObjWriter(ctxt, b, pkgpath)
 
 	// Magic header
-	w.wr.WriteString("\x00go112ld")
+	w.wr.WriteString("\x00go114ld")
 
 	// Version
 	w.wr.WriteByte(1)
@@ -96,6 +96,12 @@ func WriteObjFile(ctxt *Link, b *bufio.Writer, pkgpath string) {
 		w.writeString(pkg)
 	}
 	w.writeString("")
+
+	// DWARF File Table
+	w.writeInt(int64(len(ctxt.DWARFFileTable)))
+	for _, str := range ctxt.DWARFFileTable {
+		w.writeString(str)
+	}
 
 	// Symbol references
 	for _, s := range ctxt.Text {
@@ -161,7 +167,7 @@ func WriteObjFile(ctxt *Link, b *bufio.Writer, pkgpath string) {
 	}
 
 	// Magic footer
-	w.wr.WriteString("\xffgo112ld")
+	w.wr.WriteString("\xffgo114ld")
 }
 
 // Symbols are prefixed so their content doesn't get confused with the magic footer.

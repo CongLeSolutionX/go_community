@@ -234,23 +234,12 @@ func putpclcdelta(linkctxt *Link, dctxt dwCtxt, s *LSym, deltaPC uint64, deltaLC
 	dctxt.AddUint8(s, uint8(opcode))
 }
 
-// createDebugLinesFileTable creates a new symbol holding the list of files
+// CreateDebugLinesFileTable creates a new symbol holding the list of files
 // in our package.
-func (ctxt *Link) createDebugLinesFileTable() {
-	dctxt := dwCtxt{ctxt}
-
-	// Create the data symbol we'll store the file table in.
-	s := ctxt.dwarfFileTableSymbol()
-
-	// Create a LUT of the global package level file indices. These are the
-	// actual indices we write in the state machine.
-	fileLUT := make([]string, len(ctxt.PosTable.NameMap))
+func (ctxt *Link) CreateDebugLinesFileTable() {
+	// Undo the name->number map on the DWARF info.
+	ctxt.DWARFFileTable = make([]string, len(ctxt.PosTable.NameMap))
 	for str, i := range ctxt.PosTable.NameMap {
-		fileLUT[i] = str
-	}
-
-	// Write out the file LUT.
-	for _, file := range fileLUT {
-		dctxt.AddString(s, file)
+		ctxt.DWARFFileTable[i] = str
 	}
 }
