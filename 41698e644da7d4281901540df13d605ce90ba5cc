@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a8b3e0b_a6bfc40a",
+        "filename": "src/errors/example_unwrap_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-08-23T14:06:19Z",
+      "side": 1,
+      "message": "Perhaps let\u0027s encourage the style of naming fields in this\ncomposite literal as folks will copy+paste these a lot.\n\nreturn MyError2{\n    When: time.Date(1989, 3, 15, 22, 30, 0, 0, time.UTC),\n    What: \"reading config file\",\n    err: err,\n}",
+      "revId": "41698e644da7d4281901540df13d605ce90ba5cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ed860e4_29bb24c1",
         "filename": "src/errors/example_unwrap_test.go",
         "patchSetId": 1
