@@ -16,6 +16,24 @@
       "revId": "6220422a368cfec81cd5686ddae02a456022aa08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ae87cb3_4b7a629a",
+        "filename": "src/go/types/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-23T17:30:08Z",
+      "side": 1,
+      "message": "This is basically the same code that we also have now internally. But sure, I can add a comment.\n\nThis is the public API not used by go/types internally. Deserialized (imported) export data will already satisfy this criteria. This check is simply here to make sure user-created interfaces are following the same rules. Since the new rules are a relaxation of the old rules, I am not expecting this to break anything (famous last words).\n\nBut the point here is to get this in early for 1.14, so that we have a lot of exposure.\n\nFinally, there are tests for these scenarios. See testdata/issues6977.src.",
+      "parentUuid": "05187dfd_3b94f0ea",
+      "revId": "6220422a368cfec81cd5686ddae02a456022aa08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
