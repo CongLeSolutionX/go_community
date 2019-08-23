@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3b99100f_2d662721",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-23T19:09:32Z",
+      "side": 1,
+      "message": "I think using -d is reasonable, but I\u0027ll let Bryan or Jay confirm. (For reference, the removal of -m is documented at https://tip.golang.org/doc/go1.13#go-get.)\n\nIf it looks good to one of them, we can update the README.vendor accordingly.",
+      "parentUuid": "bb38f4e5_747a8c96",
+      "revId": "02a8e8599fb52554497f1c9defa31cb75e1a292b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80813cf0_7fb580f0",
         "filename": "src/cmd/go.sum",
         "patchSetId": 1
