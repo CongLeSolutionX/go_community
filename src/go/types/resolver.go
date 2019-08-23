@@ -609,12 +609,10 @@ func (a inSourceOrder) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 // processDelayed processes all delayed actions pushed after top.
 func (check *Checker) processDelayed(top int) {
-	for len(check.delayed) > top {
-		i := len(check.delayed) - 1
-		f := check.delayed[i]
-		check.delayed = check.delayed[:i]
-		f() // may append to check.delayed
+	for i := top; i < len(check.delayed); i++ {
+		check.delayed[i]() // may append to check.delayed
 	}
+	check.delayed = check.delayed[:top]
 }
 
 // unusedImports checks for unused imports.

@@ -314,7 +314,7 @@ func (check *Checker) typInternal(e ast.Expr, def *Named) Type {
 		//
 		// Delay this check because it requires fully setup types;
 		// it is safe to continue in any case (was issue 6667).
-		check.later(func() {
+		check.atEnd(func() {
 			if !Comparable(typ.key) {
 				check.errorf(e.Key.Pos(), "invalid map key type %s", typ.key)
 			}
@@ -558,19 +558,24 @@ func (check *Checker) completeInterface(ityp *Interface) {
 	ityp.allMethods = markComplete // avoid infinite recursion
 
 	var methods []*Func
-	var seen objset
+	mset := make(map[string]*Func)
 	addMethod := func(m *Func, explicit bool) {
-		switch alt := seen.insert(m); {
-		case alt == nil:
+		id := m.Id()
+		switch other := mset[id]; {
+		case other == nil:
 			methods = append(methods, m)
-		case explicit || !Identical(m.Type(), alt.Type()):
+			mset[id] = m
+		case explicit:
 			check.errorf(m.pos, "duplicate method %s", m.name)
-			// We use "other" rather than "previous" here because
-			// the first declaration seen may not be textually
-			// earlier in the source.
-			check.errorf(alt.Pos(), "\tother declaration of %s", m) // secondary error, \t indented
+			check.reportAltDecl(other)
 		default:
-			// silently drop method m
+			// check method signatures after all types are computed (issue #33656)
+			check.atEnd(func() {
+				if !Identical(m.typ, other.typ) {
+					check.errorf(m.pos, "duplicate method %s", m.name)
+					check.reportAltDecl(other)
+				}
+			})
 		}
 	}
 
@@ -581,7 +586,7 @@ func (check *Checker) completeInterface(ityp *Interface) {
 	posList := check.posMap[ityp]
 	for i, typ := range ityp.embeddeds {
 		pos := posList[i] // embedding position
-		typ := typ.Underlying().(*Interface)
+		typ := underlying(typ).(*Interface)
 		check.completeInterface(typ)
 		for _, m := range typ.allMethods {
 			copy := *m
