@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb38f4e5_747a8c96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-23T18:51:48Z",
+      "side": 1,
+      "message": "$GOROOT/src/README.vendor says \"go get -m\", but apparently it doesn\u0027t work:\n\n$ go get -m golang.org/x/arch@latest\ngo get: -m flag is no longer supported; consider -d to skip building packages\n\nSo I used -d.",
+      "revId": "02a8e8599fb52554497f1c9defa31cb75e1a292b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80813cf0_7fb580f0",
+        "filename": "src/cmd/go.sum",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-23T18:51:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is desired, but apparently x/arch has this dependency so this gets pulled in. And I thought it\u0027s probably not a good idea to modify this file by hand...",
+      "revId": "02a8e8599fb52554497f1c9defa31cb75e1a292b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
