@@ -10,6 +10,14 @@ import (
 	"unsafe"
 )
 
+// The compiler turns calls to the builtin print and println functions
+// into calls to the functions in this file.
+//
+// Since print and println are sometimes called by functions that are
+// go:nowritebarrierrec, but the compiler doesn't track that through
+// the expansion of print/println, the compiler-called functions are
+// explicitly annotated here.
+
 // The compiler knows that a print of a value of this type
 // should use printhex instead of printuint (decimal).
 type hex uint64
@@ -63,6 +71,7 @@ var debuglock mutex
 // the print lock to print information about the crash.
 // For both these reasons, let a thread acquire the printlock 'recursively'.
 
+//go:nowritebarrierrec
 func printlock() {
 	mp := getg().m
 	mp.locks++ // do not reschedule between printlock++ and lock(&debuglock).
@@ -73,6 +82,7 @@ func printlock() {
 	mp.locks-- // now we know debuglock is held and holding up mp.locks for us.
 }
 
+//go:nowritebarrierrec
 func printunlock() {
 	mp := getg().m
 	mp.printlock--
@@ -103,14 +113,17 @@ func gwrite(b []byte) {
 	gp.writebuf = gp.writebuf[:len(gp.writebuf)+n]
 }
 
+//go:nowritebarrierrec
 func printsp() {
 	printstring(" ")
 }
 
+//go:nowritebarrierrec
 func printnl() {
 	printstring("\n")
 }
 
+//go:nowritebarrierrec
 func printbool(v bool) {
 	if v {
 		printstring("true")
@@ -119,6 +132,7 @@ func printbool(v bool) {
 	}
 }
 
+//go:nowritebarrierrec
 func printfloat(v float64) {
 	switch {
 	case v != v:
@@ -191,6 +205,7 @@ func printfloat(v float64) {
 	gwrite(buf[:])
 }
 
+//go:nowritebarrierrec
 func printcomplex(c complex128) {
 	print("(", real(c), imag(c), "i)")
 }
@@ -208,6 +223,7 @@ func printuint(v uint64) {
 	gwrite(buf[i:])
 }
 
+//go:nowritebarrierrec
 func printint(v int64) {
 	if v < 0 {
 		printstring("-")
@@ -216,6 +232,7 @@ func printint(v int64) {
 	printuint(uint64(v))
 }
 
+//go:nowritebarrierrec
 func printhex(v uint64) {
 	const dig = "0123456789abcdef"
 	var buf [100]byte
@@ -234,24 +251,29 @@ func printhex(v uint64) {
 	gwrite(buf[i:])
 }
 
+//go:nowritebarrierrec
 func printpointer(p unsafe.Pointer) {
 	printhex(uint64(uintptr(p)))
 }
 
+//go:nowritebarrierrec
 func printstring(s string) {
 	gwrite(bytes(s))
 }
 
+//go:nowritebarrierrec
 func printslice(s []byte) {
 	sp := (*slice)(unsafe.Pointer(&s))
 	print("[", len(s), "/", cap(s), "]")
 	printpointer(sp.array)
 }
 
+//go:nowritebarrierrec
 func printeface(e eface) {
 	print("(", e._type, ",", e.data, ")")
 }
 
+//go:nowritebarrierrec
 func printiface(i iface) {
 	print("(", i.tab, ",", i.data, ")")
 }
