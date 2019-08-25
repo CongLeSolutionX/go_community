@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0c915b5_56d38108",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T03:53:03Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 554,
+        "startChar": 21,
+        "endLine": 554,
+        "endChar": 23
+      },
+      "revId": "3990b6b40524afad99b0232511d199e5e4a1c677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41e4f002_17f67e3d",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T03:53:03Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 555,
+        "startChar": 21,
+        "endLine": 555,
+        "endChar": 23
+      },
+      "revId": "3990b6b40524afad99b0232511d199e5e4a1c677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6d55549_b670b585",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T03:53:03Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 556,
+        "startChar": 21,
+        "endLine": 556,
+        "endChar": 23
+      },
+      "revId": "3990b6b40524afad99b0232511d199e5e4a1c677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "768a2f36_5b3296ee",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T03:53:03Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 793,
+        "startChar": 22,
+        "endLine": 793,
+        "endChar": 24
+      },
+      "revId": "3990b6b40524afad99b0232511d199e5e4a1c677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e90137e_8f523d90",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T03:53:03Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 822,
+        "startChar": 52,
+        "endLine": 822,
+        "endChar": 54
+      },
+      "revId": "3990b6b40524afad99b0232511d199e5e4a1c677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1349ae5_443156ae",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T03:53:03Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 846,
+        "startChar": 35,
+        "endLine": 846,
+        "endChar": 37
+      },
+      "revId": "3990b6b40524afad99b0232511d199e5e4a1c677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c43d46_34e9bccf",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T03:53:03Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 849,
+        "startChar": 55,
+        "endLine": 849,
+        "endChar": 57
+      },
+      "revId": "3990b6b40524afad99b0232511d199e5e4a1c677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c680d58e_c1b4d9f7",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T03:53:03Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 853,
+        "startChar": 27,
+        "endLine": 853,
+        "endChar": 29
+      },
+      "revId": "3990b6b40524afad99b0232511d199e5e4a1c677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb5000c_aea65ebb",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T03:53:03Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 891,
+        "startChar": 60,
+        "endLine": 891,
+        "endChar": 62
+      },
+      "revId": "3990b6b40524afad99b0232511d199e5e4a1c677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a87ae6bc_79161da1",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T03:53:03Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 893,
+        "startChar": 26,
+        "endLine": 893,
+        "endChar": 28
+      },
+      "revId": "3990b6b40524afad99b0232511d199e5e4a1c677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
