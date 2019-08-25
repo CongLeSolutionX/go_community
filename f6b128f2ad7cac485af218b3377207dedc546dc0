@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f51f3050_8b8bf973",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-08-25T14:21:08Z",
+      "side": 1,
+      "message": "Can you please add a short sentence to the commit message body justifying this change? For example:\n\n    This saves a redirect and makes the document more consistent.\n\n(See https://groups.google.com/forum/#!msg/golang-dev/6M4dmZWpFaI/SyU5Sl4zZLYJ for motivation.)",
+      "revId": "f6b128f2ad7cac485af218b3377207dedc546dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
