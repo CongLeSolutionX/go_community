@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a884d5e_783b90a8",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-26T20:06:41Z",
+      "side": 1,
+      "message": "consider eliminating the continue\n\n(it\u0027d save you two lines... :-)",
+      "revId": "fb0495f5ad50180a5c394de5c41a3e92b5b50e53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
