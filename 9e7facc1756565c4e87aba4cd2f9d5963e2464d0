@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70e21484_5340989b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-27T19:39:37Z",
+      "side": 1,
+      "message": "wrong verb tense for commit messages.\n\n   net/url: make Parse return an error for IPv6 literals without brackets",
+      "revId": "9e7facc1756565c4e87aba4cd2f9d5963e2464d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84030ac8_d394d0a2",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-27T19:39:37Z",
+      "side": 1,
+      "message": "Maybe this should be renamed \u0026 documented to say that it\u0027s not exact.\n\nOr just fix it to be exact.\n\nBetter name would be isValidIPv6Address\n\nAnd Go doc style is:\n\n// isValidIPv6Address reports whether v6addr is a valid IPv6 address literal.\n// The string should not contain the square brackets or a port number.",
+      "revId": "9e7facc1756565c4e87aba4cd2f9d5963e2464d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad3e00d0_b179e6f3",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-27T19:39:37Z",
+      "side": 1,
+      "message": "\"host\" is misleading. How about v6addr?",
+      "revId": "9e7facc1756565c4e87aba4cd2f9d5963e2464d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08f1b64f_11063a33",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-27T19:39:37Z",
+      "side": 1,
+      "message": "No need to allocate inside this function.",
+      "range": {
+        "startLine": 626,
+        "startChar": 16,
+        "endLine": 626,
+        "endChar": 27
+      },
+      "revId": "9e7facc1756565c4e87aba4cd2f9d5963e2464d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7adb73ef_d62725e0",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-27T19:39:37Z",
+      "side": 1,
+      "message": "IPv6",
+      "revId": "9e7facc1756565c4e87aba4cd2f9d5963e2464d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
