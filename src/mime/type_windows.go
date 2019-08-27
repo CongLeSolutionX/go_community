@@ -30,7 +30,7 @@ func initMimeWindows() {
 		if err != nil {
 			continue
 		}
-		setExtensionType(name, v)
+		setExtensionType(name, v, false)
 	}
 }
 

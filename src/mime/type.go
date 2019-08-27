@@ -169,10 +169,10 @@ func AddExtensionType(ext, typ string) error {
 		return fmt.Errorf("mime: extension %q missing leading dot", ext)
 	}
 	once.Do(initMime)
-	return setExtensionType(ext, typ)
+	return setExtensionType(ext, typ, true)
 }
 
-func setExtensionType(extension, mimeType string) error {
+func setExtensionType(extension, mimeType string, overwrite bool) error {
 	justType, param, err := ParseMediaType(mimeType)
 	if err != nil {
 		return err
@@ -183,6 +183,11 @@ func setExtensionType(extension, mimeType string) error {
 	}
 	extLower := strings.ToLower(extension)
 
+	if !overwrite {
+		if _, ok := mimeTypes.Load(extension); ok {
+			return nil
+		}
+	}
 	mimeTypes.Store(extension, mimeType)
 	mimeTypesLower.Store(extLower, mimeType)
 

@@ -25,7 +25,7 @@ func setType(ext, typ string) {
 	if !strings.HasPrefix(ext, ".") {
 		panic("missing leading dot")
 	}
-	if err := setExtensionType(ext, typ); err != nil {
+	if err := setExtensionType(ext, typ, false); err != nil {
 		panic("bad test data: " + err.Error())
 	}
 }
@@ -213,5 +213,29 @@ func TestExtensionsByType2(t *testing.T) {
 		if !reflect.DeepEqual(got, tt.want) {
 			t.Errorf("ExtensionsByType(%q) = %q; want %q", tt.typ, got, tt.want)
 		}
+	}
+}
+
+func TestTypeOverwrite(t *testing.T) {
+	ext := ".foo"
+	want := "x/foo"
+
+	cleanup := setMimeInit(func() {
+		clearMimeTypes()
+		setType(ext, want)
+		setType(ext, "x/bar")
+	})
+	defer cleanup()
+
+	val := TypeByExtension(ext)
+	if val != want {
+		t.Errorf("TypeByExtension(%q) = %q, want %q", ext, val, want)
+	}
+
+	want = "x/bar"
+	AddExtensionType(ext, want)
+	val = TypeByExtension(ext)
+	if val != want {
+		t.Errorf("TypeByExtension(%q) = %q, want %q", ext, val, want)
 	}
 }

@@ -57,7 +57,7 @@ func loadMimeGlobsFile(filename string) error {
 			continue
 		}
 
-		setExtensionType(extension, fields[1])
+		setExtensionType(extension, fields[1], false)
 	}
 	if err := scanner.Err(); err != nil {
 		panic(err)
@@ -83,7 +83,7 @@ func loadMimeFile(filename string) {
 			if ext[0] == '#' {
 				break
 			}
-			setExtensionType("."+ext, mimeType)
+			setExtensionType("."+ext, mimeType, false)
 		}
 	}
 	if err := scanner.Err(); err != nil {
