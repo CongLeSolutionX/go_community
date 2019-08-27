@@ -140,7 +140,7 @@ func (r *objReader) loadObjFile() {
 	count := r.readInt()
 	r.unit.DWARFFileTable = make([]string, count)
 	for i := 0; i < count; i++ {
-		r.unit.DWARFFileTable = append(r.unit.DWARFFileTable, r.readString())
+		r.unit.DWARFFileTable[i] = r.readString()
 	}
 
 	// Symbol references
