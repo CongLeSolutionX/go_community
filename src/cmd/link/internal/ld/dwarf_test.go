@@ -427,6 +427,10 @@ func TestVarDeclCoordsWithLineDirective(t *testing.T) {
 		t.Skip("skipping on plan9; no DWARF symbol table in executables")
 	}
 
+	fileNum := 2
+	if runtime.GOOS == "windows" {
+		fileNum = 5
+	}
 	varDeclCoordsAndSubrogramDeclFile(t, "TestVarDeclCoordsWithLineDirective",
 		"foobar.go", 202, "//line /foobar.go:200")
 }
