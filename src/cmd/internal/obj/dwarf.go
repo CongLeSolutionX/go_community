@@ -50,11 +50,6 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 	line := 1
 	file := 1
 
-	dctxt.AddUint8(lines, 0) // start extended opcode
-	dwarf.Uleb128put(dctxt, lines, 1+int64(ctxt.Arch.PtrSize))
-	dctxt.AddUint8(lines, dwarf.DW_LNE_set_address)
-	dctxt.AddAddress(lines, nil, pc)
-
 	// Generate the actual line information.
 	pcfile := NewPCIter(uint32(ctxt.Arch.Arch.MinLC))
 	pcline := NewPCIter(uint32(ctxt.Arch.Arch.MinLC))
@@ -70,7 +65,7 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 		// Only changed if it advanced
 		if int32(file) != pcfile.Value {
 			dctxt.AddUint8(lines, dwarf.DW_LNS_set_file)
-			dwarf.Uleb128put(dctxt, lines, fileNums[pcfile.Value])
+			dwarf.Uleb128put(dctxt, lines, fileNums[pcfile.Value]+1)
 			file = int(pcfile.Value)
 		}
 
