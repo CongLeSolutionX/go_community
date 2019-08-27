@@ -400,7 +400,7 @@ func varDeclCoordsAndSubrogramDeclFile(t *testing.T, testpoint string, expectFil
 	}
 
 	file := maindie.Val(dwarf.AttrDeclFile)
-	if file == nil || file.(int64) != 1 {
+	if file == nil || file.(int64) != int64(expectFile) {
 		t.Errorf("DW_AT_decl_file for main is %v, want %d", file, expectFile)
 	}
 }
@@ -412,7 +412,11 @@ func TestVarDeclCoordsAndSubrogramDeclFile(t *testing.T) {
 		t.Skip("skipping on plan9; no DWARF symbol table in executables")
 	}
 
-	varDeclCoordsAndSubrogramDeclFile(t, "TestVarDeclCoords", 1, 5, "")
+	fileNum := 2
+	if runtime.GOOS == "windows" {
+		fileNum = 4
+	}
+	varDeclCoordsAndSubrogramDeclFile(t, "TestVarDeclCoords", fileNum, 5, "")
 }
 
 func TestVarDeclCoordsWithLineDirective(t *testing.T) {
@@ -422,8 +426,12 @@ func TestVarDeclCoordsWithLineDirective(t *testing.T) {
 		t.Skip("skipping on plan9; no DWARF symbol table in executables")
 	}
 
+	fileNum := 2
+	if runtime.GOOS == "windows" {
+		fileNum = 5
+	}
 	varDeclCoordsAndSubrogramDeclFile(t, "TestVarDeclCoordsWithLineDirective",
-		2, 200, "//line /foobar.go:200")
+		fileNum, 200, "//line /foobar.go:200")
 }
 
 // Helper class for supporting queries on DIEs within a DWARF .debug_info
