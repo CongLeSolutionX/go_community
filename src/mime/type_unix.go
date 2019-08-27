@@ -40,7 +40,7 @@ func loadMimeFile(filename string) {
 			if ext[0] == '#' {
 				break
 			}
-			setExtensionType("."+ext, mimeType)
+			setExtensionType("."+ext, mimeType, false)
 		}
 	}
 	if err := scanner.Err(); err != nil {
