@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lock order</title>
+    <style type="text/css">
+      html, body { margin: 0px; padding: 0px; width: 100%; height: 100%; overflow: hidden }
+      body { font-family: sans-serif; }
+      .full {
+          /* Full screen */
+          position: absolute;
+          right: 0px;
+          top: 0px;
+          width: 100vw;
+          height: 100vh;
+          background: white;
+          /* Center the contents */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          /* Allow .thumb to be animated in */
+          overflow: hidden;
+          outline: 1px solid black;
+          box-shadow: 3px 3px 10px rgba(0.5,0.5,0.5,0.25);
+
+          transition-property: width, height, right, top;
+          transition-duration: 0.5s;
+          transition-timing-function: ease;
+      }
+      .thumb {
+          position: absolute;
+          right: 1em;
+          top: 1em;
+          width: 20vw;
+          height: 20vh;
+      }
+      #expand {
+          position: absolute;
+          right: 0.5em;
+          top: 0.5em;
+          overflow: visible;
+          display: none;
+          cursor: pointer;
+      }
+      .thumb > #expand {
+          /* The expand button is only visible in thumb view */
+          display: unset;
+      }
+      .help {
+          position: absolute;
+          left: 1em;
+          top: 1em;
+          max-width: 20em;
+          padding: 8px;
+          background: white;
+          outline: 1px solid black;
+          box-shadow: 3px 3px 10px rgba(0.5,0.5,0.5,0.25);
+      }
+      /* SVG styles */
+      .node.in-cycle ellipse {
+          stroke: #b71c1c;
+      }
+      .edge.in-cycle path {
+          stroke: #b71c1c;
+      }
+      .edge.in-cycle polygon {
+          fill: #b71c1c;
+          stroke: #b71c1c;
+      }
+      .edge.selected path:not(.overlay) {
+          stroke: #2196f3 !important;
+          stroke-width: 3px;
+      }
+      .edge.selected polygon {
+          stroke: #2196f3 !important;
+          fill: #2196f3 !important;
+      }
+      .edge.excluded path:not(.overlay) {
+          stroke-dasharray: 4,4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="full" id="edge-view"><div class="container"></div></div>
+    <div class="full" id="graph-view">
+      <div class="container"></div>
+      <svg id="expand" width="10" height="10">
+        <rect x="-3" y="-3" width="16" height="16" fill="rgba(255,255,255,0.75)"></rect>
+        <path d="M10 0 L0 10 M5 0 H10 V5 M0 5 V10 H5" fill="none" stroke="black" stroke-width="2"></path>
+      </svg>
+    </div>
+    <div class="help">
+      Drag and scroll to pan and zoom the graph. Red locks and edges
+      are involved in cycles. Click an edge to show call graphs for
+      that lock pair. Control-click an edge to toggle whether it is
+      excluded from cycle detection (for "what if?" analysis).
+    </div>
+    <div style="position: absolute; top: 1em; width: 100%; text-align: center;"><div id="loading"></div></div>
+    <script src="main.js"></script>
+    <script>window.addEventListener("load", onload);</script>
+  </body>
+</html>

@@ -14,9 +14,11 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 
 	"lockcheck/lockgraph"
 	"lockcheck/server"
+	"lockcheck/viewer"
 
 	"github.com/aclements/go-moremath/graph/graphout"
 )
@@ -44,9 +46,9 @@ For example, to record the lock graph of the runtime test:
     go test -c && \
     ../../misc/lockcheck/lockcheck -dump runtime.locks ./runtime.test -test.short)
 
-Locks involved in cycles can then be viewed with:
+The lock graph can then be interactively viewed with:
 
-   ../../misc/lockcheck/lockcheck -load runtime.locks -dot - | dot -Tx11
+   ../../misc/lockcheck/lockcheck -load runtime.locks -http :8080
 
 If no output is specified, it defaults to a text report on stdout.
 
@@ -59,6 +61,7 @@ Flags:
 	flagFull := flag.Bool("full", false, "report full lock graph (default: report only locks involved in cycles)")
 	flagDot := flag.String("dot", "", "output dot for lock graph to `file`")
 	flagText := flag.String("text", "", "output text report with stacks to `file`")
+	flagHTTP := flag.String("http", "", "run viewer HTTP server on `host:port")
 
 	flag.Parse()
 	if (*flagLoad == "") == (len(flag.Args()) == 0) {
@@ -67,7 +70,7 @@ Flags:
 	}
 
 	// Use text output if no other output is specified.
-	if *flagDump == "" && *flagDot == "" && *flagText == "" {
+	if *flagDump == "" && *flagDot == "" && *flagText == "" && *flagHTTP == "" {
 		*flagText = "-"
 	}
 
@@ -121,6 +124,7 @@ Flags:
 	}
 
 	// Reduce the graph to just its cycles.
+	fullGraph := lockGraph
 	cycles := lockGraph.Filter(lockgraph.Cycles(lockGraph))
 
 	// Filter the reporting graph unless the user asked for the
@@ -151,7 +155,7 @@ Flags:
 		}()
 	}
 
-	// Report problems.
+	// Report problems before starting the viewer.
 	exit := 0
 	if cycles.NumNodes() != 0 {
 		fmt.Println("warning: runtime lock graph contains cycles")
@@ -161,6 +165,25 @@ Flags:
 		log.Print(err)
 		exit = 2
 	}
+
+	if *flagHTTP != "" {
+		// TODO: Consider adding a mode that launches and
+		// waits for the browser using, e.g.,
+		//   google-chrome --app=http://... --user-data-dir=/tmp/...
+		exePath, err := os.Executable()
+		if err != nil {
+			log.Fatalf("determining static path: %v", err)
+		}
+		staticPath := filepath.Join(filepath.Dir(exePath), "viewer")
+		s := viewer.Server{Addr: *flagHTTP, Graph: fullGraph, StaticPath: staticPath}
+		err = s.Start()
+		if err != nil {
+			log.Fatal("starting viewer:", err)
+		}
+		fmt.Printf("listening on %s\n", s.Addr)
+		select {}
+	}
+
 	os.Exit(exit)
 }
 
