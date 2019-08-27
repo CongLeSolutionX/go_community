@@ -202,6 +202,7 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	if outreq.Header == nil {
 		outreq.Header = make(http.Header) // Issue 33142: historical behavior was to always allocate
 	}
+	outreq.Host = "" // Issue 33861: empty the Host to correct the Host header of the actual outgoing request
 
 	p.Director(outreq)
 	outreq.Close = false

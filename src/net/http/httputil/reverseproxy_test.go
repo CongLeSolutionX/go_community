@@ -38,6 +38,7 @@ func init() {
 func TestReverseProxy(t *testing.T) {
 	const backendResponse = "I am the backend"
 	const backendStatus = 404
+	var backendURL *url.URL
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "GET" && r.FormValue("mode") == "hangup" {
 			c, _, _ := w.(http.Hijacker).Hijack()
@@ -62,7 +63,7 @@ func TestReverseProxy(t *testing.T) {
 		if c := r.Header.Get("Proxy-Connection"); c != "" {
 			t.Errorf("handler got Proxy-Connection header value %q", c)
 		}
-		if g, e := r.Host, "some-name"; g != e {
+		if g, e := r.Host, backendURL.Host; g != e {
 			t.Errorf("backend got Host header %q, want %q", g, e)
 		}
 		w.Header().Set("Trailers", "not a special header field name")
@@ -79,7 +80,8 @@ func TestReverseProxy(t *testing.T) {
 		w.Header().Set(http.TrailerPrefix+"X-Unannounced-Trailer", "unannounced_trailer_value")
 	}))
 	defer backend.Close()
-	backendURL, err := url.Parse(backend.URL)
+	var err error
+	backendURL, err = url.Parse(backend.URL)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -676,6 +678,50 @@ func TestReverseProxy_AllocatedHeader(t *testing.T) {
 		URL:        &url.URL{Scheme: "http", Host: "fake.tld", Path: "/"},
 		Proto:      "HTTP/1.0",
 		ProtoMajor: 1,
+	})
+}
+
+// Issue 33861: empty the Host to correct the Host header of the actual outgoing request
+func TestReverseProxy_EmptyHost(t *testing.T) {
+	u, _ := url.Parse("http://example.com/foo/bar")
+	proxyHandler := NewSingleHostReverseProxy(u)
+	proxyHandler.ErrorLog = log.New(ioutil.Discard, "", 0) // quiet for tests
+	proxyHandler.Transport = RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
+		if req.Host != "" {
+			t.Errorf("Host == %s; want an empty Host", req.Host)
+		}
+		return nil, errors.New("done testing the interesting part; so force a 502 Gateway error")
+	})
+
+	proxyHandler.ServeHTTP(httptest.NewRecorder(), &http.Request{
+		Method:     "GET",
+		URL:        &url.URL{Scheme: "http", Host: "fake.tld", Path: "/"},
+		Proto:      "HTTP/1.0",
+		ProtoMajor: 1,
+		Host:       "fake.tld",
+	})
+
+	proxyHandler2 := new(ReverseProxy)
+	proxyHandler2.ErrorLog = log.New(ioutil.Discard, "", 0) // quiet for tests
+	proxyHandler2.Director = func(req *http.Request) {
+		req.URL.Scheme = "http"
+		req.URL.Host = "example.com"
+		req.URL.Path = "/"
+		req.Host = req.URL.Host
+	}
+	proxyHandler2.Transport = RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
+		if req.Host != "example.com" {
+			t.Errorf("Host == %s; want example.com", req.Host)
+		}
+		return nil, errors.New("done testing the interesting part; so force a 502 Gateway error")
+	})
+
+	proxyHandler2.ServeHTTP(httptest.NewRecorder(), &http.Request{
+		Method:     "GET",
+		URL:        &url.URL{Scheme: "http", Host: "fake.tld", Path: "/"},
+		Proto:      "HTTP/1.0",
+		ProtoMajor: 1,
+		Host:       "fake.tld",
 	})
 }
 
