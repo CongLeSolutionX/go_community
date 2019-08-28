@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7d8c530_b805210c",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-08-28T10:38:11Z",
+      "side": 1,
+      "message": "nit: make these use backquoted string literals, so that you don\u0027t need the backslashes.",
+      "revId": "e54d1a68864524e2b0b7fd97056b2f0f6836b373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ea2ac0f_4fe56014",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-08-28T10:38:11Z",
+      "side": 1,
+      "message": "same as before.",
+      "revId": "e54d1a68864524e2b0b7fd97056b2f0f6836b373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1236e77_d940d4d0",
+        "filename": "src/net/http/readrequest_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-08-28T10:38:11Z",
+      "side": 1,
+      "message": "same as before.",
+      "revId": "e54d1a68864524e2b0b7fd97056b2f0f6836b373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78f72a35_6acdb7a1",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-08-28T10:38:11Z",
+      "side": 1,
+      "message": "nit: at this point, why not:\n\nfmt.Sprintf(\"%s %q: %s\", e.Op, e.URL, e.Err)\n\n(note that %s already calls Error)",
+      "revId": "e54d1a68864524e2b0b7fd97056b2f0f6836b373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2ff2e69_1c1112c6",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1447,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-08-28T10:38:11Z",
+      "side": 1,
+      "message": "if you gofmt this, I\u0027m pretty sure the extra spaces would disappear, as there\u0027s an empty line before this group of test cases.",
+      "revId": "e54d1a68864524e2b0b7fd97056b2f0f6836b373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
