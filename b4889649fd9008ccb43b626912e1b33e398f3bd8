@@ -89,6 +89,29 @@
     },
     {
       "key": {
+        "uuid": "25370c8a_3cf05fd8",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-28T21:45:52Z",
+      "side": 1,
+      "message": "I forgot what this was about and this change scared me, like Go\u0027s now ignoring timeout errors.\n\nIt\u0027d be less scary like:\n\n   The Transport no longer logs errors when servers gracefully shut down idle connections using a \"408 Request Timeout\" response.",
+      "range": {
+        "startLine": 875,
+        "startChar": 68,
+        "endLine": 875,
+        "endChar": 134
+      },
+      "revId": "b4889649fd9008ccb43b626912e1b33e398f3bd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0083227_8e2321b3",
         "filename": "doc/go1.13.html",
         "patchSetId": 1
