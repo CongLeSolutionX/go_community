@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4933bd1a_74b48f44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-28T04:24:31Z",
+      "side": 1,
+      "message": "drop the colon here, and add a blank line after (before the Change-Id line)",
+      "revId": "1d705af661c9f1a2c292b45c467f0f66fd700ddc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2310acb_5962a386",
         "filename": "src/math/big/rat.go",
         "patchSetId": 1
