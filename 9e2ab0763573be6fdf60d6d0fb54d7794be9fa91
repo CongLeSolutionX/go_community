@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f602901_ccfb758f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-28T20:39:54Z",
+      "side": 1,
+      "message": "without ... ?\n\nMissing word(s)",
+      "revId": "9e2ab0763573be6fdf60d6d0fb54d7794be9fa91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cd01deb_6ca755c8",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-28T20:39:54Z",
+      "side": 1,
+      "message": "This is pretty arbitrary and you forgot the 💩 rune too. That\u0027s also invalid in an IPv6 literal.\n\nWhy don\u0027t you list the valid ones instead?\n\nAnd I\u0027d rename the func to:\n\n   func obviouslyInvalidIPv6Address \n\nAnd document that it doesn\u0027t catch anything, as you don\u0027t catch, for instance \":::1\" or other invalid strings.\n\nBut at that point I\u0027d rather this just be precise. It\u0027s okay to copy a tiny bit of code over here.",
+      "revId": "9e2ab0763573be6fdf60d6d0fb54d7794be9fa91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
