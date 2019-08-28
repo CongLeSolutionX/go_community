@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1966bf4_ee8dc1bb",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-08-28T16:10:02Z",
+      "side": 1,
+      "message": "Extra tab here.",
+      "revId": "4b6ac16934f9b562d1beaf482cf4bcef5c42b23f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "505b69a7_a8f9e79b",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4418,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2019-08-28T16:10:02Z",
+      "side": 1,
+      "message": "Typo — 2.07",
+      "revId": "4b6ac16934f9b562d1beaf482cf4bcef5c42b23f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
