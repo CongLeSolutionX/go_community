@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14acf7c0_b2d7b629",
+        "filename": "src/cmd/asm/internal/asm/testdata/amd64enc_extra.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-28T15:34:54Z",
+      "side": 1,
+      "message": "Typo: instructions. In fact, I don\u0027t think you need these comments. Just have an empty line above to separate from previous group. Same for amd64error.s.",
+      "range": {
+        "startLine": 1052,
+        "startChar": 9,
+        "endLine": 1052,
+        "endChar": 20
+      },
+      "revId": "c41a8a302bc57a3f84795ba6b9976a4871512e8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
