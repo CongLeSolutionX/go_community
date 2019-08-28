@@ -62,6 +62,30 @@
       "revId": "b4889649fd9008ccb43b626912e1b33e398f3bd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8637cba3_281b7010",
+        "filename": "doc/go1.13.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-08-28T21:37:35Z",
+      "side": 1,
+      "message": "Actually this description seems to have nothing to do with https://go-review.googlesource.com/c/go/+/140357/\n\nThat\u0027s about \"make Transport.MaxConnsPerHost work for HTTP/2\"",
+      "parentUuid": "c75bc4a8_14bf3e12",
+      "range": {
+        "startLine": 828,
+        "startChar": 6,
+        "endLine": 828,
+        "endChar": 26
+      },
+      "revId": "b4889649fd9008ccb43b626912e1b33e398f3bd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
