@@ -22,6 +22,30 @@
       "revId": "1cc92ad5daf7a01c58c48a4866ea0c09c526cd22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cc95271_5f2fc7b5",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1394,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-08-29T23:25:30Z",
+      "side": 1,
+      "message": "Indeed. Simplified.",
+      "parentUuid": "b091fd2e_16adf795",
+      "range": {
+        "startLine": 1394,
+        "startChar": 36,
+        "endLine": 1394,
+        "endChar": 60
+      },
+      "revId": "1cc92ad5daf7a01c58c48a4866ea0c09c526cd22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
