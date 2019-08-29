@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "088e9200_a6c66c80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2019-08-29T20:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f602901_ccfb758f",
+      "revId": "9e2ab0763573be6fdf60d6d0fb54d7794be9fa91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cd01deb_6ca755c8",
         "filename": "src/net/url/url.go",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "9e2ab0763573be6fdf60d6d0fb54d7794be9fa91",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "671de056_6c21571f",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 12380
+      },
+      "writtenOn": "2019-08-29T20:14:15Z",
+      "side": 1,
+      "message": "Done.\n\nOriginally isValidIPv6Address was planned as a very simple verification.\nBut just to not to rename it to obviouslyInvalidIPv6Address I added a couple checks more ;).",
+      "parentUuid": "2cd01deb_6ca755c8",
+      "revId": "9e2ab0763573be6fdf60d6d0fb54d7794be9fa91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
