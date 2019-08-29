@@ -309,7 +309,10 @@ func (p *noder) decls(decls []syntax.Decl) (l []*Node) {
 }
 
 func (p *noder) importDecl(imp *syntax.ImportDecl) {
-	val := p.basicLit(imp.Path)
+	val, bad := p.basicLit(imp.Path)
+	if bad {
+		return // avoid follow-on errors if there was a syntax error
+	}
 	ipkg := importfile(&val)
 
 	if ipkg == nil {
@@ -602,7 +605,10 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 	case *syntax.Name:
 		return p.mkname(expr)
 	case *syntax.BasicLit:
-		return nodlit(p.basicLit(expr))
+		v, bad := p.basicLit(expr)
+		n := nodlit(v)
+		n.SetDiag(bad) // avoid follow-on errors if there was a syntax error
+		return n
 	case *syntax.CompositeLit:
 		n := p.nod(expr, OCOMPLIT, nil, nil)
 		if expr.Type != nil {
@@ -823,7 +829,8 @@ func (p *noder) structType(expr *syntax.StructType) *Node {
 			n = p.nodSym(field, ODCLFIELD, p.typeExpr(field.Type), p.name(field.Name))
 		}
 		if i < len(expr.TagList) && expr.TagList[i] != nil {
-			n.SetVal(p.basicLit(expr.TagList[i]))
+			v, _ := p.basicLit(expr.TagList[i]) // struct tags are only available at run-time - don't care if there was a syntax error
+			n.SetVal(v)
 		}
 		l = append(l, n)
 	}
@@ -1350,60 +1357,73 @@ func checkLangCompat(lit *syntax.BasicLit) {
 	}
 }
 
-func (p *noder) basicLit(lit *syntax.BasicLit) Val {
-	// TODO: Don't try to convert if we had syntax errors (conversions may fail).
-	//       Use dummy values so we can continue to compile. Eventually, use a
-	//       form of "unknown" literals that are ignored during type-checking so
-	//       we can continue type-checking w/o spurious follow-up errors.
+func (p *noder) basicLit(lit *syntax.BasicLit) (v Val, bad bool) {
+	// We don't use the errors of the conversion routines to determine
+	// if a literal string is valid because the conversion routines may
+	// accept a wider syntax than the language permits. Rely on lit.Bad
+	// instead.
+	bad = lit.Bad
 	switch s := lit.Value; lit.Kind {
 	case syntax.IntLit:
 		checkLangCompat(lit)
 		x := new(Mpint)
-		x.SetString(s)
-		return Val{U: x}
+		if !bad {
+			x.SetString(s)
+		}
+		v.U = x
 
 	case syntax.FloatLit:
 		checkLangCompat(lit)
 		x := newMpflt()
-		x.SetString(s)
-		return Val{U: x}
+		if !bad {
+			x.SetString(s)
+		}
+		v.U = x
 
 	case syntax.ImagLit:
 		checkLangCompat(lit)
 		x := newMpcmplx()
-		x.Imag.SetString(strings.TrimSuffix(s, "i"))
-		return Val{U: x}
+		if !bad {
+			x.Imag.SetString(strings.TrimSuffix(s, "i"))
+		}
+		v.U = x
 
 	case syntax.RuneLit:
-		var r rune
-		if u, err := strconv.Unquote(s); err == nil && len(u) > 0 {
-			// Package syntax already reported any errors.
-			// Check for them again though because 0 is a
-			// better fallback value for invalid rune
-			// literals than 0xFFFD.
-			if len(u) == 1 {
-				r = rune(u[0])
-			} else {
-				r, _ = utf8.DecodeRuneInString(u)
-			}
-		}
 		x := new(Mpint)
-		x.SetInt64(int64(r))
 		x.Rune = true
-		return Val{U: x}
+		if !bad {
+			var r rune
+			if u, err := strconv.Unquote(s); err == nil && len(u) > 0 {
+				// Package syntax already reported any errors.
+				// Check for them again though because 0 is a
+				// better fallback value for invalid rune
+				// literals than 0xFFFD.
+				if len(u) == 1 {
+					r = rune(u[0])
+				} else {
+					r, _ = utf8.DecodeRuneInString(u)
+				}
+			}
+			x.SetInt64(int64(r))
+		}
+		v.U = x
 
 	case syntax.StringLit:
-		if len(s) > 0 && s[0] == '`' {
-			// strip carriage returns from raw string
-			s = strings.Replace(s, "\r", "", -1)
+		var x string
+		if !bad {
+			if len(s) > 0 && s[0] == '`' {
+				// strip carriage returns from raw string
+				s = strings.Replace(s, "\r", "", -1)
+			}
+			x, _ = strconv.Unquote(s)
 		}
-		// Ignore errors because package syntax already reported them.
-		u, _ := strconv.Unquote(s)
-		return Val{U: u}
+		x.U = x
 
 	default:
 		panic("unhandled BasicLit kind")
 	}
+
+	return
 }
 
 func (p *noder) name(name *syntax.Name) *types.Sym {
