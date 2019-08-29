@@ -1386,5 +1386,5 @@ func reflect_ismapkey(t *_type) bool {
 	return ismapkey(t)
 }
 
-const maxZero = 1024 // must match value in cmd/compile/internal/gc/walk.go:zeroValSize
+const maxZero = 1024 // must match value in reflect/value.go:maxZero cmd/compile/internal/gc/walk.go:zeroValSize
 var zeroVal [maxZero]byte
