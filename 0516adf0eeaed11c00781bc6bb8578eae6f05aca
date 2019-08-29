@@ -22,6 +22,29 @@
       "revId": "0516adf0eeaed11c00781bc6bb8578eae6f05aca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bccc8006_dc465458",
+        "filename": "src/cmd/compile/internal/ssa/redblack32_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-08-29T11:10:08Z",
+      "side": 1,
+      "message": "maybe could even be made denser as\ns+\u003d \"[\" + t.left.DebugString() + \"]\"\nor\ns+\u003d fmt.Sprintf(\"[%v]\", t.left.DebugString())",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 10
+      },
+      "revId": "0516adf0eeaed11c00781bc6bb8578eae6f05aca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
