@@ -139,6 +139,7 @@ type (
 	BasicLit struct {
 		Value string
 		Kind  LitKind
+		Bad   bool
 		expr
 	}
 
