@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d2f6389_5333e69d",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5788,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-08-30T05:36:18Z",
+      "side": 1,
+      "message": "Could be a bit more descriptive what was expected and what happened e.g.:\n\nt.Errorf(\"Creating small zero values caused %d allocs; want 0\", allocs)",
+      "range": {
+        "startLine": 5788,
+        "startChar": 2,
+        "endLine": 5788,
+        "endChar": 28
+      },
+      "revId": "e3b73ce94f713c0a9c5e71333caeb2ca027ed10d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
