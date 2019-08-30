@@ -735,6 +735,31 @@ func TestToValidUTF8(t *testing.T) {
 	}
 }
 
+func Test_isEmpty(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  bool
+	}{
+		{
+			name:  "false for non empty string",
+			input: "hello",
+			want:  false,
+		},
+		{
+			name:  "true for empty string",
+			input: "",
+			want:  true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsEmpty(tt.input); got != tt.want {
+				t.Errorf("isEmpty() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
 func BenchmarkToUpper(b *testing.B) {
 	for _, tc := range upperTests {
 		b.Run(tc.in, func(b *testing.B) {
