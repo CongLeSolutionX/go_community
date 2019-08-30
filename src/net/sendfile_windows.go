@@ -18,31 +18,54 @@ import (
 // non-EOF error.
 //
 // if handled == false, sendFile performed no work.
-//
-// Note that sendfile for windows does not support >2GB file.
 func sendFile(fd *netFD, r io.Reader) (written int64, err error, handled bool) {
-	var n int64 = 0 // by default, copy until EOF
+	var fileSize int64
 
 	lr, ok := r.(*io.LimitedReader)
 	if ok {
-		n, r = lr.N, lr.R
-		if n <= 0 {
+		fileSize, r = lr.N, lr.R
+		if fileSize <= 0 {
 			return 0, nil, true
 		}
-		// TransmitFile can be invoked in one call with at most
-		// 2,147,483,646 bytes: the maximum value for a 32-bit integer minus 1.
-		// See https://docs.microsoft.com/en-us/windows/win32/api/mswsock/nf-mswsock-transmitfile
-		const maxSendBytes = 0x7fffffff - 1
-		if n > maxSendBytes {
-			return 0, nil, false
-		}
 	}
+
 	f, ok := r.(*os.File)
 	if !ok {
 		return 0, nil, false
 	}
 
-	done, err := poll.SendFile(&fd.pfd, syscall.Handle(f.Fd()), n)
+	// As per https://docs.microsoft.com/en-us/windows/win32/api/mswsock/nf-mswsock-transmitfile
+	// TransmitFile can be invoked in one call with at most
+	// 2,147,483,646 bytes: the maximum value for a 32-bit integer minus 1.
+	const _2GiB = int64(0x7fffffff - 1)
+
+	switch {
+	case fileSize <= _2GiB:
+		// The fileSize is within sendfile's limits.
+		return doSendFile(fd, lr, f, fileSize)
+
+	default:
+		// Now invoke doSendFile on the file in chunks upto 2GiB per chunk.
+		for lr.N > 0 { // lr.N is decremented in every successful invocation of doSendFile.
+			chunkSize := _2GiB
+			if chunkSize > lr.N {
+				chunkSize = lr.N
+			}
+			var nw int64
+			nw, err, handled = doSendFile(fd, lr, f, chunkSize)
+			if !handled || err != nil {
+				// TODO: (@odeke-em, @alexbrainman) what should we do if !handled
+				// in the middle of sending chunks?
+				return
+			}
+			written += nw
+		}
+		return
+	}
+}
+
+func doSendFile(fd *netFD, lr *io.LimitedReader, f *os.File, remain int64) (written int64, err error, handled bool) {
+	done, err := poll.SendFile(&fd.pfd, syscall.Handle(f.Fd()), remain)
 
 	if err != nil {
 		return 0, wrapSyscallError("transmitfile", err), false
