@@ -617,6 +617,24 @@ func (t *tester) registerTests() {
 		})
 	}
 
+	// Test the runtime lock order. We do this on the builders
+	// only because it takes a while.
+	//
+	// plan9 and windows don't support UNIX domain sockets. nacl
+	// and js have only fake support.
+	//
+	// TODO(austin): Make this work on Windows and enable this test.
+	if os.Getenv("GO_BUILDER_NAME") != "" && goos != "plan9" && goos != "windows" && goos != "nacl" && goos != "js" {
+		t.tests = append(t.tests, distTest{
+			name:    "lockorder",
+			heading: "Testing runtime lock order",
+			fn: func(dt *distTest) error {
+				t.addCmd(dt, "misc/lockcheck", t.goTest(), "-mod=vendor")
+				return nil
+			},
+		})
+	}
+
 	if t.cgoEnabled && !t.iOS() {
 		// Disabled on iOS. golang.org/issue/15919
 		t.registerHostTest("cgo_stdio", "../misc/cgo/stdio", "misc/cgo/stdio", ".")
