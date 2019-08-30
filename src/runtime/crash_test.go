@@ -106,6 +106,22 @@ func buildTestProg(t *testing.T, binary string, flags ...string) (string, error)
 
 	checkStaleRuntime(t)
 
+	// Combine tags in flags with tags in GOFLAGS.
+	goflags := strings.Fields(os.Getenv("GOFLAGS"))
+	tags := ""
+	for _, goflag := range goflags {
+		if strings.HasPrefix(goflag, "-tags=") {
+			tags = goflag[len("-tags="):]
+		}
+	}
+	if tags != "" {
+		for i, flag := range flags {
+			if strings.HasPrefix(flag, "-tags=") {
+				flags[i] += "," + tags
+			}
+		}
+	}
+
 	testprog.Lock()
 	defer testprog.Unlock()
 	if testprog.dir == "" {
