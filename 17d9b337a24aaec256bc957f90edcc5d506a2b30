@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de487d76_f2ac6f6b",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-08-30T20:39:39Z",
+      "side": 1,
+      "message": "I suggest a comment explaining why we don\u0027t have to do anything if there is no -tags\u003d option in flags.  Perhaps the above comment could be \"Don\u0027t let tags specified in flags override any in GOFLAGS; combine them instead.\"",
+      "revId": "17d9b337a24aaec256bc957f90edcc5d506a2b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
