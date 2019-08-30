@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1547ea65_e3f2a297",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-30T20:38:57Z",
+      "side": 1,
+      "message": "Do we also need this flag in the assembler?",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e37ad96d_49e83f1c",
+        "filename": "src/cmd/internal/obj/arm/obj5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-30T20:38:57Z",
+      "side": 1,
+      "message": "How does this interact with auto-nosplit? On AMD64 the call is inserted in splitstack so auto-nosplit function is not affected, no calls to morestack or mayMoreStack. On non-AMD64 architectures, I think marking it non-leaf here will suppress auto-nosplit, so they\u0027ll get a call to morestack and a call to mayMoreStack.",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91c145b8_1c07909b",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-30T20:38:57Z",
+      "side": 1,
+      "message": "non-empty (it is a string.)",
+      "range": {
+        "startLine": 654,
+        "startChar": 32,
+        "endLine": 654,
+        "endChar": 40
+      },
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5ddd7d2_150981b1",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-30T20:38:57Z",
+      "side": 1,
+      "message": "You probably need to set p.Mark |\u003d BRANCH, so a later pass knows it is a branch instruction and will fill its delay slot.",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "323197eb_08c1f20d",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-30T20:38:57Z",
+      "side": 1,
+      "message": "It seems that stacksplit is expected to return the last new instruction in the prologue. I think we need to update the return value in this case.",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0104e1fe_5b0f5785",
+        "filename": "test/maymorestack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-30T20:38:57Z",
+      "side": 1,
+      "message": "In real implementation it will be runtime.mayMoreStack, but in this test it is main.mayMoreStack. Maybe just say mayMoreStack?",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 29
+      },
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a316123f_8db5b115",
+        "filename": "test/maymorestack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-08-30T20:38:57Z",
+      "side": 1,
+      "message": "This is to mark it ABI0 so it is callable from obj-generated code?",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
