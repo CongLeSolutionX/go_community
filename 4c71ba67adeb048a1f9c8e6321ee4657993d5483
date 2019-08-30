@@ -1,0 +1,232 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21230060_863666f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "An alternative way of thinking about this is that assembly files don\u0027t belong to *any* Go package as far as the toolchain is concerned. After all, they can declare whatever symbols they want with whatever package prefixes they want (though build conventions constrain this). To the extent that those symbols belong to a Go package, they must be declared as bodyless functions in the Go source and *that\u0027s* really what puts them in a Go package.\n\n(Not saying to update the commit message; just pointing this out.)",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9668139f_867510ca",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "Perhaps \"Find a suitable CU DIE ...\"? Otherwise you may be talking about the DIE for the global, rather than its parent.",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9be891a7_e0e16a98",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "In this context, it\u0027s not clear what Textp has to do with anything. IIRC, the more fundamental issue is a global in a package with no retained text symbols doesn\u0027t get assigned a Unit (or maybe doesn\u0027t get assigned a Lib). Consider explaining that here instead.\n\nOTOH, that seems like a bug. :)",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e7b9411_8cc2e7f1",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "I\u0027m confused by how this is possible if lib !\u003d nil. If lib !\u003d nil, then s.Unit !\u003d nil and s.Unit.Lib !\u003d nil; why doesn\u0027t that mean that compUnitsByPackage includes s.Unit?",
+      "range": {
+        "startLine": 871,
+        "startChar": 18,
+        "endLine": 871,
+        "endChar": 56
+      },
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d19df5ab_a11123dd",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1772,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "This map seems really fishy to me. The code never looks at all of the compilation units of a library, which is what this is tracking.\n\nWe need to keep track of the sym.CompilationUnit of runtime to use as our dumping ground (or we should just make a new CU for that), but I don\u0027t think we need this for anything else. If a symbol has a Unit, then we know what Unit to use; and if a symbol doesn\u0027t have a Unit, then it doesn\u0027t have a Lib, and then this map doesn\u0027t help.",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a65185a_c18ecdac",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1827,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "Consider lifting this into the ctxt.Library loop and instead setting the first unit.Consts that you come across.",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfc01561_bb271c50",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1836,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "This name is rather unfortunate. Unfortunately, we use this to set both DW_AT_name and the put this in the symbol table. We already hack around this slightly for DW_ABRV_COMPUNIT, so we could hack around it more. We could also/alternatively abuse the version argument.",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bebc476_95d4e87c",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1867,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "This will never be true. I\u0027m not sure if that means this code should go, or there\u0027s something off with the len(unit.Textp) check at the top of the loop.",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6064d33_403d937e",
+        "filename": "src/cmd/link/internal/objfile/objfile.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "I think this is no longer the previous def, as claimed in the text.",
+      "range": {
+        "startLine": 410,
+        "startChar": 157,
+        "endLine": 410,
+        "endChar": 162
+      },
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7092c06_df0af65a",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "Go",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0c966dd_5bd6bd56",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "library",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8f07220_1a726897",
+        "filename": "src/cmd/link/internal/sym/library.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-08-30T21:43:53Z",
+      "side": 1,
+      "message": "Now I extra don\u0027t think we need ctxt.compUnitsByPackage!\n\nIt looks like the only consumer of this is objfile.Load. Can we just pass the unit to it? Or have it create the unit?",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
