@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "060e6ba8_54f14ba3",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-08-31T03:19:47Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this is right in the general case.  Even on x86, with its simple relocation model, it\u0027s not obvious to me why this is right.  It seems like the goal shouldn\u0027t be a non-relative reloc, it should be to generate a reloc into the final object as though it were against an undefined symbol.\n\nTo do that I\u0027m not sure we need to do any of this.  We could just say, if we are going to do an external link, that any undefined symbol is indeed undefined, and for that case do the right thing for the relocs.",
+      "revId": "6c23f73f71064f6f017c4e6a31c35d4f032b1d73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
