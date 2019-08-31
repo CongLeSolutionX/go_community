@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d312925_489228e0",
+        "filename": "src/net/sendfile_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-08-31T01:08:05Z",
+      "side": 1,
+      "message": "This CL is about sending files. I don\u0027t see any real file is used in your test. Why?\n\nAnd it is fine to have test with large files while you are playing in this CL, but I would not leave test that creates huge file. I would not like to have someone else tests silently creating 2 GB files on my computer.",
+      "revId": "e1888412d9ad073c2cd4fce3b70fc3495a509a20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
