@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "82d8c636_9b7a486b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-01T13:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42bb24ab_f6accf22",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "758bc7a1d597d5c4af04bb6b6d8ad49ffcedbaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "294452d5_b3142595",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4a157022_c89f7e7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-01T13:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "294452d5_b3142595",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 11
+      },
+      "revId": "758bc7a1d597d5c4af04bb6b6d8ad49ffcedbaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a6d407b_b3ae8f14",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2019-09-01T06:41:10Z",
       "side": 1,
       "message": "Fixes #34000.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "758bc7a1d597d5c4af04bb6b6d8ad49ffcedbaaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cab570cc_a42e0669",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-01T13:44:33Z",
+      "side": 1,
+      "message": "I\u0027m not sure what to fix here?",
+      "parentUuid": "9a6d407b_b3ae8f14",
       "range": {
         "startLine": 12,
         "startChar": 0,
