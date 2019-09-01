@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1b65de0_8cb4b53b",
+        "filename": "src/net/sendfile_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-01T06:07:22Z",
+      "side": 1,
+      "message": "According to function doco\n\n// if handled \u003d\u003d true, sendFile returns the number of bytes copied and any\n// non-EOF error.\n\nwe have no choice, but set \"handled\" to true, if we already sent some data. No?",
+      "revId": "a07d7f7ba68a0d88f96bfe1fc5bf9eb59888bc31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6cd1da3_efd72e5a",
+        "filename": "src/net/sendfile_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-01T06:07:22Z",
+      "side": 1,
+      "message": "I would not make doSendFile return \"handled\". Otherwise \"handled\" is set in many different places. And you don\u0027t have doSendFile comment explaining what \"handled\" will be set.\n\nI would do\n\nfunc doSendFile(fd *netFD, lr *io.LimitedReader, f *os.File, remain int64) (written int64, err error)\n\n- it is clear what it does. And set \"handled\" in sendFile function.",
+      "range": {
+        "startLine": 67,
+        "startChar": 102,
+        "endLine": 67,
+        "endChar": 110
+      },
+      "revId": "a07d7f7ba68a0d88f96bfe1fc5bf9eb59888bc31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
