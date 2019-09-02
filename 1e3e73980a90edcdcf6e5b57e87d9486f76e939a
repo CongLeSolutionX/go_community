@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1c022e5_4d36c932",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-09-02T20:13:05Z",
+      "side": 1,
+      "message": "you’ve already documented it.\n\ndoc/go1.13: add an id tag to the note about removing NaCl port",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "1e3e73980a90edcdcf6e5b57e87d9486f76e939a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
