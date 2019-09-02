@@ -759,3 +759,24 @@ func TestImportedSymbolsNoPanicWithSliceOutOfBound(t *testing.T) {
 		t.Fatalf("expected len(syms) == 0, received len(syms) = %d", len(syms))
 	}
 }
+
+func TestUPXed(t *testing.T) {
+	const path = "testdata/gcc-386-mingw-exec-upx"
+	f, err := os.Open(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+
+	fi, err := f.Stat()
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("%v size is %d\n", path, fi.Size())
+
+	pef, err := NewFile(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("%+v\n", pef)
+}
