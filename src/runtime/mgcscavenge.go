@@ -17,7 +17,18 @@
 // scavenger's primary goal is to bring the estimated heap RSS of the
 // application down to a goal.
 //
-// That goal is defined as (retainExtraPercent+100) / 100 * next_gc.
+// That goal is defined as:
+//   (retainExtraPercent+100) / 100 * (last_next_gc / next_gc) * last_heap_inuse
+//
+// Essentially, we wish to have the application's RSS track the heap goal, but
+// the heap goal is defined in terms of bytes of objects, rather than pages like
+// RSS. As a result, we need to take into account for fragmentation internal to
+// spans. last_next_gc / next_gc defines the ratio between the two such that we
+// track changes to next_gc, and using heap_inuse at the end of the last GC rather
+// than next_gc allows us to account for the aforementioned fragmentation. An
+// additional factor of retainExtraPercent is added as a buffer to help ensure
+// that there's more unscavenged memory to allocate out of, since each allocation
+// out of scavenged memory incurs a potentially expensive page fault.
 //
 // The goal is updated after each GC and the scavenger's pacing parameters
 // (which live in mheap_) are updated to match. The pacing parameters work much
@@ -83,14 +94,16 @@ func heapRetained() uint64 {
 //
 // mheap_.lock must be held or the world must be stopped.
 func gcPaceScavenger() {
-	// Compute our scavenging goal and align it to a physical page boundary
-	// to make the following calculations more exact.
-	retainedGoal := memstats.next_gc
+	// Compute our scavenging goal.
+	goalRatio := float64(memstats.next_gc) / float64(memstats.last_next_gc)
+	retainedGoal := uint64(float64(memstats.last_heap_inuse) * goalRatio)
 	// Add retainExtraPercent overhead to retainedGoal. This calculation
 	// looks strange but the purpose is to arrive at an integer division
 	// (e.g. if retainExtraPercent = 12.5, then we get a divisor of 8)
 	// that also avoids the overflow from a multiplication.
 	retainedGoal += retainedGoal / (1.0 / (retainExtraPercent / 100.0))
+	// Align it to a physical page boundary to make the following calculations
+	// a bit more exact.
 	retainedGoal = (retainedGoal + uint64(physPageSize) - 1) &^ (uint64(physPageSize) - 1)
 
 	// Represents where we are now in the heap's contribution to RSS in bytes.
