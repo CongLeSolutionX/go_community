@@ -25,11 +25,14 @@ import (
 import "crypto/internal/boring"
 
 const (
-	VersionSSL30 = 0x0300
 	VersionTLS10 = 0x0301
 	VersionTLS11 = 0x0302
 	VersionTLS12 = 0x0303
 	VersionTLS13 = 0x0304
+
+	// Deprecated: SSLv3 is cryptographically broken, and will be
+	// removed in Go 1.14. See golang.org/issue/32716.
+	VersionSSL30 = 0x0300
 )
 
 const (
@@ -796,7 +799,12 @@ var supportedVersions = []uint16{
 func (c *Config) supportedVersions(isClient bool) []uint16 {
 	versions := make([]uint16, 0, len(supportedVersions))
 	for _, v := range supportedVersions {
+<<<<<<< HEAD   (5a1705 [dev.boringcrypto] misc/boring: add go1.12.9b4 to RELEASES)
 		if needFIPS() && (v < fipsMinVersion(c) || v > fipsMaxVersion(c)) {
+=======
+		// TLS 1.0 is the default minimum version.
+		if (c == nil || c.MinVersion == 0) && v < VersionTLS10 {
+>>>>>>> BRANCH (2ebc3d crypto/tls: make SSLv3 again disabled by default)
 			continue
 		}
 		if c != nil && c.MinVersion != 0 && v < c.MinVersion {
