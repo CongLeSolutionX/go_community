@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ca906f7_7a047f18",
+        "filename": "src/runtime/locklog.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-09-03T22:02:51Z",
+      "side": 1,
+      "message": "This will cause an allocation, which might acquire a lock, which might need to acquire flushLock, which you are already holding.\nI think you have a lock cycle in your lock cycle detector...",
+      "range": {
+        "startLine": 68,
+        "startChar": 17,
+        "endLine": 68,
+        "endChar": 31
+      },
+      "revId": "0991361a81fa50f4565ba3904d0cb3ffe4adbe4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2ac79e9_1cf1792b",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-09-03T22:02:51Z",
+      "side": 1,
+      "message": "Is this the only case where we provide a rank? Maybe add a lockRanked function and then you can remove the \"0\" from all the lockLabeled calls.",
+      "range": {
+        "startLine": 51,
+        "startChar": 40,
+        "endLine": 51,
+        "endChar": 59
+      },
+      "revId": "0991361a81fa50f4565ba3904d0cb3ffe4adbe4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
