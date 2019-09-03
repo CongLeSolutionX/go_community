@@ -22,6 +22,30 @@
       "revId": "485cff94404db928c64505f8d3eca990ef2da909",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "879849fb_6e18cd62",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-03T17:35:56Z",
+      "side": 1,
+      "message": "I think that would work correctly, but this way uses less stack space.\n\nIf we decrement defercalc before the call to dowidth, then when dowidth calls back into resumecheckwidth before returning, that recursive resumecheckwidth call will end up processing the stack instead. And then so on for each deferred type in the stack.",
+      "parentUuid": "5d11fa2f_71622fa7",
+      "range": {
+        "startLine": 443,
+        "startChar": 4,
+        "endLine": 443,
+        "endChar": 13
+      },
+      "revId": "485cff94404db928c64505f8d3eca990ef2da909",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
