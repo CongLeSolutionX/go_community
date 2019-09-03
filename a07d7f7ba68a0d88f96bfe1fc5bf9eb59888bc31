@@ -81,6 +81,30 @@
       "revId": "a07d7f7ba68a0d88f96bfe1fc5bf9eb59888bc31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7556944f_dc07197c",
+        "filename": "src/net/sendfile_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-03T09:44:51Z",
+      "side": 1,
+      "message": "How about this version of sendFile\n\nhttps://play.golang.org/p/FGDfL2dmuM6\n\n? It looks simpler to me, because `handled` is set in one single place.",
+      "parentUuid": "06c23cbf_0d47b6c2",
+      "range": {
+        "startLine": 67,
+        "startChar": 102,
+        "endLine": 67,
+        "endChar": 110
+      },
+      "revId": "a07d7f7ba68a0d88f96bfe1fc5bf9eb59888bc31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
