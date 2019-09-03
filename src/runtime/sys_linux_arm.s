@@ -237,6 +237,9 @@ TEXT runtime·walltime(SB),NOSPLIT,$0-12
 	MOVW	(g_sched+gobuf_sp)(R0), R13	 // Set SP to g0 stack
 
 noswitch:
+	MOVW	g, R0
+	MCR	15, 0, R0, C13, C0, 2
+
 	SUB	$24, R13	// Space for results
 	BIC	$0x7, R13	// Align for C code
 
@@ -247,6 +250,10 @@ noswitch:
 	B.EQ	fallback
 
 	BL	(R11)
+
+	MOVW	$0, R0
+	MCR	15, 0, R0, C13, C0, 2
+
 	JMP	finish
 
 fallback:
@@ -288,6 +295,9 @@ TEXT runtime·nanotime(SB),NOSPLIT,$0-8
 	MOVW	(g_sched+gobuf_sp)(R0), R13	// Set SP to g0 stack
 
 noswitch:
+	MOVW	g, R0
+	MCR	15, 0, R0, C13, C0, 2
+
 	SUB	$24, R13	// Space for results
 	BIC	$0x7, R13	// Align for C code
 
@@ -298,6 +308,10 @@ noswitch:
 	B.EQ	fallback
 
 	BL	(R11)
+
+	MOVW	$0, R0
+	MCR	15, 0, R0, C13, C0, 2
+
 	JMP	finish
 
 fallback:
@@ -439,10 +453,21 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$12
 	// where g is not set.
 	// first save R0, because runtime·load_g will clobber it
 	MOVW	R0, 4(R13)
+
 	MOVB	runtime·iscgo(SB), R0
 	CMP 	$0, R0
-	BL.NE	runtime·load_g(SB)
+	B.NE	cgo
 
+	MRC	15, 0, R0, C13, C0, 2
+	CMP 	$0, R0
+	MOVW.NE	R0, g
+	B	gate
+
+cgo:
+	BL	runtime·load_g(SB)
+	B	gate
+
+gate:
 	MOVW	R1, 8(R13)
 	MOVW	R2, 12(R13)
 	MOVW  	$runtime·sigtrampgo(SB), R11
