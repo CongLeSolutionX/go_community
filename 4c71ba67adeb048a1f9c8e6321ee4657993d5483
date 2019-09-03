@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "37e51729_062b5514",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9668139f_867510ca",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9be891a7_e0e16a98",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
@@ -50,6 +68,24 @@
       "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec396aed_ce1bd03f",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "Ok, with the removal of compUnitsByLibrary, we\u0027re back to old performance, and this code is a bit more readable.",
+      "parentUuid": "9be891a7_e0e16a98",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "dcf96df3_449331f9",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "Yeah, I can see how that would be confusing, but this right. I\u0027ll drop a comment here, but it follows from the above. If we\u0027re a symbol that isn\u0027t in a unit with live code, there might not be any live CUs. In other words, compUnitsByPackage have been deadcoded, and for a given package, there might not be any live code, only live variables.",
+      "parentUuid": "4e7b9411_8cc2e7f1",
+      "range": {
+        "startLine": 871,
+        "startChar": 18,
+        "endLine": 871,
+        "endChar": 56
+      },
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d19df5ab_a11123dd",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
@@ -90,6 +150,24 @@
       "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6760e83_6b73fd10",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1772,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "You will be happy to know I\u0027ve yanked it out.",
+      "parentUuid": "d19df5ab_a11123dd",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "ef59bcd7_a5db8c22",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1827,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a65185a_c18ecdac",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfc01561_bb271c50",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
@@ -121,6 +217,24 @@
       "writtenOn": "2019-08-30T21:43:53Z",
       "side": 1,
       "message": "This name is rather unfortunate. Unfortunately, we use this to set both DW_AT_name and the put this in the symbol table. We already hack around this slightly for DW_ABRV_COMPUNIT, so we could hack around it more. We could also/alternatively abuse the version argument.",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88b0f3b6_6dffec0c",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1836,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "I\u0027ve tweaked the naming somewhat, as I had promised Alessandro I would. I agree it\u0027s kinda terrible tho.",
+      "parentUuid": "dfc01561_bb271c50",
       "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -144,6 +258,24 @@
     },
     {
       "key": {
+        "uuid": "e28949f7_7bed91bd",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1867,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "This is dead.",
+      "parentUuid": "6bebc476_95d4e87c",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6064d33_403d937e",
         "filename": "src/cmd/link/internal/objfile/objfile.go",
         "patchSetId": 8
@@ -164,6 +296,30 @@
       "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "431db94a_211b641f",
+        "filename": "src/cmd/link/internal/objfile/objfile.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "hmm. that\u0027s a sad change that lived too long.",
+      "parentUuid": "d6064d33_403d937e",
+      "range": {
+        "startLine": 410,
+        "startChar": 157,
+        "endLine": 410,
+        "endChar": 162
+      },
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -213,6 +369,54 @@
     },
     {
       "key": {
+        "uuid": "7c656291_3d6136a8",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7092c06_df0af65a",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d18ffe9_18bdac9d",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0c966dd_5bd6bd56",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8f07220_1a726897",
         "filename": "src/cmd/link/internal/sym/library.go",
         "patchSetId": 8
@@ -227,6 +431,24 @@
       "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b07879c0_f4c48688",
+        "filename": "src/cmd/link/internal/sym/library.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-03T19:55:57Z",
+      "side": 1,
+      "message": "Per conversations online, and offline, it\u0027s gone. :P",
+      "parentUuid": "d8f07220_1a726897",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
