@@ -725,6 +725,8 @@ mapped:
 				throw("out of memory allocating heap arena metadata")
 			}
 		}
+		// Mark every page as scavenged to begin with.
+		r.pageAlloc.scavenged.setAll()
 
 		// Add the arena to the arenas list.
 		if len(h.allArenas) == cap(h.allArenas) {
