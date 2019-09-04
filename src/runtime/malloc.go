@@ -724,6 +724,8 @@ mapped:
 				throw("out of memory allocating heap arena metadata")
 			}
 		}
+		// Mark every page as scavenged to begin with.
+		r.pageAlloc.scavenged.setAll()
 
 		// Add the arena to the arenas list.
 		if len(h.allArenas) == cap(h.allArenas) {
@@ -752,6 +754,9 @@ mapped:
 		// little downside to this).
 		atomic.StorepNoWB(unsafe.Pointer(&l2[ri.l2()]), unsafe.Pointer(r))
 	}
+
+	// Update page allocator metadata.
+	h.pages.setArenas(uintptr(v), int(size/heapArenaBytes), &memstats.gc_sys)
 
 	// Tell the race detector about the new heap memory.
 	if raceenabled {
