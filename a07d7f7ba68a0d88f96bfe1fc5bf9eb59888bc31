@@ -105,6 +105,30 @@
       "revId": "a07d7f7ba68a0d88f96bfe1fc5bf9eb59888bc31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "245d815c_c21c5cb6",
+        "filename": "src/net/sendfile_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-04T02:56:56Z",
+      "side": 1,
+      "message": "Sure that is simpler, thank you!",
+      "parentUuid": "7556944f_dc07197c",
+      "range": {
+        "startLine": 67,
+        "startChar": 102,
+        "endLine": 67,
+        "endChar": 110
+      },
+      "revId": "a07d7f7ba68a0d88f96bfe1fc5bf9eb59888bc31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

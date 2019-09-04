@@ -16,6 +16,24 @@
       "revId": "fde4cbc6f57b6e1b1e6e46b5b4629c9cff773878",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b56bc50f_63a459e9",
+        "filename": "src/net/sendfile_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-04T02:56:56Z",
+      "side": 1,
+      "message": "It\u0027s just an extraction of the old code as was, if it is to be used\nin multiple places with a minimal change, otherwise I have to perform\nthe lr.N -\u003d int64(done) in more than 1 place.\n\nBut sure, I can document that and later we can refactor it.",
+      "parentUuid": "cd4fb6fe_138526a2",
+      "revId": "fde4cbc6f57b6e1b1e6e46b5b4629c9cff773878",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
