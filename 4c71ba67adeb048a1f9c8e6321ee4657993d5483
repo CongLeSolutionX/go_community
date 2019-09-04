@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "5e0bc080_cdd7e863",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-04T15:29:09Z",
+      "side": 1,
+      "message": "Old code would only have a CU if we had reachable code.\n\nIn the current form, we retain that behavior: we only have CUs if we have reachable code. If a global variable (for instance) is imported in an otherwise dead piece CU, the variable will be under a runtime CU.\n\nI could be convinced to move to a different approach if enough people feel strongly.",
+      "parentUuid": "c0f5379f_c786fb60",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e7b9411_8cc2e7f1",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
