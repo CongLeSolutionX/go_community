@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fd58adf_a3288553",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-04T20:36:18Z",
+      "side": 1,
+      "message": "Add a comment that we expect these (except the PC) as the initial values of the state machine, and it must match the \"reset\" at the end of this function.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "365b7211_de1743af",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-04T20:36:18Z",
+      "side": 1,
+      "message": "Would it be better to panic?",
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68283a8a_9d134658",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-04T20:36:18Z",
+      "side": 1,
+      "message": "To save binary size we probably don\u0027t need to emit DW_LNS_set_file at the end. We could just emit a DW_LNS_set_file at the beginning of a function, directly setting to the correct value.",
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24a2ec23_fc9ec8f6",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-04T20:36:18Z",
+      "side": 1,
+      "message": "It seems we never set column number, so no need to reset.",
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6ecf66e_c1be1688",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-04T20:36:18Z",
+      "side": 1,
+      "message": "Comment that this maps file name to index.",
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a92acad4_48004049",
+        "filename": "src/cmd/link/internal/objfile/objfile.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-04T20:36:18Z",
+      "side": 1,
+      "message": "Undo this in the follow-up CL?",
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
