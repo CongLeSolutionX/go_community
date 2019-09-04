@@ -176,6 +176,19 @@ func TestPhysicalMemoryUtilization(t *testing.T) {
 	}
 }
 
+func TestScavengedBitsCleared(t *testing.T) {
+	var mismatches [128]BitsMismatch
+	if n, ok := CheckScavengedBitsCleared(mismatches[:]); !ok {
+		t.Errorf("uncleared scavenged bits")
+		for _, m := range mismatches[:n] {
+			t.Logf("\t@ address 0x%x", m.Base)
+			t.Logf("\t|  got: %064b", m.Got)
+			t.Logf("\t| want: %064b", m.Want)
+		}
+		t.FailNow()
+	}
+}
+
 type acLink struct {
 	x [1 << 20]byte
 }
