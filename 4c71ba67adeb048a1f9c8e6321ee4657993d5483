@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "a17ecaa1_9f182e5d",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-04T15:50:33Z",
+      "side": 1,
+      "message": "Emmm. I tried this example:\n\n// p.go\npackage p; var X \u003d 42\n\n// main.go\npackage main; import \"p\"; func main() { println(p.X) }\n\nOn the current tip, the p.X DIE is in the CU of package p, which has only one DIE. Built with this CL, the p.X DIE belongs to the runtime CU, and package p\u0027s CU is gone.\n\nI don\u0027t have a strong preference on this, as in the end CU is a more-or-less artificial concept. But deadcoding CU based on text but not data symbols does feel a bit weird to me. (Maybe we should check with the users who actually use the CUs?)\n\nLGTM besides this. Thanks.",
+      "parentUuid": "5e0bc080_cdd7e863",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e7b9411_8cc2e7f1",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
