@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "975ac5b3_623197b1",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-04T18:38:30Z",
+      "side": 1,
+      "message": "Ok. Not sure why I thought it was all globals. With all the thoughts on this, I\u0027ve gone back to empty compunits. Latest upload should fix which compunit a global is declared in.",
+      "parentUuid": "a17ecaa1_9f182e5d",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e7b9411_8cc2e7f1",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
