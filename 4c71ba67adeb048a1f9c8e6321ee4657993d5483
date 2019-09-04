@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c0f5379f_c786fb60",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-04T15:26:08Z",
+      "side": 1,
+      "message": "Is this saying that we deadcode CUs if there is no reachable text symbols from it? I think we should only deadcode CU if there is no _any_ reachable symbol. In another word, if a data symbol is reachable, we should retain the CU. What does the old do? (This may be fine if the old code didn\u0027t do the \"right\" thing. But perhaps we should fix it at some point.)\n\nThat makes me think when should we get here with a global without a CU. Perhaps linker generated globals?",
+      "parentUuid": "ec396aed_ce1bd03f",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e7b9411_8cc2e7f1",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
