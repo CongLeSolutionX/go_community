@@ -134,9 +134,7 @@ func gcPaceScavenger() {
 		return
 	}
 	mheap_.scavengeGoal = retainedGoal
-	if !oldPageAllocator {
-		mheap_.pages.resetScavengeAddr()
-	}
+	mheap_.pages.resetScavengeAddr()
 }
 
 // Sleep/wait state of the background scavenger.
@@ -254,22 +252,12 @@ func bgscavenge(c chan int) {
 				unlock(&mheap_.lock)
 				return
 			}
+			unlock(&mheap_.lock)
 
-			if oldPageAllocator {
-				// Scavenge one page, and measure the amount of time spent scavenging.
-				start := nanotime()
-				released = mheap_.scavengeLocked(physPageSize)
-				crit = nanotime() - start
-
-				unlock(&mheap_.lock)
-			} else {
-				unlock(&mheap_.lock)
-
-				// Scavenge one page, and measure the amount of time spent scavenging.
-				start := nanotime()
-				released = mheap_.pages.scavengeOne(physPageSize, false)
-				crit = nanotime() - start
-			}
+			// Scavenge one page, and measure the amount of time spent scavenging.
+			start := nanotime()
+			released = mheap_.pages.scavengeOne(physPageSize, false)
+			crit = nanotime() - start
 		})
 
 		if debug.gctrace > 0 {
