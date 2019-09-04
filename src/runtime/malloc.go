@@ -315,9 +315,6 @@ const (
 	//
 	// This should agree with minZeroPage in the compiler.
 	minLegalPointer uintptr = 4096
-
-	// Whether to use the old page allocator or not.
-	oldPageAllocator = false
 )
 
 // physPageSize is the size in bytes of the OS's physical pages.
@@ -731,11 +728,10 @@ mapped:
 				throw("out of memory allocating heap arena metadata")
 			}
 		}
-		if !oldPageAllocator {
-			// Mark every page as scavenged to begin with.
-			for c := 0; c < mallocChunksPerArena; c++ {
-				r.pageAlloc[c].scavenged.setAll()
-			}
+
+		// Mark every page as scavenged to begin with.
+		for c := 0; c < mallocChunksPerArena; c++ {
+			r.pageAlloc[c].scavenged.setAll()
 		}
 
 		// Add the arena to the arenas list.
