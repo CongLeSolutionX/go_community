@@ -465,6 +465,8 @@ func (s *pageAlloc) allocSlow(npages uintptr) (uintptr, uintptr, uintptr) {
 	// hint is the best hint we could glean from our search.
 	// Zero indicates we have no hint yet.
 	hint := uintptr(0)
+	lastsum := packMallocSum(0, 0, 0)
+	lastidx := -1
 nextLevel:
 	for l := 0; l < len(s.summary); l++ {
 		b := levelBits[l]
@@ -508,6 +510,8 @@ nextLevel:
 			if sum.max() >= int(npages) {
 				// The entry itself contains npages contiguous
 				// free pages, so drop down into the next level.
+				lastidx = i + j
+				lastsum = sum
 				i += j
 				continue nextLevel
 			}
@@ -545,6 +549,20 @@ nextLevel:
 			return addr, hint, scav
 		}
 		if l != 0 {
+			print("runtime: summary[", l-1, "][", lastidx, "] = ", lastsum.start(), ", ", lastsum.max(), ", ", lastsum.end(), "\n")
+			print("runtime: level = ", l, ", npages = ", npages, ", j0 = ", j0, "\n")
+			print("runtime: s.hint = ", hex(s.hint), ", i = ", i, ", levelShift[level] = ", levelShift[l], ", e = ", e, "\n")
+			for j := 0; j < len(level); j++ {
+				sum := level[j]
+				print("runtime: summary[", l, "][", i+j, "] = (", sum.start(), ", ", sum.max(), ", ", sum.end(), ")\n")
+				if l == len(s.summary)-1 {
+					if a := s.arenas(arenaIdx(i + j)); a != nil {
+						for z, b := range a.pageAlloc.mallocBits {
+							print("runtime: mallocbits[", z, "] = ", hex(uintptr(b)), "\n")
+						}
+					}
+				}
+			}
 			throw("bad summary data")
 		}
 		// We're at level zero, so that means we've exhausted our search.
@@ -559,6 +577,11 @@ nextLevel:
 	ai := arenaIdx(i / mallocChunksPerArena)
 	j, h, scav := s.arenas(ai).pageAlloc.alloc(npages, (i%mallocChunksPerArena)*mallocChunkPages)
 	if j < 0 {
+		max := s.summary[len(s.summary)-1][i].max()
+		print("runtime: max = ", max, ", npages = ", npages, "\n")
+		for z, b := range s.arenas(arenaIdx(i)).pageAlloc.mallocBits {
+			print("runtime: mallocbits[", z, "] = ", hex(uintptr(b)), "\n")
+		}
 		throw("bad summary data")
 	}
 	addr := arenaBase(ai) + uintptr(j)*pageSize
@@ -583,10 +606,15 @@ func (s *pageAlloc) alloc(npages uintptr) (uintptr, uintptr) {
 	if mallocChunkPages-chunkPageIndex(s.hint) >= int(npages) {
 		// npages is guaranteed to be no greater than pagesPerArena here.
 		ci := chunkIndex(s.hint)
-		if s.summary[len(s.summary)-1][ci].max() >= int(npages) {
+		if max := s.summary[len(s.summary)-1][ci].max(); max >= int(npages) {
 			i := arenaIndex(s.hint)
 			j, h, sp := s.arenas(i).pageAlloc.alloc(npages, arenaPageIndex(s.hint))
 			if j < 0 {
+				print("runtime: max = ", max, ", npages = ", npages, "\n")
+				print("runtime: hintIndex = ", arenaPageIndex(s.hint), ", s.hint = ", hex(s.hint), "\n")
+				for z, b := range s.arenas(i).pageAlloc.mallocBits {
+					print("runtime: mallocbits[", z, "] = ", hex(uintptr(b)), "\n")
+				}
 				throw("bad summary data")
 			}
 			addr = arenaBase(i) + uintptr(j)*pageSize
