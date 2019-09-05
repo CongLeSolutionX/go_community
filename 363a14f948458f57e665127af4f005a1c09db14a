@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ccc0959_763a931e",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-05T19:48:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fd58adf_a3288553",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "365b7211_de1743af",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 13
@@ -39,6 +63,24 @@
       "revId": "363a14f948458f57e665127af4f005a1c09db14a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b23ec4cd_513b7bb4",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-05T19:48:07Z",
+      "side": 1,
+      "message": "Sure, this is just copy/paste from previous code though.",
+      "parentUuid": "365b7211_de1743af",
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "f70abf70_02bcf757",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-05T19:48:07Z",
+      "side": 1,
+      "message": "Sure, but as written, we don\u0027t actually output the filenumber at the beginning. Personally, I prefer it here as it\u0027s a \"cleanup\". If you really disagree, I\u0027m not ready to die on this hill, so I\u0027ll change it.",
+      "parentUuid": "68283a8a_9d134658",
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24a2ec23_fc9ec8f6",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 13
@@ -73,6 +133,24 @@
       "revId": "363a14f948458f57e665127af4f005a1c09db14a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa7a5c08_ba05f893",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-05T19:48:07Z",
+      "side": 1,
+      "message": "Was just doing it for completeness\u0027 sake.",
+      "parentUuid": "24a2ec23_fc9ec8f6",
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "a8876ff9_765f6a20",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-05T19:48:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6ecf66e_c1be1688",
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a92acad4_48004049",
         "filename": "src/cmd/link/internal/objfile/objfile.go",
         "patchSetId": 13
@@ -107,6 +203,24 @@
       "revId": "363a14f948458f57e665127af4f005a1c09db14a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c416f513_22f6f05d",
+        "filename": "src/cmd/link/internal/objfile/objfile.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-05T19:48:07Z",
+      "side": 1,
+      "message": "Unfortunately, I think this needs to stick around :(",
+      "parentUuid": "a92acad4_48004049",
+      "revId": "363a14f948458f57e665127af4f005a1c09db14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
