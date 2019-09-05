@@ -105,6 +105,24 @@
       "revId": "aae0b5b0b26bf4fd26cad0111535d703691a9083",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b641bab0_cc5aafe5",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-05T18:30:56Z",
+      "side": 0,
+      "message": "Yes. Solving the third case will be hard.",
+      "parentUuid": "4dce373c_30b82ae0",
+      "revId": "aae0b5b0b26bf4fd26cad0111535d703691a9083",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

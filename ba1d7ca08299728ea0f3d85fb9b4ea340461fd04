@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a953fcc4_75d65625",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-05T18:30:56Z",
+      "side": 1,
+      "message": "nit:\n\n    // block is like stmts but preserves loopDepth.",
+      "revId": "ba1d7ca08299728ea0f3d85fb9b4ea340461fd04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5227686b_797f95f4",
+        "filename": "test/escape6.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-05T18:30:56Z",
+      "side": 1,
+      "message": "Might as well call this escape_goto.go.",
+      "revId": "ba1d7ca08299728ea0f3d85fb9b4ea340461fd04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "029aef46_1c6ccad1",
+        "filename": "test/escape6.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-05T18:30:56Z",
+      "side": 1,
+      "message": "Here\u0027s the test case that I had locally:\n\n// Test escape analysis for goto statements.\n\npackage escape\n\nvar x bool\n\nfunc _() {\n\tvar p *int\nloop:\n\tif x {\n\t\tgoto loop\n\t}\n\t// BAD: We should be able to recognize that there\n\t// aren\u0027t any more \"goto loop\" after here.\n\tp \u003d new(int) // ERROR \"escapes to heap\"\n\t_ \u003d p\n}\n\nfunc _() {\n\tvar p *int\n\tif x {\n\tloop:\n\t\tgoto loop\n\t} else {\n\t\tp \u003d new(int) // ERROR \"does not escape\"\n\t}\n\t_ \u003d p\n}\n\nfunc _() {\n\tvar p *int\n\tif x {\n\tloop:\n\t\tgoto loop\n\t}\n\tp \u003d new(int) // ERROR \"does not escape\"\n\t_ \u003d p\n}",
+      "revId": "ba1d7ca08299728ea0f3d85fb9b4ea340461fd04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
