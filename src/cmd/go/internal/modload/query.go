@@ -378,6 +378,9 @@ func QueryPattern(pattern, query string, allowed func(module.Version) bool) ([]Q
 			if err != nil {
 				return r, err
 			}
+			if rm := Replacement(r.Mod); rm.Path != "" {
+				r.Mod = rm
+			}
 			r.Packages = match(r.Mod, root, isLocal)
 			if len(r.Packages) == 0 {
 				return r, &PackageNotInModuleError{
