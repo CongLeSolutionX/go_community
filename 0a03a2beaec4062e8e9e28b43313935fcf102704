@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f32477a_2abd6baf",
+        "filename": "src/errors/wrap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2019-09-05T21:45:04Z",
+      "side": 1,
+      "message": "This does not capture the full complexity of the algorithm, as described just above. Also, it uses the word \"contains,\" which is undefined in this context.\n\nHow about, after \n\n  and if so, sets target to that error value and returns true.\n\nwe add\n\n  Otherwise, it returns false.",
+      "range": {
+        "startLine": 76,
+        "startChar": 67,
+        "endLine": 77,
+        "endChar": 39
+      },
+      "revId": "0a03a2beaec4062e8e9e28b43313935fcf102704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
