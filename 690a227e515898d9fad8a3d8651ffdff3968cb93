@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73ffa452_1924735d",
+        "filename": "misc/cgo/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1959,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-09-05T21:46:53Z",
+      "side": 1,
+      "message": "this constant looks a little too magic until you realize what it is. Use a shift?",
+      "revId": "690a227e515898d9fad8a3d8651ffdff3968cb93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
