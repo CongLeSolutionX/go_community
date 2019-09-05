@@ -73,7 +73,8 @@ func Is(err, target error) bool {
 // a different error type.
 //
 // As panics if target is not a non-nil pointer to either a type that implements
-// error, or to any interface type. As returns false if err is nil.
+// error, or to any interface type. As returns false if err is nil or does not
+// contain an error of the target type.
 func As(err error, target interface{}) bool {
 	if target == nil {
 		panic("errors: target cannot be nil")
