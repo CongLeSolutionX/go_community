@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d73042e3_7376351d",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-05T17:17:12Z",
+      "side": 0,
+      "message": "This assignment is important so that we cleanup n.Sym.Label before escape analysis finishes. If we leave n.Sym.Label set to \u0026nonlooping, it could affect escape analysis of subsequent functions that use the same symbols.",
+      "revId": "aae0b5b0b26bf4fd26cad0111535d703691a9083",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a4ef5e0_69b462f3",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-05T17:17:12Z",
+      "side": 0,
+      "message": "What I had in mind here was adding a function like:\n\n    func (e *Escape) block(l Nodes) {\n        old :\u003d e.loopDepth\n        e.stmts(l)\n        e.loopDepth \u003d old\n    }\n\nand then replacing calls to e.stmts with e.block where it\u0027s safe.\n\nI\u0027m pretty sure all of the calls to e.stmts(x.Nbody) and e.stmts(x.Rlist) are safe.",
+      "revId": "aae0b5b0b26bf4fd26cad0111535d703691a9083",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
