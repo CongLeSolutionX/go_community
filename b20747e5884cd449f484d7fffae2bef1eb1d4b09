@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "cac0ee22_ac2210bd",
+        "filename": "src/crypto/tls/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-09-05T21:45:27Z",
+      "side": 1,
+      "message": "This is a little weird.  Examples are supposed to be pretty close to code users would actually write (as opposed to unit tests) and we wouldn\u0027t expect people to write \"_ \u003d x\" for an unused x parameter.",
+      "range": {
+        "startLine": 212,
+        "startChar": 2,
+        "endLine": 213,
+        "endChar": 20
+      },
+      "revId": "b20747e5884cd449f484d7fffae2bef1eb1d4b09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8176020_9aeb4dc6",
         "filename": "src/crypto/tls/example_test.go",
         "patchSetId": 4
