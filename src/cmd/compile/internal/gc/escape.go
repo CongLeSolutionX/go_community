@@ -254,8 +254,14 @@ func (e *Escape) stmt(n *Node) {
 	case ODCLCONST, ODCLTYPE, OEMPTY, OFALL, OINLMARK:
 		// nop
 
-	case OBREAK, OCONTINUE, OGOTO:
+	case OBREAK, OCONTINUE:
 		// TODO(mdempsky): Handle dead code?
+
+	case OGOTO:
+		// We are in a looping label, decrease loopdepth.
+		if n.Sym.Label == nil {
+			e.loopDepth--
+		}
 
 	case OBLOCK:
 		e.stmts(n.List)
@@ -277,10 +283,10 @@ func (e *Escape) stmt(n *Node) {
 				fmt.Printf("%v: %v looping label\n", linestr(lineno), n)
 			}
 			e.loopDepth++
+			n.Sym.Label = nil
 		default:
 			Fatalf("label missing tag")
 		}
-		n.Sym.Label = nil
 
 	case OIF:
 		e.discard(n.Left)
@@ -398,7 +404,6 @@ func (e *Escape) stmt(n *Node) {
 }
 
 func (e *Escape) stmts(l Nodes) {
-	// TODO(mdempsky): Preserve and restore e.loopDepth? See also #22438.
 	for _, n := range l.Slice() {
 		e.stmt(n)
 	}
