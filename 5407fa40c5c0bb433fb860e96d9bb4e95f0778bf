@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbc791aa_d0f0d522",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-09-05T23:59:57Z",
+      "side": 1,
+      "message": "By the way, you should remove this paragraph.",
+      "revId": "5407fa40c5c0bb433fb860e96d9bb4e95f0778bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7850ef5_67c18626",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-09-05T23:59:57Z",
+      "side": 1,
+      "message": "You don\u0027t need to say \"\u003d nil\".",
+      "revId": "5407fa40c5c0bb433fb860e96d9bb4e95f0778bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a10404d_c701889c",
+        "filename": "src/runtime/vdso_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-09-05T23:59:57Z",
+      "side": 1,
+      "message": "Write comments with proper capitalization and punctuation.  Thanks.",
+      "revId": "5407fa40c5c0bb433fb860e96d9bb4e95f0778bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c040c3ff_02f38852",
+        "filename": "src/runtime/vdso_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-09-05T23:59:57Z",
+      "side": 1,
+      "message": "This is a test, so it can\u0027t just exit.  That would stop running all other tests.  This needs to be\n    t.Fatal(err)\n\nSimilarly below.\n\nBut really this should probably be code in runtime/testdata/testprog, with a test in runtime/crash_test.go.  See other examples.",
+      "revId": "5407fa40c5c0bb433fb860e96d9bb4e95f0778bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
