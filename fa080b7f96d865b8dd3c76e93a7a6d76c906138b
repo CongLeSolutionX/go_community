@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82faf51e_ca2e8a1b",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-05T16:47:50Z",
+      "side": 1,
+      "message": "Hmm... I don\u0027t think this is quite correct. If I understand correctly, this would put the replacement module in the `require` section, which could introduce an ambiguous import.\n\nHopefully we only need to fix the error message instead.",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 383,
+        "endChar": 4
+      },
+      "revId": "fa080b7f96d865b8dd3c76e93a7a6d76c906138b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
