@@ -69,6 +69,24 @@
       "revId": "aae0b5b0b26bf4fd26cad0111535d703691a9083",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce18b972_d4c37056",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-05T17:38:38Z",
+      "side": 0,
+      "message": "Don\u0027t worry about the second case. No one writes Go code like that.\n\nThe third case is actually interesting, but will require more sophisticated control flow analysis.\n\n[Aside: The reason the second case doesn\u0027t work is because of all the \"n.Op \u003d\u003d OBLOCK \u0026\u0026 n.Ninit.Len() \u003d\u003d 0\" special case logic in noder.go. Theoretically, we should be able to just remove that logic, but I\u0027m concerned it would have other undesirable consequences. So I wouldn\u0027t recommend spending time on it.]",
+      "parentUuid": "a31970e9_3486188e",
+      "revId": "aae0b5b0b26bf4fd26cad0111535d703691a9083",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
