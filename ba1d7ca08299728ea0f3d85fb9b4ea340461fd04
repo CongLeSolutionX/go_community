@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ab0a569c_bea54443",
+        "filename": "src/cmd/compile/internal/gc/escape.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-05T23:00:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a953fcc4_75d65625",
+      "revId": "ba1d7ca08299728ea0f3d85fb9b4ea340461fd04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5227686b_797f95f4",
         "filename": "test/escape6.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "4fd433a8_c827dd36",
+        "filename": "test/escape6.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-05T23:00:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5227686b_797f95f4",
+      "revId": "ba1d7ca08299728ea0f3d85fb9b4ea340461fd04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "029aef46_1c6ccad1",
         "filename": "test/escape6.go",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "ba1d7ca08299728ea0f3d85fb9b4ea340461fd04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d81ca4da_42a1c2cb",
+        "filename": "test/escape6.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-05T23:00:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "029aef46_1c6ccad1",
+      "revId": "ba1d7ca08299728ea0f3d85fb9b4ea340461fd04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
