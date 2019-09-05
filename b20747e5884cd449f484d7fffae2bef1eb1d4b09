@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8176020_9aeb4dc6",
+        "filename": "src/crypto/tls/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2019-09-05T21:23:10Z",
+      "side": 1,
+      "message": "Just to be consistent with the wording in the other section, I suggest the following (or something similar):\n\n// On the server side, set KeyUsages to ExtKeyUsageClientAuth. The default value\n// is appropriate for clients side certificates usage.\n\n\nIt took me a little while to realize that the commented sections were intentionally commented and not a bug.",
+      "range": {
+        "startLine": 228,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 28
+      },
+      "revId": "b20747e5884cd449f484d7fffae2bef1eb1d4b09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
