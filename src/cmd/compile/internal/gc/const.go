@@ -349,10 +349,7 @@ func convlit1(n *Node, t *types.Type, explicit bool, reuse canReuseNode) *Node {
 		case TARRAY:
 			goto bad
 
-		case TPTR, TUNSAFEPTR:
-			n.SetVal(Val{new(Mpint)})
-
-		case TCHAN, TFUNC, TINTER, TMAP, TSLICE:
+		case TCHAN, TFUNC, TINTER, TMAP, TPTR, TSLICE, TUNSAFEPTR:
 			break
 		}
 
@@ -732,15 +729,6 @@ func compareOp(x Val, op Op, y Val) bool {
 	x, y = match(x, y)
 
 	switch x.Ctype() {
-	case CTNIL:
-		_, _ = x.U.(*NilVal), y.U.(*NilVal) // assert dynamic types match
-		switch op {
-		case OEQ:
-			return true
-		case ONE:
-			return false
-		}
-
 	case CTBOOL:
 		x, y := x.U.(bool), y.U.(bool)
 		switch op {
