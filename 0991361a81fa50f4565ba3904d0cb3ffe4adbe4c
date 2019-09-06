@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "6632777f_5545aeac",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-06T19:14:40Z",
+      "side": 1,
+      "message": "would it be too expensive to move this to the top of getempty, or perhaps even closer to the beginning of the write barrier slow path?",
+      "range": {
+        "startLine": 438,
+        "startChar": 0,
+        "endLine": 440,
+        "endChar": 33
+      },
+      "revId": "0991361a81fa50f4565ba3904d0cb3ffe4adbe4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a2ac79e9_1cf1792b",
         "filename": "src/runtime/select.go",
         "patchSetId": 1
