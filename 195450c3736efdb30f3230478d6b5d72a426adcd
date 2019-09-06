@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8529926_c261e5a3",
+        "filename": "src/syscall/syscall_aix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2019-09-06T05:53:12Z",
+      "side": 1,
+      "message": "This is not strictly needed to fix #33982, but I\u0027m not sure what the rules are regarding adding new API to release branches (vs. merging CLs with as few changes as possible).",
+      "range": {
+        "startLine": 440,
+        "startChar": 5,
+        "endLine": 440,
+        "endChar": 21
+      },
+      "revId": "195450c3736efdb30f3230478d6b5d72a426adcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
