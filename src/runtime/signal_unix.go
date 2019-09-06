@@ -289,7 +289,10 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 	if sigfwdgo(sig, info, ctx) {
 		return
 	}
-	g := getg()
+	var g *g
+	if !inVDSOPage(uintptr(info.si_addr)) {
+		g = getg()
+	}
 	if g == nil {
 		c := &sigctxt{info, ctx}
 		if sig == _SIGPROF {
@@ -657,8 +660,12 @@ func sigfwdgo(sig uint32, info *siginfo, ctx unsafe.Pointer) bool {
 		return false
 	}
 	// Determine if the signal occurred inside Go code. We test that:
-	//   (1) we were in a goroutine (i.e., m.curg != nil), and
-	//   (2) we weren't in CGO.
+	//   (1) we weren't in VDSO page,
+	//   (2) we were in a goroutine (i.e., m.curg != nil), and
+	//   (3) we weren't in CGO.
+	if inVDSOPage(uintptr(info.si_addr)) {
+		return false
+	}
 	g := getg()
 	if g != nil && g.m != nil && g.m.curg != nil && !g.m.incgo {
 		return false
