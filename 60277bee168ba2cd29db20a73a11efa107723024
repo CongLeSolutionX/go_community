@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f172156c_f73eac31",
+        "filename": "misc/lockcheck/viewer/viewer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-06T19:28:05Z",
+      "side": 1,
+      "message": "it would be nice to not depend on an external program; dot is kind of hard to get on macOS compared to other platforms, for example. on the other hand, adding DOT file parsing and rendering is definitely overkill.\n\nat the very least it might be nice to have lockcheck tell you up-front if you have dot in your PATH rather than finding out through an internal server error.",
+      "range": {
+        "startLine": 215,
+        "startChar": 8,
+        "endLine": 215,
+        "endChar": 36
+      },
+      "revId": "60277bee168ba2cd29db20a73a11efa107723024",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
