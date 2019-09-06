@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e54e213f_bda9dbe0",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 29011
+      },
+      "writtenOn": "2019-09-06T09:00:05Z",
+      "side": 1,
+      "message": "// For client requests, Host optionally overrides the Host\n// header to send. If empty, the Request.Write method uses\n// the value of URL.Host. Host may contain an international\n// domain name.\nThe current behavior matches the documentation for r.Host field.\n\nThe proper way to set a Host header in Go is to set the r.Host field. Can you please explain why you want to change this behavior? \n\nAdditionally, this is a breaking change that\u0027ll violate Go 1 compatibility promise.",
+      "revId": "df9fd4dc708e80a75b1f60a1c8a194291a035870",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
