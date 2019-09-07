@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9900e37_4a49b986",
+        "filename": "src/cmd/internal/obj/riscv/list.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2019-09-07T17:40:48Z",
+      "side": 1,
+      "message": "This is a brand new file. Why does it have a Lucent Tech etc copyright, as opposed to a standard Go header? I just noticed this in the previous commit as well.",
+      "revId": "3a58bcb940ac4c96ccccb45966f87a35f28e2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
