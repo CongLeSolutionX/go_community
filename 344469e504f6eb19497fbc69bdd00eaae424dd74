@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "064cf9fc_d1424558",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-07T00:30:25Z",
+      "side": 1,
+      "message": "Hm, actually I think typecheck.go should probably be responsible for computing the type.\n\nI originally thought it was okay to let typecheck.go be sloppy, knowing that setconst would fix it here; but not all untyped expressions are constant, and typecheck.go should still handle those expressions correctly.",
+      "revId": "344469e504f6eb19497fbc69bdd00eaae424dd74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
