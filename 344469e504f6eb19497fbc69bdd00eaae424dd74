@@ -16,6 +16,47 @@
       "revId": "344469e504f6eb19497fbc69bdd00eaae424dd74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb2d0dcb_566e833e",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-07T02:36:06Z",
+      "side": 1,
+      "message": "See also #31795 which we might want to accommodate for.",
+      "parentUuid": "064cf9fc_d1424558",
+      "revId": "344469e504f6eb19497fbc69bdd00eaae424dd74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "194fdc9a_791893c9",
+        "filename": "src/cmd/compile/internal/types/identity.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-07T02:36:06Z",
+      "side": 1,
+      "message": "interesting - how can we reach here?",
+      "range": {
+        "startLine": 61,
+        "startChar": 9,
+        "endLine": 61,
+        "endChar": 13
+      },
+      "revId": "344469e504f6eb19497fbc69bdd00eaae424dd74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
