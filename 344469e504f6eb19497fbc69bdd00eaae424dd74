@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bc700b73_5a9f8f72",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-08T04:16:53Z",
+      "side": 1,
+      "message": "Thanks for the heads up. I think #31795 should be easy to implement if we so desire.",
+      "parentUuid": "fb2d0dcb_566e833e",
+      "revId": "344469e504f6eb19497fbc69bdd00eaae424dd74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "194fdc9a_791893c9",
         "filename": "src/cmd/compile/internal/types/identity.go",
         "patchSetId": 1
@@ -48,6 +66,30 @@
       "writtenOn": "2019-09-07T02:36:06Z",
       "side": 1,
       "message": "interesting - how can we reach here?",
+      "range": {
+        "startLine": 61,
+        "startChar": 9,
+        "endLine": 61,
+        "endChar": 13
+      },
+      "revId": "344469e504f6eb19497fbc69bdd00eaae424dd74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41eab911_b246a7c2",
+        "filename": "src/cmd/compile/internal/types/identity.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-08T04:16:53Z",
+      "side": 1,
+      "message": "We can at least reach it when typechecking binary operations (e.g., OADD) as well as OCOMPLEX, when the two operands are untyped constants of different kinds (e.g., 1 + 2.3).\n\nFor both of those, we call defaultlit2(n.Left, n.Right, false) to coerce the operands to similar types, and then use types.Identical(n.Left.Type, n.Right.Type) to check that they match. But when both operands are untyped, then defaultlit2(_, _, false) just leaves them that way.\n\nFor \"1 + 2.3\", it used to be that both of the operand Types would be types.Types[TIDEAL], and they\u0027d satisfy the \"if t1 \u003d\u003d t2 { return true }\" test at lines 25--27 above.\n\nHowever, with this CL, they\u0027ll be types.Idealint and types.Idealfloat, respectively; so instead we fall through to the identical(t1.Elem(), t2.Elem()) check at line 125 (which panics, because Elem isn\u0027t valid on TIDEAL).\n\nI think OADD/OCOMPLEX/etc are the only cases this should be needed, but I haven\u0027t investigated yet. I figured that\u0027s best done in a followup CL.",
+      "parentUuid": "194fdc9a_791893c9",
       "range": {
         "startLine": 61,
         "startChar": 9,
