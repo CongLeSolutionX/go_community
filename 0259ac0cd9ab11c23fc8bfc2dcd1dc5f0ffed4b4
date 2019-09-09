@@ -16,6 +16,52 @@
       "revId": "0259ac0cd9ab11c23fc8bfc2dcd1dc5f0ffed4b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7d61131_26a151ac",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1742,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-09T06:59:29Z",
+      "side": 1,
+      "message": "Instead of duplicating the full rule can we extend the existing rules by using:\n\n(Eq8|Neq8) here and same after -\u003e ?",
+      "range": {
+        "startLine": 1742,
+        "startChar": 1,
+        "endLine": 1742,
+        "endChar": 5
+      },
+      "revId": "0259ac0cd9ab11c23fc8bfc2dcd1dc5f0ffed4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d1cc7f6_290221bc",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1744,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-09T06:59:29Z",
+      "side": 1,
+      "message": "Would it be possible to match the less complicated not rewritten form of n%c before its rewritten?",
+      "range": {
+        "startLine": 1744,
+        "startChar": 0,
+        "endLine": 1744,
+        "endChar": 108
+      },
+      "revId": "0259ac0cd9ab11c23fc8bfc2dcd1dc5f0ffed4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
