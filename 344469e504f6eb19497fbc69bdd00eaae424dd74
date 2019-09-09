@@ -99,6 +99,30 @@
       "revId": "344469e504f6eb19497fbc69bdd00eaae424dd74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65780529_18862297",
+        "filename": "src/cmd/compile/internal/types/identity.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-09T20:46:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "41eab911_b246a7c2",
+      "range": {
+        "startLine": 61,
+        "startChar": 9,
+        "endLine": 61,
+        "endChar": 13
+      },
+      "revId": "344469e504f6eb19497fbc69bdd00eaae424dd74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
