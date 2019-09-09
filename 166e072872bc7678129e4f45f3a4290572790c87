@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da5598ac_63f11c89",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "We chatted about this offline. It would be ideal to have this flag in the assembler, but since we don\u0027t have a -d flag in the assembler, it would be inconsistent with the compiler. It\u0027s also of little value for this use, so we decided to leave this alone for now, though obviously we can add it in the future if we find another use where it would be good to support in the assembler.",
+      "parentUuid": "1547ea65_e3f2a297",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e37ad96d_49e83f1c",
         "filename": "src/cmd/internal/obj/arm/obj5.go",
         "patchSetId": 1
@@ -33,6 +51,58 @@
       "revId": "166e072872bc7678129e4f45f3a4290572790c87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0273d9a0_cc6f355a",
+        "filename": "src/cmd/internal/obj/arm/obj5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "I changed the approach so we don\u0027t have to change the LEAF flag. Now, we restore the LR immediately after the maymorestack call.",
+      "parentUuid": "e37ad96d_49e83f1c",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50c31323_a080164b",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "Replaced with restoring LR from stack.",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a901c3b_bfde7725",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "This was probably wrong. Changed p to q1.",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +129,47 @@
     },
     {
       "key": {
+        "uuid": "efd74cf8_a465ff88",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91c145b8_1c07909b",
+      "range": {
+        "startLine": 654,
+        "startChar": 32,
+        "endLine": 654,
+        "endChar": 40
+      },
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae256f32_5743e2d4",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5ddd7d2_150981b1",
         "filename": "src/cmd/internal/obj/mips/obj0.go",
         "patchSetId": 1
@@ -76,6 +187,58 @@
     },
     {
       "key": {
+        "uuid": "4bd91129_24439091",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5ddd7d2_150981b1",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27913ee9_dadd3c09",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "240e8614_d6f3b173",
+        "filename": "src/cmd/internal/obj/s390x/objz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "323197eb_08c1f20d",
         "filename": "src/cmd/internal/obj/x86/obj6.go",
         "patchSetId": 1
@@ -90,6 +253,24 @@
       "revId": "166e072872bc7678129e4f45f3a4290572790c87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64850098_69ffe548",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "Good catch.",
+      "parentUuid": "323197eb_08c1f20d",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +297,30 @@
     },
     {
       "key": {
+        "uuid": "5f2bf8be_130a6116",
+        "filename": "test/maymorestack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0104e1fe_5b0f5785",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 29
+      },
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a316123f_8db5b115",
         "filename": "test/maymorestack.go",
         "patchSetId": 1
@@ -130,6 +335,24 @@
       "revId": "166e072872bc7678129e4f45f3a4290572790c87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6700c39_a353cc53",
+        "filename": "test/maymorestack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-09T20:30:00Z",
+      "side": 1,
+      "message": "Yes. Added a comment.",
+      "parentUuid": "a316123f_8db5b115",
+      "revId": "166e072872bc7678129e4f45f3a4290572790c87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
