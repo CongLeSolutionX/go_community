@@ -195,7 +195,17 @@ func Pow2DivisibleSigned(n int) bool {
 	// arm64:"AND\t[$]63",-"UDIV",-"ASR"
 	// ppc64:"ANDCC\t[$]63",-"SRAD"
 	// ppc64le:"ANDCC\t[$]63",-"SRAD"
-	return n%64 == 0 // signed
+	return n%64 == 0 // signed divisible
+}
+
+func Pow2IndivisibleSigned(n int) bool {
+	// 386:"TESTL\t[$]63",-"DIVL",-"SHRL"
+	// amd64:"TESTQ\t[$]63",-"DIVQ",-"SHRQ"
+	// arm:"AND\t[$]63",-".*udiv",-"SRA"
+	// arm64:"AND\t[$]63",-"UDIV",-"ASR"
+	// ppc64:"ANDCC\t[$]63",-"SRAD"
+	// ppc64le:"ANDCC\t[$]63",-"SRAD"
+	return n%64 != 0 // signed indivisible
 }
 
 // Check that constant modulo divs get turned into MULs
