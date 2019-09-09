@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d542dcba_bf0574ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-09T21:31:59Z",
+      "side": 1,
+      "message": "as discussed before, if the main purpose of the CL is to make SetEscapeHTML(false) do its job for quoted strings, I wouldn\u0027t title the CL \"optimize marshal\" :)\n\nHow about \"obey SetEscapeHTML(false) in quoted strings\"?",
+      "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3cad3f3_b7055ebe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-09T21:31:59Z",
+      "side": 1,
+      "message": "I\u0027d say either keep this paragraph, or the benchstat numbers, but not both.",
+      "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a47cae8_8affe8a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-09T21:31:59Z",
+      "side": 1,
+      "message": "nit: the syntax is \"Fixes #NNN\"`",
+      "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9414a6e1_88113c67",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-09T21:31:59Z",
+      "side": 1,
+      "message": "I wonder - is there a way to implement this without make+append?",
+      "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "543bd638_2cdc7674",
+        "filename": "src/encoding/json/stream_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-09T21:31:59Z",
+      "side": 1,
+      "message": "I imagine there is a table-driven test for SetEscapeHTML(false) already; if so, it would be simpler to add a test case there.",
+      "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
