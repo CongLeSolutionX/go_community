@@ -16,6 +16,52 @@
       "revId": "a6b8145c9c0891f06e7ee05bd1123e12b0b5b0ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d74c4a1_0a53a421",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-09-09T17:23:47Z",
+      "side": 1,
+      "message": "document any magical values, if any?\n\n    // maximum length of the input in bytes; negative means unknown",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 0
+      },
+      "revId": "a6b8145c9c0891f06e7ee05bd1123e12b0b5b0ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70c67f89_0ff8f26f",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-09-09T17:23:47Z",
+      "side": 1,
+      "message": "I would name these, especially as you reference \u0027max\u0027 in the godoc.\n\n   (min, max int)",
+      "range": {
+        "startLine": 274,
+        "startChar": 55,
+        "endLine": 274,
+        "endChar": 63
+      },
+      "revId": "a6b8145c9c0891f06e7ee05bd1123e12b0b5b0ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
