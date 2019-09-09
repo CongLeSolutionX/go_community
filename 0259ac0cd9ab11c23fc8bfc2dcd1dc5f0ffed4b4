@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "55ea6a5c_34ec5229",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2019-09-09T15:02:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed066b51_08a4092c",
+      "revId": "0259ac0cd9ab11c23fc8bfc2dcd1dc5f0ffed4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7d61131_26a151ac",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "22b5cc75_ad825588",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1742,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2019-09-09T15:02:56Z",
+      "side": 1,
+      "message": "I didn\u0027t realize that was a possibility since I wasn\u0027t sure of the syntax of the rewrite rules.  Is that documented anywhere?  The gen/README is very sparse.  I have updated these rules to use the | syntax.",
+      "parentUuid": "e7d61131_26a151ac",
+      "range": {
+        "startLine": 1742,
+        "startChar": 1,
+        "endLine": 1742,
+        "endChar": 5
+      },
+      "revId": "0259ac0cd9ab11c23fc8bfc2dcd1dc5f0ffed4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d1cc7f6_290221bc",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2019-09-09T06:59:29Z",
       "side": 1,
       "message": "Would it be possible to match the less complicated not rewritten form of n%c before its rewritten?",
+      "range": {
+        "startLine": 1744,
+        "startChar": 0,
+        "endLine": 1744,
+        "endChar": 108
+      },
+      "revId": "0259ac0cd9ab11c23fc8bfc2dcd1dc5f0ffed4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc826b9_cb781081",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1744,
+      "author": {
+        "id": 20650
+      },
+      "writtenOn": "2019-09-09T15:02:56Z",
+      "side": 1,
+      "message": "Unfortunately, I don\u0027t think this less complicated matching is possible with the current setup of only two opt passes.  We tried several approaches in https://go-review.googlesource.com/c/go/+/168037 and settled on pattern matching after the rewrite even though it is not ideal, in order to get the modulus rewrite allowing magic division and the divisibility rules to be applied correctly in cases where both the quotient and remainder are used.",
+      "parentUuid": "5d1cc7f6_290221bc",
       "range": {
         "startLine": 1744,
         "startChar": 0,
