@@ -2,6 +2,167 @@
   "comments": [
     {
       "key": {
+        "uuid": "b3235a1d_8c533eba",
+        "filename": "misc/lockcheck/lockgraph/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "the encoding is kind of part of the interface, since someone may want to actually decode the file themselves. it might be worth writing a comment summarizing the encoding, even though the code is mostly self-explanatory.",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ab750a9_76b37fea",
+        "filename": "misc/lockcheck/lockgraph/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "delete? or add comment about zlib vs. gzip here",
+      "range": {
+        "startLine": 16,
+        "startChar": 1,
+        "endLine": 16,
+        "endChar": 59
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9c23c0_8c49a4c2",
+        "filename": "misc/lockcheck/lockgraph/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 33,
+        "startChar": 1,
+        "endLine": 33,
+        "endChar": 32
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdef5d61_17a66358",
+        "filename": "misc/lockcheck/lockgraph/graph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "is this \"source and target\" respectively?",
+      "range": {
+        "startLine": 51,
+        "startChar": 42,
+        "endLine": 51,
+        "endChar": 58
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "282dfadf_bc387cd4",
+        "filename": "misc/lockcheck/lockgraph/graph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "any particular reason from stripping this out? is it just readability? or does the lock logging give inconsistent prefixes?\n\nis there the potential for locks from outside of the runtime? this is probably worth a comment.",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 68,
+        "endChar": 25
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b58ce78f_fe1511fe",
+        "filename": "misc/lockcheck/lockgraph/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "this could use a comment, at least with the type of hash. disclaimer: I know only the basics about hash functions (next to nothing about implementation).\n\nany reason not to use some hash in crypto or x/crypto?",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 13
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09451412_b28fbb24",
+        "filename": "misc/lockcheck/lockgraph/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "this seems very minimal as far as JSON is concerned. I understand this isn\u0027t really meant to be read by anything other that lockcheck, but it would save some code to just use the default marshal/unmarshal and just use struct tags for better names.\n\nif the biggest issue here is file size, wouldn\u0027t compression mostly take care of this?",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 52
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9acd7597_20b1a766",
         "filename": "misc/lockcheck/lockgraph/stack.go",
         "patchSetId": 1
@@ -18,6 +179,98 @@
         "startChar": 59,
         "endLine": 103,
         "endChar": 64
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e2136a7_f0b401f9",
+        "filename": "misc/lockcheck/lockgraph/text.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "looking here now, renaming these Source and Target (or something more expressive than S1 and S2) would make this a bit easier to check for correctness.\n\n(with that being said I think it is correct)",
+      "range": {
+        "startLine": 65,
+        "startChar": 71,
+        "endLine": 65,
+        "endChar": 73
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "287a4c39_30c50341",
+        "filename": "misc/lockcheck/locklog/log.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "some comments on the less obvious fields in the next 3 structs would make this a little more readable.",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 14
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83a97273_fd112081",
+        "filename": "misc/lockcheck/locklog/log.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "this confused me because there\u0027s already a curM; a short comment saying \"M ID\" or something would help I think.",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75fd152b_61491782",
+        "filename": "misc/lockcheck/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-09-09T21:33:13Z",
+      "side": 1,
+      "message": "maybe \"JSON which is base64-encoded and compressed\"? :)",
+      "range": {
+        "startLine": 108,
+        "startChar": 27,
+        "endLine": 108,
+        "endChar": 31
       },
       "revId": "f26231b5632414e9ae245d5b8ebb736ac8a5dc5e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
