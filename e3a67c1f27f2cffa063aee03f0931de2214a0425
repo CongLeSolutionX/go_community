@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "273b6e49_45417ec4",
+        "filename": "src/cmd/go/internal/work/action.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2019-09-10T21:19:15Z",
+      "side": 1,
+      "message": "Remove this tab at the end of the line. Gofmt should catch this so make sure you\u0027ve run it.",
+      "range": {
+        "startLine": 311,
+        "startChar": 2,
+        "endLine": 311,
+        "endChar": 3
+      },
+      "revId": "e3a67c1f27f2cffa063aee03f0931de2214a0425",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
