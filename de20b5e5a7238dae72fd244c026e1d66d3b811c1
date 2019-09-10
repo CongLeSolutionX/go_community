@@ -1,0 +1,238 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c1e2af0_1d7fd5f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "Currently this reads as \"things still to do for this CL\", but I think you do all (or most) of this in follow-up CLs. Perhaps make it clear that these things are missing from this CL, but will happen in the next few CLs.",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dfcb1bb_57a324c7",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "\"function\"?",
+      "range": {
+        "startLine": 26,
+        "startChar": 51,
+        "endLine": 26,
+        "endChar": 56
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7fb5d7d_5e90e722",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "\"generated\"",
+      "range": {
+        "startLine": 27,
+        "startChar": 56,
+        "endLine": 27,
+        "endChar": 64
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c1c45cc_9110b1e5",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "This is the second thing worth noting in this paragraph. :) I would hope that everything in the doc comment is worth noting.",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 20
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a12e3a75_c9b9f815",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "Add a comment about what this map is mapping from and to.",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ec46e38_2b1ac507",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure we don\u0027t, since files for inlined calls are just included in the file table. (Also I\u0027m sure some tests would have failed later.)",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9397a8f_3dd2e766",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "Why generate the line table by decoding the pclntab given that this code now has direct access to the data that underlies the pclntab? Decoding the pclntab is actually fairly expensive, and this approach requires us to still encode the isstmt table even though we\u0027re just going to discard it. (I think this would also eliminate the need for the fileNums lookup table, since that\u0027s for mapping from pcline file indexes to Pos file indexes. If you\u0027re processing Poses directly, then you\u0027ll have direct access to the Pos file indexes.)\n\n(Or maybe we already discussed this and there\u0027s a good reason to do it this way. If that\u0027s the case and I\u0027ve forgotten, add a comment explaining why we do it this way.)",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12e67940_6c7e0b08",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "I thought we were going to switch to DW_LNS_end_sequence? Or does this turn out to be just as efficient? Do we definitely lay out all functions in a compilation unit contiguously (if not, then we really have to use DW_LNS_end_sequence)?",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9f70fbb_601c0f08",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "Delete",
+      "range": {
+        "startLine": 645,
+        "startChar": 3,
+        "endLine": 645,
+        "endChar": 60
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e65fbaf_fa91c4bf",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "\"Go\"",
+      "range": {
+        "startLine": 647,
+        "startChar": 52,
+        "endLine": 647,
+        "endChar": 54
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87ee4ba7_668e8d5f",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "Delete? Or maybe this gets fixed in a later CL...",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c78e7d_0a810142",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T14:25:56Z",
+      "side": 1,
+      "message": "Delete?",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
