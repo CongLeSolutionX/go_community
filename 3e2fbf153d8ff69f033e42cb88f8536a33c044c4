@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34e370d4_21fc0908",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-09-10T20:37:10Z",
+      "side": 1,
+      "message": "Although we don\u0027t follow it well for old code, in new code the function comment should start with the name of the function.  For example, something like:\n\n// sigFetchG fetches the value of G safely when running in a signal handler.\n// On some architectures, the g value may be clobbered when running in a VDSO.",
+      "revId": "3e2fbf153d8ff69f033e42cb88f8536a33c044c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
