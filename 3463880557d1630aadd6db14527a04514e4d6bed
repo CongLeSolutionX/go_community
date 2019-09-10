@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "795488cb_5290fdfb",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T13:47:47Z",
+      "side": 1,
+      "message": "Passing the \"current\" unit implicitly as lib.Units[len(lib.Units)-1] is a bit of spooky-action-at-a-distance. It looks like it should be easy to pass this explicitly down to objfile.Load.",
+      "revId": "3463880557d1630aadd6db14527a04514e4d6bed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f60ea4b9_76c382e4",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T13:47:47Z",
+      "side": 1,
+      "message": "This is a common ambiguity in the linker. Does this mean \"the package path\", \"the package prefix\" (which is the escaped package path), or \"the package identifier\"?",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 39
+      },
+      "revId": "3463880557d1630aadd6db14527a04514e4d6bed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83dc1095_9ddec44b",
+        "filename": "src/cmd/link/internal/sym/compilation_unit.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T13:47:47Z",
+      "side": 1,
+      "message": "Textp? (to match the field name)",
+      "range": {
+        "startLine": 16,
+        "startChar": 51,
+        "endLine": 16,
+        "endChar": 56
+      },
+      "revId": "3463880557d1630aadd6db14527a04514e4d6bed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

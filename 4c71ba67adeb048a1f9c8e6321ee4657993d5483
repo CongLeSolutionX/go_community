@@ -313,6 +313,24 @@
     },
     {
       "key": {
+        "uuid": "543b1323_effb360c",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1836,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-10T13:47:47Z",
+      "side": 1,
+      "message": "Could we just set DW_AT_name to the right thing (the package path)? We could do something like searching for \".compunit-\" in newdie and stripping the name.\n\nOr do we actually need the comp unit names to be distinct?",
+      "parentUuid": "88b0f3b6_6dffec0c",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bebc476_95d4e87c",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
