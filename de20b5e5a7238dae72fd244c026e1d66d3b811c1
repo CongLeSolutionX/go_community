@@ -233,6 +233,29 @@
       "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38c668de_532e40de",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-10T19:51:48Z",
+      "side": 1,
+      "message": "nitpick: move this new code after line 136 below, to match the location of this code with the field position in the PosTable struct (NameMap is the last field, so set it up at the end in this code as well)\n\nAlso: can pos.base be nil here? After all it\u0027s used w/o a check below, on line136. (Possibly it can, don\u0027t remember details. Maybe add a comment?).",
+      "range": {
+        "startLine": 129,
+        "startChar": 9,
+        "endLine": 129,
+        "endChar": 13
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
