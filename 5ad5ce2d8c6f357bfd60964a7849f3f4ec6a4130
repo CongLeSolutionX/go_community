@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62f2ffb3_4eb58459",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-09-10T22:03:26Z",
+      "side": 1,
+      "message": "reword this to start with a verb. Look at the git log history for examples of the verb tense \u0026 style we use. \n\nPerhaps:\n\n   cmd/go: make env -w and -u validate GOOS and GOARCH values",
+      "revId": "5ad5ce2d8c6f357bfd60964a7849f3f4ec6a4130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
