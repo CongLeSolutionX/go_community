@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f0f83ddd_44f45e73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16630
+      },
+      "writtenOn": "2019-09-10T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d542dcba_bf0574ff",
+      "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3cad3f3_b7055ebe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2039c0c_e19273fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 16630
+      },
+      "writtenOn": "2019-09-10T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3cad3f3_b7055ebe",
+      "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "93724fb8_b8719fa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 16630
+      },
+      "writtenOn": "2019-09-10T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a47cae8_8affe8a8",
+      "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9414a6e1_88113c67",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2019-09-09T21:31:59Z",
       "side": 1,
       "message": "I wonder - is there a way to implement this without make+append?",
+      "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6c5746b_a549db15",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 16630
+      },
+      "writtenOn": "2019-09-10T18:54:45Z",
+      "side": 1,
+      "message": "The following things I considered during implementation of the above lines:\n\n1. use copy (with this, make is still there)\n\n    b :\u003d make([]byte, v.Len()+2)\n    b[0], b[len(b)-1] \u003d \u0027\"\u0027, \u0027\"\u0027\n    copy(b[1:len(b)-1], []byte(v.String()))\n    e.stringBytes(b, opts.escapeHTML)\n\n2. use e.scratch (like here: https://github.com/golang/go/blob/0a3b65c4926479c6ea2b8439cf073a43bfc2b9b6/src/encoding/json/encode.go#L792-L810), only possible, if len(v.String()) \u003c\u003d len(e.scratch), currently 64 bytes, for longer v.String(), we would still need make\n\n3. extend e.string (and with that e.stringBytes) to allow adding the quotes directly with e.Write without the need of an additional buffer, controlled by an additional flag, which is passed to e.string/e.stringBytes. I dropped this idea, because it would have made the CR quite a bit bigger and it would influence much more encoding scenarios.",
+      "parentUuid": "9414a6e1_88113c67",
       "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -84,6 +156,24 @@
       "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89982c8e_17cfbc54",
+        "filename": "src/encoding/json/stream_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 16630
+      },
+      "writtenOn": "2019-09-10T18:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543bd638_2cdc7674",
+      "revId": "6da46c641dbded9796385e830d9f4ec778de63f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
