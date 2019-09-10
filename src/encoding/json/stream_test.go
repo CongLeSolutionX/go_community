@@ -158,6 +158,27 @@ func TestEncoderSetEscapeHTML(t *testing.T) {
 	}
 }
 
+// https://golang.org/issue/34154
+func TestEncoderStringOptionSetEscapeHTMLFalse(t *testing.T) {
+	value := struct {
+		Bar string `json:"bar,string"`
+	}{
+		Bar: `<html>foobar</html>`,
+	}
+	want := `{"bar":"\"<html>foobar</html>\""}`
+
+	var buf bytes.Buffer
+	enc := NewEncoder(&buf)
+	enc.SetEscapeHTML(false)
+	if err := enc.Encode(value); err != nil {
+		t.Fatalf("Encode: %s", err)
+	}
+	if got := strings.TrimSpace(buf.String()); got != want {
+		t.Errorf("SetEscapeHTML(false) Encode = %#q, want %#q",
+			got, want)
+	}
+}
+
 func TestDecoder(t *testing.T) {
 	for i := 0; i <= len(streamTest); i++ {
 		// Use stream without newlines as input,
