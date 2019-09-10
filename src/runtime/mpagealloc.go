@@ -337,19 +337,24 @@ func (s *pageAlloc) update(base, npages uintptr, alloc bool) {
 }
 
 // addr and npages must cross at least one arena boundary.
-func (s *pageAlloc) allocRange(addr, npages uintptr) {
+func (s *pageAlloc) allocRange(addr, npages uintptr) uintptr {
 	limit := addr + npages*pageSize - 1
 	si, ei := arenaIndex(addr), arenaIndex(limit)
 	sp, ep := arenaPageIndex(addr), arenaPageIndex(limit)
 
 	s.arenas(si).pageAlloc.allocRange(sp, pagesPerArena-sp)
+	scav := s.arenas(si).pageAlloc.scavengedCount(sp, pagesPerArena-sp)
 	for i := si + 1; i < ei; i++ {
 		s.arenas(i).pageAlloc.allocAll()
+		scav += s.arenas(i).pageAlloc.scavengedCount(0, pagesPerArena)
 	}
 	s.arenas(ei).pageAlloc.allocRange(0, ep+1)
+	scav += s.arenas(ei).pageAlloc.scavengedCount(0, ep+1)
+
+	return uintptr(scav) * pageSize
 }
 
-func (s *pageAlloc) allocSlow(npages uintptr) (uintptr, uintptr) {
+func (s *pageAlloc) allocSlow(npages uintptr) (uintptr, uintptr, uintptr) {
 	// Search algorithm
 	//
 	// This algorithm walks each level l of the radix tree from top to bottom.
@@ -446,19 +451,19 @@ nextLevel:
 			// We found some range which crosses boundaries, just go and mark it
 			// directly.
 			addr := uintptr(i<<levelShift[l]+start*pageSize) - arenaBaseOffset
-			s.allocRange(addr, npages)
+			scav := s.allocRange(addr, npages)
 			// If at this point we still haven't found the first free open space,
 			// this is it.
 			if hint == 0 {
 				hint = addr + npages*pageSize + arenaBaseOffset
 			}
-			return addr, hint
+			return addr, hint, scav
 		}
 		if l != 0 {
 			throw("bad summary data")
 		}
 		// We're at level zero, so that means we've exhausted our search.
-		return 0, ^uintptr(0)
+		return 0, ^uintptr(0), 0
 	}
 	// Since we've gotten to this point, that means we haven't found a
 	// sufficiently-sized free region straddling some boundary (arena or larger),
@@ -466,29 +471,31 @@ nextLevel:
 	//
 	// After iterating over all levels, i must contain an arena index which
 	// is what the final level represents.
-	j, h := s.arenas(arenaIdx(i)).pageAlloc.alloc(npages, 0)
+	a := s.arenas(arenaIdx(i))
+	j, h := a.pageAlloc.alloc(npages, 0)
 	if j < 0 {
 		throw("bad summary data")
 	}
 	addr := uintptr(i)*heapArenaBytes + uintptr(j)*pageSize - arenaBaseOffset
+	scav := uintptr(a.pageAlloc.scavengedCount(j, int(npages))) * pageSize
 	// If at this point we still haven't found the first free space, that
 	// means this is it!
 	if hint == 0 {
 		hint = uintptr(i)*heapArenaBytes + uintptr(h)*pageSize
 	}
-	return addr, hint
+	return addr, hint, scav
 }
 
-func (s *pageAlloc) alloc(npages uintptr) uintptr {
+func (s *pageAlloc) alloc(npages uintptr) (uintptr, uintptr) {
 	// If the hint is the max address value, we know we're out of
 	// memory.
 	if s.hint == ^uintptr(0) {
-		return 0
+		return 0, 0
 	}
 
 	// If npages has a chance of fitting in the arena where the hint
 	// starts, try to allocate from it directly.
-	var addr, hint uintptr
+	var addr, hint, scav uintptr
 	if pagesPerArena-arenaPageIndex(s.hint) >= int(npages) {
 		// npages is guaranteed to be no greater than pagesPerArena here.
 		i := arenaIdx(s.hint / heapArenaBytes)
@@ -499,12 +506,13 @@ func (s *pageAlloc) alloc(npages uintptr) uintptr {
 			}
 			addr = uintptr(i)*heapArenaBytes + uintptr(j)*pageSize - arenaBaseOffset
 			hint = uintptr(i)*heapArenaBytes + uintptr(h)*pageSize
+			scav = uintptr(s.arenas(i).pageAlloc.scavengedCount(j, int(npages))) * pageSize
 			goto done
 		}
 	}
 	// We failed to use a hint for one reason or another, so try
 	// the slow path.
-	addr, hint = s.allocSlow(npages)
+	addr, hint, scav = s.allocSlow(npages)
 	if addr == 0 {
 		if npages == 1 {
 			// We failed to find a single free page, the smallest unit
@@ -514,7 +522,7 @@ func (s *pageAlloc) alloc(npages uintptr) uintptr {
 			// accommodate npages.
 			s.hint = ^uintptr(0)
 		}
-		return 0
+		return 0, 0
 	}
 done:
 	// If we found a better hint, update our hint.
@@ -523,7 +531,7 @@ done:
 	}
 	// We have a non-zero address, so update and return.
 	s.update(addr, npages, true)
-	return addr
+	return addr, scav
 }
 
 func (s *pageAlloc) freeSlow(base, npages uintptr) {

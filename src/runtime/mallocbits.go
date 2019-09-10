@@ -66,8 +66,29 @@ func (b *pageBits) clearAll() {
 	}
 }
 
-// chunk8 is a convenient abstraction for doing a little endian
-// 64-bit load and store from a byte slice.
+// popcntRange counts the number of set bits in the
+// range [i, i+n).
+func (b *pageBits) popcntRange(i, n int) (s int) {
+	if n == 1 {
+		return int((b[i/8] >> (i % 8)) & 1)
+	}
+	// TODO: make this faster with wider aligned loads.
+	_ = b[i/8]
+	j := i + n - 1
+	if i/8 == j/8 {
+		return bits.OnesCount8((b[i/8] >> (i % 8)) & ((1 << n) - 1))
+	}
+	_ = b[j/8]
+	s += bits.OnesCount8(b[i/8] >> (i % 8))
+	for k := i/8 + 1; k < j/8; k++ {
+		s += bits.OnesCount8(b[k])
+	}
+	s += bits.OnesCount8(b[j/8] & ((1 << (j%8 + 1)) - 1))
+	return
+}
+
+// chunk is a convenient abstraction for doing a platform-specific
+// load and store from a byte slice.
 type chunk8 [8]uint8
 
 // unsafeChunkFromSlice creates a chunk8 from a byte slice.
@@ -376,4 +397,10 @@ func (m *mallocData) freeAll() {
 	// Clear the scavenged bits when we free the range.
 	m.mallocBits.freeAll()
 	m.scavenged.clearAll()
+}
+
+// Returns the number of scavenged pages in the range.
+// The range must contain free or recently allocated pages.
+func (m *mallocData) scavengedCount(i, n int) int {
+	return m.scavenged.popcntRange(i, n)
 }
