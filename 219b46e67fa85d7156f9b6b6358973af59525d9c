@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2de76f1e_57e301a3",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-09-10T14:33:30Z",
+      "side": 1,
+      "message": "Sorry for not thinking of this earlier, but I think we should only check inVDSOPage here and below on systems where the VDSO does in fact clobber the g value.  Maybe something like\n\n//go:nosplit\nfunc sigFetchG(c *sigctxt) *g {\n    switch GOARCH {\n    case \"arm\", \"arm64\", \"ppc64\", \"ppc64le\":\n        if inVDSOPage(c.sigpc()) {\n            return nil\n        }\n    }\n    return getg()\n}",
+      "revId": "219b46e67fa85d7156f9b6b6358973af59525d9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
