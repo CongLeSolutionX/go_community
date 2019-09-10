@@ -39,9 +39,10 @@ func checkPageAlloc(t *testing.T, want, got *PageAlloc) {
 
 func TestPageAllocAlloc(t *testing.T) {
 	type hit struct {
-		npages, base uintptr
+		npages, base, scav uintptr
 	}
 	tests := map[string]struct {
+		scav   map[int][]BitRange
 		before map[int][]BitRange
 		after  map[int][]BitRange
 		hits   []hit
@@ -50,12 +51,15 @@ func TestPageAllocAlloc(t *testing.T) {
 			before: map[int][]BitRange{
 				BaseArenaIdx: {},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx: {{0, 1}, {2, 2}},
+			},
 			hits: []hit{
-				{1, PageBase(BaseArenaIdx, 0)},
-				{1, PageBase(BaseArenaIdx, 1)},
-				{1, PageBase(BaseArenaIdx, 2)},
-				{1, PageBase(BaseArenaIdx, 3)},
-				{1, PageBase(BaseArenaIdx, 4)},
+				{1, PageBase(BaseArenaIdx, 0), PageSize},
+				{1, PageBase(BaseArenaIdx, 1), 0},
+				{1, PageBase(BaseArenaIdx, 2), PageSize},
+				{1, PageBase(BaseArenaIdx, 3), PageSize},
+				{1, PageBase(BaseArenaIdx, 4), 0},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx: {{0, 5}},
@@ -68,7 +72,7 @@ func TestPageAllocAlloc(t *testing.T) {
 				BaseArenaIdx + 2: {{0, PagesPerArena - 1}},
 			},
 			hits: []hit{
-				{1, PageBase(BaseArenaIdx+2, PagesPerArena-1)},
+				{1, PageBase(BaseArenaIdx+2, PagesPerArena-1), PageSize},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx:     {{0, PagesPerArena}},
@@ -82,7 +86,7 @@ func TestPageAllocAlloc(t *testing.T) {
 				BaseArenaIdx + 0xff: {{0, 0}},
 			},
 			hits: []hit{
-				{1, PageBase(BaseArenaIdx+0xff, 0)},
+				{1, PageBase(BaseArenaIdx+0xff, 0), PageSize},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx:        {{0, PagesPerArena}},
@@ -93,12 +97,15 @@ func TestPageAllocAlloc(t *testing.T) {
 			before: map[int][]BitRange{
 				BaseArenaIdx: {},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx: {{0, 3}, {7, 1}},
+			},
 			hits: []hit{
-				{2, PageBase(BaseArenaIdx, 0)},
-				{2, PageBase(BaseArenaIdx, 2)},
-				{2, PageBase(BaseArenaIdx, 4)},
-				{2, PageBase(BaseArenaIdx, 6)},
-				{2, PageBase(BaseArenaIdx, 8)},
+				{2, PageBase(BaseArenaIdx, 0), 2 * PageSize},
+				{2, PageBase(BaseArenaIdx, 2), PageSize},
+				{2, PageBase(BaseArenaIdx, 4), 0},
+				{2, PageBase(BaseArenaIdx, 6), PageSize},
+				{2, PageBase(BaseArenaIdx, 8), 0},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx: {{0, 10}},
@@ -109,8 +116,12 @@ func TestPageAllocAlloc(t *testing.T) {
 				BaseArenaIdx:     {{0, PagesPerArena - 1}},
 				BaseArenaIdx + 1: {{1, PagesPerArena - 1}},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx:     {{PagesPerArena - 1, 1}},
+				BaseArenaIdx + 1: {},
+			},
 			hits: []hit{
-				{2, PageBase(BaseArenaIdx, PagesPerArena-1)},
+				{2, PageBase(BaseArenaIdx, PagesPerArena-1), PageSize},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx:     {{0, PagesPerArena}},
@@ -121,12 +132,15 @@ func TestPageAllocAlloc(t *testing.T) {
 			before: map[int][]BitRange{
 				BaseArenaIdx: {},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx: {{0, 8}, {9, 1}, {17, 5}},
+			},
 			hits: []hit{
-				{5, PageBase(BaseArenaIdx, 0)},
-				{5, PageBase(BaseArenaIdx, 5)},
-				{5, PageBase(BaseArenaIdx, 10)},
-				{5, PageBase(BaseArenaIdx, 15)},
-				{5, PageBase(BaseArenaIdx, 20)},
+				{5, PageBase(BaseArenaIdx, 0), 5 * PageSize},
+				{5, PageBase(BaseArenaIdx, 5), 4 * PageSize},
+				{5, PageBase(BaseArenaIdx, 10), 0},
+				{5, PageBase(BaseArenaIdx, 15), 3 * PageSize},
+				{5, PageBase(BaseArenaIdx, 20), 2 * PageSize},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx: {{0, 25}},
@@ -136,10 +150,13 @@ func TestPageAllocAlloc(t *testing.T) {
 			before: map[int][]BitRange{
 				BaseArenaIdx: {},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx: {{21, 1}, {63, 65}},
+			},
 			hits: []hit{
-				{64, PageBase(BaseArenaIdx, 0)},
-				{64, PageBase(BaseArenaIdx, 64)},
-				{64, PageBase(BaseArenaIdx, 128)},
+				{64, PageBase(BaseArenaIdx, 0), 2 * PageSize},
+				{64, PageBase(BaseArenaIdx, 64), 64 * PageSize},
+				{64, PageBase(BaseArenaIdx, 128), 0},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx: {{0, 192}},
@@ -149,10 +166,13 @@ func TestPageAllocAlloc(t *testing.T) {
 			before: map[int][]BitRange{
 				BaseArenaIdx: {},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx: {{129, 1}},
+			},
 			hits: []hit{
-				{65, PageBase(BaseArenaIdx, 0)},
-				{65, PageBase(BaseArenaIdx, 65)},
-				{65, PageBase(BaseArenaIdx, 130)},
+				{65, PageBase(BaseArenaIdx, 0), 0},
+				{65, PageBase(BaseArenaIdx, 65), PageSize},
+				{65, PageBase(BaseArenaIdx, 130), 0},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx: {{0, 195}},
@@ -163,13 +183,16 @@ func TestPageAllocAlloc(t *testing.T) {
 			before: map[int][]BitRange{
 				BaseArenaIdx: {},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx: {{10, 1}},
+			},
 			hits: []hit{
-				{PagesPerArena - 3, PageBase(BaseArenaIdx, 0)},
-				{PagesPerArena - 3, 0},
-				{1, PageBase(BaseArenaIdx, PagesPerArena-3)},
-				{2, PageBase(BaseArenaIdx, PagesPerArena-2)},
-				{1, 0},
-				{PagesPerArena - 3, 0},
+				{PagesPerArena - 3, PageBase(BaseArenaIdx, 0), PageSize},
+				{PagesPerArena - 3, 0, 0},
+				{1, PageBase(BaseArenaIdx, PagesPerArena-3), 0},
+				{2, PageBase(BaseArenaIdx, PagesPerArena-2), 0},
+				{1, 0, 0},
+				{PagesPerArena - 3, 0, 0},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx: {{0, PagesPerArena}},
@@ -179,10 +202,13 @@ func TestPageAllocAlloc(t *testing.T) {
 			before: map[int][]BitRange{
 				BaseArenaIdx: {},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx: {{0, 1}, {PagesPerArena - 1, 1}},
+			},
 			hits: []hit{
-				{PagesPerArena, PageBase(BaseArenaIdx, 0)},
-				{PagesPerArena, 0},
-				{1, 0},
+				{PagesPerArena, PageBase(BaseArenaIdx, 0), 2 * PageSize},
+				{PagesPerArena, 0, 0},
+				{1, 0, 0},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx: {{0, PagesPerArena}},
@@ -193,10 +219,14 @@ func TestPageAllocAlloc(t *testing.T) {
 				BaseArenaIdx:     {{0, PagesPerArena / 2}},
 				BaseArenaIdx + 1: {{PagesPerArena / 2, PagesPerArena / 2}},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx:     {},
+				BaseArenaIdx + 1: {{3, 100}},
+			},
 			hits: []hit{
-				{PagesPerArena, PageBase(BaseArenaIdx, PagesPerArena/2)},
-				{PagesPerArena, 0},
-				{1, 0},
+				{PagesPerArena, PageBase(BaseArenaIdx, PagesPerArena/2), 100 * PageSize},
+				{PagesPerArena, 0, 0},
+				{1, 0, 0},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx:     {{0, PagesPerArena}},
@@ -209,9 +239,9 @@ func TestPageAllocAlloc(t *testing.T) {
 				BaseArenaIdx + 1: {},
 			},
 			hits: []hit{
-				{PagesPerArena + 1, PageBase(BaseArenaIdx, PagesPerArena/2)},
-				{PagesPerArena, 0},
-				{1, PageBase(BaseArenaIdx+1, PagesPerArena/2+1)},
+				{PagesPerArena + 1, PageBase(BaseArenaIdx, PagesPerArena/2), (PagesPerArena + 1) * PageSize},
+				{PagesPerArena, 0, 0},
+				{1, PageBase(BaseArenaIdx+1, PagesPerArena/2+1), PageSize},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx:     {{0, PagesPerArena}},
@@ -223,10 +253,14 @@ func TestPageAllocAlloc(t *testing.T) {
 				BaseArenaIdx:     {},
 				BaseArenaIdx + 1: {},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx:     {},
+				BaseArenaIdx + 1: {},
+			},
 			hits: []hit{
-				{PagesPerArena * 2, PageBase(BaseArenaIdx, 0)},
-				{PagesPerArena * 2, 0},
-				{1, 0},
+				{PagesPerArena * 2, PageBase(BaseArenaIdx, 0), 0},
+				{PagesPerArena * 2, 0, 0},
+				{1, 0, 0},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx:     {{0, PagesPerArena}},
@@ -239,10 +273,15 @@ func TestPageAllocAlloc(t *testing.T) {
 				BaseArenaIdx + 0x100: {},
 				BaseArenaIdx + 0x101: {},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx:         {{0, PagesPerArena}},
+				BaseArenaIdx + 0x100: {},
+				BaseArenaIdx + 0x101: {},
+			},
 			hits: []hit{
-				{PagesPerArena * 2, PageBase(BaseArenaIdx+0x100, 0)},
-				{21, PageBase(BaseArenaIdx, 0)},
-				{1, PageBase(BaseArenaIdx, 21)},
+				{PagesPerArena * 2, PageBase(BaseArenaIdx+0x100, 0), 0},
+				{21, PageBase(BaseArenaIdx, 0), 21 * PageSize},
+				{1, PageBase(BaseArenaIdx, 21), PageSize},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx:         {{0, 22}},
@@ -256,10 +295,15 @@ func TestPageAllocAlloc(t *testing.T) {
 				BaseArenaIdx + 1: {},
 				BaseArenaIdx + 2: {{PagesPerArena / 2, PagesPerArena / 2}},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx:     {{0, 7}},
+				BaseArenaIdx + 1: {{3, 5}, {121, 10}},
+				BaseArenaIdx + 2: {{PagesPerArena/2 + 12, 2}},
+			},
 			hits: []hit{
-				{PagesPerArena * 2, PageBase(BaseArenaIdx, PagesPerArena/2)},
-				{PagesPerArena * 2, 0},
-				{1, 0},
+				{PagesPerArena * 2, PageBase(BaseArenaIdx, PagesPerArena/2), 15 * PageSize},
+				{PagesPerArena * 2, 0, 0},
+				{1, 0, 0},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx:     {{0, PagesPerArena}},
@@ -274,10 +318,16 @@ func TestPageAllocAlloc(t *testing.T) {
 				BaseArenaIdx + 2: {{0, PagesPerArena * 3 / 4}},
 				BaseArenaIdx + 3: {{0, 0}},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx:     {{0, PagesPerArena}},
+				BaseArenaIdx + 1: {{PagesPerArena / 2, PagesPerArena/4 + 1}},
+				BaseArenaIdx + 2: {{PagesPerArena / 3, 1}},
+				BaseArenaIdx + 3: {{PagesPerArena * 2 / 3, 1}},
+			},
 			hits: []hit{
-				{PagesPerArena * 5 / 4, PageBase(BaseArenaIdx+2, PagesPerArena*3/4)},
-				{PagesPerArena * 5 / 4, 0},
-				{1, PageBase(BaseArenaIdx+1, PagesPerArena*3/4)},
+				{PagesPerArena * 5 / 4, PageBase(BaseArenaIdx+2, PagesPerArena*3/4), PageSize},
+				{PagesPerArena * 5 / 4, 0, 0},
+				{1, PageBase(BaseArenaIdx+1, PagesPerArena*3/4), PageSize},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx:     {{0, PagesPerArena}},
@@ -297,10 +347,20 @@ func TestPageAllocAlloc(t *testing.T) {
 				BaseArenaIdx + 6: {},
 				BaseArenaIdx + 7: {},
 			},
+			scav: map[int][]BitRange{
+				BaseArenaIdx:     {{50, 1}},
+				BaseArenaIdx + 1: {{31, 1}},
+				BaseArenaIdx + 2: {{7, 1}},
+				BaseArenaIdx + 3: {{200, 1}},
+				BaseArenaIdx + 4: {{3, 1}},
+				BaseArenaIdx + 5: {{51, 1}},
+				BaseArenaIdx + 6: {{20, 1}},
+				BaseArenaIdx + 7: {{1, 1}},
+			},
 			hits: []hit{
-				{PagesPerArena*7 + 5, PageBase(BaseArenaIdx, 0)},
-				{PagesPerArena*7 + 5, 0},
-				{1, PageBase(BaseArenaIdx+7, 5)},
+				{PagesPerArena*7 + 5, PageBase(BaseArenaIdx, 0), 8 * PageSize},
+				{PagesPerArena*7 + 5, 0, 0},
+				{1, PageBase(BaseArenaIdx+7, 5), 0},
 			},
 			after: map[int][]BitRange{
 				BaseArenaIdx:     {{0, PagesPerArena}},
@@ -318,11 +378,16 @@ func TestPageAllocAlloc(t *testing.T) {
 		v := v
 		t.Run(name, func(t *testing.T) {
 			b := GetTestPageAlloc(v.before)
+			b.InitScavState(v.scav)
 			defer PutTestPageAlloc(b)
 
 			for iter, i := range v.hits {
-				if a := b.Alloc(i.npages); a != i.base {
-					t.Fatalf("bad alloc #%d: want 0x%x, got 0x%x", iter+1, i.base, a)
+				a, s := b.Alloc(i.npages)
+				if a != i.base {
+					t.Fatalf("bad alloc #%d: want base 0x%x, got 0x%x", iter+1, i.base, a)
+				}
+				if s != i.scav {
+					t.Fatalf("bad alloc #%d: want scav %d, got %d", iter+1, i.scav, s)
 				}
 			}
 			want := GetTestPageAlloc(v.after)
@@ -349,13 +414,13 @@ func TestPageAllocExhaust(t *testing.T) {
 			nAlloc := (PagesPerArena * 4) / int(npages)
 			for i := 0; i < nAlloc; i++ {
 				addr := PageBase(BaseArenaIdx, i*int(npages))
-				if a := b.Alloc(npages); a != addr {
+				if a, _ := b.Alloc(npages); a != addr {
 					t.Fatalf("bad alloc #%d: want 0x%x, got 0x%x", i+1, addr, a)
 				}
 			}
 
 			// Check to make sure the next allocation fails.
-			if a := b.Alloc(npages); a != 0 {
+			if a, _ := b.Alloc(npages); a != 0 {
 				t.Fatalf("bad alloc #%d: want 0, got 0x%x", nAlloc, a)
 			}
 
@@ -655,7 +720,7 @@ func TestPageAllocAllocAndFree(t *testing.T) {
 
 			for iter, i := range v.hits {
 				if i.alloc {
-					if a := b.Alloc(i.npages); a != i.base {
+					if a, _ := b.Alloc(i.npages); a != i.base {
 						t.Fatalf("bad alloc #%d: want 0x%x, got 0x%x", iter+1, i.base, a)
 					}
 				} else {
