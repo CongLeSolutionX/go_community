@@ -738,9 +738,10 @@ type MallocBits mallocBits
 func (b *MallocBits) Find(npages uintptr, searchIdx uint) (uint, uint) {
 	return (*mallocBits)(b).find(npages, searchIdx)
 }
-func (b *MallocBits) AllocRange(i, n uint) { (*mallocBits)(b).allocRange(i, n) }
-func (b *MallocBits) Free(i, n uint)       { (*mallocBits)(b).free(i, n) }
-func (b *MallocBits) Summarize() MallocSum { return MallocSum((*mallocBits)(b).summarize()) }
+func (b *MallocBits) AllocRange(i, n uint)       { (*mallocBits)(b).allocRange(i, n) }
+func (b *MallocBits) Free(i, n uint)             { (*mallocBits)(b).free(i, n) }
+func (b *MallocBits) Summarize() MallocSum       { return MallocSum((*mallocBits)(b).summarize()) }
+func (b *MallocBits) PopcntRange(i, n uint) uint { return (*pageBits)(b).popcntRange(i, n) }
 
 // SummarizeSlow is a slow but more obviously correct implementation
 // of (*mallocBits).summarize. Used for testing.
@@ -788,8 +789,12 @@ func (d *MallocData) ScavengeRange(i, n uint) {
 //go:notinheap
 type PageAlloc pageAlloc
 
-func (p *PageAlloc) Alloc(npages uintptr) uintptr { return (*pageAlloc)(p).alloc(npages) }
-func (p *PageAlloc) Free(base, npages uintptr)    { (*pageAlloc)(p).free(base, npages) }
+func (p *PageAlloc) Alloc(npages uintptr) (uintptr, uintptr) {
+	return (*pageAlloc)(p).alloc(npages)
+}
+func (p *PageAlloc) Free(base, npages uintptr) {
+	(*pageAlloc)(p).free(base, npages)
+}
 func (p *PageAlloc) Bounds() (uint, uint) {
 	return uint((*pageAlloc)(p).start), uint((*pageAlloc)(p).end)
 }
