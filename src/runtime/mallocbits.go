@@ -77,6 +77,27 @@ func (b *pageBits) clearAll() {
 	}
 }
 
+// popcntRange counts the number of set bits in the
+// range [i, i+n).
+func (b *pageBits) popcntRange(i, n int) (s int) {
+	if n == 1 {
+		return int((b[i/64] >> (i % 64)) & 1)
+	}
+	// TODO: make this faster with wider aligned loads.
+	_ = b[i/64]
+	j := i + n - 1
+	if i/64 == j/64 {
+		return bits.OnesCount64((b[i/64] >> (i % 64)) & ((1 << n) - 1))
+	}
+	_ = b[j/64]
+	s += bits.OnesCount64(b[i/64] >> (i % 64))
+	for k := i/64 + 1; k < j/64; k++ {
+		s += bits.OnesCount64(b[k])
+	}
+	s += bits.OnesCount64(b[j/64] & ((1 << (j%64 + 1)) - 1))
+	return
+}
+
 // mallocBits is a page-per-bit bitmap.
 //
 // It wraps a pageBits with different names and additional features,
@@ -345,14 +366,26 @@ type mallocData struct {
 	scavenged pageBits
 }
 
-func (m *mallocData) allocRange(i, n int) {
-	// Clear the scavenged bits when we alloc the range.
+// allocRange sets bits [i, i+n) in the bitmap to 1 and
+// updates the scavenged bits appropriately. Returns the number
+// of scavenged bits in the range prior to updating scavenged
+// bits.
+func (m *mallocData) allocRange(i, n int) int {
 	m.mallocBits.allocRange(i, n)
+	scav := m.scavenged.popcntRange(i, n)
+	// Clear the scavenged bits when we alloc the range.
 	m.scavenged.clearRange(i, n)
+	return scav
 }
 
-func (m *mallocData) allocAll() {
-	// Clear the scavenged bits when we alloc the range.
+// allocAll sets every bit in the bitmap to 1 and updates
+// the scavenged bits appropriately. Returns the number of
+// scavenged bits in the range prior to updating scavenged
+// bits.
+func (m *mallocData) allocAll() int {
 	m.mallocBits.allocAll()
+	scav := m.scavenged.popcntRange(0, mallocChunkPages)
+	// Clear the scavenged bits when we alloc the range.
 	m.scavenged.clearAll()
+	return scav
 }

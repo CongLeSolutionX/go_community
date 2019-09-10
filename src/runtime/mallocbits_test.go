@@ -124,6 +124,97 @@ func checkMallocSum(t *testing.T, got, want MallocSum) {
 	}
 }
 
+func TestMallocBitsPopcntRange(t *testing.T) {
+	type hit struct {
+		i, n, want int
+	}
+	tests := map[string]struct {
+		s    []BitRange
+		hits []hit
+	}{
+		"None": {
+			hits: []hit{
+				{0, 1, 0},
+				{5, 3, 0},
+				{2, 11, 0},
+				{MallocChunkPages/4 + 1, MallocChunkPages / 2, 0},
+				{0, MallocChunkPages, 0},
+			},
+		},
+		"All": {
+			s: []BitRange{{0, MallocChunkPages}},
+			hits: []hit{
+				{0, 1, 1},
+				{5, 3, 3},
+				{2, 11, 11},
+				{MallocChunkPages/4 + 1, MallocChunkPages / 2, MallocChunkPages / 2},
+				{0, MallocChunkPages, MallocChunkPages},
+			},
+		},
+		"Half": {
+			s: []BitRange{{MallocChunkPages / 2, MallocChunkPages / 2}},
+			hits: []hit{
+				{0, 1, 0},
+				{5, 3, 0},
+				{2, 11, 0},
+				{MallocChunkPages/2 - 1, 1, 0},
+				{MallocChunkPages / 2, 1, 1},
+				{MallocChunkPages/2 + 10, 1, 1},
+				{MallocChunkPages/2 - 1, 2, 1},
+				{MallocChunkPages / 4, MallocChunkPages / 4, 0},
+				{MallocChunkPages / 4, MallocChunkPages/4 + 1, 1},
+				{MallocChunkPages/4 + 1, MallocChunkPages / 2, MallocChunkPages/4 + 1},
+				{0, MallocChunkPages, MallocChunkPages / 2},
+			},
+		},
+		"OddBound": {
+			s: []BitRange{{0, 111}},
+			hits: []hit{
+				{0, 1, 1},
+				{5, 3, 3},
+				{2, 11, 11},
+				{110, 2, 1},
+				{99, 50, 12},
+				{110, 1, 1},
+				{111, 1, 0},
+				{99, 1, 1},
+				{120, 1, 0},
+				{MallocChunkPages / 2, MallocChunkPages / 2, 0},
+				{0, MallocChunkPages, 111},
+			},
+		},
+		"Scattered": {
+			s: []BitRange{
+				{1, 3}, {5, 1}, {7, 1}, {10, 2}, {13, 1}, {15, 4},
+				{21, 1}, {23, 1}, {26, 2}, {30, 5}, {36, 2}, {40, 3},
+				{44, 6}, {51, 1}, {53, 2}, {58, 3}, {63, 1}, {67, 2},
+				{71, 10}, {84, 1}, {89, 7}, {99, 2}, {103, 1}, {107, 2},
+				{111, 1}, {113, 1}, {115, 1}, {118, 1}, {120, 2}, {125, 5},
+			},
+			hits: []hit{
+				{0, 11, 6},
+				{0, 64, 39},
+				{13, 64, 40},
+				{64, 64, 34},
+				{0, 128, 73},
+				{1, 128, 74},
+				{0, MallocChunkPages, 75},
+			},
+		},
+	}
+	for name, v := range tests {
+		v := v
+		t.Run(name, func(t *testing.T) {
+			b := makeMallocBits(v.s)
+			for _, h := range v.hits {
+				if got := b.PopcntRange(h.i, h.n); got != h.want {
+					t.Errorf("bad popcnt (i=%d, n=%d): got %d, want %d", h.i, h.n, got, h.want)
+				}
+			}
+		})
+	}
+}
+
 // Ensures computing bit summaries works as expected.
 func TestMallocBitsSummarize(t *testing.T) {
 	var emptySum = PackMallocSum(MallocChunkPages, MallocChunkPages, MallocChunkPages)
