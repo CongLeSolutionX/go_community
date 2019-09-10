@@ -404,26 +404,28 @@ func (s *pageAlloc) update(base, npages uintptr, contig, alloc bool) {
 
 // allocRange marks the range of memory [addr, addr+npages*pageSize) as
 // allocated.
-func (s *pageAlloc) allocRange(addr, npages uintptr) {
+func (s *pageAlloc) allocRange(addr, npages uintptr) uintptr {
 	limit := addr + npages*pageSize - 1
 	si, ei := arenaIndex(addr), arenaIndex(limit)
 	sp, ep := arenaPageIndex(addr), arenaPageIndex(limit)
 
 	if si == ei {
 		// The range doesn't cross any arena boundaries.
-		s.arenas(si).pageAlloc.allocRange(sp, ep+1-sp)
-		return
+		scav := s.arenas(si).pageAlloc.allocRange(sp, ep+1-sp)
+		return uintptr(scav) * pageSize
 	}
 
 	// The range crosses at least one arena boundary.
-	s.arenas(si).pageAlloc.allocRange(sp, pagesPerArena-sp)
+	scav := s.arenas(si).pageAlloc.allocRange(sp, pagesPerArena-sp)
 	for i := si + 1; i < ei; i++ {
-		s.arenas(i).pageAlloc.allocAll()
+		scav += s.arenas(i).pageAlloc.allocAll()
 	}
-	s.arenas(ei).pageAlloc.allocRange(0, ep+1)
+	scav += s.arenas(ei).pageAlloc.allocRange(0, ep+1)
+
+	return uintptr(scav) * pageSize
 }
 
-func (s *pageAlloc) allocSlow(npages uintptr) (uintptr, uintptr) {
+func (s *pageAlloc) allocSlow(npages uintptr) (uintptr, uintptr, uintptr) {
 	// Search algorithm
 	//
 	// This algorithm walks each level l of the radix tree from top to bottom.
@@ -520,19 +522,19 @@ nextLevel:
 			// We found some range which crosses boundaries, just go and mark it
 			// directly.
 			addr := uintptr(i<<levelShift[l]+start*pageSize) - arenaBaseOffset
-			s.allocRange(addr, npages)
+			scav := s.allocRange(addr, npages)
 			// If at this point we still haven't found the first free open space,
 			// this is it.
 			if hint == 0 {
 				hint = addr + npages*pageSize + arenaBaseOffset
 			}
-			return addr, hint
+			return addr, hint, scav
 		}
 		if l != 0 {
 			throw("bad summary data")
 		}
 		// We're at level zero, so that means we've exhausted our search.
-		return 0, ^uintptr(0)
+		return 0, ^uintptr(0), 0
 	}
 	// Since we've gotten to this point, that means we haven't found a
 	// sufficiently-sized free region straddling some boundary (arena or larger),
@@ -541,7 +543,7 @@ nextLevel:
 	// After iterating over all levels, i must contain an arena index which
 	// is what the final level represents.
 	ai := arenaIdx(i / mallocChunksPerArena)
-	j, h := s.arenas(ai).pageAlloc.alloc(npages, (i%mallocChunksPerArena)*mallocChunkPages)
+	j, h, scav := s.arenas(ai).pageAlloc.alloc(npages, (i%mallocChunksPerArena)*mallocChunkPages)
 	if j < 0 {
 		throw("bad summary data")
 	}
@@ -551,36 +553,37 @@ nextLevel:
 	if hint == 0 {
 		hint = uintptr(ai)*heapArenaBytes + uintptr(h)*pageSize
 	}
-	return addr, hint
+	return addr, hint, uintptr(scav) * pageSize
 }
 
-func (s *pageAlloc) alloc(npages uintptr) uintptr {
+func (s *pageAlloc) alloc(npages uintptr) (uintptr, uintptr) {
 	// If the hint refers to a region which has a higher address than
 	// any known arena, then we know we're out of memory.
 	if arenaIdx(s.hint/heapArenaBytes) >= s.end {
-		return 0
+		return 0, 0
 	}
 
-	// If npages has a chance of fitting in the chunk where the hint is,
-	// try to allocate from it directly.
-	var addr, hint uintptr
+	// If npages has a chance of fitting in the arena where the hint
+	// starts, try to allocate from it directly.
+	var addr, hint, scav uintptr
 	if mallocChunkPages-chunkPageIndex(s.hint) >= int(npages) {
 		// npages is guaranteed to be no greater than pagesPerArena here.
 		ci := int(s.hint / mallocChunkBytes) // chunk index
 		if s.summary[len(s.summary)-1][ci].max() >= int(npages) {
 			i := arenaIdx(ci / mallocChunksPerArena)
-			j, h := s.arenas(i).pageAlloc.alloc(npages, arenaPageIndex(s.hint))
+			j, h, sp := s.arenas(i).pageAlloc.alloc(npages, arenaPageIndex(s.hint))
 			if j < 0 {
 				throw("bad summary data")
 			}
 			addr = uintptr(i)*heapArenaBytes + uintptr(j)*pageSize - arenaBaseOffset
 			hint = uintptr(i)*heapArenaBytes + uintptr(h)*pageSize
+			scav = uintptr(sp) * pageSize
 			goto done
 		}
 	}
 	// We failed to use a hint for one reason or another, so try
 	// the slow path.
-	addr, hint = s.allocSlow(npages)
+	addr, hint, scav = s.allocSlow(npages)
 	if addr == 0 {
 		if npages == 1 {
 			// We failed to find a single free page, the smallest unit
@@ -590,7 +593,7 @@ func (s *pageAlloc) alloc(npages uintptr) uintptr {
 			// accommodate npages.
 			s.hint = ^uintptr(0)
 		}
-		return 0
+		return 0, 0
 	}
 done:
 	// If we found a better hint, update our hint.
@@ -599,7 +602,7 @@ done:
 	}
 	// We have a non-zero address, so update and return.
 	s.update(addr, npages, true, true)
-	return addr
+	return addr, scav
 }
 
 func (s *pageAlloc) freeSlow(base, npages uintptr) {
