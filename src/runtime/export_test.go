@@ -738,9 +738,10 @@ type MallocBits mallocBits
 func (b *MallocBits) Find(npages uintptr, hint int) (int, int) {
 	return (*mallocBits)(b).find(npages, hint)
 }
-func (b *MallocBits) AllocRange(i, n int)  { (*mallocBits)(b).allocRange(i, n) }
-func (b *MallocBits) Free(i, n int)        { (*mallocBits)(b).free(i, n) }
-func (b *MallocBits) Summarize() MallocSum { return MallocSum((*mallocBits)(b).summarize()) }
+func (b *MallocBits) AllocRange(i, n int)      { (*mallocBits)(b).allocRange(i, n) }
+func (b *MallocBits) Free(i, n int)            { (*mallocBits)(b).free(i, n) }
+func (b *MallocBits) Summarize() MallocSum     { return MallocSum((*mallocBits)(b).summarize()) }
+func (b *MallocBits) PopcntRange(i, n int) int { return (*pageBits)(b).popcntRange(i, n) }
 
 // Expose non-trivial helpers for testing.
 func FindConsecN64(c uint64, n int) int { return findConsecN64(c, n) }
@@ -762,8 +763,12 @@ func (d *MallocData) ScavengeRange(i, n int) {
 //go:notinheap
 type PageAlloc pageAlloc
 
-func (p *PageAlloc) Alloc(npages uintptr) uintptr { return (*pageAlloc)(p).alloc(npages) }
-func (p *PageAlloc) Free(base, npages uintptr)    { (*pageAlloc)(p).free(base, npages) }
+func (p *PageAlloc) Alloc(npages uintptr) (uintptr, uintptr) {
+	return (*pageAlloc)(p).alloc(npages)
+}
+func (p *PageAlloc) Free(base, npages uintptr) {
+	(*pageAlloc)(p).free(base, npages)
+}
 func (p *PageAlloc) Bounds() (uint, uint) {
 	return uint((*pageAlloc)(p).start), uint((*pageAlloc)(p).end)
 }
