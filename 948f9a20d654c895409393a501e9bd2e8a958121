@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32b49e81_0552dd35",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-10T15:52:56Z",
+      "side": 1,
+      "message": "I don\u0027t think this is a great addition; this paragraph covers all objects and types, while only structs have fields.\n\nYou could add a sentence like this to the struct section if you want; just make sure that the other similar sections (such as maps) are equally clear.",
+      "revId": "948f9a20d654c895409393a501e9bd2e8a958121",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
