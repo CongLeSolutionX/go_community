@@ -385,33 +385,36 @@ func (s *pageAlloc) update(base, npages uintptr, contig, alloc bool) {
 
 // allocRange marks the range of memory [base, base+npages*pageSize) as
 // allocated.
-func (s *pageAlloc) allocRange(base, npages uintptr) {
+func (s *pageAlloc) allocRange(base, npages uintptr) uintptr {
 	limit := base + npages*pageSize - 1
 	sc, ec := chunkIndex(base), chunkIndex(limit)
 	si, ei := chunkPageIndex(base), chunkPageIndex(limit)
 
+	scav := 0
 	if sc == ec {
 		// The range doesn't cross any chunk boundaries.
-		s.chunks[sc].allocRange(si, ei+1-si)
+		scav += s.chunks[sc].allocRange(si, ei+1-si)
 	} else {
 		// The range crosses at least one chunk boundary.
-		s.chunks[sc].allocRange(si, mallocChunkPages-si)
+		scav += s.chunks[sc].allocRange(si, mallocChunkPages-si)
 		for c := sc + 1; c < ec; c++ {
-			s.chunks[c].allocAll()
+			scav += s.chunks[c].allocAll()
 		}
-		s.chunks[ec].allocRange(0, ei+1)
+		scav += s.chunks[ec].allocRange(0, ei+1)
 	}
+	return uintptr(scav) * pageSize
 }
 
 // Helper for alloc. Represents the slow path and the full summary
 // structure search.
 //
-// Returns a base address for npages contiguous free pages and a
-// new potential searchAddr. This searchAddr may not be better than s.searchAddr.
+// Returns a base address for npages contiguous free pages, a
+// new potential searchAddr, and the number scavenged bytes in the newly-allocated
+// region. The searchAddr need not be better than s.searchAddr.
 //
-// Returns a base address of 0 on failure, in which case the potential
-// searchAddr is invalid and must be ignored.
-func (s *pageAlloc) allocSlow(npages uintptr) (uintptr, uintptr) {
+// Returns a base address of 0 on failure, in which case the rest of the return
+// values are invalid and must be ignored.
+func (s *pageAlloc) allocSlow(npages uintptr) (uintptr, uintptr, uintptr) {
 	// Search algorithm
 	//
 	// This algorithm walks each level l of the radix tree from the root level
@@ -516,14 +519,14 @@ nextLevel:
 			// We found some range which crosses boundaries, just go and mark it
 			// directly.
 			addr := uintptr(i<<levelShift[l]) - arenaBaseOffset + uintptr(start)*pageSize
-			s.allocRange(addr, npages)
+			scav := s.allocRange(addr, npages)
 			// If at this point we still haven't found the first free open space,
 			// this is it.
 			if !foundBestSearchAddr {
 				searchAddr = addr + npages*pageSize
 				foundBestSearchAddr = true
 			}
-			return addr, searchAddr
+			return addr, searchAddr, scav
 		}
 		if l != 0 {
 			print("runtime: summary[", l-1, "][", lastidx, "] = ", lastsum.start(), ", ", lastsum.max(), ", ", lastsum.end(), "\n")
@@ -536,7 +539,7 @@ nextLevel:
 			throw("bad summary data")
 		}
 		// We're at level zero, so that means we've exhausted our search.
-		return 0, maxSearchAddr
+		return 0, maxSearchAddr, 0
 	}
 	// Since we've gotten to this point, that means we haven't found a
 	// sufficiently-sized free region straddling some boundary (chunk or larger),
@@ -545,7 +548,7 @@ nextLevel:
 	// After iterating over all levels, i must contain a chunk index which
 	// is what the final level represents.
 	ci := chunkIdx(i)
-	j, h := s.chunks[ci].alloc(npages, 0)
+	j, h, scav := s.chunks[ci].alloc(npages, 0)
 	if j < 0 {
 		max := s.summary[len(s.summary)-1][i].max()
 		print("runtime: max = ", max, ", npages = ", npages, "\n")
@@ -558,28 +561,30 @@ nextLevel:
 		searchAddr = chunkBase(ci) + uintptr(h)*pageSize
 		foundBestSearchAddr = true
 	}
-	return addr, searchAddr
+	return addr, searchAddr, uintptr(scav) * pageSize
 }
 
 // alloc allocates npages worth of memory from the page heap, returning the base
-// address for the allocation.
+// address for the allocation and the amount of scavenged memory in bytes
+// contained in the region [base address, base address + npages*pageSize).
 //
-// Returns 0 on failure.
-func (s *pageAlloc) alloc(npages uintptr) uintptr {
+// Returns a 0 base address on failure, in which case other returned values
+// should be ignored.
+func (s *pageAlloc) alloc(npages uintptr) (uintptr, uintptr) {
 	// If the searchAddr refers to a region which has a higher address than
 	// any known chunk, then we know we're out of memory.
 	if chunkIndex(s.searchAddr) >= s.end {
-		return 0
+		return 0, 0
 	}
 
-	// If npages has a chance of fitting in the chunk where the searchAddr is,
-	// try to allocate from it directly.
-	var addr, searchAddr uintptr
+	// If npages has a chance of fitting in the arena where the searchAddr
+	// starts, try to allocate from it directly.
+	var addr, searchAddr, scav uintptr
 	if mallocChunkPages-chunkPageIndex(s.searchAddr) >= int(npages) {
 		// npages is guaranteed to be no greater than pagesPerArena here.
 		i := chunkIndex(s.searchAddr)
 		if max := s.summary[len(s.summary)-1][i].max(); max >= int(npages) {
-			j, h := s.chunks[i].alloc(npages, chunkPageIndex(s.searchAddr))
+			j, h, sp := s.chunks[i].alloc(npages, chunkPageIndex(s.searchAddr))
 			if j < 0 {
 				print("runtime: max = ", max, ", npages = ", npages, "\n")
 				print("runtime: searchAddrIndex = ", chunkPageIndex(s.searchAddr), ", s.searchAddr = ", hex(s.searchAddr), "\n")
@@ -587,12 +592,13 @@ func (s *pageAlloc) alloc(npages uintptr) uintptr {
 			}
 			addr = chunkBase(i) + uintptr(j)*pageSize
 			searchAddr = chunkBase(i) + uintptr(h)*pageSize
+			scav = uintptr(sp) * pageSize
 			goto done
 		}
 	}
 	// We failed to use a searchAddr for one reason or another, so try
 	// the slow path.
-	addr, searchAddr = s.allocSlow(npages)
+	addr, searchAddr, scav = s.allocSlow(npages)
 	if addr == 0 {
 		if npages == 1 {
 			// We failed to find a single free page, the smallest unit
@@ -602,7 +608,7 @@ func (s *pageAlloc) alloc(npages uintptr) uintptr {
 			// accommodate npages.
 			s.searchAddr = maxSearchAddr
 		}
-		return 0
+		return 0, 0
 	}
 done:
 	// If we found a better searchAddr, update our searchAddr.
@@ -611,7 +617,7 @@ done:
 	}
 	// We have a non-zero address, so update and return.
 	s.update(addr, npages, true, true)
-	return addr
+	return addr, scav
 }
 
 // free returns npages worth of memory starting at base back to the page heap.
