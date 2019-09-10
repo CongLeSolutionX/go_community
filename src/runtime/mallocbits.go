@@ -66,8 +66,29 @@ func (b *pageBits) clearAll() {
 	}
 }
 
-// chunk8 is a convenient abstraction for doing a little endian
-// 64-bit load and store from a byte slice.
+// popcntRange counts the number of set bits in the
+// range [i, i+n).
+func (b *pageBits) popcntRange(i, n int) (s int) {
+	if n == 1 {
+		return int((b[i/8] >> (i % 8)) & 1)
+	}
+	// TODO: make this faster with wider aligned loads.
+	_ = b[i/8]
+	j := i + n - 1
+	if i/8 == j/8 {
+		return bits.OnesCount8((b[i/8] >> (i % 8)) & ((1 << n) - 1))
+	}
+	_ = b[j/8]
+	s += bits.OnesCount8(b[i/8] >> (i % 8))
+	for k := i/8 + 1; k < j/8; k++ {
+		s += bits.OnesCount8(b[k])
+	}
+	s += bits.OnesCount8(b[j/8] & ((1 << (j%8 + 1)) - 1))
+	return
+}
+
+// chunk is a convenient abstraction for doing a platform-specific
+// load and store from a byte slice.
 type chunk8 [8]uint8
 
 // unsafeChunkFromSlice creates a chunk8 from a byte slice.
@@ -360,25 +381,45 @@ type mallocData struct {
 	scavenged pageBits
 }
 
-func (m *mallocData) alloc(npages uintptr, hint int) (int, int) {
+// alloc allocates npages bits starting from the given hint.
+//
+// Updates scavenged metadata appropriately.
+//
+// Returns a page index (indicating the base of the allocation),
+// a new hint, and the number of pages that were scavenged in
+// the newly-allocated region.
+func (m *mallocData) alloc(npages uintptr, hint int) (int, int, int) {
 	b, nhint := m.mallocBits.alloc(npages, hint)
+	scav := m.scavenged.popcntRange(b, int(npages))
 	// Clear the scavenged bits when we alloc.
 	if npages == 1 {
 		m.scavenged.clear1(b)
 	} else {
 		m.scavenged.clearRange(b, int(npages))
 	}
-	return b, nhint
+	return b, nhint, scav
 }
 
-func (m *mallocData) allocRange(i, n int) {
-	// Clear the scavenged bits when we alloc the range.
+// allocRange sets bits [i, i+n) in the bitmap to 1 and
+// updates the scavenged bits appropriately. Returns the number
+// of scavenged bits in the range prior to updating scavenged
+// bits.
+func (m *mallocData) allocRange(i, n int) int {
 	m.mallocBits.allocRange(i, n)
+	scav := m.scavenged.popcntRange(i, n)
+	// Clear the scavenged bits when we alloc the range.
 	m.scavenged.clearRange(i, n)
+	return scav
 }
 
-func (m *mallocData) allocAll() {
-	// Clear the scavenged bits when we alloc the range.
+// allocAll sets every bit in the bitmap to 1 and updates
+// the scavenged bits appropriately. Returns the number of
+// scavenged bits in the range prior to updating scavenged
+// bits.
+func (m *mallocData) allocAll() int {
 	m.mallocBits.allocAll()
+	scav := m.scavenged.popcntRange(0, pagesPerArena)
+	// Clear the scavenged bits when we alloc the range.
 	m.scavenged.clearAll()
+	return scav
 }
