@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8669412_a4674317",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-09-10T04:50:01Z",
+      "side": 1,
+      "message": "I think we can reasonably call t.Parallel here.",
+      "revId": "c24144a2cda93cfe82e1be000b9749ae85ff0bad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fdea64c_8b880868",
+        "filename": "src/runtime/testdata/testprog/vdso.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-09-10T04:50:01Z",
+      "side": 1,
+      "message": "We don\u0027t want our tests to run this long, though, so let\u0027s make this just 1 second.  It will presumably at least 1 out of 10 times.  If we can make it shorter than 1 second and still have it fail reasonably often, that would be nice.",
+      "revId": "c24144a2cda93cfe82e1be000b9749ae85ff0bad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
