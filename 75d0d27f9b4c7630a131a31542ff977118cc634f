@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15cb3ef6_08608c90",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-09-10T21:14:05Z",
+      "side": 1,
+      "message": "This will match if pkgPatterns[i] is exactly equal to \".go\". Is that the preferred outcome?",
+      "revId": "75d0d27f9b4c7630a131a31542ff977118cc634f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
