@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cb5b3e23_7a42ec1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll rewrite this message to reflect the state of the world. I was trying to make it clear that this was the work to come as we don\u0027t really have a design doc on this work. :)",
+      "parentUuid": "8c1e2af0_1d7fd5f8",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dfcb1bb_57a324c7",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 16
@@ -39,6 +57,30 @@
       "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1850aa4_c61980ef",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dfcb1bb_57a324c7",
+      "range": {
+        "startLine": 26,
+        "startChar": 51,
+        "endLine": 26,
+        "endChar": 56
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "46d6446f_6b59e779",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7fb5d7d_5e90e722",
+      "range": {
+        "startLine": 27,
+        "startChar": 56,
+        "endLine": 27,
+        "endChar": 64
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c1c45cc_9110b1e5",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 16
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "390d4e23_fab02608",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c1c45cc_9110b1e5",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 20
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a12e3a75_c9b9f815",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 16
@@ -102,6 +192,24 @@
       "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16d38b46_262bbfa3",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a12e3a75_c9b9f815",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "b8154d84_762ebfbc",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "I\u0027m sure we don\u0027t too. This is was a note for me to look at that is now vestigial.",
+      "parentUuid": "3ec46e38_2b1ac507",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9397a8f_3dd2e766",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 16
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "5623effc_1b1a48e6",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "We discussed this offline, but it was a matter of expeditiousness. We can certainly use the progs to generate this info, it was just easier to strip this code from the linker for the time being and follow up with faster approach in follow up work. I\u0027ll drop a note here explaining it all.",
+      "parentUuid": "a9397a8f_3dd2e766",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12e67940_6c7e0b08",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 16
@@ -153,6 +297,24 @@
       "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a3864e7_cf2eede4",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "Delve can\u0027t handle it right now, and Alessandro and I decided the best approach would be:\n\n1) Reset the state machines (as long as the PCs are always increasing)\n2) Wait till Delve can properly handle more end_sequences\n3) Update this code with the better approach.",
+      "parentUuid": "12e67940_6c7e0b08",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -179,6 +341,30 @@
     },
     {
       "key": {
+        "uuid": "69cc8425_99340109",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "Fixing, but this is vestigial, and in later CLs.",
+      "parentUuid": "f9f70fbb_601c0f08",
+      "range": {
+        "startLine": 645,
+        "startChar": 3,
+        "endLine": 645,
+        "endChar": 60
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e65fbaf_fa91c4bf",
         "filename": "src/cmd/internal/obj/objfile.go",
         "patchSetId": 16
@@ -202,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "f29b48c9_be4094c9",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e65fbaf_fa91c4bf",
+      "range": {
+        "startLine": 647,
+        "startChar": 52,
+        "endLine": 647,
+        "endChar": 54
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87ee4ba7_668e8d5f",
         "filename": "src/cmd/internal/obj/objfile.go",
         "patchSetId": 16
@@ -219,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "9aa7871c_56eaed1e",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "It does get fixed in later CLs.",
+      "parentUuid": "87ee4ba7_668e8d5f",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85c78e7d_0a810142",
         "filename": "src/cmd/internal/obj/objfile.go",
         "patchSetId": 16
@@ -233,6 +461,24 @@
       "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2afda9c_68bf54a3",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "This is fixed in followon CLs.",
+      "parentUuid": "85c78e7d_0a810142",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -256,6 +502,30 @@
       "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7826e02_933116bb",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-11T15:32:21Z",
+      "side": 1,
+      "message": "You got it.\n\nNo, it can\u0027t be NIL. Before than wanted this code moved there was the possibility it could be nil, but that\u0027s no longer the case. Your requested move is a NOP WRT NILs.",
+      "parentUuid": "38c668de_532e40de",
+      "range": {
+        "startLine": 129,
+        "startChar": 9,
+        "endLine": 129,
+        "endChar": 13
+      },
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
