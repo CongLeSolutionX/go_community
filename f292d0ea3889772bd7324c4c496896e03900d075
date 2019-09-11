@@ -16,6 +16,24 @@
       "revId": "f292d0ea3889772bd7324c4c496896e03900d075",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13a96413_c4d6b586",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 33225
+      },
+      "writtenOn": "2019-09-11T02:23:35Z",
+      "side": 1,
+      "message": "git push -f didn\u0027t update the commit message. What\u0027s the right way to fix this?",
+      "parentUuid": "4d21718c_4c7cfa79",
+      "revId": "f292d0ea3889772bd7324c4c496896e03900d075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
