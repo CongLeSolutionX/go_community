@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "9778c43d_0bd8b261",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-11T08:32:34Z",
+      "side": 1,
+      "message": "It does not work, it\u0027s broken when the test case is inside func main(){}.",
+      "parentUuid": "ff41a60e_ef4250d2",
+      "revId": "5357cdb25ca864550f8557a46d7f3813b444d8b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0279298e_007f143f",
         "filename": "src/cmd/compile/internal/gc/closure.go",
         "patchSetId": 2
