@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9711fce3_21a4cea8",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-11T08:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "feaf8bee_86941c33",
+      "range": {
+        "startLine": 77,
+        "startChar": 16,
+        "endLine": 77,
+        "endChar": 24
+      },
+      "revId": "5357cdb25ca864550f8557a46d7f3813b444d8b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b084aa9f_d5dc2444",
         "filename": "src/cmd/compile/internal/gc/closure.go",
         "patchSetId": 2
@@ -53,6 +77,24 @@
       "writtenOn": "2019-09-11T08:05:34Z",
       "side": 1,
       "message": "Is this necessary? I think this can be removed.",
+      "revId": "5357cdb25ca864550f8557a46d7f3813b444d8b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bcc037b_1d6f7c98",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-11T08:11:50Z",
+      "side": 1,
+      "message": "It\u0027s necessary for nested function, one example from the test case:\n\n_ \u003d unsafe.Sizeof(func() { func() int { return iota }() })",
+      "parentUuid": "0279298e_007f143f",
       "revId": "5357cdb25ca864550f8557a46d7f3813b444d8b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
