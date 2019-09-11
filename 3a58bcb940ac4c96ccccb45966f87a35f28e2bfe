@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6cfe1554_837bf967",
+        "filename": "src/cmd/asm/internal/arch/arch.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-11T15:10:55Z",
+      "side": 1,
+      "message": "Golang -\u003e Go",
+      "range": {
+        "startLine": 577,
+        "startChar": 4,
+        "endLine": 577,
+        "endChar": 10
+      },
+      "revId": "3a58bcb940ac4c96ccccb45966f87a35f28e2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9900e37_4a49b986",
         "filename": "src/cmd/internal/obj/riscv/list.go",
         "patchSetId": 2
@@ -31,6 +54,52 @@
       "side": 1,
       "message": "The license and copyright are retained from the code in the riscv-go port - this is what was used/added with commit 75bcaaa680a. I can only guess that it was derived from an existing arch.",
       "parentUuid": "e9900e37_4a49b986",
+      "revId": "3a58bcb940ac4c96ccccb45966f87a35f28e2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e0f6b67_2085885c",
+        "filename": "src/cmd/internal/obj/riscv/list.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-11T15:10:55Z",
+      "side": 1,
+      "message": "Is there a reason to use the ABI name? In most cases, Go code doesn\u0027t follow the system ABI (except perhaps syscall wrappers and cgo wrappers). Would it be better to use the non-ABI name? This is mostly used for assembly dump (e.g. the compiler\u0027s -S option), in which case I think the non-ABI names read better.\n\nUsing the non-ABI name is also more consistent with other architectures.",
+      "range": {
+        "startLine": 36,
+        "startChar": 48,
+        "endLine": 36,
+        "endChar": 68
+      },
+      "revId": "3a58bcb940ac4c96ccccb45966f87a35f28e2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "521c6f71_edda7e62",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-11T15:10:55Z",
+      "side": 1,
+      "message": "int would be fine. No need for 64-bit.",
+      "range": {
+        "startLine": 115,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 15
+      },
       "revId": "3a58bcb940ac4c96ccccb45966f87a35f28e2bfe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
