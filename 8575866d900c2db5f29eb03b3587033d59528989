@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e412b509_af303f86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-11T18:27:18Z",
+      "side": 1,
+      "message": "s/This fixes #33767./Fixes #33767/\n\n(This part of the commit message is for GitHub bots, not humans.)",
+      "revId": "8575866d900c2db5f29eb03b3587033d59528989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
