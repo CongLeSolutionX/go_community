@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "98cd001a_0d304ce7",
+        "filename": "src/cmd/asm/internal/arch/arch.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-09-11T18:40:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cfe1554_837bf967",
+      "range": {
+        "startLine": 577,
+        "startChar": 4,
+        "endLine": 577,
+        "endChar": 10
+      },
+      "revId": "3a58bcb940ac4c96ccccb45966f87a35f28e2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9900e37_4a49b986",
         "filename": "src/cmd/internal/obj/riscv/list.go",
         "patchSetId": 2
@@ -83,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "7cb38fad_4f059594",
+        "filename": "src/cmd/internal/obj/riscv/list.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-09-11T18:40:48Z",
+      "side": 1,
+      "message": "Makes sense, especially for consistency reasons - FWIW much of the riscv-go port uses the ABI names currently (e.g. runtime assembly, SSA gen, etc), but we can map those to numbered registers as we bring it in.\n\nDo we want to remove the ABI names from cmd/asm/internal/arch/arch.go as well?",
+      "parentUuid": "1e0f6b67_2085885c",
+      "range": {
+        "startLine": 36,
+        "startChar": 48,
+        "endLine": 36,
+        "endChar": 68
+      },
+      "revId": "3a58bcb940ac4c96ccccb45966f87a35f28e2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6edbdf3e_75a9bdbc",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 2
@@ -126,6 +174,30 @@
       "revId": "3a58bcb940ac4c96ccccb45966f87a35f28e2bfe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ada5456a_07c2432d",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-09-11T18:40:48Z",
+      "side": 1,
+      "message": "Done (looks like the reason for this was to avoid the need to cast when adding the length to the PC value, but we can cast instead).",
+      "parentUuid": "521c6f71_edda7e62",
+      "range": {
+        "startLine": 115,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 15
+      },
+      "revId": "3a58bcb940ac4c96ccccb45966f87a35f28e2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
