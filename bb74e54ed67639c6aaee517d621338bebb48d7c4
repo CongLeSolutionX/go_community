@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b420acc6_13e9fed6",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-11T19:07:02Z",
+      "side": 1,
+      "message": "Change this to:\n\n    if x :\u003d getIotaValue(); x \u003e\u003d 0 {\n        xfunc.SetIota(x)\n    }\n\nI think you should then be able to remove the \"if Curfn.Iota() \u003c 0 \u0026\u0026 oldfn.Iota() \u003e\u003d 0 { ... }\" code below.",
+      "revId": "bb74e54ed67639c6aaee517d621338bebb48d7c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7abe124a_e39e7689",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-11T19:07:02Z",
+      "side": 1,
+      "message": "nit: change to \"ambient iota value, if any\" for consistency with the Named OLITERALs case above.",
+      "range": {
+        "startLine": 51,
+        "startChar": 32,
+        "endLine": 51,
+        "endChar": 67
+      },
+      "revId": "bb74e54ed67639c6aaee517d621338bebb48d7c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e254f832_7740a7be",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-11T19:07:02Z",
+      "side": 1,
+      "message": "Extract this out into a separate helper function:\n\n    // getIotaValue returns the current value for \"iota\",\n    // or -1 if not within a ConstSpec.\n    func getIotaValue() int64 {\n        ...\n    }\n\nThen here should be something like:\n\n    if r.Op \u003d\u003d OIOTA {\n        if x :\u003d getIotaValue(); x \u003e\u003d 0 {\n            return nodintconst(x)\n        }\n        return n\n    }",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 3
+      },
+      "revId": "bb74e54ed67639c6aaee517d621338bebb48d7c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
