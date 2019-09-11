@@ -33,6 +33,23 @@
       "revId": "4d08c642b6ba029de53ea2de92850fc4379dba2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebf6e483_d525629a",
+        "filename": "test/fixedbugs/issue22344.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-11T07:45:55Z",
+      "side": 1,
+      "message": "Thanks for all the test cases. I\u0027d suggest duplicating *all* of the above tests inside of main here.\n\nWe typecheck OCLOSUREs differently when they\u0027re nested inside of a function than when they appear at package-scope (\"Type check the body now, but only if we\u0027re inside a function.\"). So it would be good to make sure the tests pass both ways.",
+      "revId": "4d08c642b6ba029de53ea2de92850fc4379dba2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
