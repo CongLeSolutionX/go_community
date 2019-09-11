@@ -349,6 +349,24 @@
     },
     {
       "key": {
+        "uuid": "ef2be90f_3b0c0124",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1836,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-09-11T20:23:33Z",
+      "side": 1,
+      "message": "My 2 cents: it is useful as a developer looking through DWARF dumps to have a name on the comp unit, so that I can locate the right package.... I\u0027d vote against getting rid of this completely.",
+      "parentUuid": "2728bc12_e4c26594",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bebc476_95d4e87c",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
