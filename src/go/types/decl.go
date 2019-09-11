@@ -332,9 +332,9 @@ func (check *Checker) typeCycle(obj Object) (isCycle bool) {
 func (check *Checker) constDecl(obj *Const, typ, init ast.Expr) {
 	assert(obj.typ == nil)
 
+	defer func(iota constant.Value) { check.iota = iota }(check.iota)
 	// use the correct value of iota
 	check.iota = obj.val
-	defer func() { check.iota = nil }()
 
 	// provide valid constant value under all circumstances
 	obj.val = constant.MakeUnknown()
