@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a507569_448f39b2",
+        "filename": "src/cmd/go/testdata/script/mod_get_trailing_slash.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-09-11T20:04:55Z",
+      "side": 1,
+      "message": "The \u0027go list\u0027 commands above should cover this. I\u0027ve clarified the comment a bit.",
+      "parentUuid": "68e8cdf3_52f7d553",
+      "revId": "75d0d27f9b4c7630a131a31542ff977118cc634f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f32c0d2_42ef0916",
         "filename": "src/cmd/go/testdata/script/mod_get_trailing_slash.txt",
         "patchSetId": 2
@@ -74,6 +92,30 @@
       "revId": "75d0d27f9b4c7630a131a31542ff977118cc634f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7026a543_bd8cca85",
+        "filename": "src/cmd/go/testdata/script/mod_get_trailing_slash.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-09-11T20:04:55Z",
+      "side": 1,
+      "message": "Done, good catch.",
+      "parentUuid": "8f32c0d2_42ef0916",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "75d0d27f9b4c7630a131a31542ff977118cc634f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
