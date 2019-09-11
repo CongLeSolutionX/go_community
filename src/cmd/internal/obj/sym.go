@@ -147,3 +147,110 @@ func (ctxt *Link) Int64Sym(i int64) *LSym {
 		s.Set(AttrLocal, true)
 	})
 }
+
+// Assign index to symbols.
+// asm is set to true if this is called by the assembler (i.e. not the compiler),
+// in which case all the symbols are non-package (for now).
+func (ctxt *Link) NumberSyms(asm bool) {
+	if !ctxt.Flag_newobj {
+		return
+	}
+
+	ctxt.pkgIdx = make(map[string]int32)
+	ctxt.defs = []*LSym{nil}
+	ctxt.nonpkgsyms = []*LSym{nil}
+
+	var i, j int32 = 1, 1 // i for symbols defined in the current package, j for non-package symbols
+	ctxt.TraverseSyms(traverseDefs, func(s *LSym) {
+		if asm || s.Pkg == "_" || s.DuplicateOK() {
+			s.PkgIdx = PkgIdxNone
+			s.SymIdx = j
+			if j != int32(len(ctxt.nonpkgsyms)) {
+				panic("bad index")
+			}
+			ctxt.nonpkgsyms = append(ctxt.nonpkgsyms, s)
+			j++
+		} else {
+			s.PkgIdx = PkgIdxSelf
+			s.SymIdx = i
+			if i != int32(len(ctxt.defs)) {
+				panic("bad index")
+			}
+			ctxt.defs = append(ctxt.defs, s)
+			i++
+		}
+	})
+
+	ipkg := int32(PkgIdxRefBase)
+	ctxt.TraverseSyms(traverseRefs|traverseAux, func(rs *LSym) {
+		if rs == nil {
+			return
+		}
+		if rs.PkgIdx != PkgIdxInvalid && rs.SymIdx != 0 {
+			return
+		}
+		pkg := rs.Pkg
+		if pkg == "" || pkg == "\"\"" || rs.SymIdx == 0 {
+			rs.PkgIdx = PkgIdxNone
+			rs.SymIdx = j
+			if j != int32(len(ctxt.nonpkgsyms)) {
+				panic("bad index")
+			}
+			ctxt.nonpkgsyms = append(ctxt.nonpkgsyms, rs)
+			j++
+			return
+		}
+		if k, ok := ctxt.pkgIdx[pkg]; ok {
+			rs.PkgIdx = k
+			return
+		}
+		rs.PkgIdx = ipkg
+		ctxt.pkgIdx[pkg] = ipkg
+		ipkg++
+	})
+}
+
+type traverseFlag uint32
+
+const (
+	traverseDefs traverseFlag = 1 << iota
+	traverseRefs
+	traverseAux
+
+	traverseAll = traverseDefs | traverseRefs | traverseAux
+)
+
+// Traverse symbols based on flag, call fn for each symbol.
+func (ctxt *Link) TraverseSyms(flag traverseFlag, fn func(*LSym)) {
+	lists := [][]*LSym{ctxt.Text, ctxt.Data, ctxt.ABIAliases}
+	for _, list := range lists {
+		for _, s := range list {
+			if flag&traverseDefs != 0 {
+				fn(s)
+			}
+			if flag&traverseRefs != 0 {
+				for _, r := range s.R {
+					fn(r.Sym)
+				}
+			}
+			if flag&traverseAux != 0 {
+				fn(s.Gotype)
+				if s.Type == objabi.STEXT {
+					/* TODO
+					for _, a := range s.Func.Autom {
+						fn(a.Asym)
+						fn(a.Gotype)
+					}
+					*/
+					pc := &s.Func.Pcln
+					for _, d := range pc.Funcdata {
+						fn(d)
+					}
+					for _, call := range pc.InlTree.nodes {
+						fn(call.Func)
+					}
+				}
+			}
+		}
+	}
+}

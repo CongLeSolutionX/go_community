@@ -650,10 +650,12 @@ func (r *importReader) byte() byte {
 
 func (r *importReader) varExt(n *Node) {
 	r.linkname(n.Sym)
+	r.symIdx(n.Sym)
 }
 
 func (r *importReader) funcExt(n *Node) {
 	r.linkname(n.Sym)
+	r.symIdx(n.Sym)
 
 	// Escape analysis.
 	for _, fs := range types.RecvsParams {
@@ -680,6 +682,17 @@ func (r *importReader) methExt(m *types.Field) {
 
 func (r *importReader) linkname(s *types.Sym) {
 	s.Linkname = r.string()
+}
+
+func (r *importReader) symIdx(s *types.Sym) {
+	if Ctxt.Flag_newobj {
+		lsym := s.Linksym()
+		lsym.SymIdx = int32(r.int64())
+		if s.Linkname != "" && lsym.SymIdx != 0 {
+			fmt.Printf("unindexed symbol %v\n", lsym)
+			panic("unindexed symbol")
+		}
+	}
 }
 
 func (r *importReader) doInline(n *Node) {

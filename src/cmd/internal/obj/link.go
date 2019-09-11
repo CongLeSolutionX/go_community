@@ -391,6 +391,10 @@ type LSym struct {
 	R      []Reloc
 
 	Func *FuncInfo
+
+	Pkg    string
+	PkgIdx int32
+	SymIdx int32 // TODO: replace RefIdx
 }
 
 // A FuncInfo contains extra fields for STEXT symbols.
@@ -620,6 +624,15 @@ type Pcdata struct {
 	P []byte
 }
 
+// Package Index.
+const (
+	PkgIdxInvalid = iota
+	PkgIdxNone    // Non-package symbols
+	PkgIdxBuiltin // Predefined symbols // TODO: not used for now, we could use it for compiler-generated symbols like runtime.newobject
+	PkgIdxSelf    // Symbols efined in the current package
+	PkgIdxRefBase // The index of other referenced starts here
+)
+
 // Link holds the context for writing object code from a compiler
 // to be linker input or for reading that input into the linker.
 type Link struct {
@@ -632,6 +645,7 @@ type Link struct {
 	Flag_dynlink       bool
 	Flag_optimize      bool
 	Flag_locationlists bool
+	Flag_newobj        bool // use new object file format
 	Bso                *bufio.Writer
 	Pathname           string
 	hashmu             sync.Mutex       // protects hash, funchash
@@ -665,6 +679,13 @@ type Link struct {
 	// TODO(austin): Replace this with ABI wrappers once the ABIs
 	// actually diverge.
 	ABIAliases []*LSym
+
+	// pkgIdx maps package path to index. The index is used for
+	// symbol reference in the object file.
+	pkgIdx map[string]int32
+
+	defs       []*LSym // list of defined symbols in the current package
+	nonpkgsyms []*LSym // list of non-package symbols, defs+refs // TODO: separate lists for defs and refs?
 }
 
 func (ctxt *Link) Diag(format string, args ...interface{}) {
