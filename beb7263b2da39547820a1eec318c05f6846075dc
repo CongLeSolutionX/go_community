@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90927897_1505ec1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-11T09:47:18Z",
+      "side": 1,
+      "message": "Why do you want to invoke chunked sendFile on the file? We already handle files just fine (see line 22 for details). Why using chunked sendFile is better than current approach?",
+      "revId": "beb7263b2da39547820a1eec318c05f6846075dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
