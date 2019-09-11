@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5ab3ebb5_abaefa89",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-11T08:16:17Z",
+      "side": 1,
+      "message": "You mean this:\n\n        xfunc :\u003d clo.Func.Closure\n\t// Set current associated iota value, so iota can be used inside\n\t// function in ConstSpec, see issue #22344\n\tif i :\u003d len(typecheckdefstack); i \u003e 0 {\n\t\tif x :\u003d typecheckdefstack[i-1]; x.Op \u003d\u003d OLITERAL {\n\t\t\txfunc.SetIota(x.Iota())\n\t\t}\n\t} else if Curfn !\u003d nil \u0026\u0026 clo.Type !\u003d nil {\n\t\tif xfunc.Iota() \u003c 0 \u0026\u0026 Curfn.Iota() \u003e\u003d 0 {\n\t\t\txfunc.SetIota(Curfn.Iota())\n\t\t}\n\t}\n\nIf yes, then it does not work.",
+      "parentUuid": "b084aa9f_d5dc2444",
+      "revId": "5357cdb25ca864550f8557a46d7f3813b444d8b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0279298e_007f143f",
         "filename": "src/cmd/compile/internal/gc/closure.go",
         "patchSetId": 2
