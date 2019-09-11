@@ -73,6 +73,13 @@ func (p *noder) funcLit(expr *syntax.FuncLit) *Node {
 
 func typecheckclosure(clo *Node, top int) {
 	xfunc := clo.Func.Closure
+	// Set current associated iota value, so iota can be used inside
+	// function in ConsSpec, see issue #22344
+	if i := len(typecheckdefstack); i > 0 {
+		if x := typecheckdefstack[i-1]; x.Op == OLITERAL {
+			xfunc.SetIota(x.Iota())
+		}
+	}
 	clo.Func.Ntype = typecheck(clo.Func.Ntype, ctxType)
 	clo.Type = clo.Func.Ntype.Type
 	clo.Func.Top = top
@@ -112,6 +119,9 @@ func typecheckclosure(clo *Node, top int) {
 	if Curfn != nil && clo.Type != nil {
 		oldfn := Curfn
 		Curfn = xfunc
+		if Curfn.Iota() < 0 && oldfn.Iota() >= 0 {
+			Curfn.SetIota(oldfn.Iota())
+		}
 		olddd := decldepth
 		decldepth = 1
 		typecheckslice(xfunc.Nbody.Slice(), ctxStmt)

@@ -105,6 +105,13 @@ func resolve(n *Node) (res *Node) {
 				return nodintconst(x.Iota())
 			}
 		}
+
+		if Curfn != nil && Curfn.Iota() >= 0 {
+			o := Curfn.Iota()
+			Curfn.SetIota(o + 1)
+			return nodintconst(o)
+		}
+
 		return n
 	}
 
