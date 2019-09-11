@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f192c719_91c89895",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-11T20:56:22Z",
+      "side": 1,
+      "message": "s/iota undefined/undefined iota/",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "07f8e4d4d9d114e38d0d5743cfe43d9828709912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20b71019_44b514bb",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-11T20:56:22Z",
+      "side": 1,
+      "message": "defer func(iota constant.Value) { check.iota \u003d iota }(check.iota)",
+      "range": {
+        "startLine": 336,
+        "startChar": 13,
+        "endLine": 336,
+        "endChar": 14
+      },
+      "revId": "07f8e4d4d9d114e38d0d5743cfe43d9828709912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c381808_e1f98a92",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-11T20:56:22Z",
+      "side": 1,
+      "message": "with the above you don\u0027t need this",
+      "range": {
+        "startLine": 338,
+        "startChar": 7,
+        "endLine": 338,
+        "endChar": 11
+      },
+      "revId": "07f8e4d4d9d114e38d0d5743cfe43d9828709912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6328f42_1dbe843b",
+        "filename": "src/go/types/testdata/const0.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-11T20:56:22Z",
+      "side": 1,
+      "message": "maybe, inside the function body:\n\nconst (\n   zero \u003d iota\n   one\n)\nassert(one \u003d\u003d 1)\nassert(iota \u003d\u003d 0)\n\n(note that in go/types testing code, you can use a predeclared function \"assert\").",
+      "range": {
+        "startLine": 341,
+        "startChar": 11,
+        "endLine": 341,
+        "endChar": 12
+      },
+      "revId": "07f8e4d4d9d114e38d0d5743cfe43d9828709912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
