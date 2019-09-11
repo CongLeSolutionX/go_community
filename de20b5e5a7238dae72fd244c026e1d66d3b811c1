@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "38221a51_e2fcf5e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-11T20:25:14Z",
+      "side": 1,
+      "message": "Having a \"here\u0027s what\u0027s to come\" is perfectly fine (and useful context for reviewing). It\u0027s just that this read like \"this CL isn\u0027t ready yet\" more than \"this CL is just part of a broader arc and here\u0027s some foreshadowing\"",
+      "parentUuid": "cb5b3e23_7a42ec1b",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dfcb1bb_57a324c7",
         "filename": "src/cmd/internal/obj/dwarf.go",
         "patchSetId": 16
@@ -312,6 +330,24 @@
       "side": 1,
       "message": "Delve can\u0027t handle it right now, and Alessandro and I decided the best approach would be:\n\n1) Reset the state machines (as long as the PCs are always increasing)\n2) Wait till Delve can properly handle more end_sequences\n3) Update this code with the better approach.",
       "parentUuid": "12e67940_6c7e0b08",
+      "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2760fb1_4c26687b",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-11T20:25:14Z",
+      "side": 1,
+      "message": "Okay, sounds good. Drop a TODO in to switch to DW_LNS_end_sequence once Delve can handle multiple sequences.",
+      "parentUuid": "1a3864e7_cf2eede4",
       "revId": "de20b5e5a7238dae72fd244c026e1d66d3b811c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
