@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa43e3ca_d3980340",
+        "filename": "test/fixedbugs/issue22344.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-11T07:33:34Z",
+      "side": 1,
+      "message": "iota should still be 2 here. We\u0027re still within the 2nd (counting from 0) ConstSpec of this ConstDecl.",
+      "revId": "4d08c642b6ba029de53ea2de92850fc4379dba2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb543d95_86c2b556",
+        "filename": "test/fixedbugs/issue22344.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-11T07:33:34Z",
+      "side": 1,
+      "message": "And it should still be 2 here too.",
+      "revId": "4d08c642b6ba029de53ea2de92850fc4379dba2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
