@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "ff41a60e_ef4250d2",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-11T08:23:29Z",
+      "side": 1,
+      "message": "No, I meant:\n\n    // Type check the body now, ...\n    // ...\n    if Curfn !\u003d nil \u0026\u0026 clo.Type !\u003d nil {\n        ...\n+   } else {\n+       if i :\u003d len(typecheckdefstack); i \u003e 0 {\n+           ...\n+       }\n    }",
+      "parentUuid": "5ab3ebb5_abaefa89",
+      "revId": "5357cdb25ca864550f8557a46d7f3813b444d8b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0279298e_007f143f",
         "filename": "src/cmd/compile/internal/gc/closure.go",
         "patchSetId": 2
@@ -116,6 +134,24 @@
       "revId": "5357cdb25ca864550f8557a46d7f3813b444d8b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99c20841_7e32eae5",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2019-09-11T08:23:29Z",
+      "side": 1,
+      "message": "Ah, right. I see now. Thanks for the explanation.",
+      "parentUuid": "6bcc037b_1d6f7c98",
+      "revId": "5357cdb25ca864550f8557a46d7f3813b444d8b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
