@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8232097_adb0815e",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-11T15:52:48Z",
+      "side": 0,
+      "message": "Given that the .debug_line generator in obj depends on decoding the isstmt pcdata table, doesn\u0027t removing this also remove its source of statement information? (This wouldn\u0027t be an issue if it were driven direction from the Prog poses.)",
+      "revId": "7676b02f024e4f46b80aeec6f2c777cdfab6f3ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
