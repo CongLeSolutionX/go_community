@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "445a3ccd_27d51477",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-12T03:38:44Z",
+      "side": 1,
+      "message": "This comment should be before the defer now as it applies to both statements, really.",
+      "range": {
+        "startLine": 336,
+        "startChar": 4,
+        "endLine": 336,
+        "endChar": 7
+      },
+      "revId": "9a29d47ce638a1003333e3a034c0d936069d3556",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b27c0308_59ecd263",
+        "filename": "src/go/types/testdata/const0.src",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-12T03:38:44Z",
+      "side": 1,
+      "message": "please indent this with tabs\n\n(don\u0027t run it through gofmt as it may misplace the ERROR comments)",
+      "range": {
+        "startLine": 344,
+        "startChar": 4,
+        "endLine": 344,
+        "endChar": 9
+      },
+      "revId": "9a29d47ce638a1003333e3a034c0d936069d3556",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
