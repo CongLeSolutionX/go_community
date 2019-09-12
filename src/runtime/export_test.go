@@ -808,9 +808,9 @@ func (p *PageAlloc) HasChunk(i ChunkIdx) bool {
 func (p *PageAlloc) MallocBits(i ChunkIdx) *MallocBits {
 	return (*MallocBits)(&((*pageAlloc)(p).chunks[i].mallocBits))
 }
-func (p *PageAlloc) Scavenge(nbytes uintptr) (r uintptr) {
+func (p *PageAlloc) Scavenge(nbytes uintptr, locked bool) (r uintptr) {
 	systemstack(func() {
-		r = (*pageAlloc)(p).scavenge(nbytes)
+		r = (*pageAlloc)(p).scavenge(nbytes, locked)
 	})
 	return
 }
