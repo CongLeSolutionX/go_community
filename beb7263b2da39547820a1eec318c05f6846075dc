@@ -16,6 +16,24 @@
       "revId": "beb7263b2da39547820a1eec318c05f6846075dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03cbb220_4ef1b4c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-12T00:36:26Z",
+      "side": 1,
+      "message": "So in the code structure before this CL and even before the\nprevious ones, if the io.Reader wasn\u0027t an *io.LimitedReader\nwhose underlying reader was an *os.File, we wouldn\u0027t know\nwhat the filesize was.\n\nYou can verify what am talking about by invoking sendFile directly\nwith a big *os.File instead of an *io.LimitedReader and you\u0027ll see that we don\u0027t even check the size n \u003d\u003d 0, which isn\u0027t correct. I guess we haven\u0027t yet used an *os.File directly but this approach simplifies it and I even have a test to verify it -- I\u0027ll delete the test like you had previously requested since it is a heavy one.\n\nThis CL stats the *os.File if it wasn\u0027t passed in as the underlying reader, i.e. sendFile(fd, *os.File)",
+      "parentUuid": "90927897_1505ec1c",
+      "revId": "beb7263b2da39547820a1eec318c05f6846075dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
