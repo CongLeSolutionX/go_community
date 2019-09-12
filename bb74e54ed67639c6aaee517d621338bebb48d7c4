@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3cf57f23_c2040c24",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-12T02:57:01Z",
+      "side": 1,
+      "message": "Ah right, it looks better.",
+      "parentUuid": "b420acc6_13e9fed6",
+      "revId": "bb74e54ed67639c6aaee517d621338bebb48d7c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7abe124a_e39e7689",
         "filename": "src/cmd/compile/internal/gc/syntax.go",
         "patchSetId": 5
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "fb2e258f_c61a33b2",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-12T02:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7abe124a_e39e7689",
+      "range": {
+        "startLine": 51,
+        "startChar": 32,
+        "endLine": 51,
+        "endChar": 67
+      },
+      "revId": "bb74e54ed67639c6aaee517d621338bebb48d7c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e254f832_7740a7be",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 5
@@ -62,6 +104,30 @@
       "revId": "bb74e54ed67639c6aaee517d621338bebb48d7c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3799de8d_a1e7490b",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-12T02:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e254f832_7740a7be",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 3
+      },
+      "revId": "bb74e54ed67639c6aaee517d621338bebb48d7c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
