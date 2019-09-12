@@ -34,6 +34,24 @@
       "revId": "beb7263b2da39547820a1eec318c05f6846075dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67b330a2_ff84549b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-12T10:03:56Z",
+      "side": 1,
+      "message": "sendFile function is designed to send all os.File data from current position to the end of file. This works just fine with having n set to 0.\n\nsendFile even goes further to also support os.File wrapped around with io.LimitedReader. In this scenario we also know how many bytes we need to send.\n\nWhat other scenario is not covered? I don\u0027t understand. Please explain again.\n\nSorry if I am slow.\n\nAlex",
+      "parentUuid": "03cbb220_4ef1b4c9",
+      "revId": "beb7263b2da39547820a1eec318c05f6846075dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
