@@ -785,9 +785,9 @@ func (p *PageAlloc) HasArena(i uint) bool {
 func (p *PageAlloc) MallocBits(i uint) *MallocBits {
 	return (*MallocBits)(&(((*pageAlloc)(p).arenas(arenaIdx(i)).pageAlloc).mallocBits))
 }
-func (p *PageAlloc) Scavenge(nbytes uintptr) (r uintptr) {
+func (p *PageAlloc) Scavenge(nbytes uintptr, locked bool) (r uintptr) {
 	systemstack(func() {
-		r = (*pageAlloc)(p).scavenge(nbytes)
+		r = (*pageAlloc)(p).scavenge(nbytes, locked)
 	})
 	return
 }
