@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f59d45eb_1c1b84c6",
+        "filename": "src/cmd/internal/obj/riscv/list.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-12T14:41:13Z",
+      "side": 1,
+      "message": "You could special case SP if you like (also fine not to).",
+      "revId": "2f2bbb3b20dc6acbf0a47c1513a85c3e4c22137f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

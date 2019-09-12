@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "dc8a1477_1490d8de",
+        "filename": "src/cmd/internal/obj/riscv/list.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-12T14:41:13Z",
+      "side": 1,
+      "message": "\u003e Do we want to remove the ABI names from cmd/asm/internal/arch/arch.go as well?\n\nThey could be useful if you plan to use them in places like syscall wrappers. Removing them is also fine. Thanks.",
+      "parentUuid": "7cb38fad_4f059594",
+      "range": {
+        "startLine": 36,
+        "startChar": 48,
+        "endLine": 36,
+        "endChar": 68
+      },
+      "revId": "3a58bcb940ac4c96ccccb45966f87a35f28e2bfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6edbdf3e_75a9bdbc",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 2
