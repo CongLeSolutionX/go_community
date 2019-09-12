@@ -417,16 +417,17 @@ func bgscavenge(c chan int) {
 //
 // Returns the amount of memory scavenged in bytes.
 //
-// s.mheapLock must not be locked.
+// If locked == false, s.mheapLock must not be locked. If locked == true,
+// s.mheapLock must be locked.
 //
 // Must run on the system stack because scavengeOne must run on the
 // system stack.
 //
 //go:systemstack
-func (s *pageAlloc) scavenge(nbytes uintptr) uintptr {
+func (s *pageAlloc) scavenge(nbytes uintptr, locked bool) uintptr {
 	released := uintptr(0)
 	for released < nbytes {
-		r := s.scavengeOne(nbytes - released)
+		r := s.scavengeOne(nbytes-released, locked)
 		if r == 0 {
 			// Nothing left to scavenge! Give up.
 			break
@@ -453,11 +454,14 @@ func (s *pageAlloc) resetScavengeAddr() {
 //
 // Should it exhaust the heap, it will return 0 and set s.scavAddr to minScavAddr.
 //
-// s.mheapLock must not be locked. Must be run on the system stack because it
-// acquires the heap lock.
+// If locked == false, s.mheapLock must not be locked.
+// If locked == true, s.mheapLock must be locked.
+//
+// Must be run on the system stack because it either acquires the heap lock
+// or executes with the heap lock acquired.
 //
 //go:systemstack
-func (s *pageAlloc) scavengeOne(max uintptr) uintptr {
+func (s *pageAlloc) scavengeOne(max uintptr, locked bool) uintptr {
 	// Calculate the maximum number of pages to scavenge.
 	//
 	// This should be alignUp(max, pageSize) / pageSize but max can and will
@@ -469,10 +473,22 @@ func (s *pageAlloc) scavengeOne(max uintptr) uintptr {
 		maxPages++
 	}
 
-	lock(s.mheapLock)
+	// Helpers for locking and unlocking only if locked == false.
+	lockHeap := func() {
+		if !locked {
+			lock(s.mheapLock)
+		}
+	}
+	unlockHeap := func() {
+		if !locked {
+			unlock(s.mheapLock)
+		}
+	}
+
+	lockHeap()
 	top := chunkIndex(s.scavAddr)
 	if top < s.start {
-		unlock(s.mheapLock)
+		unlockHeap()
 		return 0
 	}
 
@@ -484,10 +500,10 @@ func (s *pageAlloc) scavengeOne(max uintptr) uintptr {
 	// If we found something, scavenge it and return!
 	if npages != 0 {
 		s.scavengeRangeLocked(ci, base, npages)
-		unlock(s.mheapLock)
+		unlockHeap()
 		return uintptr(npages) * pageSize
 	}
-	unlock(s.mheapLock)
+	unlockHeap()
 
 	// Slow path: iterate optimistically looking for any free and unscavenged page.
 	// If we think we see something, stop and verify it!
@@ -514,7 +530,7 @@ func (s *pageAlloc) scavengeOne(max uintptr) uintptr {
 		}
 
 		// We found a candidate, so let's lock and verify it.
-		lock(s.mheapLock)
+		lockHeap()
 
 		// Find, verify, and scavenge if we can.
 		chunk := &s.chunks[i]
@@ -522,7 +538,7 @@ func (s *pageAlloc) scavengeOne(max uintptr) uintptr {
 		if npages > 0 {
 			// We found memory to scavenge! Mark the bits and report that up.
 			s.scavengeRangeLocked(i, base, npages)
-			unlock(s.mheapLock)
+			unlockHeap()
 			return uintptr(npages) * pageSize
 		}
 
@@ -530,14 +546,14 @@ func (s *pageAlloc) scavengeOne(max uintptr) uintptr {
 		// all the way up to where we searched as scavenged for future calls
 		// and keep iterating.
 		s.scavAddr = chunkBase(i-1) + mallocChunkPages*pageSize - 1
-		unlock(s.mheapLock)
+		unlockHeap()
 	}
 
-	lock(s.mheapLock)
+	lockHeap()
 	// We couldn't find anything, so signal that there's nothing left
 	// to scavenge.
 	s.scavAddr = minScavAddr
-	unlock(s.mheapLock)
+	unlockHeap()
 
 	return 0
 }
