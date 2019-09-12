@@ -16,6 +16,24 @@
       "revId": "7676b02f024e4f46b80aeec6f2c777cdfab6f3ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a791feae_a67b8104",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-12T14:44:44Z",
+      "side": 0,
+      "message": "No. We use the same source of truth to generate the is_stmt symbol as we do when we generate the table in the object file:\n\nhttps://go-review.googlesource.com/c/go/+/188317/17/src/cmd/internal/obj/dwarf.go#65\n\nIf we use progs, I believe we\u0027ll get some of the time back from the compiler as parsing the tables is worse than walking the progs.",
+      "parentUuid": "e8232097_adb0815e",
+      "revId": "7676b02f024e4f46b80aeec6f2c777cdfab6f3ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
