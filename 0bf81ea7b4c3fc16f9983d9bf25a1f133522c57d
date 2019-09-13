@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9213fe1f_717ae2b9",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-13T14:54:36Z",
+      "side": 1,
+      "message": "For symmetry, I would expect these to match the values used at lines 286 and 289.\n\nIf we\u0027re checking deletions against the defaults, then we should check the additions against the defaults too.\n\nOn the other hand, if we\u0027re allowing the GOOS and GOARCH values from the process\u0027s environment to influence the `go env -w` check, then they should also influence the `go env -u` check.",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 4
+      },
+      "revId": "0bf81ea7b4c3fc16f9983d9bf25a1f133522c57d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
