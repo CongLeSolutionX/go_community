@@ -385,6 +385,24 @@
     },
     {
       "key": {
+        "uuid": "ead4c26e_cd1780f4",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1836,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-13T18:26:35Z",
+      "side": 1,
+      "message": "Thanks for the context!\n\nIn that case, I think we should keep the DW_AT_name as the package identifier (without any suffixes, etc), regardless of what implementation details we need in the linker to make that happen. We could generate unique symbol names, or use the same symbol name with a unique version, without having to change DW_AT_name.\n\nIn general, this clearly doesn\u0027t need to have a symbol name and live in the symbol table, but I don\u0027t think there\u0027s anything wrong with representing it as a Symbol, per se. Symbols are the units from which we piece together the output file and also happen to be a useful abstraction for laying out and encoding DIEs.",
+      "parentUuid": "15b103a2_9c434b36",
+      "revId": "4c71ba67adeb048a1f9c8e6321ee4657993d5483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bebc476_95d4e87c",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 8
