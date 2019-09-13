@@ -52,6 +52,24 @@
       "revId": "beb7263b2da39547820a1eec318c05f6846075dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41c1bc08_8444f3f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-13T18:32:10Z",
+      "side": 1,
+      "message": "\u003esendFile function is designed to send all os.File data from current position to the end of file. This works just fine with having n set to 0.\n\nAck.\n\n\u003esendFile even goes further to also support os.File wrapped around with io.LimitedReader. In this scenario we also know how many bytes we need to send.\n\nAck.\n\n\u003eWhat other scenario is not covered? I don\u0027t understand. Please explain again.\n\nIn the case that *os.File isn\u0027t wrapped with io.LimitedReader and that *os.File fileSize is \u003e (1\u003c\u003c31 - 2) TransmitFile will fail.\nThis CL also allows us to examine the fileSize like we did for the *io.LimitedReader but also for *os.File.\nAs I had previously mentioned, you can examine this situation by creating a 3GB file and passing its directly to sendFile e.g.\n\n    f, err :\u003d os.Create(\"testFile.txt\")\n    _ \u003d err // Handle the error\n    n, err, _ :\u003d sendFile(tcpConn.conn.fd, f)\n    if err !\u003d nil {\n        t.Fatalf(\"Failed to sendFile: %v\", err)\n    }",
+      "parentUuid": "67b330a2_ff84549b",
+      "revId": "beb7263b2da39547820a1eec318c05f6846075dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
