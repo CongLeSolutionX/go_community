@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b03f636_60c1a0e6",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1200,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2019-09-13T10:51:13Z",
+      "side": 1,
+      "message": "`pc.alt \u003d\u003d nil \u0026\u0026 ...` is enough.",
+      "revId": "0beafac525a860d7fdae730a421a6790f02d4fa9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
