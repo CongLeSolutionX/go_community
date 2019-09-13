@@ -22,6 +22,30 @@
       "revId": "0bf81ea7b4c3fc16f9983d9bf25a1f133522c57d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df0a0f54_81236a1e",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 32909
+      },
+      "writtenOn": "2019-09-13T20:56:22Z",
+      "side": 1,
+      "message": "Agree.\n\nI think considering explicit envs in -w validation makes sense to be sure that `go env` won\u0027t fail afterward (since `go env` considers envs).\nConsidering what you say, -u should also consider explicit envs (for the same subsequent `go env` success).\n\nThis means that lines 256 should be:\n```\nif del[\"GOOS\"] {\n\tgoos \u003d getOrigEnv(\"GOOS\")\n\tif goos \u003d\u003d \"\" {\n\t\tgoos \u003d build.Default.GOOS\n\t}\n} \n```\nWhere `getOrigEnv` is a new func:\n```\nfunc getOrigEnv(key string) string {\n\tfor _, v :\u003d range cfg.OrigEnv {\n\t\tif strings.HasPrefix(v, key+\"\u003d\") {\n\t\t\treturn strings.TrimPrefix(v, key+\"\u003d\")\n\t\t}\n\t}\n\treturn \"\"\n}\n```\nWhy a new `getOrigEnv()`?\n\nNotice that we can\u0027t do `goos \u003d envOr(\"GOOS\", build.Default.GOOS)` since this function resolves between current env file and explicit env variables. Additionally, using `os.Getenv` won\u0027t work either since at this point environment variables were overridden in `main.go`; they\u0027re indistinguishable from explicit environment execution and env file.\nPrecisely, in `main.go`:\n```\n// Set environment (GOOS, GOARCH, etc) explicitly.\n// In theory all the commands we invoke should have\n// the same default computation of these as we do,\n// but in practice there might be skew\n// This makes sure we all agree.\ncfg.OrigEnv \u003d os.Environ()\ncfg.CmdEnv \u003d envcmd.MkEnv() // ### Under the hood: env variable or env file ###\nfor _, env :\u003d range cfg.CmdEnv {\n\tif os.Getenv(env.Name) !\u003d env.Value {\n\t\tos.Setenv(env.Name, env.Value)\n\t}\n}\n```\nThis is the reason for this new `getOrigEnv`, which leverages `cfg.OrigEnv` saved in `main.go`.\n\n(Similarly, apply the same to 259 for GOARCH).\n\n\nWhat do you think?",
+      "parentUuid": "9213fe1f_717ae2b9",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 4
+      },
+      "revId": "0bf81ea7b4c3fc16f9983d9bf25a1f133522c57d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
