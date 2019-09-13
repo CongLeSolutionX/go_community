@@ -186,6 +186,7 @@ type Encoder struct {
 	indentBuf    *bytes.Buffer
 	indentPrefix string
 	indentValue  string
+	keepBuffer   func(*bytes.Buffer) bool
 }
 
 // NewEncoder returns a new encoder that writes to w.
@@ -231,7 +232,7 @@ func (enc *Encoder) Encode(v interface{}) error {
 	if _, err = enc.w.Write(b); err != nil {
 		enc.err = err
 	}
-	encodeStatePool.Put(e)
+	enc.putEncodeState(e)
 	return err
 }
 
@@ -252,6 +253,23 @@ func (enc *Encoder) SetIndent(prefix, indent string) {
 // of the output, SetEscapeHTML(false) disables this behavior.
 func (enc *Encoder) SetEscapeHTML(on bool) {
 	enc.escapeHTML = on
+}
+
+// SetKeepBufferFunc allows setting a function to control whether a used
+// *bytes.Buffer is returned to the pool.
+//
+// Normally, all used buffers are retained for future use, to reduce
+// memory allocations. If your use of JSON encoding occasionally produces
+// very large buffers, you may wish to not return a particular buffer to
+// the pool, so that memory may be freed.
+func (enc *Encoder) SetKeepBufferFunc(fn func(*bytes.Buffer) bool) {
+	enc.keepBuffer = fn
+}
+
+func (enc *Encoder) putEncodeState(e *encodeState) {
+	if enc.keepBuffer == nil || enc.keepBuffer(&e.Buffer) {
+		encodeStatePool.Put(e)
+	}
 }
 
 // RawMessage is a raw encoded JSON value.
