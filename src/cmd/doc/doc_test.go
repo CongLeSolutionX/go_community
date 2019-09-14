@@ -300,6 +300,16 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Single internal constant without -u.
+	{
+		"single internal constant without -u",
+		[]string{p, `internalConstant`},
+		[]string{
+			`Comment about internal constant`, // Include comment.
+			`const internalConstant = 2`,
+		},
+		nil,
+	},
 	// Block of constants.
 	{
 		"block of constants",
@@ -317,6 +327,15 @@ var tests = []test{
 	{
 		"block of constants with -u",
 		[]string{"-u", p, `constThree`},
+		[]string{
+			`constThree = 3.*Comment on line with constThree`,
+		},
+		nil,
+	},
+	// Block of internal constants without -u.
+	{
+		"block of internal constants without -u",
+		[]string{p, `constThree`},
 		[]string{
 			`constThree = 3.*Comment on line with constThree`,
 		},
@@ -379,6 +398,16 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Single variable without -u.
+	{
+		"single variable without -u",
+		[]string{p, `internalVariable`},
+		[]string{
+			`Comment about internal variable`, // Include comment.
+			`var internalVariable = 2`,
+		},
+		nil,
+	},
 	// Block of variables.
 	{
 		"block of variables",
@@ -401,6 +430,15 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Block of variables without -u.
+	{
+		"block of variables without -u",
+		[]string{p, `varThree`},
+		[]string{
+			`varThree = 3.*Comment on line with varThree`,
+		},
+		nil,
+	},
 
 	// Function.
 	{
@@ -416,6 +454,16 @@ var tests = []test{
 	{
 		"function with -u",
 		[]string{"-u", p, `internalFunc`},
+		[]string{
+			`Comment about internal function`, // Include comment.
+			`func internalFunc\(a int\) bool`,
+		},
+		nil,
+	},
+	// Function without -u.
+	{
+		"function without -u",
+		[]string{p, `internalFunc`},
 		[]string{
 			`Comment about internal function`, // Include comment.
 			`func internalFunc\(a int\) bool`,
@@ -551,6 +599,20 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Unexported type without -u.
+	{
+		"unexported type without -u",
+		[]string{p, `unexportedType`},
+		[]string{
+			`Comment about unexported type`, // Include comment.
+			`type unexportedType int`,       // Type definition.
+			`func \(unexportedType\) ExportedMethod\(\) bool`,
+			`func \(unexportedType\) unexportedMethod\(\) bool`,
+			`ExportedTypedConstant_unexported unexportedType = iota`,
+			`const unexportedTypedConstant unexportedType = 1`,
+		},
+		nil,
+	},
 
 	// Interface.
 	{
@@ -636,6 +698,17 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Method without -u.
+	{
+		"method without -u",
+		[]string{p, `ExportedType.unexportedMethod`},
+		[]string{
+			`func \(ExportedType\) unexportedMethod\(a int\) bool`,
+			`Comment about unexported method`,
+		},
+		nil,
+	},
+
 	// Method with -src.
 	{
 		"method with -src",
@@ -666,6 +739,16 @@ var tests = []test{
 	{
 		"method with -u",
 		[]string{"-u", p, `ExportedType.unexportedField`},
+		[]string{
+			`unexportedField int`,
+			`Comment on line with unexported field`,
+		},
+		nil,
+	},
+	// Field without -u.
+	{
+		"method without -u",
+		[]string{p, `ExportedType.unexportedField`},
 		[]string{
 			`unexportedField int`,
 			`Comment on line with unexported field`,
@@ -708,6 +791,18 @@ var tests = []test{
 	{
 		"case matching on, no dups",
 		[]string{"-u", p, `duplicate`},
+		[]string{
+			`Duplicate`,
+			`duplicate`,
+		},
+		[]string{
+			"\\)\n+const", // This will appear if the const decl appears twice.
+		},
+	},
+	// No dups without -u.
+	{
+		"case matching on, no dups",
+		[]string{p, `duplicate`},
 		[]string{
 			`Duplicate`,
 			`duplicate`,
