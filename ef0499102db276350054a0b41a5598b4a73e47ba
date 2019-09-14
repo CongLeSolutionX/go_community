@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3985e5e3_605f6c6b",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-09-14T21:15:28Z",
+      "side": 1,
+      "message": "Please look at the style of the code around here. Use capitals and punctuation in the comments, and see if a string is empty by comparison with \"\". In any case, the empty string is not an exported identifier so you don\u0027t even need to check that.\n\nThe comment could be shorter:\n\n// Always show documentation for explicitly-requested identifiers.",
+      "revId": "ef0499102db276350054a0b41a5598b4a73e47ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
