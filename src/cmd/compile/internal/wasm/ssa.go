@@ -81,11 +81,10 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 
 	case ssa.BlockIf:
 		getValue32(s, b.Control)
-		s.Prog(wasm.AI32Eqz)
 		s.Prog(wasm.AIf)
-		goToBlock(b.Succs[1].Block(), false)
+		goToBlock(b.Succs[0].Block(), false)
 		s.Prog(wasm.AEnd)
-		goToBlock(b.Succs[0].Block(), true)
+		goToBlock(b.Succs[1].Block(), true)
 
 	case ssa.BlockRet:
 		s.Prog(obj.ARET)
