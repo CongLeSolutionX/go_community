@@ -300,23 +300,41 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Single internal constant without -u.
+	{
+		"single internal constant without -u",
+		[]string{p, `internalConstant`},
+		[]string{
+			`Comment about internal constant`, // Include comment.
+			`const internalConstant = 2`,
+		},
+		nil,
+	},
 	// Block of constants.
 	{
 		"block of constants",
 		[]string{p, `ConstTwo`},
 		[]string{
-			`Comment before ConstOne.\n.*ConstOne = 1`,    // First...
-			`ConstTwo = 2.*Comment on line with ConstTwo`, // And second show up.
-			`Comment about block of constants`,            // Comment does too.
+			`Comment before ConstOne.\n.*ConstOne += 1`,    // First...
+			`ConstTwo += 2.*Comment on line with ConstTwo`, // And second show up.
+			`Comment about block of constants`,             // Comment does too.
+			`constThree += 3.*Comment on line with constThree`,
 		},
-		[]string{
-			`constThree`, // No unexported constant.
-		},
+		[]string{},
 	},
 	// Block of constants -u.
 	{
 		"block of constants with -u",
 		[]string{"-u", p, `constThree`},
+		[]string{
+			`constThree = 3.*Comment on line with constThree`,
+		},
+		nil,
+	},
+	// Block of internal constants without -u.
+	{
+		"block of internal constants without -u",
+		[]string{p, `constThree`},
 		[]string{
 			`constThree = 3.*Comment on line with constThree`,
 		},
@@ -339,7 +357,9 @@ var tests = []test{
 		"block of constants with carryover type",
 		[]string{p, `ConstLeft2`},
 		[]string{
-			`ConstLeft2, constRight2 uint64`,
+			`_, _ uint64 = 2 \* iota, 1 << iota`,
+			`constLeft1, constRight1`,
+			`ConstLeft2, constRight2`,
 			`constLeft3, ConstRight3`,
 			`ConstLeft4, ConstRight4`,
 		},
@@ -379,23 +399,41 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Single variable without -u.
+	{
+		"single variable without -u",
+		[]string{p, `internalVariable`},
+		[]string{
+			`Comment about internal variable`, // Include comment.
+			`var internalVariable = 2`,
+		},
+		nil,
+	},
 	// Block of variables.
 	{
 		"block of variables",
 		[]string{p, `VarTwo`},
 		[]string{
-			`Comment before VarOne.\n.*VarOne = 1`,    // First...
-			`VarTwo = 2.*Comment on line with VarTwo`, // And second show up.
-			`Comment about block of variables`,        // Comment does too.
+			`Comment before VarOne.\n.*VarOne += 1`,    // First...
+			`VarTwo += 2.*Comment on line with VarTwo`, // And second show up.
+			`Comment about block of variables`,         // Comment does too.
+			`varThree += 3.*Comment on line with varThree`,
 		},
-		[]string{
-			`varThree= 3`, // No unexported variable.
-		},
+		[]string{},
 	},
 	// Block of variables -u.
 	{
 		"block of variables with -u",
 		[]string{"-u", p, `varThree`},
+		[]string{
+			`varThree = 3.*Comment on line with varThree`,
+		},
+		nil,
+	},
+	// Block of variables without -u.
+	{
+		"block of variables without -u",
+		[]string{p, `varThree`},
 		[]string{
 			`varThree = 3.*Comment on line with varThree`,
 		},
@@ -416,6 +454,16 @@ var tests = []test{
 	{
 		"function with -u",
 		[]string{"-u", p, `internalFunc`},
+		[]string{
+			`Comment about internal function`, // Include comment.
+			`func internalFunc\(a int\) bool`,
+		},
+		nil,
+	},
+	// Function without -u.
+	{
+		"function without -u",
+		[]string{p, `internalFunc`},
 		[]string{
 			`Comment about internal function`, // Include comment.
 			`func internalFunc\(a int\) bool`,
@@ -443,20 +491,19 @@ var tests = []test{
 			`type ExportedType struct`,    // Type definition.
 			`Comment before exported field.*\n.*ExportedField +int` +
 				`.*Comment on line with exported field`,
+			`unexportedField +int.*Comment on line with unexported field`,
 			`ExportedEmbeddedType.*Comment on line with exported embedded field`,
-			`Has unexported fields`,
 			`func \(ExportedType\) ExportedMethod\(a int\) bool`,
 			`const ExportedTypedConstant ExportedType = iota`, // Must include associated constant.
 			`func ExportedTypeConstructor\(\) \*ExportedType`, // Must include constructor.
 			`io.Reader.*Comment on line with embedded Reader`,
+			`func \(ExportedType\) unexportedMethod\(a int\) bool`,
+			`const unexportedTypedConstant ExportedType = 1`,
+			`error.*omment on line with embedded error`,
 		},
 		[]string{
-			`unexportedField`,               // No unexported field.
 			`int.*embedded`,                 // No unexported embedded field.
 			`Comment about exported method`, // No comment about exported method.
-			`unexportedMethod`,              // No unexported method.
-			`unexportedTypedConstant`,       // No unexported constant.
-			`error`,                         // No embedded error.
 		},
 	},
 	// Type with -src. Will see unexported fields.
@@ -474,12 +521,10 @@ var tests = []test{
 			`const ExportedTypedConstant ExportedType = iota`, // Must include associated constant.
 			`func ExportedTypeConstructor\(\) \*ExportedType`, // Must include constructor.
 			`io.Reader.*Comment on line with embedded Reader`,
+			`func \(ExportedType\) unexportedMethod\(a int\) bool`,
+			`const unexportedTypedConstant ExportedType = 1`,
 		},
-		[]string{
-			`Comment about exported method`, // No comment about exported method.
-			`unexportedMethod`,              // No unexported method.
-			`unexportedTypedConstant`,       // No unexported constant.
-		},
+		[]string{},
 	},
 	// Type -all.
 	{
@@ -497,10 +542,9 @@ var tests = []test{
 			`func \(ExportedType\) ExportedMethod\(a int\) bool`,
 			`Comment about exported method.`,
 			`func \(ExportedType\) Uncommented\(a int\) bool\n\n`, // Ensure line gap after method with no comment
-		},
-		[]string{
 			`unexportedType`,
 		},
+		[]string{},
 	},
 	// Type T1 dump (alias).
 	{
@@ -551,6 +595,20 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Unexported type without -u.
+	{
+		"unexported type without -u",
+		[]string{p, `unexportedType`},
+		[]string{
+			`Comment about unexported type`, // Include comment.
+			`type unexportedType int`,       // Type definition.
+			`func \(unexportedType\) ExportedMethod\(\) bool`,
+			`func \(unexportedType\) unexportedMethod\(\) bool`,
+			`ExportedTypedConstant_unexported unexportedType = iota`,
+			`const unexportedTypedConstant unexportedType = 1`,
+		},
+		nil,
+	},
 
 	// Interface.
 	{
@@ -561,15 +619,12 @@ var tests = []test{
 			`type ExportedInterface interface`, // Interface definition.
 			`Comment before exported method.*\n.*ExportedMethod\(\)` +
 				`.*Comment on line with exported method`,
+			`unexportedMethod\(\).*Comment on line with unexported method`,
 			`io.Reader.*Comment on line with embedded Reader`,
 			`error.*Comment on line with embedded error`,
-			`Has unexported methods`,
 		},
 		[]string{
-			`unexportedField`,               // No unexported field.
-			`Comment about exported method`, // No comment about exported method.
-			`unexportedMethod`,              // No unexported method.
-			`unexportedTypedConstant`,       // No unexported constant.
+			`Has unexported methods`,
 		},
 	},
 	// Interface -u with unexported methods.
@@ -636,6 +691,17 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Method without -u.
+	{
+		"method without -u",
+		[]string{p, `ExportedType.unexportedMethod`},
+		[]string{
+			`func \(ExportedType\) unexportedMethod\(a int\) bool`,
+			`Comment about unexported method`,
+		},
+		nil,
+	},
+
 	// Method with -src.
 	{
 		"method with -src",
@@ -666,6 +732,16 @@ var tests = []test{
 	{
 		"method with -u",
 		[]string{"-u", p, `ExportedType.unexportedField`},
+		[]string{
+			`unexportedField int`,
+			`Comment on line with unexported field`,
+		},
+		nil,
+	},
+	// Field without -u.
+	{
+		"method without -u",
+		[]string{p, `ExportedType.unexportedField`},
 		[]string{
 			`unexportedField int`,
 			`Comment on line with unexported field`,
@@ -708,6 +784,18 @@ var tests = []test{
 	{
 		"case matching on, no dups",
 		[]string{"-u", p, `duplicate`},
+		[]string{
+			`Duplicate`,
+			`duplicate`,
+		},
+		[]string{
+			"\\)\n+const", // This will appear if the const decl appears twice.
+		},
+	},
+	// No dups without -u.
+	{
+		"case matching on, no dups",
+		[]string{p, `duplicate`},
 		[]string{
 			`Duplicate`,
 			`duplicate`,
