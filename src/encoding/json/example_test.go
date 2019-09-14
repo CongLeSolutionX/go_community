@@ -34,6 +34,57 @@ func ExampleMarshal() {
 	// {"ID":1,"Name":"Reds","Colors":["Crimson","Red","Ruby","Maroon"]}
 }
 
+func ExampleMarshal_tag() {
+	type JSONStruct struct {
+		Field1      int   `json:"myName1"`
+		Field2      int   `json:"myName2,omitempty"`
+		Field3      int   `json:",omitempty"`
+		Field4      int   `json:"-"`
+		Field5      int   `json:"-,"`
+		Int64String int64 `json:",string"`
+	}
+	for _, jsonStruct := range []JSONStruct{
+		{
+			Field1:      1,
+			Field2:      2,
+			Field3:      3,
+			Field4:      4,
+			Field5:      5,
+			Int64String: 64,
+		},
+		{
+			// empty struct
+			// fields with "omitempty" will not be omitted
+		},
+	} {
+		b, err := json.Marshal(jsonStruct)
+		if err != nil {
+			fmt.Println("error:", err)
+		}
+		fmt.Println(string(b))
+	}
+	// Output:
+	// {"myName1":1,"myName2":2,"Field3":3,"-":5,"Int64String":"64"}
+	// {"myName1":0,"-":0,"Int64String":"0"}
+}
+
+func ExampleMarshal_export() {
+	jsonStruct := struct {
+		ExportedField   string
+		unexportedField string
+	}{
+		ExportedField:   "I'll be marshaled",
+		unexportedField: "I'll not be",
+	}
+	b, err := json.Marshal(jsonStruct)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	fmt.Println(string(b))
+	// Output:
+	// {"ExportedField":"I'll be marshaled"}
+}
+
 func ExampleUnmarshal() {
 	var jsonBlob = []byte(`[
 	{"Name": "Platypus", "Order": "Monotremata"},
@@ -51,6 +102,40 @@ func ExampleUnmarshal() {
 	fmt.Printf("%+v", animals)
 	// Output:
 	// [{Name:Platypus Order:Monotremata} {Name:Quoll Order:Dasyuromorphia}]
+}
+
+func ExampleUnmarshal_tag() {
+	var jsonBlob = []byte(`{"Field1": 1, "myName2": 2, "Int64String": "64"}`)
+	jsonStruct := struct {
+		Field1      int
+		Field2      int   `json:"myName2"`
+		Int64String int64 `json:",string"`
+	}{}
+	err := json.Unmarshal(jsonBlob, &jsonStruct)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	fmt.Printf("%+v\n", jsonStruct)
+	// Output:
+	// {Field1:1 Field2:2 Int64String:64}
+}
+
+func ExampleUnmarshal_export() {
+	var jsonBlob = []byte(`{
+		"ExportedField": "I'll be unmarshaled",
+		"unexportedField": "I'll not be"
+	}`)
+	jsonStruct := struct {
+		ExportedField   string
+		unexportedField string
+	}{}
+	err := json.Unmarshal(jsonBlob, &jsonStruct)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	fmt.Printf("%+v\n", jsonStruct)
+	// Output:
+	// {ExportedField:I'll be unmarshaled unexportedField:}
 }
 
 // This example uses a Decoder to decode a stream of distinct JSON values.
