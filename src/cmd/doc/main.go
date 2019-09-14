@@ -131,6 +131,16 @@ func do(writer io.Writer, flagSet *flag.FlagSet, args []string) (err error) {
 			unexported = true
 		}
 
+		// Always show documentation for explicitly-requested identifiers.
+		if sym != "" {
+			if !token.IsExported(symbol) {
+				unexported = true
+			}
+			if !token.IsExported(method) {
+				unexported = true
+			}
+		}
+
 		// We have a package.
 		if showAll && symbol == "" {
 			pkg.allDoc()
