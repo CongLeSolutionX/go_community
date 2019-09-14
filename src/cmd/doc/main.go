@@ -131,6 +131,14 @@ func do(writer io.Writer, flagSet *flag.FlagSet, args []string) (err error) {
 			unexported = true
 		}
 
+		// show documentation for explicitly-requested identifiers regardless of the `-u` flag
+		if len(symbol) != 0 && !token.IsExported(symbol) {
+			unexported = true
+		}
+		if len(method) != 0 && !token.IsExported(method) {
+			unexported = true
+		}
+
 		// We have a package.
 		if showAll && symbol == "" {
 			pkg.allDoc()
