@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce8f9e67_2d36bbf9",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-09-15T21:07:39Z",
+      "side": 1,
+      "message": "As I said in the previous round, you don\u0027t need to check for empty strings. An empty string is already not an exported identifier.",
+      "revId": "f9f99ab160d32dc3450f3d245f8fc88ea49df409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
