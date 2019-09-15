@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdbece64_614d423c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-15T09:05:40Z",
+      "side": 1,
+      "message": "s/on more than *io.LimitedReader on Windows/to work with large files/",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "c568f8016060df082a8f3bae26539505b609ba8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59709238_5b06ef59",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-15T09:05:40Z",
+      "side": 1,
+      "message": "You renamed n into size, but you don\u0027t actually use size variable. Why?",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "c568f8016060df082a8f3bae26539505b609ba8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61169f85_30b0d61a",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-15T09:05:40Z",
+      "side": 1,
+      "message": "You don\u0027t need to calculate curpos every time in a loop. You need to do it once. You should know what curpos is at the end of the loop.",
+      "revId": "c568f8016060df082a8f3bae26539505b609ba8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a482a64f_02489fb7",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-15T09:05:40Z",
+      "side": 1,
+      "message": "I would just use int64(nw) everywhere, just like original code did.",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 7
+      },
+      "revId": "c568f8016060df082a8f3bae26539505b609ba8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e4fa77b_5b3e4e58",
+        "filename": "src/net/sendfile_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-15T09:05:40Z",
+      "side": 1,
+      "message": "Lets do that in poll.SendFile - we already call syscall.Seek there. syscall.Seek is simpler than calling f.Stat.",
+      "revId": "c568f8016060df082a8f3bae26539505b609ba8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
