@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "bd48bc7c_eceef99b",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-15T22:42:46Z",
+      "side": 1,
+      "message": "I did use it to infer n. I didn\u0027t want to keep decrementing n in the loop\n\nfor n \u003e 0 {\n}\n\nHence I did:\nn :\u003d size\n\nbut sure, I can use n directly.",
+      "parentUuid": "59709238_5b06ef59",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "c568f8016060df082a8f3bae26539505b609ba8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61169f85_30b0d61a",
         "filename": "src/internal/poll/sendfile_windows.go",
         "patchSetId": 6
@@ -62,6 +86,24 @@
       "revId": "c568f8016060df082a8f3bae26539505b609ba8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b977992_3ad84570",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-15T22:42:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "61169f85_30b0d61a",
+      "revId": "c568f8016060df082a8f3bae26539505b609ba8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +127,30 @@
       "revId": "c568f8016060df082a8f3bae26539505b609ba8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10a028ba_d5191674",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-15T22:42:46Z",
+      "side": 1,
+      "message": "It is used in 3 places as int64(nw) which seemed like doing unnecessary work\nbut I\u0027ll revert it and then that can be refactored later on.",
+      "parentUuid": "a482a64f_02489fb7",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 7
+      },
+      "revId": "c568f8016060df082a8f3bae26539505b609ba8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
