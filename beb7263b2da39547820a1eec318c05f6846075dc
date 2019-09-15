@@ -70,6 +70,24 @@
       "revId": "beb7263b2da39547820a1eec318c05f6846075dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58b8e591_ff0cb942",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-15T01:39:27Z",
+      "side": 1,
+      "message": "You are correct. Setting n to 0 in net.sendFile does not work, if file is larger than 2G. So we would have to split file into 2 G chunks if we want to use syscall.TransmitFile.\n\nBut how about moving all splitting logic from net.sendFile and into internal/poll.SendFile instead. I think you would end-up with much simple code - just a loop in a internal/poll.SendFile. What do you think?",
+      "parentUuid": "41c1bc08_8444f3f6",
+      "revId": "beb7263b2da39547820a1eec318c05f6846075dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
