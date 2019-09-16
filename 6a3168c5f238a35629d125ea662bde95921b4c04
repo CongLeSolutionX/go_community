@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd3a7625_30dfc1f1",
+        "filename": "src/math/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-16T16:22:52Z",
+      "side": 1,
+      "message": "Example with positive and negative input would be more informative.",
+      "range": {
+        "startLine": 183,
+        "startChar": 32,
+        "endLine": 183,
+        "endChar": 33
+      },
+      "revId": "6a3168c5f238a35629d125ea662bde95921b4c04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c6d6589_d805bff9",
+        "filename": "src/math/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-16T16:22:52Z",
+      "side": 1,
+      "message": "see comment below",
+      "range": {
+        "startLine": 191,
+        "startChar": 31,
+        "endLine": 191,
+        "endChar": 32
+      },
+      "revId": "6a3168c5f238a35629d125ea662bde95921b4c04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d57456e9_83fbcf93",
+        "filename": "src/math/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-16T16:22:52Z",
+      "side": 1,
+      "message": "Instead of 2 basically identical arguments, use an example with a negative argument.",
+      "range": {
+        "startLine": 199,
+        "startChar": 27,
+        "endLine": 199,
+        "endChar": 31
+      },
+      "revId": "6a3168c5f238a35629d125ea662bde95921b4c04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e4314e9_d7aa3a65",
+        "filename": "src/math/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-16T16:22:52Z",
+      "side": 1,
+      "message": "Expm1 is of interest when the argument is near zero. The examples should use such input. E.g. x \u003d 0.01, and a negative value as well.",
+      "range": {
+        "startLine": 206,
+        "startChar": 34,
+        "endLine": 206,
+        "endChar": 35
+      },
+      "revId": "6a3168c5f238a35629d125ea662bde95921b4c04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5573cc41_caec164e",
+        "filename": "src/math/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-16T16:22:52Z",
+      "side": 1,
+      "message": "Add an example with a negative argument as well. That\u0027s more interesting.",
+      "range": {
+        "startLine": 214,
+        "startChar": 25,
+        "endLine": 214,
+        "endChar": 30
+      },
+      "revId": "6a3168c5f238a35629d125ea662bde95921b4c04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
