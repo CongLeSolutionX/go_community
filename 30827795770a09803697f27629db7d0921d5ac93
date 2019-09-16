@@ -46,6 +46,30 @@
       "revId": "30827795770a09803697f27629db7d0921d5ac93",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a325930_ac7a975d",
+        "filename": "src/cmd/go/testdata/script/build_trimpath.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-09-16T15:15:23Z",
+      "side": 1,
+      "message": "\u003e As far as I can tell, nothing verifies that these strings *are* contained in binaries built *without* -trimpath, so it\u0027s hard to tell whether these checks are actually verifying what they claim to verify.\n\nGood call, the test was previously broken.\n\nThe grep command replaces $WORK with the literal string \u0027$WORK\u0027 in the text before matching the pattern. So the regexp should have been `\\$WORK`, which it is now.\n\n\u003e I think a more meaningful test would be to check out the same source in two different directories and verify that the build with -trimpath is indeed reproducible - i.e. that they both produce the same binary byte for byte.\n\nThe new part of the test starting on line 28 does exactly this.",
+      "parentUuid": "1b51c2c7_e5d5d5f1",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 34
+      },
+      "revId": "30827795770a09803697f27629db7d0921d5ac93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
