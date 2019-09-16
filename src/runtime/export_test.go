@@ -7,6 +7,7 @@
 package runtime
 
 import (
+	"math/bits"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -347,6 +348,10 @@ func ReadMemStatsSlow() (base, slow MemStats) {
 				pg := a.pageAlloc.scavenged.popcntRange(0, pagesPerArena)
 				slow.HeapReleased += uint64(pg) * pageSize
 			}
+		}
+		for _, p := range allp {
+			pg := bits.OnesCount64(p.pcache.cache & p.pcache.scav)
+			slow.HeapReleased += uint64(pg) * pageSize
 		}
 
 		getg().m.mallocing--
