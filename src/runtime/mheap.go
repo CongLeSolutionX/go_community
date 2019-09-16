@@ -1006,8 +1006,43 @@ func (h *mheap) allocSpan(npages uintptr, manual bool, spanclass spanClass, sysS
 	gp := getg()
 	base, scav := uintptr(0), uintptr(0)
 
-	// Try to allocate a cached span.
-	s = h.tryAllocMSpan()
+	// If the allocation is small enough, try the page cache!
+	pp := gp.m.p.ptr()
+	if pp != nil && npages < pageCacheSize/4 {
+		c := &pp.pcache
+
+		// If the cache is empty, refill it.
+		if c.cache == 0 {
+			lock(&h.lock)
+			*c = h.pages.allocToCache()
+			unlock(&h.lock)
+		}
+
+		// Try to allocate from the cache.
+		base, scav = c.alloc(npages)
+		if base != 0 {
+			s = h.tryAllocMSpan()
+
+			if gcBlackenEnabled != 0 || s == nil || (!manual && spanclass.sizeclass() == 0) {
+				// We're either running duing GC, failed to acquire a mspan,
+				// or the allocation is for a large object. This means we
+				// have to lock the heap and do a bunch of extra work,
+				// so go down the HaveBaseLocked path.
+				//
+				// We must do this during GC to avoid skew with heap_scan
+				// since we flush mcache stats whenever we lock.
+				//
+				// TODO(mknyszek): It would be nice to not have to
+				// lock the heap if it's a large allocation, but
+				// it's fine for now. The critical section here is
+				// short and large object allocations are relatively
+				// infrequent.
+				lock(&h.lock)
+				goto HaveBaseLocked
+			}
+			goto HaveBase
+		}
+	}
 
 	// We failed to do what we need to do without the lock.
 	lock(&h.lock)
@@ -1015,18 +1050,18 @@ func (h *mheap) allocSpan(npages uintptr, manual bool, spanclass spanClass, sysS
 	// Try to acquire a base address.
 	base, scav = h.pages.alloc(npages)
 	if base != 0 {
-		goto HaveBase
+		goto HaveBaseLocked
 	}
 	if !h.grow(npages) {
 		return nil
 	}
 	base, scav = h.pages.alloc(npages)
 	if base != 0 {
-		goto HaveBase
+		goto HaveBaseLocked
 	}
 	throw("grew heap, but no adequate free space found")
 
-HaveBase:
+HaveBaseLocked:
 	if s == nil {
 		// We failed to get an mspan earlier, so grab
 		// one now that we have the heap lock.
@@ -1057,7 +1092,9 @@ HaveBase:
 	}
 	unlock(&h.lock)
 
-	// Initialize the span.
+HaveBase:
+	// At this point, both s != nil and base != 0, and the heap
+	// lock is no longer held. Initialize the span.
 	s.init(base, npages)
 	if manual {
 		s.state = mSpanManual
