@@ -29,6 +29,34 @@ type indVar struct {
 	//	min <  ind <= max    [if flags == indVarMinExc|indVarMaxInc]
 }
 
+// parseIndVar extracts the minimum bound and the increment value from an induction variable.
+// An induction variable always matches (Phi min nxt), with nxt being (Add inc ind).
+// If we can match this pattern, we can extract min and inc.
+func parseIndVar(ind *Value) (min *Value, inc *Value, nxt *Value) {
+	if ind.Op != OpPhi {
+		return
+	}
+
+	if n := ind.Args[0]; n.Op == OpAdd64 && (n.Args[0] == ind || n.Args[1] == ind) {
+		min, nxt = ind.Args[1], n
+	} else if n := ind.Args[1]; n.Op == OpAdd64 && (n.Args[0] == ind || n.Args[1] == ind) {
+		min, nxt = ind.Args[0], n
+	} else {
+		// Not a recognized induction variable.
+		return
+	}
+
+	if nxt.Args[0] == ind { // nxt = ind + inc
+		inc = nxt.Args[1]
+	} else if nxt.Args[1] == ind { // nxt = inc + ind
+		inc = nxt.Args[0]
+	} else {
+		panic("unreachable") // one of the cases must be true from the above.
+	}
+
+	return
+}
+
 // findIndVar finds induction variables in a function.
 //
 // Look for variables and blocks that satisfy the following
@@ -85,29 +113,10 @@ func findIndVar(f *Func) []indVar {
 			less = false
 		}
 
-		// Check that the induction variable is a phi that depends on itself.
-		if ind.Op != OpPhi {
+		// See if this is really an induction variable
+		min, inc, nxt := parseIndVar(ind)
+		if min == nil {
 			continue
-		}
-
-		// Extract min and nxt knowing that nxt is an addition (e.g. Add64).
-		var min, nxt *Value // minimum, and next value
-		if n := ind.Args[0]; n.Op == OpAdd64 && (n.Args[0] == ind || n.Args[1] == ind) {
-			min, nxt = ind.Args[1], n
-		} else if n := ind.Args[1]; n.Op == OpAdd64 && (n.Args[0] == ind || n.Args[1] == ind) {
-			min, nxt = ind.Args[0], n
-		} else {
-			// Not a recognized induction variable.
-			continue
-		}
-
-		var inc *Value
-		if nxt.Args[0] == ind { // nxt = ind + inc
-			inc = nxt.Args[1]
-		} else if nxt.Args[1] == ind { // nxt = inc + ind
-			inc = nxt.Args[0]
-		} else {
-			panic("unreachable") // one of the cases must be true from the above.
 		}
 
 		// Expect the increment to be a nonzero constant.
