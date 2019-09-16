@@ -70,6 +70,30 @@
       "revId": "30827795770a09803697f27629db7d0921d5ac93",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f75195d_0bbfc7b5",
+        "filename": "src/cmd/go/testdata/script/build_trimpath.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-16T15:43:34Z",
+      "side": 1,
+      "message": "Nice, thanks for double-checking!",
+      "parentUuid": "2a325930_ac7a975d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 34
+      },
+      "revId": "30827795770a09803697f27629db7d0921d5ac93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
