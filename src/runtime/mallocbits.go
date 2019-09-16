@@ -187,6 +187,22 @@ func (b *mallocBits) summarize() mallocSum {
 	return packMallocSum(start, max, end)
 }
 
+// allocToCache finds an aligned 64-bit chunk in b which has some free space
+// and takes all the zero bitmap it can.
+//
+// Returns the index where the chunk was taken from and a 64-bit bitmap where
+// each 1 represents a free page in that 64-bit chunk.
+func (b *mallocBits) allocToCache(hint int) (int, uint64) {
+	for i := hint / 64 * 8; i < len(b)-7; i += 8 {
+		d := unsafeChunkFromSlice(b[i : i+8])
+		if x := d.load(); x != ^uint64(0) {
+			d.store(^uint64(0))
+			return i * 8, ^x
+		}
+	}
+	return -1, 0
+}
+
 // alloc1 allocates a single page from the mallocBits and returns the index.
 func (b *mallocBits) alloc1(hint int) int {
 	for i := hint / 64 * 8; i < len(b)-7; i += 8 {
@@ -379,6 +395,20 @@ func findConsecN64(c uint64, n int) int {
 type mallocData struct {
 	mallocBits
 	scavenged pageBits
+}
+
+// allocToCache wraps mallocBits.allocToCache and additionally manages
+// the scavenged bits appropriately.
+//
+// Returns the index where the chunk was taken from and a 64-bit bitmap where
+// each 1 represents a free page in that 64-bit chunk. Also returns the number
+// of pages that were scavenged in the newly-allocated chunk.
+func (b *mallocBits) allocToCache(hint int) (int, uint64, int) {
+	base, cache := m.mallocBits.allocToCache(npages, hint)
+	scav := m.scavenged.mask64(base, cache)
+	// Clear the scavenged bits when we alloc.
+	m.scavenged.clearRange(b, pageCacheSize)
+	return base, cache, scav
 }
 
 // alloc allocates npages bits starting from the given hint.

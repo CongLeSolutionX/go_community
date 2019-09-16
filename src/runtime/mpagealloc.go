@@ -336,6 +336,84 @@ func (s *pageAlloc) update(base, npages uintptr, alloc bool) {
 	}
 }
 
+func (s *pageAlloc) allocToCacheSlow() pageCache {
+	// Search algorithm
+	//
+	// Iterate over each level, looking for the first non-zero summary.
+	// Any non-zero summary means there's at least one free page. Once
+	// the bottom is reached, we have the index of the first arena which
+	// has some free pages.
+	i := 0
+nextLevel:
+	for l := 0; l < len(s.summary); l++ {
+		b := levelBits[l]
+		e := 1 << b
+		i <<= b
+		level := s.summary[l][i : i+e]
+		// Determine j0, the first index we should start iterating from.
+		// The hint may help us eliminate iterations if we followed the
+		// hint on the previous level, in which case the top bits of the
+		// hint address should be the same as i, after levelShift.
+		j0 := 0
+		if hintIdx := int(s.hint >> levelShift[l]); hintIdx&^(e-1) == i {
+			j0 = hintIdx & (e - 1)
+		}
+		for j := j0; j < len(level); j++ {
+			sum := level[j]
+			if sum != 0 {
+				i += j
+				continue nextLevel
+			}
+		}
+		if l != 0 {
+			throw("bad summary data")
+		}
+		return pageCache{}
+	}
+	j, c, scav := s.arenas(i).pageAlloc.allocToCache(0)
+	if j < 0 {
+		throw("bad summary data")
+	}
+	addr := uintptr(i*heapArenaBytes+j*pageSize) - arenaBaseOffset
+	return pageCache{addr, c}
+}
+
+func (s *pageAlloc) allocToCache() pageCache {
+	// If the hint is the max address value, we know we're out of
+	// memory.
+	if s.hint == ^uintptr(0) {
+		return pageCache{}
+	}
+	c := pageCache{}
+	i := arenaIndex(s.hint)
+	scav := uintptr(0)
+	if s.summary[len(summary)-1][i] != 0 {
+		// Fast path: there's free pages at or near the hint address.
+		j, cv := s.arenas(i).pageAlloc.allocToCache(arenaPageIndex(s.hint))
+		if j < 0 {
+			throw("bad summary data")
+		}
+		addr := uintptr(i)*heapArenaBytes + uintptr(j)*pageSize - arenaBaseOffset
+		c = pageCache{addr, cv}
+	} else {
+		// Slow path: the hint address had nothing there, so go find
+		// the first free page the slow way.
+		c, scav = s.allocToCacheSlow()
+		if c.base == 0 {
+			// We failed to find adequate free space, so mark the hint as OoM
+			// and return an empty pageCache.
+			s.hint = ^uintptr(0)
+			return pageCache{}
+		}
+	}
+	// Although the pageCache allocation isn't technically contiguous, its always aligned
+	// to pageCacheSize pages, so it will never cross an arena boundary. This means its
+	// totally safe to just use the existing update routine.
+	s.update(c.base, pageCacheSize, true)
+	s.hint = c.base + pageSize*pageCacheSize + arenaBaseOffset
+	return c
+}
+
 // addr and npages must cross at least one arena boundary.
 func (s *pageAlloc) allocRange(addr, npages uintptr) uintptr {
 	limit := addr + npages*pageSize - 1

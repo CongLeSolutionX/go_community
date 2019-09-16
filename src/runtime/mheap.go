@@ -813,13 +813,32 @@ func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
 // any stack growth during alloc_m would self-deadlock.
 //
 //go:systemstack
-func (h *mheap) alloc_m(npage uintptr, spanclass spanClass, large bool) *mspan {
+func (h *mheap) alloc_m(npage uintptr, spanclass spanClass, large bool) (s *mspan) {
 	_g_ := getg()
 
 	// To prevent excessive heap growth, before allocating n pages
 	// we need to sweep and reclaim at least n pages.
 	if h.sweepdone == 0 {
 		h.reclaim(npage)
+	}
+
+	// If the allocation is small enough, try the page cache!
+	if npage < pageCacheSize/4 {
+		c := &_g_.m.p.pageCache
+
+		// If the cache is empty, refill it.
+		if c.cache == 0 {
+			lock(&h.lock)
+			*c = h.pages.allocToCache()
+			unlock(&h.lock)
+		}
+
+		// Try to allocate from the cache.
+		base := c.alloc(npage)
+		if base != 0 {
+			// On success, let's try to allocate an mspan object too.
+			s = h.allocmspan(false)
+		}
 	}
 
 	lock(&h.lock)
@@ -829,7 +848,7 @@ func (h *mheap) alloc_m(npage uintptr, spanclass spanClass, large bool) *mspan {
 	memstats.tinyallocs += uint64(_g_.m.mcache.local_tinyallocs)
 	_g_.m.mcache.local_tinyallocs = 0
 
-	s := h.allocSpanLocked(npage, &memstats.heap_inuse)
+	s = h.allocSpanLocked(npage, &memstats.heap_inuse)
 	if s != nil {
 		// Record span info, because gc needs to be
 		// able to map interior pointer to containing span.
