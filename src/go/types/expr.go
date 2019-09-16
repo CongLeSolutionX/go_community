@@ -548,6 +548,7 @@ func (check *Checker) convertUntyped(x *operand, target Type) {
 			}
 		}
 	case *Interface:
+		check.completeInterface(t)
 		if !x.isNil() && !t.Empty() /* empty interfaces are ok */ {
 			goto Error
 		}
@@ -809,7 +810,7 @@ func (check *Checker) binary(x *operand, e *ast.BinaryExpr, lhs, rhs ast.Expr, o
 		return
 	}
 
-	if !Identical(x.typ, y.typ) {
+	if !check.identical(x.typ, y.typ) {
 		// only report an error if we have valid types
 		// (otherwise we had an error reported elsewhere already)
 		if x.typ != Typ[Invalid] && y.typ != Typ[Invalid] {
@@ -1223,7 +1224,7 @@ func (check *Checker) exprInternal(x *operand, e ast.Expr, hint Type) exprKind {
 					xkey := keyVal(x.val)
 					if _, ok := utyp.key.Underlying().(*Interface); ok {
 						for _, vtyp := range visited[xkey] {
-							if Identical(vtyp, x.typ) {
+							if check.identical(vtyp, x.typ) {
 								duplicate = true
 								break
 							}
