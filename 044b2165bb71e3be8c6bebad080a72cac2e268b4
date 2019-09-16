@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b6e3777_90b4ad0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-16T18:38:24Z",
+      "side": 1,
+      "message": "RELNOTES\u003d\n\nI\u0027m not really sure, but the equal sign probably matters.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "044b2165bb71e3be8c6bebad080a72cac2e268b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa90b0d1_3f71e9c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-16T18:38:24Z",
+      "side": 1,
+      "message": "This sentence seems not necessary.",
+      "range": {
+        "startLine": 10,
+        "startChar": 66,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "044b2165bb71e3be8c6bebad080a72cac2e268b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5725cd4a_0bc8b77c",
+        "filename": "src/debug/macho/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-16T18:38:24Z",
+      "side": 1,
+      "message": "Check that the first character is _ before removing it.",
+      "revId": "044b2165bb71e3be8c6bebad080a72cac2e268b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
