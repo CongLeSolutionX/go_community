@@ -7,6 +7,7 @@
 package runtime
 
 import (
+	"math/bits"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -349,6 +350,10 @@ func ReadMemStatsSlow() (base, slow MemStats) {
 				pg := a.pageAlloc.scavenged.popcntRange(0, pagesPerArena)
 				slow.HeapReleased += uint64(pg) * pageSize
 			}
+		}
+		for _, p := range allp {
+			pg := bits.OnesCount64(p.pcache.cache & p.pcache.scav)
+			slow.HeapReleased += uint64(pg) * pageSize
 		}
 
 		getg().m.mallocing--
@@ -866,5 +871,26 @@ func CheckScavengedBitsCleared(mismatches []BitsMismatch) (n int, ok bool) {
 
 		getg().m.mallocing--
 	})
+	return
+}
+
+func PageCachePagesLeaked() (leaked uintptr) {
+	stopTheWorld("PageCachePagesLeaked")
+
+	// Run on the system stack to avoid stack growth allocation.
+	systemstack(func() {
+		// Make sure nothing else could possibly be running.
+		getg().m.mallocing++
+
+		// Walk over destroyed Ps and look for unflushed caches.
+		deadp := allp[len(allp):cap(allp)]
+		for _, p := range deadp {
+			leaked += uintptr(bits.OnesCount64(p.pcache.cache))
+		}
+
+		getg().m.mallocing--
+	})
+
+	startTheWorld()
 	return
 }
