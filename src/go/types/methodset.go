@@ -180,7 +180,7 @@ func NewMethodSet(T Type) *MethodSet {
 			}
 		}
 
-		current = consolidateMultiples(next)
+		current = (*Checker)(nil).consolidateMultiples(next)
 	}
 
 	if len(base) == 0 {

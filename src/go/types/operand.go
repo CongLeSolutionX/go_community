@@ -211,7 +211,7 @@ func (x *operand) assignableTo(check *Checker, T Type, reason *string) bool {
 	V := x.typ
 
 	// x's type is identical to T
-	if Identical(V, T) {
+	if check.identical(V, T) {
 		return true
 	}
 
@@ -245,7 +245,7 @@ func (x *operand) assignableTo(check *Checker, T Type, reason *string) bool {
 
 	// x's type V and T have identical underlying types
 	// and at least one of V or T is not a named type
-	if Identical(Vu, Tu) && (!isNamed(V) || !isNamed(T)) {
+	if check.identical(Vu, Tu) && (!isNamed(V) || !isNamed(T)) {
 		return true
 	}
 
@@ -268,7 +268,7 @@ func (x *operand) assignableTo(check *Checker, T Type, reason *string) bool {
 	// type, x's type V and T have identical element types,
 	// and at least one of V or T is not a named type
 	if Vc, ok := Vu.(*Chan); ok && Vc.dir == SendRecv {
-		if Tc, ok := Tu.(*Chan); ok && Identical(Vc.elem, Tc.elem) {
+		if Tc, ok := Tu.(*Chan); ok && check.identical(Vc.elem, Tc.elem) {
 			return !isNamed(V) || !isNamed(T)
 		}
 	}
