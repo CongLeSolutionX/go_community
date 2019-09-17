@@ -708,7 +708,15 @@ func init() {
 	}
 
 	var S390Xblocks = []blockData{
-		{name: "BRC", controls: 1}, // aux is condition code mask (s390x.CCMask)
+		{name: "BRC", controls: 1},                    // aux is condition code mask (s390x.CCMask)
+		{name: "CRJ", controls: 2},                    // aux is condition code mask (s390x.CCMask)
+		{name: "CGRJ", controls: 2},                   // aux is condition code mask (s390x.CCMask)
+		{name: "CLRJ", controls: 2},                   // aux is condition code mask (s390x.CCMask)
+		{name: "CLGRJ", controls: 2},                  // aux is condition code mask (s390x.CCMask)
+		{name: "CIJ", controls: 1, auxint: "Int8"},    // aux is condition code mask (s390x.CCMask)
+		{name: "CGIJ", controls: 1, auxint: "Int8"},   // aux is condition code mask (s390x.CCMask)
+		{name: "CLIJ", controls: 1, auxint: "UInt8"},  // aux is condition code mask (s390x.CCMask)
+		{name: "CLGIJ", controls: 1, auxint: "UInt8"}, // aux is condition code mask (s390x.CCMask)
 	}
 
 	archs = append(archs, arch{

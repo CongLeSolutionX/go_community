@@ -21985,6 +21985,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386EQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21993,6 +21994,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22001,6 +22003,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22010,6 +22013,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22019,6 +22023,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22028,6 +22033,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22041,6 +22047,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386LE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22049,6 +22056,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22057,6 +22065,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22066,6 +22075,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22075,6 +22085,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22083,6 +22094,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22095,6 +22107,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386LT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22103,6 +22116,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22112,6 +22126,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22121,6 +22136,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22130,6 +22146,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22138,6 +22155,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22150,6 +22168,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386LT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22161,6 +22180,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386LE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22172,6 +22192,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386GT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22183,6 +22204,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386GE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22194,6 +22216,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386EQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22205,6 +22228,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386NE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22216,6 +22240,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386ULT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22227,6 +22252,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386ULE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22238,6 +22264,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22249,6 +22276,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22260,6 +22288,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386OS
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22271,6 +22300,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22282,6 +22312,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22293,6 +22324,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386EQF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22304,6 +22336,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386NEF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22317,6 +22350,7 @@ func rewriteBlock386(b *Block) bool {
 			v0.AddArg(cond)
 			v0.AddArg(cond)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22329,6 +22363,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386GE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22337,6 +22372,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22345,6 +22381,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22353,6 +22390,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22361,6 +22399,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22370,6 +22409,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22383,6 +22423,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386GT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22391,6 +22432,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22400,6 +22442,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22408,6 +22451,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22416,6 +22460,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22425,6 +22470,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22447,6 +22493,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386LT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22467,6 +22514,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386LT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22487,6 +22535,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386LE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22507,6 +22556,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386LE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22527,6 +22577,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386GT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22547,6 +22598,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386GT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22567,6 +22619,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386GE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22587,6 +22640,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386GE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22607,6 +22661,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386EQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22627,6 +22682,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386EQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22647,6 +22703,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386NE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22667,6 +22724,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386NE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22687,6 +22745,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386ULT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22707,6 +22766,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386ULT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22727,6 +22787,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386ULE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22747,6 +22808,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386ULE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22767,6 +22829,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22787,6 +22850,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22807,6 +22871,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22827,6 +22892,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22847,6 +22913,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386OS
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22867,6 +22934,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386OS
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22887,6 +22955,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22907,6 +22976,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22927,6 +22997,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22947,6 +23018,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22967,6 +23039,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386EQF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22987,6 +23060,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386EQF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23007,6 +23081,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386NEF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23027,6 +23102,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386NEF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23038,6 +23114,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386NE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23046,6 +23123,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23055,6 +23133,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23063,6 +23142,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23071,6 +23151,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23079,6 +23160,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23091,6 +23173,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386ULE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23099,6 +23182,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23107,6 +23191,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23116,6 +23201,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23124,6 +23210,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23133,6 +23220,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23145,6 +23233,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386ULT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23153,6 +23242,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23162,6 +23252,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23171,6 +23262,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23179,6 +23271,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23188,6 +23281,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23200,6 +23294,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23208,6 +23303,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23216,6 +23312,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23224,6 +23321,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23233,6 +23331,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23241,6 +23340,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23254,6 +23354,7 @@ func rewriteBlock386(b *Block) bool {
 			b.Kind = Block386UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23262,6 +23363,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23271,6 +23373,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23279,6 +23382,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23288,6 +23392,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23296,6 +23401,7 @@ func rewriteBlock386(b *Block) bool {
 		for b.Controls[0].Op == Op386FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true

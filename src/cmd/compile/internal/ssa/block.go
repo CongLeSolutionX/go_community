@@ -52,7 +52,8 @@ type Block struct {
 	Controls [2]*Value
 
 	// Auxiliary info for the block. Its value depends on the Kind.
-	Aux interface{}
+	Aux    interface{}
+	AuxInt int64
 
 	// The unordered set of Values that define the operation of this block.
 	// The list must include the control values, if any. (TODO: need this last condition?)
@@ -119,7 +120,17 @@ func (b *Block) String() string {
 func (b *Block) LongString() string {
 	s := b.Kind.String()
 	if b.Aux != nil {
-		s += fmt.Sprintf(" %s", b.Aux)
+		s += fmt.Sprintf(" {%s}", b.Aux)
+	}
+	if t := b.Kind.AuxIntType(); t != "" {
+		switch t {
+		case "Int8":
+			s += fmt.Sprintf(" [%v]", int8(b.AuxInt))
+		case "UInt8":
+			s += fmt.Sprintf(" [%v]", uint8(b.AuxInt))
+		default:
+			s += fmt.Sprintf(" [%v]", b.AuxInt)
+		}
 	}
 	for _, c := range b.ControlValues() {
 		s += fmt.Sprintf(" %s", c)
