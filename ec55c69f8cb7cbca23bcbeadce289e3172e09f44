@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5afeadd1_4d42a905",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T21:23:10Z",
+      "side": 1,
+      "message": "This should probably mention that the indexes are off by 1 from the debug_lines indexes.",
+      "revId": "ec55c69f8cb7cbca23bcbeadce289e3172e09f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15967a18_803bb6c6",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T21:23:10Z",
+      "side": 1,
+      "message": "I think this statement is false. These are off by one, right?",
+      "range": {
+        "startLine": 159,
+        "startChar": 59,
+        "endLine": 160,
+        "endChar": 49
+      },
+      "revId": "ec55c69f8cb7cbca23bcbeadce289e3172e09f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
