@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "183ffe67_bdc59530",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T22:04:30Z",
+      "side": 1,
+      "message": "CL 195619",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "e97ee721db82ee4076a42c8ec38956c6e4426f4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
