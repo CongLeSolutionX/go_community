@@ -416,6 +416,11 @@ func (ctxt *Link) loadlib() {
 		}
 	}
 
+	// XXX do it here for now
+	if *flagNewobj {
+		ctxt.loadlibfull()
+	}
+
 	iscgo = ctxt.Syms.ROLookup("x_cgo_init", 0) != nil
 
 	// We now have enough information to determine the link mode.
@@ -842,7 +847,7 @@ func loadobjfile(ctxt *Link, lib *sym.Library) {
 	if err != nil {
 		Exitf("cannot open file %s: %v", lib.File, err)
 	}
-	defer f.Close()
+	//defer f.Close()
 	defer func() {
 		if pkg == "main" && !lib.Main {
 			Exitf("%s: not package main", lib.File)
@@ -1769,7 +1774,12 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 	default:
 		log.Fatalf("invalid -strictdups flag value %d", *FlagStrictDups)
 	}
-	c := objfile.Load(ctxt.Arch, ctxt.Syms, f, lib, eof-f.Offset(), pn, flags)
+	var c int
+	if *flagNewobj {
+		objfile.LoadNew(ctxt.Arch, ctxt.Syms, f, lib, eof-f.Offset(), pn, flags)
+	} else {
+		c = objfile.Load(ctxt.Arch, ctxt.Syms, f, lib, eof-f.Offset(), pn, flags)
+	}
 	strictDupMsgCount += c
 	addImports(ctxt, lib, pn)
 	return nil
@@ -2574,4 +2584,21 @@ func dfs(lib *sym.Library, mark map[*sym.Library]markKind, order *[]*sym.Library
 	}
 	mark[lib] = visited
 	*order = append(*order, lib)
+}
+
+func (ctxt *Link) loadlibfull() {
+	for _, lib := range ctxt.Library {
+		for _, r := range lib.Readers {
+			objfile.LoadFull(r.Reader, lib, ctxt.Syms, r.Version, ctxt.LibraryByPkg)
+		}
+	}
+}
+
+func (ctxt *Link) dumpsyms() {
+	for _, s := range ctxt.Syms.Allsym {
+		fmt.Println(s)
+		for i := range s.R {
+			fmt.Println("\t", s.R[i].Type, s.R[i].Sym)
+		}
+	}
 }
