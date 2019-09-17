@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07b5e1ba_a9628daf",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T21:39:25Z",
+      "side": 1,
+      "message": "\"Block\" makes sense.\n\nWe could use tuples. Name doesn\u0027t seem to be very useful (at least for now). Currently length is just the difference between the offset of the next block and the current one. We don\u0027t have alignments. Or should we?",
+      "parentUuid": "833e7a4a_d32175b5",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d9b5a55_2998083b",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-09-17T14:31:39Z",
       "side": 1,
       "message": "I think we want to include the number of symbols defined by this package right in the header since that\u0027s important for constructing the global numbering. Or maybe that\u0027s implied by the length of the symbols section.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0569398_97a886f1",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T21:39:25Z",
+      "side": 1,
+      "message": "Currently this is implied by the length. (see also Reader.NSym below)",
+      "parentUuid": "4d9b5a55_2998083b",
       "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "bfbbfed7_9630e46d",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T21:39:25Z",
+      "side": 1,
+      "message": "Autolib is the list of imported packages. The linker will read their object files. This is the same as the old format. PkgIndex is a list of packages which are referenced by index. It typically contain more elements than Autolib, such as indirect imports.\n\nWe should probably change the linker to find object files by using referenced packages in the index. Indirect imports need to be read anyway.",
+      "parentUuid": "266b1c84_e6d9b6b1",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71bd7586_4711f747",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 3
@@ -81,6 +135,24 @@
       "writtenOn": "2019-09-17T14:31:39Z",
       "side": 1,
       "message": "We should specify how this package and named symbol references fit into this table.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24c24acd_6c442096",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T21:39:25Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "71bd7586_4711f747",
       "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "6dbd4c53_7d929e65",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T21:39:25Z",
+      "side": 1,
+      "message": "I think if the string usage in the linker will be significantly reduced, this probably doesn\u0027t matter much. Also the remaining are typically mmap\u0027d, so it shouldn\u0027t cost much.\n\nUnless we change the runtime representation as well?",
+      "parentUuid": "e68788cf_9057b609",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13fcab4e_9b7563a8",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 3
@@ -115,6 +205,24 @@
       "writtenOn": "2019-09-17T14:31:39Z",
       "side": 1,
       "message": "I thought of another way we could look at this split in more generic terms: pre-resolved versus unresolved symbols. For pre-resolved symbols, the compiler has already done all of the work and can tell you exactly what the index is. For unresolved symbols, the linker needs to do name lookup.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "376ad6e0_61b1a271",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T21:39:25Z",
+      "side": 1,
+      "message": "I think resolved-vs-unresolved makes sense. However, I think we need to do this kind of split as we need to have a way so that other packages could resolve references to the current package. Currently:\nSymbolDefs -- defined symbols that can be resolved by index\nNonPkgDefs -- defined symbols that need to be resolved by name (particularly for references from other packages, as we don\u0027t have a global indexing scheme for them.)\nNonPkgRefs -- symbols not defined in the current package that need to be resolved by name\n\nWe could combine NonPkgDefs and NonPkgRefs, as the previous versions of this CL did. I split that up so we know which symbols are defined, which are not. We could use a counter instead. In fact, there isn\u0027t so much deference: the three blocks are contiguous and have the same layout, so we can just index through them as if they are one block (currently the reader is doing that). So the fact of them being three blocks is more or less equivalent to being one block plus two counters.",
+      "parentUuid": "13fcab4e_9b7563a8",
       "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "a452eb6d_6058b8ed",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T21:39:25Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "6732871c_561c497a",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "886839a4_7e9f50b3",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 3
@@ -152,6 +278,24 @@
       "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dacb343_58031c03",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T21:39:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "886839a4_7e9f50b3",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -172,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "31cdc3b0_32331c1c",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T21:39:25Z",
+      "side": 1,
+      "message": "I think so. Add a TODO for now.",
+      "parentUuid": "2c29a721_23541823",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4171033f_e0c5eb1f",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 3
@@ -183,6 +345,24 @@
       "writtenOn": "2019-09-17T14:31:39Z",
       "side": 1,
       "message": "The footer is important in the current format because it actually tells you when to stop reading. I\u0027m not sure we need it in the new format.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90b77d3f_0a4978b4",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-17T21:39:25Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "4171033f_e0c5eb1f",
       "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
