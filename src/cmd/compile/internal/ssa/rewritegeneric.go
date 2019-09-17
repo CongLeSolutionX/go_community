@@ -47417,6 +47417,7 @@ func rewriteBlockgeneric(b *Block) bool {
 			b.Kind = BlockIf
 			b.ResetControls()
 			b.AddControl(cond)
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -47432,6 +47433,7 @@ func rewriteBlockgeneric(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -47446,6 +47448,7 @@ func rewriteBlockgeneric(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true

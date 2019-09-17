@@ -26487,6 +26487,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26509,6 +26510,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26517,6 +26519,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26525,6 +26528,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagLT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -26534,6 +26538,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -26546,6 +26551,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64EQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26568,6 +26574,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26590,6 +26597,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26616,6 +26624,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26642,6 +26651,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26668,6 +26678,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26677,6 +26688,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26685,6 +26697,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagLT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -26694,6 +26707,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26705,6 +26719,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64LE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26727,6 +26742,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26749,6 +26765,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26775,6 +26792,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26801,6 +26819,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26827,6 +26846,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26836,6 +26856,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -26845,6 +26866,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagLT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -26854,6 +26876,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26865,6 +26888,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64LT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26887,6 +26911,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26909,6 +26934,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26935,6 +26961,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26961,6 +26988,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26987,6 +27015,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26999,6 +27028,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64EQ
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27010,6 +27040,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64NE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27021,6 +27052,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64LT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27032,6 +27064,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64LE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27043,6 +27076,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64GT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27054,6 +27088,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64GE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27065,6 +27100,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64FLT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27076,6 +27112,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64FLE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27087,6 +27124,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64FGT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27098,6 +27136,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64FGE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27111,6 +27150,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = 0
 			v0.AddArg(cond)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27120,6 +27160,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27128,6 +27169,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagLT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27136,6 +27178,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27148,6 +27191,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64GE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27170,6 +27214,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27192,6 +27237,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27218,6 +27264,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27244,6 +27291,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27270,6 +27318,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27279,6 +27328,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27288,6 +27338,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagLT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27296,6 +27347,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27308,6 +27360,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64GT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27330,6 +27383,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27352,6 +27406,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27378,6 +27433,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27404,6 +27460,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27430,6 +27487,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27449,6 +27507,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64EQ
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27467,6 +27526,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64NE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27485,6 +27545,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64LT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27503,6 +27564,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64LE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27521,6 +27583,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64GT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27539,6 +27602,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64GE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27557,6 +27621,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64FLT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27575,6 +27640,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64FLE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27593,6 +27659,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64FGT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27611,6 +27678,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64FGE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27633,6 +27701,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27655,6 +27724,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27663,6 +27733,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27672,6 +27743,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagLT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27680,6 +27752,7 @@ func rewriteBlockPPC64(b *Block) bool {
 		for b.Controls[0].Op == OpPPC64FlagGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27691,6 +27764,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.Kind = BlockPPC64NE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27713,6 +27787,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27735,6 +27810,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27761,6 +27837,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27787,6 +27864,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27813,6 +27891,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
