@@ -58123,6 +58123,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58148,6 +58149,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58172,6 +58174,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58197,6 +58200,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58216,6 +58220,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = log2uint32(c)
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58235,6 +58240,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = log2(c)
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58258,6 +58264,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = log2(c)
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58282,6 +58289,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = log2(c)
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58309,6 +58317,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 63
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58337,6 +58346,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 63
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58364,6 +58374,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 31
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58392,6 +58403,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 31
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58419,6 +58431,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 0
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58447,6 +58460,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 0
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58474,6 +58488,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 0
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58502,6 +58517,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 0
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58525,6 +58541,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 63
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58549,6 +58566,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 63
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58572,6 +58590,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 31
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58596,6 +58615,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 31
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58607,6 +58627,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64EQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58615,6 +58636,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58623,6 +58645,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -58632,6 +58655,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -58641,6 +58665,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -58650,6 +58675,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -58663,6 +58689,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64LE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58671,6 +58698,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58679,6 +58707,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -58688,6 +58717,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -58697,6 +58727,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58705,6 +58736,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58717,6 +58749,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64LT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58725,6 +58758,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -58734,6 +58768,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -58743,6 +58778,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -58752,6 +58788,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58760,6 +58797,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58772,6 +58810,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64LT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58783,6 +58822,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64LE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58794,6 +58834,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64GT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58805,6 +58846,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64GE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58816,6 +58858,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64EQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58827,6 +58870,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64NE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58838,6 +58882,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64ULT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58849,6 +58894,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64ULE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58860,6 +58906,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58871,6 +58918,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58882,6 +58930,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64OS
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58893,6 +58942,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58904,6 +58954,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58915,6 +58966,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64EQF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58926,6 +58978,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64NEF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58939,6 +58992,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AddArg(cond)
 			v0.AddArg(cond)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58951,6 +59005,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64GE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58959,6 +59014,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58967,6 +59023,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58975,6 +59032,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -58983,6 +59041,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -58992,6 +59051,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -59005,6 +59065,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64GT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59013,6 +59074,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -59022,6 +59084,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59030,6 +59093,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59038,6 +59102,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -59047,6 +59112,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -59069,6 +59135,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64LT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59089,6 +59156,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64LT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59109,6 +59177,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64LE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59129,6 +59198,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64LE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59149,6 +59219,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64GT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59169,6 +59240,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64GT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59189,6 +59261,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64GE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59209,6 +59282,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64GE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59229,6 +59303,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64EQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59249,6 +59324,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64EQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59269,6 +59345,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64NE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59289,6 +59366,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64NE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59309,6 +59387,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64ULT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59329,6 +59408,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64ULT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59349,6 +59429,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64ULE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59369,6 +59450,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64ULE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59389,6 +59471,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59409,6 +59492,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59429,6 +59513,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59449,6 +59534,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59469,6 +59555,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64OS
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59489,6 +59576,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64OS
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59513,6 +59601,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59538,6 +59627,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59562,6 +59652,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59587,6 +59678,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59606,6 +59698,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = log2uint32(c)
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59625,6 +59718,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = log2(c)
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59648,6 +59742,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = log2(c)
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59672,6 +59767,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = log2(c)
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59699,6 +59795,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 63
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59727,6 +59824,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 63
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59754,6 +59852,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 31
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59782,6 +59881,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 31
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59809,6 +59909,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 0
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59837,6 +59938,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 0
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59864,6 +59966,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 0
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59892,6 +59995,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 0
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59915,6 +60019,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 63
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59939,6 +60044,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 63
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59962,6 +60068,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 31
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -59986,6 +60093,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			v0.AuxInt = 31
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60006,6 +60114,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60026,6 +60135,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60046,6 +60156,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60066,6 +60177,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60086,6 +60198,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64EQF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60106,6 +60219,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64EQF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60126,6 +60240,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64NEF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60146,6 +60261,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64NEF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60157,6 +60273,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64NE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60165,6 +60282,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -60174,6 +60292,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60182,6 +60301,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60190,6 +60310,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60198,6 +60319,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60210,6 +60332,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64ULE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60218,6 +60341,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60226,6 +60350,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -60235,6 +60360,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60243,6 +60369,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -60252,6 +60379,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60264,6 +60392,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64ULT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60272,6 +60401,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -60281,6 +60411,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -60290,6 +60421,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60298,6 +60430,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -60307,6 +60440,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60319,6 +60453,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60327,6 +60462,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60335,6 +60471,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60343,6 +60480,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -60352,6 +60490,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60360,6 +60499,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -60373,6 +60513,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Kind = BlockAMD64UGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60381,6 +60522,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -60390,6 +60532,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60398,6 +60541,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -60407,6 +60551,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -60415,6 +60560,7 @@ func rewriteBlockAMD64(b *Block) bool {
 		for b.Controls[0].Op == OpAMD64FlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true

@@ -9005,6 +9005,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSFPF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9016,6 +9017,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSFPT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9034,6 +9036,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSNE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9052,6 +9055,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSNE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9069,6 +9073,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSNE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9086,6 +9091,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSNE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9103,6 +9109,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSNE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9120,6 +9127,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSNE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9134,6 +9142,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSNE
 			b.ResetControls()
 			b.AddControl(x)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9145,6 +9154,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSEQ
 			b.ResetControls()
 			b.AddControl(x)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9159,6 +9169,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSGEZ
 			b.ResetControls()
 			b.AddControl(x)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9170,6 +9181,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSLEZ
 			b.ResetControls()
 			b.AddControl(x)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9182,6 +9194,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9196,6 +9209,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -9212,6 +9226,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9226,6 +9241,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -9242,6 +9258,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9256,6 +9273,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -9268,6 +9286,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSNE
 			b.ResetControls()
 			b.AddControl(cond)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9283,6 +9302,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9297,6 +9317,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -9313,6 +9334,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9327,6 +9349,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -9340,6 +9363,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSFPT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9351,6 +9375,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSFPF
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9369,6 +9394,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSEQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9387,6 +9413,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSEQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9404,6 +9431,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSEQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9421,6 +9449,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSEQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9438,6 +9467,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSEQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9455,6 +9485,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSEQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9469,6 +9500,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSEQ
 			b.ResetControls()
 			b.AddControl(x)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9480,6 +9512,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSNE
 			b.ResetControls()
 			b.AddControl(x)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9494,6 +9527,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSLTZ
 			b.ResetControls()
 			b.AddControl(x)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9505,6 +9539,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			b.Kind = BlockMIPSGTZ
 			b.ResetControls()
 			b.AddControl(x)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -9517,6 +9552,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -9532,6 +9568,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}

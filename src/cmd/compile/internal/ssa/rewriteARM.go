@@ -20661,6 +20661,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20669,6 +20670,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -20678,6 +20680,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -20687,6 +20690,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -20696,6 +20700,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -20708,6 +20713,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMEQ
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20734,6 +20740,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20764,6 +20771,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20790,6 +20798,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20818,6 +20827,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20846,6 +20856,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20874,6 +20885,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20902,6 +20914,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20930,6 +20943,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20958,6 +20972,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -20984,6 +20999,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21014,6 +21030,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21040,6 +21057,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21068,6 +21086,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21096,6 +21115,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21124,6 +21144,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21152,6 +21173,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21180,6 +21202,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21208,6 +21231,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21234,6 +21258,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21260,6 +21285,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21288,6 +21314,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21316,6 +21343,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21344,6 +21372,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21372,6 +21401,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21400,6 +21430,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21428,6 +21459,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21454,6 +21486,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21480,6 +21513,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21508,6 +21542,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21536,6 +21571,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21564,6 +21600,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21592,6 +21629,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21620,6 +21658,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21648,6 +21687,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21657,6 +21697,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21665,6 +21706,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -21674,6 +21716,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -21683,6 +21726,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21691,6 +21735,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21702,6 +21747,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMLE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21728,6 +21774,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21758,6 +21805,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21784,6 +21832,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21812,6 +21861,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21840,6 +21890,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21868,6 +21919,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21896,6 +21948,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21924,6 +21977,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21952,6 +22006,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -21978,6 +22033,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22008,6 +22064,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22034,6 +22091,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22062,6 +22120,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22090,6 +22149,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22118,6 +22178,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22146,6 +22207,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22174,6 +22236,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22202,6 +22265,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22228,6 +22292,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22254,6 +22319,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22282,6 +22348,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22310,6 +22377,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22338,6 +22406,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22366,6 +22435,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22394,6 +22464,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22422,6 +22493,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22448,6 +22520,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22474,6 +22547,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22502,6 +22576,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22530,6 +22605,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22558,6 +22634,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22586,6 +22663,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22614,6 +22692,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22642,6 +22721,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22651,6 +22731,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22660,6 +22741,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22669,6 +22751,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -22678,6 +22761,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22686,6 +22770,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22697,6 +22782,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMLT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22723,6 +22809,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22753,6 +22840,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22779,6 +22867,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22807,6 +22896,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22835,6 +22925,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22863,6 +22954,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22891,6 +22983,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22919,6 +23012,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22947,6 +23041,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22973,6 +23068,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -22999,6 +23095,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23027,6 +23124,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23055,6 +23153,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23083,6 +23182,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23111,6 +23211,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23139,6 +23240,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23167,6 +23269,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23193,6 +23296,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23223,6 +23327,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23249,6 +23354,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23277,6 +23383,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23305,6 +23412,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23333,6 +23441,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23361,6 +23470,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23389,6 +23499,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23417,6 +23528,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23443,6 +23555,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23469,6 +23582,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23497,6 +23611,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23525,6 +23640,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23553,6 +23669,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23581,6 +23698,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23609,6 +23727,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23637,6 +23756,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23649,6 +23769,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMEQ
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23660,6 +23781,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMNE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23671,6 +23793,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMLT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23682,6 +23805,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMULT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23693,6 +23817,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMLE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23704,6 +23829,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMULE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23715,6 +23841,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMGT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23726,6 +23853,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMUGT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23737,6 +23865,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMGE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23748,6 +23877,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMUGE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23761,6 +23891,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = 0
 			v0.AddArg(cond)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23770,6 +23901,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23778,6 +23910,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23786,6 +23919,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23794,6 +23928,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23803,6 +23938,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -23815,6 +23951,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23841,6 +23978,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23871,6 +24009,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23897,6 +24036,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23925,6 +24065,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23953,6 +24094,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -23981,6 +24123,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24009,6 +24152,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24037,6 +24181,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24065,6 +24210,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24091,6 +24237,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24121,6 +24268,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24147,6 +24295,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24175,6 +24324,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24203,6 +24353,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24231,6 +24382,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24259,6 +24411,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24287,6 +24440,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24315,6 +24469,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24341,6 +24496,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24367,6 +24523,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24395,6 +24552,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24423,6 +24581,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24451,6 +24610,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24479,6 +24639,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24507,6 +24668,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24535,6 +24697,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24561,6 +24724,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24587,6 +24751,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24615,6 +24780,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24643,6 +24809,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24671,6 +24838,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24699,6 +24867,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24727,6 +24896,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24755,6 +24925,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24764,6 +24935,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -24773,6 +24945,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24781,6 +24954,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24789,6 +24963,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -24798,6 +24973,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -24810,6 +24986,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24836,6 +25013,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24866,6 +25044,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24892,6 +25071,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24920,6 +25100,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24948,6 +25129,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -24976,6 +25158,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25004,6 +25187,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25032,6 +25216,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25060,6 +25245,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25086,6 +25272,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25116,6 +25303,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25142,6 +25330,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25170,6 +25359,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25198,6 +25388,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25226,6 +25417,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25254,6 +25446,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25282,6 +25475,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25310,6 +25504,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25336,6 +25531,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25362,6 +25558,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25390,6 +25587,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25418,6 +25616,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25446,6 +25645,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25474,6 +25674,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25502,6 +25703,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25530,6 +25732,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25556,6 +25759,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25582,6 +25786,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25610,6 +25815,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25638,6 +25844,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25666,6 +25873,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25694,6 +25902,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25722,6 +25931,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25750,6 +25960,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25769,6 +25980,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMEQ
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25787,6 +25999,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMNE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25805,6 +26018,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMLT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25823,6 +26037,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMULT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25841,6 +26056,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMLE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25859,6 +26075,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMULE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25877,6 +26094,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMGT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25895,6 +26113,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMUGT
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25913,6 +26132,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMGE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25931,6 +26151,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMUGE
 			b.ResetControls()
 			b.AddControl(cc)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25939,6 +26160,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -25948,6 +26170,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25956,6 +26179,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25964,6 +26188,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25972,6 +26197,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -25983,6 +26209,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMNE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26009,6 +26236,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26039,6 +26267,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26065,6 +26294,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26093,6 +26323,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26121,6 +26352,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26149,6 +26381,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26177,6 +26410,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26205,6 +26439,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26233,6 +26468,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26259,6 +26495,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26289,6 +26526,7 @@ func rewriteBlockARM(b *Block) bool {
 			v1.AddArg(y)
 			v0.AddArg(v1)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26315,6 +26553,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26343,6 +26582,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26371,6 +26611,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26399,6 +26640,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26427,6 +26669,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26455,6 +26698,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26483,6 +26727,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26509,6 +26754,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26535,6 +26781,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26563,6 +26810,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26591,6 +26839,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26619,6 +26868,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26647,6 +26897,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26675,6 +26926,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26703,6 +26955,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26729,6 +26982,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26755,6 +27009,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AuxInt = c
 			v0.AddArg(x)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26783,6 +27038,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26811,6 +27067,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26839,6 +27096,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(x)
 			v0.AddArg(y)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26867,6 +27125,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26895,6 +27154,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26923,6 +27183,7 @@ func rewriteBlockARM(b *Block) bool {
 			v0.AddArg(y)
 			v0.AddArg(z)
 			b.AddControl(v0)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26932,6 +27193,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26940,6 +27202,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -26949,6 +27212,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26957,6 +27221,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -26966,6 +27231,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26977,6 +27243,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMULE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -26986,6 +27253,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -26995,6 +27263,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27004,6 +27273,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27012,6 +27282,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27021,6 +27292,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27032,6 +27304,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMULT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27041,6 +27314,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27049,6 +27323,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27057,6 +27332,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27066,6 +27342,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27074,6 +27351,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27086,6 +27364,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMUGE
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27095,6 +27374,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagEQ {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27104,6 +27384,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27112,6 +27393,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagLT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27121,6 +27403,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_ULT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
@@ -27129,6 +27412,7 @@ func rewriteBlockARM(b *Block) bool {
 		for b.Controls[0].Op == OpARMFlagGT_UGT {
 			b.Kind = BlockFirst
 			b.ResetControls()
+			b.AuxInt = 0
 			b.Aux = nil
 			b.swapSuccessors()
 			return true
@@ -27141,6 +27425,7 @@ func rewriteBlockARM(b *Block) bool {
 			b.Kind = BlockARMUGT
 			b.ResetControls()
 			b.AddControl(cmp)
+			b.AuxInt = 0
 			b.Aux = nil
 			return true
 		}
