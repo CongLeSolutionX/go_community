@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c07a89a7_39b9212f",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-17T14:53:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a8fee8fa_65ad0419",
+      "range": {
+        "startLine": 28,
+        "startChar": 42,
+        "endLine": 28,
+        "endChar": 56
+      },
+      "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6989b9f_8b08547d",
         "filename": "src/internal/poll/sendfile_windows.go",
         "patchSetId": 8
@@ -81,6 +105,24 @@
       "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72446902_b634e1d6",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-17T14:53:24Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll do the syscall.Seek(o.handle, 0, io.SeekEnd)",
+      "parentUuid": "4556ef28_7833760c",
+      "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
