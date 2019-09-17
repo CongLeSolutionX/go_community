@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b2d0560_01cabf05",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 30809
+      },
+      "writtenOn": "2019-09-17T12:29:25Z",
+      "side": 1,
+      "message": "Do we need to be backwards compatible for a new port?",
+      "range": {
+        "startLine": 77,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 17
+      },
+      "revId": "0084ec365791a9776b897d5509b8f4a7e99ed672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
