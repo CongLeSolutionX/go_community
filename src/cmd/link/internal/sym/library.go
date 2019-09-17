@@ -4,6 +4,8 @@
 
 package sym
 
+import "cmd/internal/obj"
+
 type Library struct {
 	Objref        string
 	Srcref        string
@@ -17,6 +19,11 @@ type Library struct {
 	DupTextSyms   []*Symbol // dupok text symbols defined in this library
 	Main          bool
 	Safe          bool
+
+	Readers []struct { // TODO: probably move this to Loader
+		Reader  *obj.Reader
+		Version int
+	}
 }
 
 func (l Library) String() string {
