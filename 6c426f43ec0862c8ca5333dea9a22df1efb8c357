@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "833e7a4a_d32175b5",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "I\u0027d like this to be more flexible/extensible, such as a sequence of name/offset/length tuples for the sections. Or maybe I\u0027m over-engineering?\n\nI wonder if we want a different term for these, to avoid confusion with \"section\" in traditional linker lingo. \"Block\"?",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d9b5a55_2998083b",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "I think we want to include the number of symbols defined by this package right in the header since that\u0027s important for constructing the global numbering. Or maybe that\u0027s implied by the length of the symbols section.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7baeb7c3_6833f190",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "I\u0027m kind of lukewarm on having a giant string table shared by all of the structures in the file, but I having trouble putting my finger on exactly why. Anybody else thinking this?",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "266b1c84_e6d9b6b1",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "What\u0027s the difference between Autolib and PkgIndex?",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71bd7586_4711f747",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "We should specify how this package and named symbol references fit into this table.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e68788cf_9057b609",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "A few people have suggested that we should consider breaking up symbol names to make the object format more compact. The most general form is a sequence of string components, though that\u0027s kind of a pain to represent and needs an extra level of indirection. A less general form is to split the package part and the rest of the symbol name.\n\nOr, given that we\u0027re only going to have the strings for symbols defined in this package now, and we\u0027ll be using these names a lot less, maybe we want to go back to the \"\". convention. That would apply to almost all symbol names in the new world, and as we push out the uses of the name string, it becomes easier to change out the representation entirely in the places we still need it.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13fcab4e_9b7563a8",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "I thought of another way we could look at this split in more generic terms: pre-resolved versus unresolved symbols. For pre-resolved symbols, the compiler has already done all of the work and can tell you exactly what the index is. For unresolved symbols, the linker needs to do name lookup.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6732871c_561c497a",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand what this section is. Aren\u0027t non-package symbol references accomplished by just using an index in another package? Is this necessary for symbols that need to be resolved by name but aren\u0027t defined in this package, and if so, do those need to be separate from NonPkgDefs?",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "886839a4_7e9f50b3",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "OSymRef or symRef? The prose below uses symRef and the comment should probably be consistent.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c29a721_23541823",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "We should consider making this just another aux symbol. Most (though I think not quite all of this) is specific to function symbols, so it would be nice if function symbols could just have this as aux data using the aux lookup mechanism. A few of these could probably just be their own aux symbols, like each pcdata table.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4171033f_e0c5eb1f",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-17T14:31:39Z",
+      "side": 1,
+      "message": "The footer is important in the current format because it actually tells you when to stop reading. I\u0027m not sure we need it in the new format.",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
