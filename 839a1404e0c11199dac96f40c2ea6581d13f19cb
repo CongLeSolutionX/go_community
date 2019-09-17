@@ -123,6 +123,24 @@
       "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d21041f_dcdd0b9d",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-17T21:52:56Z",
+      "side": 1,
+      "message": "But now n will have size of the file in it. But you want n to have number of characters from curpos to the end of the file. Shouldn\u0027t you need to adjust n by n?",
+      "parentUuid": "72446902_b634e1d6",
+      "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
