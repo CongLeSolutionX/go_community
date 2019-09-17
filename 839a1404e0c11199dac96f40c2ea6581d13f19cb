@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a8fee8fa_65ad0419",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-17T09:47:55Z",
+      "side": 1,
+      "message": "Never mind that too. I can see that we already use io.SeekCurrent and others in fd_windows.go.",
+      "parentUuid": "189b3eee_adb32f4a",
+      "range": {
+        "startLine": 28,
+        "startChar": 42,
+        "endLine": 28,
+        "endChar": 56
+      },
+      "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6989b9f_8b08547d",
         "filename": "src/internal/poll/sendfile_windows.go",
         "patchSetId": 8
@@ -36,6 +60,24 @@
       "writtenOn": "2019-09-16T08:08:00Z",
       "side": 1,
       "message": "Are you sure you need this seek? I think previous seek (seeking from the end) should have current file position set correctly.",
+      "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4556ef28_7833760c",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-17T09:47:55Z",
+      "side": 1,
+      "message": "You are correct, we do need to seek from the start here.\n\nI was confused by -curpos in\n\nsyscall.Seek(o.handle, -curpos, io.SeekEnd)\n\nI suppose if you would write\n\nsyscall.Seek(o.handle, 0, io.SeekEnd)\n\nit would be obvious that we are at the end of the file.\n\nBut it is fine the way it is.",
+      "parentUuid": "c6989b9f_8b08547d",
       "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
