@@ -22,6 +22,30 @@
       "revId": "0084ec365791a9776b897d5509b8f4a7e99ed672",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12be6820_2b4ae04f",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-09-17T14:45:35Z",
+      "side": 1,
+      "message": "I don\u0027t have strong opinions, however the generated opcode/instruction table contains both of these instructions (since the source still contains them). For the sake of four lines of code, we can make them work... or we can remove them and have them trigger \u0027no encoding for instruction\u0027 errors.",
+      "parentUuid": "7b2d0560_01cabf05",
+      "range": {
+        "startLine": 77,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 17
+      },
+      "revId": "0084ec365791a9776b897d5509b8f4a7e99ed672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
