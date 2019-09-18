@@ -937,7 +937,7 @@ func (h *mheap) allocManual(npage uintptr, stat *uint64) *mspan {
 		s.elemsize = 0
 		s.limit = s.base() + s.npages<<_PageShift
 		// Manually managed memory doesn't count toward heap_sys.
-		memstats.heap_sys -= uint64(s.npages << _PageShift)
+		mSysStatDec(&memstats.heap_sys, s.npages*pageSize)
 	}
 
 	// This unlock acts as a release barrier. See mheap.alloc_m.
@@ -984,7 +984,7 @@ HaveBase:
 		// sysUsed all the pages that are actually available
 		// in the span.
 		sysUsed(unsafe.Pointer(base), npage<<_PageShift)
-		memstats.heap_released -= uint64(scav)
+		mSysStatDec(&memstats.heap_released, scav)
 	}
 
 	s := (*mspan)(h.spanalloc.alloc())
@@ -993,8 +993,10 @@ HaveBase:
 	s.needzero = 1
 	h.setSpans(s.base(), npage, s)
 
-	*stat += uint64(npage << _PageShift)
-	memstats.heap_idle -= uint64(npage << _PageShift)
+	// Update stats.
+	nbytes := npage * pageSize
+	mSysStatInc(stat, nbytes)
+	mSysStatDec(&memstats.heap_idle, nbytes)
 
 	return s
 }
@@ -1011,8 +1013,8 @@ func (h *mheap) grow(npage uintptr) bool {
 		return false
 	}
 	// (*mheap).sysAlloc returns untouched/uncommitted memory.
-	memstats.heap_idle += uint64(size)
-	memstats.heap_released += uint64(size)
+	mSysStatInc(&memstats.heap_idle, size)
+	mSysStatInc(&memstats.heap_released, size)
 
 	// We just caused a heap growth, so scavenge down what will soon be used.
 	// By scavenging inline we deal with the failure to allocate out of
@@ -1066,8 +1068,8 @@ func (h *mheap) freeSpan(s *mspan) {
 func (h *mheap) freeManual(s *mspan, stat *uint64) {
 	s.needzero = 1
 	lock(&h.lock)
-	*stat -= uint64(s.npages << _PageShift)
-	memstats.heap_sys += uint64(s.npages << _PageShift)
+	mSysStatDec(stat, s.npages*pageSize)
+	mSysStatInc(&memstats.heap_sys, s.npages*pageSize)
 	h.freeSpanLocked(s, false, true)
 	unlock(&h.lock)
 }
@@ -1093,10 +1095,10 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool) {
 	}
 
 	if acctinuse {
-		memstats.heap_inuse -= uint64(s.npages << _PageShift)
+		mSysStatDec(&memstats.heap_inuse, s.npages*pageSize)
 	}
 	if acctidle {
-		memstats.heap_idle += uint64(s.npages << _PageShift)
+		mSysStatInc(&memstats.heap_idle, s.npages*pageSize)
 	}
 
 	// Mark the space as free.
