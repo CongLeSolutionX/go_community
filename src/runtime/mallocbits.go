@@ -16,6 +16,11 @@ func (b *pageBits) get(i uint) uint {
 	return uint((b[i/64] >> (i % 64)) & 1)
 }
 
+// block64 returns the 64-bit aligned block of bits containing the i'th bit.
+func (b *pageBits) block64(i uint) uint64 {
+	return b[i/64]
+}
+
 // set sets bit i of pageBits.
 func (b *pageBits) set(i uint) {
 	b[i/64] |= 1 << (i % 64)
@@ -336,6 +341,11 @@ func (b *mallocBits) free(i, n uint) {
 // freeAll frees all the bits of b.
 func (b *mallocBits) freeAll() {
 	(*pageBits)(b).clearAll()
+}
+
+// block64 returns the 64-bit aligned block of bits containing the i'th bit.
+func (b *mallocBits) block64(i uint) uint64 {
+	return (*pageBits)(b).block64(i)
 }
 
 // findBitRange64 returns the bit index of the first set of
