@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3aa129c0_5cce6ecf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-09-18T19:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9407191a_c322b219",
+      "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "249f9219_857176d0",
         "filename": "src/syscall/mksyscall_windows.go",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "cb2b1b36_8d110bfb",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-09-18T19:51:54Z",
+      "side": 1,
+      "message": "I had tried to copy the same style as the other parts but I can simplify and inline this no problem.",
+      "parentUuid": "249f9219_857176d0",
+      "range": {
+        "startLine": 133,
+        "startChar": 16,
+        "endLine": 133,
+        "endChar": 45
+      },
+      "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93bed57e_4e9d5f9c",
         "filename": "src/syscall/mksyscall_windows.go",
         "patchSetId": 2
@@ -56,6 +98,24 @@
       "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6069fbde_35549110",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-09-18T19:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93bed57e_4e9d5f9c",
+      "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "293d5e05_84c38831",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-09-18T19:51:54Z",
+      "side": 1,
+      "message": "I had it like this because I needed to prepend a new line but likely I can muck with the template string instead to do this properly.",
+      "parentUuid": "f2478bb6_689f0325",
+      "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c244ec9_703e3679",
         "filename": "src/syscall/mksyscall_windows.go",
         "patchSetId": 2
@@ -90,6 +168,24 @@
       "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6a7735d_2263f753",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-09-18T19:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c244ec9_703e3679",
+      "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
