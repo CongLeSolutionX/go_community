@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a49af745_55500da9",
+        "filename": "src/cmd/compile/internal/gc/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-09-18T01:44:22Z",
+      "side": 1,
+      "message": "Remove this comment",
+      "range": {
+        "startLine": 1006,
+        "startChar": 1,
+        "endLine": 1007,
+        "endChar": 58
+      },
+      "revId": "584976ba0ebad32a2988ca469e016b28fec2334c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
