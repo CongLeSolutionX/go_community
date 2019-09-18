@@ -177,6 +177,24 @@
       "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ded89c02_28d63138",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-18T16:34:53Z",
+      "side": 1,
+      "message": "Doing:\n\n   n -\u003d curpos\n\n\nnow incorrectly gets the size of n or perhaps I don\u0027t understand what you are asking for.\nAm more comfortable keeping it as is, more direct to me as is currently:\n* To find the length of the file, seek until the end and grab the position, so n\n* Come back to where curpos was",
+      "parentUuid": "17163c30_881697d5",
+      "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
