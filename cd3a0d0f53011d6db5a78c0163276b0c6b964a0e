@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9407191a_c322b219",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-18T09:40:00Z",
+      "side": 1,
+      "message": "You need to mention mksyscall_windows.go here somehow. Maybe\n\nsyscall: adjust mksyscall_windows.go to handle *bool parameters",
+      "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "249f9219_857176d0",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-18T09:40:00Z",
+      "side": 1,
+      "message": "Delete BoolPointerTmpVarReadbackCode. You won\u0027t need it.",
+      "range": {
+        "startLine": 133,
+        "startChar": 16,
+        "endLine": 133,
+        "endChar": 45
+      },
+      "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93bed57e_4e9d5f9c",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-18T09:40:00Z",
+      "side": 1,
+      "message": "Just\n\nreturn fmt.Sprintf(\"*%s \u003d %s !\u003d 0\", p.Name, p.tmpVar())",
+      "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2478bb6_689f0325",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-18T09:40:00Z",
+      "side": 1,
+      "message": "You won\u0027t need this return.",
+      "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c244ec9_703e3679",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-18T09:40:00Z",
+      "side": 1,
+      "message": "You will want new line before calling TmpVarReadbackCode, not after\n\n{{define \"tmpvarsreadback\"}}{{range .Params}}{{if .TmpVarReadbackCode}}\n{{.TmpVarReadbackCode}}{{end}}{{end}}{{end}}\n\notherwise you will end-up with a blank line in your output function. Looks inconsistent.",
+      "revId": "cd3a0d0f53011d6db5a78c0163276b0c6b964a0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
