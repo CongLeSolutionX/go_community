@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "624594b3_4061f05b",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-18T15:17:05Z",
+      "side": 1,
+      "message": "Done. Combined.",
+      "parentUuid": "bfbbfed7_9630e46d",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71bd7586_4711f747",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 3
@@ -156,6 +174,24 @@
       "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e2ac762_ad26d9f6",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-18T15:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24c24acd_6c442096",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -346,6 +382,24 @@
       "side": 1,
       "message": "I think so. Add a TODO for now.",
       "parentUuid": "2c29a721_23541823",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "857da980_418cced7",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-18T15:17:05Z",
+      "side": 1,
+      "message": "Made FuncInfo an aux symbol (for now).",
+      "parentUuid": "31cdc3b0_32331c1c",
       "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
