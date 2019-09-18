@@ -141,6 +141,24 @@
       "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2f5af62_101b6d23",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-09-18T04:02:18Z",
+      "side": 1,
+      "message": "IMHO a bit of complexity and loss of readability creeps in with an n re-adjustment.\nI believe that:\n\n   // Now seek back to the original position.\n   syscall.Seek(o.handle, curpos, io.SeekStart)\n\nis more legible and maintainable than\n\n   // Walk back n bytes from the end of the file.\n   syscall.Seek(o.handle, n, io.SeekEnd)",
+      "parentUuid": "0d21041f_dcdd0b9d",
+      "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
