@@ -159,6 +159,24 @@
       "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17163c30_881697d5",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-18T10:02:50Z",
+      "side": 1,
+      "message": "I do not know what you are proposing. But I was suggesting to replace lines 35-38 of PS8 with\n\nn, err \u003d syscall.Seek(o.handle, 0, io.SeekEnd)\t// calculate file size\nif err !\u003d nil {\n\treturn\n}\nn -\u003d curpos\n\nor just leave things as they are.\n\nWhatever you decide, please, have another run of your test before we agree, and you remove the test again.\n\nThank you.",
+      "parentUuid": "e2f5af62_101b6d23",
+      "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
