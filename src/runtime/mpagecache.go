@@ -1,0 +1,243 @@
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package runtime
+
+import (
+	"math/bits"
+)
+
+const pageCacheSize = 64
+
+// pageCache represents a per-p cache of pages the allocator can
+// allocate from without a lock. More specifically, it represents
+// a pageCacheSize*pageSize chunk of memory with 0 or more free
+// pages in it.
+type pageCache struct {
+	base  uintptr // base address of the chunk
+	cache uint64  // 64-bit bitmap representing free pages (1 means free)
+	scav  uint64  // 64-bit bitmap representing scavenged pages (1 means scavenged)
+}
+
+// alloc allocates npages from the page cache and is the main entry
+// point for allocation.
+//
+// Returns a base address and the amount of scavenged memory in the
+// allocated region in bytes.
+func (c *pageCache) alloc(npages uintptr) (uintptr, uintptr) {
+	if c.cache == 0 {
+		return 0, 0
+	}
+	if npages == 1 {
+		i := uintptr(bits.TrailingZeros64(c.cache))
+		c.cache &^= 1 << i // clear bit
+		return c.base + i*pageSize, uintptr((c.scav>>i)&1) * pageSize
+	}
+	return c.allocN(npages)
+}
+
+// allocN is a helper which attempts to allocate npages worth of pages
+// from the cache. It represents the general case for allocating from
+// the page cache.
+//
+// Returns a base address and the amount of scavenged memory in the
+// allocated region in bytes.
+func (c *pageCache) allocN(npages uintptr) (uintptr, uintptr) {
+	i := findBitRange64(c.cache, uint(npages))
+	if i >= 64 {
+		return 0, 0
+	}
+	mask := ((uint64(1) << npages) - 1) << i
+	c.cache &^= mask
+	scav := bits.OnesCount64(c.scav & mask)
+	return c.base + uintptr(i*pageSize), uintptr(scav) * pageSize
+}
+
+// flush empties out unallocated free pages in the given cache
+// into s. Then, it clears the cache.
+func (c *pageCache) flush(s *pageAlloc) {
+	if c.cache == 0 {
+		// Empty cache, nothing to do.
+		return
+	}
+	ci := chunkIndex(c.base)
+	pi := chunkPageIndex(c.base)
+	for i := uint(0); i < 64; i++ {
+		if c.cache&(1<<i) != 0 {
+			s.chunks[ci].free1(pi + i)
+			if c.scav&(1<<i) != 0 {
+				s.chunks[ci].scavenged.setRange(pi+i, 1)
+			}
+		}
+	}
+	// Since this is a lot like a free, we need to make sure
+	// we update the searchAddr just like free does.
+	if s.compareSearchAddrTo(c.base) < 0 {
+		s.searchAddr = c.base
+	}
+	s.update(c.base, pageCacheSize, false, false)
+	*c = pageCache{}
+}
+
+// allocToCache finds an aligned 64-bit chunk in b which has some free space
+// and takes all the zero bitmap it can.
+//
+// Returns the index where the chunk was taken from and a 64-bit bitmap where
+// each 1 represents a free page in that 64-bit chunk.
+func (b *mallocBits) allocToCache(searchAddr uint) (uint, uint64) {
+	for i := searchAddr / 64; i < uint(len(b)); i++ {
+		if x := b[i]; x != ^uint64(0) {
+			b[i] = ^uint64(0)
+			return i * 64, ^x
+		}
+	}
+	return ^uint(0), 0
+}
+
+// allocToCache wraps mallocBits.allocToCache and additionally manages
+// the scavenged bits appropriately.
+//
+// Returns the index where the chunk was taken from and a 64-bit bitmap where
+// each 1 represents a free page in that 64-bit chunk. Also returns the number
+// of pages that were scavenged in the newly-allocated chunk.
+func (m *mallocData) allocToCache(searchAddr uint) (uint, uint64, uint64) {
+	base, cache := m.mallocBits.allocToCache(searchAddr)
+	if base < 0 {
+		// Failed to allocate, so skip all the other stuff.
+		return ^uint(0), 0, 0
+	}
+	// Load the scavenge bits and mask them with the free memory
+	// in the cache that we actually care about.
+	if base%64 != 0 {
+		print("runtime: base = ", base, "\n")
+		throw("base must be 64-bit aligned")
+	}
+	scav := m.scavenged[base/64] & cache
+	// Clear the scavenged bits when we alloc.
+	m.scavenged.clearRange(base, pageCacheSize)
+	return base, cache, scav
+}
+
+// Slow path for allocToCache.
+//
+// This method is a simplified version of s.find which is only
+// searching for the first free page in the heap.
+//
+// s.mheapLock must be held.
+func (s *pageAlloc) allocToCacheSlow() pageCache {
+	// Search algorithm
+	//
+	// Iterate over each level, looking for the first non-zero summary.
+	// Any non-zero summary means there's at least one free page. Once
+	// the leaves are reached, we have the index of the first chunk which
+	// has some free pages.
+
+	// i is the beginning of the block of entries we're searching at the
+	// current level.
+	i := 0
+
+	// lastsum is the summary which we saw on the previous level that made us
+	// move on to the next level. Used to print additional information in the
+	// case of a catastrophic failure.
+	// lastidx is that summary's index in the previous level.
+	lastSum := mallocSum(0)
+	lastSumIdx := -1
+nextLevel:
+	for l := 0; l < len(s.summary); l++ {
+		entriesPerBlock := 1 << levelBits[l]
+
+		// We've moved into a new level, so let's update i to our new
+		// starting index. This is a no-op for level 0.
+		i <<= levelBits[l]
+
+		// Slice out the block of entries we care about.
+		entries := s.summary[l][i : i+entriesPerBlock]
+
+		// Determine j0, the first index we should start iterating from.
+		// The searchAddr may help us eliminate iterations if we followed the
+		// searchAddr on the previous level, in which case the top bits of the
+		// searchAddr address should be the same as i, after levelShift.
+		j0 := 0
+		if searchIdx := int((s.searchAddr + arenaBaseOffset) >> levelShift[l]); searchIdx&^(entriesPerBlock-1) == i {
+			j0 = searchIdx & (entriesPerBlock - 1)
+		}
+
+		// Find the first non-zero sum, and continue to the next level.
+		for j := j0; j < len(entries); j++ {
+			sum := entries[j]
+			if sum != 0 {
+				i += j
+				lastSumIdx = i
+				lastSum = sum
+				continue nextLevel
+			}
+		}
+		if l == 0 {
+			// We've exhausted our search at the root level, which means
+			// we've exhausted the heap. Return an empty cache.
+			return pageCache{}
+		}
+
+		// We've exhausted our search at a non-root level, which marks
+		// a serious problem. Dump useful state and throw.
+		print("runtime: summary[", l-1, "][", lastSumIdx, "] = ", lastSum.start(), ", ", lastSum.max(), ", ", lastSum.end(), "\n")
+		print("runtime: level = ", l, ", j0 = ", j0, "\n")
+		print("runtime: s.searchAddr = ", hex(s.searchAddr), ", i = ", i, "\n")
+		print("runtime: levelShift[level] = ", levelShift[l], ", levelBits[level] = ", levelBits[l], "\n")
+		for j := 0; j < len(entries); j++ {
+			sum := entries[j]
+			print("runtime: summary[", l, "][", i+j, "] = (", sum.start(), ", ", sum.max(), ", ", sum.end(), ")\n")
+		}
+		throw("bad summary data")
+	}
+
+	// Find the first free page in the chunk and claim that memory.
+	j, c, scav := s.chunks[i].allocToCache(0)
+	if j < 0 {
+		// We couldn't find any space in this chunk despite the summaries telling
+		// us it should be there. There's likely a bug, so dump some state and throw.
+		sum := s.summary[len(s.summary)-1][i]
+		print("runtime: summary[", len(s.summary)-1, "][", i, "] = (", sum.start(), ", ", sum.max(), ", ", sum.end(), ")\n")
+		throw("bad summary data")
+	}
+	addr := chunkBase(chunkIdx(i)) + uintptr(j)*pageSize
+	return pageCache{addr, c, scav}
+}
+
+// allocToCache acquires a pageCacheSize-aligned chunk of free pages which
+// may not be contiguous, and returns a pageCache structure which owns the
+// chunk.
+//
+// s.mheapLock must be held.
+func (s *pageAlloc) allocToCache() pageCache {
+	// If the searchAddr refers to a region which has a higher address than
+	// any known chunk, then we know we're out of memory.
+	if chunkIndex(s.searchAddr) >= s.end {
+		return pageCache{}
+	}
+	c := pageCache{}
+	ci := chunkIndex(s.searchAddr) // chunk index
+	if s.summary[len(s.summary)-1][ci] != 0 {
+		// Fast path: there's free pages at or near the searchAddr address.
+		j, cv, scav := s.chunks[ci].allocToCache(chunkPageIndex(s.searchAddr))
+		if j < 0 {
+			throw("bad summary data")
+		}
+		addr := chunkBase(ci) + uintptr(j)*pageSize
+		c = pageCache{addr, cv, scav}
+	} else {
+		// Slow path: the searchAddr address had nothing there, so go find
+		// the first free page the slow way.
+		c = s.allocToCacheSlow()
+		if c.base == 0 {
+			// We failed to find adequate free space, so mark the searchAddr as OoM
+			// and return an empty pageCache.
+			s.searchAddr = maxSearchAddr
+			return pageCache{}
+		}
+	}
+	s.update(c.base, pageCacheSize, false, true)
+	s.searchAddr = c.base + pageSize*pageCacheSize
+	return c
+}
