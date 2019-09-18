@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d49fe388_93bd968a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-18T09:23:12Z",
+      "side": 1,
+      "message": "remove the \"httptrace.\" bits; they\u0027re redundant.",
+      "revId": "e7fd936387a507eeb3000902dc4ed9053737fdf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bc44d41_c6564542",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-18T09:23:12Z",
+      "side": 1,
+      "message": "this paragraph would be more readable if it were split into two.\n\nAlso see https://github.com/golang/go/wiki/CommitMessage. For example, the title is a bit too long.",
+      "revId": "e7fd936387a507eeb3000902dc4ed9053737fdf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "455e2573_777eabba",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-18T09:23:12Z",
+      "side": 1,
+      "message": "s/and new/and the new/",
+      "revId": "e7fd936387a507eeb3000902dc4ed9053737fdf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06a7c044_e8a6f457",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-18T09:23:12Z",
+      "side": 1,
+      "message": "invert and early continue to unindent the rest of the code",
+      "revId": "e7fd936387a507eeb3000902dc4ed9053737fdf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5682e6c7_52202fe4",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-18T09:23:12Z",
+      "side": 1,
+      "message": "make the \"Case\" comments be on their own lines, for readability. I\u0027d also put them inside each of the \"if\" blocks.",
+      "revId": "e7fd936387a507eeb3000902dc4ed9053737fdf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
