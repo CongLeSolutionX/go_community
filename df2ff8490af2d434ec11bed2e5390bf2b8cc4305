@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df15b30a_47e6d378",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-18T22:08:28Z",
+      "side": 1,
+      "message": "Join lines 922 and 922, otherwise you will get extra blank line in your output.",
+      "revId": "df2ff8490af2d434ec11bed2e5390bf2b8cc4305",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
