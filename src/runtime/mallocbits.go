@@ -87,6 +87,15 @@ func (b *pageBits) popcntRange(i, n int) (s int) {
 	return
 }
 
+// load64 loads a 64-bit aligned chunk of 64 bits.
+func (b *pageBits) load64(i int) (s uint64) {
+	if i%64 != 0 {
+		print("runtime: i = ", i, "\n")
+		throw("load64: i is not a multiple of 64")
+	}
+	return unsafeChunkFromSlice(b[i/8 : i/8+8]).load()
+}
+
 // chunk is a convenient abstraction for doing a platform-specific
 // load and store from a byte slice.
 type chunk8 [8]uint8
