@@ -33,7 +33,7 @@ type mheap struct {
 	// could self-deadlock if its stack grows with the lock held.
 	lock      mutex
 	pages     pageAlloc // page allocation data structure
-	sweepgen  uint32    // sweep generation, see comment in mspan
+	sweepgen  uint32    // sweep generation, see comment in mspan; written during STW
 	sweepdone uint32    // all spans are swept
 	sweepers  uint32    // number of active sweepone calls
 
@@ -804,103 +804,24 @@ func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
 	return nFreed
 }
 
-// alloc_m is the internal implementation of mheap.alloc.
-//
-// alloc_m must run on the system stack because it locks the heap, so
-// any stack growth during alloc_m would self-deadlock.
-//
-//go:systemstack
-func (h *mheap) alloc_m(npage uintptr, spanclass spanClass) *mspan {
-	_g_ := getg()
-
-	// To prevent excessive heap growth, before allocating n pages
-	// we need to sweep and reclaim at least n pages.
-	if h.sweepdone == 0 {
-		h.reclaim(npage)
-	}
-
-	lock(&h.lock)
-	// transfer stats from cache to global
-	memstats.heap_scan += uint64(_g_.m.mcache.local_scan)
-	_g_.m.mcache.local_scan = 0
-	memstats.tinyallocs += uint64(_g_.m.mcache.local_tinyallocs)
-	_g_.m.mcache.local_tinyallocs = 0
-
-	s := h.allocSpanLocked(npage, &memstats.heap_inuse)
-	if s != nil {
-		// Record span info, because gc needs to be
-		// able to map interior pointer to containing span.
-		atomic.Store(&s.sweepgen, h.sweepgen)
-		h.sweepSpans[h.sweepgen/2%2].push(s) // Add to swept in-use list.
-		s.state = mSpanInUse
-		s.allocCount = 0
-		s.spanclass = spanclass
-		if sizeclass := spanclass.sizeclass(); sizeclass == 0 {
-			s.elemsize = s.npages << _PageShift
-			s.divShift = 0
-			s.divMul = 0
-			s.divShift2 = 0
-			s.baseMask = 0
-
-			// Update additional stats.
-			mheap_.largealloc += uint64(s.elemsize)
-			mheap_.nlargealloc++
-			atomic.Xadd64(&memstats.heap_live, int64(npage<<_PageShift))
-		} else {
-			s.elemsize = uintptr(class_to_size[sizeclass])
-			m := &class_to_divmagic[sizeclass]
-			s.divShift = m.shift
-			s.divMul = m.mul
-			s.divShift2 = m.shift2
-			s.baseMask = m.baseMask
-		}
-
-		// Mark in-use span in arena page bitmap.
-		//
-		// This publishes the span to the page sweeper, so
-		// it's imperative that the span be completely initialized
-		// prior to this line.
-		arena, pageIdx, pageMask := pageIndexOf(s.base())
-		atomic.Or8(&arena.pageInUse[pageIdx], pageMask)
-
-		// Update related page sweeper stats.
-		atomic.Xadd64(&h.pagesInUse, int64(npage))
-	}
-	// heap_scan and heap_live were updated.
-	if gcBlackenEnabled != 0 {
-		gcController.revise()
-	}
-
-	if trace.enabled {
-		traceHeapAlloc()
-	}
-
-	// h.spans is accessed concurrently without synchronization
-	// from other threads. Hence, there must be a store/store
-	// barrier here to ensure the writes to h.spans above happen
-	// before the caller can publish a pointer p to an object
-	// allocated from s. As soon as this happens, the garbage
-	// collector running on another processor could read p and
-	// look up s in h.spans. The unlock acts as the barrier to
-	// order these writes. On the read side, the data dependency
-	// between p and the index in h.spans orders the reads.
-	unlock(&h.lock)
-	return s
-}
-
 // alloc allocates a new span of npage pages from the GC'd heap.
 //
 // Either large must be true or spanclass must indicates the span's
 // size class and scannability.
 //
 // If needzero is true, the memory for the returned span will be zeroed.
-func (h *mheap) alloc(npage uintptr, spanclass spanClass, needzero bool) *mspan {
+func (h *mheap) alloc(npages uintptr, spanclass spanClass, needzero bool) *mspan {
 	// Don't do any operations that lock the heap on the G stack.
 	// It might trigger stack growth, and the stack growth code needs
 	// to be able to allocate heap.
 	var s *mspan
 	systemstack(func() {
-		s = h.alloc_m(npage, spanclass)
+		// To prevent excessive heap growth, before allocating n pages
+		// we need to sweep and reclaim at least n pages.
+		if h.sweepdone == 0 {
+			h.reclaim(npages)
+		}
+		s = h.allocSpan(npages, false, spanclass, &memstats.heap_inuse)
 	})
 
 	if s != nil {
@@ -922,29 +843,12 @@ func (h *mheap) alloc(npage uintptr, spanclass spanClass, needzero bool) *mspan 
 // The memory backing the returned span may not be zeroed if
 // span.needzero is set.
 //
-// allocManual must be called on the system stack because it acquires
-// the heap lock. See mheap for details.
+// allocManual must be called on the system stack because it may
+// acquire the heap lock via allocSpan. See mheap for details.
 //
 //go:systemstack
-func (h *mheap) allocManual(npage uintptr, stat *uint64) *mspan {
-	lock(&h.lock)
-	s := h.allocSpanLocked(npage, stat)
-	if s != nil {
-		s.state = mSpanManual
-		s.manualFreeList = 0
-		s.allocCount = 0
-		s.spanclass = 0
-		s.nelems = 0
-		s.elemsize = 0
-		s.limit = s.base() + s.npages<<_PageShift
-		// Manually managed memory doesn't count toward heap_sys.
-		mSysStatDec(&memstats.heap_sys, s.npages*pageSize)
-	}
-
-	// This unlock acts as a release barrier. See mheap.alloc_m.
-	unlock(&h.lock)
-
-	return s
+func (h *mheap) allocManual(npages uintptr, stat *uint64) *mspan {
+	return h.allocSpan(npages, true, 0, stat)
 }
 
 // setSpans modifies the span map so [spanOf(base), spanOf(base+npage*pageSize))
@@ -963,42 +867,149 @@ func (h *mheap) setSpans(base, npage uintptr, s *mspan) {
 	}
 }
 
-// Allocates a span of the given size.  h must be locked.
-// The returned span has been removed from the
-// free structures, but its state is still mSpanFree.
-func (h *mheap) allocSpanLocked(npage uintptr, stat *uint64) *mspan {
-	base, scav := h.pages.alloc(npage)
+// allocSpan allocates an mspan which owns npages worth of memory.
+//
+// If manual == false, then allocSpan assumes a number of accounting
+// responsibilities which must happen with the heap locked.
+// The spanclass parameter is ignored entirely if manual == true.
+//
+// The returned span is fully initialized.
+//
+// h must not be locked.
+//go:systemstack
+func (h *mheap) allocSpan(npages uintptr, manual bool, spanclass spanClass, sysStat *uint64) (s *mspan) {
+	// Function-global state.
+	gp := getg()
+	base, scav := uintptr(0), uintptr(0)
+
+	// We failed to do what we need to do without the lock.
+	lock(&h.lock)
+
+	// Try to acquire a base address.
+	base, scav = h.pages.alloc(npages)
 	if base != 0 {
 		goto HaveBase
 	}
-	if !h.grow(npage) {
+	if !h.grow(npages) {
 		return nil
 	}
-	base, scav = h.pages.alloc(npage)
+	base, scav = h.pages.alloc(npages)
 	if base != 0 {
 		goto HaveBase
 	}
 	throw("grew heap, but no adequate free space found")
 
 HaveBase:
-	if scav != 0 {
-		// sysUsed all the pages that are actually available
-		// in the span.
-		sysUsed(unsafe.Pointer(base), npage<<_PageShift)
-		mSysStatDec(&memstats.heap_released, scav)
+	if !manual {
+		// This is not a manual allocation, so we should do some
+		// additional accounting which may only be done with the
+		// heap locked.
+
+		// Transfer stats from mcache to global.
+		memstats.heap_scan += uint64(gp.m.mcache.local_scan)
+		gp.m.mcache.local_scan = 0
+		memstats.tinyallocs += uint64(gp.m.mcache.local_tinyallocs)
+		gp.m.mcache.local_tinyallocs = 0
+
+		// Do some additional accounting if it's a large allocation.
+		if spanclass.sizeclass() == 0 {
+			mheap_.largealloc += uint64(npages * pageSize)
+			mheap_.nlargealloc++
+			atomic.Xadd64(&memstats.heap_live, int64(npages*pageSize))
+		}
+
+		// Either heap_live or heap_scan could have been updated.
+		if gcBlackenEnabled != 0 {
+			gcController.revise()
+		}
 	}
 
-	s := (*mspan)(h.spanalloc.alloc())
-	s.init(base, npage)
+	// Allocate an mspan object before releasing the lock.
+	s = (*mspan)(h.spanalloc.alloc())
+	unlock(&h.lock)
+
+	// Initialize the span.
+	s.init(base, npages)
+	if manual {
+		s.state = mSpanManual
+		s.manualFreeList = 0
+		s.allocCount = 0
+		s.spanclass = 0
+		s.nelems = 0
+		s.elemsize = 0
+		s.limit = s.base() + s.npages*pageSize
+		// Manually managed memory doesn't count toward heap_sys.
+		mSysStatDec(&memstats.heap_sys, s.npages*pageSize)
+	} else {
+		// We must set span properties before the span is published anywhere
+		// since we're not holding the heap lock.
+		s.state = mSpanInUse
+		s.allocCount = 0
+		s.spanclass = spanclass
+		if sizeclass := spanclass.sizeclass(); sizeclass == 0 {
+			s.elemsize = s.npages * pageSize
+			s.divShift = 0
+			s.divMul = 0
+			s.divShift2 = 0
+			s.baseMask = 0
+		} else {
+			s.elemsize = uintptr(class_to_size[sizeclass])
+			m := &class_to_divmagic[sizeclass]
+			s.divShift = m.shift
+			s.divMul = m.mul
+			s.divShift2 = m.shift2
+			s.baseMask = m.baseMask
+		}
+
+		// It's safe to access h.sweepgen without the heap lock because it's
+		// only ever updated with the world stopped.
+		atomic.Store(&s.sweepgen, h.sweepgen)
+	}
 	// TODO(mknyszek): Make it so that needzero is not necessary.
 	s.needzero = 1
-	h.setSpans(s.base(), npage, s)
 
+	// This is safe to call without the lock held because the slots
+	// related to this span will only every be read or modified by
+	// this thread until pointers into the span are published or
+	// pageInUse is updated.
+	h.setSpans(s.base(), npages, s)
+
+	nbytes := npages * pageSize
+	if scav != 0 {
+		// sysUsed all the pages that are actually available
+		// in the span since some of them might be scavenged.
+		sysUsed(unsafe.Pointer(base), nbytes)
+		mSysStatDec(&memstats.heap_released, scav)
+	}
 	// Update stats.
-	nbytes := npage * pageSize
-	mSysStatInc(stat, nbytes)
+	mSysStatInc(sysStat, nbytes)
 	mSysStatDec(&memstats.heap_idle, nbytes)
 
+	if !manual {
+		// Add to swept in-use list.
+		//
+		// This publishes the span to root marking.
+		//
+		// h.sweepgen is guaranteed to only change during STW,
+		// and preemption is disabled in the page allocator.
+		h.sweepSpans[h.sweepgen/2%2].push(s)
+
+		// Mark in-use span in arena page bitmap.
+		//
+		// This publishes the span to the page sweeper, so
+		// it's imperative that the span be completely initialized
+		// prior to this line.
+		arena, pageIdx, pageMask := pageIndexOf(s.base())
+		atomic.Or8(&arena.pageInUse[pageIdx], pageMask)
+
+		// Update related page sweeper stats.
+		atomic.Xadd64(&h.pagesInUse, int64(npages))
+
+		if trace.enabled {
+			// Trace that a heap alloc occurred.
+			traceHeapAlloc()
+		}
+	}
 	return s
 }
 
