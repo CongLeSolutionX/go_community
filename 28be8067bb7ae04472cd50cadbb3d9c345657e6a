@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "985b0944_80af71ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-18T19:59:12Z",
+      "side": 1,
+      "message": "Make it clear what the baseline here is. My guess is you\u0027re comparing relative to the parent of CL 188023.",
+      "revId": "28be8067bb7ae04472cd50cadbb3d9c345657e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41cec506_b0d6bd8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-18T19:59:12Z",
+      "side": 1,
+      "message": "Nice",
+      "revId": "28be8067bb7ae04472cd50cadbb3d9c345657e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e93b44e2_bb1d8f04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-18T19:59:12Z",
+      "side": 1,
+      "message": "That\u0027s weird... Why don\u0027t we have allocation stats for the linker? When I run compilebench -alloc, I get B/op and allocs/op for BenchmarkLinkCompiler.",
+      "revId": "28be8067bb7ae04472cd50cadbb3d9c345657e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5969b45_23920403",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-09-18T19:59:12Z",
+      "side": 1,
+      "message": "Any idea why this affected text size at all?",
+      "revId": "28be8067bb7ae04472cd50cadbb3d9c345657e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
