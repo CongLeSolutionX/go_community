@@ -597,6 +597,24 @@ func (d *MallocData) ScavengeRange(i, n int) {
 	(*mallocData)(d).scavengeRange(i, n)
 }
 
+// Expose pageCache for testing.
+type PageCache pageCache
+
+const PageCacheSize = pageCacheSize
+
+func NewPageCache(base uintptr, cache, scav uint64) PageCache {
+	return PageCache(pageCache{base: base, cache: cache, scav: scav})
+}
+func (c *PageCache) Base() uintptr { return (*pageCache)(c).base }
+func (c *PageCache) Cache() uint64 { return (*pageCache)(c).cache }
+func (c *PageCache) Scav() uint64  { return (*pageCache)(c).scav }
+func (c *PageCache) Alloc(npages uintptr) (uintptr, uintptr) {
+	return (*pageCache)(c).alloc(npages)
+}
+func (c *PageCache) Flush(s *PageAlloc) {
+	(*pageCache)(c).flush((*pageAlloc)(s))
+}
+
 // Expose pageAlloc for testing. Note that because pageAlloc is
 // not in the heap, so is PageAlloc.
 //
@@ -605,6 +623,9 @@ type PageAlloc pageAlloc
 
 func (p *PageAlloc) Alloc(npages uintptr) (uintptr, uintptr) {
 	return (*pageAlloc)(p).alloc(npages)
+}
+func (p *PageAlloc) AllocToCache() PageCache {
+	return PageCache((*pageAlloc)(p).allocToCache())
 }
 func (p *PageAlloc) Free(base, npages uintptr) {
 	(*pageAlloc)(p).free(base, npages)
