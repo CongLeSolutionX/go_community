@@ -194,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "923ab328_0b0e0475",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-09-18T13:55:41Z",
+      "side": 1,
+      "message": "I am find with simple name for the moment, but I hope we can leave the door open for breaking up symbol names in the future in case we need it.\n\nCase in point: for hyperkube in kubernetes, the largest package feeding into the link is \"k8s.io/kubernetes/vendor/google.golang.org/api/compute/v0.alpha\". This package has 50k symbols (it is an auto-generated file), and each one is going to have a name like\n\n  k8s.io/kubernetes/vendor/google.golang.org/api/compute/v0%2ealpha.NewZonesService.\u003csomething\u003e\n\nor equivalent. It would be really nice not to have to write that packagepath to the object file 50k times (or more).",
+      "parentUuid": "6dbd4c53_7d929e65",
+      "revId": "6c426f43ec0862c8ca5333dea9a22df1efb8c357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13fcab4e_9b7563a8",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 3
