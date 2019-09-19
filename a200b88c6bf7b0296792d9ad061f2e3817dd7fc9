@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "56331102_dfa7727e",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 21942
+      },
+      "writtenOn": "2019-09-19T16:51:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2b3e6593_0da83644",
+      "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "242a837c_011146c5",
         "filename": "src/text/template/funcs.go",
         "patchSetId": 1
@@ -67,6 +85,24 @@
       "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c6f87a0_623ffb22",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 21942
+      },
+      "writtenOn": "2019-09-19T16:51:22Z",
+      "side": 1,
+      "message": "If I\u0027ll move this check to the `default` clause, it will be executed `len(arg2)` times.\nWDYT?",
+      "parentUuid": "242a837c_011146c5",
+      "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "18c37601_11de7d8e",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 21942
+      },
+      "writtenOn": "2019-09-19T16:51:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6d5d3fa8_309fc5c1",
+      "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8566ee6_550df8de",
         "filename": "src/text/template/funcs.go",
         "patchSetId": 1
@@ -101,6 +155,24 @@
       "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbbda06e_28ac88a5",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 21942
+      },
+      "writtenOn": "2019-09-19T16:51:22Z",
+      "side": 1,
+      "message": "`basicKind` returns a `errBadComparisonType` error if the type is not \"basic\".\nHowever, the function was extended to support all types, and non-basic types are handled in the `default` clause.",
+      "parentUuid": "c8566ee6_550df8de",
+      "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
