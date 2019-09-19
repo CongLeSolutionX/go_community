@@ -16,6 +16,24 @@
       "revId": "bcf6f9fd4c601a2f51d737a6390a7e909096729a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4831fc97_7aae0687",
+        "filename": "src/cmd/go/testdata/script/mod_m.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-09-19T17:14:19Z",
+      "side": 1,
+      "message": "Switch to GOPATH seems reasonable to me.\n\nAs Ian mentioned before, we\u0027ll need to come up with some better approach overall for handling go / gccgo version skew.",
+      "parentUuid": "43a1aaa4_80d376e5",
+      "revId": "bcf6f9fd4c601a2f51d737a6390a7e909096729a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
