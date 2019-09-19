@@ -17,21 +17,23 @@ stderr 'module requires Go 1.99999'
 
 -- go.mod --
 module m
+
 go 1.999
+
 require (
+	badsub.1 v1.0.0
 	sub.1 v1.0.0
 	subver.1 v1.0.0
-	badsub.1 v1.0.0
 	versioned.1 v1.0.0
 )
+
 replace (
+	badsub.1 => ./badsub
 	sub.1 => ./sub
 	subver.1 => ./subver
-	badsub.1 => ./badsub
 	versioned.1 v1.0.0 => ./versioned1
 	versioned.1 v1.1.0 => ./versioned2
 )
-
 -- x.go --
 package x
 

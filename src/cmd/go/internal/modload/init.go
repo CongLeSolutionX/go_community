@@ -30,6 +30,7 @@ import (
 	"cmd/go/internal/mvs"
 	"cmd/go/internal/renameio"
 	"cmd/go/internal/search"
+	"cmd/go/internal/semver"
 )
 
 var (
@@ -452,14 +453,20 @@ func addGoStmt() {
 	if modFile.Go != nil && modFile.Go.Version != "" {
 		return
 	}
+	if err := modFile.AddGoStmt(supportedGoVersion()); err != nil {
+		base.Fatalf("go: internal error: %v", err)
+	}
+}
+
+// supportedGoVersion returns the latest Go version supported by this toolchain,
+// as found in its release tags.
+func supportedGoVersion() string {
 	tags := build.Default.ReleaseTags
 	version := tags[len(tags)-1]
 	if !strings.HasPrefix(version, "go") || !modfile.GoVersionRE.MatchString(version[2:]) {
-		base.Fatalf("go: unrecognized default version %q", version)
+		base.Fatalf("go: unrecognized Go release tag %q", version)
 	}
-	if err := modFile.AddGoStmt(version[2:]); err != nil {
-		base.Fatalf("go: internal error: %v", err)
-	}
+	return version[2:]
 }
 
 var altConfigs = []string{
@@ -680,10 +687,19 @@ func WriteGoMod() {
 	}
 
 	dirty := !bytes.Equal(new, modFileData)
-	if dirty && cfg.BuildMod == "readonly" {
-		// If we're about to fail due to -mod=readonly,
-		// prefer to report a dirty go.mod over a dirty go.sum
-		base.Fatalf("go: updates to go.mod needed, disabled by -mod=readonly")
+	if dirty {
+		if cfg.BuildMod == "readonly" {
+			// If we're about to fail due to -mod=readonly,
+			// prefer to report a dirty go.mod over a dirty go.sum
+			base.Fatalf("go: updates to go.mod needed, disabled by -mod=readonly")
+		}
+		if modFile.Go.Version != "" {
+			need := "v" + modFile.Go.Version
+			max := "v" + supportedGoVersion()
+			if semver.Compare(need, max) > 0 {
+				base.Fatalf("go: updates to go.mod may be needed, but it requires newer go version %v", modFile.Go.Version)
+			}
+		}
 	}
 	// Always update go.sum, even if we didn't change go.mod: we may have
 	// downloaded modules that we didn't have before.

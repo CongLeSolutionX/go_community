@@ -1,0 +1,36 @@
+# golang.org/issue/34262: if the go.mod file indicates a 'go' version unknown to
+# the go command, changes to the main module's go.mod or go.sum file should
+# result in an error rather than overwriting potentially-misintepreted data.
+
+env GO111MODULE=on
+
+cd compatiblesyntax
+cp go.mod go.mod.orig
+! go mod tidy
+cmp go.mod.orig go.mod
+stderr 'updates to go.mod may be needed, but it requires newer go version 1.99999999'
+
+-- compatiblesyntax/go.mod --
+module example.com/from/the/future
+
+go 1.99999999
+
+// Introduce some condition that go1.13 thinks is an inconsistent go.mod file.
+// The actual condition doesn't matter much —
+// maybe at some point it will be meaningful to require two copies of the same module?
+//
+// The point is, the 'go' command shouldn't go around overwriting a go.mod file
+// when it doesn't know that it has interpreted that file correctly.
+
+require (
+	example.com/version v1.0.0
+	example.com/version v1.0.1
+)
+
+exclude example.com/version v1.0.1
+-- compatiblesyntax/main.go --
+package main
+
+import _ "example.com/version"
+
+func main() {}
