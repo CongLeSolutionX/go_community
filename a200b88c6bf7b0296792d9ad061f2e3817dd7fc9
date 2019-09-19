@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78e891fc_2b397295",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-19T16:27:58Z",
+      "side": 1,
+      "message": "\"This commit does X\" is a bit verbose. Just say X.",
+      "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd8fff9c_3145c317",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-19T16:27:58Z",
+      "side": 1,
+      "message": "use Fixes instead",
+      "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b3e6593_0da83644",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-19T16:27:58Z",
+      "side": 1,
+      "message": "any reason we check this first now? if none, please keep the order as it was.",
+      "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "242a837c_011146c5",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-19T16:27:58Z",
+      "side": 1,
+      "message": "Why not make this check down below, along with t2.Comparable? I don\u0027t see a reason to have it all the way at the beginning.",
+      "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d5d3fa8_309fc5c1",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-19T16:27:58Z",
+      "side": 1,
+      "message": "this too started ignoring errors.",
+      "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8566ee6_550df8de",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-19T16:27:58Z",
+      "side": 1,
+      "message": "why are we ignoring this error now?",
+      "revId": "a200b88c6bf7b0296792d9ad061f2e3817dd7fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
