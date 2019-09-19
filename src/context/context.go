@@ -241,9 +241,19 @@ func newCancelCtx(parent Context) cancelCtx {
 
 // propagateCancel arranges for child to be canceled when parent is.
 func propagateCancel(parent Context, child canceler) {
-	if parent.Done() == nil {
+	done := parent.Done()
+	if done == nil {
 		return // parent is never canceled
 	}
+
+	select {
+	case <-done:
+		// parent is already canceled
+		child.cancel(false, parent.Err())
+		return
+	default:
+	}
+
 	if p, ok := parentCancelCtx(parent); ok {
 		p.mu.Lock()
 		if p.err != nil {
@@ -267,22 +277,25 @@ func propagateCancel(parent Context, child canceler) {
 	}
 }
 
-// parentCancelCtx follows a chain of parent references until it finds a
-// *cancelCtx. This function understands how each of the concrete types in this
-// package represents its parent.
+// cancelCtxForDone is a map from a done channel (<-chan struct{})
+// to the *cancelCtx for which it was allocated.
+// The map only holds contexts that have not yet completed.
+// After a context completes, it is removed from the map
+// and its done channel becomes closedchan.
+var cancelCtxForDone sync.Map
+
+// parentCancelCtx returns the underlying *cancelCtx for parent.
+// It does this by looking up parent.Done() in our map of known
+// done channels cancelCtxForDone. Even if parent is a custom
+// context implementation, as long as it returns the done channel
+// of a context we created, we will be able to map back to the
+// actual parent cancelCtx.
 func parentCancelCtx(parent Context) (*cancelCtx, bool) {
-	for {
-		switch c := parent.(type) {
-		case *cancelCtx:
-			return c, true
-		case *timerCtx:
-			return &c.cancelCtx, true
-		case *valueCtx:
-			parent = c.Context
-		default:
-			return nil, false
-		}
+	pc, ok := cancelCtxForDone.Load(parent.Done())
+	if !ok {
+		return nil, false
 	}
+	return pc.(*cancelCtx), true
 }
 
 // removeChild removes a context from its parent.
@@ -327,6 +340,7 @@ func (c *cancelCtx) Done() <-chan struct{} {
 	c.mu.Lock()
 	if c.done == nil {
 		c.done = make(chan struct{})
+		cancelCtxForDone.Store((<-chan struct{})(c.done), c)
 	}
 	d := c.done
 	c.mu.Unlock()
@@ -371,6 +385,7 @@ func (c *cancelCtx) cancel(removeFromParent bool, err error) {
 		c.done = closedchan
 	} else {
 		close(c.done)
+		cancelCtxForDone.Delete((<-chan struct{})(c.done))
 	}
 	for child := range c.children {
 		// NOTE: acquiring the child's lock while holding parent's lock.

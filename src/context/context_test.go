@@ -401,7 +401,7 @@ func XTestAllocs(t testingT, testingShort func() bool, testingAllocsPerRun func(
 				c, _ := WithTimeout(bg, 15*time.Millisecond)
 				<-c.Done()
 			},
-			limit:      8,
+			limit:      12,
 			gccgoLimit: 15,
 		},
 		{
