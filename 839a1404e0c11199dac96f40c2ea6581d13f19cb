@@ -195,6 +195,24 @@
       "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4b4b212_fa01d7c9",
+        "filename": "src/internal/poll/sendfile_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2019-09-19T08:38:00Z",
+      "side": 1,
+      "message": "If we keep current version of PS 11 (same as PS 10 and 9), then n will be set to \"size of the file\", not \"number of bytes from current position to the end\". Which do you expect n to be? I expected n to mean \"number of bytes from current position to the end\".\n\nImaging file that is 2G + 100 bytes, and current position is set to 2G. n will be set to (2G + 100 bytes), not to 100 bytes. Perhaps not big deal, because syscall.Seek will return EOF, and the loop will end anyway while writing jut 100 bytes. But code readers might get confused.\n\nHere https://play.golang.org/p/zD5oIEmtFil some code I used to come to this conclusion. Thanks for writing original version.",
+      "parentUuid": "ded89c02_28d63138",
+      "revId": "839a1404e0c11199dac96f40c2ea6581d13f19cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
