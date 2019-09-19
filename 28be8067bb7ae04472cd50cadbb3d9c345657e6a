@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8ea86e41_08e2b1cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-19T16:43:11Z",
+      "side": 1,
+      "message": "Baseline screwups. These new stats are solid.",
+      "parentUuid": "985b0944_80af71ef",
+      "revId": "28be8067bb7ae04472cd50cadbb3d9c345657e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41cec506_b0d6bd8d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "d7c2d173_9d94ec57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-19T16:43:11Z",
+      "side": 1,
+      "message": "Looking at the data used to generate, there was nothing there. -- not sure what caused, but updated stats are clean.",
+      "parentUuid": "e93b44e2_bb1d8f04",
+      "revId": "28be8067bb7ae04472cd50cadbb3d9c345657e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5969b45_23920403",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -67,6 +103,24 @@
       "revId": "28be8067bb7ae04472cd50cadbb3d9c345657e6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b842e149_b17d74d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-19T16:43:11Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "c5969b45_23920403",
+      "revId": "28be8067bb7ae04472cd50cadbb3d9c345657e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
