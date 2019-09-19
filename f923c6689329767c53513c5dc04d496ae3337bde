@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e90ff71f_cff49579",
+        "filename": "src/cmd/compile/internal/wasm/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-09-19T20:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de25cf7c_3b0f8024",
+      "revId": "f923c6689329767c53513c5dc04d496ae3337bde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67661d4a_bf8acf3f",
         "filename": "src/cmd/internal/obj/wasm/a.out.go",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "f923c6689329767c53513c5dc04d496ae3337bde",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e601aeb8_5c9b26ce",
+        "filename": "src/cmd/internal/obj/wasm/a.out.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2019-09-19T20:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67661d4a_bf8acf3f",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 8
+      },
+      "revId": "f923c6689329767c53513c5dc04d496ae3337bde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
