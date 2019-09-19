@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43a1aaa4_80d376e5",
+        "filename": "src/cmd/go/testdata/script/mod_m.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-19T13:29:43Z",
+      "side": 1,
+      "message": "This test seems to be failing on the AIX, Illumos, and SmartOS builders due to the presence of module-incompatible versions of gccgo.\n\nShould we add skips, move the test over to GOPATH mode, or something else?",
+      "revId": "bcf6f9fd4c601a2f51d737a6390a7e909096729a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
