@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c0ae1c9_673e95b2",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2019-09-20T21:07:28Z",
+      "side": 1,
+      "message": "This kind of makes it sound like case folding is the same as case insensitivity. What about something like\n\n  EqualFold reports whether s and t, interpreted as UTF-8 strings,\n  are equal under Unicode case-folding, which is a more general\n  form of case-insensitivity.\n\nSame for the strings package.",
+      "range": {
+        "startLine": 938,
+        "startChar": 40,
+        "endLine": 938,
+        "endChar": 60
+      },
+      "revId": "c97e88e1b8748549aa0edc302bbde081c5900286",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
