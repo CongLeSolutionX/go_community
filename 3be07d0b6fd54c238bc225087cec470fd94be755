@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85bbf97e_ff4bea11",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-09-20T16:58:03Z",
+      "side": 1,
+      "message": "We\u0027ve been trying to reduce init-time work for some time. These are a little unfortunate.\n\nPerhaps we could \"go generate\" them instead?",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 3
+      },
+      "revId": "3be07d0b6fd54c238bc225087cec470fd94be755",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
