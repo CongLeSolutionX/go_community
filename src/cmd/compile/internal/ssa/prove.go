@@ -108,40 +108,6 @@ type fact struct {
 	r relation
 }
 
-// a limit records known upper and lower bounds for a value.
-type limit struct {
-	min, max   int64  // min <= value <= max, signed
-	umin, umax uint64 // umin <= value <= umax, unsigned
-}
-
-func (l limit) String() string {
-	return fmt.Sprintf("sm,SM,um,UM=%d,%d,%d,%d", l.min, l.max, l.umin, l.umax)
-}
-
-func (l limit) intersect(l2 limit) limit {
-	if l.min < l2.min {
-		l.min = l2.min
-	}
-	if l.umin < l2.umin {
-		l.umin = l2.umin
-	}
-	if l.max > l2.max {
-		l.max = l2.max
-	}
-	if l.umax > l2.umax {
-		l.umax = l2.umax
-	}
-	return l
-}
-
-var noLimit = limit{math.MinInt64, math.MaxInt64, 0, math.MaxUint64}
-
-// a limitFact is a limit known for a particular value.
-type limitFact struct {
-	vid   ID
-	limit limit
-}
-
 // factsTable keeps track of relations between pairs of values.
 //
 // The fact table logic is sound, but incomplete. Outside of a few
@@ -167,10 +133,6 @@ type factsTable struct {
 	orderS *poset
 	orderU *poset
 
-	// known lower and upper bounds on individual values.
-	limits     map[ID]limit
-	limitStack []limitFact // previous entries
-
 	// For each slice s, a map from s to a len(s)/cap(s) value (if any)
 	// TODO: check if there are cases that matter where we have
 	// more than one len(s) for a slice. We could keep a list if necessary.
@@ -184,7 +146,6 @@ type factsTable struct {
 // checkpointFact is an invalid value used for checkpointing
 // and restoring factsTable.
 var checkpointFact = fact{}
-var checkpointBound = limitFact{}
 
 func newFactsTable(f *Func) *factsTable {
 	ft := &factsTable{}
@@ -194,8 +155,6 @@ func newFactsTable(f *Func) *factsTable {
 	ft.orderU.SetUnsigned(true)
 	ft.facts = make(map[pair]relation)
 	ft.stack = make([]fact, 4)
-	ft.limits = make(map[ID]limit)
-	ft.limitStack = make([]limitFact, 4)
 	ft.zero = f.ConstInt64(f.Config.Types.Int64, 0)
 	return ft
 }
@@ -284,104 +243,6 @@ func (ft *factsTable) update(parent *Block, v, w *Value, d domain, r relation) {
 	if v.isGenericIntConst() {
 		v, w = w, v
 		r = reverseBits[r]
-	}
-	if v != nil && w.isGenericIntConst() {
-		// Note: all the +1/-1 below could overflow/underflow. Either will
-		// still generate correct results, it will just lead to imprecision.
-		// In fact if there is overflow/underflow, the corresponding
-		// code is unreachable because the known range is outside the range
-		// of the value's type.
-		old, ok := ft.limits[v.ID]
-		if !ok {
-			old = noLimit
-			if v.isGenericIntConst() {
-				switch d {
-				case signed:
-					old.min, old.max = v.AuxInt, v.AuxInt
-					if v.AuxInt >= 0 {
-						old.umin, old.umax = uint64(v.AuxInt), uint64(v.AuxInt)
-					}
-				case unsigned:
-					old.umin = v.AuxUnsigned()
-					old.umax = old.umin
-					if int64(old.umin) >= 0 {
-						old.min, old.max = int64(old.umin), int64(old.umin)
-					}
-				}
-			}
-		}
-		lim := noLimit
-		switch d {
-		case signed:
-			c := w.AuxInt
-			switch r {
-			case lt:
-				lim.max = c - 1
-			case lt | eq:
-				lim.max = c
-			case gt | eq:
-				lim.min = c
-			case gt:
-				lim.min = c + 1
-			case lt | gt:
-				lim = old
-				if c == lim.min {
-					lim.min++
-				}
-				if c == lim.max {
-					lim.max--
-				}
-			case eq:
-				lim.min = c
-				lim.max = c
-			}
-			if lim.min >= 0 {
-				// int(x) >= 0 && int(x) >= N  ⇒  uint(x) >= N
-				lim.umin = uint64(lim.min)
-			}
-			if lim.max != noLimit.max && old.min >= 0 && lim.max >= 0 {
-				// 0 <= int(x) <= N  ⇒  0 <= uint(x) <= N
-				// This is for a max update, so the lower bound
-				// comes from what we already know (old).
-				lim.umax = uint64(lim.max)
-			}
-		case unsigned:
-			uc := w.AuxUnsigned()
-			switch r {
-			case lt:
-				lim.umax = uc - 1
-			case lt | eq:
-				lim.umax = uc
-			case gt | eq:
-				lim.umin = uc
-			case gt:
-				lim.umin = uc + 1
-			case lt | gt:
-				lim = old
-				if uc == lim.umin {
-					lim.umin++
-				}
-				if uc == lim.umax {
-					lim.umax--
-				}
-			case eq:
-				lim.umin = uc
-				lim.umax = uc
-			}
-			// We could use the contrapositives of the
-			// signed implications to derive signed facts,
-			// but it turns out not to matter.
-		}
-		ft.limitStack = append(ft.limitStack, limitFact{v.ID, old})
-		lim = old.intersect(lim)
-		ft.limits[v.ID] = lim
-		if v.Block.Func.pass.debug > 2 {
-			v.Block.Func.Warnl(parent.Pos, "parent=%s, new limits %s %s %s %s", parent, v, w, r, lim.String())
-		}
-		if lim.min > lim.max || lim.umin > lim.umax {
-			ft.unsat = true
-			return
-		}
 	}
 
 	// Derived facts below here are only about numbers.
@@ -629,7 +490,6 @@ func (ft *factsTable) checkpoint() {
 		ft.unsatDepth++
 	}
 	ft.stack = append(ft.stack, checkpointFact)
-	ft.limitStack = append(ft.limitStack, checkpointBound)
 	ft.orderS.Checkpoint()
 	ft.orderU.Checkpoint()
 }
@@ -653,18 +513,6 @@ func (ft *factsTable) restore() {
 			delete(ft.facts, old.p)
 		} else {
 			ft.facts[old.p] = old.r
-		}
-	}
-	for {
-		old := ft.limitStack[len(ft.limitStack)-1]
-		ft.limitStack = ft.limitStack[:len(ft.limitStack)-1]
-		if old.vid == 0 { // checkpointBound
-			break
-		}
-		if old.limit == noLimit {
-			delete(ft.limits, old.vid)
-		} else {
-			ft.limits[old.vid] = old.limit
 		}
 	}
 	ft.orderS.Undo()
