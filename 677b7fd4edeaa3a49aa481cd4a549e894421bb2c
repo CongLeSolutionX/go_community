@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d713ac5_5ef8056d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-09-20T02:21:23Z",
+      "side": 1,
+      "message": "Minor, per https://golang.org/wiki/CommitMessage and https://tip.golang.org/doc/contribute.html#commit_messages this should be s/Update/Updates/ and should go after the commit body, not before.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "677b7fd4edeaa3a49aa481cd4a549e894421bb2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4995d5da_f8c6db25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2019-09-20T02:21:23Z",
+      "side": 1,
+      "message": "If you\u0027d like, you can add a reference to https://golang.org/cmd/go/#hdr-The_main_module_and_the_build_list.",
+      "revId": "677b7fd4edeaa3a49aa481cd4a549e894421bb2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
