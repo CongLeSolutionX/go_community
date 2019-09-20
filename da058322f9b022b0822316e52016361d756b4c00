@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36659592_74d95dcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-09-20T17:03:25Z",
+      "side": 1,
+      "message": "clean up (verb) as opposed to noun without space",
+      "revId": "da058322f9b022b0822316e52016361d756b4c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
