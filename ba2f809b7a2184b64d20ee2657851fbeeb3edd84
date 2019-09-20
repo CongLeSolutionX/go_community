@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9f562dd8_935ecc06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-09-20T14:32:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec8c15b4_495baded",
+      "revId": "ba2f809b7a2184b64d20ee2657851fbeeb3edd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef87e70_5bea2638",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "902a3875_50edc518",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-09-20T14:32:01Z",
+      "side": 1,
+      "message": "I think it is worth having separate validateII and validateSI functions, since one is for I-type instructions and the other for S-type instructions. The alternative would be to factor this out, but I\u0027m not sure we gain a lot by doing that. If you feel strongly about this, let me know and I\u0027ll change it in a follow up diff.",
+      "parentUuid": "4ef87e70_5bea2638",
+      "revId": "ba2f809b7a2184b64d20ee2657851fbeeb3edd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d352f675_5ecd2d55",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "ba2f809b7a2184b64d20ee2657851fbeeb3edd84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d95530b3_7049b35d",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-09-20T14:32:01Z",
+      "side": 1,
+      "message": "Yes, that will be an upcoming change (probably after the rest of the real instructions are implemented).",
+      "parentUuid": "d352f675_5ecd2d55",
+      "revId": "ba2f809b7a2184b64d20ee2657851fbeeb3edd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
