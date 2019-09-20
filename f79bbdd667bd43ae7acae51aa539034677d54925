@@ -62,6 +62,46 @@
       "revId": "f79bbdd667bd43ae7acae51aa539034677d54925",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c52c41af_71230fdd",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-20T17:10:31Z",
+      "side": 1,
+      "message": "I understand the first part of the condition here — what is the reason for the second part?\n\n(When would len(c.report) be less that indent?)",
+      "range": {
+        "startLine": 211,
+        "startChar": 19,
+        "endLine": 211,
+        "endChar": 41
+      },
+      "revId": "f79bbdd667bd43ae7acae51aa539034677d54925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1b92962_55ca9e53",
+        "filename": "src/cmd/internal/test2json/testdata/issue29755.test",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-20T17:10:31Z",
+      "side": 1,
+      "message": "It might also be interesting to test output that appears in between the two subtests, as in https://play.golang.org/p/wt9wrbNbqGt.",
+      "revId": "f79bbdd667bd43ae7acae51aa539034677d54925",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
