@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "9966fc12_33663f08",
+        "filename": "src/context/context.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-20T14:08:07Z",
+      "side": 1,
+      "message": "It seems like a shame to introduce a mutable global variable (with the associated potential for cache contention) just to track a number for testing.\n\n(I guess there is probably a lot more contention on global variables in the goroutine scheduler, but I don\u0027t know of any intrinsic reason why that must be the case.)\n\nCan the test be written in a way that does not require this variable? (Perhaps using runtime.NumGoroutine or runtime/pprof.Profile(\"goroutine\")?)",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 0
+      },
+      "revId": "286af958fe945e1f0f4f005de6bc0ebd0e8f1782",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3b6fafd_d99acac8",
+        "filename": "src/context/context.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-20T14:08:07Z",
+      "side": 1,
+      "message": "(nit)\n\nAn unexported `struct{}` type seems clearer than the address of a global variable for the context key — that would make it explicit that the actual value conveys no information.",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 20
+      },
+      "revId": "286af958fe945e1f0f4f005de6bc0ebd0e8f1782",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12ba640f_b350fa56",
+        "filename": "src/context/context.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-20T14:08:07Z",
+      "side": 1,
+      "message": "These two checks could be performed before attempting to acquire p.mu — if either fails, then we don\u0027t need to acquire p\u0027s cache line at all, let alone a lock on its mutex.",
+      "range": {
+        "startLine": 301,
+        "startChar": 21,
+        "endLine": 301,
+        "endChar": 57
+      },
+      "revId": "286af958fe945e1f0f4f005de6bc0ebd0e8f1782",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "579f9d75_e11e3af7",
         "filename": "src/context/context_test.go",
         "patchSetId": 2
