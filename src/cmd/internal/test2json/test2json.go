@@ -204,8 +204,13 @@ func (c *converter) handleInputLine(line []byte) {
 		}
 	}
 
+	// Not a special test output line.
 	if !ok {
-		// Not a special test output line.
+		// output from a test is at index > 0, there must be a corresponding
+		// report for the test
+		if indent > 0 && len(c.report) > indent {
+			c.testName = c.report[indent-1].Test
+		}
 		c.output.write(origLine)
 		return
 	}
