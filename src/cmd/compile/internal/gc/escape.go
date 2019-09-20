@@ -140,6 +140,7 @@ func escapeFuncs(fns []*Node, recursive bool) {
 	}
 
 	var e Escape
+	e.heapLoc.escapes = true
 
 	// Construct data-flow graph from syntax trees.
 	for _, fn := range fns {
@@ -987,9 +988,6 @@ func (e *Escape) dcl(n *Node) EscHole {
 // its address to k, and returns a hole that flows values to it. It's
 // intended for use with most expressions that allocate storage.
 func (e *Escape) spill(k EscHole, n *Node) EscHole {
-	// TODO(mdempsky): Optimize. E.g., if k is the heap or blank,
-	// then we already know whether n leaks, and we can return a
-	// more optimized hole.
 	loc := e.newLoc(n, true)
 	e.flow(k.addr(n, "spill"), loc)
 	return loc.asHole()
@@ -1040,9 +1038,8 @@ func (e *Escape) newLoc(n *Node, transient bool) *EscLocation {
 		}
 		n.SetOpt(loc)
 
-		// TODO(mdempsky): Perhaps set n.Esc and then just return &HeapLoc?
 		if mustHeapAlloc(n) && !loc.isName(PPARAM) && !loc.isName(PPARAMOUT) {
-			e.flow(e.heapHole().addr(nil, ""), loc)
+			loc.escapes = true
 		}
 	}
 	return loc
@@ -1062,10 +1059,13 @@ func (e *Escape) flow(k EscHole, src *EscLocation) {
 	if dst == &e.blankLoc {
 		return
 	}
-	if dst == src && k.derefs >= 0 {
+	if dst == src && k.derefs >= 0 { // dst = dst, dst = *dst, ...
 		return
 	}
-	// TODO(mdempsky): More optimizations?
+	if dst.escapes && k.derefs < 0 { // dst = &src
+		src.escapes = true
+		return
+	}
 
 	// TODO(mdempsky): Deduplicate edges?
 	dst.edges = append(dst.edges, EscEdge{src: src, derefs: k.derefs})
@@ -1077,6 +1077,14 @@ func (e *Escape) discardHole() EscHole { return e.blankLoc.asHole() }
 // walkAll computes the minimal dereferences between all pairs of
 // locations.
 func (e *Escape) walkAll() {
+	// We use a work queue to keep track of locations that we need
+	// to visit, and repeatedly walk until we reach a fixed point.
+	//
+	// We walk once from each location (including the heap), and
+	// then re-enqueue each location on its transition from
+	// transient->!transient and !escapes->escapes, which can each
+	// happen at most once. So we take Θ(len(e.allLocs)) walks.
+
 	var todo []*EscLocation
 	enqueue := func(loc *EscLocation) {
 		if !loc.queued {
@@ -1085,10 +1093,10 @@ func (e *Escape) walkAll() {
 		}
 	}
 
-	enqueue(&e.heapLoc)
 	for _, loc := range e.allLocs {
 		enqueue(loc)
 	}
+	enqueue(&e.heapLoc)
 
 	var walkgen uint32
 	for len(todo) > 0 {
@@ -1137,22 +1145,6 @@ func (e *Escape) walkOne(root *EscLocation, walkgen uint32, enqueue func(*EscLoc
 		}
 
 		if e.outlives(root, l) {
-			// If l's address flows somewhere that
-			// outlives it, then l needs to be heap
-			// allocated.
-			if addressOf && !l.escapes {
-				l.escapes = true
-
-				// If l is heap allocated, then any
-				// values stored into it flow to the
-				// heap too.
-				// TODO(mdempsky): Better way to handle this?
-				if root != &e.heapLoc {
-					e.flow(e.heapHole(), l)
-					enqueue(&e.heapLoc)
-				}
-			}
-
 			// l's value flows to root. If l is a function
 			// parameter and root is the heap or a
 			// corresponding result parameter, then record
@@ -1161,9 +1153,21 @@ func (e *Escape) walkOne(root *EscLocation, walkgen uint32, enqueue func(*EscLoc
 			if l.isName(PPARAM) {
 				l.leakTo(root, base)
 			}
+
+			// If l's address flows somewhere that
+			// outlives it, then l needs to be heap
+			// allocated.
+			if addressOf && !l.escapes {
+				l.escapes = true
+				enqueue(l)
+				continue
+			}
 		}
 
 		for _, edge := range l.edges {
+			if edge.src.escapes {
+				continue
+			}
 			derefs := base + edge.derefs
 			if edge.src.walkgen != walkgen || edge.src.derefs > derefs {
 				edge.src.walkgen = walkgen
@@ -1178,7 +1182,7 @@ func (e *Escape) walkOne(root *EscLocation, walkgen uint32, enqueue func(*EscLoc
 // other's lifetime if stack allocated.
 func (e *Escape) outlives(l, other *EscLocation) bool {
 	// The heap outlives everything.
-	if l == &e.heapLoc {
+	if l.escapes {
 		return true
 	}
 
