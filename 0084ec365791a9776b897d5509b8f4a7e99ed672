@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb6a7d22_fed96b57",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-09-21T13:09:07Z",
+      "side": 1,
+      "message": "EBREAK generates a breakpoint exception and transfers control back to the environment - on a Linux RISC-V system this results in a SIGTRAP being delivered to the process.",
+      "parentUuid": "ede54beb_1b8661df",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "0084ec365791a9776b897d5509b8f4a7e99ed672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b2d0560_01cabf05",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 3
@@ -92,6 +116,30 @@
       "revId": "0084ec365791a9776b897d5509b8f4a7e99ed672",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79191d4f_6cf5cc6b",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2019-09-21T13:09:07Z",
+      "side": 1,
+      "message": "The RISC-V specification says that these instructions are \"encoded using the I-type instruction format\", which is why the encodeI*/validateI* functions are used. It could obviously be handled via separate encoding/validation functions, however it would trade the fix up here, for two more functions and a separate encoding struct.",
+      "parentUuid": "f310180d_f207d258",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 3
+      },
+      "revId": "0084ec365791a9776b897d5509b8f4a7e99ed672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
