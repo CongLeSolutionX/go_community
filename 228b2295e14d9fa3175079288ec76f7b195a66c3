@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14b827e0_3cec977f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-21T15:56:35Z",
+      "side": 1,
+      "message": "Please run benchmarks with -count\u003d20 on a quiet machine and use benchstat to compare before and after numbers. Then we can include that in the commit message to prove speed ups in microbenchmarks.\n\nhttps://godoc.org/golang.org/x/perf/cmd/benchstat",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "228b2295e14d9fa3175079288ec76f7b195a66c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "572b23d4_1d4e36f1",
+        "filename": "src/net/url/escape.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-21T15:56:35Z",
+      "side": 1,
+      "message": "Can we make this test a single bit instead of a byte and pack shouldEscape bit after bit? This would provide a 8x size decrease of shouldEscapeTable for I assume 1-2 cycle slowdown for additional masks and shifts. The reduced memory requirements would I think be worth that overhead outside microbenchmarks.\n\nCan also be done as a followup.",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 48
+      },
+      "revId": "228b2295e14d9fa3175079288ec76f7b195a66c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b927860_ecdf011a",
+        "filename": "src/net/url/escape_gen.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-21T15:56:35Z",
+      "side": 1,
+      "message": "remove space",
+      "range": {
+        "startLine": 201,
+        "startChar": 2,
+        "endLine": 201,
+        "endChar": 3
+      },
+      "revId": "228b2295e14d9fa3175079288ec76f7b195a66c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
