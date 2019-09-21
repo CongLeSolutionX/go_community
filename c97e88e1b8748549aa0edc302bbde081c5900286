@@ -22,6 +22,30 @@
       "revId": "c97e88e1b8748549aa0edc302bbde081c5900286",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3afc9251_e7280719",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 30896
+      },
+      "writtenOn": "2019-09-21T12:52:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c0ae1c9_673e95b2",
+      "range": {
+        "startLine": 938,
+        "startChar": 40,
+        "endLine": 938,
+        "endChar": 60
+      },
+      "revId": "c97e88e1b8748549aa0edc302bbde081c5900286",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
