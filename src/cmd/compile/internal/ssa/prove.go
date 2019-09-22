@@ -791,14 +791,22 @@ func prove(f *Func) {
 				if ft.lens == nil {
 					ft.lens = map[ID]*Value{}
 				}
-				ft.lens[v.Args[0].ID] = v
+				slice := v.Args[0]
+				ft.lens[slice.ID] = v
 				ft.update(b, v, ft.zero, signed, gt|eq)
+				if slice.Op == OpSliceMake {
+					ft.update(b, v, slice.Args[1], signed, eq)
+				}
 			case OpSliceCap:
 				if ft.caps == nil {
 					ft.caps = map[ID]*Value{}
 				}
-				ft.caps[v.Args[0].ID] = v
+				slice := v.Args[0]
+				ft.caps[slice.ID] = v
 				ft.update(b, v, ft.zero, signed, gt|eq)
+				if slice.Op == OpSliceMake {
+					ft.update(b, v, slice.Args[2], signed, eq)
+				}
 			}
 		}
 	}
