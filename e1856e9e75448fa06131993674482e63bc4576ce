@@ -16,6 +16,24 @@
       "revId": "e1856e9e75448fa06131993674482e63bc4576ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f736b166_288c4d4d",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-09-23T23:05:41Z",
+      "side": 1,
+      "message": "Never mind, read it backwards. But do we never use parens to control order anywhere else?\n(*p).F, for example?",
+      "parentUuid": "d1ebc87c_f65d6a9d",
+      "revId": "e1856e9e75448fa06131993674482e63bc4576ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
