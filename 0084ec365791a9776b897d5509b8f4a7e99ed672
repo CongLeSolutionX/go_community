@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "df4cd481_62b8fef0",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-23T21:43:26Z",
+      "side": 1,
+      "message": "Ok. Ideally SIGILL may be better. But SIGTRAP is probably also fine.",
+      "parentUuid": "bb6a7d22_fed96b57",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "0084ec365791a9776b897d5509b8f4a7e99ed672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b2d0560_01cabf05",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 3
