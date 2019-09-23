@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b8c90c5_8e9e8013",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 28824
+      },
+      "writtenOn": "2019-09-23T05:09:50Z",
+      "side": 1,
+      "message": "drop else clause since it gives zero-value (I realize previous func has redundant else).",
+      "revId": "0fe1cf733fefc84890b4eef6a2c29027a220dddb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca89c64c_3ba2bd7b",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 28824
+      },
+      "writtenOn": "2019-09-23T05:09:50Z",
+      "side": 1,
+      "message": "{{.TmpVarReadbackCode}} belongs on prev line, as in \"tmpvars\"",
+      "revId": "0fe1cf733fefc84890b4eef6a2c29027a220dddb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
