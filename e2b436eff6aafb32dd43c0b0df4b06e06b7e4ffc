@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9dd98bb_2031ea8f",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2019-09-23T15:10:53Z",
+      "side": 1,
+      "message": "This deletion loop should probably happen before putting the state back to the pool. Otherwise this could end up keeping a lot of references to unused values.",
+      "revId": "e2b436eff6aafb32dd43c0b0df4b06e06b7e4ffc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
