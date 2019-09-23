@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d1dd8107_131a66b9",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-23T20:54:30Z",
+      "side": 1,
+      "message": "I\u0027d generally hope that the test is enough to cover this, but no harm in being extra careful :)",
+      "parentUuid": "63768fb2_96bbea2c",
+      "range": {
+        "startLine": 1240,
+        "startChar": 15,
+        "endLine": 1240,
+        "endChar": 20
+      },
+      "revId": "4e369486088248ba5c920c63afb7bfffa3c27082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec1292b9_02eaa39d",
         "filename": "src/go/printer/printer_test.go",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "4e369486088248ba5c920c63afb7bfffa3c27082",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72ad679f_b85f8e1d",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-23T20:54:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec1292b9_02eaa39d",
+      "range": {
+        "startLine": 779,
+        "startChar": 18,
+        "endLine": 779,
+        "endChar": 23
+      },
+      "revId": "4e369486088248ba5c920c63afb7bfffa3c27082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "eefd93b1_8dfb0782",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-23T20:54:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe5badf8_82905b15",
+      "range": {
+        "startLine": 780,
+        "startChar": 26,
+        "endLine": 780,
+        "endChar": 30
+      },
+      "revId": "4e369486088248ba5c920c63afb7bfffa3c27082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0b07be7_7884733f",
         "filename": "src/go/printer/printer_test.go",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "4e369486088248ba5c920c63afb7bfffa3c27082",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56f8b688_58f5378e",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-23T20:54:30Z",
+      "side": 1,
+      "message": "Damn, I still get this one wrong.",
+      "parentUuid": "a0b07be7_7884733f",
+      "range": {
+        "startLine": 795,
+        "startChar": 45,
+        "endLine": 795,
+        "endChar": 47
+      },
+      "revId": "4e369486088248ba5c920c63afb7bfffa3c27082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
