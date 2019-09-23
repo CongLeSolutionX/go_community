@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "da45c14b_aceb2224",
+        "filename": "src/internal/bytealg/compare_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-23T22:26:23Z",
+      "side": 1,
+      "message": "I think currently we still keep MIPS-III compatibility for the 64-bit MIPS port, which doesn\u0027t support this instruction. Could we rewrite to a branch or some masking operation?",
+      "revId": "d302977c274f916184d261545ec27c9926b124ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "291da4f2_b1620217",
+        "filename": "src/internal/bytealg/compare_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-23T22:26:23Z",
+      "side": 1,
+      "message": "R0\n\nThe machine instruction only takes register operands. The assembler rewrites $0 to R0. But I think it would be nice to keep using R0 in this case. Also other BEQs below.",
+      "range": {
+        "startLine": 45,
+        "startChar": 5,
+        "endLine": 45,
+        "endChar": 7
+      },
+      "revId": "d302977c274f916184d261545ec27c9926b124ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2506c91c_30da5dfe",
         "filename": "src/internal/bytealg/compare_mips64x.s",
         "patchSetId": 2
@@ -13,6 +53,58 @@
       "writtenOn": "2019-09-23T16:38:37Z",
       "side": 1,
       "message": "I feel like you could do this with CNTLZD and not need a loop. Look at compare_amd64.s for an example.\nOr maybe we need bswap to make that work?",
+      "revId": "d302977c274f916184d261545ec27c9926b124ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a1965ab_05b4b6cb",
+        "filename": "src/internal/bytealg/compare_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-23T22:26:23Z",
+      "side": 1,
+      "message": "Yeah, for this to work for both endianness I think we need a BSWAP on one of them.\n\nBut these new instructions would also break MIPS-III compatibility.",
+      "parentUuid": "2506c91c_30da5dfe",
+      "revId": "d302977c274f916184d261545ec27c9926b124ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab78156f_c5fa1916",
+        "filename": "src/internal/bytealg/compare_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-23T22:26:23Z",
+      "side": 1,
+      "message": "MOVV R0, R12",
+      "revId": "d302977c274f916184d261545ec27c9926b124ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "473ac380_62b64eeb",
+        "filename": "src/internal/bytealg/compare_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-23T22:26:23Z",
+      "side": 1,
+      "message": "Also this CMOV.",
       "revId": "d302977c274f916184d261545ec27c9926b124ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
