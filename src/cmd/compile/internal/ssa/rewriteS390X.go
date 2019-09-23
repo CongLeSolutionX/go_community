@@ -3214,7 +3214,7 @@ func rewriteValueS390X_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is32BitFloat(t)) {
+		if !is32BitFloat(t) {
 			break
 		}
 		v.reset(OpS390XFMOVSload)
@@ -3229,7 +3229,7 @@ func rewriteValueS390X_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is64BitFloat(t)) {
+		if !is64BitFloat(t) {
 			break
 		}
 		v.reset(OpS390XFMOVDload)
@@ -3261,7 +3261,7 @@ func rewriteValueS390X_OpLsh16x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3303,7 +3303,7 @@ func rewriteValueS390X_OpLsh16x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3343,7 +3343,7 @@ func rewriteValueS390X_OpLsh16x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3383,7 +3383,7 @@ func rewriteValueS390X_OpLsh16x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3425,7 +3425,7 @@ func rewriteValueS390X_OpLsh32x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3467,7 +3467,7 @@ func rewriteValueS390X_OpLsh32x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3507,7 +3507,7 @@ func rewriteValueS390X_OpLsh32x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3547,7 +3547,7 @@ func rewriteValueS390X_OpLsh32x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3589,7 +3589,7 @@ func rewriteValueS390X_OpLsh64x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLD)
@@ -3631,7 +3631,7 @@ func rewriteValueS390X_OpLsh64x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLD)
@@ -3671,7 +3671,7 @@ func rewriteValueS390X_OpLsh64x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLD)
@@ -3711,7 +3711,7 @@ func rewriteValueS390X_OpLsh64x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLD)
@@ -3753,7 +3753,7 @@ func rewriteValueS390X_OpLsh8x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3795,7 +3795,7 @@ func rewriteValueS390X_OpLsh8x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3835,7 +3835,7 @@ func rewriteValueS390X_OpLsh8x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -3875,7 +3875,7 @@ func rewriteValueS390X_OpLsh8x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSLW)
@@ -4821,7 +4821,7 @@ func rewriteValueS390X_OpOffPtr_0(v *Value) bool {
 	for {
 		off := v.AuxInt
 		ptr := v.Args[0]
-		if !(is32Bit(off)) {
+		if !is32Bit(off) {
 			break
 		}
 		v.reset(OpS390XADDconst)
@@ -5158,7 +5158,7 @@ func rewriteValueS390X_OpRsh16Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -5204,7 +5204,7 @@ func rewriteValueS390X_OpRsh16Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -5248,7 +5248,7 @@ func rewriteValueS390X_OpRsh16Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -5292,7 +5292,7 @@ func rewriteValueS390X_OpRsh16Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -5338,7 +5338,7 @@ func rewriteValueS390X_OpRsh16x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -5382,7 +5382,7 @@ func rewriteValueS390X_OpRsh16x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -5424,7 +5424,7 @@ func rewriteValueS390X_OpRsh16x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -5466,7 +5466,7 @@ func rewriteValueS390X_OpRsh16x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -5510,7 +5510,7 @@ func rewriteValueS390X_OpRsh32Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -5552,7 +5552,7 @@ func rewriteValueS390X_OpRsh32Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -5592,7 +5592,7 @@ func rewriteValueS390X_OpRsh32Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -5632,7 +5632,7 @@ func rewriteValueS390X_OpRsh32Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -5674,7 +5674,7 @@ func rewriteValueS390X_OpRsh32x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -5713,7 +5713,7 @@ func rewriteValueS390X_OpRsh32x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -5750,7 +5750,7 @@ func rewriteValueS390X_OpRsh32x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -5788,7 +5788,7 @@ func rewriteValueS390X_OpRsh32x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -5828,7 +5828,7 @@ func rewriteValueS390X_OpRsh64Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRD)
@@ -5870,7 +5870,7 @@ func rewriteValueS390X_OpRsh64Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRD)
@@ -5910,7 +5910,7 @@ func rewriteValueS390X_OpRsh64Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRD)
@@ -5950,7 +5950,7 @@ func rewriteValueS390X_OpRsh64Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRD)
@@ -5992,7 +5992,7 @@ func rewriteValueS390X_OpRsh64x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAD)
@@ -6031,7 +6031,7 @@ func rewriteValueS390X_OpRsh64x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAD)
@@ -6068,7 +6068,7 @@ func rewriteValueS390X_OpRsh64x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAD)
@@ -6106,7 +6106,7 @@ func rewriteValueS390X_OpRsh64x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAD)
@@ -6146,7 +6146,7 @@ func rewriteValueS390X_OpRsh8Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -6192,7 +6192,7 @@ func rewriteValueS390X_OpRsh8Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -6236,7 +6236,7 @@ func rewriteValueS390X_OpRsh8Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -6280,7 +6280,7 @@ func rewriteValueS390X_OpRsh8Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRW)
@@ -6326,7 +6326,7 @@ func rewriteValueS390X_OpRsh8x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -6370,7 +6370,7 @@ func rewriteValueS390X_OpRsh8x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -6412,7 +6412,7 @@ func rewriteValueS390X_OpRsh8x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -6454,7 +6454,7 @@ func rewriteValueS390X_OpRsh8x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpS390XSRAW)
@@ -6501,7 +6501,7 @@ func rewriteValueS390X_OpS390XADD_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpS390XADDconst)
@@ -6519,7 +6519,7 @@ func rewriteValueS390X_OpS390XADD_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpS390XADDconst)
@@ -6772,7 +6772,7 @@ func rewriteValueS390X_OpS390XADDC_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpS390XADDCconst)
@@ -6790,7 +6790,7 @@ func rewriteValueS390X_OpS390XADDC_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpS390XADDCconst)
@@ -7386,7 +7386,7 @@ func rewriteValueS390X_OpS390XADDconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVDaddridx)
@@ -7432,7 +7432,7 @@ func rewriteValueS390X_OpS390XADDconst_0(v *Value) bool {
 		}
 		d := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XADDconst)
@@ -7461,7 +7461,7 @@ func rewriteValueS390X_OpS390XADDload_0(v *Value) bool {
 		_ = v_2.Args[2]
 		ptr2 := v_2.Args[0]
 		y := v_2.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XADD)
@@ -8346,7 +8346,7 @@ func rewriteValueS390X_OpS390XANDload_0(v *Value) bool {
 		_ = v_2.Args[2]
 		ptr2 := v_2.Args[0]
 		y := v_2.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XAND)
@@ -8422,7 +8422,7 @@ func rewriteValueS390X_OpS390XCMP_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpS390XCMPconst)
@@ -8440,7 +8440,7 @@ func rewriteValueS390X_OpS390XCMP_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpS390XInvertFlags)
@@ -8465,7 +8465,7 @@ func rewriteValueS390X_OpS390XCMPU_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isU32Bit(c)) {
+		if !isU32Bit(c) {
 			break
 		}
 		v.reset(OpS390XCMPUconst)
@@ -8483,7 +8483,7 @@ func rewriteValueS390X_OpS390XCMPU_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isU32Bit(c)) {
+		if !isU32Bit(c) {
 			break
 		}
 		v.reset(OpS390XInvertFlags)
@@ -9474,7 +9474,7 @@ func rewriteValueS390X_OpS390XFMOVDload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XLDGR)
@@ -9496,7 +9496,7 @@ func rewriteValueS390X_OpS390XFMOVDload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpCopy)
@@ -9517,7 +9517,7 @@ func rewriteValueS390X_OpS390XFMOVDload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XFMOVDload)
@@ -9618,7 +9618,7 @@ func rewriteValueS390X_OpS390XFMOVDloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XFMOVDloadidx)
@@ -9643,7 +9643,7 @@ func rewriteValueS390X_OpS390XFMOVDloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XFMOVDloadidx)
@@ -9671,7 +9671,7 @@ func rewriteValueS390X_OpS390XFMOVDstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XFMOVDstore)
@@ -9780,7 +9780,7 @@ func rewriteValueS390X_OpS390XFMOVDstoreidx_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XFMOVDstoreidx)
@@ -9807,7 +9807,7 @@ func rewriteValueS390X_OpS390XFMOVDstoreidx_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XFMOVDstoreidx)
@@ -9837,7 +9837,7 @@ func rewriteValueS390X_OpS390XFMOVSload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpCopy)
@@ -9858,7 +9858,7 @@ func rewriteValueS390X_OpS390XFMOVSload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XFMOVSload)
@@ -9959,7 +9959,7 @@ func rewriteValueS390X_OpS390XFMOVSloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XFMOVSloadidx)
@@ -9984,7 +9984,7 @@ func rewriteValueS390X_OpS390XFMOVSloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XFMOVSloadidx)
@@ -10012,7 +10012,7 @@ func rewriteValueS390X_OpS390XFMOVSstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XFMOVSstore)
@@ -10121,7 +10121,7 @@ func rewriteValueS390X_OpS390XFMOVSstoreidx_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XFMOVSstoreidx)
@@ -10148,7 +10148,7 @@ func rewriteValueS390X_OpS390XFMOVSstoreidx_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XFMOVSstoreidx)
@@ -10650,7 +10650,7 @@ func rewriteValueS390X_OpS390XMOVBZload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XMOVBZreg)
@@ -10670,7 +10670,7 @@ func rewriteValueS390X_OpS390XMOVBZload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVBZload)
@@ -10771,7 +10771,7 @@ func rewriteValueS390X_OpS390XMOVBZloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBZloadidx)
@@ -10796,7 +10796,7 @@ func rewriteValueS390X_OpS390XMOVBZloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBZloadidx)
@@ -10821,7 +10821,7 @@ func rewriteValueS390X_OpS390XMOVBZloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBZloadidx)
@@ -10846,7 +10846,7 @@ func rewriteValueS390X_OpS390XMOVBZloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBZloadidx)
@@ -10870,7 +10870,7 @@ func rewriteValueS390X_OpS390XMOVBZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBZreg)
@@ -10886,7 +10886,7 @@ func rewriteValueS390X_OpS390XMOVBZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBZreg)
@@ -10902,7 +10902,7 @@ func rewriteValueS390X_OpS390XMOVBZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBZreg)
@@ -10918,7 +10918,7 @@ func rewriteValueS390X_OpS390XMOVBZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBZreg)
@@ -10934,7 +10934,7 @@ func rewriteValueS390X_OpS390XMOVBZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBZreg)
@@ -10950,7 +10950,7 @@ func rewriteValueS390X_OpS390XMOVBZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBZreg)
@@ -11157,7 +11157,7 @@ func rewriteValueS390X_OpS390XMOVBload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XMOVBreg)
@@ -11177,7 +11177,7 @@ func rewriteValueS390X_OpS390XMOVBload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVBload)
@@ -11278,7 +11278,7 @@ func rewriteValueS390X_OpS390XMOVBloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBloadidx)
@@ -11303,7 +11303,7 @@ func rewriteValueS390X_OpS390XMOVBloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBloadidx)
@@ -11328,7 +11328,7 @@ func rewriteValueS390X_OpS390XMOVBloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBloadidx)
@@ -11353,7 +11353,7 @@ func rewriteValueS390X_OpS390XMOVBloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBloadidx)
@@ -11377,7 +11377,7 @@ func rewriteValueS390X_OpS390XMOVBreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBreg)
@@ -11393,7 +11393,7 @@ func rewriteValueS390X_OpS390XMOVBreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBreg)
@@ -11409,7 +11409,7 @@ func rewriteValueS390X_OpS390XMOVBreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBreg)
@@ -11425,7 +11425,7 @@ func rewriteValueS390X_OpS390XMOVBreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBreg)
@@ -11441,7 +11441,7 @@ func rewriteValueS390X_OpS390XMOVBreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBreg)
@@ -11457,7 +11457,7 @@ func rewriteValueS390X_OpS390XMOVBreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBreg)
@@ -11680,7 +11680,7 @@ func rewriteValueS390X_OpS390XMOVBstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVBstore)
@@ -12065,7 +12065,7 @@ func rewriteValueS390X_OpS390XMOVBstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is20Bit(ValAndOff(sc).Off() + off)) {
+		if !is20Bit(ValAndOff(sc).Off() + off) {
 			break
 		}
 		v.reset(OpS390XMOVBstoreconst)
@@ -12144,7 +12144,7 @@ func rewriteValueS390X_OpS390XMOVBstoreidx_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBstoreidx)
@@ -12171,7 +12171,7 @@ func rewriteValueS390X_OpS390XMOVBstoreidx_0(v *Value) bool {
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBstoreidx)
@@ -12198,7 +12198,7 @@ func rewriteValueS390X_OpS390XMOVBstoreidx_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBstoreidx)
@@ -12225,7 +12225,7 @@ func rewriteValueS390X_OpS390XMOVBstoreidx_0(v *Value) bool {
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVBstoreidx)
@@ -13435,7 +13435,7 @@ func rewriteValueS390X_OpS390XMOVDload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpCopy)
@@ -13458,7 +13458,7 @@ func rewriteValueS390X_OpS390XMOVDload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XLGDR)
@@ -13478,7 +13478,7 @@ func rewriteValueS390X_OpS390XMOVDload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVDload)
@@ -13580,7 +13580,7 @@ func rewriteValueS390X_OpS390XMOVDloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVDloadidx)
@@ -13605,7 +13605,7 @@ func rewriteValueS390X_OpS390XMOVDloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVDloadidx)
@@ -13630,7 +13630,7 @@ func rewriteValueS390X_OpS390XMOVDloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVDloadidx)
@@ -13655,7 +13655,7 @@ func rewriteValueS390X_OpS390XMOVDloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVDloadidx)
@@ -13683,7 +13683,7 @@ func rewriteValueS390X_OpS390XMOVDstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVDstore)
@@ -13910,7 +13910,7 @@ func rewriteValueS390X_OpS390XMOVDstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(isU12Bit(ValAndOff(sc).Off() + off)) {
+		if !isU12Bit(ValAndOff(sc).Off() + off) {
 			break
 		}
 		v.reset(OpS390XMOVDstoreconst)
@@ -13962,7 +13962,7 @@ func rewriteValueS390X_OpS390XMOVDstoreidx_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVDstoreidx)
@@ -13989,7 +13989,7 @@ func rewriteValueS390X_OpS390XMOVDstoreidx_0(v *Value) bool {
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVDstoreidx)
@@ -14016,7 +14016,7 @@ func rewriteValueS390X_OpS390XMOVDstoreidx_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVDstoreidx)
@@ -14043,7 +14043,7 @@ func rewriteValueS390X_OpS390XMOVDstoreidx_0(v *Value) bool {
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVDstoreidx)
@@ -14744,7 +14744,7 @@ func rewriteValueS390X_OpS390XMOVHZload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XMOVHZreg)
@@ -14764,7 +14764,7 @@ func rewriteValueS390X_OpS390XMOVHZload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVHZload)
@@ -14866,7 +14866,7 @@ func rewriteValueS390X_OpS390XMOVHZloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHZloadidx)
@@ -14891,7 +14891,7 @@ func rewriteValueS390X_OpS390XMOVHZloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHZloadidx)
@@ -14916,7 +14916,7 @@ func rewriteValueS390X_OpS390XMOVHZloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHZloadidx)
@@ -14941,7 +14941,7 @@ func rewriteValueS390X_OpS390XMOVHZloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHZloadidx)
@@ -14964,7 +14964,7 @@ func rewriteValueS390X_OpS390XMOVHZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBZreg)
@@ -14980,7 +14980,7 @@ func rewriteValueS390X_OpS390XMOVHZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVHZreg)
@@ -14996,7 +14996,7 @@ func rewriteValueS390X_OpS390XMOVHZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVHZreg)
@@ -15012,7 +15012,7 @@ func rewriteValueS390X_OpS390XMOVHZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVHZreg)
@@ -15028,7 +15028,7 @@ func rewriteValueS390X_OpS390XMOVHZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVHZreg)
@@ -15259,7 +15259,7 @@ func rewriteValueS390X_OpS390XMOVHload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XMOVHreg)
@@ -15279,7 +15279,7 @@ func rewriteValueS390X_OpS390XMOVHload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVHload)
@@ -15381,7 +15381,7 @@ func rewriteValueS390X_OpS390XMOVHloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHloadidx)
@@ -15406,7 +15406,7 @@ func rewriteValueS390X_OpS390XMOVHloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHloadidx)
@@ -15431,7 +15431,7 @@ func rewriteValueS390X_OpS390XMOVHloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHloadidx)
@@ -15456,7 +15456,7 @@ func rewriteValueS390X_OpS390XMOVHloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHloadidx)
@@ -15479,7 +15479,7 @@ func rewriteValueS390X_OpS390XMOVHreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBreg)
@@ -15495,7 +15495,7 @@ func rewriteValueS390X_OpS390XMOVHreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVHreg)
@@ -15511,7 +15511,7 @@ func rewriteValueS390X_OpS390XMOVHreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVHreg)
@@ -15527,7 +15527,7 @@ func rewriteValueS390X_OpS390XMOVHreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVHreg)
@@ -15543,7 +15543,7 @@ func rewriteValueS390X_OpS390XMOVHreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVHreg)
@@ -15868,7 +15868,7 @@ func rewriteValueS390X_OpS390XMOVHstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVHstore)
@@ -16130,7 +16130,7 @@ func rewriteValueS390X_OpS390XMOVHstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(isU12Bit(ValAndOff(sc).Off() + off)) {
+		if !isU12Bit(ValAndOff(sc).Off() + off) {
 			break
 		}
 		v.reset(OpS390XMOVHstoreconst)
@@ -16212,7 +16212,7 @@ func rewriteValueS390X_OpS390XMOVHstoreidx_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHstoreidx)
@@ -16239,7 +16239,7 @@ func rewriteValueS390X_OpS390XMOVHstoreidx_0(v *Value) bool {
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHstoreidx)
@@ -16266,7 +16266,7 @@ func rewriteValueS390X_OpS390XMOVHstoreidx_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHstoreidx)
@@ -16293,7 +16293,7 @@ func rewriteValueS390X_OpS390XMOVHstoreidx_0(v *Value) bool {
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVHstoreidx)
@@ -17199,7 +17199,7 @@ func rewriteValueS390X_OpS390XMOVWZload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XMOVWZreg)
@@ -17219,7 +17219,7 @@ func rewriteValueS390X_OpS390XMOVWZload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVWZload)
@@ -17321,7 +17321,7 @@ func rewriteValueS390X_OpS390XMOVWZloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWZloadidx)
@@ -17346,7 +17346,7 @@ func rewriteValueS390X_OpS390XMOVWZloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWZloadidx)
@@ -17371,7 +17371,7 @@ func rewriteValueS390X_OpS390XMOVWZloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWZloadidx)
@@ -17396,7 +17396,7 @@ func rewriteValueS390X_OpS390XMOVWZloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWZloadidx)
@@ -17419,7 +17419,7 @@ func rewriteValueS390X_OpS390XMOVWZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBZreg)
@@ -17435,7 +17435,7 @@ func rewriteValueS390X_OpS390XMOVWZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVHZreg)
@@ -17451,7 +17451,7 @@ func rewriteValueS390X_OpS390XMOVWZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVWZreg)
@@ -17467,7 +17467,7 @@ func rewriteValueS390X_OpS390XMOVWZreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVWZreg)
@@ -17732,7 +17732,7 @@ func rewriteValueS390X_OpS390XMOVWload_0(v *Value) bool {
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XMOVWreg)
@@ -17752,7 +17752,7 @@ func rewriteValueS390X_OpS390XMOVWload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVWload)
@@ -17854,7 +17854,7 @@ func rewriteValueS390X_OpS390XMOVWloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWloadidx)
@@ -17879,7 +17879,7 @@ func rewriteValueS390X_OpS390XMOVWloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWloadidx)
@@ -17904,7 +17904,7 @@ func rewriteValueS390X_OpS390XMOVWloadidx_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWloadidx)
@@ -17929,7 +17929,7 @@ func rewriteValueS390X_OpS390XMOVWloadidx_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWloadidx)
@@ -17952,7 +17952,7 @@ func rewriteValueS390X_OpS390XMOVWreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVBreg)
@@ -17968,7 +17968,7 @@ func rewriteValueS390X_OpS390XMOVWreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVHreg)
@@ -17984,7 +17984,7 @@ func rewriteValueS390X_OpS390XMOVWreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVWreg)
@@ -18000,7 +18000,7 @@ func rewriteValueS390X_OpS390XMOVWreg_0(v *Value) bool {
 			break
 		}
 		x := e.Args[0]
-		if !(clobberIfDead(e)) {
+		if !clobberIfDead(e) {
 			break
 		}
 		v.reset(OpS390XMOVWreg)
@@ -18410,7 +18410,7 @@ func rewriteValueS390X_OpS390XMOVWstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is20Bit(off1 + off2)) {
+		if !is20Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpS390XMOVWstore)
@@ -18705,7 +18705,7 @@ func rewriteValueS390X_OpS390XMOVWstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(isU12Bit(ValAndOff(sc).Off() + off)) {
+		if !isU12Bit(ValAndOff(sc).Off() + off) {
 			break
 		}
 		v.reset(OpS390XMOVWstoreconst)
@@ -18787,7 +18787,7 @@ func rewriteValueS390X_OpS390XMOVWstoreidx_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWstoreidx)
@@ -18814,7 +18814,7 @@ func rewriteValueS390X_OpS390XMOVWstoreidx_0(v *Value) bool {
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWstoreidx)
@@ -18841,7 +18841,7 @@ func rewriteValueS390X_OpS390XMOVWstoreidx_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWstoreidx)
@@ -18868,7 +18868,7 @@ func rewriteValueS390X_OpS390XMOVWstoreidx_0(v *Value) bool {
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
 		val := v.Args[2]
-		if !(is20Bit(c + d)) {
+		if !is20Bit(c + d) {
 			break
 		}
 		v.reset(OpS390XMOVWstoreidx)
@@ -19165,7 +19165,7 @@ func rewriteValueS390X_OpS390XMULLD_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpS390XMULLDconst)
@@ -19183,7 +19183,7 @@ func rewriteValueS390X_OpS390XMULLD_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpS390XMULLDconst)
@@ -19340,7 +19340,7 @@ func rewriteValueS390X_OpS390XMULLDconst_0(v *Value) bool {
 	for {
 		c := v.AuxInt
 		x := v.Args[0]
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpS390XSLDconst)
@@ -19416,7 +19416,7 @@ func rewriteValueS390X_OpS390XMULLDload_0(v *Value) bool {
 		_ = v_2.Args[2]
 		ptr2 := v_2.Args[0]
 		y := v_2.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XMULLD)
@@ -19764,7 +19764,7 @@ func rewriteValueS390X_OpS390XMULLWconst_0(v *Value) bool {
 	for {
 		c := v.AuxInt
 		x := v.Args[0]
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpS390XSLWconst)
@@ -19935,7 +19935,7 @@ func rewriteValueS390X_OpS390XNOT_0(v *Value) bool {
 	// result: (XOR (MOVDconst [-1]) x)
 	for {
 		x := v.Args[0]
-		if !(true) {
+		if !true {
 			break
 		}
 		v.reset(OpS390XXOR)
@@ -19953,7 +19953,7 @@ func rewriteValueS390X_OpS390XNOTW_0(v *Value) bool {
 	// result: (XORWconst [-1] x)
 	for {
 		x := v.Args[0]
-		if !(true) {
+		if !true {
 			break
 		}
 		v.reset(OpS390XXORWconst)
@@ -19976,7 +19976,7 @@ func rewriteValueS390X_OpS390XOR_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isU32Bit(c)) {
+		if !isU32Bit(c) {
 			break
 		}
 		v.reset(OpS390XORconst)
@@ -19994,7 +19994,7 @@ func rewriteValueS390X_OpS390XOR_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isU32Bit(c)) {
+		if !isU32Bit(c) {
 			break
 		}
 		v.reset(OpS390XORconst)
@@ -32860,7 +32860,7 @@ func rewriteValueS390X_OpS390XORload_0(v *Value) bool {
 		_ = v_2.Args[2]
 		ptr2 := v_2.Args[0]
 		y := v_2.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XOR)
@@ -34190,7 +34190,7 @@ func rewriteValueS390X_OpS390XSUB_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpS390XSUBconst)
@@ -34208,7 +34208,7 @@ func rewriteValueS390X_OpS390XSUB_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpS390XNEG)
@@ -34568,7 +34568,7 @@ func rewriteValueS390X_OpS390XSUBconst_0(v *Value) bool {
 		}
 		d := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is32Bit(-c - d)) {
+		if !is32Bit(-c - d) {
 			break
 		}
 		v.reset(OpS390XADDconst)
@@ -34597,7 +34597,7 @@ func rewriteValueS390X_OpS390XSUBload_0(v *Value) bool {
 		_ = v_2.Args[2]
 		ptr2 := v_2.Args[0]
 		y := v_2.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XSUB)
@@ -34724,7 +34724,7 @@ func rewriteValueS390X_OpS390XXOR_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isU32Bit(c)) {
+		if !isU32Bit(c) {
 			break
 		}
 		v.reset(OpS390XXORconst)
@@ -34742,7 +34742,7 @@ func rewriteValueS390X_OpS390XXOR_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isU32Bit(c)) {
+		if !isU32Bit(c) {
 			break
 		}
 		v.reset(OpS390XXORconst)
@@ -35393,7 +35393,7 @@ func rewriteValueS390X_OpS390XXORload_0(v *Value) bool {
 		_ = v_2.Args[2]
 		ptr2 := v_2.Args[0]
 		y := v_2.Args[1]
-		if !(isSamePtr(ptr1, ptr2)) {
+		if !isSamePtr(ptr1, ptr2) {
 			break
 		}
 		v.reset(OpS390XXOR)
@@ -36448,8 +36448,7 @@ func rewriteValueS390X_OpZeroExt8to64_0(v *Value) bool {
 	}
 }
 func rewriteBlockS390X(b *Block) bool {
-	config := b.Func.Config
-	typ := &config.Types
+	typ := &b.Func.Config.Types
 	v := b.Control
 	switch b.Kind {
 	case BlockS390XBRC:
