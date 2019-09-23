@@ -2883,7 +2883,7 @@ func rewriteValuePPC64_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(t.IsBoolean()) {
+		if !t.IsBoolean() {
 			break
 		}
 		v.reset(OpPPC64MOVBZload)
@@ -2930,7 +2930,7 @@ func rewriteValuePPC64_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is32BitFloat(t)) {
+		if !is32BitFloat(t) {
 			break
 		}
 		v.reset(OpPPC64FMOVSload)
@@ -2945,7 +2945,7 @@ func rewriteValuePPC64_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is64BitFloat(t)) {
+		if !is64BitFloat(t) {
 			break
 		}
 		v.reset(OpPPC64FMOVDload)
@@ -2977,7 +2977,7 @@ func rewriteValuePPC64_OpLsh16x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -3053,7 +3053,7 @@ func rewriteValuePPC64_OpLsh16x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -3146,7 +3146,7 @@ func rewriteValuePPC64_OpLsh16x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -3182,7 +3182,7 @@ func rewriteValuePPC64_OpLsh16x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -3220,7 +3220,7 @@ func rewriteValuePPC64_OpLsh32x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -3296,7 +3296,7 @@ func rewriteValuePPC64_OpLsh32x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -3389,7 +3389,7 @@ func rewriteValuePPC64_OpLsh32x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -3488,7 +3488,7 @@ func rewriteValuePPC64_OpLsh32x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -3526,7 +3526,7 @@ func rewriteValuePPC64_OpLsh64x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLD)
@@ -3602,7 +3602,7 @@ func rewriteValuePPC64_OpLsh64x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLD)
@@ -3695,7 +3695,7 @@ func rewriteValuePPC64_OpLsh64x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLD)
@@ -3794,7 +3794,7 @@ func rewriteValuePPC64_OpLsh64x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLD)
@@ -3832,7 +3832,7 @@ func rewriteValuePPC64_OpLsh8x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -3908,7 +3908,7 @@ func rewriteValuePPC64_OpLsh8x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -4001,7 +4001,7 @@ func rewriteValuePPC64_OpLsh8x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -4037,7 +4037,7 @@ func rewriteValuePPC64_OpLsh8x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SLW)
@@ -5161,7 +5161,7 @@ func rewriteValuePPC64_OpPPC64ADD_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpPPC64ADDconst)
@@ -5179,7 +5179,7 @@ func rewriteValuePPC64_OpPPC64ADD_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpPPC64ADDconst)
@@ -5201,7 +5201,7 @@ func rewriteValuePPC64_OpPPC64ADDconst_0(v *Value) bool {
 		}
 		d := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpPPC64ADDconst)
@@ -5323,7 +5323,7 @@ func rewriteValuePPC64_OpPPC64AND_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isU16Bit(c)) {
+		if !isU16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64ANDconst)
@@ -5341,7 +5341,7 @@ func rewriteValuePPC64_OpPPC64AND_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isU16Bit(c)) {
+		if !isU16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64ANDconst)
@@ -5703,7 +5703,7 @@ func rewriteValuePPC64_OpPPC64CMP_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64CMPconst)
@@ -5721,7 +5721,7 @@ func rewriteValuePPC64_OpPPC64CMP_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64InvertFlags)
@@ -5746,7 +5746,7 @@ func rewriteValuePPC64_OpPPC64CMPU_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isU16Bit(c)) {
+		if !isU16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64CMPUconst)
@@ -5764,7 +5764,7 @@ func rewriteValuePPC64_OpPPC64CMPU_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isU16Bit(c)) {
+		if !isU16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64InvertFlags)
@@ -5869,7 +5869,7 @@ func rewriteValuePPC64_OpPPC64CMPW_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64CMPWconst)
@@ -5887,7 +5887,7 @@ func rewriteValuePPC64_OpPPC64CMPW_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64InvertFlags)
@@ -5941,7 +5941,7 @@ func rewriteValuePPC64_OpPPC64CMPWU_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isU16Bit(c)) {
+		if !isU16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64CMPWUconst)
@@ -5959,7 +5959,7 @@ func rewriteValuePPC64_OpPPC64CMPWU_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isU16Bit(c)) {
+		if !isU16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64InvertFlags)
@@ -6438,7 +6438,7 @@ func rewriteValuePPC64_OpPPC64FMOVDload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64FMOVDload)
@@ -6485,7 +6485,7 @@ func rewriteValuePPC64_OpPPC64FMOVDstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64FMOVDstore)
@@ -6562,7 +6562,7 @@ func rewriteValuePPC64_OpPPC64FMOVSload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64FMOVSload)
@@ -6589,7 +6589,7 @@ func rewriteValuePPC64_OpPPC64FMOVSstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64FMOVSstore)
@@ -7792,7 +7792,7 @@ func rewriteValuePPC64_OpPPC64MOVBZload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVBZload)
@@ -7840,7 +7840,7 @@ func rewriteValuePPC64_OpPPC64MOVBZloadidx_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVBZload)
@@ -7860,7 +7860,7 @@ func rewriteValuePPC64_OpPPC64MOVBZloadidx_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		ptr := v.Args[1]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVBZload)
@@ -8252,7 +8252,7 @@ func rewriteValuePPC64_OpPPC64MOVBstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
 		val := v.Args[1]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVBstore)
@@ -9068,7 +9068,7 @@ func rewriteValuePPC64_OpPPC64MOVBstoreidx_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		val := v.Args[2]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVBstore)
@@ -9090,7 +9090,7 @@ func rewriteValuePPC64_OpPPC64MOVBstoreidx_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v.Args[1]
 		val := v.Args[2]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVBstore)
@@ -9389,7 +9389,7 @@ func rewriteValuePPC64_OpPPC64MOVBstorezero_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVBstorezero)
@@ -9483,7 +9483,7 @@ func rewriteValuePPC64_OpPPC64MOVDload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVDload)
@@ -9531,7 +9531,7 @@ func rewriteValuePPC64_OpPPC64MOVDloadidx_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVDload)
@@ -9551,7 +9551,7 @@ func rewriteValuePPC64_OpPPC64MOVDloadidx_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		ptr := v.Args[1]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVDload)
@@ -9597,7 +9597,7 @@ func rewriteValuePPC64_OpPPC64MOVDstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
 		val := v.Args[1]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVDstore)
@@ -9691,7 +9691,7 @@ func rewriteValuePPC64_OpPPC64MOVDstoreidx_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		val := v.Args[2]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVDstore)
@@ -9713,7 +9713,7 @@ func rewriteValuePPC64_OpPPC64MOVDstoreidx_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v.Args[1]
 		val := v.Args[2]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVDstore)
@@ -9739,7 +9739,7 @@ func rewriteValuePPC64_OpPPC64MOVDstorezero_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVDstorezero)
@@ -9888,7 +9888,7 @@ func rewriteValuePPC64_OpPPC64MOVHZload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVHZload)
@@ -9936,7 +9936,7 @@ func rewriteValuePPC64_OpPPC64MOVHZloadidx_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVHZload)
@@ -9956,7 +9956,7 @@ func rewriteValuePPC64_OpPPC64MOVHZloadidx_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		ptr := v.Args[1]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVHZload)
@@ -10254,7 +10254,7 @@ func rewriteValuePPC64_OpPPC64MOVHload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVHload)
@@ -10302,7 +10302,7 @@ func rewriteValuePPC64_OpPPC64MOVHloadidx_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVHload)
@@ -10322,7 +10322,7 @@ func rewriteValuePPC64_OpPPC64MOVHloadidx_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		ptr := v.Args[1]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVHload)
@@ -10596,7 +10596,7 @@ func rewriteValuePPC64_OpPPC64MOVHstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
 		val := v.Args[1]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVHstore)
@@ -10836,7 +10836,7 @@ func rewriteValuePPC64_OpPPC64MOVHstoreidx_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		val := v.Args[2]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVHstore)
@@ -10858,7 +10858,7 @@ func rewriteValuePPC64_OpPPC64MOVHstoreidx_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v.Args[1]
 		val := v.Args[2]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVHstore)
@@ -10972,7 +10972,7 @@ func rewriteValuePPC64_OpPPC64MOVHstorezero_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVHstorezero)
@@ -11085,7 +11085,7 @@ func rewriteValuePPC64_OpPPC64MOVWZload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVWZload)
@@ -11133,7 +11133,7 @@ func rewriteValuePPC64_OpPPC64MOVWZloadidx_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVWZload)
@@ -11153,7 +11153,7 @@ func rewriteValuePPC64_OpPPC64MOVWZloadidx_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		ptr := v.Args[1]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVWZload)
@@ -11551,7 +11551,7 @@ func rewriteValuePPC64_OpPPC64MOVWload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVWload)
@@ -11599,7 +11599,7 @@ func rewriteValuePPC64_OpPPC64MOVWloadidx_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVWload)
@@ -11619,7 +11619,7 @@ func rewriteValuePPC64_OpPPC64MOVWloadidx_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		ptr := v.Args[1]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVWload)
@@ -11957,7 +11957,7 @@ func rewriteValuePPC64_OpPPC64MOVWstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
 		val := v.Args[1]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVWstore)
@@ -12091,7 +12091,7 @@ func rewriteValuePPC64_OpPPC64MOVWstoreidx_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		val := v.Args[2]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVWstore)
@@ -12113,7 +12113,7 @@ func rewriteValuePPC64_OpPPC64MOVWstoreidx_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v.Args[1]
 		val := v.Args[2]
-		if !(is16Bit(c)) {
+		if !is16Bit(c) {
 			break
 		}
 		v.reset(OpPPC64MOVWstore)
@@ -12183,7 +12183,7 @@ func rewriteValuePPC64_OpPPC64MOVWstorezero_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is16Bit(off1 + off2)) {
+		if !is16Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpPPC64MOVWstorezero)
@@ -12662,7 +12662,7 @@ func rewriteValuePPC64_OpPPC64OR_10(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isU32Bit(c)) {
+		if !isU32Bit(c) {
 			break
 		}
 		v.reset(OpPPC64ORconst)
@@ -12680,7 +12680,7 @@ func rewriteValuePPC64_OpPPC64OR_10(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isU32Bit(c)) {
+		if !isU32Bit(c) {
 			break
 		}
 		v.reset(OpPPC64ORconst)
@@ -22226,7 +22226,7 @@ func rewriteValuePPC64_OpPPC64SUB_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(-c)) {
+		if !is32Bit(-c) {
 			break
 		}
 		v.reset(OpPPC64ADDconst)
@@ -22549,7 +22549,7 @@ func rewriteValuePPC64_OpPPC64XOR_10(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isU32Bit(c)) {
+		if !isU32Bit(c) {
 			break
 		}
 		v.reset(OpPPC64XORconst)
@@ -22567,7 +22567,7 @@ func rewriteValuePPC64_OpPPC64XOR_10(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isU32Bit(c)) {
+		if !isU32Bit(c) {
 			break
 		}
 		v.reset(OpPPC64XORconst)
@@ -22871,7 +22871,7 @@ func rewriteValuePPC64_OpRsh16Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -22955,7 +22955,7 @@ func rewriteValuePPC64_OpRsh16Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -23056,7 +23056,7 @@ func rewriteValuePPC64_OpRsh16Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -23096,7 +23096,7 @@ func rewriteValuePPC64_OpRsh16Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -23138,7 +23138,7 @@ func rewriteValuePPC64_OpRsh16x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -23222,7 +23222,7 @@ func rewriteValuePPC64_OpRsh16x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -23327,7 +23327,7 @@ func rewriteValuePPC64_OpRsh16x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -23367,7 +23367,7 @@ func rewriteValuePPC64_OpRsh16x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -23409,7 +23409,7 @@ func rewriteValuePPC64_OpRsh32Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -23485,7 +23485,7 @@ func rewriteValuePPC64_OpRsh32Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -23578,7 +23578,7 @@ func rewriteValuePPC64_OpRsh32Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -23787,7 +23787,7 @@ func rewriteValuePPC64_OpRsh32Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -23825,7 +23825,7 @@ func rewriteValuePPC64_OpRsh32x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -23901,7 +23901,7 @@ func rewriteValuePPC64_OpRsh32x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -23996,7 +23996,7 @@ func rewriteValuePPC64_OpRsh32x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -24205,7 +24205,7 @@ func rewriteValuePPC64_OpRsh32x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -24243,7 +24243,7 @@ func rewriteValuePPC64_OpRsh64Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRD)
@@ -24319,7 +24319,7 @@ func rewriteValuePPC64_OpRsh64Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRD)
@@ -24412,7 +24412,7 @@ func rewriteValuePPC64_OpRsh64Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRD)
@@ -24621,7 +24621,7 @@ func rewriteValuePPC64_OpRsh64Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRD)
@@ -24659,7 +24659,7 @@ func rewriteValuePPC64_OpRsh64x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAD)
@@ -24735,7 +24735,7 @@ func rewriteValuePPC64_OpRsh64x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAD)
@@ -24830,7 +24830,7 @@ func rewriteValuePPC64_OpRsh64x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAD)
@@ -25039,7 +25039,7 @@ func rewriteValuePPC64_OpRsh64x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAD)
@@ -25077,7 +25077,7 @@ func rewriteValuePPC64_OpRsh8Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -25161,7 +25161,7 @@ func rewriteValuePPC64_OpRsh8Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -25262,7 +25262,7 @@ func rewriteValuePPC64_OpRsh8Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -25302,7 +25302,7 @@ func rewriteValuePPC64_OpRsh8Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRW)
@@ -25344,7 +25344,7 @@ func rewriteValuePPC64_OpRsh8x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -25428,7 +25428,7 @@ func rewriteValuePPC64_OpRsh8x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -25533,7 +25533,7 @@ func rewriteValuePPC64_OpRsh8x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -25573,7 +25573,7 @@ func rewriteValuePPC64_OpRsh8x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpPPC64SRAW)
@@ -25928,7 +25928,7 @@ func rewriteValuePPC64_OpTrunc16to8_0(v *Value) bool {
 	for {
 		t := v.Type
 		x := v.Args[0]
-		if !(isSigned(t)) {
+		if !isSigned(t) {
 			break
 		}
 		v.reset(OpPPC64MOVBreg)
@@ -25951,7 +25951,7 @@ func rewriteValuePPC64_OpTrunc32to16_0(v *Value) bool {
 	for {
 		t := v.Type
 		x := v.Args[0]
-		if !(isSigned(t)) {
+		if !isSigned(t) {
 			break
 		}
 		v.reset(OpPPC64MOVHreg)
@@ -25974,7 +25974,7 @@ func rewriteValuePPC64_OpTrunc32to8_0(v *Value) bool {
 	for {
 		t := v.Type
 		x := v.Args[0]
-		if !(isSigned(t)) {
+		if !isSigned(t) {
 			break
 		}
 		v.reset(OpPPC64MOVBreg)
@@ -25997,7 +25997,7 @@ func rewriteValuePPC64_OpTrunc64to16_0(v *Value) bool {
 	for {
 		t := v.Type
 		x := v.Args[0]
-		if !(isSigned(t)) {
+		if !isSigned(t) {
 			break
 		}
 		v.reset(OpPPC64MOVHreg)
@@ -26020,7 +26020,7 @@ func rewriteValuePPC64_OpTrunc64to32_0(v *Value) bool {
 	for {
 		t := v.Type
 		x := v.Args[0]
-		if !(isSigned(t)) {
+		if !isSigned(t) {
 			break
 		}
 		v.reset(OpPPC64MOVWreg)
@@ -26043,7 +26043,7 @@ func rewriteValuePPC64_OpTrunc64to8_0(v *Value) bool {
 	for {
 		t := v.Type
 		x := v.Args[0]
-		if !(isSigned(t)) {
+		if !isSigned(t) {
 			break
 		}
 		v.reset(OpPPC64MOVBreg)

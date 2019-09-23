@@ -6304,7 +6304,7 @@ func rewriteValueARM_OpARMMOVBUload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVBUload)
@@ -6370,7 +6370,7 @@ func rewriteValueARM_OpARMMOVBUload_0(v *Value) bool {
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
-		if v_0.Op != OpSB || !(symIsRO(sym)) {
+		if v_0.Op != OpSB || !symIsRO(sym) {
 			break
 		}
 		v.reset(OpARMMOVWconst)
@@ -6397,7 +6397,7 @@ func rewriteValueARM_OpARMMOVBUloadidx_0(v *Value) bool {
 			break
 		}
 		x := v_2.Args[2]
-		if !(isSamePtr(ptr, ptr2)) {
+		if !isSamePtr(ptr, ptr2) {
 			break
 		}
 		v.reset(OpARMMOVBUreg)
@@ -6545,7 +6545,7 @@ func rewriteValueARM_OpARMMOVBload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVBload)
@@ -6623,7 +6623,7 @@ func rewriteValueARM_OpARMMOVBloadidx_0(v *Value) bool {
 			break
 		}
 		x := v_2.Args[2]
-		if !(isSamePtr(ptr, ptr2)) {
+		if !isSamePtr(ptr, ptr2) {
 			break
 		}
 		v.reset(OpARMMOVBreg)
@@ -6780,7 +6780,7 @@ func rewriteValueARM_OpARMMOVBstore_0(v *Value) bool {
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVBstore)
@@ -6991,7 +6991,7 @@ func rewriteValueARM_OpARMMOVDload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVDload)
@@ -7086,7 +7086,7 @@ func rewriteValueARM_OpARMMOVDstore_0(v *Value) bool {
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVDstore)
@@ -7152,7 +7152,7 @@ func rewriteValueARM_OpARMMOVFload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVFload)
@@ -7247,7 +7247,7 @@ func rewriteValueARM_OpARMMOVFstore_0(v *Value) bool {
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVFstore)
@@ -7315,7 +7315,7 @@ func rewriteValueARM_OpARMMOVHUload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVHUload)
@@ -7381,7 +7381,7 @@ func rewriteValueARM_OpARMMOVHUload_0(v *Value) bool {
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
-		if v_0.Op != OpSB || !(symIsRO(sym)) {
+		if v_0.Op != OpSB || !symIsRO(sym) {
 			break
 		}
 		v.reset(OpARMMOVWconst)
@@ -7408,7 +7408,7 @@ func rewriteValueARM_OpARMMOVHUloadidx_0(v *Value) bool {
 			break
 		}
 		x := v_2.Args[2]
-		if !(isSamePtr(ptr, ptr2)) {
+		if !isSamePtr(ptr, ptr2) {
 			break
 		}
 		v.reset(OpARMMOVHUreg)
@@ -7579,7 +7579,7 @@ func rewriteValueARM_OpARMMOVHload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVHload)
@@ -7657,7 +7657,7 @@ func rewriteValueARM_OpARMMOVHloadidx_0(v *Value) bool {
 			break
 		}
 		x := v_2.Args[2]
-		if !(isSamePtr(ptr, ptr2)) {
+		if !isSamePtr(ptr, ptr2) {
 			break
 		}
 		v.reset(OpARMMOVHreg)
@@ -7860,7 +7860,7 @@ func rewriteValueARM_OpARMMOVHstore_0(v *Value) bool {
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVHstore)
@@ -8033,7 +8033,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVWload)
@@ -8178,7 +8178,7 @@ func rewriteValueARM_OpARMMOVWload_0(v *Value) bool {
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
-		if v_0.Op != OpSB || !(symIsRO(sym)) {
+		if v_0.Op != OpSB || !symIsRO(sym) {
 			break
 		}
 		v.reset(OpARMMOVWconst)
@@ -8205,7 +8205,7 @@ func rewriteValueARM_OpARMMOVWloadidx_0(v *Value) bool {
 			break
 		}
 		x := v_2.Args[2]
-		if !(isSamePtr(ptr, ptr2)) {
+		if !isSamePtr(ptr, ptr2) {
 			break
 		}
 		v.reset(OpCopy)
@@ -8583,7 +8583,7 @@ func rewriteValueARM_OpARMMOVWstore_0(v *Value) bool {
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpARMMOVWstore)
@@ -9031,7 +9031,7 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpARMSLLconst)
@@ -9049,7 +9049,7 @@ func rewriteValueARM_OpARMMUL_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpARMSLLconst)
@@ -9419,7 +9419,7 @@ func rewriteValueARM_OpARMMULA_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpARMADD)
@@ -9641,7 +9641,7 @@ func rewriteValueARM_OpARMMULA_10(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		x := v.Args[1]
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpARMADD)
@@ -9965,7 +9965,7 @@ func rewriteValueARM_OpARMMULS_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpARMRSB)
@@ -10187,7 +10187,7 @@ func rewriteValueARM_OpARMMULS_10(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		x := v.Args[1]
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpARMRSB)
@@ -17845,7 +17845,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(t.IsBoolean()) {
+		if !t.IsBoolean() {
 			break
 		}
 		v.reset(OpARMMOVBUload)
@@ -17935,7 +17935,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is32BitFloat(t)) {
+		if !is32BitFloat(t) {
 			break
 		}
 		v.reset(OpARMMOVFload)
@@ -17950,7 +17950,7 @@ func rewriteValueARM_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is64BitFloat(t)) {
+		if !is64BitFloat(t) {
 			break
 		}
 		v.reset(OpARMMOVDload)
@@ -19916,7 +19916,7 @@ func rewriteValueARM_OpSelect0_0(v *Value) bool {
 			break
 		}
 		c := v_0_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpARMSRLconst)
@@ -19980,7 +19980,7 @@ func rewriteValueARM_OpSelect1_0(v *Value) bool {
 			break
 		}
 		c := v_0_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpARMANDconst)

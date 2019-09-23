@@ -360,7 +360,7 @@ func rewriteValuedec64_OpConst64_0(v *Value) bool {
 	for {
 		t := v.Type
 		c := v.AuxInt
-		if !(t.IsSigned()) {
+		if !t.IsSigned() {
 			break
 		}
 		v.reset(OpInt64Make)
@@ -378,7 +378,7 @@ func rewriteValuedec64_OpConst64_0(v *Value) bool {
 	for {
 		t := v.Type
 		c := v.AuxInt
-		if !(!t.IsSigned()) {
+		if !!t.IsSigned() {
 			break
 		}
 		v.reset(OpInt64Make)
