@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2506c91c_30da5dfe",
+        "filename": "src/internal/bytealg/compare_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-09-23T16:38:37Z",
+      "side": 1,
+      "message": "I feel like you could do this with CNTLZD and not need a loop. Look at compare_amd64.s for an example.\nOr maybe we need bswap to make that work?",
+      "revId": "d302977c274f916184d261545ec27c9926b124ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
