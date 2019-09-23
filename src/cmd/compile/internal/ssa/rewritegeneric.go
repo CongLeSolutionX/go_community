@@ -6905,7 +6905,7 @@ func rewriteValuegeneric_OpDiv16_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpRsh16x64)
@@ -6940,7 +6940,7 @@ func rewriteValuegeneric_OpDiv16_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(smagicOK(16, c)) {
+		if !smagicOK(16, c) {
 			break
 		}
 		v.reset(OpSub16)
@@ -7007,7 +7007,7 @@ func rewriteValuegeneric_OpDiv16u_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c & 0xffff)) {
+		if !isPowerOfTwo(c & 0xffff) {
 			break
 		}
 		v.reset(OpRsh16Ux64)
@@ -7259,7 +7259,7 @@ func rewriteValuegeneric_OpDiv32_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpRsh32x64)
@@ -7431,7 +7431,7 @@ func rewriteValuegeneric_OpDiv32F_0(v *Value) bool {
 		}
 		t := v_1.Type
 		c := v_1.AuxInt
-		if !(reciprocalExact32(auxTo32F(c))) {
+		if !reciprocalExact32(auxTo32F(c)) {
 			break
 		}
 		v.reset(OpMul32F)
@@ -7480,7 +7480,7 @@ func rewriteValuegeneric_OpDiv32u_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c & 0xffffffff)) {
+		if !isPowerOfTwo(c & 0xffffffff) {
 			break
 		}
 		v.reset(OpRsh32Ux64)
@@ -7740,7 +7740,7 @@ func rewriteValuegeneric_OpDiv64_0(v *Value) bool {
 		_ = v.Args[1]
 		n := v.Args[0]
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst64 || v_1.AuxInt != -1<<63 || !(isNonNegative(n)) {
+		if v_1.Op != OpConst64 || v_1.AuxInt != -1<<63 || !isNonNegative(n) {
 			break
 		}
 		v.reset(OpConst64)
@@ -7805,7 +7805,7 @@ func rewriteValuegeneric_OpDiv64_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpRsh64x64)
@@ -7937,7 +7937,7 @@ func rewriteValuegeneric_OpDiv64F_0(v *Value) bool {
 		}
 		t := v_1.Type
 		c := v_1.AuxInt
-		if !(reciprocalExact64(auxTo64F(c))) {
+		if !reciprocalExact64(auxTo64F(c)) {
 			break
 		}
 		v.reset(OpMul64F)
@@ -7986,7 +7986,7 @@ func rewriteValuegeneric_OpDiv64u_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpRsh64Ux64)
@@ -8207,7 +8207,7 @@ func rewriteValuegeneric_OpDiv8_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpRsh8x64)
@@ -8242,7 +8242,7 @@ func rewriteValuegeneric_OpDiv8_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(smagicOK(8, c)) {
+		if !smagicOK(8, c) {
 			break
 		}
 		v.reset(OpSub8)
@@ -8308,7 +8308,7 @@ func rewriteValuegeneric_OpDiv8u_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c & 0xff)) {
+		if !isPowerOfTwo(c & 0xff) {
 			break
 		}
 		v.reset(OpRsh8Ux64)
@@ -8329,7 +8329,7 @@ func rewriteValuegeneric_OpDiv8u_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(umagicOK(8, c)) {
+		if !umagicOK(8, c) {
 			break
 		}
 		v.reset(OpTrunc32to8)
@@ -11906,7 +11906,7 @@ func rewriteValuegeneric_OpEq16_50(v *Value) bool {
 		}
 		y := v_0_1.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst16 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst16 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq16)
@@ -11938,7 +11938,7 @@ func rewriteValuegeneric_OpEq16_50(v *Value) bool {
 		}
 		y := v_0_0.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst16 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst16 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq16)
@@ -11971,7 +11971,7 @@ func rewriteValuegeneric_OpEq16_50(v *Value) bool {
 		_ = v_1.Args[1]
 		x := v_1.Args[0]
 		v_1_1 := v_1.Args[1]
-		if v_1_1.Op != OpConst16 || v_1_1.Type != t || v_1_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_1.Op != OpConst16 || v_1_1.Type != t || v_1_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq16)
@@ -12007,7 +12007,7 @@ func rewriteValuegeneric_OpEq16_60(v *Value) bool {
 		}
 		x := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpConst16 || v_1_0.Type != t || v_1_0.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_0.Op != OpConst16 || v_1_0.Type != t || v_1_0.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq16)
@@ -18500,7 +18500,7 @@ func rewriteValuegeneric_OpEq32_90(v *Value) bool {
 		}
 		y := v_0_1.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst32 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst32 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq32)
@@ -18532,7 +18532,7 @@ func rewriteValuegeneric_OpEq32_90(v *Value) bool {
 		}
 		y := v_0_0.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst32 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst32 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq32)
@@ -18565,7 +18565,7 @@ func rewriteValuegeneric_OpEq32_90(v *Value) bool {
 		_ = v_1.Args[1]
 		x := v_1.Args[0]
 		v_1_1 := v_1.Args[1]
-		if v_1_1.Op != OpConst32 || v_1_1.Type != t || v_1_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_1.Op != OpConst32 || v_1_1.Type != t || v_1_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq32)
@@ -18597,7 +18597,7 @@ func rewriteValuegeneric_OpEq32_90(v *Value) bool {
 		}
 		x := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpConst32 || v_1_0.Type != t || v_1_0.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_0.Op != OpConst32 || v_1_0.Type != t || v_1_0.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq32)
@@ -22725,7 +22725,7 @@ func rewriteValuegeneric_OpEq64_60(v *Value) bool {
 		}
 		y := v_0_1.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst64 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst64 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq64)
@@ -22757,7 +22757,7 @@ func rewriteValuegeneric_OpEq64_60(v *Value) bool {
 		}
 		y := v_0_0.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst64 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst64 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq64)
@@ -22790,7 +22790,7 @@ func rewriteValuegeneric_OpEq64_60(v *Value) bool {
 		_ = v_1.Args[1]
 		x := v_1.Args[0]
 		v_1_1 := v_1.Args[1]
-		if v_1_1.Op != OpConst64 || v_1_1.Type != t || v_1_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_1.Op != OpConst64 || v_1_1.Type != t || v_1_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq64)
@@ -22822,7 +22822,7 @@ func rewriteValuegeneric_OpEq64_60(v *Value) bool {
 		}
 		x := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpConst64 || v_1_0.Type != t || v_1_0.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_0.Op != OpConst64 || v_1_0.Type != t || v_1_0.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq64)
@@ -24684,7 +24684,7 @@ func rewriteValuegeneric_OpEq8_30(v *Value) bool {
 		}
 		y := v_0_1.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst8 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst8 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq8)
@@ -24716,7 +24716,7 @@ func rewriteValuegeneric_OpEq8_30(v *Value) bool {
 		}
 		y := v_0_0.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst8 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst8 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq8)
@@ -24749,7 +24749,7 @@ func rewriteValuegeneric_OpEq8_30(v *Value) bool {
 		_ = v_1.Args[1]
 		x := v_1.Args[0]
 		v_1_1 := v_1.Args[1]
-		if v_1_1.Op != OpConst8 || v_1_1.Type != t || v_1_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_1.Op != OpConst8 || v_1_1.Type != t || v_1_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq8)
@@ -24781,7 +24781,7 @@ func rewriteValuegeneric_OpEq8_30(v *Value) bool {
 		}
 		x := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpConst8 || v_1_0.Type != t || v_1_0.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_0.Op != OpConst8 || v_1_0.Type != t || v_1_0.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpNeq8)
@@ -25221,7 +25221,7 @@ func rewriteValuegeneric_OpEqPtr_10(v *Value) bool {
 		}
 		o1 := v_0.AuxInt
 		p1 := v_0.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpConstBool)
@@ -25240,7 +25240,7 @@ func rewriteValuegeneric_OpEqPtr_10(v *Value) bool {
 		}
 		o1 := v_1.AuxInt
 		p1 := v_1.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpConstBool)
@@ -25264,7 +25264,7 @@ func rewriteValuegeneric_OpEqPtr_10(v *Value) bool {
 		}
 		o2 := v_1.AuxInt
 		p2 := v_1.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpConstBool)
@@ -25288,7 +25288,7 @@ func rewriteValuegeneric_OpEqPtr_10(v *Value) bool {
 		}
 		o1 := v_1.AuxInt
 		p1 := v_1.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpConstBool)
@@ -25551,7 +25551,7 @@ func rewriteValuegeneric_OpEqPtr_20(v *Value) bool {
 		}
 		o1 := v_0.Args[1]
 		p1 := v_0.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpNot)
@@ -25577,7 +25577,7 @@ func rewriteValuegeneric_OpEqPtr_30(v *Value) bool {
 		}
 		o1 := v_1.Args[1]
 		p1 := v_1.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpNot)
@@ -29087,7 +29087,7 @@ func rewriteValuegeneric_OpLsh16x64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpLsh16x64)
@@ -29328,7 +29328,7 @@ func rewriteValuegeneric_OpLsh32x64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpLsh32x64)
@@ -29569,7 +29569,7 @@ func rewriteValuegeneric_OpLsh64x64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpLsh64x64)
@@ -29810,7 +29810,7 @@ func rewriteValuegeneric_OpLsh8x64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpLsh8x64)
@@ -30034,7 +30034,7 @@ func rewriteValuegeneric_OpMod16u_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c & 0xffff)) {
+		if !isPowerOfTwo(c & 0xffff) {
 			break
 		}
 		v.reset(OpAnd16)
@@ -30213,7 +30213,7 @@ func rewriteValuegeneric_OpMod32u_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c & 0xffffffff)) {
+		if !isPowerOfTwo(c & 0xffffffff) {
 			break
 		}
 		v.reset(OpAnd32)
@@ -30308,7 +30308,7 @@ func rewriteValuegeneric_OpMod64_0(v *Value) bool {
 		_ = v.Args[1]
 		n := v.Args[0]
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst64 || v_1.AuxInt != -1<<63 || !(isNonNegative(n)) {
+		if v_1.Op != OpConst64 || v_1.AuxInt != -1<<63 || !isNonNegative(n) {
 			break
 		}
 		v.reset(OpCopy)
@@ -30407,7 +30407,7 @@ func rewriteValuegeneric_OpMod64u_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpAnd64)
@@ -30603,7 +30603,7 @@ func rewriteValuegeneric_OpMod8u_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c & 0xff)) {
+		if !isPowerOfTwo(c & 0xff) {
 			break
 		}
 		v.reset(OpAnd8)
@@ -30662,7 +30662,7 @@ func rewriteValuegeneric_OpMove_0(v *Value) bool {
 		}
 		_ = mem.Args[1]
 		dst2 := mem.Args[0]
-		if !(isSamePtr(src, dst2)) {
+		if !isSamePtr(src, dst2) {
 			break
 		}
 		v.reset(OpZero)
@@ -30691,7 +30691,7 @@ func rewriteValuegeneric_OpMove_0(v *Value) bool {
 		}
 		_ = mem_0.Args[1]
 		dst0 := mem_0.Args[0]
-		if !(isSamePtr(src, dst0)) {
+		if !isSamePtr(src, dst0) {
 			break
 		}
 		v.reset(OpZero)
@@ -32097,7 +32097,7 @@ func rewriteValuegeneric_OpMove_20(v *Value) bool {
 		mem := v.Args[2]
 		dst := v.Args[0]
 		src := v.Args[1]
-		if !(isSamePtr(dst, src)) {
+		if !isSamePtr(dst, src) {
 			break
 		}
 		v.reset(OpCopy)
@@ -32210,7 +32210,7 @@ func rewriteValuegeneric_OpMul16_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpLsh16x64)
@@ -32232,7 +32232,7 @@ func rewriteValuegeneric_OpMul16_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpLsh16x64)
@@ -32533,7 +32533,7 @@ func rewriteValuegeneric_OpMul32_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpLsh32x64)
@@ -32555,7 +32555,7 @@ func rewriteValuegeneric_OpMul32_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpLsh32x64)
@@ -33104,7 +33104,7 @@ func rewriteValuegeneric_OpMul64_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpLsh64x64)
@@ -33126,7 +33126,7 @@ func rewriteValuegeneric_OpMul64_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpLsh64x64)
@@ -33675,7 +33675,7 @@ func rewriteValuegeneric_OpMul8_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpLsh8x64)
@@ -33697,7 +33697,7 @@ func rewriteValuegeneric_OpMul8_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(isPowerOfTwo(c)) {
+		if !isPowerOfTwo(c) {
 			break
 		}
 		v.reset(OpLsh8x64)
@@ -34389,7 +34389,7 @@ func rewriteValuegeneric_OpNeq16_0(v *Value) bool {
 		}
 		y := v_0_1.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst16 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst16 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq16)
@@ -34425,7 +34425,7 @@ func rewriteValuegeneric_OpNeq16_10(v *Value) bool {
 		}
 		y := v_0_0.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst16 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst16 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq16)
@@ -34458,7 +34458,7 @@ func rewriteValuegeneric_OpNeq16_10(v *Value) bool {
 		_ = v_1.Args[1]
 		x := v_1.Args[0]
 		v_1_1 := v_1.Args[1]
-		if v_1_1.Op != OpConst16 || v_1_1.Type != t || v_1_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_1.Op != OpConst16 || v_1_1.Type != t || v_1_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq16)
@@ -34490,7 +34490,7 @@ func rewriteValuegeneric_OpNeq16_10(v *Value) bool {
 		}
 		x := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpConst16 || v_1_0.Type != t || v_1_0.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_0.Op != OpConst16 || v_1_0.Type != t || v_1_0.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq16)
@@ -34727,7 +34727,7 @@ func rewriteValuegeneric_OpNeq32_0(v *Value) bool {
 		}
 		y := v_0_1.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst32 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst32 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq32)
@@ -34763,7 +34763,7 @@ func rewriteValuegeneric_OpNeq32_10(v *Value) bool {
 		}
 		y := v_0_0.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst32 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst32 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq32)
@@ -34796,7 +34796,7 @@ func rewriteValuegeneric_OpNeq32_10(v *Value) bool {
 		_ = v_1.Args[1]
 		x := v_1.Args[0]
 		v_1_1 := v_1.Args[1]
-		if v_1_1.Op != OpConst32 || v_1_1.Type != t || v_1_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_1.Op != OpConst32 || v_1_1.Type != t || v_1_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq32)
@@ -34828,7 +34828,7 @@ func rewriteValuegeneric_OpNeq32_10(v *Value) bool {
 		}
 		x := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpConst32 || v_1_0.Type != t || v_1_0.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_0.Op != OpConst32 || v_1_0.Type != t || v_1_0.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq32)
@@ -35104,7 +35104,7 @@ func rewriteValuegeneric_OpNeq64_0(v *Value) bool {
 		}
 		y := v_0_1.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst64 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst64 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq64)
@@ -35140,7 +35140,7 @@ func rewriteValuegeneric_OpNeq64_10(v *Value) bool {
 		}
 		y := v_0_0.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst64 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst64 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq64)
@@ -35173,7 +35173,7 @@ func rewriteValuegeneric_OpNeq64_10(v *Value) bool {
 		_ = v_1.Args[1]
 		x := v_1.Args[0]
 		v_1_1 := v_1.Args[1]
-		if v_1_1.Op != OpConst64 || v_1_1.Type != t || v_1_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_1.Op != OpConst64 || v_1_1.Type != t || v_1_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq64)
@@ -35205,7 +35205,7 @@ func rewriteValuegeneric_OpNeq64_10(v *Value) bool {
 		}
 		x := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpConst64 || v_1_0.Type != t || v_1_0.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_0.Op != OpConst64 || v_1_0.Type != t || v_1_0.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq64)
@@ -35481,7 +35481,7 @@ func rewriteValuegeneric_OpNeq8_0(v *Value) bool {
 		}
 		y := v_0_1.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst8 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst8 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq8)
@@ -35517,7 +35517,7 @@ func rewriteValuegeneric_OpNeq8_10(v *Value) bool {
 		}
 		y := v_0_0.AuxInt
 		v_1 := v.Args[1]
-		if v_1.Op != OpConst8 || v_1.Type != t || v_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1.Op != OpConst8 || v_1.Type != t || v_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq8)
@@ -35550,7 +35550,7 @@ func rewriteValuegeneric_OpNeq8_10(v *Value) bool {
 		_ = v_1.Args[1]
 		x := v_1.Args[0]
 		v_1_1 := v_1.Args[1]
-		if v_1_1.Op != OpConst8 || v_1_1.Type != t || v_1_1.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_1.Op != OpConst8 || v_1_1.Type != t || v_1_1.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq8)
@@ -35582,7 +35582,7 @@ func rewriteValuegeneric_OpNeq8_10(v *Value) bool {
 		}
 		x := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpConst8 || v_1_0.Type != t || v_1_0.AuxInt != y || !(isPowerOfTwo(y)) {
+		if v_1_0.Op != OpConst8 || v_1_0.Type != t || v_1_0.AuxInt != y || !isPowerOfTwo(y) {
 			break
 		}
 		v.reset(OpEq8)
@@ -36060,7 +36060,7 @@ func rewriteValuegeneric_OpNeqPtr_10(v *Value) bool {
 		}
 		o1 := v_0.AuxInt
 		p1 := v_0.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpConstBool)
@@ -36079,7 +36079,7 @@ func rewriteValuegeneric_OpNeqPtr_10(v *Value) bool {
 		}
 		o1 := v_1.AuxInt
 		p1 := v_1.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpConstBool)
@@ -36103,7 +36103,7 @@ func rewriteValuegeneric_OpNeqPtr_10(v *Value) bool {
 		}
 		o2 := v_1.AuxInt
 		p2 := v_1.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpConstBool)
@@ -36127,7 +36127,7 @@ func rewriteValuegeneric_OpNeqPtr_10(v *Value) bool {
 		}
 		o1 := v_1.AuxInt
 		p1 := v_1.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpConstBool)
@@ -36388,7 +36388,7 @@ func rewriteValuegeneric_OpNeqPtr_20(v *Value) bool {
 		}
 		o1 := v_0.Args[1]
 		p1 := v_0.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpIsNonNil)
@@ -36410,7 +36410,7 @@ func rewriteValuegeneric_OpNeqPtr_30(v *Value) bool {
 		}
 		o1 := v_1.Args[1]
 		p1 := v_1.Args[0]
-		if !(isSamePtr(p1, p2)) {
+		if !isSamePtr(p1, p2) {
 			break
 		}
 		v.reset(OpIsNonNil)
@@ -39737,7 +39737,7 @@ func rewriteValuegeneric_OpRsh16Ux64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpRsh16Ux64)
@@ -40010,7 +40010,7 @@ func rewriteValuegeneric_OpRsh16x64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpRsh16x64)
@@ -40234,7 +40234,7 @@ func rewriteValuegeneric_OpRsh32Ux64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpRsh32Ux64)
@@ -40531,7 +40531,7 @@ func rewriteValuegeneric_OpRsh32x64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpRsh32x64)
@@ -40779,7 +40779,7 @@ func rewriteValuegeneric_OpRsh64Ux64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpRsh64Ux64)
@@ -41100,7 +41100,7 @@ func rewriteValuegeneric_OpRsh64x64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpRsh64x64)
@@ -41372,7 +41372,7 @@ func rewriteValuegeneric_OpRsh8Ux64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpRsh8Ux64)
@@ -41620,7 +41620,7 @@ func rewriteValuegeneric_OpRsh8x64_0(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		if !(!uaddOvf(c, d)) {
+		if !!uaddOvf(c, d) {
 			break
 		}
 		v.reset(OpRsh8x64)
@@ -42266,7 +42266,7 @@ func rewriteValuegeneric_OpStaticCall_0(v *Value) bool {
 	for {
 		sym := v.Aux
 		x := v.Args[0]
-		if !(needRaceCleanup(sym, v)) {
+		if !needRaceCleanup(sym, v) {
 			break
 		}
 		v.reset(OpCopy)
@@ -42732,7 +42732,7 @@ func rewriteValuegeneric_OpStore_10(v *Value) bool {
 		}
 		_ = v_1.Args[1]
 		src := v_1.Args[0]
-		if mem != v_1.Args[1] || !(!fe.CanSSA(t.(*types.Type))) {
+		if mem != v_1.Args[1] || !!fe.CanSSA(t.(*types.Type)) {
 			break
 		}
 		v.reset(OpMove)
@@ -42761,7 +42761,7 @@ func rewriteValuegeneric_OpStore_10(v *Value) bool {
 			break
 		}
 		x := v_2.Aux
-		if mem != v_2.Args[0] || !(!fe.CanSSA(t.(*types.Type))) {
+		if mem != v_2.Args[0] || !!fe.CanSSA(t.(*types.Type)) {
 			break
 		}
 		v.reset(OpMove)
@@ -43488,7 +43488,7 @@ func rewriteValuegeneric_OpStructSelect_10(v *Value) bool {
 		t := x.Type
 		mem := x.Args[1]
 		ptr := x.Args[0]
-		if !(!fe.CanSSA(t)) {
+		if !!fe.CanSSA(t) {
 			break
 		}
 		b = x.Block

@@ -1424,7 +1424,7 @@ func rewriteValue386_Op386ADDLconst_0(v *Value) bool {
 		d := v_0.AuxInt
 		s := v_0.Aux
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(Op386LEAL)
@@ -1446,7 +1446,7 @@ func rewriteValue386_Op386ADDLconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(Op386LEAL1)
@@ -1469,7 +1469,7 @@ func rewriteValue386_Op386ADDLconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(Op386LEAL2)
@@ -1492,7 +1492,7 @@ func rewriteValue386_Op386ADDLconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(Op386LEAL4)
@@ -1515,7 +1515,7 @@ func rewriteValue386_Op386ADDLconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(Op386LEAL8)
@@ -1585,7 +1585,7 @@ func rewriteValue386_Op386ADDLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(Op386ADDLconstmodify)
@@ -1638,7 +1638,7 @@ func rewriteValue386_Op386ADDLconstmodifyidx4_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(Op386ADDLconstmodifyidx4)
@@ -1663,7 +1663,7 @@ func rewriteValue386_Op386ADDLconstmodifyidx4_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2 * 4)) {
+		if !ValAndOff(valoff1).canAdd(off2 * 4) {
 			break
 		}
 		v.reset(Op386ADDLconstmodifyidx4)
@@ -1719,7 +1719,7 @@ func rewriteValue386_Op386ADDLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ADDLload)
@@ -1804,7 +1804,7 @@ func rewriteValue386_Op386ADDLloadidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
 		idx := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ADDLloadidx4)
@@ -1831,7 +1831,7 @@ func rewriteValue386_Op386ADDLloadidx4_0(v *Value) bool {
 		}
 		off2 := v_2.AuxInt
 		idx := v_2.Args[0]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386ADDLloadidx4)
@@ -1890,7 +1890,7 @@ func rewriteValue386_Op386ADDLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ADDLmodify)
@@ -1947,7 +1947,7 @@ func rewriteValue386_Op386ADDLmodifyidx4_0(v *Value) bool {
 		base := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ADDLmodifyidx4)
@@ -1974,7 +1974,7 @@ func rewriteValue386_Op386ADDLmodifyidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386ADDLmodifyidx4)
@@ -2028,7 +2028,7 @@ func rewriteValue386_Op386ADDLmodifyidx4_0(v *Value) bool {
 			break
 		}
 		c := v_2.AuxInt
-		if !(validValAndOff(c, off)) {
+		if !validValAndOff(c, off) {
 			break
 		}
 		v.reset(Op386ADDLconstmodifyidx4)
@@ -2112,7 +2112,7 @@ func rewriteValue386_Op386ADDSDload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ADDSDload)
@@ -2222,7 +2222,7 @@ func rewriteValue386_Op386ADDSSload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ADDSSload)
@@ -2480,7 +2480,7 @@ func rewriteValue386_Op386ANDLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(Op386ANDLconstmodify)
@@ -2533,7 +2533,7 @@ func rewriteValue386_Op386ANDLconstmodifyidx4_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(Op386ANDLconstmodifyidx4)
@@ -2558,7 +2558,7 @@ func rewriteValue386_Op386ANDLconstmodifyidx4_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2 * 4)) {
+		if !ValAndOff(valoff1).canAdd(off2 * 4) {
 			break
 		}
 		v.reset(Op386ANDLconstmodifyidx4)
@@ -2614,7 +2614,7 @@ func rewriteValue386_Op386ANDLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ANDLload)
@@ -2699,7 +2699,7 @@ func rewriteValue386_Op386ANDLloadidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
 		idx := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ANDLloadidx4)
@@ -2726,7 +2726,7 @@ func rewriteValue386_Op386ANDLloadidx4_0(v *Value) bool {
 		}
 		off2 := v_2.AuxInt
 		idx := v_2.Args[0]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386ANDLloadidx4)
@@ -2785,7 +2785,7 @@ func rewriteValue386_Op386ANDLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ANDLmodify)
@@ -2842,7 +2842,7 @@ func rewriteValue386_Op386ANDLmodifyidx4_0(v *Value) bool {
 		base := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ANDLmodifyidx4)
@@ -2869,7 +2869,7 @@ func rewriteValue386_Op386ANDLmodifyidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386ANDLmodifyidx4)
@@ -2923,7 +2923,7 @@ func rewriteValue386_Op386ANDLmodifyidx4_0(v *Value) bool {
 			break
 		}
 		c := v_2.AuxInt
-		if !(validValAndOff(c, off)) {
+		if !validValAndOff(c, off) {
 			break
 		}
 		v.reset(Op386ANDLconstmodifyidx4)
@@ -3216,7 +3216,7 @@ func rewriteValue386_Op386CMPBload_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validValAndOff(int64(int8(c)), off)) {
+		if !validValAndOff(int64(int8(c)), off) {
 			break
 		}
 		v.reset(Op386CMPBconstload)
@@ -3527,7 +3527,7 @@ func rewriteValue386_Op386CMPLload_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validValAndOff(int64(int32(c)), off)) {
+		if !validValAndOff(int64(int32(c)), off) {
 			break
 		}
 		v.reset(Op386CMPLconstload)
@@ -3819,7 +3819,7 @@ func rewriteValue386_Op386CMPWload_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validValAndOff(int64(int16(c)), off)) {
+		if !validValAndOff(int64(int16(c)), off) {
 			break
 		}
 		v.reset(Op386CMPWconstload)
@@ -3878,7 +3878,7 @@ func rewriteValue386_Op386DIVSDload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386DIVSDload)
@@ -3964,7 +3964,7 @@ func rewriteValue386_Op386DIVSSload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386DIVSSload)
@@ -4016,7 +4016,7 @@ func rewriteValue386_Op386LEAL_0(v *Value) bool {
 		}
 		d := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(Op386LEAL)
@@ -4866,7 +4866,7 @@ func rewriteValue386_Op386MOVBload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MOVBload)
@@ -4958,7 +4958,7 @@ func rewriteValue386_Op386MOVBload_0(v *Value) bool {
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
-		if v_0.Op != OpSB || !(symIsRO(sym)) {
+		if v_0.Op != OpSB || !symIsRO(sym) {
 			break
 		}
 		v.reset(Op386MOVLconst)
@@ -5111,7 +5111,7 @@ func rewriteValue386_Op386MOVBstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MOVBstore)
@@ -5135,7 +5135,7 @@ func rewriteValue386_Op386MOVBstore_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validOff(off)) {
+		if !validOff(off) {
 			break
 		}
 		v.reset(Op386MOVBstoreconst)
@@ -5396,7 +5396,7 @@ func rewriteValue386_Op386MOVBstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(Op386MOVBstoreconst)
@@ -5445,7 +5445,7 @@ func rewriteValue386_Op386MOVBstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(Op386MOVBstoreconstidx1)
@@ -6388,7 +6388,7 @@ func rewriteValue386_Op386MOVLload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MOVLload)
@@ -6506,7 +6506,7 @@ func rewriteValue386_Op386MOVLload_0(v *Value) bool {
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
-		if v_0.Op != OpSB || !(symIsRO(sym)) {
+		if v_0.Op != OpSB || !symIsRO(sym) {
 			break
 		}
 		v.reset(Op386MOVLconst)
@@ -6704,7 +6704,7 @@ func rewriteValue386_Op386MOVLstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MOVLstore)
@@ -6728,7 +6728,7 @@ func rewriteValue386_Op386MOVLstore_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validOff(off)) {
+		if !validOff(off) {
 			break
 		}
 		v.reset(Op386MOVLstoreconst)
@@ -7347,7 +7347,7 @@ func rewriteValue386_Op386MOVLstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(Op386MOVLstoreconst)
@@ -7396,7 +7396,7 @@ func rewriteValue386_Op386MOVLstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(Op386MOVLstoreconstidx1)
@@ -7422,7 +7422,7 @@ func rewriteValue386_Op386MOVLstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(Op386MOVLstoreconstidx4)
@@ -8276,7 +8276,7 @@ func rewriteValue386_Op386MOVSDconst_0(v *Value) bool {
 	// result: (MOVSDconst2 (MOVSDconst1 [c]))
 	for {
 		c := v.AuxInt
-		if !(config.ctxt.Flag_shared) {
+		if !config.ctxt.Flag_shared {
 			break
 		}
 		v.reset(Op386MOVSDconst2)
@@ -8303,7 +8303,7 @@ func rewriteValue386_Op386MOVSDload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MOVSDload)
@@ -8522,7 +8522,7 @@ func rewriteValue386_Op386MOVSDstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MOVSDstore)
@@ -8750,7 +8750,7 @@ func rewriteValue386_Op386MOVSSconst_0(v *Value) bool {
 	// result: (MOVSSconst2 (MOVSSconst1 [c]))
 	for {
 		c := v.AuxInt
-		if !(config.ctxt.Flag_shared) {
+		if !config.ctxt.Flag_shared {
 			break
 		}
 		v.reset(Op386MOVSSconst2)
@@ -8777,7 +8777,7 @@ func rewriteValue386_Op386MOVSSload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MOVSSload)
@@ -8996,7 +8996,7 @@ func rewriteValue386_Op386MOVSSstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MOVSSstore)
@@ -9452,7 +9452,7 @@ func rewriteValue386_Op386MOVWload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MOVWload)
@@ -9570,7 +9570,7 @@ func rewriteValue386_Op386MOVWload_0(v *Value) bool {
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
-		if v_0.Op != OpSB || !(symIsRO(sym)) {
+		if v_0.Op != OpSB || !symIsRO(sym) {
 			break
 		}
 		v.reset(Op386MOVLconst)
@@ -9808,7 +9808,7 @@ func rewriteValue386_Op386MOVWstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MOVWstore)
@@ -9832,7 +9832,7 @@ func rewriteValue386_Op386MOVWstore_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validOff(off)) {
+		if !validOff(off) {
 			break
 		}
 		v.reset(Op386MOVWstoreconst)
@@ -10031,7 +10031,7 @@ func rewriteValue386_Op386MOVWstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(Op386MOVWstoreconst)
@@ -10080,7 +10080,7 @@ func rewriteValue386_Op386MOVWstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(Op386MOVWstoreconstidx1)
@@ -10106,7 +10106,7 @@ func rewriteValue386_Op386MOVWstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(Op386MOVWstoreconstidx2)
@@ -11528,7 +11528,7 @@ func rewriteValue386_Op386MULLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MULLload)
@@ -11613,7 +11613,7 @@ func rewriteValue386_Op386MULLloadidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
 		idx := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MULLloadidx4)
@@ -11640,7 +11640,7 @@ func rewriteValue386_Op386MULLloadidx4_0(v *Value) bool {
 		}
 		off2 := v_2.AuxInt
 		idx := v_2.Args[0]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386MULLloadidx4)
@@ -11753,7 +11753,7 @@ func rewriteValue386_Op386MULSDload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MULSDload)
@@ -11863,7 +11863,7 @@ func rewriteValue386_Op386MULSSload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386MULSSload)
@@ -14935,7 +14935,7 @@ func rewriteValue386_Op386ORLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(Op386ORLconstmodify)
@@ -14988,7 +14988,7 @@ func rewriteValue386_Op386ORLconstmodifyidx4_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(Op386ORLconstmodifyidx4)
@@ -15013,7 +15013,7 @@ func rewriteValue386_Op386ORLconstmodifyidx4_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2 * 4)) {
+		if !ValAndOff(valoff1).canAdd(off2 * 4) {
 			break
 		}
 		v.reset(Op386ORLconstmodifyidx4)
@@ -15069,7 +15069,7 @@ func rewriteValue386_Op386ORLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ORLload)
@@ -15154,7 +15154,7 @@ func rewriteValue386_Op386ORLloadidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
 		idx := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ORLloadidx4)
@@ -15181,7 +15181,7 @@ func rewriteValue386_Op386ORLloadidx4_0(v *Value) bool {
 		}
 		off2 := v_2.AuxInt
 		idx := v_2.Args[0]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386ORLloadidx4)
@@ -15240,7 +15240,7 @@ func rewriteValue386_Op386ORLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ORLmodify)
@@ -15297,7 +15297,7 @@ func rewriteValue386_Op386ORLmodifyidx4_0(v *Value) bool {
 		base := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386ORLmodifyidx4)
@@ -15324,7 +15324,7 @@ func rewriteValue386_Op386ORLmodifyidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386ORLmodifyidx4)
@@ -15378,7 +15378,7 @@ func rewriteValue386_Op386ORLmodifyidx4_0(v *Value) bool {
 			break
 		}
 		c := v_2.AuxInt
-		if !(validValAndOff(c, off)) {
+		if !validValAndOff(c, off) {
 			break
 		}
 		v.reset(Op386ORLconstmodifyidx4)
@@ -16774,7 +16774,7 @@ func rewriteValue386_Op386SUBLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386SUBLload)
@@ -16859,7 +16859,7 @@ func rewriteValue386_Op386SUBLloadidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
 		idx := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386SUBLloadidx4)
@@ -16886,7 +16886,7 @@ func rewriteValue386_Op386SUBLloadidx4_0(v *Value) bool {
 		}
 		off2 := v_2.AuxInt
 		idx := v_2.Args[0]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386SUBLloadidx4)
@@ -16945,7 +16945,7 @@ func rewriteValue386_Op386SUBLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386SUBLmodify)
@@ -17002,7 +17002,7 @@ func rewriteValue386_Op386SUBLmodifyidx4_0(v *Value) bool {
 		base := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386SUBLmodifyidx4)
@@ -17029,7 +17029,7 @@ func rewriteValue386_Op386SUBLmodifyidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386SUBLmodifyidx4)
@@ -17083,7 +17083,7 @@ func rewriteValue386_Op386SUBLmodifyidx4_0(v *Value) bool {
 			break
 		}
 		c := v_2.AuxInt
-		if !(validValAndOff(-c, off)) {
+		if !validValAndOff(-c, off) {
 			break
 		}
 		v.reset(Op386ADDLconstmodifyidx4)
@@ -17143,7 +17143,7 @@ func rewriteValue386_Op386SUBSDload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386SUBSDload)
@@ -17229,7 +17229,7 @@ func rewriteValue386_Op386SUBSSload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386SUBSSload)
@@ -17625,7 +17625,7 @@ func rewriteValue386_Op386XORLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(Op386XORLconstmodify)
@@ -17678,7 +17678,7 @@ func rewriteValue386_Op386XORLconstmodifyidx4_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(Op386XORLconstmodifyidx4)
@@ -17703,7 +17703,7 @@ func rewriteValue386_Op386XORLconstmodifyidx4_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2 * 4)) {
+		if !ValAndOff(valoff1).canAdd(off2 * 4) {
 			break
 		}
 		v.reset(Op386XORLconstmodifyidx4)
@@ -17759,7 +17759,7 @@ func rewriteValue386_Op386XORLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386XORLload)
@@ -17844,7 +17844,7 @@ func rewriteValue386_Op386XORLloadidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
 		idx := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386XORLloadidx4)
@@ -17871,7 +17871,7 @@ func rewriteValue386_Op386XORLloadidx4_0(v *Value) bool {
 		}
 		off2 := v_2.AuxInt
 		idx := v_2.Args[0]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386XORLloadidx4)
@@ -17930,7 +17930,7 @@ func rewriteValue386_Op386XORLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386XORLmodify)
@@ -17987,7 +17987,7 @@ func rewriteValue386_Op386XORLmodifyidx4_0(v *Value) bool {
 		base := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(Op386XORLmodifyidx4)
@@ -18014,7 +18014,7 @@ func rewriteValue386_Op386XORLmodifyidx4_0(v *Value) bool {
 		off2 := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(off1 + off2*4)) {
+		if !is32Bit(off1 + off2*4) {
 			break
 		}
 		v.reset(Op386XORLmodifyidx4)
@@ -18068,7 +18068,7 @@ func rewriteValue386_Op386XORLmodifyidx4_0(v *Value) bool {
 			break
 		}
 		c := v_2.AuxInt
-		if !(validValAndOff(c, off)) {
+		if !validValAndOff(c, off) {
 			break
 		}
 		v.reset(Op386XORLconstmodifyidx4)
@@ -19297,7 +19297,7 @@ func rewriteValue386_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(Op386MOVWload)
@@ -19327,7 +19327,7 @@ func rewriteValue386_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is32BitFloat(t)) {
+		if !is32BitFloat(t) {
 			break
 		}
 		v.reset(Op386MOVSSload)
@@ -19342,7 +19342,7 @@ func rewriteValue386_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is64BitFloat(t)) {
+		if !is64BitFloat(t) {
 			break
 		}
 		v.reset(Op386MOVSDload)
@@ -20150,7 +20150,7 @@ func rewriteValue386_OpNeg32F_0(v *Value) bool {
 	// result: (PXOR x (MOVSSconst <typ.Float32> [auxFrom32F(float32(math.Copysign(0, -1)))]))
 	for {
 		x := v.Args[0]
-		if !(!config.use387) {
+		if !!config.use387 {
 			break
 		}
 		v.reset(Op386PXOR)
@@ -20165,7 +20165,7 @@ func rewriteValue386_OpNeg32F_0(v *Value) bool {
 	// result: (FCHS x)
 	for {
 		x := v.Args[0]
-		if !(config.use387) {
+		if !config.use387 {
 			break
 		}
 		v.reset(Op386FCHS)
@@ -20183,7 +20183,7 @@ func rewriteValue386_OpNeg64F_0(v *Value) bool {
 	// result: (PXOR x (MOVSDconst <typ.Float64> [auxFrom64F(math.Copysign(0, -1))]))
 	for {
 		x := v.Args[0]
-		if !(!config.use387) {
+		if !!config.use387 {
 			break
 		}
 		v.reset(Op386PXOR)
@@ -20198,7 +20198,7 @@ func rewriteValue386_OpNeg64F_0(v *Value) bool {
 	// result: (FCHS x)
 	for {
 		x := v.Args[0]
-		if !(config.use387) {
+		if !config.use387 {
 			break
 		}
 		v.reset(Op386FCHS)

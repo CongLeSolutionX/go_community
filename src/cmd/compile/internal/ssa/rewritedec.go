@@ -157,7 +157,7 @@ func rewriteValuedec_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(t.IsString()) {
+		if !t.IsString() {
 			break
 		}
 		v.reset(OpStringMake)
@@ -181,7 +181,7 @@ func rewriteValuedec_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(t.IsSlice()) {
+		if !t.IsSlice() {
 			break
 		}
 		v.reset(OpSliceMake)
@@ -212,7 +212,7 @@ func rewriteValuedec_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(t.IsInterface()) {
+		if !t.IsInterface() {
 			break
 		}
 		v.reset(OpIMake)

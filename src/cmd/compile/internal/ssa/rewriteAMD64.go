@@ -1169,7 +1169,7 @@ func rewriteValueAMD64_OpAMD64ADCQ_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64ADCQconst)
@@ -1189,7 +1189,7 @@ func rewriteValueAMD64_OpAMD64ADCQ_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		x := v.Args[1]
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64ADCQconst)
@@ -1813,7 +1813,7 @@ func rewriteValueAMD64_OpAMD64ADDLconst_0(v *Value) bool {
 		d := v_0.AuxInt
 		s := v_0.Aux
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAL)
@@ -1835,7 +1835,7 @@ func rewriteValueAMD64_OpAMD64ADDLconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAL1)
@@ -1858,7 +1858,7 @@ func rewriteValueAMD64_OpAMD64ADDLconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAL2)
@@ -1881,7 +1881,7 @@ func rewriteValueAMD64_OpAMD64ADDLconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAL4)
@@ -1904,7 +1904,7 @@ func rewriteValueAMD64_OpAMD64ADDLconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAL8)
@@ -1988,7 +1988,7 @@ func rewriteValueAMD64_OpAMD64ADDLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64ADDLconstmodify)
@@ -2041,7 +2041,7 @@ func rewriteValueAMD64_OpAMD64ADDLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ADDLload)
@@ -2119,7 +2119,7 @@ func rewriteValueAMD64_OpAMD64ADDLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ADDLmodify)
@@ -2170,7 +2170,7 @@ func rewriteValueAMD64_OpAMD64ADDQ_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64ADDQconst)
@@ -2188,7 +2188,7 @@ func rewriteValueAMD64_OpAMD64ADDQ_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64ADDQconst)
@@ -2614,7 +2614,7 @@ func rewriteValueAMD64_OpAMD64ADDQcarry_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64ADDQconstcarry)
@@ -2632,7 +2632,7 @@ func rewriteValueAMD64_OpAMD64ADDQcarry_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64ADDQconstcarry)
@@ -2686,7 +2686,7 @@ func rewriteValueAMD64_OpAMD64ADDQconst_0(v *Value) bool {
 		d := v_0.AuxInt
 		s := v_0.Aux
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAQ)
@@ -2708,7 +2708,7 @@ func rewriteValueAMD64_OpAMD64ADDQconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAQ1)
@@ -2731,7 +2731,7 @@ func rewriteValueAMD64_OpAMD64ADDQconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAQ2)
@@ -2754,7 +2754,7 @@ func rewriteValueAMD64_OpAMD64ADDQconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAQ4)
@@ -2777,7 +2777,7 @@ func rewriteValueAMD64_OpAMD64ADDQconst_0(v *Value) bool {
 		s := v_0.Aux
 		y := v_0.Args[1]
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAQ8)
@@ -2823,7 +2823,7 @@ func rewriteValueAMD64_OpAMD64ADDQconst_0(v *Value) bool {
 		}
 		d := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64ADDQconst)
@@ -2863,7 +2863,7 @@ func rewriteValueAMD64_OpAMD64ADDQconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64ADDQconstmodify)
@@ -2916,7 +2916,7 @@ func rewriteValueAMD64_OpAMD64ADDQload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ADDQload)
@@ -2994,7 +2994,7 @@ func rewriteValueAMD64_OpAMD64ADDQmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ADDQmodify)
@@ -3102,7 +3102,7 @@ func rewriteValueAMD64_OpAMD64ADDSDload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ADDSDload)
@@ -3234,7 +3234,7 @@ func rewriteValueAMD64_OpAMD64ADDSSload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ADDSSload)
@@ -3315,7 +3315,7 @@ func rewriteValueAMD64_OpAMD64ANDL_0(v *Value) bool {
 		}
 		y := v_0_0.Args[1]
 		v_0_0_0 := v_0_0.Args[0]
-		if v_0_0_0.Op != OpAMD64MOVLconst || v_0_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_0_0.Op != OpAMD64MOVLconst || v_0_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTRL)
@@ -3339,7 +3339,7 @@ func rewriteValueAMD64_OpAMD64ANDL_0(v *Value) bool {
 		}
 		y := v_1_0.Args[1]
 		v_1_0_0 := v_1_0.Args[0]
-		if v_1_0_0.Op != OpAMD64MOVLconst || v_1_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_0_0.Op != OpAMD64MOVLconst || v_1_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTRL)
@@ -3600,7 +3600,7 @@ func rewriteValueAMD64_OpAMD64ANDLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64ANDLconstmodify)
@@ -3653,7 +3653,7 @@ func rewriteValueAMD64_OpAMD64ANDLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ANDLload)
@@ -3731,7 +3731,7 @@ func rewriteValueAMD64_OpAMD64ANDLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ANDLmodify)
@@ -3788,7 +3788,7 @@ func rewriteValueAMD64_OpAMD64ANDQ_0(v *Value) bool {
 		}
 		y := v_0_0.Args[1]
 		v_0_0_0 := v_0_0.Args[0]
-		if v_0_0_0.Op != OpAMD64MOVQconst || v_0_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_0_0.Op != OpAMD64MOVQconst || v_0_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTRQ)
@@ -3812,7 +3812,7 @@ func rewriteValueAMD64_OpAMD64ANDQ_0(v *Value) bool {
 		}
 		y := v_1_0.Args[1]
 		v_1_0_0 := v_1_0.Args[0]
-		if v_1_0_0.Op != OpAMD64MOVQconst || v_1_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_0_0.Op != OpAMD64MOVQconst || v_1_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTRQ)
@@ -3868,7 +3868,7 @@ func rewriteValueAMD64_OpAMD64ANDQ_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64ANDQconst)
@@ -3886,7 +3886,7 @@ func rewriteValueAMD64_OpAMD64ANDQ_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64ANDQconst)
@@ -4088,7 +4088,7 @@ func rewriteValueAMD64_OpAMD64ANDQconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64ANDQconstmodify)
@@ -4141,7 +4141,7 @@ func rewriteValueAMD64_OpAMD64ANDQload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ANDQload)
@@ -4219,7 +4219,7 @@ func rewriteValueAMD64_OpAMD64ANDQmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ANDQmodify)
@@ -4368,7 +4368,7 @@ func rewriteValueAMD64_OpAMD64BTCLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64BTCLconstmodify)
@@ -4419,7 +4419,7 @@ func rewriteValueAMD64_OpAMD64BTCLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64BTCLmodify)
@@ -4518,7 +4518,7 @@ func rewriteValueAMD64_OpAMD64BTCQconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64BTCQconstmodify)
@@ -4569,7 +4569,7 @@ func rewriteValueAMD64_OpAMD64BTCQmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64BTCQmodify)
@@ -4867,7 +4867,7 @@ func rewriteValueAMD64_OpAMD64BTRLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64BTRLconstmodify)
@@ -4918,7 +4918,7 @@ func rewriteValueAMD64_OpAMD64BTRLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64BTRLmodify)
@@ -5045,7 +5045,7 @@ func rewriteValueAMD64_OpAMD64BTRQconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64BTRQconstmodify)
@@ -5096,7 +5096,7 @@ func rewriteValueAMD64_OpAMD64BTRQmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64BTRQmodify)
@@ -5223,7 +5223,7 @@ func rewriteValueAMD64_OpAMD64BTSLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64BTSLconstmodify)
@@ -5274,7 +5274,7 @@ func rewriteValueAMD64_OpAMD64BTSLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64BTSLmodify)
@@ -5401,7 +5401,7 @@ func rewriteValueAMD64_OpAMD64BTSQconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64BTSQconstmodify)
@@ -5452,7 +5452,7 @@ func rewriteValueAMD64_OpAMD64BTSQmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64BTSQmodify)
@@ -8490,7 +8490,7 @@ func rewriteValueAMD64_OpAMD64CMPBconstload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64CMPBconstload)
@@ -8541,7 +8541,7 @@ func rewriteValueAMD64_OpAMD64CMPBload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64CMPBload)
@@ -8591,7 +8591,7 @@ func rewriteValueAMD64_OpAMD64CMPBload_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validValAndOff(int64(int8(c)), off)) {
+		if !validValAndOff(int64(int8(c)), off) {
 			break
 		}
 		v.reset(OpAMD64CMPBconstload)
@@ -8894,7 +8894,7 @@ func rewriteValueAMD64_OpAMD64CMPLconstload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64CMPLconstload)
@@ -8945,7 +8945,7 @@ func rewriteValueAMD64_OpAMD64CMPLload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64CMPLload)
@@ -8995,7 +8995,7 @@ func rewriteValueAMD64_OpAMD64CMPLload_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validValAndOff(c, off)) {
+		if !validValAndOff(c, off) {
 			break
 		}
 		v.reset(OpAMD64CMPLconstload)
@@ -9020,7 +9020,7 @@ func rewriteValueAMD64_OpAMD64CMPQ_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64CMPQconst)
@@ -9038,7 +9038,7 @@ func rewriteValueAMD64_OpAMD64CMPQ_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64InvertFlags)
@@ -9400,7 +9400,7 @@ func rewriteValueAMD64_OpAMD64CMPQconstload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64CMPQconstload)
@@ -9451,7 +9451,7 @@ func rewriteValueAMD64_OpAMD64CMPQload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64CMPQload)
@@ -9501,7 +9501,7 @@ func rewriteValueAMD64_OpAMD64CMPQload_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validValAndOff(c, off)) {
+		if !validValAndOff(c, off) {
 			break
 		}
 		v.reset(OpAMD64CMPQconstload)
@@ -9785,7 +9785,7 @@ func rewriteValueAMD64_OpAMD64CMPWconstload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64CMPWconstload)
@@ -9836,7 +9836,7 @@ func rewriteValueAMD64_OpAMD64CMPWload_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64CMPWload)
@@ -9886,7 +9886,7 @@ func rewriteValueAMD64_OpAMD64CMPWload_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validValAndOff(int64(int16(c)), off)) {
+		if !validValAndOff(int64(int16(c)), off) {
 			break
 		}
 		v.reset(OpAMD64CMPWconstload)
@@ -9914,7 +9914,7 @@ func rewriteValueAMD64_OpAMD64CMPXCHGLlock_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		old := v.Args[1]
 		new_ := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64CMPXCHGLlock)
@@ -9944,7 +9944,7 @@ func rewriteValueAMD64_OpAMD64CMPXCHGQlock_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		old := v.Args[1]
 		new_ := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64CMPXCHGQlock)
@@ -10001,7 +10001,7 @@ func rewriteValueAMD64_OpAMD64DIVSDload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64DIVSDload)
@@ -10083,7 +10083,7 @@ func rewriteValueAMD64_OpAMD64DIVSSload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64DIVSSload)
@@ -10203,7 +10203,7 @@ func rewriteValueAMD64_OpAMD64LEAL_0(v *Value) bool {
 		}
 		d := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAL)
@@ -10617,7 +10617,7 @@ func rewriteValueAMD64_OpAMD64LEAQ_0(v *Value) bool {
 		}
 		d := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64LEAQ)
@@ -11549,7 +11549,7 @@ func rewriteValueAMD64_OpAMD64MOVBQZX_0(v *Value) bool {
 	// result: x
 	for {
 		x := v.Args[0]
-		if !(zeroUpper56Bits(x, 3)) {
+		if !zeroUpper56Bits(x, 3) {
 			break
 		}
 		v.reset(OpCopy)
@@ -11626,7 +11626,7 @@ func rewriteValueAMD64_OpAMD64MOVBatomicload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVBatomicload)
@@ -11700,7 +11700,7 @@ func rewriteValueAMD64_OpAMD64MOVBload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVBload)
@@ -11821,7 +11821,7 @@ func rewriteValueAMD64_OpAMD64MOVBload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVBload)
@@ -11839,7 +11839,7 @@ func rewriteValueAMD64_OpAMD64MOVBload_0(v *Value) bool {
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
-		if v_0.Op != OpSB || !(symIsRO(sym)) {
+		if v_0.Op != OpSB || !symIsRO(sym) {
 			break
 		}
 		v.reset(OpAMD64MOVLconst)
@@ -11863,7 +11863,7 @@ func rewriteValueAMD64_OpAMD64MOVBloadidx1_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVBloadidx1)
@@ -11888,7 +11888,7 @@ func rewriteValueAMD64_OpAMD64MOVBloadidx1_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVBloadidx1)
@@ -11913,7 +11913,7 @@ func rewriteValueAMD64_OpAMD64MOVBloadidx1_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVBloadidx1)
@@ -11938,7 +11938,7 @@ func rewriteValueAMD64_OpAMD64MOVBloadidx1_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVBloadidx1)
@@ -11962,7 +11962,7 @@ func rewriteValueAMD64_OpAMD64MOVBloadidx1_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVBload)
@@ -11985,7 +11985,7 @@ func rewriteValueAMD64_OpAMD64MOVBloadidx1_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		p := v.Args[1]
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVBload)
@@ -12296,7 +12296,7 @@ func rewriteValueAMD64_OpAMD64MOVBstore_10(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVBstore)
@@ -12320,7 +12320,7 @@ func rewriteValueAMD64_OpAMD64MOVBstore_10(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validOff(off)) {
+		if !validOff(off) {
 			break
 		}
 		v.reset(OpAMD64MOVBstoreconst)
@@ -12343,7 +12343,7 @@ func rewriteValueAMD64_OpAMD64MOVBstore_10(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validOff(off)) {
+		if !validOff(off) {
 			break
 		}
 		v.reset(OpAMD64MOVBstoreconst)
@@ -12958,7 +12958,7 @@ func rewriteValueAMD64_OpAMD64MOVBstore_30(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVBstore)
@@ -12985,7 +12985,7 @@ func rewriteValueAMD64_OpAMD64MOVBstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(OpAMD64MOVBstoreconst)
@@ -13034,7 +13034,7 @@ func rewriteValueAMD64_OpAMD64MOVBstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpAMD64MOVBstoreconstidx1)
@@ -13156,7 +13156,7 @@ func rewriteValueAMD64_OpAMD64MOVBstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(OpAMD64MOVBstoreconst)
@@ -13183,7 +13183,7 @@ func rewriteValueAMD64_OpAMD64MOVBstoreconstidx1_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVBstoreconstidx1)
@@ -13208,7 +13208,7 @@ func rewriteValueAMD64_OpAMD64MOVBstoreconstidx1_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVBstoreconstidx1)
@@ -13267,7 +13267,7 @@ func rewriteValueAMD64_OpAMD64MOVBstoreidx1_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVBstoreidx1)
@@ -13294,7 +13294,7 @@ func rewriteValueAMD64_OpAMD64MOVBstoreidx1_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVBstoreidx1)
@@ -13684,7 +13684,7 @@ func rewriteValueAMD64_OpAMD64MOVBstoreidx1_10(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVBstore)
@@ -13913,7 +13913,7 @@ func rewriteValueAMD64_OpAMD64MOVLQZX_0(v *Value) bool {
 	// result: x
 	for {
 		x := v.Args[0]
-		if !(zeroUpper32Bits(x, 3)) {
+		if !zeroUpper32Bits(x, 3) {
 			break
 		}
 		v.reset(OpCopy)
@@ -14041,7 +14041,7 @@ func rewriteValueAMD64_OpAMD64MOVLatomicload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVLatomicload)
@@ -14169,7 +14169,7 @@ func rewriteValueAMD64_OpAMD64MOVLload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVLload)
@@ -14342,7 +14342,7 @@ func rewriteValueAMD64_OpAMD64MOVLload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVLload)
@@ -14385,7 +14385,7 @@ func rewriteValueAMD64_OpAMD64MOVLload_10(v *Value) bool {
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
-		if v_0.Op != OpSB || !(symIsRO(sym)) {
+		if v_0.Op != OpSB || !symIsRO(sym) {
 			break
 		}
 		v.reset(OpAMD64MOVQconst)
@@ -14489,7 +14489,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx1_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVLloadidx1)
@@ -14514,7 +14514,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx1_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVLloadidx1)
@@ -14539,7 +14539,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx1_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVLloadidx1)
@@ -14564,7 +14564,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx1_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVLloadidx1)
@@ -14588,7 +14588,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx1_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVLload)
@@ -14611,7 +14611,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx1_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		p := v.Args[1]
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVLload)
@@ -14638,7 +14638,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx4_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVLloadidx4)
@@ -14663,7 +14663,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx4_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + 4*d)) {
+		if !is32Bit(c + 4*d) {
 			break
 		}
 		v.reset(OpAMD64MOVLloadidx4)
@@ -14687,7 +14687,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx4_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + 4*c)) {
+		if !is32Bit(i + 4*c) {
 			break
 		}
 		v.reset(OpAMD64MOVLload)
@@ -14714,7 +14714,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx8_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVLloadidx8)
@@ -14739,7 +14739,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx8_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + 8*d)) {
+		if !is32Bit(c + 8*d) {
 			break
 		}
 		v.reset(OpAMD64MOVLloadidx8)
@@ -14763,7 +14763,7 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx8_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + 8*c)) {
+		if !is32Bit(i + 8*c) {
 			break
 		}
 		v.reset(OpAMD64MOVLload)
@@ -14830,7 +14830,7 @@ func rewriteValueAMD64_OpAMD64MOVLstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVLstore)
@@ -14854,7 +14854,7 @@ func rewriteValueAMD64_OpAMD64MOVLstore_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validOff(off)) {
+		if !validOff(off) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreconst)
@@ -14877,7 +14877,7 @@ func rewriteValueAMD64_OpAMD64MOVLstore_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validOff(off)) {
+		if !validOff(off) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreconst)
@@ -15176,7 +15176,7 @@ func rewriteValueAMD64_OpAMD64MOVLstore_10(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVLstore)
@@ -15886,7 +15886,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreconst)
@@ -15935,7 +15935,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreconstidx1)
@@ -15961,7 +15961,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreconstidx4)
@@ -16089,7 +16089,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreconst)
@@ -16138,7 +16138,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreconstidx1_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreconstidx1)
@@ -16163,7 +16163,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreconstidx1_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreconstidx1)
@@ -16225,7 +16225,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreconstidx4_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreconstidx4)
@@ -16250,7 +16250,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreconstidx4_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(x).canAdd(4 * c)) {
+		if !ValAndOff(x).canAdd(4 * c) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreconstidx4)
@@ -16358,7 +16358,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreidx1_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreidx1)
@@ -16385,7 +16385,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreidx1_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreidx1)
@@ -16478,7 +16478,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreidx1_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVLstore)
@@ -16508,7 +16508,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreidx4_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreidx4)
@@ -16535,7 +16535,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreidx4_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + 4*d)) {
+		if !is32Bit(c + 4*d) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreidx4)
@@ -16634,7 +16634,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreidx4_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + 4*c)) {
+		if !is32Bit(i + 4*c) {
 			break
 		}
 		v.reset(OpAMD64MOVLstore)
@@ -16663,7 +16663,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreidx8_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreidx8)
@@ -16690,7 +16690,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreidx8_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + 8*d)) {
+		if !is32Bit(c + 8*d) {
 			break
 		}
 		v.reset(OpAMD64MOVLstoreidx8)
@@ -16716,7 +16716,7 @@ func rewriteValueAMD64_OpAMD64MOVLstoreidx8_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + 8*c)) {
+		if !is32Bit(i + 8*c) {
 			break
 		}
 		v.reset(OpAMD64MOVLstore)
@@ -16743,7 +16743,7 @@ func rewriteValueAMD64_OpAMD64MOVOload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVOload)
@@ -16794,7 +16794,7 @@ func rewriteValueAMD64_OpAMD64MOVOstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVOstore)
@@ -16847,7 +16847,7 @@ func rewriteValueAMD64_OpAMD64MOVQatomicload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVQatomicload)
@@ -16978,7 +16978,7 @@ func rewriteValueAMD64_OpAMD64MOVQload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVQload)
@@ -17125,7 +17125,7 @@ func rewriteValueAMD64_OpAMD64MOVQload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVQload)
@@ -17163,7 +17163,7 @@ func rewriteValueAMD64_OpAMD64MOVQload_0(v *Value) bool {
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
-		if v_0.Op != OpSB || !(symIsRO(sym)) {
+		if v_0.Op != OpSB || !symIsRO(sym) {
 			break
 		}
 		v.reset(OpAMD64MOVQconst)
@@ -17227,7 +17227,7 @@ func rewriteValueAMD64_OpAMD64MOVQloadidx1_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVQloadidx1)
@@ -17252,7 +17252,7 @@ func rewriteValueAMD64_OpAMD64MOVQloadidx1_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVQloadidx1)
@@ -17277,7 +17277,7 @@ func rewriteValueAMD64_OpAMD64MOVQloadidx1_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVQloadidx1)
@@ -17302,7 +17302,7 @@ func rewriteValueAMD64_OpAMD64MOVQloadidx1_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVQloadidx1)
@@ -17326,7 +17326,7 @@ func rewriteValueAMD64_OpAMD64MOVQloadidx1_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVQload)
@@ -17349,7 +17349,7 @@ func rewriteValueAMD64_OpAMD64MOVQloadidx1_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		p := v.Args[1]
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVQload)
@@ -17376,7 +17376,7 @@ func rewriteValueAMD64_OpAMD64MOVQloadidx8_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVQloadidx8)
@@ -17401,7 +17401,7 @@ func rewriteValueAMD64_OpAMD64MOVQloadidx8_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + 8*d)) {
+		if !is32Bit(c + 8*d) {
 			break
 		}
 		v.reset(OpAMD64MOVQloadidx8)
@@ -17425,7 +17425,7 @@ func rewriteValueAMD64_OpAMD64MOVQloadidx8_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + 8*c)) {
+		if !is32Bit(i + 8*c) {
 			break
 		}
 		v.reset(OpAMD64MOVQload)
@@ -17452,7 +17452,7 @@ func rewriteValueAMD64_OpAMD64MOVQstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVQstore)
@@ -17476,7 +17476,7 @@ func rewriteValueAMD64_OpAMD64MOVQstore_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validValAndOff(c, off)) {
+		if !validValAndOff(c, off) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconst)
@@ -17634,7 +17634,7 @@ func rewriteValueAMD64_OpAMD64MOVQstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVQstore)
@@ -18347,7 +18347,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconst)
@@ -18396,7 +18396,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconstidx1)
@@ -18422,7 +18422,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconstidx8)
@@ -18520,7 +18520,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconst)
@@ -18567,7 +18567,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreconstidx1_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconstidx1)
@@ -18592,7 +18592,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreconstidx1_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconstidx1)
@@ -18620,7 +18620,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreconstidx8_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconstidx8)
@@ -18645,7 +18645,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreconstidx8_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(x).canAdd(8 * c)) {
+		if !ValAndOff(x).canAdd(8 * c) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconstidx8)
@@ -18696,7 +18696,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreidx1_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreidx1)
@@ -18723,7 +18723,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreidx1_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreidx1)
@@ -18749,7 +18749,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreidx1_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVQstore)
@@ -18778,7 +18778,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreidx8_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreidx8)
@@ -18805,7 +18805,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreidx8_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + 8*d)) {
+		if !is32Bit(c + 8*d) {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreidx8)
@@ -18831,7 +18831,7 @@ func rewriteValueAMD64_OpAMD64MOVQstoreidx8_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + 8*c)) {
+		if !is32Bit(i + 8*c) {
 			break
 		}
 		v.reset(OpAMD64MOVQstore)
@@ -18858,7 +18858,7 @@ func rewriteValueAMD64_OpAMD64MOVSDload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVSDload)
@@ -19025,7 +19025,7 @@ func rewriteValueAMD64_OpAMD64MOVSDloadidx1_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSDloadidx1)
@@ -19050,7 +19050,7 @@ func rewriteValueAMD64_OpAMD64MOVSDloadidx1_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSDloadidx1)
@@ -19074,7 +19074,7 @@ func rewriteValueAMD64_OpAMD64MOVSDloadidx1_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVSDload)
@@ -19101,7 +19101,7 @@ func rewriteValueAMD64_OpAMD64MOVSDloadidx8_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSDloadidx8)
@@ -19126,7 +19126,7 @@ func rewriteValueAMD64_OpAMD64MOVSDloadidx8_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + 8*d)) {
+		if !is32Bit(c + 8*d) {
 			break
 		}
 		v.reset(OpAMD64MOVSDloadidx8)
@@ -19150,7 +19150,7 @@ func rewriteValueAMD64_OpAMD64MOVSDloadidx8_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + 8*c)) {
+		if !is32Bit(i + 8*c) {
 			break
 		}
 		v.reset(OpAMD64MOVSDload)
@@ -19177,7 +19177,7 @@ func rewriteValueAMD64_OpAMD64MOVSDstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVSDstore)
@@ -19356,7 +19356,7 @@ func rewriteValueAMD64_OpAMD64MOVSDstoreidx1_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSDstoreidx1)
@@ -19383,7 +19383,7 @@ func rewriteValueAMD64_OpAMD64MOVSDstoreidx1_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSDstoreidx1)
@@ -19409,7 +19409,7 @@ func rewriteValueAMD64_OpAMD64MOVSDstoreidx1_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVSDstore)
@@ -19438,7 +19438,7 @@ func rewriteValueAMD64_OpAMD64MOVSDstoreidx8_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSDstoreidx8)
@@ -19465,7 +19465,7 @@ func rewriteValueAMD64_OpAMD64MOVSDstoreidx8_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + 8*d)) {
+		if !is32Bit(c + 8*d) {
 			break
 		}
 		v.reset(OpAMD64MOVSDstoreidx8)
@@ -19491,7 +19491,7 @@ func rewriteValueAMD64_OpAMD64MOVSDstoreidx8_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + 8*c)) {
+		if !is32Bit(i + 8*c) {
 			break
 		}
 		v.reset(OpAMD64MOVSDstore)
@@ -19518,7 +19518,7 @@ func rewriteValueAMD64_OpAMD64MOVSSload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVSSload)
@@ -19685,7 +19685,7 @@ func rewriteValueAMD64_OpAMD64MOVSSloadidx1_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSSloadidx1)
@@ -19710,7 +19710,7 @@ func rewriteValueAMD64_OpAMD64MOVSSloadidx1_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSSloadidx1)
@@ -19734,7 +19734,7 @@ func rewriteValueAMD64_OpAMD64MOVSSloadidx1_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVSSload)
@@ -19761,7 +19761,7 @@ func rewriteValueAMD64_OpAMD64MOVSSloadidx4_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSSloadidx4)
@@ -19786,7 +19786,7 @@ func rewriteValueAMD64_OpAMD64MOVSSloadidx4_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + 4*d)) {
+		if !is32Bit(c + 4*d) {
 			break
 		}
 		v.reset(OpAMD64MOVSSloadidx4)
@@ -19810,7 +19810,7 @@ func rewriteValueAMD64_OpAMD64MOVSSloadidx4_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + 4*c)) {
+		if !is32Bit(i + 4*c) {
 			break
 		}
 		v.reset(OpAMD64MOVSSload)
@@ -19837,7 +19837,7 @@ func rewriteValueAMD64_OpAMD64MOVSSstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVSSstore)
@@ -20016,7 +20016,7 @@ func rewriteValueAMD64_OpAMD64MOVSSstoreidx1_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSSstoreidx1)
@@ -20043,7 +20043,7 @@ func rewriteValueAMD64_OpAMD64MOVSSstoreidx1_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSSstoreidx1)
@@ -20069,7 +20069,7 @@ func rewriteValueAMD64_OpAMD64MOVSSstoreidx1_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVSSstore)
@@ -20098,7 +20098,7 @@ func rewriteValueAMD64_OpAMD64MOVSSstoreidx4_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVSSstoreidx4)
@@ -20125,7 +20125,7 @@ func rewriteValueAMD64_OpAMD64MOVSSstoreidx4_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + 4*d)) {
+		if !is32Bit(c + 4*d) {
 			break
 		}
 		v.reset(OpAMD64MOVSSstoreidx4)
@@ -20151,7 +20151,7 @@ func rewriteValueAMD64_OpAMD64MOVSSstoreidx4_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + 4*c)) {
+		if !is32Bit(i + 4*c) {
 			break
 		}
 		v.reset(OpAMD64MOVSSstore)
@@ -20418,7 +20418,7 @@ func rewriteValueAMD64_OpAMD64MOVWQZX_0(v *Value) bool {
 	// result: x
 	for {
 		x := v.Args[0]
-		if !(zeroUpper48Bits(x, 3)) {
+		if !zeroUpper48Bits(x, 3) {
 			break
 		}
 		v.reset(OpCopy)
@@ -20560,7 +20560,7 @@ func rewriteValueAMD64_OpAMD64MOVWload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVWload)
@@ -20707,7 +20707,7 @@ func rewriteValueAMD64_OpAMD64MOVWload_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVWload)
@@ -20725,7 +20725,7 @@ func rewriteValueAMD64_OpAMD64MOVWload_0(v *Value) bool {
 		sym := v.Aux
 		_ = v.Args[1]
 		v_0 := v.Args[0]
-		if v_0.Op != OpSB || !(symIsRO(sym)) {
+		if v_0.Op != OpSB || !symIsRO(sym) {
 			break
 		}
 		v.reset(OpAMD64MOVLconst)
@@ -20789,7 +20789,7 @@ func rewriteValueAMD64_OpAMD64MOVWloadidx1_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVWloadidx1)
@@ -20814,7 +20814,7 @@ func rewriteValueAMD64_OpAMD64MOVWloadidx1_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVWloadidx1)
@@ -20839,7 +20839,7 @@ func rewriteValueAMD64_OpAMD64MOVWloadidx1_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVWloadidx1)
@@ -20864,7 +20864,7 @@ func rewriteValueAMD64_OpAMD64MOVWloadidx1_0(v *Value) bool {
 		d := v_0.AuxInt
 		idx := v_0.Args[0]
 		ptr := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVWloadidx1)
@@ -20888,7 +20888,7 @@ func rewriteValueAMD64_OpAMD64MOVWloadidx1_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVWload)
@@ -20911,7 +20911,7 @@ func rewriteValueAMD64_OpAMD64MOVWloadidx1_0(v *Value) bool {
 		}
 		c := v_0.AuxInt
 		p := v.Args[1]
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVWload)
@@ -20938,7 +20938,7 @@ func rewriteValueAMD64_OpAMD64MOVWloadidx2_0(v *Value) bool {
 		d := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVWloadidx2)
@@ -20963,7 +20963,7 @@ func rewriteValueAMD64_OpAMD64MOVWloadidx2_0(v *Value) bool {
 		}
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(is32Bit(c + 2*d)) {
+		if !is32Bit(c + 2*d) {
 			break
 		}
 		v.reset(OpAMD64MOVWloadidx2)
@@ -20987,7 +20987,7 @@ func rewriteValueAMD64_OpAMD64MOVWloadidx2_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(i + 2*c)) {
+		if !is32Bit(i + 2*c) {
 			break
 		}
 		v.reset(OpAMD64MOVWload)
@@ -21054,7 +21054,7 @@ func rewriteValueAMD64_OpAMD64MOVWstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVWstore)
@@ -21078,7 +21078,7 @@ func rewriteValueAMD64_OpAMD64MOVWstore_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validOff(off)) {
+		if !validOff(off) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreconst)
@@ -21101,7 +21101,7 @@ func rewriteValueAMD64_OpAMD64MOVWstore_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(validOff(off)) {
+		if !validOff(off) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreconst)
@@ -21435,7 +21435,7 @@ func rewriteValueAMD64_OpAMD64MOVWstore_10(v *Value) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MOVWstore)
@@ -21462,7 +21462,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreconst)
@@ -21511,7 +21511,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreconstidx1)
@@ -21537,7 +21537,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreconst_0(v *Value) bool {
 		sym2 := v_0.Aux
 		idx := v_0.Args[1]
 		ptr := v_0.Args[0]
-		if !(canMergeSym(sym1, sym2)) {
+		if !canMergeSym(sym1, sym2) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreconstidx2)
@@ -21659,7 +21659,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreconst_0(v *Value) bool {
 		}
 		off := v_0.AuxInt
 		ptr := v_0.Args[0]
-		if !(ValAndOff(sc).canAdd(off)) {
+		if !ValAndOff(sc).canAdd(off) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreconst)
@@ -21706,7 +21706,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreconstidx1_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreconstidx1)
@@ -21731,7 +21731,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreconstidx1_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreconstidx1)
@@ -21789,7 +21789,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreconstidx2_0(v *Value) bool {
 		c := v_0.AuxInt
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
-		if !(ValAndOff(x).canAdd(c)) {
+		if !ValAndOff(x).canAdd(c) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreconstidx2)
@@ -21814,7 +21814,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreconstidx2_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		idx := v_1.Args[0]
-		if !(ValAndOff(x).canAdd(2 * c)) {
+		if !ValAndOff(x).canAdd(2 * c) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreconstidx2)
@@ -21897,7 +21897,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreidx1_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreidx1)
@@ -21924,7 +21924,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreidx1_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreidx1)
@@ -22084,7 +22084,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreidx1_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + c)) {
+		if !is32Bit(i + c) {
 			break
 		}
 		v.reset(OpAMD64MOVWstore)
@@ -22114,7 +22114,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreidx2_0(v *Value) bool {
 		ptr := v_0.Args[0]
 		idx := v.Args[1]
 		val := v.Args[2]
-		if !(is32Bit(c + d)) {
+		if !is32Bit(c + d) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreidx2)
@@ -22141,7 +22141,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreidx2_0(v *Value) bool {
 		d := v_1.AuxInt
 		idx := v_1.Args[0]
 		val := v.Args[2]
-		if !(is32Bit(c + 2*d)) {
+		if !is32Bit(c + 2*d) {
 			break
 		}
 		v.reset(OpAMD64MOVWstoreidx2)
@@ -22274,7 +22274,7 @@ func rewriteValueAMD64_OpAMD64MOVWstoreidx2_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		w := v.Args[2]
-		if !(is32Bit(i + 2*c)) {
+		if !is32Bit(i + 2*c) {
 			break
 		}
 		v.reset(OpAMD64MOVWstore)
@@ -22810,7 +22810,7 @@ func rewriteValueAMD64_OpAMD64MULQ_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64MULQconst)
@@ -22828,7 +22828,7 @@ func rewriteValueAMD64_OpAMD64MULQ_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64MULQconst)
@@ -22851,7 +22851,7 @@ func rewriteValueAMD64_OpAMD64MULQconst_0(v *Value) bool {
 		}
 		d := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is32Bit(c * d)) {
+		if !is32Bit(c * d) {
 			break
 		}
 		v.reset(OpAMD64MULQconst)
@@ -23408,7 +23408,7 @@ func rewriteValueAMD64_OpAMD64MULSDload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MULSDload)
@@ -23540,7 +23540,7 @@ func rewriteValueAMD64_OpAMD64MULSSload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64MULSSload)
@@ -23761,7 +23761,7 @@ func rewriteValueAMD64_OpAMD64ORL_0(v *Value) bool {
 		}
 		y := v_0.Args[1]
 		v_0_0 := v_0.Args[0]
-		if v_0_0.Op != OpAMD64MOVLconst || v_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_0.Op != OpAMD64MOVLconst || v_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTSL)
@@ -23781,7 +23781,7 @@ func rewriteValueAMD64_OpAMD64ORL_0(v *Value) bool {
 		}
 		y := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpAMD64MOVLconst || v_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_0.Op != OpAMD64MOVLconst || v_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTSL)
@@ -30587,7 +30587,7 @@ func rewriteValueAMD64_OpAMD64ORLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64ORLconstmodify)
@@ -30640,7 +30640,7 @@ func rewriteValueAMD64_OpAMD64ORLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ORLload)
@@ -30718,7 +30718,7 @@ func rewriteValueAMD64_OpAMD64ORLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ORLmodify)
@@ -30771,7 +30771,7 @@ func rewriteValueAMD64_OpAMD64ORQ_0(v *Value) bool {
 		}
 		y := v_0.Args[1]
 		v_0_0 := v_0.Args[0]
-		if v_0_0.Op != OpAMD64MOVQconst || v_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_0.Op != OpAMD64MOVQconst || v_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTSQ)
@@ -30791,7 +30791,7 @@ func rewriteValueAMD64_OpAMD64ORQ_0(v *Value) bool {
 		}
 		y := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpAMD64MOVQconst || v_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_0.Op != OpAMD64MOVQconst || v_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTSQ)
@@ -30847,7 +30847,7 @@ func rewriteValueAMD64_OpAMD64ORQ_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64ORQconst)
@@ -30865,7 +30865,7 @@ func rewriteValueAMD64_OpAMD64ORQ_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64ORQconst)
@@ -39574,7 +39574,7 @@ func rewriteValueAMD64_OpAMD64ORQconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64ORQconstmodify)
@@ -39627,7 +39627,7 @@ func rewriteValueAMD64_OpAMD64ORQload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ORQload)
@@ -39705,7 +39705,7 @@ func rewriteValueAMD64_OpAMD64ORQmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64ORQmodify)
@@ -40158,7 +40158,7 @@ func rewriteValueAMD64_OpAMD64RORB_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		v.reset(OpAMD64ROLBconst)
-		v.AuxInt = (-c) & 7
+		v.AuxInt = -c & 7
 		v.AddArg(x)
 		return true
 	}
@@ -40173,7 +40173,7 @@ func rewriteValueAMD64_OpAMD64RORB_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		v.reset(OpAMD64ROLBconst)
-		v.AuxInt = (-c) & 7
+		v.AuxInt = -c & 7
 		v.AddArg(x)
 		return true
 	}
@@ -40221,7 +40221,7 @@ func rewriteValueAMD64_OpAMD64RORL_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		v.reset(OpAMD64ROLLconst)
-		v.AuxInt = (-c) & 31
+		v.AuxInt = -c & 31
 		v.AddArg(x)
 		return true
 	}
@@ -40236,7 +40236,7 @@ func rewriteValueAMD64_OpAMD64RORL_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		v.reset(OpAMD64ROLLconst)
-		v.AuxInt = (-c) & 31
+		v.AuxInt = -c & 31
 		v.AddArg(x)
 		return true
 	}
@@ -40284,7 +40284,7 @@ func rewriteValueAMD64_OpAMD64RORQ_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		v.reset(OpAMD64ROLQconst)
-		v.AuxInt = (-c) & 63
+		v.AuxInt = -c & 63
 		v.AddArg(x)
 		return true
 	}
@@ -40299,7 +40299,7 @@ func rewriteValueAMD64_OpAMD64RORQ_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		v.reset(OpAMD64ROLQconst)
-		v.AuxInt = (-c) & 63
+		v.AuxInt = -c & 63
 		v.AddArg(x)
 		return true
 	}
@@ -40347,7 +40347,7 @@ func rewriteValueAMD64_OpAMD64RORW_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		v.reset(OpAMD64ROLWconst)
-		v.AuxInt = (-c) & 15
+		v.AuxInt = -c & 15
 		v.AddArg(x)
 		return true
 	}
@@ -40362,7 +40362,7 @@ func rewriteValueAMD64_OpAMD64RORW_0(v *Value) bool {
 		}
 		c := v_1.AuxInt
 		v.reset(OpAMD64ROLWconst)
-		v.AuxInt = (-c) & 15
+		v.AuxInt = -c & 15
 		v.AddArg(x)
 		return true
 	}
@@ -41060,7 +41060,7 @@ func rewriteValueAMD64_OpAMD64SBBQ_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64SBBQconst)
@@ -41339,7 +41339,7 @@ func rewriteValueAMD64_OpAMD64SETAEstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SETAEstore)
@@ -41520,7 +41520,7 @@ func rewriteValueAMD64_OpAMD64SETAstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SETAstore)
@@ -41841,7 +41841,7 @@ func rewriteValueAMD64_OpAMD64SETBEstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SETBEstore)
@@ -42022,7 +42022,7 @@ func rewriteValueAMD64_OpAMD64SETBstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SETBstore)
@@ -42184,7 +42184,7 @@ func rewriteValueAMD64_OpAMD64SETEQ_0(v *Value) bool {
 		}
 		x := v_0_0.Args[1]
 		v_0_0_0 := v_0_0.Args[0]
-		if v_0_0_0.Op != OpAMD64MOVLconst || v_0_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_0_0.Op != OpAMD64MOVLconst || v_0_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETAE)
@@ -42210,7 +42210,7 @@ func rewriteValueAMD64_OpAMD64SETEQ_0(v *Value) bool {
 		}
 		x := v_0_1.Args[1]
 		v_0_1_0 := v_0_1.Args[0]
-		if v_0_1_0.Op != OpAMD64MOVLconst || v_0_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_1_0.Op != OpAMD64MOVLconst || v_0_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETAE)
@@ -42235,7 +42235,7 @@ func rewriteValueAMD64_OpAMD64SETEQ_0(v *Value) bool {
 		}
 		x := v_0_0.Args[1]
 		v_0_0_0 := v_0_0.Args[0]
-		if v_0_0_0.Op != OpAMD64MOVQconst || v_0_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_0_0.Op != OpAMD64MOVQconst || v_0_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETAE)
@@ -42261,7 +42261,7 @@ func rewriteValueAMD64_OpAMD64SETEQ_0(v *Value) bool {
 		}
 		x := v_0_1.Args[1]
 		v_0_1_0 := v_0_1.Args[0]
-		if v_0_1_0.Op != OpAMD64MOVQconst || v_0_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_1_0.Op != OpAMD64MOVQconst || v_0_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETAE)
@@ -42823,7 +42823,7 @@ func rewriteValueAMD64_OpAMD64SETEQstore_0(v *Value) bool {
 		}
 		x := v_1_0.Args[1]
 		v_1_0_0 := v_1_0.Args[0]
-		if v_1_0_0.Op != OpAMD64MOVLconst || v_1_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_0_0.Op != OpAMD64MOVLconst || v_1_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETAEstore)
@@ -42857,7 +42857,7 @@ func rewriteValueAMD64_OpAMD64SETEQstore_0(v *Value) bool {
 		}
 		x := v_1_1.Args[1]
 		v_1_1_0 := v_1_1.Args[0]
-		if v_1_1_0.Op != OpAMD64MOVLconst || v_1_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_1_0.Op != OpAMD64MOVLconst || v_1_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETAEstore)
@@ -42890,7 +42890,7 @@ func rewriteValueAMD64_OpAMD64SETEQstore_0(v *Value) bool {
 		}
 		x := v_1_0.Args[1]
 		v_1_0_0 := v_1_0.Args[0]
-		if v_1_0_0.Op != OpAMD64MOVQconst || v_1_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_0_0.Op != OpAMD64MOVQconst || v_1_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETAEstore)
@@ -42924,7 +42924,7 @@ func rewriteValueAMD64_OpAMD64SETEQstore_0(v *Value) bool {
 		}
 		x := v_1_1.Args[1]
 		v_1_1_0 := v_1_1.Args[0]
-		if v_1_1_0.Op != OpAMD64MOVQconst || v_1_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_1_0.Op != OpAMD64MOVQconst || v_1_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETAEstore)
@@ -43578,7 +43578,7 @@ func rewriteValueAMD64_OpAMD64SETEQstore_20(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SETEQstore)
@@ -43899,7 +43899,7 @@ func rewriteValueAMD64_OpAMD64SETGEstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SETGEstore)
@@ -44080,7 +44080,7 @@ func rewriteValueAMD64_OpAMD64SETGstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SETGstore)
@@ -44401,7 +44401,7 @@ func rewriteValueAMD64_OpAMD64SETLEstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SETLEstore)
@@ -44582,7 +44582,7 @@ func rewriteValueAMD64_OpAMD64SETLstore_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SETLstore)
@@ -44744,7 +44744,7 @@ func rewriteValueAMD64_OpAMD64SETNE_0(v *Value) bool {
 		}
 		x := v_0_0.Args[1]
 		v_0_0_0 := v_0_0.Args[0]
-		if v_0_0_0.Op != OpAMD64MOVLconst || v_0_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_0_0.Op != OpAMD64MOVLconst || v_0_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETB)
@@ -44770,7 +44770,7 @@ func rewriteValueAMD64_OpAMD64SETNE_0(v *Value) bool {
 		}
 		x := v_0_1.Args[1]
 		v_0_1_0 := v_0_1.Args[0]
-		if v_0_1_0.Op != OpAMD64MOVLconst || v_0_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_1_0.Op != OpAMD64MOVLconst || v_0_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETB)
@@ -44795,7 +44795,7 @@ func rewriteValueAMD64_OpAMD64SETNE_0(v *Value) bool {
 		}
 		x := v_0_0.Args[1]
 		v_0_0_0 := v_0_0.Args[0]
-		if v_0_0_0.Op != OpAMD64MOVQconst || v_0_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_0_0.Op != OpAMD64MOVQconst || v_0_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETB)
@@ -44821,7 +44821,7 @@ func rewriteValueAMD64_OpAMD64SETNE_0(v *Value) bool {
 		}
 		x := v_0_1.Args[1]
 		v_0_1_0 := v_0_1.Args[0]
-		if v_0_1_0.Op != OpAMD64MOVQconst || v_0_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_1_0.Op != OpAMD64MOVQconst || v_0_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETB)
@@ -45383,7 +45383,7 @@ func rewriteValueAMD64_OpAMD64SETNEstore_0(v *Value) bool {
 		}
 		x := v_1_0.Args[1]
 		v_1_0_0 := v_1_0.Args[0]
-		if v_1_0_0.Op != OpAMD64MOVLconst || v_1_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_0_0.Op != OpAMD64MOVLconst || v_1_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETBstore)
@@ -45417,7 +45417,7 @@ func rewriteValueAMD64_OpAMD64SETNEstore_0(v *Value) bool {
 		}
 		x := v_1_1.Args[1]
 		v_1_1_0 := v_1_1.Args[0]
-		if v_1_1_0.Op != OpAMD64MOVLconst || v_1_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_1_0.Op != OpAMD64MOVLconst || v_1_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETBstore)
@@ -45450,7 +45450,7 @@ func rewriteValueAMD64_OpAMD64SETNEstore_0(v *Value) bool {
 		}
 		x := v_1_0.Args[1]
 		v_1_0_0 := v_1_0.Args[0]
-		if v_1_0_0.Op != OpAMD64MOVQconst || v_1_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_0_0.Op != OpAMD64MOVQconst || v_1_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETBstore)
@@ -45484,7 +45484,7 @@ func rewriteValueAMD64_OpAMD64SETNEstore_0(v *Value) bool {
 		}
 		x := v_1_1.Args[1]
 		v_1_1_0 := v_1_1.Args[0]
-		if v_1_1_0.Op != OpAMD64MOVQconst || v_1_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_1_0.Op != OpAMD64MOVQconst || v_1_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64SETBstore)
@@ -46138,7 +46138,7 @@ func rewriteValueAMD64_OpAMD64SETNEstore_20(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SETNEstore)
@@ -46519,7 +46519,7 @@ func rewriteValueAMD64_OpAMD64SHLLconst_0(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		if !(!config.nacl) {
+		if !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTRLconst)
@@ -46778,7 +46778,7 @@ func rewriteValueAMD64_OpAMD64SHLQconst_0(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		if !(!config.nacl) {
+		if !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTRQconst)
@@ -47127,7 +47127,7 @@ func rewriteValueAMD64_OpAMD64SHRLconst_0(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		if !(!config.nacl) {
+		if !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTRLconst)
@@ -47386,7 +47386,7 @@ func rewriteValueAMD64_OpAMD64SHRQconst_0(v *Value) bool {
 			break
 		}
 		x := v_0.Args[0]
-		if !(!config.nacl) {
+		if !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTRQconst)
@@ -47612,7 +47612,7 @@ func rewriteValueAMD64_OpAMD64SUBLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SUBLload)
@@ -47690,7 +47690,7 @@ func rewriteValueAMD64_OpAMD64SUBLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SUBLmodify)
@@ -47742,7 +47742,7 @@ func rewriteValueAMD64_OpAMD64SUBQ_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64SUBQconst)
@@ -47760,7 +47760,7 @@ func rewriteValueAMD64_OpAMD64SUBQ_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64NEGQ)
@@ -47820,7 +47820,7 @@ func rewriteValueAMD64_OpAMD64SUBQborrow_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64SUBQconstborrow)
@@ -47881,7 +47881,7 @@ func rewriteValueAMD64_OpAMD64SUBQconst_0(v *Value) bool {
 		}
 		d := v_0.AuxInt
 		x := v_0.Args[0]
-		if !(is32Bit(-c - d)) {
+		if !is32Bit(-c - d) {
 			break
 		}
 		v.reset(OpAMD64ADDQconst)
@@ -47908,7 +47908,7 @@ func rewriteValueAMD64_OpAMD64SUBQload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SUBQload)
@@ -47986,7 +47986,7 @@ func rewriteValueAMD64_OpAMD64SUBQmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SUBQmodify)
@@ -48070,7 +48070,7 @@ func rewriteValueAMD64_OpAMD64SUBSDload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SUBSDload)
@@ -48178,7 +48178,7 @@ func rewriteValueAMD64_OpAMD64SUBSSload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64SUBSSload)
@@ -48463,7 +48463,7 @@ func rewriteValueAMD64_OpAMD64TESTQ_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64TESTQconst)
@@ -48482,7 +48482,7 @@ func rewriteValueAMD64_OpAMD64TESTQ_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64TESTQconst)
@@ -48684,7 +48684,7 @@ func rewriteValueAMD64_OpAMD64XADDLlock_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64XADDLlock)
@@ -48712,7 +48712,7 @@ func rewriteValueAMD64_OpAMD64XADDQlock_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64XADDQlock)
@@ -48740,7 +48740,7 @@ func rewriteValueAMD64_OpAMD64XCHGL_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64XCHGL)
@@ -48794,7 +48794,7 @@ func rewriteValueAMD64_OpAMD64XCHGQ_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		ptr := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64XCHGQ)
@@ -48847,7 +48847,7 @@ func rewriteValueAMD64_OpAMD64XORL_0(v *Value) bool {
 		}
 		y := v_0.Args[1]
 		v_0_0 := v_0.Args[0]
-		if v_0_0.Op != OpAMD64MOVLconst || v_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_0.Op != OpAMD64MOVLconst || v_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTCL)
@@ -48867,7 +48867,7 @@ func rewriteValueAMD64_OpAMD64XORL_0(v *Value) bool {
 		}
 		y := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpAMD64MOVLconst || v_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_0.Op != OpAMD64MOVLconst || v_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTCL)
@@ -49397,7 +49397,7 @@ func rewriteValueAMD64_OpAMD64XORLconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64XORLconstmodify)
@@ -49450,7 +49450,7 @@ func rewriteValueAMD64_OpAMD64XORLload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64XORLload)
@@ -49528,7 +49528,7 @@ func rewriteValueAMD64_OpAMD64XORLmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64XORLmodify)
@@ -49581,7 +49581,7 @@ func rewriteValueAMD64_OpAMD64XORQ_0(v *Value) bool {
 		}
 		y := v_0.Args[1]
 		v_0_0 := v_0.Args[0]
-		if v_0_0.Op != OpAMD64MOVQconst || v_0_0.AuxInt != 1 || !(!config.nacl) {
+		if v_0_0.Op != OpAMD64MOVQconst || v_0_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTCQ)
@@ -49601,7 +49601,7 @@ func rewriteValueAMD64_OpAMD64XORQ_0(v *Value) bool {
 		}
 		y := v_1.Args[1]
 		v_1_0 := v_1.Args[0]
-		if v_1_0.Op != OpAMD64MOVQconst || v_1_0.AuxInt != 1 || !(!config.nacl) {
+		if v_1_0.Op != OpAMD64MOVQconst || v_1_0.AuxInt != 1 || !!config.nacl {
 			break
 		}
 		v.reset(OpAMD64BTCQ)
@@ -49657,7 +49657,7 @@ func rewriteValueAMD64_OpAMD64XORQ_0(v *Value) bool {
 			break
 		}
 		c := v_1.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64XORQconst)
@@ -49675,7 +49675,7 @@ func rewriteValueAMD64_OpAMD64XORQ_0(v *Value) bool {
 			break
 		}
 		c := v_0.AuxInt
-		if !(is32Bit(c)) {
+		if !is32Bit(c) {
 			break
 		}
 		v.reset(OpAMD64XORQconst)
@@ -49884,7 +49884,7 @@ func rewriteValueAMD64_OpAMD64XORQconstmodify_0(v *Value) bool {
 		}
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
-		if !(ValAndOff(valoff1).canAdd(off2)) {
+		if !ValAndOff(valoff1).canAdd(off2) {
 			break
 		}
 		v.reset(OpAMD64XORQconstmodify)
@@ -49937,7 +49937,7 @@ func rewriteValueAMD64_OpAMD64XORQload_0(v *Value) bool {
 		}
 		off2 := v_1.AuxInt
 		base := v_1.Args[0]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64XORQload)
@@ -50015,7 +50015,7 @@ func rewriteValueAMD64_OpAMD64XORQmodify_0(v *Value) bool {
 		off2 := v_0.AuxInt
 		base := v_0.Args[0]
 		val := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !is32Bit(off1 + off2) {
 			break
 		}
 		v.reset(OpAMD64XORQmodify)
@@ -51039,7 +51039,7 @@ func rewriteValueAMD64_OpCondSelect_10(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLEQ)
@@ -51061,7 +51061,7 @@ func rewriteValueAMD64_OpCondSelect_10(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLNE)
@@ -51083,7 +51083,7 @@ func rewriteValueAMD64_OpCondSelect_10(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLLT)
@@ -51105,7 +51105,7 @@ func rewriteValueAMD64_OpCondSelect_10(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLGT)
@@ -51127,7 +51127,7 @@ func rewriteValueAMD64_OpCondSelect_10(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLLE)
@@ -51149,7 +51149,7 @@ func rewriteValueAMD64_OpCondSelect_10(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLGE)
@@ -51174,7 +51174,7 @@ func rewriteValueAMD64_OpCondSelect_20(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLHI)
@@ -51196,7 +51196,7 @@ func rewriteValueAMD64_OpCondSelect_20(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLCS)
@@ -51218,7 +51218,7 @@ func rewriteValueAMD64_OpCondSelect_20(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLCC)
@@ -51240,7 +51240,7 @@ func rewriteValueAMD64_OpCondSelect_20(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLLS)
@@ -51262,7 +51262,7 @@ func rewriteValueAMD64_OpCondSelect_20(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLEQF)
@@ -51284,7 +51284,7 @@ func rewriteValueAMD64_OpCondSelect_20(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLNEF)
@@ -51306,7 +51306,7 @@ func rewriteValueAMD64_OpCondSelect_20(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLGTF)
@@ -51328,7 +51328,7 @@ func rewriteValueAMD64_OpCondSelect_20(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is32BitInt(t)) {
+		if !is32BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVLGEF)
@@ -51350,7 +51350,7 @@ func rewriteValueAMD64_OpCondSelect_20(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWEQ)
@@ -51372,7 +51372,7 @@ func rewriteValueAMD64_OpCondSelect_20(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWNE)
@@ -51397,7 +51397,7 @@ func rewriteValueAMD64_OpCondSelect_30(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWLT)
@@ -51419,7 +51419,7 @@ func rewriteValueAMD64_OpCondSelect_30(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWGT)
@@ -51441,7 +51441,7 @@ func rewriteValueAMD64_OpCondSelect_30(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWLE)
@@ -51463,7 +51463,7 @@ func rewriteValueAMD64_OpCondSelect_30(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWGE)
@@ -51485,7 +51485,7 @@ func rewriteValueAMD64_OpCondSelect_30(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWHI)
@@ -51507,7 +51507,7 @@ func rewriteValueAMD64_OpCondSelect_30(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWCS)
@@ -51529,7 +51529,7 @@ func rewriteValueAMD64_OpCondSelect_30(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWCC)
@@ -51551,7 +51551,7 @@ func rewriteValueAMD64_OpCondSelect_30(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWLS)
@@ -51573,7 +51573,7 @@ func rewriteValueAMD64_OpCondSelect_30(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWEQF)
@@ -51595,7 +51595,7 @@ func rewriteValueAMD64_OpCondSelect_30(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWNEF)
@@ -51622,7 +51622,7 @@ func rewriteValueAMD64_OpCondSelect_40(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWGTF)
@@ -51644,7 +51644,7 @@ func rewriteValueAMD64_OpCondSelect_40(v *Value) bool {
 			break
 		}
 		cond := v_2.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64CMOVWGEF)
@@ -53288,7 +53288,7 @@ func rewriteValueAMD64_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is16BitInt(t)) {
+		if !is16BitInt(t) {
 			break
 		}
 		v.reset(OpAMD64MOVWload)
@@ -53318,7 +53318,7 @@ func rewriteValueAMD64_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is32BitFloat(t)) {
+		if !is32BitFloat(t) {
 			break
 		}
 		v.reset(OpAMD64MOVSSload)
@@ -53333,7 +53333,7 @@ func rewriteValueAMD64_OpLoad_0(v *Value) bool {
 		t := v.Type
 		mem := v.Args[1]
 		ptr := v.Args[0]
-		if !(is64BitFloat(t)) {
+		if !is64BitFloat(t) {
 			break
 		}
 		v.reset(OpAMD64MOVSDload)
@@ -53387,7 +53387,7 @@ func rewriteValueAMD64_OpLsh16x16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53409,7 +53409,7 @@ func rewriteValueAMD64_OpLsh16x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -53428,7 +53428,7 @@ func rewriteValueAMD64_OpLsh16x32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53450,7 +53450,7 @@ func rewriteValueAMD64_OpLsh16x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -53469,7 +53469,7 @@ func rewriteValueAMD64_OpLsh16x64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53491,7 +53491,7 @@ func rewriteValueAMD64_OpLsh16x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -53510,7 +53510,7 @@ func rewriteValueAMD64_OpLsh16x8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53532,7 +53532,7 @@ func rewriteValueAMD64_OpLsh16x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -53551,7 +53551,7 @@ func rewriteValueAMD64_OpLsh32x16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53573,7 +53573,7 @@ func rewriteValueAMD64_OpLsh32x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -53592,7 +53592,7 @@ func rewriteValueAMD64_OpLsh32x32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53614,7 +53614,7 @@ func rewriteValueAMD64_OpLsh32x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -53633,7 +53633,7 @@ func rewriteValueAMD64_OpLsh32x64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53655,7 +53655,7 @@ func rewriteValueAMD64_OpLsh32x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -53674,7 +53674,7 @@ func rewriteValueAMD64_OpLsh32x8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53696,7 +53696,7 @@ func rewriteValueAMD64_OpLsh32x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -53715,7 +53715,7 @@ func rewriteValueAMD64_OpLsh64x16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDQ)
@@ -53737,7 +53737,7 @@ func rewriteValueAMD64_OpLsh64x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLQ)
@@ -53756,7 +53756,7 @@ func rewriteValueAMD64_OpLsh64x32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDQ)
@@ -53778,7 +53778,7 @@ func rewriteValueAMD64_OpLsh64x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLQ)
@@ -53797,7 +53797,7 @@ func rewriteValueAMD64_OpLsh64x64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDQ)
@@ -53819,7 +53819,7 @@ func rewriteValueAMD64_OpLsh64x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLQ)
@@ -53838,7 +53838,7 @@ func rewriteValueAMD64_OpLsh64x8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDQ)
@@ -53860,7 +53860,7 @@ func rewriteValueAMD64_OpLsh64x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLQ)
@@ -53879,7 +53879,7 @@ func rewriteValueAMD64_OpLsh8x16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53901,7 +53901,7 @@ func rewriteValueAMD64_OpLsh8x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -53920,7 +53920,7 @@ func rewriteValueAMD64_OpLsh8x32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53942,7 +53942,7 @@ func rewriteValueAMD64_OpLsh8x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -53961,7 +53961,7 @@ func rewriteValueAMD64_OpLsh8x64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -53983,7 +53983,7 @@ func rewriteValueAMD64_OpLsh8x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -54002,7 +54002,7 @@ func rewriteValueAMD64_OpLsh8x8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -54024,7 +54024,7 @@ func rewriteValueAMD64_OpLsh8x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHLL)
@@ -54274,7 +54274,7 @@ func rewriteValueAMD64_OpMove_0(v *Value) bool {
 		mem := v.Args[2]
 		dst := v.Args[0]
 		src := v.Args[1]
-		if !(config.useSSE) {
+		if !config.useSSE {
 			break
 		}
 		v.reset(OpAMD64MOVOstore)
@@ -54296,7 +54296,7 @@ func rewriteValueAMD64_OpMove_0(v *Value) bool {
 		mem := v.Args[2]
 		dst := v.Args[0]
 		src := v.Args[1]
-		if !(!config.useSSE) {
+		if !!config.useSSE {
 			break
 		}
 		v.reset(OpAMD64MOVQstore)
@@ -54354,7 +54354,7 @@ func rewriteValueAMD64_OpMove_0(v *Value) bool {
 		mem := v.Args[2]
 		dst := v.Args[0]
 		src := v.Args[1]
-		if !(config.useSSE) {
+		if !config.useSSE {
 			break
 		}
 		v.reset(OpMove)
@@ -54385,7 +54385,7 @@ func rewriteValueAMD64_OpMove_0(v *Value) bool {
 		mem := v.Args[2]
 		dst := v.Args[0]
 		src := v.Args[1]
-		if !(config.useSSE) {
+		if !config.useSSE {
 			break
 		}
 		v.reset(OpMove)
@@ -55465,7 +55465,7 @@ func rewriteValueAMD64_OpRsh16Ux16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -55487,7 +55487,7 @@ func rewriteValueAMD64_OpRsh16Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRW)
@@ -55506,7 +55506,7 @@ func rewriteValueAMD64_OpRsh16Ux32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -55528,7 +55528,7 @@ func rewriteValueAMD64_OpRsh16Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRW)
@@ -55547,7 +55547,7 @@ func rewriteValueAMD64_OpRsh16Ux64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -55569,7 +55569,7 @@ func rewriteValueAMD64_OpRsh16Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRW)
@@ -55588,7 +55588,7 @@ func rewriteValueAMD64_OpRsh16Ux8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -55610,7 +55610,7 @@ func rewriteValueAMD64_OpRsh16Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRW)
@@ -55629,7 +55629,7 @@ func rewriteValueAMD64_OpRsh16x16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARW)
@@ -55654,7 +55654,7 @@ func rewriteValueAMD64_OpRsh16x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARW)
@@ -55673,7 +55673,7 @@ func rewriteValueAMD64_OpRsh16x32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARW)
@@ -55698,7 +55698,7 @@ func rewriteValueAMD64_OpRsh16x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARW)
@@ -55717,7 +55717,7 @@ func rewriteValueAMD64_OpRsh16x64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARW)
@@ -55742,7 +55742,7 @@ func rewriteValueAMD64_OpRsh16x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARW)
@@ -55761,7 +55761,7 @@ func rewriteValueAMD64_OpRsh16x8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARW)
@@ -55786,7 +55786,7 @@ func rewriteValueAMD64_OpRsh16x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARW)
@@ -55805,7 +55805,7 @@ func rewriteValueAMD64_OpRsh32Ux16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -55827,7 +55827,7 @@ func rewriteValueAMD64_OpRsh32Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRL)
@@ -55846,7 +55846,7 @@ func rewriteValueAMD64_OpRsh32Ux32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -55868,7 +55868,7 @@ func rewriteValueAMD64_OpRsh32Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRL)
@@ -55887,7 +55887,7 @@ func rewriteValueAMD64_OpRsh32Ux64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -55909,7 +55909,7 @@ func rewriteValueAMD64_OpRsh32Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRL)
@@ -55928,7 +55928,7 @@ func rewriteValueAMD64_OpRsh32Ux8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -55950,7 +55950,7 @@ func rewriteValueAMD64_OpRsh32Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRL)
@@ -55969,7 +55969,7 @@ func rewriteValueAMD64_OpRsh32x16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARL)
@@ -55994,7 +55994,7 @@ func rewriteValueAMD64_OpRsh32x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARL)
@@ -56013,7 +56013,7 @@ func rewriteValueAMD64_OpRsh32x32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARL)
@@ -56038,7 +56038,7 @@ func rewriteValueAMD64_OpRsh32x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARL)
@@ -56057,7 +56057,7 @@ func rewriteValueAMD64_OpRsh32x64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARL)
@@ -56082,7 +56082,7 @@ func rewriteValueAMD64_OpRsh32x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARL)
@@ -56101,7 +56101,7 @@ func rewriteValueAMD64_OpRsh32x8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARL)
@@ -56126,7 +56126,7 @@ func rewriteValueAMD64_OpRsh32x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARL)
@@ -56145,7 +56145,7 @@ func rewriteValueAMD64_OpRsh64Ux16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDQ)
@@ -56167,7 +56167,7 @@ func rewriteValueAMD64_OpRsh64Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRQ)
@@ -56186,7 +56186,7 @@ func rewriteValueAMD64_OpRsh64Ux32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDQ)
@@ -56208,7 +56208,7 @@ func rewriteValueAMD64_OpRsh64Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRQ)
@@ -56227,7 +56227,7 @@ func rewriteValueAMD64_OpRsh64Ux64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDQ)
@@ -56249,7 +56249,7 @@ func rewriteValueAMD64_OpRsh64Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRQ)
@@ -56268,7 +56268,7 @@ func rewriteValueAMD64_OpRsh64Ux8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDQ)
@@ -56290,7 +56290,7 @@ func rewriteValueAMD64_OpRsh64Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRQ)
@@ -56309,7 +56309,7 @@ func rewriteValueAMD64_OpRsh64x16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARQ)
@@ -56334,7 +56334,7 @@ func rewriteValueAMD64_OpRsh64x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARQ)
@@ -56353,7 +56353,7 @@ func rewriteValueAMD64_OpRsh64x32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARQ)
@@ -56378,7 +56378,7 @@ func rewriteValueAMD64_OpRsh64x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARQ)
@@ -56397,7 +56397,7 @@ func rewriteValueAMD64_OpRsh64x64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARQ)
@@ -56422,7 +56422,7 @@ func rewriteValueAMD64_OpRsh64x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARQ)
@@ -56441,7 +56441,7 @@ func rewriteValueAMD64_OpRsh64x8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARQ)
@@ -56466,7 +56466,7 @@ func rewriteValueAMD64_OpRsh64x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARQ)
@@ -56485,7 +56485,7 @@ func rewriteValueAMD64_OpRsh8Ux16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -56507,7 +56507,7 @@ func rewriteValueAMD64_OpRsh8Ux16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRB)
@@ -56526,7 +56526,7 @@ func rewriteValueAMD64_OpRsh8Ux32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -56548,7 +56548,7 @@ func rewriteValueAMD64_OpRsh8Ux32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRB)
@@ -56567,7 +56567,7 @@ func rewriteValueAMD64_OpRsh8Ux64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -56589,7 +56589,7 @@ func rewriteValueAMD64_OpRsh8Ux64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRB)
@@ -56608,7 +56608,7 @@ func rewriteValueAMD64_OpRsh8Ux8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64ANDL)
@@ -56630,7 +56630,7 @@ func rewriteValueAMD64_OpRsh8Ux8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SHRB)
@@ -56649,7 +56649,7 @@ func rewriteValueAMD64_OpRsh8x16_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARB)
@@ -56674,7 +56674,7 @@ func rewriteValueAMD64_OpRsh8x16_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARB)
@@ -56693,7 +56693,7 @@ func rewriteValueAMD64_OpRsh8x32_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARB)
@@ -56718,7 +56718,7 @@ func rewriteValueAMD64_OpRsh8x32_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARB)
@@ -56737,7 +56737,7 @@ func rewriteValueAMD64_OpRsh8x64_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARB)
@@ -56762,7 +56762,7 @@ func rewriteValueAMD64_OpRsh8x64_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARB)
@@ -56781,7 +56781,7 @@ func rewriteValueAMD64_OpRsh8x8_0(v *Value) bool {
 		t := v.Type
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(!shiftIsBounded(v)) {
+		if !!shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARB)
@@ -56806,7 +56806,7 @@ func rewriteValueAMD64_OpRsh8x8_0(v *Value) bool {
 	for {
 		y := v.Args[1]
 		x := v.Args[0]
-		if !(shiftIsBounded(v)) {
+		if !shiftIsBounded(v) {
 			break
 		}
 		v.reset(OpAMD64SARB)
@@ -57719,7 +57719,7 @@ func rewriteValueAMD64_OpZero_10(v *Value) bool {
 		}
 		mem := v.Args[1]
 		destptr := v.Args[0]
-		if !(!config.useSSE) {
+		if !!config.useSSE {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconst)
@@ -57741,7 +57741,7 @@ func rewriteValueAMD64_OpZero_10(v *Value) bool {
 		}
 		mem := v.Args[1]
 		destptr := v.Args[0]
-		if !(!config.useSSE) {
+		if !!config.useSSE {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconst)
@@ -57767,7 +57767,7 @@ func rewriteValueAMD64_OpZero_10(v *Value) bool {
 		}
 		mem := v.Args[1]
 		destptr := v.Args[0]
-		if !(!config.useSSE) {
+		if !!config.useSSE {
 			break
 		}
 		v.reset(OpAMD64MOVQstoreconst)
@@ -57865,7 +57865,7 @@ func rewriteValueAMD64_OpZero_10(v *Value) bool {
 		}
 		mem := v.Args[1]
 		destptr := v.Args[0]
-		if !(config.useSSE) {
+		if !config.useSSE {
 			break
 		}
 		v.reset(OpAMD64MOVOstore)
@@ -57885,7 +57885,7 @@ func rewriteValueAMD64_OpZero_10(v *Value) bool {
 		}
 		mem := v.Args[1]
 		destptr := v.Args[0]
-		if !(config.useSSE) {
+		if !config.useSSE {
 			break
 		}
 		v.reset(OpAMD64MOVOstore)
@@ -57914,7 +57914,7 @@ func rewriteValueAMD64_OpZero_10(v *Value) bool {
 		}
 		mem := v.Args[1]
 		destptr := v.Args[0]
-		if !(config.useSSE) {
+		if !config.useSSE {
 			break
 		}
 		v.reset(OpAMD64MOVOstore)
@@ -57952,7 +57952,7 @@ func rewriteValueAMD64_OpZero_10(v *Value) bool {
 		}
 		mem := v.Args[1]
 		destptr := v.Args[0]
-		if !(config.useSSE) {
+		if !config.useSSE {
 			break
 		}
 		v.reset(OpAMD64MOVOstore)
@@ -58114,7 +58114,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			}
 			x := v_0.Args[1]
 			v_0_0 := v_0.Args[0]
-			if v_0_0.Op != OpAMD64MOVLconst || v_0_0.AuxInt != 1 || !(!config.nacl) {
+			if v_0_0.Op != OpAMD64MOVLconst || v_0_0.AuxInt != 1 || !!config.nacl {
 				break
 			}
 			b.Kind = BlockAMD64UGE
@@ -58137,7 +58137,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			}
 			x := v_1.Args[1]
 			v_1_0 := v_1.Args[0]
-			if v_1_0.Op != OpAMD64MOVLconst || v_1_0.AuxInt != 1 || !(!config.nacl) {
+			if v_1_0.Op != OpAMD64MOVLconst || v_1_0.AuxInt != 1 || !!config.nacl {
 				break
 			}
 			b.Kind = BlockAMD64UGE
@@ -58159,7 +58159,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			}
 			x := v_0.Args[1]
 			v_0_0 := v_0.Args[0]
-			if v_0_0.Op != OpAMD64MOVQconst || v_0_0.AuxInt != 1 || !(!config.nacl) {
+			if v_0_0.Op != OpAMD64MOVQconst || v_0_0.AuxInt != 1 || !!config.nacl {
 				break
 			}
 			b.Kind = BlockAMD64UGE
@@ -58182,7 +58182,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			}
 			x := v_1.Args[1]
 			v_1_0 := v_1.Args[0]
-			if v_1_0.Op != OpAMD64MOVQconst || v_1_0.AuxInt != 1 || !(!config.nacl) {
+			if v_1_0.Op != OpAMD64MOVQconst || v_1_0.AuxInt != 1 || !!config.nacl {
 				break
 			}
 			b.Kind = BlockAMD64UGE
@@ -59379,7 +59379,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			}
 			x := v_0.Args[1]
 			v_0_0 := v_0.Args[0]
-			if v_0_0.Op != OpAMD64MOVLconst || v_0_0.AuxInt != 1 || !(!config.nacl) {
+			if v_0_0.Op != OpAMD64MOVLconst || v_0_0.AuxInt != 1 || !!config.nacl {
 				break
 			}
 			b.Kind = BlockAMD64ULT
@@ -59402,7 +59402,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			}
 			x := v_1.Args[1]
 			v_1_0 := v_1.Args[0]
-			if v_1_0.Op != OpAMD64MOVLconst || v_1_0.AuxInt != 1 || !(!config.nacl) {
+			if v_1_0.Op != OpAMD64MOVLconst || v_1_0.AuxInt != 1 || !!config.nacl {
 				break
 			}
 			b.Kind = BlockAMD64ULT
@@ -59424,7 +59424,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			}
 			x := v_0.Args[1]
 			v_0_0 := v_0.Args[0]
-			if v_0_0.Op != OpAMD64MOVQconst || v_0_0.AuxInt != 1 || !(!config.nacl) {
+			if v_0_0.Op != OpAMD64MOVQconst || v_0_0.AuxInt != 1 || !!config.nacl {
 				break
 			}
 			b.Kind = BlockAMD64ULT
@@ -59447,7 +59447,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			}
 			x := v_1.Args[1]
 			v_1_0 := v_1.Args[0]
-			if v_1_0.Op != OpAMD64MOVQconst || v_1_0.AuxInt != 1 || !(!config.nacl) {
+			if v_1_0.Op != OpAMD64MOVQconst || v_1_0.AuxInt != 1 || !!config.nacl {
 				break
 			}
 			b.Kind = BlockAMD64ULT

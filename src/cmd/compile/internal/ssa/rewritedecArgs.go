@@ -21,7 +21,7 @@ func rewriteValuedecArgs_OpArg_0(v *Value) bool {
 	for {
 		off := v.AuxInt
 		n := v.Aux
-		if !(v.Type.IsString()) {
+		if !v.Type.IsString() {
 			break
 		}
 		v.reset(OpStringMake)
@@ -41,7 +41,7 @@ func rewriteValuedecArgs_OpArg_0(v *Value) bool {
 	for {
 		off := v.AuxInt
 		n := v.Aux
-		if !(v.Type.IsSlice()) {
+		if !v.Type.IsSlice() {
 			break
 		}
 		v.reset(OpSliceMake)
@@ -65,7 +65,7 @@ func rewriteValuedecArgs_OpArg_0(v *Value) bool {
 	for {
 		off := v.AuxInt
 		n := v.Aux
-		if !(v.Type.IsInterface()) {
+		if !v.Type.IsInterface() {
 			break
 		}
 		v.reset(OpIMake)
