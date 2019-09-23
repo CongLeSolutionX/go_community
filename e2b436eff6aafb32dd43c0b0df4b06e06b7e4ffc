@@ -16,6 +16,24 @@
       "revId": "e2b436eff6aafb32dd43c0b0df4b06e06b7e4ffc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c3ea24e_a8324aed",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-23T15:12:38Z",
+      "side": 1,
+      "message": "The deletion loop is actually wrong; I need to rewrite this.",
+      "parentUuid": "a9dd98bb_2031ea8f",
+      "revId": "e2b436eff6aafb32dd43c0b0df4b06e06b7e4ffc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
