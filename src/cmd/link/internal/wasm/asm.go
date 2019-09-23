@@ -188,6 +188,7 @@ func asmb2(ctxt *ld.Link) {
 	writeElementSec(ctxt, uint64(len(hostImports)), uint64(len(fns)))
 	writeCodeSec(ctxt, fns)
 	writeDataSec(ctxt)
+	writeProducerSec(ctxt)
 	if !*ld.FlagS {
 		writeNameSec(ctxt, len(hostImports), fns)
 	}
@@ -484,6 +485,26 @@ func writeDataSec(ctxt *ld.Link) {
 		writeUleb128(ctxt.Out, uint64(len(seg.data)))
 		ctxt.Out.Write(seg.data)
 	}
+
+	writeSecSize(ctxt, sizeOffset)
+}
+
+// writeProducerSec writes an optional section that reports the source language and compiler version.
+func writeProducerSec(ctxt *ld.Link) {
+	sizeOffset := writeSecHeader(ctxt, sectionCustom)
+	writeName(ctxt.Out, "producers")
+
+	writeUleb128(ctxt.Out, 2)
+
+	writeName(ctxt.Out, "language")
+	writeUleb128(ctxt.Out, 1)
+	writeName(ctxt.Out, "Go")
+	writeName(ctxt.Out, "1")
+
+	writeName(ctxt.Out, "processed-by")
+	writeUleb128(ctxt.Out, 1)
+	writeName(ctxt.Out, "Go cmd/compile")
+	writeName(ctxt.Out, objabi.Version)
 
 	writeSecSize(ctxt, sizeOffset)
 }
