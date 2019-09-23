@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63768fb2_96bbea2c",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-23T18:04:02Z",
+      "side": 1,
+      "message": "please add a comment here so the next person coming along is not \"fixing\" this code by replacing token.NoPos with s.Pos() and refer to the issue",
+      "range": {
+        "startLine": 1240,
+        "startChar": 15,
+        "endLine": 1240,
+        "endChar": 20
+      },
+      "revId": "4e369486088248ba5c920c63afb7bfffa3c27082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec1292b9_02eaa39d",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-23T18:04:02Z",
+      "side": 1,
+      "message": "s/never/don\u0027t/\n\n(there\u0027s only one test here, after all... :-)",
+      "range": {
+        "startLine": 779,
+        "startChar": 18,
+        "endLine": 779,
+        "endChar": 23
+      },
+      "revId": "4e369486088248ba5c920c63afb7bfffa3c27082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe5badf8_82905b15",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-23T18:04:02Z",
+      "side": 1,
+      "message": "s/mean/cause/",
+      "range": {
+        "startLine": 780,
+        "startChar": 26,
+        "endLine": 780,
+        "endChar": 30
+      },
+      "revId": "4e369486088248ba5c920c63afb7bfffa3c27082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0b07be7_7884733f",
+        "filename": "src/go/printer/printer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2019-09-23T18:04:02Z",
+      "side": 1,
+      "message": "s/in/on/",
+      "range": {
+        "startLine": 795,
+        "startChar": 45,
+        "endLine": 795,
+        "endChar": 47
+      },
+      "revId": "4e369486088248ba5c920c63afb7bfffa3c27082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
