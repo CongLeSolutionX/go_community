@@ -345,14 +345,18 @@ func (e *TagPathError) Error() string {
 }
 
 // value returns v's field value corresponding to finfo.
-// It's equivalent to v.FieldByIndex(finfo.idx), but initializes
-// and dereferences pointers as necessary.
-func (finfo *fieldInfo) value(v reflect.Value) reflect.Value {
+// It's equivalent to v.FieldByIndex(finfo.idx), but when initialize is true, it
+// initializes and dereferences pointers as necessary. When initialize is true
+// and a nil pointer is reached, the function returns reflect.Value{}.
+func (finfo *fieldInfo) value(v reflect.Value, initialize bool) reflect.Value {
 	for i, x := range finfo.idx {
 		if i > 0 {
 			t := v.Type()
 			if t.Kind() == reflect.Ptr && t.Elem().Kind() == reflect.Struct {
 				if v.IsNil() {
+					if !initialize {
+						return reflect.Value{}
+					}
 					v.Set(reflect.New(v.Type().Elem()))
 				}
 				v = v.Elem()
