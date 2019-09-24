@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60aac08e_c012d1f5",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-09-24T17:50:27Z",
+      "side": 1,
+      "message": "remove \u0027a\u0027",
+      "range": {
+        "startLine": 71,
+        "startChar": 3,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "ef80116f2690da24c621cb4c4d6f6eabf055ab94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30d228d1_64dc39fb",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-09-24T17:50:27Z",
+      "side": 1,
+      "message": "At least for this function (header read) I think it would be useful to have a bit more defensive code in case the object file is an old object, at least for now. E.g. check magic string right away and return an error if magic check fails. That way we will see a real error instead of a panic in something like r.Uint32At.  Once the magic check succeeds then I think it is fine to leave all other reader methods without error checking.",
+      "revId": "ef80116f2690da24c621cb4c4d6f6eabf055ab94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
