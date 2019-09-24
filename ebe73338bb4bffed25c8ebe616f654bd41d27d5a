@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d70cec5e_95222078",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-09-24T03:32:03Z",
+      "side": 1,
+      "message": "s/, s/. S/",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "ebe73338bb4bffed25c8ebe616f654bd41d27d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09a28a05_35a57594",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -13,6 +36,47 @@
       "writtenOn": "2019-09-24T03:21:58Z",
       "side": 1,
       "message": "Maybe we could consider adding Go to the language list there?",
+      "revId": "ebe73338bb4bffed25c8ebe616f654bd41d27d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d646862_3d2510f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-09-24T03:32:03Z",
+      "side": 1,
+      "message": "I can submit a PR after this gets checked in.",
+      "parentUuid": "09a28a05_35a57594",
+      "revId": "ebe73338bb4bffed25c8ebe616f654bd41d27d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95c99505_03ec7648",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-09-24T03:32:03Z",
+      "side": 1,
+      "message": "Period after this sentence.",
+      "range": {
+        "startLine": 11,
+        "startChar": 78,
+        "endLine": 11,
+        "endChar": 79
+      },
       "revId": "ebe73338bb4bffed25c8ebe616f654bd41d27d5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -47,6 +111,24 @@
       "writtenOn": "2019-09-24T03:21:58Z",
       "side": 1,
       "message": "It would be good to emit the language version, but I don\u0027t know how to obtain that. Maybe this is fine for now.",
+      "revId": "ebe73338bb4bffed25c8ebe616f654bd41d27d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "759b16c5_51cc8e54",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2019-09-24T03:32:03Z",
+      "side": 1,
+      "message": "Well, Go version is already included in L180 writeGoVersion(). It uses runtime.Version(). I think we should use any of the two. Either use the producer section entirely and remove writeGoVersion, or remove the Go language version from this.",
+      "parentUuid": "1a30dcb5_a32086d4",
       "revId": "ebe73338bb4bffed25c8ebe616f654bd41d27d5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
