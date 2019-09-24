@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "37a6aab2_2f38cc88",
+        "filename": "src/internal/bytealg/compare_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2019-09-24T11:50:29Z",
+      "side": 1,
+      "message": "Alright, I see. \n\nhttps://en.wikipedia.org/wiki/MIPS_architecture#MIPS_III\n\nBut I copy this \"minimum logic\" from compare_mipsx.s should we all delete those code?",
+      "parentUuid": "75a2fa43_d93fb8a1",
+      "revId": "d302977c274f916184d261545ec27c9926b124ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "291da4f2_b1620217",
         "filename": "src/internal/bytealg/compare_mips64x.s",
         "patchSetId": 2
