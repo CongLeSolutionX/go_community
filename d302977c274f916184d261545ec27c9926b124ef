@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "75a2fa43_d93fb8a1",
+        "filename": "src/internal/bytealg/compare_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2019-09-24T06:17:08Z",
+      "side": 1,
+      "message": "Hi, Cherry \n\nThanks for your review but I can\u0027t find any compatibility notes. \nI do found this \"V5\" instructions set manual but there is no \"What\u0027s new in MIPS v3\" in \"revision history\"\nhttps://www.mips.com/?do-download\u003dintroduction-to-the-mips64-architecture-v5-04\n\nCould you give me some tips and Go target MIPS64 version manuals to download with?",
+      "parentUuid": "da45c14b_aceb2224",
+      "revId": "d302977c274f916184d261545ec27c9926b124ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "291da4f2_b1620217",
         "filename": "src/internal/bytealg/compare_mips64x.s",
         "patchSetId": 2
