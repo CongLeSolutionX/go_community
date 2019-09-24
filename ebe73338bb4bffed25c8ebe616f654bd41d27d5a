@@ -270,6 +270,24 @@
       "revId": "ebe73338bb4bffed25c8ebe616f654bd41d27d5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11f4fb7c_a3131ffd",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-24T15:58:09Z",
+      "side": 1,
+      "message": "In theory, the language version and the toolchain version could be different, e.g. you could have a Go 1.13 compiler that builds a Go 1.12 program, with the compiler\u0027s -lang flag and/or the language version specified in module file. I think ideally the Go version would be the language version, and the \"processed-by\" version would be the toolchain version. But I don\u0027t know how to obtain the the language version. It may be ok to use the toolchain version for both (or leave the language version as \"1\", as the previous version of this CL did).",
+      "parentUuid": "ebaebed1_e6f056bd",
+      "revId": "ebe73338bb4bffed25c8ebe616f654bd41d27d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
