@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4fe5319_586d1bd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "please name the function that was speed up here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3acc1406_99dbc0a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "Is the Split benchmark related to changes in the CL?\nIf not please remove.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 75
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c821c41b_9967cc32",
+        "filename": "src/net/url/escape.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "\"info information\" seems redundant",
+      "range": {
+        "startLine": 14,
+        "startChar": 37,
+        "endLine": 14,
+        "endChar": 58
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22a042f8_256f1c58",
+        "filename": "src/net/url/escape.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "return shouldEscapeTable[int(mode*256)+int(c)] !\u003d 0",
+      "range": {
+        "startLine": 16,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f1fb0ef_5e3b5247",
+        "filename": "src/net/url/escape_gen.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "2019 since it is a new file.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5598819_c7ac5815",
+        "filename": "src/net/url/escape_gen.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "I think this would be easier to read when making an outer for loop and the cases from \u0027a\u0027 to \u0027z\u0027 and \u00270\u0027 to \u00279\u0027 and \u0027A to \u0027Z\u0027 ... handled inside the for loop:\n\nfor i:\u003d 0; i \u003c 256; i++ {\n  if \u0027A\u0027 \u003c\u003d i \u0026\u0026 i \u003c\u003d \u0027Z\u0027 {\n    continue\n  }\n  ...\n}",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 3
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd7313b0_9bdb7a18",
+        "filename": "src/net/url/escape_gen.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "can this get a better name?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 9
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98bb890b_8d62ec91",
+        "filename": "src/net/url/escape_gen.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "maybe shorter []byte(`:@\u0026\u003d+$/;,`) since later lists of characters get longer.\ncould even add it to the range statement directly.",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2afe43c_ca9ca4a0",
+        "filename": "src/net/url/escape_gen.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "can just use a range here:\nfor _, c range tmp {\n t[c] \u003d false\n}",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 33
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e42f6da_ddd799fa",
+        "filename": "src/net/url/escape_gen.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "I do not think speed is a concern for generating the table.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 92
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0752f823_1080e418",
+        "filename": "src/net/url/escape_gen.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "better to store 1 (not the character \u00271\u0027) so it aligns with the representation of a bool.",
+      "range": {
+        "startLine": 168,
+        "startChar": 33,
+        "endLine": 168,
+        "endChar": 36
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87d050c3_2e4a5756",
+        "filename": "src/net/url/escape_gen.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2019-09-24T12:53:11Z",
+      "side": 1,
+      "message": "2019 since it is a new file",
+      "range": {
+        "startLine": 190,
+        "startChar": 13,
+        "endLine": 190,
+        "endChar": 17
+      },
+      "revId": "a8059ae0a4c02404ffe7788fd6e3baf7cc7297ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
