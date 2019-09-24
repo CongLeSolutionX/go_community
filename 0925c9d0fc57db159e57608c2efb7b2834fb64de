@@ -34,6 +34,24 @@
       "revId": "0925c9d0fc57db159e57608c2efb7b2834fb64de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "078baefc_3afe2e45",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2019-09-24T21:55:52Z",
+      "side": 1,
+      "message": "I believe you can avoid the duplication like this:\n\ncase isRuneInt(s string), constant.IsInt:",
+      "parentUuid": "a8d33366_8a3aba90",
+      "revId": "0925c9d0fc57db159e57608c2efb7b2834fb64de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
