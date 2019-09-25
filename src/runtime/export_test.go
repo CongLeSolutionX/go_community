@@ -724,14 +724,23 @@ const (
 	MallocChunkPages = mallocChunkPages
 )
 
+// Expose mallocSum for testing.
+type MallocSum mallocSum
+
+func PackMallocSum(start, max, end int) MallocSum { return MallocSum(packMallocSum(start, max, end)) }
+func (m MallocSum) Start() int                    { return mallocSum(m).start() }
+func (m MallocSum) Max() int                      { return mallocSum(m).max() }
+func (m MallocSum) End() int                      { return mallocSum(m).end() }
+
 // Expose mallocBits for testing.
 type MallocBits mallocBits
 
 func (b *MallocBits) Find(npages uintptr, hint int) (int, int) {
 	return (*mallocBits)(b).find(npages, hint)
 }
-func (b *MallocBits) AllocRange(i, n int) { (*mallocBits)(b).allocRange(i, n) }
-func (b *MallocBits) Free(i, n int)       { (*mallocBits)(b).free(i, n) }
+func (b *MallocBits) AllocRange(i, n int)  { (*mallocBits)(b).allocRange(i, n) }
+func (b *MallocBits) Free(i, n int)        { (*mallocBits)(b).free(i, n) }
+func (b *MallocBits) Summarize() MallocSum { return MallocSum((*mallocBits)(b).summarize()) }
 
 // Expose non-trivial helpers for testing.
 func FindConsecN64(c uint64, n int) int { return findConsecN64(c, n) }
