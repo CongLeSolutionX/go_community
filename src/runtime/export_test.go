@@ -734,6 +734,14 @@ const (
 	MallocChunkPages = mallocChunkPages
 )
 
+// Expose mallocSum for testing.
+type MallocSum mallocSum
+
+func PackMallocSum(start, max, end uint) MallocSum { return MallocSum(packMallocSum(start, max, end)) }
+func (m MallocSum) Start() uint                    { return mallocSum(m).start() }
+func (m MallocSum) Max() uint                      { return mallocSum(m).max() }
+func (m MallocSum) End() uint                      { return mallocSum(m).end() }
+
 // Expose mallocBits for testing.
 type MallocBits mallocBits
 
@@ -742,6 +750,33 @@ func (b *MallocBits) Find(npages uintptr, searchIdx uint) (uint, uint) {
 }
 func (b *MallocBits) AllocRange(i, n uint) { (*mallocBits)(b).allocRange(i, n) }
 func (b *MallocBits) Free(i, n uint)       { (*mallocBits)(b).free(i, n) }
+func (b *MallocBits) Summarize() MallocSum { return MallocSum((*mallocBits)(b).summarize()) }
+
+// SummarizeSlow is a slow but more obviously correct implementation
+// of (*mallocBits).summarize. Used for testing.
+func SummarizeSlow(b *MallocBits) MallocSum {
+	var start, max, end uint
+
+	const N = uint(len(b)) * 64
+	for start < N && (*pageBits)(b).get(start) == 0 {
+		start++
+	}
+	for end < N && (*pageBits)(b).get(N-end-1) == 0 {
+		end++
+	}
+	run := uint(0)
+	for i := uint(0); i < N; i++ {
+		if (*pageBits)(b).get(i) == 0 {
+			run++
+		} else {
+			run = 0
+		}
+		if run > max {
+			max = run
+		}
+	}
+	return PackMallocSum(start, max, end)
+}
 
 // Expose non-trivial helpers for testing.
 func FindBitRange64(c uint64, n uint) uint { return findBitRange64(c, n) }
