@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78eecb75_d9973dc8",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-25T19:00:58Z",
+      "side": 1,
+      "message": "I\u0027m not convinced that this structure needs to be global. If it becomes clear in later CLs I apologize for the noise here.",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "099b914d_65777eb5",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-25T19:00:58Z",
+      "side": 1,
+      "message": "this string is not correct with new debug information CLs.",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc36ba96_d5264bcc",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-25T19:00:58Z",
+      "side": 1,
+      "message": "I feel pretty certain all Size() functions should be global.",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e047fa9_3ce76c93",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-25T19:00:58Z",
+      "side": 1,
+      "message": "Almost all functions on Writer are named like accessors, [eg, StringTable, Uint32, etc.]. I would prefer \"WriteStringTable\", but will defer to the will of others.",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3761e106_f422692f",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-25T19:00:58Z",
+      "side": 1,
+      "message": "constants for ABI and all of the flags would make me happier.",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0191e72d_6d962ada",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-25T19:00:58Z",
+      "side": 1,
+      "message": "Are these two cases mutually exclusive? Can something have a GoType \u0026 Func? If not, I think an else is in order below.",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5b19606_390733d1",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-25T19:00:58Z",
+      "side": 1,
+      "message": "Same comment about Reader that all functions are named like accessors.",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a29a67ea_2c7c8c63",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-25T19:00:58Z",
+      "side": 1,
+      "message": "s/i/nextSymIndex/ ?",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
