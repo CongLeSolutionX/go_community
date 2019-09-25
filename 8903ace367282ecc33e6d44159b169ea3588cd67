@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ae7792c6_74174475",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T19:59:26Z",
+      "side": 1,
+      "message": "As you said, most of them don\u0027t. I feel the reason is that it is already the writer, so \"write\" would be redundant.",
+      "parentUuid": "90ba8916_1f5c2d4e",
+      "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fb408dd_2887e7d5",
         "filename": "src/cmd/compile/internal/gc/iimport.go",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2019-09-25T16:03:46Z",
       "side": 1,
       "message": "This function is named like an accessor, but clearly has side effects (lsym.SymIdx \u003d …). Please rename.",
+      "range": {
+        "startLine": 687,
+        "startChar": 23,
+        "endLine": 687,
+        "endChar": 29
+      },
+      "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25335d28_8b021235",
+        "filename": "src/cmd/compile/internal/gc/iimport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T19:59:26Z",
+      "side": 1,
+      "message": "Most functions here have side effects: they read the export data and set some fields of the argument.",
+      "parentUuid": "7fb408dd_2887e7d5",
       "range": {
         "startLine": 687,
         "startChar": 23,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "31c5d52b_0df7118c",
+        "filename": "src/cmd/internal/obj/sizeof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T19:59:26Z",
+      "side": 1,
+      "message": "I\u0027ll remember to restore it. Part of the reason that I didn\u0027t just update the numbers is that I think we may be able to shrink this later, once we don\u0027t need to maintain two writers.\n\nI\u0027m inclined not to file issues for the branch in this early stage. For now, I\u0027ll use sticky notes on my desk as the issue tracker (and I added one for this).",
+      "parentUuid": "57b924b2_a5a4a7fc",
+      "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5cf77496_cd0278c9",
         "filename": "src/cmd/internal/obj/sym.go",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2019-09-25T16:03:46Z",
       "side": 1,
       "message": "Personally, I hate flags that are hard to understand at the calling site. Do we want an enum for \"NumberForAsm\" and \"NumberForGo\"?\n\nThis behavior is prevalent in the compiler, so I am willing to be shouted down.",
+      "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b856a9f_4bce3181",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T19:59:26Z",
+      "side": 1,
+      "message": "Good point. What other people think?",
+      "parentUuid": "5cf77496_cd0278c9",
       "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -90,6 +168,24 @@
       "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "109db81e_23e39fff",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T19:59:26Z",
+      "side": 1,
+      "message": "Done (changed to idx and nonpkgidx).",
+      "parentUuid": "d37ec73f_acca7470",
+      "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "7edea723_53eeb208",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T19:59:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f00bcd9_8d5733be",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 5
+      },
+      "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b01262f_d66c3391",
         "filename": "src/cmd/internal/obj/sym.go",
         "patchSetId": 2
@@ -127,6 +247,24 @@
       "writtenOn": "2019-09-25T16:03:46Z",
       "side": 1,
       "message": "I\u0027m surprised this can be nil. Is an explanation needed, and if not, should traverseSyms be rewritten to not call fn on nil?",
+      "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d69ebec_c1c80a3e",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T19:59:26Z",
+      "side": 1,
+      "message": "E.g. a symbol\u0027s Gotype could be nil, if the symbol is not a Go function or variable. We could filter out nil in traverseSyms.",
+      "parentUuid": "1b01262f_d66c3391",
       "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -153,6 +291,30 @@
       "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a5f8d79_8485b322",
+        "filename": "src/cmd/internal/obj/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T19:59:26Z",
+      "side": 1,
+      "message": "Done. Unexport for now. If we split objfile2.go (next CL) into a separate package, we may need to export this (along with the flags), but that can happen latter.",
+      "parentUuid": "1c734508_6f3c9c32",
+      "range": {
+        "startLine": 225,
+        "startChar": 18,
+        "endLine": 225,
+        "endChar": 30
+      },
+      "revId": "8903ace367282ecc33e6d44159b169ea3588cd67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
