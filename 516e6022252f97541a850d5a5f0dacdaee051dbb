@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "229b75c5_b93c05d1",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-09-25T15:01:01Z",
+      "side": 1,
+      "message": "With this change, all the dumpXXX are unfortunately named (being that they\u0027re called while preparing, not actually \"dumping\" as defined below). Should we rename?",
+      "range": {
+        "startLine": 117,
+        "startChar": 1,
+        "endLine": 117,
+        "endChar": 11
+      },
+      "revId": "516e6022252f97541a850d5a5f0dacdaee051dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
