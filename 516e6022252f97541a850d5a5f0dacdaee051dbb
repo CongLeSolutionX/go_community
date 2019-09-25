@@ -22,6 +22,30 @@
       "revId": "516e6022252f97541a850d5a5f0dacdaee051dbb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4027c721_21e8a8b7",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T19:58:08Z",
+      "side": 1,
+      "message": "I agree that this is a little unfortunate. The semantics of those functions are not changed -- they still do \"dump\" things, just not dumping to file but dumping to the internal data structure in the obj package for writing.\n\nRenamed this function instead.",
+      "parentUuid": "229b75c5_b93c05d1",
+      "range": {
+        "startLine": 117,
+        "startChar": 1,
+        "endLine": 117,
+        "endChar": 11
+      },
+      "revId": "516e6022252f97541a850d5a5f0dacdaee051dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
