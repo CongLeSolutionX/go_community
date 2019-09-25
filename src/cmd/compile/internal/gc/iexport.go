@@ -1126,6 +1126,7 @@ func (w *exportWriter) expr(n *Node) {
 
 	// from exprfmt (fmt.go)
 	for n.Op == OPAREN || n.Implicit() && (n.Op == ODEREF || n.Op == OADDR || n.Op == ODOT || n.Op == ODOTPTR) {
+		// fmt.Printf("replacing %v (%v) with %v (%v) during export\n", n, n.Op, n.Left, n.Left.Op)
 		n = n.Left
 	}
 
@@ -1181,10 +1182,10 @@ func (w *exportWriter) expr(n *Node) {
 	// 	should have been resolved by typechecking - handled by default case
 
 	case OPTRLIT:
-		w.op(OPTRLIT)
+		w.op(OPTRLIT) // TODO(mdempsky): Replace with OADDR.
 		w.pos(n.Pos)
 		w.expr(n.Left)
-		w.bool(n.Implicit())
+		w.bool(false)
 
 	case OSTRUCTLIT:
 		w.op(OSTRUCTLIT)
