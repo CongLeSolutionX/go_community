@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24defdac_62887f8d",
+        "filename": "src/runtime/callers_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-09-25T17:35:38Z",
+      "side": 1,
+      "message": "These line numbers look wrong. You only added 1 line above, but incremented these by 2.",
+      "revId": "aa349a1ebfe35d8cfa79ec78ed22f14e3ab364f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c52803c9_b8ecc00c",
+        "filename": "src/runtime/callers_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-09-25T17:35:38Z",
+      "side": 1,
+      "message": "These line numbers down here look ok.",
+      "revId": "aa349a1ebfe35d8cfa79ec78ed22f14e3ab364f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0515306f_2653c465",
+        "filename": "src/runtime/defer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-09-25T17:35:38Z",
+      "side": 1,
+      "message": "Maybe test the other order as well?  An open first, then a non-open one.",
+      "revId": "aa349a1ebfe35d8cfa79ec78ed22f14e3ab364f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
