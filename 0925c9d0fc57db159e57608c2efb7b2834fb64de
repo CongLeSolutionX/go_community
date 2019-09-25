@@ -52,6 +52,24 @@
       "revId": "0925c9d0fc57db159e57608c2efb7b2834fb64de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d1d0675_5443f5e0",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2019-09-25T09:11:56Z",
+      "side": 1,
+      "message": "I also tried that at the beginning :)\n\nIt doesn\u0027t work, because 2.0 has IsInt as true, but we want it to be a float64, not an int. Some tests break. The conservative float case needs to go before the int case.\n\nWe could maybe swap the IsFloat with the IsInt case, and rework much of the logic, but I\u0027m pretty sure we\u0027d end up with the same amount of checks.",
+      "parentUuid": "078baefc_3afe2e45",
+      "revId": "0925c9d0fc57db159e57608c2efb7b2834fb64de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
