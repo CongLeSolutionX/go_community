@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "9a4afe61_437b701e",
+        "filename": "src/context/context.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2019-09-25T19:52:36Z",
+      "side": 1,
+      "message": "The original discussion for this idea suggested mapping Done channels to *cancelCtx. I think that could still work here. Change cancelCtxKey to be an unexpected named type cancelCtxKey \u003c-chan struct{}, and look up cancelCtxKey(parent.Done()) here.",
+      "parentUuid": "2756fdfe_39e27bf9",
+      "range": {
+        "startLine": 295,
+        "startChar": 1,
+        "endLine": 295,
+        "endChar": 50
+      },
+      "revId": "286af958fe945e1f0f4f005de6bc0ebd0e8f1782",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12ba640f_b350fa56",
         "filename": "src/context/context.go",
         "patchSetId": 2
