@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cf009930_b703cd0f",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T22:36:47Z",
+      "side": 1,
+      "message": "I agree that header probably doesn\u0027t need to be exported. Added a TODO.",
+      "parentUuid": "78eecb75_d9973dc8",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "099b914d_65777eb5",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2019-09-25T19:00:58Z",
       "side": 1,
       "message": "this string is not correct with new debug information CLs.",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7f63db0_b13af8df",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T22:36:47Z",
+      "side": 1,
+      "message": "Changed to uppercase LD now. It will be fine after we eventually kill the old format.",
+      "parentUuid": "099b914d_65777eb5",
       "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "94de50f6_6d1d6781",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T22:36:47Z",
+      "side": 1,
+      "message": "I followed the style of indexed importer/exporter, where there are reader/writer types but not \"read\"/\"write\" in function names. And I also feel writing \"read\"/\"write\" many times is a bit redundant.",
+      "parentUuid": "7e047fa9_3ce76c93",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3761e106_f422692f",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 4
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "a1db9c1a_31ceef70",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T22:36:47Z",
+      "side": 1,
+      "message": "Yeah, now we share code between the reading and writing side, named constants make sense.",
+      "parentUuid": "3761e106_f422692f",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0191e72d_6d962ada",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 4
@@ -98,6 +170,24 @@
       "writtenOn": "2019-09-25T19:00:58Z",
       "side": 1,
       "message": "Are these two cases mutually exclusive? Can something have a GoType \u0026 Func? If not, I think an else is in order below.",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b0977fc_034780e7",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T22:36:47Z",
+      "side": 1,
+      "message": "No. A symbol can have both, either, or neither. E.g., normally, a Go function may have both, a Go global variable may only have Gotype, an assembly function may only have Func, a non-Go symbol may have neither.",
+      "parentUuid": "0191e72d_6d962ada",
       "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -135,6 +225,24 @@
       "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5989e4ca_bd25b6d2",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T22:36:47Z",
+      "side": 1,
+      "message": "Done (changed to symidx)",
+      "parentUuid": "a29a67ea_2c7c8c63",
+      "revId": "cdf4f6f6ce0f18296b91a6ad4c37cb480aff1829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
