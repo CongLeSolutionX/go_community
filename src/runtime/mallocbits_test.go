@@ -5,6 +5,7 @@
 package runtime_test
 
 import (
+	"fmt"
 	. "runtime"
 	"testing"
 )
@@ -104,6 +105,216 @@ func TestMallocBitsAllocRange(t *testing.T) {
 func invertMallocBits(b *MallocBits) {
 	for i := range b {
 		b[i] = ^b[i]
+	}
+}
+
+// Ensures two packed summaries are identical, and reports a detailed description
+// of the difference if they're not.
+func checkMallocSum(t *testing.T, got, want MallocSum) {
+	if got.Start() != want.Start() {
+		t.Errorf("inconsistent start: got %d, want %d", got.Start(), want.Start())
+	}
+	if got.Max() != want.Max() {
+		t.Errorf("inconsistent max: got %d, want %d", got.Max(), want.Max())
+	}
+	if got.End() != want.End() {
+		t.Errorf("inconsistent end: got %d, want %d", got.End(), want.End())
+	}
+}
+
+// Ensures computing bit summaries works as expected.
+func TestMallocBitsSummarize(t *testing.T) {
+	var emptySum = PackMallocSum(MallocChunkPages, MallocChunkPages, MallocChunkPages)
+	type hit struct {
+		n    int
+		want MallocSum
+	}
+	type test struct {
+		free []BitRange // Ranges of free (zero) bits.
+		hits []hit
+	}
+	tests := make(map[string]test)
+	if MallocChunksPerArena == 1 { // 4 MiB arenas
+		tests["NoneFree"] = test{
+			free: []BitRange{},
+			hits: []hit{
+				{0, PackMallocSum(0, 0, 0)},
+			},
+		}
+		tests["OnlyStart"] = test{
+			free: []BitRange{{0, 10}},
+			hits: []hit{
+				{0, PackMallocSum(10, 10, 0)},
+			},
+		}
+		tests["OnlyEnd"] = test{
+			free: []BitRange{{PagesPerArena - 40, 40}},
+			hits: []hit{
+				{0, PackMallocSum(0, 40, 40)},
+			},
+		}
+		tests["StartAndEnd"] = test{
+			free: []BitRange{{0, 11}, {MallocChunkPages - 23, 23}},
+			hits: []hit{
+				{0, PackMallocSum(11, 23, 23)},
+			},
+		}
+		tests["StartMaxEnd"] = test{
+			free: []BitRange{{0, 4}, {50, 100}, {MallocChunkPages - 4, 4}},
+			hits: []hit{
+				{0, PackMallocSum(4, 100, 4)},
+			},
+		}
+		tests["OnlyMax"] = test{
+			free: []BitRange{{1, 20}, {35, 241}, {MallocChunkPages - 50, 30}},
+			hits: []hit{
+				{0, PackMallocSum(0, 241, 0)},
+			},
+		}
+		tests["MultiMax"] = test{
+			free: []BitRange{{35, 2}, {40, 5}, {100, 5}},
+			hits: []hit{
+				{0, PackMallocSum(0, 5, 0)},
+			},
+		}
+		tests["One"] = test{
+			free: []BitRange{{2, 1}},
+			hits: []hit{
+				{0, PackMallocSum(0, 1, 0)},
+			},
+		}
+		tests["AllFree"] = test{
+			free: []BitRange{{0, PagesPerArena}},
+			hits: []hit{
+				{0, emptySum},
+			},
+		}
+	} else { // 64 MiB arenas
+		tests["NoneFree"] = test{
+			free: []BitRange{},
+			hits: []hit{
+				{0, PackMallocSum(0, 0, 0)},
+				{1, PackMallocSum(0, 0, 0)},
+				{2, PackMallocSum(0, 0, 0)},
+				{MallocChunksPerArena - 1, PackMallocSum(0, 0, 0)},
+			},
+		}
+		tests["OnlyStart"] = test{
+			free: []BitRange{{0, 10}},
+			hits: []hit{
+				{0, PackMallocSum(10, 10, 0)},
+				{1, PackMallocSum(0, 0, 0)},
+				{2, PackMallocSum(0, 0, 0)},
+				{MallocChunksPerArena - 1, PackMallocSum(0, 0, 0)},
+			},
+		}
+		tests["OnlyEnd"] = test{
+			free: []BitRange{{PagesPerArena - 40, 40}},
+			hits: []hit{
+				{MallocChunksPerArena - 1, PackMallocSum(0, 40, 40)},
+				{MallocChunksPerArena - 2, PackMallocSum(0, 0, 0)},
+				{0, PackMallocSum(0, 0, 0)},
+			},
+		}
+		tests["StartAndEnd"] = test{
+			free: []BitRange{{0, 11}, {MallocChunkPages - 23, 23}},
+			hits: []hit{
+				{0, PackMallocSum(11, 23, 23)},
+				{MallocChunksPerArena - 1, PackMallocSum(0, 0, 0)},
+			},
+		}
+		tests["StartMaxEnd"] = test{
+			free: []BitRange{{0, 4}, {50, 100}, {MallocChunkPages - 4, 4}},
+			hits: []hit{
+				{0, PackMallocSum(4, 100, 4)},
+				{MallocChunksPerArena - 1, PackMallocSum(0, 0, 0)},
+			},
+		}
+		tests["OnlyMax"] = test{
+			free: []BitRange{{1, 20}, {35, 241}, {MallocChunkPages - 50, 30}},
+			hits: []hit{
+				{0, PackMallocSum(0, 241, 0)},
+				{MallocChunksPerArena - 1, PackMallocSum(0, 0, 0)},
+			},
+		}
+		tests["MultiMax"] = test{
+			free: []BitRange{{35, 2}, {40, 5}, {100, 5}},
+			hits: []hit{
+				{0, PackMallocSum(0, 5, 0)},
+				{MallocChunksPerArena - 1, PackMallocSum(0, 0, 0)},
+			},
+		}
+		tests["One"] = test{
+			free: []BitRange{{2, 1}},
+			hits: []hit{
+				{0, PackMallocSum(0, 1, 0)},
+				{MallocChunksPerArena - 1, PackMallocSum(0, 0, 0)},
+			},
+		}
+		tests["AllFree"] = test{
+			free: []BitRange{{0, PagesPerArena}},
+			hits: []hit{
+				{0, emptySum},
+				{1, emptySum},
+				{2, emptySum},
+				{MallocChunksPerArena / 2, emptySum},
+				{MallocChunksPerArena - 1, emptySum},
+			},
+		}
+		tests["Chunk5Free"] = test{
+			free: []BitRange{{5 * MallocChunkPages, MallocChunkPages}},
+			hits: []hit{
+				{0, PackMallocSum(0, 0, 0)},
+				{1, PackMallocSum(0, 0, 0)},
+				{2, PackMallocSum(0, 0, 0)},
+				{5, emptySum},
+				{MallocChunksPerArena / 2, PackMallocSum(0, 0, 0)},
+				{MallocChunksPerArena - 1, PackMallocSum(0, 0, 0)},
+			},
+		}
+		tests["ChunkOverlap"] = test{
+			free: []BitRange{{MallocChunkPages/2 + 1, MallocChunkPages}},
+			hits: []hit{
+				{0, PackMallocSum(0, MallocChunkPages/2-1, MallocChunkPages/2-1)},
+				{1, PackMallocSum(MallocChunkPages/2+1, MallocChunkPages/2+1, 0)},
+				{2, PackMallocSum(0, 0, 0)},
+				{5, PackMallocSum(0, 0, 0)},
+				{MallocChunksPerArena / 2, PackMallocSum(0, 0, 0)},
+				{MallocChunksPerArena - 1, PackMallocSum(0, 0, 0)},
+			},
+		}
+	}
+	for name, v := range tests {
+		v := v
+		t.Run(name, func(t *testing.T) {
+			b := makeMallocBits(v.free)
+			// In the MallocBits we create 1's represent free spots, but in our actual
+			// MallocBits 1 means not free, so invert.
+			invertMallocBits(b)
+			for _, h := range v.hits {
+				checkMallocSum(t, b.Summarize(h.n), h.want)
+			}
+		})
+	}
+}
+
+// Benchmarks how quickly we can summarize a MallocBits.
+func BenchmarkMallocBitsSummarize(b *testing.B) {
+	buf0 := new(MallocBits)
+	buf1 := new(MallocBits)
+	for i := 0; i < len(buf1); i++ {
+		buf1[i] = ^uint64(0)
+	}
+	bufa := new(MallocBits)
+	for i := 0; i < len(bufa); i++ {
+		bufa[i] = 0xaa
+	}
+	for _, buf := range []*MallocBits{buf0, buf1, bufa} {
+		b.Run(fmt.Sprintf("Unpacked%02X", buf[0]), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				buf.Summarize(0)
+			}
+		})
 	}
 }
 
