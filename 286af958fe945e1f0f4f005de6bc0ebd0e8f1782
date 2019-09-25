@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "2756fdfe_39e27bf9",
+        "filename": "src/context/context.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2019-09-25T19:31:43Z",
+      "side": 1,
+      "message": "What happens if parent is a custom Context with its own Done channel implementation, and it has a parent that\u0027s a *cancelCtx? I think Value will return that cancelCtx, which will be assigned to p here. Below, you\u0027re using p.Done, not parent.Done, even though it\u0027s possible parent.Done is closed before p.Done. Is that a problem?",
+      "range": {
+        "startLine": 295,
+        "startChar": 1,
+        "endLine": 295,
+        "endChar": 50
+      },
+      "revId": "286af958fe945e1f0f4f005de6bc0ebd0e8f1782",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12ba640f_b350fa56",
         "filename": "src/context/context.go",
         "patchSetId": 2
