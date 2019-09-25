@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd190127_f598357e",
+        "filename": "test/fixedbugs/issue34503.dir/a.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-09-25T14:18:49Z",
+      "side": 1,
+      "message": "Does this has to be atomic?",
+      "range": {
+        "startLine": 17,
+        "startChar": 11,
+        "endLine": 17,
+        "endChar": 37
+      },
+      "revId": "054f62c29c93aba3e63fa2c0ae5fc059cddf3916",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
