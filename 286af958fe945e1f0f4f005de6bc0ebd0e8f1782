@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "a99a98e8_0424e525",
+        "filename": "src/context/context.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2019-09-25T21:06:30Z",
+      "side": 1,
+      "message": "\u003e The original discussion for this idea suggested mapping Done channels to *cancelCtx. I think that could still work here. Change cancelCtxKey to be an unexpected named type cancelCtxKey \u003c-chan struct{}, and look up cancelCtxKey(parent.Done()) here.\n\nThat\u0027s clever, but if it really is a channel from a custom implementation that means that the lookup will traverse the whole context chain instead of stopping at the first *cancelCtx.\n\nThe `p.done \u003d\u003d done` check below should ensure that we bail out if parent.Done() returns a channel that doesn\u0027t match the one from the first cancelCtx.",
+      "parentUuid": "9a4afe61_437b701e",
+      "range": {
+        "startLine": 295,
+        "startChar": 1,
+        "endLine": 295,
+        "endChar": 50
+      },
+      "revId": "286af958fe945e1f0f4f005de6bc0ebd0e8f1782",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12ba640f_b350fa56",
         "filename": "src/context/context.go",
         "patchSetId": 2
