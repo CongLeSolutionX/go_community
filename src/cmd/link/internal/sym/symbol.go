@@ -518,7 +518,6 @@ func SortSub(l *Symbol) *Symbol {
 type FuncInfo struct {
 	Args        int32
 	Locals      int32
-	Autom       []Auto
 	Pcsp        Pcdata
 	Pcfile      Pcdata
 	Pcline      Pcdata
