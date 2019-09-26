@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "452afc27_77f3d67f",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-09-26T17:55:26Z",
+      "side": 1,
+      "message": "Do we normalize these into additions elsewhere?\n(I suspect we do, but am not sure.)",
+      "range": {
+        "startLine": 45,
+        "startChar": 30,
+        "endLine": 45,
+        "endChar": 37
+      },
+      "revId": "bd8c87a64c33dcf6f787f037bcf0449c1f860daf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
