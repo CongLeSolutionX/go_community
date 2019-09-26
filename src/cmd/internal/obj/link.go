@@ -399,6 +399,7 @@ type FuncInfo struct {
 	Locals   int32
 	Text     *Prog
 	Autom    []*Auto
+	Autot    map[*LSym]struct{}
 	Pcln     Pcln
 	InlMarks []InlMark
 
@@ -430,6 +431,15 @@ type InlMark struct {
 // just before the body of the inlined function.
 func (fi *FuncInfo) AddInlMark(p *Prog, id int32) {
 	fi.InlMarks = append(fi.InlMarks, InlMark{p: p, id: id})
+}
+
+// Record the type symbol for an auto variable so that the linker
+// an emit DWARF type information for the type.
+func (fi *FuncInfo) RecordAutoType(gotype *LSym) {
+	if fi.Autot == nil {
+		fi.Autot = make(map[*LSym]struct{})
+	}
+	fi.Autot[gotype] = struct{}{}
 }
 
 //go:generate stringer -type ABI

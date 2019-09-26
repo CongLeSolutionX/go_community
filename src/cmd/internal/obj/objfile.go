@@ -895,7 +895,7 @@ func (ft *DwarfFixupTable) Finalize(myimportpath string, trace bool) {
 		fns[idx] = fn
 		idx++
 	}
-	sort.Sort(bySymName(fns))
+	sort.Sort(BySymName(fns))
 
 	// Should not be called during parallel portion of compilation.
 	if ft.ctxt.InParallel {
@@ -923,8 +923,8 @@ func (ft *DwarfFixupTable) Finalize(myimportpath string, trace bool) {
 	}
 }
 
-type bySymName []*LSym
+type BySymName []*LSym
 
-func (s bySymName) Len() int           { return len(s) }
-func (s bySymName) Less(i, j int) bool { return s[i].Name < s[j].Name }
-func (s bySymName) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s BySymName) Len() int           { return len(s) }
+func (s BySymName) Less(i, j int) bool { return s[i].Name < s[j].Name }
+func (s BySymName) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
