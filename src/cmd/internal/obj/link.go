@@ -211,9 +211,6 @@ const (
 	// A reference to name@GOT(SB) is a reference to the entry in the global offset
 	// table for 'name'.
 	NAME_GOTREF
-	// Indicates auto that was optimized away, but whose type
-	// we want to preserve in the DWARF debug info.
-	NAME_DELETED_AUTO
 	// Indicates that this is a reference to a TOC anchor.
 	NAME_TOCREF
 )
