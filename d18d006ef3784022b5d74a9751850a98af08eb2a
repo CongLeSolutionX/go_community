@@ -16,6 +16,24 @@
       "revId": "d18d006ef3784022b5d74a9751850a98af08eb2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75242e4e_b45a54c8",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-09-26T20:44:56Z",
+      "side": 1,
+      "message": "Actually I don\u0027t quite remember.\n\nI suspect the lines below might be redundant with this new check. That might\u0027ve been an old workaround for mips or ppc64 users hitting cross-compilation problems.\n\nBut I don\u0027t have time/resources to test those right now, so I\u0027ll just submit this for now.\n\nPeople debugging this later can find this comment I hope.",
+      "parentUuid": "d49261e9_f92ee35d",
+      "revId": "d18d006ef3784022b5d74a9751850a98af08eb2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
