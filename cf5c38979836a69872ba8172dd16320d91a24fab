@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4139e283_e6bf5bc0",
+        "filename": "src/net/mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2019-09-27T22:01:58Z",
+      "side": 1,
+      "message": "maybe move the error comparison logic into a function here? Something like\n\n    match :\u003d func(err error, s string) bool {\n        if s \u003d\u003d \"\" {\n            return err \u003d\u003d nil\n        }\n        return err !\u003d nil \u0026\u0026 strings.Contains(err.Error(), s)\n    }",
+      "revId": "cf5c38979836a69872ba8172dd16320d91a24fab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b709f346_18f9070a",
+        "filename": "src/net/mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2019-09-27T22:01:58Z",
+      "side": 1,
+      "message": "Move this Lbrace to a separate line. I\u0027m surprised that Gofmt doesn\u0027t reorder this.",
+      "range": {
+        "startLine": 141,
+        "startChar": 5,
+        "endLine": 141,
+        "endChar": 6
+      },
+      "revId": "cf5c38979836a69872ba8172dd16320d91a24fab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "084166bf_279d7e36",
+        "filename": "src/net/mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2019-09-27T22:01:58Z",
+      "side": 1,
+      "message": "These error messages can be collapsed into\n\n    var a HardwareAddr\n    err :\u003d a.UnmarshalText([]byte(tt.text))\n    gotStr :\u003d a.String()\n    if tt.wantStr !\u003d gotStr || !match(err, tt.wantErr) {\n        t.Errorf(\"want: addr \u003d %q, err \u003d %q, got: addr \u003d %q, err \u003d %q\", tt.wantStr, tt.wantErr, gotStr, err)\n    }",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 4
+      },
+      "revId": "cf5c38979836a69872ba8172dd16320d91a24fab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7230a72d_792f6b88",
+        "filename": "src/net/mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2019-09-27T22:01:58Z",
+      "side": 1,
+      "message": "This can just be t.Fatalf(err).",
+      "revId": "cf5c38979836a69872ba8172dd16320d91a24fab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5b5a406_22c06e96",
+        "filename": "src/net/mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2019-09-27T22:01:58Z",
+      "side": 1,
+      "message": "This can just be t.Fatalf(err).",
+      "revId": "cf5c38979836a69872ba8172dd16320d91a24fab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca9c1f85_fa90c5c0",
+        "filename": "src/net/mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2019-09-27T22:01:58Z",
+      "side": 1,
+      "message": "This can just be t.Fatalf(err).",
+      "revId": "cf5c38979836a69872ba8172dd16320d91a24fab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa15229d_76873006",
+        "filename": "src/net/mac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2019-09-27T22:01:58Z",
+      "side": 1,
+      "message": "Rephrase this into the format you have for the Unmarshal tests, i.e \"want %q, got %q\".",
+      "revId": "cf5c38979836a69872ba8172dd16320d91a24fab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
