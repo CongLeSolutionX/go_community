@@ -78,6 +78,13 @@ const (
 	// stack is owned by the goroutine that put it in _Gcopystack.
 	_Gcopystack // 8
 
+	// _Gpreempted means this goroutine stopped itself for a
+	// suspendG preemption. It is like _Gwaiting, but nothing is
+	// yet responsible for ready()ing it. Some suspendG must CAS
+	// the status to _Gwaiting to take responsibility for
+	// ready()ing this G.
+	_Gpreempted // 9
+
 	// _Gscan combined with one of the above states other than
 	// _Grunning indicates that GC is scanning the stack. The
 	// goroutine is not executing user code and the stack is owned
@@ -411,6 +418,7 @@ type g struct {
 	waitsince      int64      // approx time when the g become blocked
 	waitreason     waitReason // if status==Gwaiting
 	preempt        bool       // preemption signal, duplicates stackguard0 = stackpreempt
+	preemptStop    bool       // transition to _Gpreempted on preemption
 	paniconfault   bool       // panic (instead of crash) on unexpected fault address
 	preemptscan    bool       // preempted g does scan for gc
 	gcscandone     bool       // g has scanned stack; protected by _Gscan bit in status
@@ -871,6 +879,7 @@ const (
 	waitReasonTraceReaderBlocked                      // "trace reader (blocked)"
 	waitReasonWaitForGCCycle                          // "wait for GC cycle"
 	waitReasonGCWorkerIdle                            // "GC worker (idle)"
+	waitReasonPreempted                               // "preempted"
 )
 
 var waitReasonStrings = [...]string{
@@ -899,6 +908,7 @@ var waitReasonStrings = [...]string{
 	waitReasonTraceReaderBlocked:    "trace reader (blocked)",
 	waitReasonWaitForGCCycle:        "wait for GC cycle",
 	waitReasonGCWorkerIdle:          "GC worker (idle)",
+	waitReasonPreempted:             "preempted",
 }
 
 func (w waitReason) String() string {
