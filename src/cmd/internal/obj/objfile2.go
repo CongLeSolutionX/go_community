@@ -17,6 +17,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"unsafe"
 )
 
 // New object file format.
@@ -595,6 +596,9 @@ func (w *Writer) Aux(s *LSym) {
 }
 
 type Reader struct {
+	b        []byte // mmapped bytes, if not nil
+	readonly bool   // whether b is backed with read-only memory
+
 	rd    io.ReaderAt
 	start uint32
 	h     OHeader // keep block offsets
@@ -609,8 +613,19 @@ func NewReader(rd io.ReaderAt, off uint32) *Reader {
 	return r
 }
 
+func NewReaderFromBytes(b []byte, readonly bool) *Reader {
+	r := &Reader{b: b, readonly: readonly, rd: bytes.NewReader(b), start: 0}
+	err := r.h.Read(r)
+	if err != nil {
+		return nil
+	}
+	return r
+}
+
 func (r *Reader) BytesAt(off uint32, len int) []byte {
-	// TODO: read from mapped memory
+	if r.b != nil {
+		return r.b[int(off) : int(off)+len]
+	}
 	b := make([]byte, len)
 	_, err := r.rd.ReadAt(b[:], int64(r.start+off))
 	if err != nil {
@@ -664,14 +679,30 @@ func (r *Reader) Uint8At(off uint32) uint8 {
 }
 
 func (r *Reader) StringAt(off uint32) string {
-	// TODO: have some way to construct a string without copy
 	l := r.Uint32At(off)
+	if r.b != nil {
+		return toString(r.b[int(off+4):int(off+4+l)])
+	}
 	b := make([]byte, l)
 	n, err := r.rd.ReadAt(b, int64(r.start+off+4))
 	if n != int(l) || err != nil {
 		panic("corrupted input")
 	}
 	return string(b)
+}
+
+type stringHeader struct {
+	str unsafe.Pointer
+	len int
+}
+
+func toString(b []byte) string {
+	if len(b) == 0 {
+		return ""
+	}
+	ss := stringHeader{str: unsafe.Pointer(&b[0]), len: len(b)}
+	s := *(*string)(unsafe.Pointer(&ss))
+	return s
 }
 
 func (r *Reader) StringRef(off uint32) string {
@@ -751,6 +782,11 @@ func (r *Reader) DataSize(i int) int {
 // AuxDataBase returns the base offset of the aux data block.
 func (r *Reader) PcdataBase() uint32 {
 	return r.h.Offsets[BlkPcdata]
+}
+
+// ReadOnly returns whether r.BytesAt returns read-only bytes.
+func (r *Reader) ReadOnly() bool {
+	return r.readonly
 }
 
 // FuncInfo is serialized as a symbol (aux symbol). The symbol data is
