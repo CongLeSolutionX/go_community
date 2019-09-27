@@ -155,7 +155,7 @@ func (h *OHeader) Read(r *Reader) error {
 	}
 	off := uint32(len(h.Magic))
 	for i := range h.Offsets {
-		h.Offsets[i] = r.Uint32At(off)
+		h.Offsets[i] = r.uint32At(off)
 		off += 4
 	}
 	return nil
@@ -192,10 +192,10 @@ func (s *OSym) Write(w *Writer) {
 
 func (s *OSym) Read(r *Reader, off uint32) {
 	s.Name = r.StringRef(off)
-	s.ABI = r.Uint16At(off + 4)
-	s.Type = r.Uint8At(off + 6)
-	s.Flag = r.Uint8At(off + 7)
-	s.Siz = r.Uint32At(off + 8)
+	s.ABI = r.uint16At(off + 4)
+	s.Type = r.uint8At(off + 6)
+	s.Flag = r.uint8At(off + 7)
+	s.Siz = r.uint32At(off + 8)
 }
 
 func (s *OSym) Size() int {
@@ -214,8 +214,8 @@ func (s *OSymRef) Write(w *Writer) {
 }
 
 func (s *OSymRef) Read(r *Reader, off uint32) {
-	s.PkgIdx = r.Uint32At(off)
-	s.SymIdx = r.Uint32At(off + 4)
+	s.PkgIdx = r.uint32At(off)
+	s.SymIdx = r.uint32At(off + 4)
 }
 
 func (s *OSymRef) Size() int {
@@ -240,10 +240,10 @@ func (r *OReloc) Write(w *Writer) {
 }
 
 func (o *OReloc) Read(r *Reader, off uint32) {
-	o.Off = r.Int32At(off)
-	o.Siz = r.Uint8At(off + 4)
-	o.Type = r.Uint8At(off + 5)
-	o.Add = r.Int64At(off + 6)
+	o.Off = r.int32At(off)
+	o.Siz = r.uint8At(off + 4)
+	o.Type = r.uint8At(off + 5)
+	o.Add = r.int64At(off + 6)
 	o.Sym.Read(r, off+14)
 }
 
@@ -272,7 +272,7 @@ func (a *OAux) Write(w *Writer) {
 }
 
 func (a *OAux) Read(r *Reader, off uint32) {
-	a.Type = r.Uint8At(off)
+	a.Type = r.uint8At(off)
 	a.Sym.Read(r, off+1)
 }
 
@@ -634,7 +634,7 @@ func (r *Reader) BytesAt(off uint32, len int) []byte {
 	return b
 }
 
-func (r *Reader) Uint64At(off uint32) uint64 {
+func (r *Reader) uint64At(off uint32) uint64 {
 	var b [8]byte
 	n, err := r.rd.ReadAt(b[:], int64(r.start+off))
 	if n != 8 || err != nil {
@@ -643,11 +643,11 @@ func (r *Reader) Uint64At(off uint32) uint64 {
 	return binary.LittleEndian.Uint64(b[:])
 }
 
-func (r *Reader) Int64At(off uint32) int64 {
-	return int64(r.Uint64At(off))
+func (r *Reader) int64At(off uint32) int64 {
+	return int64(r.uint64At(off))
 }
 
-func (r *Reader) Uint32At(off uint32) uint32 {
+func (r *Reader) uint32At(off uint32) uint32 {
 	var b [4]byte
 	n, err := r.rd.ReadAt(b[:], int64(r.start+off))
 	if n != 4 || err != nil {
@@ -656,11 +656,11 @@ func (r *Reader) Uint32At(off uint32) uint32 {
 	return binary.LittleEndian.Uint32(b[:])
 }
 
-func (r *Reader) Int32At(off uint32) int32 {
-	return int32(r.Uint32At(off))
+func (r *Reader) int32At(off uint32) int32 {
+	return int32(r.uint32At(off))
 }
 
-func (r *Reader) Uint16At(off uint32) uint16 {
+func (r *Reader) uint16At(off uint32) uint16 {
 	var b [2]byte
 	n, err := r.rd.ReadAt(b[:], int64(r.start+off))
 	if n != 2 || err != nil {
@@ -669,7 +669,7 @@ func (r *Reader) Uint16At(off uint32) uint16 {
 	return binary.LittleEndian.Uint16(b[:])
 }
 
-func (r *Reader) Uint8At(off uint32) uint8 {
+func (r *Reader) uint8At(off uint32) uint8 {
 	var b [1]byte
 	n, err := r.rd.ReadAt(b[:], int64(r.start+off))
 	if n != 1 || err != nil {
@@ -678,8 +678,8 @@ func (r *Reader) Uint8At(off uint32) uint8 {
 	return b[0]
 }
 
-func (r *Reader) StringAt(off uint32) string {
-	l := r.Uint32At(off)
+func (r *Reader) stringAt(off uint32) string {
+	l := r.uint32At(off)
 	if r.b != nil {
 		return toString(r.b[int(off+4):int(off+4+l)])
 	}
@@ -706,7 +706,7 @@ func toString(b []byte) string {
 }
 
 func (r *Reader) StringRef(off uint32) string {
-	return r.StringAt(r.Uint32At(off))
+	return r.stringAt(r.uint32At(off))
 }
 
 func (r *Reader) Pkglist() []string {
@@ -743,13 +743,13 @@ func (r *Reader) SymOff(i int) uint32 {
 // NReloc returns the number of relocations of the i-th symbol.
 func (r *Reader) NReloc(i int) int {
 	relocIdxOff := r.h.Offsets[BlkRelocIdx] + uint32(i*4)
-	return int(r.Uint32At(relocIdxOff+4) - r.Uint32At(relocIdxOff))
+	return int(r.uint32At(relocIdxOff+4) - r.uint32At(relocIdxOff))
 }
 
 // RelocOff returns the offset of the j-th relocation of the i-th symbol.
 func (r *Reader) RelocOff(i int, j int) uint32 {
 	relocIdxOff := r.h.Offsets[BlkRelocIdx] + uint32(i*4)
-	relocIdx := r.Uint32At(relocIdxOff)
+	relocIdx := r.uint32At(relocIdxOff)
 	relocsiz := (&OReloc{}).Size()
 	return r.h.Offsets[BlkReloc] + (relocIdx+uint32(j))*uint32(relocsiz)
 }
@@ -757,13 +757,13 @@ func (r *Reader) RelocOff(i int, j int) uint32 {
 // NAux returns the number of aux symbols of the i-th symbol.
 func (r *Reader) NAux(i int) int {
 	auxIdxOff := r.h.Offsets[BlkAuxIdx] + uint32(i*4)
-	return int(r.Uint32At(auxIdxOff+4) - r.Uint32At(auxIdxOff))
+	return int(r.uint32At(auxIdxOff+4) - r.uint32At(auxIdxOff))
 }
 
 // AuxOff returns the offset of the j-th aux symbol of the i-th symbol.
 func (r *Reader) AuxOff(i int, j int) uint32 {
 	auxIdxOff := r.h.Offsets[BlkAuxIdx] + uint32(i*4)
-	auxIdx := r.Uint32At(auxIdxOff)
+	auxIdx := r.uint32At(auxIdxOff)
 	auxsiz := (&OAux{}).Size()
 	return r.h.Offsets[BlkAux] + (auxIdx+uint32(j))*uint32(auxsiz)
 }
@@ -771,7 +771,7 @@ func (r *Reader) AuxOff(i int, j int) uint32 {
 // DataOff returns the offset of the i-th symbol's data.
 func (r *Reader) DataOff(i int) uint32 {
 	dataIdxOff := r.h.Offsets[BlkDataIdx] + uint32(i*4)
-	return r.h.Offsets[BlkData] + r.Uint32At(dataIdxOff)
+	return r.h.Offsets[BlkData] + r.uint32At(dataIdxOff)
 }
 
 // DataSize returns the size of the i-th symbol's data.
