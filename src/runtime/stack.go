@@ -1020,34 +1020,7 @@ func newstack() {
 			preemptPark(gp) // never returns
 		}
 
-		// Synchronize with scang.
-		casgstatus(gp, _Grunning, _Gwaiting)
-		if gp.preemptscan {
-			for !castogscanstatus(gp, _Gwaiting, _Gscanwaiting) {
-				// Likely to be racing with the GC as
-				// it sees a _Gwaiting and does the
-				// stack scan. If so, gcworkdone will
-				// be set and gcphasework will simply
-				// return.
-			}
-			if !gp.gcscandone {
-				// gcw is safe because we're on the
-				// system stack.
-				gcw := &gp.m.p.ptr().gcw
-				scanstack(gp, gcw)
-				gp.gcscandone = true
-			}
-			gp.preemptscan = false
-			gp.preempt = false
-			casfrom_Gscanstatus(gp, _Gscanwaiting, _Gwaiting)
-			// This clears gcscanvalid.
-			casgstatus(gp, _Gwaiting, _Grunning)
-			gp.stackguard0 = gp.stack.lo + _StackGuard
-			gogo(&gp.sched) // never return
-		}
-
 		// Act like goroutine called runtime.Gosched.
-		casgstatus(gp, _Gwaiting, _Grunning)
 		gopreempt_m(gp) // never return
 	}
 
