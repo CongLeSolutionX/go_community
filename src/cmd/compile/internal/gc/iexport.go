@@ -1043,8 +1043,12 @@ func (w *exportWriter) stmt(n *Node) {
 		if w.bool(!n.Implicit()) {
 			w.expr(n.Right)
 		}
-
-	case OAS2, OAS2DOTTYPE, OAS2FUNC, OAS2MAPR, OAS2RECV:
+	case OAS2FUNC, OAS2RECV, OAS2DOTTYPE, OAS2MAPR:
+		w.op(OAS2)
+		w.pos(n.Pos)
+		w.exprList(n.List)
+		w.exprList(asNodes([]*Node{n.Right}))
+	case OAS2:
 		w.op(OAS2)
 		w.pos(n.Pos)
 		w.exprList(n.List)
