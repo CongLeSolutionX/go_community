@@ -841,6 +841,13 @@ func casgcopystack(gp *g) uint32 {
 	}
 }
 
+// casgpreempted attempts to transition gp from _Gpreempted to
+// _Gwaiting. If successful, the caller is responsible for
+// re-scheduling gp.
+func casgpreempted(gp *g) bool {
+	return atomic.Cas(&gp.atomicstatus, _Gpreempted, _Gwaiting)
+}
+
 // scang blocks until gp's stack has been scanned.
 // It might be scanned by scang or it might be scanned by the goroutine itself.
 // Either way, the stack scan has completed when scang returns.
@@ -1673,7 +1680,6 @@ func oneNewExtraM() {
 	gp.syscallsp = gp.sched.sp
 	gp.stktopsp = gp.sched.sp
 	gp.gcscanvalid = true
-	gp.gcscandone = true
 	// malg returns status as _Gidle. Change to _Gdead before
 	// adding to allg where GC can see it. We use _Gdead to hide
 	// this from tracebacks and stack scans since it isn't a
@@ -2688,6 +2694,25 @@ func gopreempt_m(gp *g) {
 		traceGoPreempt()
 	}
 	goschedImpl(gp)
+}
+
+// preemptPark parks gp and puts it in _Gpreempted.
+//
+//go:systemstack
+func preemptPark(gp *g) {
+	if trace.enabled {
+		traceGoPark(traceEvGoBlock, 0)
+	}
+	status := readgstatus(gp)
+	if status&^_Gscan != _Grunning {
+		dumpgstatus(gp)
+		throw("bad g status")
+	}
+	gp.waitreason = waitReasonPreempted
+	casgstatus(gp, _Grunning, _Gpreempted)
+	dropg()
+
+	schedule()
 }
 
 // Finishes execution of the current goroutine.
