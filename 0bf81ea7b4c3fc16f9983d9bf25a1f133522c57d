@@ -46,6 +46,30 @@
       "revId": "0bf81ea7b4c3fc16f9983d9bf25a1f133522c57d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5449b90_0abd8be0",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 32909
+      },
+      "writtenOn": "2019-09-28T18:49:08Z",
+      "side": 1,
+      "message": "I pushed the proposed change and rebased to master.",
+      "parentUuid": "df0a0f54_81236a1e",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 4
+      },
+      "revId": "0bf81ea7b4c3fc16f9983d9bf25a1f133522c57d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
