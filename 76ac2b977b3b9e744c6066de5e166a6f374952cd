@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00d12726_7217bb78",
+        "filename": "src/cmd/compile/internal/gc/iexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2019-09-28T00:03:24Z",
+      "side": 1,
+      "message": "nit: move this down below the \"case OAS2:\" block\n\nAlso, why the change in OAS2xxx ordering? It was alphabetic before.",
+      "range": {
+        "startLine": 1046,
+        "startChar": 0,
+        "endLine": 1050,
+        "endChar": 39
+      },
+      "revId": "76ac2b977b3b9e744c6066de5e166a6f374952cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a6881f3_3e04483c",
+        "filename": "src/cmd/compile/internal/gc/initorder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2019-09-28T00:03:24Z",
+      "side": 1,
+      "message": "nit: revert ordering. It was alphabetic before.",
+      "revId": "76ac2b977b3b9e744c6066de5e166a6f374952cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6f19429_055e54c0",
+        "filename": "src/cmd/compile/internal/gc/select.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2019-09-28T00:03:24Z",
+      "side": 1,
+      "message": "I think you can remove this line.",
+      "revId": "76ac2b977b3b9e744c6066de5e166a6f374952cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01a2b21f_5546d940",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2019-09-28T00:03:24Z",
+      "side": 1,
+      "message": "I\u0027d put \"n.Right \u003d r\" back here. I think that\u0027s important in case \"r \u003d walkexpr(r, init)\" simplified r into something that uses an intrinsic call.",
+      "revId": "76ac2b977b3b9e744c6066de5e166a6f374952cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
