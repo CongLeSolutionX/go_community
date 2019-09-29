@@ -104,6 +104,7 @@ const (
 	SCONST
 	SDYNIMPORT
 	SHOSTOBJ
+	SUNDEFEXT
 
 	// Sections for debugging information
 	SDWARFSECT
