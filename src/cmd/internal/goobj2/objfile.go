@@ -523,6 +523,24 @@ func (r *Reader) RelocOff(i int, j int) uint32 {
 	return r.h.Offsets[BlkReloc] + (relocIdx+uint32(j))*uint32(relocsiz)
 }
 
+// RelocSym returns the symbol reference of the j-th relocation of the
+// i-th symbol. This allows reading only the symbol reference without
+// reading the full Reloc.
+func (r *Reader) RelocSym(i int, j int) SymRef {
+	off := r.RelocOff(i, j)
+	s := SymRef{}
+	s.Read(r, off+14) // offset must match Reloc.Read above
+	return s
+}
+
+// RelocType returns the relocation type of the j-th relocation of the
+// i-th symbol. This allows reading only the type without reading the
+// full Reloc.
+func (r *Reader) RelocType(i int, j int) uint8 {
+	off := r.RelocOff(i, j)
+	return r.uint8At(off + 5) // offset must match Reloc.Read above
+}
+
 // NAux returns the number of aux symbols of the i-th symbol.
 func (r *Reader) NAux(i int) int {
 	auxIdxOff := r.h.Offsets[BlkAuxIdx] + uint32(i*4)
@@ -535,6 +553,16 @@ func (r *Reader) AuxOff(i int, j int) uint32 {
 	auxIdx := r.uint32At(auxIdxOff)
 	auxsiz := (&Aux{}).Size()
 	return r.h.Offsets[BlkAux] + (auxIdx+uint32(j))*uint32(auxsiz)
+}
+
+// AuxSym returns the symbol reference of the j-th aux symbol of the
+// i-th symbol. This allows reading only the symbol reference without
+// reading the full Aux.
+func (r *Reader) AuxSym(i int, j int) SymRef {
+	off := r.AuxOff(i, j)
+	s := SymRef{}
+	s.Read(r, off+1) // offset must match Aux.Read above
+	return s
 }
 
 // DataOff returns the offset of the i-th symbol's data.
