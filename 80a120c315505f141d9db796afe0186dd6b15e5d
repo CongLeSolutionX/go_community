@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5052e361_6b0e9e61",
+        "filename": "src/cmd/link/internal/sym/symkind.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-09-30T23:47:31Z",
+      "side": 1,
+      "message": "I know that the existing comments here are very weak, but if we\u0027re going to add a new constant let\u0027s add a comment explaining what it means.  Thanks.",
+      "revId": "80a120c315505f141d9db796afe0186dd6b15e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
