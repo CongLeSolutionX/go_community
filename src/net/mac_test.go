@@ -107,3 +107,82 @@ func TestParseMAC(t *testing.T) {
 		}
 	}
 }
+
+func TestHardwareAddr_UnmarshalText(t *testing.T) {
+	tests := []struct {
+		msg     string
+		text    string
+		wantStr string
+		wantErr string
+	}{
+		{
+			msg:     "valid mac1",
+			text:    "aa:bb:cc:dd:ee:ff",
+			wantStr: "aa:bb:cc:dd:ee:ff",
+			wantErr: "",
+		},
+		{
+			msg:     "valid mac2",
+			text:    "00-00-5e-00-63-01",
+			wantStr: "00:00:5e:00:63:01",
+			wantErr: "",
+		},
+		{
+			msg:     "binary mac",
+			text:    "VCKpL053",
+			wantStr: "54:22:a9:2f:4e:77",
+			wantErr: "",
+		},
+		{
+			msg:     "empty text",
+			text:    "",
+			wantStr: "",
+			wantErr: "",
+		},
+		{
+			msg:     "invalid text",
+			text:    "foo-bar-baz",
+			wantStr: "",
+			wantErr: "address foo-bar-baz: invalid MAC address",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.msg, func(t *testing.T) {
+			var a HardwareAddr
+			err := a.UnmarshalText([]byte(tt.text))
+			gotStr := a.String()
+			if tt.wantStr != gotStr || !matchErr(tt.wantErr, err) {
+				t.Errorf("want: addr = %q, err = %q, got: addr = %q, err = %q", tt.wantStr, tt.wantErr, gotStr, err)
+			}
+		})
+	}
+}
+
+func matchErr(s string, err error) bool {
+	if s == "" {
+		return err == nil
+	}
+	return err != nil && strings.Contains(err.Error(), s)
+}
+
+func TestHardwareAddr_MarshalText(t *testing.T) {
+	input := "aa:bb:cc:dd:ee:ff"
+
+	var a HardwareAddr
+	if err := a.UnmarshalText([]byte(input)); err != nil {
+		t.Fatal(err)
+	}
+
+	output, err := a.MarshalText()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.UnmarshalText([]byte(input)); err != nil {
+		t.Fatal(err)
+	}
+
+	if input != string(output) {
+		t.Errorf("want %q, got %q", input, string(output))
+	}
+}
