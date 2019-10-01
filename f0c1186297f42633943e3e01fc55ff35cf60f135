@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "32cd0813_a201b2a0",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-01T20:48:29Z",
+      "side": 1,
+      "message": "I totally agree. In fact I was thinking on the same thing, and I think this is feasible. Should I do it now, or as a later CL? I\u0027ll probably wait until at least this CL is reviewed, so the review comments are preserved and people can diff between old and new versions of this code.\n\nWhat name do you recommend? goobj or objfile seem to make sense, but they already exist. Maybe eventually we can replace the current goobj package (there we also have logic to read archive, which we need to preserve). goobj2 for now? (seems ugly...)",
+      "parentUuid": "a46e5146_388e85b6",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e32e66ab_835a7a6a",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "baab4079_2ce6d04b",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-01T20:48:29Z",
+      "side": 1,
+      "message": "Yeah, I think this make sense. I haven\u0027t done this now mostly because Pcdata currently are not symbols, so it needs some work to create the symbols (and assign indices to them), and it will probably add some overhead (probably mostly memory) to the compiler. It is probably not much. At some point I\u0027ll do this and do some measurement.",
+      "parentUuid": "e32e66ab_835a7a6a",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8972ddb8_fa031098",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 6
@@ -47,6 +83,30 @@
       "writtenOn": "2019-10-01T14:13:02Z",
       "side": 1,
       "message": "It would be a bit cleaner to for the predeclared indexes to count down from ^uint32(0). Either way you need to check for these special indexes, but this way you can just directly use the package index once you\u0027ve checked that it\u0027s not special. If you have to subtract from the encoded index to get the \"real\" index, this is going to be an easy source of bugs.",
+      "range": {
+        "startLine": 89,
+        "startChar": 57,
+        "endLine": 89,
+        "endChar": 77
+      },
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f24648ed_1b7b69d7",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-01T20:48:29Z",
+      "side": 1,
+      "message": "Good point. (see also the next comment)",
+      "parentUuid": "8972ddb8_fa031098",
       "range": {
         "startLine": 89,
         "startChar": 57,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "71be6a9b_be49427b",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-01T20:48:29Z",
+      "side": 1,
+      "message": "I think this makes sense. I\u0027ll give it a try.\n\nThe reason I left out (nonzero, 0) is to catch bugs that we only assigned package index but not symbol index. But it is probably not likely to happen given how we assign indices.",
+      "parentUuid": "8bc4ea3b_ea425bf0",
+      "range": {
+        "startLine": 93,
+        "startChar": 30,
+        "endLine": 93,
+        "endChar": 38
+      },
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "17c8ac2b_0dee35ca",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 6
@@ -93,6 +177,30 @@
       "writtenOn": "2019-10-01T14:13:02Z",
       "side": 1,
       "message": "Is the length of this index one more than the number of symbols so this i+1 always works out? (I think it should be and we should document this.)",
+      "range": {
+        "startLine": 107,
+        "startChar": 18,
+        "endLine": 107,
+        "endChar": 36
+      },
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7715f62a_619a7127",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-01T20:48:29Z",
+      "side": 1,
+      "message": "Yes. I\u0027ll add some comment.",
+      "parentUuid": "17c8ac2b_0dee35ca",
       "range": {
         "startLine": 107,
         "startChar": 18,
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "afa6c443_d87c02c8",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-01T20:48:29Z",
+      "side": 1,
+      "message": "Yeah, make sense. As the linker needs this type to consume it, it should live in the package that shared with the compiler and linker, i.e. not the obj package.",
+      "parentUuid": "62efd46d_7c3096e9",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d4ea774_99d09ead",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 6
@@ -133,6 +259,24 @@
       "writtenOn": "2019-10-01T14:13:02Z",
       "side": 1,
       "message": "I\u0027m not sure if we should duplicate the full type definition in the comment like this. Given that the OFuncInfo is completely self-describing, I don\u0027t think this comment adds anything, and it could get out of sync.",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9f5dcbe_ca8ae663",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-01T20:48:29Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll delete the comment.",
+      "parentUuid": "2d4ea774_99d09ead",
       "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
