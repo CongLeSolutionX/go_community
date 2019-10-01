@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9f54b0a7_a3fc63a0",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-01T05:08:31Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "02938c16_f706eda0",
+      "revId": "909adf7c5c9a565d94d4668d6622768991355589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b4139eb_fbf3e2aa",
         "filename": "src/net/http/transfer.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "909adf7c5c9a565d94d4668d6622768991355589",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e615823_5ed03a4e",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-01T05:08:31Z",
+      "side": 1,
+      "message": "Great points and questions, however:\na) This package uses \"identity\" and the logic for this change was derived\nfrom the check on whether we should contentLength by examining if \"identity\"\nis the sole transfer-encoding as per https://github.com/golang/go/blob/e617141b0b35f14f5fe9113febcc84a2b0ecb642/src/net/http/transfer.go#L589-L590\nb) Despite \"identity\" having been withdrawn in that RFC, in 2019 the Mozilla web docs that were\nlast updated still refer to \"identity\" https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Transfer-Encoding. Unfortunately I don\u0027t have access to web server\nheader logs to be able to fully decide whether to ignore it or not.\nc) Inverting that logic means that `Transfer-Encoding: chunked,identity` will return false, of which just including \"identity\" should render it NOT-implicitly chunked\nd) \"identity\" if present SHOULD be the ONLY encoding as it means no compression nor transformation",
+      "parentUuid": "2b4139eb_fbf3e2aa",
+      "revId": "909adf7c5c9a565d94d4668d6622768991355589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "eefbf10b_9d0bb06c",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-01T05:08:31Z",
+      "side": 1,
+      "message": "Roger that, thanks! Done.",
+      "parentUuid": "95866fb0_fffb81ee",
+      "revId": "909adf7c5c9a565d94d4668d6622768991355589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "044b3ee4_2c0a08f2",
         "filename": "src/net/http/transfer.go",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "909adf7c5c9a565d94d4668d6622768991355589",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "174b09e4_176694f4",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2019-10-01T05:08:31Z",
+      "side": 1,
+      "message": "I\u0027d rather not change the interpretation of the presence of \"identity\". I had mentioned early, we are in 2019 and a leading web authority https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Transfer-Encoding still references it. The inclusion of \"identity\" in there which means \"no compression\" and then with any other encoding is an error.\n\nIf added an enforcement so that a mixture of \"identity\" and any other encoding will\nreturn an error.",
+      "parentUuid": "044b3ee4_2c0a08f2",
+      "revId": "909adf7c5c9a565d94d4668d6622768991355589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
