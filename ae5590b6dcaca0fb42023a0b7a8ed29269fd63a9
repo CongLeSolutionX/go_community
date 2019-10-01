@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3d7f5e1_482ecb06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-01T03:34:54Z",
+      "side": 1,
+      "message": "Remove the leading whitespace on this line.",
+      "revId": "ae5590b6dcaca0fb42023a0b7a8ed29269fd63a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "260e89bc_cc233955",
+        "filename": "test/fixedbugs/issue21576.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-01T03:34:54Z",
+      "side": 1,
+      "message": "It\u0027s 2019 now.",
+      "range": {
+        "startLine": 4,
+        "startChar": 13,
+        "endLine": 4,
+        "endChar": 17
+      },
+      "revId": "ae5590b6dcaca0fb42023a0b7a8ed29269fd63a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c6ae80f_78a837f2",
+        "filename": "test/fixedbugs/issue21576.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-01T03:34:54Z",
+      "side": 1,
+      "message": "Use ioutil.WriteFile.",
+      "revId": "ae5590b6dcaca0fb42023a0b7a8ed29269fd63a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9df586b1_2e11de6e",
+        "filename": "test/fixedbugs/issue21576.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-01T03:34:54Z",
+      "side": 1,
+      "message": "Instead of the stderr variable, just use\n    output, err :\u003d cmd.CombinedOutput()",
+      "revId": "ae5590b6dcaca0fb42023a0b7a8ed29269fd63a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e27db352_3ad4828a",
+        "filename": "test/fixedbugs/issue21576.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-01T03:34:54Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to check for all these lines.  It just makes the test a bit fragile if we ever change the stack trace for some reason.  I think that for this test it\u0027s enough to look for \"all goroutines are asleep\".",
+      "revId": "ae5590b6dcaca0fb42023a0b7a8ed29269fd63a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
