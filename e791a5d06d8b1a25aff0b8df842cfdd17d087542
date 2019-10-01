@@ -22,6 +22,30 @@
       "revId": "e791a5d06d8b1a25aff0b8df842cfdd17d087542",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a3ab6e9_312f481f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2019-10-01T02:07:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab8b8f83_74d7e670",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "e791a5d06d8b1a25aff0b8df842cfdd17d087542",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
