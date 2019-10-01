@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62d4d308_1958a9cb",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390XOps.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2019-10-01T16:26:29Z",
+      "side": 1,
+      "message": "You need to describe what these ops do. What is different about them? I can\u0027t decode CLGRJ to know what it does.\n\nAlso describe what auxint is used for in the I versions.",
+      "revId": "48367b6bded9be2ade4fd8ada9ae056a81b78422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
