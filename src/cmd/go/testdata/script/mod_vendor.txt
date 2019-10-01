@@ -20,7 +20,7 @@ stderr '^z'
 ! stderr '^w'
 grep 'a/foo/bar/b\na/foo/bar/c' vendor/modules.txt # must be sorted
 
-go list -f {{.Dir}} x
+go list -mod=mod -f {{.Dir}} x
 stdout 'src[\\/]x'
 
 go list -f {{.Dir}} -m x
