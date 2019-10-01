@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3bd468e0_bf72cdb1",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T21:23:01Z",
+      "side": 1,
+      "message": "I would go ahead and move it now. I\u0027d prefer to keep the git history clean than the review history.\n\nNaming is a good question. I agree that we should endeavor to eliminate the current goobj package, but can\u0027t yet. Maybe goobj2 is fine for now and we can do a package rename later. (\"newgoo\"?)",
+      "parentUuid": "32cd0813_a201b2a0",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e32e66ab_835a7a6a",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 6
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Yeah, I think this make sense. I haven\u0027t done this now mostly because Pcdata currently are not symbols, so it needs some work to create the symbols (and assign indices to them), and it will probably add some overhead (probably mostly memory) to the compiler. It is probably not much. At some point I\u0027ll do this and do some measurement.",
       "parentUuid": "e32e66ab_835a7a6a",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbeb6615_7b4e2295",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T21:23:01Z",
+      "side": 1,
+      "message": "That\u0027s fair. Does that mean we have to wait until we can drop the old object format before we can put pcdata in symbols? If so, I think we should work toward dropping the old format soon, since it seems like it\u0027s constraining us in several ways already.",
+      "parentUuid": "baab4079_2ce6d04b",
       "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -116,6 +152,30 @@
       "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d47190d7_9ec9ef78",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T21:23:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f24648ed_1b7b69d7",
+      "range": {
+        "startLine": 89,
+        "startChar": 57,
+        "endLine": 89,
+        "endChar": 77
+      },
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
