@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e32e66ab_835a7a6a",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T14:13:02Z",
+      "side": 1,
+      "message": "Can we make the pcdata use aux symbols, too?\n\nGiven that the pcdata indexes themselves are open-ended, maybe the aux type should have a type and a subtype, so we could say, e.g. (AuxPcdata, 1) for the the stack map of a symbol.\n\n(Ah, I see you have a TODO for this below.)",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8972ddb8_fa031098",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T14:13:02Z",
+      "side": 1,
+      "message": "It would be a bit cleaner to for the predeclared indexes to count down from ^uint32(0). Either way you need to check for these special indexes, but this way you can just directly use the package index once you\u0027ve checked that it\u0027s not special. If you have to subtract from the encoded index to get the \"real\" index, this is going to be an easy source of bugs.",
+      "range": {
+        "startLine": 89,
+        "startChar": 57,
+        "endLine": 89,
+        "endChar": 77
+      },
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bc4ea3b_ea425bf0",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T14:13:02Z",
+      "side": 1,
+      "message": "This offset also seems like an easy source of bugs. I definitely get the appeal of making (0, 0) an invalid symbol, but maybe we should either:\n\n1. Make package 0 the invalid package and (0, 0) the nil symbol, but allow symbol index 0 in other packages. In this case, I would say we should even put an empty-string package a 0 in the PkgIndex table so the package indexes don\u0027t need to be offset. Since there wouldn\u0027t really be a package 0, any API entry points that fetch symbol data would naturally have to panic on package 0 (and we might as well make this a nice panic).\n\n2. Put a symbol 0 into the SymbolDefs and NonPkgDefs tables that\u0027s an invalid symbol. This way, index 0 in any package is invalid. However, I wouldn\u0027t want to accidentally return this symbol for a (0, 0) index, so we\u0027d have to be sure to check for this in the right places, which I think would be easier to screw up than approach 1.",
+      "range": {
+        "startLine": 93,
+        "startChar": 30,
+        "endLine": 93,
+        "endChar": 38
+      },
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17c8ac2b_0dee35ca",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T14:13:02Z",
+      "side": 1,
+      "message": "Is the length of this index one more than the number of symbols so this i+1 always works out? (I think it should be and we should document this.)",
+      "range": {
+        "startLine": 107,
+        "startChar": 18,
+        "endLine": 107,
+        "endChar": 36
+      },
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62efd46d_7c3096e9",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T14:13:02Z",
+      "side": 1,
+      "message": "Since FuncInfo is now decoupled from the object format, I would move this into its own file (and maybe it\u0027s own package, but if it\u0027s in its own file it\u0027s at least easy to move later without messing up git history).",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d4ea774_99d09ead",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T14:13:02Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we should duplicate the full type definition in the comment like this. Given that the OFuncInfo is completely self-describing, I don\u0027t think this comment adds anything, and it could get out of sync.",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a3812b4_6e4b01d9",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T14:13:02Z",
+      "side": 1,
+      "message": "Gone now. :)",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
