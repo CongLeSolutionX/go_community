@@ -4,6 +4,8 @@
 
 package ssa
 
+import "cmd/internal/src"
+
 // branchelim tries to eliminate branches by
 // generating CondSelect instructions.
 //
@@ -174,12 +176,81 @@ func elimIf(f *Func, loadAddr *sparseSet, dom *Block) bool {
 		e.b.Preds[e.i].b = dom
 	}
 
-	for i := range simple.Values {
-		simple.Values[i].Block = dom
+	// Try really had to preserve statement marks attached to blocks.
+	simplePos := simple.Pos
+	postPos := post.Pos
+	simpleStmt := simplePos.IsStmt() == src.PosIsStmt
+	postStmt := postPos.IsStmt() == src.PosIsStmt
+
+	for _, v := range simple.Values {
+		v.Block = dom
+		// See if there is a stmt-marked value already that matches simple.Pos (and perhaps post.Pos)
+		if simpleStmt && simplePos.SameFileAndLine(v.Pos) && v.Pos.IsStmt() == src.PosIsStmt {
+			simpleStmt = false
+			if simplePos.SameFileAndLine(postPos) {
+				postStmt = false
+			}
+		}
 	}
-	for i := range post.Values {
-		post.Values[i].Block = dom
+	for _, v := range post.Values {
+		v.Block = dom
+		// See if there is a stmt-marked value already that matches post.Pos
+		if postStmt && postPos.SameFileAndLine(v.Pos) && v.Pos.IsStmt() == src.PosIsStmt {
+			postStmt = false
+		}
 	}
+	// If necessary and possible, add a mark to a value in simple
+	if simpleStmt {
+		for _, v := range simple.Values {
+			if simplePos.SameFileAndLine(v.Pos) && !isPoorStatementOp(v.Op) {
+				v.Pos = v.Pos.WithIsStmt()
+				if simplePos.SameFileAndLine(postPos) {
+					postStmt = false
+					break
+				}
+			}
+		}
+	}
+	// If necessary and possible, add a mark to a value in post
+	if postStmt {
+		for _, v := range post.Values {
+			if postPos.SameFileAndLine(v.Pos) && !isPoorStatementOp(v.Op) {
+				v.Pos = v.Pos.WithIsStmt()
+				postStmt = false
+				break
+			}
+		}
+	}
+
+	// Before giving up (this was added because it helps), try the end of "dom", and if that is not available,
+	// try the values in the successor block if it is uncomplicated.
+	if postStmt {
+		if dom.Pos.IsStmt() != src.PosIsStmt {
+			dom.Pos = post.Pos
+		} else {
+			// Try the successor block
+			if len(dom.Succs) == 1 && len(dom.Succs[0].Block().Preds) == 1 {
+				succ := dom.Succs[0].Block()
+				for _, v := range succ.Values {
+					if isPoorStatementOp(v.Op) {
+						continue
+					}
+					if !postPos.SameFileAndLine(v.Pos) {
+						postStmt = false
+						break
+					}
+					v.Pos = v.Pos.WithIsStmt()
+					postStmt = false
+					break
+				}
+				// If postStmt still true, tag the block itself.
+				if postStmt && succ.Pos.IsStmt() != src.PosIsStmt {
+					succ.Pos = post.Pos
+				}
+			}
+		}
+	}
+
 	dom.Values = append(dom.Values, simple.Values...)
 	dom.Values = append(dom.Values, post.Values...)
 
