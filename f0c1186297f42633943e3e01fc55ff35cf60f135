@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a46e5146_388e85b6",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-01T14:24:58Z",
+      "side": 1,
+      "message": "I think it\u0027s perfectly fine to have WriteObjFile2 in obj, given that it needs to poke into a lot of internal details in obj, but I think the type definitions and low-level Read/Write methods should go in their own package.\n\nBasically, I think it\u0027s a structural mistake that cmd/link imports cmd/internal/obj. I think I\u0027m actually responsible for it being that way right now, but at the moment it\u0027s still really easy to tease apart. If we put the low-level types and reader methods in obj, link and obj are going to become much more tightly coupled. But I think it would be easy to put the low-level stuff in another package that obj link and obj import.",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e32e66ab_835a7a6a",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 6
