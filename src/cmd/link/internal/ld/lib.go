@@ -1640,7 +1640,12 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 
 	if magic&^1 == 0xfeedface || magic&^0x01000000 == 0xcefaedfe {
 		ldmacho := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
-			textp, err := loadmacho.Load(ctxt.Arch, ctxt.Syms, f, pkg, length, pn)
+			ldr, err := loadmacho.Load(ctxt.Arch, f, pkg, length, pn)
+			if err != nil {
+				Errorf(nil, "%v", err)
+				return
+			}
+			textp, err := ldr.LoadFull(ctxt.Arch, pkg, length, ctxt.Syms)
 			if err != nil {
 				Errorf(nil, "%v", err)
 				return

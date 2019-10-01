@@ -51,12 +51,11 @@ const (
 	MACHO_FAKE_GOTPCREL         = 100
 )
 
-type ldMachoObj struct {
+type MachoLoader struct {
 	f          *bio.Reader
 	base       int64 // off in f where Mach-O begins
 	length     int64 // length of Mach-O
 	is64       bool
-	name       string
 	e          binary.ByteOrder
 	cputype    uint
 	subcputype uint
@@ -64,6 +63,10 @@ type ldMachoObj struct {
 	flags      uint32
 	cmd        []ldMachoCmd
 	ncmd       uint
+	c          *ldMachoCmd
+	symtab     *ldMachoSymtab
+	dsymtab    *ldMachoDysymtab
+	errorf     func(str string, args ...interface{}) error
 }
 
 type ldMachoCmd struct {
@@ -196,7 +199,7 @@ const (
 	LdMachoFilePreload    = 5
 )
 
-func unpackcmd(p []byte, m *ldMachoObj, c *ldMachoCmd, type_ uint, sz uint) int {
+func unpackcmd(p []byte, m *MachoLoader, c *ldMachoCmd, type_ uint, sz uint) int {
 	e4 := m.e.Uint32
 	e8 := m.e.Uint64
 
@@ -314,7 +317,7 @@ func unpackcmd(p []byte, m *ldMachoObj, c *ldMachoCmd, type_ uint, sz uint) int 
 	return 0
 }
 
-func macholoadrel(m *ldMachoObj, sect *ldMachoSect) int {
+func macholoadrel(m *MachoLoader, sect *ldMachoSect) int {
 	if sect.rel != nil || sect.nreloc == 0 {
 		return 0
 	}
@@ -361,29 +364,29 @@ func macholoadrel(m *ldMachoObj, sect *ldMachoSect) int {
 	return 0
 }
 
-func macholoaddsym(m *ldMachoObj, d *ldMachoDysymtab) int {
-	n := int(d.nindirectsyms)
+func (m *MachoLoader) loaddsym() int {
+	n := int(m.dsymtab.nindirectsyms)
 
 	p := make([]byte, n*4)
-	m.f.MustSeek(m.base+int64(d.indirectsymoff), 0)
+	m.f.MustSeek(m.base+int64(m.dsymtab.indirectsymoff), 0)
 	if _, err := io.ReadFull(m.f, p); err != nil {
 		return -1
 	}
 
-	d.indir = make([]uint32, n)
+	m.dsymtab.indir = make([]uint32, n)
 	for i := 0; i < n; i++ {
-		d.indir[i] = m.e.Uint32(p[4*i:])
+		m.dsymtab.indir[i] = m.e.Uint32(p[4*i:])
 	}
 	return 0
 }
 
-func macholoadsym(m *ldMachoObj, symtab *ldMachoSymtab) int {
-	if symtab.sym != nil {
+func (m *MachoLoader) loadsym() int {
+	if m.symtab.sym != nil {
 		return 0
 	}
 
-	strbuf := make([]byte, symtab.strsize)
-	m.f.MustSeek(m.base+int64(symtab.stroff), 0)
+	strbuf := make([]byte, m.symtab.strsize)
+	m.f.MustSeek(m.base+int64(m.symtab.stroff), 0)
 	if _, err := io.ReadFull(m.f, strbuf); err != nil {
 		return -1
 	}
@@ -392,18 +395,18 @@ func macholoadsym(m *ldMachoObj, symtab *ldMachoSymtab) int {
 	if m.is64 {
 		symsize = 16
 	}
-	n := int(symtab.nsym * uint32(symsize))
+	n := int(m.symtab.nsym * uint32(symsize))
 	symbuf := make([]byte, n)
-	m.f.MustSeek(m.base+int64(symtab.symoff), 0)
+	m.f.MustSeek(m.base+int64(m.symtab.symoff), 0)
 	if _, err := io.ReadFull(m.f, symbuf); err != nil {
 		return -1
 	}
-	sym := make([]ldMachoSym, symtab.nsym)
+	sym := make([]ldMachoSym, m.symtab.nsym)
 	p := symbuf
-	for i := uint32(0); i < symtab.nsym; i++ {
+	for i := uint32(0); i < m.symtab.nsym; i++ {
 		s := &sym[i]
 		v := m.e.Uint32(p)
-		if v >= symtab.strsize {
+		if v >= m.symtab.strsize {
 			return -1
 		}
 		s.name = cstring(strbuf[v:])
@@ -418,24 +421,23 @@ func macholoadsym(m *ldMachoObj, symtab *ldMachoSymtab) int {
 		p = p[symsize:]
 	}
 
-	symtab.str = strbuf
-	symtab.sym = sym
+	m.symtab.str = strbuf
+	m.symtab.sym = sym
 	return 0
 }
 
 // Load loads the Mach-O file pn from f.
 // Symbols are written into syms, and a slice of the text symbols is returned.
-func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length int64, pn string) (textp []*sym.Symbol, err error) {
-	errorf := func(str string, args ...interface{}) ([]*sym.Symbol, error) {
-		return nil, fmt.Errorf("loadmacho: %v: %v", pn, fmt.Sprintf(str, args...))
+func Load(arch *sys.Arch, f *bio.Reader, pkg string, length int64, pn string) (*MachoLoader, error) {
+	errorf := func(str string, args ...interface{}) error {
+		return fmt.Errorf("loadmacho: %v: %v", pn, fmt.Sprintf(str, args...))
 	}
 
-	localSymVersion := syms.IncVersion()
 	base := f.Offset()
 
 	var hdr [7 * 4]uint8
 	if _, err := io.ReadFull(f, hdr[:]); err != nil {
-		return errorf("reading hdr: %v", err)
+		return nil, errorf("reading hdr: %v", err)
 	}
 
 	var e binary.ByteOrder
@@ -444,21 +446,21 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 	} else if binary.LittleEndian.Uint32(hdr[:])&^1 == 0xFEEDFACE {
 		e = binary.LittleEndian
 	} else {
-		return errorf("bad magic - not mach-o file")
+		return nil, errorf("bad magic - not mach-o file")
 	}
 
 	is64 := e.Uint32(hdr[:]) == 0xFEEDFACF
 	ncmd := e.Uint32(hdr[4*4:])
 	cmdsz := e.Uint32(hdr[5*4:])
 	if ncmd > 0x10000 || cmdsz >= 0x01000000 {
-		return errorf("implausible mach-o header ncmd=%d cmdsz=%d", ncmd, cmdsz)
+		return nil, errorf("implausible mach-o header ncmd=%d cmdsz=%d", ncmd, cmdsz)
 	}
 
 	if is64 {
 		f.MustSeek(4, 1) // skip reserved word in header
 	}
 
-	m := &ldMachoObj{
+	m := &MachoLoader{
 		f:          f,
 		e:          e,
 		cputype:    uint(e.Uint32(hdr[1*4:])),
@@ -469,36 +471,31 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 		is64:       is64,
 		base:       base,
 		length:     length,
-		name:       pn,
+		errorf:     errorf,
 	}
 
 	switch arch.Family {
 	default:
-		return errorf("mach-o %s unimplemented", arch.Name)
+		return nil, m.errorf("mach-o %s unimplemented", arch.Name)
 
 	case sys.AMD64:
 		if e != binary.LittleEndian || m.cputype != LdMachoCpuAmd64 {
-			return errorf("mach-o object but not amd64")
+			return nil, m.errorf("mach-o object but not amd64")
 		}
 
 	case sys.I386:
 		if e != binary.LittleEndian || m.cputype != LdMachoCpu386 {
-			return errorf("mach-o object but not 386")
+			return nil, m.errorf("mach-o object but not 386")
 		}
 	}
 
 	m.cmd = make([]ldMachoCmd, ncmd)
 	cmdp := make([]byte, cmdsz)
 	if _, err := io.ReadFull(f, cmdp); err != nil {
-		return errorf("reading cmds: %v", err)
+		return nil, m.errorf("reading cmds: %v", err)
 	}
 
 	// read and parse load commands
-	var c *ldMachoCmd
-
-	var symtab *ldMachoSymtab
-	var dsymtab *ldMachoDysymtab
-
 	off := uint32(len(hdr))
 	for i := uint32(0); i < ncmd; i++ {
 		ty := e.Uint32(cmdp)
@@ -508,53 +505,61 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 		cmdp = cmdp[sz:]
 		off += sz
 		if ty == LdMachoCmdSymtab {
-			if symtab != nil {
-				return errorf("multiple symbol tables")
+			if m.symtab != nil {
+				return nil, m.errorf("multiple symbol tables")
 			}
 
-			symtab = &m.cmd[i].sym
-			macholoadsym(m, symtab)
+			m.symtab = &m.cmd[i].sym
+			m.loadsym()
 		}
 
 		if ty == LdMachoCmdDysymtab {
-			dsymtab = &m.cmd[i].dsym
-			macholoaddsym(m, dsymtab)
+			m.dsymtab = &m.cmd[i].dsym
+			m.loaddsym()
 		}
 
 		if (is64 && ty == LdMachoCmdSegment64) || (!is64 && ty == LdMachoCmdSegment) {
-			if c != nil {
-				return errorf("multiple load commands")
+			if m.c != nil {
+				return nil, m.errorf("multiple load commands")
 			}
 
-			c = &m.cmd[i]
+			m.c = &m.cmd[i]
 		}
 	}
+
+	return m, nil
+}
+
+// LoadFull loads the remainder of the object file.
+func (m *MachoLoader) LoadFull(arch *sys.Arch, pkg string, length int64, syms *sym.Symbols) ([]*sym.Symbol, error) {
+	textp := []*sym.Symbol{}
+	localSymVersion := syms.IncVersion()
 
 	// load text and data segments into memory.
 	// they are not as small as the load commands, but we'll need
 	// the memory anyway for the symbol images, so we might
 	// as well use one large chunk.
-	if c == nil {
-		return errorf("no load command")
+	if m.c == nil {
+		return nil, m.errorf("no load command")
 	}
 
-	if symtab == nil {
+	if m.symtab == nil {
 		// our work is done here - no symbols means nothing can refer to this file
-		return
+		return nil, nil
 	}
 
-	if int64(c.seg.fileoff+c.seg.filesz) >= length {
-		return errorf("load segment out of range")
+	if int64(m.c.seg.fileoff+m.c.seg.filesz) >= length {
+		return nil, m.errorf("load segment out of range")
 	}
 
-	f.MustSeek(m.base+int64(c.seg.fileoff), 0)
-	dat := make([]byte, c.seg.filesz)
-	if _, err := io.ReadFull(f, dat); err != nil {
-		return errorf("cannot load object data: %v", err)
+	m.f.MustSeek(m.base+int64(m.c.seg.fileoff), 0)
+	dat := make([]byte, m.c.seg.filesz)
+	if _, err := io.ReadFull(m.f, dat); err != nil {
+		return nil, m.errorf("cannot load object data: %v", err)
 	}
 
-	for i := uint32(0); i < c.seg.nsect; i++ {
-		sect := &c.seg.sect[i]
+	for i := uint32(0); i < m.c.seg.nsect; i++ {
+		sect := &m.c.seg.sect[i]
 		if sect.segname != "__TEXT" && sect.segname != "__DATA" {
 			continue
 		}
@@ -564,13 +569,13 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 		name := fmt.Sprintf("%s(%s/%s)", pkg, sect.segname, sect.name)
 		s := syms.Lookup(name, localSymVersion)
 		if s.Type != 0 {
-			return errorf("duplicate %s/%s", sect.segname, sect.name)
+			return nil, m.errorf("duplicate %s/%s", sect.segname, sect.name)
 		}
 
 		if sect.flags&0xff == 1 { // S_ZEROFILL
 			s.P = make([]byte, sect.size)
 		} else {
-			s.P = dat[sect.addr-c.seg.vmaddr:][:sect.size]
+			s.P = dat[sect.addr-m.c.seg.vmaddr:][:sect.size]
 		}
 		s.Size = int64(len(s.P))
 
@@ -594,8 +599,8 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 
 	// enter sub-symbols into symbol table.
 	// have to guess sizes from next symbol.
-	for i := uint32(0); i < symtab.nsym; i++ {
-		machsym := &symtab.sym[i]
+	for i := uint32(0); i < m.symtab.nsym; i++ {
+		machsym := &m.symtab.sym[i]
 		if machsym.type_&N_STAB != 0 {
 			continue
 		}
@@ -621,11 +626,11 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 		if machsym.sectnum == 0 { // undefined
 			continue
 		}
-		if uint32(machsym.sectnum) > c.seg.nsect {
-			return errorf("reference to invalid section %d", machsym.sectnum)
+		if uint32(machsym.sectnum) > m.c.seg.nsect {
+			return nil, m.errorf("reference to invalid section %d", machsym.sectnum)
 		}
 
-		sect := &c.seg.sect[machsym.sectnum-1]
+		sect := &m.c.seg.sect[machsym.sectnum-1]
 		outer := sect.sym
 		if outer == nil {
 			continue // ignore reference to invalid section
@@ -635,7 +640,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 			if s.Attr.DuplicateOK() {
 				continue
 			}
-			return errorf("duplicate symbol reference: %s in both %s and %s", s.Name, s.Outer.Name, sect.sym.Name)
+			return nil, m.errorf("duplicate symbol reference: %s in both %s and %s", s.Name, s.Outer.Name, sect.sym.Name)
 		}
 
 		s.Type = outer.Type
@@ -649,7 +654,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 		}
 		if outer.Type == sym.STEXT {
 			if s.Attr.External() && !s.Attr.DuplicateOK() {
-				return errorf("%v: duplicate symbol definition", s)
+				return nil, m.errorf("%v: duplicate symbol definition", s)
 			}
 			s.Attr |= sym.AttrExternal
 		}
@@ -659,8 +664,8 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 
 	// Sort outer lists by address, adding to textp.
 	// This keeps textp in increasing address order.
-	for i := 0; uint32(i) < c.seg.nsect; i++ {
-		sect := &c.seg.sect[i]
+	for i := 0; uint32(i) < m.c.seg.nsect; i++ {
+		sect := &m.c.seg.sect[i]
 		s := sect.sym
 		if s == nil {
 			continue
@@ -680,13 +685,13 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 
 		if s.Type == sym.STEXT {
 			if s.Attr.OnList() {
-				return errorf("symbol %s listed multiple times", s.Name)
+				return nil, m.errorf("symbol %s listed multiple times", s.Name)
 			}
 			s.Attr |= sym.AttrOnList
 			textp = append(textp, s)
 			for s1 := s.Sub; s1 != nil; s1 = s1.Sub {
 				if s1.Attr.OnList() {
-					return errorf("symbol %s listed multiple times", s1.Name)
+					return nil, m.errorf("symbol %s listed multiple times", s1.Name)
 				}
 				s1.Attr |= sym.AttrOnList
 				textp = append(textp, s1)
@@ -695,8 +700,8 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 	}
 
 	// load relocations
-	for i := 0; uint32(i) < c.seg.nsect; i++ {
-		sect := &c.seg.sect[i]
+	for i := 0; uint32(i) < m.c.seg.nsect; i++ {
+		sect := &m.c.seg.sect[i]
 		s := sect.sym
 		if s == nil {
 			continue
@@ -714,7 +719,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 			if rel.scattered != 0 {
 				if arch.Family != sys.I386 {
 					// mach-o only uses scattered relocation on 32-bit platforms
-					return errorf("%v: unexpected scattered relocation", s)
+					return nil, m.errorf("%v: unexpected scattered relocation", s)
 				}
 
 				// on 386, rewrite scattered 4/1 relocation and some
@@ -723,11 +728,11 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 				// assume that the second in the pair is in this section
 				// and use that as the pc-relative base.
 				if j+1 >= sect.nreloc {
-					return errorf("unsupported scattered relocation %d", int(rel.type_))
+					return nil, m.errorf("unsupported scattered relocation %d", int(rel.type_))
 				}
 
 				if sect.rel[j+1].scattered == 0 || sect.rel[j+1].type_ != 1 || (rel.type_ != 4 && rel.type_ != 2) || uint64(sect.rel[j+1].value) < sect.addr || uint64(sect.rel[j+1].value) >= sect.addr+sect.size {
-					return errorf("unsupported scattered relocation %d/%d", int(rel.type_), int(sect.rel[j+1].type_))
+					return nil, m.errorf("unsupported scattered relocation %d/%d", int(rel.type_), int(sect.rel[j+1].type_))
 				}
 
 				rp.Siz = rel.length
@@ -751,8 +756,8 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 
 				// now consider the desired symbol.
 				// find the section where it lives.
-				for k := 0; uint32(k) < c.seg.nsect; k++ {
-					ks := &c.seg.sect[k]
+				for k := 0; uint32(k) < m.c.seg.nsect; k++ {
+					ks := &m.c.seg.sect[k]
 					if ks.addr <= uint64(rel.value) && uint64(rel.value) < ks.addr+ks.size {
 						if ks.sym != nil {
 							rp.Sym = ks.sym
@@ -768,18 +773,18 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 
 							// load indirect table for __pointers
 							// fetch symbol number
-							if dsymtab == nil || k < 0 || uint32(k) >= dsymtab.nindirectsyms || dsymtab.indir == nil {
-								return errorf("invalid scattered relocation: indirect symbol reference out of range")
+							if m.dsymtab == nil || k < 0 || uint32(k) >= m.dsymtab.nindirectsyms || m.dsymtab.indir == nil {
+								return nil, m.errorf("invalid scattered relocation: indirect symbol reference out of range")
 							}
 
-							k = int(dsymtab.indir[k])
-							if k < 0 || uint32(k) >= symtab.nsym {
-								return errorf("invalid scattered relocation: symbol reference out of range")
+							k = int(m.dsymtab.indir[k])
+							if k < 0 || uint32(k) >= m.symtab.nsym {
+								return nil, m.errorf("invalid scattered relocation: symbol reference out of range")
 							}
 
-							rp.Sym = symtab.sym[k].sym
+							rp.Sym = m.symtab.sym[k].sym
 						} else {
-							return errorf("unsupported scattered relocation: reference to %s/%s", ks.segname, ks.name)
+							return nil, m.errorf("unsupported scattered relocation: reference to %s/%s", ks.segname, ks.name)
 						}
 
 						rpi++
@@ -791,7 +796,7 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 					}
 				}
 
-				return errorf("unsupported scattered relocation: invalid address %#x", rel.addr)
+				return nil, m.errorf("unsupported scattered relocation: invalid address %#x", rel.addr)
 			}
 
 			rp.Siz = rel.length
@@ -815,17 +820,17 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 				// section found in the original object file.
 				//
 				// [For future reference, see Darwin's /usr/include/mach-o/x86_64/reloc.h]
-				secaddr := c.seg.sect[rel.symnum-1].addr
+				secaddr := m.c.seg.sect[rel.symnum-1].addr
 
-				rp.Add = int64(uint64(int64(int32(e.Uint32(s.P[rp.Off:])))+int64(rp.Off)+4) - secaddr)
+				rp.Add = int64(uint64(int64(int32(m.e.Uint32(s.P[rp.Off:])))+int64(rp.Off)+4) - secaddr)
 			} else {
-				rp.Add = int64(int32(e.Uint32(s.P[rp.Off:])))
+				rp.Add = int64(int32(m.e.Uint32(s.P[rp.Off:])))
 			}
 
 			// An unsigned internal relocation has a value offset
 			// by the section address.
 			if arch.Family == sys.AMD64 && rel.extrn == 0 && rel.type_ == MACHO_X86_64_RELOC_UNSIGNED {
-				secaddr := c.seg.sect[rel.symnum-1].addr
+				secaddr := m.c.seg.sect[rel.symnum-1].addr
 				rp.Add -= int64(secaddr)
 			}
 
@@ -836,13 +841,13 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 				rp.Add += int64(rp.Off) + int64(rp.Siz)
 			}
 			if rel.extrn == 0 {
-				if rel.symnum < 1 || rel.symnum > c.seg.nsect {
-					return errorf("invalid relocation: section reference out of range %d vs %d", rel.symnum, c.seg.nsect)
+				if rel.symnum < 1 || rel.symnum > m.c.seg.nsect {
+					return nil, m.errorf("invalid relocation: section reference out of range %d vs %d", rel.symnum, m.c.seg.nsect)
 				}
 
-				rp.Sym = c.seg.sect[rel.symnum-1].sym
+				rp.Sym = m.c.seg.sect[rel.symnum-1].sym
 				if rp.Sym == nil {
-					return errorf("invalid relocation: %s", c.seg.sect[rel.symnum-1].name)
+					return nil, m.errorf("invalid relocation: %s", m.c.seg.sect[rel.symnum-1].name)
 				}
 
 				// References to symbols in other sections
@@ -850,14 +855,14 @@ func Load(arch *sys.Arch, syms *sym.Symbols, f *bio.Reader, pkg string, length i
 				// We only care about the delta from the
 				// section base.
 				if arch.Family == sys.I386 {
-					rp.Add -= int64(c.seg.sect[rel.symnum-1].addr)
+					rp.Add -= int64(m.c.seg.sect[rel.symnum-1].addr)
 				}
 			} else {
-				if rel.symnum >= symtab.nsym {
-					return errorf("invalid relocation: symbol reference out of range")
+				if rel.symnum >= m.symtab.nsym {
+					return nil, m.errorf("invalid relocation: symbol reference out of range")
 				}
 
-				rp.Sym = symtab.sym[rel.symnum].sym
+				rp.Sym = m.symtab.sym[rel.symnum].sym
 			}
 
 			rpi++
