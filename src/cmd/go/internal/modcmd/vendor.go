@@ -51,17 +51,24 @@ func runVendor(cmd *base.Command, args []string) {
 	}
 
 	modpkgs := make(map[module.Version][]string)
+	modHasPkgs := make(map[module.Version]bool)
 	for _, pkg := range pkgs {
 		m := modload.PackageModule(pkg)
 		if m == modload.Target {
 			continue
 		}
 		modpkgs[m] = append(modpkgs[m], pkg)
+		modHasPkgs[m] = true
+	}
+
+	isExplicit := map[module.Version]bool{}
+	for _, r := range modload.ModFile().Require {
+		isExplicit[r.Mod] = true
 	}
 
 	var buf bytes.Buffer
 	for _, m := range modload.BuildList()[1:] {
-		if pkgs := modpkgs[m]; len(pkgs) > 0 {
+		if pkgs := modpkgs[m]; len(pkgs) > 0 || isExplicit[m] {
 			repl := ""
 			if r := modload.Replacement(m); r.Path != "" {
 				repl = " => " + r.Path
@@ -73,6 +80,12 @@ func runVendor(cmd *base.Command, args []string) {
 			if cfg.BuildV {
 				fmt.Fprintf(os.Stderr, "# %s %s%s\n", m.Path, m.Version, repl)
 			}
+			if isExplicit[m] {
+				buf.WriteString("## explicit\n")
+				if cfg.BuildV {
+					os.Stderr.WriteString("## explicit\n")
+				}
+			}
 			sort.Strings(pkgs)
 			for _, pkg := range pkgs {
 				fmt.Fprintf(&buf, "%s\n", pkg)
@@ -83,6 +96,33 @@ func runVendor(cmd *base.Command, args []string) {
 			}
 		}
 	}
+
+	// Record unused and wildcard replacements at the end of the modules.txt file:
+	// without access to the complete build list, the consumer of the vendor
+	// directory can't otherwise determine that those replacements had no effect.
+	for _, r := range modload.ModFile().Replace {
+		if modHasPkgs[r.Old] {
+			// We we already recorded this replacement in the entry for the replaced
+			// module with the packages it provides.
+			continue
+		}
+
+		orig := r.Old.Path
+		if r.Old.Version != "" {
+			orig += " " + r.Old.Version
+		}
+
+		repl := " => " + r.New.Path
+		if r.New.Version != "" {
+			repl += " " + r.New.Version
+		}
+
+		fmt.Fprintf(&buf, "# %s%s\n", orig, repl)
+		if cfg.BuildV {
+			fmt.Fprintf(os.Stderr, "# %s%s\n", orig, repl)
+		}
+	}
+
 	if buf.Len() == 0 {
 		fmt.Fprintf(os.Stderr, "go: no dependencies to vendor\n")
 		return
