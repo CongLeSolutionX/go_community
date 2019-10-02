@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8421f201_59aa5b62",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-10-02T17:03:30Z",
+      "side": 1,
+      "message": "Consider extracting this code into a function. It would make it easier to be confident that it works the same way. I don\u0027t think it\u0027s necessary for the require/replace formatting code to be combined as they are above.",
+      "revId": "6af0928764fa28c70add02280a39c648243d5c7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

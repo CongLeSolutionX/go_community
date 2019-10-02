@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24fb1e63_0901e5ad",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-10-02T17:03:30Z",
+      "side": 1,
+      "message": "As with go.mod and go.sum, we should check the go version in go.mod before writing vendor/modules.txt.\n\nWith this change, go1.13 may update modules.txt in a \u0027go 1.14\u0027 module, causing the consistency check to fail in go1.14. That\u0027s unfortunate, but we should avoid that in future versions.",
+      "revId": "ffdec7153d0db8996f54d5871fcc573c7d1eb81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2775f16_ce2dcf13",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-10-02T17:03:30Z",
+      "side": 1,
+      "message": "Is modHasPkgs[m] equivalent to len(modpkgs[m]) \u003e 0? If so, I think it would be clearer to just have a single map.",
+      "revId": "ffdec7153d0db8996f54d5871fcc573c7d1eb81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "186bd1a0_5855598d",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-10-02T17:03:30Z",
+      "side": 1,
+      "message": "Move to the block of globals at the top of the function.\n\nMaybe rename to allowDefaultVendor?\n\nAlso, maybe drop DisableDefaultVendor and export this so commands can set it directly?",
+      "revId": "ffdec7153d0db8996f54d5871fcc573c7d1eb81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2c60fdd_43181ea8",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-10-02T17:03:30Z",
+      "side": 1,
+      "message": "Is there any way to expose the implicit -mod\u003d value in \u0027go env\u0027? I expect we\u0027ll get some bug reports from confused users in this mode, and it would help us understand what\u0027s happening more quickly.",
+      "revId": "ffdec7153d0db8996f54d5871fcc573c7d1eb81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9dadd7a_a9f9a9db",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-10-02T17:03:30Z",
+      "side": 1,
+      "message": "Should these commands set cfg.BuildMod \u003d \"mod\" themselves? This seems like an easy thing to forget when we add a new command or change how something works. It also can\u0027t cover \u0027go list -m\u0027.",
+      "revId": "ffdec7153d0db8996f54d5871fcc573c7d1eb81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6aeecdb_ccc5b8f7",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-10-02T17:03:30Z",
+      "side": 1,
+      "message": "I wonder if this is too subtle? I expect people will notice that vendor is enabled automatically in some projects but not others, and they won\u0027t realize it\u0027s because of \u0027go 1.14\u0027 in go.mod. Perhaps in pre-1.14 modules, \u0027go mod vendor\u0027 should print a warning that it won\u0027t be on by default.",
+      "revId": "ffdec7153d0db8996f54d5871fcc573c7d1eb81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c45fccc4_f4705a83",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-10-02T17:03:30Z",
+      "side": 1,
+      "message": "The doc comment seems to imply cfg.BuildMod will not be empty after this function is called. It\u0027s fine to leave it empty or set to \"mod\", but maybe clarify in the comment.",
+      "revId": "ffdec7153d0db8996f54d5871fcc573c7d1eb81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8705a80_200ec216",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-10-02T17:03:30Z",
+      "side": 1,
+      "message": "Unfinished comment?",
+      "revId": "ffdec7153d0db8996f54d5871fcc573c7d1eb81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83cb1f3f_d4913821",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2019-10-02T17:03:30Z",
+      "side": 1,
+      "message": "It\u0027s unfortunate we aren\u0027t already using a structured format that is easier to extend. Ideally we would just add a few fields to a JSON blob. I can\u0027t really think of a simple way to switch formats now though without breaking compatibility with 1.13 or writing extra info to another file (vendor.mod?).\n\nSo probably nothing to do now, but let\u0027s think more seriously about this if we need to extend the format in the future beyond the new annotations.",
+      "revId": "ffdec7153d0db8996f54d5871fcc573c7d1eb81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
