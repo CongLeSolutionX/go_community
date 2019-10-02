@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6b1bea60_c13458a8",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-10-02T06:00:51Z",
+      "side": 1,
+      "message": "Because I didn\u0027t know about allm. ;)\n\nI\u0027ll submit a follow up to 1.14 for this, and you can review the change there, and then once that lands I\u0027ll merge it into this CL.",
+      "parentUuid": "6c4d0574_71bc43d3",
+      "revId": "465e7147ccd633d44b21eb5415e5a2f8bd3f9514",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be902d0c_a22e378d",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "465e7147ccd633d44b21eb5415e5a2f8bd3f9514",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "375b057d_6043212f",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2019-10-02T06:00:51Z",
+      "side": 1,
+      "message": "Yes, that\u0027s the idea. It\u0027s probably possible to prevent that by checking if we\u0027re already asleep before setting the event, along with some careful locking, but that seemed sorta complex for not much benefit so I didn\u0027t do it.",
+      "parentUuid": "be902d0c_a22e378d",
+      "revId": "465e7147ccd633d44b21eb5415e5a2f8bd3f9514",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
