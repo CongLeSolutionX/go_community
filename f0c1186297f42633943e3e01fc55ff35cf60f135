@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "0e9618f9_54f25c58",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-02T19:06:33Z",
+      "side": 1,
+      "message": "Thanks. Will use goobj2 for now. I\u0027ll move the code in the next patch set.",
+      "parentUuid": "3bd468e0_bf72cdb1",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e32e66ab_835a7a6a",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 6
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "That\u0027s fair. Does that mean we have to wait until we can drop the old object format before we can put pcdata in symbols? If so, I think we should work toward dropping the old format soon, since it seems like it\u0027s constraining us in several ways already.",
       "parentUuid": "baab4079_2ce6d04b",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "807ffe4d_ab93ad8b",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-02T19:06:33Z",
+      "side": 1,
+      "message": "Not necessarily. I probably could make it work without drooping the old format.\n\nI agree that it is probably better to drop the old format sooner than later.",
+      "parentUuid": "fbeb6615_7b4e2295",
       "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -226,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "8cb92d7b_512f92c3",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-02T19:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71be6a9b_be49427b",
+      "range": {
+        "startLine": 93,
+        "startChar": 30,
+        "endLine": 93,
+        "endChar": 38
+      },
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17c8ac2b_0dee35ca",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 6
@@ -270,6 +330,30 @@
       "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df3a0f49_7d3b5104",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-02T19:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7715f62a_619a7127",
+      "range": {
+        "startLine": 107,
+        "startChar": 18,
+        "endLine": 107,
+        "endChar": 36
+      },
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -343,6 +427,24 @@
     },
     {
       "key": {
+        "uuid": "45290f6d_d1733c3c",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-02T19:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9f5dcbe_ca8ae663",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a3812b4_6e4b01d9",
         "filename": "src/cmd/internal/obj/objfile2.go",
         "patchSetId": 6
@@ -357,6 +459,24 @@
       "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcfcbfca_dc1c09bd",
+        "filename": "src/cmd/internal/obj/objfile2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-02T19:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a3812b4_6e4b01d9",
+      "revId": "f0c1186297f42633943e3e01fc55ff35cf60f135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
