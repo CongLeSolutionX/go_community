@@ -38,6 +38,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loadelf"
+	"cmd/link/internal/loader"
 	"cmd/link/internal/loadmacho"
 	"cmd/link/internal/loadpe"
 	"cmd/link/internal/loadxcoff"
@@ -376,7 +377,7 @@ func (ctxt *Link) findLibPath(libname string) string {
 
 func (ctxt *Link) loadlib() {
 	if *flagNewobj {
-		ctxt.loader = objfile.NewLoader()
+		ctxt.loader = loader.NewLoader()
 	}
 
 	loadinternal(ctxt, "runtime")
@@ -405,7 +406,7 @@ func (ctxt *Link) loadlib() {
 		// Add references of externally defined symbols.
 		for _, lib := range ctxt.Library {
 			for _, r := range lib.Readers {
-				objfile.LoadRefs(ctxt.loader, r.Reader, lib, ctxt.Arch, ctxt.Syms, r.Version)
+				ctxt.loader.LoadRefs(r.Reader, lib, ctxt.Arch, ctxt.Syms, r.Version)
 			}
 		}
 
@@ -1777,7 +1778,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 	}
 	var c int
 	if *flagNewobj {
-		objfile.LoadNew(ctxt.loader, ctxt.Arch, ctxt.Syms, f, lib, unit, eof-f.Offset(), pn, flags)
+		ctxt.loader.LoadNew(ctxt.Arch, ctxt.Syms, f, lib, unit, eof-f.Offset(), pn, flags)
 	} else {
 		c = objfile.Load(ctxt.Arch, ctxt.Syms, f, lib, unit, eof-f.Offset(), pn, flags)
 	}
