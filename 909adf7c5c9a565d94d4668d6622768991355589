@@ -139,6 +139,24 @@
       "revId": "909adf7c5c9a565d94d4668d6622768991355589",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "742881e0_d6734398",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 31400
+      },
+      "writtenOn": "2019-10-02T16:57:44Z",
+      "side": 1,
+      "message": "Ack\nNice, with this enforcement we can stop wasting time on this silly hypotetical I invented :)",
+      "parentUuid": "174b09e4_176694f4",
+      "revId": "909adf7c5c9a565d94d4668d6622768991355589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

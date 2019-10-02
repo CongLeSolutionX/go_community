@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f617d41f_5fa61b09",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 31400
+      },
+      "writtenOn": "2019-10-02T16:57:44Z",
+      "side": 1,
+      "message": "nit: I think this is redundant, if empty range loop would do nothing and would reach the `return false` at the end?  But harmless.\n\nSame below in gzipped().",
+      "revId": "9d57594125a22a4c4106eacd0cd57fcc85034c29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
