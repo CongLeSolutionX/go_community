@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9d29419_c9ef641b",
+        "filename": "src/net/mac_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2019-10-02T17:45:19Z",
+      "side": 1,
+      "message": "This declaration should be moved into the test above as a closure, so it won\u0027t conflict with other helpers of that name.",
+      "revId": "f384374fb704a2664d114fcac60382e76585081b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
