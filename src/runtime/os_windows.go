@@ -277,13 +277,13 @@ func monitorSuspendResume() {
 		return // Running on Windows 7, where we don't need it anyway.
 	}
 	var fn interface{} = func(context uintptr, changeType uint32, setting uintptr) uintptr {
-		lock(&allglock)
-		for _, gp := range allgs {
-			if gp.m != nil && gp.m.resumesema != 0 {
-				stdcall1(_SetEvent, gp.m.resumesema)
+		lock(&sched.lock)
+		for mp := allm; mp != nil; mp = mp.alllink {
+			if mp.resumesema != 0 {
+				stdcall1(_SetEvent, mp.resumesema)
 			}
 		}
-		unlock(&allglock)
+		unlock(&sched.lock)
 		return 0
 	}
 	params := _DEVICE_NOTIFY_SUBSCRIBE_PARAMETERS{
