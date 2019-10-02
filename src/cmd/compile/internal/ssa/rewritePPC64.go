@@ -26482,11 +26482,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64EQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26504,11 +26503,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64EQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26544,8 +26542,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockPPC64EQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -26563,11 +26560,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64EQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26585,11 +26581,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64EQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26611,11 +26606,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64EQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26637,11 +26631,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64EQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26663,11 +26656,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64EQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64XORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26703,8 +26695,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockPPC64LE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -26722,11 +26713,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64GE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26744,11 +26734,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64GE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26770,11 +26759,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64GE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26796,11 +26784,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64GE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26822,11 +26809,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64GE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64XORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26863,8 +26849,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockPPC64LT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -26882,11 +26867,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64GT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26904,11 +26888,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64GT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26930,11 +26913,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64GT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26956,11 +26938,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64GT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26982,11 +26963,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64GT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64XORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26997,8 +26977,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockPPC64EQ
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27008,8 +26987,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27019,8 +26997,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockPPC64LT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27030,8 +27007,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockPPC64LE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27041,8 +27017,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockPPC64GT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27052,8 +27027,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockPPC64GE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27063,8 +27037,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockPPC64FLT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27074,8 +27047,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockPPC64FLE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27085,8 +27057,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockPPC64FGT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27096,8 +27067,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockPPC64FGE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27106,11 +27076,10 @@ func rewriteBlockPPC64(b *Block) bool {
 		for {
 			cond := b.Controls[0]
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
 			v0 := b.NewValue0(cond.Pos, OpPPC64CMPWconst, types.TypeFlags)
 			v0.AuxInt = 0
 			v0.AddArg(cond)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27146,8 +27115,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockPPC64GE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -27165,11 +27133,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64LE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27187,11 +27154,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64LE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27213,11 +27179,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64LE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27239,11 +27204,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64LE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27265,11 +27229,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64LE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64XORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27306,8 +27269,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockPPC64GT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -27325,11 +27287,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64LT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27347,11 +27308,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64LT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27373,11 +27333,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64LT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27399,11 +27358,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64LT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27425,11 +27383,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64LT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64XORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27447,8 +27404,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockPPC64EQ
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27465,8 +27421,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27483,8 +27438,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockPPC64LT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27501,8 +27455,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockPPC64LE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27519,8 +27472,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockPPC64GT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27537,8 +27489,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockPPC64GE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27555,8 +27506,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockPPC64FLT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27573,8 +27523,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockPPC64FLE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27591,8 +27540,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockPPC64FGT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27609,8 +27557,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockPPC64FGE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -27628,11 +27575,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27650,11 +27596,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27689,8 +27634,7 @@ func rewriteBlockPPC64(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -27708,11 +27652,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27730,11 +27673,10 @@ func rewriteBlockPPC64(b *Block) bool {
 			c := v_0_0.AuxInt
 			x := v_0_0.Args[0]
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCCconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27756,11 +27698,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ANDCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27782,11 +27723,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64ORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -27808,11 +27748,10 @@ func rewriteBlockPPC64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockPPC64NE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpPPC64XORCC, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}

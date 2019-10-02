@@ -20706,8 +20706,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockARMEQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -20729,11 +20728,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -20756,14 +20754,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -20785,11 +20782,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -20812,12 +20808,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -20840,12 +20835,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -20868,12 +20862,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -20896,12 +20889,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -20924,12 +20916,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -20952,12 +20943,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -20979,11 +20969,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21006,14 +20995,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21035,11 +21023,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21062,12 +21049,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21090,12 +21076,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21118,12 +21103,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21146,12 +21130,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21174,12 +21157,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21202,12 +21184,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21229,11 +21210,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21255,11 +21235,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21282,12 +21261,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21310,12 +21288,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21338,12 +21315,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21366,12 +21342,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21394,12 +21369,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21422,12 +21396,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21449,11 +21422,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21475,11 +21447,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21502,12 +21473,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21530,12 +21500,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21558,12 +21527,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21586,12 +21554,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21614,12 +21581,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21642,12 +21608,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMEQ
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21700,8 +21665,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockARMLE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -21723,11 +21687,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21750,14 +21713,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21779,11 +21741,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21806,12 +21767,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21834,12 +21794,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21862,12 +21821,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21890,12 +21848,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21918,12 +21875,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21946,12 +21902,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -21973,11 +21928,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22000,14 +21954,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22029,11 +21982,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22056,12 +22008,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22084,12 +22035,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22112,12 +22062,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22140,12 +22089,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22168,12 +22116,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22196,12 +22143,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22223,11 +22169,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22249,11 +22194,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22276,12 +22220,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22304,12 +22247,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22332,12 +22274,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22360,12 +22301,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22388,12 +22328,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22416,12 +22355,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22443,11 +22381,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22469,11 +22406,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22496,12 +22432,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22524,12 +22459,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22552,12 +22486,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22580,12 +22513,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22608,12 +22540,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22636,12 +22567,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22695,8 +22625,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockARMLT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22718,11 +22647,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22745,14 +22673,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22774,11 +22701,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22801,12 +22727,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22829,12 +22754,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22857,12 +22781,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22885,12 +22808,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22913,12 +22835,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22941,12 +22862,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22968,11 +22888,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22994,11 +22913,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23021,12 +22939,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23049,12 +22966,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23077,12 +22993,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23105,12 +23020,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23133,12 +23047,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23161,12 +23074,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23188,11 +23100,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23215,14 +23126,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23244,11 +23154,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23271,12 +23180,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23299,12 +23207,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23327,12 +23234,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23355,12 +23261,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23383,12 +23288,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23411,12 +23315,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23438,11 +23341,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23464,11 +23366,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23491,12 +23392,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23519,12 +23419,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23547,12 +23446,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23575,12 +23473,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23603,12 +23500,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23631,12 +23527,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMGT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23647,8 +23542,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockARMEQ
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -23658,8 +23552,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockARMNE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -23669,8 +23562,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockARMLT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -23680,8 +23572,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockARMULT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -23691,8 +23582,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockARMLE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -23702,8 +23592,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockARMULE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -23713,8 +23602,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockARMGT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -23724,8 +23612,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockARMUGT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -23735,8 +23622,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockARMGE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -23746,8 +23632,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cc := v_0.Args[0]
 			b.Kind = BlockARMUGE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -23756,11 +23641,10 @@ func rewriteBlockARM(b *Block) bool {
 		for {
 			cond := b.Controls[0]
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(cond.Pos, OpARMCMPconst, types.TypeFlags)
 			v0.AuxInt = 0
 			v0.AddArg(cond)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23813,8 +23697,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockARMGE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -23836,11 +23719,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23863,14 +23745,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23892,11 +23773,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23919,12 +23799,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23947,12 +23826,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -23975,12 +23853,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24003,12 +23880,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24031,12 +23907,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24059,12 +23934,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24086,11 +23960,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24113,14 +23986,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24142,11 +24014,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24169,12 +24040,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24197,12 +24067,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24225,12 +24094,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24253,12 +24121,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24281,12 +24148,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24309,12 +24175,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24336,11 +24201,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24362,11 +24226,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24389,12 +24252,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24417,12 +24279,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24445,12 +24306,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24473,12 +24333,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24501,12 +24360,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24529,12 +24387,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24556,11 +24413,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24582,11 +24438,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24609,12 +24464,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24637,12 +24491,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24665,12 +24518,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24693,12 +24545,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24721,12 +24572,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24749,12 +24599,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24808,8 +24657,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockARMGT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -24831,11 +24679,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24858,14 +24705,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24887,11 +24733,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24914,12 +24759,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24942,12 +24786,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24970,12 +24813,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -24998,12 +24840,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25026,12 +24867,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25054,12 +24894,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25081,11 +24920,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25108,14 +24946,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25137,11 +24974,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25164,12 +25000,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25192,12 +25027,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25220,12 +25054,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25248,12 +25081,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25276,12 +25108,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25304,12 +25135,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25331,11 +25161,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25357,11 +25186,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25384,12 +25212,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25412,12 +25239,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25440,12 +25266,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25468,12 +25293,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25496,12 +25320,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25524,12 +25347,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25551,11 +25373,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25577,11 +25398,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25604,12 +25424,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25632,12 +25451,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25660,12 +25478,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25688,12 +25505,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25716,12 +25532,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25744,12 +25559,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMLT
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -25767,8 +25581,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockARMEQ
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -25785,8 +25598,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockARMNE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -25803,8 +25615,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockARMLT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -25821,8 +25632,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockARMULT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -25839,8 +25649,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockARMLE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -25857,8 +25666,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockARMULE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -25875,8 +25683,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockARMGT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -25893,8 +25700,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockARMUGT
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -25911,8 +25717,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockARMGE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -25929,8 +25734,7 @@ func rewriteBlockARM(b *Block) bool {
 			}
 			cc := v_0_0.Args[0]
 			b.Kind = BlockARMUGE
-			b.ResetControls()
-			b.AddControl(cc)
+			b.SetControl(cc)
 			b.Aux = nil
 			return true
 		}
@@ -25981,8 +25785,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockARMNE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -26004,11 +25807,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26031,14 +25833,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMP, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26060,11 +25861,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26087,12 +25887,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26115,12 +25914,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26143,12 +25941,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26171,12 +25968,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26199,12 +25995,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26227,12 +26022,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMPshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26254,11 +26048,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26281,14 +26074,13 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMN, types.TypeFlags)
 			v0.AddArg(a)
 			v1 := b.NewValue0(v_0.Pos, OpARMMUL, x.Type)
 			v1.AddArg(x)
 			v1.AddArg(y)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26310,11 +26102,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26337,12 +26128,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26365,12 +26155,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26393,12 +26182,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26421,12 +26209,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26449,12 +26236,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26477,12 +26263,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMCMNshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26504,11 +26289,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTST, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26530,11 +26314,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26557,12 +26340,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26585,12 +26367,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26613,12 +26394,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26641,12 +26421,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26669,12 +26448,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26697,12 +26475,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTSTshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26724,11 +26501,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQ, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26750,11 +26526,10 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQconst, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26777,12 +26552,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26805,12 +26579,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRL, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26833,12 +26606,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRA, types.TypeFlags)
 			v0.AuxInt = c
 			v0.AddArg(x)
 			v0.AddArg(y)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26861,12 +26633,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftLLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26889,12 +26660,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRLreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26917,12 +26687,11 @@ func rewriteBlockARM(b *Block) bool {
 				break
 			}
 			b.Kind = BlockARMNE
-			b.ResetControls()
 			v0 := b.NewValue0(v_0.Pos, OpARMTEQshiftRAreg, types.TypeFlags)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v0.AddArg(z)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -26975,8 +26744,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockARMULE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -27030,8 +26798,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockARMULT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -27084,8 +26851,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockARMUGE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -27139,8 +26905,7 @@ func rewriteBlockARM(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockARMUGT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}

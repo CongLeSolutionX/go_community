@@ -817,7 +817,9 @@ func genBlockRewrite(rule Rule, arch arch, data blockData) *RuleRewrite {
 
 	blockName, _ := getBlockInfo(outop, arch)
 	rr.add(stmtf("b.Kind = %s", blockName))
-	rr.add(stmtf("b.ResetControls()"))
+	if outdata.controls == 0 {
+		rr.add(stmtf("b.ResetControls()"))
+	}
 	for i, control := range t[:outdata.controls] {
 		// Select a source position for any new control values.
 		// TODO: does it always make sense to use the source position
@@ -831,7 +833,11 @@ func genBlockRewrite(rule Rule, arch arch, data blockData) *RuleRewrite {
 
 		// Generate a new control value (or copy an existing value).
 		v := genResult0(rr, arch, control, false, false, newpos)
-		rr.add(stmtf("b.AddControl(%s)", v))
+		f := "AddControl"
+		if i == 0 {
+			f = "SetControl"
+		}
+		rr.add(stmtf("b.%s(%s)", f, v))
 	}
 	if aux != "" {
 		rr.add(stmtf("b.Aux = %s", aux))

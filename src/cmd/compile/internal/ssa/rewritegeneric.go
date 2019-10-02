@@ -47415,8 +47415,7 @@ func rewriteBlockgeneric(b *Block) bool {
 			v_0 := b.Controls[0]
 			cond := v_0.Args[0]
 			b.Kind = BlockIf
-			b.ResetControls()
-			b.AddControl(cond)
+			b.SetControl(cond)
 			b.Aux = nil
 			b.swapSuccessors()
 			return true

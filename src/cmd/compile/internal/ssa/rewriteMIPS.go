@@ -9003,8 +9003,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockMIPSFPF
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9014,8 +9013,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockMIPSFPT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9032,8 +9030,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			_ = cmp.Args[1]
 			b.Kind = BlockMIPSNE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9050,8 +9047,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			_ = cmp.Args[1]
 			b.Kind = BlockMIPSNE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9067,8 +9063,7 @@ func rewriteBlockMIPS(b *Block) bool {
 				break
 			}
 			b.Kind = BlockMIPSNE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9084,8 +9079,7 @@ func rewriteBlockMIPS(b *Block) bool {
 				break
 			}
 			b.Kind = BlockMIPSNE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9101,8 +9095,7 @@ func rewriteBlockMIPS(b *Block) bool {
 				break
 			}
 			b.Kind = BlockMIPSNE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9118,8 +9111,7 @@ func rewriteBlockMIPS(b *Block) bool {
 				break
 			}
 			b.Kind = BlockMIPSNE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9132,8 +9124,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			x := v_0.Args[0]
 			b.Kind = BlockMIPSNE
-			b.ResetControls()
-			b.AddControl(x)
+			b.SetControl(x)
 			b.Aux = nil
 			return true
 		}
@@ -9143,8 +9134,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			v_0 := b.Controls[0]
 			x := v_0.Args[0]
 			b.Kind = BlockMIPSEQ
-			b.ResetControls()
-			b.AddControl(x)
+			b.SetControl(x)
 			b.Aux = nil
 			return true
 		}
@@ -9157,8 +9147,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			x := v_0.Args[0]
 			b.Kind = BlockMIPSGEZ
-			b.ResetControls()
-			b.AddControl(x)
+			b.SetControl(x)
 			b.Aux = nil
 			return true
 		}
@@ -9168,8 +9157,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			v_0 := b.Controls[0]
 			x := v_0.Args[0]
 			b.Kind = BlockMIPSLEZ
-			b.ResetControls()
-			b.AddControl(x)
+			b.SetControl(x)
 			b.Aux = nil
 			return true
 		}
@@ -9266,8 +9254,7 @@ func rewriteBlockMIPS(b *Block) bool {
 		for {
 			cond := b.Controls[0]
 			b.Kind = BlockMIPSNE
-			b.ResetControls()
-			b.AddControl(cond)
+			b.SetControl(cond)
 			b.Aux = nil
 			return true
 		}
@@ -9338,8 +9325,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockMIPSFPT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9349,8 +9335,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = BlockMIPSFPF
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9367,8 +9352,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			_ = cmp.Args[1]
 			b.Kind = BlockMIPSEQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9385,8 +9369,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			_ = cmp.Args[1]
 			b.Kind = BlockMIPSEQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9402,8 +9385,7 @@ func rewriteBlockMIPS(b *Block) bool {
 				break
 			}
 			b.Kind = BlockMIPSEQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9419,8 +9401,7 @@ func rewriteBlockMIPS(b *Block) bool {
 				break
 			}
 			b.Kind = BlockMIPSEQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9436,8 +9417,7 @@ func rewriteBlockMIPS(b *Block) bool {
 				break
 			}
 			b.Kind = BlockMIPSEQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9453,8 +9433,7 @@ func rewriteBlockMIPS(b *Block) bool {
 				break
 			}
 			b.Kind = BlockMIPSEQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -9467,8 +9446,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			x := v_0.Args[0]
 			b.Kind = BlockMIPSEQ
-			b.ResetControls()
-			b.AddControl(x)
+			b.SetControl(x)
 			b.Aux = nil
 			return true
 		}
@@ -9478,8 +9456,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			v_0 := b.Controls[0]
 			x := v_0.Args[0]
 			b.Kind = BlockMIPSNE
-			b.ResetControls()
-			b.AddControl(x)
+			b.SetControl(x)
 			b.Aux = nil
 			return true
 		}
@@ -9492,8 +9469,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			}
 			x := v_0.Args[0]
 			b.Kind = BlockMIPSLTZ
-			b.ResetControls()
-			b.AddControl(x)
+			b.SetControl(x)
 			b.Aux = nil
 			return true
 		}
@@ -9503,8 +9479,7 @@ func rewriteBlockMIPS(b *Block) bool {
 			v_0 := b.Controls[0]
 			x := v_0.Args[0]
 			b.Kind = BlockMIPSGTZ
-			b.ResetControls()
-			b.AddControl(x)
+			b.SetControl(x)
 			b.Aux = nil
 			return true
 		}

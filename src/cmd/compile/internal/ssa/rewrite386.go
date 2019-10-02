@@ -21983,8 +21983,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386EQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22039,8 +22038,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386LE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22093,8 +22091,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386LT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22148,8 +22145,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386LT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22159,8 +22155,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386LE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22170,8 +22165,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386GT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22181,8 +22175,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386GE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22192,8 +22185,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386EQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22203,8 +22195,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386NE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22214,8 +22205,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386ULT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22225,8 +22215,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386ULE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22236,8 +22225,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386UGT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22247,8 +22235,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386UGE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22258,8 +22245,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386OS
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22269,8 +22255,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386UGT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22280,8 +22265,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386UGE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22291,8 +22275,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386EQF
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22302,8 +22285,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386NEF
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22312,11 +22294,10 @@ func rewriteBlock386(b *Block) bool {
 		for {
 			cond := b.Controls[0]
 			b.Kind = Block386NE
-			b.ResetControls()
 			v0 := b.NewValue0(cond.Pos, Op386TESTB, types.TypeFlags)
 			v0.AddArg(cond)
 			v0.AddArg(cond)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = nil
 			return true
 		}
@@ -22327,8 +22308,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386GE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22381,8 +22361,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386GT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22445,8 +22424,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386LT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22465,8 +22443,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386LT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22485,8 +22462,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386LE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22505,8 +22481,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386LE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22525,8 +22500,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386GT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22545,8 +22519,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386GT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22565,8 +22538,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386GE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22585,8 +22557,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386GE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22605,8 +22576,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386EQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22625,8 +22595,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386EQ
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22645,8 +22614,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386NE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22665,8 +22633,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386NE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22685,8 +22652,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386ULT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22705,8 +22671,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386ULT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22725,8 +22690,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386ULE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22745,8 +22709,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386ULE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22765,8 +22728,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386UGT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22785,8 +22747,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386UGT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22805,8 +22766,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386UGE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22825,8 +22785,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386UGE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22845,8 +22804,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386OS
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22865,8 +22823,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386OS
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22885,8 +22842,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386UGT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22905,8 +22861,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386UGT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22925,8 +22880,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386UGE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22945,8 +22899,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386UGE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22965,8 +22918,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386EQF
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -22985,8 +22937,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386EQF
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -23005,8 +22956,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386NEF
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -23025,8 +22975,7 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386NEF
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -23036,8 +22985,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386NE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -23089,8 +23037,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386ULE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -23143,8 +23090,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386ULT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -23198,8 +23144,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386UGE
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}
@@ -23252,8 +23197,7 @@ func rewriteBlock386(b *Block) bool {
 			v_0 := b.Controls[0]
 			cmp := v_0.Args[0]
 			b.Kind = Block386UGT
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = nil
 			return true
 		}

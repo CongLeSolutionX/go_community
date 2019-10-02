@@ -36479,8 +36479,7 @@ func rewriteBlockS390X(b *Block) bool {
 				break
 			}
 			b.Kind = BlockS390XBRC
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = d
 			b.swapSuccessors()
 			return true
@@ -36513,8 +36512,7 @@ func rewriteBlockS390X(b *Block) bool {
 				break
 			}
 			b.Kind = BlockS390XBRC
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = d
 			return true
 		}
@@ -36525,8 +36523,7 @@ func rewriteBlockS390X(b *Block) bool {
 			cmp := v_0.Args[0]
 			c := b.Aux
 			b.Kind = BlockS390XBRC
-			b.ResetControls()
-			b.AddControl(cmp)
+			b.SetControl(cmp)
 			b.Aux = c.(s390x.CCMask).ReverseComparison()
 			return true
 		}
@@ -36644,13 +36641,12 @@ func rewriteBlockS390X(b *Block) bool {
 		for {
 			cond := b.Controls[0]
 			b.Kind = BlockS390XBRC
-			b.ResetControls()
 			v0 := b.NewValue0(cond.Pos, OpS390XCMPWconst, types.TypeFlags)
 			v0.AuxInt = 0
 			v1 := b.NewValue0(cond.Pos, OpS390XMOVBZreg, typ.Bool)
 			v1.AddArg(cond)
 			v0.AddArg(v1)
-			b.AddControl(v0)
+			b.SetControl(v0)
 			b.Aux = s390x.NotEqual
 			return true
 		}
