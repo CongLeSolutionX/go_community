@@ -16,6 +16,24 @@
       "revId": "47bedb6e7283e7a466e5522b8f738338b0855ead",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caf89d29_3ac40a04",
+        "filename": "src/cmd/internal/goobj/readnew.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-03T19:48:54Z",
+      "side": 1,
+      "message": "Never mind, I see it now.\n\nSeems that if isyminfo !\u003d 0 then \"objabi.SymKind(osym.Type) \u003d\u003d objabi.STEXT\" should always be true, no?",
+      "parentUuid": "a54bbc3f_6f52f8a2",
+      "revId": "47bedb6e7283e7a466e5522b8f738338b0855ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
