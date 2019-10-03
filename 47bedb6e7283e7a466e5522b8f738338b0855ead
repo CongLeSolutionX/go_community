@@ -34,6 +34,24 @@
       "revId": "47bedb6e7283e7a466e5522b8f738338b0855ead",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e69b2409_3e8041dc",
+        "filename": "src/cmd/internal/goobj/readnew.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-03T19:57:53Z",
+      "side": 1,
+      "message": "Yes, it should be. Only text symbols could have this kind of aux symbol. I\u0027ll remove the conditional below.",
+      "parentUuid": "caf89d29_3ac40a04",
+      "revId": "47bedb6e7283e7a466e5522b8f738338b0855ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
