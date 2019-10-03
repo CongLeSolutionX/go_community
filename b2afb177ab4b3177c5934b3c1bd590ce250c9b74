@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ed40167_15551d9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-03T17:08:07Z",
+      "side": 1,
+      "message": "remove the colons\n\nAlso, mention the two CL numbers that this is a merge of in the commit message.\n\ne.g.\n\n    This is a cherry-pick of CL nnnn \u0026 its cleanup CL nnnn.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 13
+      },
+      "revId": "b2afb177ab4b3177c5934b3c1bd590ce250c9b74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
