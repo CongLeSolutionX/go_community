@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5583d3b_c84338cd",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-03T18:21:44Z",
+      "side": 1,
+      "message": "I meant to say, this is a little too clever for me. Wouldn\u0027t:\n\n^((1 \u003c\u003c lineShift)-1)\n\nwork?",
+      "revId": "38fb204826ec7964f0d77c029112fa4cf2add069",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
