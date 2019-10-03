@@ -16,6 +16,24 @@
       "revId": "e925656974ef8e0f1670f135f641c6e9e3b98f35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e28526a_44137341",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2019-10-03T20:22:33Z",
+      "side": 1,
+      "message": "Deleted, but it still hangs at:\n\n$ go test -short -v -parallel\u003d1\n....\n\u003d\u003d\u003d CONT  TestHandshakeClientALPNMatch/TLSv12\n...\n^[[A^Csignal: interrupt\nFAIL    crypto/tls      11.677s",
+      "parentUuid": "47276e3a_89aa99e7",
+      "revId": "e925656974ef8e0f1670f135f641c6e9e3b98f35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
