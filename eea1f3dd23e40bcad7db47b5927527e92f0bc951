@@ -16,6 +16,24 @@
       "revId": "eea1f3dd23e40bcad7db47b5927527e92f0bc951",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1efabec1_1f15b972",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2019-10-03T21:07:26Z",
+      "side": 1,
+      "message": "It\u0027s not safe to believe that positions are never src.NoXPos and use that as a flag.",
+      "parentUuid": "81528fd3_fb3e95c1",
+      "revId": "eea1f3dd23e40bcad7db47b5927527e92f0bc951",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
