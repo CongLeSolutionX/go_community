@@ -240,6 +240,30 @@
       "revId": "74676bdd90eb05410c7f086812e60b7683280285",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b39fa553_e66a9ff4",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-03T21:31:24Z",
+      "side": 1,
+      "message": "Yes. It is probably only needed for refs. The integer/float literal symbols (e.g. $i64.xxxx) are not defined in any package, but the linker fills in its content based on parsing its name.\n\nI probably should move the code for \"runtime.gcbits.\" somewhere else, though.",
+      "parentUuid": "0e046936_be196ff9",
+      "range": {
+        "startLine": 182,
+        "startChar": 3,
+        "endLine": 182,
+        "endChar": 14
+      },
+      "revId": "74676bdd90eb05410c7f086812e60b7683280285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
