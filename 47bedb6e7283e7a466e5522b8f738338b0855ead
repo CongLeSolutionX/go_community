@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a54bbc3f_6f52f8a2",
+        "filename": "src/cmd/internal/goobj/readnew.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-03T19:36:05Z",
+      "side": 1,
+      "message": "This is confusing -- FuncInfo is only for text symbols, but here it looks like we\u0027re reading it for all symbols. Shouldn\u0027t this be inside the \"type \u003d\u003d STEXT\" guard below? What am I missing?",
+      "revId": "47bedb6e7283e7a466e5522b8f738338b0855ead",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
