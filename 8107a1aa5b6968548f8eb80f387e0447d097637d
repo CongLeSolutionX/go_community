@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1131924_002cec21",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-03T14:42:56Z",
+      "side": 1,
+      "message": "can you elaborate more on this TODO? why is this OK for now?",
+      "range": {
+        "startLine": 162,
+        "startChar": 5,
+        "endLine": 162,
+        "endChar": 10
+      },
+      "revId": "8107a1aa5b6968548f8eb80f387e0447d097637d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2885d0bd_686596da",
+        "filename": "src/runtime/netpoll_solaris.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-03T14:42:56Z",
+      "side": 1,
+      "message": "is this cap placed on other platforms because it\u0027s necessary on Darwin and we just want to be consistent?",
+      "range": {
+        "startLine": 200,
+        "startChar": 3,
+        "endLine": 201,
+        "endChar": 26
+      },
+      "revId": "8107a1aa5b6968548f8eb80f387e0447d097637d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "543e7cfe_fe407bf0",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 2430,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-03T14:42:56Z",
+      "side": 1,
+      "message": "I think I understand why this is needed given how this code was rearranged.\n\nHowever, I\u0027m missing why this code was rearranged in the first place. The code now preemptively acquires a P, regardless of whether there\u0027s actually anything on the list returned by netpoll. Why is this better than just dropping down into the stopm() case if nothing was ready?",
+      "range": {
+        "startLine": 2427,
+        "startChar": 3,
+        "endLine": 2430,
+        "endChar": 4
+      },
+      "revId": "8107a1aa5b6968548f8eb80f387e0447d097637d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88756c24_81e77a9b",
+        "filename": "src/runtime/netpoll_kqueue.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-03T14:42:56Z",
+      "side": 0,
+      "message": "am I understanding correctly that these lines weren\u0027t actually needed before because kevent will block until it actually dequeues something, and so toRun will necessarily always get populated?",
+      "range": {
+        "startLine": 113,
+        "startChar": 1,
+        "endLine": 115,
+        "endChar": 2
+      },
+      "revId": "ac1d440ea6576dcfb851374dca69cf480f593517",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a52e084c_5449e8b5",
+        "filename": "src/runtime/netpoll_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-03T14:42:56Z",
+      "side": 0,
+      "message": "so previously this would fail if the syscall failed, we got a WAIT_TIMEOUT, and it was non-blocking. looking at the MSDN docs for GetQueuedCompletionStatusEx it says that it will \"time out immediately\" if wait \u003d\u003d 0, but I assume it only returns a failure flag if it failed to populate entries? if that\u0027s the case, was this ever an issue before?",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 16
+      },
+      "revId": "ac1d440ea6576dcfb851374dca69cf480f593517",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
