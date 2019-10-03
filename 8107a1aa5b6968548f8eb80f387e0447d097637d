@@ -68,6 +68,30 @@
       "revId": "8107a1aa5b6968548f8eb80f387e0447d097637d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8edb3ab_2f50e6f7",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 2430,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2019-10-03T14:49:22Z",
+      "side": 1,
+      "message": "ahhh nevermind. Gerrit hid the comments from much earlier for me. this LGTM.",
+      "parentUuid": "543e7cfe_fe407bf0",
+      "range": {
+        "startLine": 2427,
+        "startChar": 3,
+        "endLine": 2430,
+        "endChar": 4
+      },
+      "revId": "8107a1aa5b6968548f8eb80f387e0447d097637d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
