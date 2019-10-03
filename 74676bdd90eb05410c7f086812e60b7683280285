@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1e92c631_247b6268",
+        "filename": "src/cmd/link/internal/ld/go.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-03T19:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5be766b5_8527e9bd",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 13
+      },
+      "revId": "74676bdd90eb05410c7f086812e60b7683280285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7012c116_91ae384f",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2019-10-03T16:09:21Z",
       "side": 1,
       "message": "see comment in objfile2.go about this",
+      "range": {
+        "startLine": 855,
+        "startChar": 1,
+        "endLine": 855,
+        "endChar": 18
+      },
+      "revId": "74676bdd90eb05410c7f086812e60b7683280285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "077c60f6_8f495474",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-03T19:07:02Z",
+      "side": 1,
+      "message": "Restored in CL 197797.",
+      "parentUuid": "7012c116_91ae384f",
       "range": {
         "startLine": 855,
         "startChar": 1,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "2ecaf247_754ebd18",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-03T19:07:02Z",
+      "side": 1,
+      "message": "This is changed in CL 197797. We either mmap the file, or (if mmap fails) read in all contents. Then we can close the file.",
+      "parentUuid": "351fc38c_d6701b72",
+      "revId": "74676bdd90eb05410c7f086812e60b7683280285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edc2ec89_096a63bc",
         "filename": "src/cmd/link/internal/objfile/objfile2.go",
         "patchSetId": 11
@@ -76,6 +142,24 @@
       "writtenOn": "2019-10-03T16:36:42Z",
       "side": 1,
       "message": "One of the things that bugs me about the existing linker is that we use this trick of incrementing a counter each time we read a package, then symbol version numbers are used to index into the sym.Symbols has array, e.g. \n\n\t// Symbol lookup based on name and indexed by version.\n\thash []map[string]*Symbol\n\nThis is fine for SymVerABI0 and SymVerABIInternal, but it also means that we create a new hash table for each object file visited, enter a bunch of static symbols into it, and then never use that table again (it is pretty much pure waste, since once object file loading is done, we never try to look up a local symbol from package P by name).\n\nHere instead of the above it looks like we have a single map keyed by \u0027nameVer\u0027, but we have the same problem as before in that we add entries for local symbols but will then will never again try to up a symbol for any version other than SymVerABI0 and SymVerABIInternal.\n\nIs there some way we can move away from this? E.g. use a separate lookup table for local/static symbols that we then throw away once we\u0027re done reading the object file?",
+      "revId": "74676bdd90eb05410c7f086812e60b7683280285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "045e3f2a_eb03ea0f",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2019-10-03T19:07:02Z",
+      "side": 1,
+      "message": "As the static symbols can only be referenced locally, I think we probably should resolve them by index at compile time (assemble time), and never register its name to the lookup table here. I think there shouldn\u0027t be named lookups for those symbols. Currently I haven\u0027t implemented this in the indexer in cmd/internal/obj. All the assembly symbols are looked up by name for now.",
+      "parentUuid": "edc2ec89_096a63bc",
       "revId": "74676bdd90eb05410c7f086812e60b7683280285",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
