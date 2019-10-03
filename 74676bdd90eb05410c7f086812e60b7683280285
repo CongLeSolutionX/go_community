@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "ca10b19b_41a8cefd",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-03T20:27:14Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "2ecaf247_754ebd18",
+      "revId": "74676bdd90eb05410c7f086812e60b7683280285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edc2ec89_096a63bc",
         "filename": "src/cmd/link/internal/objfile/objfile2.go",
         "patchSetId": 11
@@ -178,6 +196,47 @@
       "side": 1,
       "message": "OK, that SGTM",
       "parentUuid": "045e3f2a_eb03ea0f",
+      "revId": "74676bdd90eb05410c7f086812e60b7683280285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab9392ec_02185ab6",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-03T20:27:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd68f908_817d08c4",
+      "revId": "74676bdd90eb05410c7f086812e60b7683280285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e046936_be196ff9",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-03T20:27:14Z",
+      "side": 1,
+      "message": "Do we need this for refs? I would think that whatever package defines the symbol would take care of it?",
+      "range": {
+        "startLine": 182,
+        "startChar": 3,
+        "endLine": 182,
+        "endChar": 14
+      },
       "revId": "74676bdd90eb05410c7f086812e60b7683280285",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
