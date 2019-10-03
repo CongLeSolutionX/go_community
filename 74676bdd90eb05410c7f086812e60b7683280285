@@ -163,6 +163,24 @@
       "revId": "74676bdd90eb05410c7f086812e60b7683280285",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd68f908_817d08c4",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-03T20:08:56Z",
+      "side": 1,
+      "message": "OK, that SGTM",
+      "parentUuid": "045e3f2a_eb03ea0f",
+      "revId": "74676bdd90eb05410c7f086812e60b7683280285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

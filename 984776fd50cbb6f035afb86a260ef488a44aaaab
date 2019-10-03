@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57d79daa_60236c3d",
+        "filename": "src/cmd/link/internal/objfile/objfile2.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-03T20:08:56Z",
+      "side": 1,
+      "message": "I added a kanban task for this TODO (e.g. the overwrite logic). It\u0027s in the Backlog section.",
+      "revId": "984776fd50cbb6f035afb86a260ef488a44aaaab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
