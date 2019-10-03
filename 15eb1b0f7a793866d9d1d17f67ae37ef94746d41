@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be34032_12d33e03",
+        "filename": "src/cmd/internal/goobj2/funcinfo.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-03T15:09:10Z",
+      "side": 1,
+      "message": "this can be removed",
+      "range": {
+        "startLine": 75,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 23
+      },
+      "revId": "15eb1b0f7a793866d9d1d17f67ae37ef94746d41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "265011fa_429025a6",
+        "filename": "src/cmd/internal/goobj2/objfile.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-03T15:09:10Z",
+      "side": 1,
+      "message": "we went from lower case \"ld\" to upper case \"LD\" -- is this the indicator for the new format I assume?",
+      "range": {
+        "startLine": 20,
+        "startChar": 42,
+        "endLine": 20,
+        "endChar": 44
+      },
+      "revId": "15eb1b0f7a793866d9d1d17f67ae37ef94746d41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "188e8b74_183c2cce",
+        "filename": "src/cmd/internal/goobj2/objfile.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2019-10-03T15:09:10Z",
+      "side": 1,
+      "message": "I think this reference is stale now, PkgIdxNone is defined below.",
+      "range": {
+        "startLine": 82,
+        "startChar": 45,
+        "endLine": 82,
+        "endChar": 64
+      },
+      "revId": "15eb1b0f7a793866d9d1d17f67ae37ef94746d41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
