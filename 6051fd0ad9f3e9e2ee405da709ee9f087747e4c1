@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a116d79d_72789b91",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-04T15:24:16Z",
+      "side": 1,
+      "message": "Delete line? Or is this going to come back in some form?",
+      "revId": "6051fd0ad9f3e9e2ee405da709ee9f087747e4c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "518a9d0d_00b5aae1",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2019-10-04T15:24:16Z",
+      "side": 1,
+      "message": "Remove?",
+      "revId": "6051fd0ad9f3e9e2ee405da709ee9f087747e4c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
