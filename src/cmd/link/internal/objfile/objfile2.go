@@ -266,6 +266,15 @@ func (l *Loader) SymType(i Sym) sym.SymKind {
 	return sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)]
 }
 
+// Returns the symbol content of the i-th symbol. i is global index.
+func (l *Loader) Data(i Sym) []byte {
+	r, li := l.ToLocal(i)
+	if r == nil {
+		return nil
+	}
+	return r.Data(li)
+}
+
 // Returns the number of aux symbols given a global index.
 func (l *Loader) NAux(i Sym) int {
 	r, li := l.ToLocal(i)
