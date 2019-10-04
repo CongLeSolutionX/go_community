@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "619a546f_6f974902",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 5241,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-04T19:51:45Z",
+      "side": 1,
+      "message": "nit: put this before the statement?",
+      "range": {
+        "startLine": 5241,
+        "startChar": 0,
+        "endLine": 5241,
+        "endChar": 84
+      },
+      "revId": "7ff2538c5b514fe0c1ee570fb4c060d8e8a65be4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b478a93_7261b539",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 5884,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-04T19:51:45Z",
+      "side": 1,
+      "message": "\"of\"",
+      "range": {
+        "startLine": 5884,
+        "startChar": 55,
+        "endLine": 5884,
+        "endChar": 57
+      },
+      "revId": "7ff2538c5b514fe0c1ee570fb4c060d8e8a65be4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac65d811_9a61df6b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 5888,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2019-10-04T19:51:45Z",
+      "side": 1,
+      "message": "all these if/elses make me sad for a function like:\n\nfunc (x Pos) InheritsStmt(i Pos) Pos {\n  if i.IsStmt() \u003d\u003d scr.PosIstStmt {\n    return x.WithIsStmt()\n  }\n  return x.WithoutIsStmt()\n}",
+      "range": {
+        "startLine": 5888,
+        "startChar": 4,
+        "endLine": 5888,
+        "endChar": 31
+      },
+      "revId": "7ff2538c5b514fe0c1ee570fb4c060d8e8a65be4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
