@@ -245,6 +245,15 @@ func (l *Loader) SymType(i Sym) sym.SymKind {
 	return sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type)]
 }
 
+// Returns the symbol content of the i-th symbol. i is global index.
+func (l *Loader) Data(i int) []byte {
+	r, li := l.ToLocal(i)
+	if r == nil {
+		return nil
+	}
+	return r.Data(li)
+}
+
 // Returns the number of relocations given a global index.
 func (l *Loader) NReloc(i Sym) int {
 	r, li := l.ToLocal(i)
@@ -270,6 +279,24 @@ func (l *Loader) RelocType(i Sym, j int) objabi.RelocType {
 	rel := goobj2.Reloc{}
 	rel.Read(r.Reader, r.RelocOff(li, j))
 	return objabi.RelocType(rel.Type)
+}
+
+// Returns the relocation offset of the j-th relocation of the i-th
+// symbol. i is global index.
+func (l *Loader) RelocOff(i int, j int) int32 {
+	r, li := l.ToLocal(i)
+	rel := goobj2.Reloc{}
+	rel.Read(r.Reader, r.RelocOff(li, j))
+	return rel.Off
+}
+
+// Returns the relocation addend of the j-th relocation of the i-th
+// symbol. i is global index.
+func (l *Loader) RelocAdd(i int, j int) int64 {
+	r, li := l.ToLocal(i)
+	rel := goobj2.Reloc{}
+	rel.Read(r.Reader, r.RelocOff(li, j))
+	return rel.Add
 }
 
 // Returns the number of aux symbols given a global index.
