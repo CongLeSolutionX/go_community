@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7712bd18_c55d7614",
+        "filename": "src/runtime/netpoll_aix.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-04T04:51:14Z",
+      "side": 1,
+      "message": "What I\u0027m doing here is exactly what the old is doing.  With this change delay \u003d\u003d 0 corresponds to passing block \u003d\u003d false.  I don\u0027t know why the old code is doing that, so I left a TODO, ideally for an AIX maintainer.",
+      "parentUuid": "f1131924_002cec21",
+      "range": {
+        "startLine": 162,
+        "startChar": 5,
+        "endLine": 162,
+        "endChar": 10
+      },
+      "revId": "8107a1aa5b6968548f8eb80f387e0447d097637d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2885d0bd_686596da",
         "filename": "src/runtime/netpoll_solaris.go",
         "patchSetId": 15
@@ -45,6 +69,30 @@
       "revId": "8107a1aa5b6968548f8eb80f387e0447d097637d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d55fc172_d5a66da1",
+        "filename": "src/runtime/netpoll_solaris.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-04T04:51:14Z",
+      "side": 1,
+      "message": "Basically, yes.",
+      "parentUuid": "2885d0bd_686596da",
+      "range": {
+        "startLine": 200,
+        "startChar": 3,
+        "endLine": 201,
+        "endChar": 26
+      },
+      "revId": "8107a1aa5b6968548f8eb80f387e0447d097637d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {

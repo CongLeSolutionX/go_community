@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "05a774f5_953c0f1d",
+        "filename": "src/runtime/netpoll_kqueue.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-04T04:51:14Z",
+      "side": 0,
+      "message": "I think that with the old code you could have an event on a file descriptor that the program is no longer interested in, in which case netpollready would not add anything to toRun, so toRun could indeed be empty here.  It wouldn\u0027t hurt to return an empty list, but since the caller expects to block anyhow it\u0027s more efficient to loop here.",
+      "parentUuid": "88756c24_81e77a9b",
+      "range": {
+        "startLine": 113,
+        "startChar": 1,
+        "endLine": 115,
+        "endChar": 2
+      },
+      "revId": "ac1d440ea6576dcfb851374dca69cf480f593517",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a52e084c_5449e8b5",
         "filename": "src/runtime/netpoll_windows.go",
         "patchSetId": 15
@@ -45,6 +69,30 @@
       "revId": "ac1d440ea6576dcfb851374dca69cf480f593517",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b3b406e_a9e21f3a",
+        "filename": "src/runtime/netpoll_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2019-10-04T04:51:14Z",
+      "side": 0,
+      "message": "I\u0027m not sure I follow.  If the call fails, and we get a WAIT_TIMEOUT, and we are non-blocking, we return an empty list.  The throw happens if we get any other error.  I\u0027m not aware of any reported problems with this code.",
+      "parentUuid": "a52e084c_5449e8b5",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 16
+      },
+      "revId": "ac1d440ea6576dcfb851374dca69cf480f593517",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
