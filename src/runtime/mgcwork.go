@@ -126,7 +126,7 @@ func (w *gcWork) checkPut(ptr uintptr, ptrs []uintptr) {
 	if debugCachedWork {
 		alreadyFailed := w.putGen == w.pauseGen
 		w.putGen = w.pauseGen
-		if m := getg().m; m.locks > 0 || m.mallocing != 0 || m.preemptoff != "" || m.p.ptr().status != _Prunning {
+		if !canPreemptM(getg().m) {
 			// If we were to spin, the runtime may
 			// deadlock: the condition above prevents
 			// preemption (see newstack), which could
