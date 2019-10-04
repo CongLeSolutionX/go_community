@@ -1007,7 +1007,7 @@ func canpanic(gp *g) bool {
 	if gp == nil || gp != _m_.curg {
 		return false
 	}
-	if _m_.locks != 0 || _m_.mallocing != 0 || _m_.throwing != 0 || _m_.preemptoff != "" || _m_.dying != 0 {
+	if !canPreemptM(_m_) || _m_.throwing != 0 || _m_.dying != 0 {
 		return false
 	}
 	status := readgstatus(gp)
