@@ -77,8 +77,12 @@ func (d *deadcodePass2) init() {
 			}
 		}
 	}
-	for _, s := range dynexp {
-		d.mark(d.loader.Lookup(s.Name, int(s.Version)))
+	dynexpMap := d.ctxt.cgo_export_dynamic
+	if d.ctxt.LinkMode == LinkExternal {
+		dynexpMap = d.ctxt.cgo_export_static
+	}
+	for exp := range dynexpMap {
+		names = append(names, exp)
 	}
 
 	for _, name := range names {
@@ -218,16 +222,6 @@ func deadcode2(ctxt *Link) {
 				if d.loader.NReloc(i) > 0 && loader.Reachable.Has(loader.RelocSym(i, 0)) {
 					loader.Reachable.Set(i)
 				}
-			}
-		}
-	}
-
-	// Set reachable attr for now.
-	for i := 1; i < n; i++ {
-		if loader.Reachable.Has(i) {
-			s := loader.Syms[i]
-			if s != nil && s.Name != "" {
-				s.Attr.Set(sym.AttrReachable, true)
 			}
 		}
 	}
