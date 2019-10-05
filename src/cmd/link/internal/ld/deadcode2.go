@@ -79,8 +79,12 @@ func (d *deadcodePass2) init() {
 			}
 		}
 	}
-	for _, s := range dynexp {
-		d.mark(d.loader.Lookup(s.Name, int(s.Version)))
+	dynexpMap := d.ctxt.cgo_export_dynamic
+	if d.ctxt.LinkMode == LinkExternal {
+		dynexpMap = d.ctxt.cgo_export_static
+	}
+	for exp := range dynexpMap {
+		names = append(names, exp)
 	}
 
 	for _, name := range names {
@@ -224,16 +228,6 @@ func deadcode2(ctxt *Link) {
 			}
 		}
 	}
-
-	// Set reachable attr for now.
-	for i := 1; i < n; i++ {
-		if loader.Reachable.Has(objfile.Sym(i)) {
-			s := loader.Syms[i]
-			if s != nil && s.Name != "" {
-				s.Attr.Set(sym.AttrReachable, true)
-			}
-		}
-	}
 }
 
 // methodref2 holds the relocations from a receiver type symbol to its
@@ -241,8 +235,8 @@ func deadcode2(ctxt *Link) {
 // the reflect.method struct: mtyp, ifn, and tfn.
 type methodref2 struct {
 	m   methodsig
-	src int // receiver type symbol
-	r   int // the index of R_METHODOFF relocations
+	src objfile.Sym // receiver type symbol
+	r   int         // the index of R_METHODOFF relocations
 }
 
 func (m methodref2) isExported() bool {
@@ -258,7 +252,7 @@ func (m methodref2) isExported() bool {
 // the function type.
 //
 // Conveniently this is the layout of both runtime.method and runtime.imethod.
-func decodeMethodSig2(loader *objfile.Loader, arch *sys.Arch, symIdx int, off, size, count int) []methodsig {
+func decodeMethodSig2(loader *objfile.Loader, arch *sys.Arch, symIdx objfile.Sym, off, size, count int) []methodsig {
 	var buf bytes.Buffer
 	var methods []methodsig
 	for i := 0; i < count; i++ {
@@ -293,7 +287,7 @@ func decodeMethodSig2(loader *objfile.Loader, arch *sys.Arch, symIdx int, off, s
 	return methods
 }
 
-func decodeIfaceMethods2(loader *objfile.Loader, arch *sys.Arch, symIdx int) []methodsig {
+func decodeIfaceMethods2(loader *objfile.Loader, arch *sys.Arch, symIdx objfile.Sym) []methodsig {
 	p := loader.Data(symIdx)
 	if decodetypeKind(arch, p)&kindMask != kindInterface {
 		panic(fmt.Sprintf("symbol %q is not an interface", loader.SymName(symIdx)))
@@ -311,7 +305,7 @@ func decodeIfaceMethods2(loader *objfile.Loader, arch *sys.Arch, symIdx int) []m
 	return decodeMethodSig2(loader, arch, symIdx, off, sizeofIMethod, numMethods)
 }
 
-func decodetypeMethods2(loader *objfile.Loader, arch *sys.Arch, symIdx int) []methodsig {
+func decodetypeMethods2(loader *objfile.Loader, arch *sys.Arch, symIdx objfile.Sym) []methodsig {
 	p := loader.Data(symIdx)
 	if !decodetypeHasUncommon(arch, p) {
 		panic(fmt.Sprintf("no methods on %q", loader.SymName(symIdx)))
@@ -345,7 +339,7 @@ func decodetypeMethods2(loader *objfile.Loader, arch *sys.Arch, symIdx int) []me
 	return decodeMethodSig2(loader, arch, symIdx, off, sizeofMethod, mcount)
 }
 
-func decodeReloc2(loader *objfile.Loader, symIdx int, off int32) int {
+func decodeReloc2(loader *objfile.Loader, symIdx objfile.Sym, off int32) int {
 	n := loader.NReloc(symIdx)
 	for j := 0; j < n; j++ {
 		if loader.RelocOff(symIdx, j) == off {
@@ -355,7 +349,7 @@ func decodeReloc2(loader *objfile.Loader, symIdx int, off int32) int {
 	return -1
 }
 
-func decodeRelocSym2(loader *objfile.Loader, symIdx int, off int32) int {
+func decodeRelocSym2(loader *objfile.Loader, symIdx objfile.Sym, off int32) objfile.Sym {
 	r := decodeReloc2(loader, symIdx, off)
 	if r == -1 {
 		return 0
@@ -364,7 +358,7 @@ func decodeRelocSym2(loader *objfile.Loader, symIdx int, off int32) int {
 }
 
 // decodetypeName2 decodes the name from a reflect.name.
-func decodetypeName2(loader *objfile.Loader, symIdx int, off int) string {
+func decodetypeName2(loader *objfile.Loader, symIdx objfile.Sym, off int) string {
 	r := decodeRelocSym2(loader, symIdx, int32(off))
 	if r == 0 {
 		return ""
@@ -375,7 +369,7 @@ func decodetypeName2(loader *objfile.Loader, symIdx int, off int) string {
 	return string(data[3 : 3+namelen])
 }
 
-func decodetypeFuncInType2(loader *objfile.Loader, arch *sys.Arch, symIdx int, i int) int {
+func decodetypeFuncInType2(loader *objfile.Loader, arch *sys.Arch, symIdx objfile.Sym, i int) objfile.Sym {
 	uadd := commonsize(arch) + 4
 	if arch.PtrSize == 8 {
 		uadd += 4
@@ -386,6 +380,6 @@ func decodetypeFuncInType2(loader *objfile.Loader, arch *sys.Arch, symIdx int, i
 	return decodeRelocSym2(loader, symIdx, int32(uadd+i*arch.PtrSize))
 }
 
-func decodetypeFuncOutType2(loader *objfile.Loader, arch *sys.Arch, symIdx int, i int) int {
+func decodetypeFuncOutType2(loader *objfile.Loader, arch *sys.Arch, symIdx objfile.Sym, i int) objfile.Sym {
 	return decodetypeFuncInType2(loader, arch, symIdx, i+decodetypeFuncInCount(arch, loader.Data(symIdx)))
 }

@@ -379,6 +379,9 @@ func (ctxt *Link) loadlib() {
 		ctxt.loader = objfile.NewLoader()
 	}
 
+	ctxt.cgo_export_static = make(map[string]bool)
+	ctxt.cgo_export_dynamic = make(map[string]bool)
+
 	loadinternal(ctxt, "runtime")
 	if ctxt.Arch.Family == sys.ARM {
 		loadinternal(ctxt, "math")
@@ -404,47 +407,19 @@ func (ctxt *Link) loadlib() {
 	if *flagNewobj {
 		// Add references of externally defined symbols.
 		objfile.LoadRefs(ctxt.loader, ctxt.Arch, ctxt.Syms)
-
-		// Load cgo directives.
-		for _, p := range ctxt.cgodata {
-			loadcgo(ctxt, p[0], p[1], p[2])
-		}
+		iscgo = ctxt.loader.Lookup("x_cgo_init", 0) != 0
+		ctxt.canUsePlugins = ctxt.loader.Lookup("plugin.Open", sym.SymVerABIInternal) != 0
+	} else {
+		iscgo = ctxt.Syms.ROLookup("x_cgo_init", 0) != nil
+		ctxt.canUsePlugins = ctxt.Syms.ROLookup("plugin.Open", sym.SymVerABIInternal) != nil
 	}
-
-	iscgo = ctxt.Lookup("x_cgo_init", 0) != nil
-
-	// Record whether we can use plugins.
-	ctxt.canUsePlugins = (ctxt.Lookup("plugin.Open", sym.SymVerABIInternal) != nil)
 
 	// We now have enough information to determine the link mode.
 	determineLinkMode(ctxt)
 
-	// Now that we know the link mode, trim the dynexp list.
-	x := sym.AttrCgoExportDynamic
-
-	if ctxt.LinkMode == LinkExternal {
-		x = sym.AttrCgoExportStatic
-	}
-	w := 0
-	for i := range dynexp {
-		if dynexp[i].Attr&x != 0 {
-			dynexp[w] = dynexp[i]
-			w++
-		}
-	}
-	dynexp = dynexp[:w]
-
-	// Resolve ABI aliases in the list of cgo-exported functions.
-	// This is necessary because we load the ABI0 symbol for all
-	// cgo exports.
-	for i, s := range dynexp {
-		if s.Type != sym.SABIALIAS {
-			continue
-		}
-		t := resolveABIAlias(s)
-		t.Attr |= s.Attr
-		t.SetExtname(s.Extname())
-		dynexp[i] = t
+	// Now that we know the link mode, set the dynexp list.
+	if !*flagNewobj { // set this later in newobj mode
+		setupdynexp(ctxt)
 	}
 
 	for _, lib := range ctxt.Library {
@@ -543,6 +518,35 @@ func (ctxt *Link) loadlib() {
 	ctxt.Loaded = true
 
 	importcycles()
+}
+
+// Set up dynexp list.
+func setupdynexp(ctxt *Link) {
+	dynexpMap := ctxt.cgo_export_dynamic
+	if ctxt.LinkMode == LinkExternal {
+		dynexpMap = ctxt.cgo_export_static
+	}
+	dynexp = make([]*sym.Symbol, 0, len(dynexpMap))
+	for exp := range dynexpMap {
+		s := ctxt.Syms.Lookup(exp, 0)
+		dynexp = append(dynexp, s)
+	}
+
+	// Resolve ABI aliases in the list of cgo-exported functions.
+	// This is necessary because we load the ABI0 symbol for all
+	// cgo exports.
+	for i, s := range dynexp {
+		if s.Type != sym.SABIALIAS {
+			continue
+		}
+		t := resolveABIAlias(s)
+		t.Attr |= s.Attr
+		t.SetExtname(s.Extname())
+		dynexp[i] = t
+	}
+
+	ctxt.cgo_export_static = nil
+	ctxt.cgo_export_dynamic = nil
 }
 
 // Set up flags and special symbols depending on the platform build mode.
@@ -1912,7 +1916,7 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			ver = sym.SymVerABIInternal
 		}
 
-		lsym := ctxt.LookupOrCreate(elfsym.Name, ver)
+		lsym := ctxt.Syms.Lookup(elfsym.Name, ver)
 		// Because loadlib above loads all .a files before loading any shared
 		// libraries, any non-dynimport symbols we find that duplicate symbols
 		// already loaded should be ignored (the symbols from the .a files
@@ -2532,8 +2536,7 @@ func dfs(lib *sym.Library, mark map[*sym.Library]markKind, order *[]*sym.Library
 
 func (ctxt *Link) loadlibfull() {
 	// Load full symbol contents, resolve indexed references.
-	objfile.LoadReloc(ctxt.loader)
-	objfile.LoadFull(ctxt.loader)
+	objfile.LoadFull(ctxt.loader, ctxt.Arch, ctxt.Syms)
 
 	// For now, add all symbols to ctxt.Syms.
 	for _, s := range ctxt.loader.Syms {
@@ -2542,8 +2545,16 @@ func (ctxt *Link) loadlibfull() {
 		}
 	}
 
+	// Load cgo directives.
+	for _, d := range ctxt.cgodata {
+		setCgoAttr(ctxt, d.file, d.pkg, d.directives)
+	}
+
+	setupdynexp(ctxt)
+
 	// Drop the reference.
 	ctxt.loader = nil
+	ctxt.cgodata = nil
 
 	addToTextp(ctxt)
 }
